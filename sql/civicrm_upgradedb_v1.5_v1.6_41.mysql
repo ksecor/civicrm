@@ -292,7 +292,11 @@ CREATE TABLE civicrm_msg_template (
 	ALTER TABLE civicrm_contact ADD INDEX index_contact_sub_type_domain (contact_sub_type, domain_id);
 	
 	ALTER TABLE civicrm_contact ADD INDEX index_preferred_communication_method (preferred_communication_method);
-
+	
+	UPDATE civicrm_contact 
+	SET `preferred_communication_method` = CONCAT(char(1),`preferred_communication_method`,char(1)) 
+	WHERE civicrm_contact.preferred_communication_method IS NOT NULL;
+	
 -- /*******************************************************
 -- *
 -- * civicrm_contribution
@@ -362,11 +366,31 @@ CREATE TABLE civicrm_msg_template (
 -- * All extended (custom) properties are associated with a group. These are logical sets of related data.
 -- *
 -- *******************************************************/
-
+	
 	ALTER TABLE `civicrm_custom_group` ADD extends_entity_column_name varchar(64) COMMENT 'linking custom group for dynamic object';
 	ALTER TABLE `civicrm_custom_group` ADD extends_entity_column_value varchar(64) COMMENT 'linking custom group for dynamic object';
 	ALTER TABLE `civicrm_custom_group` MODIFY extends enum('Contact','Individual','Household','Organization','Location','Address','Contribution','Activity','Relationship','Phonecall','Meeting','Group','Membership') NULL DEFAULT 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).';
-
+	
+ 	UPDATE civicrm_custom_group
+ 	SET extends_entity_column_value=NULL
+ 	WHERE extends='Activity';
+	
+	UPDATE civicrm_custom_group
+ 	SET extends='Activity', extends_entity_column_value='2'
+ 	WHERE extends='Phonecall';
+	
+	UPDATE civicrm_custom_group
+ 	SET extends='Activity', extends_entity_column_value='1'
+ 	WHERE extends='Meeting';
+	
+	UPDATE civicrm_custom_group
+ 	SET extends_entity_column_value=NULL
+ 	WHERE extends='Contact';
+	
+	UPDATE civicrm_custom_group
+ 	SET extends_entity_column_value=NULL
+ 	WHERE extends='Relationship';
+	
 -- /*******************************************************
 -- *
 -- * civicrm_custom_value
@@ -374,13 +398,13 @@ CREATE TABLE civicrm_msg_template (
 -- * Data store for each extended properties.
 -- *
 -- *******************************************************/
-
+	
 	ALTER TABLE civicrm_custom_value ADD INDEX index_int_field (int_data, custom_field_id);
     	ALTER TABLE civicrm_custom_value ADD INDEX index_float_field (float_data, custom_field_id);
     	ALTER TABLE civicrm_custom_value ADD INDEX index_decimal_field (decimal_data, custom_field_id);
     	ALTER TABLE civicrm_custom_value ADD INDEX index_char_field (char_data, custom_field_id);
     	ALTER TABLE civicrm_custom_value ADD INDEX index_date_field (date_data, custom_field_id);
-
+	
 -- /*******************************************************
 -- *
 -- * civicrm_domain
