@@ -235,8 +235,8 @@ contact the site administrator and notify them of this error' ) );
                        'credit_card_type', 'trxn_id' );
  
         $config =& CRM_Core_Config::singleton( );
-        if ( $this->_values['is_recur'] &&
-             $config->paymentProcessor == 'PayPal_Standard' ) {
+        if ( $this->_values['is_recur'] && 
+             $config->enableRecur ) {
             $this->assign( 'is_recur_enabled', 1 );
             $vars = array_merge( $vars, array( 'is_recur', 'frequency_interval', 'frequency_unit',
                                                'installments' ) );

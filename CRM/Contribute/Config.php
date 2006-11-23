@@ -175,6 +175,7 @@ class CRM_Contribute_Config {
                 break;
 
             case 'PayPal_Standard':
+                $config->enableRecur = TRUE;
                 $config->paymentClass = 'CRM_Contribute_Payment_PayPalImpl';
                 $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_NOTIFY;
                 if ( $oldMode ) {
@@ -184,6 +185,7 @@ class CRM_Contribute_Config {
                 break;
 
             case 'Moneris':
+                $config->enableRecur = defined('CIVICRM_CONTRIBUTE_PAYMENT_ENABLE_RECUR') ? CIVICRM_CONTRIBUTE_PAYMENT_ENABLE_RECUR : 0;
                 $config->paymentClass = 'CRM_Contribute_Payment_Moneris';
                 $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_FORM;
                 break;

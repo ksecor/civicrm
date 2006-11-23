@@ -118,8 +118,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $this->_values['is_monetary'] ) {
             $this->buildCreditCard( );
 
-            if ( $this->_values['is_recur'] &&
-                 $config->paymentProcessor == 'PayPal_Standard' ) {
+            if ( $this->_values['is_recur'] && $config->enableRecur) {
                 $this->buildRecur( );
             }
         }
