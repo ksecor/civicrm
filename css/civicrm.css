@@ -793,14 +793,13 @@ div.crm-pager a {
 /*
 ** Following styles are used specificaly for dojo based elements
 */
-#crm-container thead tr.columnheader th, #crm-container tbody td {
-  text-indent: 0.9em;
-}
-
 #crm-container thead tr.columnheader th {
+  text-indent: 0.9em;
   cursor: pointer;
 }
-
+#crm-container tbody td {
+  padding: 0em 0.9em;
+}
 #crm-container thead th.selectedUp { 
   background-repeat: no-repeat;
   background-position: 0% 50%;
