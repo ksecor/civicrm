@@ -39,7 +39,7 @@
 	        <td>{$row.action}</td>
            </tr>
           {/foreach}
-        </tbody
+        </tbody>
         </table>
         {/strip}
 
