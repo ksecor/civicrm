@@ -165,7 +165,7 @@ class TestOfUpdateContactAPI extends UnitTestCase
     function testDeleteIndividual()
     {
         $contact = $this->_individual;
-        $val =& crm_delete_contact(& $contact);
+        $val =& crm_delete_contact(& $contact, 102);
         $this->assertNull($val);
     }
 

@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfUpdateContactAPI extends UnitTestCase 
+class TestOfCRM491 extends UnitTestCase 
 {
     protected $CRM;
     
@@ -41,7 +41,7 @@ class TestOfUpdateContactAPI extends UnitTestCase
 
     function testDelete()
     {
-        crm_delete_contact($this->CRM);
+        crm_delete_contact($this->CRM,102);
     }
 }
 

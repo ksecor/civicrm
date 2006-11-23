@@ -14,17 +14,42 @@ class TestOfGetContactGroups extends UnitTestCase
     {
     }
 
+    
+
     function testGetContactGroups()
+    {
+       
+        $contact = new CRM_Contact_DAO_Contact();
+        $contact->id = 23;
+        $groups = crm_contact_groups( $contact );
+        foreach($groups as $group) {
+           CRM_Core_Error::debug('Group',$group ); 
+        } 
+    }
+
+
+    function testGetContactGroups1()
     {
         
         $contact = new CRM_Contact_DAO_Contact();
-        $contact->id = 42;
+        $contact->id = 23;
         $groups = crm_contact_groups( $contact, 'Added' );
         foreach($groups as $group) {
-            print_r( $group );
+            CRM_Core_Error::debug('Group Added',$group );
         }
     }
 
+
+    function testGetContactGroups2()
+    {
+        
+        $contact = new CRM_Contact_DAO_Contact();
+        $contact->id = 62;
+        $groups = crm_contact_groups( $contact, 'Removed' );
+        foreach($groups as $group) {
+            CRM_Core_Error::debug('Group Removed',$group );
+        }
+    }
 }
 
 ?>

@@ -90,10 +90,12 @@ function &crm_create_contribution( &$params ) {
         return $error;
     }
     $values["contact_id"] = $params["contact_id"];
+    $values["source"]     = $params["source"];
+   
     $ids     = array( );
-
+   
     $contribution = CRM_Contribute_BAO_Contribution::create( $values, $ids );
-
+    
     return $contribution;
 }
 
@@ -242,7 +244,11 @@ function &crm_update_contribution( &$contribution, $params ) {
     if ( is_a($error, 'CRM_Core_Error') ) {
         return $error;
     }
-
+    
+    if (isset($params['source'])) {
+        $values['contribution_source'] = $params['source'];        
+    } 
+    
     $contribution = _crm_update_contribution( $contribution, $values );
     
 

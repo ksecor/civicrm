@@ -354,21 +354,21 @@ class TestOfGetLocationAPI extends UnitTestCase
     function testDeleteIndividual()
     {
         $contact  = $this->_individual;
-        $result =& crm_delete_contact($contact);
+        $result =& crm_delete_contact($contact,102);
         $this->assertNull($result);
     }
     
     function testDeleteHousehold()
     {
         $contact  = $this->_household;
-        $result =& crm_delete_contact($contact);
+        $result =& crm_delete_contact($contact,102);
         $this->assertNull($result);
     }
 
     function testDeleteOrganization()
     {
         $contact  = $this->_organization;
-        $result =& crm_delete_contact($contact);
+        $result =& crm_delete_contact($contact,102);
         $this->assertNull($result);
     }
 }

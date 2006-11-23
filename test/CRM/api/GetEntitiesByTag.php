@@ -147,7 +147,7 @@ class TestOfGetEntitiesByTagAPI extends UnitTestCase
     {
         for ($i=0; $i<count($this->_individual); $i++) {
             $contact = $this->_individual[$i];
-            $val =& crm_delete_contact($contact);
+            $val =& crm_delete_contact($contact,102);
             $this->assertNull($val);
         }
     }
@@ -156,7 +156,7 @@ class TestOfGetEntitiesByTagAPI extends UnitTestCase
     {
         for ($i=0; $i<count($this->_household); $i++) {
             $contact = $this->_household[$i];
-            $val =& crm_delete_contact($contact);
+            $val =& crm_delete_contact($contact,102);
             $this->assertNull($val);
         }
     }    
@@ -164,7 +164,7 @@ class TestOfGetEntitiesByTagAPI extends UnitTestCase
     function testDeleteOrganization()
     {
         $contact = $this->_organization;
-        $val =& crm_delete_contact($contact);
+        $val =& crm_delete_contact($contact,102);
         $this->assertNull($val);
     }
 }

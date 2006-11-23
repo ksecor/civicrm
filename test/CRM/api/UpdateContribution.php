@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfCreateContribution extends UnitTestCase 
+class TestOfUpdateContribution extends UnitTestCase 
 {
     protected $_individual   = array();
     protected $_contribution  = array();
@@ -17,41 +17,14 @@ class TestOfCreateContribution extends UnitTestCase
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
         $this->assertEqual($contact->contact_type, 'Individual');
         $this->_individual = $contact;
-    }
-
-    function testCreateBadContributionEmptyParams()
-    {
-        $params = array();
-        $contribution = crm_create_contribution($params);
-        $this->assertIsA($contribution,'CRM_Core_Error');
-    }
-
-    function testCreateBadContributionWithoutContactId()
-    {
-        $params = array(
-                        'domain_id'              => 1,                                                    
-                        'receive_date'           => date('Ymd'),
-                        'total_amount'           => 100.00,
-                        'contribution_type_id'   => 3,
-                        'payment_instrument_id'  => 1,
-                        'non_deductible_amount'  => 10.00,
-                        'fee_amount'             => 50.00,
-                        'net_amount'             => 90.00,
-                        'trxn_id'                => 12345,
-                        'invoice_id'             => 67890,
-                        'source'                 => 'SSF',
-                        'contribution_status_id' => 1
-                        );
-        $contribution = crm_create_contribution($params);
-        $this->assertIsA($contribution,'CRM_Core_Error');
-    }
+    }    
 
 
     function testCreateContribution()
     {
         $params = array(
                         'domain_id'              => 1,
-                        'contact_id'             => $this->_individual->id,                              
+                        'contact_id'             => $this->_individual->id, 
                         'receive_date'           => date('Ymd'),
                         'total_amount'           => 100.00,
                         'contribution_type_id'   => 3,
@@ -64,22 +37,50 @@ class TestOfCreateContribution extends UnitTestCase
                         'source'                 => 'SSF',
                         'contribution_status_id' => 1
                         );
-        $contribution = crm_create_contribution($params);//CRM_Core_Error::debug('$contribution',$contribution);
+        $contribution = crm_create_contribution($params);      
+        $this->_contribution = $contribution;
+    }
+
+    
+    function testUpdateBadContributionWrongParam()
+    {
+        $params =  array('contact_id' => -123);
+        $contribution = crm_update_contribution(& $this->_contribution,$params);
+        $this->assertIsA($contribution,'CRM_Core_Error');
+    }
+
+    function testUpdateContribution()
+    {
+        $params = array(
+                        'domain_id'              => 1,
+                        'contact_id'             => $this->_individual->id, 
+                        'receive_date'           => date('Ymd'),
+                        'total_amount'           => 200.00,
+                        'contribution_type_id'   => 1,
+                        'payment_instrument_id'  => 3,
+                        'non_deductible_amount'  => 100.00,
+                        'fee_amount'             => 500.00,
+                        'net_amount'             => 900.00,
+                        'trxn_id'                => 67890,
+                        'invoice_id'             => 12345,
+                        'source'                 => 'UNESCO',
+                        'contribution_status_id' => 1
+                        );
+        $contribution = crm_update_contribution(& $this->_contribution, $params);
         $this->assertIsA($contribution,'CRM_Contribute_BAO_Contribution' );
         $this->assertEqual($contribution->domain_id, 1);
         $this->assertEqual($contribution->contact_id, $this->_individual->id);                              
         $this->assertEqual($contribution->receive_date,date('Ymd'));
-        $this->assertEqual($contribution->total_amount,100.00);
-        $this->assertEqual($contribution->contribution_type_id,3);
-        $this->assertEqual($contribution->payment_instrument_id,1);
-        $this->assertEqual($contribution->non_deductible_amount,10.00);
-        $this->assertEqual($contribution->fee_amount,50.00);
-        $this->assertEqual($contribution->net_amount,90.00);
-        $this->assertEqual($contribution->trxn_id,12345);
-        $this->assertEqual($contribution->invoice_id,67890);
-        $this->assertEqual($contribution->source,'SSF');
+        $this->assertEqual($contribution->total_amount,200.00);
+        $this->assertEqual($contribution->contribution_type_id,1);
+        $this->assertEqual($contribution->payment_instrument_id,3);
+        $this->assertEqual($contribution->non_deductible_amount,100.00);
+        $this->assertEqual($contribution->fee_amount,500.00);
+        $this->assertEqual($contribution->net_amount,900.00);
+        $this->assertEqual($contribution->trxn_id,67890);
+        $this->assertEqual($contribution->invoice_id,12345);
+        $this->assertEqual($contribution->source,'UNESCO');
         $this->assertEqual($contribution->contribution_status_id,  1);
-        $this->_contribution = $contribution;
     }
 
     function testDeleteContribution()
@@ -92,8 +93,7 @@ class TestOfCreateContribution extends UnitTestCase
     {
         $contact = $this->_individual;
         $val =& crm_delete_contact(& $contact,102);
-        $this->assertNull($val);
-        
+        $this->assertNull($val);        
     }
 }
 

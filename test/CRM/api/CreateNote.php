@@ -85,7 +85,7 @@ class TestOfCreateNote extends UnitTestCase
     function testDeleteContact()
     {
         $contact = $this->_individual;
-        $deleteContact =& crm_delete_contact(& $contact);
+        $deleteContact =& crm_delete_contact(& $contact,102);
         $this->assertNull($deleteContact);
     }
 }

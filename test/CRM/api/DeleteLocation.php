@@ -111,7 +111,7 @@ class TestOfDeleteLocationAPI extends UnitTestCase
     function testDeleteContactIndividual()
     {
         $contact  = $this->_individual;
-        $result =& crm_delete_contact($contact);
+        $result =& crm_delete_contact($contact,102);
         $this->assertNull($result);
     }
 }

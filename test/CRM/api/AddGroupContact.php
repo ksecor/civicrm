@@ -75,21 +75,21 @@ class TestOfAddGroupContactAPI extends UnitTestCase
     function testDeleteIndividual() 
     {
         $contact = $this->_individual;
-        $val =& crm_delete_contact(& $contact);
+        $val =& crm_delete_contact(& $contact,102);
         $this->assertNull($val);
     }
     
     function testDeleteHousehold() 
     {
         $contact = $this->_houseHold;
-        $val =& crm_delete_contact(& $contact);
+        $val =& crm_delete_contact(& $contact,102);
         $this->assertNull($val);
     }
     
     function testDeleteOrganization() 
     {
         $contact = $this->_organization;
-        $val =& crm_delete_contact(& $contact);
+        $val =& crm_delete_contact(& $contact,102);
         $this->assertNull($val);
     }
 }

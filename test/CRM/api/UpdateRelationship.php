@@ -55,10 +55,10 @@ class TestOfUpdateRelationshipAPI extends UnitTestCase
         $this->assertIsA($rel, 'CRM_Core_Error');
     }
 
-    function DeleteContact() 
+    function testDeleteContact() 
     {
-        crm_delete_contact($this->contact1);
-        crm_delete_contact($this->contact2);
+        crm_delete_contact($this->contact1,102);
+        crm_delete_contact($this->contact2,102);
     }
 
 }

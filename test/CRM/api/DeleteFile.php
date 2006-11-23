@@ -195,10 +195,10 @@ class TestofDeleteFile extends UnitTestCase
     
     function testDeleteContact1()
     {
-        $deleteContact1 =& crm_delete_contact(& $this->_individual1);
+        $deleteContact1 =& crm_delete_contact(& $this->_individual1,102 );
         $this->assertNull($deleteContact1);
         
-        $deleteContact2 =& crm_delete_contact(& $this->_individual2);
+        $deleteContact2 =& crm_delete_contact(& $this->_individual2,102);
         $this->assertNull($deleteContact2);
     }
     

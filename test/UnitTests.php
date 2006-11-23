@@ -62,12 +62,19 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1011.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1012.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1184.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1233.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1233.php' );
         //api for ActivityType
         
         
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/MultiValuedCheckBox.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Note.php'    );
+
+        //api for Contribution
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContribution.php'      );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContribution.php'      );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContribution.php'      );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteContribution.php'      );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContributions.php'      );
         
         // group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
@@ -85,6 +92,26 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1282UpdateLocation.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteLocation.php'    );
         
+
+        // membership type api
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateMembershipType.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetMembershipTypes.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateMembershipType.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteMembershipType.php' );
+
+
+         // membership status api
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateMembershipStatus.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetMembershipStatuses.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateMembershipStatus.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteMembershipStatus.php' );
+
+        // membership 
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContactMembership.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactMemberships.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContactMembership.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteMembership.php' );
+
         // history api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateActivityHistory.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetActivityHistory.php' );

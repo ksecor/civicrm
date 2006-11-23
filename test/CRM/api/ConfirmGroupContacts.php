@@ -105,7 +105,7 @@ class TestOfConfirmGroupContact extends UnitTestCase
     {
      
             $contact = $this->_individual;
-            $val =& crm_delete_contact(& $contact);
+            $val =& crm_delete_contact(& $contact,102);
             $this->assertNull($val);
      
     }
@@ -114,7 +114,7 @@ class TestOfConfirmGroupContact extends UnitTestCase
     {
        
             $contact = $this->_houseHold;
-            $val =& crm_delete_contact(& $contact);
+            $val =& crm_delete_contact(& $contact,102);
             $this->assertNull($val);
        
     }
@@ -123,7 +123,7 @@ class TestOfConfirmGroupContact extends UnitTestCase
     {
         
             $contact = $this->_organization;
-            $val =& crm_delete_contact(& $contact);
+            $val =& crm_delete_contact(& $contact,102);
             $this->assertNull($val);
         
     }

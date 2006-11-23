@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfAddGroupContactAPI extends UnitTestCase 
+class TestOfCRM523 extends UnitTestCase 
 {
     protected $_individual;
     protected $_houseHold ;
@@ -82,7 +82,7 @@ class TestOfAddGroupContactAPI extends UnitTestCase
     {
      
             $contact = $this->_individual;
-            $val =& crm_delete_contact(& $contact);
+            $val =& crm_delete_contact(& $contact,102);
             $this->assertNull($val);
      
     }
@@ -91,7 +91,7 @@ class TestOfAddGroupContactAPI extends UnitTestCase
     {
        
             $contact = $this->_houseHold;
-            $val =& crm_delete_contact(& $contact);
+            $val =& crm_delete_contact(& $contact,102);
             $this->assertNull($val);
        
     }
@@ -100,7 +100,7 @@ class TestOfAddGroupContactAPI extends UnitTestCase
     {
         
             $contact = $this->_organization;
-            $val =& crm_delete_contact(& $contact);
+            $val =& crm_delete_contact(& $contact,102);
             $this->assertNull($val);
         
     }

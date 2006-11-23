@@ -63,8 +63,8 @@ class TestOfGetRelationshipAPI extends UnitTestCase
 
     function testDeleteContact()
     {
-        crm_delete_contact($this->contact1);
-        crm_delete_contact($this->contact2);
+        crm_delete_contact($this->contact1,102);
+        crm_delete_contact($this->contact2,102);
     }
 
 
