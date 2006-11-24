@@ -37,16 +37,9 @@ class TestOfCreateMembershipStatus extends UnitTestCase
                         'is_active'                   => '1'
                         );
         
-        $membershipstatus = & crm_create_membership_status($params);        
-        $this->assertEqual($membershipstatus['start_event'],'start_date');
-        $this->assertEqual($membershipstatus['start_event_adjust_unit'],'day');
-        $this->assertEqual($membershipstatus['start_event_adjust_interval'],'12');
-        $this->assertEqual($membershipstatus['end_event'],'month');        
-        $this->assertEqual($membershipstatus['end_event_adjust_unit'],'day');
-        $this->assertEqual($membershipstatus['end_event_adjust_interval'],'23');
-        $this->assertEqual($membershipstatus['is_current_member'],'1');        
-        $this->assertEqual($membershipstatus['is_active'],'1');
-        $this->_membershipstatus1 = $membershipstatus;
+        $membershipstatus = & crm_create_membership_status($params);   
+        
+        $this->assertIsA($membershipstatus,'CRM_Core_Error');
     }
 
 
@@ -105,8 +98,6 @@ class TestOfCreateMembershipStatus extends UnitTestCase
         $val = &crm_delete_membership_status($this->_membershipstatus['id']);
         $this->assertNull($val);
 
-        $val1 = &crm_delete_membership_status($this->_membershipstatus1['id']);
-        $this->assertNull($val1);
 
         $val2 = &crm_delete_membership_status($this->_membershipstatus2['id']);
         $this->assertNull($val2);

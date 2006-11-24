@@ -57,12 +57,12 @@ class TestOfGetContactMemberships extends UnitTestCase
     
     
 
-    function testGetWrongMembershipWithoutId()
-    {
-        $params = array();                       
-        $membership = & crm_get_contact_memberships($params);
-        $this->assertIsA($membership,'CRM_Core_Error');
-    }
+    // function testGetWrongMembershipWithoutId()
+//     {
+//         $params = array();                       
+//         $membership = & crm_get_contact_memberships($params);
+//         $this->assertIsA($membership,'CRM_Core_Error');
+//     }
 
     function testGetMemberships()
     {

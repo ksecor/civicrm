@@ -32,24 +32,24 @@ class TestOfDeleteMembershipType extends UnitTestCase
         $this->assertEqual($this->_membershiptype['name'],'60+ Membership');
     }
 
-    /* function testDeleteBadMembershipTypeWrongId()
+    function testDeleteBadMembershipTypeWrongId()
     {
         $id = -14588;
         $val = &crm_delete_membership_type($id);
         $this->assertIsA($val,'CRM_Core_Error');
-        CRM_Core_Error::debug('WrongIdval',$val);
+        //CRM_Core_Error::debug('WrongIdval',$val);
     }
 
     function testDeleteBadMembershipTypeWithoutId()
     {
         $val = &crm_delete_membership_type($this->_membershiptype['name']);
         $this->assertIsA($val,'CRM_Core_Error');
-        CRM_Core_Error::debug('WithoutIdval',$val);
-    }*/
+        //CRM_Core_Error::debug('WithoutIdval',$val);
+    }
 
     
 
-    function testDeleteBadMembershipTypeEmptyParam()
+     function testDeleteBadMembershipTypeEmptyParam()
     {
         $param = array();
         $val = &crm_delete_membership_type($param);

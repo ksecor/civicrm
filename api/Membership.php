@@ -60,6 +60,10 @@ function crm_create_membership_type($params)
         return _crm_error('Params is not an array.');
     }
     
+    if (!$params["name"] && ! $params['duration_unit'] && ! $params['duration_interval']) {
+        return _crm_error('Missing require fileds ( name, duration unit,duration interval)');
+    }
+    
     if ( !$params['domain_id'] ) {
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton();
@@ -178,12 +182,11 @@ function &crm_update_membership_type( $params ) {
  * @access public
  */
 function &crm_delete_membership_type( $membershipTypeID ) {
-    if ( empty($membershipTypeID) ) {
+    if ( ! $membershipTypeID ) {
         return _crm_error( 'Invalid value for membershipTypeID' );
     }
-    
     require_once 'CRM/Member/BAO/MembershipType.php';
-    CRM_Member_BAO_MembershipType::del($membershipTypeID);
+    return CRM_Member_BAO_MembershipType::del($membershipTypeID);
 }
 
 /**
@@ -204,6 +207,10 @@ function crm_create_membership_status($params)
     
     if ( empty($params) ) {
         return _crm_error('Params can not be empty.');
+    }
+    
+    if (! $params["name"] ) {
+        return _crm_error('Missing require fileds');
     }
     
     if ( !$params['domain_id'] ) {
@@ -438,7 +445,7 @@ function crm_get_contact_memberships($contactID)
     $membership = array('contact_id' => $contactID);
     $membershipValues = $ids = array();
     CRM_Member_BAO_Membership::getValues($membership, $membershipValues, $ids);
-    
+   
     if ( empty( $membershipValues ) ) {
         return _crm_error('No memberships for this contact.');
     }
@@ -459,8 +466,7 @@ function crm_get_contact_memberships($contactID)
         $membershipValues['relationship_name'] = $relationshipType->name_a_b;
     }
     
-    //CRM_Core_Error::debug('Membership Values 2', $membershipValues);
-    
+ 
     $members[$membershipValues['contact_id']] = $membershipValues;
     
     // populating contacts in members array based on their relationship with direct members.
@@ -475,7 +481,7 @@ function crm_get_contact_memberships($contactID)
             $members[$relationship->contact_id_a] = $membershipValues;
         }
     }
-    //CRM_Core_Error::debug('Memberships', $members);
+    
     return $members;
 }
 

@@ -64,11 +64,11 @@ class TestOfCreateContactMembership extends UnitTestCase
 	
         $this->_membership = & crm_create_contact_membership($params,$contactId);
         $this->assertEqual($this->_membership['membership_type_id'],'1');
-         $this->assertEqual($this->_membership['join_date'],'20060121');
-//         $this->assertEqual($this->_membership['start_date'],'2006-01-21');
-//         $this->assertEqual($this->_membership['end_date'],'2006-12-21');
-//         $this->assertEqual($this->_membership['source'],'Payment');
-         $this->assertEqual($this->_membership['status_id'],'2');      
+        $this->assertEqual($this->_membership['join_date'],'20060121');
+        $this->assertEqual($this->_membership['start_date'],'20060121');
+        $this->assertEqual($this->_membership['end_date'],'20061221');
+        $this->assertEqual($this->_membership['source'],'Payment');
+        $this->assertEqual($this->_membership['status_id'],'2');      
        }
   
     

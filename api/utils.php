@@ -1816,7 +1816,12 @@ function &_crm_get_pseudo_constant_names( ) {
 
 function _crm_object_to_array( &$dao, &$values )
 {
-    $fields = $dao->fields();
+    $tmpFields = $dao->fields();
+    $fields = array();
+    //rebuild $fields array to fix unique name of the fields
+    foreach( $tmpFields as $key => $values ) {
+        $fields[$values["name"]]  = $values;
+    }
     
     foreach( $fields as $key => $value ) {
         if (array_key_exists($key, $dao)) {
