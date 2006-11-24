@@ -310,7 +310,11 @@ ORDER BY
      */
     static function add(&$params, &$ids) {
         $contact =& new CRM_Contact_BAO_Contact();
-        
+
+        if ( empty($params) ) {
+            return;
+        }
+
         //fixed contact source
         if ( isset($params['contact_source']) ) {
             $params['source'] = $params['contact_source'];
@@ -531,7 +535,7 @@ ORDER BY
         }
 
         CRM_Core_DAO::transaction('BEGIN');
-        
+
         $contact = self::add($params, $ids);
 
         $params['contact_id'] = $contact->id;
