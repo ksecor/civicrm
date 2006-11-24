@@ -2,8 +2,10 @@
 
 require_once 'api/crm.php';
 
-class TestOfCreateCustomGroupAPI extends UnitTestCase 
+class TestOfCRM627 extends UnitTestCase 
 {
+    protected $_group ;
+
     function setUp() 
     {
     }
@@ -24,9 +26,16 @@ class TestOfCreateCustomGroupAPI extends UnitTestCase
                         'is_active'  => 1
                         );
         $class_name = 'Individual';
-        $customGroup =& crm_create_group($params);
-        print_r($customGroup);
-        $this->assertIsA($customGroup, 'CRM_Contact_DAO_Group');
+        $groupCreated =& crm_create_group($params);
+        CRM_Core_Error::debug('groupCreated',$groupCreated);
+        $this->assertIsA($groupCreated, 'CRM_Contact_DAO_Group');
+        $this->_group = $groupCreated;
+    }
+
+    function testDeleteGroup() 
+    {
+        $val =& crm_delete_group(& $this->_group);
+        $this->assertNull($val);
     }
 }
 ?>

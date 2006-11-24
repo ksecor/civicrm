@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfGetGroupContacts extends UnitTestCase 
+class TestOfCRM562 extends UnitTestCase 
 {
 
     

@@ -73,6 +73,25 @@ class TestOfDeleteGroupContactAPI extends UnitTestCase
         $this->assertNull($return); 
     }
 
+        
+    function testDeleteBadGroupContactWrongContact()
+    {
+        $contacts = $this->_individual;
+        $group = new CRM_Contact_DAO_Group();
+        $group->id = 1;
+        $return = crm_delete_group_contacts($group,$contacts);
+        $this->assertIsA($return, 'CRM_Core_Error'); 
+    }
+    
+    function testDeleteBadGroupContactEmptyParams()
+    {
+        $contacts = array();
+        $group = array();
+        $return = crm_delete_group_contacts($group,$contacts);
+        $this->assertIsA($return, 'CRM_Core_Error'); 
+    }
+    
+
     function testDeleteGroupContact()
     {
        $contacts = array($this->_individual);
