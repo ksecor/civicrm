@@ -798,7 +798,7 @@ div.crm-pager a {
   cursor: pointer;
 }
 #crm-container tbody td {
-  padding: 0em 0.9em;
+  padding-left: 0.9em;
 }
 #crm-container thead th.selectedUp { 
   background-repeat: no-repeat;
