@@ -130,15 +130,17 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $membership =& new CRM_Member_BAO_Membership( );
         
         $membership->copyValues( $params );
-        
-        if ( $membership->find(true) ) {
+        $membership->find();
+        $memberships = array();
+        while ( $membership->fetch() ) {
             $ids['membership'] = $membership->id;
             
-            CRM_Core_DAO::storeValues( $membership, $values );
+            CRM_Core_DAO::storeValues( $membership, $values[$membership->id] );
             
-            return $membership;
+            $memberships[$membership->id] = $membership;
         }
-        return null;
+        
+        return $memberships;
     }
 
     /**

@@ -101,14 +101,14 @@ class UnitTests extends GroupTest {
 
 
          // membership status api
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateMembershipStatus.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateMembershipStatus.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetMembershipStatuses.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateMembershipStatus.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteMembershipStatus.php' );
 
         // membership 
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContactMembership.php' );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactMemberships.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactMemberships.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContactMembership.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteMembership.php' );
 

@@ -376,14 +376,14 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
     {
         require_once 'CRM/Member/BAO/Membership.php';
         require_once 'CRM/Member/BAO/MembershipStatus.php';
-        $param = array('id' => $membershipId);
-        $membershipDetails     =  CRM_Member_BAO_Membership::getValues( $param, $values ,$ids );
-        $statusID = $membershipDetails->status_id;
-        $membershipTypeDetails = self::getMembershipTypeDetails( $membershipDetails->membership_type_id );
+        $params = array('id' => $membershipId);
+        $membershipDetails     =  CRM_Member_BAO_Membership::getValues( $params, $values ,$ids );
+        $statusID = $membershipDetails[$membershipId]->status_id;
+        $membershipTypeDetails = self::getMembershipTypeDetails( $membershipDetails[$membershipId]->membership_type_id );
         $statusDetails  = CRM_Member_BAO_MembershipStatus::getMembershipStatus($statusID);
         if ( $statusDetails['is_current_member'] == 1 ) {
-            $startDate    = $membershipDetails->start_date;
-            $date         = explode('-', $membershipDetails->end_date);
+            $startDate    = $membershipDetails[$membershipId]->start_date;
+            $date         = explode('-', $membershipDetails[$membershipId]->end_date);
             $logStartDate = date('Y-m-d',mktime($hour, $minute, $second, $date[1], $date[2]+1, $date[0]));
             $date         = explode('-', $logStartDate );
             
@@ -409,7 +409,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             }
                 
         } else {
-            $date = $membershipDetails->end_date;
+            $date = $membershipDetails[$membershipId]->end_date;
             $date         = explode('-', $date );
             $startDate = $logStartDate = date('Y-m-d',mktime($hour, $minute, $second, $date[1], $date[2]+1, $date[0]));
            

@@ -445,44 +445,50 @@ function crm_get_contact_memberships($contactID)
     $membership = array('contact_id' => $contactID);
     $membershipValues = $ids = array();
     CRM_Member_BAO_Membership::getValues($membership, $membershipValues, $ids);
-   
+    
     if ( empty( $membershipValues ) ) {
         return _crm_error('No memberships for this contact.');
     }
     
-    //CRM_Core_Error::debug('Membership Values 1', $membershipValues);
-    
-    // populate the membership type name for the membership type id
-    require_once 'CRM/Member/BAO/MembershipType.php';
-    $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails($membershipValues['membership_type_id']);
-    
-    $membershipValues['membership_name']      = $membershipType['name'];
-    
-    // populating relationship type name.
-    require_once 'CRM/Contact/BAO/RelationshipType.php';
-    $relationshipType = new CRM_Contact_BAO_RelationshipType();
-    $relationshipType->id =  $membershipType['relationship_type_id'];
-    if ( $relationshipType->find(true) ) {
-        $membershipValues['relationship_name'] = $relationshipType->name_a_b;
-    }
-    
- 
-    $members[$membershipValues['contact_id']] = $membershipValues;
-    
-    // populating contacts in members array based on their relationship with direct members.
-    require_once 'CRM/Contact/BAO/Relationship.php';
-    $relationship = new CRM_Contact_BAO_Relationship();
-    $relationship->contact_id_b            = $membershipValues['contact_id'];
-    $relationship->relationship_type_id    = $membershipType['relationship_type_id'];
-    if ($relationship->find()) {
-        while ($relationship->fetch()) {
-            clone($relationship);
-            $membershipValues['contact_id'] = $relationship->contact_id_a;
-            $members[$relationship->contact_id_a] = $membershipValues;
+    foreach ($membershipValues as $membershipId => $values) {
+        // populate the membership type name for the membership type id
+        require_once 'CRM/Member/BAO/MembershipType.php';
+        $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails($values['membership_type_id']);
+        
+        $membershipValues[$membershipId]['membership_name'] = $membershipType['name'];
+        
+        $relationships[$membershipType['relationship_type_id']] = $membershipId;
+        
+        // populating relationship type name.
+        require_once 'CRM/Contact/BAO/RelationshipType.php';
+        $relationshipType = new CRM_Contact_BAO_RelationshipType();
+        $relationshipType->id = $membershipType['relationship_type_id'];
+        if ( $relationshipType->find(true) ) {
+            $membershipValues[$membershipId]['relationship_name'] = $relationshipType->name_a_b;
         }
     }
     
+    $members[$contactID] = $membershipValues;
+    
+    // populating contacts in members array based on their relationship with direct members.
+    require_once 'CRM/Contact/BAO/Relationship.php';
+    foreach ($relationships as $relTypeId => $membershipId) {
+        // As members are not direct members, there should not be
+        // membership id in the result array.
+        unset($membershipValues[$membershipId]['id']);
+        $relationship = new CRM_Contact_BAO_Relationship();
+        $relationship->contact_id_b            = $contactID;
+        $relationship->relationship_type_id    = $relTypeId;
+        if ($relationship->find()) {
+            while ($relationship->fetch()) {
+                clone($relationship);
+                $membershipValues[$membershipId]['contact_id'] = $relationship->contact_id_a;
+                $members[$contactID][$relationship->contact_id_a] = $membershipValues[$membershipId];
+            }
+        }
+    }
     return $members;
+    
 }
 
 /**
