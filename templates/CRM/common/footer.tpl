@@ -4,7 +4,7 @@
 
 
 {if $lastModified}
-<span class="col1">{if $external_identifier}{ts}External Identifier{/ts}:&nbsp;{$external_identifier}{/if}&nbsp; &nbsp;{ts}CiviCRM Id{/ts}:&nbsp;{$contact_id}</span>
+<span class="col1">{if $external_identifier}{ts}External ID{/ts}:&nbsp;{$external_identifier}{/if}&nbsp; &nbsp;{ts}CiviCRM ID{/ts}:&nbsp;{$contact_id}</span>
 {ts}Last Change by{/ts} <a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$lastModified.id`"}">{$lastModified.name}</a> ({$lastModified.date|crmDate}) &nbsp; <a href="{crmURL p='civicrm/contact/view/log' q="reset=1&action=browse&cid=`$contactId`"}">&raquo; {ts}View Change Log{/ts}</a>{/if}</div>
 
 <div class="footer" id="civicrm-footer"> 

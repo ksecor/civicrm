@@ -4,7 +4,6 @@
 {* View Contact Summary *}
 <div id="contact-name" class="data-group">
    <div>
-    {if $source}<label>{ts}Source{/ts}:</label>&nbsp;{$source}<br />{/if}
     <label>{$displayName}</label>
     {if $contact_type eq 'Individual' && $job_title}&nbsp;&nbsp;{ts}Job Title{/ts}:&nbsp;{$job_title}
     {elseif $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
@@ -17,6 +16,7 @@
     {/if}
     {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
     {if $contactTag}<br />{ts}Tags{/ts}:&nbsp;{$contactTag}{/if}
+    {if $source}<br /><label>{ts}Source{/ts}:</label>&nbsp;{$source}{/if}
    </div>
 </div>
 

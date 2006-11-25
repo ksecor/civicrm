@@ -1,3 +1,4 @@
+{* Contact Summary template for new tabbed interface. Replaces Basic.tpl *}
 {if $action eq 2}
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
@@ -9,23 +10,29 @@
 {* View Contact Summary *}
 <div id="contact-name" class="data-group">
    <div>
-    {if $source}<label>{ts}Source{/ts}:</label>&nbsp;{$source}<br />{/if}
-    <label>{$displayName}</label>
-    {if $contact_type eq 'Individual' && $job_title}&nbsp;&nbsp;{ts}Job Title{/ts}:&nbsp;{$job_title}
-    {elseif $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
+    <label><span class="font-size12pt">{$displayName}</span></label>{if $nick_name}&nbsp;&nbsp;({$nick_name}){/if}
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
-
-
-
-
     {/if}
     &nbsp; &nbsp; <input type="button" value="{ts}vCard{/ts}" name="vCard_export" onclick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';"/>
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
     {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
-    {if $contactTag}<br />{ts}Tags{/ts}:&nbsp;{$contactTag}{/if}
+    <table class="form-layout-compressed">
+    <tr>
+        {if $source}<td><label>{ts}Source{/ts}:</label></td><td>{$source}</td>{/if}
+        {if $contactTag}<td><label>{ts}Tags{/ts}:</label></td><td>{$contactTag}</td>{/if}
+        {if !$source}<td colspan="2"></td>{/if}
+        {if !$contactTag}<td colspan="2"></td>{/if}
+    </tr>
+    <tr>
+        {if $job_title}<td><label>{ts}Job Title{/ts}:</label></td><td>{$job_title}</td>{/if}
+        {if $home_URL}<td><label>Web-site</label></td><td><a href="{$home_URL}" target="_blank">{$home_URL}</a></td>{/if}
+        {if !$job_title}<td colspan="2"></td>{/if}
+        {if !$home_URL}<td colspan="2"></td>{/if}
+    </tr>
+    </table>
    </div>
 </div>
 
