@@ -12,7 +12,11 @@
         <dt>{ts}Paid By{/ts}</dt><dd>{$payment_instrument}&nbsp;</dd>
         <dt>{ts}Source{/ts}</dt><dd>{$source}&nbsp;</dd>
         <dt>{ts}Note{/ts}</dt><dd>{$note}&nbsp;</dd>
-        <dt>{ts}Total Amount{/ts}</dt><dd>{$total_amount|crmMoney}&nbsp;</dd>
+        <dt>{ts}Total Amount{/ts}</dt><dd>{$total_amount|crmMoney}&nbsp;
+            {if $contribution_recur_id}
+                (Recurring Contribution)
+            {/if}
+        </dd>
         <dt>{ts}Non-deductible Amount{/ts}</dt><dd>{$non_deductible_amount|crmMoney}&nbsp;</dd>
         <dt>{ts}Fee Amount{/ts}</dt><dd>{$fee_amount|crmMoney}&nbsp;</dd>
         <dt>{ts}Net Amount{/ts}</dt><dd>{$net_amount|crmMoney}&nbsp;</dd>
