@@ -2349,12 +2349,15 @@ class CRM_Contact_BAO_Query {
 
             // regenerate fromClause since permission might have added tables
             if ( $permission ) {
-                $this->_useDistinct = true;
+                //fix for row count in quill (in contribute/membership find)
+                if (! $count ) {
+                    $this->_useDistinct = true;
+                }
                 $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation, $this->_mode ); 
                 $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
             }
         }
-
+        
         list( $select, $from, $where ) = $this->query( $count, $sortByChar, $groupContacts );
         
         if ( empty( $where ) ) {
