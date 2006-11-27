@@ -448,17 +448,10 @@ div.spacer, .spacer {
   /*background-color: #FAFAF8;*/
   background-color: #FAFAFA;
 }
-
 #crm-container .even-row, tbody.scrollContent tr.alternateRow  {
   /*background-color: #EAEAEA;*/
-  background-color: #E8F2FF; /*#E6F8FE;*/
+  background-color: #E8F2FF;
 }
-
-#crm-container tbody.scrollContent tr:hover  {
-  /*background-color: #b9caf2;*/
-  background-color: #D0E6FD;
-}
-
 #crm-container tr.even-row td, #crm-container tr.odd-row td{
   border-collapse: collapse;
   /*border-top: 1px solid #000000;*/
@@ -477,13 +470,13 @@ div.spacer, .spacer {
   color: #FF0105;
 }
 
-#crm-container a.sort-ascending:before {
+#crm-container a.sort-ascending:before, #crm-container thead th.selectedDown:before {
    content: url(sort-asc.png);
    margin-right: 5px;
    vertical-align: middle;
 }
 
-#crm-container a.sort-descending:before {
+#crm-container a.sort-descending:before, #crm-container thead th.selectedUp:before {
    content: url(sort-desc.png);
    margin-right: 5px;
    vertical-align: middle;
@@ -777,15 +770,12 @@ div.crm-pager a {
         color: #213245;
 	font-weight: bold;
 }
-
 #crm-container .label-pane :hover {
 	cursor: pointer;
 }
-
 #crm-container fieldset.collapsible {
   border: 0px;
 }
-
 #crm-container .content-pane {
   overflow: auto;
 }
@@ -793,20 +783,18 @@ div.crm-pager a {
 /*
 ** Following styles are used specificaly for dojo based elements
 */
+
+#crm-container tbody.scrollContent tr:hover  {
+  /*background-color: #b9caf2;*/
+  background-color: #D0E6FD;
+}
 #crm-container thead tr.columnheader th {
-  text-indent: 0.9em;
   cursor: pointer;
+  vertical-align: top;
 }
 #crm-container tbody td {
-  padding-left: 0.9em;
+  padding-left: 20px;
 }
-#crm-container thead th.selectedUp { 
-  background-repeat: no-repeat;
-  background-position: 0% 50%;
-  background-image:url(./sort-desc.png);
-}
-#crm-container thead th.selectedDown { 
-  background-repeat: no-repeat;
-  background-position: 0% 50%;
-  background-image:url(./sort-asc.png);
+#crm-container thead th.selectedUp, #crm-container thead th.selectedDown { 
+  vertical-align: top;
 }
