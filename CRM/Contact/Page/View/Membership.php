@@ -162,7 +162,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
 
         switch ( $context ) {
         case 'basic':
-            $url = CRM_Utils_System::url( 'civicrm/contact/view/basic',
+            $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                           'reset=1&cid=' . $this->_contactId );
             break;
 
@@ -172,8 +172,8 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
             break;
 
         case 'membership':
-            $url = CRM_Utils_System::url( 'civicrm/contact/view/membership',
-                                          'reset=1&force=1&cid=' . $this->_contactId );
+            $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=member" );
             break;
 
         default:
@@ -203,20 +203,20 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
             self::$_links = array(
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
-                                                                    'url'   => 'civicrm/contact/view/membership',
-                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&context=membership',
+                                                                    'url'   => 'civicrm/contact/view',
+                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
                                                                     'title' => ts('View Membership')
                                                                     ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/contact/view/membership',
-                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&context=membership',
+                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
                                                                     'title' => ts('Edit Membership')
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/contact/view/membership',
-                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&context=membership',
+                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
                                                                     'title' => ts('Delete Membership')
                                                                     ),
                                   );

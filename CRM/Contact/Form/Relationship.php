@@ -197,13 +197,16 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             return;
             
         }
+
+        $urlParams = "cid={$this->_contactId}&reset=1&selectedChild=rel";
         if ( $this->_relationshipId ) {
-            $url = "civicrm/contact/view/rel&action=update&reset=1&cid=$this->_contactId&id=$this->_relationshipId&rtype=$this->_rtype";
+            $urlParams .= "&action=update&id={$this->_relationshipId}&rtype={$this->_rtype}";
         } else {
-            $url = "civicrm/contact/view/rel&cid=$this->_contactId&action=add&reset=1";
+            $urlParams .= "&action=add";
         }
         
-        $url = CRM_Utils_System::url($url); 
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/rel',
+                                      $urlParams ); 
         $this->assign("refreshURL",$url);
         
         $this->addElement('select',

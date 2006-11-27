@@ -2,7 +2,7 @@
 {if $history NEQ 1}
     {* Showing Open Activities *}
     {if $totalCountOpenActivity}
-        <fieldset><legend><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=1&cid=$contactId"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Open Activities{/ts}</legend>
+        <fieldset><legend><a href="{crmURL p='civicrm/contact/view' q="show=1&action=browse&history=1&selectedChild=activity&cid=$contactId"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Open Activities{/ts}</legend>
     {else}
         <div class="data-group">
         <dl><dt>{ts}Open Activities{/ts}</dt>
@@ -20,7 +20,7 @@
     {* Showing History *}
     <div id="openActivities_show" class="data-group">
         {if $totalCountOpenActivity}
-            <a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=0&cid=$contactId"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Open Activities{/ts}</label> ({$totalCountOpenActivity})
+            <a href="{crmURL p='civicrm/contact/view' q="show=1&action=browse&history=0&selectedChild=activity&cid=$contactId"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Open Activities{/ts}</label> ({$totalCountOpenActivity})
         {else}
             <dl><dt>{ts}Open Activities{/ts}</dt>
             {if $permission EQ 'edit'}
@@ -34,7 +34,7 @@
         {/if}
     </div>
     {if $totalCountActivity}
-        <fieldset><legend><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=0&cid=$contactId"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Activity History{/ts}</legend>
+        <fieldset><legend><a href="{crmURL p='civicrm/contact/view' q="show=1&action=browse&history=0&selectedChild=activity&cid=$contactId"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Activity History{/ts}</legend>
     {else}
         <div class="data-group">
             <dl><dt>{ts}Activity History{/ts}</dt><dd>{ts}No activity history for this contact.{/ts}</dd></dl>
@@ -75,7 +75,7 @@
            <tr class="{cycle values="odd-row,even-row"}">
              <td>{$row.activity_type}</td>
              <td>
-               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`"}">{$row.subject|mb_truncate:33:"...":true}</a>
+               <a href="{crmURL p='civicrm/contact/view' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`"}">{$row.subject|mb_truncate:33:"...":true}</a>
              </td>
              <td>
              {if $contactId  NEQ $row.sourceID} 
@@ -110,7 +110,7 @@
     {* Showing Open Activities - give link for History toggle *}
     <div id="activityHx_show" class="data-group">
         {if $totalCountActivity}
-            <a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=1&cid=$contactId"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Activity History{/ts}</label> ({$totalCountActivity})
+            <a href="{crmURL p='civicrm/contact/view' q="show=1&action=browse&history=1&selectedChild=activity&cid=$contactId"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Activity History{/ts}</label> ({$totalCountActivity})
         {else}
             <dl><dt>{ts}Activity History{/ts}</dt><dd>{ts}No activity history for this contact.{/ts}</dd></dl>
         {/if}

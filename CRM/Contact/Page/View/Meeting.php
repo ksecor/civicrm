@@ -62,8 +62,8 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
         if ( $context == 'Home' ) {
             $url = CRM_Utils_System::url('civicrm', 'reset=1' );
         } else {
-            $url = CRM_Utils_System::url('civicrm/contact/view/activity',
-                                         "show=1&action=browse&reset=1&history={$history}&cid={$this->_contactId}" );
+            $url = CRM_Utils_System::url('civicrm/contact/view',
+                                         "show=1&action=browse&reset=1&history={$history}&cid={$this->_contactId}&selectedChild=activity" );
         }
         $session->pushUserContext( $url );
         

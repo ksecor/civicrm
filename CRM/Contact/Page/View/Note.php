@@ -182,20 +182,21 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
             self::$_links = array(
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
-                                                                    'url'   => 'civicrm/contact/view/note',
-                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%',
+                                                                    'url'   => 'civicrm/contact/view',
+                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=note',
                                                                     'title' => ts('View Note')
                                                                     ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/contact/view/note',
-                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%',
+',
+                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=note',
                                                                     'title' => ts('Edit Note')
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/contact/view/note',
-                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%',
+                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=note',
                                                                     'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',                                                                    
                                                                     'title' => ts('Delete Note')
                                                                     ),

@@ -117,7 +117,7 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
 
         switch ( $context ) {
         case 'basic':
-            $url = CRM_Utils_System::url( 'civicrm/contact/view/basic',
+            $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                           'reset=1&cid=' . $this->_contactId );
             break;
 
@@ -127,8 +127,8 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
             break;
 
         case 'contribution':
-            $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
-                                          'reset=1&force=1&cid=' . $this->_contactId );
+            $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=contribute" );
             break;
 
         default:

@@ -65,7 +65,7 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
             $dao = &new CRM_Core_DAO();
             $dao->query($sql);
             if ( $dao->fetch() ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view/basic', "reset=1&cid=$values[honor_contact_id]" );
+                $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid=$values[honor_contact_id]" );
                 $values["honor_display"] = "<A href = $url>". $dao->display_name ."</A>"; 
             }
         }

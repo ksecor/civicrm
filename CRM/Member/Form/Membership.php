@@ -116,13 +116,15 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             return;
         }
 
+        $urlParams = "reset=1&cid={$this->_contactID}&context=membership";
         if ( $this->_id ) {
-            $url = "civicrm/contact/view/membership&action=update&reset=1&cid=$this->_contactID&id=$this->_id&context=membership";
+            $urlParams .= "&action=update&id={$this->_id}";
         } else {
-            $url = "civicrm/contact/view/membership&reset=1&action=add&cid=$this->_contactID&context=membership";
+            $urlParams = "&action=add";
         }
 
-        $url = CRM_Utils_System::url($url); 
+        $url = CRM_Utils_System::url('civicrm/contact/view/membership',
+                                     $urlParams ); 
         $this->assign("refreshURL",$url);
 
         $this->applyFilter('__ALL__', 'trim');
@@ -243,7 +245,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             //CRM_Core_Error::debug('calcStatus', $calcStatus);
             if (empty($calcStatus)){
                 CRM_Core_Session::setStatus( ts('The membership can not be saved.<br/> No valid membership status for given dates.') );
-                return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view/membership', "reset=1&force=1&cid={$this->_contactID}"));
+                return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&force=1&cid={$this->_contactID}&selectedChild=member"));
             }
             $params['status_id'] = $calcStatus['id'];
             

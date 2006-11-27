@@ -28,7 +28,7 @@
 	 	    {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
             <dl>
             <dt></dt>
-            <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"/></dd>
+            <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view' q='action=browse&selectedChild=rel'}';"/></dd>
             </dl>
             {/foreach}
 		

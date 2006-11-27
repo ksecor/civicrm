@@ -103,7 +103,7 @@ $domainFKEY = array ('civicrm_contact')
         if ( $args[2] == 'email' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
 
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
@@ -153,7 +153,7 @@ $domainFKEY = array ('civicrm_contact')
                     if ($details) {
                         $view =& new CRM_Contact_Page_View_Email('View Email Details'); 
                     } else {
-                        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
+                        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
 
                         $wrapper =& new CRM_Utils_Wrapper( );
                         return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );

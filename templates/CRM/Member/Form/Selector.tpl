@@ -51,7 +51,7 @@
 {* Link to "View all memberships" for Contact Summary selector display *}
 {if ($context EQ 'Contact Summary') AND $member_pager->_totalItems GT $limit}
   <tr class="even-row">
-    <td colspan="7"><a href="{crmURL p='civicrm/contact/view/membership' q="reset=1&force=1&cid=$contactId"}">&raquo; {ts}View all memberships for this contact{/ts}...</a></td></tr>
+    <td colspan="7"><a href="{crmURL p='civicrm/contact/view' q="reset=1&force=1&selectedChild=member&cid=$contactId"}">&raquo; {ts}View all memberships for this contact{/ts}...</a></td></tr>
   </tr>
 {/if}
 {* {if ($context EQ 'DashBoard') AND $pager->_totalItems GT $limit}

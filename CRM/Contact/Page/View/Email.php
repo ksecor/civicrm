@@ -109,12 +109,6 @@ class CRM_Contact_Page_View_Email extends CRM_Core_Page {
             // also add the cid params to the Menu array
             CRM_Core_Menu::addParam( 'cid',  $cid);
           
-            // create menus ..
-            $startWeight = CRM_Core_Menu::getMaxWeight('civicrm/contact/view');
-            $startWeight++;
-            require_once 'CRM/Core/BAO/CustomGroup.php';
-            CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($cid), 'civicrm/contact/view/cd', $startWeight);
-                                    
         }
         parent::run();
     }

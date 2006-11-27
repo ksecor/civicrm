@@ -284,7 +284,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         if ( $contactId ) {
-            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=$activityTypeId&cid=$contactId&action=view&id=$activityId&status=true&history=1"); 
+            return CRM_Utils_System::url('civicrm/contact/view', "activity_id=$activityTypeId&cid=$contactId&action=view&id=$activityId&status=true&history=1&selectedChild=activity"); 
         } else { 
             return CRM_Utils_System::url('civicrm' ); 
         } 

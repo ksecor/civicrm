@@ -64,7 +64,7 @@
 {* Link to "View all contributions" for Contact Summary selector display *}
 {if ($context EQ 'Contact Summary') AND $contribute_pager->_totalItems GT $limit}
   <tr class="even-row">
-    <td colspan="8"><a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&force=1&cid=$contactId"}">&raquo; {ts}View all contributions from this contact{/ts}... </a></td>
+    <td colspan="8"><a href="{crmURL p='civicrm/contact/view' q="reset=1&force=1&selectedChild=contribute&cid=$contactId"}">&raquo; {ts}View all contributions from this contact{/ts}... </a></td>
   </tr>
 {/if}
 {if ($context EQ 'DashBoard') AND $pager->_totalItems GT $limit}

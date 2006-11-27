@@ -566,7 +566,7 @@ civicrm_membership_status.is_current_member =1";
         if(!$count){
             $session =& CRM_Core_Session::singleton( );
             CRM_Core_Session::setStatus(ts('There are no status present, You can not add membership.'));
-            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view/membership', "reset=1&force=1&cid={$contactId}"));
+            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&force=1&cid={$contactId}&selectedChild=member"));
         }
     }
 

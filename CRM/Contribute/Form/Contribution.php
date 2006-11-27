@@ -252,15 +252,17 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             return;
         }
 
+        $urlParams = "reset=1&cid={$this->_contactID}&context=contribution";
         if ( $this->_id ) {
-            $url = "civicrm/contact/view/contribution&reset=1&action=update&id=$this->_id&cid=$this->_contactID&context=contribution";
+            $urlParams .= "&action=update&id={$this->_id}";
         } else {
-            $url = "civicrm/contact/view/contribution&reset=1&action=add&cid=$this->_contactID&context=contribution";
+            $urlParams .= "&action=add";
         }
-        $url = CRM_Utils_System::url($url); 
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
+                                      $urlParams ); 
         $this->assign("refreshURL",$url);
 
-        $this->buldPremiumForm($this);
+        $this->buildPremiumForm($this);
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
                
         $element =& $this->addElement('select', 'contribution_type_id', 
@@ -523,7 +525,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @return None 
      */ 
     
-    function buldPremiumForm( &$form )
+    function buildPremiumForm( &$form )
     {
         require_once 'CRM/Contribute/DAO/Product.php';
         $sel1 = $sel2 = array();

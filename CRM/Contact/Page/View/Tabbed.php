@@ -166,12 +166,15 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                        'rel'           => ts( 'Relationships' ),
                        'group'         => ts( 'Groups'        ),
                        'note'          => ts( 'Notes'         ),
-                       'tag'           => ts( 'Tags'          ) );
+                       'tag'           => ts( 'Tags'          ),
+                       'log'           => ts( 'Change Log'    ) );
+        
         foreach ( $rest as $k => $v ) {
             if ( $k == 'activity' ) {
+                $history = array_key_exists( 'history', $_GET ) ? $_GET['history'] : 0;
                 $allTabs[$v] = array( 'id'  => $k,
                                       'url' => CRM_Utils_System::url( "civicrm/contact/view/$k",
-                                                                      "reset=1&show=1&snippet=1&cid={$this->_contactId}" ) );
+                                                                      "reset=1&show=1&snippet=1&history={$history}&cid={$this->_contactId}" ) );
             } else {
                 $allTabs[$v] = array( 'id' =>  $k,
                                       'url' => CRM_Utils_System::url( "civicrm/contact/view/$k",

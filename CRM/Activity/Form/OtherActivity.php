@@ -80,13 +80,16 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
             return;
         }
         
+        
+        $urlParams = "activity_id=$this->_activityType&reset=1&cid=$this->_contactId&selectedChild=activity";
         if ( $this->_id ) {
-            $url = "civicrm/contact/view/activity&activity_id=$this->_activityType&action=update&reset=1&id=$this->_id&cid=$this->_contactId&context=activity";
+            $urlParams .= "&action=update&id=$this->_id&context=activity";
         } else {
-            $url = "civicrm/contact/view/activity&activity_id=$this->_activityType&action=add&reset=1&cid=$this->_contactId";
+            $urlParams .= "&action=add";
         }
         
-        $url = CRM_Utils_System::url($url); 
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
+                                      $urlParams ); 
         $this->assign("refreshURL",$url);
         $activityType = CRM_Core_PseudoConstant::activityType(false);
         

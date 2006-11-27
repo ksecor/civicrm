@@ -75,11 +75,6 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             // also add the cid params to the Menu array
             CRM_Core_Menu::addParam( 'cid', $cid );
             
-            // create menus ..
-            $startWeight = CRM_Core_Menu::getMaxWeight('civicrm/contact/view');
-            $startWeight++;
-            CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($cid), 'civicrm/contact/view/cd', $startWeight);
-
             $this->_contactIds = array( $cid );
             $this->_single     = true;
             $emails     = CRM_Contact_BAO_Contact::allEmails( $cid );
@@ -185,8 +180,8 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         
         if ( $this->_single ) {
             // also fix the user context stack
-            $session->replaceUserContext( CRM_Utils_System::url('civicrm/contact/view/activity',
-                                                                '&show=1&action=browse&cid=' . $this->_contactIds[0] ) );
+            $session->replaceUserContext( CRM_Utils_System::url('civicrm/contact/view',
+                                                                "&show=1&action=browse&cid={$this->_contactIds[0]}&selectedChild=activity" ) );
             $this->addDefaultButtons( ts('Send Email'), 'next', 'cancel' );
         } else {
             $this->addDefaultButtons( ts('Send Email') );

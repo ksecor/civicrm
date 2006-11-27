@@ -68,10 +68,6 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
              // also add the cid params to the Menu array 
              CRM_Core_Menu::addParam( 'cid', $cid ); 
              
-             // create menus .. 
-             $startWeight = CRM_Core_Menu::getMaxWeight('civicrm/contact/view'); 
-             $startWeight++; 
-             CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($cid), 'civicrm/contact/view/cd', $startWeight); 
              $this->_contactIds = array( $cid ); 
              $this->_single     = true; 
              $this->assign( 'totalSelectedContacts', 1 );
@@ -90,7 +86,7 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
         if ( $this->_single ) {
             // also fix the user context stack in case the user hits cancel
             $session =& CRM_Core_Session::singleton( );
-            $session->replaceUserContext( CRM_Utils_System::url('civicrm/contact/view/basic',
+            $session->replaceUserContext( CRM_Utils_System::url('civicrm/contact/view',
                                                                 'reset=1&cid=' . $this->_contactIds[0] ) );
             $this->addDefaultButtons( ts('Delete Contacts'), 'done', 'cancel' );
         } else {
