@@ -446,13 +446,16 @@ class CRM_Contribute_BAO_Query
         
         // add null checkboxes for thank you and receipt
         $form->addElement( 'checkbox', 'contribution_thankyou_date_isnull', ts( 'Thank-you date not set?' ) );
-        $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt date not set?' ) );
+        $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt not set?' ) );
 
         //add fields for honor search
         $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
         $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions ?' ) );
-        
-        $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Find Recurring Contributions ?' ) );
+
+        $config =& CRM_Core_Config::singleton( );
+        if ($config->paymentProcessor == "PayPal_Standard") {
+            $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Recurring Contributions Only' ) );
+        }
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

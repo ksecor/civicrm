@@ -32,22 +32,22 @@
         <tr>
             <td class="label">{ts}Contribution Page{/ts}</td> 
             <td>{$form.contribution_page_id.html}</td> 
-            <td colspan="2">{$form.contribution_receipt_date_isnull.html}&nbsp;<label>{ts}Receipt not sent?{/ts}</label></td>
+            <td colspan="2">{$form.contribution_receipt_date_isnull.html}&nbsp;{$form.contribution_receipt_date_isnull.label}</td>
         </tr>
         <tr>
             <td class="label">{ts}Status{/ts}</td> 
             <td>{$form.contribution_status.html}</td>
-            <td colspan="2">{$form.contribution_thankyou_date_isnull.html}&nbsp;<label>{ts}Thank-you not sent?{/ts}</label></td>
+            <td colspan="2">{$form.contribution_thankyou_date_isnull.html}&nbsp;{$form.contribution_thankyou_date_isnull.label}</td>
         </tr>
         <tr>
             <td class="label">{$form.contribution_in_honor_of.label}</td> 
             <td>{$form.contribution_in_honor_of.html}</td> 
-            <td colspan="2">{$form.contribution_test.html}&nbsp;<label>{ts}Find Test Contributions{/ts}</label></td> 
+            <td colspan="2">{$form.contribution_test.html}&nbsp;{$form.contribution_test.label}</td> 
         </tr>
         <tr>
             <td class="label">{$form.contribution_source.label}</td>
             <td colspan="2">{$form.contribution_source.html}</td>
-            <td colspan="2">{$form.contribution_recurring.html}&nbsp;<label>{ts}Find Recurring Contributions{/ts}</label></td>
+            <td colspan="2">{$form.contribution_recurring.html}&nbsp;{$form.contribution_recurring.label}</td>
         </tr>
         <tr>
             <td colspan="4">
