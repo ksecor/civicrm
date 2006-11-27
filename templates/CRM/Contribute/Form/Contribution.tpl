@@ -62,31 +62,25 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</td></tr>
         <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
         
-    <div id="showHonorOfDetails_show">
-    <tr><td class="label">{$form.contribution_honor.label}</td><td>{$form.contribution_honor.html}</td></tr>
-    </div>
+        <tr id="showHonorOfDetails_show"><td class="label">{$form.contribution_honor.label}</td><td>{$form.contribution_honor.html}</td></tr>
+
+        <tr id="showHonorOfDetailsPrefix"><td class="label">{$form.honor_prefix.label}</td><td>{$form.honor_prefix.html}</td></tr>
+        <tr id="showHonorOfDetailsFname"><td class="label">{$form.honor_firstname.label}</td><td>{$form.honor_firstname.html}</td>
+        <tr id="showHonorOfDetailsLname"><td class="label">{$form.honor_lastname.label}</td><td>{$form.honor_lastname.html}</td>
+        <tr id="showHonorOfDetailsEmail"><td class="label">{$form.honor_email.label}</td><td>{$form.honor_email.html}</td>
     </table>
-     <div id ="showHonorOfDetails" class="form-item">
-         <dt>{$form.honor_prefix.label}</dt><dd>{$form.honor_prefix.html}</dd>
-         <dt>{$form.honor_firstname.label}</dt><dd>{$form.honor_firstname.html}</dd>
-         <dt>{$form.honor_lastname.label}</dt><dd>{$form.honor_lastname.html}</dd>
-         <dt>{$form.honor_email.label}</dt><dd>{$form.honor_email.html}</dd>
-     </div>          
     
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="contribution_honor"
+    trigger_value       =""
+    target_element_id   ="showHonorOfDetailsPrefix|showHonorOfDetailsFname|showHonorOfDetailsLname|showHonorOfDetailsEmail" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
 
     {literal}
     <script type="text/javascript">
-    showHonorOfDetails();
-    function showHonorOfDetails()
-    {
-        var checkbox = document.getElementsByName("contribution_honor");
-        if (checkbox[0].checked ){
-            document.getElementById("showHonorOfDetails").style.display = "block";              
-        } else {
-            document.getElementById("showHonorOfDetails").style.display = "none"; 
-        }
-    }
-    
     function reload(refresh) {
         var contributionType = document.getElementById("contribution_type_id");
         var url = {/literal}"{$refreshURL}"{literal}
@@ -95,8 +89,6 @@
             window.location= post; 
         }
      }
-  
-
     </script>
     {/literal}
 

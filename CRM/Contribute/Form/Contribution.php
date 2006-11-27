@@ -298,7 +298,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
         
-        $this->addElement('checkbox','contribution_honor', ts('Contribution is In Honor Of'),null, array('onclick' =>"showHonorOfDetails()"));
+        $this->addElement('checkbox','contribution_honor', ts('Contribution is In Honor Of'),null, array('onclick' =>"return showHideByValue('contribution_honor','','showHonorOfDetailsPrefix|showHonorOfDetailsFname|showHonorOfDetailsLname|showHonorOfDetailsEmail','table-row','radio',false);"));
         $this->add('select','honor_prefix',ts('Prefix') ,array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
         $this->add('text','honor_firstname',ts(' First Name'));
         $this->add('text','honor_lastname',ts('Last Name'));
