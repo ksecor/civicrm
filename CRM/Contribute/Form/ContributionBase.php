@@ -236,7 +236,7 @@ contact the site administrator and notify them of this error' ) );
  
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_values['is_recur'] && 
-             $config->enableRecur ) {
+             $config->enableRecurContribution ) {
             $this->assign( 'is_recur_enabled', 1 );
             $vars = array_merge( $vars, array( 'is_recur', 'frequency_interval', 'frequency_unit',
                                                'installments' ) );

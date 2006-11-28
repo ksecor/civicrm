@@ -118,7 +118,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $this->_values['is_monetary'] ) {
             $this->buildCreditCard( );
 
-            if ( $this->_values['is_recur'] && $config->enableRecur) {
+            if ( $this->_values['is_recur'] && $config->enableRecurContribution) {
                 $this->buildRecur( );
             }
         }
