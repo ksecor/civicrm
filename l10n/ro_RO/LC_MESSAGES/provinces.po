@@ -9,12 +9,13 @@ msgstr ""
 "Project-Id-Version: iso-codes 0.55\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-09-08 08:52+0200\n"
-"PO-Revision-Date: 2002-01-05 17:40+0000\n"
-"Last-Translator: Claudiu Costin <claudiuc@geocities.com>\n"
+"PO-Revision-Date: 2006-11-15 04:39-0800\n"
+"Last-Translator: Claudiu Cristea <clau.cristea@gmail.com>\n"
 "Language-Team: Romanian <ro-kde@egroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 #. name for AE-AZ
 msgid "Abu Zaby"
@@ -9648,57 +9649,51 @@ msgstr ""
 
 #. name for MD-GA
 msgid "Gagauzia, Unitate Teritoriala Autonoma"
-msgstr ""
+msgstr "Găgăuzia, Unitate Teritorială Autonomă"
 
 #. name for MD-CU
-#, fuzzy
 msgid "Chisinau"
-msgstr "XChat"
+msgstr "Chişinău"
 
 #. name for MD-SN
 msgid "Stinga Nistrului, unitatea teritoriala din"
-msgstr ""
+msgstr "Stânga Nistrului, unitate teritorială din"
 
 #. name for MD-BA
-#, fuzzy
 msgid "Balti"
-msgstr "Matematică"
+msgstr "Bălţi"
 
 #. name for MD-CA
-#, fuzzy
 msgid "Cahul"
-msgstr "Pine"
+msgstr "Cahul"
 
 #. name for MD-ED
-#, fuzzy
 msgid "Edinet"
-msgstr "Pine"
+msgstr "Edineţ"
 
 #. name for MD-LA
-#, fuzzy
 msgid "Lapusna"
-msgstr "Fulger"
+msgstr "Lăpuşna"
 
 #. name for MD-OR
 msgid "Orhei"
-msgstr ""
+msgstr "Orhei"
 
 #. name for MD-SO
 msgid "Soroca"
-msgstr ""
+msgstr "Soroca"
 
 #. name for MD-TA
 msgid "Taraclia"
-msgstr ""
+msgstr "Taraclia"
 
 #. name for MD-TI
-#, fuzzy
 msgid "Tighina [Bender]"
-msgstr "XChat"
+msgstr "Tighina"
 
 #. name for MD-UN
 msgid "Ungheni"
-msgstr ""
+msgstr "Ungheni"
 
 #. name for MG-T
 msgid "Antananarivo"
@@ -11958,178 +11953,171 @@ msgstr ""
 
 #. name for RO-B
 msgid "Bucuresti"
-msgstr ""
+msgstr "Bucureşti"
 
 #. name for RO-AB
 msgid "Alba"
-msgstr ""
+msgstr "Alba"
 
 #. name for RO-AR
 msgid "Arad"
-msgstr ""
+msgstr "Arad"
 
 #. name for RO-AG
-#, fuzzy
 msgid "Arges"
-msgstr "Arena"
+msgstr "Argeş"
 
 #. name for RO-BC
 msgid "Bacau"
-msgstr ""
+msgstr "Bacău"
 
 #. name for RO-BH
 msgid "Bihor"
-msgstr ""
+msgstr "Bihor"
 
 #. name for RO-BN
 msgid "Bistrita-Nasaud"
-msgstr ""
+msgstr "Bistriţa Năsăud"
 
 #. name for RO-BT
 msgid "Boto'ani"
-msgstr ""
+msgstr "Botoşani"
 
 #. name for RO-BV
 msgid "Bra'ov"
-msgstr ""
+msgstr "Braşov"
 
 #. name for RO-BR
-#, fuzzy
 msgid "Braila"
-msgstr "Panglică"
+msgstr "Brăila"
 
 #. name for RO-BZ
 msgid "Buzau"
-msgstr ""
+msgstr "Buzău"
 
 #. name for RO-CS
 msgid "Caras-Severin"
-msgstr ""
+msgstr "Caraş Severin"
 
 #. name for RO-CL
 msgid "Ca la ras'i"
-msgstr ""
+msgstr "Călăraşi"
 
 #. name for RO-CJ
 msgid "Cluj"
-msgstr ""
+msgstr "Cluj"
 
 #. name for RO-CT
 msgid "Constant'a"
-msgstr ""
+msgstr "Constanţa"
 
 #. name for RO-CV
-#, fuzzy
 msgid "Covasna"
-msgstr "Cărţi"
+msgstr "Covasna"
 
 #. name for RO-DB
 msgid "Dambovit'a"
-msgstr ""
+msgstr "Dâmboviţa"
 
 #. name for RO-DJ
 msgid "Dolj"
-msgstr ""
+msgstr "Dolj"
 
 #. name for RO-GL
 msgid "Galat'i"
-msgstr ""
+msgstr "Galaţi"
 
 #. name for RO-GR
 msgid "Giurgiu"
-msgstr ""
+msgstr "Giurgiu"
 
 #. name for RO-GJ
 msgid "Gorj"
-msgstr ""
+msgstr "Gorj"
 
 #. name for RO-HR
 msgid "Harghita"
-msgstr ""
+msgstr "Harghita"
 
 #. name for RO-HD
-#, fuzzy
 msgid "Hunedoara"
-msgstr "Sonar"
+msgstr "Hunedoara"
 
 #. name for RO-IL
 msgid "Ialomit'a"
-msgstr ""
+msgstr "Ialomiţa"
 
 #. name for RO-IS
 msgid "Ias'i"
-msgstr ""
+msgstr "Iaşi"
 
 #. name for RO-IF
-#, fuzzy
 msgid "Ilfov"
-msgstr "Sonar"
+msgstr "Ilfov"
 
 #. name for RO-MM
 msgid "Maramures"
-msgstr ""
+msgstr "Maramureş"
 
 #. name for RO-MH
 msgid "Mehedint'i"
-msgstr ""
+msgstr "Mehedinţi"
 
 #. name for RO-MS
 msgid "Mures"
-msgstr ""
+msgstr "Mureş"
 
 #. name for RO-NT
 msgid "Neamt"
-msgstr ""
+msgstr "Neamţ"
 
 #. name for RO-OT
 msgid "Olt"
-msgstr ""
+msgstr "Olt"
 
 #. name for RO-PH
 msgid "Prahova"
-msgstr ""
+msgstr "Prahova"
 
 #. name for RO-SM
 msgid "Satu Mare"
-msgstr ""
+msgstr "Satu Mare"
 
 #. name for RO-SJ
 msgid "Sa laj"
-msgstr ""
+msgstr "Sălaj"
 
 #. name for RO-SB
 msgid "Sibiu"
-msgstr ""
+msgstr "Sibiu"
 
 #. name for RO-SV
 msgid "Suceava"
-msgstr ""
+msgstr "Suceava"
 
 #. name for RO-TR
-#, fuzzy
 msgid "Teleorman"
-msgstr "Gravitaţie"
+msgstr "Teleorman"
 
 #. name for RO-TM
 msgid "Timis"
-msgstr ""
+msgstr "Timiş"
 
 #. name for RO-TL
 msgid "Tulcea"
-msgstr ""
+msgstr "Tulcea"
 
 #. name for RO-VS
 msgid "Vaslui"
-msgstr ""
+msgstr "Vaslui"
 
 #. name for RO-VL
 msgid "Valcea"
-msgstr ""
+msgstr "Vâlcea"
 
 #. name for RO-VN
-#, fuzzy
 msgid "Vrancea"
-msgstr "Ciudat"
+msgstr "Vrancea"
 
 #. name for RU-AD
 msgid "Adygeya, Respublika"
