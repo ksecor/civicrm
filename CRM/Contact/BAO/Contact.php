@@ -522,16 +522,18 @@ ORDER BY
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true) {
+    static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true, $invokeHooks = true ) {
         if (!$params['contact_type']) {
             return;
         }
-        
-        require_once 'CRM/Utils/Hook.php';
-        if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $ids['contact'], $params );
-        } else {
-            CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params ); 
+
+        if ( $invokeHooks ) {
+            require_once 'CRM/Utils/Hook.php';
+            if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
+                CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $ids['contact'], $params );
+            } else {
+                CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params ); 
+            }
         }
 
         CRM_Core_DAO::transaction('BEGIN');
@@ -604,10 +606,12 @@ ORDER BY
 
         CRM_Core_DAO::transaction('COMMIT');
         
-        if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-            CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
-        } else {
-            CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
+        if ( $invokeHooks ) {
+            if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
+                CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
+            } else {
+                CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
+            }
         }
 
         $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);

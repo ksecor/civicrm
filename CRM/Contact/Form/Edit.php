@@ -463,19 +463,25 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 
         // action is taken depending upon the mode
         $ids = array();
+        require_once 'CRM/Utils/Hook.php';
         if ($this->_action & CRM_Core_Action::UPDATE) {
             // if update get all the valid database ids
             // from the session
             $ids = $this->get('ids');
+            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $ids['contact'], $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
         }
+
 
         $params['contact_type'] = $this->_contactType;
         if( ! $params['is_deceased'] == 1 ) { 
             $params['deceased_date'] = null;
         }
+
         
         $config  =& CRM_Core_Config::singleton( );
-        $contact = CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks );
+        $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks, false );
      
         //add contact to gruoup
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
@@ -547,9 +553,16 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 }
             }
         }
+
         // do the updates/inserts
         CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, $this->_contactType, $contact->id);
     
+        // now invoke the post hook
+        if ($this->_action & CRM_Core_Action::UPDATE) {
+            CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
+        } else {
+            CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
+        }
     }
 
     /**
