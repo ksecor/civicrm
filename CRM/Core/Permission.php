@@ -122,7 +122,7 @@ class CRM_Core_Permission {
             return false;
         }
 
-        if ( $checkPermssion &&
+        if ( $checkPermission &&
              ! CRM_Core_Permission::check( "access $module" ) ) {
             return false;
         }
