@@ -1264,14 +1264,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $contactId,
                                                           CRM_Contact_Form_GroupTag::GROUP,
                                                           true, $required,
-                                                          $title, null );
+                                                          $title, null, $name );
         } else if ( $fieldName === 'tag' ) {
             require_once 'CRM/Contact/Form/GroupTag.php';
             CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $contactId,
                                                           CRM_Contact_Form_GroupTag::TAG,
                                                           false, $required,
-                                                          null, $title
-                                                          );
+                                                          null, $title, $name );
 
         } else if (substr($fieldName, 0, 6) === 'custom') {
             $customFieldID = CRM_Core_BAO_CustomField::getKeyID($fieldName);
@@ -1353,10 +1352,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 if ( $name == 'group' ) {                   
-                    CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::GROUP ); 
+                    CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::GROUP, $fldName ); 
                 }
                 if( $name == 'tag' ) {
-                    CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::TAG ); 
+                    CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::TAG, $fldName ); 
                 }
                 if (CRM_Utils_Array::value($name, $details ) || isset( $details[$name] ) ) {
                     //to handle custom data (checkbox) to be written
