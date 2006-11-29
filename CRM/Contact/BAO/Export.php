@@ -210,7 +210,8 @@ class CRM_Contact_BAO_Export {
                 }
             }
             if ( $validRow ) {
-                $contactDetails[$dao->contact_id] = $row;
+                //$contactDetails[$dao->contact_id] = $row;Commented because of CRM-1416
+                $contactDetails[] = $row;
             }
             $header = true;
         }
