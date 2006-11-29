@@ -61,7 +61,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
                                 array(  'type'  => 'next',
                                         'name'  => ts('Done'),
                                         'isDefault' => true),
-                                array(  'type'  => 'Cancel',
+                                array(  'type'  => 'cancel',
                                         'name'  => ts('Cancel')),
                             )
                         );
