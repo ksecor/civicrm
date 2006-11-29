@@ -481,7 +481,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         
         $config  =& CRM_Core_Config::singleton( );
-        $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks, false );
+        $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks, true, false );
      
         //add contact to gruoup
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
