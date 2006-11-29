@@ -27,7 +27,7 @@
 ** Currently it is used on the dashboard page of Contribution
 */
 #crm-container div.solid-border-bottom {
- border-bottom: 2px solid #777
+ border-bottom: 2px solid #777;
 }
 
 /*
@@ -285,9 +285,11 @@ div.spacer, .spacer {
 #crm-container .header-dark {
   margin: 0.5em 0em 0.5em;
   padding: 0.5em;
-  background-color: #B0B0B0;
+  /*background-color: #B0B0B0;*/
+  background-color: #4D94E3;
   font-weight: bold;
-  color: #FFFFFF;
+  /*color: #FFFFFF;*/
+  color: #BADAFF;
 }
 
 #crm-container div.display-block {
@@ -380,7 +382,7 @@ div.spacer, .spacer {
   width: 100%;
   border-collapse: collapse;
   /*border: 1px solid #000000;*/
-  border: 1px solid #4A88DF;
+  border: 1px solid #4E82CF; /*#4A88DF;*/
 }
 
 #crm-container #map-field table, #crm-container table.report  {
@@ -408,11 +410,13 @@ div.spacer, .spacer {
   border: 1px solid #5A8FDB;
 }
 #crm-container tr.columnheader-dark {
-  background-color: #B0B0B0;
-  color: #FFFFFF;
-  border: 1px solid #000000;
+  /*background-color: #B0B0B0;*/
+  background-color: #4D94E3;
+  /*color: #FFFFFF;*/
+  color: #CDE4FF;
+  /*border: 1px solid #000000;*/
+  border: 1px solid #5A8FDB;
 }
-
 #crm-container th {
   padding: 8px 4px 4px 4px;
   /*border-bottom: 1px solid #000;*/
@@ -425,7 +429,8 @@ div.spacer, .spacer {
   font-weight: bold;
 }
 #crm-container tr.columnfooter {
-  border-top: 2px solid #000000;
+  /*border-top: 2px solid #000000;*/
+  border-top: 2px solid #4E82CF; /*#4574BA;*//*#4A88DF;*/
   font-size: 1.1em;
 }
 
@@ -555,7 +560,7 @@ div.crm-pager {
 
 div.crm-pager a {
   /*color: #FFFFFF;*/
-  color: #BADAFF;
+  color: #CDE4FF;/*#BADAFF;*/
 }
 
 .crm-pager-nav {
@@ -575,7 +580,8 @@ div.crm-pager a {
 #crm-container .data-group-first {
   margin: 10px 5px 5px 5px;
   padding: 5px;
-  border-top: 2px solid #B0B0B0;
+  /*border-top: 2px solid #B0B0B0;*/
+  border-top: 2px solid #85ACE8;
   clear: both;
 }
 
