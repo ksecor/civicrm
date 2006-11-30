@@ -104,6 +104,8 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
             if ( is_numeric($groupContactId) && $status ) {
                 $this->del( $groupContactId,$status );
             }
+            $session =& CRM_Core_Session::singleton();
+            CRM_Utils_System::redirect( $session->popUserContext() );
         }
 
         $this->edit( CRM_Core_Action::ADD );

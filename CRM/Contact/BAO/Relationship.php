@@ -453,6 +453,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function setIsActive( $id, $is_active ) 
     {
+         // set the userContext stack
+        $session =& CRM_Core_Session::singleton();
+
+        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=rel' );
+        $session->pushUserContext( $url );
         return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Relationship', $id, 'is_active', $is_active );
     }
 
