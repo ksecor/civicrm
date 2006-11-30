@@ -47,7 +47,7 @@
 
     function popUp() {
        {/literal}
-       var from = '{$location.address}';
+       var from = "{$location.address}";
        {literal}
        var to   = document.getElementById('to').value;
        var URL  = "http://maps.google.com/maps?saddr=" + from + "&daddr=" + to;
