@@ -346,6 +346,18 @@ ORDER BY
             $lastName   = CRM_Utils_Array::value('last_name' , $params, '');
             $prefix_id  = CRM_Utils_Array::value('prefix_id'    , $params, '');
             $suffix_id  = CRM_Utils_Array::value('suffix_id'    , $params, '');
+
+            // get prefix and suffix names
+            $prefixes = CRM_Core_PseudoConstant::individualPrefix();
+            $suffixes = CRM_Core_PseudoConstant::individualSuffix();
+            
+            $prefix = $suffix = null;
+            if ( $prefix_id ) {
+                $prefix = $prefixes[$prefix_id];
+            }
+            if ( $suffix_id ) {
+                $suffix = $suffixes[$suffix_id];
+            }
             
             // a comma should only be present if both first_name and last name are present.
             if ($firstName && $lastName) {
@@ -373,7 +385,7 @@ ORDER BY
                         $firstName = $individualFirstName;
                     }
                                                             
-                    if (empty($prefix_id) && !empty($individualPrefix)) {
+                    if (empty($prefix) && !empty($individualPrefix)) {
                         $prefix = $individualPrefix;
                     }
                     
@@ -381,7 +393,7 @@ ORDER BY
                         $middleName = $individualMiddleName;
                     }
                     
-                    if (empty($suffix_id) && !empty($individualSuffix)) {
+                    if (empty($suffix) && !empty($individualSuffix)) {
                         $suffix = $individualSuffix;
                     }
                     
@@ -391,12 +403,9 @@ ORDER BY
             if (trim($sortName)) {
                 $contact->sort_name    = trim($sortName);
             }
-            // get prefix and suffix names
-            $prefix = CRM_Core_PseudoConstant::individualPrefix();
-            $suffix = CRM_Core_PseudoConstant::individualSuffix();
-            
+  
             $display_name =
-                trim( $prefix[$prefix_id] . ' ' . $firstName . ' ' . $middleName . ' ' . $lastName . ' ' . $suffix[$suffix_id] );
+                trim( "$prefix $firstName $middleName $lastName $suffix" );
             $display_name = str_replace( '  ', ' ', $display_name );
 
             if (trim($display_name)) {

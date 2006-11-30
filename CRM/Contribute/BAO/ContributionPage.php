@@ -89,6 +89,9 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template );
             self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template );
 
+            // set email in the template here
+            $template->assign( 'email', $email );
+
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
            

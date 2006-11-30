@@ -108,7 +108,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         }
 
         // add state_id if state is set
-        if ( ! is_numeric( $params['state_province_id'] ) &&
+        if ( isset( $params['state_province_id'] ) &&
+             ! is_numeric( $params['state_province_id'] ) &&
              isset( $params['state_province'] ) ) {
             $state_province       = & new CRM_Core_DAO_StateProvince();
             $state_province->name = $params['state_province'];
@@ -121,7 +122,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         }
 
         // add country id if not set
-        if ( ! is_numeric( $params['country_id'] ) &&
+        if ( isset( $params['country_id'] ) && ! is_numeric( $params['country_id'] ) &&
              isset( $params['country'] ) ) {
             $country       = & new CRM_Core_DAO_Country( );
             $country->name = $params['country'];
@@ -135,7 +136,9 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             
         // currently copy values populates empty fields with the string "null"
         // and hence need to check for the string null
-        if ( is_numeric( $params['state_province_id'] ) && ( !isset($params['country_id']) || empty($params['country_id']))) {
+        if (isset( $params['state_province_id'] ) && 
+            is_numeric( $params['state_province_id'] ) &&
+            ( !isset($params['country_id']) || empty($params['country_id']))) {
             // since state id present and country id not present, hence lets populate it
             // jira issue http://objectledge.org/jira/browse/CRM-56
             $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
@@ -145,11 +148,11 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         }
 
         // add state and country names from the ids
-        if ( is_numeric( $params['state_province_id'] ) ) {
+        if ( isset( $params['state_province_id'] ) && is_numeric( $params['state_province_id'] ) ) {
              $params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $params['state_province_id'] );
         }
-
-        if ( is_numeric( $params['country_id'] ) ) {
+        
+        if ( isset( $params['country_id'] ) && is_numeric( $params['country_id'] ) ) {
              $params['country'] = CRM_Core_PseudoConstant::country($params['country_id']);
         }
         

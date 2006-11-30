@@ -60,10 +60,10 @@ class CRM_Contribute_BAO_FinancialTrxn extends CRM_Contribute_DAO_FinancialTrxn
         $trxn->domain_id = CRM_Core_Config::domainID( );
         
         require_once 'CRM/Utils/Rule.php';
-        if (!CRM_Utils_Rule::currencyCode($contribution->currency)) {
+        if (!CRM_Utils_Rule::currencyCode($trxn->currency)) {
             require_once 'CRM/Core/Config.php';
             $config =& CRM_Core_Config::singleton();
-            $contribution->currency = $config->defaultCurrency;
+            $trxn->currency = $config->defaultCurrency;
         }
         
         return $trxn->save();

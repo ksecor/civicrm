@@ -185,18 +185,8 @@ contact the site administrator and notify them of this error' ) );
 
 
         //assign cancelSubscription URL to templates
-        $cancelSubscriptionUrl = '';
-        
-        if ( $this->_mode == 'live' ) {
-            if ( $config->paymentProcessor == 'PayPal_Standard' ) {
-                $cancelSubscriptionUrl = 'https://www.paypal.com/cgi-bin/webscr?cmd=_subscr-find&alias=' . urlencode($config->paymentUsername['live']);
-            }
-        } else {
-            if ( $config->paymentProcessor == 'PayPal_Standard' ) {
-                $cancelSubscriptionUrl = 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_subscr-find&alias=' . urlencode($config->paymentUsername['test']);
-            }
-        }
-        $this->assign( 'cancelSubscriptionUrl', $cancelSubscriptionUrl );
+        $this->assign( 'cancelSubscriptionUrl',
+                       self::cancelSubscriptionURL( $config, $this->_mode ) );
         
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
@@ -204,6 +194,18 @@ contact the site administrator and notify them of this error' ) );
 
         $this->_defaults = array( );
 
+    }
+
+    static function cancelSubscriptionURL( &$config, $mode ) {
+        $cancelSubscriptionURL = null;
+        if ( $config->paymentProcessor == 'PayPal_Standard' ) {
+            if ( $mode == 'live' ) {
+                $cancelSubscriptionURL = "https://{$config->paymentPayPalExpressUrl}/cgi-bin/webscr?cmd=_subscr-find&alias=" . urlencode($config->paymentUsername['live']);
+            } else {
+                $cancelSubscriptionURL = "https://{$config->paymentPayPalExpressTestUrl}/cgi-bin/webscr?cmd=_subscr-find&alias=" . urlencode($config->paymentUsername['test']);
+            }
+        }
+        return $cancelSubscriptionURL;
     }
 
     /** 
