@@ -572,11 +572,15 @@ div.crm-pager a {
 ** Styles for View pages
 */
 #crm-container .data-group {
-  margin: 5px;
+  /*margin: 5px;*/
+  margin: 0px 0px 5px 5px;
   padding: 5px;
   border-bottom: 2px solid #B0B0B0;
 }
-
+#crm-container .data-group-no-border {
+  margin: 0px 0px 5px 5px;
+  padding: 5px;
+}
 #crm-container .data-group-first {
   margin: 10px 5px 5px 5px;
   padding: 5px;

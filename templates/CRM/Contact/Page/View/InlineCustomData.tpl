@@ -13,7 +13,7 @@
                 </div>
 
 
-                <div id="{$cd.name}">
+                <div id="{$cd.name}" class="data-group-no-border">
                 <fieldset><legend><a href="#" onclick="hide('{$cd.name}'); show('{$cd.name}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd.title}{/ts}</legend>
                     <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}
