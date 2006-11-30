@@ -1162,12 +1162,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function filterUFGroups ($ufGroupId) 
+    static function filterUFGroups ($ufGroupId, $contactId = null) 
     {
-        global $user;
-
-        require_once "CRM/Core/BAO/UFMatch.php";
-        $contactId = CRM_Core_BAO_UFMatch::getContactId($user->uid);
+        if ( ! $contactId ) {
+            global $user;
+            
+            require_once "CRM/Core/BAO/UFMatch.php";
+            $contactId = CRM_Core_BAO_UFMatch::getContactId($user->uid);
+        }
 
         if ($contactId) {
             //get the contact type

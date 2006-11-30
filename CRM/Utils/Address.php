@@ -67,7 +67,9 @@ class CRM_Utils_Address {
         $formatted = $format;
         
         $fullPostalCode = $fields['postal_code'];
-        if ($fields['postal_code_suffix']) $fullPostalCode .= "-$fields[postal_code_suffix]";
+        if (isset( $fields['postal_code_suffix'] ) ) {
+            $fullPostalCode .= "-$fields[postal_code_suffix]";
+        }
         
         if (! $microformat) {
             $replacements = array(
