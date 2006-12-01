@@ -71,9 +71,6 @@ class CRM_Utils_Geocode_Google {
              ! CRM_Utils_Array::value( 'country'        , $values  ) ) {
             return false;
         }
-        if ( $values['country'] != 'United States' ) {
-            return false;
-        }
         
         $config =& CRM_Core_Config::singleton( );
         
@@ -85,38 +82,42 @@ class CRM_Utils_Geocode_Google {
             $add = urlencode( str_replace('', '+', $values['street_address']) );
         }
         
-         if (  CRM_Utils_Array::value( 'city', $values ) ) { 
+        if (  CRM_Utils_Array::value( 'city', $values ) ) { 
              $add .= '+' . urlencode( str_replace('', '+', $values['city']) );
-         }
-         
-         if (  CRM_Utils_Array::value( 'state_province', $values ) ) { 
-             $add .= '+' . urlencode( str_replace('', '+', $values['state_province']) );
-         }
-         
-         if (  CRM_Utils_Array::value( 'postal_code', $values ) ) { 
-             $add .= '+' .urlencode( str_replace('', '+', $values['postal_code']) );
-         }
+        }
         
-         $query = 'http://' . self::$_server . self::$_uri . '?' . $add . $arg;
-
-         require_once 'HTTP/Request.php';
-         $request =& new HTTP_Request( $query );
-         $request->sendRequest( );
-         $string = $request->getResponseBody( );
-
-         $xml = simplexml_load_string( $string );
-
-         $ret = array( );
-         $val = array( );
-         if ( $xml->Response->Placemark->Point ) {
-             $ret = $xml->Response->Placemark->Point->children();             
-             $val = explode(',', (string)$ret[0]);
-             if ( $val[0] && $val[1] ) {
-                 $values['geo_code_1'] = $val[0];
-                 $values['geo_code_2'] = $val[1];
-             }
-         }
-         return true;
+        if (  CRM_Utils_Array::value( 'state_province', $values ) ) { 
+            $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province'], 'name', 'abbreviation' );
+            $add .= '+' . urlencode( str_replace('', '+', $stateProvince) );
+        }
+        
+        if (  CRM_Utils_Array::value( 'country', $values ) ) { 
+            $add .= '+' . urlencode( str_replace('', '+', $values['country']) );
+        }
+        
+        if (  CRM_Utils_Array::value( 'postal_code', $values ) ) { 
+            $add .= '+' .urlencode( str_replace('', '+', $values['postal_code']) );
+        }
+        
+        $query = 'http://' . self::$_server . self::$_uri . '?' . $add . $arg;
+        
+        require_once 'HTTP/Request.php';
+        $request =& new HTTP_Request( $query );
+        $request->sendRequest( );
+        $string = $request->getResponseBody( );
+        
+        $xml = simplexml_load_string( $string );
+        $ret = array( );
+        $val = array( );
+        if ( is_a($xml->Response->Placemark->Point, 'SimpleXMLElement') ) {
+            $ret = $xml->Response->Placemark->Point->children();             
+            $val = explode(',', (string)$ret[0]);
+            if ( $val[0] && $val[1] ) {
+                $values['geo_code_1'] = $val[1];
+                $values['geo_code_2'] = $val[0];
+            }
+        }
+        return true;
     }
 }
 ?>
