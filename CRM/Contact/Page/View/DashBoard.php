@@ -36,12 +36,13 @@
 
 require_once 'CRM/Contact/Page/View.php';
 require_once 'CRM/Contact/BAO/Contact.php';
+
 /**
- * Main page for viewing history of activities.
+ * CiviCRM Dashboard
  *
  */
-
-class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View {
+class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View 
+{
 
     protected $_rows = array();
     protected $_totalCountOpenActivity = array();
