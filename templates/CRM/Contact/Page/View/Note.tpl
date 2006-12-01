@@ -1,3 +1,4 @@
+<div class="view-content">
 {if $action eq 4}{* when action is view  *}
     {if $notes}
         <p></p>
@@ -84,3 +85,4 @@
     </dl>
    </div>
 {/if}
+</div>

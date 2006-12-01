@@ -1,6 +1,5 @@
-
 {* this template is used for adding/editing tags  *}
-<div class="data-group-no-border">
+<div class="view-content">
 <fieldset><legend>{ts}Tags{/ts}</legend>
     <p>
     {if $action eq 16}
@@ -39,3 +38,4 @@
     var fname = "{$form.formName}";	
     on_load_init_check(fname);
  </script>
+</div>

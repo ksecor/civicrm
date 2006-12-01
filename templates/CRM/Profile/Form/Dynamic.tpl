@@ -31,7 +31,7 @@
 
         {if $mode ne 8} 
            {assign var="groupId" value="id_"|cat:$field.group_id}
-           <div id="{$groupId}_show" class="data-group">
+           <div id="{$groupId}_show" class="section-hidden section-hidden-border">
               <a href="#" onclick="hide('{$groupId}_show'); show('{$groupId}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$field.groupTitle}{/ts}</label><br />
            </div>
 

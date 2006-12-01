@@ -11,7 +11,7 @@
   </dl>
 </fieldset>
 
-<div class="data-group" id="previewMailing_show">
+<div class="section-hidden section-hidden-border" id="previewMailing_show">
   <a href="#" onclick="hide('previewMailing_show'); show('previewMailing'); getElementById('previewMailing').style.visibility = 'visible'; return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Preview Mailing{/ts}</label><br />
 </div>
 <div id="previewMailing" style="visibility: hidden;">

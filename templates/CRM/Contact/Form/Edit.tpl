@@ -131,10 +131,10 @@
  {include file="CRM/Contact/Form/Location.tpl"}
 
 {if $contact_type eq 'Individual'}
- <div id = "id_demographics_show" class="data-group label">
+ <div id = "id_demographics_show" class="section-hidden section-hidden-border label">
     {$demographics.show}{ts}Demographics{/ts}
  </div>
-
+ 
  <div id="id_demographics">
  <fieldset><legend>{$demographics.hide}{ts}Demographics{/ts}</legend>
     <div class="form-item">
@@ -204,7 +204,7 @@
 
  {* Notes block only included for Add Contact (since it navigates from Edit form...) *}
  {if $action eq 1}
-     <div id = "id_notes_show" class="data-group">
+     <div id = "id_notes_show" class="section-hidden section-hidden-border">
         {$notes.show}<label>{ts}Notes{/ts}</label>
      </div>
 
@@ -219,7 +219,7 @@
  {* -- End of "notes" div -- *}
 
  {* Groups and Tags block *} 
-<div id="group_show" class="data-group">
+<div id="group_show" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('group_show'); show('group'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Tags and Groups{/ts}</label><br />
 </div>
 

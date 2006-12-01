@@ -6,7 +6,7 @@
     {ts}Then select and review the premiums that you want to offer on this contribution page.{/ts}
 </div>
  
-<div id="id_form_show" class="data-group">
+<div id="id_form_show" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('id_form_show'); show('id_form'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Premiums Settings{/ts}</label><br />
 </div>
 

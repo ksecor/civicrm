@@ -4,7 +4,7 @@
 {assign var = "contactId" value= $contact_id }
 {/if}
 <div class='spacer'></div>
-<div class= "data-group">
+<div class= "section-hidden section-hidden-border">
 {if $config->smtpServer and $config->smtpServer != 'YOUR SMTP SERVER' and not $privacy.do_not_email}
    <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=3&cid=`$contactId`&reset=1"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;
    <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=3&cid=`$contactId`&reset=1"}">{ts}Send an Email{/ts}</a>&nbsp;&nbsp;

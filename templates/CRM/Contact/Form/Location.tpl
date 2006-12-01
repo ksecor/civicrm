@@ -8,7 +8,7 @@
  {section name = locationLoop start = 1 loop = $locationCount}
  {assign var=index value=$smarty.section.locationLoop.index}
 
- <div id="id_location_{$index}_show" class="data-group label">
+ <div id="id_location_{$index}_show" class="section-hidden section-hidden-border label">
     {$form.location.$index.show.html}{if $index EQ 1}{ts}Primary Location{/ts}{else}{ts}Additional Location{/ts}{/if}
  </div>
 <div id="id_location_{$index}">

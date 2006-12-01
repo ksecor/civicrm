@@ -44,13 +44,14 @@
 /*
 ** Classes for form section show/hide links
 */
-#crm-container .show-section {
+/*#crm-container .show-section {
   width: 25%;
   font-size: .95em;
   border: 1px solid #abc;
   background-color: #eee;
   padding: .5em;
   margin-bottom: 1em;
+  margin-left: 0.5em;
 }
 
 #crm-container .hide-section {
@@ -60,7 +61,7 @@
   padding: .5em;
   margin-bottom: 1em;
 }
-
+*/
 #crm-container .add-remove-link {
   font-size: .9em;
 }
@@ -98,7 +99,7 @@ div.spacer, .spacer {
 }
 */
 
-#crm-container div.form-item dl, #crm-container .data-group dl{
+#crm-container div.form-item dl, #crm-container .section-hidden dl{
  margin: 0;
 }
 
@@ -114,7 +115,7 @@ div.spacer, .spacer {
   padding: 5px 15px 5px 0px;
 }
 
-#crm-container .data-group dt {
+#crm-container .section-hidden dt {
   float: left;
   clear: left;
   width: 22%;
@@ -150,7 +151,7 @@ div.spacer, .spacer {
   padding-bottom: 20px;
 }
 
-#crm-container div.form-item dd, #crm-container .data-group dd {
+#crm-container div.form-item dd, #crm-container .section-hidden dd {
   padding: 5px;
 }
 
@@ -296,7 +297,6 @@ div.spacer, .spacer {
   font-weight: normal;
   margin: 1.0em 2.0em 1.0em 2.0em;
 }
-
 
 /* Data display layouts */
 #crm-container .col1 {
@@ -571,8 +571,7 @@ div.crm-pager a {
 /* 
 ** Styles for View pages
 */
-#crm-container .data-group {
-  /*margin: 5px;*/
+/*#crm-container .data-group {
   margin: 0px 0px 5px 5px;
   padding: 5px;
   border-bottom: 2px solid #B0B0B0;
@@ -580,6 +579,16 @@ div.crm-pager a {
 #crm-container .data-group-no-border {
   margin: 0px 0px 5px 5px;
   padding: 5px;
+}*/
+#crm-container .section-hidden, #crm-container div.view-content {
+  margin: 0px 0px 5px 5px;
+  padding: 5px;
+}
+#crm-container .section-hidden-border {
+  border-bottom: 2px solid #B0B0B0;  
+}
+#crm-container .section-shown { 
+  padding: 0px 5px;
 }
 #crm-container .data-group-first {
   margin: 10px 5px 5px 5px;
