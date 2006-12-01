@@ -61,6 +61,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */
     protected $_premiumId;
 
+    /**
+     * the id of the note 
+     *
+     * @var int
+     * @protected
+     */
+    protected $_noteId;
 
     /**
      * the id of the contact associated with this contribution
@@ -126,8 +133,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->assign( 'action'  , $this->_action   ); 
 
-        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive',
-                                                         $this );
+        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', 
+                                                          $this );
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
@@ -152,12 +159,21 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             if ( $dao->find(true) ) {
                 $this->_premiumId = $dao->id;
             }
-            
         }
-        
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
-                                                         $this );
-        
+
+        //to get note id 
+        if( $this->_id ) {
+            require_once 'CRM/Core/BAO/Note.php';
+            $daoNote = & new CRM_Core_BAO_Note();
+            $daoNote->entity_table = 'civicrm_contribution';
+            $daoNote->entity_id = $this->_id;
+            if ( $daoNote->find(true) ) {
+                $this->_noteId = $daoNote->id;
+            }
+        }
+
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $this->_contributionType);
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
@@ -170,7 +186,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return $defaults;
         }
-
+        
         if ( $this->_id ) {
             $ids = array( );
             $params = array( 'id' => $this->_id );
@@ -184,7 +200,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ($this->_contributionType) {
             $defaults['contribution_type_id'] = $this->_contributionType;
         }
-        
+
+        //get Note
+        if($this->_noteId) {
+            $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
+        }
         if ( $defaults['is_test']){
             $this->assign( "is_test" , true);
         }
@@ -201,7 +221,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $defaults["contribution_honor"]    = 1;
         }
        
-
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
@@ -442,8 +461,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                          'trxn_id',
                          'invoice_id',
                          'cancel_reason',
-                         'source',
-                         'note' );
+                         'source'
+                          );
 
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
@@ -484,14 +503,23 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $params["honor_contact_id"] = null;
         }
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
-
-        // do the updates/inserts
         
+        // do the updates/inserts
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $params['contribution_type_id']);
         
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $formValues );
        
-        
+        //process note
+        require_once 'CRM/Core/BAO/Note.php';
+        $noteParams = array('entity_table' => 'civicrm_contribution', 'note' => $formValues['note'], 'entity_id' => $contribution->id);
+        $noteID = array();
+        if( $this->_noteId ) {
+            $noteID = array("id" => $this->_noteId);
+            CRM_Core_BAO_Note::add($noteParams, $noteID);
+        } else {
+            CRM_Core_BAO_Note::add($noteParams, $noteID);
+        }
+      
         //process premium
         if( $formValues['product_name'][0] ) {
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
@@ -536,7 +564,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $min_amount = array();
         $sel1[0] = '-select product-';
         while ( $dao->fetch() ) {
-            
             $sel1[$dao->id] = $dao->name." ( ".$dao->sku." )";
             $min_amount[$dao->id] = $dao->min_contribution;
             $options = explode(',', $dao->options);
@@ -546,7 +573,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             if( $options [0] != '' ) {
                 $sel2[$dao->id] = $options;
             }
-            
             $form->assign('premiums', true );
             
         }
@@ -555,16 +581,16 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $sel =& $this->addElement('hierselect', "product_name", ts('Premium'),'onclick="showMinContrib();"');
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $form->_name;
+        
         for ( $k = 1; $k < 2; $k++ ) {
             if (!$defaults['product_name'][$k]) {
                 $js .= "{$formName}['product_name[$k]'].style.display = 'none';\n"; 
             }
         }
-
+        
         $sel->setOptions(array($sel1, $sel2 ));
         $js .= "</script>\n";
         $form->assign('initHideBoxes', $js);
-
         $form->addElement('date', 'fulfilled_date', ts('Fulfilled'), CRM_Core_SelectValues::date('manual', 3, 1));
         $form->addElement('text', 'min_amount', ts('Minimum Contribution Amount'));
     }

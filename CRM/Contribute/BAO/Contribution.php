@@ -459,13 +459,31 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
             $contribution->delete( );
         }
     }
-
-    static function deleteContribution( $id ) {
-
+    /**                                                           
+     * Delete the record that are associated with this contribution 
+     * record are deleted from contribution product, note and contribution                   
+     * @param  int  $id id of the contribution to delete                                                                           
+     * 
+     * @return boolean  true if deleted, false otherwise
+     * @access public 
+     * @static 
+     */ 
+    static function deleteContribution( $id ) 
+    {    
         require_once 'CRM/Contribute/DAO/ContributionProduct.php';
         $dao = & new CRM_Contribute_DAO_ContributionProduct();
         $dao->contribution_id = $id;
-        $dao->delete();;
+        $dao->delete();
+        
+        //Delete Contribution Note
+        require_once 'CRM/Core/BAO/Note.php';
+        $noteBAO = & new CRM_Core_BAO_Note();
+        $noteBAO->entity_table = 'civicrm_contribution';
+        $noteBAO->entity_id = $id;
+        $noteBAO->find(true);
+        if ($noteBAO) {
+            $noteBAO->delete( );
+        }
 
         $contribution =& new CRM_Contribute_DAO_Contribution( ); 
         $contribution->id = $id;
@@ -473,7 +491,7 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
             self::deleteContributionSubobjects($id);
             $contribution->delete( ); 
         }
-         
+
         return true;
     }
 
