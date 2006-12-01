@@ -420,20 +420,20 @@ class CRM_Core_PseudoConstant
      * @return array - array reference of all State/Provinces.
      *
      */
-    public static function &stateProvince($id = false)
+    public static function &stateProvince($id = false, $limit = true)
     {
         if (!self::$stateProvince) {
-
-            // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
-            $config =& CRM_Core_Config::singleton();
-            $countryIsoCodes =& self::countryIsoCode();
-            $limitCodes = $config->provinceLimit;
-            $limitIds = array();
-            foreach ($limitCodes as $code) {
-                $limitIds = array_merge($limitIds, array_keys($countryIsoCodes, $code));
+            if ( $limit ) {
+                // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
+                $config =& CRM_Core_Config::singleton();
+                $countryIsoCodes =& self::countryIsoCode();
+                $limitCodes = $config->provinceLimit;
+                $limitIds = array();
+                foreach ($limitCodes as $code) {
+                    $limitIds = array_merge($limitIds, array_keys($countryIsoCodes, $code));
+                }
+                $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
             }
-            $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
-
             self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true, 'name', 'is_active', $whereClause );
 
             // localise the province names if in an non-en_US locale
@@ -463,24 +463,25 @@ class CRM_Core_PseudoConstant
      * @param int $id  -     Optional id to return
      * @return array - array reference of all State/Province abbreviations.
      */
-    public static function &stateProvinceAbbreviation($id = false)
+    public static function &stateProvinceAbbreviation($id = false, $limit = true )
     {
         if (!self::$stateProvinceAbbreviation) {
 
             // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
-            $config =& CRM_Core_Config::singleton();
-            $countryIsoCodes =& self::countryIsoCode();
-            $limitCodes = $config->provinceLimit;
-            $limitIds = array();
-            foreach ($limitCodes as $code) {
-                $tmpArray   = array_keys($countryIsoCodes, $code);
-
-                if (!empty($tmpArray)) {
-                    $limitIds[] = array_shift($tmpArray);
+            if ( $limit ) {
+                $config =& CRM_Core_Config::singleton();
+                $countryIsoCodes =& self::countryIsoCode();
+                $limitCodes = $config->provinceLimit;
+                $limitIds = array();
+                foreach ($limitCodes as $code) {
+                    $tmpArray   = array_keys($countryIsoCodes, $code);
+                    
+                    if (!empty($tmpArray)) {
+                        $limitIds[] = array_shift($tmpArray);
+                    }
                 }
-            }
-            $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
-
+                $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
+            } 
             self::populate( self::$stateProvinceAbbreviation, 'CRM_Core_DAO_StateProvince', true, 'abbreviation', 'is_active', $whereClause );
         }
 
