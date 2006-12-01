@@ -1422,17 +1422,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                         } else if ( $fieldName == 'county' ) {
                                             $defaults[$fldName] = $value['county_id'];
                                         } else if ( $fieldName == 'country' ) {
-                                            if (!$value['country_id']) {
-                                                $config =& CRM_Core_Config::singleton();
-                                                if ( $config->defaultContactCountry ) {
-                                                    $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                                                    $defaultID = array_search($config->defaultContactCountry,
-                                                                              $countryIsoCodes);
-                                                    $defaults[$fldName] = $defaultID;
-                                                }
-                                            } else {
-                                                $defaults[$fldName] = $value['country_id'];
-                                            }
+                                            $defaults[$fldName] = $value['country_id'];
                                         } else if ( $fieldName == 'phone' ) {
                                             if ($phoneTypeId) {
                                                 $defaults[$fldName] = $value['phone'][$phoneTypeId];
@@ -1450,6 +1440,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                         }
                                     }
                                 }
+                                if ( $fieldName == 'country' ) {
+                                    if (!$value['country_id']) {
+                                        $config =& CRM_Core_Config::singleton();
+                                        if ( $config->defaultContactCountry ) {
+                                            $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
+                                            $defaultID = array_search($config->defaultContactCountry,
+                                                                      $countryIsoCodes);
+                                            $defaults[$fldName] = $defaultID;
+                                        }
+                                    }
+                                }
+
                             }
                         }
                     }

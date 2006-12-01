@@ -512,7 +512,7 @@ class CRM_Core_PseudoConstant
      * @return array - array reference of all countries.
      *
      */
-    public static function &country($id = false)
+    public static function &country($id = false) 
     {
         if (!self::$country) {
 
@@ -552,9 +552,8 @@ class CRM_Core_PseudoConstant
                 asort(self::$country);
             }
         }
-
         if ($id) {
-            if (array_key_exists($id, self::$country)) {
+            if (array_key_exists("$id" , self::$country)) {
                 return self::$country[$id];
             } else {
                 return null;
