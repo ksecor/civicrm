@@ -5,10 +5,11 @@
 {elseif $action eq 8}
     {include file="CRM/Custom/Form/DeleteGroup.tpl"}
 {else}
-    <div id="help">{ts}Custom Data Groups are used to collect and store additional data not included in the standard CiviCRM forms. You can create one or many groups - each one containing a related set of custom data fields.{/ts}</div>
+    <div id="help">{ts}Use custom fields to collect and store additional information which is not included in the standard CiviCRM forms.
+    Custom fields are organized into logically related custom data groups (e.g. Volunteer Info). You can create one or many groups of custom
+    fields.{/ts}</div>
 
     {if $rows}
-        
     <div id="custom_group">
     <p></p>
         <div class="form-item">
@@ -43,7 +44,7 @@
         {if NOT ($action eq 1 or $action eq 2) }
         <p></p>
         <div class="action-link">
-        <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}" id="newCustomDataGroup">&raquo;  {ts}New Custom Data Group{/ts}</a>
+        <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}" id="newCustomDataGroup">&raquo;  {ts}New Group of Custom Fields{/ts}</a>
         </div>
         {/if}
 
