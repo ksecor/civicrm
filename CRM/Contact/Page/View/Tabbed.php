@@ -191,7 +191,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         foreach ( $activeGroups as $group ) {
             $id = "custom_{$group['id']}";
             $allTabs[$group['title']] = array( 'id'  => $id,
-                                               'url' => CRM_Utils_System::url( $group['path'], $group['query'] . '&snippet=1&selectedChild=$id' ) );
+                                               'url' => CRM_Utils_System::url( $group['path'], $group['query'] . "&snippet=1&selectedChild=$id") );
         }
 
         $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.TabContainer');dojo.require('dojo.widget.ContentPane');dojo.require('dojo.widget.LinkPane');" );
