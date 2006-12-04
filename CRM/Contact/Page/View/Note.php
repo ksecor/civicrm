@@ -57,6 +57,7 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
      * @access public
      */
     function view( ) {
+      
         $note =& new CRM_Core_DAO_Note( );
         $note->id = $this->_id;
         if ( $note->find( true ) ) {
@@ -64,6 +65,7 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
             CRM_Core_DAO::storeValues( $note, $values );
             $this->assign( 'note', $values );
         }
+       
     }
 
     /**
@@ -182,14 +184,14 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
             self::$_links = array(
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
-                                                                    'url'   => 'civicrm/contact/view',
+                                                                    'url'   => 'civicrm/contact/view/note',
                                                                     'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=note',
                                                                     'title' => ts('View Note')
                                                                     ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/contact/view/note',
-',
+
                                                                     'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=note',
                                                                     'title' => ts('Edit Note')
                                                                     ),

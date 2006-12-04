@@ -71,10 +71,6 @@ class CRM_Utils_Geocode_Yahoo {
             return false;
         }
 
-        if ( $values['country'] != 'United States' ) {
-            return false;
-        }
-
         $config =& CRM_Core_Config::singleton( );
 
         $arg = array( );
@@ -89,7 +85,12 @@ class CRM_Utils_Geocode_Yahoo {
         }
 
         if (  CRM_Utils_Array::value( 'state_province', $values ) ) { 
-            $arg[] = "state=" . urlencode( $values['state_province'] );
+            $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province'], 'name', 'abbreviation' );
+            $arg[] = "state=" . urlencode( $stateProvince );
+        }
+
+        if (  CRM_Utils_Array::value( 'country', $values ) ) { 
+            $arg[] = "country=" . urlencode( $values['country'] );
         }
 
         if (  CRM_Utils_Array::value( 'postal_code', $values ) ) { 
@@ -97,6 +98,7 @@ class CRM_Utils_Geocode_Yahoo {
         }
 
         $args = implode( '&', $arg );
+
         $query = 'http://' . self::$_server . self::$_uri . '?' . $args;
 
         require_once 'HTTP/Request.php';
@@ -107,7 +109,7 @@ class CRM_Utils_Geocode_Yahoo {
 
         $ret = array( );
         $ret['precision'] = (string)$xml->Result['precision'];
-        if ( $xml->Result ) {
+        if ( is_a($xml->Result, 'SimpleXMLElement') ) {
             foreach($xml->Result->children() as $key=>$val) {
                 if(strlen($val)) $ret[(string)$key] =  (string)$val;
             } 

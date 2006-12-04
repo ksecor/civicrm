@@ -1,6 +1,5 @@
-
 {* this template is used for adding/editing tags  *}
-
+<div class="view-content">
 <fieldset><legend>{ts}Tags{/ts}</legend>
     <p>
     {if $action eq 16}
@@ -33,9 +32,10 @@
        <div class="form-item">{$form.buttons.html}</div>
        </fieldset>
     {/if}
-
+</div>
  <script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}
     var fname = "{$form.formName}";	
     on_load_init_check(fname);
  </script>
+</div>

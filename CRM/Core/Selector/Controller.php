@@ -436,7 +436,7 @@ class CRM_Core_Selector_Controller {
         } else {
             $content = self::$_template->fetch( 'CRM/index.tpl' );
         }
-        echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
+        echo CRM_Utils_System::theme( 'page', $content, true, $this->_print );
 
     }
 

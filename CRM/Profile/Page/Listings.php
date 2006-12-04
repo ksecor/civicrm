@@ -289,7 +289,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
 
         $template =& CRM_Core_Smarty::singleton( );
         $content = $template->fetch( 'CRM/Contact/Form/Task/Map.tpl' );
-        echo CRM_Utils_System::theme( 'page', $content, null, false );
+        echo CRM_Utils_System::theme( 'page', $content, true, false );
         return;
     }
 

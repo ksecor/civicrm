@@ -1,11 +1,12 @@
 <div id="groupContact">
- {if $groupCount eq 0 }  		
+<div class="view-content"> 
+{if $groupCount eq 0 }
   <div class="messages status">
     <dl>
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
       <dd>{ts}This contact does not currently belong to any groups.{/ts}</dd>
     </dl>
-  </div>	
+  </div>
  {/if}
 
   	{if $groupIn }
@@ -103,4 +104,5 @@
 	</div>
 	</div>
 	{/if}
+</div>
 </div>

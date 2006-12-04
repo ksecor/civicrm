@@ -201,6 +201,8 @@ class CRM_Contribute_Payment_PayPalIPN {
             $value = self::retrieve( $paypalName, 'String', 'POST', false );
             if ( $value ) {
                 $params[$name] = $value;
+            } else {
+                $params[$name] = null;
             }
         }
 
@@ -254,6 +256,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
         
         $contribution->contribution_status_id  = 1;
+        $contribution->source                  = ts( 'Online Contribution:' ) . ' ' . $values['title'];
         $contribution->is_test    = self::retrieve( 'test_ipn'     , 'Integer', 'POST', false );
         $contribution->fee_amount = self::retrieve( 'payment_fee'  , 'Money'  , 'POST', false );
         $contribution->net_amount = self::retrieve( 'settle_amount', 'Money'  , 'POST', false );
@@ -267,6 +270,8 @@ class CRM_Contribute_Payment_PayPalIPN {
 
         $contribution->save( );
         
+        $config =& CRM_Core_Config::singleton( );
+
         // next create the transaction record
         $trxnParams = array(
                             'entity_table'      => 'civicrm_contribution',
@@ -408,11 +413,25 @@ class CRM_Contribute_Payment_PayPalIPN {
 
         // add the new contribution values
         $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( 'title', $values['title']);
         $template->assign( 'amount' , $amount );
         $template->assign( 'trxn_id', $contribution->trxn_id );
-        $template->assign( 'receive_date', $contribution->receive_date );
+        $template->assign( 'receive_date', 
+                           CRM_Utils_Date::mysqlToIso( $contribution->receive_date ) );
         $template->assign( 'contributeMode', 'notify' );
-
+        $template->assign( 'action', $contribution->is_test ? 1024 : 1 );
+        $template->assign( 'receipt_text', $values['receipt_text'] );
+        $template->assign( 'is_monetary', 1 );
+        $template->assign( 'is_recur', $recur );
+        if ( $recur ) {
+            require_once 'CRM/Contribute/Form/ContributionBase.php';
+            $url = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( $config,
+                                                                                $contribution->is_test ? 'test' : 'live' );
+            $template->assign( 'cancelSubscriptionUrl', $url );
+        }
+        require_once 'CRM/Utils/Address.php';
+        $template->assign( 'address', CRM_Utils_Address::format( $params ) );
+                                                                                        
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values );
 
         echo "Success: Database updated<p>";

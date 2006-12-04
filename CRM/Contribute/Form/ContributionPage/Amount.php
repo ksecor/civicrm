@@ -81,7 +81,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $this->addElement('checkbox', 'is_monetary', ts('Execute real-time monetary transactions') );
 
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->enableRecur ) {
+        if ( $config->enableRecurContribution ) {
             $this->addElement('checkbox', 'is_recur', ts('Enable recurring payments') );
         }
 

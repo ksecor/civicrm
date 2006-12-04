@@ -203,7 +203,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
             self::$_links = array(
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
-                                                                    'url'   => 'civicrm/contact/view',
+                                                                    'url'   => 'civicrm/contact/view/membership',
                                                                     'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
                                                                     'title' => ts('View Membership')
                                                                     ),

@@ -346,6 +346,18 @@ ORDER BY
             $lastName   = CRM_Utils_Array::value('last_name' , $params, '');
             $prefix_id  = CRM_Utils_Array::value('prefix_id'    , $params, '');
             $suffix_id  = CRM_Utils_Array::value('suffix_id'    , $params, '');
+
+            // get prefix and suffix names
+            $prefixes = CRM_Core_PseudoConstant::individualPrefix();
+            $suffixes = CRM_Core_PseudoConstant::individualSuffix();
+            
+            $prefix = $suffix = null;
+            if ( $prefix_id ) {
+                $prefix = $prefixes[$prefix_id];
+            }
+            if ( $suffix_id ) {
+                $suffix = $suffixes[$suffix_id];
+            }
             
             // a comma should only be present if both first_name and last name are present.
             if ($firstName && $lastName) {
@@ -373,7 +385,7 @@ ORDER BY
                         $firstName = $individualFirstName;
                     }
                                                             
-                    if (empty($prefix_id) && !empty($individualPrefix)) {
+                    if (empty($prefix) && !empty($individualPrefix)) {
                         $prefix = $individualPrefix;
                     }
                     
@@ -381,7 +393,7 @@ ORDER BY
                         $middleName = $individualMiddleName;
                     }
                     
-                    if (empty($suffix_id) && !empty($individualSuffix)) {
+                    if (empty($suffix) && !empty($individualSuffix)) {
                         $suffix = $individualSuffix;
                     }
                     
@@ -391,12 +403,9 @@ ORDER BY
             if (trim($sortName)) {
                 $contact->sort_name    = trim($sortName);
             }
-            // get prefix and suffix names
-            $prefix = CRM_Core_PseudoConstant::individualPrefix();
-            $suffix = CRM_Core_PseudoConstant::individualSuffix();
-            
+  
             $display_name =
-                trim( $prefix[$prefix_id] . ' ' . $firstName . ' ' . $middleName . ' ' . $lastName . ' ' . $suffix[$suffix_id] );
+                trim( "$prefix $firstName $middleName $lastName $suffix" );
             $display_name = str_replace( '  ', ' ', $display_name );
 
             if (trim($display_name)) {
@@ -522,16 +531,18 @@ ORDER BY
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true) {
+    static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true, $invokeHooks = true ) {
         if (!$params['contact_type']) {
             return;
         }
-        
-        require_once 'CRM/Utils/Hook.php';
-        if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $ids['contact'], $params );
-        } else {
-            CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params ); 
+
+        if ( $invokeHooks ) {
+            require_once 'CRM/Utils/Hook.php';
+            if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
+                CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $ids['contact'], $params );
+            } else {
+                CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params ); 
+            }
         }
 
         CRM_Core_DAO::transaction('BEGIN');
@@ -604,10 +615,12 @@ ORDER BY
 
         CRM_Core_DAO::transaction('COMMIT');
         
-        if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-            CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
-        } else {
-            CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
+        if ( $invokeHooks ) {
+            if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
+                CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
+            } else {
+                CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
+            }
         }
 
         $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);

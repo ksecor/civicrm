@@ -1,4 +1,4 @@
-<div id="name" class="data-group form-item">
+<div id="name" class="section-hidden section-hidden-border form-item">
     <p>
         <label>{$displayName}</label>
     </p>

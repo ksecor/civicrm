@@ -8,12 +8,12 @@
         {if $groupTree}
             <div class="form-item">
                 {foreach from=$groupTree item=cd key=group_id}
-                <div id="{$cd.name}_show" class="data-group">
+                <div id="{$cd.name}_show" class="section-hidden section-hidden-border">
                 <a href="#" onclick="hide('{$cd.name}_show'); show('{$cd.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd.title}{/ts}</label><br />
                 </div>
 
 
-                <div id="{$cd.name}">
+                <div id="{$cd.name}"  class="section-shown">
                 <fieldset><legend><a href="#" onclick="hide('{$cd.name}'); show('{$cd.name}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd.title}{/ts}</legend>
                     <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}

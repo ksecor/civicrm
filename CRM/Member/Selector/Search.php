@@ -195,7 +195,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
-                                                                   'url'      => 'civicrm/contact/view',
+                                                                   'url'      => 'civicrm/contact/view/membership',
                                                                    'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=member',
                                                                    'title'    => ts('View Membership'),
                                                                    ),

@@ -230,7 +230,14 @@ function civicrm_initialize( $requireAPI = false )
     }
 }
 
-function civicrm_get_ctype( $default = null ) {
+/**
+ * Function to get the contact type
+ * @param string $default contact type
+ *
+ * @return $ctype contact type
+ */
+function civicrm_get_ctype( $default = null ) 
+{
     // here we are creating a new contact
     // get the contact type from the POST variables if any
 
@@ -248,16 +255,20 @@ function civicrm_get_ctype( $default = null ) {
          $ctype != 'Household' ) {
         $ctype = $default;
     }
-    return $ctype;
+    return $ctype; 
 }
 
+/**
+ * This is the main function that is called on any civicrm click
+ *
+ */
 function civicrm_invoke( )
 {
     // make sure the system is initialized
     civicrm_initialize( );
     
     require_once 'CRM/Core/Error.php';
-
+    
     // synchronize the drupal uid with the contacts db
     global $user;
     require_once 'CRM/Core/BAO/UFMatch.php';
@@ -272,7 +283,6 @@ function civicrm_invoke( )
         require_once 'CRM/Core/Invoke.php';
         $ret  = CRM_Core_Invoke::invoke( $args );
     }
-    
     return $ret;
 }
 

@@ -170,7 +170,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         
         $content  = $template->fetch( 'CRM/error.tpl' );
         $content .= CRM_Core_Error::debug( 'error', $error, false );
-        echo CRM_Utils_System::theme( 'page', $content );
+        echo CRM_Utils_System::theme( 'page', $content, true );
         exit(1);
     }
 
@@ -452,8 +452,8 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $config =& CRM_Core_Config::singleton( );
         $file_log = Log::singleton('file', $config->uploadDir . 'CiviCRM.log');
         $file_log->log("$message\n");
+        $str = "<p/><code>$message</code>";
         if ( $out ) {
-            $str = "<p/><code>$message</code>";
             echo $str;
         }
         $file_log->close( );

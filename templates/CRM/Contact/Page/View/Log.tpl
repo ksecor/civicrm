@@ -1,4 +1,4 @@
-<div id="changeLog">
+<div id="changeLog" class="view-content">
     <p></p>
     <div class="bold">{ts}Change Log:{/ts} {$displayName}</div>
     <div class="form-item">

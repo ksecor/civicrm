@@ -1,7 +1,7 @@
 {if ! empty( $fields )}
 
  {if $groupId }
-    <div id="id_{$groupId}_show" class="data-group">
+    <div id="id_{$groupId}_show" class="section-hidden section-hidden-border">
        <a href="#" onclick="hide('id_{$groupId}_show'); show('id_{$groupId}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}New Search{/ts}</label><br />
     </div>
 

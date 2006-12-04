@@ -83,7 +83,7 @@
     <script type="text/javascript">
     function reload(refresh) {
         var contributionType = document.getElementById("contribution_type_id");
-        var url = {/literal}"{$refreshURL}"{literal}
+        var url = {/literal}"{$refreshURL}"{literal};
         var post = url + "&subType=" + contributionType.value;
         if ( refresh ) {
             window.location= post; 

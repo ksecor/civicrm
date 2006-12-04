@@ -80,7 +80,6 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
             $controller->moveFromSessionToTemplate( );
         } else {
             $this->assign('history', false);
-            
             // create the selector, controller and run - store results in session
             $output = CRM_Core_Selector_Controller::SESSION;
             require_once 'CRM/Contact/Selector/Activity.php';

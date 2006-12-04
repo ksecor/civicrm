@@ -137,11 +137,11 @@ dojo.addOnLoad( function( ) {
  
  {* Group options *}
  {* New Group *}
-<div id="newGroup_show" class="data-group">
+<div id="newGroup_show" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('newGroup_show'); show('newGroup'); return false;">{ts}&raquo; <label> Create a new group from imported records</label>{/ts}{*$form.newGroup.label*}</a>
 </div>
 
-<div id="newGroup" class="data-group">
+<div id="newGroup" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('newGroup'); show('newGroup_show'); return false;">{ts}&raquo; <label> Create a new group from imported records</label>{/ts}</a>
     <div class="form-item">
         <dl>
@@ -152,12 +152,12 @@ dojo.addOnLoad( function( ) {
 </div>
   {* Existing Group *}
 {if $form.groups}
-<div id="existingGroup_show" class="data-group">
+<div id="existingGroup_show" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('existingGroup_show'); show('existingGroup'); return false;">&raquo; {$form.groups.label}</a>
 </div>
 {/if}
 
-<div id="existingGroup" class="data-group">
+<div id="existingGroup" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('existingGroup'); show('existingGroup_show'); return false;">&raquo; {$form.groups.label}</a>
     <div class="form-item">
         <dl>
@@ -168,10 +168,10 @@ dojo.addOnLoad( function( ) {
 
 {* Tag options *}
 {* New Tag *}
-<div id="newTag_show" class="data-group">
+<div id="newTag_show" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('newTag_show'); show('newTag'); return false;">{ts}&raquo; <label> Create a new tag and assign it to imported records</label>{/ts}</a>
 </div> 
-<div id="newTag" class="data-group">
+<div id="newTag" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('newTag'); show('newTag_show'); return false;">{ts}&raquo; <label> Create a new tag and assign it to imported records</label>{/ts}</a>
         <div class="form-item">
         <dl>
@@ -182,11 +182,11 @@ dojo.addOnLoad( function( ) {
 </div>
 {* Existing Tag Imported Contact *}
 
-<div id="tag_show" class="data-group">
+<div id="tag_show" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('tag_show'); show('tag'); return false;">&raquo; <label>{ts}Tag imported records{/ts}</label></a>
 </div>
 
-<div id="tag" class="data-group">
+<div id="tag" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('tag'); show('tag_show'); return false;">&raquo; <label>{ts}Tag imported records{/ts}</label></a>
     <dl>
         <dt></dt><dd class="listing-box" style="margin-bottom: 0em; width: 15em;">

@@ -1,5 +1,5 @@
 {* Relationship tab within View Contact - browse, and view relationships for a contact *}
-
+<div class="view-content">
 {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8} {* add, update or view *}
     {include file="CRM/Contact/Form/Relationship.tpl"}
     <div class="spacer"></div>
@@ -160,4 +160,5 @@
         {/strip}
         </div>    
 {/if}
+</div>
 {* end of code to show disabled relationships *}

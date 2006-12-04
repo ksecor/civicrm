@@ -103,9 +103,9 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         $controller->setEmbedded(true);
 
         // set the userContext stack
-        $doneURL = 'civicrm/contact/view/cd';
+        $doneURL = 'civicrm/contact/view';
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url( $doneURL, 'action=browse&gid=' . $this->_groupId ), false );
+        $session->pushUserContext( CRM_Utils_System::url( $doneURL, 'action=browse&selectedChild=custom_' . $this->_groupId ), false );
 
         $controller->set('tableId'   , $this->_contactId );
         $controller->set('groupId'   , $this->_groupId);

@@ -75,7 +75,8 @@ class CRM_Core_OptionValue {
      * @static
      */
 
-    static function getRows( $groupParams, $links, $orderBy = 'weight' ) {
+    static function getRows( $groupParams, $links, $orderBy = 'weight' ) 
+    {
         $optionValue = array();
         
         if (! $groupParams['id'] ) {
@@ -136,7 +137,8 @@ class CRM_Core_OptionValue {
      * @access public
      * @static
      */
-    static function addOptionValue( &$params, &$groupParams, &$action, &$optionValueID ) {
+    static function addOptionValue( &$params, &$groupParams, &$action, &$optionValueID ) 
+    {
         $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
         // checking if the group name with the given id or name (in $groupParams) exists
         if (! empty($groupParams)) {
@@ -190,7 +192,8 @@ class CRM_Core_OptionValue {
      * @access public
      * @static
      */
-    static function optionExists( $value, $daoName, $daoID, $optionGroupID, $fieldName = 'name' ) {
+    static function optionExists( $value, $daoName, $daoID, $optionGroupID, $fieldName = 'name' ) 
+    {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object =& new ' . $daoName . '( );' );
         $object->$fieldName      = $value;
@@ -216,9 +219,12 @@ class CRM_Core_OptionValue {
      * @access public
      * @static
      */
-    static function getFields( $mode = '') {
-        if ( !self::$_fields || $mode) {
-            self::$_fields = array();
+    static function getFields( $mode = '') 
+    {
+        if ( !self::$_fields || ! CRM_Utils_Array::value( $mode, self::$_fields ) || $mode) {
+            if ( !self::$_fields ) {
+                self::$_fields = array();
+            }
             require_once "CRM/Core/DAO/OptionValue.php";
             $option = CRM_Core_DAO_OptionValue::import( );
             
@@ -239,18 +245,20 @@ class CRM_Core_OptionValue {
                                                                 'title'=> 'Individual Suffix')
                                    );
             }
+
             if ( is_array( $nameTitle ) ) {
                 foreach ( $nameTitle as $name => $attribs ) {
-                    self::$_fields[$name] = $optionName;
+                    self::$_fields[$mode][$name] = $optionName;
                     list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
-                    self::$_fields[$name]['where'] = $name . '.' . $fieldName;
+                    self::$_fields[$mode][$name]['where'] = $name . '.' . $fieldName;
                     foreach ( $attribs as $key => $val ) {
-                        self::$_fields[$name][$key] = $val;
+                        self::$_fields[$mode][$name][$key] = $val;
                     }
                 }
             }
         }
-        return self::$_fields;
+
+        return self::$_fields[$mode];
     }
     
     /** 
@@ -259,9 +267,11 @@ class CRM_Core_OptionValue {
      * @return void  
      * @access public  
      */
-    static function select( &$query ) {
+    static function select( &$query ) 
+    {
         if ( ! empty( $query->_params ) ) {
             $field =& self::getFields();
+            
             foreach ( $field as $name => $title ) {
                 list( $tableName, $fieldName ) = explode( '.', $title['where'] ); 
                 if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {

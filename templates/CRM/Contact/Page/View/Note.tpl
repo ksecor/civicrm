@@ -1,3 +1,4 @@
+<div class="view-content">
 {if $action eq 4}{* when action is view  *}
     {if $notes}
         <p></p>
@@ -7,7 +8,7 @@
             <label>{ts}Subject:{/ts}</label> {$note.subject} <br />
             <label>{ts}Date:{/ts}</label> {$note.modified_date|crmDate}
             <p>{$note.note}</p>
-            <input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view/note' q='action=browse&selectedChild=note'}';"/>        
+            <input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view' q='action=browse&selectedChild=note'}';"/>        
           </div>
         </fieldset>
         {/if}
@@ -53,7 +54,7 @@
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}
-		        <a href="{crmURL p='civicrm/contact/view' q="action=view&selectedChild=note&reset=1&cid=`$contactId`&id=`$note.id`"}">{ts}(more){/ts}</a>
+		        <a href="{crmURL p='civicrm/contact/view/note' q="action=view&selectedChild=note&reset=1&cid=`$contactId`&id=`$note.id`"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
             <td>{$note.subject}</td>
@@ -84,3 +85,4 @@
     </dl>
    </div>
 {/if}
+</div>

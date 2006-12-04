@@ -2,7 +2,7 @@
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
 {* View Contact Summary - Quest Student Version *}
-<div id="name" class="data-group">
+<div id="name" class="section-hidden section-hidden-border">
    <div>
     <label>{$displayName}</label>
     {if $contact_type eq 'Individual' && $job_title}&nbsp;&nbsp;{ts}Job Title{/ts}:&nbsp;{$job_title}
@@ -35,7 +35,7 @@
 {* Display populated Locations. Primary location expanded by default. *}
 {foreach from=$location item=loc key=locationIndex}
 
- <div id="location[{$locationIndex}][show]" class="data-group">
+ <div id="location[{$locationIndex}][show]" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('location[{$locationIndex}][show]'); show('location[{$locationIndex}]'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$loc.location_type}{if $loc.name} - {$loc.name}{/if}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}</label>
   {if $preferred_communication_method eq 'Email'}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Email:{/ts}</label> {$loc.email.1.email}
   {elseif $preferred_communication_method eq 'Phone'}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Phone:{/ts}</label> {$loc.phone.1.phone}{/if}
@@ -94,7 +94,7 @@
     {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
  </div>
 
- <div id="demographics[show]" class="data-group">
+ <div id="demographics[show]" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Demographics and Family Information{/ts}</label><br />
  </div>
 
@@ -118,7 +118,7 @@
  </div>
 
 {* Academic Info fieldset (quest_student record) *}
- <div id="academic[show]" class="data-group">
+ <div id="academic[show]" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('academic[show]'); show('academic'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Academic Information{/ts}</label><br />
  </div>
 
@@ -138,7 +138,7 @@
  </div>
 
 {* Supplementary Documents (attachments) *}
- <div id="attachments[show]" class="data-group">
+ <div id="attachments[show]" class="section-hidden section-hidden-border">
   {if $attachments}
     <a href="#" onclick="hide('attachments[show]'); show('attachments'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Supplementary Documents{/ts}</label><br />
   {else}
@@ -174,7 +174,7 @@
  {/if}
  </div>
 
-<div id="relationships[show]" class="data-group">
+<div id="relationships[show]" class="section-hidden section-hidden-border">
   {if $relationship.totalCount}
     <a href="#" onclick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Relationships{/ts}</label> ({$relationship.totalCount})<br />
   {else}
@@ -239,7 +239,7 @@
  {/if}
 </div>
 
-<div id="openActivities[show]" class="data-group">
+<div id="openActivities[show]" class="section-hidden section-hidden-border">
   {if $openActivity.totalCount}
     <a href="#" onclick="hide('openActivities[show]'); show('openActivities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Open Activities{/ts}</label> ({$openActivity.totalCount})<br />
   {else}
@@ -305,7 +305,7 @@
  </fieldset>
 </div>
 
-<div id="activityHx[show]" class="data-group">
+<div id="activityHx[show]" class="section-hidden section-hidden-border">
   {if $activity.totalCount}
     <a href="#" onclick="hide('activityHx[show]'); show('activityHx'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Activity History{/ts}</label> ({$activity.totalCount})<br />
   {else}
@@ -344,7 +344,7 @@
 </div>
 
 
-<div id="groups[show]" class="data-group">
+<div id="groups[show]" class="section-hidden section-hidden-border">
   {if $group.totalCount}
     <a href="#" onclick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Group Memberships{/ts}</label> ({$group.totalCount})<br />
   {else}
@@ -389,7 +389,7 @@
  </fieldset>
 </div>
 
-<div id="notes[show]" class="data-group">
+<div id="notes[show]" class="section-hidden section-hidden-border">
   {if $noteTotalCount}
     <a href="#" onclick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Notes{/ts}</label> ({$noteTotalCount})<br />
   {else}

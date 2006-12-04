@@ -6,3 +6,4 @@
     {/foreach}
    </ul>
 </div>
+<br class="clear" />

@@ -278,7 +278,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $urlParams .= "&action=add";
         }
         $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
-                                      $urlParams ); 
+                                      $urlParams, true, null, false ); 
         $this->assign("refreshURL",$url);
 
         $this->buildPremiumForm($this);

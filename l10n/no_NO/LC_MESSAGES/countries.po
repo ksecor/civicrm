@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-03-07 08:29-0500\n"
-"PO-Revision-Date: 2005-03-07 08:29-0500\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2006-12-02 02:13-0800\n"
+"Last-Translator: Ørjan Sandland <orjan@reodor-racing.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 #. name for AFG
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistan"
 
 #. official_name for AFG
 msgid "The Transitional Islamic State of Afghanistan"
@@ -37,7 +38,7 @@ msgstr ""
 
 #. name for DZA
 msgid "Algeria"
-msgstr ""
+msgstr "Algeria"
 
 #. official_name for DZA
 msgid "People's Democratic Republic of Algeria"
@@ -45,11 +46,11 @@ msgstr ""
 
 #. name for ASM
 msgid "American Samoa"
-msgstr ""
+msgstr "Amerikans Samoa"
 
 #. name for AND
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #. official_name for AND
 msgid "Principality of Andorra"
@@ -57,7 +58,7 @@ msgstr ""
 
 #. name for AGO
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #. official_name for AGO
 msgid "Republic of Angola"
@@ -77,7 +78,7 @@ msgstr ""
 
 #. name for ARG
 msgid "Argentina"
-msgstr ""
+msgstr "Argentina"
 
 #. official_name for ARG
 msgid "Argentine Republic"
@@ -85,7 +86,7 @@ msgstr ""
 
 #. name for ARM
 msgid "Armenia"
-msgstr ""
+msgstr "Armenia"
 
 #. official_name for ARM
 msgid "Republic of Armenia"
@@ -93,15 +94,15 @@ msgstr ""
 
 #. name for ABW
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #. name for AUS
 msgid "Australia"
-msgstr ""
+msgstr "Australia"
 
 #. name for AUT
 msgid "Austria"
-msgstr ""
+msgstr "Østerrike"
 
 #. official_name for AUT
 msgid "Republic of Austria"
@@ -109,7 +110,7 @@ msgstr ""
 
 #. name for AZE
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Aserbadjan"
 
 #. official_name for AZE
 msgid "Republic of Azerbaijan"
@@ -117,7 +118,7 @@ msgstr ""
 
 #. name for BHS
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahamas"
 
 #. official_name for BHS
 msgid "Commonwealth of the Bahamas"
@@ -133,7 +134,7 @@ msgstr ""
 
 #. name for BGD
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesh"
 
 #. official_name for BGD
 msgid "People's Republic of Bangladesh"
@@ -141,11 +142,11 @@ msgstr ""
 
 #. name for BRB
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #. name for BLR
 msgid "Belarus"
-msgstr ""
+msgstr "Hviterussland"
 
 #. official_name for BLR
 msgid "Republic of Belarus"
@@ -153,11 +154,11 @@ msgstr ""
 
 #. name for BEL
 msgid "Belgium"
-msgstr ""
+msgstr "Belgia"
 
 #. official_name for BEL
 msgid "Kingdom of Belgium"
-msgstr ""
+msgstr "Kongedømmet Belgia"
 
 #. name for BLZ
 msgid "Belize"
@@ -173,7 +174,7 @@ msgstr ""
 
 #. name for BMU
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermuda"
 
 #. name for BTN
 msgid "Bhutan"
@@ -185,7 +186,7 @@ msgstr ""
 
 #. name for BOL
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivia"
 
 #. official_name for BOL
 msgid "Republic of Bolivia"
@@ -193,7 +194,7 @@ msgstr ""
 
 #. name for BIH
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "Bosnia og Herzegovina"
 
 #. official_name for BIH
 msgid "Republic of Bosnia and Herzegovina"
@@ -201,7 +202,7 @@ msgstr ""
 
 #. name for BWA
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
 #. official_name for BWA
 msgid "Republic of Botswana"
@@ -209,11 +210,11 @@ msgstr ""
 
 #. name for BVT
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Bouvetøya"
 
 #. name for BRA
 msgid "Brazil"
-msgstr ""
+msgstr "Brasil"
 
 #. official_name for BRA
 msgid "Federative Republic of Brazil"
@@ -229,7 +230,7 @@ msgstr ""
 
 #. name for BGR
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bulgaria"
 
 #. official_name for BGR
 msgid "Republic of Bulgaria"
@@ -237,11 +238,11 @@ msgstr ""
 
 #. name for BFA
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #. name for BDI
 msgid "Burundi"
-msgstr ""
+msgstr "Brurundi"
 
 #. official_name for BDI
 msgid "Republic of Burundi"
@@ -249,7 +250,7 @@ msgstr ""
 
 #. name for KHM
 msgid "Cambodia"
-msgstr ""
+msgstr "Kambotsja"
 
 #. official_name for KHM
 msgid "Kingdom of Cambodia"
@@ -257,7 +258,7 @@ msgstr ""
 
 #. name for CMR
 msgid "Cameroon"
-msgstr ""
+msgstr "Kamerun"
 
 #. official_name for CMR
 msgid "Republic of Cameroon"
@@ -265,7 +266,7 @@ msgstr ""
 
 #. name for CAN
 msgid "Canada"
-msgstr ""
+msgstr "Canada"
 
 #. name for CPV
 msgid "Cape Verde"
@@ -281,11 +282,11 @@ msgstr ""
 
 #. name for CAF
 msgid "Central African Republic"
-msgstr ""
+msgstr "Den Sentralafrikanske Rebpublikk"
 
 #. name for TCD
 msgid "Chad"
-msgstr ""
+msgstr "Tchad"
 
 #. official_name for TCD
 msgid "Republic of Chad"
@@ -293,7 +294,7 @@ msgstr ""
 
 #. name for CHL
 msgid "Chile"
-msgstr ""
+msgstr "Chile"
 
 #. official_name for CHL
 msgid "Republic of Chile"
@@ -301,7 +302,7 @@ msgstr ""
 
 #. name for CHN
 msgid "China"
-msgstr ""
+msgstr "Kina"
 
 #. official_name for CHN
 msgid "People's Republic of China"
