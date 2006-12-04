@@ -468,7 +468,7 @@ div.spacer, .spacer {
   margin: 0px;
   padding: 3px 0px 3px 0px;
   clear: both;
-  background-color: #FFD0DD;/*#FFAAAD;*/
+  background-color: #ffff99;
 }
 
 #crm-container .font-red, #crm-container .status-removed, #crm-container .disabled, #crm-container .status-overdue, #crm-container .status-hold {
