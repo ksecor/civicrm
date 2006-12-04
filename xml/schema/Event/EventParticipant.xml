@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+ 
+<table> 
+  <base>CRM/Event</base> 
+  <class>EventParticipant</class> 
+  <name>civicrm_participant</name> 
+  <add>1.7</add> 
+  <field> 
+      <name>id</name> 
+      <type>int unsigned</type> 
+      <required>true</required> 
+      <comment>Participant Id</comment> 
+       <add>1.7</add> 
+  </field> 
+  <primaryKey> 
+       <name>id</name> 
+       <autoincrement>true</autoincrement> 
+  </primaryKey> 
+  <field> 
+      <name>contact_id</name> 
+      <type>int unsigned</type> 
+      <default>0</default>
+      <comment>FK to Contact ID</comment> 
+      <add>1.7</add> 
+  </field>
+  <foreignKey> 
+       <name>contact_id</name> 
+       <table>civicrm_contact</table> 
+       <key>id</key> 
+  </foreignKey>
+  <field> 
+      <name>event_id</name> 
+      <type>int unsigned</type> 
+      <default>0</default>
+      <comment>FK to Event ID</comment> 
+      <add>1.7</add> 
+  </field>
+  <foreignKey> 
+       <name>event_id</name> 
+       <table>civicrm_event</table> 
+       <key>id</key> 
+  </foreignKey>
+  <field> 
+      <name>status_id</name> 
+      <type>int unsigned</type> 
+      <default>1</default>
+      <comment>Participant status ID. Implicit FK to civicrm_option_value where option_group = participant_status. Default of 1 should map to status = Registered.</comment> 
+      <add>1.7</add> 
+  </field>
+  <foreignKey> 
+       <name>status_id</name> 
+       <table>civicrm_option_value</table> 
+       <key>id</key> 
+  </foreignKey>
+  <field> 
+      <name>role_id</name> 
+      <type>int unsigned</type> 
+      <default>NULL</default>
+      <comment>Participant role ID. Implicit FK to civicrm_option_value where option_group = participant_role.</comment> 
+      <add>1.7</add> 
+  </field>
+  <foreignKey> 
+       <name>role_id</name> 
+       <table>civicrm_option_value</table> 
+       <key>id</key> 
+  </foreignKey>
+  <field>        
+      <name>register_date</name>     
+      <type>datetime</type>     
+      <comment>When did contact register for event?</comment>
+      <add>1.7</add>     
+  </field> 
+  <field>        
+      <name>source</name>     
+      <type>varchar</type>     
+      <length>128</length>  
+      <comment>Source of this event registration.</comment>
+      <add>1.7</add>     
+  </field> 
+  <field>        
+      <name>event_level</name>     
+      <type>varchar</type>     
+      <length>255</length>  
+      <comment>Populate with the label (text) associated with a fee level for paid events with multiple levels. Note that we store the label value rather than an FK as the label stored in custom_option may change, but we dont want that to change the label in place at time of this registration.</comment>
+      <add>1.7</add>     
+  </field> 
+</table>

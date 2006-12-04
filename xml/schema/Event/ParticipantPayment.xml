@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+ 
+<table> 
+  <base>CRM/Event</base> 
+  <class>ParticipantPayment</class> 
+  <name>civicrm_participant_payment</name> 
+  <add>1.7</add> 
+  <field> 
+      <name>id</name> 
+      <type>int unsigned</type> 
+      <required>true</required> 
+      <comment>Participant Payment Id</comment> 
+       <add>1.7</add> 
+  </field> 
+  <primaryKey> 
+       <name>id</name> 
+       <autoincrement>true</autoincrement> 
+  </primaryKey> 
+  <field> 
+      <name>participant_id</name> 
+      <type>int unsigned</type> 
+      <required>true</required> 
+      <comment>Participant Id (FK)</comment> 
+       <add>1.7</add> 
+  </field>
+  <foreignKey> 
+       <name>participant_id</name> 
+       <table>civicrm_participant</table> 
+       <key>id</key> 
+  </foreignKey>
+  <field>        
+      <name>payment_entity_table</name>     
+      <type>varchar</type>     
+      <length>128</length>  
+      <comment>Table being referenced for payment entity (expected usage is civicrm_contribution).</comment>
+      <add>1.7</add>     
+  </field>    
+  <field> 
+      <name>payment_entity_id</name> 
+      <type>int unsigned</type> 
+      <required>true</required> 
+      <comment>FK to table with payment record (e.g. civicrm_contribution.id).</comment> 
+       <add>1.7</add> 
+  </field>
+</table>
+

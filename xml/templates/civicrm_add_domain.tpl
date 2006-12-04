@@ -90,7 +90,10 @@ VALUES
    (@domain_id, 'acl_role'                      , 'ACL Role.'                          , 0, 1),
    (@domain_id, 'accept_creditcard'             , 'Accept Credit Card'                 , 0, 1),
    (@domain_id, 'payment_instrument'            , 'Payment Instrument'                 , 0, 1),
-   (@domain_id, 'contribution_status'           , 'Contribution Status'                , 0, 1);
+   (@domain_id, 'contribution_status'           , 'Contribution Status'                , 0, 1),
+   (@domain_id, 'participant_status'            , 'Participant Status'                 , 0, 1),
+   (@domain_id, 'participant_role'              , 'Participant Role'                   , 0, 1),
+   (@domain_id, 'event_type'                    , 'Event Type'                         , 0, 1);
 
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -103,6 +106,9 @@ SELECT @option_group_id_aclRole        := max(id) from civicrm_option_group wher
 SELECT @option_group_id_acc            := max(id) from civicrm_option_group where name = 'accept_creditcard';
 SELECT @option_group_id_pi             := max(id) from civicrm_option_group where name = 'payment_instrument';
 SELECT @option_group_id_cs             := max(id) from civicrm_option_group where name = 'contribution_status';
+SELECT @option_group_id_ps             := max(id) from civicrm_option_group where name = 'participant_status';
+SELECT @option_group_id_pRole          := max(id) from civicrm_option_group where name = 'participant_role';
+SELECT @option_group_id_etype          := max(id) from civicrm_option_group where name = 'event_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -166,8 +172,22 @@ VALUES
   (@option_group_id_cs, 'Pending'    , 2, 'Pending'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
   (@option_group_id_cs, 'Cancelled'  , 3, 'Cancelled'  , NULL, 0, NULL, 3, NULL, 0, 0, 1),
   (@option_group_id_cs, 'Failed'     , 4, 'Failed'     , NULL, 0, NULL, 4, NULL, 0, 0, 1),
-  (@option_group_id_cs, 'In Progress', 5, 'In Progress', NULL, 0, NULL, 5, NULL, 0, 0, 1);
+  (@option_group_id_cs, 'In Progress', 5, 'In Progress', NULL, 0, NULL, 5, NULL, 0, 0, 1),
 
+  (@option_group_id_ps, 'Registered', 1, 'Registered', NULL, 0, NULL, 1, NULL, 0, 1, 1),
+  (@option_group_id_ps, 'Attended',   2, 'Attended',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_ps, 'No-show',    3, 'No-show',    NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_ps, 'Cancelled',  4, 'Cancelled',  NULL, 0, NULL, 4, NULL, 0, 1, 1),
+
+  (@option_group_id_pRole, 'Attendee',  1, 'Attendee',  NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_pRole, 'Volunteer', 2, 'Volunteer', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_pRole, 'Host',      3, 'Host',      NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_pRole, 'Speaker',   4, 'Speaker',   NULL, 0, NULL, 4, NULL, 0, 0, 1),
+
+  (@option_group_id_etype, 'Conference', 1, 'Conference',  NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, 'Dinner',     2, 'Dinner',      NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, 'Concert',    3, 'Concert',     NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, 'Tournament', 4, 'Tournament',  NULL, 0, NULL, 4, NULL, 0, 0, 1 );
 
 -- sample membership status entries
 INSERT INTO
