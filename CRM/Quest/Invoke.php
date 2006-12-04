@@ -123,6 +123,68 @@ class CRM_Quest_Invoke {
             }
             break;
 
+        case 'cps':
+            
+            switch( $args[3] ) {
+
+            case 'household':
+                require_once 'CRM/Quest/Controller/CPS/Household.php';
+                $controller =& new CRM_Quest_Controller_CPS_Household( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/cps/school', 'reset=1' ) );
+                break;
+
+
+            case 'school':
+                require_once 'CRM/Quest/Controller/CPS/School.php';
+                $controller =& new CRM_Quest_Controller_CPS_School( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/cps/essay', 'reset=1' ) );
+                break;
+
+
+            case 'essay':
+                require_once 'CRM/Quest/Controller/CPS/Essay.php';
+                $controller =& new CRM_Quest_Controller_CPS_Essay( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/cps/college', 'reset=1' ) );
+                break;
+
+            case 'college':
+                require_once 'CRM/Quest/Controller/CPS/College.php';
+                $controller =& new CRM_Quest_Controller_CPS_College( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/cps/submit', 'reset=1' ) );
+                break;
+
+            case 'partner':
+                require_once 'CRM/Quest/Controller/CPS/Partner.php';
+                $controller =& new CRM_Quest_Controller_CPS_Partner( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+                break;
+
+            case 'recommendation':
+                require_once 'CRM/Quest/Controller/CPS/Recommendation.php';
+                $controller =& new CRM_Quest_Controller_CPS_Recommendation( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+                break;
+
+            case 'submit':
+                require_once 'CRM/Quest/Controller/CPS/Submit.php';
+                $controller =& new CRM_Quest_Controller_CPS_Submit( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+                break;
+
+            case 'preview':
+                require_once 'CRM/Quest/Controller/CPS/Preview.php';
+                $controller =& new CRM_Quest_Controller_CPS_Preview( null, CRM_Core_Action::PREVIEW, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+                break;
+
+            default        :
+                require_once 'CRM/Quest/Controller/CPS/Personal.php';
+                $controller =& new CRM_Quest_Controller_CPS_Personal( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/cps/household', 'reset=1' ) );
+                break;
+            }
+            break;
+
         case 'teacher':
             require_once 'CRM/Quest/Controller/Recommender/Teacher.php';
             $controller =& new CRM_Quest_Controller_Recommender_Teacher( null, null, false );

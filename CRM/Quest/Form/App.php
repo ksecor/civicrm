@@ -138,31 +138,31 @@ class CRM_Quest_Form_App extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/Project/BAO/TaskStatus.php';
-        CRM_Project_BAO_TaskStatus::updateTaskStatus( $this );
+//         require_once 'CRM/Project/BAO/TaskStatus.php';
+//         CRM_Project_BAO_TaskStatus::updateTaskStatus( $this );
 
-        // also update the appStatus
-        $taskStatus = $this->get( 'taskStatus' );
-        $valid = ( $taskStatus == 'Completed' ) ? 1 : 0;
+//         // also update the appStatus
+//         $taskStatus = $this->get( 'taskStatus' );
+//         $valid = ( $taskStatus == 'Completed' ) ? 1 : 0;
 
-        $changes = array( $this->controller->_subType => array( 'valid' => $valid ) );
+//         $changes = array( $this->controller->_subType => array( 'valid' => $valid ) );
 
-        // since partner is now a seperate app, we dont touch appStatus for partner
-        if ( $this->controller->_subType != 'Partner' ) {
-            if ( $taskStatus != 'Completed' ||
-                 ! $this->controller->matchAppComplete( $this->_contactID ) ) {
-                CRM_Project_BAO_TaskStatus::updateTaskStatusWithValue( $this,
-                                                                       'In Progress',
-                                                                       'appTaskStatus' );
-            }
-        }
+//         // since partner is now a seperate app, we dont touch appStatus for partner
+//         if ( $this->controller->_subType != 'Partner' ) {
+//             if ( $taskStatus != 'Completed' ||
+//                  ! $this->controller->matchAppComplete( $this->_contactID ) ) {
+//                 CRM_Project_BAO_TaskStatus::updateTaskStatusWithValue( $this,
+//                                                                        'In Progress',
+//                                                                        'appTaskStatus' );
+//             }
+//         }
 
-        $this->controller->changeCategoryValues( $changes );
+//         $this->controller->changeCategoryValues( $changes );
             
-        // if save draft is set, redirect to locker
-        if ( CRM_Utils_Array::value( 'is_save_draft', $_POST ) ) {
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'locker', 'reset=1' ) );
-        }
+//         // if save draft is set, redirect to locker
+//         if ( CRM_Utils_Array::value( 'is_save_draft', $_POST ) ) {
+//             CRM_Utils_System::redirect( CRM_Utils_System::url( 'locker', 'reset=1' ) );
+//         }
 
     }//end of function
 
