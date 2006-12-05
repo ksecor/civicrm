@@ -131,7 +131,6 @@ class CRM_Contribute_Payment_Moneris extends CRM_Contribute_Payment {
       ## use the setCustInfo method of mpgTransaction object to
       ## set the customer info (level 3 data) for this transaction
       $mpgTxn->setCustInfo($mpgCustInfo);
-
       # add a recurring payment if requested
       if ($params['is_recur'] && $params['installments'] > 1) {
         // ------ Recur Variables
@@ -143,7 +142,7 @@ class CRM_Contribute_Payment_Moneris extends CRM_Contribute_Payment {
           case 'day': $next += $recurInterval * $day; break;
           case 'week': $next += $recurInterval * $day * 7; break;
           case 'month': 
-              $date = get_date(); 
+              $date = getdate(); 
               $date['mon'] += $recurInterval;
               while ($date['mon'] > 12) {
                 $date['mon'] -= 12;
@@ -152,7 +151,7 @@ class CRM_Contribute_Payment_Moneris extends CRM_Contribute_Payment {
               $next = mktime($date['hours'],$date['minutes'],$date['seconds'],$date['mon'],$date['mday'],$date['year']);
               break;
           case 'year':
-              $date = get_date(); 
+              $date = getdate(); 
               $date['year'] += 1;
               $next = mktime($date['hours'],$date['minutes'],$date['seconds'],$date['mon'],$date['mday'],$date['year']);
               break;
@@ -160,13 +159,15 @@ class CRM_Contribute_Payment_Moneris extends CRM_Contribute_Payment {
         } 
         $startDate = date("Y/m/d",$next); // next payment in moneris required format
         $numRecurs = $params['installments'] - 1;
+        #$startNow = 'true'; -- setting start now to false will mean the main transaction doesn't happen!
+        $recurAmount = sprintf('%01.2f',$params['amount']);
         // ------ Create an array with the recur variables
         $recurArray = array(recur_unit=>$recurUnit, // (day | week | month)
-                start_date=>$startDate, //yyyy/mm/dd
+                start_date=>$startDate, // yyyy/mm/dd
                 num_recurs=>$numRecurs,
-                start_now=>'false',
+                start_now=>'true',
                 period => $recurInterval,
-                amount=> sprintf('%01.2f',$params['amount'])
+                recur_amount=> $recurAmount
                 );
         $mpgRecur = new mpgRecur($recurArray);
         // set the Recur Object to mpgRecur
@@ -182,7 +183,6 @@ class CRM_Contribute_Payment_Moneris extends CRM_Contribute_Payment {
       ## get an mpgResponse object ##
       $mpgResponse=$mpgHttpPost->getMpgResponse();
       $params['trxn_result_code'] = $mpgResponse->getResponseCode(); 
-
       if ( self::isError( $mpgResponse ) ) {
           return self::error( $mpgResponse );
       }
