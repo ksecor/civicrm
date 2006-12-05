@@ -153,14 +153,17 @@ class CRM_Profile_Form extends CRM_Core_Form
 
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm', 'reset=1' ) );
         }
-
+        
         if ( $this->_id ) {
             $defaults = array( );
-            
             CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $defaults, true );
-            
             $this->setDefaults( $defaults );       
             //end of code to set the default values
+            
+        }
+        if( $this->_mode != self::MODE_SEARCH ) {
+            CRM_Core_BAO_UFGroup::setRegisterDefaults(  $this->_fields, $defaults );
+            $this->setDefaults( $defaults );    
         }
     }
     
@@ -216,7 +219,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-        
+       
         return $defaults;
     }
 
