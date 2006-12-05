@@ -25,7 +25,7 @@
  +--------------------------------------------------------------------+
 */
 
-/**
+  /**
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@civicrm.org>
@@ -75,7 +75,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         }
 
         $this->addGroup( $default, 'default' );
-
+        
         $this->addElement('checkbox', 'amount_block_is_active', ts('Contribution Amounts Section Enabled') );
 
         $this->addElement('checkbox', 'is_monetary', ts('Execute real-time monetary transactions') );
@@ -84,9 +84,9 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         if ( $config->enableRecurContribution ) {
             $this->addElement('checkbox', 'is_recur', ts('Enable recurring payments') );
         }
-
+        
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
-
+        
         parent::buildQuickForm( );
     }
 
@@ -100,16 +100,16 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
     function setDefaultValues() 
     {
         $defaults = parent::setDefaultValues( );
-
+        
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
         CRM_Utils_System::setTitle(ts('Contribution Amounts (%1)', array(1 => $title)));
-
+       
         require_once 'CRM/Core/BAO/CustomOption.php'; 
         CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_contribution_page', $this->_id, $defaults );
-
+        
         if ( CRM_Utils_Array::value( 'value', $defaults ) ) {
             foreach ( $defaults['value'] as $i => $v ) {
-                if ( $v == $defaults['default_amount'] ) {
+                if ( $defaults['amount_id'][$i] == $defaults['default_amount_id'] ) {
                     $defaults['default'] = $i;
                     break;
                 }
@@ -118,8 +118,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         
         return $defaults;
     }
-
-
+    
+    
     /**  
      * global form rule  
      *  
@@ -161,10 +161,10 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $params['id']                    = $this->_id;
         $params['domain_id']             = CRM_Core_Config::domainID( );
         $params['is_allow_other_amount'] = CRM_Utils_Array::value('is_allow_other_amount', $params, false);
-
+        
         $params['min_amount'] = CRM_Utils_Rule::cleanMoney( $params['min_amount'] );
         $params['max_amount'] = CRM_Utils_Rule::cleanMoney( $params['max_amount'] );
-
+        
         require_once 'CRM/Core/DAO/CustomOption.php';
             
         // delete all the prior label values in the custom options table
@@ -172,7 +172,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $dao->entity_table = 'civicrm_contribution_page'; 
         $dao->entity_id    = $this->_id; 
         $dao->delete( );
-
+        
         // if there are label / values, create custom options for them
         $labels  = CRM_Utils_Array::value( 'label'  , $params );
         $values  = CRM_Utils_Array::value( 'value'  , $params );
@@ -190,19 +190,17 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                     $dao->weight       = $i;
                     $dao->is_active    = 1;
                     $dao->save( );
-
                     if ( $default == $i ) {
-                        $params['default_amount'] = $values[$i];
+                        $params['default_amount_id'] = $dao->id;
                     }
                 }
             }
         }
-
+        
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
-
     }
-
+    
     /** 
      * Return a descriptive name for the page, used in wizard header 
      * 
@@ -212,6 +210,6 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
     public function getTitle( ) {
         return ts( 'Contribution Amounts' );
     }
-
+    
 }
 ?>

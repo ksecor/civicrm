@@ -332,11 +332,13 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         // now extract the amount 
         $values['value'] = array( ); 
         $values['label'] = array( ); 
+        $values['id'   ] = array( ); 
         $index  = 1; 
          
         while ( $dao->fetch( ) ) { 
-            $values['value'][$index] = $dao->value; 
-            $values['label'][$index] = $dao->label; 
+            $values['value'    ][$index] = $dao->value; 
+            $values['label'    ][$index] = $dao->label; 
+            $values['amount_id'][$index] = $dao->id; 
             $index++; 
         } 
     }
