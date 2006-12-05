@@ -558,7 +558,7 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
     }
 
     function doTransferCheckout( &$params ) {
-        CRM_Core_Error::debug( 'p', $params );
+        //CRM_Core_Error::debug( 'p', $params );
         $config =& CRM_Core_Config::singleton( );
         
         $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}";
