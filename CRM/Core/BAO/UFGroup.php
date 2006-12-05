@@ -1536,6 +1536,28 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         return $profiles;
     }
 
+   /**
+     * Function to get default value for Register. 
+     *
+     * @return $defaults
+     * @static
+     * @access public
+     */
+    static function setRegisterDefaults( &$fields, &$defaults )  {
+        foreach($fields as $name=>$field) {
+            if( $name == 'country-1' ) {
+                $config =& CRM_Core_Config::singleton();
+                 if ( $config->defaultContactCountry ) {
+                     $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
+                     $defaultID = array_search($config->defaultContactCountry,
+                                               $countryIsoCodes);
+                         $defaults[$name] = $defaultID;
+                 }
+                 
+            }
+        }
+        return $defaults;
+    }
 }
 
 ?>

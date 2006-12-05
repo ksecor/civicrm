@@ -319,15 +319,39 @@ div.spacer, .spacer {
   padding-left: 3em;
 }
 
+/*
+** CSS for links from Drupal Blocks.
+*/
 /* For our menu block. Drupal displays an extraneous li bullet without this. */
 .menu li.no-display {
   list-style-type: none;
 }
 
+/* Following styles are used to remove the white bullets from the Garland Theme */
+#crm-container li { 
+  background-image: none;
+}
+#crm-container ul li,
+div.block-civicrm ul li {
+  background-image: none;
+}
+
+/* In the above process, leaf <li> loses the image (this is temporary fix, need to find out the exact cause)*/
+#crm-container ul li.leaf,
+div.block-civicrm ul li.leaf {
+  list-style-image: url(menu-leaf.png);
+}
+
+/* After all the above changes, the menu-leaf and menu-collapsed links are not aligned. Aligning it now */
+#crm-container ul li.leaf, #crm-container ul li.collapsed,
+div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed {
+  padding: 0.2em 0.5em 0 0;
+  margin: 0;
+}
+
 /*
 ** Styles for formatting text
 */
-
 /* Inline form field 'post-help' */
 #crm-container .description {
   padding: 0px 0px 5px;
@@ -657,7 +681,7 @@ div.crm-pager a {
   border-collapse: collapse;
   padding: 0em;
   white-space: nowrap;
-  list-style: none;
+  list-style-type: none;
   margin: 3px;
   height: auto;
   width: auto;
