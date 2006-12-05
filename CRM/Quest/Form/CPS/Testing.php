@@ -57,7 +57,7 @@ class CRM_Quest_Form_CPS_Testing extends CRM_Quest_Form_App
     const SAT_II_TESTS  = 5;
     const AP_TESTS      = 8;
     const TOEFL_TESTS   = 3;
-
+    const PSAT_TESTS    = 3;
     /**
      * Function to set variables up before form is built
      *
@@ -91,8 +91,7 @@ class CRM_Quest_Form_CPS_Testing extends CRM_Quest_Form_App
             
             $testTypes  = CRM_Core_OptionGroup::values( 'test');
             $testSet1 = array('act','sat','ap','toefl');
-            
-            
+                        
             $dao = & new CRM_Quest_DAO_Test();
             $dao->contact_id = $this->_contactID;
             $dao->find();
@@ -200,7 +199,14 @@ class CRM_Quest_Form_CPS_Testing extends CRM_Quest_Form_App
                         $this->_showHide->addHide( "id_toefl_test_$i" );
                     }
                 }
-                
+                for ( $i = 2; $i <= self::PSAT_TESTS; $i++ ) {
+                    if ( CRM_Utils_Array::value( "psat_score_$i", $defaults )) {
+                        $this->_showHide->addShow( "id_psat_test_$i" );
+                    } else {
+                        $this->_showHide->addHide( "id_psat_test_$i" );
+                    }
+                }
+            
                 $this->_showHide->addToTemplate( );
             }
         }
@@ -227,7 +233,8 @@ class CRM_Quest_Form_CPS_Testing extends CRM_Quest_Form_App
                                   'Science'          => 1 );
 
         $this->_tests = array( 'act'  => 1,
-                               'sat'  => 4);
+                               'sat'  => 4,
+                               'psat' => 4);
 
         $this->_multiTests = array( 'satII' => self::SAT_II_TESTS,
                                     'ap'    => self::AP_TESTS,
@@ -276,6 +283,8 @@ class CRM_Quest_Form_CPS_Testing extends CRM_Quest_Form_App
         $this->assign( 'act_test', $act_test );
         $this->assign( 'maxSAT', self::SAT_TESTS + 1 );
         $this->assign( 'sat_test', $sat_test );
+        $this->assign( 'maxPSAT', self::PSAT_TESTS + 1 );
+        $this->assign( 'psat_test', $psat_test );
 
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $defaults = $this->setDefaultValues( );
@@ -435,7 +444,7 @@ class CRM_Quest_Form_CPS_Testing extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $errors = array( );
-        $tests = array( 'act', 'sat');
+        $tests = array( 'act', 'sat','psat');
         $sections = array( 'English', 'Reading', 'CriticalReading', 'Writing', 'Math',
                            'Science');
         
@@ -532,7 +541,7 @@ class CRM_Quest_Form_CPS_Testing extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
 
-            $testSet1 = array('act','sat');
+            $testSet1 = array('act','sat','psat');
             $testSet2 = array('satII','ap', 'toefl');
             
             $testTypes = CRM_Core_OptionGroup::values( 'test' ,true);
@@ -602,6 +611,12 @@ class CRM_Quest_Form_CPS_Testing extends CRM_Quest_Form_App
                                 $maxScores['SAT_reading'] = max( $maxScores['SAT_reading'], $score['score_reading'] );
                                 $maxScores['SAT_math'] = max( $maxScores['SAT_math'], $score['score_math'] );
                                 $maxScores['SAT_writing'] = max( $maxScores['SAT_writing'], $score['score_writing'] );
+                            } else if ( $test == 'psat') {
+                                $testParams1[$i]['psat']['score_composite'] =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
+                                $testParams1[$i]['psat']['score_composite_alt'] =  $score['score_reading'] + $score['score_math'];
+                                $maxScores['PSAT_reading'] = max( $maxScores['PSAT_reading'], $score['score_reading'] );
+                                $maxScores['PSAT_math'] = max( $maxScores['PSAT_math'], $score['score_math'] );
+                                $maxScores['PSAT_writing'] = max( $maxScores['PSAT_writing'], $score['score_writing'] );
                             }
                         }
                     }
@@ -612,6 +627,8 @@ class CRM_Quest_Form_CPS_Testing extends CRM_Quest_Form_App
                 }
                 $maxScores['SAT_composite'] = $maxScores['SAT_reading'] + $maxScores['SAT_math'] + $maxScores['SAT_writing'];
                 $maxScores['SAT_composite_alt'] = $maxScores['SAT_reading'] + $maxScores['SAT_math'];
+                $maxScores['PSAT_composite'] = $maxScores['PSAT_reading'] + $maxScores['PSAT_math'] + $maxScores['PSAT_writing'];
+                $maxScores['PSAT_composite_alt'] = $maxScores['PSAT_reading'] + $maxScores['PSAT_math'];
             }
 
             // process sat II/ ap stuff
@@ -671,7 +688,7 @@ class CRM_Quest_Form_CPS_Testing extends CRM_Quest_Form_App
                 $dao->delete();
             }
         
-            // add data to database for 'act','sat'
+            // add data to database for 'act','sat','psat'
             for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
                 if ( is_array($testParams1[$i]) ) {
                     foreach ( $testParams1[$i] as $key => $value ) {

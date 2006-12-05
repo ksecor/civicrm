@@ -44,7 +44,7 @@
         <td class="fieldlabel">Grade</td>
     {/if}
 </tr>
-{section name=rowLoop start=1 loop=10}
+{section name=rowLoop start=1 loop=13}
     {assign var=i value=$smarty.section.rowLoop.index}
      <tr>
         {assign var=as value="academic_subject_id_"|cat:$i}

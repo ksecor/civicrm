@@ -109,7 +109,7 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
         $dao->delete();
  
         //add transcript course
-        for ( $i = 1 ; $i <=9; $i++ ) {
+        for ( $i = 1 ; $i <=12; $i++ ) {
             $transcriptParams = array();
             if ( $params['academic_subject_id_'.$i] ) {
                 $transcriptParams['transcript_id']       = $trans->id;
@@ -202,7 +202,7 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
             $weightedGpaArray = array();
             $unWeightedGpaArray = array();
             
-            for ( $i = 1 ; $i <=9; $i++ ) {
+            for ( $i = 1 ; $i <=12; $i++ ) {
                 if ( $params['academic_subject_id_'.$i] ) {
                     $calGPA = 0;
                     $calGPAUnWeighed = 0;

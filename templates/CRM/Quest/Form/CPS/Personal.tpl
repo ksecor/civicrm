@@ -194,17 +194,6 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        <label>{ts}Telephone at mailing address{/ts}</label></td>
-    <td class="fieldlabel">
-	{edit}
-           <input type="checkbox" name="copy_phone" value="1" onClick="copyPhone()"/> {ts}Check if same as Permanent Phone{/ts}<br/>
-	{/edit}
-        {$form.location.2.phone.1.phone.html}<br />
-        {ts}{edit}Area Code and Number. Include extension, if applicable (XXX-XXX-XXXX).<br />Include country code, if not US or Canada (XXX-XXX-XXXXXXX; country code, area code, phone number).{/edit}{/ts}
-    </td>
-</tr>
-<tr>
-    <td class="grouplabel">
         <label>{ts}Alternate Telephone{/ts}</td>
     <td class="fieldlabel">
         {$form.location.2.phone.2.phone.html}<br />

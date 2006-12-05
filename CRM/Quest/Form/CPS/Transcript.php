@@ -179,7 +179,7 @@ class CRM_Quest_Form_CPS_Transcript extends CRM_Quest_Form_App
         $grades  =& self::gradeSelector( );
         $credits =& self::creditSelector( );
 
-        for ( $i = 1; $i <= 10; $i++ ) {
+        for ( $i = 1; $i <= 12; $i++ ) {
             $this->addSelect( 'academic_subject', null, "_$i" );
             $this->addElement( 'text', "course_title_$i", null, $attributes['course_title'] );
             $this->addElement( 'select', "academic_credit_$i", null, $credits );
@@ -231,7 +231,7 @@ class CRM_Quest_Form_CPS_Transcript extends CRM_Quest_Form_App
                                  'academic_credit_'         => 'credit' );
 
         if ( $params['gradeTitle'] != 'Eleven' ) {
-            for ( $i = 1; $i <= 9; $i++ ) {
+            for ( $i = 1; $i <= 12; $i++ ) {
                 $filled = false;
                 $allFilled = true;
                 $gradeFilled = false;

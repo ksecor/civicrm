@@ -158,7 +158,7 @@ class CRM_Quest_Form_CPS_Scholarship extends CRM_Quest_Form_App
 
         // plan to be a financial aid applican
         $this->addYesNo( 'financial_aid_applicant',
-                         ts( 'Do you plan to apply for college financial aid?' ) ,null,false);
+                         ts( 'Do you plan to apply for college financial aid?' ) ,1,false);
 
         $this->addElement('textarea','displacement', ts('Are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), "cols=40 rows=3");
         
@@ -196,28 +196,7 @@ class CRM_Quest_Form_CPS_Scholarship extends CRM_Quest_Form_App
             $this->addElement('text', 'referral_educator_phone_'.$i, null, null );
         }
         
-        include_once 'CRM/Quest/BAO/Partner.php';
-        $partners = CRM_Quest_BAO_Partner::getPartners();
-        for($i=1;$i<=5;$i++) {
-           $this->addElement('select','alumni_partner_institution_id_'.$i ,ts('Partner Institution') ,
-                              array('' => ts('- select -')) + $partners,null ); 
-           $this->addElement('text', 'alumni_last_name_'.$i, ts('Last Name'), null );
-           $this->addElement('text', 'alumni_first_name_'.$i, ts('First Name'), null );
-           $this->addElement('date', 'alumni_class_year_'.$i, ts('Class Year'),CRM_Core_SelectValues::date( 'custom',55, 4, "Y" ));
-           $this->addElement('text', 'alumni_relationship_'.$i, ts('Relationship'), null );
-           
-        }
-        for($i=1;$i<=5; $i++) {
-            $this->addElement('select','employee_partner_institution_id_'.$i,ts('Partner Institution') ,
-                              array('' => ts('- select -')) + $partners ,null ); 
-            
-            $this->addElement('text', 'employee_last_name_'.$i, ts('Last Name'), null );
-            $this->addElement('text', 'employee_first_name_'.$i, ts('First Name'), null );
-            $this->addElement('text', 'employee_department_'.$i, ts('Department'), null );
-            $this->addElement('text', 'employee_relationship_'.$i, ts('Relationship'), null );
-            
-        }
-        
+              
         // did parent graduate from college
         $this->addYesNo( 'parent_grad_college_id',
                          ts( 'Have either of your parents/guardians graduated from a four-year college?' ),1,true );

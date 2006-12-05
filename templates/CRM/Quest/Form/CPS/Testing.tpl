@@ -102,6 +102,44 @@
 </table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr><td colspan=2 id="sub-category">{ts}PSAT Test{/ts}</td></tr>
+<tr><td colspan=2>
+{section name=rowLoop start=1 loop=$maxPSAT}
+    {assign var=i value=$smarty.section.rowLoop.index}
+    <div id="id_psat_test_{$i}">
+    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+     <tr>
+        {assign var=fld value="psat_criticalreading_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel" width="75%">{$form.$fld.html}</td>
+    </tr>
+    <tr>
+        {assign var=fld value="psat_math_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel">{$form.$fld.html}</td>
+    </tr>
+    <tr>
+        {assign var=fld value="psat_writing_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel">{$form.$fld.html}</td>
+    </tr>
+    <tr>
+        {assign var=fld value="psat_date_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel">{$form.$fld.html}
+            {if $i LT $maxPSAT}
+                {assign var=j value=$i+1}
+                <br /><span id="id_psat_test_{$j}_show">{$psat_test.$j.show}</span>
+            {/if}        
+        </td>
+    </tr>
+    </table>
+    </div>
+{/section}
+</td></tr>
+</table>
+
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr><td colspan=2 id="sub-category">{ts}SAT II Subject Test(s){/ts}</td></tr>
 <tr><td colspan=2>
 
