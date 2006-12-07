@@ -39,8 +39,8 @@ require_once 'CRM/Contribute/Form/ContributionBase.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_ContributionBase {
-
+class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_ContributionBase 
+{
     /**
      * Function to set variables up before form is built
      *
@@ -78,6 +78,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['token']          = $this->get( 'token' );
 
                 $this->_params['amount'        ] = $this->get( 'amount' );
+                $this->_params['amount_level'  ] = $this->get( 'amount_level' );
                 $this->_params['currencyID'    ] = $config->defaultCurrency;
                 $this->_params['payment_action'] = 'Sale';
 
@@ -113,12 +114,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR']; 
 
             $this->_params['amount'        ] = $this->get( 'amount' );
+            $this->_params['amount_level'  ] = $this->get( 'amount_level' );
             $this->_params['currencyID'    ] = $config->defaultCurrency;
             $this->_params['payment_action'] = 'Sale';
         }
 
         $this->_params['invoiceID'] = $this->get( 'invoiceID' );
         $this->set( 'params', $this->_params );
+
+       
     }
 
     /**
@@ -132,8 +136,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->assignToTemplate( );
         require_once 'CRM/Contribute/BAO/Premium.php';
         $amount = $this->get( 'amount' );
+        $amount_level = $this->get( 'amount_level' );
+
+        // CRM_Core_Error::debug("d", $amount_level);
+        $this->assign('amount_level', $amount_level );
+
         $params = $this->_params;
-     
+        //  CRM_Core_Error::debug('praams' , $params);
         $honor_block_is_active = $this->get( 'honor_block_is_active');
         if ( $honor_block_is_active )  {
             $this->assign('honor_block_is_active', $honor_block_is_active );
@@ -145,7 +154,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->assign("honor_first_name",$params["honor_first_name"]);
             $this->assign("honor_last_name",$params["honor_last_name"]);
             $this->assign("honor_email",$params["honor_email"]);
-        
         }
 
         $amount_block_is_active = $this->get( 'amount_block_is_active');
@@ -182,10 +190,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 )
                           );
         
-
-        
-
-        $defaults = array();
+        $defaults = array( );
         $options = array( );
         $fields = array( );
         require_once "CRM/Core/BAO/CustomGroup.php";
@@ -220,7 +225,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return int
      * @access public
      */
-    function getAction( ) {
+    function getAction( ) 
+    {
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {
             return CRM_Core_Action::VIEW | CRM_Core_Action::PREVIEW;
         } else {
@@ -246,7 +252,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return None  
      * @access public  
      */ 
-    function buildCustom( $id, $name ) {
+    function buildCustom( $id, $name )  
+    {
         if ( $id ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             require_once 'CRM/Profile/Form.php';
@@ -273,8 +280,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
        
     }
-
-    
 
     /**
      * Process the form
@@ -520,7 +525,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @access public
      */
     public function processContribution( $params, $result, $contactID, $contributionType,
-                                         $deductibleMode = true, $pending = false ) {
+                                         $deductibleMode = true, $pending = false ) 
+    {
 
         CRM_Core_DAO::transaction( 'BEGIN' );
 
@@ -564,6 +570,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                'receive_date'          => $now,
                                'non_deductible_amount' => $nonDeductibleAmount,
                                'total_amount'          => $params['amount'],
+                               'amount_level'          => $params['amount_level'],
                                'invoice_id'            => $params['invoiceID'],
                                'currency'              => $params['currencyID'],
                                'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title']

@@ -42,7 +42,7 @@
     <td>{$row.contact_type}</td>	
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
 {/if}
-    <td class="right bold nowrap">{$row.total_amount|crmMoney}
+    <td class="right bold nowrap">{$row.total_amount|crmMoney} {if $row.amount_level } - {$row.amount_level} {/if}
     {if $row.contribution_recur_id}
      <br /> {ts}(Recurring Contribution){/ts}
     {/if}

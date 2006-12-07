@@ -86,7 +86,6 @@ class CRM_Contribute_BAO_Query
                                                      "title" => "Recurring Contributions ID",
                                                      "where" => "civicrm_contribution.contribution_recur_id"
                                                      );
-            
             unset( $fields['contact_id']);
             unset( $fields['note'] ); 
             self::$_contributionFields = $fields;
@@ -290,7 +289,7 @@ class CRM_Contribute_BAO_Query
             } else {
                 $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             }
-        }        
+        }
     }
 
     static function from( $name, $mode, $side ) {
@@ -371,6 +370,7 @@ class CRM_Contribute_BAO_Query
                                 'contribution_status_id'  => 1,
                                 'contrib_status'          => 1,
                                 'contribution_recur_id'   => 1, 
+                                'amount_level'            => 1,
                                 );
 
             // also get all the custom contribution properties

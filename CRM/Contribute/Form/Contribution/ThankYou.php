@@ -52,6 +52,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         parent::preProcess( );
 
         $this->_params = $this->get( 'params' );
+        
         $is_deductible = $this->get('is_deductible');
         $this->assign('is_deductible',$is_deductible);
         $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
@@ -73,7 +74,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $productID    = $this->get ('productID');
         $option       = $this->get ('option');
         $membershipID = $this->get ('membershipID');
-
+        $amount_level = $this->get ('amount_level' );
+        $this->assign('amount_level', $amount_level );
         if ( $productID ) {
             require_once 'CRM/Contribute/BAO/Premium.php';  
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);
@@ -138,6 +140,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                 } 
             }
         }
+       
+
         $this->setDefaults( $defaults );
         $this->freeze();
         // can we blow away the session now to prevent hackery

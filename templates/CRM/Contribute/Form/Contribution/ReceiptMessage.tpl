@@ -26,8 +26,9 @@ Membership End Date   : {$mem_end_date|crmDate}
 -------------------------------------------
 {ts}Total{/ts}: {$amount+$membership_amount|crmMoney}
 {else}
-{ts}Amount{/ts}: {$amount|crmMoney}
+{ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 {/if}
+
 {ts}Date{/ts}: {$receive_date|crmDate}
 {if $is_monetary}
 {ts}Transaction #{/ts}: {$trxn_id}

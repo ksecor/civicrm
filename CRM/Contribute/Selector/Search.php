@@ -76,6 +76,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'contribution_id',
                                  'contact_type',
                                  'sort_name',
+                                 'amount_level',
                                  'total_amount',
                                  'contribution_type',
                                  'contribution_source',
@@ -275,7 +276,6 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                               false, false, 
                                               false, 
                                               $this->_contributionClause );
-
         // process the result of the query
         $rows = array( );
 
@@ -320,6 +320,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
 
             $rows[] = $row;
         }
+        //        CRM_Core_Error::debug('rows', $rows);
         return $rows;
     }
     

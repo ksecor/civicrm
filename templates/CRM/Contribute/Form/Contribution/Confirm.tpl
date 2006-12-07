@@ -32,7 +32,7 @@
              {/if}         
         {else}
            {if $amount }
-           <strong>{$amount|crmMoney}</strong>
+            {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
            {else}
             <strong>{$minimum_fee|crmMoney}</strong> 
            {/if}

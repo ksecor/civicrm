@@ -36,8 +36,8 @@
               <strong> -------------------------------------------</strong><br />
               {ts}Total{/ts}: <strong>{$amount+$membership_amount|crmMoney}</strong><br />
         {else}
-            {ts}Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
-        {/if}
+              {ts}Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
+         {/if}
           {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
         {if $contributeMode ne 'notify' and $is_monetary}
           {ts}Transaction #{/ts}: {$trxn_id}<br />

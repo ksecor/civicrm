@@ -93,7 +93,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         // hack to simplify credit card entry for testing
-//         $this->_defaults['credit_card_type']     = 'Visa';
+        // $this->_defaults['credit_card_type']     = 'Visa';
 //         $this->_defaults['amount']               = 5.00;
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
 //         $this->_defaults['cvv2']                 = '000';
@@ -113,7 +113,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $config =& CRM_Core_Config::singleton( );
 
         $this->applyFilter('__ALL__', 'trim');
-
         $this->add( 'text', 'email', ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         if ( $this->_values['is_monetary'] ) {
             $this->buildCreditCard( );
@@ -171,32 +170,36 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             for ( $index = 1; $index <= count( $this->_values['label'] ); $index++ ) {
                 $elements[] =& $this->createElement('radio', null, '',
                                                     CRM_Utils_Money::format($this->_values['value'][$index]) . ' ' . $this->_values['label'][$index],
-                                                    $this->_values['value'][$index],
+                                                    $this->_values['amount_id'][$index],
                                                     array('onclick'=>'clearAmountOther();'));
-                if ( $this->_values['value'][$index] == $this->_values['default_amount'] ) {
-                    $this->_defaults["amount"] = $this->_values['value'][$index];
-                }
             }
         }
 
+        $this->_defaults['amount'] = $this->_values['default_amount_id'];
+        
         if ( $this->_values['is_allow_other_amount'] ) {
-            $elements[] =& $this->createElement('radio', null, '',
-                                                ts('Other Amount'), 'amount_other_radio');
+            if ( $this->_values['label'] ) {
+                $elements[] =& $this->createElement('radio', null, '',
+                                                    ts('Other Amount'), 'amount_other_radio');
 
+                $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
+                $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
+                $this->add('text', 'amount_other', ts( 'Other Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();') );
+            } else {
+                $this->add('text', 'amount_other', ts( 'Contribution Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();'),true );               
+            }
             $this->assign( 'is_allow_other_amount', true );
-            $this->addElement('text', 'amount_other',
-                       ts('Other Amount'), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();' )
-                       );
+
             $this->addRule( 'amount_other', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
         } else {
             $this->assign( 'is_allow_other_amount', false );
         }
 
+        
 
-        $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
-        $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
+
     }
-
+    
     /**  
      * Function to add the custom fields
      *  
@@ -470,6 +473,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
 
+        //CRM_Core_Error::debug('prm', $params);
         $params['currencyID']     = $config->defaultCurrency;
 
         // first clean up the other amount field if present
@@ -478,8 +482,14 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         
         $params['payment_action'] = 'Sale'; 
-        $params['amount'] = ( $params['amount'] == 'amount_other_radio' ) ? $params['amount_other'] : $params['amount'];
         
+        if ( $params['amount'] == 'amount_other_radio' || $params['amount_other']) {
+            $params['amount'] = $params['amount_other'];
+        } else {
+            $params['amount_level'] = $this->_values['label'][array_search( $params['amount'], $this->_values['amount_id'])];
+            $params['amount'      ] = $this->_values['value'][array_search( $params['amount'], $this->_values['amount_id'])];
+        }
+    
         if ( !$params['amount'] && $params['selectMembership'] ) {
             $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
             if ( $memFee ) {
@@ -488,6 +498,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $params['amount'] = 0;
             }
         }
+
+        if ( ! $params['amount_other'] ) {
+            $this->set( 'amount_level', $params['amount_level'] ); 
+        }
+        
         $this->set( 'amount', $params['amount'] ); 
         
         // generate and set an invoiceID for this transaction
