@@ -41,7 +41,7 @@
        <name>vcard_name</name>
        <title>vCard Location Type</title>
        <type>varchar</type>
-       <length>4</length>
+       <length>64</length>
        <comment>vCard Location Type Name.</comment>
        <add>1.1</add>
   </field>
