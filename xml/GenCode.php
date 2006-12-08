@@ -43,7 +43,14 @@ function createDir( $dir, $perm = 0755 ) {
 $smarty =& new Smarty( );
 $smarty->template_dir = './templates';
 
-$compileDir = '/tmp/templates_c';
+ if ( isset ( $_SERVER['TMPDIR'] ) ) {
+     $tempDir = $_SERVER['TMPDIR'];
+ } else {
+     $tempDir = '/tmp';
+ }
+
+$compileDir = $tempDir . '/templates_c';
+
 if (file_exists($compileDir)) {
     $oldTemplates = preg_grep('/tpl\.php$/', scandir($compileDir));
     foreach ($oldTemplates as $templateFile) {
@@ -386,7 +393,7 @@ if (isset($argv[2]) and $argv[2] != '') {
 file_put_contents("$tplCodePath/CRM/common/version.tpl", $svnversion);
 
 // unlink the templates_c directory
-system( "rm -rf /tmp/templates_c" );
+system( "rm -rf {$tempDir}/templates_c" );
 
 function &parseInput( $file ) {
     $dom = DomDocument::load( $file );
