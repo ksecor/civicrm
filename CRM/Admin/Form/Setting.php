@@ -27,7 +27,6 @@
 
 /**
  *
- *
  * @package CRM
  * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2006
@@ -51,17 +50,34 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
      * @access public
      * @return None
      */
-    function setDefaultValues( ) {
+    function setDefaultValues( ) 
+    {
         $defaults = array( );
-        
+        //CRM_Core_Error::debug("s", $this->_name);
+        $formArray = array('Component', 'Localisation');
+        if ( in_array( $this->_name, $formArray ) ) {
+            $formMode = true;
+        }
+
         require_once "CRM/Core/BAO/Setting.php";
         CRM_Core_BAO_Setting::retrieve($defaults);
-        self::setValues($defaults);
+        self::setValues($defaults, $formMode);
         return $defaults;
     }
 
-
-    public function setValues(&$defaults) {
+    /**
+     * Function to set the default values
+     *
+     * @param array   $defaults  associated array of form elements
+     * @param boolena $formMode  this funtion is called to set default
+     *                           values in an empty db, also called when setting component using GUI
+     *                           this variable is set true for GUI
+     *                           mode (eg: Global setting >> Components)    
+     *
+     * @access public
+     */
+    public function setValues(&$defaults, $formMode = false) 
+    {
         $config =& CRM_Core_Config::singleton( );
 
         $baseURL = $config->userFrameworkBaseURL;
@@ -104,11 +120,11 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
             $defaults['smtpAuth'] = 0;
         }
 
-        if ( ! isset( $defaults['countryLimit'][0] ) ) {
+        if ( ! isset( $defaults['countryLimit'][0] ) && !$formMode ) {
             $defaults['countryLimit'] = 1228;
         }
 
-        if ( ! isset( $defaults['provinceLimit'][0] ) ) {
+        if ( ! isset( $defaults['provinceLimit'][0] ) && !$formMode ) {
             $defaults['provinceLimit'] = 1228;
         }
 
@@ -183,8 +199,8 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         if ( ! isset( $defaults['legacyEncoding'] ) ) {
             $defaults['legacyEncoding'] = 'Windows-1252';
         }
-
-        if ( empty ( $defaults['enableComponents'] ) ) {
+        
+        if ( empty ( $defaults['enableComponents'] ) && !$formMode ) {
             $defaults['enableComponents'] = array('CiviContribute','CiviMember');
         }
 
@@ -205,7 +221,8 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
         // set breadcrumb to append to 2nd layer pages
         $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Global Settings') . '</a>';
