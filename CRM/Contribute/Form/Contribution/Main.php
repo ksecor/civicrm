@@ -473,7 +473,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
 
-        //CRM_Core_Error::debug('prm', $params);
         $params['currencyID']     = $config->defaultCurrency;
 
         // first clean up the other amount field if present

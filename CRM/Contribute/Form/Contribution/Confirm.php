@@ -138,11 +138,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $amount = $this->get( 'amount' );
         $amount_level = $this->get( 'amount_level' );
 
-        // CRM_Core_Error::debug("d", $amount_level);
         $this->assign('amount_level', $amount_level );
 
         $params = $this->_params;
-        //  CRM_Core_Error::debug('praams' , $params);
         $honor_block_is_active = $this->get( 'honor_block_is_active');
         if ( $honor_block_is_active )  {
             $this->assign('honor_block_is_active', $honor_block_is_active );

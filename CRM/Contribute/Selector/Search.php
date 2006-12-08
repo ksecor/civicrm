@@ -320,7 +320,6 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
 
             $rows[] = $row;
         }
-        //        CRM_Core_Error::debug('rows', $rows);
         return $rows;
     }
     
