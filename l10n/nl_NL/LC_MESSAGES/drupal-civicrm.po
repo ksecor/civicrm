@@ -6,7 +6,7 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.5\n"
+"Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-29 13:48+0100\n"
 "PO-Revision-Date: 2006-02-01 12:46+0100\n"
