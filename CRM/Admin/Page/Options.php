@@ -104,7 +104,7 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
             $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Access Control') . '</a>';
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
         } else {
-            CRM_Utils_System::setTitle(ts(self::$_GName . ' Options'));
+            CRM_Utils_System::setTitle(ts('%1 Options', array(1 => self::$_GName)));
         }
     }
 
@@ -127,33 +127,33 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
     {
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this ' . self::$_GName . '?') . '\n\n' . ts('Users will no longer be able to select this value when adding or editing ' . self::$_GName . '.');
+            $disableExtra = ts('Are you sure you want to disable this %1?', array(1 => self::$_GName)) . '\n\n' . ts('Users will no longer be able to select this value when adding or editing %1.', array(1 => self::$_GName));
             
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/options',
                                                                     'qs'    => 'group=' . self::$_gName . '&action=update&id=%%id%%&reset=1',
-                                                                    'title' => ts('Edit ' . self::$_gName) 
+                                                                    'title' => ts('Edit %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
                                                                     'url'   => 'civicrm/admin/options',
                                                                     'qs'    => 'group=' . self::$_gName . '&action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                    'title' => ts('Disable ' . self::$_gName) 
+                                                                    'title' => ts('Disable %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
                                                                     'url'   => 'civicrm/admin/options',
                                                                     'qs'    => 'group=' . self::$_gName . '&action=enable&id=%%id%%',
-                                                                    'title' => ts('Enable ' . self::$_gName) 
+                                                                    'title' => ts('Enable %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/admin/options',
                                                                     'qs'    => 'group=' . self::$_gName . '&action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete ' . self::$_gName . ' Type') 
+                                                                    'title' => ts('Delete %1 Type', array(1 => self::$_gName))
                                                                    )
                                  );
         }

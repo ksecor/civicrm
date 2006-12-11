@@ -511,13 +511,12 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         $config =& CRM_Core_Config::singleton( );
 
         $error = array( );
-        static $errorMessage = '%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo Payment Processor.';
         if ( $config->paymentProcessor == 'PayPal_Standard' ) {
             if ( empty( $config->paymentUsername[$mode] ) ) {
                 if ( $mode == 'live' ) {
-                    $error[] = ts( $errorMessage, array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME') );
+                    $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME'));
                 } else {
-                    $error[] = ts( $errorMessage, array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME') );
+                    $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME'));
                 }
             }
         }
@@ -525,9 +524,9 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         if ( $config->paymentProcessor == 'PayPal' ) {
             if ( empty(  $config->paymentUsername[$mode] ) && empty( $config->paymentCertPath[$mode] ) ) {
                 if ( $mode == 'live' ) {
-                    $error[] = ts( $errorMessage, array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH') );
+                    $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'));
                 } else {
-                    $error[] = ts( $errorMessage, array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH') );
+                    $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'));
                 }
             }
         }

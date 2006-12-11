@@ -145,9 +145,9 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
     {
         if($this->_action & CRM_Core_Action::DELETE) {
             if(CRM_Core_BAO_OptionValue::del($this->_id)) {
-                CRM_Core_Session::setStatus( ts('Selected ' . $this->_GName . ' type has been deleted.') );
+                CRM_Core_Session::setStatus( ts('Selected %1 type has been deleted.', array(1 => $this->_GName)) );
             } else {
-                CRM_Core_Session::setStatus( ts('Selected ' . $this->_GName . ' type has not been deleted.') );
+                CRM_Core_Session::setStatus( ts('Selected %1 type has not been deleted.', array(1 => $this->_GName)) );
             }
         } else {
             $params = $ids = array( );
@@ -158,7 +158,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             require_once 'CRM/Core/OptionValue.php';
             $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
 
-            CRM_Core_Session::setStatus( ts('The ' . $this->_GName . ' "%1" has been saved.', array( 1 => $optionValue->label )) );
+            CRM_Core_Session::setStatus( ts('The %1 "%2" has been saved.', array(1 => $this->_GName, 2 => $optionValue->label)) );
         }
     }
 }

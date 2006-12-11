@@ -269,8 +269,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                 $displayName = CRM_Contact_BAO_Contact::displayName($contactId);
                 $contactLink = CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$contactId");
                 unset($this->_contactIds[$item]);
-                $statusOnHold .= ts("Email was not sent to <a href=$contactLink> %1 </a> because primary email address (<strong>%2</strong>) is On Hold.<br />", array( 1 => $displayName, 2 => $email[1])
-                                    );
+                $statusOnHold .= ts('Email was not sent to %1 because primary email address (%2) is On Hold.', array( 1 => "<a href='$contactLink'>$displayName</a>", 2 => "<strong>{$email[1]}</strong>")) . '<br />';
             }
         }
         
@@ -290,7 +289,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                 $details = CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$cId");
                 $name->find();
                 while( $name->fetch() ) {
-                    $statusDisplay .= ts("<a href=$details>" . $name->display_name . "</a> ") ." , ";
+                    $statusDisplay .= "<a href='$details'>" . $name->display_name . '</a>, ';
                 }
             }
             $status[] = $statusDisplay;
