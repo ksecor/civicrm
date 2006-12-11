@@ -52,16 +52,6 @@ class CRM_Event_Invoke {
             $view =& new CRM_Event_Page_ManageEvent(ts('Manage Event'));
             break;
             
-        case 'eventWizard':
-            require_once 'CRM/Event/Page/EventWizard.php';
-            $view =& new CRM_Event_Page_EventWizard(ts('Event Wizard'));
-            break;
-            
-        case 'participants':
-            require_once 'CRM/Event/Page/Participants.php';
-            $view =& new CRM_Event_Page_Participants(ts('Event Type, Participant Status, Participant Role'));
-            break;
-            
         default:
             require_once 'CRM/Event/Page/ManageEvent.php';
             $view =& new CRM_Event_Page_ManageEvent(ts('Eventship Types'));

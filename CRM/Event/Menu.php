@@ -56,9 +56,9 @@ class CRM_Event_Menu {
                              ),
                       
                        array(
-                             'path'    => 'civicrm/admin/event/eventType',
+                             'path'    => 'civicrm/admin/options',
                              'title'   => ts('Event Types'),
-                             'query'  => 'reset=1',
+                             'query'  => 'group=event_type&reset=1',
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
                              'type'    => CRM_Core_Menu::CALLBACK,
@@ -69,9 +69,9 @@ class CRM_Event_Menu {
                              ),
                        
                        array(
-                             'path'    => 'civicrm/admin/event/participantStatus',
+                             'path'    => 'civicrm/admin/options',
                              'title'   => ts('Participant Status'),
-                             'query'  => 'reset=1',
+                             'query'  => 'group=participant_status&reset=1',
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
                              'type'    => CRM_Core_Menu::CALLBACK,
@@ -82,9 +82,9 @@ class CRM_Event_Menu {
                              ),
 
                        array(
-                             'path'    => 'civicrm/admin/event/participantRole',
+                             'path'    => 'civicrm/admin/options',
                              'title'   => ts('Participant Role'),
-                             'query'  => 'reset=1',
+                             'query'  => 'group=participant_role&reset=1',
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
                              'type'    => CRM_Core_Menu::CALLBACK,
