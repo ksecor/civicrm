@@ -93,6 +93,36 @@ class CRM_Event_Menu {
                              'icon'    => 'admin/online_contribution_pages.png',
                              'weight'  => 395
                              ),
+                       array( 
+                             'path'    => 'civicrm/event',
+                             'query'   => 'reset=1',
+                             'title'   => ts('CiviEvent'), 
+                             'access'  => CRM_Core_Permission::check( 'access CiviEvent'), 
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,
+                             'weight'  => 800,
+                             ),
+                       
+                       array( 
+                             'path'    => 'civicrm/event/search',
+                             'query'   => 'reset=1',
+                             'title'   => ts( 'Find Participants' ),
+                             'access'  => CRM_Core_Permission::check( 'access CiviEvent'), 
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'weight'  => 810,  
+                             ),
+                       
+                       array(
+                             'path'    => 'civicrm/event/import', 
+                             'query'   => 'reset=1',
+                             'title'   => ts( 'Import Participants' ),
+                             'access' => CRM_Core_Permission::check('administer CiviCRM') &&
+                             CRM_Core_Permission::check('access CiviEvent'),
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'weight'  => 820,  
+                             )
                        );
 
         return $items;

@@ -87,8 +87,27 @@ class CRM_Event_Invoke {
         if ( $args[1] !== 'event' ) {  
             return;  
         }
+        
+        $session =& CRM_Core_Session::singleton( );
+        $config  =& CRM_Core_Config::singleton ( );
+        if ($args[2] == 'search') {
+            require_once 'CRM/Event/Controller/Search.php';
+            $controller =& new CRM_Event_Controller_Search($title, $mode); 
+            $url = 'civicrm/event/search';
+            $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
+            $controller->set( 'context', 'search' );
+            return $controller->run();
+            
+            
+        } elseif ($args[2] == 'import') {
+            require_once 'CRM/Event/Import/Controller.php';
+            $controller =& new CRM_Event_Import_Controller(ts('Import Participants'));
+            return $controller->run();
+        } else {
+            require_once 'CRM/Event/Page/DashBoard.php';
+            $view =& new CRM_Event_Page_DashBoard( ts('CiviEvent DashBoard') );
+            return $view->run( );
+        }
     }
-    
 }
-
 ?>
