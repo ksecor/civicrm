@@ -346,9 +346,13 @@ div.block-civicrm ul li.leaf {
 #crm-container ul li.leaf, #crm-container ul li.collapsed,
 div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed {
   padding: 0.2em 0.5em 0 0;
-  margin: 0;
+  margin:  0;
 }
 
+/* Fix for IE*/
+div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civicrm ul li.expanded{
+  margin: 0 0 0 0.3em;
+}
 /*
 ** Styles for formatting text
 */

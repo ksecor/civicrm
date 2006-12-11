@@ -100,7 +100,9 @@ function civicrm_main( ) {
     // generate backend config file
     $string = "
 <?php
-include_once '$configFile';
+
+require_once '$configFile';
+
 ?>
 ";
     $string = trim( $string );

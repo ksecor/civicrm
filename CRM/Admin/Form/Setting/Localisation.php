@@ -87,6 +87,7 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
         $includeState->setButtonAttributes('remove', array('value' => ts('<< Remove')));
     
         $this->addElement('select','defaultContactCountry', ts('Default Country'), $country);
+
         $symbol = $config->currencySymbols;
         foreach($symbol as $key=>$value) {
             $currencySymbols[$key] = "$key ($value)";

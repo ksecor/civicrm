@@ -1545,15 +1545,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function setRegisterDefaults( &$fields, &$defaults )  {
         foreach($fields as $name=>$field) {
-            if( $name == 'country-1' ) {
+            if ( substr( $name, 0, 8 ) == 'country-' ) {
                 $config =& CRM_Core_Config::singleton();
-                 if ( $config->defaultContactCountry ) {
-                     $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                     $defaultID = array_search($config->defaultContactCountry,
-                                               $countryIsoCodes);
-                         $defaults[$name] = $defaultID;
-                 }
-                 
+                if ( $config->defaultContactCountry ) {
+                    $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
+                    $defaultID = array_search($config->defaultContactCountry,
+                                              $countryIsoCodes);
+                    $defaults[$name] = $defaultID;
+                }
             }
         }
         return $defaults;

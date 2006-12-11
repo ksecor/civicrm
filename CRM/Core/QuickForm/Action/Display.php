@@ -134,6 +134,7 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
         if ( $controller->getPrint( ) ) {
             $html =& $content;
             echo $html;
+            exit( );
         } else {
             $html = CRM_Utils_System::theme( 'page', $content, true, $controller->getPrint( ), $ret );
         }

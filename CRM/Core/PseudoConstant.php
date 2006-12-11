@@ -432,7 +432,9 @@ class CRM_Core_PseudoConstant
                 foreach ($limitCodes as $code) {
                     $limitIds = array_merge($limitIds, array_keys($countryIsoCodes, $code));
                 }
-                $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
+                if ( !empty($limitIds) ) {
+                    $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
+                }
             }
             self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true, 'name', 'is_active', $whereClause );
 
@@ -480,7 +482,9 @@ class CRM_Core_PseudoConstant
                         $limitIds[] = array_shift($tmpArray);
                     }
                 }
-                $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
+                if ( !empty($limitIds) ) {
+                    $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
+                }
             } 
             self::populate( self::$stateProvinceAbbreviation, 'CRM_Core_DAO_StateProvince', true, 'abbreviation', 'is_active', $whereClause );
         }

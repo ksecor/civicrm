@@ -550,8 +550,11 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
     function exportValue(&$submitValues, $assoc = false)
     {
         $value = $this->_findValue($submitValues);
+
         if (is_null($value)) {
-            $value = $this->getValue();
+            // if value is null, default value is set for advselect
+            // fix for CRM-1431 - kurund
+            //$value = $this->getValue();
         } elseif(!is_array($value)) {
             $value = array($value);
         }
@@ -566,7 +569,14 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
                 }
             }
         } else {
-            $cleanValue = $value;
+            //if value is null make it empty array, checked most of
+            // the stuff, value is null for advselect
+            // fix for CRM-1431 - kurund
+            if (is_null($value)) { 
+                $cleanValue = array();
+            } else {
+                $cleanValue = $value;
+            }
         }
         if (is_array($cleanValue) && !$this->getMultiple()) {
             return $this->_prepareValue($cleanValue[0], $assoc);

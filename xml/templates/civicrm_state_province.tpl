@@ -3801,6 +3801,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (5174, 1075, "SW", "South-West Finland"),
 (5175, 1075, "AL", "Åland"),
 (5176, 1152, "LI", "Limburg"),
+(9000, 1196, "NW", "North West" ), 
 (9986, 1226, "xTYW", "Tyne and Wear"),
 (9987, 1226, "xIOM", "Isle of Man"),
 (9988, 1226, "xGMA", "Greater Manchester"),

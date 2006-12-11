@@ -245,7 +245,7 @@ class CRM_Core_Config
     public $lcMonetary = 'en_US';
 
     /**
-        * Format for monetary amounts
+     * Format for monetary amounts
      * @var string
      */
     public $currencySymbols = '';
@@ -560,10 +560,23 @@ class CRM_Core_Config
             setlocale(LC_MONETARY, $this->lcMonetary . '.UTF-8', $this->lcMonetary, 'C');
         }
         
-        $this->currencySymbols = array('CAD' => '$', 'EUR' => '€', 'GBP' => '£', 'ILS' => '₪', 'JPY' => '¥', 'KRW' => '₩', 
-                        'LAK' => '₭', 'MNT' => '₮', 'NGN' => '₦', 'PLN' => 'zł', 'THB' => '฿', 'USD' => '$', 'VND' => '₫');
+        $this->currencySymbols = array('CAD' => '$',
+                                       'EUR' => '€',
+                                       'GBP' => '£',
+                                       'ILS' => '₪',
+                                       'JPY' => '¥',
+                                       'KRW' => '₩',
+                                       'LAK' => '₭',
+                                       'MNT' => '₮',
+                                       'NGN' => '₦',
+                                       'PLN' => 'zł',
+                                       'THB' => '฿',
+                                       'USD' => '$',
+                                       'VND' => '₫',
+                                       );
         
-        if ( defined( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' ) and CRM_Utils_Rule::currencyCode( CIVICONTRIBUTE_DEFAULT_CURRENCY ) ) {
+        if ( defined( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' ) &&
+             CRM_Utils_Rule::currencyCode( CIVICONTRIBUTE_DEFAULT_CURRENCY ) ) {
             $this->defaultCurrency       = CIVICONTRIBUTE_DEFAULT_CURRENCY;
             $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
         }        
