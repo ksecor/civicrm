@@ -560,7 +560,7 @@ class CRM_Core_Config
             setlocale(LC_MONETARY, $this->lcMonetary . '.UTF-8', $this->lcMonetary, 'C');
         }
         
-        $this->currencySymbols = array('CDN' => '$',
+        $this->currencySymbols = array('CAD' => '$',
                                        'EUR' => '€',
                                        'GBP' => '£',
                                        'ILS' => '₪',
