@@ -62,6 +62,14 @@ class CRM_Core_Component {
                                            'edit memberships'),
                        'search'  => 1 );
 
+            self::$_info['CiviEvent'] = 
+                array( 'title'   => 'CiviCRM Event Engine',
+                       'path'    => 'CRM_Event_',
+                       'url'     => 'event',
+                       'perm'    => array( 'access CiviEvent',
+                                           'edit events'),
+                       'search'  => 0 );
+
             self::$_info['CiviMail'] = 
                 array( 'title'   => 'CiviCRM Mailing Engine',
                        'path'    => 'CRM_Mailing_',
