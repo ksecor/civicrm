@@ -68,7 +68,7 @@ function civicrm_update_2( ) {
     return civicrm_update_generic( '1.4', '1.5' );
 }
 
-function civicrm_update_2( ) {
+function civicrm_update_3( ) {
     return civicrm_update_generic( '1.5', '1.6' );
 }
 
