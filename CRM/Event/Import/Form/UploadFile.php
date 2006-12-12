@@ -34,27 +34,42 @@
  *
  */
 
-require_once 'CRM/Core/Controller.php';
+require_once 'CRM/Core/Form.php';
 
-class CRM_Event_Import_Controller extends CRM_Core_Controller
+/**
+ * This class gets the name of the file to upload
+ */
+class CRM_Event_Import_Form_UploadFile extends CRM_Core_Form
 {
+    /**
+     * Function to actually build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( )
+    {
+    }
 
     /**
-     * class constructor
+     * Process the uploaded file
+     *
+     * @return void
+     * @access public
      */
-    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true )
+    public function postProcess( )
     {
-        parent::__construct( $title, $modal );
-        
-        require_once 'CRM/Event/Import/StateMachine.php';
-        $this->_stateMachine =& new CRM_Event_Import_StateMachine( $this, $action );
-        
-        // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $action );
-        
-        // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
+    }
+
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle( )
+    {
+        return ts('Upload Data');
     }
 }
 ?>

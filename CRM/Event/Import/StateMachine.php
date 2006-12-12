@@ -34,27 +34,33 @@
  *
  */
 
-require_once 'CRM/Core/Controller.php';
+require_once 'CRM/Core/StateMachine.php';
 
-class CRM_Event_Import_Controller extends CRM_Core_Controller
-{
+/**
+ * State machine for managing different states of the Import process.
+ *
+ */
+class CRM_Event_Import_StateMachine extends CRM_Core_StateMachine {
 
     /**
      * class constructor
+     *
+     * @param object  CRM_Member_Import_Controller
+     * @param int     $action
+     *
+     * @return object CRM_Member_Import_StateMachine
      */
-    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true )
-    {
-        parent::__construct( $title, $modal );
+    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
+        parent::__construct( $controller, $action );
         
-        require_once 'CRM/Event/Import/StateMachine.php';
-        $this->_stateMachine =& new CRM_Event_Import_StateMachine( $this, $action );
+        $this->_pages = array(
+                              'CRM_Event_Import_Form_UploadFile' => null,
+                              'CRM_Event_Import_Form_MapField'   => null,
+                              'CRM_Event_Import_Form_Preview'    => null,
+                              'CRM_Event_Import_Form_Summary'    => null,
+                              );
         
-        // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $action );
-        
-        // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
+        $this->addSequentialPages( $this->_pages, $action );
     }
 }
 ?>
