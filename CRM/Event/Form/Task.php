@@ -27,6 +27,7 @@
 
 /**
  *
+ *
  * @package CRM
  * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2006
@@ -34,39 +35,76 @@
  *
  */
 
-require_once 'CRM/Core/Controller.php';
+require_once 'CRM/Core/SelectValues.php';
+require_once 'CRM/Core/Form.php';
 
 /**
- * This class is used by the Search functionality.
- *
- *  - the search controller is used for building/processing multiform
- *    searches.
- *
- * Typically the first form will display the search criteria and it's results
- *
- * The second form is used to process search results with the asscociated actions
- *
+ * This class generates form components for relationship
+ * 
  */
-
-class CRM_Event_Controller_Search extends CRM_Core_Controller
+class CRM_Event_Form_Task extends CRM_Core_Form
 {
     /**
-     * class constructor
+     * the task being performed
+     *
+     * @var int
      */
-    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true )
+    protected $_task;
+
+    /**
+     * The additional clause that we restrict the search with
+     *
+     * @var string
+     */
+    protected $_eventClause = null;
+
+    /**
+     * The array that holds all the contribution ids
+     *
+     * @var array
+     */
+    protected $_eventIds;
+
+    /**
+     * build all the data structures needed to build the form
+     *
+     * @param
+     * @return void
+     * @access public
+     */
+    function preProcess( ) 
     {
-        require_once 'CRM/Event/StateMachine/Search.php';
-        
-        parent::__construct( $title, $modal );
-        
-        $this->_stateMachine =& new CRM_Event_StateMachine_Search( $this, $action );
-        
-        // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $action );
-        
-        // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( );
+    }
+
+    /**
+     * Function to actually build the form
+     *
+     * @return void
+     * @access public
+     */
+    public function buildQuickForm( ) 
+    {
+    }
+
+    /**
+     * simple shell that derived classes can call to add buttons to
+     * the form with a customized title for the main Submit
+     *
+     * @param string $title title of the main button
+     * @param string $type  button type for the form after processing
+     * @return void
+     * @access public
+     */
+    function addDefaultButtons( $title, $nextType = 'next', $backType = 'back' )
+    {
+        $this->addButtons( array(
+                                 array ( 'type'      => $nextType,
+                                         'name'      => $title,
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => $backType,
+                                         'name'      => ts('Cancel') ),
+                                 )
+                           );
     }
 }
 ?>

@@ -34,39 +34,56 @@
  *
  */
 
-require_once 'CRM/Core/Controller.php';
-
 /**
- * This class is used by the Search functionality.
- *
- *  - the search controller is used for building/processing multiform
- *    searches.
- *
- * Typically the first form will display the search criteria and it's results
- *
- * The second form is used to process search results with the asscociated actions
+ * class to represent the actions that can be performed on a group of contacts
+ * used by the search forms
  *
  */
-
-class CRM_Event_Controller_Search extends CRM_Core_Controller
+class CRM_Event_Task
 {
+    const
+        DELETE_EVENTS                     =     1,
+        PRINT_EVENTS                      =     2,
+        EXPORT_EVENTS                     =     3,
+        BATCH_EVENTS                      =     4,
+        CANCEL_REGISTRATION               =     5;
+    
     /**
-     * class constructor
+     * the task array
+     *
+     * @var array
+     * @static
      */
-    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true )
+    static $_tasks = null;
+
+    /**
+     * the optional task array
+     *
+     * @var array
+     * @static
+     */
+    static $_optionalTasks = null;
+
+    /**
+     * These tasks are the core set of tasks that the user can perform
+     * on a contact / group of contacts
+     *
+     * @return array the set of tasks for a group of contacts
+     * @static
+     * @access public
+     */
+    static function &tasks()
     {
-        require_once 'CRM/Event/StateMachine/Search.php';
+        if (!(self::$_tasks)) {
+            self::$_tasks = array(
+                                  3     => ts( 'Export Events'                   ),
+                                  1     => ts( 'Delete Events'                   ),
+                                  4     => ts( 'Batch Update Events Via Profile' ),
+                                  5     => ts( 'Cancel Registration'             )
+                                  );
+        }
         
-        parent::__construct( $title, $modal );
-        
-        $this->_stateMachine =& new CRM_Event_StateMachine_Search( $this, $action );
-        
-        // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $action );
-        
-        // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( );
+        return self::$_tasks;
     }
 }
 ?>

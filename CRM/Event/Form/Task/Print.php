@@ -34,39 +34,46 @@
  *
  */
 
-require_once 'CRM/Core/Controller.php';
+require_once 'CRM/Event/Form/Task.php';
 
 /**
- * This class is used by the Search functionality.
- *
- *  - the search controller is used for building/processing multiform
- *    searches.
- *
- * Typically the first form will display the search criteria and it's results
- *
- * The second form is used to process search results with the asscociated actions
- *
+ * This class provides the functionality to save a search
+ * Saved Searches are used for saving frequently used queries
  */
-
-class CRM_Event_Controller_Search extends CRM_Core_Controller
+class CRM_Event_Form_Task_Print extends CRM_Event_Form_Task
 {
     /**
-     * class constructor
+     * build all the data structures needed to build the form
+     *
+     * @return void
+     * @access public
      */
-    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true )
+    function preProcess()
     {
-        require_once 'CRM/Event/StateMachine/Search.php';
-        
-        parent::__construct( $title, $modal );
-        
-        $this->_stateMachine =& new CRM_Event_StateMachine_Search( $this, $action );
-        
-        // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $action );
-        
-        // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( );
+        parent::preprocess( );
+    }
+
+    /**
+     * Build the form - it consists of
+     *    - displaying the QILL (query in local language)
+     *    - displaying elements for saving the search
+     *
+     * @access public
+     * @return void
+     */
+    function buildQuickForm()
+    {
+    }
+    
+    /**
+     * process the form after the input has been submitted and validated
+     *
+     * @access public
+     * @return void
+     */
+    public function postProcess()
+    {
+        // redirect to the main search page after printing is over
     }
 }
 ?>

@@ -37,9 +37,10 @@
  *
  */
 
-class CRM_Event_Invoke {
-
-    static function admin( &$args ) {
+class CRM_Event_Invoke
+{
+    static function admin( &$args ) 
+    {
         if ( $args[1] !== 'admin' && $args[2] !== 'event' ) {
             return;
         }
@@ -78,7 +79,8 @@ class CRM_Event_Invoke {
      * @static  
      * @access public  
      */  
-    static function main( &$args ) {  
+    static function main( &$args )
+    {
         if ( $args[1] !== 'event' ) {  
             return;  
         }

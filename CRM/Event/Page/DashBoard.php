@@ -63,7 +63,7 @@ class CRM_Event_Page_DashBoard extends CRM_Core_Page
     function run( ) 
     {
         $this->preProcess( );
-        /*
+        
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_Search', ts('events'), $this->_action ); 
         $controller->setEmbedded( true ); 
         $controller->reset( ); 
@@ -72,7 +72,7 @@ class CRM_Event_Page_DashBoard extends CRM_Core_Page
         $controller->set( 'context', 'dashboard' ); 
         $controller->process( ); 
         $controller->run( ); 
-        */
+        
         return parent::run( );
     }
 }

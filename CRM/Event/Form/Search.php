@@ -21,7 +21,7 @@
  | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | http://www.civicrm.org/licensing/                                  |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
@@ -34,39 +34,61 @@
  *
  */
 
-require_once 'CRM/Core/Controller.php';
-
 /**
- * This class is used by the Search functionality.
- *
- *  - the search controller is used for building/processing multiform
- *    searches.
- *
- * Typically the first form will display the search criteria and it's results
- *
- * The second form is used to process search results with the asscociated actions
- *
+ * Files required
  */
 
-class CRM_Event_Controller_Search extends CRM_Core_Controller
+/**
+ * This file is for civimember search
+ */
+class CRM_Event_Form_Search extends CRM_Core_Form
 {
-    /**
-     * class constructor
-     */
-    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true )
+    /** 
+     * processing needed for buildForm and later 
+     * 
+     * @return void 
+     * @access public 
+     */ 
+    function preProcess( ) 
     {
-        require_once 'CRM/Event/StateMachine/Search.php';
-        
-        parent::__construct( $title, $modal );
-        
-        $this->_stateMachine =& new CRM_Event_StateMachine_Search( $this, $action );
-        
-        // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $action );
-        
-        // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( );
+    }
+    
+    /**
+     * Build the form
+     *
+     * @access public
+     * @return void
+     */
+    function buildQuickForm( ) 
+    {
+    }
+    
+    /**
+     * The post processing of the form gets done here.
+     *
+     * Key things done during post processing are
+     *      - check for reset or next request. if present, skip post procesing.
+     *      - now check if user requested running a saved search, if so, then
+     *        the form values associated with the saved search are used for searching.
+     *      - if user has done a submit with new values the regular post submissing is 
+     *        done.
+     * The processing consists of using a Selector / Controller framework for getting the
+     * search results.
+     *
+     * @param
+     *
+     * @return void 
+     * @access public
+     */
+    function postProcess( ) 
+    {
+    }
+    
+    function fixFormValues( )
+    {
+        // if this search has been forced
+        // then see if there are any get values, and if so over-ride the post values
+        // note that this means that GET over-rides POST :)
     }
 }
 ?>
