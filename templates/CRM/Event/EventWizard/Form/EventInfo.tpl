@@ -1,8 +1,10 @@
 {* this template is used for adding event  *}
+{include file="CRM/common/WizardHeader.tpl"}
+
 <div class="form-item">
-<fieldset>
+<fieldset><legend>{ts}Event Information{/ts}</legend>
       <dl>
- 	    <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
+ 	<dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     	<dt>{$form.summary.label}</dt><dd>{$form.summary.html}</dd>
     	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
     	<dt>{$form.is_public.label}</dt><dd>{$form.is_public.html}</dd>

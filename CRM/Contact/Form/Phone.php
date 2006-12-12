@@ -53,7 +53,7 @@ class CRM_Contact_Form_Phone
      * @static
      */
     static function buildPhoneBlock(&$form, &$location, $locationId, $count) {
-
+        require_once 'CRM/Core/ShowHideBlocks.php';
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? ts('Phone (preferred)') : ts('Phone');
 

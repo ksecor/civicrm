@@ -41,24 +41,9 @@ require_once 'CRM/Core/Form.php';
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_Form_EventRegistration extends CRM_Core_Form
+class CRM_Event_EventWizard_Form_EventInfo extends CRM_Core_Form
 {
-
-  /**
-     * This function sets the default values for the form. 
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( ) {
-        
-        if ( $tempDefaults['regLinkText'] ) {
-            $this->assign("showReg" , true );
-            $this->assign("confirmReg" , true );
-            $this->assign("mailReg" , true );
-        }
-    }         
+    
     /** 
      * Function to build the form 
      * 
@@ -69,14 +54,27 @@ class CRM_Event_Form_EventRegistration extends CRM_Core_Form
     { 
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?') );
-
-        $this->add('text','regLinkText',ts('Registration Link Text'));
+        $this->add('text','title',ts('Title'));
+        
+        $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
+        
+        $this->add('textarea','description',ts('Full description'), array("rows"=>4,"cols"=>60));
+        
+        $this->addElement('checkbox', 'is_public', ts('Public?') );
+        
        
-        self::buildRegistrationBlock( $this, $this->_id);
-        self::buildConfirmationBlock( $this, $this->_id);
-        self::buildMailBlock( $this, $this->_id);
-            
+        $this->addElement('date', 'start_date', ts('Start date/time'),null); 
+        $this->addRule('start_date', ts('Select a valid date.'), 'qfDate');
+        
+        $this->addElement('date', 'end_date', ts('End date/time'), null); 
+        $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
+        
+        $this->add('text','max_participant', ts('Max Number of Participants'));
+
+        $this->add('text','event_full_text', ts('Event full text'));
+        
+        $this->addElement('checkbox', 'is_active', ts('Enabled?') );
+        
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -88,49 +86,16 @@ class CRM_Event_Form_EventRegistration extends CRM_Core_Form
                           );
         return;
     }
-    
-    /**
-     * Function to build Registration Block  
-     * 
-     * @param int $pageId 
-     * @static
-     */
-
-    function buildRegistrationBlock( $form ) {
-        $form->add('textarea','intro_text',ts('Intro Text'), array("rows"=>6,"cols"=>80));
-        $form->add('textarea','footer_text',ts('Footer Text'), array("rows"=>6,"cols"=>80));
-        $form->add('select', 'participant_info_1', ts('Custom Data 1'),array(''=>'-select-'));
-        $form->add('select', 'participant_info_2', ts('Custom Data 2'),array(''=>'-select-'));
-    }
-    
 
     /**
-     * Function to build Confirmation Block  
-     * 
-     * @param int $pageId 
-     * @static
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
      */
-
-    function buildConfirmationBlock( $form) {
-     
-        $form->add('text','confirm_title',ts('Title '));   
-        $form->add('textarea','confirm_text',ts('Intro Text'), array("rows"=>6,"cols"=>80));
-        $form->add('textarea','confirm_footer_text',ts('Footer Text'), array("rows"=>6,"cols"=>80));
-    }
-
-    /**
-     * Function to build Email Block  
-     * 
-     * @param int $pageId 
-     * @static
-     */
-
-    function buildMailBlock( $form ) {
-        
-        $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, false);
-        $form->add('textarea','confirm_email_text',ts('Text'), array("rows"=>2,"cols"=>60));
-        $form->add('text','cc_confirm',ts('CC Confirmation To '));  
-        $form->add('text','cc_confirm',ts('BCC Confirmation To '));  
+    public function getTitle( ) 
+    {
+        return ts('Event Information and Settings');
     }
 }
 ?>

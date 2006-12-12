@@ -1,4 +1,6 @@
+{include file="CRM/common/WizardHeader.tpl"}
 <div class="form-item">
+<fieldset><legend>{ts}Online Registration{/ts}</legend>
  <dl>
  	<dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
     <dt>{$form.regLinkText.label}</dt><dd>{$form.regLinkText.html}</dd>
@@ -54,7 +56,8 @@
 <div id="crm-submit-buttons">
     {$form.buttons.html}
 </div>
-</dl>   
+</dl>  
+</fieldset>
 </div>
 {if $action eq 1 or $action eq 2 }		 
 
