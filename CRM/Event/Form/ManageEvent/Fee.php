@@ -27,6 +27,7 @@
 
 /**
  *
+ *
  * @package CRM
  * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2006
@@ -34,34 +35,60 @@
  *
  */
 
-require_once 'CRM/Core/StateMachine.php';
+require_once 'CRM/Core/Form.php';
 
 /**
- * State machine for managing different states of the EventWizard process.
- *
+ * This class generates form components for Fee
+ * 
  */
-class CRM_Event_StateMachine_ManageEvent extends CRM_Core_StateMachine {
+class CRM_Event_Form_ManageEvent_Fee extends CRM_Core_Form
+{
+
+    /** 
+     * Constants for number of options for data types of multiple option. 
+     */ 
+    const NUM_OPTION = 11;
+    
+    /**
+     * Function to build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) 
+    {
+       
+        parent::buildQuickForm( );
+        $this->addYesNo('paid_event', ts('Paid Event') );
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $this->addElement('select', 'contribution_type_id',ts( 'Contribution Type' ),
+                          array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+        
+        $default = array( );
+        for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
+            // label 
+            $this->add('text', "label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label')); 
+            
+            // value 
+            $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value')); 
+            $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
+
+            // default
+            $default[] = $this->createElement('radio', null, null, null, $i); 
+        }
+
+        $this->addGroup( $default, 'default' );
+    }
 
     /**
-     * class constructor
+     * Return a descriptive name for the page, used in wizard header
      *
-     * @param object  CRM_Event_EventWizard_Controller
-     * @param int     $action
-     *
-     * @return object CRM_Event_EventWizard_StateMachine
+     * @return string
+     * @access public
      */
-    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
-        parent::__construct( $controller, $action );
-        
-        $this->_pages = array(
-                              'CRM_Event_Form_ManageEvent_EventInfo' => null,
-                              'CRM_Event_Form_ManageEvent_Location'  => null,
-                              'CRM_Event_Form_ManageEvent_Fee'    => null,
-                              'CRM_Event_Form_ManageEvent_Registration' => null,
-                              //'CRM_Event_Form_ManageEvent_CopyEvent' => null,
-                              );
-        
-        $this->addSequentialPages( $this->_pages, $action );
+    public function getTitle( ) 
+    {
+        return ts('Event Fees');
     }
 
 }
