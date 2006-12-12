@@ -53,14 +53,9 @@ class CRM_Event_Invoke
             $view =& new CRM_Event_Page_ManageEvent(ts('Manage Event'));
             break;
             
-        case 'eventWizard':
-            require_once 'CRM/Event/EventWizard/Controller.php';
-            $controller =& new CRM_Event_EventWizard_Controller(ts('Event Wizard'));
-            return $controller->run();
-            
         default:
-            require_once 'CRM/Event/Page/ManageEvent.php';
-            $view =& new CRM_Event_Page_ManageEvent(ts('Eventship Types'));
+            require_once 'CRM/Event/Page/RegistrationPage.php';
+            $view =& new CRM_Event_Page_RegistrationPage(ts('Online Registration'));
             break;
         }
 

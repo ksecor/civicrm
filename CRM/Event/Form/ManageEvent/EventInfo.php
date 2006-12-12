@@ -36,46 +36,45 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/SelectValues.php';
 
 /**
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_EventWizard_Form_Location extends CRM_Core_Form
+class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Core_Form
 {
-
-    /**
-     * how many locationBlocks should we display?
-     *
-     * @var int
-     * @const
-     */
-    const LOCATION_BLOCKS = 1;
     
-    /**
-     * This function sets the default values for the form. Note that in edit/view mode
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( ) 
-    {
-    }
     /** 
-     *  function to build location block 
+     * Function to build the form 
      * 
      * @return None 
      * @access public 
      */ 
     public function buildQuickForm( )  
     { 
-        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);
-        
-        require_once 'CRM/Contact/Form/Location.php';
-        CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
+        $this->applyFilter('__ALL__', 'trim');
 
+        $this->add('text','title',ts('Title'));
+        
+        $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
+        
+        $this->add('textarea','description',ts('Full description'), array("rows"=>4,"cols"=>60));
+        
+        $this->addElement('checkbox', 'is_public', ts('Public?') );
+        
+       
+        $this->addElement('date', 'start_date', ts('Start date/time'),null); 
+        $this->addRule('start_date', ts('Select a valid date.'), 'qfDate');
+        
+        $this->addElement('date', 'end_date', ts('End date/time'), null); 
+        $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
+        
+        $this->add('text','max_participant', ts('Max Number of Participants'));
+
+        $this->add('text','event_full_text', ts('Event full text'));
+        
+        $this->addElement('checkbox', 'is_active', ts('Enabled?') );
+        
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -96,8 +95,7 @@ class CRM_Event_EventWizard_Form_Location extends CRM_Core_Form
      */
     public function getTitle( ) 
     {
-        return ts('Event Location');
+        return ts('Event Information and Settings');
     }
-    
 }
 ?>

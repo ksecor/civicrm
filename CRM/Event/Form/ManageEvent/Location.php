@@ -36,16 +36,25 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/SelectValues.php';
 
 /**
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_EventWizard_Form_Registration extends CRM_Core_Form
+class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
 {
 
-  /**
-     * This function sets the default values for the form. 
+    /**
+     * how many locationBlocks should we display?
+     *
+     * @var int
+     * @const
+     */
+    const LOCATION_BLOCKS = 1;
+    
+    /**
+     * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
      * 
      * @access public
@@ -53,30 +62,20 @@ class CRM_Event_EventWizard_Form_Registration extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        if ( $tempDefaults['regLinkText'] ) {
-            $this->assign("showReg" , true );
-            $this->assign("confirmReg" , true );
-            $this->assign("mailReg" , true );
-        }
-    }         
+    }
     /** 
-     * Function to build the form 
+     *  function to build location block 
      * 
      * @return None 
      * @access public 
      */ 
     public function buildQuickForm( )  
     { 
-        $this->applyFilter('__ALL__', 'trim');
+        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);
+        
+        require_once 'CRM/Contact/Form/Location.php';
+        CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
 
-        $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?') );
-
-        $this->add('text','regLinkText',ts('Registration Link Text'));
-       
-        self::buildRegistrationBlock( $this, $this->_id);
-        self::buildConfirmationBlock( $this, $this->_id);
-        self::buildMailBlock( $this, $this->_id);
-            
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -88,51 +87,6 @@ class CRM_Event_EventWizard_Form_Registration extends CRM_Core_Form
                           );
         return;
     }
-    
-    /**
-     * Function to build Registration Block  
-     * 
-     * @param int $pageId 
-     * @static
-     */
-
-    function buildRegistrationBlock( $form ) 
-    {
-        $form->add('textarea','intro_text',ts('Intro Text'), array("rows"=>6,"cols"=>80));
-        $form->add('textarea','footer_text',ts('Footer Text'), array("rows"=>6,"cols"=>80));
-        $form->add('select', 'participant_info_1', ts('Custom Data 1'),array(''=>'-select-'));
-        $form->add('select', 'participant_info_2', ts('Custom Data 2'),array(''=>'-select-'));
-    }
-    
-
-    /**
-     * Function to build Confirmation Block  
-     * 
-     * @param int $pageId 
-     * @static
-     */
-
-    function buildConfirmationBlock( $form) 
-    {
-        $form->add('text','confirm_title',ts('Title '));   
-        $form->add('textarea','confirm_text',ts('Intro Text'), array("rows"=>6,"cols"=>80));
-        $form->add('textarea','confirm_footer_text',ts('Footer Text'), array("rows"=>6,"cols"=>80));
-    }
-
-    /**
-     * Function to build Email Block  
-     * 
-     * @param int $pageId 
-     * @static
-     */
-
-    function buildMailBlock( $form ) 
-    {
-        $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, false);
-        $form->add('textarea','confirm_email_text',ts('Text'), array("rows"=>2,"cols"=>60));
-        $form->add('text','cc_confirm',ts('CC Confirmation To '));  
-        $form->add('text','cc_confirm',ts('BCC Confirmation To '));  
-    }
 
     /**
      * Return a descriptive name for the page, used in wizard header
@@ -142,8 +96,8 @@ class CRM_Event_EventWizard_Form_Registration extends CRM_Core_Form
      */
     public function getTitle( ) 
     {
-        return ts('Online Registration');
+        return ts('Event Location');
     }
-
+    
 }
 ?>

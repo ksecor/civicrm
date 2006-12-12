@@ -126,9 +126,22 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page_Basic
                                           $this, false, 0);
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $this->edit($action, $id) ;
-        } 
+        if ( $action & CRM_Core_Action::ADD ) {
+            $session =& CRM_Core_Session::singleton( ); 
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'action=browse&reset=1' ) );
+
+            require_once 'CRM/Event/Controller/ManageEvent.php';
+            $controller =& new CRM_Event_Controller_ManageEvent( );
+            //CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            CRM_Utils_System::setTitle( ts('Manage Event') );
+            return $controller->run( );
+        } else if ($action & CRM_Core_Action::UPDATE ) {
+            require_once 'CRM/Event/Page/ManageEventEdit.php';
+            $page =& new CRM_Event_Page_ManageEventEdit( );
+            //CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            return $page->run( );
+        }
+
         // finally browse the custom groups
         $this->browse();
         

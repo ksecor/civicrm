@@ -36,7 +36,7 @@
 
 require_once 'CRM/Core/Controller.php';
 
-class CRM_Event_EventWizard_Controller extends CRM_Core_Controller {
+class CRM_Event_Controller_ManageEvent extends CRM_Core_Controller {
 
     /**
      * class constructor
@@ -44,8 +44,8 @@ class CRM_Event_EventWizard_Controller extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
         parent::__construct( $title, $modal );
 
-        require_once 'CRM/Event/EventWizard/StateMachine.php';
-        $this->_stateMachine =& new CRM_Event_EventWizard_StateMachine( $this, $action );
+        require_once 'CRM/Event/StateMachine/ManageEvent.php';
+        $this->_stateMachine =& new CRM_Event_StateMachine_ManageEvent( $this, $action );
 
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );

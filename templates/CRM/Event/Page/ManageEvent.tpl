@@ -7,7 +7,7 @@
     </div>
 {/if}
 
-{capture assign=eventWizard}{crmURL p='civicrm/admin/event/eventWizard' q="reset=1"}{/capture}
+{capture assign=eventWizard}{crmURL p='civicrm/admin/event/manageEvent' q="action=add&reset=1"}{/capture}
 {ts 1=$eventWizard}<a href="%1">&raquo; New Event Wizard</a>{/ts}
 
 {if $rows}
