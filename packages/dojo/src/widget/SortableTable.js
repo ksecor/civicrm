@@ -533,7 +533,8 @@ dojo.widget.defineWidget(
 			this.showSelections();
 			this.onSelect(e);
 			e.stopPropagation();
-			e.preventDefault();
+                        // ask kurund before uncommenting this part
+			// e.preventDefault();
 		},
 		onHeaderClick:function(/* DomEvent */ e){
 			//	summary

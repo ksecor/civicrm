@@ -12415,7 +12415,6 @@ this.setSelectionByRow(row);
 this.showSelections();
 this.onSelect(e);
 e.stopPropagation();
-e.preventDefault();
 },onHeaderClick:function(e){
 var _b0f=this.sortIndex;
 var _b10=this.sortDirection;
