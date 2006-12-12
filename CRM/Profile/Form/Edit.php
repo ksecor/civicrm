@@ -122,7 +122,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         if ( ! $this->_postURL ) {
             if ( $this->_context == 'Search' ) {
                 $this->_postURL = CRM_Utils_System::url( 'civicrm/contact/search' );
-            } else {
+            } elseif ( $this->_id && $this->_gid ) {
                 $this->_postURL = CRM_Utils_System::url('civicrm/profile/view',
                                                         "reset=1&id={$this->_id}&gid={$this->_gid}" );
             }
@@ -190,7 +190,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
     public function postProcess( ) 
     {
         parent::postProcess( );
-        
+
         CRM_Core_Session::setStatus(ts('Thank you. Your information has been saved.'));
 
         // only replace user context if we do not have a postURL
