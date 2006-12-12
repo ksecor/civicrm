@@ -149,7 +149,7 @@ class CRM_Contribute_Config {
             $config->paymentPayPalExpressTestUrl = "www.sandbox.paypal.com";
         }
 
-        if ( $config->paymentProcessor ) {
+        if ( isset( $config->paymentProcessor ) ) {
             require_once 'CRM/Contribute/Payment.php';
             switch ( $config->paymentProcessor ) {
             case 'PayPal':

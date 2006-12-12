@@ -1,2 +1,3 @@
 name = CiviCRM
 description = Constituent Relationship Management CRM - v1.6. Allows sites to manage contacts, relationships and groups, and track contact activities. 
+version = 1.6-beta
