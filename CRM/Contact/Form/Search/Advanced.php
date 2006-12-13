@@ -82,6 +82,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $paneNames[ts('Memberships')] = 'membership';
         }
         
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+            $paneNames[ts('Event Participations')] = 'event';
+        }
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $paneNames[ts('Quest')] = 'quest';
             $paneNames[ts('Task' )] = 'task';                
