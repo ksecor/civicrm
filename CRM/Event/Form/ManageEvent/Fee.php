@@ -58,8 +58,9 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
        
-        parent::buildQuickForm( );
+        //parent::buildQuickForm( );
         $this->addYesNo('paid_event', ts('Paid Event') );
+
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->addElement('select', 'contribution_type_id',ts( 'Contribution Type' ),
                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
@@ -78,6 +79,16 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Core_Form
         }
 
         $this->addGroup( $default, 'default' );
+
+        $this->addButtons(array(
+                                array ( 'type'      => 'next',
+                                        'name'      => ts('Save'),
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'cancel',
+                                        'name'      => ts('Cancel') ),
+                                )
+                          );
     }
 
     /**
@@ -88,7 +99,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Core_Form
      */
     public function getTitle( ) 
     {
-        return ts('Event Fees');
+        return ts('Event Fee');
     }
 
 }

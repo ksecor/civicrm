@@ -86,7 +86,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
                                         'name'      => ts('Cancel') ),
                                 )
                           );
-        return;
     }
     
     /**
