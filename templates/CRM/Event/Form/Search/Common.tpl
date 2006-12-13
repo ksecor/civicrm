@@ -19,6 +19,6 @@
 
  <tr>
             <td class="label">{ts}Status{/ts}</td> 
-            <td>{$form.participation_status.html}</td>
+            <td>{$form.participant_status.html}</td>
  </tr> 
     
