@@ -43,6 +43,12 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
 {
+    /**
+     * what blocks should we show and hide.
+     *
+     * @var CRM_Core_ShowHideBlocks
+     */
+    protected $_showHide;
 
   /**
      * This function sets the default values for the form. 
@@ -53,12 +59,45 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        if ( $tempDefaults['regLinkText'] ) {
-            $this->assign("showReg" , true );
-            $this->assign("confirmReg" , true );
-            $this->assign("mailReg" , true );
+        $params = $_POST;
+
+        if ( ! empty( $params )) {
+            $this->setShowHide( $params );
+        } else {
+            $this->setShowHide( $defaults );
         }
-    }         
+    }   
+
+     /**
+     * Fix what blocks to show/hide based on the default values set
+     *
+     * @param array   $defaults the array of default values
+     * @param boolean $force    should we set show hide based on input defaults
+     *
+     * @return void
+     */
+    function setShowHide( &$defaults) {
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( array('registration_show'       => 1),
+                                                         '') ;
+
+        if ( empty($defaults)) {
+            $this->_showHide->addShow( 'registration_show' );
+            $this->_showHide->addShow( 'confirm_show' );
+            $this->_showHide->addShow( 'mail_show' );
+            $this->_showHide->addHide( 'registration' );
+            $this->_showHide->addHide( 'confirm' );
+            $this->_showHide->addHide( 'mail' );
+        } else {
+            $this->_showHide->addShow( 'registration' );
+            $this->_showHide->addShow( 'confirm' );
+            $this->_showHide->addShow( 'mail' );
+            $this->_showHide->addHide( 'registration_show' );
+            $this->_showHide->addHide( 'confirm_show' );            
+            $this->_showHide->addHide( 'mail_show' );
+        }
+     $this->_showHide->addToTemplate( );
+    }
     /** 
      * Function to build the form 
      * 
