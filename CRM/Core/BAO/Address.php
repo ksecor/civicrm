@@ -196,7 +196,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         }
 
         foreach ($params['location'][$locationId]['address'] as $name => $value) {
-            if (!empty($value)) {
+            if (!empty($value) && $name !='country_id') {
                 return true;
             }
         }
