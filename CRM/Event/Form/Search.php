@@ -37,6 +37,7 @@
 /**
  * Files required
  */
+require_once 'CRM/Event/PseudoConstant.php';
 
 /**
  * This file is for civimember search
@@ -44,13 +45,62 @@
 class CRM_Event_Form_Search extends CRM_Core_Form
 {
     /** 
+     * name of search button 
+     * 
+     * @var string 
+     * @access protected 
+     */ 
+    protected $_searchButtonName;
+
+    /** 
+     * name of print button 
+     * 
+     * @var string 
+     * @access protected 
+     */ 
+    protected $_printButtonName; 
+ 
+    /** 
+     * name of action button 
+     * 
+     * @var string 
+     * @access protected 
+     */ 
+    protected $_actionButtonName;
+
+    /** 
+     * form values that we will be using 
+     * 
+     * @var array 
+     * @access protected 
+     */ 
+    protected $_formValues; 
+
+    /**
+     * the params that are sent to the query
+     * 
+     * @var array 
+     * @access protected 
+     */ 
+    protected $_queryParams;
+    /** 
      * processing needed for buildForm and later 
      * 
      * @return void 
      * @access public 
      */ 
+    protected $_defaults;
+
+
     function preProcess( ) 
     {
+        /** 
+         * set the button names 
+         */ 
+        $this->_searchButtonName = $this->getButtonName( 'refresh' ); 
+        $this->_printButtonName  = $this->getButtonName( 'next'   , 'print' ); 
+        $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' ); 
+        
     }
     
     /**
@@ -61,6 +111,16 @@ class CRM_Event_Form_Search extends CRM_Core_Form
      */
     function buildQuickForm( ) 
     {
+        $this->addElement('text', 'sort_name', ts('Participant'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        
+        require_once 'CRM/Event/BAO/Query.php';
+        CRM_Event_BAO_Query::buildSearchForm( $this );
+        // add buttons 
+        $this->addButtons( array( 
+                                 array ( 'type'      => 'refresh', 
+                                         'name'      => ts('Search') , 
+                                         'isDefault' => true     ) 
+                                 )    );     
     }
     
     /**
