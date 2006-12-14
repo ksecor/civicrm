@@ -437,9 +437,10 @@ class CRM_Contact_BAO_Query {
                                 $this->_select ['phone_type'] = "civicrm_phone.phone_type as phone_type";
                                 $this->_element['phone_type'] = 1;
                             }
-                            
+                           
                             if ( $name == 'state_province' ) {
-                                $this->_select [$name]              = "civicrm_state_province.abbreviation as `$name`";
+                                $this->_select [$name]              = "civicrm_state_province.abbreviation as `$name`, civicrm_state_province.name as state_province_name";
+                                $this->_element['state_province_name'] = 1;
                             } else if ( $tName == 'contact' ) {
                                 if ( $fieldName != 'id' ) {
                                     $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
@@ -772,7 +773,6 @@ class CRM_Contact_BAO_Query {
         if ( ! empty( $this->_whereClause ) ) {
             $where = "WHERE {$this->_whereClause}";
         }
-
         return array( $select, $from, $where );
     }
 
@@ -2301,7 +2301,6 @@ class CRM_Contact_BAO_Query {
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );
         }
-       
         return array($values, $options);
     }
 
@@ -2394,7 +2393,6 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = "$select $from $where $order $limit";
-        //CRM_Core_Error::debug('$query', $query);
         if ( $returnQuery ) {
             return $query;
         }

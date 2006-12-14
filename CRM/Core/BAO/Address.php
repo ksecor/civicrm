@@ -84,7 +84,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             $address->delete( );
             return null;
         }
-        
+       
         return $address->save();
     }
 
@@ -149,7 +149,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
 
         // add state and country names from the ids
         if ( isset( $params['state_province_id'] ) && is_numeric( $params['state_province_id'] ) ) {
-             $params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $params['state_province_id'] );
+            $params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $params['state_province_id'] );
         }
         
         if ( isset( $params['country_id'] ) && is_numeric( $params['country_id'] ) ) {
@@ -239,7 +239,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             }
             // add state and country information: CRM-369
             if ( ! empty( $address->state_province_id ) ) {
-                $address->state = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $address->state_province_id );
+                $address->state      = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $address->state_province_id );
+                $address->state_name = CRM_Core_PseudoConstant::stateProvince( $address->state_province_id );
             }
             if ( ! empty( $address->country_id ) ) {
                 $address->country = CRM_Core_PseudoConstant::country( $address->country_id );
@@ -272,6 +273,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      */
     function addDisplay( $microformat = false )
     {
+        
         require_once 'CRM/Utils/Address.php';
         $fields = array(
             'address_id'             => $this->id, // added this for CRM 1200
@@ -279,11 +281,12 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             'supplemental_address_1' => $this->supplemental_address_1,
             'supplemental_address_2' => $this->supplemental_address_2,
             'city'                   => $this->city,
+            'state_province_name'    => $this->state_name,
             'state_province'         => $this->state,
             'postal_code'            => $this->postal_code,
             'postal_code_suffix'     => $this->postal_code_suffix,
             'country'                => $this->country
-        );
+            );
         $this->display = CRM_Utils_Address::format($fields, null, $microformat);
     }
 

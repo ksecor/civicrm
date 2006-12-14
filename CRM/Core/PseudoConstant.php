@@ -446,7 +446,7 @@ class CRM_Core_PseudoConstant
             }
         }
         if ($id) {
-            if (array_key_exists($id, self::$stateProvince)) {
+            if (array_key_exists("$id", self::$stateProvince)) {
                 return self::$stateProvince[$id];
             } else {
                 return null;

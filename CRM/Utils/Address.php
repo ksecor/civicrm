@@ -65,18 +65,19 @@ class CRM_Utils_Address {
         }
                 
         $formatted = $format;
-        
+     
         $fullPostalCode = $fields['postal_code'];
         if (isset( $fields['postal_code_suffix'] ) ) {
             $fullPostalCode .= "-$fields[postal_code_suffix]";
         }
-        
+   
         if (! $microformat) {
             $replacements = array(
                                   'street_address'         => $fields['street_address'],
                                   'supplemental_address_1' => $fields['supplemental_address_1'],
                                   'supplemental_address_2' => $fields['supplemental_address_2'],
                                   'city'                   => $fields['city'],
+                                  'state_province_name'    => $fields['state_province_name'],
                                   'state_province'         => $fields['state_province'],
                                   'postal_code'            => $fullPostalCode,
                                   'country'                => $fields['country']
@@ -87,6 +88,7 @@ class CRM_Utils_Address {
                                   'supplemental_address_1' => "<span class=\"extended-address\">" . $fields['supplemental_address_1'] . "</span>",
                                   'supplemental_address_2' => $fields['supplemental_address_2'],
                                   'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
+                                  'state_province_name'    => "<span class=\"region\">" .           $fields['state_province_name'] . "</span>",
                                   'state_province'         => "<span class=\"region\">" .           $fields['state_province'] . "</span>",
                                   'postal_code'            => "<span class=\"postal-code\">" .      $fullPostalCode . "</span>",
                                   'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>"
@@ -141,7 +143,7 @@ class CRM_Utils_Address {
             }
         }
         $formatted = implode("\n", $lines);
-
+        
         return $formatted;
     }
 
