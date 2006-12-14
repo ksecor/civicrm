@@ -50,6 +50,12 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
      */
     protected $_showHide;
 
+
+    function preProcess( ) {
+        $this->_id      = $this->get( 'id' );
+    }
+    
+
   /**
      * This function sets the default values for the form. 
      * the default values are retrieved from the database
@@ -110,13 +116,15 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
 
         $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?') );
 
-        $this->add('text','regLinkText',ts('Registration Link Text'));
+        $this->add('text','registration_link_text',ts('Registration Link Text'));
        
         self::buildRegistrationBlock( $this, $this->_id);
         self::buildConfirmationBlock( $this, $this->_id);
         self::buildMailBlock( $this, $this->_id);
             
         $this->addButtons(array(
+                                array ( 'type'      => 'back',
+                                        'name'      => ts('<< Previous') ),
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
@@ -171,6 +179,33 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
         $form->add('text','cc_confirm',ts('CC Confirmation To '));  
         $form->add('text','cc_confirm',ts('BCC Confirmation To '));  
     }
+
+
+   /**
+     * Function to process the form
+     *
+     * @access public
+     * @return None
+     */
+    public function postProcess() 
+    {
+        $params = array();
+        
+        // store the submitted values in an array
+        $params             = $this->exportValues();
+        $params['event_id'] = $this->_id;
+        require_once 'CRM/Event/DAO/EventPage.php';
+        $registration       = & new CRM_Event_DAO_EventPage( );
+        $registration->copyValues( $params );
+        $registration->save( );
+        CRM_Core_Session::setStatus( ts('The registration has been saved.' ));
+
+    }//end of function
+
+
+
+
+
 
     /**
      * Return a descriptive name for the page, used in wizard header

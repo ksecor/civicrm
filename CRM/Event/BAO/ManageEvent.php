@@ -63,7 +63,13 @@ class CRM_Event_BAO_ManageEvent extends CRM_Event_DAO_Event
      */
     static function retrieve( &$params, &$defaults ) 
     {
-
+        $event  = new CRM_Event_DAO_Event( );
+        $event->copyValues( $params );
+        if ( $event->find( true ) ) {
+            CRM_Core_DAO::storeValues( $event, $defaults );
+            return $event;
+        }
+        return null;
     }
 
     /**
@@ -90,8 +96,21 @@ class CRM_Event_BAO_ManageEvent extends CRM_Event_DAO_Event
      * @static 
      * @return object
      */
-    static function add(&$params, &$ids) 
+    static function add(&$params, $id) 
     {
+        
+        $event               =& new CRM_Event_DAO_Event( );
+        $event->domain_id    = CRM_Core_Config::domainID( );
+        if( $id ) {
+            $event->id = $id; 
+        }
+        $event->copyValues( $params );
+        $event->save( );
+        CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );
+        
+        return $event;
+
+
     }
 }
 ?>

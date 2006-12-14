@@ -63,6 +63,12 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
     function setDefaultValues( ) 
     {
     }
+
+    function preProcess( ) {
+        $this->_id      = $this->get( 'id' );
+    }
+
+
     /** 
      *  function to build location block 
      * 
@@ -77,6 +83,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
         CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
 
         $this->addButtons(array(
+                                array ( 'type'      => 'back',
+                                        'name'      => ts('<< Previous') ),
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
@@ -86,6 +94,31 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
                                 )
                           );
     }
+
+
+
+    /**
+     * Function to process the form
+     *
+     * @access public
+     * @return None
+     */
+    public function postProcess() 
+    {
+        $params = array();
+        // store the submitted values in an array
+        $params                 = $this->exportValues();
+        $params['entity_table'] = 'civicrm_event';
+        $params['entity_id']    = $this->_id;
+        require_once 'CRM/Core/BAO/Location.php';
+        CRM_Core_BAO_Location::add($params, $ids, 1);
+        
+        CRM_Core_Session::setStatus( ts('The Address has been saved.' ));
+        
+    }//end of function
+    
+
+    
 
     /**
      * Return a descriptive name for the page, used in wizard header

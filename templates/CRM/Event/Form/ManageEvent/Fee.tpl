@@ -5,7 +5,7 @@
 <fieldset><legend>{ts}Event Fees{/ts}</legend>
       <dl>
  	<dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
-    	<dt>{$form.paid_event.label}</dt><dd>{$form.paid_event.html}</dd>
+    	<dt>{$form.is_monetary.label}</dt><dd>{$form.is_monetary.html}</dd>
     	<dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
     <div id="map-field">
     <p>{ts}Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}</p>

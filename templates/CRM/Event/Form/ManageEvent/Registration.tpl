@@ -3,7 +3,7 @@
 <fieldset><legend>{ts}Online Registration{/ts}</legend>
  <dl>
  	<dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
-    <dt>{$form.regLinkText.label}</dt><dd>{$form.regLinkText.html}</dd>
+    <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
  </dl>
 <br /><br />
     {*Registration Block*}

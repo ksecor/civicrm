@@ -49,6 +49,38 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Core_Form
      */ 
     const NUM_OPTION = 11;
     
+    
+
+    function preProcess( ) {
+        $this->_id      = $this->get( 'id' );
+    }
+
+    
+    /**
+     * This function sets the default values for the form. For edit/view mode
+     * the default values are retrieved from the database
+     *
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( )
+    {
+        $defaults = array( );
+        $params   = array( );
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
+            require_once 'CRM/Event/BAO/ManageEvent.php';
+            CRM_Event_BAO_ManageEvent::retrieve($params, $defaults);
+            $event = new CRM_Event_DAO_Event();
+            $event->copyValues( $params );
+            
+        }
+        return $defaults;
+    }
+    
+    
+
+
     /**
      * Function to build the form
      *
@@ -57,10 +89,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-       
+        
         //parent::buildQuickForm( );
-        $this->addYesNo('paid_event', ts('Paid Event') );
-
+        $this->addYesNo('is_monetary', ts('Paid Event') );
+        
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->addElement('select', 'contribution_type_id',ts( 'Contribution Type' ),
                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
@@ -73,14 +105,16 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Core_Form
             // value 
             $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value')); 
             $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
-
+            
             // default
             $default[] = $this->createElement('radio', null, null, null, $i); 
         }
 
         $this->addGroup( $default, 'default' );
-
+        
         $this->addButtons(array(
+                                array ( 'type'      => 'back',
+                                        'name'      => ts('<< Previous') ),
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
@@ -90,6 +124,40 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Core_Form
                                 )
                           );
     }
+
+
+    /**
+     * Process the form
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcess()
+    {
+        // get the submitted form values.
+        $params = $this->exportValues( );
+        require_once 'CRM/Event/BAO/ManageEvent.php';
+        CRM_Event_BAO_ManageEvent::add($params ,$this->_id);
+        // if there are label / values, create custom options for them
+        $labels  = CRM_Utils_Array::value( 'label'  , $params );
+        $values  = CRM_Utils_Array::value( 'value'  , $params );
+        $default = CRM_Utils_Array::value( 'default', $params ); 
+        if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values ) ) {
+            for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
+                if ( ! empty( $labels[$i] ) && !empty( $values[$i] ) ) {
+                    $dao =& new CRM_Core_DAO_CustomOption( );
+                    $dao->label        = trim( $labels[$i] );
+                    $dao->value        = CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) );
+                    $dao->entity_table = 'civicrm_event';
+                    $dao->entity_id    = $this->_id;
+                    $dao->weight       = $i;
+                    $dao->is_active    = 1;
+                    $dao->save( );
+                }
+            }
+        }
+    }
+
 
     /**
      * Return a descriptive name for the page, used in wizard header
