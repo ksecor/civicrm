@@ -1382,7 +1382,7 @@ VALUES
             }
         }
     }
-    
+
     static function repairDate($date) {
         $dropArray = array('-' => '', ':' => '', ' ' => '');
         return strtr($date, $dropArray);
@@ -1414,14 +1414,75 @@ VALUES
         }
         
     }
+
+    function addEvent()
+    {
+        $event = "INSERT INTO civicrm_event
+        (domain_id, title, summary, description, event_type_id, is_public, start_date, end_date, is_online_registration, registration_link_text, max_participants, event_full_text, is_monetary, contribution_type_id, is_map, is_active)
+        VALUES
+        (1, 'Fall Fundraiser Dinner', 'Kick up your heels at our Fall Fundraiser Dinner/Dance at Glen Echo Park! Come by yourself or bring a partner, friend or the entire family!', 'Tickets for the dinner and dance are $40 for adults, $20 for teens and $10 for
+kids 12 and under.Grab your dancing shoes, bring the kids and come join the party!', 2, 1, 2007-01-21, 2006-01-27, 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner Event booking is full.', 1, 3, 0, 1),
+
+        (1, 'Summer Solstice Festival Day Concert', 'Festival Day is coming!', 'We will gather at noon (or come picnic earlier!) on Jun 17th, learn a song all together, break up into our groups, learn our parts, share what we have learned, and then join in a joyous procession to the Scandinavian Mid-Summer Picnic where we will perform our Mid-Summer Revels on their Pavillion Stage at Fort Hunt Park in Alexandria, Virginia.', 3, 1, 2007-06-17, 2006-06-19, 1, 'Register Now', 100, 'Sorry! Summer Solstice Festival Day Concert Event booking is full.', 1, 2, 0, 1),
+
+        (1, 'Disney Cup International Youth Tournament', 'The tournament is here!', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided). A Sports Sales Manager will review all applications and notify your team of its status as soon as possible.', 4, 1, 2007-02-27, 2006-03-15, 1, 'Register Now', 500, 'Sorry! Entries for Disney Cup International Youth Tournament are already taken. Better luck next time!', 1, 1, 0, 1)
+     
+         ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+    }
+    
+    function addParticipant()
+    {
+        $contact = new CRM_Contact_DAO_Contact();
+        $contact->query("SELECT id FROM civicrm_contact");
+        while ( $contact->fetch() ) {
+            $contacts[] = $contact->id;
+        }
+        shuffle($contacts);
+        $randomContacts = array_slice($contacts, 20, 25);
+        
+        $participant = "
+INSERT INTO civicrm_participant
+        (contact_id, event_id, status_id, role_id, register_date, source, event_level)
+VALUES
+        ( ". $randomContacts[0]  .", 1, 1, 1, '2006-01-21', '', 'Payment'),
+        ( ". $randomContacts[1]  .", 2, 2, 2,'2005-05-07', '', 'Donation'),
+        ( ". $randomContacts[2]  .", 3, 3, 3,'2005-05-05', '', 'Check') ,
+        ( ". $randomContacts[3]  .", 1, 4, 4,'2005-10-21', '', 'Payment'),
+        ( ". $randomContacts[4]  .", 1, 1, 1,'2005-01-10', '', 'Donation'),
+        ( ". $randomContacts[5]  .", 2, 2, 2,'2005-03-05', '', 'Check'),
+        ( ". $randomContacts[6]  .", 3, 3, 3,'2006-07-21', '', 'Payment'),
+        ( ". $randomContacts[7]  .", 1, 4, 4,'2006-03-07', '', 'Donation'),
+        ( ". $randomContacts[8]  .", 3, 1, 1, '2005-02-05', '', 'Check'),
+        ( ". $randomContacts[9]  .", 1, 2, 2, '2005-02-01', '', 'Payment'),
+        ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10','', 'Donation'),
+        ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06','', 'Check'),
+        ( ". $randomContacts[12]  .", 1, 1, 2,'2005-06-04', '', 'Payment'),
+        ( ". $randomContacts[13]  .", 2, 2, 3,'2004-01-10', '', 'Donation'),
+        ( ". $randomContacts[14]  .", 2, 4, 1,'2005-07-04', '', 'Check'),
+        ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', '', 'Payment'),
+        ( ". $randomContacts[16]  .", 2, 2, 3, '2005-01-10', '', 'Donation'),
+        ( ". $randomContacts[17]  .", 3, 3, 1,'2006-03-05', '', 'Check'),
+        ( ". $randomContacts[18]  .", 1, 2, 1, '2005-10-21', '', 'Payment'),
+        ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', '', 'Donation'),
+        ( ". $randomContacts[20]  .", 2, 1, 4, '2005-03-25', '', 'Check'),
+        ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', '', 'Payment'),
+        ( ". $randomContacts[22]  .", 2, 4, 1, '2005-01-10', '', 'Donation'),
+        ( ". $randomContacts[23]  .", 2, 3, 1,'2005-03-11', '', 'Check'),
+        ( ". $randomContacts[24]  .", 3, 2, 2, '2005-04-05', '', 'Check');
+";
+        CRM_Core_DAO::executeQuery( $participant, CRM_Core_DAO::$_nullArray );
+        
+    }
     
 }
+
 function user_access( $str = null ) {
     return true;
 }
 
 function add_contributions( ) {
-
+    
     $query = "
 INSERT INTO civicrm_contribution
     (domain_id, contact_id, contribution_type_id, payment_instrument_id, receive_date, non_deductible_amount, total_amount, trxn_id, currency, cancel_date, cancel_reason, receipt_date, thankyou_date, source)
@@ -1456,6 +1517,7 @@ VALUES
 
 }
 
+ 
 echo("Starting data generation on " . date("F dS h:i:s A") . "\n");
 $obj1 =& new CRM_GCD();
 $obj1->initID();
@@ -1476,6 +1538,8 @@ add_contributions( );
 // $obj1->addMembershipType();
 $obj1->addMembership();
 $obj1->addMembershipLog();
+$obj1->addEvent();
+$obj1->addParticipant();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
 ?>
