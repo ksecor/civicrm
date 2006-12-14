@@ -92,7 +92,7 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
             if ( $config->userFramework == 'Joomla' ) {
                 $defaults['userFrameworkResourceURL'] = $baseURL . "components/com_civicrm/civicrm/";
             } else {
-                $defaults['userFrameworkResourceURL'] = $baseURL . "/modules/civicrm/"; 
+                $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 
             }
         }
 
