@@ -148,7 +148,7 @@ class CRM_Contact_Form_Search_Criteria {
         // textbox for open Activity Type
         $form->_activityType =
             array( ''   => ' - select activity - ' ) + 
-            CRM_Core_PseudoConstant::ActivityType( false, null );
+            CRM_Core_PseudoConstant::activityType( );
 
          $form->add('select', 'open_activity_type_id', ts('Activity Type'),
                    $form->_activityType,
