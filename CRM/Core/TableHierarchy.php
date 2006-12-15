@@ -72,6 +72,8 @@ class CRM_Core_TableHierarchy {
                          'civicrm_custom_value'         => '25',
                          'civicrm_contribution'         => '26',
                          'civicrm_contribution_type'    => '27',
+                         'civicrm_participant'          => '28',
+                         'civicrm_event'                => '29',
                          );
 
     static function &info( ) {

@@ -44,8 +44,8 @@ require_once 'CRM/Core/Selector/Controller.php';
 /**
  * This file is for civimember search
  */
-class CRM_Member_Form_Search extends CRM_Core_Form {
-    
+class CRM_Member_Form_Search extends CRM_Core_Form 
+{
     /** 
      * Are we forced to run a search 
      * 

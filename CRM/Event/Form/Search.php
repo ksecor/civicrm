@@ -38,12 +38,22 @@
  * Files required
  */
 require_once 'CRM/Event/PseudoConstant.php';
+require_once 'CRM/Event/Selector/Search.php';
+require_once 'CRM/Core/Selector/Controller.php';
 
 /**
- * This file is for civimember search
+ * This file is for civievent search
  */
 class CRM_Event_Form_Search extends CRM_Core_Form
 {
+    /** 
+     * Are we forced to run a search 
+     * 
+     * @var int 
+     * @access protected 
+     */ 
+    protected $_force; 
+
     /** 
      * name of search button 
      * 
@@ -83,15 +93,54 @@ class CRM_Event_Form_Search extends CRM_Core_Form
      * @access protected 
      */ 
     protected $_queryParams;
+    
+    /** 
+     * have we already done this search 
+     * 
+     * @access protected 
+     * @var boolean 
+     */ 
+    protected $_done; 
+
+    /**
+     * are we restricting ourselves to a single contact
+     *
+     * @access protected  
+     * @var boolean  
+     */  
+    protected $_single = false;
+
+    /** 
+     * are we restricting ourselves to a single contact 
+     * 
+     * @access protected   
+     * @var boolean   
+     */   
+    protected $_limit = null;
+
+    /** 
+     * what context are we being invoked from 
+     *    
+     * @access protected      
+     * @var string 
+     */      
+    protected $_context = null; 
+    
+    /** 
+     * prefix for the controller
+     * 
+     */
+    protected $_prefix = "event_";
+
+    protected $_defaults;
+
+
     /** 
      * processing needed for buildForm and later 
      * 
      * @return void 
      * @access public 
      */ 
-    protected $_defaults;
-
-
     function preProcess( ) 
     {
         /** 
@@ -100,6 +149,70 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_searchButtonName = $this->getButtonName( 'refresh' ); 
         $this->_printButtonName  = $this->getButtonName( 'next'   , 'print' ); 
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' ); 
+
+        $this->_done = false;
+
+        $this->defaults = array( );
+
+        /* 
+         * we allow the controller to set force/reset externally, useful when we are being 
+         * driven by the wizard framework 
+         */ 
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
+                                                       CRM_Core_DAO::$_nullObject ); 
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
+                                                       $this, false ); 
+        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
+                                                       $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                       $this );
+
+        $this->assign( "{$this->_prefix}limit", $this->_limit );
+            
+        // get user submitted values  
+        // get it from controller only if form has been submitted, else preProcess has set this  
+        if ( ! empty( $_POST ) ) { 
+            $this->_formValues = $this->controller->exportValues( $this->_name );  
+        } else {
+            $this->_formValues = $this->get( 'formValues' ); 
+        } 
+
+        if ( $this->_force ) { 
+            $this->postProcess( );
+            $this->set( 'force', 0 );
+        }
+
+        $sortID = null; 
+        if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
+            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
+                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
+        } 
+
+        require_once 'CRM/Contact/Form/Search.php';
+        $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
+        $selector =& new CRM_Event_Selector_Search( $this->_queryParams,
+                                                     $this->_action,
+                                                     null,
+                                                     $this->_single,
+                                                     $this->_limit,
+                                                     $this->_context ); 
+        $prefix = null;
+        if ( $this->_context == 'basic' ) {
+            $prefix = $this->_prefix;
+        }
+
+        $controller =& new CRM_Core_Selector_Controller($selector ,  
+                                                        $this->get( CRM_Utils_Pager::PAGE_ID ),  
+                                                        $sortID,  
+                                                        CRM_Core_Action::VIEW, 
+                                                        $this, 
+                                                        CRM_Core_Selector_Controller::TRANSFER,
+                                                        $prefix);
+        
+        $controller->setEmbedded( true ); 
+        $controller->moveFromSessionToTemplate(); 
+        
+        $this->assign( 'summary', $this->get( 'summary' ) );
         
     }
     
@@ -115,6 +228,46 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         
         require_once 'CRM/Event/BAO/Query.php';
         CRM_Event_BAO_Query::buildSearchForm( $this );
+
+        /* 
+         * add form checkboxes for each row. This is needed out here to conform to QF protocol 
+         * of all elements being declared in builQuickForm 
+         */ 
+        $rows = $this->get( 'rows' ); 
+        if ( is_array( $rows ) ) {
+            if ($this->_context == 'search') {
+                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            }
+            $total = $cancel = 0;
+            foreach ($rows as $row) { 
+                $this->addElement( 'checkbox', $row['checkbox'], 
+                                   null, null, 
+                                   array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
+                                   ); 
+            }
+
+            $this->assign( "{$this->_prefix}single", $this->_single );
+            
+            // also add the action and radio boxes
+            require_once 'CRM/Event/Task.php';
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Event_Task::tasks( );
+            $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
+            $this->add('submit', $this->_actionButtonName, ts('Go'), 
+                       array( 'class' => 'form-submit', 
+                              'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) ); 
+
+            $this->add('submit', $this->_printButtonName, ts('Print'), 
+                       array( 'class' => 'form-submit', 
+                              'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
+
+            
+            // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => null) ); 
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
+        }
+        
+
+
         // add buttons 
         $this->addButtons( array( 
                                  array ( 'type'      => 'refresh', 
@@ -142,6 +295,65 @@ class CRM_Event_Form_Search extends CRM_Core_Form
      */
     function postProcess( ) 
     {
+        if ( $this->_done ) {
+            return;
+        }
+
+        $this->_done = true;
+
+        $this->_formValues = $this->controller->exportValues($this->_name);
+             
+        $this->fixFormValues( );
+        
+        require_once 'CRM/Contact/Form/Search.php';
+        $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
+
+        $this->set( 'formValues' , $this->_formValues  );
+        $this->set( 'queryParams', $this->_queryParams );
+
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) { 
+            // check actionName and if next, then do not repeat a search, since we are going to the next page 
+ 
+            // hack, make sure we reset the task values 
+            $stateMachine =& $this->controller->getStateMachine( ); 
+            $formName     =  $stateMachine->getTaskFormName( ); 
+            $this->controller->resetPage( $formName ); 
+            return; 
+        }
+
+        $sortID = null; 
+        if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
+            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
+                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
+        } 
+
+        $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues );
+        
+        $selector =& new CRM_Event_Selector_Search( $this->_queryParams,
+                                                    $this->_action,
+                                                    null,
+                                                    $this->_single,
+                                                    $this->_limit,
+                                                    $this->_context ); 
+        $prefix = null;
+        if ( $this->_context == 'basic' ) {
+            $prefix = $this->_prefix;
+        }
+
+        $controller =& new CRM_Core_Selector_Controller($selector , 
+                                                        $this->get( CRM_Utils_Pager::PAGE_ID ), 
+                                                        $sortID, 
+                                                        CRM_Core_Action::VIEW,
+                                                        $this,
+                                                        CRM_Core_Selector_Controller::SESSION,
+                                                        $prefix);
+        $controller->setEmbedded( true ); 
+
+        $query   =& $selector->getQuery( );
+
+        $controller->run(); 
+
     }
     
     function fixFormValues( )

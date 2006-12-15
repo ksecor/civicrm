@@ -36,7 +36,8 @@
  *
  */
 
-class CRM_Core_Component {
+class CRM_Core_Component 
+{
     static $_info = null;
 
     static $_contactSubTypes = null;
@@ -68,8 +69,8 @@ class CRM_Core_Component {
                        'url'     => 'event',
                        'perm'    => array( 'access CiviEvent',
                                            'edit events'),
-                       'search'  => 0 );
-
+                       'search'  => 1 );
+            
             self::$_info['CiviMail'] = 
                 array( 'title'   => 'CiviCRM Mailing Engine',
                        'path'    => 'CRM_Mailing_',
@@ -118,7 +119,8 @@ class CRM_Core_Component {
         return self::$_info;
     }
 
-    static function get( $name, $attribute = null) {
+    static function get( $name, $attribute = null) 
+    {
         $info =& self::info( );
 
         $comp = CRM_Utils_Array::value( $name, $info );
@@ -128,7 +130,8 @@ class CRM_Core_Component {
         return $comp;
     }
 
-    static function invoke( &$args, $type ) {
+    static function invoke( &$args, $type ) 
+    {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 
@@ -162,10 +165,10 @@ class CRM_Core_Component {
         return false;
     }
 
-    static function &menu( ) {
+    static function &menu( ) 
+    {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
-
         $items = array( );
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) ) {
@@ -178,7 +181,8 @@ class CRM_Core_Component {
         return $items;
     }
 
-    static function addConfig( &$config, $oldMode = false ) {
+    static function addConfig( &$config, $oldMode = false ) 
+    {
         $info =& self::info( );
 
         foreach ( $info as $name => $value ) {
@@ -191,7 +195,8 @@ class CRM_Core_Component {
         return;
     }
 
-    static function &getQueryFields( ) {
+    static function &getQueryFields( ) 
+    {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
         $fields = array( );
@@ -207,7 +212,8 @@ class CRM_Core_Component {
         return $fields;
     }
 
-    static function &alterQuery( &$query, $fnName ) {
+    static function &alterQuery( &$query, $fnName ) 
+    {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 
@@ -221,7 +227,8 @@ class CRM_Core_Component {
         }
     }
 
-    static function from( $fieldName, $mode, $side ) {
+    static function from( $fieldName, $mode, $side ) 
+    {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 
@@ -240,7 +247,8 @@ class CRM_Core_Component {
         return $from;
     }
 
-    static function &defaultReturnProperties( $mode ) {
+    static function &defaultReturnProperties( $mode ) 
+    {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
         $properties = null;
@@ -258,7 +266,8 @@ class CRM_Core_Component {
         return $properties;
     }
 
-    static function &buildSearchForm( &$form ) {
+    static function &buildSearchForm( &$form ) 
+    {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 
@@ -272,7 +281,8 @@ class CRM_Core_Component {
         }
     }
 
-    static function &addShowHide( &$showHide ) {
+    static function &addShowHide( &$showHide ) 
+    {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 
@@ -286,7 +296,8 @@ class CRM_Core_Component {
         }
     }
 
-    static function &searchAction( &$row, $id ) {
+    static function &searchAction( &$row, $id ) 
+    {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 
@@ -300,7 +311,8 @@ class CRM_Core_Component {
         }
     }
 
-    static function &contactSubTypes( ) {
+    static function &contactSubTypes( ) 
+    {
         if ( self::$_contactSubTypes == null ) {
             self::$_contactSubTypes = array( );
             
@@ -319,7 +331,8 @@ class CRM_Core_Component {
     }
 
     
-    static function &contactSubTypeProperties( $subType, $op ) {
+    static function &contactSubTypeProperties( $subType, $op ) 
+    {
         $properties =& self::contactSubTypes( );
         if ( array_key_exists( $subType, $properties ) &&
              array_key_exists( $op, $properties[$subType] ) ) {
@@ -327,7 +340,8 @@ class CRM_Core_Component {
         }
     }
 
-    static function &taskList( ) {
+    static function &taskList( ) 
+    {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 

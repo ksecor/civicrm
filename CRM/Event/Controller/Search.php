@@ -35,6 +35,7 @@
  */
 
 require_once 'CRM/Core/Controller.php';
+require_once 'CRM/Core/Session.php';
 
 /**
  * This class is used by the Search functionality.
@@ -47,7 +48,6 @@ require_once 'CRM/Core/Controller.php';
  * The second form is used to process search results with the asscociated actions
  *
  */
-
 class CRM_Event_Controller_Search extends CRM_Core_Controller
 {
     /**

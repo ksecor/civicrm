@@ -92,7 +92,7 @@ class CRM_Member_Invoke {
         $config  =& CRM_Core_Config::singleton ( );
         if ($args[2] == 'search') {
             require_once 'CRM/Member/Controller/Search.php';
-            $controller =& new CRM_member_Controller_Search($title, $mode); 
+            $controller =& new CRM_Member_Controller_Search($title, $mode); 
             $url = 'civicrm/member/search';
             $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
             $controller->set( 'context', 'search' );

@@ -52,7 +52,8 @@ class CRM_Contact_BAO_Query {
         MODE_CONTRIBUTE =  2,
         MODE_QUEST      =  4,
         MODE_MEMBER     =  8,
-        MODE_ALL        = 15;
+        MODE_EVENT      = 16,
+        MODE_ALL        = 31;
     
     /**
      * the default set of return properties
@@ -254,7 +255,8 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function __construct( $params = null, $returnProperties = null, $fields = null,
-                          $includeContactIds = false, $strict = false, $mode = 1 ) {
+                          $includeContactIds = false, $strict = false, $mode = 1 ) 
+    {
         require_once 'CRM/Contact/BAO/Contact.php';
 
         // CRM_Core_Error::backtrace( );
@@ -284,13 +286,12 @@ class CRM_Contact_BAO_Query {
             require_once 'CRM/Core/Component.php';
             $fields =& CRM_Core_Component::getQueryFields( );
             unset( $fields['note'] );
-
             $this->_fields = array_merge( $this->_fields, $fields );
         }
         
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        // CRM_Core_Error::debug( 'q', $this );
+        //CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -818,6 +819,7 @@ class CRM_Contact_BAO_Query {
         if ( CRM_Core_BAO_CustomField::getKeyID( $values[0] ) ||
              ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ||
              ( substr( $values[0], 0, 13 ) == 'contribution_' ) ||
+             ( substr( $values[0], 0, 6  ) == 'event_' ) ||
              ( substr( $values[0], 0, 6  ) == 'quest_' ) ) {
             return;
         }
@@ -2393,6 +2395,7 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = "$select $from $where $order $limit";
+        //CRM_Core_Error::debug("q", $query);
         if ( $returnQuery ) {
             return $query;
         }

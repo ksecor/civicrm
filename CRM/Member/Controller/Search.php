@@ -48,8 +48,8 @@ require_once 'CRM/Core/Session.php';
  * The second form is used to process search results with the asscociated actions
  *
  */
-
-class CRM_Member_Controller_Search extends CRM_Core_Controller {
+class CRM_Member_Controller_Search extends CRM_Core_Controller 
+{
 
     /**
      * class constructor
