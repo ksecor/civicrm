@@ -29,6 +29,7 @@
       <type>varchar</type>     
       <length>255</length>  
       <comment>Event Title (e.g. Fall Fundraiser Dinner)</comment>
+      <import>true</import>
       <add>1.7</add>     
   </field>   
   <field>        
@@ -65,12 +66,18 @@
   <field>
        <name>start_date</name>
        <type>datetime</type>
+       <uniqueName>event_start_date</uniqueName>
+       <title>Event Start Date</title>
+       <import>true</import>
        <comment>Date and time that event starts.</comment>
        <add>1.7</add>
   </field>
   <field>
        <name>end_date</name>
        <type>datetime</type>
+       <uniqueName>event_end_date</uniqueName>
+       <title>Event End Date</title>
+       <import>true</import>
        <comment>Date and time that event ends. May be NULL if no defined end date/time</comment>
        <add>1.7</add>
   </field>

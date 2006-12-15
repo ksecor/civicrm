@@ -42,6 +42,8 @@
   </foreignKey>
   <field> 
       <name>status_id</name> 
+      <uniqueName>event_status_id</uniqueName>
+      <title>Participant Status</title>
       <type>int unsigned</type> 
       <default>1</default>
       <comment>Participant status ID. Implicit FK to civicrm_option_value where option_group = participant_status. Default of 1 should map to status = Registered.</comment> 
@@ -71,7 +73,9 @@
       <add>1.7</add>     
   </field> 
   <field>        
-      <name>source</name>     
+      <name>source</name>
+      <uniqueName>event_source</uniqueName>
+      <title>Participant Source</title>  
       <type>varchar</type>     
       <length>128</length>  
       <comment>Source of this event registration.</comment>
