@@ -7,6 +7,7 @@
   <add>1.7</add> 
   <field> 
       <name>id</name> 
+      <title>Payment ID</title>
       <type>int unsigned</type> 
       <required>true</required> 
       <comment>Participant Payment Id</comment> 
@@ -18,10 +19,11 @@
   </primaryKey> 
   <field> 
       <name>participant_id</name> 
+      <title>Participant ID</title>  
       <type>int unsigned</type> 
       <required>true</required> 
       <comment>Participant Id (FK)</comment> 
-       <add>1.7</add> 
+      <add>1.7</add> 
   </field>
   <foreignKey> 
        <name>participant_id</name> 
@@ -29,7 +31,7 @@
        <key>id</key> 
   </foreignKey>
   <field>        
-      <name>payment_entity_table</name>     
+      <name>payment_entity_table</name>
       <type>varchar</type>     
       <length>128</length>  
       <comment>Table being referenced for payment entity (expected usage is civicrm_contribution).</comment>

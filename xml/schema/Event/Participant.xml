@@ -2,11 +2,12 @@
  
 <table> 
   <base>CRM/Event</base> 
-  <class>EventParticipant</class> 
+  <class>Participant</class> 
   <name>civicrm_participant</name> 
   <add>1.7</add> 
   <field> 
       <name>id</name> 
+      <title>Participant ID</title>
       <type>int unsigned</type> 
       <required>true</required> 
       <comment>Participant Id</comment> 
@@ -31,6 +32,7 @@
   <field> 
       <name>event_id</name> 
       <type>int unsigned</type> 
+      <title>Event ID</title>
       <default>0</default>
       <comment>FK to Event ID</comment> 
       <add>1.7</add> 
@@ -56,6 +58,7 @@
   </foreignKey>
   <field> 
       <name>role_id</name> 
+      <title>Participant Role</title>
       <type>int unsigned</type> 
       <default>NULL</default>
       <comment>Participant role ID. Implicit FK to civicrm_option_value where option_group = participant_role.</comment> 
@@ -67,7 +70,9 @@
        <key>id</key> 
   </foreignKey>
   <field>        
-      <name>register_date</name>     
+      <name>register_date</name>
+      <uniqueName>participant_register_date</uniqueName>
+      <title>Register date</title>  
       <type>datetime</type>     
       <comment>When did contact register for event?</comment>
       <add>1.7</add>     
@@ -82,7 +87,8 @@
       <add>1.7</add>     
   </field> 
   <field>        
-      <name>event_level</name>     
+      <name>event_level</name>
+      <title>Fee level</title>
       <type>varchar</type>     
       <length>255</length>  
       <comment>Populate with the label (text) associated with a fee level for paid events with multiple levels. Note that we store the label value rather than an FK as the label stored in custom_option may change, but we dont want that to change the label in place at time of this registration.</comment>

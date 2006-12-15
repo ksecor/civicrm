@@ -18,6 +18,7 @@
   </primaryKey> 
   <field> 
       <name>event_id</name> 
+      <title>Event ID</title>
       <type>int unsigned</type> 
       <required>true</required> 
       <comment>Event which this page belongs to.</comment> 
@@ -26,18 +27,21 @@
   <field>        
       <name>intro_text</name>     
       <type>text</type>     
+      <title>Introductory Message</title>
       <comment>Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.</comment>
       <add>1.7</add>     
   </field>   
   <field>        
       <name>footer_text</name>     
+      <title>Footer Message</title>
       <type>text</type>     
       <comment>Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.</comment>
       <add>1.7</add>     
   </field>   
   <field>        
       <name>confirm_title</name>     
-      <type>varchar</type>     
+      <type>varchar</type>   
+      <title>Confirmation Title</title>
       <length>255</length> 
       <default>NULL</default>
       <comment>Title for Confirmation page.</comment>
@@ -46,18 +50,21 @@
   <field>        
       <name>confirm_text</name>     
       <type>text</type>     
+      <title>Confirm Text</title>
       <comment>Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.</comment>
       <add>1.7</add>     
   </field>  
   <field>        
       <name>confirm_footer_text</name>     
       <type>text</type>     
+      <title>Footer Text</title>
       <comment>Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.</comment>
       <add>1.7</add>     
   </field> 
   <field> 
       <name>is_email_confirm</name> 
       <type>boolean</type> 
+      <title>Is confirm email</title>
       <default>1</default>                
       <comment>If true, confirmation is automatically emailed to contact on successful registration.</comment> 
       <add>1.7</add> 
@@ -65,12 +72,14 @@
  <field>        
       <name>confirm_email_text</name>     
       <type>text</type>     
-     <comment>text to include above standard event info on confirmation email. emails are text-only, so do not allow html for now</comment>
+      <title>Confirmation Email Text</title>
+      <comment>text to include above standard event info on confirmation email. emails are text-only, so do not allow html for now</comment>
       <add>1.7</add>     
   </field> 
  <field>        
       <name>confirm_from_name</name>     
       <type>varchar</type>     
+      <title>Confirm From Name</title>
       <length>255</length>  
       <comment>FROM email name used for confirmation emails.</comment>
       <add>1.7</add>     
@@ -78,13 +87,14 @@
   <field>        
       <name>confirm_from_email</name>     
       <type>varchar</type>     
+      <title>Confirm From Email</title>
       <length>255</length>  
       <comment>FROM email address used for confirmation emails.</comment>
       <add>1.7</add>     
   </field>     
   <field>        
       <name>cc_confirm</name>     
-      <type>varchar</type>     
+      <type>varchar</type> 
       <length>255</length>  
       <comment>comma-separated list of email addresses to cc each time a confirmation is sent</comment>
       <add>1.7</add>     
