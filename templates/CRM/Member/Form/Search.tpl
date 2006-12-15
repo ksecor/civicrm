@@ -5,26 +5,23 @@
     returns only those contacts who meet both criteria).{/ts}
 </div>
 <fieldset><legend>{ts}Find Members{/ts}</legend>
-<div class="form-item">
-    {strip} 
-        <dl>
-        <dt>{$form.sort_name.label}</dt>
-        <dd>
-        <table class="form-layout">
-        <tr>
-	<td>{$form.sort_name.html}
-	    <div class="description font-italic">
-                   {ts}Complete OR partial name OR email.{/ts}
-            </div>		
-	</td><td class="label">{$form.buttons.html}</td>
+{strip}
+     <table class="form-layout">
+		<tr>
+            <td class="font-size12pt label">{$form.sort_name.label}</td>
+            <td colspan="2">{$form.sort_name.html}
+                <div class="description font-italic">
+                    {ts}Complete OR partial name OR email.{/ts}
+                </div>
+            </td>
+            <td class="label">{$form.buttons.html}</td>       
         </tr>
-        </table>
-        </dd>
-        </dl>
+
         {include file="CRM/Member/Form/Search/Common.tpl"}
-    {/strip}
-</div> 
+    </table>
+{/strip} 
 </fieldset>
+
 {if $rowsEmpty}
     {include file="CRM/Member/Form/Search/EmptyResults.tpl"}
 {/if}
