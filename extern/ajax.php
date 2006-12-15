@@ -28,6 +28,9 @@ function invoke( ) {
     case 'status':
         return status( $config );
 
+    case 'event':
+        return event( $config );
+
     default:
         return;
     }
@@ -63,6 +66,32 @@ LIMIT 6";
     $elements = array( );
     while ( $dao->fetch( ) && $count < 5 ) {
         $elements[] = array( $dao->sort_name, $dao->sort_name );
+        $count++;
+    }
+
+    require_once 'Services/JSON.php';
+    $json =& new Services_JSON( );
+    echo $json->encode( $elements );
+}
+
+function event( &$config ) {
+    require_once 'CRM/Utils/Type.php';
+    $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
+    $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+
+    $query = "
+SELECT title
+  FROM civicrm_event
+ WHERE domain_id = $domainID
+   AND title LIKE '$name%'
+ORDER BY title
+LIMIT 6";
+    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+    
+    $count = 0;
+    $elements = array( );
+    while ( $dao->fetch( ) && $count < 5 ) {
+        $elements[] = array( $dao->title, $dao->title );
         $count++;
     }
 

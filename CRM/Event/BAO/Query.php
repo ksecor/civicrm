@@ -41,7 +41,19 @@ class CRM_Event_BAO_Query
    
     static function buildSearchForm( &$form ) 
     {
-        $form->addElement('text', 'event_title', ts('Event Name'), CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event', 'title') );
+        $config =& CRM_Core_Config::singleton( );
+        $domainID = CRM_Core_Config::domainID( );
+        $dataURL = $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/event&d={$domainID}&s=%{searchString}";
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Drupal' &&
+             $config->userFrameworkVersion <= 4.6      &&
+             function_exists( 'drupal_get_token' ) ) {
+            $urlArray['drupalFormToken'] = drupal_get_token( );
+        }
+
+        $form->assign( 'dataURL', $dataURL );
+        
         // Date selects for date 
         $form->add('date', 'event_date_low', ts('Event Date - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('event_date_low', ts('Select a valid date.'), 'qfDate'); 
