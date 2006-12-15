@@ -212,6 +212,10 @@ class CRM_Event_BAO_Query
         
         $form->assign( 'validCiviEvent', true );
     }
+
+    static function searchAction( &$row, $id ) 
+    {
+    }
   
 }
 
