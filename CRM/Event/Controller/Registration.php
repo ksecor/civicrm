@@ -36,7 +36,7 @@
 
 require_once 'CRM/Core/Controller.php';
 
-class CRM_Event_Controller_RegistrationPage extends CRM_Core_Controller {
+class CRM_Event_Controller_Registration extends CRM_Core_Controller {
 
     /**
      * class constructor
@@ -44,15 +44,14 @@ class CRM_Event_Controller_RegistrationPage extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
         parent::__construct( $title, $modal );
 
-        require_once 'CRM/Event/StateMachine/RegistrationPage.php';
-        $this->_stateMachine =& new CRM_Event_StateMachine_RegistrationPage( $this, $action );
+        require_once 'CRM/Event/StateMachine/Registration.php';
+        $this->_stateMachine =& new CRM_Event_StateMachine_Registration( $this, $action );
 
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );
 
         // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
+        $this->addActions( );
     }
 
 }
