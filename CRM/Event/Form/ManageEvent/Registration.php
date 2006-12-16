@@ -189,11 +189,14 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        $params = array();
+        $params = $id = array();
         
         // store the submitted values in an array
         $params             = $this->exportValues();
-        $params['event_id'] = $this->_id;
+        $params['event_id'] = $id['event_id'] = $this->_id;
+        require_once 'CRM/Event/BAO/ManageEvent.php';
+        CRM_Event_BAO_ManageEvent::add($params ,$id);
+
         require_once 'CRM/Event/DAO/EventPage.php';
         $registration       = & new CRM_Event_DAO_EventPage( );
         $registration->copyValues( $params );

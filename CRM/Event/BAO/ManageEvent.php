@@ -101,9 +101,8 @@ class CRM_Event_BAO_ManageEvent extends CRM_Event_DAO_Event
         
         $event               =& new CRM_Event_DAO_Event( );
         $event->domain_id    = CRM_Core_Config::domainID( );
-        if( $id ) {
-            $event->id = $id; 
-        }
+        $event->id = CRM_Utils_Array::value( 'event_id', $id );
+       
         $event->copyValues( $params );
         $event->save( );
         CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );

@@ -134,10 +134,12 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Core_Form
      */
     public function postProcess()
     {
+        $params = $id = array();
+        $id['event_id'] = $this->_id;
         // get the submitted form values.
         $params = $this->exportValues( );
         require_once 'CRM/Event/BAO/ManageEvent.php';
-        CRM_Event_BAO_ManageEvent::add($params ,$this->_id);
+        CRM_Event_BAO_ManageEvent::add($params ,$id);
         // if there are label / values, create custom options for them
         $labels  = CRM_Utils_Array::value( 'label'  , $params );
         $values  = CRM_Utils_Array::value( 'value'  , $params );

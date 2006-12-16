@@ -61,7 +61,17 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
      * @return None
      */
     function setDefaultValues( ) 
-    {
+    {    
+        $defaults = array( );
+        $params   = array( );
+        if ( isset( $this->_id ) ) {
+            $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
+            require_once 'CRM/Core/BAO/Location.php';
+            CRM_Core_BAO_Location::getValues($params, $defaults,$id);
+            
+        }
+        return $defaults;
+
     }
 
     function preProcess( ) {
