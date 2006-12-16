@@ -46,6 +46,7 @@
       <name>status_id</name> 
       <uniqueName>event_status_id</uniqueName>
       <title>Participant Status</title>
+      <import>true</import>
       <type>int unsigned</type> 
       <default>1</default>
       <comment>Participant status ID. Implicit FK to civicrm_option_value where option_group = participant_status. Default of 1 should map to status = Registered.</comment> 
@@ -91,6 +92,7 @@
       <title>Fee level</title>
       <type>varchar</type>     
       <length>255</length>  
+      <import>true</import>
       <comment>Populate with the label (text) associated with a fee level for paid events with multiple levels. Note that we store the label value rather than an FK as the label stored in custom_option may change, but we dont want that to change the label in place at time of this registration.</comment>
       <add>1.7</add>     
   </field> 

@@ -32,6 +32,7 @@
   <field>        
       <name>title</name>     
       <type>varchar</type>     
+      <import>true</import>
       <title>Event Title</title>  
       <length>255</length>  
       <comment>Event Title (e.g. Fall Fundraiser Dinner)</comment>
