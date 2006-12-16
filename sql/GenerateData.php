@@ -43,6 +43,7 @@
  *
  *******************************************************/
 
+
 /*******************************************************
  *
  * Note: implication of using of mt_srand(1) in constructor
@@ -1421,11 +1422,11 @@ VALUES
         (domain_id, title, summary, description, event_type_id, is_public, start_date, end_date, is_online_registration, registration_link_text, max_participants, event_full_text, is_monetary, contribution_type_id, is_map, is_active)
         VALUES
         (1, 'Fall Fundraiser Dinner', 'Kick up your heels at our Fall Fundraiser Dinner/Dance at Glen Echo Park! Come by yourself or bring a partner, friend or the entire family!', 'Tickets for the dinner and dance are $40 for adults, $20 for teens and $10 for
-kids 12 and under.Grab your dancing shoes, bring the kids and come join the party!', 2, 1, 2007-01-21, 2006-01-27, 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner Event booking is full.', 1, 3, 0, 1),
+kids 12 and under.Grab your dancing shoes, bring the kids and come join the party!', 2, 1, '2006-01-21', '2006-01-27', 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner Event booking is full.', 1, 3, 0, 1),
 
-        (1, 'Summer Solstice Festival Day Concert', 'Festival Day is coming!', 'We will gather at noon (or come picnic earlier!) on Jun 17th, learn a song all together, break up into our groups, learn our parts, share what we have learned, and then join in a joyous procession to the Scandinavian Mid-Summer Picnic where we will perform our Mid-Summer Revels on their Pavillion Stage at Fort Hunt Park in Alexandria, Virginia.', 3, 1, 2007-06-17, 2006-06-19, 1, 'Register Now', 100, 'Sorry! Summer Solstice Festival Day Concert Event booking is full.', 1, 2, 0, 1),
+        (1, 'Summer Solstice Festival Day Concert', 'Festival Day is coming!', 'We will gather at noon (or come picnic earlier!) on Jun 17th, learn a song all together, break up into our groups, learn our parts, share what we have learned, and then join in a joyous procession to the Scandinavian Mid-Summer Picnic where we will perform our Mid-Summer Revels on their Pavillion Stage at Fort Hunt Park in Alexandria, Virginia.', 3, 1, '2007-06-17', '2007-06-19', 1, 'Register Now', 100, 'Sorry! Summer Solstice Festival Day Concert Event booking is full.', 1, 2, 0, 1),
 
-        (1, 'Disney Cup International Youth Tournament', 'The tournament is here!', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided). A Sports Sales Manager will review all applications and notify your team of its status as soon as possible.', 4, 1, 2007-02-27, 2006-03-15, 1, 'Register Now', 500, 'Sorry! Entries for Disney Cup International Youth Tournament are already taken. Better luck next time!', 1, 1, 0, 1)
+        (1, 'Disney Cup International Youth Tournament', 'The tournament is here!', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided). A Sports Sales Manager will review all applications and notify your team of its status as soon as possible.', 4, 1, '2007-02-27', '2007-03-15', 1, 'Register Now', 500, 'Sorry! Entries for Disney Cup International Youth Tournament are already taken. Better luck next time!', 1, 1, 0, 1)
      
          ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
