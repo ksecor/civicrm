@@ -10,9 +10,23 @@
     	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
     	<dt>{$form.is_public.label}</dt><dd>{$form.is_public.html}</dd>
         <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
-        {include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=1905 endDate=currentYear trigger=trigger_event_1 }
+        <dt>&nbsp;</dt>
+        <dd class="description">
+               {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
+        </dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">
+{include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=3 doTime=1 trigger=trigger_event_1}
+        </dd>
         <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd>  
-        {include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=1905 endDate=currentYear trigger=trigger_event_1 }
+        <dt>&nbsp;</dt>
+        <dd class="description">
+               {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
+        </dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">
+{include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=3 doTime=1 trigger=trigger_event_1}
+        </dd>
         <dt>{$form.max_participants.label}</dt><dd>{$form.max_participants.html}</dd>
         <dt>{$form.event_full_text.label}</dt><dd>{$form.event_full_text.html}</dd>
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
