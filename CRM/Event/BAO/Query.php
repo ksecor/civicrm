@@ -191,10 +191,15 @@ class CRM_Event_BAO_Query
     {
         $config =& CRM_Core_Config::singleton( );
         $domainID = CRM_Core_Config::domainID( );
+
         $dataURL = $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/event&d={$domainID}&s=%{searchString}";
         
-        $form->assign( 'dataURL', $dataURL );
+        $form->assign( 'dojoIncludes', "dojo.require('dojo.widget.ComboBox');" );
         
+        $dojoAttributes = " dojoType='ComboBox' mode='remote' dataUrl='{$dataURL}' ";
+        
+        $form->add('text', 'event_title', ts('Event Name'), $dojoAttributes );
+
         // Date selects for date 
         $form->add('date', 'event_start_date_low', ts('Event Date - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('event_start_date_low', ts('Select a valid date.'), 'qfDate'); 

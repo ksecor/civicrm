@@ -1,14 +1,8 @@
+ {include file="CRM/common/dojo.tpl"} 
  <tr>
-     <td class="label">{ts}Event Name{/ts}</td> 
-         <td>
-             <script type="text/javascript">
-                dojo.require('dojo.widget.ComboBox')
-             </script>
-             <input type="text" name="event_title" class="label" value="" dojoType="ComboBox" mode="remote" dataUrl="{$dataURL}" />
-             <br />
-         </td>
- </tr> 
-    
+    <td class="label">{$form.event_title.label}</td> 
+    <td>{$form.event_title.html}</td>
+ </tr>     
  <tr> 
     <td class="label"> {$form.event_start_date_low.label} </td>
     <td>
