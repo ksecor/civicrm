@@ -121,6 +121,7 @@ VALUES
    UPDATE civicrm_state_province SET name="Scottish Borders"   WHERE id=2770;
    UPDATE civicrm_state_province SET name="Vale of Glamorgan"  WHERE id=2804;
 
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9000, 1196, "NW", "North West" );
    INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9986, 1226, "xTYW", "Tyne and Wear");
    INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9987, 1226, "xIOM", "Isle of Man");
    INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9988, 1226, "xGMA", "Greater Manchester");

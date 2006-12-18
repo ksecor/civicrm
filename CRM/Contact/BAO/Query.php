@@ -1998,7 +1998,7 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function openActivity( &$values ) {
-        $types = CRM_Core_PseudoConstant::ActivityType( false, null );
+        $types = CRM_Core_PseudoConstant::activityType( );
        
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         $this->_activityTypeId =  $value;

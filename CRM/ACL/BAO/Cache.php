@@ -125,11 +125,10 @@ WHERE contact_id = %1
 
         $domainID = CRM_Core_Config::domainID( );
         $query = "
-DELETE FROM civicrm_acl_cache c
-USING civicrm_acl_cache c,
-      civicrm_acl       a
-WHERE c.acl_id = a.id
-  AND a.domain_id = $domainID
+DELETE     c 
+FROM       civicrm_acl_cache c
+INNER JOIN civicrm_acl       a ON c.acl_id = a.id
+WHERE      a.domain_id = $domainID
 ";
 
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );

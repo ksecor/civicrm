@@ -78,6 +78,7 @@ class CRM_Utils_Address {
                                   'supplemental_address_2' => $fields['supplemental_address_2'],
                                   'city'                   => $fields['city'],
                                   'state_province_name'    => $fields['state_province_name'],
+                                  'county'                 => $fields['county'],
                                   'state_province'         => $fields['state_province'],
                                   'postal_code'            => $fullPostalCode,
                                   'country'                => $fields['country']
@@ -89,6 +90,7 @@ class CRM_Utils_Address {
                                   'supplemental_address_2' => $fields['supplemental_address_2'],
                                   'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
                                   'state_province_name'    => "<span class=\"region\">" .           $fields['state_province_name'] . "</span>",
+                                  'county'                 => "<span class=\"region\">" .           $fields['county'],
                                   'state_province'         => "<span class=\"region\">" .           $fields['state_province'] . "</span>",
                                   'postal_code'            => "<span class=\"postal-code\">" .      $fullPostalCode . "</span>",
                                   'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>"
