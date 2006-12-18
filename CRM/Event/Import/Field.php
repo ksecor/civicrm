@@ -25,57 +25,90 @@
  +--------------------------------------------------------------------+
 */
 
-/**
- *
- * @package CRM
- * @author Donald A. Lobo <lobo@civicrm.org>
- * @copyright CiviCRM LLC (c) 2004-2006
- * $Id$
- *
- */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Utils/Type.php';
+require_once 'CRM/Event/PseudoConstant.php';
 
-/**
- * This class summarizes the import results
- */
-class CRM_Event_Import_Form_Summary extends CRM_Core_Form {
+class CRM_Event_Import_Field
+{
+    /**#@+
+     * @access protected
+     * @var string
+     */
 
     /**
-     * Function to set variables up before form is built
-     *
-     * @return void
-     * @access public
+     * name of the field
      */
-    public function preProcess( )
+    public $_name;
+
+    /**
+     * title of the field to be used in display
+     */
+    public $_title;
+
+    /**
+     * type of field
+     * @var enum
+     */
+    public $_type;
+
+    /**
+     * is this field required
+     * @var boolean
+     */
+    public $_required;
+    
+    /**
+     * data to be carried for use by a derived class
+     * @var object
+     */
+    public $_payload;
+    
+    /**
+     * regexp to match the CSV header of this column/field
+     * @var string
+     */
+     public $_headerPattern;
+     
+    /**
+     * regexp to match the pattern of data from various column/fields
+     * @var string
+     */
+     public $_dataPattern;
+     
+    /**
+     * value of this field
+     * @var object
+     */
+    public $_value;
+    
+    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//')
     {
+        $this->_name      = $name;
+        $this->_title     = $title;
+        $this->_type      = $type;
+        $this->_headerPattern = $headerPattern;
+        $this->_dataPattern = $dataPattern;
+    
+        $this->_value     = null;
+    }
+    
+    function resetValue( )
+    {
+        $this->_value     = null;
     }
     
     /**
-     * Function to actually build the form
-     *
-     * @return None
-     * @access public
+     * the value is in string format. convert the value to the type of this field
+     * and set the field value with the appropriate type
      */
-    public function buildQuickForm( )
+    function setValue( $value )
     {
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Done'),
-                                         'isDefault' => true   ),
-                                 )
-                           );
+        $this->_value = $value;
     }
-    
-    /**
-     * Return a descriptive name for the page, used in wizard header
-     *
-     * @return string
-     * @access public
-     */
-    public function getTitle( )
+
+    function validate( )
     {
-        return ts('Summary');
     }
 }
 ?>

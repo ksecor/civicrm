@@ -38,7 +38,6 @@ require_once 'CRM/Core/Controller.php';
 
 class CRM_Event_Import_Controller extends CRM_Core_Controller
 {
-
     /**
      * class constructor
      */

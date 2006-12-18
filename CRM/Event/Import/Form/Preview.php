@@ -50,8 +50,59 @@ class CRM_Event_Import_Form_Preview extends CRM_Core_Form
      */
     public function preProcess()
     {
+        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
+        
+        //get the data from the session             
+        $dataValues         = $this->get('dataValues');
+        $mapper             = $this->get('mapper');
+        $invalidRowCount    = $this->get('invalidRowCount');
+        $conflictRowCount   = $this->get('conflictRowCount');
+        $mismatchCount      = $this->get('unMatchCount');
+        
+        //get the mapping name displayed if the mappingId is set
+        $mappingId = $this->get('loadMappingId');
+        if ( $mappingId ) {
+            $mapDAO =& new CRM_Core_DAO_Mapping();
+            $mapDAO->id = $mappingId;
+            $mapDAO->find( true );
+            $this->assign('loadedMapping', $mappingId);
+            $this->assign('savedName', $mapDAO->name);
+        }
+        
+        if ( $skipColumnHeader ) {
+            $this->assign( 'skipColumnHeader' , $skipColumnHeader );
+            $this->assign( 'rowDisplayCount', 3 );
+        } else {
+            $this->assign( 'rowDisplayCount', 2 );
+        }
+        
+        if ($invalidRowCount) {
+            //$this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=membership'));
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=event'));
+        }
+        
+        if ($conflictRowCount) {
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=event'));
+        }
+        
+        if ($mismatchCount) {
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=event'));
+        }
+        
+        $properties = array( 'mapper',
+                             'dataValues', 'columnCount',
+                             'totalRowCount', 'validRowCount', 
+                             'invalidRowCount', 'conflictRowCount',
+                             'downloadErrorRecordsUrl',
+                             'downloadConflictRecordsUrl',
+                             'downloadMismatchRecordsUrl'
+                             );
+        
+        foreach ( $properties as $property ) {
+            $this->assign( $property, $this->get( $property ) );
+        }
     }
-
+    
     /**
      * Function to actually build the form
      *
@@ -60,6 +111,17 @@ class CRM_Event_Import_Form_Preview extends CRM_Core_Form
      */
     public function buildQuickForm( )
     {
+        $this->addButtons( array(
+                                 array ( 'type'      => 'back',
+                                         'name'      => ts('<< Previous') ),
+                                 array ( 'type'      => 'next',
+                                         'name'      => ts('Import Now >>'),
+                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => ts('Cancel') ),
+                                 )
+                           );
     }
     
     /**

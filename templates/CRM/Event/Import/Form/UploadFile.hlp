@@ -1,0 +1,10 @@
+{htxt id='upload-intro'}
+    <p>
+    {ts}Files to be imported must be in the <strong>comma-separated-values format (CSV)</strong>. Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}
+    </p>
+{/htxt}
+
+{htxt id='contact-type'}
+<p>{ts}Select <strong>Individual</strong> for Contact Type if each record in your file represents and individual person - even if the file also contains related Organization data (e.g. Employer Name, Employer Address, etc.).{/ts}</p>
+<p>{ts}Select <strong>Organization</strong> or <strong>Household</strong> if each record in your file represents a contact of that type.{/ts}</p>
+{/htxt}
