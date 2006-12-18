@@ -2,7 +2,7 @@
 <fieldset><legend>{ts}Address Formatting{/ts}</legend>
       <dl>
         <dt>{$form.addressFormat.label}</dt><dd>{$form.addressFormat.html|crmReplace:class:huge}</dd>      
-        <dt>&nbsp</dt><dd class="description">{ts}Contact address display format.<br />If state_province is given then abbreviation of State Province is displayed and full name of state province is displayed if state_province_name is given.{/ts}</dd>
+        <dt>&nbsp</dt><dd class="description">{ts}Contact address display format.<br />Use state_province tag for state province abbreviation or state_province_name for state province name.{/ts}</dd>
         <dt>{$form.maxLocationBlocks.label}</dt><dd>{$form.maxLocationBlocks.html|crmReplace:class:two}</dd>
         <dt>&nbsp</dt><dd class="description">{ts}Maximum number of different locations/addresses that can be entered for a contact.{/ts}</dd>
         <dt>{$form.includeCounty.label}</dt><dd>{$form.includeCounty.html}</dd>    
