@@ -48,14 +48,15 @@ class CRM_Event_Invoke
 
         switch ( CRM_Utils_Array::value( 3, $args, '' ) ) {
 
-        case 'manageEvent':
-            require_once 'CRM/Event/Page/ManageEvent.php';
-            $view =& new CRM_Event_Page_ManageEvent(ts('Manage Event'));
+        case 'register':
+            require_once 'CRM/Event/Controller/Registration.php';
+            $controller =& new CRM_Event_Controller_Registration(ts('Online Registration'));
+            return $controller->run();
             break;
             
         default:
-            require_once 'CRM/Event/Page/RegistrationPage.php';
-            $view =& new CRM_Event_Page_RegistrationPage(ts('Online Registration'));
+            require_once 'CRM/Event/Page/ManageEvent.php';
+            $view =& new CRM_Event_Page_ManageEvent(ts('Manage Event'));
             break;
         }
 
