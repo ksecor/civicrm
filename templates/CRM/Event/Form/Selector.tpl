@@ -54,11 +54,11 @@
     <td colspan="7"><a href="{crmURL p='civicrm/contact/view' q="reset=1&force=1&selectedChild=event&cid=$contactId"}">&raquo; {ts}View all participations for this contact{/ts}...</a></td></tr>
   </tr>
 {/if}
-{* {if ($context EQ 'DashBoard') AND $pager->_totalItems GT $limit}
+{if ($context EQ 'DashBoard') AND $pager->_totalItems GT $limit}
   <tr class="even-row">
     <td colspan="9"><a href="{crmURL p='civicrm/event/search' q='reset=1&force=1'}">&raquo; {ts}List more Participants{/ts}...</a></td></tr>
   </tr>
-{/if} *}
+{/if}
 </table>
 {/strip}
 
