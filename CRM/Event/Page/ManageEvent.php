@@ -35,9 +35,10 @@
  */
 
 require_once 'CRM/Core/Page/Basic.php';
+require_once 'CRM/Event/BAO/ManageEvent.php';
 
 /**
- * Page for displaying list of eventship types
+ * Page for displaying list of event types
  */
 class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 {
@@ -61,32 +62,38 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $disableExtra = ts('Are you sure you want to disable this eventship type?');
 
             self::$_actionLinks = array(
-                                  CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/event',
-                                                                    'qs'    => 'action=update&id=%%id%%&reset=1',
-                                                                    'title' => ts('Edit Eventship Status') 
-                                                                   ),
-                                  CRM_Core_Action::DISABLE => array(
-                                                                    'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/event',
-                                                                    'qs'    => 'action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                    'title' => ts('Disable Eventship Status') 
-                                                                   ),
-                                  CRM_Core_Action::ENABLE  => array(
-                                                                    'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/event',
-                                                                    'qs'    => 'action=enable&id=%%id%%',
-                                                                    'title' => ts('Enable Eventship Status') 
-                                                                    ),
-                                  CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/event',
-                                                                    'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete Eventship Status') 
-                                                                   )
-                                 );
+                                        CRM_Core_Action::VIEW    => array(
+                                                                          'name'  => ts('View'),
+                                                                          'url'   => 'civicrm/admin/event/manageEvent',
+                                                                          'qs'    => 'action=view&reset=1&id=%%id%%',
+                                                                          'title' => ts('View Event')
+                                                                          ),
+                                        CRM_Core_Action::UPDATE  => array(
+                                                                          'name'  => ts('Edit'),
+                                                                          'url'   => 'civicrm/admin/event',
+                                                                          'qs'    => 'action=update&id=%%id%%&reset=1',
+                                                                          'title' => ts('Edit Event') 
+                                                                          ),
+                                        CRM_Core_Action::DISABLE => array(
+                                                                          'name'  => ts('Disable'),
+                                                                          'url'   => 'civicrm/admin/event',
+                                                                          'qs'    => 'action=disable&id=%%id%%',
+                                                                          'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                          'title' => ts('Disable Event') 
+                                                                          ),
+                                        CRM_Core_Action::ENABLE  => array(
+                                                                          'name'  => ts('Enable'),
+                                                                          'url'   => 'civicrm/admin/event',
+                                                                          'qs'    => 'action=enable&id=%%id%%',
+                                                                          'title' => ts('Enable Event') 
+                                                                          ),
+                                        CRM_Core_Action::DELETE  => array(
+                                                                          'name'  => ts('Delete'),
+                                                                          'url'   => 'civicrm/admin/event',
+                                                                          'qs'    => 'action=delete&id=%%id%%',
+                                                                          'title' => ts('Delete Event') 
+                                                                          )
+                                        );
         }
         return self::$_actionLinks;
     }
@@ -135,7 +142,17 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             CRM_Utils_System::setTitle( ts('Edit Event') );
             return $page->run( );
+        }  else if ($action & CRM_Core_Action::VIEW ) {
+            
+        } else if ($action & CRM_Core_Action::DISABLE ) {
+            CRM_Event_BAO_ManageEvent::setIsActive($id ,0);
+        } else if ($action & CRM_Core_Action::ENABLE ) {
+            CRM_Event_BAO_ManageEvent::setIsActive($id ,1); 
+        } else if ($action & CRM_Core_Action::DELETE ) {
+            //CRM_Event_BAO_ManageEvent::del($id);
         }
+
+
 
         // finally browse the custom groups
         $this->browse();
@@ -181,9 +198,19 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             
             $manageEvent[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                               array('id' => $dao->id));
-            $manageEvent[$dao->id]['start_event'] = str_replace("_", " ", $manageEvent[$dao->id]['start_event']);
-            $manageEvent[$dao->id]['end_event']   = str_replace("_", " ", $manageEvent[$dao->id]['end_event']);
+
+            $params   = array( );
+            $params = array( 'entity_table' => 'civicrm_event');
+            require_once 'CRM/Core/BAO/Location.php';
+            $location = CRM_Core_BAO_Location::getValues($params, $defaults,$id, 1);
+            
+            if( $manageEvent[$dao->id]['id'] == $defaults['location'][1]['entity_id'] ) {
+                $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
+                $stateId = $defaults['location'][1]['address']['state_province_id'];
+                $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($stateId);
+            }
         }
+
         $this->assign('rows', $manageEvent);
     }
 }
