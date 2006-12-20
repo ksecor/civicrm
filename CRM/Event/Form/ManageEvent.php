@@ -59,7 +59,11 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      * @access public 
      */ 
     function preProcess( ) {
-        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
+            $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        } else {
+            $this->_id = $this->get( 'id' );
+        }
     }
     
     /**

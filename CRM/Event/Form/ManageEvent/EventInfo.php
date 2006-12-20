@@ -112,6 +112,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Event/BAO/ManageEvent.php';
         $event =  CRM_Event_BAO_ManageEvent::add($params ,$id);
         CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );
+
+        $this->set( 'id', $event->id );
     }//end of function
     
     /**
