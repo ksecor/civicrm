@@ -59,9 +59,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */
     function setDefaultValues( )
     {
+        $defaults = parent::setDefaultValues( );
+
         if ( isset( $this->_id ) ) {
-            $defaults = parent::setDefaultValues( );
-            
+            require_once 'CRM/Core/BAO/CustomOption.php'; 
+            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event', $this->_id, $defaults );
         }
         return $defaults;
     }

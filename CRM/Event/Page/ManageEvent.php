@@ -149,7 +149,9 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         } else if ($action & CRM_Core_Action::ENABLE ) {
             CRM_Event_BAO_ManageEvent::setIsActive($id ,1); 
         } else if ($action & CRM_Core_Action::DELETE ) {
-            //CRM_Event_BAO_ManageEvent::del($id);
+            CRM_Event_BAO_ManageEvent::del($id);
+            CRM_Core_Session::setStatus( ts('The event  has been deleted successfully.') );
+
         }
 
 

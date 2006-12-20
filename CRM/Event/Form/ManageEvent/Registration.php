@@ -60,8 +60,16 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     function setDefaultValues( ) 
     {
         $defaults = parent::setDefaultValues( );
-        
         $this->setShowHide( $defaults );
+        if ( isset( $this->_id ) ) {
+            $params = array( 'event_id' => $this->_id );
+            require_once 'CRM/Event/DAO/EventPage.php';
+            $eventPage = new CRM_Event_DAO_EventPage();
+            $eventPage->copyValues( $params );
+            if ( $eventPage->find( true ) ) {
+                CRM_Core_DAO::storeValues( $eventPage, $defaults );
+            }
+        }
         return $defaults;
     }   
     
