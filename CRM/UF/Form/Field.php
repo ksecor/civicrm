@@ -161,7 +161,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFField::retrieve($params, $defaults);
             
-            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
+            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im', 'location_name' );
 
             if ( !$defaults['location_type_id'] && in_array($defaults['field_name'], $specialFields)  ) {
                 $defaults['location_type_id'] = 0;
