@@ -127,7 +127,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             
             require_once 'CRM/Event/BAO/Participant.php';
             $details[$participantId] = CRM_Event_BAO_Participant::participantDetails( $participantId );
-            CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $participantId );
+            CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $participantId, 'Event');
         }
 
         $this->assign('details',   $details);

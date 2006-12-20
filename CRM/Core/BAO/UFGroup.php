@@ -1297,7 +1297,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ($fieldName == 'participant_register_date' ) {
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ($fieldName == 'event_status_id' ) {
-            $status = CRM_Event_PseudoConstant::participantRole( );
+            $status = CRM_Event_PseudoConstant::participantStatus( );
             foreach ( $status as $key => $var ) {
                 if ( $key == '' ) {
                     continue;
@@ -1346,15 +1346,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @params array   $fields         associative array of fields
      * @params array   $defaults       defaults array
      * @params boolean $singleProfile  true for single profile else false(batch update)
-     * @params int     $contributionId contribution id
+     * @params int     $componentId    id for specific components like contribute, event etc
      *
      * @return null
      * @static
      * @access public
      */
-    static function setProfileDefaults( $contactId, &$fields, &$defaults, $singleProfile = true, $contributionId = null ) 
+    static function setProfileDefaults( $contactId, &$fields, &$defaults, $singleProfile = true, $componentId = null, $component = null ) 
     {
-        if (!$contributionId) {
+        if (!$componentId) {
             //get the contact details
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
             $details = $contactDetails[$contactId];
@@ -1516,21 +1516,43 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }  
         
         //Handling Contribution Part of the batch profile 
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) && $component == 'Contribute' ) {
             $params = $ids = $values = array();
-            $params = array( 'id' => $contributionId );
+            $params = array( 'id' => $componentId );
             
             require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Contribute_BAO_Contribution::getValues( $params, $values,  $ids );
-            
+
             foreach ($fields as $name => $field ) {
-                $fldName = "field[$contributionId][$name]";
+                $fldName = "field[$componentId][$name]";
                 if ( $name == 'contribution_type' ) {
                     $defaults[$fldName] = $values['contribution_type_id'];
                 } else if ( array_key_exists($name,$values) ) {
                     $defaults[$fldName] = $values[$name];
                 }
             }
+        }
+
+        //Handling Event Participation Part of the batch profile 
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) && $component == 'Event' ) {
+               $params = $ids = $values = array();
+               $params = array( 'id' => $componentId );
+               
+               require_once "CRM/Event/BAO/Participant.php";
+               CRM_Event_BAO_Participant::getValues( $params, $values,  $ids );
+
+               foreach ($fields as $name => $field ) {
+                   $fldName = "field[$componentId][$name]";
+                   if ( $name == 'event_id' ) {
+                       $defaults[$fldName] = $values['event_id'];
+                   } else if ( $name == 'event_status_id' ) {
+                       $defaults[$fldName."[$values[$name]]"] = 1;
+                   } else if ( $name == 'role_id' ) {
+                       $defaults[$fldName] = $values['role_id'];
+                   } else if ( array_key_exists($name,$values) ) {
+                       $defaults[$fldName] = $values[$name];
+                   } 
+               }
         }
     }
 

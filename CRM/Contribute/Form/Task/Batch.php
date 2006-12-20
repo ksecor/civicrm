@@ -143,7 +143,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             $details[$contributionId] = array( );
             //build sortname
             $sortName[$contributionId] = CRM_Contribute_BAO_Contribution::sortName($contributionId);
-            CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $contributionId );
+            CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $contributionId, 'Contribute' );
         }
         
         $this->assign('sortName', $sortName);
