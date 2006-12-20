@@ -485,8 +485,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $params['amount'] == 'amount_other_radio' || $params['amount_other']) {
             $params['amount'] = $params['amount_other'];
         } else {
-            $params['amount_level'] = $this->_values['label'][array_search( $params['amount'], $this->_values['amount_id'])];
-            $params['amount'      ] = $this->_values['value'][array_search( $params['amount'], $this->_values['amount_id'])];
+            if ( !empty($this->_values['value']) ) {
+                $params['amount_level'] = $this->_values['label'][array_search( $params['amount'], $this->_values['amount_id'])];
+                $params['amount'      ] = $this->_values['value'][array_search( $params['amount'], $this->_values['amount_id'])];
+            }
         }
     
         if ( !$params['amount'] && $params['selectMembership'] ) {
