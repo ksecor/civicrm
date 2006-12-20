@@ -35,14 +35,14 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Event/Form/ManageEvent.php';
 require_once 'CRM/Core/SelectValues.php';
 
 /**
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
+class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
 {
 
     /**
@@ -54,6 +54,13 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
     const LOCATION_BLOCKS = 1;
     
     /**
+     * the variable, for storing the location array
+     *
+     * @var array
+     */
+    protected $_ids;
+
+    /**
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
      * 
@@ -63,21 +70,15 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
     function setDefaultValues( ) 
     {    
         $defaults = array( );
-        $params   = array( );
         if ( isset( $this->_id ) ) {
             $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $defaults,$id, 1);
+            $location = CRM_Core_BAO_Location::getValues($params, $defaults, $ids, self::LOCATION_BLOCKS);
+            $this->_ids = $ids;
         }
         
         return $defaults;
-
     }
-
-    function preProcess( ) {
-        $this->_id      = $this->get( 'id' );
-    }
-
 
     /** 
      *  function to build location block 
@@ -91,7 +92,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
         
         require_once 'CRM/Contact/Form/Location.php';
         CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
-
+        
         $this->addButtons(array(
                                 array ( 'type'      => 'back',
                                         'name'      => ts('<< Previous') ),
@@ -104,9 +105,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
                                 )
                           );
     }
-
-
-
+    
     /**
      * Function to process the form
      *
@@ -115,20 +114,17 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        $params = array();
-        // store the submitted values in an array
-        $params                 = $this->exportValues();
+        $params = array( );
+        $params = $this->exportValues( );
+
         $params['entity_table'] = 'civicrm_event';
         $params['entity_id']    = $this->_id;
+
         require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::add($params, $ids, 1);
-        
-        CRM_Core_Session::setStatus( ts('The Address has been saved.' ));
+        CRM_Core_BAO_Location::add($params, $this->_ids, self::LOCATION_BLOCKS);
+        CRM_Core_Session::setStatus( ts('The Event Location has been saved.' ));
         
     }//end of function
-    
-
-    
 
     /**
      * Return a descriptive name for the page, used in wizard header
@@ -140,6 +136,5 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Core_Form
     {
         return ts('Event Location');
     }
-    
 }
 ?>

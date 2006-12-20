@@ -35,42 +35,15 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Event/Form/ManageEvent.php';
 
 /**
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Core_Form
+class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 {
 
-
-    function preProcess( ) {
-        $this->_id      = $this->get( 'id' );
-    }
-
-    
-    /**
-     * This function sets the default values for the form. For edit/view mode
-     * the default values are retrieved from the database
-     *
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( )
-    {
-        $defaults = array( );
-        $params   = array( );
-        if ( isset( $this->_id ) ) {
-            $params = array( 'id' => $this->_id );
-            require_once 'CRM/Event/BAO/ManageEvent.php';
-            CRM_Event_BAO_ManageEvent::retrieve($params, $defaults);
-            
-        }
-        return $defaults;
-    }
-
-    
     /** 
      * Function to build the form 
      * 
@@ -116,8 +89,6 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Core_Form
 
     }
 
-
-      
     /**
      * Function to process the form
      *
@@ -127,27 +98,22 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Core_Form
     public function postProcess() 
     {
         $params = $id = array();
-        $id['event_id'] = $this->_id;
+        $params = $this->exportValues( );
+        
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
+            $id['event_id'] = $this->_id;
+        }
         
         // store the submitted values in an array
-        $params = $this->exportValues();
         $params['event_type_id'] = $params['event_type'];
-        $params['start_date'] = CRM_Utils_Date::format($params['start_date']);
-        $params['end_date'] = CRM_Utils_Date::format($params['end_date']);
+        $params['start_date']    = CRM_Utils_Date::format($params['start_date']);
+        $params['end_date']      = CRM_Utils_Date::format($params['end_date']);
+        
         require_once 'CRM/Event/BAO/ManageEvent.php';
-        if ($this->_action == CRM_Core_Action::DELETE) {
-            //CRM_Event_BAO_ManageEvent::del( $this->_id );
-        }
-        else {
-            $addParams =  CRM_Event_BAO_ManageEvent::add($params ,$id);
-        }
-
-        $addParams->_id =  $this->set('id',$addParams->id);   
-       
+        $event =  CRM_Event_BAO_ManageEvent::add($params ,$id);
+        CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );
     }//end of function
-
-
-
+    
     /**
      * Return a descriptive name for the page, used in wizard header
      *

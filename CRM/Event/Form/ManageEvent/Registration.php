@@ -35,13 +35,13 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Event/Form/ManageEvent.php';
 
 /**
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
+class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
 {
     /**
      * what blocks should we show and hide.
@@ -50,13 +50,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
      */
     protected $_showHide;
 
-
-    function preProcess( ) {
-        $this->_id      = $this->get( 'id' );
-    }
-    
-
-  /**
+    /**
      * This function sets the default values for the form. 
      * the default values are retrieved from the database
      * 
@@ -65,16 +59,13 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $params = $_POST;
-
-        if ( ! empty( $params )) {
-            $this->setShowHide( $params );
-        } else {
-            $this->setShowHide( $defaults );
-        }
+        $defaults = parent::setDefaultValues( );
+        
+        $this->setShowHide( $defaults );
+        return $defaults;
     }   
-
-     /**
+    
+    /**
      * Fix what blocks to show/hide based on the default values set
      *
      * @param array   $defaults the array of default values
@@ -86,7 +77,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
         require_once 'CRM/Core/ShowHideBlocks.php';
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array('registration_show'       => 1),
                                                          '') ;
-
         if ( empty($defaults)) {
             $this->_showHide->addShow( 'registration_show' );
             $this->_showHide->addShow( 'confirm_show' );
@@ -102,8 +92,9 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
             $this->_showHide->addHide( 'confirm_show' );            
             $this->_showHide->addHide( 'mail_show' );
         }
-     $this->_showHide->addToTemplate( );
+        $this->_showHide->addToTemplate( );
     }
+
     /** 
      * Function to build the form 
      * 
@@ -141,7 +132,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
      * @param int $pageId 
      * @static
      */
-
     function buildRegistrationBlock( $form ) 
     {
         $form->add('textarea','intro_text',ts('Intro Text'), array("rows"=>6,"cols"=>80));
@@ -149,7 +139,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
         $form->add('select', 'participant_info_1', ts('Custom Data 1'),array(''=>'-select-'));
         $form->add('select', 'participant_info_2', ts('Custom Data 2'),array(''=>'-select-'));
     }
-    
 
     /**
      * Function to build Confirmation Block  
@@ -157,7 +146,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
      * @param int $pageId 
      * @static
      */
-
     function buildConfirmationBlock( $form) 
     {
         $form->add('text','confirm_title',ts('Title '));   
@@ -171,7 +159,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
      * @param int $pageId 
      * @static
      */
-
     function buildMailBlock( $form ) 
     {
         $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, false);
@@ -179,7 +166,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
         $form->add('text','cc_confirm',ts('CC Confirmation To '));  
         $form->add('text','cc_confirm',ts('BCC Confirmation To '));  
     }
-
 
    /**
      * Function to process the form
@@ -190,26 +176,28 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
     public function postProcess() 
     {
         $params = $id = array();
-        
-        // store the submitted values in an array
-        $params             = $this->exportValues();
+        $params = $this->exportValues();
+
         $params['event_id'] = $id['event_id'] = $this->_id;
         require_once 'CRM/Event/BAO/ManageEvent.php';
         CRM_Event_BAO_ManageEvent::add($params ,$id);
 
         require_once 'CRM/Event/DAO/EventPage.php';
-        $registration       = & new CRM_Event_DAO_EventPage( );
-        $registration->copyValues( $params );
-        $registration->save( );
-        CRM_Core_Session::setStatus( ts('The registration has been saved.' ));
-
+        $dao =& new CRM_Event_DAO_EventPage( );
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
+            $dao->event_id = $this->_id;
+            if ( $dao->find(true) ) {
+                $dao->copyValues( $params );
+                $dao->save( );
+            }
+        } else {
+            $dao->copyValues( $params );
+            $dao->save( );
+        }
+        CRM_Core_Session::setStatus( ts('The registration information has been saved.' ));
+        
     }//end of function
-
-
-
-
-
-
+    
     /**
      * Return a descriptive name for the page, used in wizard header
      *
@@ -220,6 +208,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Core_Form
     {
         return ts('Online Registration');
     }
-
+    
 }
 ?>
