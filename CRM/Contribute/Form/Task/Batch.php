@@ -50,12 +50,6 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
     protected $_title;
 
     /**
-     * maximum contributions that should be allowed to update
-     *
-     */
-    protected $_maxContributions = 100;
-
-    /**
      * maximum profile fields that will be displayed
      *
      */

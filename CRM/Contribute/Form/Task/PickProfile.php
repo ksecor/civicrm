@@ -56,12 +56,6 @@ class CRM_Contribute_Form_Task_PickProfile extends CRM_Contribute_Form_Task {
      */
     protected $_maxContributions = 100;
 
-    /**
-     * maximum profile fields that will be displayed
-     *
-     */
-    protected $_maxFields = 9;
-
 
     /**
      * variable to store redirect path
