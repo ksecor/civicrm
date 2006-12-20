@@ -77,7 +77,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     public function buildQuickForm( ) 
     {
         
-        $this->addYesNo('is_monetary', ts('Paid Event') );
+         $this->addYesNo('is_monetary', ts('Paid Event'),null, null,array('onclick' =>"return showHideByValue('is_monetary','','contributionType|map-field','block','radio',false);"));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->addElement('select', 'contribution_type_id',ts( 'Contribution Type' ),

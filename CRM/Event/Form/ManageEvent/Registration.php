@@ -113,7 +113,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     { 
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?') );
+        $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?'),null,array('onclick' =>"return showHideByValue('is_online_registration','','registrationLink','block','radio',false);")); 
 
         $this->add('text','registration_link_text',ts('Registration Link Text'));
        
