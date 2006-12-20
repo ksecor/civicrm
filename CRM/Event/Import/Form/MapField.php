@@ -183,7 +183,6 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         } else {
             $this->assign( 'rowDisplayCount', 2 );
         }
-        
     }
 
     /**
@@ -489,7 +488,101 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
      */
     public function postProcess()
     {
+        $params = $this->controller->exportValues( 'MapField' );
+        //reload the mapfield if load mapping is pressed
+        if( !empty($params['savedMapping']) ) {            
+            $this->set('savedMapping', $params['savedMapping']);
+            $this->controller->resetPage( $this->_name );
+            return;
+        }
+                
+        $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
+        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
         
+        $seperator = ',';
+        
+        $mapperKeys = array( );
+        $mapper     = array( );
+        $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
+        $mapperKeysMain     = array();
+        $mapperLocType      = array();
+        $mapperPhoneType    = array();
+        
+        for ( $i = 0; $i < $this->_columnCount; $i++ ) {
+            $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
+            $mapperKeysMain[$i] = $mapperKeys[$i][0];
+            
+            if (is_numeric($mapperKeys[$i][1])) {
+                $mapperLocType[$i] = $mapperKeys[$i][1];
+            } else {
+                $mapperLocType[$i] = null;
+            }
+
+            if ( !is_numeric($mapperKeys[$i][2])) {
+                $mapperPhoneType[$i] = $mapperKeys[$i][2];
+            } else {
+                $mapperPhoneType[$i] = null;
+            }
+        }
+        
+        $this->set( 'mapper'    , $mapper     );
+               
+        // store mapping Id to display it in the preview page 
+        $this->set('loadMappingId', $params['mappingId']);
+        
+        //Updating Mapping Records
+        if ( CRM_Utils_Array::value('updateMapping', $params)) {
+            
+            $mappingFields =& new CRM_Core_DAO_MappingField();
+            $mappingFields->mapping_id = $params['mappingId'];
+            $mappingFields->find( );
+            
+            $mappingFieldsId = array();                
+            while($mappingFields->fetch()) {
+                if ( $mappingFields->id ) {
+                    $mappingFieldsId[$mappingFields->column_number] = $mappingFields->id;
+                }
+            }
+            
+            for ( $i = 0; $i < $this->_columnCount; $i++ ) {
+                
+                $updateMappingFields =& new CRM_Core_DAO_MappingField();
+                $updateMappingFields->id = $mappingFieldsId[$i];
+                $updateMappingFields->mapping_id = $params['mappingId'];
+                $updateMappingFields->column_number = $i;
+                
+                list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
+                $updateMappingFields->name = $mapper[$i];
+                $updateMappingFields->save();                
+            }
+        }
+        
+        //Saving Mapping Details and Records
+        if ( CRM_Utils_Array::value('saveMapping', $params)) {
+            $mappingParams = array('name'         => $params['saveMappingName'],
+                                   'description'  => $params['saveMappingDesc'],
+                                   'mapping_type' => 'Import Participants');
+            
+            $temp = array();
+            $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+            
+            for ( $i = 0; $i < $this->_columnCount; $i++ ) {                  
+                
+                $saveMappingFields =& new CRM_Core_DAO_MappingField();
+                $saveMappingFields->mapping_id = $saveMapping->id;
+                $saveMappingFields->column_number = $i;                             
+                
+                list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
+                $saveMappingFields->name = $mapper[$i];
+                $saveMappingFields->save();
+            }
+        }
+        require_once 'CRM/Event/Import/Parser/Participant.php';
+        $parser =& new CRM_Event_Import_Parser_Participant( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
+        $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
+                      CRM_Event_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
+        // add all the necessary variables to the form
+        $parser->set( $this );        
     }
     
     /**

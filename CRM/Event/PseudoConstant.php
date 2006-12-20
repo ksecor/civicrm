@@ -65,5 +65,4 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
         return self::$participantStatus;
     }
 }
-
 ?>

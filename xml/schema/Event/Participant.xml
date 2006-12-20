@@ -20,6 +20,7 @@
   <field> 
       <name>contact_id</name> 
       <type>int unsigned</type> 
+      <title>Contact ID (match to contact)</title>
       <import>true</import>
       <default>0</default>
       <comment>FK to Contact ID</comment> 

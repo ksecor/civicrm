@@ -799,6 +799,8 @@ class CRM_Core_Invoke {
             $importController = 'CRM_Contribute_Import_Controller';
         } else if ( $realm == 'membership' ) {
             $importController = 'CRM_Member_Import_Controller';
+        } else if ( $realm == 'event' ) {
+            $importController = 'CRM_Event_Import_Controller';
         } else if ( $realm == 'history' ) {
             $importController = 'CRM_History_Import_Controller';
         } else {

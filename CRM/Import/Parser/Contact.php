@@ -106,7 +106,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
      */
     function init( ) 
     {
-        CRM_Core_Error::backtrace();
         require_once 'CRM/Contact/BAO/Contact.php';
         $fields =& CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
 

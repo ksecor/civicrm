@@ -53,6 +53,50 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
     }
     
     /**
+     * takes an associative array and creates a participant object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * participant object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids
+     *
+     * @return object CRM_Event_BAO_Participant object
+     * @access public
+     * @static
+     */
+    static function add(&$params, &$ids)
+    {
+        require_once 'CRM/Utils/Hook.php';
+        
+        if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Participant', $ids['participant'], $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', 'Participant', null, $params ); 
+        }
+        
+        // converting dates to mysql format
+        $params['register_date']  = CRM_Utils_Date::isoToMysql($params['register_date']);
+        
+        $participantBAO =& new CRM_Event_BAO_Participant();
+        $participantBAO->copyValues($params);
+        $participantBAO->id = CRM_Utils_Array::value( 'participant', $ids );
+        
+        $result = $participantBAO->save();
+        
+        $session = & CRM_Core_Session::singleton();
+        
+        if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
+            CRM_Utils_Hook::post( 'edit', 'Participant', $participantBAO->id, $participantBAO );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Participant', $participantBAO->id, $participantBAO );
+        }
+        
+        return $result;
+    }
+    
+    /**
      * combine all the importable fields from the lower levels object
      *
      * @return array array of importable Fields

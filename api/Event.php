@@ -21,13 +21,12 @@
  | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | http://www.civicrm.org/licensing/                                  |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
-
 /**
- * Definition of the CRM API. For more detailed documentation, please check:
+ * Definition of CRM API for Event.
  * More detailed documentation can be found 
  * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
  * here}
@@ -42,31 +41,40 @@
 /**
  * Files required for this package
  */
-
 require_once 'api/utils.php';
 
-require_once 'api/Contact.php';
-require_once 'api/Group.php';
-require_once 'api/History.php';
-require_once 'api/CustomGroup.php';
-require_once 'api/UFGroup.php';
-require_once 'api/UFJoin.php';
-require_once 'api/Search.php';
-require_once 'api/Relationship.php';
-require_once 'api/Location.php';
-require_once 'api/Tag.php';
-require_once 'api/Contribution.php';
-require_once 'CRM/Contact/BAO/Group.php';
-require_once 'api/Note.php';
-require_once 'api/File.php';
-require_once 'api/Activity.php';
-require_once 'api/Membership.php';
-require_once 'api/Event.php';
-
-function crm_create_extended_property_group($class_name, $params) {
-}
-
-function crm_create_extended_property(&$property_group, $params) {
+/**
+ * Create a Event Participants
+ *  
+ * This API is used for creating a Participants of Event.
+ * Required parameters : event_id , participant_status_id, participant_role_id.
+ * 
+ * @param   array  $params     an associative array of name/value property values of civicrm_participant
+ * @param   int    $contactID  ID of a contact
+ * 
+ * @return array of newly created membership property values.
+ * @access public
+ */
+function crm_create_contact_participant($params, $contactID)
+{
+    _crm_initialize();
+    if ( !is_array( $params ) ) {
+        return _crm_error( 'Params is not an array' );
+    }
+    
+    if ( !isset($params['event_id']) || !isset($params['status_id']) || !isset($params['role_id']) || empty($contactID)) {
+        return _crm_error( 'Required parameter missing' );
+    }
+    
+    $params['contact_id'] = $contactID;
+    
+    require_once 'CRM/Event/BAO/Participant.php';
+    $ids = array();
+    $participantBAO = CRM_Event_BAO_Participant::add($params, $ids);
+    
+    $participant = array();
+    _crm_object_to_array($participantBAO, $participant);
+    return $participant;
 }
 
 ?>

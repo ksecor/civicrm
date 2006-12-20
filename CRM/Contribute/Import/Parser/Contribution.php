@@ -92,8 +92,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $this->_contactIdIndex        = -1;
         $this->_totalAmountIndex      = -1;
         $this->_contributionTypeIndex = -1;
-       
-
+        
+        
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
             switch ($key) {

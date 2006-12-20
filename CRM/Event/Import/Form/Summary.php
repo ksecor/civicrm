@@ -49,6 +49,53 @@ class CRM_Event_Import_Form_Summary extends CRM_Core_Form {
      */
     public function preProcess( )
     {
+        // set the error message path to display
+        $errorFile = $this->assign('errorFile', $this->get('errorFile') );
+        
+        $totalRowCount = $this->get('totalRowCount');
+        $relatedCount = $this->get('relatedCount');
+        $totalRowCount += $relatedCount;
+        $this->set('totalRowCount', $totalRowCount);
+        
+        $invalidRowCount = $this->get('invalidRowCount');
+        $conflictRowCount = $this->get('conflictRowCount');
+        $duplicateRowCount = $this->get('duplicateRowCount');
+        $onDuplicate = $this->get('onDuplicate');
+        $mismatchCount      = $this->get('unMatchCount');
+        if ($duplicateRowCount > 0) {
+            $this->set('downloadDuplicateRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=3&realm=membership'));
+        }else if($mismatchCount) {
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=membership'));
+        } else {
+            $duplicateRowCount = 0;
+            $this->set('duplicateRowCount', $duplicateRowCount);
+        }
+        
+        $this->assign('dupeError', false);
+        
+        if ($onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE) {
+            $dupeActionString = 
+                ts('These records have been updated with the imported data.');   
+        } else if ($onDuplicate == CRM_Member_Import_Parser::DUPLICATE_FILL) {
+            $dupeActionString =
+                ts('These records have been filled in with the imported data.');
+        } else {
+            /* Skip by default */
+            $dupeActionString = 
+                ts('These records have not been imported.');
+            
+            $this->assign('dupeError', true);
+            
+            /* only subtract dupes from succesful import if we're skipping */
+            $this->set('validRowCount', $totalRowCount - $invalidRowCount -
+                       $conflictRowCount - $duplicateRowCount - $mismatchCount);
+        }
+        $this->assign('dupeActionString', $dupeActionString);
+        
+        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'unMatchCount');
+        foreach ( $properties as $property ) {
+            $this->assign( $property, $this->get( $property ) );
+        }
     }
     
     /**

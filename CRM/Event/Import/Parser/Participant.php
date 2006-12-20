@@ -46,9 +46,12 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
     protected $_mapperKeys;
 
     private $_contactIdIndex;
-    private $_totalAmountIndex;
-    private $_membershipTypeIndex;
-    private $_membershipStatusIndex;
+    
+    //private $_totalAmountIndex;
+    
+    private $_eventIndex;
+    private $_participantStatusIndex;
+    private $_participantRoleIndex;
 
     //protected $_mapperLocType;
     //protected $_mapperPhoneType;
@@ -85,28 +88,32 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern']);
         }
         
-        $this->_newMemberships = array();
+        $this->_newParticipants = array();
         
         $this->setActiveFields( $this->_mapperKeys );
         //$this->setActiveFieldLocationTypes( $this->_mapperLocType );
         //$this->setActiveFieldPhoneTypes( $this->_mapperPhoneType );
         
         // FIXME: we should do this in one place together with Form/MapField.php
-        $this->_contactIdIndex        = -1;
-        $this->_membershipTypeIndex   = -1;
-        $this->_membershipStatusIndex = -1;
-        
+        $this->_contactIdIndex         = -1;
+        $this->_eventIndex             = -1;
+        $this->_participantStatusIndex = -1;
+        $this->_participantRoleIndex   = -1;
+                
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
             switch ($key) {
             case 'contact_id':
-                $this->_contactIdIndex        = $index;
+                $this->_contactIdIndex           = $index;
                 break;
-            case 'membership_type_id':
-                $this->_membershipTypeIndex   = $index;
+            case 'event_id':
+                $this->_eventIndex               = $index;
                 break;
             case 'status_id':
-                $this->_membershipStatusIndex   = $index;
+                $this->_participantStatusIndex   = $index;
+                break;
+            case 'role_id':
+                $this->_participantRoleIndex     = $index;
                 break;
             }
             $index++;
@@ -155,28 +162,35 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
 
         $errorRequired = false;
 
-        if (($this->_membershipTypeIndex < 0) || ($this->_membershipStatusIndex < 0)) {
+        if (($this->_eventIndex < 0) || ($this->_participantStatusIndex < 0) || ($this->_participantRoleIndex < 0)) {
             $errorRequired = true;
         } else {
-            $errorRequired = ! CRM_Utils_Array::value($this->_membershipTypeIndex, $values) ||
-                ! CRM_Utils_Array::value($this->_membershipStatusIndex, $values);
+            $errorRequired = ! CRM_Utils_Array::value($this->_eventIndex, $values) ||
+                ! CRM_Utils_Array::value($this->_participantStatusIndex, $values) ||
+                ! CRM_Utils_Array::value($this->_participantRoleIndex, $values);
         }
         
         if ($errorRequired) {
             array_unshift($values, ts('Missing required fields'));
             return CRM_Event_Import_Parser::ERROR;
         }
-
+        
         $params =& $this->getActiveFieldParams( );
-
+        
         require_once 'CRM/Import/Parser/Contact.php';
         $errorMessage = null;
         
         //for date-Formats
-        $session =& CRM_Core_Session::singleton();
-        $dateType = $session->get("dateTypes");
-        foreach ($params as $key => $val) {
+        $session =& CRM_Core_Session::singleton( );
+        $dateType = $session->get( "dateTypes" );
+        foreach ( $params as $key => $val ) {
             if( $val ) {
+                CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                if (! CRM_Utils_Rule::date($params[$key])) {
+                    CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
+                }
+                
+                /*
                 switch( $key ) {
                 case  'join_date': 
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
@@ -197,25 +211,26 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                     }
                     break;
                 }
+                */
             }
         }
         //date-Format part ends
-
+        
         $params['contact_type'] =  $this->_contactType;
-
+        
         //checking error in custom data
         CRM_Import_Parser_Contact::isErrorInCustomData($params, $errorMessage);
-
+        
         if ( $errorMessage ) {
             $tempMsg = "Invalid value for field(s) : $errorMessage";
             array_unshift($values, $tempMsg);
             $errorMessage = null;
             return CRM_Import_Parser::ERROR;
         }
-
+        
         return CRM_Event_Import_Parser::VALID;
     }
-
+    
     /**
      * handle the values in import mode
      *
@@ -240,6 +255,11 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         
         foreach ($params as $key => $val) {
             if( $val ) {
+                CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                if (! CRM_Utils_Rule::date($params[$key])) {
+                    CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
+                }
+                /*
                 switch( $key ) {
                 case  'join_date': 
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
@@ -251,6 +271,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     break;
                 }
+                */
             }
         }
         //date-Format part ends
@@ -262,17 +283,17 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             $tempIndieFields =& CRM_Event_BAO_Participant::import();
             $indieFields = $tempIndieFields;
         }
-
+        
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
                 continue;
             }
-
-            if ($key == 'membership_type_id') {
-                $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_MembershipType", $field, 'id', 'name' );
+            
+            if ( $key == 'event_id' ) {
+                $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $field, 'id', 'title' );
                 $formatted[$key] = $id;
-            } elseif ($key == 'status_id') {
-                $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_MembershipStatus", $field, 'id', 'name' );
+            } else if ( $key == 'status_id' ) {
+                $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_", $field, 'id', 'name' );
                 $formatted[$key] = $id;
             } else {
                 $formatted[$key] = $field;
@@ -348,7 +369,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 } else {
                     $cid = $matchedIDs[0];
                     $formatted['contact_id'] = $cid;
-                    $newMembership = crm_create_contact_membership($formatted, $cid);
+                    $newMembership = crm_create_contact_participant($formatted, $cid);
                     if ( is_a( $newMembership, CRM_Core_Error ) ) {
                         array_unshift($values, $newMembership->_errors[0]['message']);
                         return CRM_Event_Import_Parser::ERROR;

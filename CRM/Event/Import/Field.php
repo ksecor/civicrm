@@ -109,6 +109,71 @@ class CRM_Event_Import_Field
 
     function validate( )
     {
+        if ( CRM_Utils_System::isNull( $this->_value ) ) {
+            return true;
+        }
+        
+        switch ($this->_name) {
+        case 'contact_id':
+            // note: we validate extistence of the contact in API, upon
+            // insert (it would be too costlty to do a db call here)
+            return CRM_Utils_Rule::integer($this->_value);
+            break;
+        case 'register_date':
+            return CRM_Utils_Rule::date($this->_value);
+            break;
+        case 'trxn_id':
+            static $seenTrxnIds = array();
+            if (in_array($this->_value, $seenTrxnIds)) {
+                return false;
+            } elseif ($this->_value) {
+                $seenTrxnIds[] = $this->_value;
+                return true;
+            } else {
+                $this->_value = null;
+                return true;
+            }
+            break;
+        case 'membership_type':
+            static $membershipTypes = null;
+            if (!$membershipTypes) {
+                $membershipTypes =& CRM_Member_PseudoConstant::membershipType();
+            }
+            if (in_array($this->_value, $membershipTypes)) {
+                return true;
+            } else {
+                return false;
+            }
+            break;
+        case 'payment_instrument':
+            static $paymentInstruments = null;
+            if (!$paymentInstruments) {
+                $paymentInstruments =& CRM_Member_PseudoConstant::paymentInstrument();
+            }
+            if (in_array($this->_value, $paymentInstruments)) {
+                return true;
+            } else {
+                return false;
+            }
+            break;
+        default:
+            break;
+        }
+        
+        // check whether that's a valid custom field id
+        // and if so, check the contents' validity
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($this->_name)) {
+            static $customFields = null;
+            if (!$customFields) {
+                $customFields =& CRM_Core_BAO_CustomField::getFields('Membership');
+            }
+            if (!array_key_exists($customFieldID, $customFields)) {
+                return false;
+            }
+            return CRM_Core_BAO_CustomValue::typecheck($customFields[$customFieldID][2], $this->_value);
+        }
+        
+        return true;
     }
 }
 ?>
