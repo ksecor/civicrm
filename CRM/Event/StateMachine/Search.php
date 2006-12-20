@@ -97,6 +97,7 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
         $this->_controller->set( 'task', $value );
         
         $result = false;
+
         switch ( $value ) {
         case CRM_Event_Task::DELETE_EVENTS:
             $task   = 'CRM_Event_Form_Task_Delete';
@@ -105,11 +106,12 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
         case CRM_Event_Task::EXPORT_EVENTS:
             $task   = 'CRM_Event_Form_Task_Export';
             break;
-            /*case CRM_Event_Task::BATCH_EVENTS:
+            
+        case CRM_Event_Task::BATCH_EVENTS:
             $task   = array( 'CRM_Event_Form_Task_PickProfile',
                              'CRM_Event_Form_Task_Batch' );
             break;
-            */
+
         case CRM_Event_Task::CANCEL_REGISTRATION:
             break;
             

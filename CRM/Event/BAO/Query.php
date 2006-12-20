@@ -44,6 +44,14 @@ class CRM_Event_BAO_Query
         $fields =& CRM_Event_DAO_Event::import( );
         return $fields;
     }
+
+
+    static function &getParticipantFields( ) 
+    {
+        require_once 'CRM/Event/DAO/Participant.php';
+        $fields =& CRM_Event_DAO_Participant::import( );
+        return $fields;
+    }
     
 
     /** 

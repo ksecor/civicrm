@@ -219,6 +219,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             }
         }
 
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+            require_once 'CRM/Event/BAO/Query.php';
+            $participantFields =& CRM_Event_BAO_Query::getParticipantFields();
+            if ( ! empty( $participantFields ) ) {
+                $fields['Participant'] =& $participantFields;
+            }
+        }
+
         $noSearchable = array();
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
@@ -255,6 +263,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $sel1['Student'] = 'Students';
+        }
+        
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+            $sel1['Participant'] = 'Participants';
         }
         
         if ( ! empty( $contribFields ) ) {

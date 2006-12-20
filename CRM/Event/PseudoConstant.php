@@ -49,6 +49,14 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
     private static $participantStatus; 
 
     /**
+     * Participant role
+     *
+     * @var array
+     * @static
+     */
+    private static $participantRole; 
+
+    /**
      * Get all the n types
      *
      * @access public
@@ -57,12 +65,30 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
      */
     public static function &participantStatus( )
     {
-        self::$participantStatus = array();
         if ( ! self::$participantStatus ) {
+            self::$participantStatus = array( );
             require_once "CRM/Core/OptionGroup.php";
             self::$participantStatus = CRM_Core_OptionGroup::values("participant_status");
         }
         return self::$participantStatus;
     }
+
+    /**
+     * Get all the n types
+     *
+     * @access public
+     * @return array - array reference of all participant roles if any
+     * @static
+     */
+    public static function &participantRole( )
+    {
+        if ( ! self::$participantRole ) {
+            self::$participantRole = array( );
+            require_once "CRM/Core/OptionGroup.php";
+            self::$participantRole = CRM_Core_OptionGroup::values("participant_role");
+        }
+        return self::$participantRole;
+    }
+
 }
 ?>

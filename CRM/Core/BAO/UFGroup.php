@@ -115,7 +115,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      */
 
-    static function getRegistrationFields( $action, $mode, $ctype = null ) {
+    static function getRegistrationFields( $action, $mode, $ctype = null ) 
+    {
         if ( $mode & CRM_Profile_Form::MODE_REGISTER) {
             $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
         } else {
@@ -166,7 +167,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static 
      * @access public 
      */ 
-    static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null, $searchable = null ) {
+    static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null, $searchable = null ) 
+    {
         if ($ufGroupId) {
             $subset = self::getFields( $ufGroupId, false, $action, $visibility, $searchable);
             if ($considerSelector) {
@@ -212,7 +214,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      */
     static function getFields( $id, $register = false, $action = null,
-                               $visibility = null , $searchable = null, $showAll= false ) {
+                               $visibility = null , $searchable = null, $showAll= false ) 
+    {
         //get location type
         $locationType = array( );
         $locationType =& CRM_Core_PseudoConstant::locationType();
@@ -343,7 +346,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function isValid( $userID, $title, $register = false, $action = null ) {
+    static function isValid( $userID, $title, $register = false, $action = null ) 
+    {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
@@ -394,7 +398,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                  $reset = false,
                                  $profileID = null,
                                  $doNotProcess  = false,
-                                 $ctype = null ) {
+                                 $ctype = null ) 
+    {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
@@ -490,7 +495,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      * @static
      */
-    public static function findContact( &$params, $id = null, $flatten = false ) {
+    public static function findContact( &$params, $id = null, $flatten = false ) 
+    {
         $tables = array( );
         require_once 'CRM/Contact/Form/Search.php';
         $clause = self::getWhereClause( $params, $tables );
@@ -513,7 +519,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      * @static
      */
-    public static function getValues( $cid, &$fields, &$values ,$searchable = true ) {
+    public static function getValues( $cid, &$fields, &$values ,$searchable = true ) 
+    {
         $options = array( );
         $studentFields = array( );
         if ( CRM_Core_Permission::access( 'Quest', false ) ) {
@@ -718,8 +725,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      *
      */
-    public static function del($id) { 
-        
+    public static function del($id) 
+    { 
         //check wheter this group contains  any profile fields
         $profileField = & new CRM_Core_DAO_UFField();
         $profileField->uf_group_id = $id;
@@ -764,7 +771,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static 
      * @return object
      */
-    static function add(&$params, &$ids) {
+    static function add(&$params, &$ids) 
+    {
         $params['is_active'              ] = CRM_Utils_Array::value('is_active', $params, false);
         $params['add_captcha'            ] = CRM_Utils_Array::value('add_captcha', $params, false);
         $params['is_map'                 ] = CRM_Utils_Array::value('is_map', $params, false);
@@ -1210,7 +1218,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $view       = $field['is_view'];
         $required = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? false : $field['is_required'];
         $search   = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? true : false;
-            
+
         if ($contactId) {
             $name = "field[$contactId][$fieldName]";
         } else {
@@ -1286,6 +1294,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ($fieldName == 'contribution_type' ) {
             $form->add('select', $name, ts( 'Contribution Type' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+        } else if ($fieldName == 'participant_register_date' ) {
+            $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
+        } else if ($fieldName == 'event_status_id' ) {
+            $status = CRM_Event_PseudoConstant::participantRole( );
+            foreach ( $status as $key => $var ) {
+                if ( $key == '' ) {
+                    continue;
+                }
+                $statusOptions[] =& HTML_QuickForm::createElement( 'checkbox', $key, null, $var );
+            }
+            $form->addGroup($statusOptions, $name, $title, '<br/>' );
+        } else if ($fieldName == 'role_id' ) {
+            $form->add('select', $name, ts( 'Participant Role' ),
+                       array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantRole( ), $required);
         } else {
             $processed = false;
             if ( CRM_Core_Permission::access( 'Quest', false ) ) {
@@ -1492,7 +1514,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
             }
         }  
-
+        
         //Handling Contribution Part of the batch profile 
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $params = $ids = $values = array();
@@ -1543,7 +1565,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function setRegisterDefaults( &$fields, &$defaults )  {
+    static function setRegisterDefaults( &$fields, &$defaults )  
+    {
         foreach($fields as $name=>$field) {
             if ( substr( $name, 0, 8 ) == 'country-' ) {
                 $config =& CRM_Core_Config::singleton();

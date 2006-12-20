@@ -63,7 +63,7 @@ class CRM_Event_Form_Task extends CRM_Core_Form
      *
      * @var array
      */
-    protected $_eventIds;
+    protected $_participantIds;
 
     /**
      * build all the data structures needed to build the form
@@ -74,6 +74,34 @@ class CRM_Event_Form_Task extends CRM_Core_Form
      */
     function preProcess( ) 
     {
+        $this->_participantIds = array();
+        
+        $values = $this->controller->exportValues( 'Search' );
+
+        $this->_task = $values['task'];
+        $eventTasks = CRM_Event_Task::tasks();
+        $this->assign( 'taskName', $eventTasks[$this->_task] );
+        
+        $ids = array();
+        if ( $values['radio_ts'] == 'ts_sel' ) {
+            foreach ( $values as $name => $value ) {
+                if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                    $ids[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
+                }
+            }
+            $this->assign( 'totalSelectedParticipants', count( $ids ) );
+        } else {
+            $queryParams =  $this->get( 'queryParams' );
+
+            $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
+                                                       CRM_Contact_BAO_Query::MODE_EVENT);
+            $result = $query->searchQuery(0, 0, null);
+            while ($result->fetch()) {
+                $ids[] = $result->event_id;
+            }
+            $this->assign( 'totalSelectedParticipants', $this->get( 'rowCount' ) );
+        }
+        $this->_participantIds = $ids;
     }
 
     /**

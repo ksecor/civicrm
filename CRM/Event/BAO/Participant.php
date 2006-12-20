@@ -52,6 +52,29 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         parent::__construct();
     }
     
+   
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params input parameters to find object
+     * @param array $values output values of the object
+     *
+     * @return CRM_Event_BAO_Participant|null the found object or null
+     * @access public
+     * @static
+     */
+    static function &getValues( &$params, &$values, &$ids ) 
+    {
+        $participant =& new CRM_Event_BAO_Participant( );
+        $participant->copyValues( $params );
+        
+        if ( $participant->find(true) ) {
+            CRM_Core_DAO::storeValues( $participant, $values );
+            
+        }
+    }
+    
     /**
      * takes an associative array and creates a participant object
      *
@@ -102,7 +125,8 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contacType = 'Individual' ) {
+    function &importableFields( $contacType = 'Individual' ) 
+    {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
                 self::$_importableFields = array();
@@ -141,6 +165,35 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             self::$_importableFields = $fields;
         }
         return self::$_importableFields;
+    }
+
+    /**
+     * function to get the event name/sort name for a particular participation / participant
+     *
+     * @param  int    $participantId  id of the participant
+
+     * @return array $name associated array with sort_name and event title
+     * @static
+     * @access public
+     */
+    static function participantDetails( $participantId ) 
+    {
+        $query = "
+SELECT civicrm_contact.sort_name as name, civicrm_event.title as title
+FROM   civicrm_participant 
+   LEFT JOIN civicrm_event   ON (civicrm_participant.event_id = civicrm_event.id)
+   LEFT JOIN civicrm_contact ON (civicrm_participant.contact_id = civicrm_contact.id)
+WHERE  civicrm_participant.id = {$participantId}
+";
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        $details = array( );
+        while ( $dao->fetch() ) {
+            $details['name' ] = $dao->name;
+            $details['title'] = $dao->title;
+        }
+        
+        return $details;
     }
 }
 ?>
