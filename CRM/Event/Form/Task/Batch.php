@@ -152,6 +152,37 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
     public function postProcess() 
     {
         $params     = $this->exportValues( );
+        $dates = array( 'participant_register_date' );
+        foreach ( $params['field'] as $key => $value ) {
+            foreach ( $dates as $d ) {
+                if ( ! CRM_Utils_System::isNull( $value[$d] ) ) {
+                    $value[$d]['H'] = '00';
+                    $value[$d]['i'] = '00';
+                    $value[$d]['s'] = '00';
+                    $value[$d]      =  CRM_Utils_Date::format( $value[$d] );
+                }   
+            }
+
+            $ids['participant'] = $key;
+            if ( $value['participant_register_date'] ) {
+                $value['register_date'] = $value['participant_register_date'];
+            } 
+            
+            if ( $value['event_status_id'] ) {
+                foreach( $value['event_status_id'] as $k => $v ) {
+                    $value['status_id'] = $k;
+                }
+
+            } 
+            if ( $value['event_source'] ) {
+                $value['source'] = $value['event_source'];
+            }            
+            unset($value['participant_register_date']);
+            unset($value['event_status_id']);
+            unset($value['event_source']);
+
+            CRM_Event_BAO_Participant::add( $value ,$ids );   
+        }
         CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function
 }
