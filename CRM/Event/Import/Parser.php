@@ -389,12 +389,13 @@ abstract class CRM_Event_Import_Parser
         if ($mode == self::MODE_PREVIEW || $mode == self::MODE_IMPORT) {
             $customHeaders = $mapper;
             
-            $customfields =& CRM_Core_BAO_CustomField::getFields('Membership');
+            $customfields =& CRM_Core_BAO_CustomField::getFields('Event');
             foreach ($customHeaders as $key => $value) {
                 if ($id = CRM_Core_BAO_CustomField::getKeyID($value)) {
                     $customHeaders[$key] = $customfields[$id][0];
                 }
             }
+            
             if ($this->_invalidRowCount) {
                 // removed view url for invlaid contacts
                 $headers = array_merge( array(  ts('Record Number'),
@@ -412,7 +413,7 @@ abstract class CRM_Event_Import_Parser
             }
             if ($this->_duplicateCount) {
                 $headers = array_merge( array(  ts('Record Number'), 
-                                                ts('View Membership URL')),
+                                                ts('View Participant URL')),
                                         $customHeaders);
                 
                 $this->_duplicateFileName = $fileName . '.duplicates';

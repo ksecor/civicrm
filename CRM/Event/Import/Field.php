@@ -51,18 +51,6 @@ class CRM_Event_Import_Field
      * @var enum
      */
     public $_type;
-
-    /**
-     * is this field required
-     * @var boolean
-     */
-    public $_required;
-    
-    /**
-     * data to be carried for use by a derived class
-     * @var object
-     */
-    public $_payload;
     
     /**
      * regexp to match the CSV header of this column/field
@@ -106,7 +94,7 @@ class CRM_Event_Import_Field
     {
         $this->_value = $value;
     }
-
+    
     function validate( )
     {
         if ( CRM_Utils_System::isNull( $this->_value ) ) {
@@ -122,40 +110,19 @@ class CRM_Event_Import_Field
         case 'register_date':
             return CRM_Utils_Rule::date($this->_value);
             break;
-        case 'trxn_id':
-            static $seenTrxnIds = array();
-            if (in_array($this->_value, $seenTrxnIds)) {
-                return false;
-            } elseif ($this->_value) {
-                $seenTrxnIds[] = $this->_value;
-                return true;
-            } else {
-                $this->_value = null;
-                return true;
+            /*
+        case 'event_id':
+            static $events = null;
+            if (!$events) {
+                $events =& CRM_Event_PseudoConstant::event();
             }
-            break;
-        case 'membership_type':
-            static $membershipTypes = null;
-            if (!$membershipTypes) {
-                $membershipTypes =& CRM_Member_PseudoConstant::membershipType();
-            }
-            if (in_array($this->_value, $membershipTypes)) {
+            if (in_array($this->_value, $events)) {
                 return true;
             } else {
                 return false;
             }
             break;
-        case 'payment_instrument':
-            static $paymentInstruments = null;
-            if (!$paymentInstruments) {
-                $paymentInstruments =& CRM_Member_PseudoConstant::paymentInstrument();
-            }
-            if (in_array($this->_value, $paymentInstruments)) {
-                return true;
-            } else {
-                return false;
-            }
-            break;
+            */
         default:
             break;
         }
@@ -172,7 +139,6 @@ class CRM_Event_Import_Field
             }
             return CRM_Core_BAO_CustomValue::typecheck($customFields[$customFieldID][2], $this->_value);
         }
-        
         return true;
     }
 }

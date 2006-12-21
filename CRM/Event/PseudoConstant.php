@@ -41,26 +41,58 @@
 class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant 
 {
     /**
-     * event status 
+     * Event
+     *
+     * @var array
+     * @static
+     */
+    private static $event; 
+    
+    /**
+     * Participant Status 
      *
      * @var array
      * @static
      */
     private static $participantStatus; 
-
+    
     /**
-     * Participant role
+     * Participant Role
      *
      * @var array
      * @static
      */
     private static $participantRole; 
-
+    
     /**
-     * Get all the n types
+     * Get all the n events
      *
      * @access public
-     * @return array - array reference of all participant types if any
+     * @return array - array reference of all events if any
+     * @static
+     */
+    public static function &event( $id = null )
+    {
+        if ( ! self::$event ) {
+            CRM_Core_PseudoConstant::populate( self::$event,
+                                               'CRM_Event_DAO_Event',
+                                               false, 'title', 'is_active', null, null);
+        }
+        if ($id) {
+            if (array_key_exists($id, self::$event)) {
+                return self::$event[$id];
+            } else {
+                return null;
+            }
+        }
+        return self::$event;
+    }
+    
+    /**
+     * Get all the n participant statuses
+     *
+     * @access public
+     * @return array - array reference of all participant statuses if any
      * @static
      */
     public static function &participantStatus( )
@@ -72,9 +104,9 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
         }
         return self::$participantStatus;
     }
-
+    
     /**
-     * Get all the n types
+     * Get all the n participant roles
      *
      * @access public
      * @return array - array reference of all participant roles if any
@@ -89,6 +121,5 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
         }
         return self::$participantRole;
     }
-
 }
 ?>

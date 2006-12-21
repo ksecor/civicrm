@@ -62,6 +62,7 @@ class CRM_Event_Import_Form_Preview extends CRM_Core_Form
         //get the mapping name displayed if the mappingId is set
         $mappingId = $this->get('loadMappingId');
         if ( $mappingId ) {
+            require_once 'CRM/Core/DAO/Mapping.php';
             $mapDAO =& new CRM_Core_DAO_Mapping();
             $mapDAO->id = $mappingId;
             $mapDAO->find( true );
@@ -77,7 +78,6 @@ class CRM_Event_Import_Form_Preview extends CRM_Core_Form
         }
         
         if ($invalidRowCount) {
-            //$this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=membership'));
             $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=event'));
         }
         
@@ -144,6 +144,68 @@ class CRM_Event_Import_Form_Preview extends CRM_Core_Form
      */
     public function postProcess( )
     {
+        $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
+        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
+        $invalidRowCount    = $this->get('invalidRowCount');
+        $conflictRowCount   = $this->get('conflictRowCount');
+        $onDuplicate        = $this->get('onDuplicate');
+        
+        $seperator = ',';
+        
+        $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
+        $mapperKeys = array();
+        
+        foreach ($mapper as $key => $value) {
+            $mapperKeys[$key] = $mapper[$key][0];
+        }
+        
+        require_once 'CRM/Event/Import/Parser/Participant.php';
+        $parser =& new CRM_Event_Import_Parser_Participant( $mapperKeys );
+        
+        $mapFields = $this->get('fields');
+        
+        foreach ($mapper as $key => $value) {
+            $header = array();
+            if ( isset($mapFields[$mapper[$key][0]]) ) {
+                $header[] = $mapFields[$mapper[$key][0]];
+            }
+            $mapperFields[] = implode(' - ', $header);
+        }
+        $parser->run( $fileName, $seperator, 
+                      $mapperFields,
+                      $skipColumnHeader,
+                      CRM_Event_Import_Parser::MODE_IMPORT,
+                      $this->get('contactType'),
+                      $onDuplicate);
+        
+        // add all the necessary variables to the form
+        $parser->set( $this, CRM_Event_Import_Parser::MODE_IMPORT );
+        
+        // check if there is any error occured
+        
+        $errorStack =& CRM_Core_Error::singleton();
+        $errors     = $errorStack->getErrors();
+        $errorMessage = array();
+        
+        $config =& CRM_Core_Config::singleton( );
+        
+        if( is_array( $errors ) ) {
+            foreach($errors as $key => $value) {
+                $errorMessage[] = $value['message'];
+            }
+            
+            $errorFile = $fileName . '.error.log';
+            
+            if ( $fd = fopen( $errorFile, 'w' ) ) {
+                fwrite($fd, implode('\n', $errorMessage));
+            }
+            fclose($fd);
+            
+            $this->set('errorFile', $errorFile);
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=event'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=event'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=event'));
+        }
     }
 }
 ?>

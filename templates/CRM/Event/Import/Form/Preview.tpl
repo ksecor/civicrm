@@ -1,4 +1,4 @@
-{* Membership Import Wizard - Step 3 (preview import results prior to actual data loading) *}
+{* Participant Import Wizard - Step 3 (preview import results prior to actual data loading) *}
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
  {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
@@ -29,7 +29,7 @@
  <table id="preview-counts" class="report">
     <tr><td class="label">{ts}Total Rows{/ts}</td>
         <td class="data">{$totalRowCount}</td>
-        <td class="explanation">{ts}Total rows (membership records) in uploaded file.{/ts}</td>
+        <td class="explanation">{ts}Total rows (participant records) in uploaded file.{/ts}</td>
     </tr>
     
     {if $invalidRowCount}
@@ -62,7 +62,7 @@
   
 
  {* Table for mapping preview *}
- {include file="CRM/Member/Import/Form/MapTable.tpl}
+ {include file="CRM/Event/Import/Form/MapTable.tpl}
  
  
  <div id="crm-submit-buttons">

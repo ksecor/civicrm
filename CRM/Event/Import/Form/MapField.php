@@ -505,28 +505,14 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         $mapper     = array( );
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
         $mapperKeysMain     = array();
-        $mapperLocType      = array();
-        $mapperPhoneType    = array();
         
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
             $mapperKeysMain[$i] = $mapperKeys[$i][0];
-            
-            if (is_numeric($mapperKeys[$i][1])) {
-                $mapperLocType[$i] = $mapperKeys[$i][1];
-            } else {
-                $mapperLocType[$i] = null;
-            }
-
-            if ( !is_numeric($mapperKeys[$i][2])) {
-                $mapperPhoneType[$i] = $mapperKeys[$i][2];
-            } else {
-                $mapperPhoneType[$i] = null;
-            }
         }
         
         $this->set( 'mapper'    , $mapper     );
-               
+        
         // store mapping Id to display it in the preview page 
         $this->set('loadMappingId', $params['mappingId']);
         
@@ -565,7 +551,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             
             $temp = array();
             $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
-            
+            require_once 'CRM/Core/DAO/MappingField.php';
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {                  
                 
                 $saveMappingFields =& new CRM_Core_DAO_MappingField();
@@ -577,8 +563,9 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
                 $saveMappingFields->save();
             }
         }
+        
         require_once 'CRM/Event/Import/Parser/Participant.php';
-        $parser =& new CRM_Event_Import_Parser_Participant( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
+        $parser =& new CRM_Event_Import_Parser_Participant( $mapperKeysMain );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
                       CRM_Event_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
         // add all the necessary variables to the form
