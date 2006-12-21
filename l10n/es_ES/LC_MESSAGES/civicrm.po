@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-11 13:51+0100\n"
+"POT-Creation-Date: 2006-12-21 12:31+0100\n"
 "PO-Revision-Date: 2006-09-05 09:09-0700\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -684,6 +684,7 @@ msgstr ""
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
+#: templates/CRM/Admin/Page/Setting.tpl
 msgid "Mapping and Geocoding"
 msgstr ""
 
@@ -11806,10 +11807,6 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "SMTP server, port and authentication settings for outbound email."
-msgstr ""
-
-#: templates/CRM/Admin/Page/Setting.tpl
-msgid "Mapping and Gecoding"
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl

@@ -271,7 +271,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $importableFields['tag'  ]['title'] = ts('Tag(s)');
             $importableFields['tag'  ]['where'] = null;
 
-            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
+            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im', 'location_name' );
 
             while ( $field->fetch( ) ) {
                 if ( $searchable || 
@@ -671,6 +671,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 
                 $detailName = "{$locationTypeName}-{$fieldName}";
                 $detailName = str_replace( ' ', '_', $detailName );
+
                 if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
                     if ( $type ) {
                         $detailName .= "-{$type}";

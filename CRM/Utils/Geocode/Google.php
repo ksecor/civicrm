@@ -105,6 +105,18 @@ class CRM_Utils_Geocode_Google {
         $request =& new HTTP_Request( $query );
         $request->sendRequest( );
         $string = $request->getResponseBody( );
+
+        // CRM-1439: Google (sometimes?) returns data in ISO-8859-1
+        // if so, use iconv to convert or (if iconv not available)
+        //substitute the non-ASCII characters with question marks
+        require_once 'CRM/Utils/String.php';
+        if (!CRM_Utils_String::isUtf8($string)) {
+            if (function_exists('iconv')) {
+                $string = iconv('ISO-8859-1', 'UTF-8', $string);
+            } else {
+                $string = preg_replace('/[^\x20-\x7E]/', '?', $string);
+            }
+        }
         
         $xml = simplexml_load_string( $string );
         $ret = array( );
