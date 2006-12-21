@@ -5,17 +5,6 @@
     <div id="help">
         <p>{ts}ManageEvent Page lists all current and upcoming events (where End Date is greater than oe equal to current date + 1month).{/ts}
     </div>
-{if $action eq 8}
-      <div class="messages status">
-        <dl>
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-          <dd>    
-          {ts}WARNING: Deleting this option will result in the loss of all Event Management records which use the option.{/ts} {ts}This may mean the loss of a substantial amount of data, and the action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
-          </dd>
-       </dl>
-      </div>
-
-{/if}
 
 {capture assign=eventWizard}{crmURL p='civicrm/admin/event/manageEvent' q="action=add&reset=1"}{/capture}
 {ts 1=$eventWizard}<a href="%1">&raquo; New Event Wizard</a>{/ts}

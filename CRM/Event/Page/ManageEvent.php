@@ -60,6 +60,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         if (!(self::$_actionLinks)) {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this eventship type?');
+	    $deleteExtra = ts('Are you sure you want to delete this Contribution page?');
 
             self::$_actionLinks = array(
                                         CRM_Core_Action::VIEW    => array(
@@ -91,6 +92,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           'name'  => ts('Delete'),
                                                                           'url'   => 'civicrm/admin/event',
                                                                           'qs'    => 'action=delete&id=%%id%%',
+									  'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           'title' => ts('Delete Event') 
                                                                           )
                                         );
