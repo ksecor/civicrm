@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-11 13:51+0100\n"
+"POT-Creation-Date: 2006-12-21 12:31+0100\n"
 "PO-Revision-Date: 2006-04-18 08:35+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -685,6 +685,7 @@ msgstr ""
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
+#: templates/CRM/Admin/Page/Setting.tpl
 msgid "Mapping and Geocoding"
 msgstr ""
 
@@ -2499,7 +2500,7 @@ msgstr "Członkowie"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
-msgstr "Grupa „%1” została utworzona."
+msgstr "Grupa „%1” została usunięta."
 
 #: CRM/Custom/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl
@@ -11795,10 +11796,6 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "SMTP server, port and authentication settings for outbound email."
-msgstr ""
-
-#: templates/CRM/Admin/Page/Setting.tpl
-msgid "Mapping and Gecoding"
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
