@@ -1432,6 +1432,27 @@ kids 12 and under.Grab your dancing shoes, bring the kids and come join the part
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
     
+
+
+
+
+  function addEventPage()
+    {
+        $event = "INSERT INTO civicrm_event_page
+        (event_id, intro_text, footer_text, confirm_title, confirm_text, confirm_footer_text, is_email_confirm, confirm_email_text, confirm_from_name, confirm_from_email, cc_confirm)
+        VALUES
+        (1, 'congratulation you are registered for the dinner', 'you are welcome for dinner', 'confirmation for dinner', 'congratulation you are registered foe the dinner','you are welcome for dinner', 1,'this is a confirmation mail', 'organiser of dinner', 'organiser@dinner.com',''),
+
+        (2, 'congratulation you are registered for the festival', 'you are welcome for all activities', 'confirmation for festival', 'congratulation you are registered for the festival', 'you are welcome for all activities', 1,'this is a confirmation mail','organiser of concert', 'organiser@concert.com',''),
+
+        (3, 'congratulation you are registered for the tournament', 'all the best for all matches', 'confirmation for tournament', 'congratulation you are registered for the tournament', 'all the best for all matches', 1,'this is a confirmation mail','organiser of tournamrnt', 'organiser@tournament.com','')
+     
+         ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+    }
+
+
+
     function addParticipant()
     {
         $contact = new CRM_Contact_DAO_Contact();
@@ -1540,6 +1561,7 @@ add_contributions( );
 $obj1->addMembership();
 $obj1->addMembershipLog();
 $obj1->addEvent();
+$obj1->addEventPage();
 $obj1->addParticipant();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
