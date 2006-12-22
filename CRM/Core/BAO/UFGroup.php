@@ -1435,7 +1435,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                             if ($locTypeId == 'Primary') {
                                 $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId ); 
                             }
-                            
+
                             if (is_numeric($locTypeId)) {//fixed for CRM-665
                                 if ($locTypeId == $value['location_type_id'] ) {
                                     if (CRM_Utils_Array::value($fieldName, $value )) {
@@ -1448,7 +1448,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                             $defaults[$fldName] = $value['country_id'];
                                         } else if ( $fieldName == 'phone' ) {
                                             if ($phoneTypeId) {
-                                                $defaults[$fldName] = $value['phone'][$phoneTypeId];
+                                                if ( $value['phone'][$phoneTypeId] ) {
+                                                    $defaults[$fldName] = $value['phone'][$phoneTypeId];
+                                                }
                                             } else {
                                                 $defaults[$fldName] = $value['phone'][1];
                                             }

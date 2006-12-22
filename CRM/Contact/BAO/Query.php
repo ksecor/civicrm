@@ -613,7 +613,11 @@ class CRM_Contact_BAO_Query {
                 if ( ! $field ) {
                     if ( $elementType &&
                          ! is_numeric($elementType) ) { //fix for CRM-882( to handle phone types )
-                        $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
+                        if ( is_numeric( $name ) ) {
+                            $field =& CRM_Utils_Array::value( $elementName . "-Primary$elementType", $this->_fields );
+                        } else {
+                            $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
+                        }
                     } else if ( is_numeric( $name ) ) {
                         $field =& CRM_Utils_Array::value( $elementName . "-Primary", $this->_fields ); 
                     } else {

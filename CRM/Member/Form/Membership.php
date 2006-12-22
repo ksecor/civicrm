@@ -124,7 +124,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
 
         $url = CRM_Utils_System::url('civicrm/contact/view/membership',
-                                     $urlParams ); 
+                                     $urlParams, true, null, false ); 
         $this->assign("refreshURL",$url);
 
         $this->applyFilter('__ALL__', 'trim');
