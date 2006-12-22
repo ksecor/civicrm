@@ -1452,6 +1452,97 @@ kids 12 and under.Grab your dancing shoes, bring the kids and come join the part
     }
 
 
+ function addEventLocation()
+    {
+        $event = "INSERT INTO civicrm_location
+        (entity_table, entity_id, location_type_id, is_primary, name)
+        VALUES
+        ('civicrm_event', 1, 1, 1, 'Mainland China'),
+
+        ('civicrm_event', 2, 1, 1, 'palyhill'),
+
+        ('civicrm_event', 3, 1, 1, 'DisneyLand')
+     
+         ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+    }
+
+function addEventLocationAddress()
+  {
+
+ $event = "INSERT INTO civicrm_address
+        (location_id, street_address, street_number, street_number_suffix, street_name, street_type, supplemental_address_1, supplemental_address_2, city, state_province_id, country_id, postal_code, geo_coord_id, geo_code_1, geo_code_2)
+        VALUES
+        (87, 'S 14S El Camino Way E', 14, 'S', 'El Camino', 'Way', 'Attn: Development', '', 'Collinsville', 1006, 1228, 06022, 1, 41.8328,-72.9253 ),
+
+        (88, 'E 11B Woodbridge Path SW', 11, 'B', 'Woodbridge', 'Path', 'Mailstop 101', '', 'Dayton', 1034, 1228, 45417, 1, 39.7531, -84.2471),
+
+        (89, 'E 581O Lincoln Dr SW', 581, 'O', 'Lincoln', 'Dr', 'Urgent', '', 'Santa Fe', 1030, 1228, 87594, 1, 35.5212, -105.982)
+     
+         ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
+   }
+
+function addEventPhone()
+    {
+        $event = "INSERT INTO civicrm_phone
+        (location_id, is_primary, mobile_provider_id, phone, phone_type)
+        VALUES
+        (87, 1, '', 27475365, 'Phone'),
+
+        (88, 1, '', 64330028, 'Phone'),
+
+        (89, 1, '', 39317123, 'Phone')
+     
+         ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+    }
+
+function addEventemail()
+    {
+        $event = "INSERT INTO civicrm_email
+        (location_id, email, is_primary)
+        VALUES
+        (87, 'JonesChris@redimail.co.in', 1),
+
+        (88, 'JamesonMilan@indiatimes.net', 1),
+
+        (89, 'SamuelsJennifer@hotmail.net', 1)
+     
+         ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+    }
+
+function addEventIM()
+    {
+        $event = "INSERT INTO civicrm_im
+        (location_id, name, provider_id, is_primary)
+        VALUES
+        (87, 'john', 1, 1),
+
+        (88, 'Ramsan', 2, 1),
+
+        (89, 'Rany', 3, 1)
+     
+         ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+    }
+
+function addEventFeeLabel()
+    {
+        $event = "INSERT INTO civicrm_custom_option
+        (entity_table, entity_id, label, value, weight, is_active)
+        VALUES
+        ('civicrm_event', 1, 'Single', 50, 1, 1),('civicrm_event', 1, 'Couple', 100, 2, 1),('civicrm_event', 1, 'Family', 200, 3, 1),
+
+        ('civicrm_event', 2, 'gift', 25, 1, 1),('civicrm_event', 2, 'games', 40, 2, 1),('civicrm_event', 2, 'prize', 50, 3, 1),
+
+        ('civicrm_event', 3, 'Summer Tournament', 800, 1, 1), ('civicrm_event', 3, 'Title Cup', 1000, 2, 1), ('civicrm_event', 3, 'Pepsi Cup', 1500, 3, 1)
+     
+         ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+    }
+
 
     function addParticipant()
     {
@@ -1562,6 +1653,12 @@ $obj1->addMembership();
 $obj1->addMembershipLog();
 $obj1->addEvent();
 $obj1->addEventPage();
+$obj1->addEventLocation();
+$obj1->addEventLocationAddress();
+$obj1->addEventPhone();
+$obj1->addEventemail();
+$obj1->addEventIM();
+$obj1->addEventFeeLabel();
 $obj1->addParticipant();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
