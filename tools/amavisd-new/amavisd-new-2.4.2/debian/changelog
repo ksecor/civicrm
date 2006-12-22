@@ -1,3 +1,10 @@
+amavisd-new (1:2.4.2-4civimail3) unstable; urgency=low
+
+  * make Amavis::CiviCRM actually work reliably with
+    Mail::Verp, which requires proper initialisation
+
+ -- Piotr Szotkowki <shot@civicrm.org>  Fri, 22 Dec 2006 15:42:27 +0100
+
 amavisd-new (1:2.4.2-4civimail2) unstable; urgency=low
 
   * limit the body size passed to the SOAP interface on bounces to 4069 bytes
