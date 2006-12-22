@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2006                                  |
+ | copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -34,58 +34,71 @@
  *
  */
 
-/**
- * class to represent the actions that can be performed on a group of contacts
- * used by the search forms
- *
- */
-class CRM_Event_Task
-{
-    const
-        DELETE_EVENTS                     =     1,
-        PRINT_EVENTS                      =     2,
-        EXPORT_EVENTS                     =     3,
-        BATCH_EVENTS                      =     4,
-        CANCEL_REGISTRATION               =     5,
-        SAVE_SEARCH                       =     6;
+require_once 'CRM/Event/Form/Task.php';
 
+ /**
+  * This class provides the functionality for cancel registration for event participations
+  */
+class CRM_Event_Form_Task_Cancel extends CRM_Event_Form_Task 
+{ 
     /**
-     * the task array
+     * variable to store redirect path
      *
-     * @var array
-     * @static
      */
-    static $_tasks = null;
+    protected $_userContext;
 
     /**
-     * the optional task array
+     * build all the data structures needed to build the form
      *
-     * @var array
-     * @static
-     */
-    static $_optionalTasks = null;
-
-    /**
-     * These tasks are the core set of tasks that the user can perform
-     * on a contact / group of contacts
-     *
-     * @return array the set of tasks for a group of contacts
-     * @static
+     * @return void
      * @access public
      */
-    static function &tasks()
+    function preProcess( ) 
     {
-        if (!(self::$_tasks)) {
-            self::$_tasks = array(
-                                  3     => ts( 'Export Events'                   ),
-                                  1     => ts( 'Delete Events'                   ),
-                                  4     => ts( 'Batch Update Events Via Profile' ),
-                                  6     => ts( 'New Smart Group' ),
-                                  5     => ts( 'Cancel Registration'             )
-                                  );
-        }
-        
-        return self::$_tasks;
+        /*
+         * initialize the task and row fields
+         */
+        parent::preProcess( );
+
+        $session =& CRM_Core_Session::singleton();
+        $this->_userContext = $session->readUserContext( );
     }
+  
+    /**
+     * Build the form
+     *
+     * @access public
+     * @return void
+     */
+    function buildQuickForm( ) 
+    {
+        CRM_Utils_System::setTitle( ts('Cancel Registration for Event Participation') );        
+        $session =& CRM_Core_Session::singleton( );
+        //     $session->replaceUserContext( CRM_Utils_System::url('civicrm/event/view',
+        //          'reset=1&cid=' . $this->_participantIds[0] ) );
+        $this->addDefaultButtons( ts('Cancel Registration'), 'done' );
+    }
+    
+
+    /**
+     * process the form after the input has been submitted and validated
+     *
+     * @access public
+     * @return None
+     */
+    public function postProcess() 
+    {
+        $params = $this->exportValues( );
+        $value  = array( );
+
+        foreach( $this->_participantIds as $participantId ) {
+            $ids['participant']    = $participantId;      
+            
+            // Cancelled status id = 4
+            $value['status_id']    = 4;
+            require_once 'CRM/Event/BAO/Participant.php';            
+            CRM_Event_BAO_Participant::add( $value ,$ids );   
+        }
+    }//end of function
 }
 ?>

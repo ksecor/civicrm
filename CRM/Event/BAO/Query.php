@@ -177,7 +177,17 @@ class CRM_Event_BAO_Query
         }
         return $from;
     }
-    
+
+    /**
+     * getter for the qill object
+     *
+     * @return string
+     * @access public
+     */
+    function qill( ) {
+        return $this->_qill;
+    }
+   
     static function defaultReturnProperties( $mode ) 
     {
         $properties = null;

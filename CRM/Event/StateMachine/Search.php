@@ -113,8 +113,14 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
             break;
 
         case CRM_Event_Task::CANCEL_REGISTRATION:
+            $task   = 'CRM_Event_Form_Task_Cancel';
             break;
-            
+
+        case CRM_Event_Task::SAVE_SEARCH:
+            $task   = 'CRM_Event_Form_Task_SaveSearch';
+            break;
+   
+         
         default: // the print task is the default and catch=all task
             $task = 'CRM_Event_Form_Task_Print';
             break;

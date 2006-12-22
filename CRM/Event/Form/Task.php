@@ -97,7 +97,7 @@ class CRM_Event_Form_Task extends CRM_Core_Form
                                                        CRM_Contact_BAO_Query::MODE_EVENT);
             $result = $query->searchQuery(0, 0, null);
             while ($result->fetch()) {
-                $ids[] = $result->event_id;
+                $ids[] = $result->participant_id;
             }
             $this->assign( 'totalSelectedParticipants', $this->get( 'rowCount' ) );
         }
