@@ -47,7 +47,7 @@ class CRM_Utils_Address_USPS {
             return false;
         }
         
-        $config = new CRM_Core_Config();
+        $config =& CRM_Core_Config::singleton( );
         $userID = $config->AddressStdUserID;
         $url = $config->AddressStdURL;
 

@@ -70,7 +70,7 @@ $domainFKEY = array ('civicrm_contact')
                 $path = CRM_Utils_Request::retrieve('path', $form );
                
                 $path= '?q='.$path;
-                $session =& new CRM_Core_Session();
+                $session =& CRM_Core_Session::singleton( );
                 $session->set('path', $path);
             }
             return $server->run( $set );
