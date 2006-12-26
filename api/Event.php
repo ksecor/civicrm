@@ -62,7 +62,7 @@ function crm_create_contact_participant($params, $contactID)
         return _crm_error( 'Params is not an array' );
     }
     
-    if ( !isset($params['event_id']) || !isset($params['status_id']) || !isset($params['role_id']) || empty($contactID)) {
+    if ( !isset($params['event_id']) || !isset($params['event_status_id']) || !isset($params['role_id']) || empty($contactID)) {
         return _crm_error( 'Required parameter missing' );
     }
     
@@ -76,5 +76,4 @@ function crm_create_contact_participant($params, $contactID)
     _crm_object_to_array($participantBAO, $participant);
     return $participant;
 }
-
 ?>

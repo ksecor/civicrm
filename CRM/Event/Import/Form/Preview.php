@@ -171,6 +171,7 @@ class CRM_Event_Import_Form_Preview extends CRM_Core_Form
             }
             $mapperFields[] = implode(' - ', $header);
         }
+        
         $parser->run( $fileName, $seperator, 
                       $mapperFields,
                       $skipColumnHeader,
