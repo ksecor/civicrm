@@ -47,7 +47,8 @@ class CRM_Event_Task
         EXPORT_EVENTS                     =     3,
         BATCH_EVENTS                      =     4,
         CANCEL_REGISTRATION               =     5,
-        SAVE_SEARCH                       =     6;
+        // Value for SAVE_SEARCH is set as 13 in accordance with CRM_Contact_Task::SAVE_SEARCH
+        SAVE_SEARCH                       =     13;
 
     /**
      * the task array
@@ -80,7 +81,7 @@ class CRM_Event_Task
                                   3     => ts( 'Export Events'                   ),
                                   1     => ts( 'Delete Events'                   ),
                                   4     => ts( 'Batch Update Events Via Profile' ),
-                                  6     => ts( 'New Smart Group' ),
+                                  13    => ts( 'New Smart Group' ),
                                   5     => ts( 'Cancel Registration'             )
                                   );
         }
