@@ -249,33 +249,36 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             if ($field == null || $field === '') {
                 continue;
             }
-                        
+            
+            require_once 'CRM/Core/OptionGroup.php';
             if ( $key == 'event_id' ) {
                 $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $field, 'id', 'title' );
                 $formatted[$key] = $id;
             } else if ( $key == 'event_status_id' ) {
-                $id = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $field, 'value', 'label' );
-                //$formatted[$key] = $id;
-                $formatted['status_id'] = $id;
+                $id = CRM_Core_OptionGroup::getValue('participant_status', $field);
+                $formatted[$key] = $id;
             } else if ( $key == 'role_id' ) {
-                $id = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $field, 'value', 'label' );
+                $id = CRM_Core_OptionGroup::getValue('participant_role', $field);
                 $formatted[$key] = $id;
             } else {
                 $formatted[$key] = $field;
             }
         }
         
-        // CRM_Event_BAO_Participant::add() handles register_date and
-        // source. So, if $formatted contains participant_register_date
-        // or event_source, convert it to register_date or source
-        if ( isset($formatted['participant_register_date']) ) {
-            $formatted['register_date'] = $formatted['participant_register_date'];
-            unset($formatted['participant_register_date']);
-        }
+        // CRM_Event_BAO_Participant::add() handles register_date,
+        // status_id and source. So, if $formatted contains
+        // participant_register_date, event_status_id or event_source,
+        // convert it to register_date, status_id or source
+        $changes = array('participant_register_date' => 'register_date',
+                         'event_source'              => 'source',
+                         'event_status_id'           => 'status_id'
+                         );
         
-        if ( isset($formatted['event_source']) ) {
-            $formatted['source'] = $formatted['event_source'];
-            unset($formatted['event_source']);
+        foreach ($changes as $orgVal => $changeVal) {
+            if ( isset($formatted[$orgVal]) ) {
+                $formatted[$changeVal] = $formatted[$orgVal];
+                unset($formatted[$orgVal]);
+            }
         }
         
         if ( $this->_contactIdIndex < 0 ) {
