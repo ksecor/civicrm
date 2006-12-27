@@ -89,10 +89,15 @@ class CRM_Event_Form_Task extends CRM_Core_Form
                     $ids[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
             }
-            $this->assign( 'totalSelectedParticipants', count( $ids ) );
+            if ( ! empty( $ids ) ) {
+                $this->_eventClause =
+                    ' civicrm_participant.id IN ( ' .
+                    implode( ',', $ids ) . ' ) ';
+            $this->assign( 'totalSelectedParticipants', count( $ids ) );             
+            }
         } else {
             $queryParams =  $this->get( 'queryParams' );
-
+            
             $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
                                                        CRM_Contact_BAO_Query::MODE_EVENT);
             $result = $query->searchQuery(0, 0, null);

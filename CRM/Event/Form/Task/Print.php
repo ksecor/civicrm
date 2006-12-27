@@ -51,8 +51,18 @@ class CRM_Event_Form_Task_Print extends CRM_Event_Form_Task
     function preProcess()
     {
         parent::preprocess( );
-    }
 
+        // set print view, so that print templates are called
+        $this->controller->setPrint( true );
+        
+        // create the selector, controller and run - store results in session
+        $fv         = $this->get( 'formValues' );
+        $selector   =& new CRM_Event_Selector_Search($fv, $this->_action, $this->_eventClause );
+        $controller =& new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
+        $controller->setEmbedded( true );
+        $controller->run();
+    }
+    
     /**
      * Build the form - it consists of
      *    - displaying the QILL (query in local language)
@@ -63,6 +73,18 @@ class CRM_Event_Form_Task_Print extends CRM_Event_Form_Task
      */
     function buildQuickForm()
     {
+        //
+        // just need to add a javacript to popup the window for printing
+        // 
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => ts('Print Participant List'),
+                                         'js'        => array( 'onclick' => 'window.print()' ),
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'back',
+                                         'name'      => ts('Done') ),
+                                 )
+                           );
     }
     
     /**
