@@ -58,7 +58,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
 
-        $this->add('select','event_type',ts('Event Type'),array('' => ts('- select -')) + $event);
+        $this->add('select','event_type_id',ts('Event Type'),array('' => ts('- select -')) + $event);
         
         $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
         
@@ -105,7 +105,6 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }
         
         // store the submitted values in an array
-        $params['event_type_id'] = $params['event_type'];
         $params['start_date']    = CRM_Utils_Date::format($params['start_date']);
         $params['end_date']      = CRM_Utils_Date::format($params['end_date']);
         

@@ -69,6 +69,16 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             if ( $eventPage->find( true ) ) {
                 CRM_Core_DAO::storeValues( $eventPage, $defaults );
             }
+       
+            require_once 'CRM/Core/BAO/UFJoin.php';
+            
+            $ufJoinParams = array( 'entity_table' => 'civicrm_event',  
+                                   'entity_id'    => $this->_id,  
+                                   'weight'       => 1 );
+            $defaults['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+            
+            $ufJoinParams['weight'] = 2;
+            $defaults['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
         }
         return $defaults;
     }   
@@ -144,8 +154,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     {
         $form->add('textarea','intro_text',ts('Intro Text'), array("rows"=>6,"cols"=>80));
         $form->add('textarea','footer_text',ts('Footer Text'), array("rows"=>6,"cols"=>80));
-        $form->add('select', 'participant_info_1', ts('Custom Data 1'),array(''=>'-select-'));
-        $form->add('select', 'participant_info_2', ts('Custom Data 2'),array(''=>'-select-'));
+        $form->add('select', 'custom_pre_id', ts('Custom Fields'),array(''=>'-select-') + CRM_Core_PseudoConstant::ufGroup( ));
+        $form->add('select', 'custom_post_id', ts('Custom Fields'),array(''=>'-select-')+ CRM_Core_PseudoConstant::ufGroup( ));
     }
 
     /**
@@ -202,6 +212,24 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $dao->copyValues( $params );
             $dao->save( );
         }
+
+        // also update the ProfileModule tables 
+        $ufJoinParams = array( 'is_active'    => 1, 
+                               'module'       => 'CiviEvent',
+                               'entity_table' => 'civicrm_event', 
+                               'entity_id'    => $this->_id, 
+                               'weight'       => 1, 
+                               'uf_group_id'  => $params['custom_pre_id'] ); 
+        
+        require_once 'CRM/Core/BAO/UFJoin.php';
+        CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
+
+        $ufJoinParams['weight'     ] = 2; 
+        $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
+        CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
+        
+
+
         CRM_Core_Session::setStatus( ts('The registration information has been saved.' ));
         
     }//end of function

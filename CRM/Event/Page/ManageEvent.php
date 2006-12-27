@@ -60,7 +60,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         if (!(self::$_actionLinks)) {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this eventship type?');
-	    $deleteExtra = ts('Are you sure you want to delete this Contribution page?');
+	    $deleteExtra = ts('Are you sure you want to delete this Event?');
 
             self::$_actionLinks = array(
                                         CRM_Core_Action::VIEW    => array(
@@ -92,8 +92,14 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           'name'  => ts('Delete'),
                                                                           'url'   => 'civicrm/admin/event',
                                                                           'qs'    => 'action=delete&id=%%id%%',
-									  'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
+                                                                          'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           'title' => ts('Delete Event') 
+                                                                          ),
+                                        CRM_Core_Action::MAP     => array(
+                                                                          'name'  => ts('copy'),
+                                                                          'url'   => 'civicrm/admin/event',
+                                                                          'qs'    => 'action=map&id=%%id%%',
+                                                                          'title' => ts('Copy Event') 
                                                                           )
                                         );
         }
@@ -129,7 +135,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Manage Events') . '</a>';
 
         // what action to take ?
-        if ( $action & CRM_Core_Action::ADD ) {
+        if ( $action & CRM_Core_Action::ADD || $action & CRM_Core_Action::MAP) {
             $session =& CRM_Core_Session::singleton( ); 
             $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
 
@@ -153,10 +159,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         } else if ($action & CRM_Core_Action::DELETE ) {
             CRM_Event_BAO_ManageEvent::del($id);
             CRM_Core_Session::setStatus( ts('The event  has been deleted successfully.') );
-
         }
-
-
 
         // finally browse the custom groups
         $this->browse();
@@ -214,7 +217,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                 $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($stateId);
             }
         }
-
+        
         $this->assign('rows', $manageEvent);
     }
 }

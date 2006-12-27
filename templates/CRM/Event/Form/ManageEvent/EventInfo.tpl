@@ -5,7 +5,7 @@
 <fieldset><legend>{ts}Event Information{/ts}</legend>
       <dl>
      	<dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
-        <dt>{$form.event_type.label}</dt><dd>{$form.event_type.html}</dd>
+        <dt>{$form.event_type_id.label}</dt><dd>{$form.event_type_id.html}</dd>
     	<dt>{$form.summary.label}</dt><dd>{$form.summary.html}</dd>
     	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
     	<dt>{$form.is_public.label}</dt><dd>{$form.is_public.html}</dd>

@@ -18,8 +18,8 @@
     <dl>
     	<dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
 	    <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
-    	<dt>{$form.participant_info_1.label}</dt><dd>{$form.participant_info_1.html}</dd>
-	    <dt>{$form.participant_info_2.label}</dt><dd>{$form.participant_info_2.html}</dd>
+    	<dt>{$form.custom_pre_id.label}</dt><dd>{$form.custom_pre_id.html}</dd>
+	    <dt>{$form.custom_post_id.label}</dt><dd>{$form.custom_post_id.html}</dd>
     </dl>
     </fieldset>
 	</div>
