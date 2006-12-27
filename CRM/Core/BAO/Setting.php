@@ -53,15 +53,6 @@ class CRM_Core_BAO_Setting
     {
         CRM_Core_BAO_Setting::fixParams($params);
 
-        // unset any of the variables we read from file
-        $skipVars = array( 'dsn', 'templateCompileDir', 'userFrameworkBaseURL' );
-        foreach ( $skipVars as $var ) {
-            unset( $params[$var] );
-        }
-                           
-        // CRM_Core_Error::debug('par', $params);
-        // exit();
-
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
         $domain->id = CRM_Core_Config::domainID( );
@@ -71,7 +62,16 @@ class CRM_Core_BAO_Setting
             $values = unserialize($domain->config_backend);
             CRM_Core_BAO_Setting::formatParams($params, $values);
         }
-        
+
+        // unset any of the variables we read from file that should not be stored in the database
+        // the username and certpath are stored flat with _test and _live
+        // check CRM-1470
+        $skipVars = array( 'dsn', 'templateCompileDir', 'userFrameworkBaseURL',
+                           'paymentUsername', 'paymentCertPath' );
+        foreach ( $skipVars as $var ) {
+            unset( $params[$var] );
+        }
+                           
         $domain->config_backend = serialize($params);
         $domain->save();
     }
