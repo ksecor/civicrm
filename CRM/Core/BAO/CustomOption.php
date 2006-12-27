@@ -112,11 +112,11 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
      * @return array $customOption all active options for fieldId
      * @static
      */
-    static function getCustomOption($fieldId, $inactiveNeeded=false)
+    static function getCustomOption($fieldId, $inactiveNeeded=false, $entityTable='civicrm_custom_field')
     {       
         $customOptionDAO =& new CRM_Core_DAO_CustomOption();
         $customOptionDAO->entity_id    = $fieldId;
-        $customOptionDAO->entity_table = "civicrm_custom_field";
+        $customOptionDAO->entity_table = $entityTable;
         if (!$inactiveNeeded) {
             $customOptionDAO->is_active = 1;
         }
