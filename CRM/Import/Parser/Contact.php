@@ -330,6 +330,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
      */
     function import( $onDuplicate, &$values) 
     {
+        require_once 'api/Contact.php';
+
         // first make sure this is a valid line
         //$this->_updateWithId = false;
         $response = $this->summary( $values );

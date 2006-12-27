@@ -17,5 +17,6 @@
 <xi:include href="Project/files.xml"       parse="xml" />
 <xi:include href="Member/files.xml"         parse="xml" />  
 <xi:include href="Activity/files.xml"      parse="xml" />  
+<xi:include href="Event/files.xml"        parse="xml" />  
 <xi:include href="Quest/files.xml"         parse="xml" />  
 </database>

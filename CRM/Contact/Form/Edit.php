@@ -38,23 +38,6 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/SelectValues.php';
 
-require_once 'CRM/Core/BAO/LocationType.php';
-
-require_once 'CRM/Utils/Recent.php';
-
-require_once 'CRM/Contact/Form/Location.php';
-require_once 'CRM/Contact/Form/Individual.php';
-require_once 'CRM/Contact/Form/Household.php';
-require_once 'CRM/Contact/Form/Organization.php';
-require_once 'CRM/Contact/Form/Note.php';
-require_once 'CRM/Contact/Form/GroupTag.php';
-
-require_once 'CRM/Contact/BAO/GroupContact.php';
-require_once 'CRM/Core/BAO/EntityTag.php';
-require_once 'CRM/Core/BAO/CustomGroup.php';
-require_once 'CRM/Core/BAO/CustomField.php';
-require_once 'CRM/Core/BAO/CustomOption.php';
-
 /**
  * This class generates form components generic to all the contact types.
  * 
@@ -237,6 +220,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 for ( $i = 0; $i < $config->maxLocationBlocks; $i++ ) {
                     $defaults['location'][$i+1] = array( );
                     if ( $i == 0 ) {
+                        require_once 'CRM/Core/BAO/LocationType.php';
                         $defaultLocation =& new CRM_Core_BAO_LocationType();
                         $locationType = $defaultLocation->getDefault();
                         $defaults['location'][$i+1]['location_type_id'] = $locationType->id;
@@ -388,6 +372,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      */
     public function buildQuickForm( ) {
+        require_once 'CRM/Contact/Form/Location.php';
+
         // assign a few constants used by all display elements
         // we can obsolete this when smarty can access class constans directly
         $config =& CRM_Core_Config::singleton( );
@@ -408,14 +394,17 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         // add note block
         if ($this->_action & CRM_Core_Action::ADD) {
+            require_once 'CRM/Contact/Form/Note.php';
             $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
         }
 
         //add tags and groups block
+        require_once 'CRM/Contact/Form/GroupTag.php';
         $groupTag =& CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_contactId,
                                                                    CRM_Contact_Form_GroupTag::ALL );
 
         //Custom Group Inline Edit form
+        require_once 'CRM/Core/BAO/CustomGroup.php';
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId,0,$this->_contactSubType);
         
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
@@ -492,9 +481,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks, true, false );
      
         //add contact to gruoup
+        require_once 'CRM/Contact/BAO/GroupContact.php';
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
         //add contact to tags
+        require_once 'CRM/Core/BAO/EntityTag.php';
         CRM_Core_BAO_EntityTag::create( $params['tag'], $params['contact_id'] );
         
         
@@ -505,6 +496,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         $buttonName = $this->controller->getButtonName( );
         if ( ($buttonName == $this->getButtonName( 'next', 'new' )) || ($buttonName == $this->getButtonName( 'upload', 'new' ))) {
+            require_once 'CRM/Utils/Recent.php';
+
             // add the recently viewed contact
             list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $contact->id );
             CRM_Utils_Recent::add( $displayName,
@@ -516,6 +509,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
         }
 
+        require_once 'CRM/Core/BAO/CustomGroup.php';
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
         
         //add relationship for the contact

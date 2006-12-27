@@ -972,6 +972,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
 
         $activityParam         =  array('entity_id' => $params['contact_id']);
+        require_once 'CRM/Core/BAO/History.php';
         $contact->activity     =& CRM_Core_BAO_History::getValues($activityParam, $defaults, 'Activity');
 
         $activityParam            =  array('contact_id' => $params['contact_id']);

@@ -34,7 +34,6 @@
  *
  */
 
-require_once 'api/crm.php';
 require_once 'CRM/Core/Session.php';
 require_once 'CRM/Core/DAO/UFMatch.php';
 
@@ -155,7 +154,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
         $ufmatch->uf_id = $userKey;
         $ufmatch->domain_id = CRM_Core_Config::domainID( );
         if ( ! $ufmatch->find( true ) ) {
-            
+            require_once 'CRM/Contact/BAO/Contact.php';
             $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $mail, $ctype );
             if ( $dao ) {
                 $ufmatch->contact_id = $dao->contact_id;
@@ -178,6 +177,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 if ( ! $ctype ) {
                     $ctype = "Individual";
                 }
+                require_once 'api/Contact.php';
                 $contact =& crm_create_contact( $params, $ctype );
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::debug( 'error', $contact );

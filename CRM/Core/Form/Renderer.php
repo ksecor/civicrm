@@ -132,13 +132,14 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
     function updateAttributes(&$element, $required, $error) {
         // lets create an id for all input elements, so we can generate nice label tags
         // to make it nice and clean, we'll just use the elementName if it is non null
+        $attributes = array( );
         if (!$element->getAttribute('id')) {
             $name = $element->getAttribute('name');
             if ($name) {
-                $element->updateAttributes(array('id' => str_replace(array("]", "["), array("", "_"), $name) ));
-            } // else {
-            // $element->_generateId( );
-            // }
+                $attributes['id'] = str_replace( array( ']', '[' ),
+                                                 array(''  , '_' ),
+                                                 $name );
+            }
         }
         
         $class = $element->getAttribute('class');
@@ -163,7 +164,9 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
         if ( $error ) {
             $class .= ' error';
         }
-        $element->updateAttributes( array( 'class' => $class ) );
+        
+        $attributes['class'] = $class;
+        $element->updateAttributes( $attributes );
     }
 
 } // end CRM_Core_Form_Renderer

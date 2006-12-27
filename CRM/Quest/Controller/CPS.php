@@ -106,7 +106,7 @@ class CRM_Quest_Controller_CPS extends CRM_Core_Controller {
             $this->set( 'contactID', $this->_contactID );
 
             // set contact id and welcome name
-       
+            require_once 'CRM/Contact/DAO/Contact.php';
             $dao =& new CRM_Contact_DAO_Contact( );
             $dao->id = $this->_contactID;
             if ( $dao->find( true ) ) {

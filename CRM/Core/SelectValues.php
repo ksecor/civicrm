@@ -412,6 +412,7 @@ class CRM_Core_SelectValues
             $minOffset = $min; 
             $maxOffset = $max; 
             if( $dateParts ) {
+                require_once 'CRM/Core/BAO/CustomOption.php';
                 $format = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$dateParts);
                 foreach( $format as $v ) {
                     $stringFormat = $stringFormat ." ".$v;  

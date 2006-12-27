@@ -34,7 +34,6 @@
  *
  */
 
-require_once 'api/crm.php';
 require_once 'Mail/mime.php';
 require_once 'CRM/Utils/Verp.php';
 
@@ -74,6 +73,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             $value = array('email' => $email, 'location_type' =>
                            CRM_Core_BAO_LocationType::getDefaultID());
             _crm_add_formatted_param($value, $formatted);
+            require_once 'api/Contact.php';
             $contact =& crm_create_contact_formatted($formatted,
                                                      CRM_Import_Parser::DUPLICATE_SKIP);
 

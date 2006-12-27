@@ -79,6 +79,7 @@ class CRM_Quest_Form_CPS_Personal extends CRM_Quest_Form_App
 
         $options = array( );
         $ids = array();
+        require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
         
         $ids    = array( );
