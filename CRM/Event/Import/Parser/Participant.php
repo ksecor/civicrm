@@ -233,19 +233,6 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                         CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
                     }
                 }
-                /*
-                switch( $key ) {
-                case  'join_date': 
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                    break;
-                case  'membership_start_date': 
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                    break;
-                case  'membership_end_date': 
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                    break;
-                }
-                */
             }
         }
         //date-Format part ends
@@ -258,26 +245,37 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             $indieFields = $tempIndieFields;
         }
         
-        /*Need changes below for import of the data that need to be in
-        ID format.
-        */
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
                 continue;
             }
-            
+                        
             if ( $key == 'event_id' ) {
                 $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $field, 'id', 'title' );
                 $formatted[$key] = $id;
             } else if ( $key == 'event_status_id' ) {
-                $id = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $field, 'id', 'label' );
-                $formatted[$key] = $id;
+                $id = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $field, 'value', 'label' );
+                //$formatted[$key] = $id;
+                $formatted['status_id'] = $id;
             } else if ( $key == 'role_id' ) {
-                $id = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $field, 'id', 'label' );
+                $id = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $field, 'value', 'label' );
                 $formatted[$key] = $id;
             } else {
                 $formatted[$key] = $field;
             }
+        }
+        
+        // CRM_Event_BAO_Participant::add() handles register_date and
+        // source. So, if $formatted contains participant_register_date
+        // or event_source, convert it to register_date or source
+        if ( isset($formatted['participant_register_date']) ) {
+            $formatted['register_date'] = $formatted['participant_register_date'];
+            unset($formatted['participant_register_date']);
+        }
+        
+        if ( isset($formatted['event_source']) ) {
+            $formatted['source'] = $formatted['event_source'];
+            unset($formatted['event_source']);
         }
         
         if ( $this->_contactIdIndex < 0 ) {
