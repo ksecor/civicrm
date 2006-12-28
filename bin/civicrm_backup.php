@@ -52,7 +52,7 @@ $backupPath = $argv[1] . '/';
 
 //we get the upload folder for storing the huge backup data
 
-$config =& new CRM_Core_Config();
+$config =& CRM_Core_Config::singleton( );
 chdir($config->uploadDir);
 $fileName = $backupPath . 'backupData.sql';
 

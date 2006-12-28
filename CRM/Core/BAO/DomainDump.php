@@ -58,7 +58,7 @@ class CRM_Core_BAO_DomainDump
         $file = $civicrm_root . '/sql/civicrm_backup.mysql';
         
         //we get the upload folder for storing the huge backup data
-        $config =& new CRM_Core_Config();
+        $config =& CRM_Core_Config::singleton( );
         chdir($config->uploadDir);
         $fileName = 'domainDump.sql';
         

@@ -136,14 +136,15 @@ class CRM_Contribute_Config {
         $config->paymentPassword        = null;
         $config->paymentSubject         = null;
         $config->paymentKey             = null;
+
         if ( $oldMode ) {
             if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
                 $config->paymentProcessor       = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
             } else {
                 $config->paymentProcessor       = null;
             }
-            $config->paymentCertPath        = null;
-            $config->paymentUsername        = null;
+            $config->paymentCertPath        = array( 'test' => null, 'live' => null );
+            $config->paymentUsername        = array( 'test' => null, 'live' => null );
             $config->paymentProcessorButton = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif";
             $config->paymentPayPalExpressUrl = "www.paypal.com";
             $config->paymentPayPalExpressTestUrl = "www.sandbox.paypal.com";

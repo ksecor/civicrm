@@ -51,7 +51,7 @@ class CRM_History_Import_Form_UploadFile extends CRM_Core_Form {
     public function buildQuickForm( ) {
 
         //Setting Upload File Size
-        $config =& new CRM_Core_Config();
+        $config =& CRM_Core_Config::singleton( );
         if ($config->maxImportFileSize >= 8388608 ) {
             $uploadFileSize = 8388608;
         } else {

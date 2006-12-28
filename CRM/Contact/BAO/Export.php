@@ -88,7 +88,7 @@ class CRM_Contact_BAO_Export {
             $returnProperties['phone_type'   ] = 1;
         }
         
-        $session =& new CRM_Core_Session();
+        $session =& CRM_Core_Session::singleton( );
         if ( $selectAll ) {
             if ($primary) {
                 $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );

@@ -619,7 +619,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $code = $newContact->_errors[0]['code'];
             if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
                 $urls = array( );
-	        $cids = explode( ',', $newContact->_errors[0]['params'] );
+                // need to fix at some stage and decide if the error will return an 
+                // array or string, crude hack for now
+                if ( is_array( $newContact->_errors[0]['params'] ) ) {
+                    $cids = $newContact->_errors[0]['params'];
+                } else {
+                    $cids = explode( ',', $newContact->_errors[0]['params'] );
+                }
                 foreach ($cids as $cid) {
                     $urls[] = CRM_Utils_System::url('civicrm/contact/view',
                                                     'reset=1&cid=' . $cid, true);
