@@ -261,10 +261,16 @@ class CRM_Core_I18n
 // function defined in global scope so it will be available everywhere
 function ts($text, $params = array())
 {
+    static $i18n = null;
+
     if ($text == '') {
         return '';
     }
-    $i18n =& CRM_Core_I18n::singleton();
+
+    if ( ! $i18n ) {
+        $i18n =& CRM_Core_I18n::singleton();
+    }
+
     return $i18n->crm_translate($text, $params);
 }
 

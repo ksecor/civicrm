@@ -258,6 +258,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @static
      */
     static function getGroupList($contactId = 0) {
+        require_once 'CRM/Contact/DAO/Group.php';
         $group =& new CRM_Contact_DAO_Group( );
 
         $select = $from = $where = '';

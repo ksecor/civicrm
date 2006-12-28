@@ -211,6 +211,13 @@ class CRM_Core_PseudoConstant
     public static function populate( &$var, $name, $all = false, $retrieve = 'name',
                                      $filter = 'is_active', $condition = null, $orderby = null ) 
     {
+        $cacheKey = "{$name}_{$all}_{$retrieve}_{$filter}_{$condition}_{$orderby}";
+        $cache =& CRM_Utils_Cache::singleton( );
+        $var = $cache->get( $cacheKey );
+        if ( $var ) {
+            return $var;
+        }
+
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object =& new ' . $name . '( );' );
         
@@ -237,6 +244,7 @@ class CRM_Core_PseudoConstant
             $var[$object->id] = $object->$retrieve;
         }
 
+        $cache->set( $cacheKey, $var );
     }
 
     /**

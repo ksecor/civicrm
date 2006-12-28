@@ -473,17 +473,27 @@ class CRM_Core_Config
     static function &singleton($key = 'crm', $loadFromDB = true ) 
     {
         if (self::$_singleton === null ) {
-            self::$_singleton =& new CRM_Core_Config($key);
+            require_once 'CRM/Utils/Cache.php';
 
-            self::$_singleton->initialize( );
-
-            //initialize variable. for gencode we cannot load from the
-            //db since the db might not be initialized
-            if ( $loadFromDB ) {
-                self::$_singleton->initVariables();
+            $cache =& CRM_Utils_Cache::singleton( );
+            self::$_singleton = $cache->get( 'CRM_Core_Config' );
+            if ( ! self::$_singleton ) {
+                self::$_singleton =& new CRM_Core_Config($key);
                 
-                // retrieve and overwrite stuff from the settings file
-                self::$_singleton->addCoreVariables( );
+                self::$_singleton->initialize( );
+                
+                //initialize variable. for gencode we cannot load from the
+                //db since the db might not be initialized
+                if ( $loadFromDB ) {
+                    self::$_singleton->initVariables();
+                    
+                    // retrieve and overwrite stuff from the settings file
+                    self::$_singleton->addCoreVariables( );
+                }
+                $cache->set( 'CRM_Core_Config', self::$_singleton );
+            } else {
+                // we retrieve the object from memcache, so we now initialize the objects
+                self::$_singleton->initialize( );
             }
         }
 

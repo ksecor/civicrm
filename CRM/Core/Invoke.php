@@ -54,6 +54,7 @@ class CRM_Core_Invoke {
         require_once 'CRM/Core/Action.php';
         require_once 'CRM/Utils/Request.php';
         require_once 'CRM/Core/Menu.php';
+        require_once 'CRM/Core/Component.php';
 
         if ( $args[0] !== 'civicrm' ) {
             return;
@@ -121,7 +122,6 @@ class CRM_Core_Invoke {
             break;
 
         default         :
-            require_once 'CRM/Core/Component.php';
             if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
             }
@@ -422,7 +422,8 @@ class CRM_Core_Invoke {
     static function form( $action, $contact_type, $contact_sub_type ) {
         CRM_Utils_System::setUserContext( array( 'civicrm/contact/search/basic', 'civicrm/contact/view' ) );
         $wrapper =& new CRM_Utils_Wrapper( );
-
+        
+        require_once 'CRM/Core/Component.php';
         $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'Edit' );
         if( $properties ) {
             $wrapper->run($properties['class'], ts('New %1', array(1 => $contact_sub_type)), $action);

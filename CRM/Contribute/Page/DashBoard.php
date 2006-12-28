@@ -69,6 +69,7 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
         $prefixes = array( 'start', 'year', 'month' );
         $status   = array( 'Valid', 'Cancelled' );
 
+        require_once 'CRM/Contribute/BAO/Contribution.php';
         foreach ( $prefixes as $prefix ) {
             $aName = $prefix . 'ToDate';
             $dName = $prefix . 'Date';

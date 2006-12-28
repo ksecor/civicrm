@@ -999,6 +999,9 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
      * @static
      */
     static function buildQuickForm( &$form, &$groupTree, $showName = 'showBlocks', $hideName = 'hideBlocks' ) {
+        require_once 'CRM/Core/BAO/CustomField.php';
+        require_once 'CRM/Core/BAO/CustomOption.php';
+
         //this is fix for calendar for date field
         foreach ($groupTree as $key1 => $group) { 
             foreach ($group['fields'] as $key2 => $field) {

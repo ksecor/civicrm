@@ -81,7 +81,10 @@ class CRM_Core_Permission {
      * @access public
      */
     static function check( $str ) {
-        $config   =& CRM_Core_Config::singleton( );
+        static $config = null;
+        if ( ! $config ) {
+            $config   =& CRM_Core_Config::singleton( );
+        }
         return eval( 'return ' . $config->userPermissionClass . '::check( $str ); ' );
     }
     

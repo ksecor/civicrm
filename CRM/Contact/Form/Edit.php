@@ -654,6 +654,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         $errors["location[$locationId][location_type_id]"] = ts('The Location Type should be set if there is any location information');
                     }
                 }
+                require_once 'CRM/Core/BAO/Location.php';
                 //  for checking duplicate location type.
                 if (CRM_Core_BAO_Location::dataExists( $fields, $locationId, $ids )) {
                     if ($locTypeId == $fields['location'][$locationId]['location_type_id']) {
