@@ -139,18 +139,20 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $session =& CRM_Core_Session::singleton( ); 
             $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
 
-            require_once 'CRM/Event/Controller/ManageEvent.php';
-            $controller =& new CRM_Event_Controller_ManageEvent( );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             CRM_Utils_System::setTitle( ts('New Event Wizard') );
+
+            require_once 'CRM/Event/Controller/ManageEvent.php';
+            $controller =& new CRM_Event_Controller_ManageEvent( );
             return $controller->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
-            require_once 'CRM/Event/Page/ManageEventEdit.php';
-            $page =& new CRM_Event_Page_ManageEventEdit( );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             CRM_Utils_System::setTitle( ts('Edit Event') );
+
+            require_once 'CRM/Event/Page/ManageEventEdit.php';
+            $page =& new CRM_Event_Page_ManageEventEdit( );
             return $page->run( );
-        }  else if ($action & CRM_Core_Action::VIEW ) {
+        } else if ($action & CRM_Core_Action::VIEW ) {
             
         } else if ($action & CRM_Core_Action::DISABLE ) {
             CRM_Event_BAO_ManageEvent::setIsActive($id ,0);
@@ -182,8 +184,6 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         $manageEvent = array();
         require_once 'CRM/Event/DAO/Event.php';
         $dao =& new CRM_Event_DAO_Event();
-
-        //$dao->orderBy('weight');
         $dao->find();
 
         while ($dao->fetch()) {
@@ -204,17 +204,15 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             }
             
             $manageEvent[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                              array('id' => $dao->id));
+                                                                         array('id' => $dao->id));
 
-            $params   = array( );
-            $params = array( 'entity_table' => 'civicrm_event');
+            $params = array( 'entity_id' => $dao->id, 'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $defaults,$id, 1);
-            
+            $location = CRM_Core_BAO_Location::getValues($params, $defaults, $id, 1);
+
             if( $manageEvent[$dao->id]['id'] == $defaults['location'][1]['entity_id'] ) {
                 $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
-                $stateId = $defaults['location'][1]['address']['state_province_id'];
-                $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($stateId);
+                $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
             }
         }
         
