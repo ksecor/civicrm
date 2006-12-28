@@ -161,7 +161,15 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                                                   'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/membership',
                                                                                    "reset=1&force=1&snippet=1&cid={$this->_contactId}" ) );
         }
-        
+
+	// get the events, new style of doing stuff
+        // do the below only if the person has access to events
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+	  $allTabs[ts('Events')] = array ( 'id'  => 'event',
+					   'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/event',
+									    "reset=1&force=1&snippet=1&cid={$this->_contactId}" ) );
+        }
+
         $rest = array( 'activity'      => ts( 'Activities'    ),
                        'rel'           => ts( 'Relationships' ),
                        'group'         => ts( 'Groups'        ),
