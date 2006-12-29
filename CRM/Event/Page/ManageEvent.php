@@ -153,7 +153,11 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $page =& new CRM_Event_Page_ManageEventEdit( );
             return $page->run( );
         } else if ($action & CRM_Core_Action::VIEW ) {
-            
+            $session =& CRM_Core_Session::singleton( ); 
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
+
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Event_Form_Registration_EventInfo', ts('Domain Information Page'), null);
         } else if ($action & CRM_Core_Action::DISABLE ) {
             CRM_Event_BAO_ManageEvent::setIsActive($id ,0);
         } else if ($action & CRM_Core_Action::ENABLE ) {

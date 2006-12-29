@@ -59,6 +59,7 @@ class CRM_Event_Form_Registration_EventInfo extends CRM_Core_Form
      */ 
     function preProcess( ) {
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
     }
     
     /** 
@@ -75,18 +76,27 @@ class CRM_Event_Form_Registration_EventInfo extends CRM_Core_Form
         CRM_Event_BAO_ManageEvent::retrieve($params, $eventParams);
         $this->assign('event', $eventParams);
         
-        //print_r($eventParams);
-        $this->addButtons(array(
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Continue'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                )
-                          );
+        if ($this->_action & CRM_Core_Action::VIEW ) {
+            $this->addButtons(array(
+                                    array ( 'type'      => 'next',
+                                            'name'      => ts('Done'),
+                                            'isDefault' => true   
+                                            )
+                                    )
+                              );
+        } else {
+            $this->addButtons(array(
+                                    array ( 'type'      => 'next',
+                                            'name'      => ts('Continue'),
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
+                                            'isDefault' => true   ),
+                                    array ( 'type'      => 'cancel',
+                                            'name'      => ts('Cancel') ),
+                                    )
+                              );
+        }
     }
-      
+    
     /**
      * Function to process the form
      *
@@ -95,27 +105,8 @@ class CRM_Event_Form_Registration_EventInfo extends CRM_Core_Form
      */
     public function postProcess() 
     {
-//         $params = $id = array();
-//         $id['event_id'] = $this->_id;
-        
-//         // store the submitted values in an array
-//         $params = $this->exportValues();
-//         $params['event_type_id'] = $params['event_type'];
-//         $params['start_date'] = CRM_Utils_Date::format($params['start_date']);
-//         $params['end_date'] = CRM_Utils_Date::format($params['end_date']);
-//         require_once 'CRM/Event/BAO/ManageEvent.php';
-//         if ($this->_action == CRM_Core_Action::DELETE) {
-//             //CRM_Event_BAO_ManageEvent::del( $this->_id );
-//         }
-//         else {
-//             $addParams =  CRM_Event_BAO_ManageEvent::add($params ,$id);
-//         }
-
-//         $addParams->_id =  $this->set('id',$addParams->id);   
         $this->set('id', $this->_id);
-    }//end of function
-
-
+    }
 
     /**
      * Return a descriptive name for the page, used in wizard header
