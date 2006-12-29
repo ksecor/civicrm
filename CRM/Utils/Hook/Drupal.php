@@ -105,15 +105,7 @@ class CRM_Utils_Hook_Drupal {
      * @access public
      */
     static function links( $op, $objectName, $objectId ) {
-        // copied from user_module_invoke
-        if (function_exists( 'module_list')) {
-            foreach (module_list() as $module) { 
-                $function = $module . '_civicrm_links';
-                if ( function_exists( $function ) ) {
-                    $function( $op, $objectName, $objectId );
-                }
-            }
-        }
+        return module_invoke_all( 'civicrm_links', $op, $objectName, $objectId ); 
     }
 
 }
