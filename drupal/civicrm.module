@@ -47,7 +47,11 @@ function civicrm_html_head()
     // include the below files ONLY if needed, since they are heavy weight
     if ( arg(0) == 'civicrm' ) {
         // do not include this in contribution and profile pages
-        if ( arg(1) != 'profile' && arg(1) != 'contribute' ) {
+        if ( arg(1) == 'profile' ||
+             ( arg(1) == 'contribute' ) && arg(2) == 'transact' ) {
+            // skip, do nothing
+            $config->includeDojo = 0;
+        } else {
             $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
             $head .= "<script type=\"text/javascript\">var djConfig = { isDebug: false };</script>";
             $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo.js\"></script>";
@@ -55,6 +59,8 @@ function civicrm_html_head()
             $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php\"></script>";
             $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
         }
+    } else {
+        $config->includeDojo = 0;
     }
 
     return $head;

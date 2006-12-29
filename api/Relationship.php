@@ -127,7 +127,13 @@ function crm_create_relationship($contact =null, $target_contact= null, $relatio
  * @access  public
  *
  */
-function crm_get_relationships($contact_a, $contact_b=null, $relationship_type_name = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
+function crm_get_relationships($contact_a,
+                               $contact_b=null,
+                               $relationship_type_name = null,
+                               $returnProperties = null,
+                               $sort = null,
+                               $offset = 0,
+                               $row_count = 25 ) {
     
     if( ! isset( $contact_a->id ) ) {
         return _crm_error('$contact_a is not valid contact datatype');
@@ -136,9 +142,9 @@ function crm_get_relationships($contact_a, $contact_b=null, $relationship_type_n
     require_once 'CRM/Contact/BAO/Relationship.php';
     $contactID = $contact_a->id;
     $relationships = CRM_Contact_BAO_Relationship::getRelationship($contactID);
-    $result =array();
     
     if ( isset( $relationship_type_name ) && is_array( $relationship_type_name )  ){
+        $result =array();
         foreach ( $relationship_type_name as $relationshipType ) {
             foreach( $relationships as $key => $relationship ) {
                 if ( $relationship['relation'] ==  $relationshipType ) {
@@ -146,24 +152,21 @@ function crm_get_relationships($contact_a, $contact_b=null, $relationship_type_n
                 }
             }
         }
-    }
-    
-    if( isset( $contact_b->id ) && isset( $relationship_type_name ) ) {
-        unset($relationships);
         $relationships = $result;
-        unset($result);
     }
     
     if( isset( $contact_b->id ) ) {
         $cid = $contact_b->id;
+        $result =array();
         foreach($relationships as $key => $relationship) {
             if ($relationship['cid'] == $cid ) {
                 $result[$key] = $relationship;
             }
         }
+        $relationships = $result;
     }
     
-    return empty($result) ? $relationships : $result;
+    return $relationships;
 }
 
 /**

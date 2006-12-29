@@ -1819,8 +1819,8 @@ function _crm_object_to_array( &$dao, &$values )
     $tmpFields = $dao->fields();
     $fields = array();
     //rebuild $fields array to fix unique name of the fields
-    foreach( $tmpFields as $key => $values ) {
-        $fields[$values["name"]]  = $values;
+    foreach( $tmpFields as $key => $val ) {
+        $fields[$val["name"]]  = $val;
     }
     
     foreach( $fields as $key => $value ) {
