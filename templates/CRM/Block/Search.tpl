@@ -1,7 +1,9 @@
 <div class="block-crm">
+{if $config->includeDojo}
 <script type="text/javascript"> 
   dojo.require('dojo.widget.ComboBox');
 </script>
+{/if}
     <form action="{$postURL}" method="post">
     <div class="form-item">
         <input type="hidden" name="contact_type" value="" />

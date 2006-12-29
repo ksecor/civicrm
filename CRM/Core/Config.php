@@ -462,6 +462,11 @@ class CRM_Core_Config
     public $oldInputStyle            = 1;
 
     /**
+     * Should we include dojo?
+     */
+    public $includeDojo              = 1;
+
+    /**
      * singleton function used to manage this object
      *
      * @param string the key in which to record session / log information
