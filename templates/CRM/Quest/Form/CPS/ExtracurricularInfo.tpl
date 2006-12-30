@@ -13,7 +13,7 @@ Please list your principal extracurricular, community, and family activities and
     <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
        <tr>
           <td><strong>Activity</td>
-          <td colspan="5"><strong>Grade Level or post-secondary (P.S)</strong></td>
+	  <td colspan="3"><strong>Grade Level or post-secondary (P.S)</strong></td>
           <td colspan="2"><strong>Approximate Time spent</strong></td>
           <td><strong>Positions held, honors won,or letters earned</strong></td>
        </tr> 
@@ -22,8 +22,6 @@ Please list your principal extracurricular, community, and family activities and
           <td>9</td>
           <td>10</td>
           <td>11</td>
-          <td>12</td>
-          <td>PS</td>
           <td>Hours per week</td>
           <td>Weeks per year</td>
           <td></td>
@@ -34,8 +32,8 @@ Please list your principal extracurricular, community, and family activities and
              <tr>
             
              {assign var=activity value="activity_"|cat:$i}
-             <td class="fieldlabel">{$form.$activity.html}</td>  
-             {section name=columnLoop start=1 loop=6}
+             <td class="fieldlabel">{$form.$activity.html}</td> 
+	        {section name=columnLoop start=1 loop=4}
                 {assign var=j value=$smarty.section.columnLoop.index}
                 {assign var=gl value="grade_level_"|cat:$j|cat:"_"|cat:$i}
                 <td class="fieldlabel">{$form.$gl.html}</td>
@@ -80,7 +78,11 @@ Please list your principal extracurricular, community, and family activities and
     </td>
 </tr>
 <tr>
-    <td class="fieldlabel" colspan=2 >{$form.essay.hobbies.html}</td>
+    <td class="fieldlabel" colspan=2 >{$form.essay.hobbies.html}
+	 <br /><br />
+        {$form.word_count.hobbies.label} &nbsp;&nbsp;{$form.word_count.hobbies.html}
+    </td>
+   
 </tr>    
 <tr>
     <td class="grouplabel"> {ts}Are you interested in participating in either of the following in college?{/ts}</td>

@@ -156,6 +156,7 @@ class CRM_Quest_Form_CPS_Income extends CRM_Quest_Form_App
             $this->addElement( 'text', "job_$i",
                                ts( 'Job Description (if applicable)' ),
                                $attributes['job_1'] );
+	    $this->addRule("job_$i",'Maximum length 128 characters','maxlength',128);
             
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
                 $income[$i] = CRM_Core_ShowHideBlocks::links( $this,"income_{$i}",

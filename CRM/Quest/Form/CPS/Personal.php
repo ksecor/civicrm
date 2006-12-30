@@ -176,7 +176,7 @@ class CRM_Quest_Form_CPS_Personal extends CRM_Quest_Form_App
         
         $this->buildAddressBlock( 2, ts( 'Mailing Address' ),
                                   ts( 'Mailing Telephone' ),
-                                  ts( 'Alternate Telephone' ),
+				  '',
                                   true, false, false );
         
         // citizenship status

@@ -177,6 +177,7 @@ class CRM_Quest_Form_CPS_Academic extends CRM_Quest_Form_App
             $this->addElement('text', "description_$i",
                               ts( 'Honors' ),
                               $attributes['description'] );
+	    $this->addRule("description_$i",'Maximum length 128 characters','maxlength',128);
 
             $this->addElement('date', 'award_date_' . $i,
                               null,

@@ -194,14 +194,6 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        <label>{ts}Alternate Telephone{/ts}</td>
-    <td class="fieldlabel">
-        {$form.location.2.phone.2.phone.html}<br />
-        {ts}{edit}Area Code and Number. Include extension, if applicable (XXX-XXX-XXXX).<br />Include country code, if not US or Canada (XXX-XXX-XXXXXXX; country code, area code, phone number).{/edit}{/ts}
-    </td>
-</tr>
-<tr>
-    <td class="grouplabel">
         {$form.citizenship_status_id.label}</td>
     <td class="fieldlabel">
         {$form.citizenship_status_id.html}<br />
