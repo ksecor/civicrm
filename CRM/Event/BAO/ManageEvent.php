@@ -109,6 +109,15 @@ class CRM_Event_BAO_ManageEvent extends CRM_Event_DAO_Event
         return $event;
     }
     
+    /**
+     * Function to delete the event
+     *
+     * @param int    $id           event id
+     *
+     * @access public
+     * @static
+     *
+     */
     static function del ( $id ) {
 
         CRM_Core_BAO_Location::deleteContact( $id );
@@ -142,6 +151,14 @@ class CRM_Event_BAO_ManageEvent extends CRM_Event_DAO_Event
                 $payment->delete();
             }
             $participant->delete();
+        }
+        require_once 'CRM/Core/DAO/UFJoin.php';
+        $ufJoin = & new CRM_Core_DAO_UFJoin( );
+        $ufJoin->entity_id    = $id; 
+        $ufJoin->entity_table = 'civicrm_event'; 
+        $ufJoin->find();
+        while ($ufJoin->fetch() ) {
+            $ufJoin->delete();
         }
         require_once 'CRM/Event/DAO/Event.php';
         $event           = & new CRM_Event_DAO_Event( );

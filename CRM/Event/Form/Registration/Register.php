@@ -80,7 +80,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Core_Form
         if (!empty($this->_values['feeLevel'])) {
             $this->buildAmount( );
         }
-            
+        require_once 'CRM/Contribute/BAO/Premium.php';
+
+        $this->add('select', 'custom_pre_id', ts('Custom Fields'),array(''=>'-select-') + CRM_Core_PseudoConstant::ufGroup( ));
+        $this->add('select', 'custom_post_id', ts('Custom Fields'),array(''=>'-select-')+ CRM_Core_PseudoConstant::ufGroup( ));
+   
+ 
         $this->addButtons(array(
                                 array ( 'type'      => 'back',
                                         'name'      => ts('<< Previous') ),
