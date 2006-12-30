@@ -47,8 +47,11 @@ class CRM_Event_Invoke
         $view = null;
 
         switch ( CRM_Utils_Array::value( 3, $args, '' ) ) {
-
+            
         case 'register':
+            $session =& CRM_Core_Session::singleton( ); 
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
+
             require_once 'CRM/Event/Controller/Registration.php';
             $controller =& new CRM_Event_Controller_Registration(ts('Online Registration'));
             return $controller->run();

@@ -65,8 +65,8 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             self::$_actionLinks = array(
                                         CRM_Core_Action::VIEW    => array(
                                                                           'name'  => ts('View'),
-                                                                          'url'   => 'civicrm/admin/event/manageEvent',
-                                                                          'qs'    => 'action=view&reset=1&id=%%id%%',
+                                                                          'url'   => 'civicrm/admin/event',
+                                                                          'qs'    => 'action=view&id=%%id%%',
                                                                           'title' => ts('View Event')
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
@@ -157,7 +157,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
 
             $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Event_Form_Registration_EventInfo', ts('Domain Information Page'), null);
+            return $wrapper->run( 'CRM_Event_Form_Registration_EventInfo', ts('Event Information Page'), null);
         } else if ($action & CRM_Core_Action::DISABLE ) {
             CRM_Event_BAO_ManageEvent::setIsActive($id ,0);
         } else if ($action & CRM_Core_Action::ENABLE ) {

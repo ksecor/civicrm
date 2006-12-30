@@ -56,7 +56,7 @@ class CRM_Event_StateMachine_Registration extends CRM_Core_StateMachine {
         $this->_pages = array(
                               'CRM_Event_Form_Registration_EventInfo'      => null,
                               'CRM_Event_Form_Registration_Register'       => null,
-//                               'CRM_Event_Form_Registration_Confirm'        => null,
+                              'CRM_Event_Form_Registration_Confirm'        => null,
 //                               'CRM_Event_Form_Registration_ThankYou'     => null,
                               );
         
