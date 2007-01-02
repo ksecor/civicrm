@@ -41,7 +41,7 @@ require_once 'CRM/Event/Form/ManageEvent.php';
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_Form_Registration_Confirm extends CRM_Core_Form
+class CRM_Event_Form_Registration_ThankYou extends CRM_Core_Form
 {
     /**
      * the values for the contribution db object
@@ -105,7 +105,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Core_Form
      */
     public function getTitle( ) 
     {
-        return ts('Event Confirmation');
+        return ts('Thank You Page');
     }
     
 }

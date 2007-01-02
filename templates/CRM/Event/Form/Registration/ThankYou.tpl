@@ -11,9 +11,11 @@
         <tr><td>{ts}<strong>Country</strong>{/ts}</td><td>{$confirm.country_id}</td></tr>
     
  </table>
-
+<table class="form-layout-compressed">
+    <tr><td>{ts}<strong>Custom Fields</strong>{/ts}</td><td>{$confirm.custom_pre_id}</td></tr>
+    <tr><td>{ts}<strong>Custom Fields</strong>{/ts}</td><td>{$confirm.custom_post_id}</td></tr>
+</table>
    <div id="crm-submit-buttons">
      {$form.buttons.html}
    </div>
 </div>
-

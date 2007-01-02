@@ -218,7 +218,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $locationType =& CRM_Core_PseudoConstant::locationType();
 
         $fields = array( );
-
+        require_once 'CRM/Core/BAO/CustomField.php';
         $customFields = CRM_Core_BAO_CustomField::getFieldsForImport();
 
         $group =& new CRM_Core_DAO_UFGroup( );
@@ -256,7 +256,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $query =  "SELECT * FROM civicrm_uf_field $where ORDER BY weight, field_name"; 
 
             $field =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            
+            require_once 'CRM/Contact/BAO/Contact.php';
             if ( !$showAll ) {
                 $importableFields =& CRM_Contact_BAO_Contact::importableFields( "All");
             } else {

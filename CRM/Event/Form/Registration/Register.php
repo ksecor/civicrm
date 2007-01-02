@@ -80,12 +80,23 @@ class CRM_Event_Form_Registration_Register extends CRM_Core_Form
         if (!empty($this->_values['feeLevel'])) {
             $this->buildAmount( );
         }
-        require_once 'CRM/Contribute/BAO/Premium.php';
-
-        $this->add('select', 'custom_pre_id', ts('Custom Fields'),array(''=>'-select-') + CRM_Core_PseudoConstant::ufGroup( ));
-        $this->add('select', 'custom_post_id', ts('Custom Fields'),array(''=>'-select-')+ CRM_Core_PseudoConstant::ufGroup( ));
-   
- 
+       
+        $this->addElement('text', 'first_name', ts('First Name'), $attributes['first_name'] );
+        $this->addElement('text', 'middle_name', ts('Middle Name'), $attributes['middle_name'] );
+        $this->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name'] );
+        $this->addElement('text', "city", ts('City'),
+                          $attributes['city']);
+        $this->addElement('select', "state_province_id", ts('State / Province'),
+                          array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
+        $this->addElement('text', "postal_code", ts('Zip / Postal Code'),
+                          $attributes['postal_code']);
+        $this->addElement('select', "country_id", ts('Country'),
+                          array('' => ts('- select -')) + CRM_Core_PseudoConstant::country());
+        $custom_pre_id  = $this->get('custom_pre_id');
+        $custom_post_id = $this->get('custom_post_id');
+        $this->buildCustom( 1 , 'customPre'  );
+        $this->buildCustom( 1, 'customPost' );
+        
         $this->addButtons(array(
                                 array ( 'type'      => 'back',
                                         'name'      => ts('<< Previous') ),
@@ -117,6 +128,41 @@ class CRM_Event_Form_Registration_Register extends CRM_Core_Form
             $this->addGroup( $elements, 'amount', ts('Fee Level'), '<br />' );
         }
     }
+
+    /**  
+     * Function to add the custom fields
+     *  
+     * @return None  
+     * @access public  
+     */ 
+    function buildCustom( $id, $name ) {
+        if ( $id ) {
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            require_once 'CRM/Profile/Form.php';
+            $session =& CRM_Core_Session::singleton( );
+            $contactID = $session->get( 'userID' );
+            if ( $contactID ) {
+                require_once "CRM/Core/BAO/UFGroup.php";
+                if ( CRM_Core_BAO_UFGroup::filterUFGroups($id)  ) {
+                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                    $this->assign( $name, $fields );
+                    foreach($fields as $key => $field) {
+                        CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                        $this->_fields[$key] = $field;
+                    }
+                }
+            } else {
+                $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                $this->assign( $name, $fields );
+                foreach($fields as $key => $field) {
+                    CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                    $this->_fields[$key] = $field;
+                }
+            }
+        }
+    }
+    
+
     /**
      * Function to process the form
      *
@@ -125,6 +171,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        $regValue = $this->exportValues( );//print_r($regValue);
+        $this->set('registrationValue',$regValue);
+ 
     }//end of function
     
     /**

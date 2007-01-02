@@ -34,6 +34,7 @@
  *
  */
 
+require_once 'CRM/Core/DAO/UFField.php';
 /**
  * This class contains function for UFField
  *
