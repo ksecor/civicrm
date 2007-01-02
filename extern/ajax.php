@@ -60,7 +60,9 @@ SELECT sort_name
    AND sort_name LIKE '$name%'
 ORDER BY sort_name
 LIMIT 6";
-    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
+    $nullArray = array( );
+    $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
     $count = 0;
     $elements = array( );

@@ -82,7 +82,7 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
         // add select for tag
         $this->_activityType =
             array( ''   => ' - select activity - ' ) + 
-            CRM_Core_PseudoConstant::ActivityType( false, null );
+            CRM_Core_PseudoConstant::ActivityType( true );
         unset( $this->_activityType[8] );
         $this->add('select', 'activity_type_id', ts('Activity Type'),
                    $this->_activityType,
