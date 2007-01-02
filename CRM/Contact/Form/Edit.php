@@ -166,6 +166,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
 
             if ( $this->_contactId ) {
+                require_once 'CRM/Contact/BAO/Contact.php';
                 $contact =& new CRM_Contact_DAO_Contact( );
                 $contact->id = $this->_contactId;
                 if ( ! $contact->find( true ) ) {
