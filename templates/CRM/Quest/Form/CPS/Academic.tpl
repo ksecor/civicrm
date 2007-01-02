@@ -34,8 +34,9 @@
     <td class="fieldlabel">{$form.is_alternate_grading.html}</td>
 </tr> 
 <tr id="alternate_grading_explanation">
-    <td class="grouplabel">{$form.alternate_grading_explanation.label}</td>
-    <td class="fieldlabel">{$form.alternate_grading_explanation.html}</td>
+    <td class="fieldlabel"><strong>If there are any extenuating circumstances, or details regarding your academic performance that you would like to add or clarify, please do so here</strong></td>
+	 <td>{$form.essay.extenuating_circum.html}<br /><br />{$form.word_count.extenuating_circum.label} &nbsp;&nbsp;{$form.word_count.extenuating_circum.html}
+   	</td>
 </tr>
 <tr>
     <td colspan=2 id="category">{ts}{edit}Academic Honors{/edit}{/ts}</td>

@@ -38,6 +38,7 @@
 
 require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
+require_once 'CRM/Quest/BAO/Essay.php';
 
 /**
  * This class generates form components for Work Experiance 
@@ -56,7 +57,7 @@ class CRM_Quest_Form_CPS_WorkExperience extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-       
+        $this->_grouping = 'cm_extracurricular_workexp';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( $this->_grouping, $this->_contactID, $this->_contactID );
     }
 
@@ -83,8 +84,7 @@ class CRM_Quest_Form_CPS_WorkExperience extends CRM_Quest_Form_App
             $defaults['end_date_'.$count]   = CRM_Utils_Date::unformat( $dao->end_date,'-' );
             $defaults['hrs_'.$count] = $dao->weekly_hours;
         }
-        CRM_Quest_BAO_Essay::setDefaults( $this->_grouping, $defaults );
-        
+               
         $studentFields = array( 'school_work' );
         $dao = & new CRM_Quest_DAO_Student();
         $dao->id = $this->_studentID;;
@@ -95,8 +95,7 @@ class CRM_Quest_Form_CPS_WorkExperience extends CRM_Quest_Form_App
                 }
             }
         }        
-        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults );
-        
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
         return $defaults;
     }
 
@@ -115,9 +114,9 @@ class CRM_Quest_Form_CPS_WorkExperience extends CRM_Quest_Form_App
                 $extra = null;
             }
             $this->addElement('text', 'nature_of_work_'.$i, ts( 'Specific Nature of Work' ), $extra);
-            
+            $this->addRule('nature_of_work_'.$i,'Maximum length 128 characters','maxlength',128);
             $this->addElement('text', 'employer_'.$i, ts( 'Employer' ), $extra);
-            
+            $this->addRule('employer_'.$i,'Maximum length 128 characters','maxlength',128);
             $this->addElement('date', 'start_date_'.$i, ts( 'Start Date' ), 
                               CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ));
             $this->addRule( 'start_date_'.$i, ts('Please enter valid date for Start Date.'), 'qfDate');
@@ -130,8 +129,9 @@ class CRM_Quest_Form_CPS_WorkExperience extends CRM_Quest_Form_App
                             ts( 'Check if Summer jobs only'),
                             null);
         }
-        $this->addElement('textarea', 'earnings', ts( 'To what use have you put your earnings? ' ), array("rows"=>5,"cols"=>60));
+	// $this->addElement('textarea', 'earnings', ts( 'To what use have you put your earnings? ' ), array("rows"=>5,"cols"=>60));
 
+        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
         $schoolWork = array( 'weekends'    => 'Weekends', 
                              'after_school'=> 'After School', 
                              'both'        => 'Both' );
@@ -227,11 +227,11 @@ class CRM_Quest_Form_CPS_WorkExperience extends CRM_Quest_Form_App
         require_once 'CRM/Quest/BAO/WorkExperience.php';
         $params = $this->controller->exportValues( $this->_name );
         $ids = array();
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params["essay"], $this->_contactID, $this->_contactID );
         //delete all the entries before inserting new one 
         $dao = &new CRM_Quest_DAO_WorkExperience();
         $dao->contact_id = $this->_contactID;
         $dao->delete();
-            
         $workExpParams = array();
         for( $i = 1; $i <= 6; $i++  ) {
             if ($params['nature_of_work_'.$i]) {
@@ -247,7 +247,7 @@ class CRM_Quest_Form_CPS_WorkExperience extends CRM_Quest_Form_App
             }
         }
 
-        CRM_Quest_BAO_Essay::create( $this->_essays, $params, $this->_contactID, $this->_contactID );
+        // CRM_Quest_BAO_Essay::create( $this->_essays, $params, $this->_contactID, $this->_contactID );
 
         //$ids['id'] = $this->_studentID;
         $ids = array( 'id'         => $this->_studentID,

@@ -39,9 +39,12 @@
     	<td class="fieldlabel">{$form.$location.1.address.country_id.html}<br>{ts}{edit}Country{/edit}{/ts}</td>
       </tr>
       <tr>
-	{assign var=note value="note_"|cat:$i}
-	<td class="grouplabel">{$form.$note.label}</td>
-	<td class="fieldlabel">{$form.$note.html}</td>
+        {assign var=note value="note_"|cat:$i}
+	    <td class="fieldlabel" colspan=2 ><strong>School Description</strong><br/></br>
+	      {$form.essay.school_desc.html}
+	      <br /><br />
+              {$form.word_count.school_desc.label} &nbsp;&nbsp;{$form.word_count.school_desc.html}
+   	    </td>
       </tr>
       {if $i LT $maxOtherSchool}
         <tr>

@@ -39,17 +39,19 @@
     	    <td class="fieldlabel" nowrap="nowrap"><div align="center">{$form.$summer_jobs.html}</td>
         </tr>
         {/section}
-        <tr id="id_earnings">
-            <td colspan="2" class="grouplabel">{ts}To what use have you put your earnings?{/ts}</td>
-            <td colspan="4" class="fieldlabel">{$form.earnings.html}</td>
-        </tr>
-
-        <tr id="id_school_work">
+            <tr id="id_school_work">
             <td colspan="2" class="grouplabel">{ts}During the school year, when do you work?{/ts}</td>
             <td colspan="4">{$form.school_work.html}</td>
         </tr>     
         </table>
     </td>
+	<tr id="id_earnings">
+	    <td class="fieldlabel" colspan=2 ><strong>To what use you put your earnings?</strong><br/></br>
+	      {$form.essay.earnings.html}
+	      <br /><br />
+              {$form.word_count.earnings.label} &nbsp;&nbsp;{$form.word_count.earnings.html}
+   	    </td>
+        </tr>
 </tr>
 </table>
 {/strip}
@@ -57,11 +59,9 @@
 {literal}
 <script type="text/javascript">
     
-    if (document.getElementById("earnings").value) {
-        show('id_earnings', '');
-        show('id_school_work', '');
-    }
-    
+    show('id_earnings', '');
+    show('id_school_work', '');
+      
     for (var i=1; i<6; i++) {
         var nature_of_work_element = document.getElementById("nature_of_work_" + i);
         var employer_element       = document.getElementById("employer_" + i);

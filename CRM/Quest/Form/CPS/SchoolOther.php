@@ -38,6 +38,7 @@
 
 require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
+require_once 'CRM/Quest/BAO/Essay.php';
 
 /**
  * This class generates form components for relationship
@@ -57,7 +58,8 @@ class CRM_Quest_Form_CPS_SchoolOther extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess( );
-
+        $this->_grouping = 'cm_school_desc';
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( $this->_grouping, $this->_contactID, $this->_contactID );
         require_once 'CRM/Contact/DAO/RelationshipType.php';
         $dao = & new CRM_Contact_DAO_RelationshipType();
         $dao->name_a_b = 'Student of';
@@ -173,6 +175,7 @@ SELECT entity_id
             }
             $this->_showHide->addToTemplate( );
         }
+        
         return $defaults;
     }
     
@@ -197,7 +200,8 @@ SELECT entity_id
             $this->addElement('date', 'date_of_exit_'.$i, ts( 'Dates Attended' ), 
                               CRM_Core_SelectValues::date( 'custom', 7, 2, "M\001Y" ) );
             $this->buildAddressBlock( 1, ts( 'Location' ), null, null, null, null, null, "location_$i" );
-            $this->addElement('textarea', "note_{$i}", ts( 'School Description' ), array("rows"=>5,"cols"=>60));
+            // $this->addElement('textarea', "note_{$i}", ts( 'School Description' ), array("rows"=>5,"cols"=>60));
+            CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
                 $otherSchool_info[$i] = CRM_Core_ShowHideBlocks::links( $this,"otherSchool_info_$i",
                                                                         ts('add another School'),
@@ -232,7 +236,7 @@ SELECT entity_id
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-
+            CRM_Quest_BAO_Essay::create( $this->_essays, $params["essay"], $this->_contactID, $this->_contactID );
             //delete all contact entries
             require_once 'CRM/Contact/BAO/Contact.php';
             if ( ! empty( $this->_orgIDsOther ) ) {

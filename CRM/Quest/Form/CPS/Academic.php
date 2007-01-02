@@ -38,6 +38,7 @@
 
 require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
+require_once 'CRM/Quest/BAO/Essay.php';
 
 /**
  * This class generates form components for relationship
@@ -57,6 +58,8 @@ class CRM_Quest_Form_CPS_Academic extends CRM_Quest_Form_App
     {
         parent::preProcess( );
 
+        $this->_grouping = 'cm_extenuating_circum';
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( $this->_grouping, $this->_contactID, $this->_contactID );
         // need tp get honor ID's
         $this->_honorIds = array();
 
@@ -119,6 +122,7 @@ class CRM_Quest_Form_CPS_Academic extends CRM_Quest_Form_App
             $this->_showHide->addToTemplate( );
         }
 
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults );
         return $defaults;
     }
     
@@ -157,9 +161,7 @@ class CRM_Quest_Form_CPS_Academic extends CRM_Quest_Form_App
 
         $this->addSelect( 'class_rank_percent', ts( 'Percent class rank' ) );
 
-        $this->addElement('textarea', 'gpa_explanation',
-                          ts( 'If there are any extenuating circumstances, or details regarding your academic performance that you would like to add or clarify, please do so here' ),
-                          $attributes['gpa_explanation'] );
+        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
 
         $this->addYesNo( 'is_alternate_grading',
                          ts( 'Did any school you attended throughout high school use a grading system other than A-B-C-D-F?' ),null,true,array ('onclick' => "return showHideByValue('is_alternate_grading', '1', 'alternate_grading_explanation', 'table-row', 'radio', false);") );
@@ -217,7 +219,7 @@ class CRM_Quest_Form_CPS_Academic extends CRM_Quest_Form_App
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-            
+            CRM_Quest_BAO_Essay::create( $this->_essays, $params["essay"], $this->_contactID, $this->_contactID );
             $ids = array( 'id'         => $this->_studentID,
                           'contact_id' => $this->_contactID );
             
