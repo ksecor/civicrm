@@ -11,7 +11,7 @@
 {strip}
 <table class="selector">
   <tr class="columnheader">
-{if ! $single and ! $limit}
+{if ! $event_single and ! $limit}
   <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th> 
 {/if}
   {foreach from=$columnHeaders item=header}
@@ -33,7 +33,7 @@
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   <tr id='rowid{$row.participant_id}' class="{cycle values="odd-row,even-row"}{*if $row.cancel_date} disabled{/if*}">
-     {if ! $single and ! $limit}
+     {if ! $event_single and ! $limit}
        {assign var=cbName value=$row.checkbox}
        <td>{$form.$cbName.html}</td> 
        <td>{$row.contact_type}</td>	

@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2006                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | http://www.civicrm.org/licensing/                                 |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -149,11 +149,11 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_searchButtonName = $this->getButtonName( 'refresh' ); 
         $this->_printButtonName  = $this->getButtonName( 'next'   , 'print' ); 
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' ); 
-
+        
         $this->_done = false;
-
+        
         $this->defaults = array( );
-
+        
         /* 
          * we allow the controller to set force/reset externally, useful when we are being 
          * driven by the wizard framework 
@@ -166,9 +166,9 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                                        $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this );
-
+        
         $this->assign( "{$this->_prefix}limit", $this->_limit );
-            
+        
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
         if ( ! empty( $_POST ) ) { 
@@ -176,31 +176,31 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
-
+        
         if ( $this->_force ) { 
             $this->postProcess( );
             $this->set( 'force', 0 );
         }
-
+        
         $sortID = null; 
         if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
-
+        
         require_once 'CRM/Contact/Form/Search.php';
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
         $selector =& new CRM_Event_Selector_Search( $this->_queryParams,
-                                                     $this->_action,
-                                                     null,
-                                                     $this->_single,
-                                                     $this->_limit,
-                                                     $this->_context ); 
+                                                    $this->_action,
+                                                    null,
+                                                    $this->_single,
+                                                    $this->_limit,
+                                                    $this->_context ); 
         $prefix = null;
         if ( $this->_context == 'basic' ) {
             $prefix = $this->_prefix;
         }
-
+        
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
                                                         $sortID,  
@@ -245,7 +245,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                    array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                    ); 
             }
-
+            
             $this->assign( "{$this->_prefix}single", $this->_single );
             
             // also add the action and radio boxes
@@ -255,19 +255,17 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) ); 
-
+            
             $this->add('submit', $this->_printButtonName, ts('Print'), 
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
-
+            
             
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked') ); 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
         }
         
-
-
         // add buttons 
         $this->addButtons( array( 
                                  array ( 'type'      => 'refresh', 
@@ -298,36 +296,36 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         if ( $this->_done ) {
             return;
         }
-
+        
         $this->_done = true;
-
+        
         $this->_formValues = $this->controller->exportValues($this->_name);
-             
+        
         $this->fixFormValues( );
         
         require_once 'CRM/Contact/Form/Search.php';
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
-
+        
         $this->set( 'formValues' , $this->_formValues  );
         $this->set( 'queryParams', $this->_queryParams );
-
+        
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) { 
             // check actionName and if next, then do not repeat a search, since we are going to the next page 
- 
+            
             // hack, make sure we reset the task values 
             $stateMachine =& $this->controller->getStateMachine( ); 
             $formName     =  $stateMachine->getTaskFormName( ); 
             $this->controller->resetPage( $formName ); 
             return; 
         }
-
+        
         $sortID = null; 
         if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
-
+        
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues );
         
         $selector =& new CRM_Event_Selector_Search( $this->_queryParams,
@@ -340,7 +338,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         if ( $this->_context == 'basic' ) {
             $prefix = $this->_prefix;
         }
-
+        
         $controller =& new CRM_Core_Selector_Controller($selector , 
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ), 
                                                         $sortID, 
@@ -349,11 +347,11 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                                         CRM_Core_Selector_Controller::SESSION,
                                                         $prefix);
         $controller->setEmbedded( true ); 
-
+        
         $query   =& $selector->getQuery( );
-
+        
         $controller->run(); 
-
+        
     }
     
     function fixFormValues( )
@@ -361,6 +359,19 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         // if this search has been forced
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
+        
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                            CRM_Core_DAO::$_nullObject );
+        
+        if ( $cid ) {
+            $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
+            if ( $cid > 0 ) {
+                $this->_formValues['contact_id'] = $cid;
+                
+                // also assign individual mode to the template
+                $this->_single = true;
+            }
+        }
     }
 }
 ?>
