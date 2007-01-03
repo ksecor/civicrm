@@ -111,15 +111,23 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
     function buildQuickForm( ) 
     {
         CRM_Utils_System::setTitle( ts('Batch Profile Update') );
-        
-        // add select for groups
-        $types = array('Student', 'Individual', 'Organization', 'Household');
-        $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles($types);
-        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $profiles, true);
+        $types    = array();
+        foreach($this->_contactIds as $id) {
+            $types[]    = CRM_Contact_BAO_Contact::getContactType($id);
+            break;
+        }
 
+        $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles($types);
+   
+        if( CRM_Core_BAO_UFGroup::getProfiles($types) == null ) {
+            CRM_Core_Session::setStatus("The contact type selected for Batch Update do not have corresponding profiles. Please make sure that {$types[0]} has a profile and try again." );
+            CRM_Utils_System::redirect( $this->_userContext );
+        }
+        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $profiles, true);
+        
         $this->addDefaultButtons( ts( 'Continue >>' ) );
     }
-
+    
     /**
      * Add local and global form rules
      *
