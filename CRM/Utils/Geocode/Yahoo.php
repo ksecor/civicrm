@@ -85,7 +85,11 @@ class CRM_Utils_Geocode_Yahoo {
         }
 
         if (  CRM_Utils_Array::value( 'state_province', $values ) ) { 
-            $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province'], 'name', 'abbreviation' );
+            if ( CRM_Utils_Array::value( 'state_province_id', $values ) ) {
+                $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province_id'] );
+            } else {
+                $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province'], 'name', 'abbreviation' );
+            }
             $arg[] = "state=" . urlencode( $stateProvince );
         }
 

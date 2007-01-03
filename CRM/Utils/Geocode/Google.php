@@ -79,24 +79,32 @@ class CRM_Utils_Geocode_Google {
         $add = '';
 
         if (  CRM_Utils_Array::value( 'street_address', $values ) ) {
-            $add = urlencode( str_replace('', '+', $values['street_address']) );
+            $add  = urlencode( str_replace('', '+', $values['street_address']) );
+            $add .= ',+';
         }
         
         if (  CRM_Utils_Array::value( 'city', $values ) ) { 
-             $add .= '+' . urlencode( str_replace('', '+', $values['city']) );
+            $add .= '+' . urlencode( str_replace('', '+', $values['city']) );
+            $add .= ',+';
         }
         
         if (  CRM_Utils_Array::value( 'state_province', $values ) ) { 
-            $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province'], 'name', 'abbreviation' );
+            if ( CRM_Utils_Array::value( 'state_province_id', $values ) ) {
+                $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province_id'] );
+            } else {
+                $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province'], 'name', 'abbreviation' );
+            }
             $add .= '+' . urlencode( str_replace('', '+', $stateProvince) );
-        }
-        
-        if (  CRM_Utils_Array::value( 'country', $values ) ) { 
-            $add .= '+' . urlencode( str_replace('', '+', $values['country']) );
+            $add .= ',+';
         }
         
         if (  CRM_Utils_Array::value( 'postal_code', $values ) ) { 
             $add .= '+' .urlencode( str_replace('', '+', $values['postal_code']) );
+            $add .= ',+';
+        }
+        
+        if (  CRM_Utils_Array::value( 'country', $values ) ) { 
+            $add .= '+' . urlencode( str_replace('', '+', $values['country']) );
         }
         
         $query = 'http://' . self::$_server . self::$_uri . '?' . $add . $arg;
