@@ -118,7 +118,36 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         
         return $result;
     }
-    
+ 
+    /**
+     * takes an associative array and creates a participant object
+     *
+     * @param array $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids
+     *
+     * @return object CRM_Event_BAO_Participant object 
+     * @access public
+     * @static
+     */
+    static function &create(&$params, &$ids) {
+        require_once 'CRM/Utils/Date.php';
+
+        CRM_Core_DAO::transaction('BEGIN');
+        
+        $participant = self::add($params, $ids);
+
+        if ( is_a( $participant, 'CRM_Core_Error') ) {
+            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            return $participant;
+        }
+
+        $params['participant_id'] = $participant->id;
+        
+        CRM_Core_DAO::transaction('COMMIT');
+        
+        return $participant;
+    }
+   
     /**
      * combine all the importable fields from the lower levels object
      *

@@ -40,25 +40,52 @@ require_once 'CRM/Event/PseudoConstant.php';
 require_once 'CRM/Core/BAO/CustomGroup.php';
 
 /**
- * This class generates form components for processing a ontribution 
- * 
+ * This class generates form components for processing a participation 
+ * in an event
  */
 class CRM_Event_Form_Participant extends CRM_Core_Form
 {
     /**
-     * the id of the contribution that we are proceessing
+     * the id of the participation that we are proceessing
      *
      * @var int
      * @protected
      */
     protected $_id;
     /**
-     * the id of the contact associated with this contribution
+     * the id of the contact associated with this participation
      *
      * @var int
      * @protected
      */
     protected $_contactID;
+
+    /** 
+     * Function to set variables up before form is built 
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
+    public function preProcess()  
+    {  
+        // action
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
+                                                      $this, false, 'add' );
+            
+        $this->assign( 'action'  , $this->_action   ); 
+
+        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', 
+                                                          $this );
+
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return;
+        }
+
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+
+        parent::preProcess( );        
+    }
+
     /** 
      * Function to build the form 
      * 
@@ -67,43 +94,108 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     { 
-      $this->applyFilter('__ALL__', 'trim');
-      $urlParams = "reset=1&cid={$this->_contactID}&context=event";
-      if ( $this->_id ) {
-	$urlParams .= "&action=update&id={$this->_id}";
-      } else {
-	$urlParams .= "&action=add";
-      }
-      $url = CRM_Utils_System::url( 'civicrm/contact/view/event',
+        $this->applyFilter('__ALL__', 'trim');
+        $urlParams = "reset=1&cid={$this->_contactID}&context=event";
+        if ( $this->_id ) {
+            $urlParams .= "&action=update&id={$this->_id}";
+        } else {
+            $urlParams .= "&action=add";
+        }
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/event',
                                       $urlParams, true, null, false ); 
-      $this->assign("refreshURL",$url);
-
-      $element =& $this->addElement('select', 'event_type', 
-				    ts( 'Event' ), 
-				    array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::event( )
-				    );
-      
-      $element =& $this->add('date', 'registration_date', ts('Registration Date'), CRM_Core_SelectValues::date('manual', 3, 1), false );            
-      $element =& $this->add( 'text', 'fee_amount', ts('Fee Amount') );
-      
-      $session = & CRM_Core_Session::singleton( );
-      $uploadNames = $session->get( 'uploadNames' );
-      if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-	$buttonType = 'upload';
-      } else {
-	$buttonType = 'next';
-      }
+        $this->assign("refreshURL",$url);
         
-      $this->addButtons(array( 
-			      array ( 'type'      => $buttonType, 
-				      'name'      => ts('Save'), 
-				      'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-				      'isDefault' => true   ), 
-			      array ( 'type'      => 'cancel', 
-				      'name'      => ts('Cancel') ), 
-			      ) 
-			);
+        $element =& $this->addElement('select', 'event_id', 
+                                      ts( 'Event' ), 
+                                      array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::event( )
+                                      );
+        
+        $element =& $this->add( 'date', 'register_date', ts('Registration Date'), CRM_Core_SelectValues::date('manual', 3, 1), false );            
+        $element =& $this->add( 'select', 'role_id' , 
+                                ts( 'Participant Role' ),
+                                array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantRole( ) 
+                                );
+        
+        $element =& $this->add( 'select', 'status_id' , 
+                                ts( 'Participant Status' ),
+                                array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantStatus( ) 
+                                );
 
+        $element =& $this->add( 'text', 'source', ts('Event Source') );
+        $element =& $this->add( 'text', 'event_level', ts('Event Level') );
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $buttonType = 'upload';
+        } else {
+            $buttonType = 'next';
+        }
+        
+        $this->addButtons(array( 
+                                array ( 'type'      => $buttonType, 
+                                        'name'      => ts('Save'), 
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                        'isDefault' => true   ), 
+                                array ( 'type'      => 'cancel', 
+                                        'name'      => ts('Cancel') ), 
+                                ) 
+                          );
+        
+    }
+
+    /** 
+     * Function to process the form 
+     * 
+     * @access public 
+     * @return None 
+     */ 
+    public function postProcess()  
+    { 
+        // get the submitted form values.  
+        $formValues   = $_POST;
+ 
+        $config =& CRM_Core_Config::singleton( );
+
+        $params = array( );
+        $ids    = array( );
+
+        $params['contact_id'] = $this->_contactID;
+
+        $fields = array( 'event_id',
+                         'fee_amount',
+                         'register_date',
+                         'role_id',
+                         'status_id',
+                         'source',
+                         'event_level'
+                         );
+
+        foreach ( $fields as $f ) {
+            if( $f == 'event_id' ) {
+                $params[$f] = CRM_Utils_Array::value( $f, $formValues );
+            } else if ( $f == 'fee_amount' ) {
+                $params[$f] = CRM_Utils_Rule::cleanMoney( $formValues[$f] );    
+            } else if ( $f == 'register_date' ) {
+                if ( ! CRM_Utils_System::isNull( $formValues[$f] ) ) {
+                    $params[$f]      = array( );
+                    $params[$f]['H'] = '00';
+                    $params[$f]['i'] = '00';
+                    $params[$f]['s'] = '00';
+                    $params[$f]      =  CRM_Utils_Date::format( $formValues[$f] );
+                }   
+            } else if ( $f == 'role_id' ) {
+                $params[$f] = $formValues[$f];
+            } else if ( $f == 'status_id' ) {
+                $params[$f] = $formValues[$f];
+            } else if ( $f == 'source' ) {
+                $params[$f] = $formValues[$f];
+            } else if ( $f == 'event_level' ) {
+                $params[$f] = $formValues[$f];
+            }            
+        }
+
+        require_once "CRM/Event/BAO/Participant.php";
+        CRM_Event_BAO_Participant::create( $params ,$ids );   
     }
 }
 
