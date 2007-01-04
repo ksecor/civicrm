@@ -55,11 +55,6 @@
       <comment>Participant status ID. Implicit FK to civicrm_option_value where option_group = participant_status. Default of 1 should map to status = Registered.</comment> 
       <add>1.7</add> 
   </field>
-  <foreignKey> 
-       <name>status_id</name> 
-       <table>civicrm_option_value</table> 
-       <key>id</key> 
-  </foreignKey>
   <field> 
       <name>role_id</name> 
       <title>Participant Role</title>
@@ -69,11 +64,6 @@
       <comment>Participant role ID. Implicit FK to civicrm_option_value where option_group = participant_role.</comment> 
       <add>1.7</add> 
   </field>
-  <foreignKey> 
-       <name>role_id</name> 
-       <table>civicrm_option_value</table> 
-       <key>id</key> 
-  </foreignKey>
   <field>        
       <name>register_date</name>
       <uniqueName>participant_register_date</uniqueName>
