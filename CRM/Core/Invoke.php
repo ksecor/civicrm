@@ -184,7 +184,7 @@ class CRM_Core_Invoke {
 
         if ($args[2] == 'view') {
             
-	  CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
             $fourthArg = CRM_Utils_Array::value(4, $args, 0);
             
@@ -200,9 +200,9 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View_Membership( );
                 break;
 
-	    case 'event':
-                require_once 'CRM/Contact/Page/View/Event.php'; 
-                $view =& new CRM_Contact_Page_View_Event( );
+            case 'participant':
+                require_once 'CRM/Contact/Page/View/Participant.php'; 
+                $view =& new CRM_Contact_Page_View_Participant( );
                 break;
 
             case 'note':

@@ -1031,6 +1031,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
             foreach ($group['fields'] as $field) { 
                 $fieldId = $field['id'];                 
                 $elementName = 'custom_' . $fieldId;
+                require_once "CRM/Core/BAO/CustomField.php";
                 CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $field['is_required']); 
             } 
  

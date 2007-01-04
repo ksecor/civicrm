@@ -2,12 +2,12 @@
 {if $action eq 1 or $action eq 2 or $action eq 8} {* add, update or view *}            
     {include file="CRM/Event/Form/Participant.tpl"}
 {elseif $action eq 4}
-    {include file="CRM/Event/Form/ManageEvent/EventInfo.tpl"}
+    {include file="CRM/Event/Form/ParticipantView.tpl"}
 {else}
-{capture assign=newEventURL}{crmURL p="civicrm/contact/view/event" q="reset=1&action=add&cid=`$contactId`&context=event"}{/capture}
+{capture assign=newEventURL}{crmURL p="civicrm/contact/view/participant" q="reset=1&action=add&cid=`$contactId`&context=participant"}{/capture}
 <div id="help">
 <p>{ts 1=$displayName}This page lists all events participated by %1 since inception.{/ts} 
-{ts 1=$newEventURL}Click <a href="%1">New Event</a> to record a new participation for this contact.{/ts}
+{ts 1=$newEventURL}Click <a href="%1">New Participation</a> to record a new participation for this contact.{/ts}
 </p>
 </div>
 

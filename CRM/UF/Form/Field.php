@@ -110,7 +110,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         } else {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true);
         }
-    
+        require_once "CRM/Contribute/BAO/Contribution.php";
         $this->_fields = array_merge (CRM_Contribute_BAO_Contribution::getContributionFields(), $this->_fields);
 
         if ( CRM_Core_Permission::access( 'Quest' ) ) {

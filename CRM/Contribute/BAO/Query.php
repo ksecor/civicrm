@@ -374,6 +374,7 @@ class CRM_Contribute_BAO_Query
                                 );
 
             // also get all the custom contribution properties
+            require_once "CRM/Core/BAO/CustomField.php";
             $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Contribution');
             if ( ! empty( $fields ) ) {
                 foreach ( $fields as $name => $dontCare ) {
