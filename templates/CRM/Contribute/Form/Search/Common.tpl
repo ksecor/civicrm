@@ -49,6 +49,10 @@
             <td colspan="2">{$form.contribution_source.html}</td>
             <td colspan="2">{$form.contribution_recurring.html}&nbsp;{$form.contribution_recurring.label}</td>
         </tr>
+        <tr>        
+            <td class="label">{$form.contribution_transaction_id.label}</td> 
+            <td>{$form.contribution_transaction_id.html}</td> 
+        </tr>
         <tr>
             <td colspan="4">
             {include file="CRM/Custom/Form/Search.tpl" groupTree=$contributeGroupTree showHideLinks=false}

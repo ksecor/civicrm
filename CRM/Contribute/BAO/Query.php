@@ -82,8 +82,7 @@ class CRM_Contribute_BAO_Query
                 $fields =  array_merge( $fields ,$optionFields );
             }
             // add field to get recurent_id
-            $fields["contribution_recur_id"] = array("name"  => "contribution_recur_id",
-                                                     "title" => "Recurring Contributions ID",
+            $fields["contribution_recur_id"] = array("name"  => "contribution_recur_id",                                                                                                         "title" => "Recurring Contributions ID",
                                                      "where" => "civicrm_contribution.contribution_recur_id"
                                                      );
             unset( $fields['contact_id']);
@@ -131,10 +130,10 @@ class CRM_Contribute_BAO_Query
 
     static function whereClauseSingle( &$values, &$query ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        
+
         $fields = array( );
         $fields = self::getFields();
-
+        
         switch ( $name ) {
        
         case 'contribution_date':
@@ -236,6 +235,13 @@ class CRM_Contribute_BAO_Query
             
             return;
 
+        case 'contribution_transaction_id':
+            $query->_where[$grouping][] = "LOWER( civicrm_contribution.trxn_id) $op '$value'";
+            $query->_qill[$grouping][]  = "Transaction ID $op \"$value\"";
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            
+            return;
+
         case 'contribution_test':
             $query->_where[$grouping][] = " civicrm_contribution.is_test $op '$value'";
             if ( $value ) {
@@ -306,6 +312,7 @@ class CRM_Contribute_BAO_Query
             } else {
                 $from = " $side JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
             }
+      
             break;
 
         case 'civicrm_contribution_page':
@@ -315,7 +322,7 @@ class CRM_Contribute_BAO_Query
         case 'civicrm_product':
             $from = " $side  JOIN civicrm_contribution_product ON civicrm_contribution_product.contribution_id = civicrm_contribution.id";
             $from .= " $side  JOIN civicrm_product ON civicrm_contribution_product.product_id =civicrm_product.id ";
-            
+      
             break;
             
         case 'civicrm_payment_instrument':
@@ -452,6 +459,9 @@ class CRM_Contribute_BAO_Query
         //add fields for honor search
         $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
         $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions ?' ) );
+
+        //add field for transaction ID search
+        $form->addElement( 'text', 'contribution_transaction_id', ts( "Transaction ID" ) );
 
         $config =& CRM_Core_Config::singleton( );
         if ($config->paymentProcessor == "PayPal_Standard") {
