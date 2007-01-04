@@ -1295,14 +1295,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ($fieldName == 'participant_register_date' ) {
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ($fieldName == 'event_status_id' ) {
-            $status = CRM_Event_PseudoConstant::participantStatus( );
-            foreach ( $status as $key => $var ) {
-                if ( $key == '' ) {
-                    continue;
-                }
-                $statusOptions[] =& HTML_QuickForm::createElement( 'checkbox', $key, null, $var );
-            }
-            $form->addGroup($statusOptions, $name, $title, '<br/>' );
+            $form->add('select', $name, ts( 'Participant Status' ),
+                       array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantStatus( ), $required);
         } else if ($fieldName == 'role_id' ) {
             $form->add('select', $name, ts( 'Participant Role' ),
                        array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantRole( ), $required);
