@@ -458,7 +458,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-                
+        $params['contact_type'] = $this->_contactType;
+        if( ! $params['is_deceased'] == 1 ) { 
+            $params['deceased_date'] = null;
+        }
+
         // action is taken depending upon the mode
         $ids = array();
         require_once 'CRM/Utils/Hook.php';
@@ -470,13 +474,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         } else {
             CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
         }
-
-
-        $params['contact_type'] = $this->_contactType;
-        if( ! $params['is_deceased'] == 1 ) { 
-            $params['deceased_date'] = null;
-        }
-
         
         $config  =& CRM_Core_Config::singleton( );
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks, true, false );

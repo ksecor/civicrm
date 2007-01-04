@@ -1657,7 +1657,8 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    function savedSearch( &$values ) {
+    function savedSearch( &$values ) 
+    {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         
         $config =& CRM_Core_Config::singleton( );
@@ -1699,22 +1700,15 @@ class CRM_Contact_BAO_Query {
                     }
                 } else { 
                     $ssw = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $this->_tables, $this->_whereTables);
-                    /* FIXME: bug with multiple group searches */ 
-                    $ssWhere[] = "($ssw AND
-                                   (civicrm_group_contact.id is null OR
-                                     (civicrm_group_contact.group_id = " . CRM_Utils_Type::escape($group_id, 'Integer') . " AND
-                                      civicrm_group_contact.status = 'Added')))"; 
+                    //fix for CRM-1490                    
+                    $ssWhere[] = "$ssw";
                 }
             }
             $group->reset(); 
             $group->selectAdd('*'); 
         }
-
+        
         if ( ! empty( $ssWhere ) ) {
-//             $this->_tables['civicrm_group_contact'] =  
-//                 "contact_a.id = civicrm_group_contact.contact_id AND civicrm_group_contact.group_id IN (" .
-//                 implode(',', array_keys($value)) . ')'; 
-//             $this->_whereTables['civicrm_group_contact'] = $this->_tables['civicrm_group_contact'];
             return implode(' OR ', $ssWhere);
         }
         return null;

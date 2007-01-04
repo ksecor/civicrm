@@ -79,6 +79,8 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             $values = $this->controller->exportValues( 'Search' );
         }
         
+        require_once 'CRM/Contact/Task.php';
+
         $this->_task = $values['task'];
         $crmContactTaskTasks = CRM_Contact_Task::taskTitles();
         $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] );
