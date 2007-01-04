@@ -70,7 +70,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           'title' => ts('View Event')
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Edit'),
+                                                                          'name'  => ts('Settings'),
                                                                           'url'   => 'civicrm/admin/event',
                                                                           'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                           'title' => ts('Edit Event') 
@@ -96,10 +96,16 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           'title' => ts('Delete Event') 
                                                                           ),
                                         CRM_Core_Action::MAP     => array(
-                                                                          'name'  => ts('copy'),
+                                                                          'name'  => ts('Copy'),
                                                                           'url'   => 'civicrm/admin/event',
                                                                           'qs'    => 'action=map&id=%%id%%',
                                                                           'title' => ts('Copy Event') 
+                                                                          ),
+                                        CRM_Core_Action::PREVIEW => array(
+                                                                          'name'  => ts('Register'),
+                                                                          'url'   => 'civicrm/admin/event/register',
+                                                                          'qs'    => 'id=%%id%%',
+                                                                          'title' => ts('Register Event') 
                                                                           )
                                         );
         }

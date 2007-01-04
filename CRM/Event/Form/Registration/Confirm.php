@@ -95,6 +95,30 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        $session =& CRM_Core_Session::singleton( );
+        $contactID = $session->get( 'userID' );
+        if ($contactID) {
+            // updateContactRecord here;
+        } else {
+            // finding contact record based on duplicate match 
+            $params = array();
+            
+            $firstName = $params['first_name'];// = 'deepak';
+            $lastName = $params['last_name'];// = 'srivastava';
+            $email = $params['email'];// = 'deepak@webaccess.co.in';
+            
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $tables = array('civicrm_email' => "civicrm_email.email='deepak@webaccess.co.in' AND civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1",
+                            'civicrm_individual' => "civicrm_individual.first_name='deepak' AND civicrm_individual.last_name='srivastava' AND contact_a.id = civicrm_individual.contact_id",
+                            );
+            $query  = "SELECT DISTINCT contact_a.id as id";
+            $query .= CRM_Contact_BAO_Query::fromClause( $tables, array('civicrm_email' => 1) );
+            $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+            while ( $dao->fetch( ) ) {
+                $contactID = $dao->id;
+            }
+        }
+        
     }//end of function
     
     /**

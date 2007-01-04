@@ -95,6 +95,7 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
         if ( $this->_advanced ) {
             $this->addElement('textarea', 'match_on'.$count, ts('Match On:'));
         } else {
+            require_once 'CRM/Contact/BAO/Contact.php';
             $fields =& CRM_Contact_BAO_Contact::importableFields('Individual', 1);
             foreach ($fields as $name => $field ) {
                 if ( $name == 'note' ) {

@@ -35,21 +35,14 @@
  *
  */
 
-require_once 'CRM/Event/Form/ManageEvent.php';
+require_once 'CRM/Event/Form/Registration.php';
 
 /**
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_Form_Registration_Register extends CRM_Core_Form
+class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 {
-    /**
-     * the values for the contribution db object
-     *
-     * @var array
-     * @protected
-     */
-    public $_values;
 
     /** 
      * Function to set variables up before form is built 
@@ -58,7 +51,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Core_Form
      * @access public 
      */ 
     function preProcess( ) {
-        $this->_id = $this->get('id');
+        parent::preProcess( );
     }
 
     /** 
@@ -70,32 +63,16 @@ class CRM_Event_Form_Registration_Register extends CRM_Core_Form
     public function buildQuickForm( )  
     { 
         $eventPage = array( );
-        $params = array( 'event_id' => $this->_id );
-        require_once 'CRM/Event/BAO/EventPage.php';
-        CRM_Event_BAO_EventPage::retrieve($params, $eventPage);
-        $this->assign('eventPage', $eventPage);
-        $this->_values = array();
-        require_once 'CRM/Core/BAO/CustomOption.php';
-        $this->_values['feeLevel'] = CRM_Core_BAO_CustomOption::getCustomOption( $this->_id, true, 'civicrm_event' );
-        if (!empty($this->_values['feeLevel'])) {
+        $this->assign('eventPage', $this->_values['event_page']);
+        if (!empty($this->_values['event']['feeLevel'])) {
             $this->buildAmount( );
         }
-       
-        $this->addElement('text', 'first_name', ts('First Name'), $attributes['first_name'] );
-        $this->addElement('text', 'middle_name', ts('Middle Name'), $attributes['middle_name'] );
-        $this->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name'] );
-        $this->addElement('text', "city", ts('City'),
-                          $attributes['city']);
-        $this->addElement('select', "state_province_id", ts('State / Province'),
-                          array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
-        $this->addElement('text', "postal_code", ts('Zip / Postal Code'),
-                          $attributes['postal_code']);
-        $this->addElement('select', "country_id", ts('Country'),
-                          array('' => ts('- select -')) + CRM_Core_PseudoConstant::country());
+        $this->buildBillingBlock( );
+
         $custom_pre_id  = $this->get('custom_pre_id');
         $custom_post_id = $this->get('custom_post_id');
-        $this->buildCustom( 1 , 'customPre'  );
-        $this->buildCustom( 1, 'customPost' );
+        $this->buildCustom( null , 'customPre'  );
+        $this->buildCustom( 1 , 'customPost' );
         
         $this->addButtons(array(
                                 array ( 'type'      => 'back',
@@ -118,17 +95,37 @@ class CRM_Event_Form_Registration_Register extends CRM_Core_Form
      */
     public function buildAmount( ) {
         $elements = array( );
-        // first build the radio boxes
-        if ( ! empty( $this->_values['feeLevel'] ) ) {
+        // build the radio boxes
+        if ( ! empty( $this->_values['event']['feeLevel'] ) ) {
             require_once 'CRM/Utils/Money.php';
-            foreach( $this->_values['feeLevel'] as $option => $val ) {
+            foreach( $this->_values['event']['feeLevel'] as $option => $val ) {
                 $elements[] =& $this->createElement('radio', null, '',
                                                     CRM_Utils_Money::format($val['value']) . ' ' . $val['label'] );
             }
             $this->addGroup( $elements, 'amount', ts('Fee Level'), '<br />' );
         }
     }
-
+    
+    /**
+     * build the billing block fields
+     *
+     * @return void
+     * @access private
+     */
+    public function buildBillingBlock( ) {
+        $billAttribute = array( 'size' => 30, 'maxlength' => 60 );
+        
+        $this->addElement('text', 'first_name', ts('First Name'), $billAttribute );
+        $this->addElement('text', 'middle_name', ts('Middle Name'), $billAttribute );
+        $this->addElement('text', 'last_name', ts('Last Name'), $billAttribute );
+        $this->addElement('text', "city", ts('City'), $billAttribute );
+        $this->addElement('text', "postal_code", ts('Zip / Postal Code'), $billAttribute );
+        $this->addElement('select', "state_province_id", ts('State / Province'),
+                          array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
+        $this->addElement('select', "country_id", ts('Country'),
+                          array('' => ts('- select -')) + CRM_Core_PseudoConstant::country());
+    }
+    
     /**  
      * Function to add the custom fields
      *  
@@ -171,7 +168,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        $regValue = $this->exportValues( );//print_r($regValue);
+        $regValue = $this->exportValues( );
         $this->set('registrationValue',$regValue);
  
     }//end of function

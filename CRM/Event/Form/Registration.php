@@ -36,14 +36,38 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Event/Form/Registration.php';
 
 /**
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_Form_Registration_EventInfo extends CRM_Event_Form_Registration
+class CRM_Event_Form_Registration extends CRM_Core_Form
 {
+
+    /**
+     * the id of the event we are proceessing
+     *
+     * @var int
+     * @protected
+     */
+    protected $_id;
+    
+    /**
+     * the values for the contribution db object
+     *
+     * @var array
+     * @protected
+     */
+    public $_values;
+
+    /**
+     * The params submitted by the form and computed by the app
+     *
+     * @var array
+     * @protected
+     */
+    protected $_params;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -51,63 +75,34 @@ class CRM_Event_Form_Registration_EventInfo extends CRM_Event_Form_Registration
      * @access public 
      */ 
     function preProcess( ) {
-        parent::preProcess( );
-    }
-    
-    /** 
-     * Function to build the form 
-     * 
-     * @return None 
-     * @access public 
-     */ 
-    public function buildQuickForm( )  
-    { 
-        $eventParams = array( );
-        $this->assign('event', $this->_values['event']);
-        $this->assign('custom', $this->_values['event']['custom']);
-        //print_r($this->_values);
+        //print_r($this);
+        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
         
-        if ($this->_action & CRM_Core_Action::VIEW ) {
-            $this->addButtons(array(
-                                    array ( 'type'      => 'next',
-                                            'name'      => ts('Done'),
-                                            'isDefault' => true   
-                                            )
-                                    )
-                              );
-        } else {
-            $this->addButtons(array(
-                                    array ( 'type'      => 'next',
-                                            'name'      => ts('Continue'),
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                            'isDefault' => true   ),
-                                    array ( 'type'      => 'cancel',
-                                            'name'      => ts('Cancel') ),
-                                    )
-                              );
+        $this->_values = $this->get( 'values' );
+        
+        if ( ! $this->_values ) {
+            // get all the values from the dao object
+            $this->_values = array( );
+            
+            //retrieve event information
+            $params = array( 'id' => $this->_id );
+            require_once 'CRM/Event/BAO/ManageEvent.php';
+            CRM_Event_BAO_ManageEvent::retrieve($params, $this->_values['event']);
+            
+            //retrieve custom information
+            require_once 'CRM/Core/BAO/CustomOption.php'; 
+            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event', $this->_id, $this->_values['event']['custom'] );
+            
+            $this->_values['event']['feeLevel'] = CRM_Core_BAO_CustomOption::getCustomOption( $this->_id, true, 'civicrm_event' );
+            
+            $params = array( 'event_id' => $this->_id );
+            require_once 'CRM/Event/BAO/EventPage.php';
+            CRM_Event_BAO_EventPage::retrieve($params, $this->_values['event_page']);
+            
+            $this->set( 'values', $this->_values );
         }
     }
-    
-    /**
-     * Function to process the form
-     *
-     * @access public
-     * @return None
-     */
-    public function postProcess() 
-    {
-        //$this->set('id', $this->_id);
-    }
 
-    /**
-     * Return a descriptive name for the page, used in wizard header
-     *
-     * @return string
-     * @access public
-     */
-    public function getTitle( ) 
-    {
-        return ts('Event Information and Settings');
-    }
 }
 ?>
