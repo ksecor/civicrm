@@ -68,11 +68,16 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->buildAmount( );
         }
         $this->buildBillingBlock( );
+        require_once 'CRM/Core/DAO/UFJoin.php';
+        $customField =& new CRM_Core_DAO_UFJoin();
+        $customField->entity_id    = $this->_id;
+        $customField->entity_table = 'civicrm_event';
+        $customField->find();
+        while( $customField->fetch() ) {
+            $this->buildCustom( $customField->uf_group_id, 'customPre'  );
+            $this->buildCustom( $customField->uf_group_id, 'customPost' );
+        }
 
-        $custom_pre_id  = $this->get('custom_pre_id');
-        $custom_post_id = $this->get('custom_post_id');
-        $this->buildCustom( null , 'customPre'  );
-        $this->buildCustom( 1 , 'customPost' );
         
         $this->addButtons(array(
                                 array ( 'type'      => 'back',

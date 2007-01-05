@@ -128,6 +128,12 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Event/BAO/ManageEvent.php';
         CRM_Event_BAO_ManageEvent::add($params ,$id);
 
+        // delete all the prior label values in the custom options table
+        $dao =& new CRM_Core_DAO_CustomOption( );
+        $dao->entity_table = 'civicrm_event'; 
+        $dao->entity_id    = $this->_id; 
+        $dao->delete( );
+        
         // if there are label / values, create custom options for them
         $labels  = CRM_Utils_Array::value( 'label'  , $params );
         $values  = CRM_Utils_Array::value( 'value'  , $params );
