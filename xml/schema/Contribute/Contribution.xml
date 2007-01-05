@@ -298,4 +298,9 @@
     <fieldName>contribution_status_id</fieldName>
     <add>1.6</add>
   </index>
+  <index>
+    <name>received_date</name>
+    <fieldName>receive_date</fieldName>
+    <add>1.6</add>
+  </index>
 </table>

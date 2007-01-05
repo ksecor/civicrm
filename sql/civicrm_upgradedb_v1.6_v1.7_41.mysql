@@ -1,0 +1,7 @@
+-- /*******************************************************
+-- *
+-- * civicrm_contribution
+-- *
+-- *******************************************************/
+
+	ALTER TABLE `civicrm_contribution` ADD INDEX `received_date` (`receive_date`);
