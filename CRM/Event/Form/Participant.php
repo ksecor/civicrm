@@ -121,6 +121,20 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
     public function buildQuickForm( )  
     { 
         $this->applyFilter('__ALL__', 'trim');
+
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Delete'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
+            return;
+        }
+        
         $urlParams = "reset=1&cid={$this->_contactID}&context=event";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
@@ -131,9 +145,10 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                                       $urlParams, true, null, false ); 
         $this->assign("refreshURL",$url);
         
-        $element =& $this->addElement('select', 'event_id', 
+        $element =& $this->add('select', 'event_id', 
                                       ts( 'Event' ), 
-                                      array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::event( )
+                                      array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::event( ),
+                                      'true'
                                       );
         
         $element =& $this->add( 'date', 'register_date', ts('Registration Date'), CRM_Core_SelectValues::date('manual', 3, 1), false );            
@@ -177,6 +192,12 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
      */ 
     public function postProcess()  
     { 
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            require_once 'CRM/Event/BAO/Participant.php';
+            CRM_Event_BAO_Participant::deleteParticipant( $this->_id );
+            return;
+        }
+                
         // get the submitted form values.  
         $formValues           = $_POST;
         $config               =& CRM_Core_Config::singleton( );

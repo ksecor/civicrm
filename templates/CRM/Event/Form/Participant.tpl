@@ -1,12 +1,12 @@
 {* this template is used for adding/editing/deleting event *} 
 <div class="form-item"> 
-  <fieldset><legend>{if $action eq 1}{ts}New Event{/ts}{elseif $action eq 8}{ts}Delete Event{/ts}{else}{ts}Edit Event{/ts}{/if}</legend> 
+  <fieldset><legend>{if $action eq 1}{ts}New Participation{/ts}{elseif $action eq 8}{ts}Delete Participation{/ts}{else}{ts}Edit Participation{/ts}{/if}</legend> 
       	{if $action eq 8} 
             <div class="messages status"> 
           	<dl> 
           	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
           	<dd> 
-          	 {ts}WARNING: Deleting this Event will result in the loss of the associated Participation (if any).{/ts} {ts}Do you w                        	ant to continue?{/ts} 
+          	 {ts}WARNING: Deleting this participation will result in the loss of the associated Participation related payments (if any).{/ts} {ts}Do you want to continue?{/ts} 
           	</dd> 
        		</dl> 
       	     </div> 
