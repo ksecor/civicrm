@@ -86,6 +86,32 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         parent::preProcess( );        
     }
 
+    /**
+     * This function sets the default values for the form in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    public function setDefaultValues( ) 
+    { 
+        $defaults = array( );
+
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return $defaults;
+        }
+               
+        if ( $this->_id ) {
+            $ids = array( );
+            $params = array( 'id' => $this->_id );
+            require_once "CRM/Event/BAO/Participant.php";
+            CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );
+            $this->_contactID = $defaults['contact_id'];
+        } 
+        
+        return $defaults;
+    }
+
     /** 
      * Function to build the form 
      * 
@@ -152,23 +178,20 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
     public function postProcess()  
     { 
         // get the submitted form values.  
-        $formValues   = $_POST;
- 
-        $config =& CRM_Core_Config::singleton( );
-
-        $params = array( );
-        $ids    = array( );
-
+        $formValues           = $_POST;
+        $config               =& CRM_Core_Config::singleton( );
+        $params               = array( );
+        $ids                  = array( );
         $params['contact_id'] = $this->_contactID;
 
-        $fields = array( 'event_id',
-                         'fee_amount',
-                         'register_date',
-                         'role_id',
-                         'status_id',
-                         'source',
-                         'event_level'
-                         );
+        $fields               = array( 'event_id',
+                                       'fee_amount',
+                                       'register_date',
+                                       'role_id',
+                                       'status_id',
+                                       'source',
+                                       'event_level'
+                                       );
 
         foreach ( $fields as $f ) {
             if( $f == 'event_id' ) {
@@ -193,7 +216,9 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                 $params[$f] = $formValues[$f];
             }            
         }
-
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $ids['participant'] = $this->_id;
+        }
         require_once "CRM/Event/BAO/Participant.php";
         CRM_Event_BAO_Participant::create( $params ,$ids );   
     }

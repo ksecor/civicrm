@@ -15,7 +15,7 @@
     {include file="CRM/Event/Form/Selector.tpl"}
     {if $action eq 16 and $permission EQ 'edit'}
     <div class="action-link">
-    <a href="{$newEventURL}">&raquo; {ts}New Event{/ts}</a>
+    <a href="{$newEventURL}">&raquo; {ts}New Participation{/ts}</a>
     </div>
     {/if}
 {else}
