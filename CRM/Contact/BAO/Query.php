@@ -1307,18 +1307,10 @@ class CRM_Contact_BAO_Query {
                                           'civicrm_group_contact' => 1 ),
                                    $tables );
         }
+       
+        // to handle table dependencies of components
+        CRM_Core_Component::tableNames( $tables );
 
-
-        //add contribution table
-        if ( CRM_Utils_Array::value( 'civicrm_product', $tables ) ) {
-            $tables = array_merge( array( 'civicrm_contribution' => 1), $tables );
-        }
-
-        //add membership table
-        if ( CRM_Utils_Array::value( 'civicrm_membership_log', $tables ) ) {
-            $tables = array_merge( array( 'civicrm_membership' => 1), $tables );
-        }
-        
         //format the table list according to the weight
         require_once 'CRM/Core/TableHierarchy.php';
         $info =& CRM_Core_TableHierarchy::info( );

@@ -119,8 +119,6 @@ class CRM_Event_BAO_Query
 
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         
-        //CRM_Core_Error::debug("nm", $value);
-
         switch( $name ) {
             
         case 'event_start_date_low':
@@ -250,6 +248,14 @@ class CRM_Event_BAO_Query
 
     static function searchAction( &$row, $id ) 
     {
+    }
+
+    static function tableNames( &$tables ) 
+    {
+        //add participant table 
+        if ( CRM_Utils_Array::value( 'civicrm_event', $tables ) ) {
+            $tables = array_merge( array( 'civicrm_participant' => 1), $tables );
+        }
     }
   
 }

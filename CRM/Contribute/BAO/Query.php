@@ -497,6 +497,12 @@ class CRM_Contribute_BAO_Query
     static function searchAction( &$row, $id ) {
     }
 
+    static function tableNames( &$tables ) 
+    {
+        //add contribution table
+        if ( CRM_Utils_Array::value( 'civicrm_product', $tables ) ) {
+            $tables = array_merge( array( 'civicrm_contribution' => 1), $tables );
+        }
+    }
 }
-
 ?>

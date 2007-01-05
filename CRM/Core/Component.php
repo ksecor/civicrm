@@ -355,6 +355,30 @@ class CRM_Core_Component
         return $tasks;
     }
 
+    /**
+     * Function to handle table dependencies of components
+     *
+     * @param array $tables  array of tables
+     *
+     * @return null
+     * @access public
+     * @static
+     */
+    static function &tableNames( &$tables ) 
+    {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( $className . '::tableNames( $tables );' );
+            }
+        }
+    }
+
 }
 
 ?>
