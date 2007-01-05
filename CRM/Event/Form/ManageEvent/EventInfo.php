@@ -108,8 +108,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params['start_date']    = CRM_Utils_Date::format($params['start_date']);
         $params['end_date']      = CRM_Utils_Date::format($params['end_date']);
         
-        require_once 'CRM/Event/BAO/ManageEvent.php';
-        $event =  CRM_Event_BAO_ManageEvent::add($params ,$id);
+        require_once 'CRM/Event/BAO/Event.php';
+        $event =  CRM_Event_BAO_Event::add($params ,$id);
         CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );
 
         $this->set( 'id', $event->id );

@@ -125,8 +125,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $id['event_id'] = $this->_id;
         $params = $this->exportValues( );
 
-        require_once 'CRM/Event/BAO/ManageEvent.php';
-        CRM_Event_BAO_ManageEvent::add($params ,$id);
+        require_once 'CRM/Event/BAO/Event.php';
+        CRM_Event_BAO_Event::add($params ,$id);
 
         // delete all the prior label values in the custom options table
         $dao =& new CRM_Core_DAO_CustomOption( );

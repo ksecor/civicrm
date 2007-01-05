@@ -107,6 +107,67 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                 
         return $event;
     }
+
+    /**
+     * Function to delete the event
+     *
+     * @param int    $id           event id
+     *
+     * @access public
+     * @static
+     *
+     */
+    static function del( $id ) {
+
+        CRM_Core_BAO_Location::deleteContact( $id );
+      
+        require_once 'CRM/Event/DAO/EventPage.php';
+        $registration           = & new CRM_Event_DAO_EventPage( );
+        $registration->event_id = $id; 
+        $registration->find();
+        while ($registration->fetch() ) {
+            $registration->delete();
+        }
+        require_once 'CRM/Core/DAO/CustomOption.php';
+        $customOption = & new CRM_Core_DAO_CustomOption( );
+        $customOption->entity_id    = $id; 
+        $customOption->entity_table = 'civicrm_event'; 
+        $customOption->find();
+        while ($customOption->fetch() ) {
+            $customOption->delete();
+        }
+        require_once 'CRM/Event/DAO/Participant.php';
+        require_once 'CRM/Event/DAO/ParticipantPayment.php';
+        $participant = & new CRM_Event_DAO_Participant( );
+        $participant->entity_id    = $id; 
+        $participant->entity_table = 'civicrm_event'; 
+        $participant->find();
+        while ($participant->fetch() ) {
+            $payment = & new CRM_Event_DAO_ParticipantPayment( );
+            $payment->participant_id = $participant->id;
+            $payment->find();
+            while( $payment->fetch() ) {
+                $payment->delete();
+            }
+            $participant->delete();
+        }
+        require_once 'CRM/Core/DAO/UFJoin.php';
+        $ufJoin = & new CRM_Core_DAO_UFJoin( );
+        $ufJoin->entity_id    = $id; 
+        $ufJoin->entity_table = 'civicrm_event'; 
+        $ufJoin->find();
+        while ($ufJoin->fetch() ) {
+            $ufJoin->delete();
+        }
+        require_once 'CRM/Event/DAO/Event.php';
+        $event           = & new CRM_Event_DAO_Event( );
+        $event->id = $id; 
+        $event->find();
+        while ($event->fetch() ) {
+            $event->delete();
+        }
+        return true;
+    }
     
 }
 ?>

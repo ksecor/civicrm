@@ -78,8 +78,8 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         $defaults = array( );
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-            require_once 'CRM/Event/BAO/ManageEvent.php';
-            CRM_Event_BAO_ManageEvent::retrieve($params, $defaults);
+            require_once 'CRM/Event/BAO/Event.php';
+            CRM_Event_BAO_Event::retrieve($params, $defaults);
             
         }
         return $defaults;

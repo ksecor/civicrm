@@ -104,7 +104,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                         CRM_Core_Action::PREVIEW => array(
                                                                           'name'  => ts('Register'),
                                                                           'url'   => 'civicrm/admin/event/register',
-                                                                          'qs'    => 'id=%%id%%',
+                                                                          'qs'    => 'reset=1&id=%%id%%',
                                                                           'title' => ts('Register Event') 
                                                                           )
                                         );
@@ -165,11 +165,11 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Event_Form_Registration_EventInfo', ts('Event Information Page'), null);
         } else if ($action & CRM_Core_Action::DISABLE ) {
-            CRM_Event_BAO_ManageEvent::setIsActive($id ,0);
+            CRM_Event_BAO_Event::setIsActive($id ,0);
         } else if ($action & CRM_Core_Action::ENABLE ) {
-            CRM_Event_BAO_ManageEvent::setIsActive($id ,1); 
+            CRM_Event_BAO_Event::setIsActive($id ,1); 
         } else if ($action & CRM_Core_Action::DELETE ) {
-            CRM_Event_BAO_ManageEvent::del($id);
+            CRM_Event_BAO_Event::del($id);
             CRM_Core_Session::setStatus( ts('The event  has been deleted successfully.') );
         }
 

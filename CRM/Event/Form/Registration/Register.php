@@ -62,12 +62,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */ 
     public function buildQuickForm( )  
     { 
-        $eventPage = array( );
         $this->assign('eventPage', $this->_values['event_page']);
-        if (!empty($this->_values['event']['feeLevel'])) {
+        $this->assign('paidEvent', $this->_values['event']['is_monetary']);
+
+        if ( $this->_values['event']['is_monetary'] ) {
             $this->buildAmount( );
+            //$this->buildBillingBlock( );
+            $this->buildCreditCard( );
         }
-        $this->buildBillingBlock( );
         require_once 'CRM/Core/DAO/UFJoin.php';
         $customField =& new CRM_Core_DAO_UFJoin();
         $customField->entity_id    = $this->_id;
@@ -92,6 +94,32 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                           );
     }
     
+    function setDefaultValues( ) {
+        // check if the user is registered and we have a contact ID
+        $session =& CRM_Core_Session::singleton( );
+        $contactID = $session->get( 'userID' );
+        if ( $contactID ) {
+            $options = array( );
+            $fields = array( );
+            require_once "CRM/Core/BAO/CustomGroup.php";
+            $removeCustomFieldTypes = array ('Contribution');
+            foreach ( $this->_fields as $name => $dontCare ) {
+                //don't set custom data Used for Contribution (CRM-1344)
+                if ( substr( $name, 0, 7 ) == 'custom_' ) {  
+                    $id = substr( $name, 7 );
+                    if ( ! CRM_Core_BAO_CustomGroup::checkCustomField( $id, $removeCustomFieldTypes )) {
+                        continue;
+                    }
+                }
+                $fields[$name] = 1;
+            }
+            $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+            
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
+        }
+        return $this->_defaults;
+    }
+
     /**
      * build the radio/text form elements for the amount field
      *
@@ -164,6 +192,37 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
     }
     
+
+    /** 
+     * Function to add all the credit card fields
+     * 
+     * @return None 
+     * @access public 
+     */
+    function buildCreditCard( ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        //if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_FORM) {
+            foreach ( $this->_fields as $name => $field ) {
+                $this->add( $field['htmlType'],
+                            $field['name'],
+                            $field['title'],
+                            $field['attributes'] );
+            }
+
+            $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
+
+            $this->addRule( 'credit_card_exp_date', ts('Select a valid date greater than today.'), 'currentDate');
+            //}            
+            
+            //if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
+            $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
+            $this->add('image',
+                       $this->_expressButtonName,
+                       $config->paymentExpressButton,
+                       array( 'class' => 'form-submit' ) );
+            //}
+    }
 
     /**
      * Function to process the form
