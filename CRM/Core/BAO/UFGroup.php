@@ -961,9 +961,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         if ($ufGroupId) {
             $dao->uf_group_id = $ufGroupId;
         }
-        
+                   
         $dao->find( );
-        
+        $ufJoin = array( );
+
         while ($dao->fetch( )) {
             if (!$displayName) { 
                 $ufJoin[$dao->id] = $dao->module;
@@ -972,10 +973,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     if (!$status) { //skip the default modules
                         $ufJoin[$dao->id] = $UFGroupType[$dao->module];
                     }
-                } else {
+                } else if ( ! CRM_Utils_Array::key($dao->module, $ufJoin) ){ //added for CRM-1475
                     $ufJoin[$dao->id] = $dao->module;
                 }
-            }
+            }  
         }
         return $ufJoin;
     }
