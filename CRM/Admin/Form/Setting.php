@@ -84,6 +84,15 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 
         if ( $config->templateCompileDir ) {
             $path = dirname( $config->templateCompileDir );
+            
+            //this fix is to avoid creation of upload dirs inside templates_c directory
+            $checkPath = explode( DIRECTORY_SEPARATOR, $path );
+            $cnt = count($checkPath) - 1;
+            if ( $checkPath[$cnt] == 'templates_c' ) {
+                unset( $checkPath[$cnt] );
+                $path = implode( DIRECTORY_SEPARATOR, $checkPath );
+            }
+
             $path = CRM_Core_Config::addTrailingSlash( $path );
         }
 
@@ -96,20 +105,29 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
             }
         }
 
-        if ( ! isset( $defaults['imageUploadDir'] ) ) {
-            $defaults['imageUploadDir'] = $path . "persist/contribute/";
-        }
-
         if ( ! isset( $defaults['imageUploadURL'] ) ) {
             $defaults['imageUploadURL'] = $baseURL . "files/civicrm/persist/contribute/";
         }
 
-        if ( ! isset( $defaults['customFileUploadDir'] ) ) {
-            $defaults['customFileUploadDir'] = $path . "upload/custom/";
+        if ( ! isset( $defaults['imageUploadDir'] ) && is_dir($config->templateCompileDir) ) {
+            $imgDir = $path . "persist/contribute/";
+
+            CRM_Utils_File::createDir( $imgDir );
+            $defaults['imageUploadDir'] = $imgDir;
         }
 
-        if ( ! isset( $defaults['uploadDir'] ) ) {
-            $defaults['uploadDir'] = $path . "upload/";
+        if ( ! isset( $defaults['uploadDir'] ) && is_dir($config->templateCompileDir) ) {
+            $uploadDir = $path . "upload/";
+            
+            CRM_Utils_File::createDir( $uploadDir );
+            $defaults['uploadDir'] = $uploadDir;
+        }
+
+        if ( ! isset( $defaults['customFileUploadDir'] ) && is_dir($config->templateCompileDir) ) {
+            $customDir = $path . "upload/custom/";
+            
+            CRM_Utils_File::createDir( $customDir );
+            $defaults['customFileUploadDir'] = $customDir;
         }
 
         if ( ! isset( $defaults['smtpPort'] ) ) {
