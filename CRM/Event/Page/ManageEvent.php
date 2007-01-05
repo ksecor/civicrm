@@ -35,7 +35,6 @@
  */
 
 require_once 'CRM/Core/Page/Basic.php';
-require_once 'CRM/Event/BAO/ManageEvent.php';
 
 /**
  * Page for displaying list of event types
