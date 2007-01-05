@@ -251,8 +251,8 @@ class CRM_Contact_Form_Search_Criteria {
         CRM_Member_BAO_Query::buildSearchForm( $form );
     }
 
-    static function event( &$form ) {
-        $form->add( 'hidden', 'hidden_event', 1 );
+    static function participant( &$form ) {
+        $form->add( 'hidden', 'hidden_participant', 1 );
 
         require_once 'CRM/Event/BAO/Query.php';
         CRM_Event_BAO_Query::buildSearchForm( $form );
