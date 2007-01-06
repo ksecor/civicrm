@@ -60,6 +60,16 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */
     protected $_ids;
 
+    /** 
+     * Function to set variables up before form is built 
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
+    function preProcess( ) {
+        parent::preProcess( );
+    }
+
     /**
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
@@ -68,16 +78,20 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      * @return None
      */
     function setDefaultValues( ) 
-    {    
+    {
+        $eventID = $this->get('eventID');
+
         $defaults = array( );
         $params   = array( );
-        if ( isset( $this->_id ) ) {
-            $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
+        if ( isset( $eventID ) ) {
+            $params = array( 'entity_id' => $eventID ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $defaults, $ids, self::LOCATION_BLOCKS);
-            $this->_ids = $ids;
+            if ($this->_action & CRM_Core_Action::UPDATE ) {
+                $this->_ids = $ids;
+            }
         }
-       
+        
         if ( ! empty( $params ) ) {
             $this->setShowHide( $params, true );
         } else {
@@ -142,8 +156,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $params = $this->exportValues( );
 
         $params['entity_table'] = 'civicrm_event';
-        $params['entity_id']    = $this->_id;
-
+        $params['entity_id'] = $this->_id;
+        
         require_once 'CRM/Core/BAO/Location.php';
         CRM_Core_BAO_Location::add($params, $this->_ids, self::LOCATION_BLOCKS);
         CRM_Core_Session::setStatus( ts('The Event Location has been saved.' ));

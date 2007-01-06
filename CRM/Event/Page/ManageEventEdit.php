@@ -62,19 +62,18 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
             $this->assign('CiviEvent', true );
         }
 
-
-        // assign vars to templates
-        $this->assign('action', $action);
         $this->_id = CRM_Utils_Request::retrieve('id', 'Positive',
                                                  $this, false, 0);
-
+        // assign vars to templates
+        $this->assign('action', $action);
         $this->assign( 'id', $this->_id );
+        
         $subPage = CRM_Utils_Request::retrieve('subPage', 'String',
                                                $this );
-
+        
         $this->assign( 'title', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title'));
-       
-        CRM_Utils_System::setTitle( ts('Manage Event') );
+        
+        CRM_Utils_System::setTitle( ts('Configure Event') );
         
         $form = null;
         switch ( $subPage ) {

@@ -1349,6 +1349,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     {
         if (!$componentId) {
             //get the contact details
+            require_once 'CRM/Contact/BAO/Contact.php';
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
             $details = $contactDetails[$contactId];
             //start of code to set the default values

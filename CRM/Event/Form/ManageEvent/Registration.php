@@ -50,6 +50,16 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     protected $_showHide;
 
+    /** 
+     * Function to set variables up before form is built 
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
+    function preProcess( ) {
+        parent::preProcess( );
+    }
+
     /**
      * This function sets the default values for the form. 
      * the default values are retrieved from the database
@@ -59,10 +69,12 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function setDefaultValues( ) 
     {
+        $eventID = $this->get('eventID');
+
         $defaults = parent::setDefaultValues( );
         $this->setShowHide( $defaults );
-        if ( isset( $this->_id ) ) {
-            $params = array( 'event_id' => $this->_id );
+        if ( isset( $eventID ) ) {
+            $params = array( 'event_id' => $eventID );
             require_once 'CRM/Event/DAO/EventPage.php';
             $eventPage = new CRM_Event_DAO_EventPage();
             $eventPage->copyValues( $params );
@@ -72,8 +84,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
        
             require_once 'CRM/Core/BAO/UFJoin.php';
             
-            $ufJoinParams = array( 'entity_table' => 'civicrm_event',  
-                                   'entity_id'    => $this->_id,  
+            $ufJoinParams = array( 'entity_table' => 'civicrm_event',
+                                   'entity_id'    => $eventID,
                                    'weight'       => 1 );
             $defaults['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
             
@@ -197,6 +209,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $params = $this->exportValues();
 
         $params['event_id'] = $id['event_id'] = $this->_id;
+
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add($params ,$id);
 

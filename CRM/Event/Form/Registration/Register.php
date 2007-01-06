@@ -114,7 +114,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $fields[$name] = 1;
             }
             $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
-            
+
+            require_once 'CRM/Core/BAO/UFGroup.php';
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
         }
         return $this->_defaults;
@@ -172,7 +173,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
             if ( $contactID ) {
-                require_once "CRM/Core/BAO/UFGroup.php";
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id)  ) {
                     $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
                     $this->assign( $name, $fields );

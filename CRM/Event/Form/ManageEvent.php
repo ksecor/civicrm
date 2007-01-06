@@ -59,10 +59,16 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      * @access public 
      */ 
     function preProcess( ) {
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
+        $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, false);
+        
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+            $this->set( 'eventID', $this->_id );
+        } elseif( $this->_action & CRM_Core_Action::MAP ) {
+            $this->_id = $this->get( 'eid' );
+            $this->set( 'eventID', CRM_Utils_Request::retrieve( 'id', 'Positive', $this ));
         } else {
-            $this->_id = $this->get( 'id' );
+            $this->_id = $this->get( 'eid' );
         }
     }
     
@@ -75,9 +81,10 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      */
     function setDefaultValues( )
     {
+        $eventID = $this->get('eventID');
         $defaults = array( );
-        if ( isset( $this->_id ) ) {
-            $params = array( 'id' => $this->_id );
+        if ( isset( $eventID ) ) {
+            $params = array( 'id' => $eventID );
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $defaults);
             

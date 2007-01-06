@@ -50,6 +50,16 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */ 
     const NUM_OPTION = 11;
     
+    /** 
+     * Function to set variables up before form is built 
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
+    function preProcess( ) {
+        parent::preProcess( );
+    }
+
     /**
      * This function sets the default values for the form. For edit/view mode
      * the default values are retrieved from the database
@@ -60,10 +70,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     function setDefaultValues( )
     {
         $defaults = parent::setDefaultValues( );
+        $eventID = $this->get('eventID');
 
-        if ( isset( $this->_id ) ) {
+        if ( isset( $eventID ) ) {
             require_once 'CRM/Core/BAO/CustomOption.php'; 
-            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event', $this->_id, $defaults );
+            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event', $eventID, $defaults );
         }
         return $defaults;
     }
@@ -123,6 +134,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $params = $id = array();
         
         $id['event_id'] = $this->_id;
+        
         $params = $this->exportValues( );
 
         require_once 'CRM/Event/BAO/Event.php';
@@ -133,7 +145,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $dao->entity_table = 'civicrm_event'; 
         $dao->entity_id    = $this->_id; 
         $dao->delete( );
-        
+
         // if there are label / values, create custom options for them
         $labels  = CRM_Utils_Array::value( 'label'  , $params );
         $values  = CRM_Utils_Array::value( 'value'  , $params );

@@ -45,6 +45,16 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 {
 
     /** 
+     * Function to set variables up before form is built 
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
+    function preProcess( ) {
+        parent::preProcess( );
+    }
+
+    /** 
      * Function to build the form 
      * 
      * @return None 
@@ -100,9 +110,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params = $id = array();
         $params = $this->exportValues( );
         
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $id['event_id'] = $this->_id;
-        }
+        $id['event_id'] = $this->_id;
         
         // store the submitted values in an array
         $params['start_date']    = CRM_Utils_Date::format($params['start_date']);
@@ -112,7 +120,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $event =  CRM_Event_BAO_Event::add($params ,$id);
         CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );
 
-        $this->set( 'id', $event->id );
+        $this->set( 'eid', $event->id );
     }//end of function
     
     /**

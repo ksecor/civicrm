@@ -45,7 +45,6 @@ class CRM_Event_Controller_ManageEvent extends CRM_Core_Controller {
         parent::__construct( $title, $modal );
 
         require_once 'CRM/Event/StateMachine/ManageEvent.php';
-        $eventId = CRM_Utils_Request::retrieve('id', 'String', $this, false, null );
         $this->_stateMachine =& new CRM_Event_StateMachine_ManageEvent( $this, $action );
 
         // create and instantiate the pages
