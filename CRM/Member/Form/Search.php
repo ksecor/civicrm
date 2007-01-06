@@ -398,6 +398,7 @@ class CRM_Member_Form_Search extends CRM_Core_Form
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {
                 $this->_formValues['contact_id'] = $cid;
+                require_once 'CRM/Contact/BAO/Contact.php';
                 list( $display, $image ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $cid );
                 $this->_defaults['sort_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $cid,
                                                                              'sort_name' );

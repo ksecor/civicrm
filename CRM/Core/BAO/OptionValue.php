@@ -232,6 +232,7 @@ AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.n
         }
         
         if (array_key_exists($gName, $contributions)) {
+            require_once 'CRM/Contribute/DAO/Contribution.php';
             $contribution =& new CRM_Contribute_DAO_Contribution();
             $contribution->$fieldName = $value;
             $contribution->find();

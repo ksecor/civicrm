@@ -316,7 +316,7 @@ function &crm_fetch_contact( $params, $returnProperties = null ) {
     if (!is_array($params)) {
         return _crm_error('$params is not an array');
     }
-
+    require_once 'api/crm.php';
     list( $contacts, $options ) = crm_contact_search( $params, $returnProperties );
     if ( count( $contacts ) != 1 ) {
         return _crm_error( count( $contacts ) . " contacts matching input params." );

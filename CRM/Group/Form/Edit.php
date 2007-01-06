@@ -191,7 +191,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $params['id'] = $this->_id;
             }
-            
+            require_once 'CRM/Contact/BAO/Group.php';
             $group =& CRM_Contact_BAO_Group::create( $params );
 
             

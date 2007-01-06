@@ -341,6 +341,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $searchValues[] = array( 'contact_type', '=', 'organization', 0, 0 );
 
         // get the count of contact
+        require_once 'CRM/Contact/BAO/Contact.php';
         $contactBAO  =& new CRM_Contact_BAO_Contact( );
         $query =& new CRM_Contact_BAO_Query( $searchValues );
         $searchCount = $query->searchQuery(0, 0, null, true );

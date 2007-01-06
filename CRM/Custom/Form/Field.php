@@ -151,8 +151,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->assign('id',$this->_id);
             CRM_Core_BAO_CustomField::retrieve($params, $defaults);
             $this->_gid = $defaults['custom_group_id'];
-
+	   
             if ( $defaults['data_type'] == 'StateProvince' ) {
+                require_once 'CRM/Core/DAO/StateProvince.php';
                 $daoState =& new CRM_Core_DAO_StateProvince();
                 $stateId = $defaults['default_value'];
                 $daoState->id = $stateId;
@@ -160,6 +161,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $defaults['default_value'] = $daoState->name;
                 }
             } else if ( $defaults['data_type'] == 'Country' ) {
+                require_once 'CRM/Core/DAO/Country.php';
                 $daoCountry =& new CRM_Core_DAO_Country();
                 $countryId = $defaults['default_value'];
                 $daoCountry->id = $countryId;

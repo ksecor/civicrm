@@ -476,6 +476,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
         
         $config  =& CRM_Core_Config::singleton( );
+	require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks, true, false );
      
         //add contact to gruoup

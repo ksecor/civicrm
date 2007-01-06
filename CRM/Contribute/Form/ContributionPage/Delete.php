@@ -89,6 +89,7 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
         $dao->delete( );
 
         // next delete the amount option fields
+        require_once 'CRM/Core/DAO/CustomOption.php';
         $dao =& new CRM_Core_DAO_CustomOption( );
         $dao->entity_table = 'civicrm_contribution_page';
         $dao->entity_id    = $this->_id;
@@ -103,6 +104,7 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
 
 
         // finally delete the contribution page
+        require_once 'CRM/Contribute/DAO/ContributionPage.php';
         $dao =& new CRM_Contribute_DAO_ContributionPage( );
         $dao->id = $this->_id;
         $dao->delete( );

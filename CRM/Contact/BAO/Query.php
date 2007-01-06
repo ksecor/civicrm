@@ -1575,6 +1575,7 @@ class CRM_Contact_BAO_Query {
         }
 
         //check if group is saved search
+        require_once 'CRM/Contact/BAO/Group.php';
         $group =& new CRM_Contact_BAO_Group(); 
         $group->id = implode( ',', array_keys($value) ); 
         $group->find(true); 

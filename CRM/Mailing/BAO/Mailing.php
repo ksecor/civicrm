@@ -38,6 +38,7 @@ require_once 'Mail/mime.php';
 
 require_once 'CRM/Contact/BAO/SavedSearch.php';
 require_once 'CRM/Contact/BAO/Query.php';
+require_once 'CRM/Contact/BAO/Group.php';
 
 require_once 'CRM/Mailing/DAO/Mailing.php';
 require_once 'CRM/Mailing/DAO/Group.php';
@@ -103,6 +104,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $email      = CRM_Core_DAO_Email::getTableName();
         $contact    = CRM_Contact_DAO_Contact::getTableName();
         $location   = CRM_Core_DAO_Location::getTableName();
+        require_once 'CRM/Contact/DAO/Group.php';
         $group      = CRM_Contact_DAO_Group::getTableName();
         $g2contact  = CRM_Contact_DAO_GroupContact::getTableName();
       
@@ -740,11 +742,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /* Create the mailing group record */
         $mg =& new CRM_Mailing_DAO_Group();
         foreach (array('groups', 'mailings') as $entity) {
-            foreach (array('include', 'exclude') as $type) {
-                if (is_array($params[$entity][$type])) {
+            foreach (array('include', 'exclude') as $type) {                
+                if (is_array($params[$entity][$type])) {                    
                     foreach ($params[$entity][$type] as $entityId) {
                         $mg->reset();
-                        $mg->mailing_id = $mailing->id;
+                        $mg->mailing_id = $mailing->id;                        
                         $mg->entity_table   = ($entity == 'groups') 
                                             ? CRM_Contact_BAO_Group::getTableName()
                                             : CRM_Mailing_BAO_Mailing::getTableName();

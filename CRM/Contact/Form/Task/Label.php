@@ -115,6 +115,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         //get the contact information
         foreach ($this->_contactIds as $value) {
             $params  = array( 'contact_id'=> $value );
+            require_once 'api/Contact.php';
             $contact[$value] =& crm_fetch_contact( $params, $returnProperties );
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
