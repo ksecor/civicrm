@@ -220,8 +220,12 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $location = CRM_Core_BAO_Location::getValues($params, $defaults, $id, 1);
 
             if( $manageEvent[$dao->id]['id'] == $defaults['location'][1]['entity_id'] ) {
-                $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
-                $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
+                if ( $defaults['location'][1]['address']['city'] ) {
+                    $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
+                }
+                if ( $defaults['location'][1]['address']['state_province_id'] ) {
+                    $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
+                }
             }
         }
         
