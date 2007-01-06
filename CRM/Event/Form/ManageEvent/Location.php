@@ -70,16 +70,40 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     function setDefaultValues( ) 
     {    
         $defaults = array( );
+        $params   = array( );
         if ( isset( $this->_id ) ) {
             $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $defaults, $ids, self::LOCATION_BLOCKS);
             $this->_ids = $ids;
         }
-        
+       
+        if ( ! empty( $params ) ) {
+            $this->setShowHide( $params, true );
+        } else {
+            $this->setShowHide( $defaults, false );
+        }
+
         return $defaults;
     }
 
+    /**
+     * Fix what blocks to show/hide based on the default values set
+     *
+     * @param array   $defaults the array of default values
+     * @param boolean $force    should we set show hide based on input defaults
+     *
+     * @return void
+     */
+    function setShowHide( &$defaults, $force ) {
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( array(),'') ;
+        // first do the defaults showing
+        $config =& CRM_Core_Config::singleton( );
+        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS );
+        
+        $this->_showHide->addToTemplate( );
+    }
+    
     /** 
      *  function to build location block 
      * 
@@ -92,7 +116,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         
         require_once 'CRM/Contact/Form/Location.php';
         CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
-        
+        $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
         $this->addButtons(array(
                                 array ( 'type'      => 'back',
                                         'name'      => ts('<< Previous') ),
