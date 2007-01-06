@@ -738,7 +738,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             }
             $job->save();
         }
-        
+        require_once 'CRM/Contact/BAO/Group.php';
         /* Create the mailing group record */
         $mg =& new CRM_Mailing_DAO_Group();
         foreach (array('groups', 'mailings') as $entity) {

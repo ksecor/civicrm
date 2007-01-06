@@ -179,10 +179,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function buildMailBlock( $form ) 
     {
-        $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, false);
+        $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, null, array('onclick' =>"return showHideByValue('is_email_confirm','','confirmEmail','block','radio',false);"));
         $form->add('textarea','confirm_email_text',ts('Text'), array("rows"=>2,"cols"=>60));
         $form->add('text','cc_confirm',ts('CC Confirmation To '));  
-        $form->add('text','cc_confirm',ts('BCC Confirmation To '));  
+        $form->add('text','bcc_confirm',ts('BCC Confirmation To '));  
     }
 
    /**

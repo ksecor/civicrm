@@ -49,9 +49,11 @@
  {strip}
     <dl>
     	<dt>{$form.is_email_confirm.label}</dt><dd>{$form.is_email_confirm.html}</dd>
+<div id="confirmEmail">
 	    <dt>{$form.confirm_email_text.label}</dt><dd>{$form.confirm_email_text.html}</dd>
     	<dt>{$form.cc_confirm.label}</dt><dd>{$form.cc_confirm.html}</dd>
 	    <dt>{$form.bcc_confirm.label}</dt><dd>{$form.bcc_confirm.html}</dd>
+</div>
     </dl>
  {/strip}
     </fieldset>
@@ -73,4 +75,11 @@ target_element_type ="block"
 field_type          ="radio"
 invert              = 0
 }
-
+{include file="CRM/common/showHideByFieldValue.tpl" 
+trigger_field_id    ="is_email_confirm"
+trigger_value       =""
+target_element_id   ="confirmEmail" 
+target_element_type ="block"
+field_type          ="radio"
+invert              = 0
+}
