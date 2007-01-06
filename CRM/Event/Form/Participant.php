@@ -134,7 +134,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                               );
             return;
         }
-        
+
         $urlParams = "reset=1&cid={$this->_contactID}&context=event";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
@@ -145,25 +145,38 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                                       $urlParams, true, null, false ); 
         $this->assign("refreshURL",$url);
         
-        $element =& $this->add('select', 'event_id', 
-                                      ts( 'Event' ), 
-                                      array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::event( ),
-                                      'true'
-                                      );
+        $st     = CRM_Event_PseudoConstant::event( );
+        $params = array( );
         
-        $element =& $this->add( 'date', 'register_date', ts('Registration Date'), CRM_Core_SelectValues::date('manual', 3, 1), false );            
+        require_once "CRM/Event/BAO/Event.php";
+        foreach( $st as $key => $val ) {
+            $params['id'] = $key;
+            CRM_Event_BAO_Event::retrieve($params, $def);
+            $st[$key] .=  '  ('.CRM_Utils_Date::customFormat($def['start_date']).' )';
+        }
+        
+        $element =& $this->add('select', 'event_id', 
+                               ts( 'Event' ), 
+                               array( '' => ts( '-select-' ) ) + $st,
+                               'true'
+                               );
+        
+        $element =& $this->add( 'date', 'register_date', 
+                                ts('Registration Date'), 
+                                CRM_Core_SelectValues::date('manual', 3, 1), false );            
         $element =& $this->add( 'select', 'role_id' , 
                                 ts( 'Participant Role' ),
-                                array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantRole( ) 
+                                array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantRole( ) 
                                 );
         
         $element =& $this->add( 'select', 'status_id' , 
                                 ts( 'Participant Status' ),
-                                array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantStatus( ) 
+                                array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantStatus( )
                                 );
 
         $element =& $this->add( 'text', 'source', ts('Event Source') );
         $element =& $this->add( 'text', 'event_level', ts('Event Level') );
+        
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
