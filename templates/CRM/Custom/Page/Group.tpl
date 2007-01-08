@@ -6,9 +6,8 @@
     {include file="CRM/Custom/Form/DeleteGroup.tpl"}
 {else}
     <div id="help">
-    {ts}Custom data is stored in custom fields. Custom fields are organized into logically related custom data groups (e.g. Volunteer Info).
-    Use custom fields to collect and store custom data which is not included in the standard CiviCRM forms. You can create one or many groups
-    of custom fields.{/ts}</div>
+    {ts}Custom data is stored in custom fields. Custom fields are organized into logically related custom data groups (e.g. Volunteer Info). Use custom fields to collect and store custom data which is not included in the standard CiviCRM forms. You can create one or many groups of custom fields.{/ts}
+    </div>
 
     {if $rows}
     <div id="custom_group">
