@@ -13,12 +13,13 @@
         {else} 
       <table class="form-layout-compressed">
         <tr><td class="label font-size12pt">{ts}From{/ts}</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
-        <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;
+        <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
+        {if $action eq 1}<a href="{$pastURL}">&raquo; {ts}Select past Event(s) as well.{/ts}</a>{/if}    
         {if $is_test}
           {ts}(test){/ts}
         {/if}
         </td></tr> 
-        <tr><td class="label"></td><td class="description">{ts}Select the appropriate Event.{/ts}</td></tr>
+
         <tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
 	{if $hideCalender neq true}
 	  {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event}
@@ -26,11 +27,11 @@
 	{/if}    
      	</td>
 	</tr>
+
         <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this event is registered.{/ts}</td></tr>
 
         <tr><td class="label">{$form.role_id.label}</td><td>{$form.role_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Role for the participation (if applicable).{/ts}</td></tr>
-
 
         <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Status for the participation (if applicable).{/ts}</td></tr>

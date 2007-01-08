@@ -96,6 +96,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
         
         $this->addDefaultButtons( ts('Save') );
         $this->_fields  = array( );
+        require_once "CRM/Core/BAO/UFGroup.php'";
         $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
         $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
         

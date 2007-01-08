@@ -116,7 +116,7 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
             $types[]    = CRM_Contact_BAO_Contact::getContactType($id);
             break;
         }
-
+        require_once "CRM/Core/BAO/UFGroup.php";
         $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles($types);
    
         if( CRM_Core_BAO_UFGroup::getProfiles($types) == null ) {

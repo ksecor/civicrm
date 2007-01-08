@@ -100,6 +100,7 @@ class CRM_Contribute_Form_Task_PickProfile extends CRM_Contribute_Form_Task {
     function buildQuickForm( ) 
     {
         CRM_Utils_System::setTitle( ts('Batch Profile Update for Contribution') );
+        require_once 'CRM/Core/BAO/UFGroup.php';
         // add select for groups
         $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles(array('Contribution'));
 

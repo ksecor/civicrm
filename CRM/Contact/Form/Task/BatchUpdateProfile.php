@@ -96,7 +96,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
         if ( ! $ufGroupId ) {
             CRM_Core_Error::fatal( 'ufGroupId is missing' );
         }
-
+        require_once "CRM/Core/BAO/UFGroup.php";
         $this->_title = ts('Batch Update') . ' - ' . CRM_Core_BAO_UFGroup::getTitle ( $ufGroupId );
         CRM_Utils_System::setTitle( $this->_title );
         
