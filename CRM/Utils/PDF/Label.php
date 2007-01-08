@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.6                                                |
+ | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2006                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
      * functionality and smarts to the base PDF_Label.
      *
      * @author Donald A. Lobo <lobo@civicrm.org>
-     * @copyright CiviCRM LLC (c) 2004-2006
+     * @copyright CiviCRM LLC (c) 2004-2007
      * 
      *
      */

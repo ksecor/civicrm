@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.6                                                |
+ | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2006                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -30,7 +30,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@civicrm.org>
- * @copyright CiviCRM LLC (c) 2004-2006
+ * @copyright CiviCRM LLC (c) 2004-2007
  * $Id: Selector.php 1204 2005-05-27 19:32:55Z lobo $
  *
  */

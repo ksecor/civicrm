@@ -11,7 +11,7 @@
  * STDERR.
  *
  * @author Piotr Szotkowski <shot@caltha.pl>
- * @copyright CiviCRM LLC (c) 2004-2006
+ * @copyright CiviCRM LLC (c) 2004-2007
  * @license http://affero.org/oagpl.html  Affero General Public License
  */
 
