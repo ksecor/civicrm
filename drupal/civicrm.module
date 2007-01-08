@@ -163,7 +163,6 @@ function civicrm_block($op='list', $delta='0')
     // The $op parameter determines what piece of information is being requested.
     require_once 'CRM/Core/Block.php';
 
-    $menu_arr = civicrm_menu(true);
     if ($op == 'list') {
         $block = CRM_Core_Block::getInfo();
     } else {
@@ -192,12 +191,11 @@ function civicrm_menu($may_cache)
 {
 	civicrm_initialize( );
 
+    require_once 'CRM/Core/Menu.php';
     if ( $may_cache ) {
-        require_once 'CRM/Core/Menu.php';
-        $items =& CRM_Core_Menu::permissionedItems( );
-        return $items;
+        return CRM_Core_Menu::permissionedItems( );
     } else {
-        return array( );
+        return CRM_Core_Menu::items( );
     }
 }
 

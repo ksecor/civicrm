@@ -40,6 +40,7 @@ require_once 'CRM/Core/DAO/Address.php';
 require_once 'CRM/Core/DAO/Phone.php'; 
 require_once 'CRM/Core/DAO/Email.php'; 
 
+
 class CRM_Contact_BAO_Query {
   
     /**
@@ -510,7 +511,9 @@ class CRM_Contact_BAO_Query {
         
         // add location as hierarchical elements
         $this->addHierarchicalElements( );
+
         //fix for CRM-951
+        require_once 'CRM/Core/Component.php';
         CRM_Core_Component::alterQuery( $this, 'select' );
 
         if ( ! empty( $this->_cfIDs ) ) {
@@ -985,6 +988,8 @@ class CRM_Contact_BAO_Query {
                     $this->whereClauseSingle( $this->_params[$id] );
                 }
             }
+
+            require_once 'CRM/Core/Component.php';
             CRM_Core_Component::alterQuery( $this, 'where' );
         }
         
@@ -2220,6 +2225,7 @@ class CRM_Contact_BAO_Query {
         }
 
         if ( ! isset( self::$_defaultReturnProperties[$mode] ) ) {
+            require_once 'CRM/Core/Component.php';
             self::$_defaultReturnProperties[$mode] = CRM_Core_Component::defaultReturnProperties( $mode );
 
             if ( empty( self::$_defaultReturnProperties[$mode] ) ) {
