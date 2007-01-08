@@ -3,9 +3,9 @@
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
 {include file="CRM/common/dojo.tpl"}
-<div id="mainTabContainer" dojoType="TabContainer" style="width: 100%; height: 600px; overflow-y: auto" selectedTab="{$selectedChild}">
+<div id="mainTabContainer" dojoType="TabContainer" style="width: 100%; height: 600px; overflow-y: auto;" selectedTab="{$selectedChild}">
 
-<div id="summary" dojoType="ContentPane" style="overflow-y: auto" label="Summary">
+<div id="summary" dojoType="ContentPane" style="overflow: auto; width: 100%; height: 100%;" label="Summary">
 
 {* View Contact Summary *}
 <div id="contact-name" class="section-hidden section-hidden-border">
@@ -160,7 +160,7 @@
 </div>
 
 {foreach from=$allTabs key=tabName item=tabValue}
-  <div id="{$tabValue.id}" dojoType="ContentPane" href="{$tabValue.url}" label="{$tabName}" style="display: none; overflow-y: auto" adjustPaths="false" executeScripts="true"></div>
+  <div id="{$tabValue.id}" dojoType="ContentPane" href="{$tabValue.url}" label="{$tabName}" style="display: none; overflow: auto; width: 100%; height: 100%;" adjustPaths="false" executeScripts="true"></div>
 {/foreach}
 </div>
 
