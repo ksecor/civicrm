@@ -148,6 +148,8 @@ class CRM_Core_Menu {
             self::$_items = array_merge( self::$_items, $items );
             
             self::initialize( );
+
+            // CRM_Core_Error::debug( 'i', self::$_items );
         }
         
         return self::$_items;
@@ -774,15 +776,6 @@ class CRM_Core_Menu {
                             ),
         
                       array(
-                            'path'    => 'civicrm/contact/search/basic',
-                            'title'   => ts('Find Contacts'),
-                            'query'   => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
-                            'weight'  => 1
-                            ),
-
-                      array(
                             'path'    => 'civicrm/contact/search/advanced',
                             'query'   => 'reset=1',
                             'title'   => ts('Advanced Search'),
@@ -885,15 +878,6 @@ class CRM_Core_Menu {
     static function &groupItems( ) {
         return array(
                       array(
-                            'path'   => 'civicrm/group',
-                            'title'  => ts('Manage Groups'),
-                            'query'  => 'reset=1',
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::NORMAL_ITEM,
-                            'weight' => 30,
-                            ),
-
-                      array(
                             'path'   => 'civicrm/group/search',
                             'title'  => ts('Group Members'),
                             'type'   => self::CALLBACK,
@@ -912,18 +896,12 @@ class CRM_Core_Menu {
 
     static function &importItems( ) {
         return array(
-                      array(
-                            'path'   => 'civicrm/import',
-                            'title'  => ts( 'Import' ),
-                            'query'  => 'reset=1',
-                            'type'   =>  CRM_Core_Menu::CALLBACK,
-                            'crmType'=>  CRM_Core_Menu::NORMAL_ITEM,
-                            'weight' =>  400,
-                            ),
                       array( 
                              'path'    => 'civicrm/import/contact',
                              'query'   => 'reset=1',
                              'title'   => ts( 'Contacts' ), 
+                             'access'  => CRM_Core_Permission::check( 'import contacts' ) &&
+                                          CRM_Core_Permission::check( 'access CiviCRM' ), 
                              'type'    => CRM_Core_Menu::CALLBACK,  
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                              'weight'  => 410,
@@ -932,6 +910,8 @@ class CRM_Core_Menu {
                              'path'    => 'civicrm/import/activityHistory', 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Activity History' ), 
+                             'access'  => CRM_Core_Permission::check( 'import contacts' ) &&
+                                          CRM_Core_Permission::check( 'access CiviCRM' ), 
                              'type'    => CRM_Core_Menu::CALLBACK,  
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                              'weight'  => 420,  

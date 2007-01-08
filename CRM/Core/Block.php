@@ -397,7 +397,6 @@ class CRM_Core_Block {
         }
 
         ksort($values);
-
         self::setProperty( self::MENU, 'templateValues', array( 'menu' => $values ) );
     }
 

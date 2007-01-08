@@ -40,60 +40,8 @@ require_once 'CRM/Core/Menu.php';
 
 class CRM_Event_Menu {
 
-    static function &main( ) {
+    static function permissioned( ) {
         $items = array(
-                       array(
-                             'path'    => 'civicrm/admin/event',
-                             'title'   => ts('Manage Events'),
-                             'query'  => 'reset=1',
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                             'adminGroup' => 'CiviEvent',
-                             'icon'    => 'admin/membership_type.png',
-                             'weight'  => 370
-                             ),
-                      
-                       array(
-                             'path'    => 'civicrm/admin/options',
-                             'title'   => ts('Event Types'),
-                             'query'  => 'group=event_type&reset=1',
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                             'adminGroup' => 'CiviEvent',
-                             'icon'    => 'admin/membership_status.png',
-                             'weight'  => 375
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/admin/options',
-                             'title'   => ts('Participant Status'),
-                             'query'  => 'group=participant_status&reset=1',
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                             'adminGroup' => 'CiviEvent',
-                             'icon'    => 'admin/template.png',
-                             'weight'  => 380
-                             ),
-
-                       array(
-                             'path'    => 'civicrm/admin/options',
-                             'title'   => ts('Participant Role'),
-                             'query'  => 'group=participant_role&reset=1',
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                             'adminGroup' => 'CiviEvent',
-                             'icon'    => 'admin/template.png',
-                             'weight'  => 385
-                             ),
-
                        array( 
                              'path'    => 'civicrm/event',
                              'query'   => 'reset=1',
@@ -103,29 +51,94 @@ class CRM_Event_Menu {
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,
                              'weight'  => 800,
                              ),
-                       
-                       array( 
-                             'path'    => 'civicrm/event/search',
-                             'query'   => 'reset=1',
-                             'title'   => ts( 'Find Participants' ),
-                             'access'  => CRM_Core_Permission::check( 'access CiviEvent'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                             'weight'  => 810,  
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/event/import', 
-                             'query'   => 'reset=1',
-                             'title'   => ts( 'Import Participants' ),
-                             'access' => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check('access CiviEvent'),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                             'weight'  => 820,  
-                             )
                        );
+        return $items;
+    }
 
+    static function &main( $task ) {
+        $items = array( );
+        switch ( $task ) {
+        case 'admin':
+            $items = array(
+                           array(
+                                 'path'    => 'civicrm/admin/event',
+                                 'title'   => ts('Manage Events'),
+                                 'query'  => 'reset=1',
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check( 'access CiviEvent' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
+                                 'adminGroup' => 'CiviEvent',
+                                 'icon'    => 'admin/membership_type.png',
+                                 'weight'  => 370
+                                 ),
+                      
+                           array(
+                                 'path'    => 'civicrm/admin/options',
+                                 'title'   => ts('Event Types'),
+                                 'query'  => 'group=event_type&reset=1',
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check( 'access CiviEvent' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
+                                 'adminGroup' => 'CiviEvent',
+                                 'icon'    => 'admin/membership_status.png',
+                                 'weight'  => 375
+                                 ),
+                       
+                           array(
+                                 'path'    => 'civicrm/admin/options',
+                                 'title'   => ts('Participant Status'),
+                                 'query'  => 'group=participant_status&reset=1',
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check( 'access CiviEvent' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
+                                 'adminGroup' => 'CiviEvent',
+                                 'icon'    => 'admin/template.png',
+                                 'weight'  => 380
+                                 ),
+
+                           array(
+                                 'path'    => 'civicrm/admin/options',
+                                 'title'   => ts('Participant Role'),
+                                 'query'  => 'group=participant_role&reset=1',
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check( 'access CiviEvent' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
+                                 'adminGroup' => 'CiviEvent',
+                                 'icon'    => 'admin/template.png',
+                                 'weight'  => 385
+                                 ),
+                           );
+            break;
+
+        case 'event':
+            $items = array(
+                           array( 
+                                 'path'    => 'civicrm/event/search',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts( 'Find Participants' ),
+                                 'access'  => CRM_Core_Permission::check( 'access CiviEvent'), 
+                                 'type'    => CRM_Core_Menu::CALLBACK,  
+                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                                 'weight'  => 810,  
+                                 ),
+                       
+                           array(
+                                 'path'    => 'civicrm/event/import', 
+                                 'query'   => 'reset=1',
+                                 'title'   => ts( 'Import Participants' ),
+                                 'access' => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check('access CiviEvent'),
+                                 'type'    => CRM_Core_Menu::CALLBACK,  
+                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                                 'weight'  => 820,  
+                                 )
+                           );
+            break;
+        }
         return $items;
     }
 

@@ -41,63 +41,8 @@ require_once 'CRM/Core/Menu.php';
 class CRM_Member_Menu {
 
     static function permissioned( ) {
-        $items = array( );
-        return $items;
-    }
-
-    static function &main( ) {
         $items = array(
-                       array(
-                             'path'    => 'civicrm/admin/member/membershipType',
-                             'title'   => ts('Membership Types'),
-                             'query'  => 'reset=1',
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviMember' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                             'adminGroup' => 'CiviMember',
-                             'icon'    => 'admin/membership_type.png',
-                             'weight'  => 370
-                             ),
-                      
-                       array(
-                             'path'    => 'civicrm/admin/member/membershipStatus',
-                             'title'   => ts('Membership Status Rules'),
-                             'query'  => 'reset=1',
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviMember' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                             'adminGroup' => 'CiviMember',
-                             'icon'    => 'admin/membership_status.png',
-                             'weight'  => 380
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/admin/member/messageTemplates',
-                             'title'   => ts('Message Templates'),
-                             'query'  => 'reset=1',
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviMember' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                             'adminGroup' => 'CiviMember',
-                             'icon'    => 'admin/template.png',
-                             'weight'  => 390
-                             ),
-
-                       array( 
-                             'path'    => 'civicrm/contact/view/membership', 
-                             'query'   => 'reset=1&force=1&cid=%%cid%%', 
-                             'access'  => CRM_Core_Permission::check('access CiviMember'),
-                             'title'   => ts('Memberships'), 
-                             'type'    => CRM_Core_Menu::CALLBACK, 
-                             'crmType' => CRM_Core_Menu::LOCAL_TASK, 
-                             'weight'  => 2
-                             ),
-
-
-                        array( 
+                         array( 
                              'path'    => 'civicrm/member', 
                              'query'   => 'reset=1',
                              'title'   => ts('CiviMember'), 
@@ -106,29 +51,95 @@ class CRM_Member_Menu {
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,
                              'weight'  => 700,  
                              ),
+                         );
+        return $items;
+    }
 
-                       array( 
-                             'path'    => 'civicrm/member/search',
-                             'query'   => 'reset=1',
-                             'title'   => ts( 'Find Members' ),
-                             'access'  => CRM_Core_Permission::check( 'access CiviMember'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                             'weight'  => 710,  
-                             ),
+    static function &main( $task ) {
+        $items = array( );
+        switch ( $task ) {
+        case 'admin':
+            $items = array(
+                           array(
+                                 'path'    => 'civicrm/admin/member/membershipType',
+                                 'title'   => ts('Membership Types'),
+                                 'query'  => 'reset=1',
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check( 'access CiviMember' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
+                                 'adminGroup' => 'CiviMember',
+                                 'icon'    => 'admin/membership_type.png',
+                                 'weight'  => 370
+                                 ),
+                      
+                           array(
+                                 'path'    => 'civicrm/admin/member/membershipStatus',
+                                 'title'   => ts('Membership Status Rules'),
+                                 'query'  => 'reset=1',
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check( 'access CiviMember' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
+                                 'adminGroup' => 'CiviMember',
+                                 'icon'    => 'admin/membership_status.png',
+                                 'weight'  => 380
+                                 ),
                        
-                       array(
-                             'path'    => 'civicrm/member/import', 
-                             'query'   => 'reset=1',
-                             'title'   => ts( 'Import Members' ), 
-                             'access' => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check('access CiviMember'),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                             'weight'  => 720,  
-                             )
-                       );
+                           array(
+                                 'path'    => 'civicrm/admin/member/messageTemplates',
+                                 'title'   => ts('Message Templates'),
+                                 'query'  => 'reset=1',
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check( 'access CiviMember' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
+                                 'adminGroup' => 'CiviMember',
+                                 'icon'    => 'admin/template.png',
+                                 'weight'  => 390
+                                 ),
+                           );
+            break;
 
+        case 'contact':
+            $items = array(
+                           array( 
+                                 'path'    => 'civicrm/contact/view/membership', 
+                                 'query'   => 'reset=1&force=1&cid=%%cid%%', 
+                                 'access'  => CRM_Core_Permission::check('access CiviMember'),
+                                 'title'   => ts('Memberships'), 
+                                 'type'    => CRM_Core_Menu::CALLBACK, 
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK, 
+                                 'weight'  => 2
+                                 ),
+                           );
+            break;
+
+        case 'member':
+            $items = array(
+                           array( 
+                                 'path'    => 'civicrm/member/search',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts( 'Find Members' ),
+                                 'access'  => CRM_Core_Permission::check( 'access CiviMember'), 
+                                 'type'    => CRM_Core_Menu::CALLBACK,  
+                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                                 'weight'  => 710,  
+                                 ),
+                       
+                           array(
+                                 'path'    => 'civicrm/member/import', 
+                                 'query'   => 'reset=1',
+                                 'title'   => ts( 'Import Members' ), 
+                                 'access' => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check('access CiviMember'),
+                                 'type'    => CRM_Core_Menu::CALLBACK,  
+                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                                 'weight'  => 720,  
+                                 )
+                           );
+            break;
+        }
         return $items;
     }
 
