@@ -57,13 +57,6 @@ class CRM_Utils_String {
      * @static
      */
     static function titleToVar( $title ) {
-        //below code is commented for CRM-1305
-        /*
-        if ( ! CRM_Utils_Rule::title( $title ) ) {
-            return null;
-        }
-        */
-
         $variable = self::munge( $title );
 
         if ( CRM_Utils_Rule::variable( $variable ) ) {
@@ -85,7 +78,7 @@ class CRM_Utils_String {
      * @return string returns the manipulated string
      * @static
      */
-    static function munge( $name, $char = '_', $len = 31 ) {
+    static function munge( $name, $char = '_', $len = 63 ) {
         // replace all white space and non-alpha numeric with $char
         $name = preg_replace('/\s+|\W+/', $char, trim($name) );
 
