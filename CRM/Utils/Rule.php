@@ -121,7 +121,8 @@ class CRM_Utils_Rule
 
     static function domain( $domain ) 
     {
-        if ( ! preg_match('/^(([A-Za-z0-9\-])+\.)+[A-Za-z\-]+$/', $domain ) ) {
+        // not perfect, but better than the previous one; see CRM-1502
+        if ( ! preg_match('/^[A-Za-z0-9]([A-Za-z0-9\.\-]*[A-Za-z0-9])?$/', $domain ) ) {
             return false;
         }
         return true;
