@@ -40,6 +40,11 @@ require_once 'CRM/Core/Menu.php';
 
 class CRM_Member_Menu {
 
+    static function permissioned( ) {
+        $items = array( );
+        return $items;
+    }
+
     static function &main( ) {
         $items = array(
                        array(

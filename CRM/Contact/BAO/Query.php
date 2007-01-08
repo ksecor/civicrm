@@ -790,6 +790,35 @@ class CRM_Contact_BAO_Query {
         return null;
     }
 
+    static function convertFormValues( &$formValues, $wildcard = 0 ) {
+        $params = array( );
+
+        if ( empty( $formValues ) ) {
+            return $params;
+        }
+
+        
+        foreach ( $formValues as $id => $values ) {
+            if ( $id == 'privacy' ) {
+                if ( is_array($formValues['privacy']) ) { 
+                    foreach ($formValues['privacy'] as $key => $value) { 
+                        if ($value) {
+                            $params[] = array( $key, '=', $value, 0, 0 );
+                        }
+                    } 
+                }
+            } else {
+                $values =& CRM_Contact_BAO_Query::fixWhereValues( $id, $values, $wildcard );
+                
+                if ( ! $values ) {
+                    continue;
+                }
+                $params[] = $values;
+            }
+        }
+        return $params;
+    }
+
     static function &fixWhereValues( $id, &$values, $wildcard = 0 ) {
         // skip a few search variables
         static $skipWhere   = null;

@@ -183,9 +183,10 @@ function &crm_get_contribution( $params, $returnProperties = null ) {
     }
 
     if ( ! CRM_Utils_Array::value( 'contribution_id', $params ) ) {
-        $returnProperties = array( 'trxn_id' => 1 ,"contributiom_id" => 1);
-        require_once "CRM/Contact/Form/Search.php";
-        $newP =& CRM_Contact_Form_Search::convertFormValues( $params );
+        $returnProperties = array( 'trxn_id'         => 1 ,
+                                   'contributiom_id' => 1);
+        require_once 'CRM/Contact/BAO/Query.php';
+        $newP =& CRM_Contact_BAO_Query::convertFormValues( $params );
         list( $contributions , $options ) = crm_search( $newP, $returnProperties );
         if ( count( $contributions ) != 1 ) {
             return _crm_error( count( $contributions ) . " contributions matching input params." );

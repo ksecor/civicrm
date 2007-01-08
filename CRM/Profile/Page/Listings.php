@@ -275,8 +275,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $returnProperties['contact_type'] = 1;
         $returnProperties['sort_name'   ] = 1;
 
-        require_once 'CRM/Contact/Form/Search.php';
-        $queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_params, 1 );
+        $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_params, 1 );
         $this->_query   =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, $this->_fields );
         
         $ids = $this->_query->searchQuery( 0, 0, null, 

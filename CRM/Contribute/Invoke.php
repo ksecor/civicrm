@@ -44,6 +44,11 @@ class CRM_Contribute_Invoke {
             return;
         }
 
+        if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
+            CRM_Core_Error::fatal( 'You do not have access to this page' );
+        }
+
+        
         $view = null;
 
         switch ( CRM_Utils_Array::value( 3, $args, '' ) ) {
@@ -117,7 +122,13 @@ class CRM_Contribute_Invoke {
             require_once 'CRM/Contribute/Controller/Contribution.php'; 
             $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
             return $controller->run(); 
-        } elseif ($args[2] == 'search') {
+        } 
+
+        if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
+            CRM_Core_Error::fatal( 'You do not have access to this page' );
+        }
+
+        if ($args[2] == 'search') {
             require_once 'CRM/Contribute/Controller/Search.php'; 
             $controller =& new CRM_Contribute_Controller_Search($title, $mode); 
             $url = 'civicrm/contribute/search';

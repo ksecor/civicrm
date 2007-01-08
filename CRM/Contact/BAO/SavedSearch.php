@@ -119,8 +119,8 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
             require_once 'CRM/Core/BAO/Mapping.php';
             return CRM_Core_BAO_Mapping::formattedFields( $fv );
         } else {
-            require_once 'CRM/Contact/Form/Search.php';
-            return CRM_Contact_Form_Search::convertFormValues( $fv );
+            require_once 'CRM/Contact/BAO/Query.php';
+            return CRM_Contact_BAO_Query::convertFormValues( $fv );
         }
     }
 
@@ -154,8 +154,8 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
             require_once 'CRM/Core/BAO/Mapping.php';
             $params = CRM_Core_BAO_Mapping::formattedFields( $fv );
         } else {
-            require_once 'CRM/Contact/Form/Search.php';
-            $params = CRM_Contact_Form_Search::convertFormValues( $fv );
+            require_once 'CRM/Contact/BAO/Query.php';
+            $params = CRM_Contact_BAO_Query::convertFormValues( $fv );
         }
 
         if ( ! empty( $params ) ) {

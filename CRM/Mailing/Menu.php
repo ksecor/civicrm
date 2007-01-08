@@ -38,6 +38,11 @@
 
 class CRM_Mailing_Menu {
 
+    static function permissioned( ) {
+        $items = array( );
+        return $items;
+    }
+
     static function &main( ) {
         $items = array(
                        array(

@@ -254,6 +254,10 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         require_once "CRM/Core/BAO/Setting.php";
         CRM_Core_BAO_Setting::add($params);
 
+        // also delete the CRM_Core_Config key from the database
+        $cache =& CRM_Utils_Cache::singleton( );
+        $cache->delete( 'CRM_Core_Config' );
+
         CRM_Core_Session::setStatus( ts('Your settings changes have been saved.') );
     }
 }

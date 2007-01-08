@@ -55,6 +55,7 @@ class CRM_Core_Invoke {
         require_once 'CRM/Utils/Request.php';
         require_once 'CRM/Core/Menu.php';
         require_once 'CRM/Core/Component.php';
+        require_once 'CRM/Core/Permission.php';
 
         if ( $args[0] !== 'civicrm' ) {
             return;
@@ -161,6 +162,10 @@ class CRM_Core_Invoke {
         }
 
         if ( $args[2] == 'add' ) {
+            if ( ! CRM_Core_Permission::check('add contacts') ) {
+                CRM_Core_Error::fatal( 'You do not have access to this page' );
+            }
+
             $contactType    = CRM_Utils_Request::retrieve('ct','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
             $contactSubType = CRM_Utils_Request::retrieve('cst','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
             return self::form( CRM_Core_Action::ADD, $contactType, $contactSubType );
@@ -470,6 +475,10 @@ class CRM_Core_Invoke {
             return;
         }
 
+        if ( ! CRM_Core_Permission::check('administer CiviCRM') ) {
+            CRM_Core_Error::fatal( 'You do not have access to this page' );
+        }
+
         $view = null;
         switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
             
@@ -599,7 +608,15 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function import( $args ) {
-        
+
+        if ( $args[1] != 'import' ) {
+            return;
+        }
+
+        if ( ! CRM_Core_Permission::check('import contacts') ) {
+            CRM_Core_Error::fatal( 'You do not have access to this page' );
+        }
+
         if ($args[2] == 'activityHistory' ) {
             require_once 'CRM/History/Import/Controller.php';
             $controller =& new CRM_History_Import_Controller(ts('Import Activity History'));
@@ -626,6 +643,10 @@ class CRM_Core_Invoke {
 
         switch ( CRM_Utils_Array::value( 2, $args ) ) {
         case 'add':
+            if ( ! CRM_Core_Permission::check('edit groups') ) {
+                CRM_Core_Error::fatal( 'You do not have access to this page' );
+            }
+
             require_once 'CRM/Group/Controller.php';
             $controller =& new CRM_Group_Controller(ts('Groups'), CRM_Core_Action::ADD);
             $session =& CRM_Core_Session::singleton( );
@@ -753,6 +774,10 @@ class CRM_Core_Invoke {
         if ( $args[1] !== 'acl' ) { 
             return; 
         } 
+
+        if ( ! CRM_Core_Permission::check('administer CiviCRM') ) {
+            CRM_Core_Error::fatal( 'You do not have access to this page' );
+        }
 
         $secondArg = CRM_Utils_Array::value( 2, $args );
         if (  $secondArg == 'entityrole' ) {

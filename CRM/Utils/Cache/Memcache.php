@@ -100,6 +100,14 @@ class CRM_Utils_Cache_Memcache {
         return $result;
     }
 
+    function delete( $key ) {
+        return $this->_cache->delete( $key );
+    }
+
+    function flush( ) {
+        return $this->_cache->flush( );
+    }
+        
 }
 
 ?>

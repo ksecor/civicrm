@@ -35,4 +35,23 @@
  *
  */
 
+function _civicrm_initialize( ) {
+    require_once 'CRM/Core/Config.php';
+    $config =& CRM_Core_Config::singleton( );
+}
+
+/**
+ * Check if the given array is actually an error
+ *
+ * @param  array   $params           (reference ) input parameters
+ *
+ * @return boolean true if error, false otherwise
+ * @static void
+ * @access public
+ */
+function civicrm_error( &$params ) {
+    return ( array_key_exists( 'is_error', $params ) &&
+             $params['is_error'] ) ? true : false;
+}
+
 ?>

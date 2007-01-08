@@ -194,7 +194,7 @@ function civicrm_menu($may_cache)
 
     if ( $may_cache ) {
         require_once 'CRM/Core/Menu.php';
-        $items =& CRM_Core_Menu::items( );
+        $items =& CRM_Core_Menu::permissionedItems( );
         return $items;
     } else {
         return array( );

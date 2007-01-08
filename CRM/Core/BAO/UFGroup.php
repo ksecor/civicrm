@@ -881,7 +881,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                             );
         }
         
-        $params =& CRM_Contact_Form_Search::convertFormValues( $params );
+        $params =& CRM_Contact_BAO_Query::convertFormValues( $params );
         $whereTables = array( );
 
         return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, $whereTables, true );

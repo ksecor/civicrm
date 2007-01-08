@@ -175,8 +175,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
         $returnProperties['contact_type'] = 1;
         $returnProperties['sort_name'   ] = 1;
-        require_once 'CRM/Contact/Form/Search.php';
-        $queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_params, 1 );
+        $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_params, 1 );
         $this->_query   =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, $this->_fields );
         $this->_options =& $this->_query->_options;
         //CRM_Core_Error::debug( 'q', $this->_query );

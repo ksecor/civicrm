@@ -460,7 +460,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name); 
             $this->normalizeFormValues( );
-            $this->_params =& $this->convertFormValues( $this->_formValues );
+            $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
             $this->_returnProperties =& $this->returnProperties( );
 
             // CRM_Core_Error::debug( 'fv', $this->_formValues );
@@ -475,7 +475,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->set( 'id', $this->_ufGroupID );
         } else {
             $this->_formValues = $this->get( 'formValues' );
-            $this->_params =& $this->convertFormValues( $this->_formValues );
+            $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
             $this->_returnProperties =& $this->returnProperties( );
         }
 
@@ -491,7 +491,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             if ( isset( $this->_ssID ) ) {
                 // we only retrieve the saved search values if out current values are null
                 $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
-                $this->_params =& $this->convertFormValues( $this->_formValues );
+                $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
                 $this->_returnProperties =& $this->returnProperties( );
             } else if ( isset( $this->_ufGroupID ) ) {
                 // also set the uf group id if not already present
@@ -585,7 +585,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                 $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
             }
         }
-        $this->_params           =& $this->convertFormValues( $this->_formValues );
+        $this->_params           =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
         $this->_returnProperties =& $this->returnProperties( );
         
         $this->postProcessCommon( );
@@ -619,35 +619,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         return;
-    }
-
-    function &convertFormValues( &$formValues, $wildcard = 0 ) {
-        $params = array( );
-
-        if ( empty( $formValues ) ) {
-            return $params;
-        }
-
-        
-        foreach ( $formValues as $id => $values ) {
-            if ( $id == 'privacy' ) {
-                if ( is_array($formValues['privacy']) ) { 
-                    foreach ($formValues['privacy'] as $key => $value) { 
-                        if ($value) {
-                            $params[] = array( $key, '=', $value, 0, 0 );
-                        }
-                    } 
-                }
-            } else {
-                $values =& CRM_Contact_BAO_Query::fixWhereValues( $id, $values, $wildcard );
-                
-                if ( ! $values ) {
-                    continue;
-                }
-                $params[] = $values;
-            }
-        }
-        return $params;
     }
 
     /**

@@ -165,7 +165,7 @@ class CRM_Core_Component
         return false;
     }
 
-    static function &menu( ) 
+    static function &menu( $permissioned = false, $task = null ) 
     {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
@@ -174,7 +174,12 @@ class CRM_Core_Component
             if ( in_array( $name, $config->enableComponents ) ) {
                 $className = $info[$name]['path'] . 'Menu';
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
-                eval( '$ret = ' . $className . '::main( );' );
+                if ( $permissioned ) {
+                    eval( '$ret = ' . $className . '::permissioned( );' );
+
+                } else {
+                    eval( '$ret = ' . $className . '::main( $task );' );
+                }
                 $items = array_merge( $items, $ret );
             }
         }

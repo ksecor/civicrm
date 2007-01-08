@@ -645,6 +645,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         'activity_date'    => $now,
                         );
 
+        require_once 'api/History.php';
         if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
             CRM_Core_Error::fatal( "Could not create a system record" );
         }
