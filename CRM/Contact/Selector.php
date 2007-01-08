@@ -281,9 +281,33 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                      'direction' => CRM_Utils_Sort::ASCENDING,
                                                      )
                                                );
+
+                require_once 'CRM/Core/PseudoConstant.php';
+                $locationTypes = CRM_Core_PseudoConstant::locationType( );
+                
                 foreach ( $this->_fields as $name => $field ) { 
                     if ( $field['in_selector'] &&
                          ! in_array( $name, $skipFields ) ) {
+                        if ( strpos( $name, '-' ) !== false ) {
+                            list( $fieldName, $lType, $type ) = explode( '-', $name );
+
+                            if ( $lType == 'Primary' ) {
+                                $locationTypeName = 1;
+                            } else {
+                                $locationTypeName = $locationTypes[$lType];
+                            }
+                            
+                            if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
+                                if ( $type ) {
+                                    $name = "`$locationTypeName-$fieldName-$type`";
+                                } else {
+                                    $name = "`$locationTypeName-$fieldName-1`";
+                                     }
+                            } else {
+                                $name = "`$locationTypeName-$fieldName`";
+                            }
+                        }
+
                         self::$_columnHeaders[] = array( 'name'      => $field['title'],
                                                          'sort'      => $name,
                                                          'direction' => $direction );
@@ -406,17 +430,15 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     if ( strpos( $key, '-' ) !== false ) {
                         list( $fieldName, $id, $type ) = explode( '-', $key );
 
-                        if ($id == 'Primary') { //fix to display default primary location
-                            require_once "CRM/Core/BAO/LocationType.php";
-                            $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
-                            $id = $defaultLocation->id;
-                        }
-
-                        $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
-                        if ( ! $locationTypeName ) {
-                            continue;
-                        }
-                        
+                        if ($id == 'Primary') {
+                            $locationTypeName = 1;
+                        } else {
+                            $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+                            if ( ! $locationTypeName ) {
+                                continue;
+                            }
+                        }                    
+    
                         $locationTypeName = str_replace( ' ', '_', $locationTypeName );
                         if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) { 
                             if ( $type ) {
