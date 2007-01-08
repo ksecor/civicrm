@@ -302,13 +302,17 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function deleteContact( $contactId ) 
     {
+        
         $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->contact_id_a = $contactId;
         $relationship->delete();
-
+        
         $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->contact_id_b = $contactId;
         $relationship->delete();
+        
+        require_once 'CRM/Contact/BAO/Household.php';
+        CRM_Contact_BAO_Household::updatePrimaryContact( null, $contactId );
     }
 
     /**
