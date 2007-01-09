@@ -89,7 +89,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     static function formRule(&$fields, &$files, $options) {
         $errors = array();
         //$extends = array('Activity','Phonecall','Meeting','Group','Contribution');
-        $extends = array('Activity','Relationship','Group','Contribution','Membership');
+        $extends = array('Activity','Relationship','Group','Contribution','Membership', 'Event','Participant');
         if(in_array($fields['extends'][0],$extends) && $fields['style'] == 'Tab' ) {
             $errors['style'] = 'Display Style should be Inline for this Class';
         }
@@ -144,6 +144,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $sel2['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType();
         $sel2['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
         $sel2['Membership']   = array("" => "-- Any --") + CRM_Member_BAO_MembershipType::getMembershipTypes( false );
+        $sel2['Event']        = array("" => "-- Any --") + CRM_Core_OptionGroup::values('event_type');
+        $sel2['Participant']  = array("" => "-- Any --") + CRM_Core_OptionGroup::values('participant_role');
         
         require_once "CRM/Contact/BAO/Relationship.php";
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');

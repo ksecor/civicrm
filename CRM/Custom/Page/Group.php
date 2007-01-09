@@ -258,8 +258,9 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         foreach ($customGroup as $key => $array) {
             CRM_Core_DAO_CustomGroup::addDisplayEnums($customGroup[$key]);
             $customGroup[$key]['extends_display'] = $customGroupExtends[$customGroup[$key]['extends']];
+            
         }
-        //print_r($customGroup);
+        
         //fix for Diplay the subTypes  
         
         $subTypes= array();
@@ -269,6 +270,8 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $subTypes['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType();
         $subTypes['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
         $subTypes['Membership']   = array("" => "-- Any --") + CRM_Member_BAO_MembershipType::getMembershipTypes( false );
+        $subTypes['Event']        = array("" => "-- Any --") + CRM_Core_OptionGroup::values('event_type');
+        $subTypes['Participant']  = array("" => "-- Any --") + CRM_Core_OptionGroup::values('participant_role');
         
         require_once "CRM/Contact/BAO/Relationship.php";
         
@@ -295,7 +298,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
             
             $customGroup[$key]["extends_entity_column_value"] = $subTypes[$type][$sub];
         }
-        
+      
         $this->assign('rows', $customGroup);
     }
 }

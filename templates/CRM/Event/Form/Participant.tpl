@@ -23,7 +23,7 @@
         <tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
 	{if $hideCalender neq true}
 	  {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event}
-	  {include file="CRM/common/calendar/body.tpl" dateVar=register_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_event}       
+	  {include file="CRM/common/calendar/body.tpl" dateVar=register_date  offset=3 doTime=1  trigger=trigger_event}       
 	{/if}    
      	</td>
 	</tr>
@@ -44,9 +44,32 @@
       </table>
 
        	{/if} 
+        <dt></dt><dd class="description">
+        {if $action eq 4} 
+         {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+        {else}
+          {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+        {/if} 
+       </dd>
+
     	<dl>    
       	<dt>&nbsp;</dt><dt>{$form.buttons.html}</dt> 
     	</dl> 
   </fieldset> 
 </div> 
+
+
+ <script type="text/javascript" >
+ {literal}
+ function reload(refresh) {
+        var roleId = document.getElementById("role_id");
+        var url = {/literal}"{$refreshURL}"{literal}
+        var post = url + "&role=" + roleId.value;
+        if( refresh ) {
+            window.location= post; 
+        }
+      
+    } 
+ {/literal}
+ </script>
 

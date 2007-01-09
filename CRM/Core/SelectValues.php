@@ -296,6 +296,8 @@ class CRM_Core_SelectValues
                 'Contribution' => ts('Contributions'),
                 'Group'        => ts('Groups'),
                 'Membership'   => ts('Memberships'),
+                'Event'        => ts('Events'),
+                'Participant'  => ts('Participants'),
             );
         }
         return $customGroupExtends;

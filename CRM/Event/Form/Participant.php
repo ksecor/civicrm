@@ -82,6 +82,17 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         }
 
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        
+        if ( ! isset($_POST['role_id']) ) {
+            $role = CRM_Utils_Request::retrieve( 'role', 'Positive', CRM_Core_DAO::$_nullObject );
+        } else {
+            $this->_roleId = $_POST['role_id'];
+        }
+        
+        if ( $role ) {
+            $this->_roleId = $role;
+        } 
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $this->_id, 0,$this->_roleId);
 
         parent::preProcess( );        
     }
@@ -108,6 +119,22 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );
             $this->_contactID = $defaults['contact_id'];
         } 
+        $role = CRM_Utils_Request::retrieve( 'role', 'Positive', CRM_Core_DAO::$_nullObject );
+        if ( $role ) {
+            $defaults["role_id"] = $role;
+        }
+        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+            $inactiveNeeded = true;
+            $viewMode = true;
+        } else {
+            $viewMode = false;
+            $inactiveNeeded = false;
+        }
+
+        
+        if( isset($this->_groupTree) ) {
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+        }
         
         return $defaults;
     }
@@ -122,6 +149,9 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
     { 
         $this->applyFilter('__ALL__', 'trim');
 
+        if ($this->_action == CRM_Core_Action::VIEW) { 
+            $this->freeze();
+        }
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
@@ -135,7 +165,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             return;
         }
 
-        $urlParams = "reset=1&cid={$this->_contactID}&context=event";
+        $urlParams = "reset=1&cid={$this->_contactID}&context=participant";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
         } else {
@@ -166,11 +196,11 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         
         $this->add('select', 'event_id',  ts( 'Event' ),  array( '' => ts( '-select-' ) ) + $events, 'true' );
         
-        $this->add( 'date', 'register_date', ts('Registration Date'), 
-                    CRM_Core_SelectValues::date('manual', 3, 1), false );   
+        $this->add( 'date', 'register_date', ts('Registration Date and Time'),CRM_Core_SelectValues::date('datetime' ));   
+        $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
          
         $this->add( 'select', 'role_id' , ts( 'Participant Role' ),
-                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantRole( ) );
+                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantRole( ), false, array('onChange' => "reload(true)") );
         
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
                     array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantStatus( ) );
@@ -184,6 +214,11 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             $buttonType = 'upload';
         } else {
             $buttonType = 'next';
+        }
+        if ($this->_action & CRM_Core_Action::VIEW ) { 
+            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+        } else {
+            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }
         
         $this->addButtons(array( 
@@ -213,47 +248,15 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         }
                 
         // get the submitted form values.  
-        $formValues           = $_POST;
-        $config               =& CRM_Core_Config::singleton( );
-        $params               = array( );
-        $ids                  = array( );
+ 
+        $params = $_POST;
         $params['contact_id'] = $this->_contactID;
+        $params['register_date'] = CRM_Utils_Date::format($params['register_date']);
 
-        $fields               = array( 'event_id',
-                                       'fee_amount',
-                                       'register_date',
-                                       'role_id',
-                                       'status_id',
-                                       'source',
-                                       'event_level'
-                                       );
-
-        foreach ( $fields as $f ) {
-            if( $f == 'event_id' ) {
-                $params[$f] = CRM_Utils_Array::value( $f, $formValues );
-            } else if ( $f == 'fee_amount' ) {
-                $params[$f] = CRM_Utils_Rule::cleanMoney( $formValues[$f] );    
-            } else if ( $f == 'register_date' ) {
-                if ( ! CRM_Utils_System::isNull( $formValues[$f] ) ) {
-                    $params[$f]      = array( );
-                    $params[$f]['H'] = '00';
-                    $params[$f]['i'] = '00';
-                    $params[$f]['s'] = '00';
-                    $params[$f]      =  CRM_Utils_Date::format( $formValues[$f] );
-                }   
-            } else if ( $f == 'role_id' ) {
-                $params[$f] = $formValues[$f];
-            } else if ( $f == 'status_id' ) {
-                $params[$f] = $formValues[$f];
-            } else if ( $f == 'source' ) {
-                $params[$f] = $formValues[$f];
-            } else if ( $f == 'event_level' ) {
-                $params[$f] = $formValues[$f];
-            }            
-        }
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $ids['participant'] = $this->_id;
         }
+        
         require_once "CRM/Event/BAO/Participant.php";
         CRM_Event_BAO_Participant::create( $params ,$ids );   
     }
