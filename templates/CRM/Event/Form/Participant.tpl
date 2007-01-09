@@ -14,7 +14,7 @@
       <table class="form-layout-compressed">
         <tr><td class="label font-size12pt">{ts}From{/ts}</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
         <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
-        {if $action eq 1}<a href="{$pastURL}">&raquo; {ts}Select past Event(s) as well.{/ts}</a>{/if}    
+        {if $action eq 1 && !$past }<a href="{$pastURL}">&raquo; {ts}Select past Event(s) as well.{/ts}</a>{/if}    
         {if $is_test}
           {ts}(test){/ts}
         {/if}

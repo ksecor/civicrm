@@ -147,13 +147,19 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
 
         $this->assign("refreshURL",$url);
         
-        $this->assign("pastURL",$url."&past=true");
+        $url .= "&past=true";
+
+        $this->assign("pastURL", $url);
+
         $events = array( );
+
+        $this->assign("past", false);
 
         require_once "CRM/Event/BAO/Event.php";
 
         if ( CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) || ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             $events = CRM_Event_BAO_Event::getEvents( true );
+            $this->assign("past", true);
         } else {
             $events = CRM_Event_BAO_Event::getEvents( );
         }
