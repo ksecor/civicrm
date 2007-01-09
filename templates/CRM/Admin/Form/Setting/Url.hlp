@@ -1,5 +1,5 @@
 {htxt id='resource-url'}
-{ts}Absolute URL of the location where the civicrm module or component has been installed.{/ts}
+{ts}URL of the location where the civicrm module or component has been installed. You may use an absolute or relative URL.{/ts}
 {ts}
 <p><strong>Drupal Example</strong></br>
 If your site's home url is http://www.example.com/ ... then your CiviCRM Resource URL would be:
