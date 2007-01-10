@@ -83,8 +83,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
 
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
-        $this->_roleId = CRM_Utils_Request::retrieve( 'subType', 'Positive',
-                                                       $this );
+        $this->_roleId = CRM_Utils_Request::retrieve( 'subType', 'Positive',$this );
 
         if ( ! $this->_roleId ) {
             if ( $this->_id ) {
@@ -132,7 +131,6 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             $inactiveNeeded = false;
         }
 
-        
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
@@ -166,11 +164,15 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             return;
         }
 
-        $urlParams = "role_id=$this->_roleId&reset=1&cid={$this->_contactID}&context=participant";
+        $urlParams = "reset=1&cid={$this->_contactID}&context=participant";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
         } else {
             $urlParams .= "&action=add";
+        }
+        
+        if (CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
+            $urlParams .= "&past=true";
         }
 
         $url = CRM_Utils_System::url( 'civicrm/contact/view/participant',

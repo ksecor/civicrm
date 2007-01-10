@@ -78,7 +78,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     { 
         $this->applyFilter('__ALL__', 'trim');
 
-        $urlParams = "event_id=$this->_eventId&reset=1&context=event";
+        $urlParams = "reset=1&context=event";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
         } else {
