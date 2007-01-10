@@ -839,7 +839,8 @@ class CRM_Contact_BAO_Query {
             return null;
         }
 
-        if ( $id == 'sort_name' ) {
+        if ( $id == 'sort_name' ||
+             $id == 'email' ) {
             return array( $id, 'LIKE', $values, 0, 1 );
         } else if ( strpos( $values, '%' ) !== false ) {
             return array( $id, 'LIKE', $values, 0, 0 );
@@ -876,6 +877,10 @@ class CRM_Contact_BAO_Query {
 
         case 'sort_name':
             $this->sortName( $values );
+            return;
+
+        case 'email':
+            $this->email( $values );
             return;
 
         case 'sortByCharacter':
@@ -1794,45 +1799,57 @@ class CRM_Contact_BAO_Query {
         if ( strpos( $name, ',' ) !== false ) {
             $value = strtolower(addslashes($name));
             if ( $wildcard ) {
-                $value = "'%$value%'";
+                $value = "'$value%'";
                 $op    = 'LIKE';
             } else {
                 $value = "'$value'";
             }
             $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
-            if ( $config->includeEmailInSearch ) {
-                $sub[] = " ( LOWER(civicrm_email.email) $op $value )";
-                $this->_tables['civicrm_location'] = $this->_whereTables['civicrm_location'] = 1;
-                $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
-            }
         } else { 
             // split the string into pieces 
             $pieces =  explode( ' ', $name ); 
             foreach ( $pieces as $piece ) { 
                 $value = strtolower(addslashes(trim($piece)));
                 if ( $wildcard ) {
-                    $value = "'%$value%'";
+                    $value = "'$value%'";
                     $op    = 'LIKE';
                 } else {
                     $value = "'$value'";
                 }
                 $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
-                if ( $config->includeEmailInSearch ) {
-                    $sub[] = " ( LOWER(civicrm_email.email) $op $value )";
-                }
             } 
-            if ( $config->includeEmailInSearch ) {
-                $this->_tables['civicrm_location'] = $this->_whereTables['civicrm_location'] = 1;
-                $this->_tables['civicrm_email']    = $this->_whereTables['civicrm_email'] = 1; 
-            }
         } 
 
         $this->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
-        if ( $config->includeEmailInSearch ) {
-            $this->_qill[$grouping][]  = ts( 'Name or Email like - "%1"', array( 1 => $name ) );
+        $this->_qill[$grouping][]  = ts( 'Name like - "%1"', array( 1 => $name ) );
+    }
+
+    /**
+     * where / qill clause for email
+     *
+     * @return void
+     * @access public
+     */
+    function email( &$values ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        
+        $name = trim( $value ); 
+
+        $config =& CRM_Core_Config::singleton( );
+
+        $value = strtolower(addslashes($name));
+        if ( $wildcard ) {
+            $value = "'$value%'";
+            $op    = 'LIKE';
         } else {
-            $this->_qill[$grouping][]  = ts( 'Name like - "%1"', array( 1 => $name ) );
-        }            
+            $value = "'$value'";
+        }
+        $sub = " ( LOWER(civicrm_email.email) $op $value )";
+        $this->_tables['civicrm_location'] = $this->_whereTables['civicrm_location'] = 1;
+        $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
+
+        $this->_where[$grouping][] = $sub;
+        $this->_qill[$grouping][]  = ts( 'Email %2 - "%1"', array( 1 => $name, 2 => $op ) );
     }
 
     /**

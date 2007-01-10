@@ -362,10 +362,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_tagElement =& $this->addElement('select', 'tag', ts('Tagged'), $tag);
 
         // text for sort_name
-        $this->add('text', 'sort_name', ts('Name or email'));
-
-        //commented ajax autocomplete
-        // $this->add('text', 'sort_name', ts('Name or email'), 'onkeyup="getSearchResult(this,event, false);"  onblur="getSearchResult(this,event, false);" autocomplete="off"' );
+        $this->add('text', 'sort_name', ts('Name'));
 
         $this->buildQuickFormCommon( );
     }

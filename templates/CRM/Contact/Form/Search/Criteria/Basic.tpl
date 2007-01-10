@@ -3,7 +3,11 @@
             <td class="font-size12pt">{$form.sort_name.label}</td>
             <td>{$form.sort_name.html}
                 <div class="description font-italic">
-                    {ts}Complete OR partial contact name OR email.{/ts}
+                    {ts}Complete OR partial contact name.{/ts}
+                </div>
+                {$form.email.html}
+                <div class="description font-italic">
+                    {ts}Email.{/ts}
                 </div>
             </td>
             <td>
