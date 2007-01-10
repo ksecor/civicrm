@@ -287,7 +287,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      */
     public function postProcess()
     {
-        //$contactID = $this->get( 'contactID' );
+        require_once "CRM/Contact/BAO/Contact.php";
+
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;

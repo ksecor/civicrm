@@ -53,6 +53,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     protected $_id;
     
     /**
+     * the mode that we are in
+     * 
+     * @var string
+     * @protect
+     */
+    public $_mode;
+
+    /**
      * the values for the contribution db object
      *
      * @var array
@@ -100,9 +108,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             //retrieve custom information
             require_once 'CRM/Core/BAO/CustomOption.php'; 
-            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event', $this->_id, $this->_values['event']['custom'] );
+            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event', $this->_id, $this->_values['custom'] );
             
-            $this->_values['event']['feeLevel'] = CRM_Core_BAO_CustomOption::getCustomOption( $this->_id, true, 'civicrm_event' );
+            //$this->_values['event']['feeLevel'] = CRM_Core_BAO_CustomOption::getCustomOption( $this->_id, true, 'civicrm_event' );
             
             $params = array( 'event_id' => $this->_id );
             require_once 'CRM/Event/BAO/EventPage.php';
@@ -115,6 +123,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
         }
+        
+        $this->_mode = 'test'; // till code gets complete
+
     }
 
     /** 

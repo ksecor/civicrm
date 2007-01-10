@@ -62,17 +62,11 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 	    $deleteExtra = ts('Are you sure you want to delete this Event?');
 
             self::$_actionLinks = array(
-                                        CRM_Core_Action::VIEW    => array(
-                                                                          'name'  => ts('View'),
-                                                                          'url'   => 'civicrm/admin/event',
-                                                                          'qs'    => 'action=view&id=%%id%%',
-                                                                          'title' => ts('View Event')
-                                                                          ),
                                         CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Settings'),
+                                                                          'name'  => ts('Configure'),
                                                                           'url'   => 'civicrm/admin/event',
                                                                           'qs'    => 'action=update&id=%%id%%&reset=1',
-                                                                          'title' => ts('Edit Event') 
+                                                                          'title' => ts('Configure Event') 
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
@@ -145,24 +139,22 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
 
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-            CRM_Utils_System::setTitle( ts('New Event Wizard') );
-
+            if ( $action & CRM_Core_Action::ADD ) {
+                $title = "New Event Wizard";
+            } else {
+                $title = "Copy Event Wizard";
+            }
+            CRM_Utils_System::setTitle( ts( $title ) );
+            
             require_once 'CRM/Event/Controller/ManageEvent.php';
             $controller =& new CRM_Event_Controller_ManageEvent( );
             return $controller->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-            CRM_Utils_System::setTitle( ts('Edit Event') );
 
             require_once 'CRM/Event/Page/ManageEventEdit.php';
             $page =& new CRM_Event_Page_ManageEventEdit( );
             return $page->run( );
-        } else if ($action & CRM_Core_Action::VIEW ) {
-            $session =& CRM_Core_Session::singleton( ); 
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
-
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Event_Form_Registration_EventInfo', ts('Event Information Page'), null);
         } else if ($action & CRM_Core_Action::DISABLE ) {
             CRM_Event_BAO_Event::setIsActive($id ,0);
         } else if ($action & CRM_Core_Action::ENABLE ) {
