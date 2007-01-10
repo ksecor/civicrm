@@ -300,7 +300,6 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_done = true;
         
         $this->_formValues = $this->controller->exportValues($this->_name);
-        
         $this->fixFormValues( );
         
         require_once 'CRM/Contact/BAO/Query.php';
@@ -360,6 +359,12 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         // if this search has been forced
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
+        
+        $event = CRM_Utils_Request::retrieve( 'event', 'Positive',
+                                              CRM_Core_DAO::$_nullObject );
+        if ( $event ) {
+            $this->_formValues['event_title'] = CRM_Event_PseudoConstant::event( $event );
+        }
         
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             CRM_Core_DAO::$_nullObject );

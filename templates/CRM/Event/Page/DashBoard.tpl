@@ -7,41 +7,44 @@
     <p>{ts 1=$findContactURL 2=$importURL}You can also input and track offline Events. To enter events manually for individual contacts, use <a href="%1">Find Contacts</a> to locate the contact. Then click <strong>View</strong> to go to their summary page and click on the <strong>New Event</strong> link. You can also <a href="%2">import batches of offline participants</a> from other sources.{/ts}</p>
 </div>
 
-<h3>{ts}Event Participation Summary{/ts}</h3>
+<h3>{ts}Event Summary{/ts}</h3>
 <div class="description">
     {capture assign=findEventsURL}{crmURL p="civicrm/event/search/basic" q="reset=1"}{/capture}
-    <p>{ts 1=$findEventsURL}This table provides a summary of <strong>Participant Totals</strong>, and includes shortcuts to view the participation details for these commonly used search periods. To run your own customized searches - click <a href="%1">Find Participants</a>. You can search by Event Name, Event Status and a variety of other criteria.{/ts}</p>
+    <p>{ts 1=$findEventsURL}This table provides a summary of <strong>Events</strong>, and includes shortcuts to view the Events details.{/ts}</p>
 </div>
 
-
-{* This needs to be fixed for CiviEvent *}
-
-{*
+{*  *}
+{if $eventSummary.total_events}
 <table class="report">
 <tr class="columnheader-dark">
-    <th scope="col">{ts}Period{/ts}</th>
-    <th scope="col">{ts}Total Amount{/ts}</th>
-    <th scope="col" title="Contribution Count"><strong>#</strong></th><th></th></tr>
-<tr>
-    <td><strong>{ts}Current Month-To-Date{/ts}</strong></td>
-    <td class="label">{if NOT $monthToDate.Valid.amount}{ts}(n/a){/ts}{else}{$monthToDate.Valid.amount|crmMoney}{/if}</td>
-    <td class="label">{$monthToDate.Valid.count}</td>
-    <td><a href="{$monthToDate.Valid.url}">{ts}view details{/ts}...</a></td>
+    <th scope="col">{ts}Event{/ts}</th>
+    <th scope="col">{ts}Event Type{/ts}</th>
+    <th scope="col">{ts}Is Public{/ts}</th>
+    <th scope="col">{ts}Max Participants{/ts}</th>
+    <th scope="col">{ts}Rigistered Partcipants{/ts}</th>
+    <th scope="col">{ts}Start and End Date{/ts}</th>
+    <th></th>
 </tr>
+{foreach from=$eventSummary.events item=values key=id}
 <tr>
-    <td><strong>{ts}Current Year-To-Date{/ts}</strong></td>
-    <td class="label">{if NOT $yearToDate.Valid.amount}{ts}(n/a){/ts}{else}{$yearToDate.Valid.amount|crmMoney}{/if}</td>
-    <td class="label">{$yearToDate.Valid.count}</td>
-    <td><a href="{$yearToDate.Valid.url}">{ts}view details{/ts}...</a></td>
+    <td>{$values.eventTitle}</td>
+    <td>{$values.eventType}</td>
+    <td>{$values.isPublic}</td>
+    <td>{$values.maxParticipants}</td>
+    <td>{if $values.participant_url}<a href="{$values.participant_url}">{$values.participants}</a>{else}{$values.participants}{/if}</td>
+    <td>{$values.startDate} to {$values.endDate}</td>
+    <td>{if $values.isMap}<a href="{$values.isMap}">Map</a>&nbsp;|&nbsp;{/if}<a href="{$values.configure}">Configure</a></td>
 </tr>
+{/foreach}
+
+{if $eventSummary.total_events GT 10}
 <tr>
-    <td><strong>{ts}Cumulative{/ts}</strong><br />{ts}(since inception){/ts}</td>
-    <td class="label">{if NOT $startToDate.Valid.amount}{ts}(n/a){/ts}{else}{$startToDate.Valid.amount|crmMoney}{/if}</td>
-    <td class="label">{$startToDate.Valid.count}</td>
-    <td><a href="{$startToDate.Valid.url}">{ts}view details{/ts}...</a></td>
+    <td colspan="7"><a href="{crmURL p='civicrm/admin/event' q='reset=1'}">&raquo; {ts}List more events{/ts}...</a></td>
 </tr>
+{/if}
 </table>
-*}
+{/if}
+
 {if $pager->_totalItems}
     <h3>{ts}Recent Event Participations{/ts}</h3>
     <div class="form-item">

@@ -51,6 +51,10 @@ class CRM_Event_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
+        require_once 'CRM/Event/BAO/Event.php';
+        $eventBAO = new CRM_Event_BAO_Event( );
+        $eventSummary = $eventBAO->getEventSummary();
+        $this->assign('eventSummary' , $eventSummary);
     }
     
     /** 

@@ -117,8 +117,8 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      * @static
      *
      */
-    static function del( $id ) {
-
+    static function del( $id )
+    {
         CRM_Core_BAO_Location::deleteContact( $id );
       
         require_once 'CRM/Event/DAO/EventPage.php';
@@ -168,7 +168,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         }
         return true;
     }
-
+    
     /**
      * Function to get current/future Events 
      *
@@ -196,5 +196,89 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         return $events;
     }
     
+    /**
+     * Function to get events Summary
+     *
+     * @static
+     * @return array Array of event summary values
+     */
+    static function getEventSummary( )
+    {
+        $eventSummary = array( );
+        
+        $query = "SELECT count(id) as total_events
+                  FROM   civicrm_event 
+                  WHERE  is_active=1";
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        if ( $dao->fetch( ) ) {
+            $eventSummary['total_events'] = $dao->total_events;
+        }
+        
+        // Get the Id of Option Group for Event
+        require_once 'CRM/Core/DAO/OptionGroup.php';
+        $optionGroupDAO = new CRM_Core_DAO_OptionGroup();
+        $optionGroupDAO->name = 'event_type';
+        $optionGroupId = null;
+        if ($optionGroupDAO->find(true) ) {
+            $optionGroupId = $optionGroupDAO->id;
+        }
+        
+        $query = "SELECT     civicrm_event.id id, civicrm_event.title event_title, civicrm_event.is_public is_public, 
+                             civicrm_event.max_participants max_participants, civicrm_event.start_date start_date, 
+                             civicrm_event.end_date end_date, civicrm_event.is_map is_map, 
+                             civicrm_option_value.label event_type, count(civicrm_participant.id) participants
+                  FROM       civicrm_event 
+                  LEFT JOIN  civicrm_participant  ON (civicrm_event.id=civicrm_participant.event_id ) 
+                  LEFT JOIN  civicrm_option_value ON (civicrm_event.event_type_id=civicrm_option_value.value AND civicrm_option_value.option_group_id=" . CRM_Utils_Type::escape( $optionGroupId, 'Integer' ) . ") 
+                  WHERE      civicrm_event.is_active=1 AND " . CRM_Utils_Type::escape( CRM_Core_Config::domainID(), 'Integer' ) . "
+                  GROUP BY   civicrm_participant.event_id
+                  ORDER BY   civicrm_event.end_date DESC
+                  LIMIT      0 , 10";
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        $properties = array( 'eventTitle'      => 'event_title',      'isPublic'     => 'is_public', 
+                             'maxParticipants' => 'max_participants', 'startDate'    => 'start_date', 
+                             'endDate'         => 'end_date',         'eventType'    => 'event_type', 
+                             'isMap'           => 'is_map',           'participants' => 'participants' );
+        
+        while ( $dao->fetch( ) ) {
+            foreach ( $properties as $property => $name ) {
+                if (( $name == 'start_date' ) || 
+                    ( $name == 'end_date' ) ) {
+                    $eventSummary['events'][$dao->id][$property] = CRM_Utils_Date::customFormat($dao->$name, '%B %d%f %Y');
+                } else if ( $name == 'participants' ) {
+                    $eventSummary['events'][$dao->id][$property] = $dao->$name;
+                    if ( $dao->$name ) {
+                        $set = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$dao->id" );
+                    } else {
+                        $set = null;
+                    }
+                    $eventSummary['events'][$dao->id]['participant_url'] = $set;
+                } else if ( $name == 'is_public' ) {
+                    if ( $dao->$name ) {
+                        $set = 'Yes';
+                    } else {
+                        $set = 'No';
+                    }
+                    $eventSummary['events'][$dao->id][$property] = $set;
+                } else if ( $name == 'is_map' ) {
+                    if ( $dao->$name) {
+                        $set = CRM_Utils_System::url( 'civicrm/event/search',"reset=1" );
+                    } else {
+                        $set = null;
+                    }
+                    $eventSummary['events'][$dao->id][$property] = $set;
+                    $eventSummary['events'][$dao->id]['configure'] = CRM_Utils_System::url( "civicrm/admin/event", "action=update&id=$dao->id&reset=1" );
+                } else {
+                    $eventSummary['events'][$dao->id][$property] = $dao->$name;
+                }
+            }
+        }
+        
+        return $eventSummary;
+    }
 }
 ?>
