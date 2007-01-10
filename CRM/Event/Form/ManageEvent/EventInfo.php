@@ -51,7 +51,21 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      * @access public 
      */ 
     function preProcess( ) {
+       
         parent::preProcess( );
+        $this->_eventId = CRM_Utils_Request::retrieve( 'subType', 'Positive',
+                                                       $this );
+        
+        if ( ! $this->_eventId ) {
+            if ( $this->_id ) {
+                $this->_eventId = CRM_Core_DAO::getFieldValue("CRM_Event_DAO_Event",$this->_id,"event_type_id");
+            } else {
+                $this->_eventId = "Event";
+            }
+        }     
+
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0,$this->_eventId);
     }
 
     /** 
@@ -64,11 +78,22 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     { 
         $this->applyFilter('__ALL__', 'trim');
 
+        $urlParams = "event_id=$this->_eventId&reset=1&context=event";
+        if ( $this->_id ) {
+            $urlParams .= "&action=update&id={$this->_id}";
+        } else {
+            $urlParams .= "&action=add";
+        }
+        
+        $url = CRM_Utils_System::url( 'civicrm/admin/event',
+                                      $urlParams, true, null, false );
+
+        $this->assign("refreshURL",$url);
         $this->add('text','title',ts('Title'));
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
 
-        $this->add('select','event_type_id',ts('Event Type'),array('' => ts('- select -')) + $event);
+        $this->add('select','event_type_id',ts('Event Type'),array('' => ts('- select -')) + $event, false, array('onChange' => "reload(true)"));
         
         $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
         
@@ -96,6 +121,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                                         'name'      => ts('Cancel') ),
                                 )
                           );
+        parent::buildQuickForm();
 
     }
 
@@ -117,7 +143,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params['end_date']      = CRM_Utils_Date::format($params['end_date']);
         
         require_once 'CRM/Event/BAO/Event.php';
-        $event =  CRM_Event_BAO_Event::add($params ,$id);
+        $event =  CRM_Event_BAO_Event::create($params ,$id);
         CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );
 
         $this->set( 'eid', $event->id );

@@ -89,7 +89,38 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             CRM_Event_BAO_Event::retrieve($params, $defaults);
             
         }
+        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+            $inactiveNeeded = true;
+            $viewMode = true;
+        } else {
+            $viewMode = false;
+            $inactiveNeeded = false;
+        }
+        
+        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', $this);
+        if ( $subType ) {
+            $defaults["event_type_id"] = $subType;
+        }
+        
+        if( isset($this->_groupTree) ) {
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+        }
         return $defaults;
+    }
+
+    /** 
+     * Function to build the form 
+     * 
+     * @return None 
+     * @access public 
+     */ 
+    public function buildQuickForm( )  
+    { 
+        if ($this->_action & CRM_Core_Action::VIEW ) { 
+            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+        } else {
+            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        }
     }
 }
 ?>

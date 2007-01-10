@@ -1,14 +1,14 @@
-{capture assign=crmURL}{crmURL p='civicrm/admin/event/manageEvent' q="action=add&reset=1"}{/capture}
+{capture assign=crmURL}{crmURL p='civicrm/admin/event' q="action=add&reset=1"}{/capture}
 {if $action eq 1 or $action eq 2 }
    {include file="CRM/Event/Page/ManageEventEdit.tpl"}
 {/if}
     <div id="help">
         <p>{ts}ManageEvent Page lists all current and upcoming events (where End Date is greater than oe equal to current date + 1month).{/ts}
     </div>
-
-{capture assign=eventWizard}{crmURL p='civicrm/admin/event/manageEvent' q="action=add&reset=1"}{/capture}
+{*
+{capture assign=eventWizard}{crmURL p='civicrm/admin/event' q="action=add&reset=1"}{/capture}
 {ts 1=$eventWizard}<a href="%1">&raquo; New Event Wizard</a>{/ts}
-
+*}
 {if $rows}
 <div id="ltype">
 <p></p>
@@ -46,7 +46,7 @@
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}" id="newManageEvent">&raquo; {ts}New Event Status{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}" id="newManageEvent">&raquo; {ts}New Event Wizard{/ts}</a>
         </div>
         {/if}
       

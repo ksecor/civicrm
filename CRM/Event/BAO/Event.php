@@ -96,7 +96,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      * @static 
      * @return object
      */
-    static function add(&$params, $id) 
+    static function add(&$params, &$id) 
     {
         $event =& new CRM_Event_DAO_Event( );
         $event->domain_id = CRM_Core_Config::domainID( );
@@ -107,7 +107,29 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                 
         return $event;
     }
+    
+    /**
+     * function to create the event
+     *
+     * @param array $params reference array contains the values submitted by the form
+     * @param array $ids    reference array contains the id
+     * 
+     * @access public
+     * @static 
+     * 
+     */
+   
+    public static function create( &$params, &$ids) 
+    {
+        $event = self::add($params, $ids);
 
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $ids['id'], 0,$params["event_type_id"]);
+       
+        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
+        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Event", $event->id); 
+        
+    }
+     
     /**
      * Function to delete the event
      *

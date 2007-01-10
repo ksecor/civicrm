@@ -31,8 +31,32 @@
         <dt>{$form.event_full_text.label}</dt><dd>{$form.event_full_text.html}</dd>
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
       </dl> 
+    <dl>
+        <dt></dt><dd class="description">
+	    {if $action eq 4} 
+         {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+        {else}
+          {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+        {/if} 
+        </dd>
+    </dl>
     <dl>   
       <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
 </fieldset>
 </div>
+
+ <script type="text/javascript" >
+ {literal}
+ function reload(refresh) {
+        var eventId = document.getElementById("event_type_id");
+        var url = {/literal}"{$refreshURL}"{literal}
+        var post = url + "&subType=" + eventId.value;
+        if( refresh ) {
+            window.location= post; 
+        }
+      
+    } 
+ {/literal}
+ </script>
+
