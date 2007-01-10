@@ -66,10 +66,23 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
      * @return void
      * @access public
      */
+    
     function preProcess( ) {
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             $this, false );
 
+        //Added for CRM-1393
+        //Get Message Text 
+        require_once 'CRM/Member/BAO/MessageTemplates.php';
+        $messageText  = array( );
+        $temp =& new CRM_Member_BAO_MessageTemplates( );
+        $temp->is_active= 1;
+        $temp->find();
+        while ( $temp->fetch() ){
+            $messageText[$temp->id] = $temp->msg_text;
+        } 
+        $this->assign( 'message', $messageText );
+        
         if ( $cid ) {
             // not sure why this is needed :(
             // also add the cid params to the Menu array
@@ -80,7 +93,8 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $emails     = CRM_Contact_BAO_Contact::allEmails( $cid );
             $this->_emails = array( );
             $this->_onHold = array( );
-            
+
+           
             $toName = CRM_Contact_BAO_Contact::displayName( $cid );
             foreach ( $emails as $email => $item ) {
                 if (!$email && ( count($emails) <= 1 ) ) {
@@ -171,12 +185,28 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         
         $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
         $this->assign( 'from', $from );
+        
+        //Added for CRM-1393
+        require_once 'CRM/Member/BAO/MessageTemplates.php';
+        $template = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
+        $this->add('select', 'template', ts('Select Template'), array('' => ts( '-select-' )) + $template, false, array('onchange' => "get_message(this)") );
+        
+        //insert message Text by selecting "Select Template option"
+        $this->add( 'textarea', 'message', ts('Message'), array('cols' => '56', 'rows' => '7','onkeyup' => "return verify(this)"));
+        
+        $this->add('checkbox','updateMessage',ts('Update Message'), null);
+        $this->add('checkbox','saveMessage', ts('Save as a new Message template'), null, false, array('onclick' => "showSaveDetails(this)"));
 
+        if (!$this->get('saveMessage') ) {
+            $this->add('text','saveMessageName',ts('Message Title'));
+            $this->add('text','saveMessageDesc',ts('Message Subject'));
+        } 
+                
+        //$attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'message' );         
+        //$this->add( 'textarea', 'message', ts('Message'), $attributes, true );
+                
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' );
-        $this->add( 'text'    , 'subject', ts('Subject'), $attributes, true );
-
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'message' );
-        $this->add( 'textarea', 'message', ts('Message'), $attributes, true );
+        $this->add( 'text', 'subject', ts('Subject'), $attributes, true );
         
         if ( $this->_single ) {
             // also fix the user context stack
@@ -186,11 +216,11 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         } else {
             $this->addDefaultButtons( ts('Send Email') );
         }
-        
         $this->addFormRule( array( 'CRM_Contact_Form_Task_Email', 'formRule' ), $this );
+        
     }
     
-    /**  
+    /** 
      * form rule  
      *  
      * @param array $fields    the input form values  
@@ -209,6 +239,10 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $errors['to'] = ts("The selected email address is On Hold because the maximum number of delivery attempts has failed. If you have been informed that the problem with this address is resolved, you can take the address off Hold by editing the contact record. Otherwise, you will need to try an different email address for this contact.");
         }
         
+        //Added for CRM-1393
+        if( $fields['saveMessage'] ==1 && empty($fields['saveMessageName']) ){
+            $errors['saveMessageName'] = ts("Enter name to save message template");
+        }
         return empty($errors) ? true : $errors;
     }
     
@@ -238,7 +272,6 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                     $email->is_primary  = 1;
                     $email->email       = $emailAddress; 
                     $email->save( );
-                    
                 } else {
                     require_once 'CRM/Core/BAO/LocationType.php';
                     $ids = $params = $locID = array();
@@ -254,6 +287,28 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         
         $subject = $this->controller->exportValue( 'Email', 'subject' );
         $message = $this->controller->exportValue( 'Email', 'message' );
+    
+        //added code for CRM-1393
+        $messageParams = $this->exportValues( );
+        $templateID = array();
+        //Update Message template, if new or updated
+        require_once 'CRM/Member/BAO/MessageTemplates.php';
+        if( $messageParams['saveMessage'] || $messageParams['updateMessage']) {
+            if ( $messageParams['saveMessage'] ) {
+                $newMessage = array( 'msg_title'   => $messageParams['saveMessageName'],
+                                     'msg_subject' => $messageParams['saveMessageDesc'],
+                                     'msg_text'    => $messageParams['message'],
+                                     'is_active'   => true
+                                     );
+                CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
+            } 
+            if ( $messageParams['updateMessage'] ) {
+                $newMessage = array( 'msg_text'    => $messageParams['message'],
+                                     'is_active'   => true );
+                $templateID = array('messageTemplate' => $messageParams['template']);
+                CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
+            }
+        }
         
         $status = array(
                         '',
@@ -298,7 +353,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         if ( strlen($statusOnHold) ) {
             $status[] = $statusOnHold;
         }
-        
+               
         CRM_Core_Session::setStatus( $status );
         
     }//end of function
