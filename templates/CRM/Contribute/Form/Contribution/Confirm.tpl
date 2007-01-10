@@ -8,6 +8,8 @@
             if you need to make changes.{/ts}
             {if $contributeMode EQ 'notify'}
                 {ts}Click the <strong>Continue</strong> button to go to PayPal, where you will select your payment method and complete the contribution.{/ts}
+            {elseif ! $is_monetary}
+                {ts}To complete your application, click the <strong>Continue</strong> button below.{/ts}
             {else}
                 {ts}To complete your contribution, click the <strong>Make Contribution</strong> button below.{/ts}
             {/if}
