@@ -236,6 +236,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
 
         $group =& CRM_Core_DAO::executeQuery( $query, $params );
         
+        $fields = array( );
         if ( $group->fetch( ) ) {
             $where = " WHERE uf_group_id = {$group->id}";
 
@@ -284,7 +285,6 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $locationType = array( );
             $locationType =& CRM_Core_PseudoConstant::locationType();
             
-            $fields = array( );
             require_once 'CRM/Core/BAO/CustomField.php';
             $customFields = CRM_Core_BAO_CustomField::getFieldsForImport();
 
@@ -345,7 +345,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 }
             }
         } else {
-            CRM_Core_Error::fatal( ts( 'The requested profile page is currently inactive or does not exist. Please contact the site administrator if you need assistance.' ) );
+            CRM_Core_Error::fatal( ts( 'The requested profile page is currently inactive, does not exist or does not have the right type. Please contact the site administrator if you need assistance.' ) );
         }
         return $fields;
     }
