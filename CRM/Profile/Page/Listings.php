@@ -120,7 +120,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $this->_fields =
             CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
                                                     CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
-                                                    false, $this->_gid, true );
+                                                    false, $this->_gid, true, 'Profile' );
 
         $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( null );
         $this->_params   = array( );

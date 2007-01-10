@@ -704,7 +704,12 @@ class CRM_Core_Invoke {
 
             $buttonType = $_POST['_qf_Edit_cancel'];
             if ( $buttonType == 'Cancel' ) {
-                $cancelURL = CRM_Utils_Request::retrieve('cancelURL','String', CRM_Core_DAO::$_nullObject,false,null,$_POST );
+                $cancelURL = CRM_Utils_Request::retrieve('cancelURL',
+                                                         'String',
+                                                         CRM_Core_DAO::$_nullObject,
+                                                         false,
+                                                         null,
+                                                         $_POST );
                 if ( $cancelURL ) {
                     CRM_Utils_System::redirect( $cancelURL );
                 }

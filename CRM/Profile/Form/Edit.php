@@ -72,11 +72,29 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
             require_once 'CRM/Contact/BAO/Contact.php';
             if ( $id != $userID &&
                  ! CRM_Contact_BAO_Contact::permissionedContact( $id, CRM_Core_Permission::EDIT ) ) {
-                CRM_Core_Error::statusBounce( ts( 'You do not have permission to edit this contact' ) );
+                CRM_Core_Error::fatal( ts( 'You do not have permission to edit this contact' ) );
             }
         }
 
         parent::preProcess( );
+
+        // make sure the gid is set and valid
+        if ( ! $this->_gid ) {
+            CRM_Core_Error::fatal( ts( 'Invalid profile settings' ) );
+        }
+
+        // and also the profile is of type 'Profile'
+        $query = "
+SELECT module
+  FROM civicrm_uf_join
+ WHERE module = 'Profile'
+   AND uf_group_id = %1
+";
+        $params = array( 1 => array( $this->_gid, 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        if ( ! $dao->fetch( ) ) {
+            CRM_Core_Error::fatal( ts( 'Invalid profile settings' ) );
+        }
     }
 
     /**

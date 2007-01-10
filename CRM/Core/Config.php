@@ -455,7 +455,6 @@ class CRM_Core_Config
     /**
      * Optimization related variables
      */
-    public $includeEmailInSearch     = 1;
     public $includeAlphabeticalPager = 1;
     public $includeOrderByClause     = 1;
     public $includeDomainID          = 1;

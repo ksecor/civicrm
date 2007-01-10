@@ -164,10 +164,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static 
      * @access public 
      */ 
-    static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null, $searchable = null ) 
+    static function getListingFields( $action,
+                                      $visibility,
+                                      $considerSelector = false,
+                                      $ufGroupId = null,
+                                      $searchable = null,
+                                      $restrict = null ) 
     {
         if ($ufGroupId) {
-            $subset = self::getFields( $ufGroupId, false, $action, $visibility, $searchable);
+            $subset = self::getFields( $ufGroupId, false, $action, $visibility, $searchable, false, $restrict );
             if ($considerSelector) {
                 // drop the fields not meant for the selector
                 foreach ($subset as $name => $field) {
@@ -182,7 +187,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             $fields = array( ); 
             foreach ( $ufGroups as $id => $title ) { 
-                $subset = self::getFields( $id, false, $action, $visibility ,$searchable);
+                $subset = self::getFields( $id, false, $action, $visibility, $searchable, false, $restrict );
                 if ($considerSelector) {
                     // drop the fields not meant for the selector
                     foreach ($subset as $name => $field) {
@@ -204,37 +209,42 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @param int      $visibility   visibility of fields we are interested in
      * @param          $searchable
      * @param boolean  $showall
-     *
+     * @param string   $restrict     should we restrict based on a specified profile type
      *
      * @return array   the fields that belong to this title
      * @static
      * @access public
      */
     static function getFields( $id, $register = false, $action = null,
-                               $visibility = null , $searchable = null, $showAll= false ) 
+                               $visibility = null , $searchable = null,
+                               $showAll= false, $restrict = null ) 
     {
-        //get location type
-        $locationType = array( );
-        $locationType =& CRM_Core_PseudoConstant::locationType();
+        if ( $restrict ) {
+            $query  = "
+SELECT g.* from civicrm_uf_group g, civicrm_uf_join j 
+ WHERE g.is_active   = 1
+   AND g.id          = %1 
+   AND j.uf_group_id = %1
+   AND j.module      = %2
+";
+            $params = array( 1 => array( $id, 'Integer' ),
+                             2 => array( $restrict, 'String' ) );
+        } else {
+            $query  = "SELECT g.* from civicrm_uf_group g WHERE g.is_active = 1 AND g.id = %1 ";
+            $params = array( 1 => array( $id, 'Integer' ) );
+        }
 
-        $fields = array( );
-        require_once 'CRM/Core/BAO/CustomField.php';
-        $customFields = CRM_Core_BAO_CustomField::getFieldsForImport();
+        $group =& CRM_Core_DAO::executeQuery( $query, $params );
+        
+        if ( $group->fetch( ) ) {
+            $where = " WHERE uf_group_id = {$group->id}";
 
-        $group =& new CRM_Core_DAO_UFGroup( );
-        $group->id = $id;
-        $group->is_active = 1;
-        if ( $group->find( true ) ) {
             if( $searchable ) {
-                $where = "WHERE uf_group_id = {$group->id} AND is_searchable = 1"; 
-            } else {
-                $where = "WHERE uf_group_id = {$group->id}";
+                $where .= " AND is_searchable = 1"; 
             }
 
-            if ( !$showAll) {
+            if ( ! $showAll ) {
                 $where .= " AND is_active = 1";
-            } else {
-                $where .= " AND 1";
             }
             
             if ( $visibility ) {
@@ -269,6 +279,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $importableFields['tag'  ]['where'] = null;
 
             $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im', 'location_name' );
+
+            //get location type
+            $locationType = array( );
+            $locationType =& CRM_Core_PseudoConstant::locationType();
+            
+            $fields = array( );
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $customFields = CRM_Core_BAO_CustomField::getFieldsForImport();
+
 
             while ( $field->fetch( ) ) {
                 if ( $searchable || 

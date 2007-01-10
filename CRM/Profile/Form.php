@@ -148,9 +148,9 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                       true ); 
         } else {
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action ); 
-        } 
+        }
 
-        if (!is_array($this->_fields)) {
+        if (! is_array($this->_fields)) {
             $session =& CRM_Core_Session::singleton( );
             CRM_Core_Session::setStatus(ts('This feature is not currently available.'));
 
