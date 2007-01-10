@@ -400,6 +400,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
+            require_once "CRM/Core/Controller/Simple.php";
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
             if ( $reset || $doNotProcess ) {
                 // hack to make sure we do not process this form

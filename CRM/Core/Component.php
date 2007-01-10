@@ -68,7 +68,8 @@ class CRM_Core_Component
                        'path'    => 'CRM_Event_',
                        'url'     => 'event',
                        'perm'    => array( 'access CiviEvent',
-                                           'edit events'),
+                                           'edit event participants',
+                                           'view event participants'),
                        'search'  => 1 );
             
             self::$_info['CiviMail'] = 

@@ -415,6 +415,7 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
 {
     require_once 'CRM/Core/BAO/UFMatch.php';
     require_once 'CRM/Core/BAO/UFGroup.php';
+    require_once 'CRM/Core/Action.php';
 
     $ctype = civicrm_get_ctype( 'Individual' );
     if ( $user->uid ) {
