@@ -486,11 +486,14 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
 
             foreach ($this->_options as $option) {
                 if (is_array($this->_values) && in_array((string)$option['attr']['value'], $this->_values)) {
-                    $this->_updateAttrArray($option['attr'], array('selected' => 'selected'));
+                    //$this->_updateAttrArray($option['attr'], array('selected' => 'selected'));
+                    $strHtml .= "{$tabs}\t<option value={$option['attr']['value']} selected>" .
+                        $option['text'] . "</option>\n";
+                } else {
+                    // $strHtml .= $tabs . "\t<option" . $this->_getAttrString($option['attr']) . '>' .
+                    $strHtml .= "{$tabs}\t<option value={$option['attr']['value']}>" .
+                        $option['text'] . "</option>\n";
                 }
-                // $strHtml .= $tabs . "\t<option" . $this->_getAttrString($option['attr']) . '>' .
-                $strHtml .= "{$tabs}\t<option value={$option['attr']['value']}>" .
-                            $option['text'] . "</option>\n";
             }
 
             return $strHtml . $tabs . '</select>';
