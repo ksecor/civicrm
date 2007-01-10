@@ -120,6 +120,65 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
     }
  
     /**
+     * takes an associative array of modified participant object
+     *
+     * the function sets the activity history of the modified partcipant records
+     *
+     * @access public
+     * @static
+     */
+    static function setActivityHistory( $participant ) 
+    {
+        $activitySummary = CRM_Event_BAO_Event::getEvents(true,$participant->event_id);
+        $date = date( 'YmdHis' );
+        $def['role_id'] = $participant->role_id;
+        self::lookupValue($def, 'role', CRM_Event_PseudoConstant::participantRole(), false);
+        require_once "api/History.php";
+        $activityHistory = array('entity_table'     => 'civicrm_contact',
+                                 'entity_id'        => $participant->contact_id,
+                                 'activity_type'    => 'Event Registration',
+                                 'module'           => 'CiviEvent',
+                                 'callback'         => 'CRM_Event_BAO_Participant::showActivityDetails',
+                                 'activity_id'      => $participant->id,
+                                 'activity_summary' => $activitySummary[$participant->event_id].' ( '.$def['role'].' ) ',
+                                 'activity_date'    => $date
+                                 
+                                 );
+
+        if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
+            return false;
+        }
+    }
+
+    /**
+     * compose the url to show details of activity
+     *
+     * @param int $id
+     * @param int $activityHistoryId
+     *
+     * @static
+     * @access public
+     */
+    static function showActivityDetails( $id, $activityHistoryId )
+    {
+        $params   = array( );
+        $defaults = array( );
+        $params['id'          ] = $activityHistoryId;
+        $params['entity_table'] = 'civicrm_contact';
+        
+        require_once 'CRM/Core/BAO/History.php'; 
+        $history    = CRM_Core_BAO_History::retrieve($params, $defaults);
+        $contactId  = CRM_Utils_Array::value('entity_id', $defaults);
+        
+        if ( $contactId ) {
+            //            return CRM_Utils_System::url('civicrm/contact/view/activity', "cid=$contactId&action=view&id=$activityId&status=true&history=1&selectedChild=event"); 
+            return CRM_Utils_System::url('civicrm/contact/view/participant', "reset=1&id=$id&cid=$contactId&action=view&context=participant&selectedChild=event&history=1"); 
+        } else { 
+            return CRM_Utils_System::url('civicrm' ); 
+        } 
+    }
+    
+    /**
      * takes an associative array and creates a participant object
      *
      * @param array $params (reference ) an assoc array of name/value pairs
@@ -129,13 +188,15 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids, $roleId) {
+
+    static function &create(&$params, &$ids) 
+    {
         require_once 'CRM/Utils/Date.php';
 
         CRM_Core_DAO::transaction('BEGIN');
         
         $participant = self::add($params, $ids);
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $ids['id'], 0,$roleId);
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $ids['id'], 0, $params['role_id']);
         
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Participant", $participant->id); 

@@ -259,7 +259,20 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         }
         
         require_once "CRM/Event/BAO/Participant.php";
-        CRM_Event_BAO_Participant::create( $params ,$ids, $params['role_id'] );   
+        $participant =  CRM_Event_BAO_Participant::create( $params, $ids );   
+
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $participantBAO =& new CRM_Event_BAO_Participant();
+            $participantBAO->id = $this->_id;
+            $participantBAO->find();
+            while ( $participantBAO->fetch() ) {
+                if ( $participantBAO->status_id != $params['status_id']) {
+                    CRM_Event_BAO_Participant::setActivityHistory( $participant );
+                }
+            }
+        } else {
+            CRM_Event_BAO_Participant::setActivityHistory( $participant );
+        }
     }
 }
 

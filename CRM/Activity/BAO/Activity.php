@@ -38,6 +38,7 @@
 require_once 'CRM/Activity/DAO/Meeting.php';
 require_once 'CRM/Activity/DAO/Phonecall.php';
 require_once 'CRM/Activity/DAO/Activity.php';
+require_once 'api/History.php';
 
 /**
  * This class is for activity functions

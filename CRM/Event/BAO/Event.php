@@ -176,18 +176,21 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      *
      * @static
      */
-    static function getEvents( $all = false ) 
+    static function getEvents( $all = false, $id = false) 
     {
         $query = "SELECT `id`, `title`, `start_date` FROM `civicrm_event`";
         
         if ( !$all ) {
             $query .= " WHERE `start_date` >= now();";
         }
+        if ( $id ) {
+            $query .= " WHERE `id` = {$id};";
+        }
 
         $events = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $events[$dao->id] = $dao->title . ' ( '.CRM_Utils_Date::customFormat($dao->start_date) . ' )';
+            $events[$dao->id] = $dao->title . ' - '.CRM_Utils_Date::customFormat($dao->start_date);
         }
         
         return $events;
