@@ -64,7 +64,7 @@
  function reload(refresh) {
         var roleId = document.getElementById("role_id");
         var url = {/literal}"{$refreshURL}"{literal}
-        var post = url + "&role=" + roleId.value;
+        var post = url + "&subType=" + roleId.value;
         if( refresh ) {
             window.location= post; 
         }

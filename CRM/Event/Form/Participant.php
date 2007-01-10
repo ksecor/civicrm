@@ -82,18 +82,19 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         }
 
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-        
-        if ( ! isset($_POST['role_id']) ) {
-            $role = CRM_Utils_Request::retrieve( 'role', 'Positive', CRM_Core_DAO::$_nullObject );
-        } else {
-            $this->_roleId = $_POST['role_id'];
-        }
-        
-        if ( $role ) {
-            $this->_roleId = $role;
-        } 
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $this->_id, 0,$this->_roleId);
 
+        $this->_roleId = CRM_Utils_Request::retrieve( 'subType', 'Positive',
+                                                       $this );
+
+        if ( ! $this->_roleId ) {
+            if ( $this->_id ) {
+                $this->_roleId = CRM_Core_DAO::getFieldValue("CRM_Event_DAO_Participant",$this->_id,"role_id");
+            } else {
+                $this->_roleId = "Role";
+            }
+        }     
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $this->_id, 0,$this->_roleId);
+        
         parent::preProcess( );        
     }
 
@@ -119,9 +120,9 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );
             $this->_contactID = $defaults['contact_id'];
         } 
-        $role = CRM_Utils_Request::retrieve( 'role', 'Positive', CRM_Core_DAO::$_nullObject );
-        if ( $role ) {
-            $defaults["role_id"] = $role;
+        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        if ( $subType ) {
+            $defaults["role_id"] = $subType;
         }
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $inactiveNeeded = true;
@@ -165,7 +166,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             return;
         }
 
-        $urlParams = "reset=1&cid={$this->_contactID}&context=participant";
+        $urlParams = "role_id=$this->_roleId&reset=1&cid={$this->_contactID}&context=participant";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
         } else {
@@ -258,7 +259,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         }
         
         require_once "CRM/Event/BAO/Participant.php";
-        CRM_Event_BAO_Participant::create( $params ,$ids );   
+        CRM_Event_BAO_Participant::create( $params ,$ids, $params['role_id'] );   
     }
 }
 

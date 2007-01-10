@@ -129,12 +129,16 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids) {
+    static function &create(&$params, &$ids, $roleId) {
         require_once 'CRM/Utils/Date.php';
 
         CRM_Core_DAO::transaction('BEGIN');
         
         $participant = self::add($params, $ids);
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $ids['id'], 0,$roleId);
+        
+        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
+        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Participant", $participant->id); 
 
         if ( is_a( $participant, 'CRM_Core_Error') ) {
             CRM_Core_DAO::transaction( 'ROLLBACK' );

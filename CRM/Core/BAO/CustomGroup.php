@@ -167,14 +167,14 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                                 AND   civicrm_custom_value.entity_table = '$tableName' 
                                 AND   civicrm_custom_value.entity_id = $entityId )";
         }
-
+        
         // if entity is either individual, organization or household pls get custom groups for 'contact' too.
         if ($entityType == "Individual" || $entityType == 'Organization' || $entityType == 'Household') {
             $in = "'$entityType', 'Contact'";
         } else {
             $in = "'$entityType'";
         }
-
+       
         if ( $subType ) {
             $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
                 " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)
@@ -715,6 +715,12 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
             break;
         case 'Membership':
             $tableName = 'civicrm_membership';
+            break;
+        case 'Participant':
+            $tableName = 'civicrm_participant';
+            break;
+        case 'Event':
+            $tableName = 'civicrm_event';
             break;
             
             // need to add cases for Location, Address
