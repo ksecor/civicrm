@@ -258,8 +258,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                   GROUP BY   civicrm_participant.event_id
                   ORDER BY   civicrm_event.end_date DESC
                   LIMIT      0 , 10";
-  
-        CRM_Core_Error::debug('query', $query);
+        
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         $properties = array( 'eventTitle'      => 'event_title',      'isPublic'     => 'is_public', 
