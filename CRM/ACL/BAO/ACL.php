@@ -361,6 +361,8 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         $rule       =& new CRM_ACL_BAO_ACL();
 
         require_once 'CRM/Contact/BAO/Group.php';
+        require_once 'CRM/Contact/BAO/GroupContact.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
 
         $acl        = self::getTableName();
         $contact    = CRM_Contact_BAO_Contact::getTableName();

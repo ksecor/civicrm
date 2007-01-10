@@ -279,7 +279,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
          
          // check is the user has view/edit participation permission
          $permission = CRM_Core_Permission::VIEW;
-         if ( CRM_Core_Permission::check( 'edit participations' ) ) {
+         if ( CRM_Core_Permission::check( 'edit event participants' ) ) {
              $permission = CRM_Core_Permission::EDIT;
          }
 
