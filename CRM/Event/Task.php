@@ -85,7 +85,7 @@ class CRM_Event_Task
                                   5     => ts( 'Cancel Registration'             )
                                   );
         }
-        
+        asort(self::$_tasks);        
         return self::$_tasks;
     }
 }

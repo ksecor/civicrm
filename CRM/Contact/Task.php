@@ -133,8 +133,9 @@ class CRM_Contact_Task {
                                                                      'CRM_Contact_Form_Task_BatchUpdateProfile' ),
                                                   'result' => true ),
                                   );
-
+            
             self::$_tasks += CRM_Core_Component::taskList( );
+            asort(self::$_tasks);
         }
     }
 

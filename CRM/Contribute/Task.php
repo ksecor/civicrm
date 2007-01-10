@@ -79,7 +79,7 @@ class CRM_Contribute_Task {
                                   4     => ts( 'Batch Update Contributions Via Profile' )
                                   );
         }
-         
+        asort(self::$_tasks);
         return self::$_tasks;
     }
 

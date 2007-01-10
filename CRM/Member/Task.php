@@ -78,7 +78,7 @@ class CRM_Member_Task {
                                   8     => ts( 'Delete Members' ),
                                   );
         }
-         
+        asort(self::$_tasks); 
         return self::$_tasks;
     }
 
