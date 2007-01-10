@@ -63,6 +63,14 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
     protected $_gid;
 
     /**
+     * The profile types we restrict this page to display
+     *
+     * @var string
+     * @access protected
+     */
+    protected $_restrict;
+
+    /**
      * class constructor
      *
      * @param int $id  the contact id
@@ -71,9 +79,10 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
      * @return void
      * @access public
      */
-    function __construct( $id, $gid ) {
-        $this->_id    = $id;
-        $this->_gid   = $gid;
+    function __construct( $id, $gid, $restrict ) {
+        $this->_id       = $id;
+        $this->_gid      = $gid;
+        $this->_restrict = $restrict;
     }
 
     /**
@@ -104,7 +113,8 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
             require_once 'CRM/Core/BAO/UFGroup.php';
 
             $values = array( );
-            $fields = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, CRM_Core_Action::VIEW );
+            $fields = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, CRM_Core_Action::VIEW,
+                                                       null, null, false, $this->_restrict );
 
             // make sure we dont expose all fields based on permission
             $admin = false; 

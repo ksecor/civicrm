@@ -80,7 +80,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
 
         // make sure the gid is set and valid
         if ( ! $this->_gid ) {
-            CRM_Core_Error::fatal( ts( 'Invalid profile settings' ) );
+            CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );        
         }
 
         // and also the profile is of type 'Profile'
@@ -93,7 +93,7 @@ SELECT module
         $params = array( 1 => array( $this->_gid, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         if ( ! $dao->fetch( ) ) {
-            CRM_Core_Error::fatal( ts( 'Invalid profile settings' ) );
+            CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );
         }
     }
 

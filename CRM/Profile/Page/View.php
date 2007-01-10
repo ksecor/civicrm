@@ -58,7 +58,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
 
         if ($gid) {
             require_once 'CRM/Profile/Page/Dynamic.php';
-            $page =& new CRM_Profile_Page_Dynamic($id, $gid);
+            $page =& new CRM_Profile_Page_Dynamic($id, $gid, 'Profile' );
             $profileGroup = array( );
             $profileGroup['title'] = $title;
             $profileGroup['content'] = $page->run();
@@ -71,12 +71,13 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             }
             
         } else {
+            require_once 'CRM/Core/BAO/UFGroup.php';
             $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile'); 
 
             $profileGroups = array();
             foreach ($ufGroups as $groupid => $group) {
                 require_once 'CRM/Profile/Page/Dynamic.php';
-                $page =& new CRM_Profile_Page_Dynamic($id, $groupid);
+                $page =& new CRM_Profile_Page_Dynamic( $id, $groupid, 'Profile');
                 $profileGroup = array( );
                 $profileGroup['title'] = $group['title'];
                 $profileGroup['content'] = $page->run();

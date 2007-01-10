@@ -345,7 +345,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 }
             }
         } else {
-            CRM_Core_Error::fatal( ts( 'The requested profile page is currently inactive, does not exist or does not have the right type. Please contact the site administrator if you need assistance.' ) );
+            CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );
         }
         return $fields;
     }
