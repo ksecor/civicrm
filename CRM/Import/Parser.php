@@ -320,7 +320,7 @@ abstract class CRM_Import_Parser {
         }
         while ( ! feof( $fd ) ) {
             $this->_lineCount++;
-
+            
             $values = fgetcsv( $fd, 8192, $seperator );
             if ( ! $values ) {
                 continue;
@@ -333,13 +333,15 @@ abstract class CRM_Import_Parser {
                     $skipColumnHeader = false;
                     continue;
             }
-
+           
             /* trim whitespace around the values */
             $empty = true;
             foreach ($values as $k => $v) {
-                $values[$k] = trim($v, " .\t\r\n");
+                //Fixed for CRM-1514
+                //$values[$k] = trim($v, " .\t\r\n");
+                $values[$k] = trim($v, " \t\r\n");
             }
-
+            
             if ( CRM_Utils_System::isNull( $values ) ) {
                 continue;
             }
