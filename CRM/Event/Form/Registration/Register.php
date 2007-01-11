@@ -72,16 +72,28 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->buildCreditCard( );
         }
 
-        require_once 'CRM/Core/DAO/UFJoin.php';
+        require_once 'CRM/Core/BAO/UFJoin.php';
         $customField =& new CRM_Core_DAO_UFJoin();
         $customField->entity_id    = $this->_id;
         $customField->entity_table = 'civicrm_event';
         $customField->find();
-        while( $customField->fetch() ) {
-            $this->buildCustom( $customField->uf_group_id, 'customPre'  );
-            $this->buildCustom( $customField->uf_group_id, 'customPost' );
-        }
 
+        $ufJoinParams = array( 'entity_table' => 'civicrm_event',
+                               'entity_id'    => $this->_id,
+                               'weight'       => 1 );
+        $custom_pre_id = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+        $ufJoinParams['weight'] = 2;
+        $custom_post_id = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+       
+        while( $customField->fetch() ) {
+            if( $custom_pre_id ){
+                $this->buildCustom( $customField->uf_group_id, 'customPre'  );
+            }
+            if( $custom_post_id ){
+                $this->buildCustom( $customField->uf_group_id, 'customPost' );
+            }
+        }
+        
         // if payment is via a button only, dont display continue
         if ( $config->paymentBillingMode != CRM_Contribute_Payment::BILLING_MODE_BUTTON || !$this->_values['event']['is_monetary']) {
             $this->addButtons(array( 
@@ -92,7 +104,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                     ) 
                               );
         }
-
     }
     
     function setDefaultValues( ) {
