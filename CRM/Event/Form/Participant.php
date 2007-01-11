@@ -199,14 +199,14 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         
         $this->add('select', 'event_id',  ts( 'Event' ),  array( '' => ts( '-select-' ) ) + $events, 'true' );
         
-        $this->add( 'date', 'register_date', ts('Registration Date and Time'),CRM_Core_SelectValues::date('datetime' ));   
+        $this->add( 'date', 'register_date', ts('Registration Date and Time'),CRM_Core_SelectValues::date('datetime' ),true);   
         $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
          
         $this->add( 'select', 'role_id' , ts( 'Participant Role' ),
-                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantRole( ), false, array('onChange' => "reload(true)") );
+                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantRole( ), true, array('onChange' => "reload(true)") );
         
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
-                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantStatus( ) );
+                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantStatus( ),true );
         
         $this->add( 'text', 'source', ts('Event Source') );
         $this->add( 'text', 'event_level', ts('Event Level') );
