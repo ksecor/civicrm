@@ -88,7 +88,11 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $defaults);
             
+        } else {
+            $defaults['is_active'] = 1;
+            $defaults['style']     = 'Inline';
         }
+        
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $inactiveNeeded = true;
             $viewMode = true;
@@ -97,7 +101,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $inactiveNeeded = false;
         }
         
-        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', $this);
+        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', $this );
         if ( $subType ) {
             $defaults["event_type_id"] = $subType;
         }

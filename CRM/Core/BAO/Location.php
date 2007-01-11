@@ -265,6 +265,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
     static function deleteContact( $contactId ) {
         $location =& new CRM_Core_DAO_Location( );
         $location->entity_id = $contactId;
+        require_once 'CRM/Contact/DAO/Contact.php';
         $location->entity_table = CRM_Contact_DAO_Contact::getTableName();
         $location->find( );
         while ( $location->fetch( ) ) {

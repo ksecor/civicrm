@@ -155,9 +155,9 @@ div.spacer, .spacer {
   padding: 5px;
 }
 
-#crm-container div.form-item dd.html-adjust{
+#crm-container div.form-item dd.html-adjust, #crm-container div.form-item dl.html-adjust dd{
   float: left;
-  width: 48%;
+  width: 57%;
   /*clear: right;*/
 }
 

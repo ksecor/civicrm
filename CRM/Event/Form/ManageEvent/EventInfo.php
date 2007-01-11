@@ -77,7 +77,9 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     public function buildQuickForm( )  
     { 
         $this->applyFilter('__ALL__', 'trim');
-
+        
+        $this->add('text','title',ts('Title'),array( 'size' => 50),true);
+        
         $urlParams = "reset=1&context=event";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}&subPage=EventInfo";
@@ -87,27 +89,27 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         $url = CRM_Utils_System::url( 'civicrm/admin/event',
                                       $urlParams, true, null, false );
-
+      
         $this->assign("refreshURL",$url);
         $this->add('text','title',ts('Title'));
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
-
-        $this->add('select','event_type_id',ts('Event Type'),array('' => ts('- select -')) + $event, false, array('onChange' => "reload(true)"));
+        
+        $this->add('select','event_type_id',ts('Event Type'),array('' => ts('- select -')) + $event, true, array('onchange' => "reload(true)"));
         
         $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
         
         $this->add('textarea','description',ts('Full description'), array("rows"=>4,"cols"=>60));
         
         $this->addElement('checkbox', 'is_public', ts('Public?') );
-        
-        $this->add('date', 'start_date', ts('Start Date and Time'), CRM_Core_SelectValues::date('datetime'));
+        $this->addElement('checkbox', 'is_map', ts('Is Map?') );
+        $this->add('date', 'start_date', ts('Start Date and Time'), CRM_Core_SelectValues::date('datetime'),true);
         $this->addRule('start_date', ts('Select a valid date.'), 'qfDate');
         $this->add('date', 'end_date', ts('End Date and Time'), CRM_Core_SelectValues::date('datetime'));
         $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
-              
+        
         $this->add('text','max_participants', ts('Max Number of Participants'));
-
+        $this->addRule('max_participants', ts(' is a numeric field') , 'numeric');
         $this->add('text','event_full_text', ts('Event full text'));
         
         $this->addElement('checkbox', 'is_active', ts('Enabled?') );
