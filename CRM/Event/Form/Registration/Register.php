@@ -258,8 +258,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $this->set( 'contributeMode', 'express' ); 
                 
                 //$donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
-                $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Register_display=1', true, null, false ); 
-                $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
+                $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/admin/event/register', '_qf_Register_display=1', true, null, false ); 
+                $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/admin/event/register', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
                 $params['invoiceID' ] = $invoiceID;
                 
                 $token = $payment->setExpressCheckout( $params ); 
@@ -271,12 +271,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $this->set( 'token', $token ); 
                 
                 if ( $this->_mode == 'test' ) {
-                    $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl. "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                    $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                 } else {
                     $paymentURL = "https://" . $config->paymentPayPalExpressUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                    // hack to allow us to test without donating, need to comment out below line before release
-                    // $paymentURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                 }
+                
                 CRM_Utils_System::redirect( $paymentURL ); 
             }
         } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NOTIFY ) {

@@ -94,6 +94,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
         
+        $this->_mode = 'test'; // till code gets complete
+        
         $this->_values = $this->get( 'values' );
         $this->_fields = $this->get( 'fields' );
         
@@ -123,9 +125,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
         }
-        
-        $this->_mode = 'test'; // till code gets complete
 
+        $this->_contributeMode = $this->get( 'contributeMode' );
+        $this->assign( 'contributeMode', $this->_contributeMode ); // chk if required
     }
 
     /** 
