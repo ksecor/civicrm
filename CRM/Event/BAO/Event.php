@@ -231,7 +231,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         $query = "SELECT count(id) as total_events
                   FROM   civicrm_event 
-                  WHERE  is_active=1";
+                  WHERE  civicrm_event.is_active=1";
         
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
@@ -248,15 +248,15 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
             $optionGroupId = $optionGroupDAO->id;
         }
         
-        $query = "SELECT     civicrm_event.id id, civicrm_event.title event_title, civicrm_event.is_public is_public, 
-                             civicrm_event.max_participants max_participants, civicrm_event.start_date start_date, 
-                             civicrm_event.end_date end_date, civicrm_event.is_map is_map, 
-                             civicrm_option_value.label event_type, count(civicrm_participant.id) participants
-                  FROM       civicrm_event 
+        $query = "SELECT     civicrm_event.id as id, civicrm_event.title as event_title, civicrm_event.is_public as is_public,
+                             civicrm_event.max_participants as max_participants, civicrm_event.start_date as start_date,
+                             civicrm_event.end_date as end_date, civicrm_event.is_map as is_map,
+                             civicrm_option_value.label as event_type, count(civicrm_participant.id) as participants
+                  FROM       civicrm_event
                   LEFT JOIN  civicrm_participant  ON (civicrm_event.id=civicrm_participant.event_id ) 
                   LEFT JOIN  civicrm_option_value ON (civicrm_event.event_type_id=civicrm_option_value.value AND civicrm_option_value.option_group_id=" . CRM_Utils_Type::escape( $optionGroupId, 'Integer' ) . ") 
                   WHERE      civicrm_event.is_active=1 AND civicrm_event.domain_id =" . CRM_Utils_Type::escape( CRM_Core_Config::domainID(), 'Integer' ) . "
-                  GROUP BY   civicrm_participant.event_id
+                  GROUP BY   civicrm_event.id
                   ORDER BY   civicrm_event.end_date DESC
                   LIMIT      0 , 10";
         

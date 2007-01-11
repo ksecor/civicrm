@@ -32,7 +32,7 @@
     <td>{$values.isPublic}</td>
     <td>{$values.maxParticipants}</td>
     <td>{if $values.participant_url}<a href="{$values.participant_url}">{$values.participants}</a>{else}{$values.participants}{/if}</td>
-    <td>{$values.startDate} to {$values.endDate}</td>
+    <td>{$values.startDate}&nbsp;{if $values.endDate}to{/if}&nbsp;{$values.endDate}</td>
     <td>{if $values.isMap}<a href="{$values.isMap}">Map</a>&nbsp;|&nbsp;{/if}<a href="{$values.configure}">Configure</a></td>
 </tr>
 {/foreach}
