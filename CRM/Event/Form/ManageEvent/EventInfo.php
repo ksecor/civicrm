@@ -50,8 +50,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      * @return void 
      * @access public 
      */ 
-    function preProcess( ) {
-       
+    function preProcess( )
+    {
         parent::preProcess( );
         $this->_eventId = CRM_Utils_Request::retrieve( 'subType', 'Positive',
                                                        $this );
@@ -63,11 +63,11 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                 $this->_eventId = "Event";
             }
         }     
-
+        
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0,$this->_eventId);
     }
-
+    
     /** 
      * Function to build the form 
      * 
@@ -135,19 +135,24 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      */
     public function postProcess() 
     {
-        $params = $id = array();
-        $params = $this->exportValues( );
-        
-        $id['event_id'] = $this->_id;
+        $params = $ids = array();
+        $params = $this->controller->exportValues( $this->_name );
+        $ids['event_id'] = $this->_id;
         
         // store the submitted values in an array
         $params['start_date']    = CRM_Utils_Date::format($params['start_date']);
         $params['end_date']      = CRM_Utils_Date::format($params['end_date']);
         
         require_once 'CRM/Event/BAO/Event.php';
-        $event =  CRM_Event_BAO_Event::create($params ,$id);
+        
+        $params['is_active'] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['is_map']    = CRM_Utils_Array::value('is_map', $params, false);
+        $params['is_public'] = CRM_Utils_Array::value('is_public', $params, false);
+        
+        $event =  CRM_Event_BAO_Event::create($params ,$ids);
+        
         CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );
-
+        
         $this->set( 'eid', $event->id );
     }//end of function
     

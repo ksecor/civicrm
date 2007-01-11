@@ -196,16 +196,34 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         CRM_Core_DAO::transaction('BEGIN');
         
         $participant = self::add($params, $ids);
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $ids['id'], 0, $params['role_id']);
         
-        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
-        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Participant", $participant->id); 
-
         if ( is_a( $participant, 'CRM_Core_Error') ) {
             CRM_Core_DAO::transaction( 'ROLLBACK' );
             return $participant;
         }
-
+        
+        $session = & CRM_Core_Session::singleton();
+        
+        // Log the information on successful add/edit of Participant
+        // data.
+        require_once 'CRM/Core/BAO/Log.php';
+        
+        $params = array(
+                        'entity_table'  => 'civicrm_participant',
+                        'entity_id'     => $participant->id,
+                        'data'          => CRM_Event_PseudoConstant::participantStatus($participant->status_id),
+                        'modified_id'   => $session->get('userID'),
+                        'modified_date' => date('Ymd')
+                        );
+        
+        CRM_Core_BAO_Log::add( $params );
+        
+        // Handle Custom Data
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $ids['id'], 0, $params['role_id']);
+        
+        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
+        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Participant", $participant->id); 
+        
         $params['participant_id'] = $participant->id;
         
         CRM_Core_DAO::transaction('COMMIT');

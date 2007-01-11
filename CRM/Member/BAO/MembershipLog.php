@@ -58,7 +58,7 @@ class CRM_Member_BAO_MembershipLog extends CRM_Member_DAO_MembershipLog
         
         return $membershipLog;
     }
-
+    
     /**
      * Function to delete membership Types 
      * 
@@ -72,6 +72,5 @@ class CRM_Member_BAO_MembershipLog extends CRM_Member_DAO_MembershipLog
         $membershipLog->membership_id = $membershiID ;
         return $membershipLog->delete();
     }
-
-
-}    
+}
+?>

@@ -85,7 +85,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
     {
         return CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Event', $id, 'is_active', $is_active );
     }
-
+    
     /**
      * function to add the eventship types
      *
@@ -96,16 +96,30 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      * @static 
      * @return object
      */
-    static function add(&$params, &$id) 
+    static function add(&$params, &$ids)
     {
+        require_once 'CRM/Utils/Hook.php';
+        
+        if ( CRM_Utils_Array::value( 'event', $ids ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Event', $ids['event'], $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', 'Event', null, $params ); 
+        }
+        
         $event =& new CRM_Event_DAO_Event( );
         $event->domain_id = CRM_Core_Config::domainID( );
-        $event->id = CRM_Utils_Array::value( 'event_id', $id );
+        $event->id = CRM_Utils_Array::value( 'event_id', $ids );
         
         $event->copyValues( $params );
-        $event->save( );
-                
-        return $event;
+        $result = $event->save( );
+        
+        if ( CRM_Utils_Array::value( 'event', $ids ) ) {
+            CRM_Utils_Hook::post( 'edit', 'Event', $event->id, $event );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Event', $event->id, $event );
+        }
+        
+        return $result;
     }
     
     /**
@@ -118,16 +132,39 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      * @static 
      * 
      */
-   
     public static function create( &$params, &$ids) 
     {
+        CRM_Core_DAO::transaction('BEGIN');
+        
         $event = self::add($params, $ids);
-
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $ids['id'], 0,$params["event_type_id"]);
-       
+        
+        if ( is_a( $event, 'CRM_Core_Error') ) {
+            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            return $event;
+        }
+        
+        $session = & CRM_Core_Session::singleton();
+                
+        // Log the information on successful add/edit of Event
+        require_once 'CRM/Core/BAO/Log.php';
+        $params = array(
+                        'entity_table'  => 'civicrm_event',
+                        'entity_id'     => $event->id,
+                        'modified_id'   => $session->get('userID'),
+                        'modified_date' => date('Ymd')
+                        );
+        
+        CRM_Core_BAO_Log::add( $params );
+        
+        // Handle Custom Data
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $ids['id'], 0, $params["event_type_id"]);
+        
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Event", $event->id); 
         
+        CRM_Core_DAO::transaction('COMMIT');
+        
+        return $event;
     }
      
     /**
