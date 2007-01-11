@@ -80,7 +80,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 
         $urlParams = "reset=1&context=event";
         if ( $this->_id ) {
-            $urlParams .= "&action=update&id={$this->_id}";
+            $urlParams .= "&action=update&id={$this->_id}&subPage=EventInfo";
         } else {
             $urlParams .= "&action=add";
         }
