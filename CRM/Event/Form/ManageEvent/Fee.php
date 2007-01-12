@@ -142,12 +142,12 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             //check fee label and amount
             $check = 0;
             foreach ( $values['label'] as $key => $val ) {
-                if ( isset($val) && $values['value'][$key] ) {
+                if ( trim($val) && trim($values['value'][$key]) ) {
                     $check++;
                     break;
                 }
             }
-            
+
             if ( !$check ) {
                 if ( !$values['label'][1] ) {
                     $errorMsg['label[1]'] = "Please enter Fee Label.";

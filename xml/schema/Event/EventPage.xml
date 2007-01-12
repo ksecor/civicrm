@@ -100,7 +100,7 @@
       <add>1.7</add>     
   </field>
   <field>        
-      <name>confirm_from_email</name>     
+      <name>bcc_confirm</name>     
       <type>varchar</type>     
       <length>255</length>  
       <comment>comma-separated list of email addresses to bcc each time a confirmation is sent</comment>
