@@ -368,22 +368,61 @@ WHERE  civicrm_participant.id = {$participantId}
         $defaults[$dst] = $look[$defaults[$src]];
         return true;
     }
-
-    /**                                                           
+    
+    /**                          
+     * Delete the Participation records for this contact.
+     * 
+     * @param  int  $cid   Contact Id                                                              
+     * 
+     * @access public 
+     * @static 
+     */ 
+    static function deleteContact( $cid ) 
+    {
+        $participants = array();
+        
+        $participantDAO = new CRM_Event_BAO_Participant();
+        $participantDAO->contact_id = $cid;
+        $participantDAO->find();
+        while ( $participantDAO->fetch( ) ) {
+            $participants[] = $participantDAO->id;
+        }
+        
+        foreach( $participants as $id) {
+            self::deleteParticipant( $id );
+        }
+    }
+    
+    /**                          
      * Delete the record that are associated with this participation
+     * 
      * @param  int  $id id of the participation to delete                                                                           
      * 
-     * @return boolean  true if deleted, false otherwise
+     * @return Int      Count of no of participant deleted.
      * @access public 
      * @static 
      */ 
     static function deleteParticipant( $id ) 
-    {    
+    {
+        //check dependencies
+        //checking if any membership status is present in some other table 
+        
+        $dependancy = array( 'Log', 'Note' );
+        
+        foreach ( $dependancy as $name ) {
+            require_once (str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_BAO_" . $name) . ".php");
+            eval('$dao = new CRM_Core_BAO_' . $name. '();');
+            $dao->entity_id = $id;
+            if ( $dao->find(true) ) {
+                $dao->delete();
+            }
+        }
+        
         require_once 'CRM/Event/DAO/ParticipantPayment.php';
         $participantPayment = & new CRM_Event_DAO_ParticipantPayment( );
         $participantPayment->entity_table   = 'civicrm_contribution';
         $participantPayment->participant_id = $id;
-
+        
         if ( $participantPayment->find( true ) ) {
             self::deleteParticipantSubobjects( $participantPayment->payment_entity_id );
             $participantPayment->delete( ); 
@@ -392,9 +431,12 @@ WHERE  civicrm_participant.id = {$participantId}
         require_once 'CRM/Event/DAO/Participant.php';
         $participant        = & new CRM_Event_DAO_Participant( );
         $participant->id    = $id;
-        $participant->delete( );
+        if ( $participant->find(true) ) {
+            $count = $participant->delete( );
+        }
         
-        return true;
+        //return true;
+        return $count;
     }
     
     static function deleteParticipantSubobjects( $contribId ) 

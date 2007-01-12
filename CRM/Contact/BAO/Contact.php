@@ -1259,7 +1259,12 @@ WHERE civicrm_contact.id IN $idString ";
             require_once 'CRM/Member/BAO/Membership.php';
             CRM_Member_BAO_Membership::deleteContact( $id, $userId );
         }
-
+        
+        //if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+            require_once 'CRM/Event/BAO/Participant.php';
+            CRM_Event_BAO_Participant::deleteContact( $id );
+            //}
+        
         CRM_Core_BAO_Note::deleteContact($id);
 
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_CustomValue', $id );

@@ -502,6 +502,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         } else {
             $params["honor_contact_id"] = null;
         }
+        require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
         
         // do the updates/inserts

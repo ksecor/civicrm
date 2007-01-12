@@ -242,7 +242,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                 $ids['activity_history'] = $tmp[0];
             }
         }
-
+        
+        require_once 'CRM/Core/BAO/History.php';
         $historyDAO =& CRM_Core_BAO_History::create($historyParams, $ids, 'Activity');
         if (is_a($historyDAO, 'CRM_Core_Error')) {
             CRM_Core_Error::fatal("Failed creating Activity History for contribution of id {$contribution->id}");
