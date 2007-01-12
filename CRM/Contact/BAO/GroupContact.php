@@ -214,6 +214,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $numContactsRemoved    = 0;
         $numContactsNotRemoved = 0;
         
+        require_once "CRM/Contact/DAO/Group.php";
         $group =& new CRM_Contact_DAO_Group();
         $group->id = $groupId;
         $group->find(true);

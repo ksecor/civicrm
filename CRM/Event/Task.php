@@ -78,11 +78,11 @@ class CRM_Event_Task
     {
         if (!(self::$_tasks)) {
             self::$_tasks = array(
-                                  3     => ts( 'Export Events'                   ),
-                                  1     => ts( 'Delete Events'                   ),
-                                  4     => ts( 'Batch Update Events Via Profile' ),
-                                  13    => ts( 'New Smart Group' ),
-                                  5     => ts( 'Cancel Registration'             )
+                                  3     => ts( 'Export Participants'                   ),
+                                  1     => ts( 'Delete Participants'                   ),
+                                  4     => ts( 'Batch Update Participants Via Profile' ),
+                                  13    => ts( 'New Smart Group'                       ),
+                                  5     => ts( 'Cancel Registration'                   )
                                   );
         }
         asort(self::$_tasks);        
