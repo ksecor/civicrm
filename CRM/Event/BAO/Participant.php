@@ -411,8 +411,9 @@ WHERE  civicrm_participant.id = {$participantId}
         foreach ( $dependancy as $name ) {
             require_once (str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_BAO_" . $name) . ".php");
             eval('$dao = new CRM_Core_BAO_' . $name. '();');
-            $dao->entity_id = $id;
-            if ( $dao->find(true) ) {
+            $dao->entity_id    = $id;
+            $dao->entity_table = 'civicrm_participant';
+            if ( $dao->find() ) {
                 $dao->delete();
             }
         }
@@ -440,6 +441,7 @@ WHERE  civicrm_participant.id = {$participantId}
     
     static function deleteParticipantSubobjects( $contribId ) 
     {
+
         require_once 'CRM/Contribute/BAO/Contribution.php';
         CRM_Contribute_BAO_Contribution::deleteContribution( $contribId );
         return;

@@ -1559,13 +1559,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
 
                foreach ($fields as $name => $field ) {
                    $fldName = "field[$componentId][$name]";
-                   if ( $name == 'event_id' ) {
-                       $defaults[$fldName] = $values['event_id'];
-                   } else if ( $name == 'event_status_id' ) {
-                       $defaults[$fldName."[$values[$name]]"] = 1;
-                   } else if ( $name == 'role_id' ) {
-                       $defaults[$fldName] = $values['role_id'];
-                   } else if ( array_key_exists($name,$values) ) {
+                   if ( array_key_exists($name,$values) ) {
                        $defaults[$fldName] = $values[$name];
                    } 
                }
