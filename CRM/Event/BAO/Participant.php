@@ -190,7 +190,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      */
 
     static function &create(&$params, &$ids) 
-    {
+    { 
         require_once 'CRM/Utils/Date.php';
 
         CRM_Core_DAO::transaction('BEGIN');
@@ -219,7 +219,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         // data.
         require_once 'CRM/Core/BAO/Log.php';
         
-        $params = array(
+        $logParams = array(
                         'entity_table'  => 'civicrm_participant',
                         'entity_id'     => $participant->id,
                         'data'          => CRM_Event_PseudoConstant::participantStatus($participant->status_id),
@@ -227,11 +227,10 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                         'modified_date' => date('Ymd')
                         );
         
-        CRM_Core_BAO_Log::add( $params );
-        
+        CRM_Core_BAO_Log::add( $logParams );
         // Handle Custom Data
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $ids['id'], 0, $params['role_id']);
-        
+
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Participant", $participant->id); 
         

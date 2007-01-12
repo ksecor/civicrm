@@ -147,14 +147,14 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                 
         // Log the information on successful add/edit of Event
         require_once 'CRM/Core/BAO/Log.php';
-        $params = array(
+        $logParams = array(
                         'entity_table'  => 'civicrm_event',
                         'entity_id'     => $event->id,
                         'modified_id'   => $session->get('userID'),
                         'modified_date' => date('Ymd')
                         );
         
-        CRM_Core_BAO_Log::add( $params );
+        CRM_Core_BAO_Log::add( $logParams );
         
         // Handle Custom Data
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $ids['id'], 0, $params["event_type_id"]);
