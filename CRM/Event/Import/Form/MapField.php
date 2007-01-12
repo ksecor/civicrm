@@ -464,11 +464,12 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             }
         }
         //display Error if loaded mapping is not selected
-        $getMapName =  CRM_Utils_Array::value( 'savedMapping', $fields );
-        if( empty($getMapName) ){
+        if (array_key_exists('loadMapping', $fields)) {
+            $getMapName =  CRM_Utils_Array::value( 'savedMapping', $fields );        
+            if( empty($getMapName) ){
                 $errors['loadMapping'] = ts('Select Load mapping name');
+            }
         }
-
         if ( !empty($errors) ) {
             if (!empty($errors['saveMappingName'])) {
                 $_flag = 1;
