@@ -21,6 +21,7 @@
       <name>contact_id</name> 
       <type>int unsigned</type> 
       <title>Contact ID (match to contact)</title>
+      <headerPattern>/contact(.?id)?/i</headerPattern>
       <import>true</import>
       <default>0</default>
       <comment>FK to Contact ID</comment> 
@@ -49,6 +50,7 @@
       <name>status_id</name> 
       <uniqueName>event_status_id</uniqueName>
       <title>Participant Status</title>
+      <headerPattern>/^status$/i</headerPattern>
       <import>true</import>
       <type>int unsigned</type> 
       <default>1</default>
@@ -58,6 +60,7 @@
   <field> 
       <name>role_id</name> 
       <title>Participant Role</title>
+      <headerPattern>/^role$/i</headerPattern>
       <import>true</import>
       <type>int unsigned</type> 
       <default>NULL</default>
@@ -68,6 +71,7 @@
       <name>register_date</name>
       <uniqueName>participant_register_date</uniqueName>
       <title>Register date</title>
+      <headerPattern>/^(r(egister\s)?date)$/i</headerPattern>
       <import>true</import>
       <type>datetime</type>     
       <comment>When did contact register for event?</comment>
@@ -77,6 +81,7 @@
       <name>source</name>
       <uniqueName>event_source</uniqueName>
       <title>Participant Source</title>  
+      <headerPattern>/^source$/i</headerPattern>
       <import>true</import>
       <type>varchar</type>     
       <length>128</length>  
@@ -86,6 +91,7 @@
   <field>        
       <name>event_level</name>
       <title>Fee level</title>
+      <headerPattern>/^(f(ee\s)?level)$/i</headerPattern>
       <type>varchar</type>     
       <length>255</length>  
       <import>true</import>
