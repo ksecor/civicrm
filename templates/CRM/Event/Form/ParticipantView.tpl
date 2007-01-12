@@ -9,6 +9,7 @@
         <dt>{ts}Participant Status{/ts}</dt><dd>{$status}&nbsp;</dd>
         <dt>{ts}Event Source{/ts}</dt><dd>{$source}&nbsp;</dd>
         <dt>{ts}Event Level{/ts}</dt><dd>{$event_level}&nbsp;</dd>
+        <dt>{ts}Note{/ts}</dt><dd>{$note}&nbsp;</dd>
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
 

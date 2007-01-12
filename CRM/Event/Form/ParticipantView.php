@@ -61,7 +61,12 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
                                               $values, 
                                               $ids );        
         
+
         CRM_Event_BAO_Participant::resolveDefaults( $values );
+
+        // Get Note
+        $noteValue = CRM_Core_BAO_Note::getNote( $values['id'], 'civicrm_participant' );
+        list($values['note']) =  array_values($noteValue);
         $this->assign( $values ); 
     }
 

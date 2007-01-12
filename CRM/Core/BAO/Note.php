@@ -238,13 +238,13 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      * @access public
      * @static
      */
-    public static function &getNote($id)
+    public static function &getNote( $id, $entityTable = 'civicrm_relationship')
     {
         $viewNote = array();
-
+        
         $query = "
 SELECT   id, note FROM civicrm_note
-WHERE    entity_table = 'civicrm_relationship' 
+WHERE    entity_table=\"{$entityTable}\"
   AND    entity_id = %1
 ORDER BY modified_date desc";
         $params = array( 1 => array( $id, 'Integer' ) );
