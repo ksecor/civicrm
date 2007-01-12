@@ -129,9 +129,12 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      */
     static function setActivityHistory( $participant ) 
     {
+        require_once "CRM/Event/BAO/Event.php";
         $activitySummary = CRM_Event_BAO_Event::getEvents(true,$participant->event_id);
         $date = date( 'YmdHis' );
         $def['role_id'] = $participant->role_id;
+
+        require_once "CRM/Event/PseudoConstant.php";
         self::lookupValue($def, 'role', CRM_Event_PseudoConstant::participantRole(), false);
         require_once "api/History.php";
         $activityHistory = array('entity_table'     => 'civicrm_contact',

@@ -68,6 +68,18 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                           'title' => ts('Configure Event') 
                                                                           ),
+                                        CRM_Core_Action::PREVIEW => array(
+                                                                          'name'  => ts('Test-drive'),
+                                                                          'url'   => 'civicrm/event/register',
+                                                                          'qs'    => 'reset=1&action=preview&id=%%id%%',
+                                                                          'title' => ts('Preview') 
+                                                                          ),
+                                        CRM_Core_Action::FOLLOWUP    => array(
+                                                                          'name'  => ts('Live Page'),
+                                                                          'url'   => 'civicrm/event/register',
+                                                                          'qs'    => 'reset=1&id=%%id%%',
+                                                                          'title' => ts('FollowUp'),
+                                                                          ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/admin/event',
@@ -93,12 +105,6 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           'url'   => 'civicrm/admin/event',
                                                                           'qs'    => 'action=map&id=%%id%%',
                                                                           'title' => ts('Copy Event') 
-                                                                          ),
-                                        CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Register'),
-                                                                          'url'   => 'civicrm/admin/event/register',
-                                                                          'qs'    => 'reset=1&id=%%id%%',
-                                                                          'title' => ts('Register Event') 
                                                                           )
                                         );
         }

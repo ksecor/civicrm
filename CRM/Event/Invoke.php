@@ -46,27 +46,13 @@ class CRM_Event_Invoke
         }
         $view = null;
 
-        switch ( CRM_Utils_Array::value( 3, $args, '' ) ) {
-            
-        case 'register':
-            $session =& CRM_Core_Session::singleton( ); 
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
-
-            require_once 'CRM/Event/Controller/Registration.php';
-            $controller =& new CRM_Event_Controller_Registration(ts('Online Registration'));
-            return $controller->run();
-            break;
-            
-        default:
-            require_once 'CRM/Event/Page/ManageEvent.php';
-            $view =& new CRM_Event_Page_ManageEvent(ts('Manage Event'));
-            break;
-        }
+        require_once 'CRM/Event/Page/ManageEvent.php';
+        $view =& new CRM_Event_Page_ManageEvent(ts('Manage Event'));
 
         if ( $view ) {
             return $view->run( );
         }
-
+        
         return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm' ) );
     }
 
@@ -86,6 +72,28 @@ class CRM_Event_Invoke
         
         $session =& CRM_Core_Session::singleton( );
         $config  =& CRM_Core_Config::singleton ( );
+
+        if ( $args[2] == 'register' ) { 
+            if ( $config->enableSSL     &&
+                 CRM_Core_Invoke::onlySSL( $args ) ) {
+                if ( !isset($_SERVER['HTTPS'] ) ) {
+                    CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+                } else {
+                    CRM_Utils_System::mapConfigToSSL( );
+                }
+            }
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
+
+            // set breadcrumb to append to 2nd layer pages
+            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/event', 'reset=1' );
+            $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('CiviEvent') . '</a>';
+            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+
+            require_once 'CRM/Event/Controller/Registration.php';
+            $controller =& new CRM_Event_Controller_Registration(ts('Online Registration'));
+            return $controller->run();
+        } 
+
         if ($args[2] == 'search') {
             require_once 'CRM/Event/Controller/Search.php';
             $controller =& new CRM_Event_Controller_Search($title, $mode); 

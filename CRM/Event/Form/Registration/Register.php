@@ -72,27 +72,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->buildCreditCard( );
         }
 
-        require_once 'CRM/Core/BAO/UFJoin.php';
-        $customField =& new CRM_Core_DAO_UFJoin();
-        $customField->entity_id    = $this->_id;
-        $customField->entity_table = 'civicrm_event';
-        $customField->find();
-
-        $ufJoinParams = array( 'entity_table' => 'civicrm_event',
-                               'entity_id'    => $this->_id,
-                               'weight'       => 1 );
-        $custom_pre_id = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
-        $ufJoinParams['weight'] = 2;
-        $custom_post_id = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
-       
-        while( $customField->fetch() ) {
-            if( $custom_pre_id ){
-                $this->buildCustom( $customField->uf_group_id, 'customPre'  );
-            }
-            if( $custom_post_id ){
-                $this->buildCustom( $customField->uf_group_id, 'customPost' );
-            }
-        }
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
         // if payment is via a button only, dont display continue
         if ( $config->paymentBillingMode != CRM_Contribute_Payment::BILLING_MODE_BUTTON || !$this->_values['event']['is_monetary']) {
@@ -152,39 +133,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->addGroup( $elements, 'amount', ts('Fee Level'), '<br />' );
         }
     }
-    
-    /**  
-     * Function to add the custom fields
-     *  
-     * @return None  
-     * @access public  
-     */ 
-    function buildCustom( $id, $name ) {
-        if ( $id ) {
-            require_once 'CRM/Core/BAO/UFGroup.php';
-            require_once 'CRM/Profile/Form.php';
-            $session =& CRM_Core_Session::singleton( );
-            $contactID = $session->get( 'userID' );
-            if ( $contactID ) {
-                if ( CRM_Core_BAO_UFGroup::filterUFGroups($id)  ) {
-                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-                    $this->assign( $name, $fields );
-                    foreach($fields as $key => $field) {
-                        CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                        $this->_fields[$key] = $field;
-                    }
-                }
-            } else {
-                $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-                $this->assign( $name, $fields );
-                foreach($fields as $key => $field) {
-                    CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                    $this->_fields[$key] = $field;
-                }
-            }
-        }
-    }
-    
 
     /** 
      * Function to add all the credit card fields
@@ -234,9 +182,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
         $params['currencyID']     = $config->defaultCurrency;
         //$params['payment_action'] = 'Sale'; 
-
-        $params['amount'] = $this->_values['custom']['value'][array_search( $params['amount'], $this->_values['custom']['amount_id'])];
+        
+        $params['amount_level'] = $this->_values['custom']['label']
+            [array_search( $params['amount'], $this->_values['custom']['amount_id'])];
+        $params['amount'] = $this->_values['custom']['value']
+            [array_search( $params['amount'], $this->_values['custom']['amount_id'])];
+        
         $this->set( 'amount', $params['amount'] ); 
+        $this->set( 'amount_level', $params['amount_level'] ); 
         
         // generate and set an invoiceID for this transaction
         $invoiceID = $this->get( 'invoiceID' );
@@ -246,8 +199,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $this->set( 'invoiceID', $invoiceID );
         
         $payment =& CRM_Contribute_Payment::singleton( $this->_mode ); 
-        // default mode is direct
-        $this->set( 'contributeMode', 'direct' ); 
 
         if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
             //get the button name  
@@ -257,9 +208,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $buttonName == $this->_expressButtonName . '_y' ) { 
                 $this->set( 'contributeMode', 'express' ); 
                 
-                //$donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
-                $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/admin/event/register', '_qf_Register_display=1', true, null, false ); 
-                $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/admin/event/register', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
+                $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1', true, null, false ); 
+                $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
                 $params['invoiceID' ] = $invoiceID;
                 
                 $token = $payment->setExpressCheckout( $params ); 
@@ -280,19 +230,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NOTIFY ) {
             $this->set( 'contributeMode', 'notify' );
+        } else {
+            // default mode is direct
+            $this->set( 'contributeMode', 'direct' ); 
         }
     }//end of function
-    
-    /**
-     * Return a descriptive name for the page, used in wizard header
-     *
-     * @return string
-     * @access public
-     */
-    public function getTitle( ) 
-    {
-        return ts('Event Registration');
-    }
-    
 }
 ?>

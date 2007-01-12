@@ -69,7 +69,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 require_once 'CRM/Contribute/Payment.php'; 
                 $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
                 $this->_params = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
-
+                
                 // fix state and country id if present
                 if ( CRM_Utils_Array::value( 'state_province', $this->_params ) ) {
                     $states = CRM_Core_PseudoConstant::stateProvinceAbbreviation();
@@ -85,6 +85,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 // set a few other parameters for PayPal
                 $this->_params['token']          = $this->get( 'token' );
                 $this->_params['amount'        ] = $this->get( 'amount' );
+                $this->_params['amount_level'  ] = $this->get( 'amount_level' );
                 $this->_params['currencyID'    ] = $config->defaultCurrency;
                 $this->_params['payment_action'] = 'Sale';
                 
@@ -119,15 +120,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR']; 
 
             $this->_params['amount'        ] = $this->get( 'amount' );
-            //$this->_params['amount_level'  ] = $this->get( 'amount_level' );
+            $this->_params['amount_level'  ] = $this->get( 'amount_level' );
             $this->_params['currencyID'    ] = $config->defaultCurrency;
             $this->_params['payment_action'] = 'Sale';
         }
 
         $this->_params['invoiceID'] = $this->get( 'invoiceID' );
         $this->set( 'params', $this->_params );
-        //CRM_Core_Error::debug_log_message( "confirm prepro" );
-        //print_r($this->_params);
     }
 
     /** 
@@ -138,22 +137,26 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      */ 
     public function buildQuickForm( )  
     { 
-        $eventPage = array( );
-        $params = array( 'event_id' => $this->_id );
-        $confirm =  $this->get('registrationValue');
-        $this->assign('confirm',$confirm);
-                   
+        $this->assignToTemplate( );
+        
+        //$this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
+        //$this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+
+        $contribButton = ts('Make Contribution');
+        if ( $this->_contributeMode == 'notify' ) {
+            $contribButton = ts('Continue');
+        }
         $this->addButtons(array(
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Previous') ),
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Continue'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
+                                        'name'      => $contribButton,
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                        'isDefault' => true,
+                                        'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" ) ),
+                                array ( 'type'      => 'back',
+                                        'name'      => ts('<< Go Back')),
                                 )
                           );
+        $this->freeze();
     }
     
     /**
@@ -164,8 +167,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      */
     public function postProcess() 
     {
-        require_once "CRM/Contact/BAO/Contact.php";
-
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
         $now = date( 'YmdHis' );
@@ -173,55 +174,25 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $params = $this->_params;
         $fields = array( );
 
-        //$this->fixLocationFields();
-        //below fixing of locations block can be built into a method
-        foreach ( $this->_fields as $name => $dontCare ) {
-            $fields[$name] = 1;
-        }
-        $fields['first_name'] = $fields['last_name'] = 1;
-        $fields['street_address-Primary'] = $fields['supplemental_address_1-Primary'] = $fields['city-Primary'] = 1;
-        $fields['postal_code-Primary'] = 1;
-        $fields['state_province-Primary'] = $fields['country-Primary'] = $fields['email-Primary'] = 1;
+        $this->fixLocationFields( $params, $fields );
         
-        $fixLocationFields = array( 'street_address', 'supplemental_address_1', 
-                                    'city', 'state_province', 'postal_code', 'country', 'email' );
-        foreach ( $fixLocationFields as $name ) {
-            if ( array_key_exists( $name, $params ) ) {
-                $params["{$name}-Primary"] = $params[$name];
-                unset( $params[$name] );
-            }
-        } // end of fix locations
+        $contactID =& $this->updateContactFields( $contactID, $params, $fields );
         
-        if ($contactID) {
-            $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact", $contactID, "contact_type");
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID,null,null,$ctype);
-        } else {
-            // finding contact record based on duplicate match 
-            $dupeParams = array();
-            $dupeVars = array('first_name', 'last_name', 'email'); //use dupe match dao
-            foreach ( $dupeVars as $name ) {
-                if ( $this->_params[$name] ) {
-                    $dupeParams[$name] = $this->_params[$name];
-                }
-            }
-            require_once 'api/crm.php';
-            $ids = CRM_Core_BAO_UFGroup::findContact( $dupeParams );
-            $contactsIDs = explode( ',', $ids );
-            
-            // if we find more than one contact, use the first one
-            $contact_id  = $contactsIDs[0];
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id );
-            $this->set( 'contactID', $contactID );
-        }
-
         require_once 'CRM/Contribute/Payment.php';
         $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
         
-        if ( $this->_contributeMode == 'express' ) {
+        switch ( $this->_contributeMode ) {
+        case 'express':
             $result =& $payment->doExpressCheckout( $this->_params );
+            break;
+        case 'notify':
+            $result =& $payment->doTransferCheckout( $this->_params );
+            break;
+        default   :
+            $result =& $payment->doDirectPayment( $this->_params );
+            break;
         }
-//         print_r($this->_params);
-//         print_r($result);
+
         if ( is_a( $result, 'CRM_Core_Error' ) ) {
             CRM_Core_Error::displaySessionError( $result );
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/event/register', '_qf_Main_display=true' ) );
@@ -233,29 +204,24 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $this->_params['receive_date'] = $now;
         $this->set( 'params', $this->_params );
-        $this->assign( 'trxn_id', $result['trxn_id'] );
-        $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+        //$this->assign( 'trxn_id', $result['trxn_id'] );
+        //$this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
         
         // insert participant record
+        require_once 'CRM/Event/BAO/Participant.php';
         $participant  =& $this->addPartcipant( $this->_params, $result, $contactID );
         
         // if paid event add a contribution record
         $contribution =& $this->processContribution( $this->_params, $result, $contactID );
         
         // insert activity record
+        CRM_Event_BAO_Participant::setActivityHistory( $participant );
+
+        //require_once "CRM/Contribute/BAO/ContributionPage.php";
+        //CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $this->_values );
+
     }//end of function
     
-    /**
-     * Return a descriptive name for the page, used in wizard header
-     *
-     * @return string
-     * @access public
-     */
-    public function getTitle( ) 
-    {
-        return ts('Confirm Event Registration');
-    }
-
     /**
      * Process the contribution
      *
@@ -264,14 +230,42 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      */
     public function addPartcipant( $params, $result, $contactID ) 
     {
+        CRM_Core_DAO::transaction( 'BEGIN' );
+
+        $domainID = CRM_Core_Config::domainID( );
+        $groupName = "participant_role";
+        $query = "
+SELECT  v.label as label ,v.value as value
+FROM   civicrm_option_value v, 
+       civicrm_option_group g 
+WHERE  v.option_group_id = g.id 
+  AND  g.domain_id       = $domainID 
+  AND  g.name            = %1 
+  AND  v.is_active       = 1  
+  AND  g.is_active       = 1  
+";
+        $p = array( 1 => array( $groupName , 'String' ) );
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+        if ( $dao->fetch( ) ) {
+            $roleID = $dao->value;
+        }
+        
         $participantParams = array('contact_id'    => $contactID,
                                    'event_id'      => $this->_id,
                                    'status_id'     => 1,
-                                   'role_id'       => null, // (need to change) participation_role option_value where is_default is true;
+                                   'role_id'       => $roleID,
                                    'register_date' => date( 'YmdHis' ),
                                    'source'        => ts( 'Online Event Registration' ),
-                                   'event_level'   => null // (need to hv value)
+                                   'event_level'   => $params['amount_level'],
+                                   //'is_test'       => 
                                    );
+        $ids = array();
+        $participant = CRM_Event_BAO_Participant::add($participantParams, $ids);
+        
+        CRM_Core_DAO::transaction( 'COMMIT' );
+
+        return $participant;
     }
 
     /**
@@ -280,16 +274,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      * @return void
      * @access public
      */
-    public function processContribution( $params, $result, $contactID ) 
+    public function processContribution( $params, $result, $contactID, $pending = false ) 
     {
         CRM_Core_DAO::transaction( 'BEGIN' );
 
         $config =& CRM_Core_Config::singleton( );
         $now         = date( 'YmdHis' );
         $receiptDate = null;
-        $pending     = ($result['payment_status'] != "Completed") ? true : false ;
         
-        if ( $this->_values['is_email_receipt'] ) {
+        if ( $this->_values['event_page']['is_email_confirm'] ) {
             $receiptDate = $now ;
         }
         
@@ -301,13 +294,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                                'receive_date'          => $now,
                                //'non_deductible_amount' => $nonDeductibleAmount,
                                'total_amount'          => $params['amount'],
-                               //'amount_level'          => $params['amount_level'],
+                               'amount_level'          => $params['amount_level'],
                                'invoice_id'            => $params['invoiceID'],
                                'currency'              => $params['currencyID'],
                                'source'                => ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title']
                                );
         
-        if ( !$pending ) {
+        if ( ! $pending && $result ) {
             $contribParams += array(
                                     'fee_amount'   => CRM_Utils_Array::value( 'fee_amount', $result ),
                                     'net_amount'   => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
@@ -317,10 +310,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
 
         $contribParams["contribution_status_id"] = $pending ? 2 : 1;
-        $contribParams["is_test"] = 1; // record test contribution
+
+        if( $this->_action & CRM_Core_Action::PREVIEW ) {
+            $contribParams["is_test"] = 1;
+        }
         
         $ids = array( );
-        //require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
         
         // return if pending
@@ -350,5 +345,67 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         return $contribution;
     }
+    
+    /**
+     * Fix the Location Fields
+     *
+     * @return void
+     * @access public
+     */
+    public function fixLocationFields( &$params, &$fields ) 
+    {
+        foreach ( $this->_fields as $name => $dontCare ) {
+            $fields[$name] = 1;
+        }
+        $fields['first_name'] = $fields['last_name'] = 1;
+        $fields['street_address-Primary'] = $fields['supplemental_address_1-Primary'] = $fields['city-Primary'] = 1;
+        $fields['postal_code-Primary'] = 1;
+        $fields['state_province-Primary'] = $fields['country-Primary'] = $fields['email-Primary'] = 1;
+        
+        $fixLocationFields = array( 'street_address', 'supplemental_address_1', 
+                                    'city', 'state_province', 'postal_code', 'country', 'email' );
+        foreach ( $fixLocationFields as $name ) {
+            if ( array_key_exists( $name, $params ) ) {
+                $params["{$name}-Primary"] = $params[$name];
+                unset( $params[$name] );
+            }
+        }
+    }
+    
+    /**
+     * function to update contact fields
+     *
+     * @return void
+     * @access public
+     */
+    public function updateContactFields( $contactID, $params, $fields ) 
+    {
+        require_once "CRM/Contact/BAO/Contact.php";
+
+        if ($contactID) {
+            $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact", $contactID, "contact_type");
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, null, null,$ctype);
+        } else {
+            // finding contact record based on duplicate match 
+            $dupeParams = array();
+            $dupeVars = array('first_name', 'last_name', 'email'); //use dupe match dao
+            foreach ( $dupeVars as $name ) {
+                if ( $this->_params[$name] ) {
+                    $dupeParams[$name] = $this->_params[$name];
+                }
+            }
+            require_once 'api/crm.php';
+            $ids = CRM_Core_BAO_UFGroup::findContact( $dupeParams );
+            $contactsIDs = explode( ',', $ids );
+            
+            // if we find more than one contact, use the first one
+            $contact_id  = $contactsIDs[0];
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id );
+            $this->set( 'contactID', $contactID );
+        }
+
+        return $contactID;
+    }
+
 }
 ?>

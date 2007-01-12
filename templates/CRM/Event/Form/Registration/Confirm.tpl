@@ -11,6 +11,7 @@
             {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
         {/if}
     </div>
+
     {if $customPre}
          {foreach from=$customPre item=field key=cname}
               {if $field.groupTitle}
@@ -22,7 +23,9 @@
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
-    {if $contributeMode ne 'notify' and $is_monetary}    
+
+    {*if $contributeMode ne 'notify' and $is_monetary*}    
+    {if $contributeMode ne 'notify'}
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -34,6 +37,7 @@
         {$email}
     </div>
     {/if}
+
     {if $contributeMode eq 'direct'}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
@@ -44,6 +48,7 @@
         {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}<br />
     </div>
     {/if}
+
     {if $customPost}
          {foreach from=$customPost item=field key=cname}
               {if $field.groupTitle}

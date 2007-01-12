@@ -94,7 +94,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
         
-        $this->_mode = 'test'; // till code gets complete
+        // current mode
+        $this->_mode = ( $this->_action == 1024 ) ? 'test' : 'live';
         
         $this->_values = $this->get( 'values' );
         $this->_fields = $this->get( 'fields' );
@@ -111,8 +112,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             //retrieve custom information
             require_once 'CRM/Core/BAO/CustomOption.php'; 
             CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event', $this->_id, $this->_values['custom'] );
-            
-            //$this->_values['event']['feeLevel'] = CRM_Core_BAO_CustomOption::getCustomOption( $this->_id, true, 'civicrm_event' );
+
+            // get the profile ids
+            require_once 'CRM/Core/BAO/UFJoin.php'; 
+            $ufJoinParams = array( 'entity_table' => 'civicrm_event',   
+                                   'entity_id'    => $this->_id,   
+                                   'weight'       => 1 ); 
+            $this->_values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
+            $ufJoinParams['weight'] = 2; 
+            $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
             
             $params = array( 'event_id' => $this->_id );
             require_once 'CRM/Event/BAO/EventPage.php';
@@ -127,7 +135,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         }
 
         $this->_contributeMode = $this->get( 'contributeMode' );
-        $this->assign( 'contributeMode', $this->_contributeMode ); // chk if required
+        $this->assign( 'contributeMode', $this->_contributeMode );
+
+        // setting CMS page title
+        CRM_Utils_System::setTitle($this->_values['event']['title']);  
     }
 
     /** 
@@ -213,6 +224,85 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                     'title'      => ts('Card Type'), 
                                                     'attributes' => $creditCardType,
                                                     'is_required'=> true );
+    }
+
+    /** 
+     * assign the minimal set of variables to the template
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
+    function assignToTemplate( ) {
+        $name = $this->_params['first_name'];
+        if ( CRM_Utils_Array::value( 'middle_name', $this->_params ) ) {
+            $name .= " {$this->_params['middle_name']}";
+        }
+        $name .= " {$this->_params['last_name']}";
+        $this->assign( 'name', $name );
+        $this->set( 'name', $name );
+
+        $vars = array( 'amount', 'currencyID',
+                       'credit_card_type', 'trxn_id', 'amount_level' );
+        
+        foreach ( $vars as $v ) {
+            if ( CRM_Utils_Array::value( $v, $this->_params ) ) {
+                $this->assign( $v, $this->_params[$v] );
+            }
+        }
+
+        // assign the address formatted up for display
+        $addressParts  = array('street_address', 'city', 'postal_code', 'state_province', 'country');
+        $addressFields = array();
+        foreach ($addressParts as $part) {
+            $addressFields[$part] = $this->_params[$part];
+        }
+        require_once 'CRM/Utils/Address.php';
+        $this->assign('address', CRM_Utils_Address::format($addressFields));
+
+        if ( $this->_contributeMode == 'direct' ) {
+            $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
+            $date = CRM_Utils_Date::mysqlToIso( $date );
+            $this->assign( 'credit_card_exp_date', $date );
+            $this->assign( 'credit_card_number',
+                           CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
+        }
+
+        //$this->assign( 'email', $this->_values['event_page'][''] );
+
+        // also assign the receipt_text
+        $this->assign( 'receipt_text', $this->_values['event_page']['confirm_email_text'] );
+    }
+
+    /**  
+     * Function to add the custom fields
+     *  
+     * @return None  
+     * @access public  
+     */ 
+    function buildCustom( $id, $name ) {
+        if ( $id ) {
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            require_once 'CRM/Profile/Form.php';
+            $session =& CRM_Core_Session::singleton( );
+            $contactID = $session->get( 'userID' );
+            if ( $contactID ) {
+                if ( CRM_Core_BAO_UFGroup::filterUFGroups($id)  ) {
+                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                    $this->assign( $name, $fields );
+                    foreach($fields as $key => $field) {
+                        CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                        $this->_fields[$key] = $field;
+                    }
+                }
+            } else {
+                $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                $this->assign( $name, $fields );
+                foreach($fields as $key => $field) {
+                    CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                    $this->_fields[$key] = $field;
+                }
+            }
+        }
     }
 
 }

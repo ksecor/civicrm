@@ -35,7 +35,6 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
 require_once 'CRM/Event/Form/Registration.php';
 
 /**
@@ -62,52 +61,17 @@ class CRM_Event_Form_Registration_EventInfo extends CRM_Event_Form_Registration
      */ 
     public function buildQuickForm( )  
     { 
-        $eventParams = array( );
         $this->assign('event', $this->_values['event']);
-        $this->assign('custom', $this->_values['event']['custom']);
-        //print_r($this->_values);
+        $this->assign('custom', $this->_values['custom']);
         
-        if ($this->_action & CRM_Core_Action::VIEW ) {
-            $this->addButtons(array(
-                                    array ( 'type'      => 'next',
-                                            'name'      => ts('Done'),
-                                            'isDefault' => true   
-                                            )
-                                    )
-                              );
-        } else {
-            $this->addButtons(array(
-                                    array ( 'type'      => 'next',
-                                            'name'      => ts('Continue'),
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                            'isDefault' => true   ),
-                                    array ( 'type'      => 'cancel',
-                                            'name'      => ts('Cancel') ),
-                                    )
-                              );
-        }
-    }
-    
-    /**
-     * Function to process the form
-     *
-     * @access public
-     * @return None
-     */
-    public function postProcess() 
-    {
-        //$this->set('id', $this->_id);
-    }
-
-    /**
-     * Return a descriptive name for the page, used in wizard header
-     *
-     * @return string
-     * @access public
-     */
-    public function getTitle( ) 
-    {
-        return ts('Event Information and Settings');
+        $buttonLabel = $this->_values['event']['registration_link_text'];
+        $this->addButtons(array(
+                                array ( 'type'      => 'next',
+                                        'name'      => ts( $buttonLabel ),
+                                        'isDefault' => true   
+                                        )
+                                )
+                          );
     }
 }
 ?>
