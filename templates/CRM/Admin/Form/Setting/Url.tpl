@@ -8,9 +8,9 @@
 
         <dl>
             <dt>{$form.userFrameworkResourceURL.label}</dt><dd>{$form.userFrameworkResourceURL.html|crmReplace:class:'huge'}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Absolute URL of the location where the civicrm module or component has been installed.{/ts} {help id='resource-url'}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}URL of the location where the civicrm module or component has been installed.{/ts} {help id='resource-url'}</dd>
             <dt>{$form.imageUploadURL.label}</dt><dd>{$form.imageUploadURL.html|crmReplace:class:'huge'}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Absolute URL of the location for uploaded image files.{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}URL of the location for uploaded image files.{/ts}</dd>
         </dl>
         <dl>
             <dt></dt><dd>{$form.buttons.html}</dd>

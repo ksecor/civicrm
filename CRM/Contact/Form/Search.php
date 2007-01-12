@@ -488,8 +488,16 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             if ( isset( $this->_ssID ) ) {
                 // we only retrieve the saved search values if out current values are null
                 $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
-                $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
+                
+                //fix for CRM-1505
+                if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' ) ) {
+                    $this->_params =& CRM_Contact_BAO_SavedSearch::getSearchParams( $this->_ssID );
+                } else {
+                    $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
+                }
+
                 $this->_returnProperties =& $this->returnProperties( );
+                
             } else if ( isset( $this->_ufGroupID ) ) {
                 // also set the uf group id if not already present
                 $this->_formValues['uf_group_id'] = $this->_ufGroupID;
@@ -570,6 +578,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         } else if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
+
+            //fix for CRM-1505
+            if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' ) ) {
+                $this->_params =& CRM_Contact_BAO_SavedSearch::getSearchParams( $this->_ssID );
+            }
         }
         
         // we dont want to store the sortByCharacter in the formValue, it is more like 
@@ -582,7 +595,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                 $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
             }
         }
-        $this->_params           =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
+        
+        if ( empty($this->_params) ) {
+            $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
+        }
+        
         $this->_returnProperties =& $this->returnProperties( );
         
         $this->postProcessCommon( );

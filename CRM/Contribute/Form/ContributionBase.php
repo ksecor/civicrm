@@ -103,11 +103,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
 
-        // make sure we have a valid payment class, else abort
-        if ( ! $config->paymentClass ) {
-            CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
-        }
-
         // current contribution page id 
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive',
                                                   $this );
@@ -158,6 +153,11 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
+        }
+
+        // make sure we have a valid payment class, else abort
+        if ( $this->_values['is_monetary'] && ! $config->paymentClass ) {
+            CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
         }
 
         // check if one of the (amount , membership)  bloks is active or not

@@ -528,7 +528,7 @@ function crm_delete_membership($membershipID)
  * @return Array  Array of status id and status name 
  * @public
  */
-function crm_calc_membership_status(  $membershipID, $statusDate = 'today' )
+function crm_calc_membership_status( $membershipID )
 {
     if ( empty( $membershipID ) ) {
         return _crm_error( 'Invalid value for membershipID' );
@@ -537,8 +537,8 @@ function crm_calc_membership_status(  $membershipID, $statusDate = 'today' )
     $params['id'] = $membershipID;
     $values = $ids = array();
     CRM_Member_BAO_Membership::getValues($params, $values, $ids);
-    
+
     require_once 'CRM/Member/BAO/MembershipStatus.php';
-    return CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate($values['start_date'], $values['end_date'], $values['join_date'], $statusDate);
+    return CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate($values[$membershipID]['start_date'], $values[$membershipID]['end_date'], $values[$membershipID]['join_date']);
 }
 ?>

@@ -4,10 +4,11 @@
 
 <div class="form-item">
     <div id="help">
-        <p>{ts}Please verify Contribution Amount and all other information carefully. Click <strong>Go Back</strong>
-            if you need to make changes.{/ts}
+        <p>{ts}Please verify the information below carefully. Click <strong>Go Back</strong> if you need to make changes.{/ts}
             {if $contributeMode EQ 'notify'}
                 {ts}Click the <strong>Continue</strong> button to go to PayPal, where you will select your payment method and complete the contribution.{/ts}
+            {elseif ! $is_monetary}
+                {ts}To complete this transaction, click the <strong>Continue</strong> button below.{/ts}
             {else}
                 {ts}To complete your contribution, click the <strong>Make Contribution</strong> button below.{/ts}
             {/if}
@@ -17,6 +18,7 @@
        
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="confirmContribution"}
    
+    {if $amount GT 0 OR $minimum_fee GT 0}
     <div class="header-dark">
         {ts}Contribution Amount{/ts}
     </div>
@@ -47,6 +49,7 @@
                 contributions at any time by logging in to your account.{/ts}</p>
         {/if}
     </div>
+    {/if}
         
     {include file="CRM/Contribute/Form/Contribution/Honor.tpl"}
     {if $customPre}
@@ -101,7 +104,7 @@
 
 
     
-    {if $contributeMode NEQ 'notify'} {* In 'notify mode, contributor is taken to processor payment forms next *}
+    {if $contributeMode NEQ 'notify' and $is_monetary} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
         {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}

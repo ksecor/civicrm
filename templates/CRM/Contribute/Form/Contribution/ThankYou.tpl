@@ -18,14 +18,16 @@
             {/if}
             </p>
         {else}
-            <p>{ts}Your contribution has been processed successfully. Please print this page for your records.{/ts}</p>
+            <p>{ts}Your transaction has been processed successfully. Please print this page for your records.{/ts}</p>
             {if $is_email_receipt}
-                <p>{ts 1=$email}An email receipt for this contribution has also been sent to %1{/ts}</p>
+                <p>{ts 1=$email}An email receipt has also been sent to %1{/ts}</p>
             {/if}
         {/if}
     </div>
     
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="thankContribution"}
+
+    {if $amount GT 0 OR $minimum_fee GT 0}
     <div class="header-dark">
         {ts}Contribution Information{/ts}
     </div>
@@ -62,7 +64,8 @@
             </p>
         {/if}
     </div>
-
+    {/if}
+    
     {include file="CRM/Contribute/Form/Contribution/Honor.tpl"}
     {if $customPre}
          {foreach from=$customPre item=field key=cname}

@@ -260,9 +260,34 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                  'direction' => CRM_Utils_Sort::ASCENDING,
                                                  )
                                            );
+
+            require_once 'CRM/Core/PseudoConstant.php';
+            $locationTypes = CRM_Core_PseudoConstant::locationType( );
+
             foreach ( $this->_fields as $name => $field ) { 
                 if ( $field['in_selector'] &&
                      ! in_array( $name, $skipFields ) ) {
+
+                    if ( strpos( $name, '-' ) !== false ) {
+                        list( $fieldName, $lType, $type ) = explode( '-', $name );
+                        
+                        if ( $lType == 'Primary' ) {
+                            $locationTypeName = 1;
+                        } else {
+                            $locationTypeName = $locationTypes[$lType];
+                        }
+                        
+                        if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
+                            if ( $type ) {
+                                $name = "`$locationTypeName-$fieldName-$type`";
+                            } else {
+                                $name = "`$locationTypeName-$fieldName-1`";
+                            }
+                        } else {
+                            $name = "`$locationTypeName-$fieldName`";
+                        }
+                    }
+
                     self::$_columnHeaders[] = array( 'name'     => $field['title'],
                                                      'sort'     => $name,
                                                      'direction' => $direction );
@@ -354,7 +379,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         
         $names = array( );
         static $skipFields = array( 'group', 'tag' );
-        // CRM_Core_Error::debug( 'f', $this->_fields );
+
         foreach ( $this->_fields as $key => $field ) {
             if ( $field['in_selector'] && 
                  ! in_array( $key, $skipFields ) ) { 

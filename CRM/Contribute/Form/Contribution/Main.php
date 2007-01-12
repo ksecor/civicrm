@@ -398,26 +398,28 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             
         }
 
-        $payment =& CRM_Contribute_Payment::singleton( $self->_mode );
-        $error   =  $payment->checkConfig( $self->_mode );
-        if ( $error ) {
-            $errors['_qf_default'] = $error;
-        }
-
-        if ( $fields['amount'] == 'amount_other_radio' ) {
-            if ( $self->_values['min_amount'] > 0 ) {
-                $min = $self->_values['min_amount'];
-                if ( $fields['amount_other'] < $min ) {
-                    $errors['amount_other'] = ts( 'This amount has to be greater than %1', 
-                                                  array ( 1 => $min ) );
-                }
+        if ( $self->_values['is_monetary'] ) {
+            $payment =& CRM_Contribute_Payment::singleton( $self->_mode );
+            $error   =  $payment->checkConfig( $self->_mode );
+            if ( $error ) {
+                $errors['_qf_default'] = $error;
             }
 
-            if ( $self->_values['max_amount'] > 0 ) {
-                $max = $self->_values['max_amount'];
-                if ( $fields['amount_other'] > $max ) {
-                    $errors['amount_other'] = ts( 'This amount has to be less than %1', 
-                                                  array ( 1 => $max ) );
+            if ( $fields['amount'] == 'amount_other_radio' ) {
+                if ( $self->_values['min_amount'] > 0 ) {
+                    $min = $self->_values['min_amount'];
+                    if ( $fields['amount_other'] < $min ) {
+                        $errors['amount_other'] = ts( 'This amount has to be greater than %1', 
+                                                      array ( 1 => $min ) );
+                    }
+                }
+
+                if ( $self->_values['max_amount'] > 0 ) {
+                    $max = $self->_values['max_amount'];
+                    if ( $fields['amount_other'] > $max ) {
+                        $errors['amount_other'] = ts( 'This amount has to be less than %1', 
+                                                      array ( 1 => $max ) );
+                    }
                 }
             }
         }

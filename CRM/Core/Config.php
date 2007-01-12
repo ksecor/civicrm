@@ -650,6 +650,10 @@ class CRM_Core_Config
             $this->mysqlPath = self::addTrailingSlash( CIVICRM_MYSQL_PATH );
         }
 
+        if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
+            $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
+        }
+
         $size = trim( ini_get( 'upload_max_filesize' ) );
         if ( $size ) {
             $last = strtolower($size{strlen($size)-1});

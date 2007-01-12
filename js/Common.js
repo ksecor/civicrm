@@ -337,8 +337,10 @@ function on_load_init_checkboxes(form)
 {
   if (form == 'Search') {
     var formName = form;
-  } else {
+  } else if (form == 'Advanced') {
     var formName = "Advanced";
+  } else {
+    var formName = "Builder";
   } 
 
     var fldPrefix = 'mark_x';

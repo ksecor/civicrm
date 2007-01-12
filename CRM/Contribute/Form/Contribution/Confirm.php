@@ -174,8 +174,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
         $contribButton = ts('Make Contribution');
-        if ( $this->_contributeMode == 'notify' ) {
-            $contribButton = ts('Continue');
+        if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
+            $contribButton = ts('Continue >>');
         }
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
