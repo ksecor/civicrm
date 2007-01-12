@@ -20,18 +20,17 @@
         {/if}
         </td></tr> 
     
-        <tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
-	{if $hideCalender neq true}
-	  {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event}
-	  {include file="CRM/common/calendar/body.tpl" dateVar=register_date  offset=3 doTime=1  trigger=trigger_event}       
-	{/if}    
-     	</td>
-	    </tr>
-        
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this event is registered.{/ts}</td></tr>
-
         <tr><td class="label">{$form.role_id.label}</td><td>{$form.role_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Role for the participation (if applicable).{/ts}</td></tr>
+
+        <tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
+    	{if $hideCalender neq true}
+	      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event}
+    	  {include file="CRM/common/calendar/body.tpl" dateVar=register_date  offset=3 doTime=1  trigger=trigger_event}       
+	    {/if}    
+     	    </td>
+	    </tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this event is registered.{/ts}</td></tr>
 
         <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Status for the participation (if applicable).{/ts}</td></tr>
