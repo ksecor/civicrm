@@ -241,8 +241,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->assign( 'name', $name );
         $this->set( 'name', $name );
 
-        $vars = array( 'amount', 'currencyID',
-                       'credit_card_type', 'trxn_id', 'amount_level' );
+        $vars = array( 'amount', 'currencyID', 'credit_card_type', 
+                       'trxn_id', 'amount_level', 'receive_date' );
         
         foreach ( $vars as $v ) {
             if ( CRM_Utils_Array::value( $v, $this->_params ) ) {

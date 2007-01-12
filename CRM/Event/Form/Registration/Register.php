@@ -199,6 +199,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $this->set( 'invoiceID', $invoiceID );
         
         $payment =& CRM_Contribute_Payment::singleton( $this->_mode ); 
+        // default mode is direct
+        $this->set( 'contributeMode', 'direct' ); 
 
         if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
             //get the button name  
@@ -230,9 +232,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NOTIFY ) {
             $this->set( 'contributeMode', 'notify' );
-        } else {
-            // default mode is direct
-            $this->set( 'contributeMode', 'direct' ); 
         }
     }//end of function
 }

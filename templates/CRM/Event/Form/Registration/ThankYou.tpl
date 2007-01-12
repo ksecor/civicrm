@@ -19,7 +19,7 @@
             {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
         {/if}
       {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
-        {if $contributeMode ne 'notify' and $is_monetary}
+        {if $contributeMode ne 'notify'}
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
     </div>
@@ -36,7 +36,8 @@
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
-    {if $contributeMode ne 'notify' and $is_monetary}    
+
+    {if $contributeMode ne 'notify'}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -45,6 +46,7 @@
         {$address|nl2br}
     </div>
     {/if}
+
     {if $contributeMode eq 'direct'}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
@@ -55,6 +57,7 @@
         {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
     </div>
     {/if}
+
     {if $customPost}
          {foreach from=$customPost item=field key=cname}
               {if $field.groupTitle}
@@ -72,7 +75,7 @@
         {$thankyou_footer}
         </p>
     </div>
-     <div id="crm-submit-buttons">
-     {$form.buttons.html}
-    </div>
+
 </div>
+{capture assign=mngEvent}{crmURL p='civicrm/admin/event' q="reset=1"}{/capture}
+{ts 1=$mngEvent}<a href="%1">&raquo; Back to Manage Event</a>{/ts}

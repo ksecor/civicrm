@@ -35,22 +35,14 @@
  *
  */
 
-require_once 'CRM/Event/Form/ManageEvent.php';
+require_once 'CRM/Event/Form/Registration.php';
 
 /**
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_Form_Registration_ThankYou extends CRM_Core_Form
+class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
 {
-    /**
-     * the values for the contribution db object
-     *
-     * @var array
-     * @protected
-     */
-    public $_values;
-
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -58,7 +50,11 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Core_Form
      * @access public 
      */ 
     function preProcess( ) {
-        $this->_id = $this->get('id');
+        parent::preProcess( );
+        $this->_params = $this->get( 'params' );
+
+        $thankYouMsg = "Registration Successful for \"" . $this->_values['event']['title'] . "\"";
+        CRM_Utils_System::setTitle($thankYouMsg);
     }
 
     /** 
@@ -69,22 +65,12 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     { 
-        $eventPage = array( );
-        $params = array( 'event_id' => $this->_id );
-        $confirm =  $this->get('registrationValue');
-        $this->assign('confirm',$confirm);
-                   
-        $this->addButtons(array(
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Previous') ),
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Continue'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                )
-                          );
+        $this->assignToTemplate( );
+
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+
+        $this->freeze();
     }
     
     /**
