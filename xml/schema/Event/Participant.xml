@@ -18,7 +18,8 @@
        <autoincrement>true</autoincrement> 
   </primaryKey> 
   <field> 
-      <name>contact_id</name> 
+      <name>contact_id</name>
+      <uniqueName>participant_contact_id</uniqueName> 
       <type>int unsigned</type> 
       <title>Contact ID (match to contact)</title>
       <headerPattern>/contact(.?id)?/i</headerPattern>
