@@ -131,7 +131,7 @@ function civicrm_perm()
                    'edit groups', 'administer CiviCRM', 
                    'access uploaded files',
                    'profile listings and forms',
-                   'access CiviCRM' );
+                   'access CiviCRM', 'access User Dashboard' );
                    
     // permissions for components which are conditionally enabled via config file setting
     require_once 'CRM/Core/Component.php';

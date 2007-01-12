@@ -37,8 +37,8 @@
  *
  */
 
-class CRM_Core_Invoke {
-
+class CRM_Core_Invoke 
+{
     /**
      * This is the main function that is called on every click action and based on the argument
      * respective functions are called
@@ -48,7 +48,8 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */    
-    static function invoke( $args ) {
+    static function invoke( $args ) 
+    {
         require_once 'CRM/Core/I18n.php';
         require_once 'CRM/Utils/Wrapper.php';
         require_once 'CRM/Core/Action.php';
@@ -122,6 +123,10 @@ class CRM_Core_Invoke {
             self::acl( $args );
             break;
 
+        case 'user':
+            self::user($args);
+            break;
+
         default         :
             if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
@@ -142,7 +147,8 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function contact( $args ) {
+    static function contact( $args ) 
+    {
 
         $session =& CRM_Core_Session::singleton();
 
@@ -340,13 +346,14 @@ class CRM_Core_Invoke {
     }
 
     /**
-     * This function displays all the activities of logged user
+     * This function for CiviCRM dashboard
      *
      *
      * @static
      * @access public
      */
-    static function dashboard( $args ) {
+    static function dashboard( $args ) 
+    {
         require_once 'CRM/Contact/Page/View/DashBoard.php';
         $view =& new CRM_Contact_Page_View_DashBoard( );
         return $view->run();
@@ -360,7 +367,8 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function search( $args ) {
+    static function search( $args ) 
+    {
         $session =& CRM_Core_Session::singleton( );
         $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
 
@@ -424,7 +432,8 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function form( $action, $contact_type, $contact_sub_type ) {
+    static function form( $action, $contact_type, $contact_sub_type ) 
+    {
         CRM_Utils_System::setUserContext( array( 'civicrm/contact/search/basic', 'civicrm/contact/view' ) );
         $wrapper =& new CRM_Utils_Wrapper( );
         
@@ -447,7 +456,8 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function history( $args ) {
+    static function history( $args ) 
+    {
         if ( $args[2] == 'activity' && $args[3] == 'detail' ) {
             require_once 'CRM/History/Page/Activity.php';
             $page =& new CRM_History_Page_Activity('View Activity Details');
@@ -470,7 +480,8 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function admin( $args ) {
+    static function admin( $args ) 
+    {
         if ( $args[1] !== 'admin' ) {
             return;
         }
@@ -607,7 +618,8 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function import( $args ) {
+    static function import( $args ) 
+    {
 
         if ( $args[1] != 'import' ) {
             return;
@@ -636,7 +648,8 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function group( $args ) {
+    static function group( $args ) 
+    {
         if ( $args[1] !== 'group' ) {
             return;
         }
@@ -671,7 +684,8 @@ class CRM_Core_Invoke {
      * @static 
      * @access public 
      */ 
-    static function profile( $args ) { 
+    static function profile( $args ) 
+    { 
         if ( $args[1] !== 'profile' ) { 
             return; 
         } 
@@ -757,7 +771,8 @@ class CRM_Core_Invoke {
      * @static 
      * @access public 
      */ 
-    static function file( $args ) { 
+    static function file( $args ) 
+    { 
         if ( $args[1] !== 'file' ) { 
             return; 
         } 
@@ -775,7 +790,8 @@ class CRM_Core_Invoke {
      * @static 
      * @access public 
      */ 
-    static function acl( $args ) { 
+    static function acl( $args ) 
+    { 
         if ( $args[1] !== 'acl' ) { 
             return; 
         } 
@@ -803,7 +819,8 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function export( $args ) {
+    static function export( $args ) 
+    {
         // FIXME:  2005-06-22 15:17:33 by Brian McFee <brmcfee@gmail.com>
         // This function is a dirty, dirty hack.  It should live in its own
         // file.
@@ -857,7 +874,8 @@ class CRM_Core_Invoke {
         exit();
     }
 
-    static function onlySSL( $args ) {
+    static function onlySSL( $args ) 
+    {
         if ( $args[1] = 'contribute' && $args[2] == 'transact' ) {
             return true;
         }
@@ -873,7 +891,8 @@ class CRM_Core_Invoke {
      * @access public 
      */ 
 
-    static function setting ( $args ) {
+    static function setting ( $args ) 
+    {
         if ( $args[2] !== 'setting' ) {
             return; 
         }
@@ -914,6 +933,22 @@ class CRM_Core_Invoke {
             return $view->run();
         }
     }
+
+    /**
+     * This function for User dashboard
+     *
+     *
+     * @static
+     * @access public
+     */
+    static function user( $args ) 
+    {
+        require_once 'CRM/Contact/Page/View/UserDashBoard.php';
+        $view =& new CRM_Contact_Page_View_UserDashBoard( );
+        return $view->run();
+    }
+
+
 }
 
 ?>
