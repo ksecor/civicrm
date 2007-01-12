@@ -36,6 +36,7 @@
  */
 
 require_once 'CRM/Event/Form/ManageEvent.php';
+require_once 'CRM/Event/BAO/EventPage.php';
 
 /**
  * This class generates form components for processing Event  
@@ -75,18 +76,13 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $this->setShowHide( $defaults );
         if ( isset( $eventID ) ) {
             $params = array( 'event_id' => $eventID );
-            require_once 'CRM/Event/DAO/EventPage.php';
-            $eventPage = new CRM_Event_DAO_EventPage();
-            $eventPage->copyValues( $params );
-            if ( $eventPage->find( true ) ) {
-                CRM_Core_DAO::storeValues( $eventPage, $defaults );
-            }
-       
-            require_once 'CRM/Core/BAO/UFJoin.php';
+            CRM_Event_BAO_EventPage::retrieve( $params, $defaults );
             
+            require_once 'CRM/Core/BAO/UFJoin.php';
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',
                                    'entity_id'    => $eventID,
                                    'weight'       => 1 );
+
             $defaults['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
             
             $ufJoinParams['weight'] = 2;
@@ -246,26 +242,18 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     public function postProcess() 
     {
-        $params = $id = array();
+        $params = $ids = array();
         $params = $this->exportValues();
 
-        $params['event_id'] = $id['event_id'] = $this->_id;
+        $params['event_id'] = $ids['event_id'] = $this->_id;
+
+        //format params
+        $params['is_online_registration'] = CRM_Utils_Array::value('is_online_registration', $params, false);
 
         require_once 'CRM/Event/BAO/Event.php';
-        CRM_Event_BAO_Event::add($params ,$id);
+        CRM_Event_BAO_Event::add($params ,$ids);
 
-        require_once 'CRM/Event/DAO/EventPage.php';
-        $dao =& new CRM_Event_DAO_EventPage( );
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $dao->event_id = $this->_id;
-            if ( $dao->find(true) ) {
-                $dao->copyValues( $params );
-                $dao->save( );
-            }
-        } else {
-            $dao->copyValues( $params );
-            $dao->save( );
-        }
+        CRM_Event_BAO_EventPage::add( $params );
 
         // also update the ProfileModule tables 
         $ufJoinParams = array( 'is_active'    => 1, 
@@ -281,6 +269,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $ufJoinParams['weight'     ] = 2; 
         $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
         CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
+
+        CRM_Core_Session::setStatus( ts('Online Registration details has been saved.') );
         
     }//end of function
     

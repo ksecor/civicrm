@@ -110,12 +110,6 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         $event->domain_id = CRM_Core_Config::domainID( );
         $event->id = CRM_Utils_Array::value( 'event_id', $ids );
         
-        $params['start_date'            ] = CRM_Utils_Date::format($params['start_date']);
-        $params['end_date'              ] = CRM_Utils_Date::format($params['end_date']);
-        $params['is_online_registration'] = CRM_Utils_Array::value('is_online_registration', $params, false);
-        $params['is_map'                ] = CRM_Utils_Array::value('is_map', $params, false);
-        $params['is_active'             ] = CRM_Utils_Array::value('is_active', $params, false);
-
         $event->copyValues( $params );
         $result = $event->save( );
         

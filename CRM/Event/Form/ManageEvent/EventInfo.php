@@ -151,7 +151,13 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params = $ids = array();
         $params = $this->controller->exportValues( $this->_name );
         $ids['event_id'] = $this->_id;
-        
+       
+        //format params
+        $params['start_date'            ] = CRM_Utils_Date::format($params['start_date']);
+        $params['end_date'              ] = CRM_Utils_Date::format($params['end_date']);
+        $params['is_map'                ] = CRM_Utils_Array::value('is_map', $params, false);
+        $params['is_active'             ] = CRM_Utils_Array::value('is_active', $params, false);
+ 
         require_once 'CRM/Event/BAO/Event.php';
         $event =  CRM_Event_BAO_Event::create($params ,$ids);
         

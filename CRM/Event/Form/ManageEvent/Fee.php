@@ -36,7 +36,7 @@
  */
 
 require_once 'CRM/Event/Form/ManageEvent.php';
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Event/BAO/EventPage.php';
 
 /**
  * This class generates form components for Fee
@@ -77,6 +77,27 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             require_once 'CRM/Core/BAO/CustomOption.php'; 
             CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event', $eventID, $defaults );
         }
+
+        $params = array( 'event_id' => $eventID );
+        CRM_Event_BAO_EventPage::retrieve( $params, $defaults );
+
+        if ( CRM_Utils_Array::value( 'value', $defaults ) ) {
+            foreach ( $defaults['value'] as $i => $v ) {
+                if ( $defaults['amount_id'][$i] == $defaults['default_fee_id'] ) {
+                    $defaults['default'] = $i;
+                    break;
+                }
+            }
+        }
+
+        if ( !isset($defaults['default']) ) {
+            $defaults['default'] = 1;
+        }
+
+        if ( !isset($defaults['is_monetary']) ) {
+            $defaults['is_monetary'] = 1;
+        }
+        
         return $defaults;
     }
     
@@ -174,14 +195,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */
     public function postProcess()
     {
-        $params = $id = array();
-        
-        $id['event_id'] = $this->_id;
+        $params = $ids = array();
         
         $params = $this->exportValues( );
 
-        require_once 'CRM/Event/BAO/Event.php';
-        CRM_Event_BAO_Event::add($params ,$id);
+        $params['event_id'] = $ids['event_id'] = $this->_id;
 
         // delete all the prior label values in the custom options table
         $dao =& new CRM_Core_DAO_CustomOption( );
@@ -193,6 +211,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $labels  = CRM_Utils_Array::value( 'label'  , $params );
         $values  = CRM_Utils_Array::value( 'value'  , $params );
         $default = CRM_Utils_Array::value( 'default', $params ); 
+
         if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values ) ) {
             for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
                 if ( ! empty( $labels[$i] ) && !empty( $values[$i] ) ) {
@@ -204,9 +223,21 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                     $dao->weight       = $i;
                     $dao->is_active    = 1;
                     $dao->save( );
+                    if ( $default == $i ) {
+                        $params['default_fee_id'] = $dao->id;
+                    }
                 }
             }
         }
+        
+        //update events table
+        require_once 'CRM/Event/BAO/Event.php';
+        CRM_Event_BAO_Event::add($params, $ids);
+
+        //update event page table
+        CRM_Event_BAO_EventPage::add( $params );
+
+        CRM_Core_Session::setStatus( ts('Fee details has been saved.') );
     }
 
     /**

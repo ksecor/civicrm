@@ -219,7 +219,7 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         }
         
         if ( empty ( $defaults['enableComponents'] ) && !$formMode ) {
-            $defaults['enableComponents'] = array('CiviContribute','CiviMember');
+            $defaults['enableComponents'] = array('CiviContribute','CiviMember','CiviEvent');
         }
 
         if ( ! isset( $defaults['addressFormat'] ) ) {

@@ -96,11 +96,11 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
      * @static 
      * @return object
      */
-    static function add(&$params, $id) 
+    static function add( &$params ) 
     {
-        $eventPage            =& new CRM_Event_DAO_Event( );
-        $eventPage->domain_id =  CRM_Core_Config::domainID( );
-        $eventPage->id        =  CRM_Utils_Array::value( 'event_id', $id );
+        $eventPage            =& new CRM_Event_DAO_EventPage( );
+        $eventPage->event_id  =  CRM_Utils_Array::value( 'event_id', $params );
+        $eventPage->find(true);
         $eventPage->copyValues( $params );
         $eventPage->save( );
         return $eventPage;
