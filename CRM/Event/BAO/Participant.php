@@ -434,7 +434,16 @@ WHERE  civicrm_participant.id = {$participantId}
         if ( $participant->find(true) ) {
             $count = $participant->delete( );
         }
-        
+
+        require_once 'CRM/Core/DAO/CustomValue.php';
+        $customValue = & new CRM_Core_DAO_CustomValue( );
+        $customValue->entity_id    = $id; 
+        $customValue->entity_table = 'civicrm_participant'; 
+        $customValue->find();
+        while ($customValue->fetch() ) {
+            $customValue->delete();
+        }
+
         //return true;
         return $count;
     }

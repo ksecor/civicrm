@@ -196,6 +196,15 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         while ($customOption->fetch() ) {
             $customOption->delete();
         }
+        require_once 'CRM/Core/DAO/CustomValue.php';
+        $customValue = & new CRM_Core_DAO_CustomValue( );
+        $customValue->entity_id    = $id; 
+        $customValue->entity_table = 'civicrm_event'; 
+        $customValue->find();
+        while ($customValue->fetch() ) {
+            $customValue->delete();
+        }
+        
         require_once 'CRM/Event/DAO/Participant.php';
         require_once 'CRM/Event/DAO/ParticipantPayment.php';
         $participant = & new CRM_Event_DAO_Participant( );
