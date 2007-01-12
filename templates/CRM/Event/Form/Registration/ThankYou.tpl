@@ -1,21 +1,78 @@
 <div class="form-item">
-    
- <table class="form-layout-compressed">
-        {ts}Billing Information{/ts}
-        <tr><td>{ts}<strong>First Name</strong>{/ts}</td><td>{$confirm.first_name}</td></tr>
-        <tr><td>{ts}<strong>Middle Name</strong>{/ts}</td><td>{$confirm.middle_name}</td></tr>
-        <tr><td>{ts}<strong>Last Name</strong>{/ts}</td><td>{$confirm.last_name} </td></tr>
-        <tr><td>{ts}<strong>City</strong>{/ts}</td><td>{$confirm.city}</td></tr>
-        <tr><td>{ts}<strong>State Province</strong>{/ts}</td><td>{$confirm.state_province_id}</td></tr>
-        <tr><td>{ts}<strong>Postal Code</strong>{/ts}</td><td>{$confirm.postal_code}</td></tr>
-        <tr><td>{ts}<strong>Country</strong>{/ts}</td><td>{$confirm.country_id}</td></tr>
-    
- </table>
-<table class="form-layout-compressed">
-    <tr><td>{ts}<strong>Custom Fields</strong>{/ts}</td><td>{$confirm.custom_pre_id}</td></tr>
-    <tr><td>{ts}<strong>Custom Fields</strong>{/ts}</td><td>{$confirm.custom_post_id}</td></tr>
-</table>
-   <div id="crm-submit-buttons">
+    <div id="thankyou_text">
+        <p>
+        {$thankyou_text}
+        </p>
+    </div>
+    <div id="help">
+        {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
+        {if $contributeMode EQ 'notify'}
+            <p>
+            {ts}Your contribution has been submitted to PayPal for processing. Please print this page for your records.{/ts}
+        {/if}
+    </div>
+    <div class="header-dark">
+        {ts}Fee Amount{/ts}
+    </div>
+    <div class="display-block">
+        {if $amount}
+            {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
+        {/if}
+      {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
+        {if $contributeMode ne 'notify' and $is_monetary}
+          {ts}Transaction #{/ts}: {$trxn_id}<br />
+        {/if}
+    </div>
+    <div class="form-item">
+
+    {if $customPre}
+         {foreach from=$customPre item=field key=cname}
+              {if $field.groupTitle}
+                {assign var=groupTitlePre  value=$field.groupTitle} 
+              {/if}
+         {/foreach}
+        <div class="header-dark">
+          {ts}{$groupTitlePre}{/ts}
+         </div>  
+         {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
+    {/if}
+    {if $contributeMode ne 'notify' and $is_monetary}    
+    <div class="header-dark">
+        {ts}Billing Name and Address{/ts}
+    </div>
+    <div class="display-block">
+        <strong>{$name}</strong><br />
+        {$address|nl2br}
+    </div>
+    {/if}
+    {if $contributeMode eq 'direct'}
+    <div class="header-dark">
+        {ts}Credit or Debit Card Information{/ts}
+    </div>
+    <div class="display-block">
+        {$credit_card_type}<br />
+        {$credit_card_number}<br />
+        {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
+    </div>
+    {/if}
+    {if $customPost}
+         {foreach from=$customPost item=field key=cname}
+              {if $field.groupTitle}
+                {assign var=groupTitlePost  value=$field.groupTitle} 
+              {/if}
+         {/foreach}
+        <div class="header-dark">
+          {ts}{$groupTitlePost}{/ts}
+         </div>  
+         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
+    {/if}
+
+    <div id="thankyou_footer">
+        <p>
+        {$thankyou_footer}
+        </p>
+    </div>
+     <div id="crm-submit-buttons">
      {$form.buttons.html}
-   </div>
+    </div>
 </div>
