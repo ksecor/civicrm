@@ -236,6 +236,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             // this contribution should have an Activity History record already
             $getHistoryParams = array('module' => 'CiviContribute', 'activity_id' => $contribution->id);
+            require_once "CRM/Core/BAO/History.php";
             $getHistoryValues =& CRM_Core_BAO_History::getHistory($getHistoryParams, 0, 1, null, 'Activity');
             if ( ! empty( $getHistoryValues ) ) {
                 $tmp = array_keys( $getHistoryValues  );
@@ -649,7 +650,7 @@ GROUP BY p.id
             return $contact->id;    
              
         } else {
-            
+            require_once "CRM/Core/BAO/UFGroup.php";
             $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
             $contactsIDs = explode( ',', $ids );
             if ( $contactsIDs[0] == "" || count ( $contactsIDs ) > 1) {

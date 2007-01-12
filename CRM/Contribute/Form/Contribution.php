@@ -190,6 +190,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $this->_id ) {
             $ids = array( );
             $params = array( 'id' => $this->_id );
+            require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
             $this->_contactID = $defaults['contact_id'];
         } else {

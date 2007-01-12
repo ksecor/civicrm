@@ -96,7 +96,9 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
             $this->assign('fulfilled',$dao->fulfilled_date);
                      
         }
-
+        // Get Note
+        $noteValue = CRM_Core_BAO_Note::getNote( $values['id'], 'civicrm_contribution' );
+        list($values['note']) =  array_values($noteValue);
         $this->assign( $values ); 
     }
 
