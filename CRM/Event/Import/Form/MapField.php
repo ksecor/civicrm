@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                 |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -90,8 +90,6 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
      * @access protected
      */
     protected $_fieldUsed;
-    
-
     
     /**
      * Attempt to resolve the header with our mapper fields
@@ -172,7 +170,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         $this->assign( 'columnCount' , $this->_columnCount );
         $this->_dataValues = $this->get( 'dataValues' );
         $this->assign( 'dataValues'  , $this->_dataValues );
-        
+
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
 
         if ( $skipColumnHeader ) {
@@ -392,7 +390,6 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
     static function formRule( &$fields )
     {
         $errors  = array( );
-        
         if (!array_key_exists('savedMapping', $fields)) {
             $importKeys = array();
             foreach ($fields['mapper'] as $mapperPart) {
@@ -465,6 +462,11 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
                      $errors['saveMappingName'] = ts('Duplicate Import Membership Mapping Name');
                 }
             }
+        }
+        //display Error if loaded mapping is not selected
+        $getMapName =  CRM_Utils_Array::value( 'savedMapping', $fields );
+        if( empty($getMapName) ){
+                $errors['loadMapping'] = ts('Select Load mapping name');
         }
 
         if ( !empty($errors) ) {
