@@ -223,6 +223,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             require_once 'CRM/Event/BAO/Query.php';
             $participantFields =& CRM_Event_BAO_Query::getParticipantFields();
             if ( ! empty( $participantFields ) ) {
+                unset($participantFields['event_id']);
+                unset($participantFields['contact_id']);
                 $fields['Participant'] =& $participantFields;
             }
         }

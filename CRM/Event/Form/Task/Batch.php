@@ -170,10 +170,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             } 
             
             if ( $value['event_status_id'] ) {
-                foreach( $value['event_status_id'] as $k => $v ) {
-                    $value['status_id'] = $k;
-                }
-
+                $value['status_id'] = $value['event_status_id'];
             } 
             if ( $value['event_source'] ) {
                 $value['source'] = $value['event_source'];
