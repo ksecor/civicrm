@@ -3,10 +3,11 @@
 <fieldset><legend>{ts}Online Registration{/ts}</legend>
  <dl>
     	<dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
-	<div id="registrationLink">
-    		<dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
-	</div>
+        <div id="registrationLink">
+ 	  <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
+        </div>
  </dl>
+<div id="registration">
 <br /><br />
     {*Registration Block*}
 	<div id="registration_show" class="section-hidden section-hidden-border">
@@ -60,6 +61,7 @@
 	</div>
 
 <dl>
+</div>
 <div id="crm-submit-buttons">
     {$form.buttons.html}
 </div>
@@ -70,7 +72,7 @@
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_online_registration"
 trigger_value       =""
-target_element_id   ="registrationLink" 
+target_element_id   ="registrationLink|registration" 
 target_element_type ="block"
 field_type          ="radio"
 invert              = 0

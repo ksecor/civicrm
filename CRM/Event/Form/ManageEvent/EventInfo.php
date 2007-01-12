@@ -36,6 +36,7 @@
  */
 
 require_once 'CRM/Event/Form/ManageEvent.php';
+require_once "CRM/Core/BAO/CustomGroup.php";
 
 /**
  * This class generates form components for processing Event  
@@ -43,7 +44,6 @@ require_once 'CRM/Event/Form/ManageEvent.php';
  */
 class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 {
-
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -68,6 +68,22 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0,$this->_eventId);
     }
     
+    /**
+     * This function sets the default values for the form. For edit/view mode
+     * the default values are retrieved from the database
+     *
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( )
+    {
+        $defaults = parent::setDefaultValues();
+        if( isset($this->_groupTree) ) {
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+        }
+        
+        return $defaults;
+    }
     /** 
      * Function to build the form 
      * 
@@ -113,16 +129,13 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->add('text','event_full_text', ts('Event full text'));
         
         $this->addElement('checkbox', 'is_active', ts('Enabled?') );
-        
-        $this->addButtons(array(
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Save'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                )
-                          );
+   
+        if ($this->_action & CRM_Core_Action::VIEW ) { 
+            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+        } else {
+            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        }
+
         parent::buildQuickForm();
 
     }
@@ -139,16 +152,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params = $this->controller->exportValues( $this->_name );
         $ids['event_id'] = $this->_id;
         
-        // store the submitted values in an array
-        $params['start_date']    = CRM_Utils_Date::format($params['start_date']);
-        $params['end_date']      = CRM_Utils_Date::format($params['end_date']);
-        
         require_once 'CRM/Event/BAO/Event.php';
-        
-        $params['is_active'] = CRM_Utils_Array::value('is_active', $params, false);
-        $params['is_map']    = CRM_Utils_Array::value('is_map', $params, false);
-        $params['is_public'] = CRM_Utils_Array::value('is_public', $params, false);
-        
         $event =  CRM_Event_BAO_Event::create($params ,$ids);
         
         CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );

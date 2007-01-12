@@ -135,25 +135,15 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     { 
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?'),null,array('onclick' =>"return showHideByValue('is_online_registration','','registrationLink','block','radio',false);")); 
-
+        $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?'),null,array('onclick' =>"return showHideByValue('is_online_registration','','registrationLink|registration','block','radio',false);")); 
+        
         $this->add('text','registration_link_text',ts('Registration Link Text'));
        
         self::buildRegistrationBlock( $this, $this->_id);
         self::buildConfirmationBlock( $this, $this->_id);
         self::buildMailBlock( $this, $this->_id);
-            
-        $this->addButtons(array(
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Previous') ),
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Save'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                )
-                          );
+
+        parent::buildQuickForm();
     }
     
     /**
@@ -193,11 +183,62 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     {
         $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, null, array('onclick' =>"return showHideByValue('is_email_confirm','','confirmEmail','block','radio',false);"));
         $form->add('textarea','confirm_email_text',ts('Text'), array("rows"=>2,"cols"=>60));
-        $form->add('text','cc_confirm',ts('CC Confirmation To '));  
+        $form->add('text','cc_confirm',ts('CC Confirmation To '));
+        $form->addRule( "cc_confirm", ts('Email is not valid.'), 'email' );  
         $form->add('text','bcc_confirm',ts('BCC Confirmation To '));  
+        $form->addRule( "bcc_confirm", ts('Email is not valid.'), 'email' );  
     }
 
-   /**
+
+    /**
+     * Add local and global form rules
+     *
+     * @access protected
+     * @return void
+     */
+    function addRules( ) 
+    {
+        $this->addFormRule( array( 'CRM_Event_Form_ManageEvent_Registration', 'formRule' ) );
+    }
+    
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$values ) 
+    {
+        if ( $values['is_online_registration'] ) {
+            //intro text
+            if ( !$values['intro_text'] ) {
+                $errorMsg['intro_text'] = "Please enter Introduction text.";;
+            }
+
+            if ( !$values['confirm_title'] ) {
+                $errorMsg['confirm_title'] = "Please enter Confirmation text.";;
+            }
+
+            if ( !$values['confirm_text'] ) {
+                $errorMsg['confirm_text'] = "Please enter Confirmation text.";;
+            }
+
+            if ( $values['is_email_confirm'] && !$values['confirm_email_text'] ) {
+                $errorMsg['confirm_email_text'] = "Please enter Email Confirmation text.";;
+            }
+        }
+        
+        if ( !empty($errorMsg) ) {
+            return $errorMsg;
+        }
+
+        return true;
+    }
+    
+    /**
      * Function to process the form
      *
      * @access public
@@ -253,6 +294,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     {
         return ts('Online Registration');
     }
+
+    
     
 }
 ?>

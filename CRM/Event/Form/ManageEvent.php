@@ -105,10 +105,6 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         if ( $subType ) {
             $defaults["event_type_id"] = $subType;
         }
-        
-        if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
-        }
         return $defaults;
     }
 
@@ -120,11 +116,16 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     { 
-        if ($this->_action & CRM_Core_Action::VIEW ) { 
-            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
-        } else {
-            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        }
+        $this->addButtons(array(
+                                array ( 'type'      => 'next',
+                                        'name'      => ts('Save'),
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'cancel',
+                                        'name'      => ts('Cancel') ),
+                                )
+                          );
+
     }
 }
 ?>

@@ -56,7 +56,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      * @return void 
      * @access public 
      */ 
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         parent::preProcess( );
     }
 
@@ -78,7 +79,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         }
         return $defaults;
     }
-
+    
     /**
      * Function to build the form
      *
@@ -87,18 +88,16 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */
     public function buildQuickForm( ) 
     {
-        
-         $this->addYesNo('is_monetary', ts('Paid Event'),null, null,array('onclick' =>"return showHideByValue('is_monetary','','contributionType|map-field','block','radio',false);"));
+        $this->addYesNo('is_monetary', ts('Paid Event'),null, null,array('onclick' =>"return showHideByValue('is_monetary','','contributionType|map-field','block','radio',false);"));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
-        $this->addElement('select', 'contribution_type_id',ts( 'Contribution Type' ),
-                          array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+        $this->add('select', 'contribution_type_id',ts( 'Contribution Type' ),
+                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
         
         $default = array( );
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
             // label 
             $this->add('text', "label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label')); 
-            
             // value 
             $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value')); 
             $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
@@ -106,23 +105,67 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             // default
             $default[] = $this->createElement('radio', null, null, null, $i); 
         }
-
-        $this->addGroup( $default, 'default' );
         
-        $this->addButtons(array(
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Previous') ),
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Save'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                )
-                          );
+        $this->addGroup( $default, 'default' );
+
+        parent::buildQuickForm();
     }
     
+    /**
+     * Add local and global form rules
+     *
+     * @access protected
+     * @return void
+     */
+    function addRules( ) 
+    {
+        $this->addFormRule( array( 'CRM_Event_Form_ManageEvent_Fee', 'formRule' ) );
+    }
 
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$values ) 
+    {
+        if ( $values['is_monetary'] ) {
+            //check if contribution type is selected
+            if ( !$values['contribution_type_id'] ) {
+                $errorMsg['contribution_type_id'] = "Please select contribution type.";;
+            }
+            
+            //check fee label and amount
+            $check = 0;
+            foreach ( $values['label'] as $key => $val ) {
+                if ( isset($val) && $values['value'][$key] ) {
+                    $check++;
+                    break;
+                }
+            }
+            
+            if ( !$check ) {
+                if ( !$values['label'][1] ) {
+                    $errorMsg['label[1]'] = "Please enter Fee Label.";
+                }
+                if ( !$values['value'][1] ) {
+                    $errorMsg['value[1]'] = "Please enter Fee Amount.";
+                }
+            }
+            
+        }
+        
+        if ( !empty($errorMsg) ) {
+            return $errorMsg;
+        }
+
+        return true;
+    }
+    
     /**
      * Process the form
      *

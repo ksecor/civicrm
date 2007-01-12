@@ -131,17 +131,9 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Contact/Form/Location.php';
         CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
         $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
-        $this->addButtons(array(
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Previous') ),
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Save'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                )
-                          );
+    
+        parent::buildQuickForm();
+
     }
     
     /**
