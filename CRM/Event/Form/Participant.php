@@ -52,6 +52,15 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
      * @protected
      */
     protected $_id;
+
+    /**
+     * the id of the note 
+     *
+     * @var int
+     * @protected
+     */
+    protected $_noteId;
+    
     /**
      * the id of the contact associated with this participation
      *
@@ -73,30 +82,40 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                                                       $this, false, 'add' );
             
         $this->assign( 'action'  , $this->_action   ); 
-
+        
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', 
-                                                          $this );
-
+                                                         $this );
+        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
-
+        
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-
+        
         $this->_roleId = CRM_Utils_Request::retrieve( 'subType', 'Positive',$this );
-
+        
+        if ( $this->_id) {
+            require_once 'CRM/Core/BAO/Note.php';
+            $noteDAO               = & new CRM_Core_BAO_Note();
+            $noteDAO->entity_table = 'civicrm_participant';
+            $noteDAO->entity_id    = $this->_id;
+            if ( $noteDAO->find(true) ) {
+                $this->_noteId = $noteDAO->id;
+            }
+        }
+        
         if ( ! $this->_roleId ) {
             if ( $this->_id ) {
-                $this->_roleId = CRM_Core_DAO::getFieldValue("CRM_Event_DAO_Participant",$this->_id,"role_id");
+                $this->_roleId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $this->_id, "role_id" );
             } else {
                 $this->_roleId = "Role";
             }
         }     
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $this->_id, 0,$this->_roleId);
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Participant", $this->_id, 0,$this->_roleId );
         
         parent::preProcess( );        
     }
-
+    
     /**
      * This function sets the default values for the form in edit/view mode
      * the default values are retrieved from the database
@@ -107,7 +126,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
     public function setDefaultValues( ) 
     { 
         $defaults = array( );
-
+        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return $defaults;
         }
@@ -119,10 +138,16 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );
             $this->_contactID = $defaults['contact_id'];
         } 
+        
         $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
         if ( $subType ) {
             $defaults["role_id"] = $subType;
         }
+        
+        if($this->_noteId) {
+            $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
+        }
+        
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $inactiveNeeded = true;
             $viewMode = true;
@@ -137,7 +162,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         
         return $defaults;
     }
-
+    
     /** 
      * Function to build the form 
      * 
@@ -203,13 +228,17 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
          
         $this->add( 'select', 'role_id' , ts( 'Participant Role' ),
-                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantRole( ), true, array('onChange' => "reload(true)") );
+                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantRole( ), true, array('onchange' => "reload(true)") );
         
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
                     array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantStatus( ),true );
         
         $this->add( 'text', 'source', ts('Event Source') );
         $this->add( 'text', 'event_level', ts('Event Level') );
+        
+        $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
+        
+        $this->add('textarea', 'note', ts('Notes'), $noteAttributes['note']);
         
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
@@ -251,15 +280,24 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         }
                 
         // get the submitted form values.  
- 
         $params = $_POST;
         $params['contact_id'] = $this->_contactID;
         $params['register_date'] = CRM_Utils_Date::format($params['register_date']);
-
+        
+        if ( $this->_id ) {
+            $ids['participant'] = $params['id'] = $this->_id;
+        }
+        
+        $ids['note'] = array();
+        if ( $this->_noteId ) {
+            $ids['note']['id'] = $this->_noteId;
+        }
+        
+        require_once "CRM/Event/BAO/Participant.php";
+        $participant =  CRM_Event_BAO_Participant::create( $params, $ids );   
+        
         $status = null;
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['participant'] = $this->_id;
-            
             $participantBAO =& new CRM_Event_BAO_Participant();
             $participantBAO->id = $this->_id;
             $participantBAO->find();
@@ -267,15 +305,10 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                 $status = $participantBAO->status_id;
             }
         }
-        
-        require_once "CRM/Event/BAO/Participant.php";
-        $participant =  CRM_Event_BAO_Participant::create( $params, $ids );   
-
+                
         if ( ($this->_action & CRM_Core_Action::ADD) || ($status != $params['status_id']) ) {
             CRM_Event_BAO_Participant::setActivityHistory( $participant );
         } 
-        
     }
 }
-
 ?>
