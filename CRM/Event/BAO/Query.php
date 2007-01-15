@@ -40,8 +40,14 @@ class CRM_Event_BAO_Query
     
     static function &getFields( ) 
     {
+
+        require_once 'CRM/Event/BAO/Participant.php';
+        $fields =& CRM_Event_BAO_Participant::importableFields( );
+
         require_once 'CRM/Event/DAO/Event.php';
-        $fields =& CRM_Event_DAO_Event::import( );
+        $fields = array_merge( $fields, CRM_Event_DAO_Event::import( ) );
+        $fields = array_merge( $fields, self::getParticipantFields( ) );
+            
         return $fields;
     }
 
@@ -203,15 +209,30 @@ class CRM_Event_BAO_Query
         $properties = null;
         if ( $mode & CRM_Contact_BAO_Query::MODE_EVENT ) {
             $properties = array(  
-                                'contact_type'           => 1, 
-                                'sort_name'              => 1, 
-                                'display_name'           => 1,
-                                'start_date'             => 1,
-                                'end_date'               => 1,
-                                //'status_id'              => 1,
-                                'title'                  => 1
+                                'contact_type'        => 1, 
+                                'sort_name'           => 1, 
+                                'display_name'        => 1,
+                                'event_title'         => 1,
+                                'event_start_date'    => 1,
+                                'event_end_date'      => 1,
+                                'participant_id'      => 1,
+                                'event_status_id'     => 1,
+                                'role_id'             => 1,
+                                'event_register_date' => 1,
+                                'event_source'        => 1,
+                                'event_level'         => 1,
                                 );
+       
+            // also get all the custom participant properties
+            require_once "CRM/Core/BAO/CustomField.php";
+            $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Participant');
+            if ( ! empty( $fields ) ) {
+                foreach ( $fields as $name => $dontCare ) {
+                    $properties[$name] = 1;
+                }
+            }
         }
+
         return $properties;
     }
 

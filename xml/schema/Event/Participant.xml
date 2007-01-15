@@ -70,7 +70,7 @@
   </field>
   <field>        
       <name>register_date</name>
-      <uniqueName>participant_register_date</uniqueName>
+      <uniqueName>event_register_date</uniqueName>
       <title>Register date</title>
       <headerPattern>/^(r(egister\s)?date)$/i</headerPattern>
       <import>true</import>

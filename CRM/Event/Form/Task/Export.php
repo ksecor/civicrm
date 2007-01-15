@@ -96,39 +96,15 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
         
         $returnProperties = array_merge( $returnProperties, $addressProperties );
 
-        $query            =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, null, false, false, 
-                                                        CRM_Contact_BAO_Query::MODE_EVENT );
+        $query =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, null, false, false, 
+                                             CRM_Contact_BAO_Query::MODE_EVENT );
         
-        $header     = array(// participant fields
-                            'contact_id'             => ts('Contact ID'),
-                            'display_name'           => ts('Display Name'),
-                            'contact_type'           => ts('Contact Type'),
-                            'sort_name'              => ts('Sort Name'), 
-                            'participant_id'         => ts('Participant ID'),
-                            'status_id'              => ts('Status'),
-                            'role_id'                => ts('Role'),
-                            'register_date'          => ts('Register Date'),
-                            'start_date'             => ts('Event Start Date'),
-                            'end_date'               => ts('Event End Date'),
-                            'event_source'           => ts('Source'),
-                            'event_level'            => ts('Fee Level'),
-                            'event_title'            => ts('Event Title'),
-                            
-                            // address fields
-                            'street_address'         => ts('Street Address'), 
-                            'supplemental_address_1' => ts('Supplemental Address 1'), 
-                            'supplemental_address_2' => ts('Supplemental Address 2'), 
-                            'city'                   => ts('City'), 
-                            'postal_code'            => ts('Postal Code'), 
-                            'postal_code_suffix'     => ts('Postal Code Suffix'), 
-                            'state_province'         => ts('State'), 
-                            'country'                => ts('Country'),
-                            'geo_code_1'             => ts('Geo Code 1'),
-                            'geo_code_2'             => ts('Geo Code 2'),
-                            'email'                  => ts('Email'), 
-                            'phone'                  => ts('Phone'), 
-                            'im'                     => ts('IM Screen Name'), 
-                            );
+        $header = array( 'contact_id'     => ts('Contact ID'),
+                         'participant_id' => ts('Participant ID'),
+                         'contact_type'   => ts('Contact Type'),
+                         'sort_name'      => ts('Sort Name'),
+                         'display_name'   => ts('Display Name')
+                         );
         
         foreach ( $returnProperties as $name => $dontCare ) {
             $properties[] = $name;
@@ -156,11 +132,10 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
         
         $rows = array( ); 
         while ( $result->fetch( ) ) {
-      
             $row   = array( );
             $valid = false;
             foreach ( $properties as $property ) {
-                if ($property == 'status_id') {
+                if ($property == 'event_status_id') {
                     $row[] = $statusTypes[$result->$property];
                 } else if ($property == 'role_id') {
                     $row[] = $roleTypes[$result->$property];

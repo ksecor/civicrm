@@ -31,6 +31,7 @@
   </foreignKey>
   <field>        
       <name>title</name>     
+      <uniqueName>event_title</uniqueName>
       <type>varchar</type>     
       <import>true</import>
       <title>Event Title</title>

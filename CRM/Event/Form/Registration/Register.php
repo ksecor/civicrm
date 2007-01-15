@@ -36,6 +36,7 @@
  */
 
 require_once 'CRM/Event/Form/Registration.php';
+require_once 'CRM/Contribute/Payment.php';
 
 /**
  * This class generates form components for processing Event  
