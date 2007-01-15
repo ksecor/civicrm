@@ -139,6 +139,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         // setting CMS page title
         CRM_Utils_System::setTitle($this->_values['event']['title']);  
+        $this->assign( 'title', $this->_values['event']['title'] );
     }
 
     /** 

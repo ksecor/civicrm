@@ -204,8 +204,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $this->_params['receive_date'] = $now;
         $this->set( 'params', $this->_params );
-        //$this->assign( 'trxn_id', $result['trxn_id'] );
-        //$this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+        
+        // transactionID & receive date required while building email template
+        $this->assign( 'trxn_id', $result['trxn_id'] );
+        $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
         
         // insert participant record
         require_once 'CRM/Event/BAO/Participant.php';
@@ -216,9 +218,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         // insert activity record
         CRM_Event_BAO_Participant::setActivityHistory( $participant );
-
-        //require_once "CRM/Contribute/BAO/ContributionPage.php";
-        //CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $this->_values );
+        
+        require_once "CRM/Event/BAO/EventPage.php";
+        CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values['event_page'] );
 
     }//end of function
     

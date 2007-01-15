@@ -67,6 +67,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $this->assign('eventPage', $this->_values['event_page']);
         $this->assign('paidEvent', $this->_values['event']['is_monetary']);
 
+        $this->add( 'text', 'email', ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         if ( $this->_values['event']['is_monetary'] ) {
             $this->buildAmount( );
             $this->buildCreditCard( );

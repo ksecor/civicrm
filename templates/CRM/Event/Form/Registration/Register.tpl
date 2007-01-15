@@ -3,6 +3,7 @@
 
  <table class="form-layout-compressed">
     <tr><td class="label nowrap">{$form.amount.label}</td><td>{$form.amount.html}</td></tr>
+    <tr><td class="label nowrap">{$form.email.label}</td><td>{$form.email.html}</td></tr>
  </table>
 
  {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
