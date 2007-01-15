@@ -944,7 +944,6 @@ class CRM_Contact_BAO_Query {
         }
 
         $this->includeContactIds( );        
-        
         if ( ! empty( $this->_params ) ) {
             foreach ( array_keys( $this->_params ) as $id ) {
                 // check for both id and contact_id
@@ -1589,19 +1588,15 @@ class CRM_Contact_BAO_Query {
         $session =& CRM_Core_Session::singleton();
         $context = $session->get('context', 'CRM_Contact_Controller_Search');
 
-        if ( isset($group->saved_search_id) && $context == "smog" ) {
-            return;
-        }
+        //fix for CRM-1513
+//         if ( isset($group->saved_search_id) && $context == "smog" ) {
+//             return;
+//         }
 
         $gcTable = "`civicrm_group_contact-" .implode( ',', array_keys($value) ) ."`";
         $this->_tables[$gcTable] = $this->_whereTables[$gcTable] = " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
        
-//         $groupClause =
-//             "civicrm_group_contact.group_id $op (" . 
-//             implode( ',', array_keys($value) ) . ')'; 
-
         $groupClause = "{$gcTable}.group_id $op (" . implode( ',', array_keys($value) ) . ')'; 
-
 
         $names = array( );
         $groupNames =& CRM_Core_PseudoConstant::group();
@@ -1630,9 +1625,6 @@ class CRM_Contact_BAO_Query {
                 $in = true; 
                 // }
         }
-
-//         $this->_tables['civicrm_group_contact'] = 1;
-//         $this->_whereTables['civicrm_group_contact'] = 1;
 
         if ( ! empty( $statii ) ) {
             $groupClause .= " AND {$gcTable}.status IN (" . implode(', ', $statii) . ")";
@@ -1684,8 +1676,9 @@ class CRM_Contact_BAO_Query {
                     }        
 
                     $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties);
-
-                    if ( $context != "smog" ) {
+                    
+                    //fix for CRM-1513
+                    //if ( $context != "smog" ) {
                         $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
                         
                         $ssWhere[] = " 
@@ -1695,7 +1688,7 @@ class CRM_Contact_BAO_Query {
                             WHERE civicrm_group_contact.group_id = "  
                             . CRM_Utils_Type::escape($group_id, 'Integer')
                             . " AND civicrm_group_contact.status = 'Removed'))";
-                    }
+                        //}
                 } else { 
                     $ssw = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $this->_tables, $this->_whereTables);
                     //fix for CRM-1490                    
