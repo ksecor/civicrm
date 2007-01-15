@@ -61,8 +61,9 @@ class CRM_Event_Form_Registration_EventInfo extends CRM_Event_Form_Registration
      */ 
     public function buildQuickForm( )  
     { 
-        $this->assign('event', $this->_values['event']);
-        $this->assign('custom', $this->_values['custom']);
+        $this->assign('event',   $this->_values['event']);
+        $this->assign('custom',  $this->_values['custom']);
+        $this->assign('location',$this->_values['location']);
         
         $buttonLabel = $this->_values['event']['registration_link_text'];
         $this->addButtons(array(

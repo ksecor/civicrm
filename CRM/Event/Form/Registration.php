@@ -43,7 +43,13 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Event_Form_Registration extends CRM_Core_Form
 {
-
+    /**
+     * how many locationBlocks should we display?
+     *
+     * @var int
+     * @const
+     */
+    const LOCATION_BLOCKS = 1;
     /**
      * the id of the event we are proceessing
      *
@@ -99,7 +105,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         $this->_values = $this->get( 'values' );
         $this->_fields = $this->get( 'fields' );
-        
+
+        $config  =& CRM_Core_Config::singleton( );
+        // make sure we have a valid payment class, else abort
+        if ( $this->_values['event']['is_monetary'] && ! $config->paymentClass ) {
+            CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
+        }
+
         if ( ! $this->_values ) {
             // get all the values from the dao object
             $this->_values = array( );
@@ -121,7 +133,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->_values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
             $ufJoinParams['weight'] = 2; 
             $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
-            
+    
             $params = array( 'event_id' => $this->_id );
             require_once 'CRM/Event/BAO/EventPage.php';
             CRM_Event_BAO_EventPage::retrieve($params, $this->_values['event_page']);
@@ -130,13 +142,18 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $this->setCreditCardFields( );
             }
 
+            $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
+            require_once 'CRM/Core/BAO/Location.php';
+            $location = CRM_Core_BAO_Location::getValues($params, $this->_values, $ids, self::LOCATION_BLOCKS);
+
+
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
         }
-
+      
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode );
-
+        
         // setting CMS page title
         CRM_Utils_System::setTitle($this->_values['event']['title']);  
         $this->assign( 'title', $this->_values['event']['title'] );

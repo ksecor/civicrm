@@ -108,6 +108,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
       
         $this->assign("refreshURL",$url);
         $this->add('text','title',ts('Title'));
+        $this->addRule( 'title', ts('Event Title is already exist in Database.'), 'objectExists', array( 'CRM_Event_DAO_Event', $this->_id ) );
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
         

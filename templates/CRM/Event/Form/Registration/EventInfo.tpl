@@ -28,6 +28,8 @@
 {else} 
        {ts}No{/ts}
 {/if}</td>
+           <tr><td>{ts}<strong>Location</strong>{/ts}</td><td>{ts}{$location.1.address.display|nl2br}{/ts}</td></tr>
+
    </table>
    </div>	
     <div id="crm-submit-buttons">

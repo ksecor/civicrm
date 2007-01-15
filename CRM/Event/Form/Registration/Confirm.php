@@ -139,8 +139,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
     { 
         $this->assignToTemplate( );
         
-        //$this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
-        //$this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
         $contribButton = ts('Make Contribution');
         if ( $this->_contributeMode == 'notify' ) {
@@ -156,6 +156,29 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                                         'name'      => ts('<< Go Back')),
                                 )
                           );
+        $defaults = array( );
+        $options = array( );
+        $fields = array( );
+        require_once "CRM/Core/BAO/CustomGroup.php";
+        foreach ( $this->_fields as $name => $dontCare ) {
+            $fields[$name] = 1;
+        }
+        $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+        $contact =  $this->_params;
+        foreach ($fields as $name => $dontCare ) {
+            if ( $contact[$name] ) {
+                if ( substr( $name, 0, 7 ) == 'custom_' ) {
+                    $id = substr( $name, 7 );
+                    $defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact[$name],
+                                                                                  $id,
+                                                                                  $options );
+                } else {
+                    $defaults[$name] = $contact[$name];
+                } 
+            }
+        }
+        $this->setDefaults( $defaults );
+        
         $this->freeze();
     }
     
@@ -319,7 +342,7 @@ WHERE  v.option_group_id = g.id
         
         $ids = array( );
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-        
+       
         // return if pending
         if ( $pending ) {
             return $contribution;
