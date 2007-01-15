@@ -10,7 +10,10 @@
         <dt>{ts}Event Source{/ts}</dt><dd>{$source}&nbsp;</dd>
         <dt>{ts}Event Level{/ts}</dt><dd>{$event_level}&nbsp;</dd>
         <dt>{ts}Note{/ts}</dt><dd>{$note}&nbsp;</dd>
-        <dt></dt><dd>{$form.buttons.html}</dd>
+        {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}  
+        <dl>
+           <dt></dt><dd>{$form.buttons.html}</dd>
+        </dl>
     </dl>
 
 </fieldset>  
