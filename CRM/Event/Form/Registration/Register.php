@@ -65,7 +65,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $config =& CRM_Core_Config::singleton( );
 
         $this->assign('eventPage', $this->_values['event_page']);
-        $this->assign('paidEvent', $this->_values['event']['is_monetary']);
 
         $this->add( 'text', 'email', ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         if ( $this->_values['event']['is_monetary'] ) {
@@ -173,66 +172,68 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     public function postProcess() 
     {
-        $config =& CRM_Core_Config::singleton( );
-    
-        // we first reset the confirm page so it accepts new values
-        $this->controller->resetPage( 'Confirm' );
-
-        // get the submitted form values. 
-        $params = $this->controller->exportValues( $this->_name ); 
-
-        $params['currencyID']     = $config->defaultCurrency;
-        //$params['payment_action'] = 'Sale'; 
-        
-        $params['amount_level'] = $this->_values['custom']['label']
-            [array_search( $params['amount'], $this->_values['custom']['amount_id'])];
-        $params['amount'] = $this->_values['custom']['value']
-            [array_search( $params['amount'], $this->_values['custom']['amount_id'])];
-        
-        $this->set( 'amount', $params['amount'] ); 
-        $this->set( 'amount_level', $params['amount_level'] ); 
-        
-        // generate and set an invoiceID for this transaction
-        $invoiceID = $this->get( 'invoiceID' );
-        if ( ! $invoiceID ) {
-            $invoiceID = md5(uniqid(rand(), true));
-        }
-        $this->set( 'invoiceID', $invoiceID );
-        
-        $payment =& CRM_Contribute_Payment::singleton( $this->_mode ); 
-        // default mode is direct
-        $this->set( 'contributeMode', 'direct' ); 
-
-        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
-            //get the button name  
-            $buttonName = $this->controller->getButtonName( );  
-            if ($buttonName == $this->_expressButtonName || 
-                $buttonName == $this->_expressButtonName . '_x' || 
-                $buttonName == $this->_expressButtonName . '_y' ) { 
-                $this->set( 'contributeMode', 'express' ); 
-                
-                $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1', true, null, false ); 
-                $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
-                $params['invoiceID' ] = $invoiceID;
-                
-                $token = $payment->setExpressCheckout( $params ); 
-                if ( is_a( $token, 'CRM_Core_Error' ) ) { 
-                    CRM_Core_Error::displaySessionError( $token ); 
-                    CRM_Utils_System::redirect( $params['cancelURL' ] );
-                } 
-                
-                $this->set( 'token', $token ); 
-                
-                if ( $this->_mode == 'test' ) {
-                    $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                } else {
-                    $paymentURL = "https://" . $config->paymentPayPalExpressUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                }
-                
-                CRM_Utils_System::redirect( $paymentURL ); 
+        if ($this->_values['event']['is_monetary']) {
+            $config =& CRM_Core_Config::singleton( );
+            
+            // we first reset the confirm page so it accepts new values
+            $this->controller->resetPage( 'Confirm' );
+            
+            // get the submitted form values. 
+            $params = $this->controller->exportValues( $this->_name ); 
+            
+            $params['currencyID']     = $config->defaultCurrency;
+            //$params['payment_action'] = 'Sale'; 
+            
+            $params['amount_level'] = $this->_values['custom']['label']
+                [array_search( $params['amount'], $this->_values['custom']['amount_id'])];
+            $params['amount'] = $this->_values['custom']['value']
+                [array_search( $params['amount'], $this->_values['custom']['amount_id'])];
+            
+            $this->set( 'amount', $params['amount'] ); 
+            $this->set( 'amount_level', $params['amount_level'] ); 
+            
+            // generate and set an invoiceID for this transaction
+            $invoiceID = $this->get( 'invoiceID' );
+            if ( ! $invoiceID ) {
+                $invoiceID = md5(uniqid(rand(), true));
             }
-        } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NOTIFY ) {
-            $this->set( 'contributeMode', 'notify' );
+            $this->set( 'invoiceID', $invoiceID );
+            
+            $payment =& CRM_Contribute_Payment::singleton( $this->_mode ); 
+            // default mode is direct
+            $this->set( 'contributeMode', 'direct' ); 
+            
+            if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
+                //get the button name  
+                $buttonName = $this->controller->getButtonName( );  
+                if ($buttonName == $this->_expressButtonName || 
+                    $buttonName == $this->_expressButtonName . '_x' || 
+                    $buttonName == $this->_expressButtonName . '_y' ) { 
+                    $this->set( 'contributeMode', 'express' ); 
+                    
+                    $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1', true, null, false ); 
+                    $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
+                    $params['invoiceID' ] = $invoiceID;
+                    
+                    $token = $payment->setExpressCheckout( $params ); 
+                    if ( is_a( $token, 'CRM_Core_Error' ) ) { 
+                        CRM_Core_Error::displaySessionError( $token ); 
+                        CRM_Utils_System::redirect( $params['cancelURL' ] );
+                    } 
+                    
+                    $this->set( 'token', $token ); 
+                    
+                    if ( $this->_mode == 'test' ) {
+                        $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                    } else {
+                        $paymentURL = "https://" . $config->paymentPayPalExpressUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                    }
+                    
+                    CRM_Utils_System::redirect( $paymentURL ); 
+                }
+            } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NOTIFY ) {
+                $this->set( 'contributeMode', 'notify' );
+            }
         }
     }//end of function
 }

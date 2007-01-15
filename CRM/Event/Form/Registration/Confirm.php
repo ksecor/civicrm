@@ -58,9 +58,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      * @access public 
      */ 
     function preProcess( ) {
-        $config =& CRM_Core_Config::singleton( );
         parent::preProcess( );
 
+        $config =& CRM_Core_Config::singleton( );
         if ( $this->_contributeMode == 'express' ) {
             // rfp == redirect from paypal
             $rfp = CRM_Utils_Request::retrieve( 'rfp', 'Boolean',
@@ -117,15 +117,19 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
                 $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
             }
-            $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR']; 
-
-            $this->_params['amount'        ] = $this->get( 'amount' );
-            $this->_params['amount_level'  ] = $this->get( 'amount_level' );
-            $this->_params['currencyID'    ] = $config->defaultCurrency;
-            $this->_params['payment_action'] = 'Sale';
+            if ( $this->_values['event']['is_monetary'] ) {
+                $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR']; 
+                
+                $this->_params['amount'        ] = $this->get( 'amount' );
+                $this->_params['amount_level'  ] = $this->get( 'amount_level' );
+                $this->_params['currencyID'    ] = $config->defaultCurrency;
+                $this->_params['payment_action'] = 'Sale';
+            }
         }
-
-        $this->_params['invoiceID'] = $this->get( 'invoiceID' );
+        
+        if ( $this->_values['event']['is_monetary'] ) {
+            $this->_params['invoiceID'] = $this->get( 'invoiceID' );
+        }
         $this->set( 'params', $this->_params );
     }
 
@@ -201,43 +205,47 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         $contactID =& $this->updateContactFields( $contactID, $params, $fields );
         
-        require_once 'CRM/Contribute/Payment.php';
-        $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
+        // required only if paid event
+        if ( $this->_values['event']['is_monetary'] ) {
+            require_once 'CRM/Contribute/Payment.php';
+            $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
+            
+            switch ( $this->_contributeMode ) {
+            case 'express':
+                $result =& $payment->doExpressCheckout( $this->_params );
+                break;
+            case 'notify':
+                $result =& $payment->doTransferCheckout( $this->_params );
+                break;
+            default   :
+                $result =& $payment->doDirectPayment( $this->_params );
+                break;
+            }
+            
+            if ( is_a( $result, 'CRM_Core_Error' ) ) {
+                CRM_Core_Error::displaySessionError( $result );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/event/register', '_qf_Main_display=true' ) );
+            }
+            
+            if ( $result ) {
+                $this->_params = array_merge( $this->_params, $result );
+            }
+            
+            // transactionID & receive date required while building email template
+            $this->assign( 'trxn_id', $result['trxn_id'] );
+            $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+            
+            $this->_params['receive_date'] = $now;
+            
+            // if paid event add a contribution record
+            $contribution =& $this->processContribution( $this->_params, $result, $contactID );
+        }
         
-        switch ( $this->_contributeMode ) {
-        case 'express':
-            $result =& $payment->doExpressCheckout( $this->_params );
-            break;
-        case 'notify':
-            $result =& $payment->doTransferCheckout( $this->_params );
-            break;
-        default   :
-            $result =& $payment->doDirectPayment( $this->_params );
-            break;
-        }
-
-        if ( is_a( $result, 'CRM_Core_Error' ) ) {
-            CRM_Core_Error::displaySessionError( $result );
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/event/register', '_qf_Main_display=true' ) );
-        }
-        
-        if ( $result ) {
-            $this->_params = array_merge( $this->_params, $result );
-        }
-
-        $this->_params['receive_date'] = $now;
         $this->set( 'params', $this->_params );
-        
-        // transactionID & receive date required while building email template
-        $this->assign( 'trxn_id', $result['trxn_id'] );
-        $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
         
         // insert participant record
         require_once 'CRM/Event/BAO/Participant.php';
         $participant  =& $this->addPartcipant( $this->_params, $result, $contactID );
-        
-        // if paid event add a contribution record
-        $contribution =& $this->processContribution( $this->_params, $result, $contactID );
         
         // insert activity record
         CRM_Event_BAO_Participant::setActivityHistory( $participant );
@@ -281,10 +289,14 @@ WHERE  v.option_group_id = g.id
                                    'status_id'     => 1,
                                    'role_id'       => $roleID,
                                    'register_date' => date( 'YmdHis' ),
-                                   'source'        => ts( 'Online Event Registration' ),
-                                   'event_level'   => $params['amount_level'],
-                                   //'is_test'       => 
+                                   'source'        => ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'],
+                                   'event_level'   => $params['amount_level']
                                    );
+        
+        if( $this->_action & CRM_Core_Action::PREVIEW ) {
+            $participantParams['is_test'] = 1;
+        }
+        
         $ids = array();
         $participant = CRM_Event_BAO_Participant::add($participantParams, $ids);
         
@@ -349,7 +361,6 @@ WHERE  v.option_group_id = g.id
         }
         
         // next create the transaction record
-        //if ( $this->_values['is_monetary'] ) {
         $trxnParams = array(
                             'entity_table'      => 'civicrm_contribution',
                             'entity_id'         => $contribution->id,
@@ -365,7 +376,7 @@ WHERE  v.option_group_id = g.id
         
         require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
         $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
-        //}
+
         CRM_Core_DAO::transaction( 'COMMIT' );
         
         return $contribution;
@@ -412,15 +423,8 @@ WHERE  v.option_group_id = g.id
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, null, null,$ctype);
         } else {
             // finding contact record based on duplicate match 
-            $dupeParams = array();
-            $dupeVars = array('first_name', 'last_name', 'email'); //use dupe match dao
-            foreach ( $dupeVars as $name ) {
-                if ( $this->_params[$name] ) {
-                    $dupeParams[$name] = $this->_params[$name];
-                }
-            }
             require_once 'api/crm.php';
-            $ids = CRM_Core_BAO_UFGroup::findContact( $dupeParams );
+            $ids = CRM_Core_BAO_UFGroup::findContact( $params );
             $contactsIDs = explode( ',', $ids );
             
             // if we find more than one contact, use the first one

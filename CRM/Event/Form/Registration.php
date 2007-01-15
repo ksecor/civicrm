@@ -157,6 +157,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         // setting CMS page title
         CRM_Utils_System::setTitle($this->_values['event']['title']);  
         $this->assign( 'title', $this->_values['event']['title'] );
+
+        $this->assign('paidEvent', $this->_values['event']['is_monetary']);
     }
 
     /** 
@@ -285,7 +287,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                            CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
         }
 
-        //$this->assign( 'email', $this->_values['event_page'][''] );
+        $this->assign( 'email', $this->controller->exportValue( 'Register', 'email' ) );
 
         // also assign the receipt_text
         $this->assign( 'receipt_text', $this->_values['event_page']['confirm_email_text'] );

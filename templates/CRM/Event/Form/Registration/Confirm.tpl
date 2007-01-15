@@ -3,6 +3,7 @@
         <p>{ts}Please verify Contribution Amount and all other information carefully. Click <strong>Go Back</strong>
             if you need to make changes.{/ts}</p>
     </div>
+    {if $paidEvent}
     <div class="header-dark">
         {ts}Fee Amount{/ts}
     </div>
@@ -11,6 +12,14 @@
             {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
         {/if}
     </div>
+    {else}
+    <div class="header-dark">
+        {ts}Email{/ts}
+    </div>
+    <div class="display-block">
+        {$email}
+    </div>
+    {/if}
 
     {if $customPre}
          {foreach from=$customPre item=field key=cname}
@@ -24,8 +33,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
-    {*if $contributeMode ne 'notify' and $is_monetary*}    
-    {if $contributeMode ne 'notify'}
+    {if $contributeMode ne 'notify' and $paidEvent}
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>

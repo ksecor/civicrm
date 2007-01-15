@@ -6,11 +6,13 @@
     </div>
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
-        {if $contributeMode EQ 'notify'}
+        {if $contributeMode EQ 'notify' and $paidEvent}
             <p>
             {ts}Your contribution has been submitted to PayPal for processing. Please print this page for your records.{/ts}
         {/if}
     </div>
+
+    {if $paidEvent}
     <div class="header-dark">
         {ts}Fee Amount{/ts}
     </div>
@@ -23,7 +25,14 @@
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
     </div>
-    <div class="form-item">
+    {else}
+    <div class="header-dark">
+        {ts}Email{/ts}
+    </div>
+    <div class="display-block">
+        {$email}
+    </div>
+    {/if}
 
     {if $customPre}
          {foreach from=$customPre item=field key=cname}
@@ -37,7 +46,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
-    {if $contributeMode ne 'notify'}    
+    {if $contributeMode ne 'notify' and $paidEvent}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -47,7 +56,7 @@
     </div>
     {/if}
 
-    {if $contributeMode eq 'direct'}
+    {if $contributeMode eq 'direct' and $paidEvent}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>
