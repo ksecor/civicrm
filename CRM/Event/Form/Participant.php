@@ -293,9 +293,6 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             $ids['note']['id'] = $this->_noteId;
         }
         
-        require_once "CRM/Event/BAO/Participant.php";
-        $participant =  CRM_Event_BAO_Participant::create( $params, $ids );   
-        
         $status = null;
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $participantBAO =& new CRM_Event_BAO_Participant();
@@ -304,8 +301,11 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             while ( $participantBAO->fetch() ) {
                 $status = $participantBAO->status_id;
             }
-        }
-                
+        }       
+        
+        require_once "CRM/Event/BAO/Participant.php";
+        $participant =  CRM_Event_BAO_Participant::create( $params, $ids );   
+      
         if ( ($this->_action & CRM_Core_Action::ADD) || ($status != $params['status_id']) ) {
             CRM_Event_BAO_Participant::setActivityHistory( $participant );
         } 
