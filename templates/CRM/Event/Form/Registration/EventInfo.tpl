@@ -32,7 +32,7 @@
 
    </table>
    </div>	
-    <div id="crm-submit-buttons">
-        {$form.buttons.html}
+    <div id="crm-submit-buttons" class="underline-effect">
+        {$form.buttons.html|crmReplace:class:"submit-link"}
     </div>
 </div>
