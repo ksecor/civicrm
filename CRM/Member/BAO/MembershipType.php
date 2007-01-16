@@ -144,11 +144,12 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                 $check = true;
             }
         }
-        
         if ($check) {
+            $deleteURL = CRM_Utils_System::url( 'civicrm/member/search', "reset=1" );
             $session =& CRM_Core_Session::singleton();
-            CRM_Core_Session::setStatus( ts('This membership type can not be deleted.') );
-            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/member/membershipType', "reset=1&action=browse" ));
+             CRM_Core_Session::setStatus(ts('This membership type cannot be deleted because there are some contacts who have this membership type assigned to them.  Search for contacts with this membership type on the '. "<a href=\"$deleteURL\">".ts('CiviMember >> Find Members ').'</a>'.ts('page. If you delete all memberships of this type, you will then be able to delete the membership type on this page." To delete the membership type, all memberships of this type should be deleted .')));
+
+             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/member/membershipType', "reset=1&action=browse" ));
         }
         
         //delete from membership Type table
@@ -161,8 +162,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         }
         $membershipType->delete();
     }
-
-
+    
     /**
      * Function to convert membership Type's 'start day' & 'rollover day' to human readable formats.
      * 
