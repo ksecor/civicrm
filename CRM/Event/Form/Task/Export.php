@@ -101,15 +101,16 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
         
         $header = array( 'contact_id'     => ts('Contact ID'),
                          'participant_id' => ts('Participant ID'),
+                         'event_id'       => ts('Event ID'),
                          'contact_type'   => ts('Contact Type'),
-                         'sort_name'      => ts('Sort Name'),
                          'display_name'   => ts('Display Name')
                          );
         
         foreach ( $returnProperties as $name => $dontCare ) {
             $properties[] = $name;
             //check if $name already not present in $header
-            if(  CRM_Utils_Array::value( $name, $header ) == null ) {
+            if(  CRM_Utils_Array::value( $name, $header ) == null  &&
+                 CRM_Utils_Array::value( 'title', $query->_fields[$name] ) )  {
                 if ( CRM_Utils_Array::value( $name, $query->_fields ) ) {
                     $header[$name] = $query->_fields[$name]['title'];
                 }   else {
@@ -117,7 +118,7 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
                 }
             }
         }
-        
+               
         $result     = $query->searchQuery( 0, 0, null,
                                        false, false,
                                        false, false,
