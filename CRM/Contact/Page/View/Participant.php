@@ -120,7 +120,6 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
     {
         $context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                 $this, false, 'search' );
-        
         switch ( $context ) {
         case 'basic':
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
@@ -128,7 +127,7 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
             break;
             
         case 'dashboard':
-            $url = CRM_Utils_System::url( 'civicrm/participant',
+             $url = CRM_Utils_System::url( 'civicrm/event',
                                           'reset=1' );
             break;
             
@@ -147,11 +146,10 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
             if ( $this->_contactId ) {
                 $cid = '&cid=' . $this->_contactId;
             }
-            $url = CRM_Utils_System::url( 'civicrm/participant/search', 
+            $url = CRM_Utils_System::url( 'civicrm/event/search', 
                                           'reset=1&force=1' . $cid );
             break;
         }
-        
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $url );
     }
