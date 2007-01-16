@@ -255,7 +255,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                 $job_date =  CRM_Utils_Date::isoToMysql($jobDate->scheduled_date);
                 $activityHistory = array('entity_table'     => 'civicrm_contact',
                                          'entity_id'        => $eq->contact_id,
-                                         'activity_type'    => 'Send Email',
+                                         'activity_type'    => 'Email Sent',
                                          'module'           => 'CiviMail',
                                          'callback'         => 'CRM_Mailing_BAO_Mailing::showEmailDetails',
                                          'activity_id'      => $this->mailing_id,
