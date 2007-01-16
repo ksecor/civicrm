@@ -247,10 +247,12 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      */
     static function getEvents( $all = false, $id = false) 
     {
+        $endDate = CRM_Utils_Date::isoToMysql(date('Y-m-d',mktime(00,00,00, date('n') + 1, date('d'), date('Y') )) );
+        
         $query = "SELECT `id`, `title`, `start_date` FROM `civicrm_event`";
         
         if ( !$all ) {
-            $query .= " WHERE `start_date` >= now();";
+            $query .= " WHERE `end_date` >= {$endDate};";
         }
         if ( $id ) {
             $query .= " WHERE `id` = {$id};";

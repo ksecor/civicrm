@@ -188,6 +188,16 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
      */
     function browse()
     {
+        //get Current/Future Events
+        $currentEvents = array ( );
+        $this->assign('past', true);
+        if ( !CRM_Utils_Request::retrieve('past', 'Boolean', $this) ) {
+            require_once 'CRM/Event/BAO/Event.php';
+            $currentEvents  = CRM_Event_BAO_Event::getEvents( );
+        } else {
+            $this->assign('past', false);
+        }
+
         // get all custom groups sorted by weight
         $manageEvent = array();
         require_once 'CRM/Event/DAO/Event.php';
@@ -195,6 +205,9 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         $dao->find();
 
         while ($dao->fetch()) {
+            if ( !empty($currentEvents) &&  !array_key_exists($dao->id, $currentEvents)) {
+                continue;
+            }
             $manageEvent[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $manageEvent[$dao->id]);
             // form all action links
@@ -210,7 +223,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                     $action -= CRM_Core_Action::DISABLE;
                 }
             }
-            
+
             $manageEvent[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                          array('id' => $dao->id));
 
@@ -227,7 +240,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                 }
             }
         }
-        
+
         $this->assign('rows', $manageEvent);
     }
 }
