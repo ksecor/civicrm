@@ -44,6 +44,19 @@ require_once 'CRM/Utils/Mail.php';
  */
 class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
 
+    static function &add( &$params ) {
+        $email =& new CRM_Core_DAO_EmailHistory( );
+        
+        $email->subject    = CRM_Utils_Array::value( 'subject'   , $params );
+        $email->message    = CRM_Utils_Array::value( 'message'   , $params );
+        $email->contact_id = CRM_Utils_Array::value( 'contact_id', $params );
+        $email->sent_date  = CRM_Utils_Array::value( 'sent_date' , $params , date( 'Ymd' ) );
+
+        $email->save( );
+
+        return $email;
+    }
+
     /**
      * send the message to all the contacts and also insert a
      * contact activity in each contacts record
@@ -73,12 +86,10 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
 
         // create the meta level record first
-        $email             =& new CRM_Core_BAO_EmailHistory( );
-        $email->subject    = $subject;
-        $email->message    = $message;
-        $email->contact_id = $userID;
-        $email->sent_date  = date( 'Ymd' );
-        $email->save( );
+        $params =  array( 'subject'    => $subject,
+                          'message'    => $message,
+                          'contact_id' => $userID );
+        $email  =& self::add( $params );
 
         $sent = $notSent = array();
         foreach ( $contactIds as $contactId ) {
