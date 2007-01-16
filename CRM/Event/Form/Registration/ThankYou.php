@@ -70,6 +70,20 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
+        $defaults = array( );
+        $fields   = array( );
+        
+        foreach ( $this->_fields as $name => $dontCare ) {
+            $fields[$name] = 1;
+        }
+        $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+        foreach ($fields as $name => $dontCare ) {
+            if ( $this->_params[$name] ) {
+                $defaults[$name] = $this->_params[$name];
+            }
+        }
+        $this->setDefaults( $defaults );
+        
         $this->freeze();
     }
     

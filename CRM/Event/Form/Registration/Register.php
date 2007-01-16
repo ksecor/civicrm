@@ -55,6 +55,32 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         parent::preProcess( );
     }
 
+    /**
+     * This function sets the default values for the form. For edit/view mode
+     * the default values are retrieved from the database
+     *
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        // check if the user is registered and we have a contact ID
+        $session =& CRM_Core_Session::singleton( );
+        $contactID = $session->get( 'userID' );
+        if ( $contactID ) {
+            $options = array( );
+            $fields = array( );
+            require_once "CRM/Core/BAO/CustomGroup.php";
+            foreach ( $this->_fields as $name => $dontCare ) {
+                $fields[$name] = 1;
+            }
+            $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+            
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
+        }
+        return $this->_defaults;
+    }
+
     /** 
      * Function to build the form 
      * 
@@ -88,33 +114,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
     }
     
-    function setDefaultValues( ) {
-        // check if the user is registered and we have a contact ID
-        $session =& CRM_Core_Session::singleton( );
-        $contactID = $session->get( 'userID' );
-        if ( $contactID ) {
-            $options = array( );
-            $fields = array( );
-            require_once "CRM/Core/BAO/CustomGroup.php";
-            $removeCustomFieldTypes = array ('Contribution');
-            foreach ( $this->_fields as $name => $dontCare ) {
-                //don't set custom data Used for Contribution (CRM-1344)
-                if ( substr( $name, 0, 7 ) == 'custom_' ) {  
-                    $id = substr( $name, 7 );
-                    if ( ! CRM_Core_BAO_CustomGroup::checkCustomField( $id, $removeCustomFieldTypes )) {
-                        continue;
-                    }
-                }
-                $fields[$name] = 1;
-            }
-            $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
-
-            require_once 'CRM/Core/BAO/UFGroup.php';
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
-        }
-        return $this->_defaults;
-    }
-
     /**
      * build the radio/text form elements for the amount field
      *

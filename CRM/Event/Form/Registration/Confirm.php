@@ -160,25 +160,17 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                                         'name'      => ts('<< Go Back')),
                                 )
                           );
+
+        
         $defaults = array( );
-        $options = array( );
         $fields = array( );
-        require_once "CRM/Core/BAO/CustomGroup.php";
         foreach ( $this->_fields as $name => $dontCare ) {
             $fields[$name] = 1;
         }
         $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
-        $contact =  $this->_params;
         foreach ($fields as $name => $dontCare ) {
-            if ( $contact[$name] ) {
-                if ( substr( $name, 0, 7 ) == 'custom_' ) {
-                    $id = substr( $name, 7 );
-                    $defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact[$name],
-                                                                                  $id,
-                                                                                  $options );
-                } else {
-                    $defaults[$name] = $contact[$name];
-                } 
+            if ( $this->_params[$name] ) {
+                    $defaults[$name] = $this->_params[$name];
             }
         }
         $this->setDefaults( $defaults );
