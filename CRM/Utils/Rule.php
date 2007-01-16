@@ -439,15 +439,19 @@ class CRM_Utils_Rule
      */
     static function objectExists( $value, $options ) 
     {
-        return CRM_Core_DAO::objectExists( $value, $options[0], $options[1], CRM_Utils_Array::value( 2, $options, 'name' ) );
+        $name = 'name';
+        if ( isset($options[2]) ) {
+            $name = $options[2];
+        }
+        return CRM_Core_DAO::objectExists( $value, $options[0], $options[1], CRM_Utils_Array::value( 2, $options, $name ) );
     }
-
+    
     static function optionExists( $value, $options ) 
     {
         require_once 'CRM/Core/OptionValue.php';
         return CRM_Core_OptionValue::optionExists( $value, $options[0], $options[1], $options[2], CRM_Utils_Array::value( 3, $options, 'name' ) );
     }
-
+    
     static function creditCardNumber( $value, $type ) 
     {
         require_once 'Validate/Finance/CreditCard.php';
