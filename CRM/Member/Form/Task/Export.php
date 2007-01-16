@@ -71,10 +71,11 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
      */
     public function postProcess()
     { 
-
         // create the selector, controller and run - store results in session
-        $queryParams =  $this->get( 'queryParams' );
-
+        $queryParams       =  $this->get( 'queryParams' );
+        $returnProperties  =& CRM_Contact_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_MEMBER );
+        
+        // also add addresss fields
         $addressProperties = array('street_address'         => 1, 
                                    'supplemental_address_1' => 1, 
                                    'supplemental_address_2' => 1, 
@@ -89,49 +90,43 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
                                    'phone'                  => 1, 
                                    'im'                     => 1, 
                                    );
-        $nameStyle         = array('sort_name'    => ts('Sort Name'), 
-                                   'display_name' => ts('Display Name'),
-                                   );
-        $returnProperties  = array_merge( $addressProperties, $nameStyle );
         
-        $query       =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, null, false, false, 
-                                                   CRM_Contact_BAO_Query::MODE_MEMBER );
+        $returnProperties = array_merge( $returnProperties, $addressProperties );
         
-        $header = array(// membership fields
-                        'contact_id'             => ts('Contact ID'),
-                        'membership_id'          => ts('Membership ID'),
-                        'sort_name'              => ts('Sort Name'), 
-                        'display_name'           => ts('Display Name'),
-                        'membership_type'        => ts('Membership Type'),
-                        'join_date'              => ts('Member Since'),
-                        'start_date'             => ts('Start Date'),
-                        'end_date'               => ts('End Date'),
-                        'source'                 => ts('Source'),
-                        'status_id'              => ts('Status'),
-                        // address fields
-                        'street_address'         => ts('Street Address'), 
-                        'supplemental_address_1' => ts('Supplemental Address 1'), 
-                        'supplemental_address_2' => ts('Supplemental Address 2'), 
-                        'city'                   => ts('City'), 
-                        'postal_code'            => ts('Postal Code'), 
-                        'postal_code_suffix'     => ts('Postal Code Suffix'), 
-                        'state_province'         => ts('State'), 
-                        'country'                => ts('Country'),
-                        'geo_code_1'             => ts('Geo Code 1'),
-                        'geo_code_2'             => ts('Geo Code 2'),
-                        'email'                  => ts('Email'), 
-                        'phone'                  => ts('Phone'), 
-                        'im'                     => ts('IM Screen Name'), 
-                        );
-       
+        $query =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, null, false, false, 
+                                             CRM_Contact_BAO_Query::MODE_MEMBER );
+        
+        $header = array( 'contact_id'             => ts('Contact ID'),
+                         'membership_id'          => ts('Membership ID'),
+                         'contact_type'           => ts('Contact Type'),
+                         'display_name'           => ts('Display Name'),
+                         'membership_type'        => ts('Membership Type'),
+                         'start_date'             => ts('Start Date'),
+                         'end_date'               => ts('End Date'),
+                         'source'                 => ts('Source'),
+                         'status_id'              => ts('Status')
+                         );
+        
+        foreach ( $returnProperties as $name => $dontCare ) {
+            $properties[] = $name;
+
+            if( CRM_Utils_Array::value( 'title', $query->_fields[$name] ) )  {
+                if ( CRM_Utils_Array::value( $name, $query->_fields ) ) { 
+                    $header[$name] = $query->_fields[$name]['title'];
+                }   else { 
+                    $header[$name] = $name;
+                }
+            }
+        }
+        
+        $result     = $query->searchQuery( 0, 0, null,
+                                           false, false,
+                                           false, false,
+                                           false,
+                                           $this->_eventClause );
+        
         $properties = array_keys( $header );
         
-        $result = $query->searchQuery( 0, 0, null,
-                                       false, false,
-                                       false, false,
-                                       false,
-                                       $this->_memberClause );
-
         require_once 'CRM/Member/PseudoConstant.php';
         $statusTypes  = CRM_Member_PseudoConstant::membershipStatus( );
         
@@ -139,6 +134,7 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
         while ( $result->fetch( ) ) {
             $row   = array( );
             $valid = false;
+            
             foreach ( $properties as $property ) {
                 if ($property == 'status_id') {
                     $row[] = $statusTypes[$result->$property];
@@ -158,9 +154,8 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
         require_once 'CRM/Core/Report/Excel.php'; 
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $header, $rows ); 
         exit( );
-
     }
-
+    
     /**
      * return a filename for this export
      *

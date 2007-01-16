@@ -41,9 +41,10 @@ class CRM_Member_BAO_Query
     static function &getFields( ) 
     {
         require_once 'CRM/Member/BAO/Membership.php';
-        $fields =& CRM_Member_BAO_Membership::exportableFields( );
+        $fields =& CRM_Member_BAO_Membership::importableFields( );
         //unset( $fields['contact_id']);
         //unset( $fields['note'] ); 
+        //   CRM_Core_Error::debug('fff' , $fields );
         return $fields;
     }
     
@@ -219,15 +220,14 @@ class CRM_Member_BAO_Query
                                 //'status_id'              => 1
                                 );
 
-            /*
             // also get all the custom membership properties
-            $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Member');
+            $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Membership');
             if ( ! empty( $fields ) ) {
                 foreach ( $fields as $name => $dontCare ) {
                     $properties[$name] = 1;
                 }
             }
-            */
+            
         }
         return $properties;
     }

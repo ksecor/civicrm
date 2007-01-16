@@ -104,6 +104,7 @@ class CRM_Core_BAO_CustomQuery {
                                'Household'    => 'civicrm_contact',
                                'Organization' => 'civicrm_contact',
                                'Contribution' => 'civicrm_contribution',
+                               'Membership'   => 'civicrm_membership',
                                'Participant'  => 'civicrm_participant',
                                );
 
@@ -218,6 +219,13 @@ class CRM_Core_BAO_CustomQuery {
                 $this->_tables['civicrm_participant'] = 1;
                 if ( $this->_ids[$id] ) {
                     $this->_whereTables['civicrm_participant'] = 1;
+                }
+            } else if ( $field['extends'] == 'civicrm_membership' ) {
+                $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
+                    " AND $name.entity_table = 'civicrm_membership' AND $name.entity_id = civicrm_membership.id ";
+                $this->_tables['civicrm_membership'] = 1;
+                if ( $this->_ids[$id] ) {
+                    $this->_whereTables['civicrm_membership'] = 1;
                 }
             }
         }
