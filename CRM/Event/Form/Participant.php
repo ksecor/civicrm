@@ -264,51 +264,88 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                           );
         
     }
+
+    /**
+     * Add local and global form rules
+     *
+     * @access protected
+     * @return void
+     */
+    function addRules( ) 
+    {
+        $this->addFormRule( array( 'CRM_Event_Form_Participant', 'formRule' ) );
+    }
     
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$values ) 
+    {
+        if ( $values['_qf_Participant_next'] == 'Delete' ) {
+            return true;
+        }
+
+        require_once "CRM/Event/BAO/Participant.php";
+        $message = CRM_Event_BAO_Participant::eventFull( $values['event_id'] );
+        if( $message ) {
+            $errorMsg["_qf_default"] = $message;  
+        }
+        if ( !empty( $errorMsg ) ) {
+            return $errorMsg;
+        }
+        
+        return true;
+    }    
+       
     /** 
      * Function to process the form 
      * 
      * @access public 
      * @return None 
      */ 
-    public function postProcess()  
-    { 
+    public function postProcess( )
+    {
+        require_once "CRM/Event/BAO/Participant.php";
         if ( $this->_action & CRM_Core_Action::DELETE ) {
-            require_once 'CRM/Event/BAO/Participant.php';
             CRM_Event_BAO_Participant::deleteParticipant( $this->_id );
             return;
         }
-                
+        
         // get the submitted form values.  
         $params = $_POST;
-        $params['contact_id'] = $this->_contactID;
+        $params['contact_id']    = $this->_contactID;
         $params['register_date'] = CRM_Utils_Date::format($params['register_date']);
         
         if ( $this->_id ) {
-            $ids['participant'] = $params['id'] = $this->_id;
+            $ids['participant']  = $params['id'] = $this->_id;
         }
         
-        $ids['note'] = array();
+        $ids['note'] = array( );
         if ( $this->_noteId ) {
-            $ids['note']['id'] = $this->_noteId;
+            $ids['note']['id']   = $this->_noteId;
         }
         
         $status = null;
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $participantBAO =& new CRM_Event_BAO_Participant();
+            $participantBAO     =& new CRM_Event_BAO_Participant( );
             $participantBAO->id = $this->_id;
-            $participantBAO->find();
+            $participantBAO->find( );
             while ( $participantBAO->fetch() ) {
                 $status = $participantBAO->status_id;
             }
-        }       
+        }
         
-        require_once "CRM/Event/BAO/Participant.php";
         $participant =  CRM_Event_BAO_Participant::create( $params, $ids );   
-      
-        if ( ($this->_action & CRM_Core_Action::ADD) || ($status != $params['status_id']) ) {
+        
+        if ( ( $this->_action & CRM_Core_Action::ADD ) || ( $status != $params['status_id'] ) ) {
             CRM_Event_BAO_Participant::setActivityHistory( $participant );
-        } 
+        }       
     }
 }
 ?>

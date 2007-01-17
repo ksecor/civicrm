@@ -174,13 +174,42 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         $contactId  = CRM_Utils_Array::value('entity_id', $defaults);
         
         if ( $contactId ) {
-            //            return CRM_Utils_System::url('civicrm/contact/view/activity', "cid=$contactId&action=view&id=$activityId&status=true&history=1&selectedChild=event"); 
             return CRM_Utils_System::url('civicrm/contact/view/participant', "reset=1&id=$id&cid=$contactId&action=view&context=participant&selectedChild=event&history=1"); 
         } else { 
             return CRM_Utils_System::url('civicrm' ); 
         } 
     }
     
+    /**
+     * check whether the event is 
+     * full for participation
+     *
+     * @param int $eventId
+     *
+     * @static
+     * @access public
+     */
+    static function eventFull( $eventId )
+    {
+        $query = "SELECT count(civicrm_participant.id) as total_participants, civicrm_event.max_participants as max_participants,
+                         civicrm_event.event_full_text as event_full_text  
+                  FROM   civicrm_participant, civicrm_event 
+                  WHERE  civicrm_participant.event_id = civicrm_event.id
+                     AND civicrm_participant.event_id={$eventId} 
+                  GROUP BY civicrm_participant.id";
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+
+        while ( $dao->fetch( ) ) {
+            if( $dao->total_participants == $dao->max_participants ) {
+                return $dao->event_full_text;
+            }
+        }
+        return false;
+    }
+    
+
     /**
      * takes an associative array and creates a participant object
      *
