@@ -22,6 +22,7 @@
         <tr class="columnheader">
             <th>{ts}Role{/ts}</th>
             <th>{ts}Operation{/ts}</th>
+            <th>{ts}Permission Object{/ts}</th>
             <th>{ts}Permission For{/ts}</th>
             <th>{ts}Description{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
@@ -31,6 +32,7 @@
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.entity}</td>	
 	        <td>{$row.operation}</td>	
+	        <td>{$row.object_name}</td>	
 	        <td>{$row.object}</td>	
 	        <td>{$row.name}</td>	
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>

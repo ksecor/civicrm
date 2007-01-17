@@ -15,8 +15,13 @@
   <dl>
     <dt>{$form.operation.label}</dt><dd>{$form.operation.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Which action to permit.{/ts}</dd>
-    <dt>{$form.object_id.label}</dt><dd>{$form.object_id.html}</dd>
+    <dt>Permissioning</dt><dd>Please select the object you want permissioning applied on</dd>
+    <dt>{$form.group_id.label}</dt><dd>{$form.group_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Permitted on this group of contacts.{/ts}</dd>
+    <dt>{$form.custom_group_id.label}</dt><dd>{$form.custom_group_id.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Permitted on these custom groups.{/ts}</dd>
+    <dt>{$form.uf_group_id.label}</dt><dd>{$form.uf_group_id.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Permitted on these profiles.{/ts}</dd>
     <dt>{$form.entity_id.label}</dt><dd>{$form.entity_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Permission granted to this role.{/ts}</dd>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>

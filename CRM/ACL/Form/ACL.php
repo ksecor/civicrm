@@ -66,14 +66,39 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         $role = array( '' => ts(' -select role- ')) + CRM_Core_OptionGroup::values( 'acl_role' );
         $this->add( 'select', 'entity_id', $label, $role, true );
 
-        $label = ts( 'Permission For' );
-        $group = array( '0' => ts('All Groups')) + CRM_Core_PseudoConstant::group( );
-        $this->add( 'select', 'object_id', $label, $group, true );
+        $group       = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Groups' ) )        + CRM_Core_PseudoConstant::group( )      ;
+        $customGroup = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Custom Groups' ) ) + CRM_Core_PseudoConstant::customGroup( );
+        $ufGroup     = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Profiles' ) )      + CRM_Core_PseudoConstant::ufGroup( )    ;
+
+        $this->add( 'select', 'group_id'       , ts( 'Group'        ), $group       );
+        $this->add( 'select', 'custom_group_id', ts( 'Custom Group' ), $customGroup );
+        $this->add( 'select', 'uf_group_id'    , ts( 'Profile'      ), $ufGroup     );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
+
+        $this->addFormRule( array( 'CRM_ACL_Form_ACL', 'formRule' ) );
     }
 
-       
+    static function formRule( &$params ) {
+        // make sure that at only one of group_id, custom_group_id and uf_group_id is selected
+        $count = 0;
+
+        $fields = array( 'group_id', 'custom_group_id', 'uf_group_id' );
+        foreach ( $fields as $field ) {
+            if ( isset( $params[$field] ) &&
+                 $params[$field] != -1 ) {
+                $count++;
+            }
+        }
+
+        $errors = array( );
+        if ( $count != 1 ) {
+            $errors['_qf_default'] = ts( 'Please select one of Group, Custom Group and Profile' );
+        }
+        
+        return empty($errors) ? true : $errors;
+    }
+
     /**
      * Function to process the form
      *
@@ -88,11 +113,22 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
 
         $params['deny'] = 0;
         $params['entity_table'] = 'civicrm_acl_role';
-        $params['object_table'] = 'civicrm_saved_search';
+
+        // unset them just to make sure
+        $fields = array( 'group_id'        => 'civicrm_saved_search',
+                         'custom_group_id' => 'civicrm_custom_group',
+                         'uf_group_id'     => 'civicrm_uf_group' );
+        foreach ( $fields as $name => $table ) {
+            if ( $params[$name] != -1 ) {
+                $params['object_table'] = $table;
+                $params['object_id']    = $params[$name];
+            }
+            unset( $params[$name] );
+        }
         
         if ( $this->_id ) {
             $params['id'] = $this->_id;
-        }
+       }
         CRM_ACL_BAO_ACL::create( $params );
     }
 

@@ -84,7 +84,9 @@ class CRM_Utils_Cache_Memcache {
         $this->_cache =& new Memcache( );
         
         if ( ! $this->_cache->connect( $this->_host, $this->_port ) ) {
-            CRM_Core_Error::fatal( 'Could not connect to Memcached server' );
+            // dont use fatal here since we can go in an infinite loop
+            echo 'Could not connect to Memcached server';
+            exit( );
         }
     }
 

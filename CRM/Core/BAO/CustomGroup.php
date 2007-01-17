@@ -1319,7 +1319,6 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
         }
         return true;
     }
-    
 
 }
 

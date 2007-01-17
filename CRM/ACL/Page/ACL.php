@@ -158,7 +158,10 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
 
         require_once 'CRM/Core/OptionGroup.php';
         $roles  = CRM_Core_OptionGroup::values( 'acl_role' );
-        $groups = CRM_Core_PseudoConstant::group( ); 
+
+        $group       = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Groups' ) )        + CRM_Core_PseudoConstant::group( )      ;
+        $customGroup = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Custom Groups' ) ) + CRM_Core_PseudoConstant::customGroup( );
+        $ufGroup     = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Profiles' ) )      + CRM_Core_PseudoConstant::ufGroup( )    ;
 
         while ( $dao->fetch( ) ) {
             $acl[$dao->id] = array();
@@ -169,11 +172,22 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
             } else {
                 $acl[$dao->id]['entity'] = ts( 'All Roles' );
             }
-            
-            if ( $groups[$acl[$dao->id]['object_id']] ) {
-                $acl[$dao->id]['object'] = $groups[$acl[$dao->id]['object_id']];
-            } else {
-                $acl[$dao->id]['object'] = ts( 'All Groups' );
+
+            switch ( $acl[$dao->id]['object_table'] ) {
+            case 'civicrm_saved_search':
+                $acl[$dao->id]['object'     ] = $group[$acl[$dao->id]['object_id']];
+                $acl[$dao->id]['object_name'] = ts( 'Group' );
+                break;
+
+            case 'civicrm_uf_group':
+                $acl[$dao->id]['object'     ] = $ufGroup[$acl[$dao->id]['object_id']];
+                $acl[$dao->id]['object_name'] = ts( 'Profile' );
+                break;
+
+            case 'civicrm_custom_group':
+                $acl[$dao->id]['object'     ] = $customGroup[$acl[$dao->id]['object_id']];
+                $acl[$dao->id]['object_name'] = ts( 'Custom Group' );
+                break;
             }
 
             // form all action links

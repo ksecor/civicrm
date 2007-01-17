@@ -168,6 +168,13 @@ class CRM_Core_PseudoConstant
     private static $ufGroup;
 
     /**
+     * custom groups
+     * @var array
+     * @static
+     */
+    private static $customGroup;
+
+    /**
      * currency codes
      * @var array
      * @static
@@ -696,7 +703,22 @@ class CRM_Core_PseudoConstant
         return self::$staticGroup;        
     }
 
-/**
+    /**
+     * Get all the custom groups
+     *
+     * @access public
+     * @return array - array reference of all groups.
+     * @static
+     */
+    public static function &customGroup( )
+    {
+        if ( ! self::$customGroup ) {
+            self::populate( self::$customGroup, 'CRM_Core_DAO_CustomGroup', false, 'title', 'is_active', null, 'title' );
+        }
+        return self::$customGroup;
+    }
+
+    /**
      * Get all the user framework groups
      *
      * @access public
