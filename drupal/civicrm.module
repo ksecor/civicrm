@@ -376,6 +376,10 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
 
     case 'categories':
         return civicrm_categories($user);
+
+	case 'delete':
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        return CRM_Core_BAO_UFMatch::deleteUser( $user->uid );
     }
 
 }
@@ -517,7 +521,7 @@ function civicrm_view_data($user )
             if ( $fieldType != $ctype ) {
                 continue;
             }
-            $page =& new CRM_Profile_Page_Dynamic( $userID, $id );
+            $page =& new CRM_Profile_Page_Dynamic( $userID, $id, null );
             $pageContent = $page->run( );
             
             if ( $pageContent ) {

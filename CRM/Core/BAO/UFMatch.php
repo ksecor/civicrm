@@ -277,16 +277,32 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
     /**
      * Delete the object records that are associated with this contact
      *
-     * @param  int  $contactId id of the contact to delete
+     * @param  int  $contactID id of the contact to delete
      *
      * @return void
      * @access public
      * @static
      */
-    static function deleteContact( $contactId ) {
+    static function deleteContact( $contactID ) {
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
 
-        $ufmatch->contact_id = $contactId;
+        $ufmatch->contact_id = $contactID;
+        $ufmatch->delete( );
+    }
+
+    /**
+     * Delete the object records that are associated with this cms user
+     *
+     * @param  int  $ufID id of the user to delete
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function deleteUser( $ufID ) {
+        $ufmatch =& new CRM_Core_DAO_UFMatch( );
+
+        $ufmatch->uf_id = $ufID;
         $ufmatch->delete( );
     }
 
