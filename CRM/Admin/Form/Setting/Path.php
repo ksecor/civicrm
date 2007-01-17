@@ -52,10 +52,11 @@ class CRM_Admin_Form_Setting_Path extends CRM_Admin_Form_Setting
     public function buildQuickForm( ) {
         CRM_Utils_System::setTitle(ts('Settings - Upload Directories'));
           
-        $this->addElement('text','uploadDir', ts('Temporary Files'));  
-        $this->addElement('text','imageUploadDir', ts('Images'));  
-        $this->addElement('text','customFileUploadDir', ts('Custom Files'));  
-
+        $this->add('text', 'uploadDir'          , ts( 'Temporary Files'  ) );  
+        $this->add('text', 'imageUploadDir'     , ts( 'Images'           ) );  
+        $this->add('text', 'customFileUploadDir', ts( 'Custom Files'     ) );  
+        $this->add('text', 'customTemplateDir'  , ts( 'Custom Templates' ) );  
+        
         parent::buildQuickForm();
     }
 }

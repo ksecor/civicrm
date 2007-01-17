@@ -14,6 +14,9 @@
           <dt>&nbsp</dt><dd class="description">{ts}Path where documents and images which are attachments to contact records are stored (e.g. contact photos, resumes, contracts, etc.).
           These attachments are defined using "file" type custom fields.{/ts}</dd>
     </dl>
+          <dt>{$form.customTemplateDir.label}</dt><dd>{$form.customTemplateDir.html|crmReplace:class:'huge'}</dd>
+          <dt>&nbsp</dt><dd class="description">{ts}Path where site specific templates are stored if any. This directory is searched first if set.{/ts}</dd>
+    </dl>
     <dl>
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
