@@ -44,7 +44,6 @@ class CRM_Member_BAO_Query
         $fields =& CRM_Member_BAO_Membership::importableFields( );
         //unset( $fields['contact_id']);
         //unset( $fields['note'] ); 
-        //   CRM_Core_Error::debug('fff' , $fields );
         return $fields;
     }
     
@@ -221,6 +220,7 @@ class CRM_Member_BAO_Query
                                 );
 
             // also get all the custom membership properties
+            require_once "CRM/Core/BAO/CustomField.php";
             $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Membership');
             if ( ! empty( $fields ) ) {
                 foreach ( $fields as $name => $dontCare ) {

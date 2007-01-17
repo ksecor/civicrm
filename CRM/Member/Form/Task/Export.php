@@ -73,6 +73,7 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
     { 
         // create the selector, controller and run - store results in session
         $queryParams       =  $this->get( 'queryParams' );
+
         $returnProperties  =& CRM_Contact_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_MEMBER );
         
         // also add addresss fields
@@ -123,7 +124,7 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
                                            false, false,
                                            false, false,
                                            false,
-                                           $this->_eventClause );
+                                           $this->_memberClause );
         
         $properties = array_keys( $header );
         
