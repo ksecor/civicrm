@@ -14,9 +14,10 @@
 <p></p>
     <div class="form-item" id=event_status_id>
         {strip}
+        	<a href="{crmURL q="action=add&reset=1"}" id="newManageEvent">&raquo; {ts}New Event Wizard{/ts}</a><br />
         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
 	<thead>
-        <tr class="columnheader">
+            <tr class="columnheader">
             <th field="Event" dataType="String">{ts}Event{/ts}</th>
             <th field="City" dataType="String">{ts}City{/ts}</th>
             <th field="State" dataType="String">{ts}State{/ts}</th>
@@ -40,16 +41,18 @@
 	        <td>{$row.action}</td>
           </tr>
         {/foreach}
-        </tbody>
-        </table>
-        {/strip}
-
+     
+        <tr class="odd-row">
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}" id="newManageEvent">&raquo; {ts}New Event Wizard{/ts}</a><br />
-        {if $past}<a href="{crmURL q="action=browse&past=true&reset=1"}" id="pastEvents">&raquo; {ts}Show Past Events{/ts}</a>{/if}
+    
+        <td colspan=8> {if $past}<a href="{crmURL q="action=browse&past=true&reset=1"}" id="pastEvents">&raquo; {ts}Show Past Events{/ts}</a>{/if}</td>
         </div>
+    
         {/if}
+         </tbody>
+        </table>
+        {/strip}
       
     </div>
 </div>
