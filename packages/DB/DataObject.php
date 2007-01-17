@@ -120,7 +120,7 @@ define('DB_DATAOBJECT_MYSQLTIMESTAMP'   , 256);           // mysql timestamps (i
 /*
  * Define this before you include DataObjects.php to  disable overload - if it segfaults due to Zend optimizer..
  */
-//define('DB_DATAOBJECT_NO_OVERLOAD',true)  
+//define('DB_DATAOBJECT_NO_OVERLOAD',true);
 
 
 /**
