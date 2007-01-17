@@ -8,7 +8,7 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/path' q='reset=1'}" id="idPath">&raquo; {ts}Upload Directories{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/path' q='reset=1'}" id="idPath">&raquo; {ts}Directories{/ts}</a></td>
     <td>{ts}Configure directories in your file system for temporary uploads, images, custom files and custom templates.{/ts}</td>
 </tr>
 
