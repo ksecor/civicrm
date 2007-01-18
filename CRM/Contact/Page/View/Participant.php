@@ -64,9 +64,16 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
      */ 
     function view( ) 
     {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ParticipantView',  
-                                                       'View Participant',  
-                                                       $this->_action ); 
+        if ( CRM_Utils_Request::retrieve( 'history', 'Boolean', CRM_Core_DAO::$_nullObject ) ) {
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ActivityView',  
+                                                           'View Participant Details',  
+                                                           $this->_action ); 
+            
+        } else {
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ParticipantView',  
+                                                           'View Participant',  
+                                                           $this->_action ); 
+        }
         $controller->setEmbedded( true );  
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );  
@@ -118,23 +125,20 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
     
     function setContext( ) 
     {
-        $context = CRM_Utils_Request::retrieve( 'context', 'String',
-                                                $this, false, 'search' );
+        $context = CRM_Utils_Request::retrieve( 'context', 'String', $this, false, 'search' );
         switch ( $context ) {
         case 'basic':
-            $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          'reset=1&cid=' . $this->_contactId );
+            $url = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId );
             break;
             
         case 'dashboard':
-             $url = CRM_Utils_System::url( 'civicrm/event',
-                                          'reset=1' );
+            $url = CRM_Utils_System::url( 'civicrm/event', 'reset=1' );
             break;
             
         case 'participant':
             if ( CRM_Utils_Request::retrieve( 'history', 'Boolean', CRM_Core_DAO::$_nullObject ) ) {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                              "reset=1&force=1&selectedChild=activity&cid={$this->_contactId}&history=1" );     
+                                              "reset=1&force=1&selectedChild=activity&cid={$this->_contactId}&history=1&aid={$activityId}" );     
             } else {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                               "reset=1&force=1&cid={$this->_contactId}&selectedChild=participant" );

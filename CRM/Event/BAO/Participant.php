@@ -74,7 +74,8 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             
         }
     }
-    
+
+
     /**
      * takes an associative array and creates a participant object
      *
@@ -132,22 +133,24 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         require_once "CRM/Event/BAO/Event.php";
         $activitySummary = CRM_Event_BAO_Event::getEvents(true,$participant->event_id);
         $date = date( 'YmdHis' );
-        $def['role_id'] = $participant->role_id;
 
         require_once "CRM/Event/PseudoConstant.php";
-        self::lookupValue($def, 'role', CRM_Event_PseudoConstant::participantRole(), false);
-        require_once "api/History.php";
+        $roles  = CRM_Event_PseudoConstant::participantRole( );
+        $status = CRM_Event_PseudoConstant::participantStatus( );
+
+        $summary = $activitySummary[$participant->event_id].' - '.$roles[$participant->role_id].' - ' .$status[$participant->status_id];
         $activityHistory = array('entity_table'     => 'civicrm_contact',
                                  'entity_id'        => $participant->contact_id,
                                  'activity_type'    => 'Event Registration',
                                  'module'           => 'CiviEvent',
                                  'callback'         => 'CRM_Event_BAO_Participant::showActivityDetails',
                                  'activity_id'      => $participant->id,
-                                 'activity_summary' => $activitySummary[$participant->event_id].' ( '.$def['role'].' ) ',
+                                 'activity_summary' => $summary,
                                  'activity_date'    => $date
                                  
                                  );
 
+        require_once "api/History.php";
         if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
             return false;
         }
@@ -174,7 +177,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         $contactId  = CRM_Utils_Array::value('entity_id', $defaults);
         
         if ( $contactId ) {
-            return CRM_Utils_System::url('civicrm/contact/view/participant', "reset=1&id=$id&cid=$contactId&action=view&context=participant&selectedChild=event&history=1"); 
+            return CRM_Utils_System::url('civicrm/contact/view/participant', "reset=1&id=$id&cid=$contactId&hid={$activityHistoryId}&action=view&context=participant&selectedChild=event&history=1"); 
         } else { 
             return CRM_Utils_System::url('civicrm' ); 
         } 
