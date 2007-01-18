@@ -1100,14 +1100,19 @@ function _crm_add_formatted_param(&$values, &$params) {
         /* we're an individual/household/org property */
         if (!isset($fields[$values['contact_type']])) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, 
-                'CRM_Contact_DAO_' .  $values['contact_type']) . '.php');
+                                     'CRM_Contact_DAO_' .  $values['contact_type']) . '.php');
             eval(
-                '$fields['.$values['contact_type'].'] =& 
+                 '$fields['.$values['contact_type'].'] =& 
                     CRM_Contact_DAO_'.$values['contact_type'].'::fields();'
-            );
+                 );
         }
         
         _crm_store_values( $fields[$values['contact_type']], $values, $params );
+
+        //add core contact values
+        $contactFields =& CRM_Contact_DAO_Contact::fields( );
+        _crm_store_values( $contactFields, $values, $params );
+
         return true;
     }
     
@@ -1337,12 +1342,7 @@ function _crm_add_formatted_param(&$values, &$params) {
             );
         }
     }
-    
-    /* Finally, check for contact fields */
-    if (!isset($fields['Contact'])) {
-        $fields['Contact'] =& CRM_Contact_DAO_Contact::fields( );
-    }
-    _crm_store_values( $fields['Contact'], $values, $params );
+   
 }
 
 /**
