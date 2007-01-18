@@ -105,11 +105,12 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      */
     static function &getFormValues( $id ) {
         $fv = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'form_values' );
+        $result = null;
         if ( $fv ) {
             // make sure u unserialize - since it's stored in serialized form
-            return unserialize( $fv );
+            $result = unserialize( $fv );
         }
-        return null;
+        return $result;
     }
 
     static function &getSearchParams( $id ) {

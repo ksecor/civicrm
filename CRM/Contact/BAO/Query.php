@@ -383,7 +383,7 @@ class CRM_Contact_BAO_Query {
         foreach ($this->_fields as $name => $field) {
             // if this is a hierarchical name, we ignore it
             $names = explode( '-', $name );
-            if ( count( $names > 1 ) && is_numeric( $names[1] ) ) {
+            if ( count( $names > 1 ) && isset( $names[1] ) && is_numeric( $names[1] ) ) {
                 continue;
             }
 
@@ -781,21 +781,23 @@ class CRM_Contact_BAO_Query {
     }
 
     function &getWhereValues( $name, $grouping ) {
+        $result = null;
         foreach ( $this->_params as $id => $values ) {
             if ( $values[0] == $name && $values[4] == $grouping ) {
                 return $values;
             }
         }
-        return null;
+        return $result;
     }
 
     static function &fixWhereValues( $id, &$values, $wildcard = 0 ) {
         // skip a few search variables
         static $skipWhere   = null;
         static $arrayValues = null;
+        $result = null;
 
         if ( CRM_Utils_System::isNull( $values ) ) {
-            return null;
+            return $result;
         }
 
         if  ( ! $skipWhere ) {
@@ -803,18 +805,19 @@ class CRM_Contact_BAO_Query {
         }
 
         if ( in_array( $id, $skipWhere ) || substr( $id, 0, 4 ) == '_qf_' ) {
-            return null;
+            return $result;
         }
 
         if ( $id == 'sort_name' ) {
-            return array( $id, 'LIKE', $values, 0, 1 );
-        } else if ( strpos( $values, '%' ) !== false ) {
-            return array( $id, 'LIKE', $values, 0, 0 );
+            $result = array( $id, 'LIKE', $values, 0, 1 );
+        } else if ( is_string( $values ) && strpos( $values, '%' ) !== false ) {
+            $result = array( $id, 'LIKE', $values, 0, 0 );
         } else if ( $id == 'group' || $id == 'tag' ) {
-            return array( $id, 'IN', $values, 0, 0 );
+            $result = array( $id, 'IN', $values, 0, 0 );
         } else {
-            return array( $id, '=', $values, 0, $wildcard );
+            $result = array( $id, '=', $values, 0, $wildcard );
         }
+        return $result;
     }
 
     function whereClauseSingle( &$values ) {
