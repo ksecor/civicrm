@@ -359,6 +359,39 @@ contact the site administrator and notify them of this error' ) );
                                                     'is_required'=> true );
     }
 
+    /**  
+     * Function to add the custom fields
+     *  
+     * @return None  
+     * @access public  
+     */ 
+    function buildCustom( $id, $name ) {
+        if ( $id ) {
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            require_once 'CRM/Profile/Form.php';
+            $session =& CRM_Core_Session::singleton( );
+            $contactID = $session->get( 'userID' );
+            if ( $contactID ) {
+                require_once "CRM/Core/BAO/UFGroup.php";
+                if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
+                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                    $this->assign( $name, $fields );
+                    foreach($fields as $key => $field) {
+                         CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                         $this->_fields[$key] = $field;
+                    }
+                }
+            } else {
+                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                 $this->assign( $name, $fields );
+                 foreach($fields as $key => $field) {
+                     CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                     $this->_fields[$key] = $field;
+                 }
+            }
+        }
+    }
+
 }
 
 ?>
