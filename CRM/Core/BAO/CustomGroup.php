@@ -194,6 +194,17 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
             // since groupId is 0 we need to show all Inline groups
             $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
         }
+
+        /***
+        // ensure that the user has access to these custom groups
+        $permissionedCustomGroups = CRM_Core_Permission::customGroup( );
+        if ( empty( $permissionedCustomGroups ) ) {
+            return $groupTree;
+        }
+
+        $strWhere .= " AND civicrm_custom_group.id IN ( " . implode( ',', $permissionedCustomGroups ) . ' ) ';
+        ***/
+
         $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_group.title, civicrm_custom_field.weight, civicrm_custom_field.label ";
 
         // final query string

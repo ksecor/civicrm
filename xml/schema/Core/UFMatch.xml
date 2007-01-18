@@ -63,6 +63,14 @@
      <fieldName>uf_id</fieldName>
      <unique>true</unique>
      <add>1.5</add>
+     <drop>1.7</drop>
+  </index>
+  <index>
+     <name>UI_uf_domain_id</name>
+     <fieldName>uf_id</fieldName>
+     <fieldName>domain_id</fieldName>
+     <unique>true</unique>
+     <add>1.7</add>
   </index>
   <index>
     <name>UI_contact</name>

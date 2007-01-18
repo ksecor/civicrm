@@ -712,7 +712,10 @@ SELECT g.where_clause, g.select_tables, g.where_tables
         }
     }
 
-    public static function group( $type, $contactID = null ) {
+    public static function group( $type,
+                                  $contactID = null,
+                                  $tableName = 'civicrm_saved_search',
+                                  $allGroups = null ) {
         require_once 'CRM/ACL/BAO/Cache.php';
 
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
@@ -730,20 +733,28 @@ SELECT   a.operation, a.object_id
   FROM   civicrm_acl_cache c, civicrm_acl a
  WHERE   c.acl_id       =  a.id
    AND   a.is_active    =  1
-   AND   a.object_table = 'civicrm_saved_search'
+   AND   a.object_table = %1
    AND   a.id        IN ( $aclKeys )
 ORDER BY a.object_id
 ";
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $params = array( 1 => array( $tableName, 'String' ) );
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
 
-        // do an or of all the where clauses u see
         while ( $dao->fetch( ) ) {
             if ( $dao->object_id ) {
                 if ( $type == CRM_ACL_API::VIEW ||
                      ( $type == CRM_ACL_API::EDIT &&
                        $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
                     $ids[] = $dao->object_id;
+                }
+            } else {
+                // this user has got the permission for all objects of this type
+                if ( $type == CRM_ACL_API::VIEW ||
+                     ( $type == CRM_ACL_API::EDIT &&
+                       $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                    return $allGroups;
                 }
             }
         }

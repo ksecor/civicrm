@@ -93,14 +93,14 @@ class CRM_Core_Permission_Drupal {
 
             require_once 'CRM/ACL/API.php';
 
-            $ids = CRM_ACL_API::group( CRM_Core_Permission::VIEW );
+            $ids = CRM_ACL_API::group( CRM_Core_Permission::VIEW, null, 'civicrm_saved_search', $groups );
             foreach ( $ids as $id ) {
                 $title = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $id, 'title' );
                 self::$_viewPermissionedGroups[$id] = $title;
                 self::$_viewPermission              = true; 
             }
 
-            $ids = CRM_ACL_API::group( CRM_Core_Permission::EDIT );
+            $ids = CRM_ACL_API::group( CRM_Core_Permission::EDIT, null, 'civicrm_saved_search', $groups );
             foreach ( $ids as $id ) {
                 $title = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $id, 'title' );
                 self::$_editPermissionedGroups[$id] = $title;
@@ -229,6 +229,23 @@ class CRM_Core_Permission_Drupal {
             return user_access( $str ) ? true : false;
         }
         return true;
+    }
+
+    /**
+     * Get all custom groups from the database
+     * filtered by permission type for this user
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all groups.
+     *
+     */
+    public static function &customGroup( $type = CRM_Core_Permission::VIEW ) {
+        $customGroups = array_keys( CRM_Core_PseudoConstant::customGroup( ) );
+        
+        require_once 'CRM/ACL/API.php';
+        return CRM_ACL_API::group( $type, null, 'civicrm_custom_group', $customGroups );
     }
 }
 
