@@ -300,13 +300,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $fields['state_province-Primary'] = $fields['country-Primary'] = $fields['email-Primary'] = 1;
 
         $fixLocationFields = array( 'street_address', 'supplemental_address_1', 
-                                    'city', 'state_province', 'postal_code', 'country', 'email' );
+                                    'city', 'state_province', 'state_province_id', 
+                                    'postal_code', 'country', 'country_id', 'email' );
         foreach ( $fixLocationFields as $name ) {
             if ( array_key_exists( $name, $params ) ) {
                 $params["{$name}-Primary"] = $params[$name];
                 unset( $params[$name] );
             }
         }
+
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)
