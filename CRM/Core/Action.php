@@ -65,7 +65,9 @@ class CRM_Core_Action {
         FOLLOWUP      =   2048,
         MAP           =   4096,
         PROFILE       =   8192,
-        MAX_ACTION    =  16383;   
+        COPY          =  16384,
+        MAX_ACTION    =  32785;
+   
   
     /**
      * map the action names to the relevant constant. We perform
@@ -89,6 +91,7 @@ class CRM_Core_Action {
                            'export'        => self::EXPORT,
                            'preview'       => self::PREVIEW,
                            'map'           => self::MAP,
+                           'copy'          => self::COPY,
                            'profile'       => self::PROFILE,
                            );
 

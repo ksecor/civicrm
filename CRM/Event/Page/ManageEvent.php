@@ -100,10 +100,10 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           'title' => ts('Delete Event') 
                                                                           ),
-                                        CRM_Core_Action::MAP     => array(
-                                                                          'name'  => ts('Copy'),
+                                        CRM_Core_Action::COPY     => array(
+                                                                           'name'  => ts('Copy'),
                                                                           'url'   => 'civicrm/admin/event',
-                                                                          'qs'    => 'action=map&id=%%id%%',
+                                                                          'qs'    => 'reset=1&action=copy&id=%%id%%',
                                                                           'title' => ts('Copy Event') 
                                                                           )
                                         );
@@ -140,16 +140,17 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Manage Events') . '</a>';
 
         // what action to take ?
-        if ( $action & CRM_Core_Action::ADD || $action & CRM_Core_Action::MAP) {
+        if ( $action & CRM_Core_Action::ADD || $action & CRM_Core_Action::COPY) {
             $session =& CRM_Core_Session::singleton( ); 
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
-
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             if ( $action & CRM_Core_Action::ADD ) {
                 $title = "New Event Wizard";
+                $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
             } else {
                 $title = "Copy Event Wizard";
+                $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', "reset=1&id={$id}" ) );
             }
+            
+            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             CRM_Utils_System::setTitle( ts( $title ) );
             
             require_once 'CRM/Event/Controller/ManageEvent.php';

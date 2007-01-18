@@ -101,7 +101,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         require_once 'CRM/Utils/Hook.php';
         
         if ( CRM_Utils_Array::value( 'event', $ids ) ) {
-            CRM_Utils_Hook::pre( 'edit', 'Event', $ids['event'], $params );
+            CRM_Utils_Hook::pre( 'edit', 'Event', $ids['event_id'], $params );
         } else {
             CRM_Utils_Hook::pre( 'create', 'Event', null, $params ); 
         }

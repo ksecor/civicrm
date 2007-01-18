@@ -70,17 +70,17 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function setDefaultValues( ) 
     {
-        $eventID = $this->get('eventID');
+        $eventId = $this->_id;
 
         $defaults = parent::setDefaultValues( );
         $this->setShowHide( $defaults );
-        if ( isset( $eventID ) ) {
-            $params = array( 'event_id' => $eventID );
+        if ( isset( $eventId ) ) {
+            $params = array( 'event_id' => $eventId );
             CRM_Event_BAO_EventPage::retrieve( $params, $defaults );
             
             require_once 'CRM/Core/BAO/UFJoin.php';
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',
-                                   'entity_id'    => $eventID,
+                                   'entity_id'    => $eventId,
                                    'weight'       => 1 );
 
             $defaults['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
@@ -99,9 +99,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      *
      * @return void
      */
-    function setShowHide( &$defaults) {
+    function setShowHide( &$defaults) 
+    {
         require_once 'CRM/Core/ShowHideBlocks.php';
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( array('registration_show'       => 1),
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( array('registration_show' => 1 ),
                                                          '') ;
         if ( empty($defaults)) {
             $this->_showHide->addShow( 'registration_show' );
@@ -135,9 +136,9 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         
         $this->add('text','registration_link_text',ts('Registration Link Text'));
        
-        self::buildRegistrationBlock( $this, $this->_id);
-        self::buildConfirmationBlock( $this, $this->_id);
-        self::buildMailBlock( $this, $this->_id);
+        self::buildRegistrationBlock( $this );
+        self::buildConfirmationBlock( $this );
+        self::buildMailBlock( $this );
 
         parent::buildQuickForm();
     }
@@ -245,7 +246,13 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $params = $ids = array();
         $params = $this->exportValues();
 
-        $params['event_id'] = $ids['event_id'] = $this->_id;
+        if ( $this->_action & CRM_Core_Action::COPY ) {
+            $eventId = $this->get('eventId');
+        } else {
+            $eventId = $this->_id;
+        }
+
+        $params['event_id'] = $ids['event_id'] = $eventId;
 
         //format params
         $params['is_online_registration'] = CRM_Utils_Array::value('is_online_registration', $params, false);
@@ -259,7 +266,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $ufJoinParams = array( 'is_active'    => 1, 
                                'module'       => 'CiviEvent',
                                'entity_table' => 'civicrm_event', 
-                               'entity_id'    => $this->_id, 
+                               'entity_id'    => $eventId, 
                                'weight'       => 1, 
                                'uf_group_id'  => $params['custom_pre_id'] ); 
         

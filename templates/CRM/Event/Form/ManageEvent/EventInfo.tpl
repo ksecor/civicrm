@@ -41,7 +41,7 @@ function reload(refresh)
 {
     var eventId = document.getElementById("event_type_id");
     var url = "{/literal}{$refreshURL}{literal}"
-    var post = url + "&subType=" + eventId.value;
+    var post = url + "&etype=" + eventId.value;
     if( refresh ) {
         window.location= post; 
     }

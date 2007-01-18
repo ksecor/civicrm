@@ -53,14 +53,13 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     function preProcess( )
     {
         parent::preProcess( );
-        $this->_eventId = CRM_Utils_Request::retrieve( 'subType', 'Positive',
-                                                       $this );
+        $eventType = CRM_Utils_Request::retrieve( 'etype', 'Positive', $this );
         
-        if ( ! $this->_eventId ) {
+        if ( ! $eventType ) {
             if ( $this->_id ) {
-                $this->_eventId = CRM_Core_DAO::getFieldValue("CRM_Event_DAO_Event",$this->_id,"event_type_id");
+                $eventType = CRM_Core_DAO::getFieldValue("CRM_Event_DAO_Event", $this->_id,"event_type_id");
             } else {
-                $this->_eventId = "Event";
+                $eventType = "Event";
             }
         }     
         
@@ -78,6 +77,12 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     function setDefaultValues( )
     {
         $defaults = parent::setDefaultValues();
+
+        $etype = CRM_Utils_Request::retrieve( 'etype', 'Positive', $this );
+        if ( $etype ) {
+            $defaults["event_type_id"] = $etype;
+        }
+
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
@@ -97,18 +102,24 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->add('text','title',ts('Title'),array( 'size' => 50),true);
         
         $urlParams = "reset=1&context=event";
-        if ( $this->_id ) {
-            $urlParams .= "&action=update&id={$this->_id}&subPage=EventInfo";
+        
+        if ( $this->_action & (CRM_Core_Action::UPDATE) ) {
+            $eventId = $this->_id;
+        }
+
+        if ( $eventId ) {
+            $urlParams .= "&action=update&id={$eventId}&subPage=EventInfo";
         } else {
             $urlParams .= "&action=add";
         }
+
         
         $url = CRM_Utils_System::url( 'civicrm/admin/event',
                                       $urlParams, true, null, false );
       
         $this->assign("refreshURL",$url);
         $this->add('text','title',ts('Title'));
-        $this->addRule( 'title', ts('Event Title is already exist in Database.'), 'objectExists', array( 'CRM_Event_DAO_Event', $this->_id, 'title' ) );
+        $this->addRule( 'title', ts('Event Title is already exist in Database.'), 'objectExists', array( 'CRM_Event_DAO_Event', $eventId, 'title' ) );
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
         
@@ -138,7 +149,6 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }
 
         parent::buildQuickForm();
-
     }
 
     /**
@@ -151,24 +161,29 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     {
         $params = $ids = array();
         $params = $this->controller->exportValues( $this->_name );
-        $ids['event_id'] = $this->_id;
        
         //format params
-        $params['start_date'            ] = CRM_Utils_Date::format($params['start_date']);
-        $params['end_date'              ] = CRM_Utils_Date::format($params['end_date']);
-        $params['is_map'                ] = CRM_Utils_Array::value('is_map', $params, false);
-        $params['is_active'             ] = CRM_Utils_Array::value('is_active', $params, false);
-        $params['is_public'             ] = CRM_Utils_Array::value('is_public', $params, false);
+        $params['start_date'] = CRM_Utils_Date::format($params['start_date']);
+        $params['end_date'  ] = CRM_Utils_Date::format($params['end_date']);
+        $params['is_map'    ] = CRM_Utils_Array::value('is_map', $params, false);
+        $params['is_active' ] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['is_public' ] = CRM_Utils_Array::value('is_public', $params, false);
 
         if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['id'] = $this->_id;
+            $ids['event_id'] = $this->_id;
         }
         require_once 'CRM/Event/BAO/Event.php';
         $event =  CRM_Event_BAO_Event::create($params ,$ids);
         
         CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );
         
-        $this->set( 'eid', $event->id );
+        //this is used in copy mode
+        if ($this->_action & CRM_Core_Action::COPY ) {
+            $this->set( 'eventId', $event->id );
+        } else if ( $this->_action & CRM_Core_Action::ADD ) {
+            $this->set( 'eId', $event->id );
+        }
+
     }//end of function
     
     /**

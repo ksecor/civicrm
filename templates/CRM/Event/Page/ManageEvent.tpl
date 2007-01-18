@@ -42,15 +42,12 @@
           </tr>
         {/foreach}
      
+        {if $past and $action ne 1 and $action ne 2} 
         <tr class="odd-row">
-        {if $action ne 1 and $action ne 2}
-	    <div class="action-link">
-    
-        <td colspan=8> {if $past}<a href="{crmURL q="action=browse&past=true&reset=1"}" id="pastEvents">&raquo; {ts}Show Past Events{/ts}</a>{/if}</td>
-        </div>
-    
+           <td colspan=8> <a href="{crmURL q="action=browse&past=true&reset=1"}" id="pastEvents">&raquo; {ts}Show Past Events{/ts}</a></td>
+        </tr>
         {/if}
-         </tbody>
+        </tbody>
         </table>
         {/strip}
       

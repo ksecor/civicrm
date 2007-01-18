@@ -39,7 +39,7 @@ require_once 'CRM/Event/Form/ManageEvent.php';
 require_once 'CRM/Core/SelectValues.php';
 
 /**
- * This class generates form components for processing Event  
+ * This class generates form components for processing Event Location 
  * 
  */
 class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
@@ -58,7 +58,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      *
      * @var array
      */
-    protected $_ids;
+    protected $_locationIds;
 
     /** 
      * Function to set variables up before form is built 
@@ -79,16 +79,16 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */
     function setDefaultValues( ) 
     {
-        $eventID = $this->get('eventID');
+        $eventId = $this->_id;
 
         $defaults = array( );
         $params   = array( );
-        if ( isset( $eventID ) ) {
-            $params = array( 'entity_id' => $eventID ,'entity_table' => 'civicrm_event');
+        if ( isset( $eventId ) ) {
+            $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $defaults, $ids, self::LOCATION_BLOCKS);
             if ($this->_action & CRM_Core_Action::UPDATE ) {
-                $this->_ids = $ids;
+                $this->_locationIds = $ids;
             }
         }
         
@@ -109,10 +109,10 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      *
      * @return void
      */
-    function setShowHide( &$defaults, $force ) {
+    function setShowHide( &$defaults, $force ) 
+    {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array(),'') ;
-        // first do the defaults showing
-        $config =& CRM_Core_Config::singleton( );
+
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS );
         
         $this->_showHide->addToTemplate( );
@@ -133,7 +133,6 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
     
         parent::buildQuickForm();
-
     }
     
     /**
@@ -142,16 +141,23 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      * @access public
      * @return None
      */
-    public function postProcess() 
+    public function postProcess( ) 
     {
-        $params = array( );
+        $params = $ids = array( );
         $params = $this->exportValues( );
 
         $params['entity_table'] = 'civicrm_event';
-        $params['entity_id'] = $this->_id;
+        if ($this->_action & CRM_Core_Action::COPY ) {
+            $eventId = $this->get('eventId');
+        } else {
+            $ids = $this->_locationIds;
+            $eventId = $this->_id;
+        }
+
+        $params['entity_id'] = $eventId; 
         
         require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::add($params, $this->_ids, self::LOCATION_BLOCKS);
+        CRM_Core_BAO_Location::add($params, $ids, self::LOCATION_BLOCKS);
         CRM_Core_Session::setStatus( ts('The Event Location has been saved.' ));
         
     }//end of function

@@ -43,14 +43,13 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 {
-
     /**
      * the id of the event we are proceessing
      *
      * @var int
      * @protected
      */
-    protected $_id;
+    public $_id;
     
     /** 
      * Function to set variables up before form is built 
@@ -58,17 +57,14 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      * @return void 
      * @access public 
      */ 
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, false);
-        
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-            $this->set( 'eventID', $this->_id );
-        } elseif( $this->_action & CRM_Core_Action::MAP ) {
-            $this->_id = $this->get( 'eid' );
-            $this->set( 'eventID', CRM_Utils_Request::retrieve( 'id', 'Positive', $this ));
+
+        if ( $this->_action & (CRM_Core_Action::ADD) ) {
+            $this->_id = $this->get( 'eId' );
         } else {
-            $this->_id = $this->get( 'eid' );
+            $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         }
     }
     
@@ -81,13 +77,11 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      */
     function setDefaultValues( )
     {
-        $eventID = $this->get('eventID');
         $defaults = array( );
-        if ( isset( $eventID ) ) {
-            $params = array( 'id' => $eventID );
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $defaults);
-            
         } else {
             $defaults['is_active'] = 1;
             $defaults['style']     = 'Inline';
@@ -101,10 +95,6 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $inactiveNeeded = false;
         }
         
-        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', $this );
-        if ( $subType ) {
-            $defaults["event_type_id"] = $subType;
-        }
         return $defaults;
     }
 
