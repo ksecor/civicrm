@@ -11,7 +11,7 @@
 	  <tr><td>{ts}<strong>Event Start Date</strong>{/ts}</td><td>{ts}{$event.event_start_date}{/ts}</td></tr>
 	  <tr><td>{ts}<strong>Event End Date</strong>{/ts}</td><td>{ts}{$event.event_end_date}{/ts}</td></tr>
       <tr><td>{ts}<strong>Paid Event?</strong>{/ts}</td><td>
-{if $event.is_monetary eq 1}{ts}Yes{/ts}</tr>
+{if $event.is_monetary eq 1}{ts}Yes{/ts}
       <tr><td>{ts}<strong>Fee Levels</strong>{/ts}</td>
          {section name=loop start=1 loop=2}
             {assign var=idx value=$smarty.section.loop.index}
@@ -28,8 +28,9 @@
 {else} 
        {ts}No{/ts}
 {/if}</td>
+          <tr><td></td><td> <a href="{crmURL p='civicrm/contact/search/map' q="reset=1&eid=`$event.id`"}" title="{ts}Map this Address{/ts}">{ts}Map this Address{/ts}</a><br /></tr></td>
            <tr><td>{ts}<strong>Location</strong>{/ts}</td><td>{ts}{$location.1.address.display|nl2br}{/ts}</td></tr>
-
+           
    </table>
    </div>	
     <div id="crm-submit-buttons" class="underline-effect">

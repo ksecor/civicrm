@@ -351,5 +351,70 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         return $eventSummary;
     }
+    /**
+     * function to get the information to map a event
+     *
+     * @param  array  $ids    the list of ids for which we want map info
+     *
+     * @return null|string     title of the event
+     * @static
+     * @access public
+     */
+        
+    static function &getMapInfo(&$id ) 
+    {
+        
+        $sql = "
+SELECT
+  civicrm_event.id as event_id,
+  civicrm_event.title as display_name,
+  civicrm_address.street_address as street_address,
+  civicrm_address.city as city,
+  civicrm_address.postal_code as postal_code,
+  civicrm_address.postal_code_suffix as postal_code_suffix,
+  civicrm_address.geo_code_1 as latitude,
+  civicrm_address.geo_code_2 as longitude,
+  civicrm_state_province.abbreviation as state,
+  civicrm_country.name as country,
+  civicrm_location_type.name as location_type
+FROM civicrm_event
+LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_event' AND
+                               civicrm_event.id = civicrm_location.entity_id )
+LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
+LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
+LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
+LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
+WHERE civicrm_event.id = $id ";
+       
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $sql );
+
+        $locations = array( );
+
+        $config =& CRM_Core_Config::singleton( );
+
+        while ( $dao->fetch( ) ) {
+       
+            $location = array( );
+            $location['displayName'] = $dao->display_name ;
+            $location['lat'        ] = $dao->latitude;
+            $location['lng'        ] = $dao->longitude;
+            $address = '';
+
+            CRM_Utils_String::append( $address, '<br />',
+                                      array( $dao->street_address, $dao->city) );
+            CRM_Utils_String::append( $address, ', ',
+                                      array(   $dao->state, $dao->postal_code ) );
+            CRM_Utils_String::append( $address, '<br /> ',
+                                      array( $dao->country ) );
+            $location['address'      ] = $address;
+            $location['url'          ] = CRM_Utils_System::url( 'civicrm/event/register', 'reset=1&action=preview&id=' . $dao->event_id );
+            $location['location_type'] = $dao->location_type;
+            $eventImage = '<img src="' . $config->resourceBase . 'i/contact_org.gif" alt="Organization " height="20" width="15" />';
+            $location['image'] = $eventImage;
+            $locations[] = $location;
+        }
+        return $locations;
+    }
 }
 ?>

@@ -62,7 +62,7 @@
      var GeoPoint = new YGeoPoint({/literal}{$location.lat},{$location.lng}{literal});
 
      var data = '{/literal}<a href="{$location.url}">{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}{literal}';
-     var img  = '{/literal}{$location.contactImage}{literal}';
+     var img  = '{/literal}{$location.image}{literal}';
 
      var marker = createYahooMarker(GeoPoint, data, img); 
      map.addOverlay(marker); 

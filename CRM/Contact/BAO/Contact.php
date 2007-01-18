@@ -1185,7 +1185,7 @@ WHERE civicrm_contact.id IN $idString ";
                 $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="25" width="30" />';
                 break;
             }
-            $location['contactImage'] = $contact_type;
+            $location['image'] = $contact_type;
             $locations[] = $location;
         }
         return $locations;

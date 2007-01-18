@@ -37,18 +37,20 @@
 require_once 'CRM/Contact/Form/Task.php';
 
 /**
- * This class provides the functionality to email a group of
+ * This class provides the functionality to map 
+ * the address for group of
  * contacts. 
  */
 class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
 
     /**
-     * Are we operating in "single mode", i.e. sending email to one
+     * Are we operating in "single mode", i.e. mapping address to one
      * specific contact?
      *
      * @var boolean
      */
     protected $_single = false;
+   
 
     /**
      * build all the data structures needed to build the form
@@ -61,13 +63,19 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
                                             $this, false );
         $lid = CRM_Utils_Request::retrieve( 'lid', 'Positive',
                                             $this, false );
+        $eid = CRM_Utils_Request::retrieve( 'eid', 'Positive',
+                                            $this, false );
+        $type = 'Contact';
         if ( $cid ) {
-            $this->_contactIds = array( $cid );
+            $this->_ids = array( $cid );
             $this->_single     = true;
+        } else if ( $eid ) {
+            $this->_ids = $eid;
+            $type = 'Event';
         } else {
             parent::preProcess( );
         }
-        self::createMapXML( $this->_contactIds, $lid, $this, true );
+        self::createMapXML( $this->_ids, $lid, $this, true ,$type);
         $this->assign( 'single', $this->_single );
     }
     
@@ -107,15 +115,20 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      * @return string           the location of the file we have created
      * @access protected
      */
-    static function createMapXML( $contactIds, $locationId, &$page, $addBreadCrumb ) {
+    static function createMapXML( $ids, $locationId, &$page, $addBreadCrumb, $type = 'Contact' ) {
+
         $config =& CRM_Core_Config::singleton( );
 
         $page->assign( 'query', 'CiviCRM Search Query' );
         $page->assign( 'mapProvider', $config->mapProvider );
         $page->assign( 'mapKey', $config->mapAPIKey );
-
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $locations =& CRM_Contact_BAO_Contact::getMapInfo( $contactIds , $locationId );
+        if( $type == 'Contact' ) {
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $locations =& CRM_Contact_BAO_Contact::getMapInfo( $ids , $locationId );
+        } else {
+            require_once 'CRM/Event/BAO/Event.php';
+            $locations =& CRM_Event_BAO_Event::getMapInfo( $ids );
+        }
 
         if ( empty( $locations ) ) {
             CRM_Core_Error::statusBounce(ts('This contact\'s primary address does not contain latitude/longitude information and can not be mapped.'));
