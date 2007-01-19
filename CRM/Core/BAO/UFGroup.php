@@ -1313,7 +1313,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         } else if ($fieldName == 'contribution_type' ) {
             $form->add('select', $name, ts( 'Contribution Type' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
-        } else if ($fieldName == 'participant_register_date' ) {
+        } else if ($fieldName == 'event_register_date' ) {
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ($fieldName == 'event_status_id' ) {
             $form->add('select', $name, ts( 'Participant Status' ),
