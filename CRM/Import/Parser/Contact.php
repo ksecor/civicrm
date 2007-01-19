@@ -917,7 +917,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     function in_value($value , $valueArray) 
     {
         foreach( $valueArray  as $key => $v ) {
-            if ( trim(strtolower( $v ) ) == trim (strtolower( $value ) ) ) {
+            //fix for CRM-1514
+            if ( strtolower( trim($v, "." ) ) == strtolower( trim( $value ) ) ) {
                 return true;
             }
         }
