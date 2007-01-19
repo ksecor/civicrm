@@ -103,17 +103,14 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         $urlParams = "reset=1&context=event";
         
-        if ( $this->_action & (CRM_Core_Action::UPDATE) ) {
-            $eventId = $this->_id;
-        }
-
-        if ( $eventId ) {
-            $urlParams .= "&action=update&id={$eventId}&subPage=EventInfo";
+        if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
+            $urlParams .= "&action=update&id={$this->_id}&subPage=EventInfo";
+        } else if ( $this->_action & ( CRM_Core_Action::COPY) ) {
+            $urlParams .= "&action=copy&id={$this->_id}&subPage=EventInfo";
         } else {
             $urlParams .= "&action=add";
         }
 
-        
         $url = CRM_Utils_System::url( 'civicrm/admin/event',
                                       $urlParams, true, null, false );
       
