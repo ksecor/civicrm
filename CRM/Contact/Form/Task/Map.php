@@ -137,7 +137,11 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         if ( $addBreadCrumb ) {
             $session =& CRM_Core_Session::singleton(); 
             $redirect = $session->readUserContext(); 
-            $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Search Results') . '</a>';
+            if ( $type == 'Contact') {
+                $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Search Results') . '</a>';
+            } else {
+                $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Manage Event') . '</a>';
+            }
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
         }
 

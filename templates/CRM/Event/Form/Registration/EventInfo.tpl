@@ -28,9 +28,8 @@
 {else} 
        {ts}No{/ts}
 {/if}</td>
-          <tr><td></td><td> <a href="{crmURL p='civicrm/contact/search/map' q="reset=1&eid=`$event.id`"}" title="{ts}Map this Address{/ts}">{ts}Map this Address{/ts}</a><br /></tr></td>
-           <tr><td>{ts}<strong>Location</strong>{/ts}</td><td>{ts}{$location.1.address.display|nl2br}{/ts}</td></tr>
-           
+      <tr><td>{ts}<strong>Location</strong>{/ts}</td><td>{ts}{$location.1.address.display|nl2br}{/ts}  {if ( $config->mapAPIKey AND ( is_numeric($location.1.address.geo_code_1)  OR ( $config->mapGeoCoding AND $location.1.address.city AND $location.1.address.state_province ) ) ) }<br/><a href="{crmURL p='civicrm/contact/search/map' q="reset=1&eid=`$event.id`"}" title="{ts}Map this Address{/ts}">{ts}Map this Address{/ts}</a>{/if}</td></tr>
+
    </table>
    </div>	
     <div id="crm-submit-buttons" class="underline-effect">
