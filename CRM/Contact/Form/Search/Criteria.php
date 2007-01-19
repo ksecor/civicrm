@@ -64,11 +64,14 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addElement('text', 'sort_name', ts('Find...'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
         // add text box for last name, first name, street name, city
-        $form->addElement('text', 'email', ts('Contact Email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $form->add('text', 'email', ts('Contact Email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
         //added contact source
-        $form->addElement('text', 'contact_source', ts('Contact Source'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'source') );
-                
+        $form->add('text', 'contact_source', ts('Contact Source'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'source') );
+
+        // add checkbox for cms users only
+        $form->addYesNo( 'uf_user', ts( 'CMS User?' ) );
+
         // add search profiles
         require_once 'CRM/Core/BAO/UFGroup.php';
         $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Search Profile', 1);

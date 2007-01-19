@@ -12,6 +12,8 @@
             </td>
             <td>
                 {$form.uf_group_id.label} {$form.uf_group_id.html}
+                <br/>
+                {$form.uf_user.label} {$form.uf_user.html}
             </td>
             <td class="label">{$form.buttons.html}</td>       
         </tr>

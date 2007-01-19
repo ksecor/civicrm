@@ -875,6 +875,10 @@ class CRM_Contact_BAO_Query {
             $this->tag( $values );
             return;
 
+        case 'uf_user':
+            $this->ufUser( $values );
+            return;
+
         case 'sort_name':
             $this->sortName( $values );
             return;
@@ -1744,6 +1748,29 @@ class CRM_Contact_BAO_Query {
             return implode(' OR ', $ssWhere);
         }
         return null;
+    }
+
+    /**
+     * where / qill clause for cms users
+     *
+     * @return void
+     * @access public
+     */
+    function ufUser( &$values ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+
+        if ( $value == 1) {
+            $this->_tables['civicrm_uf_match'] = $this->_whereTables['civicrm_uf_match'] =
+                ' INNER JOIN civicrm_uf_match ON civicrm_uf_match.contact_id = contact_a.id ';
+            
+            $this->_qill[$grouping][]         = ts( 'CMS User' );
+        } else if ( $value == 0 ) {
+            $this->_tables['civicrm_uf_match'] = $this->_whereTables['civicrm_uf_match'] =
+                ' LEFT JOIN civicrm_uf_match ON civicrm_uf_match.contact_id = contact_a.id ';
+            
+            $this->_where[$grouping][] = " civicrm_uf_match.contact_id IS NULL";
+            $this->_qill[$grouping][]  = ts( 'Not a CMS User' );
+        }
     }
 
     /**

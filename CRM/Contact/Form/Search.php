@@ -278,6 +278,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             CRM_Utils_System::setTitle( ts('Group Members: %1', array(1 => $this->_group[$this->_groupID])) );
 
             // check if user has permission to edit members of this group
+            require_once 'CRM/Contact/BAO/Group.php';
             if ( CRM_Contact_BAO_Group::checkPermission( $this->_groupID, $this->_group[$this->_groupID] ) ==
                  CRM_Core_Permission::EDIT ) {
                 $this->assign( 'permissionedForGroup', true );
