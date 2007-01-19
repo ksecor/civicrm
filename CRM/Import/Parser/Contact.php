@@ -645,7 +645,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $newContact = crm_replace_contact_formatted($contactId, $formatted);
                 } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) {
                     $newContact = crm_update_contact_formatted($contactId, $formatted, true);
-
                 } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_FILL) {
                     $newContact = crm_update_contact_formatted($contactId, $formatted, false);
                 } // else skip does nothing and just returns an error code.

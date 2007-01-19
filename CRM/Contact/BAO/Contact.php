@@ -328,6 +328,7 @@ ORDER BY
 
         //fix for preferred communication method
         $prefComm = CRM_Utils_Array::value('preferred_communication_method', $params, array());
+
         unset($params['preferred_communication_method']);
         $newPref = array();
         
@@ -343,6 +344,8 @@ ORDER BY
             $prefComm = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             
             $contact->preferred_communication_method = $prefComm;
+        } else {
+            $contact->preferred_communication_method = '';
         }
 
         $contact->copyValues($params);

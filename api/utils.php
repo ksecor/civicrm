@@ -618,13 +618,21 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
             $lastName = isset( $contact->contact_type_object->last_name ) ? $contact->contact_type_object->last_name : '';
         }
 
-        if ($overwrite || ! isset($contact->contact_type_object->prefix_id)) {
-            $prefix = CRM_Utils_Array::value( 'prefix', $values );
+        if ( $overwrite || ! isset($contact->contact_type_object->prefix_id)) {
+            $prefix_id = CRM_Utils_Array::value( 'prefix_id', $values );
+            if ( $prefix_id ) {
+                $prefixes = array( );
+                $prefixes = CRM_Core_PseudoConstant::individualPrefix( );
+                $prefix   = $prefixes[$prefix_id];
+            } else {
+                $prefix = CRM_Utils_Array::value( 'prefix', $values );
+            }
         } else {
             $prefix = null;
         }
+
         if ( ! $prefix ) {
-            if (isset( $contact->contact_type_object->prefix_id )) {
+            if ( isset( $contact->contact_type_object->prefix_id ) ) {
                 $prefixGrp = & new CRM_Core_DAO_OptionGroup();
                 $prefixGrp->name = 'individual_prefix';
                 $prefixGrp->find(true); 
@@ -632,21 +640,29 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
                 $prefix = & new CRM_Core_DAO_OptionValue();
                 $prefix->option_group_id = $prefixGrp->id;
                 $prefix->value = $contact->contact_type_object->prefix_id;
-                $prefix->find();
-                $prefix->fetch();
+                $prefix->find(true);
                 $prefix = $prefix->name; 
             } else {
                 $prefix = "";
             }
         }
 
-        if ($overwrite || ! isset($contact->contact_type_object->suffix_id)) {
-            $suffix = CRM_Utils_Array::value( 'suffix', $values );
+        if ( $overwrite || ! isset($contact->contact_type_object->suffix_id) ) {
+            $suffix_id = CRM_Utils_Array::value( 'suffix_id', $values );
+            if ( $suffix_id ) {
+                $suffixes = array( );
+                $suffixes = CRM_Core_PseudoConstant::individualSuffix( );
+                $suffix   = $prefixes[$suffix_id];
+            } else {
+                $suffix = CRM_Utils_Array::value( 'suffix', $values );
+            }
+
         } else {
             $suffix = null;
         }
-        if ( ! $suffix ) {
-            if (isset( $contact->contact_type_object->suffix_id )) {
+
+        if ( !$suffix ) {
+            if ( isset( $contact->contact_type_object->suffix_id ) )  {
                 $suffixGrp = & new CRM_Core_DAO_OptionGroup();
                 $suffixGrp->name = 'individual_suffix';
                 $suffixGrp->find(true); 
@@ -654,30 +670,40 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
                 $suffix = & new CRM_Core_DAO_OptionValue();
                 $suffix->option_group_id = $suffixGrp->id;
                 $suffix->value = $contact->contact_type_object->suffix_id;
-                $suffix->find();
-                $suffix->fetch();
+                $suffix->find(true);
                 $suffix = $suffix->name; 
             } else {
                 $suffix = "";
             }
         }
 
-        if ( $overwrite ) {
-            $gender = CRM_Utils_Array::value( 'gender', $values );
+        if ( $overwrite || ! isset($contact->contact_type_object->gender_id) ) {
+            $gender_id = CRM_Utils_Array::value( 'gender_id', $values );
+            if ( $gender_id ) {
+                $genders = array( );
+                $genders = CRM_Core_PseudoConstant::gender( );
+                $gender  = $genders[$gender_id];
+            } else {
+                $gender = CRM_Utils_Array::value( 'gender', $values );
+            }
         } else {
             $gender = null;
         }
         
-        if ( $gender ) {
-            $genderGrp = & new CRM_Core_DAO_OptionGroup();
-            $genderGrp->name = 'gender';
-            $genderGrp->find(true); 
-            
-            $genderDao = & new CRM_Core_DAO_OptionValue();
-            $genderDao->option_group_id = $genderGrp->id;
-            $genderDao->name = $gender;
-            $genderDao->find(true);
-            $values['gender_id'] = $genderDao->value;
+        if ( !$gender ) {
+            if ( isset( $contact->contact_type_object->gender_id ) ) {
+                $genderGrp = & new CRM_Core_DAO_OptionGroup();
+                $genderGrp->name = 'gender';
+                $genderGrp->find(true); 
+                
+                $genderDao = & new CRM_Core_DAO_OptionValue();
+                $genderDao->option_group_id = $genderGrp->id;
+                $genderDao->name = $gender;
+                $genderDao->find(true);
+                $gender = $genderDao->name; 
+            } else {
+                $gender = "";
+            }
         } 
 
         if ($lastName != "" && $firstName != "") {
@@ -714,6 +740,19 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
         $values['sort_name'] = $organizationName;
     }
+    
+    //fix preferred communication
+    $prefComm = array( );
+    $prefComm = $values['preferred_communication_method'];
+
+    if ( is_array($prefComm) && !empty($prefComm) ) {
+        $prefComm = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+        
+        $values['preferred_communication_method'] = $prefComm;
+    } else {
+        $values['preferred_communication_method'] = '';
+    }
+
     _crm_update_object( $contact, $values );
 
     _crm_update_object( $contact->contact_type_object, $values );
@@ -950,7 +989,6 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
                 CRM_Core_BAO_CustomValue::create($cvParams);
             }
         }
-        
     }
 
     return $contact;
@@ -1107,18 +1145,36 @@ function _crm_add_formatted_param(&$values, &$params) {
         return true;
     }
     
-    if (isset($values['individual_prefix'])) {
-        $params['prefix'] = $values['individual_prefix'];
+    if ( isset($values['individual_prefix']) ) {
+        if ( $params['prefix_id'] ) {
+            $prefixes = array( );
+            $prefixes = CRM_Core_PseudoConstant::individualPrefix( );
+            $params['prefix'] = $prefixes[$params['prefix_id']];
+        } else {
+            $params['prefix'] = $values['individual_prefix'];
+        }
         return true;
     }
 
     if (isset($values['individual_suffix'])) {
-        $params['suffix'] = $values['individual_suffix'];
+        if ( $params['suffix_id'] ) {
+            $suffixes = array( );
+            $suffixes = CRM_Core_PseudoConstant::individualSuffix( );
+            $params['suffix'] = $suffixes[$params['suffix_id']];
+        } else {
+            $params['suffix'] = $values['individual_suffix'];
+        }
         return true;
     }
 
-    if (isset($values['gender'])) {
-        $params['gender'] = $values['gender'];
+    if ( isset($values['gender']) ) {
+        if ( $params['gender_id'] ) {
+            $genders = array( );
+            $genders = CRM_Core_PseudoConstant::gender( );
+            $params['gender'] = $genders[$params['gender_id']];
+        } else {
+            $params['gender'] = $values['gender'];
+        }
         return true;
     }
     
