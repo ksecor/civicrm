@@ -66,7 +66,7 @@ class CRM_Core_Action {
         MAP           =   4096,
         PROFILE       =   8192,
         COPY          =  16384,
-        MAX_ACTION    =  32785;
+        MAX_ACTION    =  32767;
    
   
     /**

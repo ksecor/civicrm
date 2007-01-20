@@ -163,8 +163,10 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $page =& new CRM_Event_Page_ManageEventEdit( );
             return $page->run( );
         } else if ($action & CRM_Core_Action::DISABLE ) {
+            require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::setIsActive($id ,0);
         } else if ($action & CRM_Core_Action::ENABLE ) {
+            require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::setIsActive($id ,1); 
         } else if ($action & CRM_Core_Action::DELETE ) {
             require_once 'CRM/Event/BAO/Event.php';
