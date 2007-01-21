@@ -637,6 +637,12 @@ function getField( &$fieldXML, &$fields ) {
         $field['crmType'] = 'CRM_Utils_Type::T_MONEY';
         break;
 
+    case 'float':
+        $field['sqlType'] = 'double';
+        $field['phpType'] = 'float';
+        $field['crmType'] = 'CRM_Utils_Type::T_FLOAT';
+        break;
+        
     default:
         $field['sqlType'] = $field['phpType'] = $type;
         if ( $type == 'int unsigned' ) {
