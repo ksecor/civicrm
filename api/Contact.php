@@ -160,6 +160,9 @@ function &crm_create_contact_formatted( &$params , $onDuplicate, $fixAddress = t
         return $error;
     }
 
+    //get the prefix id etc if exists
+    CRM_Contact_BAO_Contact::resolveDefaults($params, true);
+
     require_once 'CRM/Import/Parser.php';
     if ( $onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK) {
         $error = _crm_duplicate_formatted_contact($params);
@@ -167,10 +170,8 @@ function &crm_create_contact_formatted( &$params , $onDuplicate, $fixAddress = t
             return $error;
         }
     }
-    $ids = array();
-    
-    CRM_Contact_BAO_Contact::resolveDefaults($params, true);
 
+    $ids = array();
     $contact = CRM_Contact_BAO_Contact::create( $params, $ids, 
                                                 count($params['location']), $fixAddress);
 

@@ -340,7 +340,7 @@ class CRM_Core_Config
      *
      * @var boolean
      */
-    public $versionCheck = false;
+    public $versionCheck = true;
 
     /**
      * How long should we wait before checking for new outgoing mailings?

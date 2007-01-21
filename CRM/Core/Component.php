@@ -217,7 +217,7 @@ class CRM_Core_Component
         return $fields;
     }
 
-    static function &alterQuery( &$query, $fnName ) 
+    static function alterQuery( &$query, $fnName ) 
     {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );

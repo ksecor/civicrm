@@ -326,22 +326,30 @@ ORDER BY
             $params['source'] = $params['contact_source'];
         }
 
-        $contact->copyValues($params);
-
         //fix for preferred communication method
         $prefComm = CRM_Utils_Array::value('preferred_communication_method', $params, array());
+
+        unset($params['preferred_communication_method']);
         $newPref = array();
+        
         foreach ( $prefComm  as $k => $v ) {
             if ( $v ) {
                 $newPref[$k] = $v;
             }
         }
+
         $prefComm =  $newPref;
-        if ( is_array($prefComm) ) {
+        
+        if ( is_array($prefComm) && !empty($prefComm) ) {
             $prefComm = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             
             $contact->preferred_communication_method = $prefComm;
+        } else {
+            $contact->preferred_communication_method = '';
         }
+
+        $contact->copyValues($params);
+
         $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
         
@@ -444,7 +452,7 @@ ORDER BY
             $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('organization_name', $params, '') ;
         }
 
-        // preferred communication block
+        // privacy block
         $privacy = CRM_Utils_Array::value('privacy', $params);
         if ($privacy && is_array($privacy)) {
             foreach (self::$_commPrefs as $name) {
@@ -923,14 +931,22 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
         $look = $reverse ? array_flip( $lookup ) : $lookup;
         
+        //trim lookup array, ignore . ( fix for CRM-1514 ), eg for prefix/suffix make sure Dr. and Dr both are valid
+        $newLook = array( );
+        foreach( $look as $k => $v) {
+            $newLook[trim($k, ".")] = $v;
+        }
+
+        $look = $newLook;
+
         if(is_array($look)) {
-            if ( ! array_key_exists( strtolower($defaults[strtolower($src)]),  array_change_key_case( $look   , CASE_LOWER )) ) {
+            if ( ! array_key_exists( strtolower($defaults[strtolower($src)]),  array_change_key_case( $look, CASE_LOWER )) ) {
                 return false;
             }
         }
         
         $tempLook = array_change_key_case( $look ,CASE_LOWER);
-       
+
         $defaults[$dst] = $tempLook[strtolower($defaults[strtolower($src)])];
         return true;
     }

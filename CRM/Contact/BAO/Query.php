@@ -385,7 +385,7 @@ class CRM_Contact_BAO_Query {
         foreach ($this->_fields as $name => $field) {
             // if this is a hierarchical name, we ignore it
             $names = explode( '-', $name );
-            if ( count( $names > 1 ) && is_numeric( $names[1] ) ) {
+            if ( count( $names > 1 ) && isset( $names[1] ) && is_numeric( $names[1] ) ) {
                 continue;
             }
 
@@ -785,12 +785,13 @@ class CRM_Contact_BAO_Query {
     }
 
     function &getWhereValues( $name, $grouping ) {
+        $result = null;
         foreach ( $this->_params as $id => $values ) {
             if ( $values[0] == $name && $values[4] == $grouping ) {
                 return $values;
             }
         }
-        return null;
+        return $result;
     }
 
     static function convertFormValues( &$formValues, $wildcard = 0 ) {
@@ -826,9 +827,10 @@ class CRM_Contact_BAO_Query {
         // skip a few search variables
         static $skipWhere   = null;
         static $arrayValues = null;
+        $result = null;
 
         if ( CRM_Utils_System::isNull( $values ) ) {
-            return null;
+            return $result;
         }
 
         if  ( ! $skipWhere ) {
@@ -836,19 +838,20 @@ class CRM_Contact_BAO_Query {
         }
 
         if ( in_array( $id, $skipWhere ) || substr( $id, 0, 4 ) == '_qf_' ) {
-            return null;
+            return $result;
         }
 
         if ( $id == 'sort_name' ||
              $id == 'email' ) {
-            return array( $id, 'LIKE', $values, 0, 1 );
-        } else if ( strpos( $values, '%' ) !== false ) {
-            return array( $id, 'LIKE', $values, 0, 0 );
+            $result = array( $id, 'LIKE', $values, 0, 1 );
+        } else if ( is_string( $values ) && strpos( $values, '%' ) !== false ) {
+            $result = array( $id, 'LIKE', $values, 0, 0 );
         } else if ( $id == 'group' || $id == 'tag' ) {
-            return array( $id, 'IN', $values, 0, 0 );
+            $result = array( $id, 'IN', $values, 0, 0 );
         } else {
-            return array( $id, '=', $values, 0, $wildcard );
+            $result = array( $id, '=', $values, 0, $wildcard );
         }
+        return $result;
     }
 
     function whereClauseSingle( &$values ) {
@@ -987,7 +990,6 @@ class CRM_Contact_BAO_Query {
         }
 
         $this->includeContactIds( );        
-        
         if ( ! empty( $this->_params ) ) {
             foreach ( array_keys( $this->_params ) as $id ) {
                 // check for both id and contact_id
@@ -1627,19 +1629,15 @@ class CRM_Contact_BAO_Query {
         $session =& CRM_Core_Session::singleton();
         $context = $session->get('context', 'CRM_Contact_Controller_Search');
 
-        if ( isset($group->saved_search_id) && $context == "smog" ) {
-            return;
-        }
+        //fix for CRM-1513
+//         if ( isset($group->saved_search_id) && $context == "smog" ) {
+//             return;
+//         }
 
         $gcTable = "`civicrm_group_contact-" .implode( ',', array_keys($value) ) ."`";
         $this->_tables[$gcTable] = $this->_whereTables[$gcTable] = " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
        
-//         $groupClause =
-//             "civicrm_group_contact.group_id $op (" . 
-//             implode( ',', array_keys($value) ) . ')'; 
-
         $groupClause = "{$gcTable}.group_id $op (" . implode( ',', array_keys($value) ) . ')'; 
-
 
         $names = array( );
         $groupNames =& CRM_Core_PseudoConstant::group();
@@ -1668,9 +1666,6 @@ class CRM_Contact_BAO_Query {
                 $in = true; 
                 // }
         }
-
-//         $this->_tables['civicrm_group_contact'] = 1;
-//         $this->_whereTables['civicrm_group_contact'] = 1;
 
         if ( ! empty( $statii ) ) {
             $groupClause .= " AND {$gcTable}.status IN (" . implode(', ', $statii) . ")";
@@ -1722,8 +1717,9 @@ class CRM_Contact_BAO_Query {
                     }        
 
                     $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties);
-
-                    if ( $context != "smog" ) {
+                    
+                    //fix for CRM-1513
+                    //if ( $context != "smog" ) {
                         $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
                         
                         $ssWhere[] = " 
@@ -1733,7 +1729,7 @@ class CRM_Contact_BAO_Query {
                             WHERE civicrm_group_contact.group_id = "  
                             . CRM_Utils_Type::escape($group_id, 'Integer')
                             . " AND civicrm_group_contact.status = 'Removed'))";
-                    }
+                        //}
                 } else { 
                     $ssw = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $this->_tables, $this->_whereTables);
                     //fix for CRM-1490                    

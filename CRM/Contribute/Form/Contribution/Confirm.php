@@ -244,41 +244,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         
     }
 
-    /**  
-     * Function to add the custom fields
-     *  
-     * @return None  
-     * @access public  
-     */ 
-    function buildCustom( $id, $name )  
-    {
-        if ( $id ) {
-            require_once 'CRM/Core/BAO/UFGroup.php';
-            require_once 'CRM/Profile/Form.php';
-            $session =& CRM_Core_Session::singleton( );
-            $contactID = $session->get( 'userID' );
-            if ( $contactID ) {
-                require_once "CRM/Core/BAO/UFGroup.php";
-                if ( CRM_Core_BAO_UFGroup::filterUFGroups($id)  ) {
-                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-                    $this->assign( $name, $fields );
-                    foreach($fields as $key => $field) {
-                         CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                         $this->_fields[$key] = $field;
-                    }
-                }
-            } else {
-                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-                 $this->assign( $name, $fields );
-                 foreach($fields as $key => $field) {
-                     CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                     $this->_fields[$key] = $field;
-                 }
-            }
-        }
-       
-    }
-
     /**
      * Process the form
      *
@@ -304,13 +269,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $fields['state_province-Primary'] = $fields['country-Primary'] = $fields['email-Primary'] = 1;
 
         $fixLocationFields = array( 'street_address', 'supplemental_address_1', 
-                                    'city', 'state_province', 'postal_code', 'country', 'email' );
+                                    'city', 'state_province', 'state_province_id', 
+                                    'postal_code', 'country', 'country_id', 'email' );
         foreach ( $fixLocationFields as $name ) {
             if ( array_key_exists( $name, $params ) ) {
                 $params["{$name}-Primary"] = $params[$name];
                 unset( $params[$name] );
             }
         }
+
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)

@@ -1189,19 +1189,17 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
      * @static
      * @access public
      */
-    static function filterUFGroups ($ufGroupId, $contactId = null) 
+    static function filterUFGroups ($ufGroupId, $contactID = null) 
     {
-        if ( ! $contactId ) {
-            global $user;
-            
-            require_once "CRM/Core/BAO/UFMatch.php";
-            $contactId = CRM_Core_BAO_UFMatch::getContactId($user->uid);
+        if ( ! $contactID ) {
+            $session =& CRM_Core_Session::singleton( );
+            $contactID = $session->get( 'userID' );
         }
 
-        if ($contactId) {
+        if ($contactID) {
             //get the contact type
             require_once "CRM/Contact/BAO/Contact.php";
-            $contactType = CRM_Contact_BAO_Contact::getContactType($contactId);
+            $contactType = CRM_Contact_BAO_Contact::getContactType($contactID);
             
             //match if exixting contact type is same as profile contact type
             require_once "CRM/Core/BAO/UFField.php";
@@ -1221,7 +1219,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
      * @params object  $form       form object
      * @params array   $field      array field properties
      * @params int     $mode       profile mode
-     * @params int     $contactId  contact id
+     * @params int     $contactID  contact id
      *
      * @return null
      * @static

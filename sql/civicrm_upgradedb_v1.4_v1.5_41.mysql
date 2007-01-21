@@ -500,9 +500,12 @@ CREATE TABLE civicrm_entity_file (
 -- *
 -- * fix preferred communication data
 -- *******************************************************/
-        UPDATE `civicrm_contact` SET preferred_communication_method = '1' WHERE preferred_communication_method='Phone';
-        UPDATE `civicrm_contact` SET preferred_communication_method = '2' WHERE preferred_communication_method='Email';
-        UPDATE `civicrm_contact` SET preferred_communication_method = '3' WHERE preferred_communication_method='Post';
+       
+      UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Phone', 1);
+      UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Email', 2);
+      UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Postal Mail', 3);
+      UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'SMS', 4);
+      UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Fax', 5);
 
 -- /*******************************************************
 -- *
