@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-08 09:01+0100\n"
+"POT-Creation-Date: 2007-01-21 19:06+0100\n"
 "PO-Revision-Date: 2006-11-01 12:10-0800\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -1411,6 +1411,7 @@ msgstr "<< Anterior"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 #: CRM/Contact/Form/Task/PickProfile.php
+#: CRM/Contribute/Form/Contribution/Confirm.php
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Form/Task/PickProfile.php
@@ -1838,11 +1839,6 @@ msgstr "rolando"
 #: CRM/Member/DAO/MembershipType.php
 msgid "fixed"
 msgstr "fixo"
-
-#: CRM/Contribute/Form/Contribution/Confirm.php CRM/Group/Form/Edit.php
-#: CRM/Quest/Form/App.php CRM/Quest/Form/Recommender.php
-msgid "Continue"
-msgstr "Continuar"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php CRM/Core/Form.php
 msgid "Processing"
@@ -2545,6 +2541,11 @@ msgstr "Definições"
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
 msgstr "Excluir Grupo"
+
+#: CRM/Group/Form/Edit.php CRM/Quest/Form/App.php
+#: CRM/Quest/Form/Recommender.php
+msgid "Continue"
+msgstr "Continuar"
 
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Duplicate Import Mapping Name"
@@ -5447,11 +5448,6 @@ msgid "Cost"
 msgstr "Custo"
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
-msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set."
-msgstr "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR ausente do arquivo config."
-
-#: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
@@ -5468,6 +5464,11 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
 msgstr "A página solicitada está indisponível por ora."
+
+#: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
+msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set."
+msgstr "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR ausente do arquivo config."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -11114,12 +11115,11 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
-"Absolute URL of the location where the civicrm module or component has been "
-"installed."
+"URL of the location where the civicrm module or component has been installed."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
-msgid "Absolute URL of the location for uploaded image files."
+msgid "URL of the location for uploaded image files."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Tag.tpl
@@ -12962,9 +12962,8 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #, fuzzy
 msgid ""
-"Please verify Contribution Amount and all other information carefully. Click "
-"<strong>Go Back</strong>\n"
-"            if you need to make changes."
+"Please verify the information below carefully. Click <strong>Go Back</"
+"strong> if you need to make changes."
 msgstr ""
 "Verifique cuidadosamente Quantia de Contribuição, Nome para Cobrança e "
 
@@ -12973,6 +12972,15 @@ msgid ""
 "Click the <strong>Continue</strong> button to go to PayPal, where you will "
 "select your payment method and complete the contribution."
 msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+#, fuzzy
+msgid ""
+"To complete this transaction, click the <strong>Continue</strong> button "
+"below."
+msgstr ""
+"Sua contribuição não será concluída até que clique no botão <strong>Fazer "
+"Contribuição</strong>. Clique apenas uma vez, porém!"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #, fuzzy
@@ -13711,8 +13719,9 @@ msgstr ""
 "concretizou."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
-msgid "Contribution Receipt"
-msgstr "Recibo de Contribuição"
+#, fuzzy
+msgid "Receipt"
+msgstr "Recibo CC"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #, fuzzy
@@ -13730,15 +13739,17 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#, fuzzy
 msgid ""
-"Your contribution has been processed successfully. Please print this page "
-"for your records."
+"Your transaction has been processed successfully. Please print this page for "
+"your records."
 msgstr ""
 "Sua contribuição foi processada com êxito. Imprima esta página para seus "
 "arquivos."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-msgid "An email receipt for this contribution has also been sent to %1"
+#, fuzzy
+msgid "An email receipt has also been sent to %1"
 msgstr "Um recibo desta contribuição foi também enviado por email a %1"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
@@ -18615,6 +18626,9 @@ msgstr "Mensagem capturada por filtro de conteúdo."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Erro na transação do SMTP"
+
+#~ msgid "Contribution Receipt"
+#~ msgstr "Recibo de Contribuição"
 
 #~ msgid "Please select status."
 #~ msgstr "Selecione status."
