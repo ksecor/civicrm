@@ -59,6 +59,13 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     protected $_title;
 
     /**
+     * The key associated with this controller
+     *
+     * @var string
+     */
+    public $_key;
+
+    /**
      * the name of the session scope where values are stored
      *
      * @var object
@@ -116,13 +123,18 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      */
     function __construct( $title = null, $modal = true, $scope = null ) {
-        $this->HTML_QuickForm_Controller(CRM_Utils_System::getClassName($this), $modal);
+        // add a unique validable key to the name
+        $name = CRM_Utils_System::getClassName($this);
+        $name = $name . '_' . $this->key( $name );
+
+        $this->HTML_QuickForm_Controller( $name, $modal );
         $this->_title = $title;
         if ( $scope ) {
             $this->_scope = $scope;
         } else {
             $this->_scope = CRM_Utils_System::getClassName($this);
         }
+        $this->_scope = $this->_scope . '_' . $this->_key;
 
         if ( $_GET['snippet'] ) {
             $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
@@ -138,6 +150,28 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         if ( CRM_Utils_Array::value( 'reset', $_GET ) ) {
             $this->reset( );
         }
+        
+        // set the key in the session
+        $this->set( 'qfKey', $this->_key );
+
+    }
+
+    function key( $name ) {
+        require_once 'CRM/Core/Key.php';
+
+        $key = CRM_Utils_Array::value( 'qfKey', $_REQUEST, null );
+        if ( ! $key ) {
+            $key = CRM_Core_Key::get( $name );
+        } else {
+            $key = CRM_Core_Key::validate( $key, $name );
+        }
+
+        if ( ! $key ) {
+            CRM_Core_Error::fatal( 'Could not find valid Key' );
+        }
+
+        $this->_key = $key;
+        return $key;
     }
 
     /**

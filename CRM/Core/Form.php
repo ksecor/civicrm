@@ -136,6 +136,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         } else {
             $this->_name  = CRM_Utils_String::getClassName(CRM_Utils_System::getClassName($this));
         }
+
         $this->HTML_QuickForm_Page( $this->_name, $method );
     
         $this->_state   = $state;
@@ -148,6 +149,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             self::$_template =& CRM_Core_Smarty::singleton( );
         }
 
+    }
+
+    static function generateID( ) {
     }
 
     /**
@@ -276,13 +280,15 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
 
         $this->preProcess();
 
-	// add the drupal form token hidden value to allow things to work
-	$config =& CRM_Core_Config::singleton( );
-	if ( $config->userFramework == 'Drupal' &&
-	     $config->userFrameworkVersion <= 4.6      &&
-         function_exists( 'drupal_get_token' ) ) {
-        $this->addElement( 'hidden', 'edit[token]', drupal_get_token( ) );
-    }
+        // add the drupal form token hidden value to allow things to work
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Drupal' &&
+             $config->userFrameworkVersion <= 4.6      &&
+             function_exists( 'drupal_get_token' ) ) {
+            $this->addElement( 'hidden', 'edit[token]', drupal_get_token( ) );
+        }
+        
+        $this->addElement( 'hidden', 'qfKey', $this->controller->_key );
 
         $this->buildQuickForm();
 

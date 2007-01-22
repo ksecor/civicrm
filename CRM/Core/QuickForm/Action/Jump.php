@@ -79,7 +79,7 @@ class CRM_Core_QuickForm_Action_Jump extends CRM_Core_QuickForm_Action {
         $action = $current->getAttribute('action');
         $url    = $action . (false === strpos($action, '?')? '?': '&') .
                   $current->getButtonName('display') . '=true' .
-                  ((!defined('SID') || '' == SID)? '': '&' . SID);
+                 '&qfKey=' . $page->get( 'qfKey' );
 
         CRM_Utils_System::redirect( $url ); 
     }
