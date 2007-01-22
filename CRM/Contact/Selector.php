@@ -164,7 +164,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $this->_ufGroupID = $this->_formValues['uf_group_id'];
 
         if ( $this->_ufGroupID ) {
-            CRM_Core_Error::debug( 'u', $this->_ufGroupID );
             require_once 'CRM/Core/BAO/UFGroup.php';
             $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
                                                                      CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
