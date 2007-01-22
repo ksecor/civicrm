@@ -118,8 +118,16 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         asort($groupList);
 
         if ( count( $groupList ) > 1 ) {
-            $this->add('select'  , 'group_id', ts('Add to a group'), $groupList,true);
-         
+            $session =& CRM_Core_Session::singleton();
+            // user dashboard
+            if ( strstr( $session->readUserContext( ) ,'user') ) {
+                $msg = 'Join a Group';            
+            } else {
+                $msg = 'Add to a group';
+            }
+            
+            $this->add('select'  , 'group_id', ts($msg), $groupList,true);
+            
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
                                              'name'      => ts('Add'),
@@ -129,7 +137,7 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         }
     }
 
-       
+    
     /**
      *
      * @access public

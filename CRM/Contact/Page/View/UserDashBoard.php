@@ -43,7 +43,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
  */
 class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
 {
-    protected $_contactId   = null;
+    public $_contactId   = null;
 
     /*
      * Heart of the viewing process. The runner gets all the meta data for
@@ -55,7 +55,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
      */
     function preProcess()
     {
-        $admin = CRM_Core_Permission::check( 'access User Dashboard' );
+        $admin   = CRM_Core_Permission::check( 'access User Dashboard' );
         
         if ( !$admin ) {
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' ) );
@@ -68,10 +68,30 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         if ( ! $this->_contactId) {
             CRM_Core_Error::statusBounce( ts( 'We could not find a contact id.' ) );
         }
+        
+        
+        require_once "CRM/Contact/Page/View/UserDashBoard/GroupContact.php";
+        $gContact = new CRM_Contact_Page_View_UserDashBoard_GroupContact();
+        $gContact->run( );
 
         list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
         
         CRM_Utils_System::setTitle( 'User Dashboard' );
+
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            $components['CiviContribute'] = 'CiviContribute';
+        }
+        
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            $components['CiviMember'] = 'CiviMember';
+        }
+
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+            $components['CiviEvent'] = 'CiviEvent';
+        }
+    
+        $this->assign ( 'components', $components );
+
         $this->assign ( 'displayName', $contactImage . ' ' . $displayName );
     }
     
