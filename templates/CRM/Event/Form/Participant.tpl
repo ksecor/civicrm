@@ -1,17 +1,19 @@
-{* this template is used for adding/editing/deleting event *} 
+{* this template is used for adding/editing/deleting event *}
 <div class="form-item"> 
   <fieldset><legend>{if $action eq 1}{ts}New Participation{/ts}{elseif $action eq 8}{ts}Delete Participation{/ts}{else}{ts}Edit Participation{/ts}{/if}</legend> 
+    <table class="form-layout-compressed">
       	{if $action eq 8} 
-            <div class="messages status"> 
-          	<dl> 
-          	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
+          <tr> <div class="messages status">
+          	<dl>
+        	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
           	<dd> 
           	 {ts}WARNING: Deleting this participation will result in the loss of the associated Participation related payments (if any).{/ts} {ts}Do you want to continue?{/ts} 
           	</dd> 
-       		</dl> 
-      	     </div> 
+       	    </dl>
+      	    </div> 
+          </tr>
         {else} 
-    <table class="form-layout-compressed">
+    
         <tr><td class="label font-size12pt">{ts}From{/ts}</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
         <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
         {if $action eq 1 && !$past }<a href="{$pastURL}">&raquo; {ts}Select past Event(s) as well.{/ts}</a>{/if}    
@@ -57,6 +59,7 @@
       	<td class="label">&nbsp;</td><td>{$form.buttons.html}</td> 
     	</tr> 
     </table>
+
   </fieldset> 
 </div> 
 
