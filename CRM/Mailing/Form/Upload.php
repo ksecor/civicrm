@@ -205,8 +205,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $component =& new CRM_Mailing_BAO_Component();
                 $component->id = $params["{$part}_id"];
                 $component->find(true);
-                $$part['textFile'] = $component->body_text;
-                $$part['htmlFile'] = $component->body_html;
+                ${$part}['textFile'] = $component->body_text;
+                ${$part}['htmlFile'] = $component->body_html;
                 $component->free();
             } else {
                 $$part['htmlFile'] = $$part['textFile'] = '';

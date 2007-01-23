@@ -250,7 +250,10 @@ class CRM_Core_OptionValue {
                 foreach ( $nameTitle as $name => $attribs ) {
                     self::$_fields[$mode][$name] = $optionName;
                     list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
-                    self::$_fields[$mode][$name]['where'] = $name . '.' . $fieldName;
+                    // not sure of this fix, so keeping it commented for now
+                    // this is from CRM-1541
+                    // self::$_fields[$mode][$name]['where'] = $name . '.' . $fieldName;
+                    self::$_fields[$mode][$name]['where'] = "{$name}.label";
                     foreach ( $attribs as $key => $val ) {
                         self::$_fields[$mode][$name][$key] = $val;
                     }

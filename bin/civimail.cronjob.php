@@ -34,18 +34,45 @@
  * this script using a web url or from the command line
  */
 
-session_start( );                               
+function processQueue( ) {
+    session_start( );                               
                                             
-require_once '../civicrm.config.php'; 
-require_once 'CRM/Core/Config.php'; 
+    require_once '../civicrm.config.php'; 
+    require_once 'CRM/Core/Config.php'; 
+    
+    $config =& CRM_Core_Config::singleton(); 
+    
+    $config->userFramework          = 'Soap'; 
+    $config->userFrameworkClass     = 'CRM_Utils_System_Soap'; 
+    $config->userHookClass          = 'CRM_Utils_Hook_Soap';
+    
+    require_once 'CRM/Mailing/BAO/Job.php';
+    CRM_Mailing_BAO_Job::runJobs();
+}
 
-$config =& CRM_Core_Config::singleton(); 
- 
-$config->userFramework          = 'Soap'; 
-$config->userFrameworkClass     = 'CRM_Utils_System_Soap'; 
-$config->userHookClass          = 'CRM_Utils_Hook_Soap';
+// how to create a universal lock file name?
+// generally this should be in /var/lock but this is unwritable on Openwall
+// consider the semaphore mechanism described by christian.wessels at web.de
+// 07-Apr-2006 09:41 on http://us3.php.net/flock
 
-require_once 'CRM/Mailing/BAO/Job.php';
-CRM_Mailing_BAO_Job::runJobs();
+$lockName  = '.civicrm_cronjob.lck';
+$staleTime = 30*60;           // lock goes stale after 30 minutes
+
+$fp = fopen($lockName, "w+");
+if (!flock($fp, LOCK_EX | LOCK_NB)) {  // if lock is already taken...
+    if ((time() - filemtime($lockName)) > $staleTime) {
+        echo "civimail.cronjob/php: $lockName is stale\n";
+    }
+    exit(0);                     // ...exit immediately
+}
+fwrite($fp, '0');              // sets modification time
+
+// we have an exclusive lock - run the mail queue
+processQueue( );
+
+// release the lock and clean up
+flock($fp, LOCK_UN);
+fclose($fp);
+
 
 ?>

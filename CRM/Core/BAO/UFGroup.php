@@ -558,6 +558,9 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             return;
         }
 
+        // CRM_Core_Error::debug( 'd', $details );
+        // CRM_Core_Error::debug( 'f', $fields );
+
         $config =& CRM_Core_Config::singleton( );
         
         require_once 'CRM/Core/PseudoConstant.php'; 
@@ -677,7 +680,11 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 list( $fieldName, $id, $type ) = explode( '-', $name );
                 
                 if ($id == 'Primary') {
-                    $locationTypeName = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
+                    // fix for CRM-1543
+                    // not sure why we'd every use Primary location type id
+                    // we need to fix the source if we are using it
+                    // $locationTypeName = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
+                    $locationTypeName = 1;
                 } else {
                     $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
                 }

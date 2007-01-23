@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-08 09:01+0100\n"
+"POT-Creation-Date: 2007-01-21 19:06+0100\n"
 "PO-Revision-Date: 2007-01-02 13:46-0800\n"
 "Last-Translator: Philippe Pfeiffer <philippe.pfeiffer@inprocess.ch>\n"
 "Language-Team: none\n"
@@ -1414,6 +1414,7 @@ msgstr "<< Voriges"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 #: CRM/Contact/Form/Task/PickProfile.php
+#: CRM/Contribute/Form/Contribution/Confirm.php
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Form/Task/PickProfile.php
@@ -1850,11 +1851,6 @@ msgstr "laufend (rolling)"
 #: CRM/Member/DAO/MembershipType.php
 msgid "fixed"
 msgstr "fest (fixed)"
-
-#: CRM/Contribute/Form/Contribution/Confirm.php CRM/Group/Form/Edit.php
-#: CRM/Quest/Form/App.php CRM/Quest/Form/Recommender.php
-msgid "Continue"
-msgstr "Weiter"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php CRM/Core/Form.php
 msgid "Processing"
@@ -2568,6 +2564,11 @@ msgstr "Einstellungen"
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
 msgstr "Gruppe löschen"
+
+#: CRM/Group/Form/Edit.php CRM/Quest/Form/App.php
+#: CRM/Quest/Form/Recommender.php
+msgid "Continue"
+msgstr "Weiter"
 
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Duplicate Import Mapping Name"
@@ -5626,11 +5627,6 @@ msgid "Cost"
 msgstr "Kosten"
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
-msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set."
-msgstr "%1 ist in der Konfigurationsdatei nicht gesetzt."
-
-#: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
@@ -5649,6 +5645,11 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
 msgstr "Die Seite, die Sie ansteuern wollten, ist derzeit nicht verfügbar."
+
+#: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
+msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set."
+msgstr "%1 ist in der Konfigurationsdatei nicht gesetzt."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -11504,12 +11505,11 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
-"Absolute URL of the location where the civicrm module or component has been "
-"installed."
+"URL of the location where the civicrm module or component has been installed."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
-msgid "Absolute URL of the location for uploaded image files."
+msgid "URL of the location for uploaded image files."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Tag.tpl
@@ -13333,15 +13333,20 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
-"Please verify Contribution Amount and all other information carefully. Click "
-"<strong>Go Back</strong>\n"
-"            if you need to make changes."
+"Please verify the information below carefully. Click <strong>Go Back</"
+"strong> if you need to make changes."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
 "Click the <strong>Continue</strong> button to go to PayPal, where you will "
 "select your payment method and complete the contribution."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid ""
+"To complete this transaction, click the <strong>Continue</strong> button "
+"below."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -13944,8 +13949,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
-msgid "Contribution Receipt"
-msgstr ""
+#, fuzzy
+msgid "Receipt"
+msgstr "Cc: Empfänger"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
@@ -13961,12 +13967,12 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
-"Your contribution has been processed successfully. Please print this page "
-"for your records."
+"Your transaction has been processed successfully. Please print this page for "
+"your records."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-msgid "An email receipt for this contribution has also been sent to %1"
+msgid "An email receipt has also been sent to %1"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
