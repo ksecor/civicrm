@@ -260,10 +260,20 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     function &getColumnHeaders($action = null, $output = null) 
     {
 
-        if ( $output == CRM_Core_Selector_Controller::EXPORT || $output == CRM_Core_Selector_Controller::SCREEN ) {
+        if ( $output == CRM_Core_Selector_Controller::EXPORT ) {
             $csvHeaders = array( ts('Contact Id'), ts('Contact Type') );
             foreach ( self::_getColumnHeaders() as $column ) {
                 if ( array_key_exists( 'name', $column ) ) {
+                    $csvHeaders[] = $column['name'];
+                }
+            }
+            return $csvHeaders;
+        } else if ( $output == CRM_Core_Selector_Controller::SCREEN ) {
+            $csvHeaders = array( ts('Name') );
+            foreach ( self::_getColumnHeaders() as $column ) {
+                if ( array_key_exists( 'name', $column ) &&
+                     $column['name']                     &&
+                     $column['name'] != ts( 'Name' ) ) {
                     $csvHeaders[] = $column['name'];
                 }
             }
@@ -520,7 +530,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 }
             }
             
-            if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
+            if ( $output != CRM_Core_Selector_Controller::EXPORT ) {
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
 
                 if ( ( is_numeric( CRM_Utils_Array::value( 'geo_code_1', $row ) ) ) ||

@@ -70,6 +70,7 @@ class CRM_Core_Key {
      * @acess public
      */
     static function get( $name ) {
+        return null;
         $privateKey = self::privateKey( );
         $key = md5( session_id( ) . $name . $privateKey );
 
@@ -89,6 +90,7 @@ class CRM_Core_Key {
      * @acess public
      */
     static function validate( $key, $name ) {
+        return $key;
         list( $k, $t ) = explode( '_', $key );
         if ( $t < 1 || $t > 10000 ) {
             return null;

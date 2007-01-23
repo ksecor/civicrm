@@ -677,6 +677,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                 $this->addRule($name . '_id' . $prefix, ts('Please select %1', array(1 => $label)), 'required');
             }
         } else {
+            require_once 'CRM/Core/OptionGroup.php';
             $this->addElement('select', $name. '_id' , $label,
                               array('' => $select ) + CRM_Core_OptionGroup::values($name), $extra );
             if ( $required) {

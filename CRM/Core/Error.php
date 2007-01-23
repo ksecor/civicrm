@@ -317,7 +317,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @static
      */
     static function debug_stacktrace($trace_level=0, $log=true) {
-        $backtrace = debug_backtrace();
+        $backTrace = debug_backtrace();
 
         if($trace_level) {
             // since trace level is specified use it to slice the backtrace array.
@@ -325,8 +325,13 @@ class CRM_Core_Error extends PEAR_ErrorStack {
             $backtrace = array_slice($backtrace, 0, ($num_element>$trace_level ? $trace_level : $num_element));
         }
 
-        $out = print_r($backtrace, true);
-        $out = "<br />backtrace<br /><pre>$out</pre>";
+        $msgs = array( );
+        foreach ( $backTrace as $trace ) {
+            $msgs[] = implode( ', ', array( $trace['file'], $trace['function'], $trace['line'] ) );
+        }
+
+        $message = implode( "\n", $msgs );
+        $out = "<br />backtrace<br /><pre>$message</pre>";
         return self::debug_log_message($out);
     }
 

@@ -53,7 +53,7 @@ class CRM_Event_Form_Task_Print extends CRM_Event_Form_Task
         parent::preprocess( );
 
         // set print view, so that print templates are called
-        $this->controller->setPrint( true );
+        $this->controller->setPrint( 1 );
         
         // create the selector, controller and run - store results in session
         $fv         = $this->get( 'formValues' );

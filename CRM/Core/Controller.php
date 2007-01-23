@@ -94,7 +94,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      * @var boolean
      */
-    protected $_print = false;
+    protected $_print = 0;
 
     /**
      * cache the smarty template for efficiency reasons
@@ -157,6 +157,9 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     }
 
     function key( $name ) {
+        $this->_key = null;
+        return;
+
         require_once 'CRM/Core/Key.php';
 
         $key = CRM_Utils_Array::value( 'qfKey', $_REQUEST, null );

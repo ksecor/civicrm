@@ -300,7 +300,7 @@ class CRM_Core_Selector_Controller {
         
         // get the column headers
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $this->_output );
-       
+
         // we need to get the rows if we are exporting or printing them
         if ($this->_output == self::EXPORT || $this->_output == self::SCREEN ) {
             // get rows (without paging criteria)
@@ -314,6 +314,7 @@ class CRM_Core_Selector_Controller {
             } else {
                 // assign to template and display them.
                 self::$_template->assign_by_ref( 'rows'         , $rows          );
+                self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
             }
             
         } else {

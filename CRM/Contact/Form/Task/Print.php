@@ -51,8 +51,9 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
     function preProcess()
     {
         // set print view, so that print templates are called
-        $this->controller->setPrint( true );
-        
+        $this->controller->setPrint( 1 );
+        $this->assign( 'id', $this->get( 'id' ) );
+        $this->assign( 'pageTitle', ts( 'CiviCRM Contact Listing' ) );
         // create the selector, controller and run - store results in session
         $fv               = $this->get( 'formValues' );
        
