@@ -149,7 +149,9 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
             $export->exportContacts( $this->_selectAll,
                                      $this->_contactIds,
                                      $this->get( 'queryParams' ),
-                                     $this->get( CRM_Utils_Sort::SORT_ORDER ) );
+                                     $this->get( CRM_Utils_Sort::SORT_ORDER ),
+                                     null,
+                                     $this->get( 'returnProperties' ) );
         }
     }
 

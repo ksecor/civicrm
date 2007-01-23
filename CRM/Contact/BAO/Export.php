@@ -47,45 +47,47 @@ class CRM_Contact_BAO_Export {
      *
      * @access public
      */
-    function exportContacts( $selectAll, $ids, $params, $order = null, $fields = null ) {
-        $headerRows  = array();
-        $returnProperties = array();
-        $primary = false;
- 
-        if ($fields) {
-            //construct return properties 
-            $locationTypes =& CRM_Core_PseudoConstant::locationType();
-            
-            foreach ( $fields as $key => $value) {
-                list($contactType, $fieldName, $locTypeId, $phoneTypeId) =  $value;
+    function exportContacts( $selectAll, $ids, $params, $order = null, $fields = null, $moreReturnProperties = null ) {
+        $headerRows       = array();
+        $primary          = false;
+         $returnProperties = array( );
 
-                if (is_numeric($locTypeId)) {
-                    if ($phoneTypeId) {
-                        $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
-                    } else {
-                        $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
-                    }
-                } else {
-                    $returnProperties[$fieldName] = 1;
-                }
-            }
-            
-        } else {
-            $primary = true;
-            $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
-            foreach ($fields as $key => $var) { 
-                if ($key) {
-                    if ( substr($key,0, 6) !=  'custom' ) { //for CRM=952
-                        $returnProperties[$key] = 1;
-                    }
-                }
-            }
+         if ($fields) {
+             //construct return properties 
+             $locationTypes =& CRM_Core_PseudoConstant::locationType();
+
+             foreach ( $fields as $key => $value) {
+                 list($contactType, $fieldName, $locTypeId, $phoneTypeId) =  $value;
+
+                 if (is_numeric($locTypeId)) {
+                     if ($phoneTypeId) {
+                         $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
+                     } else {
+                         $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
+                     }
+                 } else {
+                     $returnProperties[$fieldName] = 1;
+                 }
+             }
+         } else {
+             $primary = true;
+             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
+             foreach ($fields as $key => $var) { 
+                 if ( $key &&
+                      ( substr($key,0, 6) !=  'custom' ) ) { //for CRM=952
+                     $returnProperties[$key] = 1;
+                 }
+             }
         }
         
         if ($primary) {
             $returnProperties['location_type'] = 1;
             $returnProperties['im_provider'  ] = 1;
             $returnProperties['phone_type'   ] = 1;
+        }
+
+        if ( $moreReturnProperties ) {
+            $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
         
         $session =& CRM_Core_Session::singleton( );

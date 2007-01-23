@@ -220,7 +220,8 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                                                 $this->get( 'contactIds' ),
                                                 $this->get( 'queryParams' ),
                                                 $this->get( CRM_Utils_Sort::SORT_ORDER ),
-                                                $mapperKeys);
+                                                $mapperKeys,
+                                                $this->get( 'returnProperties' ) );
     }
     
     /**
