@@ -1173,8 +1173,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function filterUFGroups ($ufGroupId, $contactID = null) 
     {
         if ( ! $contactID ) {
-            $session =& CRM_Core_Session::singleton( );
-            $contactID = $session->get( 'userID' );
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->userFramework == 'Drupal' ) { 
+                global $user;
+                $userId = $user->id;
+            } else if ( $config->userFramework == 'Joomla' ) { 
+                global $my;
+                $userId = $my->id;
+            }
+            
+            require_once "CRM/Core/BAO/UFMatch.php";
+            $contactId = CRM_Core_BAO_UFMatch::getContactId($userId);
         }
 
         if ($contactID) {
