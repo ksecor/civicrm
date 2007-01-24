@@ -1,9 +1,12 @@
-{* this template is used for adding/editing/deleting event *}
-<div class="form-item"> 
-  <fieldset><legend>{if $action eq 1}{ts}New Participation{/ts}{elseif $action eq 8}{ts}Delete Participation{/ts}{else}{ts}Edit Participation{/ts}{/if}</legend> 
-    <table class="form-layout-compressed">
-      	{if $action eq 8} 
-          <tr> <div class="messages status">
+{* this template is used for adding/editing/deleting event 
+<div class="form-item">*}
+
+<fieldset><legend>{if $action eq 1}{ts}New Participation{/ts}{elseif $action eq 8}{ts}Delete Participation{/ts}{else}{ts}Edit Participation{/ts}{/if}</legend> 
+    <div class="form-item">
+    <table class="form-layout">
+      	{if $action eq 8} {* If action is Delete *}
+        <tr><td>
+            <div class="messages status">
           	<dl>
         	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
           	<dd> 
@@ -11,9 +14,9 @@
           	</dd> 
        	    </dl>
       	    </div> 
-          </tr>
-        {else} 
-    
+        </td></tr>
+        <tr>{* <tr> for delete form button *}
+        {else} {* If action is other than Delete *}
         <tr><td class="label font-size12pt">{ts}From{/ts}</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
         <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
         {if $action eq 1 && !$past }<a href="{$pastURL}">&raquo; {ts}Select past Event(s) as well.{/ts}</a>{/if}    
@@ -24,7 +27,7 @@
     
         <tr><td class="label">{$form.role_id.label}</td><td>{$form.role_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Role for the participation (if applicable).{/ts}</td></tr>
-
+        
         <tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
     	{if $hideCalender neq true}
 	      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event}
@@ -36,35 +39,32 @@
 
         <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Status for the participation (if applicable).{/ts}</td></tr>
-
+        
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Source for the participation (if applicable).{/ts}</td></tr>
 
         <tr><td class="label">{$form.event_level.label}</td><td>{$form.event_level.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Event Level for the participation (if applicable).{/ts}</td></tr>
         <tr><td class="label">{$form.note.label}</td><td>{$form.note.html}</td></tr>
-                
-       	{/if} 
-        <tr>
-        <td>&nbsp;</td>
-        <td class="description">
+        <tr><td colspan=2>
         {if $action eq 4} 
-         {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+            {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
         {else}
-          {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+            {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
         {/if} 
         </td>
+        </tr>
+    	<tr> {* <tr> for add / edit form buttons *}
+      	<td>&nbsp;</td>
+       	{/if} 
         
-    	<tr>    
-      	<td class="label">&nbsp;</td><td>{$form.buttons.html}</td> 
+        <td>{$form.buttons.html}</td> 
     	</tr> 
     </table>
+    </div>
+</fieldset> 
 
-  </fieldset> 
-</div> 
-
-
- <script type="text/javascript" >
+<script type="text/javascript" >
  {literal}
  function reload(refresh) {
         var roleId = document.getElementById("role_id");
@@ -76,5 +76,4 @@
       
     } 
  {/literal}
- </script>
-
+</script>
