@@ -1183,7 +1183,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
             
             require_once "CRM/Core/BAO/UFMatch.php";
-            $contactId = CRM_Core_BAO_UFMatch::getContactId($userId);
+            $contactID = CRM_Core_BAO_UFMatch::getContactId($userId);
         }
 
         if ($contactID) {
