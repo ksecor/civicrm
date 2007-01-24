@@ -730,13 +730,15 @@ class CRM_Core_Invoke
             }
 
             if ( $secondArg == 'edit' && $userID ) {
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create Profile'), CRM_Core_Action::UPDATE );
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create Profile'), CRM_Core_Action::UPDATE,
+                                                               false, false, true );
                 $controller->set( 'edit', 1 );
                 $controller->process( );
                 return $controller->run( );
             } else {
                 $wrapper =& new CRM_Utils_Wrapper( ); 
-                return $wrapper->run( 'CRM_Profile_Form_Edit', ts( 'Create Profile' ), CRM_Core_Action::ADD );
+                return $wrapper->run( 'CRM_Profile_Form_Edit', ts( 'Create Profile' ), CRM_Core_Action::ADD,
+                                      false, true );
             } 
         } 
 

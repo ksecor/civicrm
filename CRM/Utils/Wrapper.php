@@ -59,16 +59,17 @@ class CRM_Utils_Wrapper
      * The heart of the callback processing is done by this method.
      * forms are of different type and have different operations.
      *
-     * @param string $formName    name of the form processing this action
-     * @param string $formLabel   label for the above form
-     * @param int    $mode        mode of operation.
-     * @param boolean $addSequence should we add a unique sequence number to the end of the key
+     * @param string  formName    name of the form processing this action
+     * @param string  formLabel   label for the above form
+     * @param int     mode        mode of operation.
+     * @param boolean addSequence should we add a unique sequence number to the end of the key
+     * @param boolean ignoreKey   should we not set a qfKey for this controller (for standalone forms)
      *
      * @return none.
      * @access public
      */
-    function run($formName, $formLabel, $mode, $addSequence = false ) {
-        $this->_controller =& new CRM_Core_Controller_Simple( $formName, $formLabel, $mode, false, $addSequence );
+    function run($formName, $formLabel, $mode, $addSequence = false, $ignoreKey = false ) {
+        $this->_controller =& new CRM_Core_Controller_Simple( $formName, $formLabel, $mode, false, $addSequence, $ignoreKey );
         $this->_controller->process();
         $this->_controller->run();
     }

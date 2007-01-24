@@ -175,7 +175,8 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this, false, 0, 'GET');
 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD ); 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD,
+                                                       false, false, true ); 
         $controller->reset( );
         $controller->process( ); 
         $controller->set('gid', $gid);

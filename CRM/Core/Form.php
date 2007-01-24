@@ -287,8 +287,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
              function_exists( 'drupal_get_token' ) ) {
             $this->addElement( 'hidden', 'edit[token]', drupal_get_token( ) );
         }
-        
-        $this->addElement( 'hidden', 'qfKey', $this->controller->_key );
+
+        if ( $this->controller->_key ) {
+            $this->addElement( 'hidden', 'qfKey', $this->controller->_key );
+        }
 
         $this->buildQuickForm();
 

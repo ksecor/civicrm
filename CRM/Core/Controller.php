@@ -113,20 +113,21 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     /**
      * All CRM single or multi page pages should inherit from this class. 
      *
-     * @param string  descriptive title of the controller
-     * @param boolean whether     controller is modal
-     * @param string  scope       name of session if we want unique scope, used only by Controller_Simple
-     * @param boolean $addSequence should we add a unique sequence number to the end of the key
+     * @param string  title        descriptive title of the controller
+     * @param boolean whether      controller is modal
+     * @param string  scope        name of session if we want unique scope, used only by Controller_Simple
+     * @param boolean addSequence  should we add a unique sequence number to the end of the key
+     * @param boolean ignoreKey    should we not set a qfKey for this controller (for standalone forms)
      *
      * @access public
      *   
      * @return void
      *
      */
-    function __construct( $title = null, $modal = true, $scope = null, $addSequence = false ) {
+    function __construct( $title = null, $modal = true, $scope = null, $addSequence = false, $ignoreKey = false ) {
         // add a unique validable key to the name
         $name = CRM_Utils_System::getClassName($this);
-        $name = $name . '_' . $this->key( $name, $addSequence );
+        $name = $name . '_' . $this->key( $name, $addSequence, $ignoreKey );
         $this->HTML_QuickForm_Controller( $name, $modal );
         $this->_title = $title;
         if ( $scope ) {
@@ -157,7 +158,11 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         $this->set( 'qfKey', $this->_key );
     }
 
-    function key( $name, $addSequence = false ) {
+    function key( $name, $addSequence = false, $ignoreKey = false ) {
+        if ( $ignoreKey ) {
+            return null;
+        }
+
         require_once 'CRM/Core/Key.php';
 
         $key = CRM_Utils_Array::value( 'qfKey', $_REQUEST, null );
