@@ -170,7 +170,7 @@ class CRM_Core_Config
      * The format of the address fields.
      * @var string
      */
-    public $addressFormat = "{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{county}{ }{state_province}{ }{postal_code}\n{country}";
+    public $addressFormat = "{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}";
         
     /**
      * Address Standardization Provider.

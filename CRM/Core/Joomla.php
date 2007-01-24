@@ -48,14 +48,16 @@ class CRM_Core_Joomla {
      * @static
      */
     static function sidebarLeft( ) {
+        $config =& CRM_Core_Config::singleton( );
+
         // intialize the menu and set the default title
         CRM_Core_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
 
-        $config =& CRM_Core_Config::singleton( );
         if ( $config->userFrameworkFrontend ) {
             return;
         }
-         $blockIds = array( 1, 2, 4, 8 );
+
+        $blockIds = array( 1, 2, 4, 8 );
 
         $blocks = array( );
         foreach ( $blockIds as $id ) {

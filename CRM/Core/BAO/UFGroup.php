@@ -1199,8 +1199,8 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
     static function filterUFGroups ($ufGroupId, $contactID = null) 
     {
         if ( ! $contactID ) {
-            $session =& CRM_Core_Session::singleton( );
-            $contactID = $session->get( 'userID' );
+           $session =& CRM_Core_Session::singleton( );
+           $contactID = $session->get( 'userID' );
         }
 
         if ($contactID) {

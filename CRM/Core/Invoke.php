@@ -417,7 +417,7 @@ class CRM_Core_Invoke
         require_once 'CRM/Contact/Controller/Search.php';
         $controller =& new CRM_Contact_Controller_Search($title, $mode);
 
-        if ( $_GET['snippet'] ) {
+        if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
             $controller->setPrint( CRM_Core_Smarty::PRINT_SNIPPET ); 
         }
         $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
@@ -904,7 +904,8 @@ class CRM_Core_Invoke
 
         $wrapper =& new CRM_Utils_Wrapper( );
         
-        switch ( $args[3] ) {
+        $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
+        switch ( $thirdArg ) {
         case 'component' : 
             return $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
         case 'path' : 

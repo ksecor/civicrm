@@ -342,7 +342,9 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
         
         $setCaptcha = false;
-        if ( $this->_mode != self::MODE_SEARCH ) {
+
+        // do this only for CiviCRM created forms
+        if ( $this->_mode == self::MODE_CREATE ) {
             if (!empty($addCaptcha)) {
                 $setCaptcha = true;
             } else if ($this->_gid ) {

@@ -125,7 +125,7 @@ class CRM_Core_Page {
         $this->_title = $title;
         $this->_mode  = $mode;
 
-        if ( $_GET['snippet'] ) {
+        if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
             $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
         }
 

@@ -847,11 +847,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     if ( ! empty( $value )) {
                         foreach($value as $stateValue ) {
                             if ( $stateValue['state_province']) {
-                                if( self::in_value($stateValue['state_province'],CRM_Core_PseudoConstant::stateProvinceAbbreviation(false,false)) 
-                                    || self::in_value($stateValue['state_province'], CRM_Core_PseudoConstant::stateProvince(false,false))) {
+                                if( self::in_value($stateValue['state_province'],CRM_Core_PseudoConstant::stateProvinceAbbreviation()) 
+                                    || self::in_value($stateValue['state_province'], CRM_Core_PseudoConstant::stateProvince())) {
                                     continue;
                                 } else {
-                                    //return _crm_error('Invalid value for field  : State Province ');
                                     self::addToErrorMsg('State Province', $errorMessage);
                                 }
                             }

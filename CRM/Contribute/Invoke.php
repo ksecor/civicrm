@@ -120,7 +120,7 @@ class CRM_Contribute_Invoke {
             }
 
             require_once 'CRM/Contribute/Controller/Contribution.php'; 
-            $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
+            $controller =& new CRM_Contribute_Controller_Contribution( );
             return $controller->run(); 
         } 
 

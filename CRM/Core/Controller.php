@@ -137,7 +137,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         }
         $this->_scope = $this->_scope . '_' . $this->_key;
 
-        if ( $_GET['snippet'] ) {
+        if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
             $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
         }
 

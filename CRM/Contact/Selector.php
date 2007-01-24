@@ -161,7 +161,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // type of selector
         $this->_action = $action;
         
-        $this->_ufGroupID = $this->_formValues['uf_group_id'];
+        $this->_ufGroupID = CRM_Utils_Array::value( 'uf_group_id', $this->_formValues );
 
         if ( $this->_ufGroupID ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
