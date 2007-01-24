@@ -292,13 +292,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                 continue;
             }
             
-            //$required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
-
-            //CRM_Core_BAO_UFGroup::buildProfile($this,
-            //$field['name'], $field['title'], $required,
-            //$field['attributes'], $search, $field['rule'],
-            //$field['is_view'] );
-            
             CRM_Core_BAO_UFGroup::buildProfile($this, $field, $this->_mode );
             
             //for custom data

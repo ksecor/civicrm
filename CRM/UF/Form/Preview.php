@@ -90,6 +90,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
         
         if( $field ) {
+            require_once 'CRM/Core/DAO/UFField.php';
             $fieldDAO = & new CRM_Core_DAO_UFField();
             $fieldDAO->id = $fid;
             $fieldDAO->find(true);
@@ -197,10 +198,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
             } else if ( $field['name'] === 'group' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id, CRM_Contact_Form_GroupTag::GROUP, false, $required, $field['title'], null );
+                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id, CRM_Contact_Form_GroupTag::GROUP, true, $required, $field['title'], null );
             } else if ( $field['name'] === 'tag' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,  CRM_Contact_Form_GroupTag::TAG, false, $required, null, $field['title'] );
+                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,  CRM_Contact_Form_GroupTag::TAG, true, $required, null, $field['title'] );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required, false, $field['title']);
             } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  

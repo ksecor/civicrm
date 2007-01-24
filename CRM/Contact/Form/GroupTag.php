@@ -87,6 +87,7 @@ class CRM_Contact_Form_GroupTag
             } else {
                 $group  =& CRM_Core_PseudoConstant::group( );
             }
+            require_once 'CRM/Contact/DAO/Group.php';
             foreach ($group as $id => $name) {
                 if ( $visibility ) {
                     // make sure that this group has public visibility. not very efficient
