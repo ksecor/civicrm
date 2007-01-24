@@ -848,34 +848,37 @@ class CRM_Core_Invoke
         
         // FIXME: a hack until we have common import
         // mechanisms for contacts and contributions
-
         $realm = $_GET['realm'];
         if ($realm == 'contribution') {
-            $importController = 'CRM_Contribute_Import_Controller';
+            $controller = 'CRM_Contribute_Import_Controller';
         } else if ( $realm == 'membership' ) {
-            $importController = 'CRM_Member_Import_Controller';
+            $controller = 'CRM_Member_Import_Controller';
         } else if ( $realm == 'event' ) {
-            $importController = 'CRM_Event_Import_Controller';
+            $controller = 'CRM_Event_Import_Controller';
         } else if ( $realm == 'history' ) {
-            $importController = 'CRM_History_Import_Controller';
+            $controller = 'CRM_History_Import_Controller';
         } else {
-            $importController = 'CRM_Import_Controller';
+            $controller = 'CRM_Import_Controller';
         }
         
-        $fileName = $session->get($varName . 'FileName', $importController);
+        require_once 'CRM/Core/Key.php';
+        $qfKey = CRM_Core_Key::get( $controller );
+        
+        $fileName = $session->get($varName . 'FileName', "{$controller}_{$qfKey}");
+        
         $config =& CRM_Core_Config::singleton( ); 
-
+        
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Content-Description: File Transfer');
         header('Content-Type: text/csv');
         header('Content-Length: ' . filesize($fileName) );
         header('Content-Disposition: attachment; filename=' . $saveFileName);
-
+        
         readfile($fileName);
         
         exit();
     }
-
+    
     static function onlySSL( $args ) 
     {
         if ( $args[1] = 'contribute' && $args[2] == 'transact' ) {

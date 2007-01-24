@@ -179,17 +179,17 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $dateType = $session->get( "dateTypes" );
         
         foreach ( $params as $key => $val ) {
-            if( $val && ( $key == 'register_date' ) ) {
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                    if (! CRM_Utils_Rule::date($params[$key])) {
-                        CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
-                    }
+            if( $val && ( $key == 'event_register_date' ) ) {
+                CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                if (! CRM_Utils_Rule::date($params[$key])) {
+                    CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
+                }
             }
         }
-        
         //date-Format part ends
         
-        $params['contact_type'] =  $this->_contactType;
+        //$params['contact_type'] =  $this->_contactType;
+        $params['contact_type'] = 'Participant';
         //checking error in custom data
         CRM_Import_Parser_Contact::isErrorInCustomData($params, $errorMessage);
         
@@ -220,14 +220,15 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         if ( $response != CRM_Event_Import_Parser::VALID ) {
             return $response;
         }
+        
         $params =& $this->getActiveFieldParams( );
         
         $session =& CRM_Core_Session::singleton();
-        $dateType = $session->get("dateTypes");
+        $dateType = $session->get( 'dateTypes' );
         
         foreach ($params as $key => $val) {
             if( $val ) {
-                if ( $key == 'register_date' ) {
+                if ( $key == 'event_register_date' ) {
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     if (! CRM_Utils_Rule::date($params[$key])) {
                         CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
@@ -269,9 +270,9 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         // status_id and source. So, if $formatted contains
         // participant_register_date, event_status_id or event_source,
         // convert it to register_date, status_id or source
-        $changes = array('participant_register_date' => 'register_date',
-                         'event_source'              => 'source',
-                         'event_status_id'           => 'status_id'
+        $changes = array('event_register_date' => 'register_date',
+                         'event_source'        => 'source',
+                         'event_status_id'     => 'status_id'
                          );
         
         foreach ($changes as $orgVal => $changeVal) {
