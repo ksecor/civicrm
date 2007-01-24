@@ -121,7 +121,8 @@ class CRM_Utils_System {
                                                 'deletefile'         => 'DeleteFile',
                                                 'optionvalue'        => 'OptionValue',
                                                 'messagetemplates'   => 'MessageTemplates',
-                                                
+                                                'acl'                => 'ACL',
+                                                'entityrole'         => 'EntityRole'
                                                 );
     
     static $_callbacks = null;
