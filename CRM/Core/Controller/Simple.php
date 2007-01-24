@@ -49,13 +49,14 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
      * @param string path   the class Path of the form being implemented
      * @param string title  the descriptive name for the page
      * @param int    mode   the mode that the form will operate on
+     * @param boolean $addSequence should we add a unique sequence number to the end of the key
      *
      * @return object
      * @access public
      */
-    function __construct($path, $title, $mode , $imageUpload = false ) {
+    function __construct($path, $title, $mode , $imageUpload = false, $addSequence = false ) {
         // by definition a single page is modal :). We use the form name as the scope for this controller
-        parent::__construct( $title, true, $path );
+        parent::__construct( $title, true, $path, $addSequence );
 
         $this->_stateMachine =& new CRM_Core_StateMachine( $this );
 

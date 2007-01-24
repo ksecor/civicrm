@@ -116,17 +116,17 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      * @param string  descriptive title of the controller
      * @param boolean whether     controller is modal
      * @param string  scope       name of session if we want unique scope, used only by Controller_Simple
+     * @param boolean $addSequence should we add a unique sequence number to the end of the key
      *
      * @access public
      *   
      * @return void
      *
      */
-    function __construct( $title = null, $modal = true, $scope = null ) {
+    function __construct( $title = null, $modal = true, $scope = null, $addSequence = false ) {
         // add a unique validable key to the name
         $name = CRM_Utils_System::getClassName($this);
-        $name = $name . '_' . $this->key( $name );
-
+        $name = $name . '_' . $this->key( $name, $addSequence );
         $this->HTML_QuickForm_Controller( $name, $modal );
         $this->_title = $title;
         if ( $scope ) {
@@ -150,23 +150,21 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         if ( CRM_Utils_Array::value( 'reset', $_GET ) ) {
             $this->reset( );
         }
-        
-        // set the key in the session
-        $this->set( 'qfKey', $this->_key );
 
+        // set the key in the session
+        // do this at the end so we have initialized the object
+        // and created the scope etc
+        $this->set( 'qfKey', $this->_key );
     }
 
-    function key( $name ) {
-        $this->_key = null;
-        return;
-
+    function key( $name, $addSequence = false ) {
         require_once 'CRM/Core/Key.php';
 
         $key = CRM_Utils_Array::value( 'qfKey', $_REQUEST, null );
         if ( ! $key ) {
-            $key = CRM_Core_Key::get( $name );
+            $key = CRM_Core_Key::get( $name, $addSequence );
         } else {
-            $key = CRM_Core_Key::validate( $key, $name );
+            $key = CRM_Core_Key::validate( $key, $name, $addSequence );
         }
 
         if ( ! $key ) {
@@ -174,6 +172,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         }
 
         $this->_key = $key;
+
         return $key;
     }
 

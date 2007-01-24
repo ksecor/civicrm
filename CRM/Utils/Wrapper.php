@@ -62,12 +62,13 @@ class CRM_Utils_Wrapper
      * @param string $formName    name of the form processing this action
      * @param string $formLabel   label for the above form
      * @param int    $mode        mode of operation.
+     * @param boolean $addSequence should we add a unique sequence number to the end of the key
      *
      * @return none.
      * @access public
      */
-    function run($formName, $formLabel, $mode ) {
-        $this->_controller =& new CRM_Core_Controller_Simple( $formName, $formLabel, $mode );
+    function run($formName, $formLabel, $mode, $addSequence = false ) {
+        $this->_controller =& new CRM_Core_Controller_Simple( $formName, $formLabel, $mode, false, $addSequence );
         $this->_controller->process();
         $this->_controller->run();
     }

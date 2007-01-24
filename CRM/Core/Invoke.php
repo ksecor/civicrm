@@ -440,11 +440,11 @@ class CRM_Core_Invoke
         require_once 'CRM/Core/Component.php';
         $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'Edit' );
         if( $properties ) {
-            $wrapper->run($properties['class'], ts('New %1', array(1 => $contact_sub_type)), $action);
+            $wrapper->run( $properties['class'], ts('New %1', array(1 => $contact_sub_type)), $action, true );
         } elseif ( file_exists( realpath (dirname( __FILE__ ) . "../Contact/Form/{$contact_type}.php" ) ) ) {
-            $wrapper->run("CRM_Contact_Form_{$contact_type}", ts('New %1', array(1 => $contact_type)), $action);
+            $wrapper->run( "CRM_Contact_Form_{$contact_type}", ts('New %1', array(1 => $contact_type)), $action, true );
         } else {
-            $wrapper->run( 'CRM_Contact_Form_Edit', ts( 'New Contact' ), $action );
+            $wrapper->run( 'CRM_Contact_Form_Edit', ts( 'New Contact' ), $action, true );
         }
     }
     

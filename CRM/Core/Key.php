@@ -63,20 +63,23 @@ class CRM_Core_Key {
      * Generate a form key based on form name, the current user session
      * and a private key. Modelled after drupal's form API
      *
-     * @param string $value name of the form
+     * @param string  $value       name of the form
+     * @paeam boolean $addSequence should we add a unique sequence number to the end of the key
      * 
      * @return string       valid formID
      * @static
      * @acess public
      */
-    static function get( $name ) {
-        return null;
+    static function get( $name, $addSequence = false ) {
         $privateKey = self::privateKey( );
         $key = md5( session_id( ) . $name . $privateKey );
 
-        // now generate a random number between 1 and 100K and add it to the key
-        // so that we can have forms in mutiple tabs etc
-        return $key . '_' . mt_rand( 1, 10000 );
+        if ( $addSequence ) {
+            // now generate a random number between 1 and 100K and add it to the key
+            // so that we can have forms in mutiple tabs etc
+            $key = $key . '_' . mt_rand( 1, 10000 );
+        }
+        return $key;
     }
 
     /**
@@ -89,11 +92,14 @@ class CRM_Core_Key {
      * @static
      * @acess public
      */
-    static function validate( $key, $name ) {
-        return $key;
-        list( $k, $t ) = explode( '_', $key );
-        if ( $t < 1 || $t > 10000 ) {
-            return null;
+    static function validate( $key, $name, $addSequence = false ) {
+        if ( $addSequence ) {
+            list( $k, $t ) = explode( '_', $key );
+            if ( $t < 1 || $t > 10000 ) {
+                return null;
+            }
+        } else {
+            $k = $key;
         }
 
         $privateKey = self::privateKey( );
