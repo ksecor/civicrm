@@ -54,7 +54,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     {  
         parent::preProcess( );
 
-        CRM_Core_Error::debug( 'v', $this->_values );
         $this->assign( 'intro_text' , $this->_values['intro_text'] );
         $this->assign( 'footer_text', $this->_values['footer_text'] );
         
@@ -84,6 +83,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
 
+            require_once "CRM/Core/BAO/UFGroup.php";
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
         }
 
