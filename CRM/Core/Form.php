@@ -690,9 +690,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         
     }
 
-    function addCountry( $id, $title ,$required = null ) {
+    function addCountry( $id, $title ,$required = null, $extra = null ) {
         $this->addElement('select', $id, $title,
-                          array('' => ts('- select -')) + CRM_Core_PseudoConstant::country( ) );
+                          array('' => ts('- select -')) + CRM_Core_PseudoConstant::country( ), $extra );
         if( $required ) {
             $this->addRule($id, ts('Please select %1', array(1 => $title)), 'required');
         }
