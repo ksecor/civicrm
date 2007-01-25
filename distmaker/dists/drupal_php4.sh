@@ -58,7 +58,7 @@ if [ -d $TRG/bin ] ; then
 fi
 
 # remove Quest
-find $TRG -name 'Quest' -exec rm -r {} \;
+find $TRG -depth -name 'Quest' -exec rm -r {} \;
 
 # copy docs
 cp $SRC/gpl.txt $TRG 

@@ -1,5 +1,3 @@
-<head>
-<title>Yahoo Map</title>
 {literal}<script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.0&appid={$mapKey}"></script>
          <style type="text/css">
             #mapContainer { 
@@ -16,9 +14,7 @@
                              }
          </style>
 {/literal}
-</head>
 
-<body>
 <div id="mapContainer"></div>
 {literal}
 <script type="text/javascript">
@@ -78,4 +74,3 @@
   {literal}
 </script> 
 {/literal}
-</body>

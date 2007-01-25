@@ -6544,7 +6544,7 @@ msgstr "Wybrana kategoria została usunięta."
 
 #: CRM/Core/BAO/Tag.php
 msgid "The tag \"%1\" has been saved."
-msgstr "Kategoria „%1” została usunięta."
+msgstr "Kategoria „%1” została zapisana."
 
 #: CRM/Core/BAO/UFField.php
 msgid "Cannot enable this UF field since the used custom field is disabled."

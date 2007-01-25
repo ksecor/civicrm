@@ -1,8 +1,7 @@
- <head>
   <script src="http://maps.google.com/maps?file=api&v=2&key={$mapKey}" type="text/javascript"></script>
   {literal}
   <script type="text/javascript">
-    function onLoad() {
+    function initMap() {
 
       //<![CDATA[
       var map     = new GMap2(document.getElementById("map"));
@@ -56,10 +55,13 @@
        eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=780,height=640,left = 202,top = 100');");
     }
 
-  </script>
+    if (window.addEventListener) {
+        window.addEventListener("load", initMap, false);
+    } else if (window.attachEvent) {
+        document.attachEvent("onreadystatechange", initMap);
+    }
 
+  </script>
 {/literal}
-  </head>
-  <body onload="onLoad()"; >
-    <div id="map" style="width: 600px; height: 400px"></div>
-  </body>
+
+  <div id="map" style="width: 600px; height: 400px"></div>
