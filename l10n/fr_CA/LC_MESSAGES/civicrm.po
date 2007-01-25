@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-21 19:06+0100\n"
-"PO-Revision-Date: 2007-01-17 13:43-0800\n"
+"PO-Revision-Date: 2007-01-24 07:49-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -634,9 +634,8 @@ msgid "Payment Processor"
 msgstr "Traitement des paiements"
 
 #: CRM/Admin/Form/Setting.php CRM/Admin/Page/Setting.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Global Settings"
-msgstr "Détails du groupe"
+msgstr "Configuration globale"
 
 #: CRM/Admin/Form/Setting/Smtp.php CRM/Admin/Page/Setting.php
 msgid "SMTP Server"
@@ -4327,9 +4326,8 @@ msgid "Contact Type -"
 msgstr "Type de contact"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Member of Group %1"
-msgstr "Membre du groupe -"
+msgstr "Membre du groupe %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Group Status -"
@@ -4873,7 +4871,7 @@ msgstr "Ajouter au groupe"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Added Contact(s) to %1"
-msgstr "Contact(s) ajouté(s)à %1"
+msgstr "Contact(s) ajouté(s) à %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Total Contact(s) added to group: %1"
@@ -8942,9 +8940,8 @@ msgid "You do not have permission to edit this contact"
 msgstr "Vous n'avez pas la permission nécessaire pour modifier ce contact."
 
 #: CRM/Profile/Form/Edit.php
-#, fuzzy
 msgid "Thank you. Your information has been saved."
-msgstr "Le groupe \"%1\" a été enregistré."
+msgstr "Merci. Vos informations ont été sauvegardées."
 
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Invalid form parameters."
@@ -16602,9 +16599,8 @@ msgid "Please enter up to 5 email addresses to receive the mailing."
 msgstr ""
 
 #: templates/CRM/Profile/Form/Search.tpl
-#, fuzzy
 msgid "New Search"
-msgstr "Chercher"
+msgstr "Nouvelle recherche"
 
 #: templates/CRM/Profile/Form/Search.tpl
 msgid ""
@@ -16614,7 +16610,7 @@ msgstr ""
 
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid "Displaying contacts where:"
-msgstr ""
+msgstr "Voici les contacts qui correspondent aux critères suivants:"
 
 #: templates/CRM/Profile/Page/Listings.tpl
 #, fuzzy
@@ -16634,7 +16630,7 @@ msgstr ""
 
 #: templates/CRM/Profile/Page/View.tpl
 msgid "Back to Listings"
-msgstr ""
+msgstr "Retourner à la liste de contacts"
 
 #: templates/CRM/Quest/Error.tpl
 #, fuzzy
@@ -17990,7 +17986,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Any not-for-profit organization."
-msgstr "N'importe quelle ONG."
+msgstr "N'importe quelle OBNL."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Company"
