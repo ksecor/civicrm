@@ -460,8 +460,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_params =& $this->convertFormValues( $this->_formValues );
             $this->_returnProperties =& $this->returnProperties( );
 
-            // CRM_Core_Error::debug( 'fv', $this->_formValues );
-
             // also reset the sort by character  
             $this->_sortByCharacter = null;  
             $this->set( 'sortByCharacter', null );
@@ -596,10 +594,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
         }
         
-        if ( empty($this->_params) ) {
-            $this->_params =& $this->convertFormValues( $this->_formValues );
-        }
-        
+        $this->_params =& $this->convertFormValues( $this->_formValues );
         $this->_returnProperties =& $this->returnProperties( );
         
         $this->postProcessCommon( );
