@@ -58,8 +58,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $rfp = CRM_Utils_Request::retrieve( 'rfp', 'Boolean',
                                                 CRM_Core_DAO::$_nullObject, false, null, 'GET' );
             if ( $rfp ) {
-                require_once 'CRM/Contribute/Payment.php'; 
-                $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
+                require_once 'CRM/Core/Payment.php'; 
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' );
                 $this->_params = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
 
                 // fix state and country id if present
@@ -314,8 +314,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->_params['contributionPageID']               = $this->_values['id'];
             
             
-            require_once 'CRM/Contribute/Payment.php';
-            $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
+            require_once 'CRM/Core/Payment.php';
+            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' );
 
             if ( $this->_contributeMode == 'express' ) {
                 if ( $this->_values['is_monetary'] ) {

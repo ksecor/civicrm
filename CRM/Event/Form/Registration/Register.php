@@ -36,8 +36,8 @@
  */
 
 require_once 'CRM/Event/Form/Registration.php';
-require_once 'CRM/Contribute/Payment.php';
-
+//require_once 'CRM/Contribute/Payment.php';
+require_once 'CRM/Core/Payment.php';
 /**
  * This class generates form components for processing Event  
  * 
@@ -103,7 +103,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
         // if payment is via a button only, dont display continue
-        if ( $config->paymentBillingMode != CRM_Contribute_Payment::BILLING_MODE_BUTTON || !$this->_values['event']['is_monetary']) {
+        if ( $config->paymentBillingMode != CRM_Core_Payment::BILLING_MODE_BUTTON || !$this->_values['event']['is_monetary']) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
                                             'name'      => ts('Continue >>'), 
@@ -144,7 +144,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     function buildCreditCard( ) {
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_FORM ) {
+        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM ) {
             foreach ( $this->_fields as $name => $field ) {
                 $this->add( $field['htmlType'],
                             $field['name'],
@@ -157,7 +157,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->addRule( 'credit_card_exp_date', ts('Select a valid date greater than today.'), 'currentDate');
         }            
             
-        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
+        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
                        $this->_expressButtonName,
@@ -201,11 +201,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             $this->set( 'invoiceID', $invoiceID );
             
-            $payment =& CRM_Contribute_Payment::singleton( $this->_mode ); 
+            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event' ); 
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
             
-            if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
+            if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
                 //get the button name  
                 $buttonName = $this->controller->getButtonName( );  
                 if ($buttonName == $this->_expressButtonName || 
@@ -233,7 +233,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     
                     CRM_Utils_System::redirect( $paymentURL ); 
                 }
-            } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NOTIFY ) {
+            } else if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
                 $this->set( 'contributeMode', 'notify' );
             }
         }

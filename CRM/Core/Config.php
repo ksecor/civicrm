@@ -874,6 +874,9 @@ class CRM_Core_Config
             $this->mailerBatchLimit = (int) CIVICRM_MAILER_BATCH_LIMIT;
         }
 
+        require_once 'CRM/Core/Payment/Config.php';
+        CRM_Core_Payment_Config::add( $this, true );   
+
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::addConfig( $this, true );   
     }
@@ -1062,7 +1065,7 @@ class CRM_Core_Config
 
         if ( empty( $variables ) ) {
             $this->retrieveFromSettings( );
-
+            
             $variables = get_object_vars($this);
 
             // if we dont get stuff from the sttings file, apply appropriate defaults
@@ -1158,6 +1161,9 @@ class CRM_Core_Config
             $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
         }
         
+        require_once 'CRM/Core/Payment/Config.php';
+        CRM_Core_Payment_Config::add( $this );   
+
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::addConfig( $this );   
         

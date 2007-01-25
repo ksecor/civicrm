@@ -66,8 +66,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $rfp = CRM_Utils_Request::retrieve( 'rfp', 'Boolean',
                                                 CRM_Core_DAO::$_nullObject, false, null, 'GET' );
             if ( $rfp ) {
-                require_once 'CRM/Contribute/Payment.php'; 
-                $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
+                //require_once 'CRM/Contribute/Payment.php'; 
+                require_once 'CRM/Core/Payment.php'; 
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event' );
                 $this->_params = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
                 
                 // fix state and country id if present
@@ -186,6 +187,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      */
     public function postProcess() 
     {
+        require_once 'CRM/Event/BAO/Participant.php';
+
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
         $now = date( 'YmdHis' );
@@ -199,14 +202,26 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         // required only if paid event
         if ( $this->_values['event']['is_monetary'] ) {
-            require_once 'CRM/Contribute/Payment.php';
-            $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
-            
+            require_once 'CRM/Core/Payment.php';
+            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event' );
+
             switch ( $this->_contributeMode ) {
             case 'express':
                 $result =& $payment->doExpressCheckout( $this->_params );
                 break;
             case 'notify':
+                $this->_params['contactID'] = $contactID;
+                $this->_params['eventID']   = $this->_id;
+                
+                $contribution =& $this->processContribution( $this->_params, null, $contactID, true );
+                $this->_params['contributionID'    ] = $contribution->id;
+                $this->_params['contributionTypeID'] = $contributionType->id;
+                $this->_params['item_name'         ] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
+                $this->_params['receive_date'      ] = $now;
+                
+//                 $participant  =& $this->addParticipant( $this->_params, $contactID );
+//                 CRM_Event_BAO_Participant::setActivityHistory( $participant );
+                
                 $result =& $payment->doTransferCheckout( $this->_params );
                 break;
             default   :
@@ -236,8 +251,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->set( 'params', $this->_params );
         
         // insert participant record
-        require_once 'CRM/Event/BAO/Participant.php';
-        $participant  =& $this->addPartcipant( $this->_params, $result, $contactID );
+        $participant  =& $this->addParticipant( $this->_params, $contactID );
         
         // insert activity record
         CRM_Event_BAO_Participant::setActivityHistory( $participant );
@@ -253,7 +267,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      * @return void
      * @access public
      */
-    public function addPartcipant( $params, $result, $contactID ) 
+    public function addParticipant( $params, $contactID ) 
     {
         CRM_Core_DAO::transaction( 'BEGIN' );
 

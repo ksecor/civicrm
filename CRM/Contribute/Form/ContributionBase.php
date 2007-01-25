@@ -147,7 +147,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
             $session->set( 'pastContributionThermometer', $this->_values['is_thermometer'] );
 
-            if ( ($config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_FORM) && $this->_values['is_monetary'] ) {
+            if ( ($config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM) && $this->_values['is_monetary'] ) {
                 $this->setCreditCardFields( );
             }
 
@@ -156,7 +156,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
 
         // make sure we have a valid payment class, else abort
-        if ( $this->_values['is_monetary'] && ! $config->paymentClass ) {
+        if ( $this->_values['is_monetary'] && ! $config->paymentFile ) {
             CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
         }
 

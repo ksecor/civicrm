@@ -34,7 +34,7 @@
    *  
    */  
  
-abstract class CRM_Contribute_Payment {
+abstract class CRM_Core_Payment {
     /**
      * how are we getting billing information?
      *
@@ -64,17 +64,18 @@ abstract class CRM_Contribute_Payment {
      * @static  
      *  
      */  
-    static function &singleton( $mode = 'test' ) {
-        if (self::$_singleton === null ) {
-            $config   =& CRM_Core_Config::singleton( );
+    static function &singleton( $mode = 'test', $component ) {
+        if ( self::$_singleton === null ) {
+            $config       =& CRM_Core_Config::singleton( );
+            $paymentClass = "CRM_{$component}_" . $config->paymentFile;
             
-            $classPath = str_replace( '_', '/', $config->paymentClass ) . '.php';
+            $classPath = str_replace( '_', '/', $paymentClass ) . '.php';
             require_once($classPath);
-            self::$_singleton = eval( 'return ' . $config->paymentClass . '::singleton( $mode );' );
+            self::$_singleton = eval( 'return ' . $paymentClass . '::singleton( $mode );' );
         }
         return self::$_singleton;
     }
-
+    
     /**
      * This function collects all the information from a web/api form and invokes
      * the relevant payment processor specific functions to perform the transaction

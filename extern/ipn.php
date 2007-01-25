@@ -47,7 +47,17 @@ $config->userFramework          = 'Soap';
 $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
 $config->userHookClass          = 'CRM_Utils_Hook_Soap';
 
-require_once 'CRM/Contribute/Payment/PayPalIPN.php';
-CRM_Contribute_Payment_PayPalIPN::main( );
+// $value = CRM_Utils_Request::retrieve( 'module', 'String', null, false, null, 'GET' );
+
+// switch ( $value ) {
+//  case 'event':
+//      require_once 'CRM/Event/Payment/PayPalIPN.php';
+//      CRM_Event_Payment_PayPalIPN::main( );
+//      break;
+//  default     :
+     require_once 'CRM/Contribute/Payment/PayPalIPN.php';
+     CRM_Contribute_Payment_PayPalIPN::main( );
+//      break;
+//  }
 
 ?>

@@ -37,7 +37,7 @@
 //require_once 'CRM/Contribute/Payment.php';
 require_once 'CRM/Core/Payment/PayPalImpl.php';
 
-class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
+class CRM_Event_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
     /** 
      * We only need one instance of this object. So we use the singleton 
      * pattern and cache the instance in this variable 
@@ -71,7 +71,7 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
      */ 
     static function &singleton( $mode ) {
         if (self::$_singleton === null ) { 
-            self::$_singleton =& new CRM_Contribute_Payment_PaypalImpl( $mode );
+            self::$_singleton =& new CRM_Event_Payment_PaypalImpl( $mode );
         } 
         return self::$_singleton; 
     } 
@@ -79,14 +79,10 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
     function doTransferCheckout( &$params ) {
         $config =& CRM_Core_Config::singleton( );
         
-        $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}";
+        $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&module='event'&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}&eventID={$params['eventID']}";
         
-        if ( $params['selectMembership'] &&  $params['selectMembership'] != 'no_thanks' ) {
-            $notifyURL .= "&membershipTypeID={$params['selectMembership']}";
-        }
-
-        $returnURL = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_ThankYou_display=1', true, null, false );
-        $cancelURL = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1&cancel=1', true, null, false );
+        $returnURL = CRM_Utils_System::url( 'civicrm/event/register', '_qf_ThankYou_display=1', true, null, false );
+        $cancelURL = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1&cancel=1', true, null, false );
         
         $paypalParams =
             array( 'business'           => $config->paymentUsername[$this->_mode],
@@ -156,6 +152,7 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
         CRM_Core_Error::debug_var( 'paypalURL'   , $paypalURL );
 
         CRM_Utils_System::redirect( $paypalURL );
+
     }
 
 }

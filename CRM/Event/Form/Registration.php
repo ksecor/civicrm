@@ -107,8 +107,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->_fields = $this->get( 'fields' );
 
         $config  =& CRM_Core_Config::singleton( );
+
         // make sure we have a valid payment class, else abort
-        if ( $this->_values['event']['is_monetary'] && ! $config->paymentClass ) {
+        if ( $this->_values['event']['is_monetary'] && ! $config->paymentFile ) {
             CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
         }
 

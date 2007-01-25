@@ -36,7 +36,7 @@
  */
 
 require_once 'CRM/Contribute/Form/ContributionBase.php';
-require_once 'CRM/Contribute/Payment.php';
+require_once 'CRM/Core/Payment.php';
 
 /**
  * This class generates form components for processing a ontribution 
@@ -143,7 +143,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
         // if payment is via a button only, dont display continue
-        if ( $config->paymentBillingMode != CRM_Contribute_Payment::BILLING_MODE_BUTTON || !$this->_values['is_monetary']) {
+        if ( $config->paymentBillingMode != CRM_Core_Payment::BILLING_MODE_BUTTON || !$this->_values['is_monetary']) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
                                             'name'      => ts('Continue >>'), 
@@ -239,7 +239,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     function buildCreditCard( ) {
         $config =& CRM_Core_Config::singleton( );
 
-        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_FORM) {
+        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM) {
             foreach ( $this->_fields as $name => $field ) {
                 $this->add( $field['htmlType'],
                             $field['name'],
@@ -252,7 +252,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->addRule( 'credit_card_exp_date', ts('Select a valid date greater than today.'), 'currentDate');
         }            
             
-        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
+        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
                        $this->_expressButtonName,
@@ -368,7 +368,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         if ( $self->_values['is_monetary'] ) {
-            $payment =& CRM_Contribute_Payment::singleton( $self->_mode );
+            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Contribute' );
             $error   =  $payment->checkConfig( $self->_mode );
             if ( $error ) {
                 $errors['_qf_default'] = $error;
@@ -396,7 +396,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // make sure either 
         // return if this is express mode
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
+        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
             if ( CRM_Utils_Array::value( $self->_expressButtonName . '_x', $fields ) ||
                  CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
                  CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
@@ -487,11 +487,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // not required if is_monetary=FALSE 
         if ( $this->_values['is_monetary'] ) {
             
-            $payment =& CRM_Contribute_Payment::singleton( $this->_mode ); 
+	  $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' ); 
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
 
-            if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
+            if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
                 //get the button name  
                 $buttonName = $this->controller->getButtonName( );  
                 if ($buttonName == $this->_expressButtonName || 
@@ -521,7 +521,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     }
                     CRM_Utils_System::redirect( $paymentURL ); 
                 }
-            } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NOTIFY ) {
+            } else if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
                 $this->set( 'contributeMode', 'notify' );
             }
         }         
