@@ -667,6 +667,34 @@ GROUP BY p.id
             }
          }
     }
+    /**
+     * Function to get list of contribution In Honor of contact Ids
+     *
+     * @return return the list of contribution fields
+     * 
+     * @access public
+     */
+    function getHonorContacts( $honorId )
+    {
+    	  $params=array();
+	  require_once 'CRM/Contribute/DAO/Contribution.php';
+	  $honorDAO =& new CRM_Contribute_DAO_Contribution();
+	  $honorDAO->honor_contact_id =  $honorId;
+	  $honorDAO->find();
+	  require_once 'CRM/Contribute/PseudoConstant.php';
+	  $status = CRM_Contribute_Pseudoconstant::contributionStatus($honorDAO->contribution_status_id);
+
+	  while($honorDAO->fetch( )){
+	    $params[$honorDAO->id]['honorId']      = $honorDAO->contact_id;		    
+	    $params[$honorDAO->id]['display_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $honorDAO->contact_id, 'display_name' );
+	    $params[$honorDAO->id]['type']         = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $honorDAO->contribution_type_id, 'name' );
+	    $params[$honorDAO->id]['amount']       = $honorDAO->total_amount;
+	    $params[$honorDAO->id]['source']       = $honorDAO->source;
+	    $params[$honorDAO->id]['receive_date'] = $honorDAO->receive_date;
+	    $params[$honorDAO->id]['contribution_status']= CRM_Utils_Array::value($honorDAO->contribution_status_id, $status);  
+	  }
+	  return $params;
+    }
 
  /**
      * function to get the sort name of a contact for a particular contribution

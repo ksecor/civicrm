@@ -38,6 +38,54 @@ require_once 'CRM/Contact/Page/View.php';
 
 class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
 
+     /**
+     * The action links that we need to display for the browse screen
+     *
+     * @var array
+     * @static
+     */
+     static $_links = null;
+
+
+    /**
+     * This method returns the links that are given for honor search row.
+     * currently the links added for each row are 
+     * 
+     * - View
+     * - Edit
+     *
+     * @return array
+     * @access public
+     *
+     */
+  static function &honorLinks()
+    {
+
+        if (!(self::$_links)) {
+            self::$_links = array(
+                                  CRM_Core_Action::VIEW   => array(
+                                                                   'name'     => ts('View'),
+                                                                   'url'      => 'civicrm/contact/view/contribution',
+                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%honorId%%&action=view&context=%%cxt%%&selectedChild=contribute',
+                                                                   'title'    => ts('View Contribution'),
+                                                                  ),
+                                  CRM_Core_Action::UPDATE => array(
+                                                                   'name'     => ts('Edit'),
+                                                                   'url'      => 'civicrm/contact/view/contribution',
+                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%honorId%%&context=%%cxt%%&subType=%%contributionType%%',
+                                                                   'title'    => ts('Edit Contribution'),
+                                                                  ),
+                                  CRM_Core_Action::DELETE => array(
+                                                                   'name'     => ts('Delete'),
+                                                                   'url'      => 'civicrm/contact/view/contribution',
+                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%honorId%%&context=%%cxt%%',
+                                                                   'title'    => ts('Delete Contribution'),
+                                                                  ),
+                                  );
+        }
+        return self::$_links;
+    } //end of function
+
    /**
      * This function is called when action is browse
      * 
@@ -49,9 +97,35 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
         $controller->setEmbedded( true );
         $controller->reset( );
         $controller->set( 'cid'  , $this->_contactId );
+        $controller->set( 'id' , $this->_id ); 
         $controller->set( 'context', 'contribution' ); 
-        $controller->process( );
+	$controller->process( );
         $controller->run( );
+
+	//add honor block
+	
+	// form all action links	
+	$action = array_sum(array_keys($this->honorLinks( )));	    
+
+	require_once 'CRM/Contribute/BAO/Contribution.php';
+	$params = array( );
+	$params =  CRM_Contribute_BAO_Contribution::getHonorContacts( $this->_contactId );
+	if ( ! empty($params) ) {
+	  foreach($params as $ids => $honorId){
+	    $contributionId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $honorId['honorId'],'id','contact_id' );
+	    $subType     = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $honorId['type'], 'id','name' );
+	    $params[$ids]['action'] = CRM_Core_Action::formLink(self::honorLinks( ), $action, 
+								array('honorId' => $honorId['honorId'],
+								      'id'  =>  $contributionId,
+								      'cxt' => 'contribution',
+								      'contributionType' => $subType )
+								);
+	  }
+	  // assign vars to templates
+	  $this->assign('action', $this->_action);
+	  $this->assign('honorRows', $params);
+	  $this->assign('honor', true);
+	}
     }
 
     /** 

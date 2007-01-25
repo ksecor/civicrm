@@ -36,6 +36,9 @@
        </dl>
   </div>
 {/if}
+   {if $honor}	
+    	  {include file="CRM/Contribute/Page/ContributionHonor.tpl"}	
+   {/if} 
 
 {/if}
 </div>
