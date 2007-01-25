@@ -525,6 +525,17 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         }
     }
 
+    public function fixUploadAction( $uploadDirectory, $uploadNames ) {
+        if ( ! empty( $uploadNames ) ) {
+            require_once 'CRM/Core/QuickForm/Action/Upload.php';
+            $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
+                                                              $uploadDirectory,
+                                                              $uploadNames );
+
+            $this->addAction('upload' , $action );
+        }
+    }
+
 }
 
 ?>

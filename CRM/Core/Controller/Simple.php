@@ -69,15 +69,14 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
         
         //changes for custom data type File
         $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
+        $uploadNames = $this->get( 'uploadNames' );
         
         $config =& CRM_Core_Config::singleton( );
         
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $uplaodArray = $uploadNames;
-            $this->addActions( $config->customFileUploadDir, $uplaodArray );
-            $uploadNames = $session->set( 'uploadNames',null );
-            
+            $uploadArray = $uploadNames;
+            $this->addActions( $config->customFileUploadDir, $uploadArray );
+            $this->set( 'uploadNames', null );
         } else {
             // always allow a single upload file with same name
             if ( $imageUpload ) {

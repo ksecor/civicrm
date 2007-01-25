@@ -429,12 +429,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $element =& $qf->add(strtolower($field->html_type), $elementName, $label,
                                  $field->attributes, (($useRequired && $field->is_required) && !$search));
 
-            $session =& CRM_Core_Session::singleton( );
             $uploadNames = array();
-            $uploadNames = $session->get('uploadNames');
+            $uploadNames = $qf->get('uploadNames');
             $uploadNames[] = $elementName;
-            
-            $session->set('uploadNames', $uploadNames);
+            $qf->set( 'uploadNames', $uploadNames );
+
+            $config =& CRM_Core_Config::singleton( );
+            $qf->controller->fixUploadAction( $config->customFileUploadDir, $uploadNames );
             break;
 
         case 'Select State/Province':

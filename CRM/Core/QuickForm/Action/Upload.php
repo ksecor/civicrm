@@ -79,6 +79,8 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
      * @access private
      */
     function upload( &$page, &$data, $pageName, $uploadName ) {
+        CRM_Core_Error::debug( 'n', $uploadName );
+
         if ( empty( $uploadName ) ) {
             return;
         }
@@ -117,7 +119,16 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
     function perform(&$page, $actionName) {
         // like in Action_Next 
         $page->isFormBuilt() or $page->buildForm(); 
-        
+
+        // so this is a brain-seizure moment, so hang tight (real tight!)
+        // the above buildForm potentially changes the action function with different args
+        // so basically the rug might have been pulled from us, so we actually just check
+        // and potentially call the right one
+        // this allows standalong form uploads to work nicely
+        $page->controller->_actions['upload']->realPerform( $page, $actionName );
+    }
+
+    function realPerform( &$page, $actionName) {
         $pageName =  $page->getAttribute('name'); 
         $data     =& $page->controller->container(); 
         $data['values'][$pageName] = $page->exportValues(); 
