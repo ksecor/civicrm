@@ -35,7 +35,7 @@
                    <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.targetID`"}">{$row.targetName}</a>
                  </td>
                  <td>{$row.date|crmDate}</td>
-                 <td>{$row.status_display}{if $row.overdue}<br />(Overdue){/if}</td>
+                 <td>{$row.status_display}{if $row.overdue}<br />({ts}Overdue{/ts}){/if}</td>
                  <td>{$row.action}</td>
                </tr>           
         {/foreach}
