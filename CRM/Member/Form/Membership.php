@@ -120,7 +120,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
         } else {
-            $urlParams = "&action=add";
+            $urlParams .= "&action=add";
         }
 
         $url = CRM_Utils_System::url('civicrm/contact/view/membership',
