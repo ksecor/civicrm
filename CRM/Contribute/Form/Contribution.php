@@ -285,10 +285,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->buildPremiumForm($this);
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
                
-        $element =& $this->addElement('select', 'contribution_type_id', 
+        $element =& $this->add('select', 'contribution_type_id', 
                                ts( 'Contribution Type' ), 
                                array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ),
-                               array('onChange' => "reload(true)"),true );
+                               true, array('onChange' => "reload(true)"));
         if ( $this->_online ) {
             $element->freeze( );
         }
