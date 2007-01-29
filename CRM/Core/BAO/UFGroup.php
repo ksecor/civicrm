@@ -233,13 +233,13 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $query  = "SELECT g.* from civicrm_uf_group g WHERE g.is_active = 1 AND g.id = %1 ";
             $params = array( 1 => array( $id, 'Integer' ) );
         }
-
+        
         $group =& CRM_Core_DAO::executeQuery( $query, $params );
         
         $fields = array( );
         if ( $group->fetch( ) ) {
             $where = " WHERE uf_group_id = {$group->id}";
-
+            
             if( $searchable ) {
                 $where .= " AND is_searchable = 1"; 
             }
@@ -280,68 +280,63 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $importableFields['tag'  ]['where'] = null;
 
             $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im', 'location_name' );
-
+            
             //get location type
             $locationType = array( );
             $locationType =& CRM_Core_PseudoConstant::locationType();
             
             require_once 'CRM/Core/BAO/CustomField.php';
             $customFields = CRM_Core_BAO_CustomField::getFieldsForImport();
-
-
+            
             while ( $field->fetch( ) ) {
-                if ( $searchable || 
-                     ( $field->is_view && $action == CRM_Core_Action::VIEW ) ||
-                     ! $field->is_view ) {
-                    $name  = $title = $locType = $phoneType = '';
-                    $name  = $field->field_name;
-                    $title = $field->label;
-
-                    if ($field->location_type_id) {
-                        $name    .= "-{$field->location_type_id}";
-                        $locType  = " ( {$locationType[$field->location_type_id]} ) ";
-                    } else {                                                           
-                        if ( in_array($field->field_name, $specialFields))  {
-                            $name    .= '-Primary'; 
-                            $locType  = ' ( Primary ) ';
-                        }
+                $name  = $title = $locType = $phoneType = '';
+                $name  = $field->field_name;
+                $title = $field->label;
+                
+                if ($field->location_type_id) {
+                    $name    .= "-{$field->location_type_id}";
+                    $locType  = " ( {$locationType[$field->location_type_id]} ) ";
+                } else {                                                           
+                    if ( in_array($field->field_name, $specialFields))  {
+                        $name    .= '-Primary'; 
+                        $locType  = ' ( Primary ) ';
                     }
-
-                    if ($field->phone_type) {
-                        $name      .= "-{$field->phone_type}";
-                        if ( $field->phone_type != 'Phone' ) { // this hack is to prevent Phone Phone (work)
-                            $phoneType  = "-{$field->phone_type}";
-                        }
+                }
+                
+                if ($field->phone_type) {
+                    $name      .= "-{$field->phone_type}";
+                    if ( $field->phone_type != 'Phone' ) { // this hack is to prevent Phone Phone (work)
+                        $phoneType  = "-{$field->phone_type}";
                     }
-
-                    $fields[$name] =
-                        array('name'             => $name,
-                              'groupTitle'       => $group->title,
-                              'groupHelpPre'     => $group->help_pre,
-                              'groupHelpPost'    => $group->help_post,
-                              'title'            => $title,
-                              'where'            => $importableFields[$field->field_name]['where'],
-                              'attributes'       => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
-                              'is_required'      => $field->is_required,
-                              'is_view'          => $field->is_view,
-                              'is_match'         => $field->is_match,
-                              'help_post'        => $field->help_post,
-                              'visibility'       => $field->visibility,
-                              'in_selector'      => $field->in_selector,
-                              'default'          => $field->default_value,
-                              'rule'             => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
-                              'options_per_line' => $importableFields[$field->field_name]['options_per_line'],
-                              'location_type_id' => $field->location_type_id,
-                              'phone_type'       => $field->phone_type,
-                              'group_id'         => $group->id,
-                              'add_to_group_id'  => $group->add_to_group_id,
-                              'collapse_display' => $group->collapse_display,
-                              'add_captcha'      => $group->add_captcha
-                              );
-                    //adding custom field property 
-                    if ( substr($name, 0, 6) == 'custom' ) {
-                        $fields[$name]['is_search_range'] = $customFields[$name]['is_search_range'];
-                    }
+                }
+                
+                $fields[$name] =
+                    array('name'             => $name,
+                          'groupTitle'       => $group->title,
+                          'groupHelpPre'     => $group->help_pre,
+                          'groupHelpPost'    => $group->help_post,
+                          'title'            => $title,
+                          'where'            => $importableFields[$field->field_name]['where'],
+                          'attributes'       => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
+                          'is_required'      => $field->is_required,
+                          'is_view'          => $field->is_view,
+                          'is_match'         => $field->is_match,
+                          'help_post'        => $field->help_post,
+                          'visibility'       => $field->visibility,
+                          'in_selector'      => $field->in_selector,
+                          'default'          => $field->default_value,
+                          'rule'             => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
+                          'options_per_line' => $importableFields[$field->field_name]['options_per_line'],
+                          'location_type_id' => $field->location_type_id,
+                          'phone_type'       => $field->phone_type,
+                          'group_id'         => $group->id,
+                          'add_to_group_id'  => $group->add_to_group_id,
+                          'collapse_display' => $group->collapse_display,
+                          'add_captcha'      => $group->add_captcha
+                          );
+                //adding custom field property 
+                if ( substr($name, 0, 6) == 'custom' ) {
+                    $fields[$name]['is_search_range'] = $customFields[$name]['is_search_range'];
                 }
             }
         } else {
@@ -349,7 +344,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         }
         return $fields;
     }
-
+    
     /**
      * check the data validity
      *
@@ -1232,7 +1227,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
      * @static
      * @access public
      */
-    static function buildProfile( &$form, &$field, $mode, $contactId = null ) 
+    static function buildProfile( &$form, &$field, $mode, $contactId = null )  
     {
         require_once "CRM/Profile/Form.php";
         $fieldName  = $field['name'];
@@ -1242,7 +1237,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         $view       = $field['is_view'];
         $required = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? false : $field['is_required'];
         $search   = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? true : false;
-
+        
         if ($contactId) {
             $name = "field[$contactId][$fieldName]";
         } else {
