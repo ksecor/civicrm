@@ -1209,6 +1209,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function buildProfile( &$form, &$field, $mode, $contactId = null ) 
     {
         require_once "CRM/Profile/Form.php";
+        require_once "CRM/Core/OptionGroup.php";
         $fieldName  = $field['name'];
         $title      = $field['title'];
         $attributes = $field['attributes'];
@@ -1216,7 +1217,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $view       = $field['is_view'];
         $required = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? false : $field['is_required'];
         $search   = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? true : false;
-            
         if ($contactId) {
             $name = "field[$contactId][$fieldName]";
         } else {
@@ -1292,6 +1292,23 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ($fieldName == 'contribution_type' ) {
             $form->add('select', $name, ts( 'Contribution Type' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+        } else if ($fieldName == 'scholarship_type_id' ) {
+            $scholarshipType = CRM_Core_OptionGroup::values( 'scholarship_type', true );
+            foreach ( $scholarshipType as $key => $var ) {
+                if ( $key == '' ) {
+                    continue;
+                }
+                $sType[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+            }
+            $form->addGroup($sType, $name, $title, '<br/>' );
+        } else if ($fieldName == 'applicant_status_id' ) {  
+            $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'applicant_status', true ) ) );
+        } else if ($fieldName == 'highschool_gpa_id' ) {
+            $form->add('select', $name, $title, array( "" => "-- Select -- ") + CRM_Core_OptionGroup::values( 'highschool_gpa' ) );
+        } else if ($fieldName == 'interview_rank' ) {
+            $ranking = array();
+            $ranking = CRM_TMF_BAO_Query::buildNumberSelect(20);
+            $form->add('select', $name, $title, array("" => "-- Select -- ")+ $ranking );
         } else {
             $processed = false;
             if ( CRM_Core_Permission::access( 'Quest', false ) ) {
