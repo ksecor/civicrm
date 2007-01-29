@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-21 19:06+0100\n"
-"PO-Revision-Date: 2007-01-24 07:49-0800\n"
+"POT-Creation-Date: 2007-01-29 09:54+0100\n"
+"PO-Revision-Date: 2007-01-26 12:16-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1234,7 +1234,7 @@ msgstr "Rechercher"
 #: CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "Custom Fields"
-msgstr ""
+msgstr "Champs personalisés"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/Menu.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -3684,9 +3684,8 @@ msgid "\"%1\" has been logged to Activity History."
 msgstr "La rencontre \"%1\" a été enregistrée à l'historique."
 
 #: CRM/Activity/BAO/Activity.php
-#, fuzzy
 msgid "\"%1\" has been saved."
-msgstr "La rencontre \"%1\" a été sauvegardée."
+msgstr "«%1» a été sauvegardée."
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "- select activity type -"
@@ -6620,9 +6619,8 @@ msgid "Activity ID"
 msgstr "Activité"
 
 #: CRM/Core/DAO/ActivityHistory.php
-#, fuzzy
 msgid "Activity Summary"
-msgstr "Type d'activité"
+msgstr "Résumé de l'activité"
 
 #: CRM/Core/DAO/Address.php
 #, fuzzy
@@ -11662,9 +11660,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/Options.tpl
-#, fuzzy
 msgid "Reserved"
-msgstr "Réservé?"
+msgstr "Réservé"
 
 #: templates/CRM/Admin/Page/Options.tpl
 #, fuzzy
@@ -11709,17 +11706,15 @@ msgid "Relationship B to A"
 msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
-#, fuzzy
 msgid "All Contacts"
-msgstr "- Tous les contacts -"
+msgstr "Tous les contacts"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
-#, fuzzy
 msgid ""
 "There are no relationship types present. You can <a href=\"%1\">add one</a>."
 msgstr ""
-"Il n'existe aucune relation pour ce contact. Vous pouvez <a href=\"%1\"> en "
-"ajouter une</a>."
+"Il n'existe aucun type de relation. Vous pouvez <a href=\"%1\">en créer un "
+"nouveau</a>."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -11727,10 +11722,14 @@ msgid ""
 "for this site. Click the help icon <strong>( ? )</strong> in each section "
 "for details on the settings and options."
 msgstr ""
+"Utiliser les liens ci-dessous pour configurer ou modifier les préférences "
+"globales pour le CiviCRM installé sur ce site. Pour obtenir plus "
+"d'information sur les options, cliquer sur l'icône d'aide <strong>(?)</"
+"strong> de chaque section."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Enable CiviContribute, CiviMember and/or CiviMail components."
-msgstr ""
+msgstr "Activer les composants CiviContribute, CiviMember et/ou CiviMail."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -12576,7 +12575,7 @@ msgstr "Autres activités"
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "View User Record"
-msgstr ""
+msgstr "Consulter la fiche Drupal de cet utilisateur"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
@@ -12902,6 +12901,10 @@ msgstr "Aucune contribution n'est enregistrée pour ce contact."
 msgid ""
 "Click <a href=\"%1\">New Contribution</a> to record a new offline "
 "contribution for this contact."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/DashBoard.tpl
+msgid "Overdue"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
@@ -15291,26 +15294,27 @@ msgstr ""
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Group Title"
-msgstr ""
+msgstr "Titre du groupe"
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "All Contact Types"
-msgstr ""
+msgstr "Tous les types de contacts"
 
 #: templates/CRM/Custom/Page/Group.tpl
-#, fuzzy
 msgid "New Group of Custom Fields"
-msgstr "Supprimer le champ personnalisé"
+msgstr "Nouveau groupe de champs personalisés"
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid ""
 "No custom data groups have been created yet. You can <a href=\"%1\">add one</"
 "a>."
 msgstr ""
+"Il n'existe pas de groupes de données personalisés. Vous pouvez en <a href="
+"\"%1\">créer un nouveau</a>."
 
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "New Option for \"%1\""
-msgstr ""
+msgstr "Nouvelle option pour «%1»."
 
 #: templates/CRM/Custom/Page/Option.tpl
 msgid ""
@@ -15336,11 +15340,11 @@ msgstr ""
 
 #: templates/CRM/error.tpl
 msgid "Main Menu"
-msgstr ""
+msgstr "Menu principal"
 
 #: templates/CRM/error.tpl
 msgid "Return to CiviCRM menu."
-msgstr ""
+msgstr "Retourner au menu CiviCRM."
 
 #: templates/CRM/Form/body.tpl
 msgid "Please correct the following errors in the form fields below:"
