@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-21 19:06+0100\n"
+"POT-Creation-Date: 2007-01-29 09:54+0100\n"
 "PO-Revision-Date: 2006-03-12 14:45+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
@@ -13105,6 +13105,10 @@ msgstr ""
 "Klik op <a href=\"%1'\">Nieuwe bijdrage pagina</a> om een nieuwe bijdrage "
 "pagina aan te maken, met behulp van de Wizard, die u stap voor stap "
 "begeleidt."
+
+#: templates/CRM/Contact/Page/View/DashBoard.tpl
+msgid "Overdue"
+msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "No activities are currently scheduled."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-21 19:06+0100\n"
+"POT-Creation-Date: 2007-01-29 09:54+0100\n"
 "PO-Revision-Date: 2007-01-26 12:16-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: none\n"
@@ -11712,14 +11712,20 @@ msgstr "Tous les contacts"
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
 "There are no relationship types present. You can <a href=\"%1\">add one</a>."
-msgstr "Il n'existe aucun type de relation. Vous pouvez <a href=\"%1\">en créer un nouveau</a>."
+msgstr ""
+"Il n'existe aucun type de relation. Vous pouvez <a href=\"%1\">en créer un "
+"nouveau</a>."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Use the links below to configure or modify the global settings for CiviCRM "
 "for this site. Click the help icon <strong>( ? )</strong> in each section "
 "for details on the settings and options."
-msgstr "Utiliser les liens ci-dessous pour configurer ou modifier les préférences globales pour le CiviCRM installé sur ce site. Pour obtenir plus d'information sur les options, cliquer sur l'icône d'aide <strong>(?)</strong> de chaque section."
+msgstr ""
+"Utiliser les liens ci-dessous pour configurer ou modifier les préférences "
+"globales pour le CiviCRM installé sur ce site. Pour obtenir plus "
+"d'information sur les options, cliquer sur l'icône d'aide <strong>(?)</"
+"strong> de chaque section."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Enable CiviContribute, CiviMember and/or CiviMail components."
@@ -12895,6 +12901,10 @@ msgstr "Aucune contribution n'est enregistrée pour ce contact."
 msgid ""
 "Click <a href=\"%1\">New Contribution</a> to record a new offline "
 "contribution for this contact."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/DashBoard.tpl
+msgid "Overdue"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
@@ -15298,7 +15308,9 @@ msgstr "Nouveau groupe de champs personalisés"
 msgid ""
 "No custom data groups have been created yet. You can <a href=\"%1\">add one</"
 "a>."
-msgstr "Il n'existe pas de groupes de données personalisés. Vous pouvez en <a href=\"%1\">créer un nouveau</a>."
+msgstr ""
+"Il n'existe pas de groupes de données personalisés. Vous pouvez en <a href="
+"\"%1\">créer un nouveau</a>."
 
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "New Option for \"%1\""

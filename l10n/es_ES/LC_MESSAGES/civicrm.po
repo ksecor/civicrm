@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-21 19:06+0100\n"
+"POT-Creation-Date: 2007-01-29 09:54+0100\n"
 "PO-Revision-Date: 2007-01-27 14:16-0800\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -756,7 +756,9 @@ msgstr "Etiqueta(s)"
 #: CRM/Contact/BAO/Contact.php CRM/Core/BAO/CustomGroup.php
 #: CRM/Core/BAO/File.php
 msgid "Could not move custom file to custom upload directory"
-msgstr "No se pudo mover el fichero personalizado al directorio de subidas personalizadas"
+msgstr ""
+"No se pudo mover el fichero personalizado al directorio de subidas "
+"personalizadas"
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
@@ -12876,6 +12878,10 @@ msgstr "No hay Donaciones para este contacto."
 msgid ""
 "Click <a href=\"%1\">New Contribution</a> to record a new offline "
 "contribution for this contact."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/DashBoard.tpl
+msgid "Overdue"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
