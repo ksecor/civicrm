@@ -92,6 +92,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */ 
     protected $_fields;
 
+    /**
+     * The billing location id for this contribiution page
+     *
+     * @var int
+     * @protected
+     */
+    protected $_bltID;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -130,6 +138,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         $this->_values = $this->get( 'values' );
         $this->_fields = $this->get( 'fields' );
+        $this->_bltID  = $this->get( 'bltID'  );
 
         if ( ! $this->_values ) {
             // get all the values from the dao object
@@ -147,12 +156,22 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
             $session->set( 'pastContributionThermometer', $this->_values['is_thermometer'] );
 
+            // also check for billing informatin
+            // get the billing location type
+            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+            $this->_bltID = array_search( ts('Billing'),  $locationTypes );
+            if ( ! $this->_bltID ) {
+                CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+            }
+            $this->set   ( 'bltID', $this->_bltID );
+
             if ( ($config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM) && $this->_values['is_monetary'] ) {
                 $this->setCreditCardFields( );
             }
 
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
+
         }
 
         // make sure we have a valid payment class, else abort
@@ -182,6 +201,7 @@ contact the site administrator and notify them of this error' ) );
         //assigning is_monetary and is_email_receipt to template
         $this->assign( 'is_monetary', $this->_values['is_monetary'] );
         $this->assign( 'is_email_receipt', $this->_values['is_email_receipt'] );
+        $this->assign( 'bltID', $this->_bltID );
 
 
         //assign cancelSubscription URL to templates
@@ -250,11 +270,18 @@ contact the site administrator and notify them of this error' ) );
             }
         }
 
+
         // assign the address formatted up for display
-        $addressParts  = array('street_address', 'city', 'postal_code', 'state_province', 'country');
+        $addressParts  = array( "street_address-{$this->_bltID}",
+                                "city-{$this->_bltID}",
+                                "postal_code-{$this->_bltID}",
+                                "state_province-{$this->_bltID}",
+                                "country-{$this->_bltID}");
         $addressFields = array();
+
         foreach ($addressParts as $part) {
-            $addressFields[$part] = $this->_params[$part];
+            list( $n, $id ) = explode( '-', $part );
+            $addressFields[$n] = $this->_params[$part];
         }
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
@@ -268,7 +295,7 @@ contact the site administrator and notify them of this error' ) );
         }
 
         $this->assign( 'email',
-                       $this->controller->exportValue( 'Main', 'email' ) );
+                       $this->controller->exportValue( 'Main', "email-{$this->_bltID}" ) );
 
         // also assign the receipt_text
         $this->assign( 'receipt_text', $this->_values['receipt_text'] );
@@ -281,56 +308,57 @@ contact the site administrator and notify them of this error' ) );
      * @access public 
      */ 
     function setCreditCardFields( ) {
+        $bltID = $this->_bltID;
+
+        $this->_fields['billing_first_name'] = array( 'htmlType'   => 'text', 
+                                                      'name'       => 'billing_first_name', 
+                                                      'title'      => ts('Billing First Name'), 
+                                                      'attributes' => array( 'size' => 30, 'maxlength' => 60 ),
+                                                      'is_required'=> true );
         
-        $this->_fields['first_name'] = array( 'htmlType'   => 'text', 
-                                              'name'       => 'first_name', 
-                                              'title'      => ts('First Name'), 
-                                              'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                              'is_required'=> true );
-                                         
-        $this->_fields['middle_name'] = array( 'htmlType'   => 'text', 
-                                               'name'       => 'middle_name', 
-                                               'title'      => ts('Middle Name'), 
+        $this->_fields['billing_middle_name'] = array( 'htmlType'   => 'text', 
+                                               'name'       => 'billing_middle_name', 
+                                               'title'      => ts('Billing Middle Name'), 
                                                'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
                                                'is_required'=> false );
         
-        $this->_fields['last_name'] = array( 'htmlType'   => 'text', 
-                                             'name'       => 'last_name', 
-                                             'title'      => ts('Last Name'), 
+        $this->_fields['billing_last_name'] = array( 'htmlType'   => 'text', 
+                                             'name'       => 'billing_last_name', 
+                                             'title'      => ts('Billing Last Name'), 
                                              'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
                                              'is_required'=> true );
                                          
-        $this->_fields['street_address'] = array( 'htmlType'   => 'text', 
-                                                  'name'       => 'street_address', 
-                                                  'title'      => ts('Street Address'), 
-                                                  'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                                  'is_required'=> true );
+        $this->_fields["street_address-{$bltID}"] = array( 'htmlType'   => 'text', 
+                                                           'name'       => "street_address-{$bltID}",
+                                                           'title'      => ts('Street Address'), 
+                                                           'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                           'is_required'=> true );
                                          
-        $this->_fields['city'] = array( 'htmlType'   => 'text', 
-                                        'name'       => 'city', 
-                                        'title'      => ts('City'), 
-                                        'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                        'is_required'=> true );
+        $this->_fields["city-{$bltID}"] = array( 'htmlType'   => 'text', 
+                                                 'name'       => "city-{$bltID}",
+                                                 'title'      => ts('City'), 
+                                                 'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                 'is_required'=> true );
                                          
-        $this->_fields['state_province_id'] = array( 'htmlType'   => 'select', 
-                                                     'name'       => 'state_province_id', 
-                                                     'title'      => ts('State / Province'), 
-                                                     'attributes' => array( '' => ts( '- select -' ) ) +
-                                                                     CRM_Core_PseudoConstant::stateProvince( ),
-                                                     'is_required'=> true );
+        $this->_fields["state_province_id-{$bltID}"] = array( 'htmlType'   => 'select', 
+                                                              'name'       => "state_province_id-{$bltID}",
+                                                              'title'      => ts('State / Province'), 
+                                                              'attributes' => array( '' => ts( '- select -' ) ) +
+                                                              CRM_Core_PseudoConstant::stateProvince( ),
+                                                              'is_required'=> true );
                                          
-        $this->_fields['postal_code'] = array( 'htmlType'   => 'text', 
-                                               'name'       => 'postal_code', 
-                                               'title'      => ts('Postal Code'), 
-                                               'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                               'is_required'=> true );
+        $this->_fields["postal_code-{$bltID}"] = array( 'htmlType'   => 'text', 
+                                                        'name'       => "postal_code-{$bltID}",
+                                                        'title'      => ts('Postal Code'), 
+                                                        'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                        'is_required'=> true );
                                          
-        $this->_fields['country_id'] = array( 'htmlType'   => 'select', 
-                                              'name'       => 'country_id', 
-                                              'title'      => ts('Country'), 
-                                              'attributes' => array( '' => ts( '- select -' ) ) + 
-                                                              CRM_Core_PseudoConstant::country( ),
-                                              'is_required'=> true );
+        $this->_fields["country_id-{$bltID}"] = array( 'htmlType'   => 'select', 
+                                                    'name'       => "country_id-{$bltID}", 
+                                                    'title'      => ts('Country'), 
+                                                    'attributes' => array( '' => ts( '- select -' ) ) + 
+                                                    CRM_Core_PseudoConstant::country( ),
+                                                    'is_required'=> true );
                                          
         $this->_fields['credit_card_number'] = array( 'htmlType'   => 'text', 
                                                       'name'       => 'credit_card_number', 

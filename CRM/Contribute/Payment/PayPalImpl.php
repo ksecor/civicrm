@@ -149,9 +149,6 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
         $sub = empty( $params['is_recur'] ) ? 'xclick' : 'subscriptions';
         $paypalURL = "https://{$url}/{$sub}/$uri";
 
-        // CRM_Core_Error::debug( 'paypalParams', $paypalParams );
-        // CRM_Core_Error::debug( 'paypalURL'   , $paypalURL );
-
         CRM_Core_Error::debug_var( 'paypalParams', $paypalParams );
         CRM_Core_Error::debug_var( 'paypalURL'   , $paypalURL );
 

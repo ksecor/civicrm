@@ -63,15 +63,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
 
                 // fix state and country id if present
-                if ( CRM_Utils_Array::value( 'state_province', $this->_params ) ) {
-                    $states = CRM_Core_PseudoConstant::stateProvinceAbbreviation();
-                    $states = array_flip( $states );
-                    $this->_params['state_province_id'] = CRM_Utils_Array::value( $this->_params['state_province'], $states );
+                if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
+                    $this->_params["state_province-{$this->_bltID}"] =
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
                 }
-                if ( CRM_Utils_Array::value( 'country', $this->_params ) ) {
-                    $states = CRM_Core_PseudoConstant::countryIsoCode();
-                    $states = array_flip( $states );
-                    $this->_params['country_id'] = CRM_Utils_Array::value( $this->_params['country'], $states );
+                if ( isset( $this->_params['country_id'] ) ) {
+                    $this->_params["country-{$this->_bltID}"]        =
+                        CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
                 }
 
                 // set a few other parameters for PayPal
@@ -101,11 +99,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         } else {
             $this->_params = $this->controller->exportValues( 'Main' );
 
-            if ( isset( $this->_params['state_province_id'] ) ) {
-                $this->_params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['state_province_id'] ); 
+            if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
+                $this->_params["state_province-{$this->_bltID}"] =
+                    CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
             }
-            if ( isset( $this->_params['country_id'] ) ) {
-                $this->_params['country']        = CRM_Core_PseudoConstant::countryIsoCode( $this->_params['country_id'] ); 
+            if ( isset( $this->_params["country_id-{$this->_bltID}"] ) ) {
+                $this->_params["country-{$this->_bltID}"]        =
+                    CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
             }
             if ( isset( $this->_params['credit_card_exp_date'] ) ) {
                 $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
@@ -250,7 +250,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return void
      * @access public
      */
-    public function postProcess()
+    public function postProcess( )
     {
         require_once "CRM/Contact/BAO/Contact.php";
 
@@ -263,18 +263,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         foreach ( $this->_fields as $name => $dontCare ) {
             $fields[$name] = 1;
         }
-        $fields['first_name'] = $fields['last_name'] = 1;
-        $fields['street_address-Primary'] = $fields['supplemental_address_1-Primary'] = $fields['city-Primary'] = 1;
-        $fields['postal_code-Primary'] = 1;
-        $fields['state_province-Primary'] = $fields['country-Primary'] = $fields['email-Primary'] = 1;
 
-        $fixLocationFields = array( 'street_address', 'supplemental_address_1', 
-                                    'city', 'state_province', 'state_province_id', 
-                                    'postal_code', 'country', 'country_id', 'email' );
-        foreach ( $fixLocationFields as $name ) {
-            if ( array_key_exists( $name, $params ) ) {
-                $params["{$name}-Primary"] = $params[$name];
-                unset( $params[$name] );
+        if ( ! array_key_exists( 'first_name', $fields ) ) {
+            $nameFields = array( 'first_name', 'middle_name', 'last_name' );
+            foreach ( $nameFields as $name ) {
+                $fields[$name] = 1;
+                if ( array_key_exists( "billing_$name", $params ) ) {
+                    $params["billing_{$name}"] = $params[$name];
+                }
             }
         }
 
@@ -301,6 +297,19 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             require_once "CRM/Member/BAO/Membership.php";
             CRM_Member_BAO_Membership::postProcessMembership($membershipParams,$contactID,$this );
         } else {
+            // at this point we've created a contact and stored its address etc
+            // all the payment processors expect the name and address to be in the 
+            // so we copy stuff over to first_name etc. 
+            $paymentParams = $this->_params;
+            $nameFields = array( 'first_name', 'middle_name', 'last_name' );
+            foreach ( $nameFields as $field ) {
+                $paymentParams[$field] = $this->_params["billing_$field"];
+            }
+            $locationFields = array( 'email', 'street_address', 'city', 'state_province', 'postal_code', 'country' );
+            foreach ( $locationFields as $field ) {
+                $paymentParams[$field] = $this->_params["{$field}-{$this->_bltID}"];
+            }
+
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
             $contributionType->id = $this->_values['contribution_type_id'];
             if ( ! $contributionType->find( true ) ) {
@@ -309,9 +318,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             // add some contribution type details to the params list
             // if folks need to use it
-            $this->_params['contributionType_name']            = $contributionType->name;
-            $this->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
-            $this->_params['contributionPageID']               = $this->_values['id'];
+            $paymentParams['contributionType_name']                = 
+                $this->_params['contributionType_name']            = $contributionType->name;
+            $paymentParams['contributionType_accounting_code']     = 
+                $this->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
+            $paymentParams['contributionPageID']                   =
+                $this->_params['contributionPageID']               = $this->_values['id'];
             
             
             require_once 'CRM/Core/Payment.php';
@@ -319,14 +331,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
             if ( $this->_contributeMode == 'express' ) {
                 if ( $this->_values['is_monetary'] ) {
-                    $result =& $payment->doExpressCheckout( $this->_params );
+                    $result =& $payment->doExpressCheckout( $paymentParams );
                 }
             } else if ( $this->_contributeMode == 'notify' ) {
                 // this is not going to come back, i.e. we fill in the other details
                 // when we get a callback from the payment processor
                 // also add the contact ID and contribution ID to the params list
-                $this->_params['contactID'] = $contactID;
-                $contribution =& $this->processContribution( $this->_params,
+                $paymentParams['contactID'] = $this->_params['contactID'] = $contactID;
+                $contribution =& $this->processContribution( $paymentParams,
                                                              null,
                                                              $contactID,
                                                              $contributionType, 
@@ -349,10 +361,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
                 if ( $this->_values['is_monetary'] ) {
-                    $result =& $payment->doTransferCheckout( $this->_params );
+                    $result =& $payment->doTransferCheckout( $paymentParams );
                 }
             } elseif ( $this->_values['is_monetary'] ) {
-                $result =& $payment->doDirectPayment( $this->_params );
+                $result =& $payment->doDirectPayment( $paymentParams );
             }
             
             if ( is_a( $result, 'CRM_Core_Error' ) ) {

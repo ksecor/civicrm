@@ -211,13 +211,13 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $params['middle_name'] =  $name->getMiddleName  ( );
         $params['last_name'  ] =  $name->getLastName    ( );
         
-        $address                  =& $payer->getAddress    ( );
-        $params['street_address'] =  $address->getStreet1  ( );
-        $params['supplemental_address_1'] = $address->getStreet2( );
-        $params['city']        =  $address->getCityName ( );
-        $params['state_province'] = $address->getStateOrProvince( );
-        $params['postal_code'] = $address->getPostalCode( );
-        $params['country']     =  $address->getCountry  ( );
+        $address                          =& $payer->getAddress    ( );
+        $params['street_address']         =  $address->getStreet1  ( );
+        $params['supplemental_address_1'] =  $address->getStreet2( );
+        $params['city']                   =  $address->getCityName ( );
+        $params['state_province']         =  $address->getStateOrProvince( );
+        $params['postal_code']            =  $address->getPostalCode( );
+        $params['country']                =  $address->getCountry  ( );
         
         return $params;
     }

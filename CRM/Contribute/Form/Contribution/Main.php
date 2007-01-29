@@ -81,7 +81,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
                 $fields[$name] = 1;
             }
-            $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+            $fields["state_province-{$this->_bltID}"] = 1;
+            $fields["country-{$this->_bltID}"       ] = 1;
+            $fields["email-{$this->_bltID}"         ] = 1;
 
             require_once "CRM/Core/BAO/UFGroup.php";
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
@@ -94,11 +96,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         // hack to simplify credit card entry for testing
-        // $this->_defaults['credit_card_type']     = 'Visa';
-//         $this->_defaults['amount']               = 5.00;
-//         $this->_defaults['credit_card_number']   = '4807731747657838';
-//         $this->_defaults['cvv2']                 = '000';
-//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
+        $this->_defaults['credit_card_type']     = 'Visa';
+        $this->_defaults['amount']               = 5.00;
+        $this->_defaults['credit_card_number']   = '4807731747657838';
+        $this->_defaults['cvv2']                 = '000';
+        $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
 
         return $this->_defaults;
     }
@@ -114,7 +116,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $config =& CRM_Core_Config::singleton( );
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add( 'text', 'email', ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
+        $this->add( 'text', "email-{$this->_bltID}",
+                    ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         if ( $this->_values['is_monetary'] ) {
             $this->buildCreditCard( );
 
@@ -487,10 +490,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // not required if is_monetary=FALSE 
         if ( $this->_values['is_monetary'] ) {
             
-	  $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' ); 
+            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' ); 
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
-
+            
             if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
                 //get the button name  
                 $buttonName = $this->controller->getButtonName( );  
@@ -516,8 +519,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                         $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl. "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                     } else {
                         $paymentURL = "https://" . $config->paymentPayPalExpressUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                        // hack to allow us to test without donating, need to comment out below line before release
-                        // $paymentURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                     }
                     CRM_Utils_System::redirect( $paymentURL ); 
                 }
