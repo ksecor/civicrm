@@ -245,11 +245,11 @@ contact the site administrator and notify them of this error' ) );
      * @access public 
      */ 
     function assignToTemplate( ) {
-        $name = $this->_params['first_name'];
-        if ( CRM_Utils_Array::value( 'middle_name', $this->_params ) ) {
-            $name .= " {$this->_params['middle_name']}";
+        $name = $this->_params['billing_first_name'];
+        if ( CRM_Utils_Array::value( 'billing_middle_name', $this->_params ) ) {
+            $name .= " {$this->_params['billing_middle_name']}";
         }
-        $name .= " {$this->_params['last_name']}";
+        $name .= " {$this->_params['billing_last_name']}";
         $this->assign( 'name', $name );
         $this->set( 'name', $name );
 

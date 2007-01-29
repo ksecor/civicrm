@@ -1927,11 +1927,18 @@ WHERE civicrm_contact.id IN $idString ";
             $data['contact_type'] = 'Individual';
         }
 
+
         // get the contact details (hier)
         if ( $contactID ) {
             list($details, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactID, $fields );
             $contactDetails = $details[$contactID];
         }
+
+        // CRM_Core_Error::debug( $contactID, $params );
+        // CRM_Core_Error::debug( $contactID, $fields );
+        // CRM_Core_Error::debug( 'c', $contactDetails );
+        // exit( );
+
         if ( $ctype == "Organization" ) {
             $data["organization_name"] = $contactDetails["organization_name"];
         } else if ( $ctype == "Household" ) {

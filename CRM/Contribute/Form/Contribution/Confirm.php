@@ -196,8 +196,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         foreach ( $this->_fields as $name => $dontCare ) {
             $fields[$name] = 1;
         }
-        $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
-        //$contact =& CRM_Contact_BAO_Contact::contactDetails( $contactID, $options, $fields );
+        $fields["state_province-{$this->_bltID}"] =
+            $fields["country-{$this->_bltID}"] = $fields["email--{$this->_bltID}"] = 1;
+
         $contact =  $this->_params;
         foreach ($fields as $name => $dontCare ) {
             if ( $contact[$name] ) {
@@ -273,6 +274,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 }
             }
         }
+
+        // also add location name to the array
+        $params["location_name-{$this->_bltID}"] = 
+            $params["billing_first_name"] . ' ' . $params["billing_middle_name"] . ' ' . $params["billing_last_name"];
+        $fields["location_name-{$this->_bltID}"] = 1;
+        $fields["email-{$this->_bltID}"] = 1;
 
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
