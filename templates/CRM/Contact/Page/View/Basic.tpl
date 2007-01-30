@@ -247,7 +247,7 @@
 	</tr>
     {foreach from=$openActivity.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">          
-             <td>{ts}{$row.activity_type}{/ts}</td>
+             <td>{$row.activity_type}</td>
              <td>
                <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&id=`$row.id`&cid=$contactId&history=0"}">{$row.subject|mb_truncate:33:"...":true}</a>
              </td>
