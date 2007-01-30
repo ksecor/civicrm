@@ -316,7 +316,11 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                              'isMap'           => 'is_map',           'participants' => 'participants' );
         
         while ( $dao->fetch( ) ) {
+            require_once 'CRM/Core/Config.php';
+            $config = CRM_Core_Config::singleton();
+            
             foreach ( $properties as $property => $name ) {
+                $set = null;
                 if (( $name == 'start_date' ) || 
                     ( $name == 'end_date' ) ) {
                     $eventSummary['events'][$dao->id][$property] = CRM_Utils_Date::customFormat($dao->$name, '%B %d%f %Y');
@@ -324,9 +328,8 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                     $eventSummary['events'][$dao->id][$property] = $dao->$name;
                     if ( $dao->$name ) {
                         $set = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$dao->id" );
-                    } else {
-                        $set = null;
                     }
+                    
                     $eventSummary['events'][$dao->id]['participant_url'] = $set;
                 } else if ( $name == 'is_public' ) {
                     if ( $dao->$name ) {
@@ -334,13 +337,28 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                     } else {
                         $set = 'No';
                     }
+                    
                     $eventSummary['events'][$dao->id][$property] = $set;
                 } else if ( $name == 'is_map' ) {
-                    if ( $dao->$name) {
-                        $set = CRM_Utils_System::url( 'civicrm/event/search',"reset=1" );
-                    } else {
-                        $set = null;
+                    if ( $dao->$name && $config->mapAPIKey ) {
+                        $params = array();
+                        $values = array();
+                        $ids    = array();
+                        
+                        $params['event_id'] = $dao->id;
+                        
+                        require_once 'CRM/Core/BAO/Location.php';
+                        CRM_Core_BAO_Location::getValues($params, $values, $ids, 1 );
+                        
+                        if ( is_numeric( $values['location'][1]['address']['geo_code_1'] ) ||
+                             ( $config->mapGeoCoding &&
+                               $values['location'][1]['address']['city'] && 
+                               $values['location'][1]['address']['state_province_id']
+                             ) ) {
+                            $set = CRM_Utils_System::url( 'civicrm/contact/search/map',"reset=1&eid={$dao->id}" );
+                        }
                     }
+                    
                     $eventSummary['events'][$dao->id][$property] = $set;
                     $eventSummary['events'][$dao->id]['configure'] = CRM_Utils_System::url( "civicrm/admin/event", "action=update&id=$dao->id&reset=1" );
                 } else {
