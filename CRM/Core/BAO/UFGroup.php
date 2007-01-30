@@ -1293,14 +1293,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->add('select', $name, ts( 'Contribution Type' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
         } else if ($fieldName == 'scholarship_type_id' ) {
-            $scholarshipType = CRM_Core_OptionGroup::values( 'scholarship_type', true );
-            foreach ( $scholarshipType as $key => $var ) {
-                if ( $key == '' ) {
-                    continue;
-                }
-                $sType[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
-            }
-            $form->addGroup($sType, $name, $title, '<br/>' );
+            $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'scholarship_type', true ) ) );
         } else if ($fieldName == 'applicant_status_id' ) {  
             $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'applicant_status', true ) ) );
         } else if ($fieldName == 'highschool_gpa_id' ) {
@@ -1308,6 +1301,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ($fieldName == 'interview_rank' ) {
             require_once "CRM/TMF/BAO/Query.php";
             $ranking = array( );
+            require_once "CRM/TMF/BAO/Query.php";
             $ranking = CRM_TMF_BAO_Query::buildNumberSelect(20);
             $form->add('select', $name, $title, array("" => "-- Select -- ")+ $ranking );
         } else {
@@ -1324,7 +1318,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
             }
         }
-
+        
         if ($view && $mode != CRM_Profile_Form::MODE_SEARCH) {
             $form->freeze($name);
         }
