@@ -1306,7 +1306,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ($fieldName == 'highschool_gpa_id' ) {
             $form->add('select', $name, $title, array( "" => "-- Select -- ") + CRM_Core_OptionGroup::values( 'highschool_gpa' ) );
         } else if ($fieldName == 'interview_rank' ) {
-            $ranking = array();
+            require_once "CRM/TMF/BAO/Query.php";
+            $ranking = array( );
             $ranking = CRM_TMF_BAO_Query::buildNumberSelect(20);
             $form->add('select', $name, $title, array("" => "-- Select -- ")+ $ranking );
         } else {
