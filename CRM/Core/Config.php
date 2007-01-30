@@ -50,6 +50,12 @@ require_once 'CRM/Core/Session.php';
 
 class CRM_Core_Config 
 {
+    /**
+     * are we initialized and in a proper state
+     *
+     * @var string
+     */
+    public $initialized = 0;
 
     /**
      * the dsn of the database connection
@@ -490,6 +496,7 @@ class CRM_Core_Config
                 // retrieve and overwrite stuff from the settings file
                 self::$_singleton->addCoreVariables( );
             }
+            self::$_singleton->initialized = 1;
         }
 
         return self::$_singleton;
