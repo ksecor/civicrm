@@ -6,28 +6,33 @@
 <head>
   <title>CiviCRM Fatal Error</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <base href="{$config->resourceBase}" />
-  <style type="text/css" media="screen">@import url({$config->resourceBase}css/civicrm.css);</style>
 </head>
 
 <body>
 
 <div id="crm-container">
 
-<div class="messages status">
-  <dl>
-  <dt><img src="{$config->resourceBase}i/Error.gif" alt="unrecoverable error" /></dt>
-  <dd>
-      Sorry. A non-recoverable error has occurred.
-      <p>{$message}</p>
+<div style="border: solid 2px black; padding: 1em 1em 1em 1em;">
+      <p style="color: red; font-weight: bold;">Sorry. A non-recoverable error has occurred.</p>
+      <p>Please review the <a href="http://wiki.civicrm.org/confluence//x/mQ8" target="_blank">CiviCRM Installation Guide</a> and try searching
+      the <a href="http://www.nabble.com/CiviCRM-Community-Mailing-List-Archives-f15986.html" target="_blank">CiviCRM Mailing List Archives</a> for information on the error below.</p>
+{if $message}
+    <hr style="solid 1px" />
+    <p>{$message}</p>
+{/if}
 {if $code}
-      <p>Error Code: {$code}</p>
+    <hr style="solid 1px" />
+    <p>Error Code: {$code}</p>
 {/if}
 {if $mysql_code}
-      <p>Database Error Code: {$mysql_code}</p>
+    <hr style="solid 1px" />
+    <p>Database Error Code: {$mysql_code}</p>
 {/if}
-  </dd>
-  </dl>
+{if $error}
+    <hr style="solid 1px" />
+    <p>Error Details:</p>
+    <p>{$error.to_string}</p>
+{/if}
 </div>
 
 </div> {* end crm-container div *}
