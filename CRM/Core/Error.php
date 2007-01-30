@@ -173,7 +173,9 @@ class CRM_Core_Error extends PEAR_ErrorStack {
             $content .= CRM_Core_Error::debug( 'error', $error, false );
             echo CRM_Utils_System::theme( 'page', $content, true );
         } else {
-            echo $template->fetch( 'CRM/common/fatal.tpl' );
+            $content  = $template->fetch( 'CRM/common/fatal.tpl' );
+            $content .= CRM_Core_Error::debug( 'error', $error, false );
+            echo $content;
         }
         exit(1);
     }
