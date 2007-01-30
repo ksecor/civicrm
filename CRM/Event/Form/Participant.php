@@ -287,27 +287,30 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
      */
     static function formRule( &$values ) 
     {
-        if ( $values['_qf_Participant_next'] == 'Delete' ) {
+        // If $values['_qf_Participant_next'] is Delete or 
+        // $values['event_id'] is empty, then return 
+        // instead of proceeding further.
+        
+        if ( ( $values['_qf_Participant_next'] == 'Delete' ) ||  
+             ( ! $values['event_id'] ) 
+             ) {
             return true;
         }
-
+        
         require_once "CRM/Event/BAO/Participant.php";
         $message = CRM_Event_BAO_Participant::eventFull( $values['event_id'] );
+        
         if( $message ) {
             $errorMsg["_qf_default"] = $message;  
         }
-        if ( !empty( $errorMsg ) ) {
-            return $errorMsg;
-        }
         
-        return true;
+        return empty( $errorMsg ) ? true : $errorMsg;
     }    
        
     /** 
      * Function to process the form 
      * 
      * @access public 
-     * @return None 
      */ 
     public function postProcess( )
     {

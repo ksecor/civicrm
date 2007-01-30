@@ -98,13 +98,12 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     public function buildQuickForm( )  
     { 
         $this->applyFilter('__ALL__', 'trim');
-        
-        $this->add('text','title',ts('Title'),array( 'size' => 50),true);
-        
+                   
         $urlParams = "reset=1&context=event";
         
         if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
             $urlParams .= "&action=update&id={$this->_id}&subPage=EventInfo";
+             $eventId = $this->_id ;
         } else if ( $this->_action & ( CRM_Core_Action::COPY) ) {
             $urlParams .= "&action=copy&id={$this->_id}&subPage=EventInfo";
         } else {
