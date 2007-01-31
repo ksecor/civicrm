@@ -1,4 +1,4 @@
-{if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8}
+{if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8 or $action eq 16384}
     {* Add or edit Profile Group form *}
     {include file="CRM/UF/Form/Group.tpl"}
 {elseif $action eq 1024}

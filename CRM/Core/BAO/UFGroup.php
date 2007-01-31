@@ -748,6 +748,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
     public static function del($id) 
     { 
         //check wheter this group contains  any profile fields
+        require_once 'CRM/Core/DAO/UFField.php';
         $profileField = & new CRM_Core_DAO_UFField();
         $profileField->uf_group_id = $id;
         $profileField->find();

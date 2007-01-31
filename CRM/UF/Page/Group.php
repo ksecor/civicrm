@@ -111,7 +111,13 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                                                           'qs'    => 'action=profile&gid=%%id%%',
                                                                           'title' => ts('Standalone Form for Profile Group'),
                                                                           ),
-
+                                        CRM_Core_Action::COPY     => array(
+                                                                           'name'  => ts('Copy'),
+                                                                           'url'   => 'civicrm/admin/uf/group',
+                                                                           'qs'    => 'action=copy&id=%%id%%',
+                                                                           'title' => ts('Copy') 
+                                                                           ),
+                                        
                                         );
         }
         return self::$_actionLinks;
@@ -143,7 +149,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                           $this, false, 0);
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {
+        if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE | CRM_Core_Action::COPY ) ) {
             $this->edit($id, $action) ;
         } else {
             // if action is enable or disable to the needful.

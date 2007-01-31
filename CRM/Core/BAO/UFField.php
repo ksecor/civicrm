@@ -271,6 +271,29 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         }
     }
 
+  /**
+     * Function to copy exisiting profile fields to 
+     * new profile from the already built profile
+     *
+     * @param int      $old_id  from which we need to copy     
+     * @param boolean  $new_id  in which to copy  
+     *
+     * @return void
+     * @static
+     * @access public
+     */
+    static function copy( $old_id, $new_id ) 
+    {
+        $ufField =& new CRM_Core_DAO_UFField( );
+        $ufField->uf_group_id = $old_id;
+        $ufField->find( );
+        while( $ufField->fetch( ) ) {
+            //copy the field records as it is on new ufgroup id
+            $ufField->uf_group_id = $new_id;
+            $ufField->id          = null;
+            $ufField->save();
+        }
+    }
 
     /**
      * Function to delete profile field given a custom field

@@ -75,9 +75,8 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->_group    =& CRM_Core_PseudoConstant::group( ); 
         
         // setting title for html page
-        if ($this->_action == CRM_Core_Action::UPDATE) {
+        if ($this->_action == CRM_Core_Action::UPDATE || $this->_action == CRM_Core_Action::COPY) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
-             
             CRM_Utils_System::setTitle( ts( 'Profile Settings - %1', array(1 => $title ) ) );
         } else if($this->_action == CRM_Core_Action::DELETE ) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
@@ -114,9 +113,12 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->applyFilter('__ALL__', 'trim');
 
         // title
-        $this->add('text', 'title', ts('Profile Name'),
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'title'), true);
-
+        $this->add('text', 'title', ts('Profile Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'title'), true);
+        
+        if( !( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            $this->addRule( 'title', ts('Profile Title is already exist in Database.'), 'objectExists', 
+                            array( 'CRM_Core_DAO_UFGroup', $ufgroupId, 'title' ) );
+        }
         //add checkboxes
         $uf_group_type = array();
         $UFGroupType = CRM_Core_SelectValues::ufGroupTypes( );
@@ -127,7 +129,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
 
         // help text
         $this->add('textarea', 'help_pre',  ts('Pre-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_pre'));
-        $this->add('textarea', 'help_post',  ts('Post-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_post'));
+        $this->add('textarea', 'help_post', ts('Post-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_post'));
 
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFJoin', 'weight'), true);
@@ -192,7 +194,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         if ($this->_action == CRM_Core_Action::ADD) {
             $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( );
         }
-
+        
         if ( isset($this->_id ) ) {
             
             $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( $this->_id );
@@ -223,7 +225,6 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             $defaults['is_active'] = 1;
             $defaults['is_map'   ] = 0;
         }
-        
         return $defaults;
     }
 
@@ -235,7 +236,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
      */
     public function postProcess()
     {
-        if($this->_action & CRM_Core_Action::DELETE) {
+        if( $this->_action & CRM_Core_Action::DELETE ) {
             $status = 0;
             $status = CRM_Core_BAO_UFGroup::del($this->_id);
             if ($status == 0) {
@@ -251,7 +252,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $params = $ids = array( );
         $params = $this->controller->exportValues( $this->_name );
 
-        if ($this->_action & CRM_Core_Action::UPDATE) {
+        if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
             $ids['ufgroup'] = $this->_id;
         }
         
@@ -261,12 +262,19 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         //make entry in uf join table
         CRM_Core_BAO_UFGroup::createUFJoin($params, $ufGroup->id);
 
-        if ($this->_action & CRM_Core_Action::UPDATE) {
+        if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::COPY ) ) {
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been saved.', array(1 => $ufGroup->title)));
         } else {
             $url = CRM_Utils_System::url( 'civicrm/admin/uf/group/field', 'reset=1&action=add&gid=' . $ufGroup->id);
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been added. You can <a href="%2">add fields</a> to this group now.',
                                            array(1 => $ufGroup->title, 2 => $url)));
+        }
+
+        $ufgroupId = $this->_id;
+        if ( $this->_action & ( CRM_Core_Action::COPY) ) {
+            $ufgroupId = $ufGroup->id;
+            require_once "CRM/Core/BAO/UFField.php";
+            CRM_Core_BAO_UFField::copy( $this->_id, $ufGroup->id );
         }
     }
 
