@@ -67,12 +67,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         $allPanes = array( );
-        $paneNames = array( ts('Address Fields')   => 'location',
-                            ts('Custom Fields')    => 'custom',
-                            ts('Activity History') => 'activityHistory',
-                            ts('Scheduled Activities')  => 'openActivity',
-                            ts('Relationships')    => 'relationship',
-                            ts('Change Log')       => 'changeLog');
+        $paneNames = array( ts('Address Fields')        => 'location'       ,
+                            ts('Custom Fields')         => 'custom'         ,
+                            ts('Activity History')      => 'activityHistory',
+                            ts('Scheduled Activities')  => 'openActivity'   ,
+                            ts('Relationships')         => 'relationship'   ,
+                            ts('Notes')                 => 'notes'          ,
+                            ts('Change Log')            => 'changeLog'       );
 
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $paneNames[ts('Contributions')] = 'contribute';

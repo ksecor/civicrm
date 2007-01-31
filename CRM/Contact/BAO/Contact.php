@@ -1722,14 +1722,15 @@ WHERE civicrm_contact.id IN $idString ";
             }
             
             //fix for CRM-791
-            if ( $export ) { 
-                $fields = array_merge($fields, array ('groups' =>  array( 'title' => ts('Group(s)'))));
-                $fields = array_merge($fields, array ('tags'   =>  array( 'title' => ts('Tag(s)'))));
+            if ( $export ) {
+                $fields = array_merge( $fields, array ( 'groups' => array( 'title' => ts( 'Group(s)' ) ),
+                                                        'tags'   => array( 'title'  => ts( 'Tag(s)'  ) ),
+                                                        'notes'  => array( 'title'  => ts( 'Note(s)' ) ) ) );
             } else { 
-                $fields = array_merge($fields, array ('group' =>  array( 'title' => ts('Group(s)'))));
-                $fields = array_merge($fields, array ('tag'   =>  array( 'title' => ts('Tag(s)'))));
+                $fields = array_merge( $fields, array ( 'group'  => array( 'title' => ts( 'Group(s)' ) ),
+                                                        'tag'    => array( 'title'  => ts( 'Tag(s)'  ) ) ) );
             }
-                        
+            
             self::$_exportableFields[$contactType] = $fields;
         }
         return self::$_exportableFields[$contactType];

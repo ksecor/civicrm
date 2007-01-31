@@ -88,7 +88,7 @@ function civicrm_main( ) {
 
     civicrm_setup( );
 
-    civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_40.mysql'     );
+    civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_41.mysql'     );
     civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
     
     // generate backend settings file

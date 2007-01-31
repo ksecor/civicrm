@@ -842,7 +842,8 @@ class CRM_Contact_BAO_Query {
         }
 
         if ( $id == 'sort_name' ||
-             $id == 'email' ) {
+             $id == 'email'     ||
+             $id == 'notes' ) {
             $result = array( $id, 'LIKE', $values, 0, 1 );
         } else if ( is_string( $values ) && strpos( $values, '%' ) !== false ) {
             $result = array( $id, 'LIKE', $values, 0, 0 );
@@ -876,6 +877,10 @@ class CRM_Contact_BAO_Query {
 
         case 'tag':
             $this->tag( $values );
+            return;
+
+        case 'notes':
+            $this->notes( $values );
             return;
 
         case 'uf_user':
@@ -1793,16 +1798,43 @@ class CRM_Contact_BAO_Query {
             $names[] = $tagNames[$id];
         }
 
-        //commented for CRM-1394
-//         if ( $op != 'NOT IN' ) {
-//             $op = 'IN';
-//         }
-
-
         $this->_where[$grouping][] = "{$etTable}.tag_id $op (". implode( ',', array_keys( $value ) ) . ')';
         $this->_qill[$grouping][]  = ts('Tagged %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names ); 
-        //$this->_tables['civicrm_entity_tag'] = $this->_whereTables['civicrm_entity_tag'] = 1;
     } 
+
+    /**
+     * where/qill clause for notes
+     *
+     * @return void
+     * @access public
+     */
+    function notes( &$values ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        
+        $this->_useDistinct = true;
+
+        $this->_tables['civicrm_note'] = $this->_whereTables['civicrm_note'] =
+            " LEFT JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_contact' AND
+                                          contact_a.id = civicrm_note.entity_id ) ";
+
+        $n = trim( $value );
+        $value = strtolower(addslashes($n));
+        if ( $wildcard ) {
+            if ( strpos( $value, '%' ) ) {
+                // only add wild card if not there
+                $value = "'$value'";
+            } else {
+                $value = "'%$value%'";
+            }
+            $op    = 'LIKE';
+        } else {
+            $value = "'$value'";
+        }
+        $sub = " ( LOWER(civicrm_email.email) $op $value )";
+
+        $this->_where[$grouping][] = " ( LOWER(civicrm_note.note) $op $value OR LOWER(civicrm_note.subject) $op $value ) ";
+        $this->_qill[$grouping][]  = ts( 'Note %2 - "%1"', array( 1 => $n, 2 => $op ) );
+    }
 
     /**
      * where / qill clause for sort_name
@@ -1856,11 +1888,11 @@ class CRM_Contact_BAO_Query {
     function email( &$values ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         
-        $name = trim( $value ); 
+        $n = trim( $value ); 
 
         $config =& CRM_Core_Config::singleton( );
 
-        $value = strtolower(addslashes($name));
+        $value = strtolower(addslashes($n));
         if ( $wildcard ) {
             $value = "'$value%'";
             $op    = 'LIKE';
@@ -1872,7 +1904,7 @@ class CRM_Contact_BAO_Query {
         $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
 
         $this->_where[$grouping][] = $sub;
-        $this->_qill[$grouping][]  = ts( 'Email %2 - "%1"', array( 1 => $name, 2 => $op ) );
+        $this->_qill[$grouping][]  = ts( 'Email %2 - "%1"', array( 1 => $n, 2 => $op ) );
     }
 
     /**

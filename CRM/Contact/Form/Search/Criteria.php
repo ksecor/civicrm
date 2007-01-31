@@ -211,6 +211,12 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addElement('text', 'relation_target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
     }
 
+    static function notes( &$form ) {
+        $form->add( 'hidden', 'hidden_notes', 1 );
+
+        $form->addElement('text', 'notes', ts('Note Text'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+    }
+
 
     /**
      * Generate the custom Data Fields based
