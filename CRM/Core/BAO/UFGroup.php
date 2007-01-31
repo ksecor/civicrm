@@ -1125,6 +1125,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
     static function updateWeight($weight, $ufGroupId) 
     {
         //get the current uf group records in uf join table
+        require_once 'CRM/Core/DAO/UFJoin.php';
         $ufJoin =& new CRM_Core_DAO_UFJoin();
         $ufJoin->uf_group_id = $ufGroupId;
 
@@ -1613,6 +1614,24 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         }
         return $defaults;
     }
+    
+    /**
+     * This function is to make a copy of a profile, including
+     * all the fields in the profile
+     *
+     * @param int $id the profile id to copy
+     *
+     * @return void
+     * @access public
+     */
+    static function copy( $id ) {
+        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
+
+        $copy =& CRM_Core_DAO::copy( 'CRM_Core_DAO_UFGroup', $id, $fieldsToPrefix );
+
+        return $copy;
+    }
+
 }
 
 ?>

@@ -672,6 +672,47 @@ class CRM_Core_DAO extends DB_DataObject {
         }
     }
 
+    /**
+     * This function is to make a shallow copy of an object
+     * and all the fields in the object
+     *
+     * @param int $id the dao id to copy
+     *
+     * @return (reference ) the newly created copy of the object
+     * @access public
+     */
+    static function &copy( $daoName, $id, $fieldsToPrefix = null ) {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object   =& new ' . $daoName . '( );' );
+        $object->id =  $id;
+        if ( ! $object->find( true ) ) {
+            CRM_Core_Error::fatal( ts( "Could not retrieve object name: %1, id: %2",
+                                       array( 1 => $daoName, 2 => $id ) ) );
+        }
+
+        eval( '$newObject   =& new ' . $daoName . '( );' );
+
+        $fields =& $object->fields( );
+        if ( ! is_array( $fieldsToPrefix ) ) {
+            $fieldsToPrefix = array( );
+        }
+
+        foreach ( $fields as $name => $value ) {
+            if ( $name == 'id' ) {
+                // copy everything but the id!
+                continue;
+            }
+            $dbName = $value['name'];
+            if ( isset( $fieldsToPrefix[$dbName] ) ) {
+                $newObject->$dbName = $fieldsToPrefix[$dbName] . $object->$dbName;
+            } else {
+                $newObject->$dbName = $object->$dbName;
+            }
+        }
+        $newObject->save( );
+        return $newObject;
+    }
+
 }
 
 ?>
