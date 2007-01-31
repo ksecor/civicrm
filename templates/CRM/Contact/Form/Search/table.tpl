@@ -3,7 +3,7 @@
   {strip}
      {section start=1 name=blocks loop=$blockCount}
        {assign var="x" value=$smarty.section.blocks.index}
-       <fieldset><legend>{if $x eq 1}{ts}Include contacts where{/ts}{else}{ts}Also where{/ts}{/if}</legend>
+       <fieldset><legend>{if $x eq 1}{ts}Include contacts where{/ts}{else}{ts}Also include contacts where{/ts}{/if}</legend>
 	<table>
         {section name=cols loop=$columnCount[$x]}
             {assign var="i" value=$smarty.section.cols.index}
