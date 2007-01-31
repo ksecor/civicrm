@@ -168,9 +168,14 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
         $template->assign_by_ref('error', $error);
         
-        $content  = $template->fetch( 'CRM/error.tpl' );
-        $content .= CRM_Core_Error::debug( 'error', $error, false );
-        echo CRM_Utils_System::theme( 'page', $content, true );
+        if ( $config->initialized ) {
+            $content  = $template->fetch( 'CRM/error.tpl' );
+            $content .= CRM_Core_Error::debug( 'Error Details:', $error, false );
+            echo CRM_Utils_System::theme( 'page', $content, true );
+        } else {
+            $content  = $template->fetch( 'CRM/common/fatal.tpl' );
+            echo $content;
+        }
         exit(1);
     }
 

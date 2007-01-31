@@ -50,6 +50,12 @@ require_once 'CRM/Core/Session.php';
 
 class CRM_Core_Config 
 {
+    /**
+     * are we initialized and in a proper state
+     *
+     * @var string
+     */
+    public $initialized = 0;
 
     /**
      * the dsn of the database connection
@@ -499,6 +505,7 @@ class CRM_Core_Config
                 // we retrieve the object from memcache, so we now initialize the objects
                 self::$_singleton->initialize( );
             }
+            self::$_singleton->initialized = 1;
         }
 
         return self::$_singleton;
