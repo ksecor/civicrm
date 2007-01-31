@@ -70,7 +70,7 @@ function crm_create_contact_participant($params, $contactID)
     
     require_once 'CRM/Event/BAO/Participant.php';
     $ids = array();
-    $participantBAO = CRM_Event_BAO_Participant::add($params, $ids);
+    $participantBAO = CRM_Event_BAO_Participant::create($params, $ids);
     
     $participant = array();
     _crm_object_to_array($participantBAO, $participant);

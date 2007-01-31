@@ -264,8 +264,9 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         
         CRM_Core_BAO_Log::add( $logParams );
         // Handle Custom Data
+        require_once 'CRM/Core/BAO/CustomGroup.php';
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $ids['id'], 0, $params['role_id']);
-
+                
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Participant", $participant->id); 
         
@@ -275,7 +276,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         
         return $participant;
     }
-   
+    
     /**
      * combine all the importable fields from the lower levels object
      *
