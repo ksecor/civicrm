@@ -5,3 +5,13 @@
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_contribution` ADD INDEX `received_date` (`receive_date`);
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_contact
+-- *
+-- *******************************************************/
+	
+
+	ALTER TABLE `civicrm_contact` ADD INDEX `UI_external_identifier` (`external_identifier`);

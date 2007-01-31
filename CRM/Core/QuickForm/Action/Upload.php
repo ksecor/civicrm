@@ -79,8 +79,7 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
      * @access private
      */
     function upload( &$page, &$data, $pageName, $uploadName ) {
-        CRM_Core_Error::debug( 'n', $uploadName );
-
+       
         if ( empty( $uploadName ) ) {
             return;
         }

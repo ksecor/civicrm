@@ -98,6 +98,12 @@
        <comment>Unique trusted external ID (generally from a legacy app/datasource). Particularly useful for deduping operations.</comment>
       <add>1.1</add>
   </field>
+ <index>
+       <name>UI_external_identifier</name>
+       <unique>true</unique>
+       <fieldName>external_identifier</fieldName>
+       <add>1.7</add>
+  </index>
   <field>
        <name>sort_name</name>
        <type>varchar</type>
