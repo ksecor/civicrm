@@ -90,13 +90,12 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
         if ( ! $ufGroupId ) {
             CRM_Core_Error::fatal( 'ufGroupId is missing' );
         }
-
+        require_once "CRM/Core/BAO/UFGroup.php";
         $this->_title = ts('Batch Update for Contributions') . ' - ' . CRM_Core_BAO_UFGroup::getTitle ( $ufGroupId );
         CRM_Utils_System::setTitle( $this->_title );
         
         $this->addDefaultButtons( ts('Save') );
         $this->_fields  = array( );
-        require_once "CRM/Core/BAO/UFGroup.php'";
         $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
         $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
         
@@ -137,6 +136,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
         foreach ($this->_contributionIds as $contributionId) {
             $details[$contributionId] = array( );
             //build sortname
+            require_once "CRM/Contribute/BAO/Contribution.php";
             $sortName[$contributionId] = CRM_Contribute_BAO_Contribution::sortName($contributionId);
             CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $contributionId, 'Contribute' );
         }
