@@ -367,7 +367,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
                 if ( $this->_values['is_monetary'] ) {
-                    $result =& $payment->doTransferCheckout( $paymentParams );
+                    // addd qfKey so we can send to paypal
+                    $this->_params['qfKey'] = $this->controller->_key;
+                    $result =& $payment->doTransferCheckout( $this->_params );
                 }
             } elseif ( $this->_values['is_monetary'] ) {
                 $result =& $payment->doDirectPayment( $paymentParams );

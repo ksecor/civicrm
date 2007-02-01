@@ -85,8 +85,12 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
             $notifyURL .= "&membershipTypeID={$params['selectMembership']}";
         }
 
-        $returnURL = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_ThankYou_display=1', true, null, false );
-        $cancelURL = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1&cancel=1', true, null, false );
+        $returnURL = CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                            "_qf_ThankYou_display=1&qfKey={$params['qfKey']}",
+                                            true, null, false );
+        $cancelURL = CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                            "_qf_Main_display=1&cancel=1&qfKey={$params['qfKey']}",
+                                            true, null, false );
         
         $paypalParams =
             array( 'business'           => $config->paymentUsername[$this->_mode],
