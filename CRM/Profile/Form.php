@@ -97,6 +97,13 @@ class CRM_Profile_Form extends CRM_Core_Form
     protected $_addToGroupID;
 
     /**
+     * Do we allow updates of the contact
+     *
+     * @var boolean
+     */
+    public $_isUpdateDupe = false;
+
+    /**
      * THe context from which we came from, allows us to go there if redirect not set
      *
      * @var string
@@ -161,9 +168,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             $defaults = array( );
             CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $defaults, true );
             $this->setDefaults( $defaults );       
-            //end of code to set the default values
-            
         }
+
         if( $this->_mode != self::MODE_SEARCH ) {
             CRM_Core_BAO_UFGroup::setRegisterDefaults(  $this->_fields, $defaults );
             $this->setDefaults( $defaults );    
@@ -354,6 +360,9 @@ class CRM_Profile_Form extends CRM_Core_Form
                 if ( $dao->add_captcha ) {
                     $setCaptcha = true;
                 }
+                if ($dao->is_update_dupe) {
+                    $this->_isUpdateDupe = true;
+                }
             }
             
             if ($setCaptcha) {
@@ -393,15 +402,15 @@ class CRM_Profile_Form extends CRM_Core_Form
     /**
      * global form rule
      *
-     * @param array $fields the input form values
-     * @param array $files   the uploaded files if any
-     * @param array $options additional user data
+     * @param array  $fields the input form values
+     * @param array  $files  the uploaded files if any
+     * @param object $form   the form object
      *
      * @return true if no errors, else array of errors
      * @access public
      * @static
      */
-    static function formRule( &$fields, &$files, $options = null ) 
+    static function formRule( &$fields, &$files, &$form )
     {
         $errors = array( );
         // if no values, return
@@ -419,19 +428,15 @@ class CRM_Profile_Form extends CRM_Core_Form
         $cid = $register = null; 
 
         // hack we use a -1 in options to indicate that its registration 
-        if ( $options ) { 
-            $options = ( int ) $options; 
-            if ( $options > 0 ) { 
-                $cid = $options; 
-            } else { 
-                $register = true; 
-            } 
-        }  
+        if ( $form->_id ) {
+            $cid = $form->_id;
+        }
 
-        $cid = null;
-        if ( $options ) {
-            $cid = (int ) $options;
+        if ( $form->_mode == CRM_Profile_Form::MODE_REGISTER ) {
+            $register = true; 
+        } 
 
+        if ( $cid ) {
             // get the primary location type id and email
             list($name, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($cid);
         }
@@ -535,9 +540,13 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
 
             $ids = CRM_Core_BAO_UFGroup::findContact( $data, $cid, true );
-            
             if ( $ids ) {
-                $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+                if ( $form->_isUpdateDupe ) {
+                    $idArray = explode( ',', $ids );
+                    $form->_id = $idArray[0];
+                } else {
+                    $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+                }
             }
         }
 

@@ -141,6 +141,9 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // should mapping be enabled for this group
         $this->addElement('checkbox', 'is_map', ts('Should mapping be enabled on this profile?') );
 
+        // should we allow updates on a exisitng contact
+        $this->addElement('checkbox', 'is_update_dupe', ts('Should we update the contact on a duplicate match?' ) );
+
         $this->addElement('text', 'post_URL', ts('Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'post_URL') );
         $this->addRule('post_URL', ts('Enter a valid URL.'), 'url');
 
@@ -222,8 +225,9 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
                 $this-> assign('otherModuleString',$otherModuleString);
             }
         } else {
-            $defaults['is_active'] = 1;
-            $defaults['is_map'   ] = 0;
+            $defaults['is_active'     ] = 1;
+            $defaults['is_map'        ] = 0;
+            $defaults['is_update_dupe'] = 0;
         }
         return $defaults;
     }

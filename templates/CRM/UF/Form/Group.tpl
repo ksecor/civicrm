@@ -49,6 +49,8 @@
     <dt>&nbsp;</dt><dd class="description">{ts}<strong>Do not enable this feature for stand-alone profile forms. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.</strong>{/ts}</dd>
     <dt></dt><dd>{$form.is_map.html} {$form.is_map.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If enabled, a Map link is included on the profile listings rows and detail screens for any contacts whose records include sufficient location data for your mapping provider.{/ts}</dd>
+    <dt></dt><dd>{$form.is_update_dupe.html} {$form.is_update_dupe.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, the contact record is updated if a dupe match is found. Note that if there are multiple matches, the first match found is updated.{/ts}</dd>
     <dt></dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the profile title to be displayed when the page is initially loaded (form fields are hidden until the user expands the form by clicking on the "plus" icon).{/ts}</dd>
     <dt></dt><dd>{$form.is_edit_link.html} {$form.is_edit_link.label}</dd>

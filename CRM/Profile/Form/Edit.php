@@ -196,7 +196,7 @@ SELECT module
                           );
         
         
-        $this->addFormRule( array( 'CRM_Profile_Form', 'formRule' ), $this->_id );
+        $this->addFormRule( array( 'CRM_Profile_Form', 'formRule' ), $this );
     }
     
     /**

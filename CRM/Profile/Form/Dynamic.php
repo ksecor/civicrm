@@ -90,9 +90,9 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
         parent::buildQuickForm( ); 
 
         if ( $this->_mode == CRM_Profile_Form::MODE_REGISTER ) {
-            $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), -1 );
+            $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), $this );
         } else {
-            $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), $this->_id );
+            $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), $this );
         }
     }
 
@@ -107,7 +107,7 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
      * @access public
      * @static
      */
-    static function formRule( &$fields, &$files, $options ) {
+    static function formRule( &$fields, &$files, &$form ) {
         $errors = array( );
         
         // if no values, return
@@ -115,7 +115,7 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
             return true;
         }
 
-        return CRM_Profile_Form::formRule( $fields, $files, $options );
+        return CRM_Profile_Form::formRule( $fields, $files, $form );
     }
 
     /**

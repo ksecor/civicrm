@@ -797,6 +797,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         $params['is_active'              ] = CRM_Utils_Array::value('is_active', $params, false);
         $params['add_captcha'            ] = CRM_Utils_Array::value('add_captcha', $params, false);
         $params['is_map'                 ] = CRM_Utils_Array::value('is_map', $params, false);
+        $params['is_update_dupe'         ] = CRM_Utils_Array::value('is_update_dupe', $params, false);
         $params['collapse_display'       ] = CRM_Utils_Array::value('collapse_display', $params, false);
         $params['limit_listings_group_id'] = CRM_Utils_Array::value('group', $params);
         $params['add_to_group_id'        ] = CRM_Utils_Array::value('add_contact_to_group', $params);
