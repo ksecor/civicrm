@@ -61,6 +61,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 require_once 'CRM/Core/Payment.php'; 
                 $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' );
                 $expressParams = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
+
+                $this->_params['payer'       ] = $expressParams['payer'       ];
+                $this->_params['payer_id'    ] = $expressParams['payer_id'    ];
+                $this->_params['payer_status'] = $expressParams['payer_status'];
+
                 self::mapParams( $this->_bltID, $expressParams, $this->_params, false );
 
                 // fix state and country id if present
