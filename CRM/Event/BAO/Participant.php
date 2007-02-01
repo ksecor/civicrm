@@ -239,6 +239,24 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         
         $session = & CRM_Core_Session::singleton();
         
+        // add custom field values
+        if (CRM_Utils_Array::value('custom', $params)) {
+            foreach ($params['custom'] as $customValue) {
+                $cvParams = array(
+                                  'entity_table'    => 'civicrm_participant',
+                                  'entity_id'       => $participant->id,
+                                  'value'           => $participant['value'],
+                                  'type'            => $participant['type'],
+                                  'custom_field_id' => $participant['custom_field_id'],
+                                  );
+                
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+        }
+        
         require_once 'CRM/Core/BAO/Note.php';
         $noteParams = array(
                             'entity_table'  => 'civicrm_participant',
@@ -263,12 +281,6 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                         );
         
         CRM_Core_BAO_Log::add( $logParams );
-        // Handle Custom Data
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $ids['id'], 0, $params['role_id']);
-                
-        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
-        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Participant", $participant->id); 
         
         $params['participant_id'] = $participant->id;
         
