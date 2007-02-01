@@ -2162,8 +2162,6 @@ WHERE civicrm_contact.id IN $idString ";
                               );
             $ids = array( ); 
             
-            $locationType = array( );
-            $locNo = 0;
             if ( is_array($contactDetails) ) {
                 foreach ($contactDetails as $key => $value) {
                     if ( array_key_exists($key, $objects) ) {
@@ -2171,16 +2169,9 @@ WHERE civicrm_contact.id IN $idString ";
                         $ids[$objects[$key]] = $value;
                     } else if (is_array($value)) {
                         
-                        if ( ! in_array( $value['location_type_id'], $locationType ) ) { 
-                            $locNo = count($locationType) + 1;
-                            $locationType[] = $value['location_type_id'];
-                        } else {
-                            //get the location no of this location type
-                            foreach ( $ids['location'] as $k1 => $v1 ) {
-                                if ( $v1['location_type_id'] == $value['location_type_id']) {
-                                    $locNo = $k1;
-                                }
-                            }
+                        $locNo = array_search( $value['location_type_id'], $locationType );
+                        if ( $locNo == false ) {
+                            CRM_Core_Error::fatal( ts( 'Could not find location id' ) );
                         }
 
                         foreach ($value as $k => $v) {

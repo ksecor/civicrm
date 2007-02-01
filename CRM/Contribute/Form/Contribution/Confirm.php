@@ -550,7 +550,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                'contact_id'            => $contactID,
                                'contribution_type_id'  => $contributionType->id,
                                'contribution_page_id'  => $this->_id,
-                               'payment_instrument_id' => 1,
                                'receive_date'          => $now,
                                'non_deductible_amount' => $nonDeductibleAmount,
                                'total_amount'          => $params['amount'],
@@ -559,6 +558,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                'currency'              => $params['currencyID'],
                                'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title']
                                );
+
+        if ( $this->_values['is_monetary'] ) {
+            $contribParams['payment_instrument_id'] = 1;
+        }
 
         if ( ! $pending && $result ) {
             $contribParams += array(
