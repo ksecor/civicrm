@@ -237,8 +237,6 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             }
         }
         //date-Format part ends
-        
-        $formatted = array();
         static $indieFields = null;
         if ($indieFields == null) {
             require_once('CRM/Event/BAO/Participant.php');
@@ -246,67 +244,19 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             $indieFields = $tempIndieFields;
         }
         
+        $values    = array();
+        $formatted = array();
+        
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
                 continue;
             }
             
-            require_once 'CRM/Core/OptionGroup.php';
-            if ( $key == 'event_id' ) {
-                $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $field, 'id', 'title' );
-                $formatted[$key] = $id;
-            } else if ( $key == 'event_status_id' ) {
-                $id = CRM_Core_OptionGroup::getValue('participant_status', $field);
-                $formatted[$key] = $id;
-            } else if ( $key == 'role_id' ) {
-                $id = CRM_Core_OptionGroup::getValue('participant_role', $field);
-                $formatted[$key] = $id;
-            } else if ( substr( $key, 0, 7) == 'custom_' ) { 
-                require_once 'CRM/Core/DAO/CustomField.php';
-                $cusotmField = new CRM_Core_DAO_CustomField();
-                $cusotmField->id = (int) substr( $key, 7 );
-                $cusotmField->find(true);
+            $values[$key] = $field;
+        }
+        
+        _crm_format_participant_params( $values, $formatted, true);
                 
-                if ( ($cusotmField->html_type == 'CheckBox') ||
-                     ($cusotmField->html_type == 'Multi-Select') ) {
-                    $newMultipleValue = str_replace("|",",",$field);
-                    $tmpFormatted     = explode( ',' , $newMultipleValue );
-                    $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($cusotmField->id, true);
-                    
-                    foreach( $tmpFormatted as $k1 => $v1 ) {
-                        foreach( $custuomOption as $v2 ) {
-                            //CRM_Core_Error::debug( 'v1', $v1 );
-                            //CRM_Core_Error::debug( 'v2', $v2 );
-                            if ( strtolower($v2['label']) == strtolower(trim($v1)) ) {
-                                //unset($newValueArray[$k1]);
-                                $formatted[$key][$v2['value']] = 1;
-                            }
-                        }
-                    }
-                } else {
-                    $formatted[$key] = $field;
-                }
-            } else {
-                $formatted[$key] = $field;
-            }
-        }
-        
-        // CRM_Event_BAO_Participant::add() handles register_date,
-        // status_id and source. So, if $formatted contains
-        // participant_register_date, event_status_id or event_source,
-        // convert it to register_date, status_id or source
-        $changes = array('event_register_date' => 'register_date',
-                         'event_source'        => 'source',
-                         'event_status_id'     => 'status_id'
-                         );
-        
-        foreach ($changes as $orgVal => $changeVal) {
-            if ( isset($formatted[$orgVal]) ) {
-                $formatted[$changeVal] = $formatted[$orgVal];
-                unset($formatted[$orgVal]);
-            }
-        }
-        
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {

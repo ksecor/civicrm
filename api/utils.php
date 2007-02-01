@@ -48,7 +48,7 @@ function _crm_error( $message, $code = 8000, $level = 'Fatal', $params = null)
 
 function _crm_store_values( &$fields, &$params, &$values ) {
     $valueFound = false;
-
+    
     foreach ($fields as $name => $field) {
         // ignore all ids for now
         if ( $name === 'id' || substr( $name, -1, 3 ) === '_id' ) {
@@ -353,76 +353,16 @@ function _crm_format_params( &$params, &$values ) {
     } else {
         unset( $values['location'] );
     }
-  
-   
+       
     if ( array_key_exists( 'note', $params ) ) {
         $values['note'] = $params['note'];
     }
-
-    $values['custom'] = array();
-
-    $customFields = CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
-
-    foreach ($params as $key => $value) {
-        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-            /* check if it's a valid custom field id */
-            if ( !array_key_exists($customFieldID, $customFields)) {
-                return _crm_error('Invalid custom field ID');
-            }
-
-            /* validate the data against the CF type */
-            $valid = CRM_Core_BAO_CustomValue::typecheck(
-                            $customFields[$customFieldID][2], $value);
-
-            if (! $valid) {
-                return _crm_error('Invalid value for custom field ' .
-                    $customFields[$customFieldID][0]);
-            }
-            
-            // fix the date field if so
-            if ( $customFields[$customFieldID][2] == 'Date' ) {
-                $value = str_replace( '-', '', $value );
-            }
-
-            $newMulValues = array();
-            if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select') {
-                $value = str_replace("|",",",$value);
-                $mulValues = explode( ',' , $value );
-                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                foreach( $mulValues as $v1 ) {
-                    foreach( $custuomOption as $v2 ) {
-                        if ( strtolower($v2['label']) == strtolower(trim($v1)) ) {
-                            $newMulValues[] = $v2['value'];
-                        }
-                    }
-                }
-                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-
-            } else if( $customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] == 'Radio' ) {
-                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                foreach( $custuomOption as $v2 ) {
-                    if ( strtolower($v2['label']) == strtolower(trim($value)) ) {
-                        $value = $v2['value'];
-                        break;
-                    }
-                }
-
-            }
-            
-            $values['custom'][$customFieldID] = array( 
-                'value'   => $value,
-                'extends' => $customFields[$customFieldID][3],
-                'type'    => $customFields[$customFieldID][2],
-                'custom_field_id' => $customFieldID,
-            );
-        }
-    }
-   
+    
+    _crm_format_custom_params( $params, $values, $values['contact_type'] );
+    
     CRM_Contact_BAO_Contact::resolveDefaults( $values, true );
-   
+    
     return null;
-   
-
 }
 
 /**
@@ -436,7 +376,7 @@ function _crm_format_params( &$params, &$values ) {
  * @return array|CRM_Error
  * @access public
  */
-function _crm_format_contrib_params( &$params, &$values ) {
+function _crm_format_contrib_params( &$params, &$values, $create=false ) {
     // copy all the contribution fields as is
    
     $fields =& CRM_Contribute_DAO_Contribution::fields( );
@@ -448,9 +388,8 @@ function _crm_format_contrib_params( &$params, &$values ) {
     }
     
     _crm_store_values( $fields, $params, $values );
-
+    
     foreach ($params as $key => $value) {
-
         // ignore empty values or empty arrays etc
         if ( CRM_Utils_System::isNull( $value ) ) {
             continue;
@@ -493,40 +432,147 @@ function _crm_format_contrib_params( &$params, &$values ) {
                 return _crm_error("currency not a valid code: $value");
             }
             break;
-
+        
         default:
             break;
-
         }
     }
+    
+    _crm_format_custom_params( $params, $values, 'Contribution' );
+    
+    if ($create) {
+        // CRM_Contribute_BAO_Contribution::add() handles contribution_source
+        // So, if $values contains contribution_source, convert it to source
+        $changes = array( 'contribution_source' => 'source' );
+        
+        foreach ($changes as $orgVal => $changeVal) {
+            if ( isset($values[$orgVal]) ) {
+                $values[$changeVal] = $values[$orgVal];
+                unset($values[$orgVal]);
+            }
+        }
+    }
+    
+    return null;
+}
 
+/**
+ * take the input parameter list as specified in the data model and 
+ * convert it into the same format that we use in QF and BAO object
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param array  $values       The reformatted properties that we can use internally
+ *
+ * @param array  $create       Is the formatted Values array going to
+ *                             be used for CRM_Event_BAO_Participant:create()
+ *
+ * @return array|CRM_Error
+ * @access public
+ */
+function _crm_format_participant_params( &$params, &$values, $create=false) 
+{
+    static $domainID = null;
+    if (!$domainID) {
+        $config =& CRM_Core_Config::singleton();
+        $domainID = $config->domainID();
+    }
+        
+    $fields =& CRM_Event_DAO_Participant::fields( );
+    _crm_store_values( $fields, $params, $values );
+    
+    require_once 'CRM/Core/OptionGroup.php';
+    foreach ($params as $key => $value) {
+        // ignore empty values or empty arrays etc
+        if ( CRM_Utils_System::isNull( $value ) ) {
+            continue;
+        }
+        
+        switch ($key) {
+        case 'participant_contact_id':
+            if (!CRM_Utils_Rule::integer($value)) {
+                return _crm_error("contact_id not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            if (!$svq) {
+                return _crm_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
+            }
+            break;
+        case 'event_register_date':
+            if (!CRM_Utils_Rule::date($value)) {
+                return _crm_error("$key not a valid date: $value");
+            }
+            break;
+        case 'event_id':
+            $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $value, 'id', 'title' );
+            $values[$key] = $id;
+            break;
+        case 'event_status_id':
+            $id = CRM_Core_OptionGroup::getValue('participant_status', $value);
+            $values[$key] = $id;
+            break;
+        case 'role_id':
+            $id = CRM_Core_OptionGroup::getValue('participant_role', $value);
+            $values[$key] = $id;
+            break;
+        default:
+            break;
+        }
+    }
+    
+    _crm_format_custom_params( $params, $values, 'Participant' );
+    
+    if ( $create ) {
+        // CRM_Event_BAO_Participant::create() handles register_date,
+        // status_id and source. So, if $values contains
+        // participant_register_date, event_status_id or event_source,
+        // convert it to register_date, status_id or source
+        $changes = array('event_register_date' => 'register_date',
+                         'event_source'        => 'source',
+                         'event_status_id'     => 'status_id'
+                         );
+        
+        foreach ($changes as $orgVal => $changeVal) {
+            if ( isset($values[$orgVal]) ) {
+                $values[$changeVal] = $values[$orgVal];
+                unset($values[$orgVal]);
+            }
+        }
+    }
+    
+    return null;
+}
+
+function _crm_format_custom_params( &$params, &$values, $extends )
+{
     $values['custom'] = array();
-
-    $customFields = CRM_Core_BAO_CustomField::getFields('Contribution');
-
+    
+    $customFields = CRM_Core_BAO_CustomField::getFields( $extends );
+    
     foreach ($params as $key => $value) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             /* check if it's a valid custom field id */
             if ( !array_key_exists($customFieldID, $customFields)) {
                 return _crm_error('Invalid custom field ID');
             }
-
+            
             /* validate the data against the CF type */
             $valid = CRM_Core_BAO_CustomValue::typecheck(
-                            $customFields[$customFieldID][2], $value);
-
+                                                         $customFields[$customFieldID][2], $value);
+            
             if (! $valid) {
                 return _crm_error('Invalid value for custom field ' .
-                    $customFields[$customFieldID][1]);
+                                  $customFields[$customFieldID][1]);
             }
             
             // fix the date field if so
             if ( $customFields[$customFieldID][2] == 'Date' ) {
                 $value = str_replace( '-', '', $value );
             }
-
+            
             // fixed for checkbox and multiselect
-
             $newMulValues = array();
             if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select') {
                 $value = str_replace("|",",",$value);
@@ -539,6 +585,7 @@ function _crm_format_contrib_params( &$params, &$values ) {
                         }
                     }
                 }
+                
                 $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else if( $customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
@@ -548,21 +595,16 @@ function _crm_format_contrib_params( &$params, &$values ) {
                         break;
                     }
                 }
-
             }
-
-            $values['custom'][$customFieldID] = array( 
-                'value'   => $value,
-                'extends' => $customFields[$customFieldID][3],
-                'type'    => $customFields[$customFieldID][2],
-                'custom_field_id' => $customFieldID,
-            );
+            
+            $values['custom'][$customFieldID] = array(
+                                                      'value'   => $value,
+                                                      'extends' => $customFields[$customFieldID][3],
+                                                      'type'    => $customFields[$customFieldID][2],
+                                                      'custom_field_id' => $customFieldID,
+                                                      );
         }
     }
-   
-    return null;
-   
-
 }
 
 function _crm_update_contact( $contact, $values, $overwrite = true ) 
@@ -587,7 +629,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         eval('$contact->contact_type_object =& new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
         $contact->contact_type_object->contact_id = $contact->id;
     }
-
+    
     $sortNameArray = array();
     // fix sort_name and display_name
     if ( $contact->contact_type == 'Individual' ) {

@@ -274,24 +274,19 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $tempIndieFields =& CRM_Contribute_DAO_Contribution::import();
             $indieFields = $tempIndieFields;
         }
-
+        
+        $values = array();
+        
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
                 continue;
             }
-            if ($key == 'contribution_source') {
-                // $key = 'source';
-            }
-            $value = array($key => $field);
-            _crm_add_formatted_contrib_param($value, $formatted);
+            
+            $value[$key] = $field;
         }
         
-        //fix contribution source
-        if ( isset($formatted['contribution_source']) ) {
-            $formatted['source'] = $formatted['contribution_source'];
-            unset($formatted['contribution_source']);
-        }
-
+        _crm_add_formatted_contrib_param($value, $formatted, true);
+                
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {

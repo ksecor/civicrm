@@ -245,9 +245,9 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                 $cvParams = array(
                                   'entity_table'    => 'civicrm_participant',
                                   'entity_id'       => $participant->id,
-                                  'value'           => $participant['value'],
-                                  'type'            => $participant['type'],
-                                  'custom_field_id' => $participant['custom_field_id'],
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
                                   );
                 
                 if ($customValue['id']) {
