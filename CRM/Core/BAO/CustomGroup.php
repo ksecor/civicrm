@@ -370,6 +370,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
                 */
                 if (isset($field['customValue'])) {
                     // customValue exists hence we need a DAO.
+                    require_once "CRM/Core/DAO/CustomValue.php";
                     $customValueDAO =& new CRM_Core_DAO_CustomValue();
                     $customValueDAO->entity_table = $tableName;
                     $customValueDAO->custom_field_id = $fieldId;
