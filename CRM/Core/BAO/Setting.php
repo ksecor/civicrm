@@ -67,7 +67,7 @@ class CRM_Core_BAO_Setting
         // the username and certpath are stored flat with _test and _live
         // check CRM-1470
         $skipVars = array( 'dsn', 'templateCompileDir', 'userFrameworkBaseURL',
-                           'paymentUsername', 'paymentCertPath' );
+                           'paymentUsername', 'paymentCertPath', 'qfKey' );
         foreach ( $skipVars as $var ) {
             unset( $params[$var] );
         }
