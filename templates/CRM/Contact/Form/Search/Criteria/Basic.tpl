@@ -14,6 +14,8 @@
                 {$form.uf_group_id.label} {$form.uf_group_id.html}
                 <br/>
                 {$form.uf_user.label} {$form.uf_user.html}
+                  &nbsp; <a href="#" title="unselect" onclick="unselectRadio('uf_user', 'Advanced'); return false;" >unselect</a>
+
             </td>
             <td class="label">{$form.buttons.html}</td>       
         </tr>

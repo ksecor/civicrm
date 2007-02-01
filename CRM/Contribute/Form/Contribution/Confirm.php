@@ -127,8 +127,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $this->_params['invoiceID'] = $this->get( 'invoiceID' );
         $this->set( 'params', $this->_params );
-
-       
     }
 
     /**
