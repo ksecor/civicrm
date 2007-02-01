@@ -9,7 +9,7 @@
         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
         <thead>    
        	  <tr class="columnheader">
-	    <th datatype="html" field="In honor Of">{ts}Contributions In Honor of{/ts}</th> 
+	    <th datatype="html" field="Contributor">{ts}Contributor{/ts}</th> 
             <th field="Total Amount">{ts}Amount{/ts}</th>
 	    <th field="Contribution Type">{ts}Type{/ts}</th>
             <th field="Source">{ts}Source{/ts}</th>

@@ -37,6 +37,10 @@
   </div>
 {/if}
    {if $honor}	
+<div id="help">
+<p>{ts 1=$displayName}Contributions made in honor of %1.{/ts} 
+</p>
+</div>
     	  {include file="CRM/Contribute/Page/ContributionHonor.tpl"}	
    {/if} 
 
