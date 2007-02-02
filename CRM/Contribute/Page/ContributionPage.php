@@ -48,8 +48,8 @@ require_once 'CRM/Contribute/DAO/ContributionPage.php';
  * of all the contribution pages in the system.
  *
  */
-class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
-
+class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page 
+{
     /**
      * The action links that we need to display for the browse screen
      *
@@ -110,6 +110,12 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
                                                                           'title' => ts('Delete Custom Field'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           ),
+                                        CRM_Core_Action::COPY     => array(
+                                                                           'name'  => ts('Copy Contribution Page'),
+                                                                           'url'   => 'civicrm/admin/contribute',
+                                                                           'qs'    => 'action=copy&gid=%%id%%',
+                                                                           'title' => ts('Make a Copy of CiviCRM Contribution Page'),
+                                                                           ),
                                         );
         }
         return self::$_actionLinks;
@@ -165,6 +171,10 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             return $page->run( );
+        } else if ($action & CRM_Core_Action::COPY) {
+            $session =& CRM_Core_Session::singleton();
+            CRM_Core_Session::setStatus("A copy of the contribution page has been created" );
+            $this->copy( );
         } else if ($action & CRM_Core_Action::DELETE) {
             $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String',
                                                     $this );
@@ -200,6 +210,24 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         }
        
         return parent::run();
+    }
+
+    /**
+     * This function is to make a copy of a contribution page, including
+     * all the fields in the page
+     *
+     * @return void
+     * @access public
+     */
+    function copy( ) 
+    {
+        $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                           $this, true, 0, 'GET');
+
+        require_once 'CRM/Contribute/BAO/ContributionPage.php';
+        CRM_Contribute_BAO_ContributionPage::copy( $gid );
+
+        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/contribute', 'reset=1' ) );
     }
 
     /**

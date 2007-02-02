@@ -36,7 +36,8 @@
 
 require_once 'CRM/Contribute/DAO/ContributionPage.php';
 
-class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_ContributionPage {
+class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_ContributionPage 
+{
 
     /**
      * takes an associative array and creates a contribution page object
@@ -47,14 +48,16 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
      * @access public
      * @static
      */
-    public static function &create(&$params) {
+    public static function &create(&$params) 
+    {
         $dao =& new CRM_Contribute_DAO_ContributionPage( );
         $dao->copyValues( $params );
         $dao->save( );
         return $dao;
     }
 
-    static function setValues( $id, &$values ) {
+    static function setValues( $id, &$values ) 
+    {
         $params = array('id' => $id);
 
         CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $values );
@@ -80,7 +83,8 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
      * @return void
      * @access public
      */
-    static function sendMail( $contactID, &$values ) {
+    static function sendMail( $contactID, &$values ) 
+    {
         if ( $values['is_email_receipt'] ) {
             $template =& CRM_Core_Smarty::singleton( );
 
@@ -115,7 +119,8 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
      * @return None  
      * @access public  
      */ 
-    function buildCustomDisplay( $gid, $name, $cid, &$template ) {
+    function buildCustomDisplay( $gid, $name, $cid, &$template ) 
+    {
         if ( $gid ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $cid) ){
@@ -136,9 +141,69 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             }
         }
     }
+  
+    /**
+     * This function is to make a copy of a contribution page, including
+     * all the blocks in the page
+     *
+     * @param int $id the contribution page id to copy
+     *
+     * @return the copy object 
+     * @access public
+     */
+    static function copy( $id ) 
+    {
+        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
 
+        $copy =& CRM_Core_DAO::copy( 'CRM_Contribute_DAO_ContributionPage', $id, $fieldsToPrefix );
 
+        //copying all the blocks pertaining to the contribution page
+        list($oldPremiumId, $newPremiumId) = self::copyObjects( 'CRM_Contribute_DAO_Premium', $id, $copy->id, 'entity_id' );
 
+        if( $oldPremiumId ) {
+            self::copyObjects( 'CRM_Contribute_DAO_PremiumsProduct', $oldPremiumId, $newPremiumId, 'premiums_id' );
+        }
+
+        self::copyObjects( 'CRM_Core_DAO_CustomOption', $id, $copy->id, 'entity_id' );
+        self::copyObjects( 'CRM_Member_DAO_MembershipBlock', $id, $copy->id, 'entity_id' );
+        self::copyObjects( 'CRM_Core_DAO_UFJoin', $id, $copy->id, 'entity_id' );
+
+        return $copy;
+    }
+
+    /**
+     * This function is to make a shallow copy of an object
+     * and all the fields in the object
+     * @param $daoName     DAO name in which to copy
+     * @param $oldId       id on the basis we need to copy     
+     * @param $newId       id in which to copy  
+     * @param $tableField  table field to be matched before copying  
+     *
+     * @return $ids        array of ids copied from and copied to the particular table 
+     * @access public
+     */
+    static function &copyObjects( $daoName, $oldId, $newId, $tableField ) 
+    {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object   =& new ' . $daoName . '( );' );
+        $object->$tableField =  $oldId;
+        if ( $tableField == 'entity_id' ) {
+            $object->entity_table = 'civicrm_contribution_page';
+        }
+
+        $object->find( );
+
+        $ids = array( );
+        while( $object->fetch( ) ) {
+            $ids[] = $object->id;
+            $object->$tableField  = $newId;
+            $object->id     = null;
+            $object->save( );
+        }
+        
+        $ids[] = $object->id;
+        return $ids;
+    }       
 }
 
 ?>
