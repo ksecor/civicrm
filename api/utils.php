@@ -545,6 +545,92 @@ function _crm_format_participant_params( &$params, &$values, $create=false)
     return null;
 }
 
+/**
+ * take the input parameter list as specified in the data model and 
+ * convert it into the same format that we use in QF and BAO object
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param array  $values       The reformatted properties that we can use internally
+ *
+ * @param array  $create       Is the formatted Values array going to
+ *                             be used for CRM_Member_BAO_Membership:create()
+ *
+ * @return array|CRM_Error
+ * @access public
+ */
+function _crm_format_membership_params( &$params, &$values, $create=false) 
+{
+    static $domainID = null;
+    if (!$domainID) {
+        $config =& CRM_Core_Config::singleton();
+        $domainID = $config->domainID();
+    }
+        
+    $fields =& CRM_Member_DAO_Membership::fields( );
+    _crm_store_values( $fields, $params, $values );
+    
+    foreach ($params as $key => $value) {
+        // ignore empty values or empty arrays etc
+        if ( CRM_Utils_System::isNull( $value ) ) {
+            continue;
+        }
+        
+        switch ($key) {
+        case 'membership_contact_id':
+            if (!CRM_Utils_Rule::integer($value)) {
+                return _crm_error("contact_id not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            if (!$svq) {
+                return _crm_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
+            }
+            break;
+        case 'join_date':
+        case 'membership_start_date':
+        case 'membership_end_date':
+            if (!CRM_Utils_Rule::date($value)) {
+                return _crm_error("$key not a valid date: $value");
+            }
+            break;
+        case 'membership_type_id':
+            $id = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_MembershipType", $value, 'id', 'name' );
+            $values[$key] = $id;
+            break;
+        case 'status_id':
+            $id = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_MembershipStatus", $value, 'id', 'name' );
+            $values[$key] = $id;
+            break;
+        default:
+            break;
+        }
+    }
+    
+    _crm_format_custom_params( $params, $values, 'Membership' );
+    
+    if ( $create ) {
+        // CRM_Member_BAO_Membership::create() handles membership_start_date,
+        // membership_end_date and membership_source. So, if $values contains
+        // membership_start_date, membership_end_date  or membership_source,
+        // convert it to start_date, end_date or source
+        $changes = array('membership_start_date' => 'start_date',
+                         'membership_end_date'   => 'end_date',
+                         'membership_source'     => 'source',
+                         );
+        
+        foreach ($changes as $orgVal => $changeVal) {
+            if ( isset($values[$orgVal]) ) {
+                $values[$changeVal] = $values[$orgVal];
+                unset($values[$orgVal]);
+            }
+        }
+    }
+    
+    return null;
+}
+
 function _crm_format_custom_params( &$params, &$values, $extends )
 {
     $values['custom'] = array();

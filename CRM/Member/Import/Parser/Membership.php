@@ -147,9 +147,9 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
     function summary( &$values ) {
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
-
+        
         $errorRequired = false;
-
+        
         if (($this->_membershipTypeIndex < 0) || ($this->_membershipStatusIndex < 0)) {
             $errorRequired = true;
         } else {
@@ -161,9 +161,9 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             array_unshift($values, ts('Missing required fields'));
             return CRM_Member_Import_Parser::ERROR;
         }
-
+        
         $params =& $this->getActiveFieldParams( );
-
+        
         require_once 'CRM/Import/Parser/Contact.php';
         $errorMessage = null;
         
@@ -195,22 +195,23 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             }
         }
         //date-Format part ends
-
-        $params['contact_type'] =  $this->_contactType;
-
+        
+        //$params['contact_type'] =  $this->_contactType;
+        $params['contact_type'] = 'Membership';
+        
         //checking error in custom data
         CRM_Import_Parser_Contact::isErrorInCustomData($params, $errorMessage);
-
+        
         if ( $errorMessage ) {
             $tempMsg = "Invalid value for field(s) : $errorMessage";
             array_unshift($values, $tempMsg);
             $errorMessage = null;
             return CRM_Import_Parser::ERROR;
         }
-
+        
         return CRM_Member_Import_Parser::VALID;
     }
-
+    
     /**
      * handle the values in import mode
      *
@@ -257,41 +258,19 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             $indieFields = $tempIndieFields;
         }
 
+        $values    = array();
+        $formatted = array();
+        
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
                 continue;
             }
-
-            if ($key == 'membership_type_id') {
-                $id = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_MembershipType", $field, 'id', 'name' );
-                $formatted[$key] = $id;
-            } elseif ($key == 'status_id') {
-                $id = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_MembershipStatus", $field, 'id', 'name' );
-                $formatted[$key] = $id;
-            } else {
-                $formatted[$key] = $field;
-            }
+            
+            $values[$key] = $field;
         }
         
-        // BAO_Membership::add() handles only start_date and end_date.
-        // So if $formatted contains membership_start_date or
-        // membership_end_date convert it to start_date or end_date
-        // respectively. also membership_source to source
-        if ( isset($formatted['membership_start_date']) ) {
-            $formatted['start_date'] = $formatted['membership_start_date'];
-            unset($formatted['membership_start_date']);
-        } 
-
-        if ( isset($formatted['membership_end_date'])) {
-            $formatted['end_date'] = $formatted['membership_end_date'];
-            unset($formatted['membership_end_date']);
-        }  
-        
-        if ( isset($formatted['membership_source'])) {
-            $formatted['source'] = $formatted['membership_source'];
-            unset($formatted['membership_source']);
-        }
-                       
+        _crm_format_membership_params( $values, $formatted, true);
+                               
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
