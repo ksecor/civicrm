@@ -794,14 +794,15 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
      */
     static function add(&$params, &$ids) 
     {
-        $params['is_active'              ] = CRM_Utils_Array::value('is_active', $params, false);
-        $params['add_captcha'            ] = CRM_Utils_Array::value('add_captcha', $params, false);
-        $params['is_map'                 ] = CRM_Utils_Array::value('is_map', $params, false);
-        $params['is_update_dupe'         ] = CRM_Utils_Array::value('is_update_dupe', $params, false);
-        $params['collapse_display'       ] = CRM_Utils_Array::value('collapse_display', $params, false);
-        $params['limit_listings_group_id'] = CRM_Utils_Array::value('group', $params);
-        $params['add_to_group_id'        ] = CRM_Utils_Array::value('add_contact_to_group', $params);
-        $params['is_edit_link'           ] = CRM_Utils_Array::value('is_edit_link', $params , false);
+        $params['is_active'              ] = CRM_Utils_Array::value( 'is_active'           , $params, false );
+        $params['add_captcha'            ] = CRM_Utils_Array::value( 'add_captcha'         , $params, false );
+        $params['is_map'                 ] = CRM_Utils_Array::value( 'is_map'              , $params, false );
+        $params['is_update_dupe'         ] = CRM_Utils_Array::value( 'is_update_dupe'      , $params, false );
+        $params['collapse_display'       ] = CRM_Utils_Array::value( 'collapse_display'    , $params, false );
+        $params['limit_listings_group_id'] = CRM_Utils_Array::value( 'group'               , $params        );
+        $params['add_to_group_id'        ] = CRM_Utils_Array::value( 'add_contact_to_group', $params        );
+        $params['is_edit_link'           ] = CRM_Utils_Array::value( 'is_edit_link'        , $params, false );
+        $params['is_uf_link'             ] = CRM_Utils_Array::value( 'is_uf_link'          , $params, false );
     
         $ufGroup             =& new CRM_Core_DAO_UFGroup();
         $ufGroup->domain_id  = CRM_Core_Config::domainID( );

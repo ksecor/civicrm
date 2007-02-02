@@ -53,6 +53,7 @@
     <dt>&nbsp;</dt><dd class="description">{ts}If enabled, the contact record is updated if a dupe match is found. Note that if there are multiple matches, the first match found is updated.{/ts}</dd>
     <dt></dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the profile title to be displayed when the page is initially loaded (form fields are hidden until the user expands the form by clicking on the "plus" icon).{/ts}</dd>
+    <dt></dt><dd>{$form.is_uf_link.html} {$form.is_uf_link.label}</dd>
     <dt></dt><dd>{$form.is_edit_link.html} {$form.is_edit_link.label}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
         

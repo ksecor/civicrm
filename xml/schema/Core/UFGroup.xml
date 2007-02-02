@@ -136,6 +136,13 @@
        <add>1.6</add>
   </field>
   <field>
+       <name>is_uf_link</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Should we display a link to the website profile in profile selector</comment>
+       <add>1.7</add>
+  </field>
+  <field>
        <name>is_update_dupe</name>
        <type>boolean</type>
        <default>0</default>

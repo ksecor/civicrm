@@ -201,9 +201,11 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                 $this->map( );
                 return;
             } else {
-                $map = 0;
+                $map      = 0;
+                $linkToUF = 0;
                 if ( $this->_gid ) {
-                    $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map' );
+                    $map      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map'     );
+                    $linkToUF = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_uf_link' );
                 }
                 if ( $map ) {
                     $this->assign( 'mapURL',
@@ -217,7 +219,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                 }
 
                 $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid,
-                                                                $map, $editLink );
+                                                                $map, $editLink, $linkToUF );
 
                 $controller =& new CRM_Core_Selector_Controller($selector ,
                                                                 $this->get( CRM_Utils_Pager::PAGE_ID ),

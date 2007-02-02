@@ -199,8 +199,8 @@ class CRM_Core_Action {
             if ( ! $mask || ( $mask & $m ) ) {
                 $extra = CRM_Utils_Array::value( 'extra', $link, '' );
                 $url[] = sprintf('<a href="%s" ' . $extra . '>%s</a>',
-                                 CRM_Utils_System::url( $link['url'],
-                                                        self::replace( $link['qs'], $values ) ),
+                                 CRM_Utils_System::url( self::replace( $link['url'], $values ),
+                                                        self::replace( $link['qs'] , $values ) ),
                                  $link['name'] );
             }
         }
