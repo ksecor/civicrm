@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-29 09:54+0100\n"
-"PO-Revision-Date: 2007-01-26 12:16-0800\n"
+"PO-Revision-Date: 2007-02-01 10:35-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1099,9 +1099,8 @@ msgid "Email is not valid."
 msgstr "Adresse électronique invalide."
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "New %1"
-msgstr "Prévisualiser %1"
+msgstr "Nouveau contact: %1"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Criteria.php
 msgid "Privacy"
@@ -1169,9 +1168,8 @@ msgid "Website"
 msgstr "Site web"
 
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid "Enter a valid Website."
-msgstr "Veuillez entrer un objet valide."
+msgstr "Veuillez entrer un site web valide."
 
 #: CRM/Contact/Form/Location.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Location.php
@@ -2534,9 +2532,8 @@ msgid "Field Help"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid number value."
-msgstr "Entrez un nom valide"
+msgstr "Veuillez entrer un numéro valide."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Invalid default value for country."
@@ -2855,9 +2852,8 @@ msgstr ""
 #: CRM/Quest/Form/Counselor/Academic.php CRM/Quest/Form/MatchApp/Academic.php
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Academic.php
 #: CRM/Quest/Form/PreApp/Personal.php
-#, fuzzy
 msgid "Number not valid."
-msgstr "Adresse électronique invalide."
+msgstr "Le numéro n'est pas valide."
 
 #: CRM/Quest/Form/Counselor/Evaluation.php
 #: CRM/Quest/Form/Teacher/Evaluation.php
@@ -3041,9 +3037,8 @@ msgid "Number of years in current occupation"
 msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
-#, fuzzy
 msgid "not a valid number"
-msgstr "Entrez un nom valide"
+msgstr "n'est pas un numéro valide."
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
@@ -3758,9 +3753,8 @@ msgid "The %1 \"%2\" has been saved."
 msgstr "Le groupe \"%1\" a été enregistré."
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Default Option?"
-msgstr "Supprimer l'option de sexe"
+msgstr "Option par défaut?"
 
 #: CRM/Admin/Form/OptionValue.php
 #, fuzzy
@@ -3823,17 +3817,15 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Settings - Enable Components"
-msgstr ""
+msgstr "Configuration - Activer des composants"
 
 #: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
 msgid "Enable >>"
-msgstr "Activer"
+msgstr "Activer >>"
 
 #: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
 msgid "<< Disable"
-msgstr "Désactiver"
+msgstr "<< Désactiver"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Settings - Date Formatting"
@@ -3909,14 +3901,12 @@ msgid "Available States and Provinces"
 msgstr "État/Province"
 
 #: CRM/Admin/Form/Setting/Localisation.php
-#, fuzzy
 msgid "Default Country"
-msgstr "Montant par défaut"
+msgstr "Pays par défaut"
 
 #: CRM/Admin/Form/Setting/Localisation.php
-#, fuzzy
 msgid "Default Currency"
-msgstr "Valeur par défaut"
+msgstr "Devise par défaut"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 msgid "Legacy Encoding"
@@ -4026,9 +4016,8 @@ msgid "Paypal Url - LIVE"
 msgstr ""
 
 #: CRM/Admin/Form/Setting.php
-#, fuzzy
 msgid "Your settings changes have been saved."
-msgstr "Votre groupe intelligent a été enregistré sous le titre \"%1\"."
+msgstr "Votre nouvelle configuration a été enregistrée."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Settings - SMTP Configuration"
@@ -4594,7 +4583,7 @@ msgstr "Enregistrer et en créer un nouveau"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
-msgstr ""
+msgstr "Le contact (%1) a été enregistré."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Prefers"
@@ -4797,9 +4786,8 @@ msgid "Search Views"
 msgstr "Vue de recherche"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "- default view -"
-msgstr "Valeur par défaut"
+msgstr "- vue par défaut -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
@@ -5057,7 +5045,7 @@ msgstr "Chercher un profil"
 
 #: CRM/Contact/Form/Task/Print.php
 msgid "Print Contact List"
-msgstr ""
+msgstr "Imprimer la liste de contacts"
 
 #: CRM/Contact/Form/Task/Record.php
 msgid "Your user record does not have a valid user ID"
@@ -6614,9 +6602,8 @@ msgid "Callback Method"
 msgstr ""
 
 #: CRM/Core/DAO/ActivityHistory.php
-#, fuzzy
 msgid "Activity ID"
-msgstr "Activité"
+msgstr "ID de l'activité"
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Activity Summary"
@@ -7652,18 +7639,16 @@ msgid "Value should be a positive number"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Month"
-msgstr "-mois-"
+msgstr "Mois"
 
 #: CRM/Custom/Form/Field.php
 msgid "Day"
-msgstr ""
+msgstr "Jour"
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Year"
-msgstr "-année-"
+msgstr "Année"
 
 #: CRM/Custom/Form/Field.php
 msgid "Included date parts"
@@ -7692,21 +7677,21 @@ msgstr "Résultats de la recherche"
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid integer as default value."
-msgstr ""
+msgstr "Veuillez entrer un entier valide pour la valeur par défaut."
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid number as default value."
-msgstr ""
+msgstr "Veuillez entrer un nombre valide pour la valeur par défaut."
 
 #: CRM/Custom/Form/Field.php
 msgid ""
 "Please enter a valid date as default value using YYYY-MM-DD format. Example: "
 "2004-12-31."
-msgstr ""
+msgstr "Veuillez entrer une date valide pour la valeur par défaut en utilisant le format YYYY-MM-DD. Par exemple: 2004-12-31."
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter 1 or 0 as default value."
-msgstr ""
+msgstr "Veuillez entrer 1 ou 0 pour la valeur par défaut."
 
 #: CRM/Custom/Form/Field.php
 msgid "The invalid default value for State/Province data type"
@@ -7786,7 +7771,7 @@ msgstr ""
 #: CRM/Custom/Form/Option.php templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "Default"
-msgstr ""
+msgstr "Option par défaut"
 
 #: CRM/Custom/Form/Option.php
 #, fuzzy
@@ -8647,9 +8632,8 @@ msgid "Admin Assigned Only?"
 msgstr ""
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "Default Status?"
-msgstr "Valeur par défaut"
+msgstr "État par défaut?"
 
 #: CRM/Member/DAO/MembershipStatus.php
 #, fuzzy
@@ -11039,13 +11023,12 @@ msgstr ""
 msgid ""
 "CiviCRM includes several optional components which give you more tools to "
 "connect with and engage your constituents."
-msgstr ""
+msgstr "CiviCRM est composé de plusieurs outils qui peuvent être activés pour donner plus de moyens d'intéragir avec votre communauté."
 
 #: templates/CRM/Admin/Form/Setting/Component.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Enable Components"
-msgstr "Activer la relation"
+msgstr "Activer des composants"
 
 #: templates/CRM/Admin/Form/Setting/Component.tpl
 msgid ""
@@ -11054,7 +11037,7 @@ msgid ""
 "    Highlight a component and click the Enable or Disable button to move it "
 "from one box to the other.\n"
 "    Then click <strong>Save</strong>."
-msgstr ""
+msgstr "Les composants actifs sont listés dans la boîte de gauche. Les composants inactifs sont listés dans la boîte de droite. Sélectionnez un composant, puis cliquez sur «Activer» ou «Désactiver» pour le bouger d'une boîte vers l'autre. Lorsque terminé, cliquer sur le bouton «enregistrer»."
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid ""
@@ -11119,7 +11102,7 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Localisation.tpl
 msgid ""
 "Default currency assigned to contributions and other monetary transactions."
-msgstr ""
+msgstr "Devise par défaut attribuée aux contributions et aux autres transactions financières."
 
 #: templates/CRM/Admin/Form/Setting/Localisation.tpl
 msgid "Locale for monetary display (affects formatting specifiers below)."
@@ -11168,9 +11151,8 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "CiviMail Configuration"
-msgstr "Configuration avancée"
+msgstr "Configuration CiviMail"
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid "Number of seconds between delivery attempts for new outgoing mailings."
@@ -11217,7 +11199,7 @@ msgid ""
 "Do you want CiviCRM to automatically check availablity of a newer version of "
 "the software? If enabled, new version alerts will be displayed on the main "
 "CiviCRM Administration page.."
-msgstr ""
+msgstr "CiviCRM devrait-il automatiquement vérifier si une nouvelle version du logiciel est disponible? Si oui, un avertissement sera affiché sur la page du panneau administratif de CiviCRM lorsque c'est le cas."
 
 #: templates/CRM/Admin/Form/Setting/Miscellaneous.tpl
 msgid ""
@@ -11865,17 +11847,12 @@ msgid "View Change Log"
 msgstr "Afficher le journal des modifications"
 
 #: templates/CRM/common/footer.tpl
-#, fuzzy
 msgid ""
 "Powered by CiviCRM %1. CiviCRM is openly available under the <a href=\"%2"
 "\">Affero General Public License (AGPL)</a>. <a href=\"%3\">Download source</"
 "a>. <a href=\"%4\">View issues and report bugs</a>. <a href=\"%5\">Online "
 "documentation</a>."
-msgstr ""
-"Le logiciel CiviCRM est disponible pour toute personne ou organisation sous "
-"les termes de la <a href=\"%1\">Affero General Public License (AGPL)</a>. Le "
-"code source peut être téléchargé à partir de notre <a href=\"%2\">site de "
-"téléchargements</a>."
+msgstr "Le logiciel CiviCRM est librement disponible sous les termes de la <a href=\"%1\">Affero General Public License (AGPL)</a>. <a href=\"%3\">Télécharger le code source</a>. <a href=\"%4\">Consulter la liste de requêtes ou soumettre un bogue</a>. <a href=\"%5\">Documentation en-ligne</a>.Le code source peut être téléchargé à partir de notre <a href=\"%2\">site de téléchargements</a>."
 
 #: templates/CRM/common/pager.tpl
 msgid "Rows per page:"

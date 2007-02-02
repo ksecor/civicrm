@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-29 09:54+0100\n"
-"PO-Revision-Date: 2007-01-27 14:16-0800\n"
-"Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
+"PO-Revision-Date: 2007-02-01 09:54-0800\n"
+"Last-Translator: Antonio Pérez <nonopp@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -926,7 +926,7 @@ msgstr "Otro"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Organization Name"
-msgstr "Nombre de la Orgnización"
+msgstr "Nombre de la Organización"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 #: templates/CRM/Quest/Form/Counselor/Personal.tpl
@@ -2850,7 +2850,7 @@ msgstr "Porcentaje de rango de notas"
 msgid ""
 "If there are any extenuating circumstances, or details regarding your "
 "academic performance that you would like to add or clarify, please do so here"
-msgstr ""
+msgstr "Si hubiera otras circunstancias o detalles referidos a su actividad académica que le gustaría añadir o aclarar, por favor, hágalo aquí  "
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 msgid "Honors"
@@ -3007,7 +3007,7 @@ msgstr "Año de graduación"
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Degree received in professional or graduate school "
-msgstr ""
+msgstr "Titulación profesional obtenida en su escuela"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/PreApp/Personal.php
@@ -3027,7 +3027,7 @@ msgstr "Teléfono permanente"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Parent/Guardian Detail"
-msgstr ""
+msgstr "En caso de ser menor, que adulto se hace responsable"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Current High School"
@@ -3047,11 +3047,11 @@ msgstr "Buscar código de colegio"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Dates Attended (month/year)"
-msgstr ""
+msgstr "Fecha de matriculación"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Dates attended (month/year)"
-msgstr ""
+msgstr "Fechas de matriculación"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Your School Is"
@@ -3117,11 +3117,11 @@ msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Type of Income"
-msgstr ""
+msgstr "Tipo de ingreso"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Total 2005 Income from this Source"
-msgstr ""
+msgstr "Ingresos totales 2005 por esta fuente"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Additional Income Type"
@@ -3426,13 +3426,12 @@ msgid "Hide this SAT II test"
 msgstr "Ocultar este IM"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
-#, fuzzy
 msgid "AP Test score not valid."
-msgstr "Fecha final no válida."
+msgstr "Puntuación en el Test AP no válida"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "add another AP test score"
-msgstr ""
+msgstr "Añadir otra puntuación en el test AP"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 #, fuzzy
@@ -3441,7 +3440,7 @@ msgstr "Ocultar este IM"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "If yes, for which tests?"
-msgstr ""
+msgstr "Y si es así, ¿En que test?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 #, fuzzy
@@ -3450,11 +3449,11 @@ msgstr "Información de Dominio"
 
 #: CRM/Quest/Form/Recommender.php CRM/Quest/Form/Recommender/Submit.php
 msgid "Submit Recommendation"
-msgstr ""
+msgstr "Hacer referencia"
 
 #: CRM/Quest/Form/Task/PDF.php CRM/Quest/Form/Task/XML.php
 msgid "Print XML File"
-msgstr ""
+msgstr "Imprimir archivo XML"
 
 #: CRM/ACL/BAO/ACL.php
 #, fuzzy
@@ -3467,9 +3466,8 @@ msgid "Administer"
 msgstr "Administrar CiviCRM"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "Apellidos"
+msgstr "Nombre ACL"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
@@ -3503,11 +3501,11 @@ msgstr "- Selecciona -"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Permission For"
-msgstr ""
+msgstr "Permiso para"
 
 #: CRM/ACL/Form/EntityRole.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr ""
+msgstr "Asignado a"
 
 #: CRM/ACL/Page/ACL.php
 #, fuzzy
@@ -3536,7 +3534,7 @@ msgstr "Borrar"
 
 #: CRM/ACL/Page/ACL.php
 msgid "All Roles"
-msgstr ""
+msgstr "Todos los perfiles"
 
 #: CRM/ACL/Page/EntityRole.php
 #, fuzzy
@@ -3545,23 +3543,23 @@ msgstr "¿Estás seguro que quieres deshabilitar este componente?"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Edit ACL Role Assignment"
-msgstr ""
+msgstr "Editar componente"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Disable ACL Role Assignment"
-msgstr ""
+msgstr "Deshabilitar componente"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Enable ACL Role Assignment"
-msgstr ""
+msgstr "Habilitar componente"
 
 #: CRM/ACL/Page/EntityRole.php templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Delete ACL Role Assignment"
-msgstr ""
+msgstr "Borrar componente"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Assign Users to Roles"
-msgstr ""
+msgstr "Asignar usuarios a perfiles"
 
 #: CRM/Activity/BAO/Activity.php
 #, fuzzy
@@ -3702,7 +3700,7 @@ msgstr "Proveedor de Mensajería Instantánea"
 
 #: CRM/Admin/Form/Setting/Address.php
 msgid "User ID"
-msgstr ""
+msgstr "ID usuario"
 
 #: CRM/Admin/Form/Setting/Address.php
 #, fuzzy
@@ -3710,9 +3708,8 @@ msgid "Web Service URL"
 msgstr "Servicios de Mensajería Instantánea (IM)"
 
 #: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
 msgid "Settings - Enable Components"
-msgstr "Ajustes y Contenido"
+msgstr "Ajustes permitir componentes"
 
 #: CRM/Admin/Form/Setting/Component.php
 #, fuzzy
@@ -3741,12 +3738,11 @@ msgstr "Fecha de Completado"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Month and Year"
-msgstr ""
+msgstr "Mes y año"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Year Only"
-msgstr "Sólo Ver"
+msgstr "Sólo año"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 #, fuzzy
@@ -3754,9 +3750,8 @@ msgid "Settings - Debugging"
 msgstr "Ajustes y Contenido"
 
 #: CRM/Admin/Form/Setting/Debugging.php
-#, fuzzy
 msgid "Enable Debugging"
-msgstr "Habilitar género"
+msgstr "Habilitar género de fallos"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 #, fuzzy
@@ -3765,7 +3760,7 @@ msgstr "Mostrar Nombre"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Template"
-msgstr ""
+msgstr "Error en la plantilla"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 #, fuzzy
@@ -3773,186 +3768,166 @@ msgid "Fatal Error Handler"
 msgstr "Código de Error de la Base de Datos:"
 
 #: CRM/Admin/Form/Setting/Localisation.php
-#, fuzzy
 msgid "Settings - Localisation"
-msgstr "Borrar tipo de localidad"
+msgstr "Ajustes - Localización"
 
 #: CRM/Admin/Form/Setting/Localisation.php
-#, fuzzy
 msgid "User Language"
-msgstr "Usar imagen por defecto"
+msgstr "idioma del usuario"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 msgid "Monetary Locale"
-msgstr ""
+msgstr "Moneda local"
 
 #: CRM/Admin/Form/Setting/Localisation.php
-#, fuzzy
 msgid "Monetary Display"
-msgstr "Plegar Display"
+msgstr "Muestra dinero"
 
 #: CRM/Admin/Form/Setting/Localisation.php
-#, fuzzy
 msgid "Available Countries"
-msgstr "Número de fallos"
+msgstr "Países disponibles"
 
 #: CRM/Admin/Form/Setting/Localisation.php
-#, fuzzy
 msgid "Available States and Provinces"
-msgstr "Provincia"
+msgstr "Provincias"
 
 #: CRM/Admin/Form/Setting/Localisation.php
-#, fuzzy
 msgid "Default Country"
-msgstr "Cantidad Por Defecto"
+msgstr "País por defecto"
 
 #: CRM/Admin/Form/Setting/Localisation.php
-#, fuzzy
 msgid "Default Currency"
-msgstr "Valor por Defecto"
+msgstr "Moneda por defecto"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 msgid "Legacy Encoding"
-msgstr ""
+msgstr "Código legal"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Settings - CiviMail"
-msgstr ""
+msgstr "Ajustes - CiviMail"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Period"
-msgstr ""
+msgstr "Periocidad de envío"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid " VERP Separator"
-msgstr ""
+msgstr "Separador _VERP"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Batch Limit"
-msgstr ""
+msgstr "Límite de envío"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Settings - Mapping Provider"
-msgstr ""
+msgstr "Ajustes - Proveedor de mapa"
 
 #: CRM/Admin/Form/Setting/Mapping.php
-#, fuzzy
 msgid "Map Provider"
-msgstr "Proveedor de Mensajería Instantánea"
+msgstr "Proveedor de Mapa"
 
 #: CRM/Admin/Form/Setting/Mapping.php
-#, fuzzy
 msgid "Provider Key"
-msgstr "Nombre del Proveedor IM"
+msgstr "Clave del proveedor"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Settings - Miscellaneous"
-msgstr ""
+msgstr "Ajustes - Miscelánea"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
-#, fuzzy
 msgid "CiviCRM Version Check"
-msgstr "Buscar CiviCRM"
+msgstr "Comprobar versión CiviCRM"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font Path"
-msgstr ""
+msgstr "Dirección Path para Captcha"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font"
-msgstr ""
+msgstr "Fuente Captcha"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Settings - Upload Directories"
-msgstr ""
+msgstr "Ajustes - Carpeta para subir archivos"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Temporary Files"
-msgstr "Importar fichero de datos"
+msgstr "Archivos temporales"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Images"
-msgstr "Imagen"
+msgstr "Imágenes"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Custom Files"
-msgstr "Campos Personalizados"
+msgstr "Archivos personales"
 
 #: CRM/Admin/Form/Setting/Payment.php
-#, fuzzy
 msgid "Settings - Payment Processor"
-msgstr "Procesador del Pago"
+msgstr "Ajustes - Procesador de pago"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Force Secure URLs (SSL)"
-msgstr ""
+msgstr "Forzar dirección URLs (SSL)"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "PayPal Express Button"
-msgstr ""
+msgstr "Botón Express PayPal"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Username - TEST"
-msgstr ""
+msgstr "Nombre de usario - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Certificate Path - TEST"
-msgstr ""
+msgstr "Certificado Path - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Paypal Url - TEST"
-msgstr ""
+msgstr "Url PayPal - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Username - LIVE"
-msgstr ""
+msgstr "Nombre de usuario - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Certificate Path - LIVE"
-msgstr ""
+msgstr "Certificado Path - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Paypal Url - LIVE"
-msgstr ""
+msgstr "Url PayPal - LIVE"
 
 #: CRM/Admin/Form/Setting.php
-#, fuzzy
 msgid "Your settings changes have been saved."
 msgstr "Tu(s) actualizacion(es) han sido guardada(s)."
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Settings - SMTP Configuration"
-msgstr "Ajustes y Contenido"
+msgstr "Ajustes - Configuración SMTP"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Port"
-msgstr ""
+msgstr "Puerto SMTP"
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Authentication?"
-msgstr "Otra Localidad"
+msgstr "¿Requiere autentificación?"
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "SMTP Username"
-msgstr "API nombre de usuario"
+msgstr "Usuario SMTP"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Settings - Resource URLs"
-msgstr ""
+msgstr "Ajustes - Recursos URLs"
 
 #: CRM/Admin/Form/Setting/Url.php
-#, fuzzy
 msgid "CiviCRM Resource URL"
-msgstr "Buscar CiviCRM"
+msgstr "Recurso URL CiviCRM"
 
 #: CRM/Admin/Form/Setting/Url.php
-#, fuzzy
 msgid "Image Upload URL"
 msgstr "Url de Imagen"
 
@@ -3993,26 +3968,20 @@ msgid "Delete Location Type"
 msgstr "Borrar tipo de localidad"
 
 #: CRM/Admin/Page/Mapping.php
-#, fuzzy
 msgid ""
 "Are you sure you want to delete this mapping? This operation can not be "
 "undone"
-msgstr ""
-"¿Estás seguro que quieres borrar los contactos seleccionados?. Una operación "
-"de borrado no se puede deshacer."
+msgstr "¿Estás seguro que quieres borrar esta localización?. Una operación de borrado no se puede deshacer."
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
-#, fuzzy
 msgid "Edit Mapping"
-msgstr "Cargar edición"
+msgstr "Editar localización"
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
-#, fuzzy
 msgid "Delete Mapping"
-msgstr "Borrar Cita"
+msgstr "Borrar localización"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "Are you sure you want to disable this Option?"
 msgstr "¿Estás seguro que quieres deshabilitar este componente?"
 
@@ -4021,47 +3990,37 @@ msgid "Multiple Choice Options"
 msgstr "Opciones Multi-Elección"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "View and Edit Multiple Choice Options"
 msgstr "Ver/Editar Opciones Multi-Elección"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "Disable Option"
-msgstr "Deshabilitar Relación"
+msgstr "Deshabilitar Opción"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "Enable Option"
-msgstr "Habilitar Opción Personalizada"
+msgstr "Permitir Opción"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "Delete Option"
-msgstr "Opción seleccionada"
+msgstr "Borrar opción"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Manage ACL Roles"
 msgstr "Manejar Grupos"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "%1 Options"
-msgstr "Opciones"
+msgstr "%1 Opciones"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Are you sure you want to disable this %1?"
-msgstr "¿Estás seguro que quieres deshabilitar este grupo?"
+msgstr "¿Estás seguro que quieres deshabilitar este %1?"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing %1."
-msgstr ""
-"Los usuarios ya no podrán seleccionar este valor cuando añadan o editen el "
-"género."
+msgstr "Los usuarios ya no podrán seleccionar este valor cuando añadan o editen el %1"
 
 #: CRM/Admin/Page/Options.php
 #, fuzzy
