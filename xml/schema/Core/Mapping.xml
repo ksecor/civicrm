@@ -48,9 +48,7 @@
   <field>
        <name>mapping_type</name>
        <type>enum</type>
-       <values>Export, Import, Export Contributions, Import
-  Contributions, Import Activity History, Search Builder, Import
-  Memberships, Import Participants</values>
+       <values>Export, Import, Export Contributions, Import Contributions, Import Activity History, Search Builder, Import Memberships, Import Participants</values>
        <comment>Type of Mapping.</comment>
       <add>1.2</add>
   </field>
