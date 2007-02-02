@@ -185,7 +185,7 @@ class CRM_Utils_System_Drupal {
         
         $dbDrupal = DB::connect( $config->userFrameworkDSN );
         if ( DB::isError( $dbDrupal ) ) {
-            CRM_Core_Error::fatal( "Cannot connect to drupal db via $config->userFrameworkDSN, " . $dbDrupal>getMessage( ) ); 
+            CRM_Core_Error::fatal( "Cannot connect to drupal db via $config->userFrameworkDSN, " . $dbDrupal->getMessage( ) ); 
         }                                                      
 
         $password  = md5( $password );
