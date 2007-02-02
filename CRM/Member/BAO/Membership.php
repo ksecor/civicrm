@@ -159,12 +159,30 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         CRM_Core_DAO::transaction('BEGIN');
         
         $membership = self::add($params, $ids);
-
+        
         if ( is_a( $membership, 'CRM_Core_Error') ) {
             CRM_Core_DAO::transaction( 'ROLLBACK' );
             return $membership;
         }
-
+        
+        // add custom field values
+        if (CRM_Utils_Array::value('custom', $params)) {
+            foreach ($params['custom'] as $customValue) {
+                $cvParams = array(
+                                  'entity_table'    => 'civicrm_participant',
+                                  'entity_id'       => $participant->id,
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
+                                  );
+                
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+        }
+        
         $params['membership_id'] = $membership->id;
         
         CRM_Core_DAO::transaction('COMMIT');

@@ -360,7 +360,7 @@ function crm_create_contact_membership($params, $contactID)
     
     require_once 'CRM/Member/BAO/Membership.php';
     $ids = array();
-    $membershipBAO = CRM_Member_BAO_Membership::add($params, $ids);
+    $membershipBAO = CRM_Member_BAO_Membership::create($params, $ids);
     
     $membership = array();
     _crm_object_to_array($membershipBAO, $membership);
