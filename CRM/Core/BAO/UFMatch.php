@@ -57,6 +57,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
     static function synchronize( &$user, $update, $uf, $ctype ) {
         $session =& CRM_Core_Session::singleton( );
         if ( ! is_object( $session ) ) {
+            CRM_Core_Error::fatal( 'wow, session is not an object?' );
             return;
         }
 
@@ -88,7 +89,8 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $user->load( );
         }
 
-        // if the id of the object is zero (true for drupal), return early
+        // if the id of the object is zero (true for anon users in drupal)
+        // return early
         if ( $user->$key == 0 ) {
             return;
         }
@@ -141,7 +143,8 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
      * @static
      */
     static function &synchronizeUFMatch( &$user, $userKey, $mail, $uf, $status = null, $ctype = null ) {
-        // validate that mail is a valid email address. Drupal does not check for this stuff
+        // validate that mail is a valid email address. hopefully there is
+        // not too many conflicting emails between the CMS and CiviCRM
         require_once 'CRM/Utils/Rule.php';
         if ( ! CRM_Utils_Rule::email( $mail ) ) {
             return $status ? null : false;
@@ -161,14 +164,10 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 $ufmatch->domain_id  = $dao->domain_id ;
                 $ufmatch->email      = $mail           ;
             } else {
-                if ( $uf == 'Joomla' ) {
-                    CRM_Utils_System_Joomla::setEmail( $user );
-                }
-                
                 require_once 'CRM/Core/BAO/LocationType.php';
                 $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
                 //CRM_Core_Error::debug('M', $mail);
-                $params= array( 'email' => $mail, 'location_type' => $locationType->name );
+                $params = array( 'email' => $mail, 'location_type' => $locationType->name );
                 if ( $ctype == 'Organization' ) {
                     $params['organization_name'] = $mail;
                 } else if ( $ctype == 'Household' ) {
@@ -177,6 +176,24 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 if ( ! $ctype ) {
                     $ctype = "Individual";
                 }
+
+                // extract first / middle / last name
+                // for joomla
+                if ( $uf == 'Joomla' && $user->name ) {
+                    $name = trim( $user->$name );
+                    $names = explode( ' ', $user->$name );
+                    if ( count( $names ) == 1 ) {
+                        $params['first_name'] = $names[0];
+                    } else if ( count( $names ) == 2 ) {
+                        $params['first_name'] = $names[0];
+                        $params['last_name' ] = $names[1];
+                    } else {
+                        $params['first_name' ] = $names[0];
+                        $params['middle_name'] = $names[1];
+                        $params['last_name'  ] = $names[2];
+                    }
+                }
+                
                 require_once 'api/Contact.php';
                 $contact =& crm_create_contact( $params, $ctype );
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
