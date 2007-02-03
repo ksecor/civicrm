@@ -53,7 +53,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     function preProcess( )
     {
         parent::preProcess( );
-        $eventType = CRM_Utils_Request::retrieve( 'etype', 'Positive', $this );
+        $eventType = CRM_Utils_Request::retrieve( 'etype', 'Positive', $this );        
         
         if ( ! $eventType ) {
             if ( $this->_id ) {
@@ -63,8 +63,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             }
         }     
         
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0,$this->_eventId);
+        require_once 'CRM/Core/BAO/CustomGroup.php';    
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0, $eventType);        
     }
     
     /**
@@ -137,7 +137,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->add('text','event_full_text', ts('Event full text'));
         
         $this->addElement('checkbox', 'is_active', ts('Enabled?') );
-   
+        
         if ($this->_action & CRM_Core_Action::VIEW ) { 
             CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
         } else {
