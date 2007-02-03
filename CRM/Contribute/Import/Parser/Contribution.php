@@ -210,8 +210,9 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         //date-Format part ends
 
-        $params['contact_type'] =  $this->_contactType;
-
+        //$params['contact_type'] =  $this->_contactType;
+        $params['contact_type'] =  'Contribution';
+        
         //checking error in custom data
         CRM_Import_Parser_Contact::isErrorInCustomData($params, $errorMessage);
 
@@ -282,11 +283,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 continue;
             }
             
-            $value[$key] = $field;
+            $values[$key] = $field;
         }
         
-        _crm_add_formatted_contrib_param($value, $formatted, true);
-                
+        _crm_format_contrib_params($values, $formatted, true);
+        
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {

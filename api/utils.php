@@ -522,6 +522,10 @@ function _crm_format_participant_params( &$params, &$values, $create=false)
         }
     }
     
+    if ( array_key_exists( 'note', $params ) ) {
+        $values['note'] = $params['note'];
+    }
+        
     _crm_format_custom_params( $params, $values, 'Participant' );
     
     if ( $create ) {

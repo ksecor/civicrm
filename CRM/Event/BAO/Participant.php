@@ -257,17 +257,18 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             }
         }
         
-        require_once 'CRM/Core/BAO/Note.php';
-        $noteParams = array(
-                            'entity_table'  => 'civicrm_participant',
-                            'note'          => $params['note'],
-                            'entity_id'     => $participant->id,
-                            'contact_id'    => $session->get('userID'),
-                            'modified_date' => date('Ymd')
-                            );
-        
-        CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
-        
+        if ( CRM_Utils_Array::value('note', $params) ) {
+            require_once 'CRM/Core/BAO/Note.php';
+            $noteParams = array(
+                                'entity_table'  => 'civicrm_participant',
+                                'note'          => $params['note'],
+                                'entity_id'     => $participant->id,
+                                'contact_id'    => $session->get('userID'),
+                                'modified_date' => date('Ymd')
+                                );
+            
+            CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
+        }
         // Log the information on successful add/edit of Participant
         // data.
         require_once 'CRM/Core/BAO/Log.php';

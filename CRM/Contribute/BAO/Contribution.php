@@ -81,7 +81,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      */
     static function add(&$params, &$ids) {
         require_once 'CRM/Utils/Hook.php';
-
+        
         $duplicates = array( );
         if ( self::checkDuplicate( $params, $duplicates ) ) {
             $error =& CRM_Core_Error::singleton( ); 

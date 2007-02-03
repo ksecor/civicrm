@@ -389,7 +389,7 @@ abstract class CRM_Event_Import_Parser
         if ($mode == self::MODE_PREVIEW || $mode == self::MODE_IMPORT) {
             $customHeaders = $mapper;
             
-            $customfields =& CRM_Core_BAO_CustomField::getFields('Event');
+            $customfields =& CRM_Core_BAO_CustomField::getFields('Participant');
             foreach ($customHeaders as $key => $value) {
                 if ($id = CRM_Core_BAO_CustomField::getKeyID($value)) {
                     $customHeaders[$key] = $customfields[$id][0];
