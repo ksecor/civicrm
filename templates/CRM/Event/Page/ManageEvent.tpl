@@ -1,23 +1,21 @@
-{capture assign=crmURL}{crmURL p='civicrm/admin/event' q="action=add&reset=1"}{/capture}
+{capture assign=newEventURL}{crmURL p='civicrm/admin/event' q="action=add&reset=1"}{/capture}
+{capture assign=pastEventsURL}{crmURL q="action=browse&past=true&reset=1"}{/capture}
+
 {if $action eq 1 or $action eq 2 }
    {include file="CRM/Event/Page/ManageEventEdit.tpl"}
 {/if}
-    <div id="help">
-        <p>{ts}ManageEvent Page lists all current and upcoming events (where End Date is greater than oe equal to current date + 1month).{/ts}
-    </div>
-{*
-{capture assign=eventWizard}{crmURL p='civicrm/admin/event' q="action=add&reset=1"}{/capture}
-{ts 1=$eventWizard}<a href="%1">&raquo; New Event Wizard</a>{/ts}
-*}
+<div id="help">
+    <p>{ts 1=$pastEventsURL}This page lists current (in-progress) events, and upcoming events. <a href="%1">Click here</a> to browse completed (past) events.{/ts}
+</div>
 {if $rows}
 <div id="ltype">
 <p></p>
     <div class="form-item" id=event_status_id>
         {strip}
-        	<a href="{crmURL q="action=add&reset=1"}" id="newManageEvent">&raquo; {ts}New Event Wizard{/ts}</a><br />
+        <a href="{$newEventURL}" id="newManageEvent">&raquo; {ts}New Event Wizard{/ts}</a><br />
         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-	<thead>
-            <tr class="columnheader">
+        <thead>
+         <tr class="columnheader">
             <th field="Event" dataType="String">{ts}Event{/ts}</th>
             <th field="City" dataType="String">{ts}City{/ts}</th>
             <th field="State" dataType="String">{ts}State{/ts}</th>
@@ -26,8 +24,8 @@
 	        <th field="End Date" dataType="String">{ts}End Date{/ts}</th>
 	        <th field="Enabled"  dataType="String" >{ts}Enabled?{/ts}</th>
 	        <th datatype="html"></th>
-        </tr>
-	</thead>
+         </tr>
+        </thead>
         <tbody> 
         {foreach from=$rows item=row}
           <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
@@ -44,7 +42,7 @@
      
         {if $past and $action ne 1 and $action ne 2} 
         <tr class="odd-row">
-           <td colspan=8> <a href="{crmURL q="action=browse&past=true&reset=1"}" id="pastEvents">&raquo; {ts}Show Past Events{/ts}</a></td>
+           <td colspan=8> <a href="{$pastEventsURL}" id="pastEvents">&raquo; {ts}Show Past Events{/ts}</a></td>
         </tr>
         {/if}
         </tbody>
@@ -58,7 +56,7 @@
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        <dd>{ts 1=$eventWizard}There are no events created yet. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$newEventURL}There are no events created yet. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    
   {/if}
