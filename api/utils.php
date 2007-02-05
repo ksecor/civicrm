@@ -426,13 +426,20 @@ function _crm_format_contrib_params( &$params, &$values, $create=false ) {
                 return _crm_error("$key not a valid amount: $value");
             }
             break;
-
         case 'currency':
             if (!CRM_Utils_Rule::currencyCode($value)) {
                 return _crm_error("currency not a valid code: $value");
             }
             break;
-        
+        case 'contribution_type':            
+            $values['contribution_type_id'] = CRM_Utils_Array::key( ucfirst( $value ),
+                                                                    CRM_Contribute_PseudoConstant::contributionType( )
+                                                                    );
+            break;
+        case 'payment_instrument': 
+            require_once 'CRM/Core/OptionGroup.php';
+            $values['payment_instrument_id'] = CRM_Core_OptionGroup::getValue( 'payment_instrument', $value );
+            break;
         default:
             break;
         }
@@ -440,7 +447,7 @@ function _crm_format_contrib_params( &$params, &$values, $create=false ) {
     
     _crm_format_custom_params( $params, $values, 'Contribution' );
     
-    if ($create) {
+    if ( $create ) {
         // CRM_Contribute_BAO_Contribution::add() handles contribution_source
         // So, if $values contains contribution_source, convert it to source
         $changes = array( 'contribution_source' => 'source' );
