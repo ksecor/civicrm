@@ -73,6 +73,7 @@ class CRM_Utils_System {
                                                 'contributionpageedit'=> 'ContributionPageEdit',
                                                 'contributiontype'   => 'ContributionType',
                                                 'dupematch'          => 'DupeMatch', 
+                                                'drupaluser'         => 'DrupalUser', 
                                                 'dashboard'          => 'DashBoard',
                                                 'dao'                => 'DAO',
                                                 'deletefield'        => 'DeleteField', 
