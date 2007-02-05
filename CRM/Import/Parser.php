@@ -314,11 +314,20 @@ abstract class CRM_Import_Parser {
 
             require_once "CRM/Utils/File.php";
             CRM_Utils_File::filePutContents( $statusFile, $contents );
-            //file_put_contents( $statusFile, $contents );
 
             $startTimestamp = $currTimestamp = $prevTimestamp = time( );
+        
         }
+
+        // put this outside the while loop
+        require_once 'Services/JSON.php';
+        require_once "CRM/Utils/File.php";
+
         while ( ! feof( $fd ) ) {
+            // if ( ( $this->_lineCount % 5 ) == 0 ) {
+            // CRM_Utils_System::memory( "{$this->_lineCount}: " );
+            // }
+            
             $this->_lineCount++;
             
             $values = fgetcsv( $fd, 8192, $seperator );
@@ -379,17 +388,12 @@ abstract class CRM_Import_Parser {
 </div>
 ";
 
-                    require_once 'Services/JSON.php';
                     $json =& new Services_JSON( ); 
                     $contents = $json->encode( array( $processedPercent, $status ) );
-                    
-                    
-                    require_once "CRM/Utils/File.php";
+
                     CRM_Utils_File::filePutContents( $statusFile, $contents );
 
-                    //file_put_contents( $statusFile, $contents );
                     $prevTimestamp = $currTimestamp;
-//                    sleep( 1 );
                 }
             } else {
                 $returnCode = self::ERROR;
@@ -454,6 +458,9 @@ abstract class CRM_Import_Parser {
             if ( $this->_maxLinesToProcess > 0 && $this->_validCount >= $this->_maxLinesToProcess ) {
                 break;
             }
+         
+            // clean up memory from dao's
+            CRM_Core_DAO::freeResult( );
         }
 
         fclose( $fd );
