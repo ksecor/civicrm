@@ -434,5 +434,78 @@ WHERE civicrm_event.id = $id ";
         }
         return $locations;
     }
+    /**
+     * This function is to make a copy of a Event, including
+     * all the fields in the event Wizard
+     *
+     * @param int $id the event id to copy
+     *
+     * @return void
+     * @access public
+     */
+    static function copy( $id )
+    {
+        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
+        $copyEvent =& CRM_Core_DAO::copy( 'CRM_Event_DAO_Event', $id, $fieldsToPrefix );
+        self::copyObjects( 'CRM_Event_DAO_EventPage', $id ,$copyEvent->id, 'entity_id');
+        self::copyObjects( 'CRM_Core_DAO_CustomOption', $id, $copyEvent->id, 'entity_id');
+
+        $entityFields = array();
+        $entityFields['entity_table'] = 'civicrm_event';
+        $entityFields['entity_id']    = $id;
+
+        
+        require_once 'CRM/Core/BAO/Location.php';
+        require_once 'CRM/Event/Form/ManageEvent/Location.php';
+        $params  = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
+        $location = CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
+        
+        $values['entity_id']    = $copyEvent->id ;
+        $values['entity_table'] = 'civicrm_event';
+        
+        $values['location'][1]['id'] = null;
+        $values['location'][1]['contact_id'] = null;
+        unset($values['location'][1]['address']['id']);
+        unset($values['location'][1]['address']['location_id']);
+        $values['location'][1]['phone'][1]['id'] = null;
+        $values['location'][1]['phone'][1]['location_id'] = null;
+        $values['location'][1]['email'][1]['id'] = null;
+        $values['location'][1]['email'][1]['location_id'] = null;
+        $values['location'][1]['im'][1]['id'] = null;
+        $values['location'][1]['im'][1]['location_id'] = null;
+        
+        $ids = array();
+        
+        CRM_Core_BAO_Location::add( $values, $ids, 1, false );
+    }
+
+    /**
+     * This function is to make a shallow copy of an object
+     * and all the fields in the object
+     * @param $daoName     DAO name in which to copy
+     * @param $oldId       id on the basis we need to copy     
+     * @param $newId       id in which to copy  
+     *
+     * @return $ids        array of ids copied from and copied to the particular table 
+     * @access public
+     */
+    static function &copyObjects( $daoName, &$oldId, &$newId,$tableField ) 
+    {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object   =& new ' . $daoName . '( );' );
+         
+        $object->find( );
+        
+        $ids = array( );
+        while( $object->fetch( ) ) {
+            $ids[] = $object->id;
+            $object->$tableField  = $newId;
+            $object->id     = null;
+            $object->save( );
+        }
+        
+        $ids[] = $object->id;
+        return $ids;
+    }       
 }
 ?>

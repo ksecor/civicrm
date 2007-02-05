@@ -140,16 +140,11 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Manage Events') . '</a>';
 
         // what action to take ?
-        if ( $action & CRM_Core_Action::ADD || $action & CRM_Core_Action::COPY) {
+        if ( $action & CRM_Core_Action::ADD ) {
             $session =& CRM_Core_Session::singleton( ); 
-            if ( $action & CRM_Core_Action::ADD ) {
-                $title = "New Event Wizard";
-                $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
-            } else {
-                $title = "Copy Event Wizard";
-                $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', "reset=1&id={$id}" ) );
-            }
             
+            $title = "New Event Wizard";
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             CRM_Utils_System::setTitle( ts( $title ) );
             
@@ -172,6 +167,8 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::del($id);
             CRM_Core_Session::setStatus( ts('The event  has been deleted successfully.') );
+        } else if ($action & CRM_Core_Action::COPY ) {
+            $this->copy( );
         }
 
         // finally browse the custom groups
@@ -245,6 +242,22 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         }
 
         $this->assign('rows', $manageEvent);
+    }
+    
+    /**
+     * This function is to make a copy of a Event, including
+     * all the fields in the event wizard
+     *
+     * @return void
+     * @access public
+     */
+    function copy( ) {
+
+        $eid = CRM_Utils_Request::retrieve('id', 'Positive',
+                                           $this, true, 0, 'GET');
+       
+        require_once 'CRM/Event/BAO/Event.php';
+        CRM_Event_BAO_Event::copy( $eid );
     }
 }
 

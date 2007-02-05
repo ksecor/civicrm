@@ -104,8 +104,6 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
             $urlParams .= "&action=update&id={$this->_id}&subPage=EventInfo";
              $eventId = $this->_id ;
-        } else if ( $this->_action & ( CRM_Core_Action::COPY) ) {
-            $urlParams .= "&action=copy&id={$this->_id}&subPage=EventInfo";
         } else {
             $urlParams .= "&action=add";
         }
@@ -172,13 +170,9 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $event =  CRM_Event_BAO_Event::create($params ,$ids);
         
         CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );
+
+        $this->set( 'eId', $event->id );
         
-        //this is used in copy mode
-        if ($this->_action & CRM_Core_Action::COPY ) {
-            $this->set( 'eventId', $event->id );
-        } else if ( $this->_action & CRM_Core_Action::ADD ) {
-            $this->set( 'eId', $event->id );
-        }
 
     }//end of function
     

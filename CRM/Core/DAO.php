@@ -708,6 +708,9 @@ class CRM_Core_DAO extends DB_DataObject {
             } else {
                 $newObject->$dbName = $object->$dbName;
             }
+            if( substr($name , -5) == '_date') {
+                $newObject->$dbName = CRM_Utils_Date::isoToMysql($object->$dbName);
+            }
         }
         $newObject->save( );
         return $newObject;

@@ -246,12 +246,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $params = $ids = array();
         $params = $this->exportValues();
 
-        if ( $this->_action & CRM_Core_Action::COPY ) {
-            $eventId = $this->get('eventId');
-        } else {
-            $eventId = $this->_id;
-        }
-
+        $eventId = $this->_id;
         $params['event_id'] = $ids['event_id'] = $eventId;
 
         //format params

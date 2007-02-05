@@ -147,13 +147,9 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $params = $this->exportValues( );
 
         $params['entity_table'] = 'civicrm_event';
-        if ($this->_action & CRM_Core_Action::COPY ) {
-            $eventId = $this->get('eventId');
-        } else {
-            $ids = $this->_locationIds;
-            $eventId = $this->_id;
-        }
-
+        $ids = $this->_locationIds;
+        $eventId = $this->_id;
+        
         $params['entity_id'] = $eventId; 
         
         require_once 'CRM/Core/BAO/Location.php';

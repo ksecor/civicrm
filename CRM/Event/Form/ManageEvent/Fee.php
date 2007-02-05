@@ -199,12 +199,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         
         $params = $this->exportValues( );
         
-        if ( $this->_action & CRM_Core_Action::COPY ) {
-            $eventId = $this->get('eventId');
-        } else {
-            $eventId = $this->_id;
-        }
-
+        $eventId = $this->_id;
         $params['event_id'] = $ids['event_id'] = $eventId;
         
         // delete all the prior label values in the custom options table
