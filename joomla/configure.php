@@ -117,6 +117,11 @@ require_once '$configFile';
 }
 
 function civicrm_source( $fileName ) {
+
+    // uncomment the next line if you are doing an upgrade
+    // rather than a new install
+    // return;
+
     global $crmPath, $dsn;
 
     require_once 'DB.php';
