@@ -247,11 +247,13 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      */
     static function getEvents( $all = false, $id = false) 
     {
-        $endDate = CRM_Utils_Date::isoToMysql(date('Y-m-d',mktime(00,00,00, date('n') + 1, date('d'), date('Y') )) );
-        
         $query = "SELECT `id`, `title`, `start_date` FROM `civicrm_event`";
         
         if ( !$all ) {
+            //$endDate = CRM_Utils_Date::isoToMysql(date('Y-m-d',mktime(00,00,00, date('n') + 1, date('d'), date('Y') )) );
+            
+            $endDate = date( 'YmdHis' );
+                        
             $query .= " WHERE `end_date` >= {$endDate};";
         }
         if ( $id ) {
@@ -259,6 +261,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         }
 
         $events = array( );
+        
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
             $events[$dao->id] = $dao->title . ' - '.CRM_Utils_Date::customFormat($dao->start_date);

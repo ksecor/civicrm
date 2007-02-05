@@ -188,22 +188,34 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
      */
     function browse()
     {
+        /*
         //get Current/Future Events
         $currentEvents = array ( );
-        $this->assign('past', true);
-        if ( !CRM_Utils_Request::retrieve('past', 'Boolean', $this) ) {
+        if ( ! CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
             require_once 'CRM/Event/BAO/Event.php';
             $currentEvents  = CRM_Event_BAO_Event::getEvents( );
+            $this->assign('past', true);
         } else {
             $this->assign('past', false);
         }
-
+        */
+        
+        $past = false;
+        
         // get all custom groups sorted by weight
         $manageEvent = array();
         require_once 'CRM/Event/DAO/Event.php';
         $dao =& new CRM_Event_DAO_Event();
+        
+        if ( ! CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
+            $dao->whereAdd( 'end_date >= ' . date( 'YmdHis' ) );
+            $past = true;
+        }
+        
         $dao->find();
-
+        
+        $this->assign( 'past', $past );
+        
         while ($dao->fetch()) {
             if ( !empty($currentEvents) &&  !array_key_exists($dao->id, $currentEvents)) {
                 continue;
