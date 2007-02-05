@@ -307,9 +307,9 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             } else {
                 $fields = array( '' => array( 'title' => ts('- Participant Fields -') ) );
             }
-            
+            require_once 'CRM/Core/DAO/Note.php';
             $tmpFields     = CRM_Event_DAO_Participant::import( );
-            
+            $note          = CRM_Core_DAO_Note::import( );
             $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
             if ($contacType == 'Individual') {
                 require_once 'CRM/Core/DAO/DupeMatch.php';
@@ -330,6 +330,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             }
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
+            $fields = array_merge($fields, $note);
             //$fields = array_merge($fields, $optionFields);
             
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Participant'));
