@@ -8,7 +8,11 @@
             <tr class="columnheader">
              <th>Name</th>
              {foreach from=$fields item=field key=name}
-                <th><img  src="{$config->resourceBase}i/copy.png" alt="{ts 1=$field.title}Click to copy %1 from row one to all rows.{/ts}" onclick="copyValues('{$field.name}')" class="action-icon" title="{ts}Click here to copy the value in row one to ALL rows.{/ts}" />{$field.title}</th>
+                {if strpos( $field.name, '_date' ) !== false}
+                  <th><img  src="{$config->resourceBase}i/copy.png" alt="{ts 1=$field.title}Click to copy %1 from row one to all rows.{/ts}" onclick="copyValuesDate('{$field.name}')" class="action-icon" title="{ts}Click here to copy the value in row one to ALL rows.{/ts}" />{$field.title}</th>
+                {else}
+                  <th><img  src="{$config->resourceBase}i/copy.png" alt="{ts 1=$field.title}Click to copy %1 from row one to all rows.{/ts}" onclick="copyValues('{$field.name}')" class="action-icon" title="{ts}Click here to copy the value in row one to ALL rows.{/ts}" />{$field.title}</th>
+                {/if}
              {/foreach}
             </tr>
             {foreach from=$contactIds item=cid}
@@ -41,6 +45,21 @@
 	
         for ( k=0; k<cId.length; k++ ) {
             document.getElementById("field_"+cId[k]+"_"+fieldName).value = document.getElementById("field_"+cId[0]+"_"+fieldName).value;
+        }
+    }  
+    function copyValuesDate(fieldName) 
+    {
+        var cId = new Array();	
+        var i = 0;{/literal}
+        {foreach from=$contactIds item=field}
+        {literal}cId[i++]{/literal} = {$field}
+        {/foreach}
+	{literal}        
+	
+        for ( k=0; k<cId.length; k++ ) {
+            document.getElementById("field["+cId[k]+"]["+fieldName+"][Y]").value = document.getElementById("field["+cId[0]+"]["+fieldName+"][Y]").value;
+            document.getElementById("field["+cId[k]+"]["+fieldName+"][M]").value = document.getElementById("field["+cId[0]+"]["+fieldName+"][M]").value;
+            document.getElementById("field["+cId[k]+"]["+fieldName+"][d]").value = document.getElementById("field["+cId[0]+"]["+fieldName+"][d]").value;
         }
     }  
 </script>

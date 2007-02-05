@@ -43,7 +43,7 @@
             </td>
 	</tr>
         <tr>
-            <td><br />{$form.privacy.label}</td>
+            <td><br />{$form.privacy.label} <br /><small>({ts}Exclude contacts who have the option checked{/ts})</small></td>
             <td><br />{$form.privacy.html}</td>
         </tr>
         <tr>
