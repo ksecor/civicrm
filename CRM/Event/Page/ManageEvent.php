@@ -188,28 +188,17 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
      */
     function browse()
     {
-        /*
-        //get Current/Future Events
-        $currentEvents = array ( );
-        if ( ! CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
-            require_once 'CRM/Event/BAO/Event.php';
-            $currentEvents  = CRM_Event_BAO_Event::getEvents( );
-            $this->assign('past', true);
-        } else {
-            $this->assign('past', false);
-        }
-        */
-        
-        $past = false;
-        
         // get all custom groups sorted by weight
         $manageEvent = array();
+        
+        $past = false;
+                
         require_once 'CRM/Event/DAO/Event.php';
         $dao =& new CRM_Event_DAO_Event();
         
         if ( ! CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
-            $dao->whereAdd( 'end_date >= ' . date( 'YmdHis' ) );
             $past = true;
+            $dao->whereAdd( 'end_date >= ' . date( 'YmdHis' ) );
         }
         
         $dao->find();
@@ -217,14 +206,12 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         $this->assign( 'past', $past );
         
         while ($dao->fetch()) {
-            if ( !empty($currentEvents) &&  !array_key_exists($dao->id, $currentEvents)) {
-                continue;
-            }
             $manageEvent[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $manageEvent[$dao->id]);
+            
             // form all action links
             $action = array_sum(array_keys($this->links()));
-
+            
             // update enable/disable links depending on if it is is_reserved or is_active
             if ($dao->is_reserved) {
                 continue;
@@ -235,14 +222,14 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                     $action -= CRM_Core_Action::DISABLE;
                 }
             }
-
+            
             $manageEvent[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                          array('id' => $dao->id));
 
             $params = array( 'entity_id' => $dao->id, 'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $defaults, $id, 1);
-
+            
             if( $manageEvent[$dao->id]['id'] == $defaults['location'][1]['entity_id'] ) {
                 if ( $defaults['location'][1]['address']['city'] ) {
                     $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
@@ -252,7 +239,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                 }
             }
         }
-
+        
         $this->assign('rows', $manageEvent);
     }
     
@@ -263,14 +250,13 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
      * @return void
      * @access public
      */
-    function copy( ) {
-
+    function copy( )
+    {
         $eid = CRM_Utils_Request::retrieve('id', 'Positive',
                                            $this, true, 0, 'GET');
-       
+        
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::copy( $eid );
     }
 }
-
 ?>
