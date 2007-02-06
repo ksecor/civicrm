@@ -94,7 +94,7 @@ class CRM_Member_Menu {
                                  CRM_Core_Permission::check( 'access CiviMember' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                                 'adminGroup' => 'CiviMember',
+                                 'adminGroup' => 'Configure',
                                  'icon'    => 'admin/template.png',
                                  'weight'  => 390
                                  ),

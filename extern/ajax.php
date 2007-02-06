@@ -31,6 +31,9 @@ function invoke( ) {
     case 'event':
         return event( $config );
 
+    case 'message':
+        return message( $config );
+
     default:
         return;
     }
@@ -120,6 +123,32 @@ function status( &$config ) {
         $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
         echo $json->encode( array( 0, $status ) );
     }
+}
+
+function message( &$config ) {
+    require_once 'CRM/Utils/Type.php';
+    $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
+
+    $query = "
+SELECT id, msg_title,msg_text
+  FROM civicrm_msg_template
+ WHERE domain_id = $domainID
+ AND is_active =1 
+ORDER BY msg_title
+LIMIT 6";
+
+    $nullArray = array( );
+    $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+
+    $count = 0;
+    $elements = array( );
+    while ( $dao->fetch( ) && $count < 5 ) {
+        $elements[] = array( $dao->msg_title, $dao->msg_text, $dao->id );
+        $count++;
+    }
+    require_once 'Services/JSON.php';
+    $json =& new Services_JSON( );
+    echo $json->encode( $elements );
 }
 
 invoke( );

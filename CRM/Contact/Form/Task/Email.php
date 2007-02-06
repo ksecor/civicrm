@@ -187,19 +187,25 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         $this->assign( 'from', $from );
         
         //Added for CRM-1393
-        require_once 'CRM/Member/BAO/MessageTemplates.php';
-        $template = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
-        $this->add('select', 'template', ts('Select Template'), array('' => ts( '-select-' )) + $template, false, array('onchange' => "get_message(this)") );
-        
+	$this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Select');" );
+        $config   =& CRM_Core_Config::singleton( );
+        $domainID =  CRM_Core_Config::domainID( );
+
+        $attributes = array( 'dojoType'       => 'Select',
+                             'style'          => 'width: 300px;',
+                             'autocomplete'   => 'false',
+                             'onValueChanged' => 'selectValue',
+                             'dataUrl'        => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/message&d={$domainID}", );
+        $this->add('select', 'template', ts('Select Template'), null, false, $attributes );
+
         //insert message Text by selecting "Select Template option"
         $this->add( 'textarea', 'message', ts('Message'), array('cols' => '56', 'rows' => '7','onkeyup' => "return verify(this)"));
         
-        $this->add('checkbox','updateMessage',ts('Update Message'), null);
-        $this->add('checkbox','saveMessage', ts('Save as a new Message template'), null, false, array('onclick' => "showSaveDetails(this)"));
+        $this->add('checkbox','updateTemplate',ts('Update Template'), null);
+        $this->add('checkbox','saveTemplate', ts('Save as New Template'), null, false, array('onclick' => "showSaveDetails(this)"));
 
-        if (!$this->get('saveMessage') ) {
-            $this->add('text','saveMessageName',ts('Message Title'));
-            $this->add('text','saveMessageDesc',ts('Message Subject'));
+        if (!$this->get('saveTemplate') ) {
+	    $this->add('text','saveTemplateName',ts('Template Title'));
         } 
                 
         //$attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'message' );         
@@ -291,22 +297,27 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         //added code for CRM-1393
         $messageParams = $this->exportValues( );
         $templateID = array();
-        //Update Message template, if new or updated
+	
+	//Update Message template, if new or updated
         require_once 'CRM/Member/BAO/MessageTemplates.php';
-        if( $messageParams['saveMessage'] || $messageParams['updateMessage']) {
-            if ( $messageParams['saveMessage'] ) {
-                $newMessage = array( 'msg_title'   => $messageParams['saveMessageName'],
-                                     'msg_subject' => $messageParams['saveMessageDesc'],
+        if( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
+            if ( $messageParams['saveTemplate'] ) {
+                $newMessage = array( 'msg_title'   => $messageParams['saveTemplateName'],
                                      'msg_text'    => $messageParams['message'],
+				     'msg_subject' => $messageParams['subject'],
                                      'is_active'   => true
                                      );
                 CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
             } 
-            if ( $messageParams['updateMessage'] ) {
+            if ( $messageParams['updateTemplate'] ) {
                 $newMessage = array( 'msg_text'    => $messageParams['message'],
+				     'msg_subject' => $messageParams['subject'],
                                      'is_active'   => true );
-                $templateID = array('messageTemplate' => $messageParams['template']);
-                CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
+		require_once 'CRM/Member/BAO/MessageTemplates.php';
+		require_once 'CRM/Utils/Array.php';
+		$template = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
+		$templateID = array('messageTemplate' => CRM_Utils_Array::key($this->_submitValues['template_selected'], $template));
+		CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
             }
         }
         
