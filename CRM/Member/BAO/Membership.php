@@ -220,6 +220,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                                                     $defaults[$name .'_id'] );
                 }
             }
+
             if ( $membership->status_id ) {
                 $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $membership->status_id, 'is_current_member');
                 if ( $active ) {

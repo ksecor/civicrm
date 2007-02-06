@@ -73,7 +73,8 @@ class CRM_Event_Invoke
         $session =& CRM_Core_Session::singleton( );
         $config  =& CRM_Core_Config::singleton ( );
 
-        if ( $args[2] == 'register' ) { 
+        $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
+        if ( $secondArg == 'register' ) { 
             if ( $config->enableSSL     &&
                  CRM_Core_Invoke::onlySSL( $args ) ) {
                 if ( !isset($_SERVER['HTTPS'] ) ) {
@@ -94,14 +95,14 @@ class CRM_Event_Invoke
             return $controller->run();
         } 
 
-        if ($args[2] == 'search') {
+        if ($secondArg == 'search') {
             require_once 'CRM/Event/Controller/Search.php';
             $controller =& new CRM_Event_Controller_Search($title, $mode); 
             $url = 'civicrm/event/search';
             $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
             $controller->set( 'context', 'search' );
             return $controller->run();
-        } elseif ($args[2] == 'import') {
+        } elseif ($secondArg == 'import') {
             require_once 'CRM/Event/Import/Controller.php';
             $controller =& new CRM_Event_Import_Controller(ts('Import Participants'));
             return $controller->run();

@@ -68,7 +68,7 @@ class CRM_Event_Page_DashBoard extends CRM_Core_Page
     {
         $this->preProcess( );
         
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_Search', ts('events'), $this->_action ); 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_Search', ts('events'), null );
         $controller->setEmbedded( true ); 
         $controller->reset( ); 
         $controller->set( 'limit', 10 );

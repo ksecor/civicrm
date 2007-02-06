@@ -64,17 +64,15 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids ) 
+    static function getValues( &$params, &$values, &$ids ) 
     {
         $participant =& new CRM_Event_BAO_Participant( );
         $participant->copyValues( $params );
         
         if ( $participant->find(true) ) {
             CRM_Core_DAO::storeValues( $participant, $values );
-            
         }
     }
-
 
     /**
      * takes an associative array and creates a participant object

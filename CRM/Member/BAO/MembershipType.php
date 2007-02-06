@@ -279,10 +279,9 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             $startDate = $year.'-'.$month.'-'.$day;
         }
         
-        
-        
+        $fixed_period_rollover = false;
+        $hour = $minute = $second = 0;
         if ( $membershipTypeDetails['period_type'] == 'fixed' && $membershipTypeDetails['fixed_period_rollover_day'] != null ) {
-        
             $toDay  = explode('-', date('Y-m-d'));
             $month     = substr( $membershipTypeDetails['fixed_period_start_day'], 0, strlen($membershipTypeDetails['fixed_period_start_day'])-2);
             $day       = substr( $membershipTypeDetails['fixed_period_start_day'],-2);
@@ -298,9 +297,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             if ( $fixedRolloverDate <= $fixedStartDate  ) {
                 $fixedRolloverDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day, $year+1));
             }
-
             
-            $fixed_period_rollover = false;
             $toDay = date('Y-m-d');
             
             if ($fixedRolloverDate <= $toDay) {
@@ -347,7 +344,9 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         $membershipDates = array();
         $membershipDates['start_date']  = CRM_Utils_Date::customFormat($startDate,'%Y%m%d');
         $membershipDates['end_date']    = CRM_Utils_Date::customFormat($endDate,'%Y%m%d');
-        if ( $membershipTypeDetails["renewal_reminder_day"] && $endDate ) {
+        if ( isset( $membershipTypeDetails["renewal_reminder_day"] ) &&
+             $membershipTypeDetails["renewal_reminder_day"]          &&
+             $endDate ) {
             $date = explode('-', $endDate );
             $year  = $date[0];
             $month = $date[1];

@@ -237,15 +237,15 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         if ( is_array( $rows ) ) {
             if ($this->_context == 'search') {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
-            }
-            $total = $cancel = 0;
-            foreach ($rows as $row) { 
-                $this->addElement( 'checkbox', $row['checkbox'], 
-                                   null, null, 
-                                   array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
-                                   ); 
+                foreach ($rows as $row) { 
+                    $this->addElement( 'checkbox', $row['checkbox'], 
+                                       null, null, 
+                                       array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
+                                       ); 
+                }
             }
             
+            $total = $cancel = 0;
             $this->assign( "{$this->_prefix}single", $this->_single );
             
             // also add the action and radio boxes

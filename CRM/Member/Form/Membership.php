@@ -219,9 +219,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                         );
         $currentTime = getDate();        
         foreach ( $dates as $d ) {
-            if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
+            if ( isset( $formValues[$d] ) &&
+                 ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
-            } else {
+            } else if ( isset( $calcDates[$d] ) ) {
                 $params[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
             }
         }
@@ -229,7 +230,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         // change reminder date if end-date present
         if ( ! CRM_Utils_System::isNull( $formValues['end_date'] ) ) {
             $membershipTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $formValues['membership_type_id'] );
-            if ( $membershipTypeDetails["renewal_reminder_day"] ) {
+            if ( isset( $membershipTypeDetails["renewal_reminder_day"] ) &&
+                 $membershipTypeDetails["renewal_reminder_day"] ) {
                 $year  = $formValues['end_date']['Y'];
                 $month = $formValues['end_date']['M'];
                 $day   = $formValues['end_date']['d'];

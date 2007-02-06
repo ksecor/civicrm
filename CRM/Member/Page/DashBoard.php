@@ -89,6 +89,7 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
         
 
         $totalCount = array();
+        $totalCountMonth = $totalCountYear = $totalCountCurrent = 0;
         foreach( $membershipSummary as $key => $value ) {
             $totalCountMonth   = $totalCountMonth   +  $value['month']['count'];
             $totalCountYear    = $totalCountYear    +  $value['year']['count'];
@@ -126,7 +127,7 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
     function run( ) { 
         $this->preProcess( );
         
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_Search', ts('Member'), $this->_action ); 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_Search', ts('Member'), null ); 
         $controller->setEmbedded( true ); 
         $controller->reset( ); 
         $controller->set( 'limit', 20 );
