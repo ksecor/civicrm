@@ -304,7 +304,7 @@
 	</tr>
     {foreach from=$activity.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">
-        	<td>{$row.activity_type}</td>
+            <td>{$row.activity_type}</td>
 	    	<td>{$row.activity_summary}</td>	
             <td>{$row.activity_date|crmDate}</td>
 	{if $row.callback}

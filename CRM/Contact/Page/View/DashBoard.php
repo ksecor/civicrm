@@ -154,7 +154,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
     {
         $this->preProcess( );
         
-        CRM_Utils_System::setTitle( 'CiviCRM Home' );
+        CRM_Utils_System::setTitle( ts('CiviCRM Home') );
 
         //Get the id of Logged in User
         $session =& CRM_Core_Session::singleton( );

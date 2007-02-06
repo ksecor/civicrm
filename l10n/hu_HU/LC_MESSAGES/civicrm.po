@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-21 19:06+0100\n"
+"POT-Creation-Date: 2007-01-29 09:54+0100\n"
 "PO-Revision-Date: 2006-10-18 14:49-0700\n"
 "Last-Translator: Tóth Zsuzsanna <nyuzs@potkave.hu>\n"
 "Language-Team: none\n"
@@ -12121,6 +12121,10 @@ msgstr ""
 msgid ""
 "Click <a href=\"%1\">New Contribution</a> to record a new offline "
 "contribution for this contact."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/DashBoard.tpl
+msgid "Overdue"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl

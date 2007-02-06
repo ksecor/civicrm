@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-21 19:06+0100\n"
+"POT-Creation-Date: 2007-01-29 09:54+0100\n"
 "PO-Revision-Date: 2006-11-01 12:10-0800\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -12725,6 +12725,10 @@ msgid ""
 msgstr ""
 "Clique em <a href=\"%1\">Nova Contribuição</a> para registrar uma nova "
 "contribuição offline para este contato."
+
+#: templates/CRM/Contact/Page/View/DashBoard.tpl
+msgid "Overdue"
+msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "No activities are currently scheduled."
