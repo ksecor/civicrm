@@ -119,10 +119,10 @@ class CRM_Utils_Date {
                 $date['s'] = '00';
             }
             $time = '';
-            if ( $seperator ) {
+            if ( $separator ) {
                 $time = '&nbsp;';
             }
-            $time = $time . $date['h'] . $seperator . $date['i'] . $seperator . $date['s'];
+            $time = $time . $date['h'] . $separator . $date['i'] . $separator . $date['s'];
         }
 
         if ( $date['d'] ) {

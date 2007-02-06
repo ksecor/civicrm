@@ -274,9 +274,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
     function addDisplay( $microformat = false )
     {
 
-        if( $this->county_id ) {
-            $county = CRM_Core_Pseudoconstant::county($this->county_id);
-        }
 
         require_once 'CRM/Utils/Address.php';
         $fields = array(
@@ -286,12 +283,18 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             'supplemental_address_2' => $this->supplemental_address_2,
             'city'                   => $this->city,
             'state_province_name'    => $this->state_name,
-            'county'                 => $county,
             'state_province'         => $this->state,
             'postal_code'            => $this->postal_code,
             'postal_code_suffix'     => $this->postal_code_suffix,
             'country'                => $this->country
             );
+
+        if( isset( $this->county_id ) && $this->county_id ) {
+            $fields['county'] = CRM_Core_Pseudoconstant::county($this->county_id);
+        } else {
+            $fields['county'] = null;
+        }
+
         $this->display = CRM_Utils_Address::format($fields, null, $microformat);
     }
 

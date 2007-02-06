@@ -650,6 +650,18 @@ class CRM_Utils_System {
         return self::$_callbacks[$callback];
     }
 
+    /**
+     * This serves as a wrapper to the php explode function
+     * we expect exactly $limit arguments in return, and if we dont
+     * get them, we pad it with null
+     */
+    static function explode( $separator, $string, $limit ) {
+        $result = explode( $separator, $string, $limit );
+        for ( $i = count( $result ); $i < $limit; $i++ ) {
+            $result[$i] = null;
+        }
+    }
+
 }
 
 ?>

@@ -91,7 +91,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         //set default membership for membershipship block
         require_once 'CRM/Member/BAO/Membership.php';
-        if ( $membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock($this->id) ) {
+        if ( $membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock($this->_id) ) {
             $this->_defaults['selectMembership'] = $membershipBlock['membership_type_default'];
         }
 
@@ -196,12 +196,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
             $this->addRule( 'amount_other', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
         } else {
+            $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
+            $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
             $this->assign( 'is_allow_other_amount', false );
         }
-
-        
-
-
     }
     
 
@@ -316,7 +314,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $fields['amount_other'] = CRM_Utils_Rule::cleanMoney( $fields['amount_other'] );
         }
 
-        if( $fields['selectProduct'] && $fields['selectProduct'] != 'no_thanks' && $self->_values['amount_block_is_active'] ) {
+        if( isset( $fields['selectProduct'] )       &&
+            $fields['selectProduct'] != 'no_thanks' &&
+            $self->_values['amount_block_is_active'] ) {
             require_once 'CRM/Contribute/DAO/Product.php';
             require_once 'CRM/Utils/Money.php';
             $productDAO =& new CRM_Contribute_DAO_Product();
@@ -340,9 +340,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                       CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
                 $errors['_qf_default'] = ts('In Honor Of - First Name and Last Name, OR an Email Address is required.');
             }
-            
-        }
-        if ( $fields['is_recur'] ) {
+         }
+
+         if ( isset( $fields['is_recur'] ) && $fields['is_recur'] ) {
             if ( $fields['frequency_interval'] <= 0 ) {
                 $errors['frequency_interval'] = ts('Please enter a number for how often you want to make this recurring contribution (EXAMPLE: Every 3 months).'); 
             }
@@ -456,7 +456,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         
         $params['payment_action'] = 'Sale'; 
         
-        if ( $params['amount'] == 'amount_other_radio' || $params['amount_other']) {
+        if ( $params['amount'] == 'amount_other_radio' || isset( $params['amount_other'] ) ) {
             $params['amount'] = $params['amount_other'];
         } else {
             if ( !empty($this->_values['value']) ) {
@@ -473,8 +473,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $params['amount'] = 0;
             }
         }
-
-        if ( ! $params['amount_other'] ) {
+        
+        if ( ! isset( $params['amount_other'] ) ) {
             $this->set( 'amount_level', $params['amount_level'] ); 
         }
         

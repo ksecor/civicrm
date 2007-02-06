@@ -1371,7 +1371,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
      */
     static function setProfileDefaults( $contactId, &$fields, &$defaults, $singleProfile = true, $componentId = null, $component = null ) 
     {
-        if (!$componentId) {
+        if ( ! $componentId ) {
             //get the contact details
             require_once 'CRM/Contact/BAO/Contact.php';
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
@@ -1383,13 +1383,6 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                     $fldName = $name;
                 } else {
                     $fldName = "field[$contactId][$name]";
-                }
-                $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
-                $value = array();
-                foreach ( $v as $item ) {
-                    if( $item ) {
-                        $value[$item] = $item;
-                    }
                 }
                                
                 require_once 'CRM/Contact/Form/GroupTag.php';
@@ -1446,7 +1439,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                         $defaults[$fldName] = $details[$name];
                     }
                 } else {
-                    list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $name);
+                    list($fieldName, $locTypeId, $phoneTypeId) = CRM_Utils_System::explode( '-', $name, 3 );
                     if ( is_array($details) ) {   
                         foreach ($details as $key => $value) {
                             if ($locTypeId == 'Primary') {

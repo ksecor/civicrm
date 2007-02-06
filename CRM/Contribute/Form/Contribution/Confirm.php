@@ -161,7 +161,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $amount_block_is_active = $this->get( 'amount_block_is_active');
         $this->assign('amount_block_is_active', $amount_block_is_active );
 
-        if ( $params['selectProduct'] && $params['selectProduct'] != 'no_thanks') {
+        if ( isset( $params['selectProduct'] ) && $params['selectProduct'] != 'no_thanks') {
             $option    = $params['options_'.$params['selectProduct']];
             $productID = $params['selectProduct']; 
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false,$productID, $option);
@@ -201,7 +201,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $fields[$name] = 1;
         }
         $fields["state_province-{$this->_bltID}"] =
-            $fields["country-{$this->_bltID}"] = $fields["email--{$this->_bltID}"] = 1;
+            $fields["country-{$this->_bltID}"] = $fields["email-{$this->_bltID}"] = 1;
 
         $contact =  $this->_params;
         foreach ($fields as $name => $dontCare ) {

@@ -72,8 +72,8 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                                                                        'environment'     => $environment,
                                                                        )
                                                                  );
-            if ( PayPal::isError( $handler ) ) {
-                return self::error( $handler );
+            if ( PayPal::isError( $this->_handler ) ) {
+                return self::error( $this->_handler );
             }
 
             $pid            =  ProfileHandler::generateID( );

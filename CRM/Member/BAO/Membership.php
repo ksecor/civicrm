@@ -611,7 +611,7 @@ civicrm_membership_status.is_current_member =1";
         $form->assign('membership_name',$membershipDetails['name']);
         
         $minimumFee = $membershipDetails['minimum_fee'];
-        $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $form->id );
+        $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $form->_id );
         $contributionType =& new CRM_Contribute_DAO_ContributionType( );
         if ( $form->_values['amount_block_is_active']) {
             $contributionType->id = $form->_values['contribution_type_id'];

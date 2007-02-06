@@ -150,22 +150,26 @@ class CRM_Utils_Rule
      */
     static function qfDate($date) 
     {
-        if ( ! $date['d'] && ! $date['M'] && ! $date['Y'] ) {
-            return true;
-        }
+        $d = CRM_Utils_Array::value( 'd', $date );
+        $m = CRM_Utils_Array::value( 'M', $date );
+        $y = CRM_Utils_Array::value( 'Y', $date );
 
-        $day = $mon = 1;
+        if ( ! $d && ! $m && ! $y ) {
+            return true; 
+        } 
+ 
+        $day = $mon = 1; 
         $year = 0;
-        if ($date['d']) $day  = $date['d'];
-        if ($date['M']) $mon  = $date['M'];
-        if ($date['Y']) $year = $date['Y'];
+        if ( $d ) $day  = $d;
+        if ( $m ) $mon  = $m;
+        if ( $y ) $year = $y;
 
-        // if we have day we need mon, and if we have mon we need year
-        if ( ( $date['d'] && ! $date['M'] ) ||
-             ( $date['d'] && ! $date['Y'] ) ||
-             ( $date['M'] && ! $date['Y'] ) ) {
-            return false;
-        }
+        // if we have day we need mon, and if we have mon we need year 
+        if ( ( $d && ! $m ) || 
+             ( $d && ! $y ) || 
+             ( $m && ! $y ) ) { 
+            return false; 
+        } 
 
         if ( ! empty( $day ) || ! empty( $mon ) || ! empty( $year ) ) {
             return checkdate( $mon, $day, $year );
@@ -187,20 +191,24 @@ class CRM_Utils_Rule
      */
     static function currentDate( $date ) 
     {
-        if ( ! $date['d'] && ! $date['M'] && ! $date['Y'] ) { 
+        $d = CRM_Utils_Array::value( 'd', $date );
+        $m = CRM_Utils_Array::value( 'M', $date );
+        $y = CRM_Utils_Array::value( 'Y', $date );
+
+        if ( ! $d && ! $m && ! $y ) {
             return true; 
         } 
  
         $day = $mon = 1; 
         $year = 0; 
-        if ($date['d']) $day  = $date['d']; 
-        if ($date['M']) $mon  = $date['M']; 
-        if ($date['Y']) $year = $date['Y']; 
+        if ( $d ) $day  = $d;
+        if ( $m ) $mon  = $m;
+        if ( $y ) $year = $y;
  
         // if we have day we need mon, and if we have mon we need year 
-        if ( ( $date['d'] && ! $date['M'] ) || 
-             ( $date['d'] && ! $date['Y'] ) || 
-             ( $date['M'] && ! $date['Y'] ) ) { 
+        if ( ( $d && ! $m ) || 
+             ( $d && ! $y ) || 
+             ( $m && ! $y ) ) { 
             return false; 
         } 
 
@@ -221,7 +229,7 @@ class CRM_Utils_Rule
             return false;
         }
 
-        if ( $date['M'] ) {
+        if ( $m ) {
             if ( $mon > $currentDate['mon'] ) {
                 return true;
             } else if ( $mon < $currentDate['mon'] ) {
@@ -229,7 +237,7 @@ class CRM_Utils_Rule
             }
         }
 
-        if ( $date['d'] ) {
+        if ( $d ) {
             if ( $day > $currentDate['mday'] ) {
                 return true;
             } else if ( $day < $currentDate['mday'] ) {

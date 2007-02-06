@@ -59,15 +59,18 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
             $dao->entity_table = 'civicrm_contribution_page';
             $dao->entity_id = $this->_id; 
             $dao->find(true);
-            CRM_Core_DAO::storeValues( $dao,$defaults );
+            CRM_Core_DAO::storeValues( $dao, $defaults );
         }
+
         // for membership_types
-        $membershipType    = explode(',' , $defaults['membership_types'] );
-        $newMembershipType = array();  
-        foreach( $membershipType as $k => $v ) {
-            $newMembershipType[$v] = 1;
+        if ( isset( $defaults['membership_types'] ) ) {
+            $membershipType    = explode(',' , $defaults['membership_types'] );
+            $newMembershipType = array();  
+            foreach( $membershipType as $k => $v ) {
+                $newMembershipType[$v] = 1;
+            }
+            $defaults['membership_type'] = $newMembershipType;
         }
-        $defaults['membership_type'] = $newMembershipType;
         return $defaults;
     }
     

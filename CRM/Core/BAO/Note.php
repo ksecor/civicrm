@@ -110,10 +110,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
                 CRM_Core_Error::statusBounce(ts('We could not find your logged in user ID'));
             }
         }
-        if( $ids ["id"] )  {
-            $note->id = $ids ["id"];
-        }
-        
+        $note->id = CRM_Utils_Array::value( 'id', $ids );
         $note->save( );
 
         return $note;

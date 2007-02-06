@@ -70,7 +70,18 @@ class CRM_Utils_Address {
         if (isset( $fields['postal_code_suffix'] ) ) {
             $fullPostalCode .= "-$fields[postal_code_suffix]";
         }
-   
+
+        // make sure that some of the fields do have values
+        $emptyFields = array( 'supplemental_address_1',
+                              'supplemental_address_2',
+                              'state_province_name',
+                              'county' );
+        foreach ( $emptyFields as $f ) {
+            if ( ! isset( $fields[$f] ) ) {
+                $fields[$f] = null;
+            }
+        }
+
         if (! $microformat) {
             $replacements = array(
                                   'street_address'         => $fields['street_address'],

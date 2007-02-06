@@ -1783,7 +1783,7 @@ WHERE civicrm_contact.id IN $idString ";
         $locationIds = array( );
         foreach ( $fields as $name => $dontCare ) {
             if ( strpos( $name, '-' ) !== false ) {
-                list( $fieldName, $id, $type ) = explode( '-', $name );
+                list( $fieldName, $id, $type ) = CRM_Utils_System::explode( '-', $name, 3 );
 
                 if ($id == 'Primary') {
                     $locationTypeName = 1;
@@ -1964,7 +1964,7 @@ WHERE civicrm_contact.id IN $idString ";
         $phoneLoc = 0;
         $phoneReset = array( );
         foreach ($params as $key => $value) {
-            list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $key);
+            list($fieldName, $locTypeId, $phoneTypeId) = CRM_Utils_System::explode('-', $key, 3);
 
             if ($locTypeId == 'Primary') {
                 if ( $contactID ) {
@@ -2239,7 +2239,8 @@ WHERE civicrm_contact.id IN $idString ";
         
         require_once 'CRM/Contact/BAO/Contact.php';
 
-        $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
+        $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
+        $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
 
         // contact is null if the profile does not have any contact fields
         if ( $contact ) {

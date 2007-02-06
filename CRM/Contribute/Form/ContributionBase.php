@@ -48,9 +48,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * the id of the contribution page that we are proceessing
      *
      * @var int
-     * @protected
+     * @public
      */
-    protected $_id;
+    public $_id;
 
     /**
      * the mode that we are in
@@ -169,6 +169,17 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 $this->setCreditCardFields( );
             }
 
+            // this avoids getting E_NOTICE errors in php
+            $setNullFields = array( 'amount_block_is_active',
+                                    'honor_block_is_active' ,
+                                    'is_allow_other_amount' ,
+                                    'footer_text' );
+            foreach ( $setNullFields as $f ) {
+                if ( ! isset( $this->_values[$f]  ) ) {
+                    $this->_values[$f] = null;
+                }
+            }
+
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
 
@@ -182,7 +193,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         // check if one of the (amount , membership)  bloks is active or not
         require_once 'CRM/Member/BAO/Membership.php';
         $membership = CRM_Member_BAO_Membership::getMembershipBlock( $this->_id );
-        if ( ! $this->_values['amount_block_is_active'] && ! $membership['is_active'] ) {
+        if ( ! $this->_values['amount_block_is_active'] &&
+             ! $membership['is_active'] ) {
             CRM_Core_Error::fatal( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
         }
         if ( $this->_values['amount_block_is_active'] ) {

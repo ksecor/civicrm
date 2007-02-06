@@ -131,20 +131,18 @@ class CRM_Core_Payment_Config {
      * @access public
      */
     static function add( &$config, $oldMode = false ) {
-        //echo "2222222222";print_r($config);
-        $config->paymentFile            = null;
-        $config->paymentBillingMode     = null;
-        $config->paymentPassword        = null;
-        $config->paymentSubject         = null;
-        $config->paymentKey             = null;
+        $config->paymentFile             = null;
+        $config->paymentBillingMode      = null;
+        $config->paymentPassword         = null;
+        $config->paymentSubject          = null;
+        $config->paymentKey              = null;
+        $config->enableRecurContribution = false;
 
         if ( $oldMode ) {
             if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
                 $config->paymentProcessor       = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
-                //echo "\n _____oldMode______paymentProcessor = value";
             } else {
                 $config->paymentProcessor       = null;
-                //echo "\n _____oldMode______paymentProcessor = null";
             }
             $config->paymentCertPath        = array( 'test' => null, 'live' => null );
             $config->paymentUsername        = array( 'test' => null, 'live' => null );
@@ -158,7 +156,6 @@ class CRM_Core_Payment_Config {
             require_once 'CRM/Core/Payment.php';
             switch ( $config->paymentProcessor ) {
             case 'PayPal':
-                //echo "\n======================================";
                 $config->paymentFile = 'Payment_PayPalImpl';
                 $config->paymentBillingMode =
                     CRM_Core_Payment::BILLING_MODE_FORM |
@@ -181,7 +178,7 @@ class CRM_Core_Payment_Config {
                 break;
 
             case 'PayPal_Standard':
-                $config->enableRecurContribution = TRUE;
+                $config->enableRecurContribution = true;
                 $config->paymentFile = 'Payment_PayPalImpl';
                 $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_NOTIFY;
                 if ( $oldMode ) {
