@@ -715,7 +715,62 @@ class CRM_Core_DAO extends DB_DataObject {
         $newObject->save( );
         return $newObject;
     }
-
+    
+    /**
+     * This function is to make a shallow copy of an object
+     * and all the fields in the object
+     * 
+     * @param string $daoName         name of the dao
+     * @param array  $criteria        array of all the fields & values on which basis to copy
+     * @param array  $newData         array of all the fields & values to be copied besides the other fields
+     * @param string $fieldsToPrefix  fields that you want to prefix
+     *
+     * @return (reference ) the newly created copy of the object
+     * @access public
+     */
+    static function &copyGeneric( $daoName, $criteria , $newData = null, $fieldsToPrefix = null ) 
+    {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object   =& new ' . $daoName . '( );' );
+               
+        if ( ! $newData ) {
+            $object->id =  $criteria['id'];     
+        } else {
+            foreach( $criteria as $key => $value ) {
+                $object->$key = $value;
+            }
+        } 
+        
+        $object->find( );
+        while ( $object->fetch( ) ) {
+            eval( '$newObject   =& new ' . $daoName . '( );' );
+            
+            $fields =& $object->fields( );
+            if ( ! is_array( $fieldsToPrefix ) ) {
+                $fieldsToPrefix = array( );
+            }
+            
+            foreach ( $fields as $name => $value ) {
+                if ( $name == 'id' ) {
+                    // copy everything but the id!
+                    continue;
+                } else if ( $newData ) {
+                    foreach( $newData as $k => $v ) {
+                        $newObject->$k = $v;
+                    }
+                } 
+                $dbName = $value['name'];
+                if ( isset( $fieldsToPrefix[$dbName] ) ) {
+                    $newObject->$dbName = $fieldsToPrefix[$dbName] . $object->$dbName;
+                } else {
+                    $newObject->$dbName = $object->$dbName;
+                }
+            }
+            $newObject->save( );        
+        }
+        
+        return $newObject;
+    }
 }
 
 ?>

@@ -155,19 +155,65 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
     {
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
 
-        $copy =& CRM_Core_DAO::copy( 'CRM_Contribute_DAO_ContributionPage', $id, $fieldsToPrefix );
-
+        $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Contribute_DAO_ContributionPage', array( 'id' => $id ), null, $fieldsToPrefix );
+        
         //copying all the blocks pertaining to the contribution page
-        list($oldPremiumId, $newPremiumId) = self::copyObjects( 'CRM_Contribute_DAO_Premium', $id, $copy->id, 'entity_id' );
-
-        if( $oldPremiumId ) {
-            self::copyObjects( 'CRM_Contribute_DAO_PremiumsProduct', $oldPremiumId, $newPremiumId, 'premiums_id' );
+        $copyPremium =& CRM_Core_DAO::copyGeneric( 'CRM_Contribute_DAO_Premium', 
+                                                   array( 'entity_id'    => $id,
+                                                          'entity_table' => 'civicrm_contribution_page'), 
+                                                   array( 'entity_id'    => $copy->id ) );
+        
+        $copyMembershipBlock =& CRM_Core_DAO::copyGeneric( 'CRM_Member_DAO_MembershipBlock', 
+                                                           array( 'entity_id'    => $id,
+                                                                  'entity_table' => 'civicrm_contribution_page'),
+                                                           array( 'entity_id'    => $copy->id ) );
+        
+        $copyUFJoin =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin', 
+                                                  array( 'entity_id'    => $id,
+                                                         'entity_table' => 'civicrm_contribution_page'),
+                                                  array( 'entity_id'    => $copy->id ) );
+        
+        $copyCustomOptions =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_CustomOption', 
+                                                         array( 'entity_id'    => $id,
+                                                                'entity_table' => 'civicrm_contribution_page'),
+                                                         array( 'entity_id'    => $copy->id ) );
+        $premiumQuery = "        
+SELECT id
+FROM civicrm_premiums
+WHERE entity_table = 'civicrm_contribution_page'
+      AND entity_id ={$id}";
+        
+        $premiumDao = CRM_Core_DAO::executeQuery( $premiumQuery, CRM_Core_DAO::$_nullArray );
+        while ( $premiumDao->fetch( ) ) {
+            if ( $premiumDao->id ) {
+                $copyPremiumProduct =& CRM_Core_DAO::copyGeneric( 'CRM_Contribute_DAO_PremiumsProduct', 
+                                                                  array( 'premiums_id' => $premiumDao->id ), 
+                                                                  array( 'premiums_id' => $copyPremium->id ) );
+                
+            }
         }
-
-        self::copyObjects( 'CRM_Core_DAO_CustomOption', $id, $copy->id, 'entity_id' );
-        self::copyObjects( 'CRM_Member_DAO_MembershipBlock', $id, $copy->id, 'entity_id' );
-        self::copyObjects( 'CRM_Core_DAO_UFJoin', $id, $copy->id, 'entity_id' );
-
+        
+        $query = "
+SELECT second.id default_amount_id 
+FROM civicrm_custom_option first, civicrm_custom_option second 
+WHERE first.id=%1 AND second.entity_id=%2 
+      AND first.label=second.label 
+      AND first.value=second.value 
+      AND first.entity_table='civicrm_contribution_page'
+";
+        
+        $params = array( 
+                        1 => array( CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $id, 'default_amount_id' ), 'Int' ), 
+                        2 => array( $copy->id, 'Int' ) 
+                        );
+        
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        
+        while ( $dao->fetch( ) ) {
+            $copy->default_amount_id = $dao->default_amount_id;
+        }
+        $copy->save( );
+        
         return $copy;
     }
 
@@ -190,20 +236,19 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         if ( $tableField == 'entity_id' ) {
             $object->entity_table = 'civicrm_contribution_page';
         }
-
+        
         $object->find( );
-
+        
         $ids = array( );
         while( $object->fetch( ) ) {
             $ids[] = $object->id;
             $object->$tableField  = $newId;
-            $object->id     = null;
+            $object->id           = null;
             $object->save( );
         }
-        
         $ids[] = $object->id;
         return $ids;
-    }       
+    }
 }
 
 ?>
