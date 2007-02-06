@@ -450,8 +450,9 @@ WHERE civicrm_event.id = $id ";
     {
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
         $copyEvent =& CRM_Core_DAO::copy( 'CRM_Event_DAO_Event', $id, $fieldsToPrefix );
-        self::copyObjects( 'CRM_Event_DAO_EventPage', $id ,$copyEvent->id, 'entity_id');
+        self::copyObjects( 'CRM_Event_DAO_EventPage', $id ,$copyEvent->id, 'event_id');
         self::copyObjects( 'CRM_Core_DAO_CustomOption', $id, $copyEvent->id, 'entity_id');
+        self::copyObjects( 'CRM_Core_DAO_UFJoin', $id, $copyEvent->id, 'entity_id');
 
         $entityFields = array();
         $entityFields['entity_table'] = 'civicrm_event';
@@ -496,7 +497,10 @@ WHERE civicrm_event.id = $id ";
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object   =& new ' . $daoName . '( );' );
-         
+        if ( $tableField == 'entity_id' ) {
+            $object->entity_table = 'civicrm_event';
+        }
+        $object->$tableField =  $oldId;
         $object->find( );
         
         $ids = array( );
