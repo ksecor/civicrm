@@ -475,11 +475,12 @@ UPDATE civicrm_membership_type
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contacType = 'Individual' ) {
+    function &importableFields( $contactType = 'Individual', $status = null ) {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
                 self::$_importableFields = array();
             }
+
             if (!$status) {
                 $fields = array( '' => array( 'title' => ts('- do not import -') ) );
             } else {
@@ -493,15 +494,15 @@ UPDATE civicrm_membership_type
             //require_once 'CRM/Core/OptionValue.php';
             //$optionFields = CRM_Core_OptionValue::getFields($mode ='member' );
             //$contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
-            $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
-            if ($contacType == 'Individual') {
+            $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
+            if ($contactType == 'Individual') {
                 require_once 'CRM/Core/DAO/DupeMatch.php';
                 $dao = & new CRM_Core_DAO_DupeMatch();
                 $dao->find(true);
                 $fieldsArray = explode('AND',$dao->rule);
-            } elseif ($contacType == 'Household') {
+            } elseif ($contactType == 'Household') {
                 $fieldsArray = array('household_name', 'email');
-            } elseif ($contacType == 'Organization') {
+            } elseif ($contactType == 'Organization') {
                 $fieldsArray = array('organization_name', 'email');
             }
             $tmpConatctField = array();

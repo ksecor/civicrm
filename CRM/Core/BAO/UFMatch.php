@@ -180,8 +180,8 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 // extract first / middle / last name
                 // for joomla
                 if ( $uf == 'Joomla' && $user->name ) {
-                    $name = trim( $user->$name );
-                    $names = explode( ' ', $user->$name );
+                    $name = trim( $user->name );
+                    $names = explode( ' ', $user->name );
                     if ( count( $names ) == 1 ) {
                         $params['first_name'] = $names[0];
                     } else if ( count( $names ) == 2 ) {
@@ -207,7 +207,11 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
             $ufmatch->save( );
             $newContact = true;
         }
-        return $status ? $newContact : $ufmatch;
+        if ( $status ) {
+            return $newContact;
+        } else {
+            return $ufmatch;
+        }
     }
 
     /**

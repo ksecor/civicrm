@@ -144,11 +144,6 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         CRM_Core_Menu::addParam( 'cid', $this->_contactId );
 
         
-        $this->assign('viewForm',$form);
-        $this->assign('showBlocks1',$showBlocks);
-        $this->assign('hideBlocks1',$hideBlocks);
-        $this->assign('groupTree', $_groupTree);
-
         //------------
         // create menus ..
         // hack for now, disable if we are in tabbed mode

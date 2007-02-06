@@ -135,9 +135,11 @@ class CRM_Core_Component
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 
+        $firstArg  = CRM_Utils_Array::value( 1, $args, '' ); 
+        $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) &&
-                 ( $info[$name]['url'] === $args[1] || $info[$name]['url'] === $args[2] ) ) {
+                 ( $info[$name]['url'] === $firstArg || $info[$name]['url'] === $secondArg ) ) {
                 
                 $className = $info[$name]['path'] . 'Invoke';
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
@@ -301,7 +303,7 @@ class CRM_Core_Component
         }
     }
 
-    static function &searchAction( &$row, $id ) 
+    static function searchAction( &$row, $id ) 
     {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
@@ -343,6 +345,7 @@ class CRM_Core_Component
              array_key_exists( $op, $properties[$subType] ) ) {
             return $properties[$subType][$op];
         }
+        return CRM_Core_DAO::$_nullObject;
     }
 
     static function &taskList( ) 
@@ -369,7 +372,7 @@ class CRM_Core_Component
      * @access public
      * @static
      */
-    static function &tableNames( &$tables ) 
+    static function tableNames( &$tables ) 
     {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );

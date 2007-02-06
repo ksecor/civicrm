@@ -60,7 +60,7 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
                                                     $ids );             
         CRM_Contribute_BAO_Contribution::resolveDefaults( $values );
         
-        if ( $values["honor_contact_id"] ) {
+        if (isset( $values["honor_contact_id"] ) && $values["honor_contact_id"] ) {
             $sql = "SELECT display_name FROM civicrm_contact WHERE id = " . $values["honor_contact_id"];
             $dao = &new CRM_Core_DAO();
             $dao->query($sql);
@@ -72,7 +72,9 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
 
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->get( 'id' ),0,$values['contribution_type_id'] );
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
-        $id = $this->get( 'id' );
+
+        $premiumId = null;
+        $id        = $this->get( 'id' );
         if( $id ) {
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
             $dao = & new CRM_Contribute_DAO_ContributionProduct();
@@ -98,7 +100,7 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
         }
         // Get Note
         $noteValue = CRM_Core_BAO_Note::getNote( $values['id'], 'civicrm_contribution' );
-        list($values['note']) =  array_values($noteValue);
+        $values['note'] =  array_values($noteValue);
         $this->assign( $values ); 
     }
 

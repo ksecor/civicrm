@@ -72,7 +72,7 @@ class CRM_Core_Smarty extends Smarty {
 
         $config =& CRM_Core_Config::singleton( );
 
-        if ( $config->customTemplateDir ) {
+        if ( isset( $config->customTemplateDir ) && $config->customTemplateDir ) {
             $this->template_dir = array( $config->customTemplateDir, $config->templateDir );
         } else {
             $this->template_dir = $config->templateDir;

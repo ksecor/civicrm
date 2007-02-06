@@ -335,7 +335,7 @@ class CRM_Core_Block {
 
             if ( ( $item['crmType'] &  CRM_Core_Menu::NORMAL_ITEM ) &&
                  ( $item['crmType'] >= CRM_Core_Menu::NORMAL_ITEM ) &&
-                 $item['access'] ) {
+                 isset( $item['access'] ) && $item['access'] ) {
                 $value = array( );
                 $value['url'  ]  = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'query', $item ) );
                 $value['title']  = $item['title'];

@@ -332,7 +332,7 @@ class CRM_Core_Invoke
                 }
                 break;
             }
-            if ( $_GET['snippet'] ) {
+            if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
                 $view->setPrint( CRM_Core_Smarty::PRINT_SNIPPET );
             }
             return $view->run( );
@@ -629,7 +629,9 @@ class CRM_Core_Invoke
             CRM_Core_Error::fatal( 'You do not have access to this page' );
         }
 
-        if ($args[2] == 'activityHistory' ) {
+        $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
+
+        if ( $secondArg == 'activityHistory' ) {
             require_once 'CRM/History/Import/Controller.php';
             $controller =& new CRM_History_Import_Controller(ts('Import Activity History'));
         } else {

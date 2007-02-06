@@ -109,7 +109,9 @@ class CRM_Contribute_Invoke {
         $session =& CRM_Core_Session::singleton( );
         $config  =& CRM_Core_Config::singleton ( );
 
-        if ( $args[2] == 'transact' ) { 
+        $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
+
+        if ( $secondArg == 'transact' ) { 
             if ( $config->enableSSL     &&
                  CRM_Core_Invoke::onlySSL( $args ) ) {
                 if ( !isset($_SERVER['HTTPS'] ) ) {
@@ -128,25 +130,26 @@ class CRM_Contribute_Invoke {
             CRM_Core_Error::fatal( 'You do not have access to this page' );
         }
 
-        if ($args[2] == 'search') {
+        $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
+        if ( $secondArg == 'search') {
             require_once 'CRM/Contribute/Controller/Search.php'; 
-            $controller =& new CRM_Contribute_Controller_Search($title, $mode); 
+            $controller =& new CRM_Contribute_Controller_Search( );
             $url = 'civicrm/contribute/search';
             $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
             $controller->set( 'context', 'search' );
             return $controller->run();
-        } elseif ($args[2] == 'import') {
+        } elseif ($secondArg == 'import') {
             require_once 'CRM/Contribute/Import/Controller.php';
             $controller =& new CRM_Contribute_Import_Controller(ts('Import Contributions'));
             return $controller->run();
-        } else if ( $args[2] == 'add' ) {
+        } else if ( $secondArg == 'add' ) {
             $session =& CRM_Core_Session::singleton( );  
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'action=browse&reset=1' ) ); 
 
             require_once 'CRM/Contribute/Controller/ContributionPage.php'; 
             $controller =& new CRM_Contribute_Controller_ContributionPage( ); 
             return $controller->run( ); 
-        } else if ( $args[2] == 'contribution' ) {
+        } else if ( $secondArg == 'contribution' ) {
             require_once 'CRM/Contribute/Page/Contribution.php';
             $page =& new CRM_Contribute_Page_Contribution( );
             return $page->run( );

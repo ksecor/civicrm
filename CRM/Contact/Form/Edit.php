@@ -459,7 +459,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         $params['contact_type'] = $this->_contactType;
-        if( ! $params['is_deceased'] == 1 ) { 
+        if( ! isset( $params['is_deceased'] ) || $params['is_deceased'] != 1 ) { 
             $params['deceased_date'] = null;
         }
 
@@ -512,7 +512,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
         
         //add relationship for the contact
-        if ( $params['current_employer'] ) {
+        if ( isset( $params['current_employer'] ) && $params['current_employer'] ) {
             
             //check if organization exits
             $dupeIds = array();

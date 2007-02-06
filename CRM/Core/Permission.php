@@ -113,12 +113,12 @@ class CRM_Core_Permission {
      * @return array - array reference of all groups.
      *
      */
-    public static function &group( ) {
+    public static function group( ) {
         $config   =& CRM_Core_Config::singleton( );
         return eval( 'return ' . $config->userPermissionClass . '::group( );' );
     }
 
-    public static function &customGroup( $type = CRM_Core_Permission::VIEW ) {
+    public static function customGroup( $type = CRM_Core_Permission::VIEW ) {
         $config   =& CRM_Core_Config::singleton( );
         return eval( 'return ' . $config->userPermissionClass . '::customGroup( $type );' );
     }

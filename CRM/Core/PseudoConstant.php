@@ -673,7 +673,7 @@ class CRM_Core_PseudoConstant
      * @return array - array reference of all groups.
      *
      */
-    public static function &group()
+    public static function group()
     {
         require_once 'CRM/Core/Permission.php';
         return CRM_Core_Permission::group( );

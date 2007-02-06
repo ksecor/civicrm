@@ -79,7 +79,7 @@ class CRM_Core_OptionValue {
     {
         $optionValue = array();
         
-        if (! $groupParams['id'] ) {
+        if (! isset( $groupParams['id'] ) || ! $groupParams['id'] ) {
             if ( $groupParams['name'] ) {
                 $config =& CRM_Core_Config::singleton( );
                 $groupParams['domain_id'] = $config->domainID( );

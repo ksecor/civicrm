@@ -445,12 +445,6 @@ class CRM_Core_Config
     private static $_mail = null;
     
     /**
-     * include county in address block
-     * @var object
-     */
-    private static $_includeCounty = null;
-
-    /**
      * We only need one instance of this object. So we use the singleton
      * pattern and cache the instance in this variable
      * @var object
@@ -470,6 +464,12 @@ class CRM_Core_Config
      * Should we include dojo?
      */
     public $includeDojo              = 1;
+
+    /**
+     * include county in address block
+     * @var object
+     */
+    public $includeCounty = null;
 
     /**
      * singleton function used to manage this object

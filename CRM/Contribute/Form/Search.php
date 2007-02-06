@@ -375,7 +375,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         // note that this means that GET over-rides POST :)
 
         // we fix date_to here if set to be the end of the day, i.e. 23:59:59
-        if ( ! CRM_Utils_System::isNull( $this->_formValues['contribution_date_high'] ) ) {
+        if ( isset( $this->_formValues['contribution_date_high'] ) &&
+             ! CRM_Utils_System::isNull( $this->_formValues['contribution_date_high'] ) ) {
             $this->_formValues['contribution_date_high']['H'] = 23;
             $this->_formValues['contribution_date_high']['i'] = 59;
             $this->_formValues['contribution_date_high']['s'] = 59;

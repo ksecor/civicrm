@@ -52,14 +52,15 @@ class CRM_Core_BAO_Log extends CRM_Core_DAO_Log
         $log->entity_id    = $id;
         $log->orderBy( 'modified_date desc' );
         $log->limit( 1 );
+        $result = CRM_Core_DAO::$_nullObject;
         if ( $log->find( true ) ) {
             list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $log->modified_id );
-            return array( 'id'    => $log->modified_id,
+            $result = array( 'id'    => $log->modified_id,
                           'name'  => $displayName,
                           'image' => $contactImage,
                           'date'  => $log->modified_date );
         }
-        return null;
+        return $result;
     }
     
     /**

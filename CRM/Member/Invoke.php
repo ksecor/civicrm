@@ -90,7 +90,9 @@ class CRM_Member_Invoke {
         
         $session =& CRM_Core_Session::singleton( );
         $config  =& CRM_Core_Config::singleton ( );
-        if ($args[2] == 'search') {
+        $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
+
+        if ($secondArg == 'search') {
             require_once 'CRM/Member/Controller/Search.php';
             $controller =& new CRM_Member_Controller_Search($title, $mode); 
             $url = 'civicrm/member/search';
@@ -99,7 +101,7 @@ class CRM_Member_Invoke {
             return $controller->run();
             
             
-        } elseif ($args[2] == 'import') {
+        } elseif ($secondArg == 'import') {
             require_once 'CRM/Member/Import/Controller.php';
             $controller =& new CRM_Member_Import_Controller(ts('Import Members'));
             return $controller->run();

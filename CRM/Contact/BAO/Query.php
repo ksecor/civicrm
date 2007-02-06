@@ -1059,7 +1059,7 @@ class CRM_Contact_BAO_Query {
         $locType = explode('-', $name);
 
         //add phone type if exists
-        if ($locType[2]) {
+        if ( isset( $locType[2] ) && $locType[2] ) {
             $locType[2] = addslashes( $locType[2] );
         }
 
@@ -1178,7 +1178,7 @@ class CRM_Contact_BAO_Query {
                     $op    = 'LIKE';
                 }
 
-                if (is_numeric($locType[1])) {
+                if (isset( $locType[1] ) && is_numeric( $locType[1] ) ) {
                     $setTables = false;
                     list($tbName, $fldName) = explode("." , $field['where']);
                     

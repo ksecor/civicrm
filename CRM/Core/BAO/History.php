@@ -125,7 +125,7 @@ class CRM_Core_BAO_History {
      * @access public
      * @static
      */
-    static function &getValues(&$params, &$values, $type='Activity')
+    static function getValues(&$params, &$values, $type='Activity')
     {
         // get top 3 histories
         $values['activity']['data']  =& CRM_Core_BAO_History::getHistory($params, 0, 3, null, $type);
@@ -188,7 +188,7 @@ class CRM_Core_BAO_History {
      * @access public
      * @static
      */
-    static function &getNumHistory($entityId, $type='Activity')
+    static function getNumHistory($entityId, $type='Activity')
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $type . 'History') . '.php');
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');

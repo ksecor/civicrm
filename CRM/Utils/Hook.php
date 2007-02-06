@@ -103,6 +103,7 @@ class CRM_Utils_Hook {
     static function links( $op, $objectName, $objectId ) {
         $config =& CRM_Core_Config::singleton( );  
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $objectRef = null;
         return   
             eval( 'return ' . $config->userHookClass . '::links( $op, $objectName, $objectId, $objectRef );' );  
     }

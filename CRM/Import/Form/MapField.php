@@ -270,16 +270,23 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             $this->_fieldUsed[$key] = false;
         }
 
-        $sel1 = $this->_mapperFields;
-
+        $sel1     = $this->_mapperFields;
         $sel2[''] = null;
+
         $phoneTypes = CRM_Core_SelectValues::phoneType();
         foreach ($this->_location_types as $key => $value) {
             $sel3['phone'][$key] =& $phoneTypes;
         }
 
+        $sel4 = null;
+
         foreach ($mapperKeys as $key) {
-            list($id, $first, $second) = explode('_', $key);
+            // check if there is a _a_b or _b_a in the key
+            if ( strpos( '_a_b', $key ) || strpos( '_b_a', $key ) ) {
+                list($id, $first, $second) = explode('_', $key);
+            } else {
+                $id = $first = $second = null;
+            }
             if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                 $contactRelation =& new CRM_Contact_DAO_RelationshipType();
                 $contactRelation->id = $id;
@@ -434,7 +441,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $this->assign('initHideBoxes', $js);
 
         //set warning if mismatch in more than 
-        if ( ($this->_columnCount != count($mappingName)) ) {
+        if ( isset( $mappingName ) &&
+             ( $this->_columnCount != count( $mappingName ) ) ) {
             $warning++;            
         }
 

@@ -84,11 +84,6 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         // also add the cid params to the Menu array
         CRM_Core_Menu::addParam( 'cid', $uid );
         
-        $this->assign( 'viewForm'   , $form       );
-        $this->assign( 'showBlocks1', $showBlocks );
-        $this->assign( 'hideBlocks1', $hideBlocks );
-        $this->assign( 'groupTree'  , $_groupTree );
-        
         $displayName = $this->get( 'displayName' );
         
         list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $uid);

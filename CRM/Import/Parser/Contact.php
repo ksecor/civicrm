@@ -439,7 +439,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             } else {
                 $paramsValues = array('contact_id'=>$params['id']);
                 $contact =& CRM_Contact_BAO_Contact::check_contact_exists($params['id']);
-                if (is_a( $contact,CRM_Contact_DAO_Contact )) {
+                if (is_a( $contact, 'CRM_Contact_DAO_Contact' )) {
                     if ($formatted['contact_type'] == $contact->contact_type) {
                         $newContact = crm_update_contact_formatted($contact->id, $formatted, true);
                         $this->_retCode = CRM_Import_Parser::VALID;
@@ -454,9 +454,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $this->_retCode = CRM_Import_Parser::NO_MATCH;  
                 }
             }
-            if (is_a( $newContact,CRM_Contact_BAO_Contact )) {
+            if (is_a( $newContact, 'CRM_Contact_BAO_Contact' )) {
                 $relationship = true;
-            } else if (is_a( $error,CRM_Core_Error )) {
+            } else if (is_a( $error, 'CRM_Core_Error' )) {
                 $newContact = $error;
                 $relationship = true;
             }
@@ -666,7 +666,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
         }
 
-        if ($newContact && ! is_a($newContact, CRM_Core_Error)) {
+        if ( $newContact && ! is_a( $newContact, 'CRM_Core_Error' ) ) {
             $this->_newContacts[] = $newContact->id;
         }
         return CRM_Import_Parser::VALID;
@@ -716,7 +716,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
     function isDuplicate($error) 
     {
-        if( is_a( $error, CRM_Core_Error ) ) {
+        if( is_a( $error, 'CRM_Core_Error' ) ) {
             $code = $error->_errors[0]['code'];
             if($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
                 return true ;

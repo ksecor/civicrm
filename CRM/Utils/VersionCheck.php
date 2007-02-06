@@ -139,6 +139,7 @@ class CRM_Utils_VersionCheck
     {
         $local  = explode('.', $this->localVersion);
         $latest = explode('.', $this->latestVersion);
+
         // compare by version part; this allows us to use trunk.$rev
         // for trunk versions ('trunk' is greater than '1')
         // we only do major / minor version comparison, so stick to 2

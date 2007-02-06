@@ -744,8 +744,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     }
 
     public function &returnProperties( ) {
-        return null;
-        // return CRM_Contact_BAO_Query::defaultReturnProperties( );
+        return CRM_Core_DAO::$_nullObject;
     }
 
 }

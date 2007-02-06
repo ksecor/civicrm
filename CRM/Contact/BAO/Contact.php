@@ -521,7 +521,8 @@ ORDER BY
                             
 
             $values['preferred_communication_method']          = $preffComm;
-            $values['preferred_communication_method_display']  = $temp['preferred_communication_method_display'];
+            $values['preferred_communication_method_display']  = 
+                CRM_Utils_Array::value( 'preferred_communication_method_display', $temp );
 
             CRM_Contact_DAO_Contact::addDisplayEnums($values);
 
@@ -878,7 +879,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
                 // FIXME: lookupValue doesn't work for vcard_name
                 $vcardNames =& CRM_Core_PseudoConstant::locationVcardName();
-                $location['vcard_name'] = $vcardNames[$location['location_type_id']];
+                if ( isset( $location['location_type_id'] ) ) {
+                    $location['vcard_name'] = $vcardNames[$location['location_type_id']];
+                }
 
                 if (array_key_exists( 'address', $location ) ) {
                     if ( ! self::lookupValue( $location['address'], 'state_province',
@@ -2358,7 +2361,7 @@ WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
        if ( $dao->fetch() ) {
           return $dao;
        }
-       return null;
+       return CRM_Core_DAO::$_nullObject;
     }
 
     /**

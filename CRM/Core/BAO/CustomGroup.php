@@ -209,7 +209,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
 
         // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-        
+
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
@@ -249,7 +249,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
             }
 
             // check for custom values please
-            if ($crmDAO->civicrm_custom_value_id) {
+            if ( isset( $crmDAO->civicrm_custom_value_id ) && $crmDAO->civicrm_custom_value_id ) {
                 $valueId = $crmDAO->civicrm_custom_value_id;
 
                 // create an array for storing custom values for that field
@@ -1016,7 +1016,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
      * @access public
      * @static
      */
-    static function buildQuickForm( &$form, &$groupTree, $showName = 'showBlocks', $hideName = 'hideBlocks' ) {
+    static function buildQuickForm( &$form, &$groupTree, $showName = 'showBlocks', $hideName = 'hideBlocks', $inactiveNeeded = false ) {
         require_once 'CRM/Core/BAO/CustomField.php';
         require_once 'CRM/Core/BAO/CustomOption.php';
 
@@ -1109,11 +1109,13 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
                         $freezeStringChecked = "";
                         $customData = array();
 
-                        //added check for Multi-Select in the below if-statement
-                        if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
-                            $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
-                        } else {
-                            $customData[] = $field['customValue']['data'];
+                        if ( isset( $field['customValue'] ) ) {
+                            //added check for Multi-Select in the below if-statement
+                            if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
+                                $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            } else {
+                                $customData[] = $field['customValue']['data'];
+                            }
                         }
                         
                         $coDAO =& new CRM_Core_DAO_CustomOption();
@@ -1145,7 +1147,8 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
                             $coDAO->find( );
                             
                             while($coDAO->fetch()) {
-                                if ( $coDAO->value == $field['customValue']['data'] ) {
+                                if ( isset( $field['customValue'] ) &&
+                                     $coDAO->value == $field['customValue']['data'] ) {
                                     $form[$elementName]['html'] = $coDAO->label;
                                 }
                             }

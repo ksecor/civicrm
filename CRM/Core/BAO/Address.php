@@ -258,7 +258,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             }
             return $address;
         }
-        return null;
+        return CRM_Core_DAO::$_nullObject;
     }
     
     /**

@@ -115,7 +115,7 @@ class CRM_Contact_Form_Address
 
             $stateProvinceId = $fields['location'][$i]['address']['state_province_id'];
             $countryId       = $fields['location'][$i]['address']['country_id'];
-            $countyId        = $fields['location'][$i]['address']['county_id'];
+            $countyId        = CRM_Utils_Array::value( 'county_id', $fields['location'][$i]['address'] );
 
             if ($stateProvinceId && $countryId) {
                 $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();

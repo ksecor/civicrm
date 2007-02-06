@@ -335,11 +335,12 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contacType = 'Individual' ) {
+    function &importableFields( $contacType = 'Individual', $status = null ) {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
                 self::$_importableFields = array();
             }
+
             if (!$status) {
                 $fields = array( '' => array( 'title' => ts('- do not import -') ) );
             } else {

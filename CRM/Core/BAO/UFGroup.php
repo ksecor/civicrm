@@ -829,7 +829,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         require_once 'CRM/Core/DAO/DupeMatch.php';
 
         if(is_array($params)) {
-            if (is_array($params['location'])) {
+            if (isset( $params['location'] ) && is_array( $params['location'] ) ) {
                 $params['email'] = null;
                 $params['phone'] = null;
                 $params['im']    = null;
@@ -848,8 +848,8 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 }
             }
             foreach (array('email', 'phone', 'im') as $key) {
-                if (count($params[$key]) == 0) {
-                    unset($params[$key]);
+                if ( isset( $params[$key] ) && count( $params[$key] ) == 0 ) {
+                    unset( $params[$key] );
                 }
             }
             
@@ -861,7 +861,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             }
             unset( $params['location'] );
             
-            if (is_array($params['custom'])) {
+            if (isset( $params['custom'] ) && is_array( $params['custom'] ) ) {
                 foreach ( $params['custom'] as $key => $value ) {
                     $params['custom_'. $value['custom_field_id'] ] = $value['value'];
                 }
@@ -899,7 +899,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         }
 
         require_once 'CRM/Contact/BAO/Query.php';
-        if ( $params["contact_type"] ) {
+        if ( isset( $params["contact_type"] ) && $params["contact_type"] ) {
             $fields["contact_type"] = array("name"  => "contact_type" ,
                                             "title" => "Contact Type",
                                             "where" => "civicrm_contact.contact_type"

@@ -131,7 +131,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
     public function buildQuickForm( ) {
         $this->addElement( 'text', 'newGroupName', ts('Name for new group'));
         $this->addElement( 'text', 'newGroupDesc', ts('Description of new group'));
-        $this->addRule( 'newGroupName', ts('Name already exists in Database.'),'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
+        $this->addRule( 'newGroupName',
+                        ts('Name already exists in Database.'),
+                        'objectExists',
+                        array( 'CRM_Contact_DAO_Group', null, 'title' ) );
 
         $groups =& $this->get('groups');
         
@@ -449,17 +452,11 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
         $errors = array();
         
-//         if ($params['newGroupName'] === '') {
-//             $errors['newGroupName'] = ts( 'Please enter a name for the new group.');
-//         } else {
-
-        if ($params['newGroupName']) {
-            if (!CRM_Utils_Rule::objectExists(trim($params['newGroupName']),array('CRM_Contact_DAO_Group')))
-            {
-                $errors['newGroupName'] = ts( 'Group "%1" already exists.',
-                        array( 1 => $params['newGroupName']));
-            }
-//         }
+        if ( $params['newGroupName'] &&
+             ( ! CRM_Utils_Rule::objectExists( trim( $params['newGroupName'] ),
+                                               array( 'CRM_Contact_DAO_Group') ) ) ) {
+            $errors['newGroupName'] = ts( 'Group "%1" already exists.',
+                                          array( 1 => $params['newGroupName']));
         }
         return empty($errors) ? true : $errors;
     }
