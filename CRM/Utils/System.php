@@ -73,6 +73,7 @@ class CRM_Utils_System {
                                                 'contributionpageedit'=> 'ContributionPageEdit',
                                                 'contributiontype'   => 'ContributionType',
                                                 'dupematch'          => 'DupeMatch', 
+                                                'drupaluser'         => 'DrupalUser', 
                                                 'dashboard'          => 'DashBoard',
                                                 'dao'                => 'DAO',
                                                 'deletefield'        => 'DeleteField', 
@@ -569,7 +570,7 @@ class CRM_Utils_System {
         $memory = str_replace("\n", '', shell_exec("ps -p". $pid ." -o rss="));
         $memory .= ", " . time( );
         if ( $title ) {
-            CRM_Core_Error::debug( $title, $memory );
+            CRM_Core_Error::debug_var( $title, $memory );
         }
         return $memory;
     }

@@ -71,6 +71,7 @@ class CRM_Admin_Form_DrupalUser extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        require_once 'CRM/Core/BAO/DrupalUser.php';
         CRM_Core_BAO_DrupalUser::synchronize();
     }
 }
