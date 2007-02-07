@@ -42,7 +42,8 @@ require_once 'CRM/Core/BAO/UFField.php';
 /**
  * form to process actions on the field aspect of Custom
  */
-class CRM_UF_Form_Field extends CRM_Core_Form {
+class CRM_UF_Form_Field extends CRM_Core_Form 
+{
     /**
      * the uf group id saved to the session for an update
      *
@@ -453,14 +454,16 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields ) 
+    {
         $is_required     = CRM_Utils_Array::value( 'is_required'    , $fields, false );
         $is_registration = CRM_Utils_Array::value( 'is_registration', $fields, false );
         $is_view         = CRM_Utils_Array::value( 'is_view'        , $fields, false );
         $in_selector     = CRM_Utils_Array::value( 'in_selector'    , $fields, false );
+        $is_searchable   = CRM_Utils_Array::value( 'is_searchable'  , $fields, false );
         $visibility      = CRM_Utils_Array::value( 'visibility'     , $fields, false );
         $is_active       = CRM_Utils_Array::value( 'is_active'      , $fields, false );
-
+       
         $errors = array( );
         if ( $is_view && $is_registration ) {
             $errors['is_registration'] = 'View Only cannot be selected if this field is to be included on the registration form';
@@ -470,6 +473,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         }
         if ( $in_selector && ($visibility != 'Public User Pages and Listings' )) {
             $errors['visibility'] = 'Visibility should be "Public User Pages and Listings" if "In Selector ?" is checked.';
+        }
+        if ( $is_searchable && ($visibility != 'Public User Pages and Listings' )) {
+            $errors['visibility'] = 'Visibility must be set to Public User Pages and Listings if you want this field to be Searchable.';
         }
         $fieldName = $fields['field_name'][0];
         if (!$fieldName) {
