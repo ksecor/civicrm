@@ -66,19 +66,19 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%honorId%%&action=view&context=%%cxt%%&selectedChild=contribute',
+                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&honorId=%%honorId%%&action=view&context=%%cxt%%&selectedChild=contribute',
                                                                    'title'    => ts('View Contribution'),
                                                                   ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%honorId%%&context=%%cxt%%&subType=%%contributionType%%',
+                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&honorId=%%honorId%%&context=%%cxt%%&subType=%%contributionType%%',
                                                                    'title'    => ts('Edit Contribution'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%honorId%%&context=%%cxt%%',
+                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&honorId=%%honorId%%&context=%%cxt%%',
                                                                    'title'    => ts('Delete Contribution'),
                                                                   ),
                                   );
@@ -115,10 +115,11 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
 	    $contributionId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $honorId['honorId'],'id','contact_id' );
 	    $subType     = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $honorId['type'], 'id','name' );
 	    $params[$ids]['action'] = CRM_Core_Action::formLink(self::honorLinks( ), $action, 
-								array('honorId' => $honorId['honorId'],
-								      'id'  =>  $contributionId,
-								      'cxt' => 'contribution',
-								      'contributionType' => $subType )
+								array('cid'              => $honorId['honorId'],
+								      'id'               =>  $contributionId,
+								      'cxt'              => 'contribution',
+								      'contributionType' => $subType,
+                                      'honorId'          => $this->_contactId)
 								);
 	  }
 	  // assign vars to templates
@@ -201,8 +202,18 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
             break;
 
         case 'contribution':
+
+            $honorId = CRM_Utils_Request::retrieve( 'honorId', 'Positive',
+                                                $form, false );
+            
+            if ($honorId) {
+                $cid = $honorId;
+            } else {
+                $cid = $this->_contactId;
+            }
+
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=contribute" );
+                                          "reset=1&force=1&cid={$cid}&selectedChild=contribute" );
             break;
 
         default:
