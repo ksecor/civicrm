@@ -81,10 +81,6 @@ class CRM_Member_Form extends CRM_Core_Form
 
         $this->assign( 'membershipStatus', $defaults['status'] );
 
-        if ($this->_action == CRM_Core_Action::DELETE) {
-            $this->assign( 'delName', $defaults['name'] );
-        }
-        
         // its ok if there is no element called is_active
         $defaults['is_active'] = 1;
         

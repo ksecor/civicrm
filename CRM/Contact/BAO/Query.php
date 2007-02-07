@@ -2448,10 +2448,10 @@ class CRM_Contact_BAO_Query {
 
             // regenerate fromClause since permission might have added tables
             if ( $permission ) {
-                //fix for row count in quill (in contribute/membership find)
-                // if (! $count ) {
-                // $this->_useDistinct = true;
-                // }
+                //fix for row count in qill (in contribute/membership find)
+                if (! $count ) {
+                    $this->_useDistinct = true;
+                }
                 $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation, $this->_mode ); 
                 $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
             }
@@ -2475,7 +2475,11 @@ class CRM_Contact_BAO_Query {
             $config =& CRM_Core_Config::singleton( );
             if ( $config->includeOrderByClause ) {
                 if ($sort) {
-                    $orderBy = trim( $sort->orderBy() );
+                    if ( is_string( $sort ) ) {
+                        $orderBy = $sort;
+                    } else {
+                        $orderBy = trim( $sort->orderBy() );
+                    }
                     if ( ! empty( $orderBy ) ) {
                         $order = " ORDER BY $orderBy";
                     }

@@ -99,10 +99,19 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 
         //set defaults if not set in db
         if ( ! isset( $defaults['userFrameworkResourceURL'] ) ) {
+            $testIMG = "i/tracker.gif";
             if ( $config->userFramework == 'Joomla' ) {
-                $defaults['userFrameworkResourceURL'] = $baseURL . "components/com_civicrm/civicrm/";
-            } else {
-                $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 
+                if ( CRM_Utils_System::checkURL( "{$baseURL}components/com_civicrm/civicrm/{$testIMG}" ) ) {
+                    $defaults['userFrameworkResourceURL'] = $baseURL . "components/com_civicrm/civicrm/";
+                }
+            } else if ( $config->userFramework == 'Drupal' ) {
+                // check and see if we are installed in sites/all (for D5 and above)
+                // or in modules
+                if ( CRM_Utils_System::checkURL( "{$baseURL}modules/civicrm/{$testIMG}" ) ) {
+                    $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 
+                } else if ( CRM_Utils_System::checkURL( "{$baseURL}sites/all/modules/civicrm/{$testIMG}" ) ) {
+                    $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/"; 
+                }
             }
         }
 
@@ -230,7 +239,6 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
                                          {city}{, }{state_province}{ }{postal_code}
                                          {country}';
         }
-        
     }
 
   

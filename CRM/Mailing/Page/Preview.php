@@ -55,7 +55,7 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         $session =& CRM_Core_Session::singleton();
 
         $options = array();
-        $session->getVars($options, 'CRM_Mailing_Controller_Send');
+        $session->getVars($options, 'CRM_Mailing_Controller_Send_');
         
         $type = CRM_Utils_Request::retrieve('type', 'String', CRM_Core_DAO::$_nullObject, false, 'text');
 
@@ -65,24 +65,27 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->domain_id = $session->get('domainID');
 
-        $mailing->header_id = $options['header_id'];
-        $mailing->footer_id = $options['footer_id'];
-        $mailing->name = $options['mailing_name'];
-        $mailing->from_name = $options['from_name'];
+        $mailing->header_id  = CRM_Utils_Array::value( 'header_id', $options );
+        $mailing->footer_id  = CRM_Utils_Array::value( 'footer_id', $options );
+        $mailing->name       = $options['mailing_name'];
+        $mailing->from_name  = $options['from_name'];
         $mailing->from_email = $options['from_email'];
-        $mailing->subject = $options['subject'];
+        $mailing->subject    = $options['subject'];
 
 
-        if (file_exists($options['htmlFile'])) {
+        if ( isset( $options['htmlFile'] ) &&
+             file_exists( $options['htmlFile'] ) ) {
             $mailing->body_html = file_get_contents($options['htmlFile']);
         } else {
-            $mailing->body_html = $options['htmlFile'];
+            $mailing->body_html = CRM_Utils_Array::value( 'htmlFile', $options );
         }
 
-        if (file_exists($options['textFile'])) {
-            $mailing->body_text = file_get_contents($options['textFile']);
-        } else if ( $options['textFile'] ) {
-            $mailing->body_text = $options['textFile'];
+        if ( isset( $options['textFile'] ) ) {
+            if ( file_exists( $options['textFile'] ) ) {
+                $mailing->body_text = file_get_contents($options['textFile']);
+            } else {
+                $mailing->body_text = $options['textFile'];
+            }
         } else {
             $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
         }

@@ -125,7 +125,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                 continue;
             }
             $this->_selectFields    [$name] = $field['title'];
-            $this->_hasLocationTypes[$name] = $field['hasLocationType'];
+            $this->_hasLocationTypes[$name] = CRM_Utils_Array::value( 'hasLocationType', $field );
         }
 
         // lets add group and tag to this list
@@ -160,14 +160,27 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFField::retrieve($params, $defaults);
-            
-            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im', 'location_name' );
 
-            if ( !$defaults['location_type_id'] && in_array($defaults['field_name'], $specialFields)  ) {
+            // set it to null if so (avoids crappy E_NOTICE errors below
+            $defaults['location_type_id'] = CRM_Utils_Array::value( 'location_type_id', $defaults );
+
+            $specialFields = array ('street_address',
+                                    'supplemental_address_1',
+                                    'supplemental_address_2',
+                                    'city', 'postal_code', 'postal_code_suffix',
+                                    'geo_code_1', 'geo_code_2',
+                                    'state_province', 'country',
+                                    'phone', 'email', 'im', 'location_name' );
+
+            if ( ! $defaults['location_type_id'] &&
+                 in_array($defaults['field_name'], $specialFields)  ) {
                 $defaults['location_type_id'] = 0;
             }
             
-            $defaults[ 'field_name' ] = array ($defaults['field_type'], $defaults['field_name'], $defaults['location_type_id'], $defaults['phone_type']);
+            $defaults[ 'field_name' ] = array ( $defaults['field_type'],
+                                                $defaults['field_name'],
+                                                $defaults['location_type_id'],
+                                                CRM_Utils_Array::value( 'phone_type'      , $defaults ) );
             $this->_gid = $defaults['uf_group_id'];
         } else {
             $defaults['is_active'] = 1;
@@ -233,11 +246,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 $this->_mapperFields[$key][$key1] = $value1['title'];
-                $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
+                $hasLocationTypes[$key][$key1]    = CRM_Utils_Array::value( 'hasLocationType', $value1 );
 
-                //for hiding the 'is searchable' field for 'File' custom data
-                if ( ($value1['data_type'] == 'File') && ($value1['html_type'] == 'File') ) {
-                    if (!in_array($value1['title'], $noSearchable)) {
+                // hide the 'is searchable' field for 'File' custom data
+                if ( ( isset( $value1['data_type']    ) &&
+                       isset( $value1['html_type']    ) &&
+                       $value1['data_type'] == 'File' ) &&
+                     ( $value1['html_type'] == 'File' ) ) {
+                    if ( ! in_array( $value1['title'], $noSearchable ) ) {
                         $noSearchable[] = $value1['title'];
                     }
                 }
@@ -325,7 +341,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             if ( !empty($formValues['field_name']) ) {
                 foreach ( $formValues['field_name'] as $value) {
                     for ( $k = 1; $k < 4; $k++ ) {
-                        if (!$formValues['field_name'][$k]) {
+                        if (! isset( $formValues['field_name'][$k] ) || ! $formValues['field_name'][$k] ) {
                             $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
                         } else {
                             $js .= "{$formName}['field_name[$k]'].style.display = '';\n"; 

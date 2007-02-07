@@ -167,8 +167,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         
         $sel =& $this->addElement('hierselect', "extends", ts('Used For'));
         $sel->setOptions(array($sel1,$sel2));
-        $js .= "</script>\n";
-        $this->assign('initHideBoxes', $js);
         
         // which entity is this custom data group for ?
         // for update action only allowed if there are no custom values present for this group.
@@ -255,7 +253,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $extends = $defaults['extends'];
         unset($defaults['extends']);
         $defaults['extends'][0] = $extends;
-        $defaults['extends'][1] = $defaults['extends_entity_column_value'];
+        $defaults['extends'][1] = CRM_Utils_Array::value( 'extends_entity_column_value',
+                                                          $defaults );
 
         
         return $defaults;

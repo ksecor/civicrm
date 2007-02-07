@@ -579,7 +579,9 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
             }
         }
         if (is_array($cleanValue) && !$this->getMultiple()) {
-            return $this->_prepareValue($cleanValue[0], $assoc);
+            if ( isset( $cleanValue[0] ) ) {
+                return $this->_prepareValue($cleanValue[0], $assoc);
+            }
         } else {
             return $this->_prepareValue($cleanValue, $assoc);
         }

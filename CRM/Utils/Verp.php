@@ -76,8 +76,8 @@ class CRM_Utils_Verp {
         $sdomain    = $match[2];
 
         preg_match('/(.+)\@([^\@]+)$/', $recipient, $match);
-        $rlocal     = $match[1];
-        $rdomain    = $match[2];
+        $rlocal     = CRM_Utils_Array::value( 1, $match );
+        $rdomain    = CRM_Utils_Array::value( 2, $match );
         
         foreach (self::$encodeMap as $char => $code) {
             $rlocal     = preg_replace('/'.preg_quote($char).'/i', "+$code", $rlocal);

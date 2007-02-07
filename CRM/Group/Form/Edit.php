@@ -112,7 +112,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         }
 
         if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
         return $defaults;
     }

@@ -74,7 +74,7 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
                     CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
                     true );
         $this->addRule('name', ts('Name already exists in Database.'),
-            'objectExists', array('CRM_Mailing_DAO_Component', $this->_id));
+                       'objectExists', array('CRM_Mailing_DAO_Component', null ) );
 
         /**
         $template =& CRM_Mailing_PseudoConstant::template( );

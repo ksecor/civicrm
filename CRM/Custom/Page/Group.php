@@ -135,7 +135,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         if ($action & CRM_Core_Action::DELETE) {
             $session = & CRM_Core_Session::singleton();
             $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/', 'action=browse'));
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Custom_Form_DeleteGroup',"Delete Cutom Group", $mode );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Custom_Form_DeleteGroup',"Delete Cutom Group", null );
             $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                               $this, false, 0);
             $controller->set('id', $id);
@@ -291,12 +291,19 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         foreach($cSubTypes as $key => $value ) {
             $contactSubTypes[$key] = $key;
         }
-        $subTypes['Contact']  =  array("" => "-- Any --") +$contactSubTypes;
+        $subTypes['Contact']  =  array("" => "-- Any --") + $contactSubTypes;
         foreach($customGroup as $key => $values ) {
-            $sub  = $customGroup[$key]["extends_entity_column_value"];
-            $type = $customGroup[$key]["extends"];
+            $sub  = CRM_Utils_Array::value( 'extends_entity_column_value',
+                                            $customGroup[$key] );
+            $type = CRM_Utils_Array::value( 'extends',
+                                            $customGroup[$key] );
             
-            $customGroup[$key]["extends_entity_column_value"] = $subTypes[$type][$sub];
+            if ( $sub ) {
+                $customGroup[$key]["extends_entity_column_value"] = $subTypes[$type][$sub];
+            } else {
+                $customGroup[$key]["extends_entity_column_value"] = CRM_Utils_Array::value( $type,
+                                                                                            $subTypes );
+            }
         }
       
         $this->assign('rows', $customGroup);

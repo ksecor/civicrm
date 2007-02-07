@@ -165,7 +165,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if ( !($params['join_date']['M'] && $params['join_date']['d'] && $params['join_date']['Y']) ) {
             $errors['join_date'] = "Please enter the Join Date.";
         }
-        if ( $params['is_override'] && !$params['status_id'] ) {
+        if ( isset( $params['is_override'] ) &&
+             $params['is_override']          &&
+             ! $params['status_id'] ) {
             $errors['status_id'] = "Please enter the status.";
         }
               

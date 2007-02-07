@@ -134,7 +134,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
             if ( CRM_Utils_Array::value( 'address', $loc[1] ) ) {
                 if ( ! array_key_exists('state_province', $loc[1]['address'])) {
                     $loc[1]['state_province'] = CRM_Core_PseudoConstant::stateProvince($loc[1]['address']['state_province_id']);
-                    if (! $loc[1]['address']['state_province']) {
+                    if (! isset( $loc[1]['address']['state_province'] ) ) {
                         $loc[1]['address']['state_province'] =
                             CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc[1]['address']['state_province_id']);
                     }
@@ -142,7 +142,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
                 
                 if (! array_key_exists('country', $loc[1]['address'])) {
                     $loc[1]['address']['country'] = CRM_Core_PseudoConstant::country($loc[1]['address']['country_id']);
-                    if (! $loc[1]['address']['country']) {
+                    if ( ! isset( $loc[1]['address']['country'] ) ) {
                         $loc[1]['address']['country'] =
                             CRM_Core_PseudoConstant::countryIsoCode($loc[1]['address']['country_id']);
                     }

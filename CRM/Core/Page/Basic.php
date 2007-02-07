@@ -223,7 +223,8 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         // find all objects
         $object->find();
         while ($object->fetch()) {
-            if($object->mapping_type != "Search Builder") {
+            if ( ! isset( $object->mapping_type ) ||
+                 $object->mapping_type != "Search Builder" ) {
                 $permission = CRM_Core_Permission::EDIT;
                 if ( $key ) {
                     $permission = $this->checkPermission( $object->id, $object->$key );
@@ -231,7 +232,8 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
                 if ( $permission ) {
                     $values[$object->id] = array( );
                     CRM_Core_DAO::storeValues( $object, $values[$object->id]);
-                    
+
+                    require_once 'CRM/Contact/DAO/RelationshipType.php';
                     CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
                     
                     // populate action links

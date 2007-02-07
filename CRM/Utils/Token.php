@@ -77,7 +77,7 @@ class CRM_Utils_Token {
      * @access public
      * @static
      */
-    public static function &requiredTokens(&$str) {
+    public static function requiredTokens(&$str) {
         if (self::$_requiredTokens == null) {
             self::$_requiredTokens = array(    
                 'domain.address'    => ts("Displays your organization's postal address."),

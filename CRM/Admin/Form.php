@@ -79,7 +79,8 @@ class CRM_Admin_Form extends CRM_Core_Form
             eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
         }
 
-        if ($this->_action == CRM_Core_Action::DELETE) {
+        if ( $this->_action == CRM_Core_Action::DELETE &&
+             isset( $defaults['name'] ) ) {
             $this->assign( 'delName', $defaults['name'] );
         }
 

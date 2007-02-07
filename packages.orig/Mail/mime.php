@@ -35,7 +35,7 @@
 // |         Tomas V.V.Cox <cox@idecnet.com> (port to PEAR)                |
 // +-----------------------------------------------------------------------+
 //
-// $Id: mime.php,v 1.39 2005/06/13 21:24:16 cipri Exp $
+// $Id$
 
 require_once('PEAR.php');
 require_once('Mail/mimePart.php');
@@ -315,11 +315,10 @@ class Mail_mime
         $params['encoding']     = $this->_build_params['text_encoding'];
         $params['charset']      = $this->_build_params['text_charset'];
         if (is_object($obj)) {
-            $res =& $obj->addSubpart($text, $params);
+            return $obj->addSubpart($text, $params);
         } else {
-            $res =& new Mail_mimePart($text, $params);
+            return new Mail_mimePart($text, $params);
         }
-        return $res;
     }
 
     /**
@@ -590,8 +589,8 @@ class Mail_mime
             $headers = array_merge($headers, $xtra_headers);
         }
         $this->_headers = array_merge($headers, $this->_headers);
-        $res =& $this->_encodeHeaders($this->_headers);
-        return $res;
+
+        return $this->_encodeHeaders($this->_headers);
     }
 
     /**

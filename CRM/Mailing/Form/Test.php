@@ -106,9 +106,9 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         $mailing->header_id = $options['header_id'];
         $mailing->footer_id = $options['footer_id'];
         $mailing->name = $options['name'];
-        $mailing->from_name = ts('CiviCRM Test Mailer (%1)', array(1 =>
-                                $options['from_name']));
-        $mailing->from_email = $options['from_email'];
+        $mailing->from_name     = ts('CiviCRM Test Mailer (%1)', array(1 =>
+                                                                       $options['from_name']));
+        $mailing->from_email    = $options['from_email'];
         $mailing->replyTo_email = $email;
         $mailing->subject = ts('Test Mailing:') . ' ' . $options['subject'];
 

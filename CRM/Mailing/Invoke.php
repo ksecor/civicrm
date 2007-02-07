@@ -56,26 +56,27 @@ class CRM_Mailing_Invoke {
         require_once 'CRM/Mailing/Page/Browse.php';
         require_once 'CRM/Mailing/BAO/Job.php';
 
-        if ( $args[2] == 'forward' ) {
+        $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
+        if ( $secondArg == 'forward' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(CRM_Utils_System::baseURL());
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Profile_Form_ForwardMailing', ts('Forward Mailing'),  null );
         }
         
-        if ( $args[2] == 'unsubscribe' ) {
+        if ( $secondArg == 'unsubscribe' ) {
             require_once 'extern/unsubscribe.php';
             $view =& new extern_unsubscribe( );
             return $view->run( );
         }
         
-        if ( $args[2] == 'optout' ) {
+        if ( $secondArg == 'optout' ) {
             require_once 'extern/optout.php';
             $view =& new extern_optout( );
             return $view->run( );
         }
         
-        if ( $args[2] == 'retry' ) {
+        if ( $secondArg == 'retry' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(
                 CRM_Utils_System::url('civicrm/mailing/browse'));
@@ -90,17 +91,17 @@ class CRM_Mailing_Invoke {
                                     ts('Retry Mailing'), null);
         }
 
-        if ( $args[2] == 'component' ) {
+        if ( $secondArg == 'component' ) {
             require_once 'CRM/Mailing/Page/Component.php';
             $view =& new CRM_Mailing_Page_Component( );
             return $view->run( );
         }
-        if ( $args[2] == 'browse' ) {
+        if ( $secondArg == 'browse' ) {
             require_once 'CRM/Mailing/Page/Browse.php';
             $view =& new CRM_Mailing_Page_Browse( );
             return $view->run( );
         }
-        if ( $args[2] == 'event' ) {
+        if ( $secondArg == 'event' ) {
             CRM_Utils_System::appendBreadCrumb(
                 '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
             );
@@ -111,7 +112,7 @@ class CRM_Mailing_Invoke {
             $view =& new CRM_Mailing_Page_Event( );
             return $view->run( );
         }
-        if ( $args[2] == 'report' ) {
+        if ( $secondArg == 'report' ) {
             CRM_Utils_System::appendBreadCrumb(
                 '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
             );
@@ -120,7 +121,7 @@ class CRM_Mailing_Invoke {
             return $view->run();
         }
 
-        if ( $args[2] == 'send' ) {
+        if ( $secondArg == 'send' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
             require_once 'CRM/Mailing/Controller/Send.php';
@@ -128,7 +129,7 @@ class CRM_Mailing_Invoke {
             return $controller->run( );
         }
 
-        if ( $args[2] == 'queue' ) {
+        if ( $secondArg == 'queue' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
             require_once 'CRM/Mailing/BAO/Job.php';
@@ -136,7 +137,7 @@ class CRM_Mailing_Invoke {
             CRM_Core_Session::setStatus( ts('The mailing queue has been processed.') );
         }
 
-        if ($args[2] == 'preview') {
+        if ($secondArg == 'preview') {
             require_once 'CRM/Mailing/Page/Preview.php';
             $view =& new CRM_Mailing_Page_Preview();
             return $view->run();

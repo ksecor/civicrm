@@ -221,6 +221,7 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         $query = "SELECT * FROM `civicrm_membership_status` WHERE `is_active`=1 ORDER BY weight ASC";
         $membershipStatus =& new CRM_Core_DAO( );
         $membershipStatus->query( $query );
+        $hour = $minute = $second = 0;
         while ( $membershipStatus->fetch() ) {
             $startEvent = null;
             $endEvent   = null;

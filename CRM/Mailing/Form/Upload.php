@@ -201,7 +201,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         
         // set $header and $footer
         foreach (array('header', 'footer') as $part) {
+            $$part = array( );
             if ($params["{$part}_id"]) {
+                echo "found<p>";
                 $component =& new CRM_Mailing_BAO_Component();
                 $component->id = $params["{$part}_id"];
                 $component->find(true);
@@ -209,7 +211,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 ${$part}['htmlFile'] = $component->body_html;
                 $component->free();
             } else {
-                $$part['htmlFile'] = $$part['textFile'] = '';
+                ${$part}['htmlFile'] = ${$part}['textFile'] = '';
             }
         }
 
@@ -218,8 +220,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $skipTextFile = $session->get('skipTextFile');
         $skipHtmlFile = $session->get('skipHtmlFile');
 
-        if (!file_exists($files['textFile']['tmp_name']) and !file_exists($files['htmlFile']['tmp_name'])) {
-            if ( !($skipTextFile || $skipHtmlFile) ) {
+        if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&
+             ( ! isset( $files['htmlFile'] ) || ! file_exists( $files['htmlFile']['tmp_name'] ) ) ) {
+            if ( ! ( $skipTextFile || $skipHtmlFile ) ) {
                 $errors['textFile'] = ts('Please provide either the text or HTML message.');
             }
         }

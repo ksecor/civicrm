@@ -522,10 +522,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $this->getHeaderFooter();
 
             if ($this->body_html) {
-                $this->html = $this->header->body_html
-                            . $this->body_html
-                            . $this->footer->body_html;
-                
+                $this->html = null;
+                if ( $this->header ) {
+                    $this->html = $this->header->body_html . "\n";
+                }
+                $this->html = $this->html . $this->body_html . "\n";
+                if ( $this->footer ) {
+                    $this->html = $this->html . $this->footer->body_html;
+                }
+
                 $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
                                 $this->_domain, true);
                 $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,
@@ -535,10 +540,16 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             if (!$this->body_text) {
                 $this->body_text = CRM_Utils_String::htmlToText($this->body_html);
             }
-            $this->text = $this->header->body_text . "\n"
-                . $this->body_text . "\n"
-                . $this->footer->body_text;
-            
+
+            $this->text = null;
+            if ( $this->header ) {
+                $this->text = $this->header->body_text . "\n";
+            }
+            $this->text = $this->text . $this->body_text . "\n";
+            if ( $this->footer ) {
+                $this->text = $this->text . $this->footer->body_text;
+            }
+
             $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
                                                                $this->_domain, false);
             $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,

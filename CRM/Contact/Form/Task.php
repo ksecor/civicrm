@@ -90,8 +90,8 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
             $contact =& new CRM_Contact_BAO_Contact();
-            $params = $this->get( 'queryParams' );
-            $query =& new CRM_Contact_BAO_Query( $params );
+            $params  =  $this->get( 'queryParams' );
+            $query   =& new CRM_Contact_BAO_Query( $params );
             $ids = $query->searchQuery( 0, 0, null,
                                         false, false, false,
                                         true, false );

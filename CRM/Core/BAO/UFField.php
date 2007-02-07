@@ -132,8 +132,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     {
         $ufField                   =& new CRM_Core_DAO_UFField();
         $ufField->field_name       = $params['field_name'][0];
-        $ufField->location_type_id = $params['field_name'][1];
-        $ufField->phone_type       = $params['field_name'][2];
+        $ufField->location_type_id = CRM_Utils_Array::value( 1, $params['field_name'] );
+        $ufField->phone_type       = CRM_Utils_Array::value( 2, $params['field_name'] );
         $ufField->uf_group_id      = CRM_Utils_Array::value( 'uf_group', $ids );
         if (CRM_Utils_Array::value( 'uf_field', $ids )) {
             $ufField->whereAdd("id <> ".CRM_Utils_Array::value( 'uf_field', $ids ));
@@ -161,18 +161,10 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField                   =& new CRM_Core_DAO_UFField();
         $ufField->field_type       = $params['field_name'][0];
         $ufField->field_name       = $params['field_name'][1];
-        if ( $params['field_name'][2] && $params['field_name'][2] >= 0 ) {
-            $ufField->location_type_id = $params['field_name'][2];
-        } else {
-            $ufField->location_type_id = 'NULL';
-        } 
-        if ( $params['field_name'][3] ) {    
-            $ufField->phone_type       = $params['field_name'][3];
-        } else {
-            $ufField->phone_type       = 'NULL';
-        }
+        $ufField->location_type_id = CRM_Utils_Array::value( 2, $params['field_name'], 'NULL' );
+        $ufField->phone_type       = CRM_Utils_Array::value( 3, $params['field_name'], 'NULL' );
 
-        $ufField->listings_title = $params['listings_title'];
+        $ufField->listings_title = CRM_Utils_Array::value( 'listings_title', $params );
         $ufField->visibility     = $params['visibility'];
         $ufField->help_post      = $params['help_post'];
         $ufField->label          = $params['label'];
@@ -187,8 +179,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
 
         
         // fix for CRM-316
-        if ( $ids['uf_field'] ) {
-
+        if ( isset( $ids['uf_field'] ) ) {
             $uf =& new CRM_Core_DAO_UFField();
             $uf->id = $ids['uf_field'];
             $uf->find();
