@@ -9,7 +9,7 @@
  <div class="form-item">
     {strip}
 
-<div id="basicCriteria">
+<div id="basicCriteria" class="content-pane">
     {include file="CRM/Contact/Form/Search/Criteria/Basic.tpl"}
 </div>
 
