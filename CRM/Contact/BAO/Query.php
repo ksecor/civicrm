@@ -1641,11 +1641,7 @@ class CRM_Contact_BAO_Query {
             }
         }
         
-        if (isset($group->where_clause) and !empty($group->where_clause)) {
-            $this->_where[$grouping][] = $group->where_clause;
-        } else {
-            $this->_where[$grouping][] = $groupClause;
-        }
+        $this->_where[$grouping][] = $groupClause;
     }
     
     /**
