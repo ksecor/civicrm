@@ -216,6 +216,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      */
     static function checkPermission( $id, $title ) {
         require_once 'CRM/ACL/API.php';
+        require_once 'CRM/Core/Permission.php';
 
         if ( CRM_Core_Permission::check( 'edit all contacts' ) ||
              CRM_ACL_API::groupPermission( CRM_ACL_API::EDIT, $id ) ) {
