@@ -8,11 +8,10 @@
       var span    = new GSize({/literal}{$span.lng},{$span.lat}{literal});
       var center  = new GLatLng({/literal}{$center.lat},{$center.lng}{literal});
 
-      var oldZoom = 13;
-      var newZoom = 17 - oldZoom; //Relation between zoom levels of v1 and v2 
-
       map.addControl(new GLargeMapControl());
       map.addControl(new GMapTypeControl());
+      map.setCenter(new GLatLng( 0, 0 ), 0 );
+      var bounds = new GLatLngBounds( );
 
       // Creates a marker whose info window displays the given number
       function createMarker(point, data) {
@@ -34,11 +33,13 @@
 {/literal}
 {if $location.lat}
        	var point = new GLatLng({$location.lat},{$location.lng});
-	map.setCenter(center, newZoom);
        	var marker = createMarker(point, data);
         map.addOverlay(marker);
+        bounds.extend(point);
 {/if}
       {/foreach}
+      map.setZoom(map.getBoundsZoomLevel(bounds));
+      map.setCenter(bounds.getCenter());
       {literal}
 
      //]]>  
