@@ -119,6 +119,12 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $this->_fields = array_merge (CRM_Quest_BAO_Student::exportableFields(), $this->_fields);
         }
 
+        if ( CRM_Core_Permission::access( 'TMF' ) ) {
+            require_once 'CRM/TMF/BAO/Student.php';
+            $this->_fields = array_merge (CRM_TMF_BAO_Student::exportableFields(), $this->_fields);
+
+        }
+
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
             // lets skip note for now since we dont support it
@@ -132,7 +138,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         // lets add group and tag to this list
         $this->_selectFields['group'] = ts('Group(s)');
         $this->_selectFields['tag'  ] = ts('Tag(s)');
-       
+
     }
 
     /**
@@ -243,6 +249,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             }
         }
 
+        if ( CRM_Core_Permission::access( 'TMF' ) ) {
+            require_once 'CRM/TMF/BAO/Student.php';
+            $fields['TMF']      =& CRM_TMF_BAO_Student::exportableFields();
+        }
+
         $noSearchable = array();
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
@@ -286,6 +297,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
             $sel1['Participant'] = 'Participants';
+        }
+        
+        if ( CRM_Core_Permission::access( 'TMF' ) ) {
+            $sel1['TMF'] = 'TMF';
         }
         
         if ( ! empty( $contribFields ) ) {

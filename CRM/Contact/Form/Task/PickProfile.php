@@ -117,8 +117,12 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
             break;
         }
         require_once "CRM/Core/BAO/UFGroup.php";
+        if ( CRM_Core_Permission::access( 'TMF' ) ) {
+            $types['TMF'] = 'TMF';            
+        }
+
         $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles($types);
-   
+        
         if( CRM_Core_BAO_UFGroup::getProfiles($types) == null ) {
             CRM_Core_Session::setStatus("The contact type selected for Batch Update do not have corresponding profiles. Please make sure that {$types[0]} has a profile and try again." );
             CRM_Utils_System::redirect( $this->_userContext );
