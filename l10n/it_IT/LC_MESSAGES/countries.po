@@ -9,12 +9,13 @@ msgstr ""
 "Project-Id-Version: iso-codes 0.18\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-03-07 08:29-0500\n"
-"PO-Revision-Date: 2000-01-15 02:44+01:00\n"
-"Last-Translator: Andrea Scialpi <solopec@tiscalinet.it>\n"
+"PO-Revision-Date: 2007-02-06 16:45-0800\n"
+"Last-Translator: Daniele Pedercini <dpedercini@libero.it>\n"
 "Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8 bit\n"
+"X-Generator: Pootle 0.10\n"
 
 # AF
 #. name for AFG
@@ -38,7 +39,7 @@ msgstr "Albania"
 
 #. official_name for ALB
 msgid "Republic of Albania"
-msgstr ""
+msgstr "Repubblica di Albania"
 
 # DZ
 #. name for DZA
@@ -61,7 +62,7 @@ msgstr "Andorra"
 
 #. official_name for AND
 msgid "Principality of Andorra"
-msgstr ""
+msgstr "Principato di Andorra"
 
 # AO
 #. name for AGO
@@ -71,9 +72,8 @@ msgstr "Angola"
 # KR
 # fuzzy
 #. official_name for AGO
-#, fuzzy
 msgid "Republic of Angola"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica di Angola"
 
 # AI
 #. name for AIA
@@ -83,12 +83,12 @@ msgstr "Anguilla"
 # AQ
 #. name for ATA
 msgid "Antarctica"
-msgstr ""
+msgstr "Antartico"
 
 # AG
 #. name for ATG
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "Antigua e Barbuda"
 
 # AR
 #. name for ARG
@@ -97,9 +97,8 @@ msgstr "Argentina"
 
 # DO
 #. official_name for ARG
-#, fuzzy
 msgid "Argentine Republic"
-msgstr "Repubblica Dominicana"
+msgstr "Repubblica Argentina"
 
 # AM
 #. name for ARM
@@ -108,7 +107,7 @@ msgstr "Armenia"
 
 #. official_name for ARM
 msgid "Republic of Armenia"
-msgstr ""
+msgstr "Repubblica Armena"
 
 # AW
 #. name for ABW
@@ -127,7 +126,7 @@ msgstr "Austria"
 
 #. official_name for AUT
 msgid "Republic of Austria"
-msgstr ""
+msgstr "Repubblica Austriaca"
 
 # AZ
 #. name for AZE
@@ -181,7 +180,7 @@ msgstr "Bielorussia"
 
 #. official_name for BLR
 msgid "Republic of Belarus"
-msgstr ""
+msgstr "Repubblica Bielorussa"
 
 # BE
 #. name for BEL
@@ -190,7 +189,7 @@ msgstr "Belgio"
 
 #. official_name for BEL
 msgid "Kingdom of Belgium"
-msgstr ""
+msgstr "Regno del Belgio"
 
 # BZ
 #. name for BLZ
@@ -205,9 +204,8 @@ msgstr "Benin"
 # KR
 # fuzzy
 #. official_name for BEN
-#, fuzzy
 msgid "Republic of Benin"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica del Benin"
 
 # BM
 #. name for BMU
@@ -221,7 +219,7 @@ msgstr "Bhutan"
 
 #. official_name for BTN
 msgid "Kingdom of Bhutan"
-msgstr ""
+msgstr "Regno del Bhutan"
 
 # BO
 #. name for BOL
@@ -258,7 +256,7 @@ msgstr ""
 # fuzzy
 #. name for BVT
 msgid "Bouvet Island"
-msgstr "Isole Faeroe"
+msgstr "Isole Bouvet"
 
 # BR
 #. name for BRA
@@ -267,7 +265,7 @@ msgstr "Brasile"
 
 #. official_name for BRA
 msgid "Federative Republic of Brazil"
-msgstr ""
+msgstr "Repubblica federale del Brasile"
 
 # IO
 #. name for IOT
@@ -309,7 +307,7 @@ msgstr "Cambogia"
 
 #. official_name for KHM
 msgid "Kingdom of Cambodia"
-msgstr ""
+msgstr "Regno di Cambogia"
 
 # CM
 #. name for CMR
@@ -356,9 +354,8 @@ msgstr "Ciad"
 # KR
 # fuzzy
 #. official_name for TCD
-#, fuzzy
 msgid "Republic of Chad"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica del Ciad"
 
 # CL
 #. name for CHL
@@ -408,7 +405,7 @@ msgstr ""
 # KM
 #. name for COM
 msgid "Comoros"
-msgstr "Comoros"
+msgstr "Comore"
 
 #. official_name for COM
 msgid "Union of the Comoros"
@@ -425,7 +422,7 @@ msgstr ""
 
 #. name for ZAR
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "Repubblica democratica del Congo"
 
 # CK
 #. name for COK
@@ -447,7 +444,7 @@ msgstr "Costa Rica"
 
 #. name for CIV
 msgid "Côte d'Ivoire"
-msgstr ""
+msgstr "Costa d'Avorio"
 
 #. official_name for CIV
 msgid "Republic of Cote d'Ivoire"
@@ -482,9 +479,8 @@ msgstr "Cipro"
 # KR
 # fuzzy
 #. official_name for CYP
-#, fuzzy
 msgid "Republic of Cyprus"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica di Cipro"
 
 # CZ
 #. name for CZE
@@ -525,7 +521,7 @@ msgstr "Repubblica Dominicana"
 
 #. name for TLS
 msgid "Timor-Leste"
-msgstr ""
+msgstr "Timor-Est"
 
 #. official_name for TLS
 msgid "Democratic Republic of Timor-Leste"
@@ -688,9 +684,8 @@ msgstr "Germania"
 # KR
 # fuzzy
 #. official_name for DEU
-#, fuzzy
 msgid "Federal Republic of Germany"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica Federale Tedesca"
 
 # GH
 #. name for GHA
@@ -700,9 +695,8 @@ msgstr "Ghana"
 # KR
 # fuzzy
 #. official_name for GHA
-#, fuzzy
 msgid "Republic of Ghana"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica del Ghana"
 
 # GI
 #. name for GIB
@@ -853,9 +847,8 @@ msgstr "India"
 # KR
 # fuzzy
 #. official_name for IND
-#, fuzzy
 msgid "Republic of India"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica Indiana"
 
 # ID
 #. name for IDN
@@ -871,16 +864,14 @@ msgstr "Indonesia"
 # KR
 # fuzzy
 #. name for IRN
-#, fuzzy
 msgid "Iran, Islamic Republic of"
-msgstr "Repubblica Ceca"
+msgstr "Iran, Repubblica Islamica"
 
 # KR
 # fuzzy
 #. official_name for IRN
-#, fuzzy
 msgid "Islamic Republic of Iran"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica Islamica d'Iran"
 
 # IQ
 #. name for IRQ
@@ -906,7 +897,7 @@ msgstr "Israele"
 
 #. official_name for ISR
 msgid "State of Israel"
-msgstr ""
+msgstr "Stato di Israele"
 
 # IT
 #. name for ITA
@@ -915,15 +906,14 @@ msgstr "Italia"
 
 # CF
 #. official_name for ITA
-#, fuzzy
 msgid "Italian Republic"
-msgstr "Repubblica Centraficana"
+msgstr "Repubblica Italiana"
 
 # JM
 # fuzzy
 #. name for JAM
 msgid "Jamaica"
-msgstr "Namibia"
+msgstr "Giamaica"
 
 # JP
 #. name for JPN
@@ -943,14 +933,13 @@ msgstr ""
 # fuzzy
 #. name for KAZ
 msgid "Kazakhstan"
-msgstr "Pakistan"
+msgstr "Kazakistan"
 
 # KZ
 # fuzzy
 #. official_name for KAZ
-#, fuzzy
 msgid "Republic of Kazakhstan"
-msgstr "Pakistan"
+msgstr "Repubblica del Kazakistan"
 
 # KE
 #. name for KEN
@@ -967,7 +956,7 @@ msgstr "Repubblica Ceca"
 # KI
 #. name for KIR
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
 #. official_name for KIR
 msgid "Republic of Kiribati"
@@ -976,17 +965,17 @@ msgstr ""
 # KP
 #. name for PRK
 msgid "Korea, Democratic People's Republic of"
-msgstr ""
+msgstr "Corea, Repubblica Democratica"
 
 #. official_name for PRK
 msgid "Democratic People's Republic of Korea"
-msgstr ""
+msgstr "Repubblica Democratica di Corea"
 
 # KR
 # fuzzy
 #. name for KOR
 msgid "Korea, Republic of"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica di Corea"
 
 # KW
 #. name for KWT
@@ -1001,13 +990,12 @@ msgstr ""
 # fuzzy
 #. name for KGZ
 msgid "Kyrgyzstan"
-msgstr "Pakistan"
+msgstr "Kirghizistan"
 
 # CZ
 #. official_name for KGZ
-#, fuzzy
 msgid "Kyrgyz Republic"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica del Kirghizistan"
 
 #. name for LAO
 msgid "Lao People's Democratic Republic"
@@ -1017,30 +1005,28 @@ msgstr ""
 # fuzzy
 #. name for LVA
 msgid "Latvia"
-msgstr "Croazia"
+msgstr "Latvia"
 
 # KR
 # fuzzy
 #. official_name for LVA
-#, fuzzy
 msgid "Republic of Latvia"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica di Latvia"
 
 # LB
 #. name for LBN
 msgid "Lebanon"
-msgstr ""
+msgstr "Libano"
 
 # CZ
 #. official_name for LBN
-#, fuzzy
 msgid "Lebanese Republic"
-msgstr "Repubblica Ceca"
+msgstr "Repubblica Libanese"
 
 # LS
 #. name for LSO
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesotho"
 
 #. official_name for LSO
 msgid "Kingdom of Lesotho"
@@ -1804,7 +1790,7 @@ msgstr "Svezia"
 
 #. official_name for SWE
 msgid "Kingdom of Sweden"
-msgstr ""
+msgstr "Regno di Svezia"
 
 # CH
 #. name for CHE
@@ -1813,7 +1799,7 @@ msgstr "Svizzera"
 
 #. official_name for CHE
 msgid "Swiss Confederation"
-msgstr ""
+msgstr "Confederazione Svizzera"
 
 # CF
 #. name for SYR
@@ -1867,7 +1853,7 @@ msgstr ""
 # fuzzy
 #. name for TGO
 msgid "Togo"
-msgstr "Congo"
+msgstr "Togo"
 
 # CZ
 #. official_name for TGO
@@ -1973,14 +1959,13 @@ msgstr ""
 # fuzzy
 #. name for USA
 msgid "United States"
-msgstr "Emirati Arabi Uniti"
+msgstr "Stati Uniti"
 
 # US
 # fuzzy
 #. official_name for USA
-#, fuzzy
 msgid "United States of America"
-msgstr "Emirati Arabi Uniti"
+msgstr "Stati Uniti d'America"
 
 # UM
 #. name for UMI

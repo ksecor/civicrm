@@ -160,7 +160,7 @@
 </div>
 
 {foreach from=$allTabs key=tabName item=tabValue}
-  <div id="{$tabValue.id}" dojoType="ContentPane" href="{$tabValue.url}" label="{$tabName}" style="display: none; overflow: auto; width: 100%; height: 100%;" adjustPaths="false" executeScripts="true"></div>
+  <div id="{$tabValue.id}" dojoType="ContentPane" href="{$tabValue.url}" label="{$tabValue.title}" style="display: none; overflow: auto; width: 100%; height: 100%;" adjustPaths="false" executeScripts="true"></div>
 {/foreach}
 </div>
 

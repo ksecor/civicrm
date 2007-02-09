@@ -96,7 +96,7 @@ class CRM_Utils_Hook {
      * @param string $objectName the name of the object
      * @param int    $objectId   the unique identifier for the object 
      *
-     * @return array|null        an array of arrays, each element is a tuple consisting of url, img, title
+     * @return array|null        an array of arrays, each element is a tuple consisting of id, url, img, title, weight
      *
      * @access public
      */
