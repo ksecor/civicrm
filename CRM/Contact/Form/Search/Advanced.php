@@ -91,6 +91,11 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $paneNames[ts('Task' )] = 'task';                
         }
 
+        if ( CRM_Core_Permission::access( 'TMF' ) ) {
+            $paneNames[ts('TMF')] = 'TMF';
+            $paneNames[ts('Task' )] = 'task';                
+        }
+
         foreach ( $paneNames as $name => $type ) {
             $allPanes[$name] = array( 'url' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
                                                                       "snippet=1&formType=$type" ),

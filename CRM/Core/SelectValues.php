@@ -567,7 +567,8 @@ class CRM_Core_SelectValues
                                 'CiviMail'        => ts('CiviMail'),
                                 'CiviMember'      => ts('CiviMember'),
                                 'CiviEvent'       => ts('CiviEvent'),
-                                'Quest'           => ts('Quest')
+                                'Quest'           => ts('Quest'),
+                                'TMF'             => ts('TMF')
                                 );
         }
         return $components;

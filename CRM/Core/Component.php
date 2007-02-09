@@ -111,7 +111,7 @@ class CRM_Core_Component
                                            'edit TMF Nomination',
                                            'view TMF Nomination',
                                            ),
-                       'search'  => 0,
+                       'search'  => 1,
                        'metaTpl' => 'quest',
                        'formTpl' => 'quest' 
                        );

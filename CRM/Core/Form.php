@@ -672,6 +672,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
 
     function addSelect( $name, $label, $prefix = null, $required = null, $extra = null, $select = '- select -' ) {
+        require_once "CRM/Core/OptionGroup.php";
         if ($prefix) {
             $this->addElement('select', $name . '_id' . $prefix , $label,
                               array('' => $select ) + CRM_Core_OptionGroup::values($name), $extra );
