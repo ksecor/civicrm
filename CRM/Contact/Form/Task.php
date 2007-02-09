@@ -89,13 +89,25 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
         if (($values['radio_ts'] == 'ts_all') || ($this->_task == CRM_Contact_Task::SAVE_SEARCH)) {
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
-            $contact =& new CRM_Contact_BAO_Contact();
+            $sortID = null;
+            if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
+                $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                       $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+            }
+
+            $selector  =& new CRM_Contact_Selector( );
+            $sortOrder =& $selector->getSortOrder( $this->_action );
+            $sort      =& new CRM_Utils_Sort( $sortOrder, $sortID );
+
             $params  =  $this->get( 'queryParams' );
             $query   =& new CRM_Contact_BAO_Query( $params );
-            $ids = $query->searchQuery( 0, 0, null,
+
+            $dao = $query->searchQuery( 0, 0, $sort,
                                         false, false, false,
-                                        true, false );
-            $this->_contactIds = explode( ',', $ids );
+                                        false, false );
+            while ( $dao->fetch( ) ) {
+                $this->_contactIds[] = $dao->contact_id;
+            }
         } else if($values['radio_ts'] == 'ts_sel') {
             // selected contacts only
             // need to perform action on only selected contacts

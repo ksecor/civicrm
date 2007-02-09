@@ -22,7 +22,7 @@
                 {$form.postal_code_high.html|crmReplace:class:six}
             </td>
         </tr>
-		<tr>
+	<tr>
             <td class="label">{$form.location_type.label}</td>
             <td>{$form.location_type.html} 
                 <div class="description">
@@ -30,6 +30,10 @@
                 </div> 
             </td>
             <td class="label">{$form.location_name.label}</td><td>{$form.location_name.html|crmReplace:class:medium}</td>
+        </tr>
+	<tr>
+            <td class="label">{$form.county.label}</td>
+            <td>{$form.county.html|crmReplace:class:big}</td>
         </tr>
     </table>
 </fieldset>

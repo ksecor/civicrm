@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -125,6 +125,7 @@ class CRM_Project_BAO_TaskStatus {
     static function updateTaskStatusWithValue( &$form,
                                                $value  = 'In Progress',
                                                $prefix = 'taskStatus' ) {
+
         // update the task record
         require_once 'CRM/Project/DAO/TaskStatus.php';
         $dao =& new CRM_Project_DAO_TaskStatus( );
@@ -141,6 +142,18 @@ class CRM_Project_BAO_TaskStatus {
         $dao->modified_date = date( 'YmdHis' );
         
         $dao->save( );
+
+	// update student's applicant_status_id
+	if($value = 'Completed') {
+	  $status =& CRM_Core_OptionGroup::values( 'task_status', true );
+ 	    require_once 'CRM/TMF/DAO/Student.php';
+ 	    $studentDAO =& new CRM_TMF_DAO_Student();
+	    $studentDAO->id = $form->get("contactID");
+ 	    if ( $studentDAO->id || $studentDAO->find( true ) ) {
+	      $studentDAO->applicant_status_id = $status['Completed'] ; 
+	      $studentDAO->save();
+	    }
+	}
     }
 
     /**

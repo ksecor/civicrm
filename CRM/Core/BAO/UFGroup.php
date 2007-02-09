@@ -1327,14 +1327,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $form->add('select', $name, ts( 'Participant Role' ),
                        array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantRole( ), $required);
         } else if ($fieldName == 'scholarship_type_id' ) {
-            $scholarshipType = CRM_Core_OptionGroup::values( 'scholarship_type', true );
-            foreach ( $scholarshipType as $key => $var ) {
-                if ( $key == '' ) {
-                    continue;
-                }
-                $sType[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
-            }
-            $form->addGroup($sType, $name, $title, '<br/>' );
+            $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'scholarship_type', true ) ) );
         } else if ($fieldName == 'applicant_status_id' ) {  
             $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'applicant_status', true ) ) );
         } else if ($fieldName == 'highschool_gpa_id' ) {
@@ -1342,6 +1335,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         } else if ($fieldName == 'interview_rank' ) {
             require_once "CRM/TMF/BAO/Query.php";
             $ranking = array( );
+            require_once "CRM/TMF/BAO/Query.php";
             $ranking = CRM_TMF_BAO_Query::buildNumberSelect(20);
             $form->add('select', $name, $title, array("" => "-- Select -- ")+ $ranking );
         } else {
@@ -1358,7 +1352,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 }
             }
         }
-
+        
         if ($view && $mode != CRM_Profile_Form::MODE_SEARCH) {
             $form->freeze($name);
         }

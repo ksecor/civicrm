@@ -71,7 +71,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
      *
      */
     function preProcess()
-    {      
+    {     
         require_once 'CRM/Core/BAO/UFGroup.php';
         $flag = false;
         $field = CRM_Utils_Request::retrieve('field', 'Boolean',
@@ -154,8 +154,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         
         $readers = array('cmr_first_generation_id', 'cmr_income_increase_id', 'cmr_need_id', 'cmr_grade_id', 'cmr_class_id', 'cmr_score_id', 'cmr_academic_id', 'cmr_disposition_id');
         
+        $student = array('scholarship_type_id', 'highschool_gpa_id', 'household_income_efc', 'applicant_status_id', 'reader_score_avg', 'interview_rank' );
         // add the form elements
         require_once "CRM/Contribute/PseudoConstant.php";
+        require_once 'CRM/Core/OptionGroup.php';
         foreach ($this->_fields as $name => $field ) {
             $required = $field['is_required'];
 
@@ -233,10 +235,21 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                         $readerGroup = $readerGroup . '_' . $readerParts[$i];
                     }
                 }
-                require_once 'CRM/Core/OptionGroup.php';
+                
                 $this->add('select', $field['name'], $field['title'],
                            array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($readerGroup), $required);
-            } else {
+            } else if ($field['name'] == 'scholarship_type_id' ) {
+                $this->add('select', $field['name'], $field['title'], array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'scholarship_type', true ) ) );
+            } else if ($field['name'] == 'applicant_status_id' ) {
+                $this->add('select', $field['name'], $field['title'], array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'applicant_status', true ) ) );
+            } else if ($field['name'] == 'highschool_gpa_id' ) {
+                $this->add('select', $name, $field['title'], array( "" => "-- Select -- ") + CRM_Core_OptionGroup::values( 'highschool_gpa' ) );
+            } else if ($field['name'] == 'interview_rank' ) {
+                require_once "CRM/TMF/BAO/Query.php";
+                $ranking = array( );
+                $ranking = CRM_TMF_BAO_Query::buildNumberSelect(20);
+                $this->add('select', $name, $field['title'], array("" => "-- Select -- ")+ $ranking );
+            }else {
                 if (in_array($field['name'], $scoreAttribs) && (! $field['attributes'])) {
                     $field['attributes'] = array('maxlength' => 8, 'size' => 4);
                 }

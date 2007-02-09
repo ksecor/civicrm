@@ -148,7 +148,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues, &$params, &$returnProperties, $action = CRM_Core_Action::NONE) 
+    function __construct(&$formValues = null, &$params = null, &$returnProperties = null, $action = CRM_Core_Action::NONE) 
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact =& new CRM_Contact_BAO_Contact();

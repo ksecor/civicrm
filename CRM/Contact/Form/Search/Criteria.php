@@ -111,6 +111,12 @@ class CRM_Contact_Form_Search_Criteria {
         $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( );
         $form->addElement('select', 'country', ts('Country'), $country);
 
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->includeCounty ) {
+            // select for county
+            $county = array('' => ts('- any county -')) + CRM_Core_PseudoConstant::county( );
+            $form->addElement('select', 'county', ts('County'), $county);
+        }
         // add text box for postal code
         $form->addElement('text', 'postal_code', ts('Postal Code'),
                           $attributes['postal_code'] );

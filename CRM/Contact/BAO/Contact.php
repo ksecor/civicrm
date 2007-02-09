@@ -549,7 +549,7 @@ ORDER BY
      */
     static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true, $invokeHooks = true ) 
     {
-        if (!$params['contact_type']) {
+        if (!$params['contact_type'] ) {
             return;
         }
 
@@ -1252,7 +1252,15 @@ WHERE civicrm_contact.id IN $idString ";
                 CRM_Quest_BAO_Student::deleteStudent($id);
             }
         }
-       
+
+	//delete TMF student Record
+	if ( CRM_Core_Permission::access( 'TMF' ) ) {
+	  if ( $contact->contact_sub_type == 'Student' ) {
+                require_once 'CRM/TMF/BAO/Student.php';
+		CRM_TMF_BAO_Student::deleteStudent($id);
+            }
+        }
+             
         require_once 'CRM/Core/DAO/Log.php';
         $logDAO =& new CRM_Core_DAO_Log(); 
         $logDAO->modified_id = $id;
@@ -2122,6 +2130,7 @@ WHERE civicrm_contact.id IN $idString ";
         }
 
         $studentFieldPresent = 0;
+        $TMFFieldPresent     = 0;
         // fix all the custom field checkboxes which are empty
         foreach ($fields as $name => $field ) {
             if ( CRM_Core_Permission::access( 'Quest' ) ) {
@@ -2131,7 +2140,16 @@ WHERE civicrm_contact.id IN $idString ";
                    $studentFieldPresent = 1;
                 }
             }
-            
+
+            if ( CRM_Core_Permission::access( 'TMF' ) ) {
+                // check if student fields present
+                require_once 'CRM/TMF/BAO/Student.php';
+                if ( (!$TMFFieldPresent) && array_key_exists($name, CRM_TMF_BAO_Student::exportableFields()) ) {
+                   $TMFFieldPresent = 1;
+                   unset($data['contact_type']);
+                }
+            }
+           
             $cfID = CRM_Core_BAO_CustomField::getKeyID($name);
             // if there is a custom field of type checkbox,multi-select and it has not been set
             // then set it to null, thanx to html protocol
@@ -2154,7 +2172,7 @@ WHERE civicrm_contact.id IN $idString ";
                                                ); 
             }
         }
-        
+       
         if ($contactID) {
             $objects = array( 'contact_id'      => 'contact',
                               'individual_id'   => 'individual',
@@ -2298,13 +2316,25 @@ WHERE civicrm_contact.id IN $idString ";
             CRM_Quest_BAO_Student::create( $params, $ids);
             CRM_Quest_BAO_Student::createStudentSummary($params, $ssids);
         }
+
+        //to update student record
+        if ( CRM_Core_Permission::access( 'TMF' ) && $TMFFieldPresent ) {
+            $ids = array();
+            $dao = & new CRM_TMF_DAO_Student();
+            $dao->contact_id = $contactID;
+            if ($dao->find(true)) {
+                $ids['id'] = $dao->id;
+            }
+            
+            $params['contact_id'] = $contactID;
+            CRM_TMF_BAO_Student::create( $params, $ids);
+        }
         
         if ( $editHook ) {
             CRM_Utils_Hook::post( 'edit'  , 'Profile', $contactID  , $params );
         } else {
             CRM_Utils_Hook::post( 'create', 'Profile', $contactID, $params ); 
         }
-        
         return $contactID;
     }
 
