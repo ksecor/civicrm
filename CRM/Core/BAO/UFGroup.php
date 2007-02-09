@@ -1340,7 +1340,8 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         } else if ($fieldName == 'highschool_gpa_id' ) {
             $form->add('select', $name, $title, array( "" => "-- Select -- ") + CRM_Core_OptionGroup::values( 'highschool_gpa' ) );
         } else if ($fieldName == 'interview_rank' ) {
-            $ranking = array();
+            require_once "CRM/TMF/BAO/Query.php";
+            $ranking = array( );
             $ranking = CRM_TMF_BAO_Query::buildNumberSelect(20);
             $form->add('select', $name, $title, array("" => "-- Select -- ")+ $ranking );
         } else {

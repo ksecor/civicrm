@@ -481,6 +481,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
 
+        //add tmf fields
+        if ( CRM_Core_Permission::access( 'TMF' ) ) {
+            require_once 'CRM/Quest/BAO/Query.php';
+            $tmfFields = array( );
+            $tmfFields = CRM_TMF_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_TMF );
+        }
+
         require_once 'CRM/Core/OptionGroup.php';
         $links =& self::links( );
 
@@ -499,6 +506,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                              array_key_exists($property, $multipleSelectFields ) ) { //fix to display student checkboxes
                     $key = $property;
                     $paramsNew = array($key => $result->$property );
+
                     if ( $key == 'test_tutoring') {
                         $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
                     }  else if (substr( $key, 0, 4) == 'cmr_') { //for  readers group
@@ -508,6 +516,16 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                     $row[$key] = $paramsNew[$key]; 
+                } else if ( $tmfFields && array_key_exists($property, $tmfFields )){ 
+                    if ( substr($property, -3) == '_id') {
+                        $key = substr($property, 0, -3);
+                        $paramsNew = array($key => $result->$property );
+                        $name = array( $key => array('newName' => $key ,'groupName' => $key ));
+                        CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
+                        $row[$key] = $paramsNew[$key]; 
+                    } else {
+                        $row[$property] = $result->$property;
+                    }
                 } else {
                     $row[$property] = $result->$property;
                 }
