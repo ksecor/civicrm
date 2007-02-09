@@ -862,7 +862,8 @@ class CRM_Contact_BAO_Query {
              ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ||
              ( substr( $values[0], 0, 13 ) == 'contribution_' ) ||
              ( substr( $values[0], 0, 6  ) == 'event_' ) ||
-             ( substr( $values[0], 0, 6  ) == 'quest_' ) ) {
+             ( substr( $values[0], 0, 6  ) == 'quest_' ) ||
+             ( substr( $values[0], 0, 4  ) == 'tmf_' )) {
             return;
         }
 
@@ -2694,7 +2695,7 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
     }
 
     function numberRangeBuilder( &$values,
-                                 $tableName, $fieldName, $dbFieldName, $fieldTitle ) {
+                                 $tableName, $fieldName, $dbFieldName, $fieldTitle, $options = null ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         if ( $name == $fieldName . '_low' ) {
@@ -2712,7 +2713,11 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
 
         $this->_where[$grouping][] = "{$tableName}.{$dbFieldName} $op {$value}";
         $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
-        $this->_qill[$grouping][]  = "$fieldTitle - $phrase \"$value\"";
+        if ( !$options ) { 
+            $this->_qill[$grouping][]  = "$fieldTitle - $phrase \"$value\"";
+        } else {
+            $this->_qill[$grouping][]  = "$fieldTitle - $phrase \"$options[$value]\"";
+        }
     }
 
 }

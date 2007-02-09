@@ -614,7 +614,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
     }
 
-    function addCheckBox( $id, $title, $values, $other, $attributes ,$required = null, $javascriptMethod = null) {
+    function addCheckBox( $id, $title, $values, $other = null, $attributes = null ,$required = null, $javascriptMethod = null) {
         $options = array( );
 
         if ($javascriptMethod) {
