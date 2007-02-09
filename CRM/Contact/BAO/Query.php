@@ -1361,6 +1361,7 @@ class CRM_Contact_BAO_Query {
         }
        
         // to handle table dependencies of components
+        require_once 'CRM/Core/Component.php';
         CRM_Core_Component::tableNames( $tables );
 
         //format the table list according to the weight
