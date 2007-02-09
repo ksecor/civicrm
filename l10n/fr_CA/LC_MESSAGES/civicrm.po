@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-29 09:54+0100\n"
-"PO-Revision-Date: 2007-02-01 10:35-0800\n"
+"PO-Revision-Date: 2007-02-07 08:27-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1108,7 +1108,7 @@ msgstr "Confidentialité"
 
 #: CRM/Contact/Form/Email.php CRM/Core/DAO/Email.php
 msgid "On Hold"
-msgstr ""
+msgstr "Problème technique"
 
 #: CRM/Contact/Form/GroupTag.php CRM/Contact/Form/Task/Email.php
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Core/BAO/CustomField.php
@@ -3619,31 +3619,27 @@ msgstr ""
 
 #: CRM/ACL/Form/EntityRole.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr ""
+msgstr "Assigné à"
 
 #: CRM/ACL/Page/ACL.php
 msgid "Are you sure you want to disable this ACL?"
 msgstr "Souhaitez-vous vraiment désactiver ce groupe?"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Edit ACL"
-msgstr "Modifier"
+msgstr "Modifier cet ACL"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Disable ACL"
-msgstr "Désactiver"
+msgstr "Désactiver cet ACL"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Enable ACL"
-msgstr "Activer"
+msgstr "Activer cet ACL"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Delete ACL"
-msgstr "Supprimer"
+msgstr "Supprimer cet ACL"
 
 #: CRM/ACL/Page/ACL.php
 msgid "All Roles"
@@ -4719,7 +4715,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Save Relationship"
-msgstr ""
+msgstr "Enregistrer la relation"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "%count new relationship record created."
@@ -4756,7 +4752,6 @@ msgid "The relationship end date cannot be prior to the start date."
 msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php
-#, fuzzy
 msgid "Address Fields"
 msgstr "Adresse"
 
@@ -7516,7 +7511,7 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Checkbox(es)"
-msgstr ""
+msgstr "Boîte(s) à cocher"
 
 #: CRM/Core/SelectValues.php
 msgid "Date selector"
@@ -11852,7 +11847,7 @@ msgid ""
 "\">Affero General Public License (AGPL)</a>. <a href=\"%3\">Download source</"
 "a>. <a href=\"%4\">View issues and report bugs</a>. <a href=\"%5\">Online "
 "documentation</a>."
-msgstr "Le logiciel CiviCRM est librement disponible sous les termes de la <a href=\"%1\">Affero General Public License (AGPL)</a>. <a href=\"%3\">Télécharger le code source</a>. <a href=\"%4\">Consulter la liste de requêtes ou soumettre un bogue</a>. <a href=\"%5\">Documentation en-ligne</a>.Le code source peut être téléchargé à partir de notre <a href=\"%2\">site de téléchargements</a>."
+msgstr "Le logiciel CiviCRM est librement disponible sous les termes de la <a href=\"%1\">Affero General Public License (AGPL)</a>. <br/><a href=\"%3\">Télécharger le code source</a>. <a href=\"%4\">Consulter la liste de requêtes ou soumettre un bogue</a>. <a href=\"%5\">Documentation en-ligne</a>. "
 
 #: templates/CRM/common/pager.tpl
 msgid "Rows per page:"

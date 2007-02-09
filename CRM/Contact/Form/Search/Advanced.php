@@ -190,6 +190,17 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $this->_formValues['group'] = array( $this->_groupID => 1 );
         }
       
+        // we dont want to store the sortByCharacter in the formValue, it is more like 
+        // a filter on the result set
+        // this filter is reset if we click on the search button
+        if ( $this->_sortByCharacter && empty( $_POST ) ) {
+            if ( $this->_sortByCharacter == 1 ) {
+                $this->_formValues['sortByCharacter'] = null;
+            } else {
+                $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
+            }
+        }
+
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
         $this->_returnProperties =& $this->returnProperties( );

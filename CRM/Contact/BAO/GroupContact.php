@@ -462,6 +462,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                                0, 0 );
         }
 
+        require_once 'CRM/Core/BAO/Email.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
         $tables = array(
             self::getTableName() => true,
             CRM_Core_BAO_Email::getTableName() => true,

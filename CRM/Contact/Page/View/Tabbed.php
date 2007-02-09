@@ -143,22 +143,29 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $this->assign_by_ref( 'lastModified', $lastModified );
         
         $allTabs  = array( );
-
+        $weight = 10;
+        
         // get the contributions, new style of doing stuff
         // do the below only if the person has access to contributions
         $config =& CRM_Core_Config::singleton( );
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-            $allTabs[ts('Contributions')] = array ( 'id'  => 'contribute',
-                                                    'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/contribution',
-                                                                                     "reset=1&force=1&snippet=1&cid={$this->_contactId}" ) );
+            $allTabs[ts('Contributions')] = array ( 'id'     => 'contribute',
+                                                    'url'    =>  CRM_Utils_System::url( 'civicrm/contact/view/contribution',
+                                                                                     "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
+                                                    'title'  => ts('Contributions'),
+                                                    'weight' => $weight );
+            $weight += 10;
         }
 
         // get the memberships, new style of doing stuff
         // do the below only if the person has access to memberships
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-            $allTabs[ts('Memberships')] = array ( 'id'  => 'member',
-                                                  'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/membership',
-                                                                                   "reset=1&force=1&snippet=1&cid={$this->_contactId}" ) );
+            $allTabs[] = array ( 'id'  => 'member',
+                                 'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/membership',
+                                                                  "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
+                                 'title'  => ts('Memberships'),
+                                 'weight' => $weight );
+            $weight += 10;
         }
 
         // get the events, new style of doing stuff
@@ -179,13 +186,19 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         foreach ( $rest as $k => $v ) {
             if ( $k == 'activity' ) {
                 $history = array_key_exists( 'history', $_GET ) ? $_GET['history'] : 0;
-                $allTabs[$v] = array( 'id'  => $k,
-                                      'url' => CRM_Utils_System::url( "civicrm/contact/view/$k",
-                                                                      "reset=1&show=1&snippet=1&history={$history}&cid={$this->_contactId}" ) );
+                $allTabs[] = array( 'id'     => $k,
+                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$k",
+                                                                      "reset=1&show=1&snippet=1&history={$history}&cid={$this->_contactId}" ),
+                                    'title'  => $v,
+                                    'weight' => $weight );
+                $weight += 10;
             } else {
-                $allTabs[$v] = array( 'id' =>  $k,
-                                      'url' => CRM_Utils_System::url( "civicrm/contact/view/$k",
-                                                                      "reset=1&snippet=1&cid={$this->_contactId}" ) );
+                $allTabs[] = array( 'id'     =>  $k,
+                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$k",
+                                                                      "reset=1&snippet=1&cid={$this->_contactId}" ),
+                                    'title'  => $v,
+                                    'weight' => $weight );
+                $weight += 10;
             }
         }
 
@@ -197,19 +210,35 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                                                                     
         foreach ( $activeGroups as $group ) {
             $id = "custom_{$group['id']}";
-            $allTabs[$group['title']] = array( 'id'  => $id,
-                                               'url' => CRM_Utils_System::url( $group['path'], $group['query'] . "&snippet=1&selectedChild=$id") );
+            $allTabs[] = array( 'id'     => $id,
+                                'url'    => CRM_Utils_System::url( $group['path'], $group['query'] . "&snippet=1&selectedChild=$id"),
+                                'title'  => $group['title'],
+                                'weight' => $weight );
+            $weight += 10;
         }
+
+        // see if any other modules want to add any tabs
+        require_once 'CRM/Utils/Hook.php';
+        $hookTabs = CRM_Utils_Hook::links( 'tabs.contact.activity', 'Contact', $this->_contactId );
+        if ( $hookTabs ) {
+            $allTabs = array_merge( $allTabs, $hookTabs );
+        }
+
+        // now sort the tabs based on weight
+        usort( $allTabs, array( 'CRM_Contact_Page_View_Tabbed', 'cmpFunc' ) );
 
         $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.TabContainer');dojo.require('dojo.widget.ContentPane');dojo.require('dojo.widget.LinkPane');" );
 
         $this->assign( 'allTabs'     , $allTabs     );
-        
+     
         $selectedChild = CRM_Utils_Request::retrieve( 'selectedChild', 'String', $this, false, 'summary' );
         $this->assign( 'selectedChild', $selectedChild );
         
     }
 
+    static function cmpFunc( $a, $b ) {
+        return ( $a['weight'] <= $b['weight'] ) ? -1 : 1;
+    }
 
     /**
      * Show hide blocks based on default values.
