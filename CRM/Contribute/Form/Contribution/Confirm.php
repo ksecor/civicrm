@@ -667,8 +667,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $params = $this->controller->exportValues( 'Main' );
         
         // return if we dont have enough information
-        if ( ( empty( $params["honor_first_name"] ) && empty( $params["honor_last_name"] ) ) ||
-             ( empty( $params["honor_email"] ) ) ) {
+        if ( empty( $params["honor_first_name"] ) &&
+             empty( $params["honor_last_name" ] ) &&
+             empty( $params["honor_email"] ) ) {
             return null;
         }
         
