@@ -135,7 +135,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $params = $this->_params;
      
         $honor_block_is_active = $this->get( 'honor_block_is_active');
-        if ( $honor_block_is_active )  {
+        // make sure we have values for it
+        if ( $honor_block_is_active &&
+             ( ( ! empty( $params["honor_first_name"] ) && ! empty( $params["honor_last_name"] ) ) ||
+               ( ! empty( $params["honor_email"] ) ) ) ) {
             $this->assign('honor_block_is_active', $honor_block_is_active );
             $this->assign("honor_block_title",$this->_values['honor_block_title']);
           
@@ -145,7 +148,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->assign("honor_first_name",$params["honor_first_name"]);
             $this->assign("honor_last_name",$params["honor_last_name"]);
             $this->assign("honor_email",$params["honor_email"]);
-        
         }
 
         $amount_block_is_active = $this->get( 'amount_block_is_active');
@@ -663,6 +665,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      */
     function createHonorContact(  ) {
         $params = $this->controller->exportValues( 'Main' );
+        
+        // return if we dont have enough information
+        if ( ( empty( $params["honor_first_name"] ) && empty( $params["honor_last_name"] ) ) ||
+             ( empty( $params["honor_email"] ) ) ) {
+            return null;
+        }
+        
         $honorParams = array();
         $honorParams["prefix_id"]    = $params["honor_prefix_id"];
         $honorParams["first_name"]   = $params["honor_first_name"];
