@@ -208,7 +208,7 @@ class CRM_Contribute_Payment_PayPalIPN {
 
         if ( ! empty( $params ) ) {
             // update contact record
-            $idParams = array( 'id' => $contactID, 'contact_id' => $contactID );
+            $idParams = array( 'id' => $contactID, 'contact' => $contactID );
             require_once "CRM/Contact/BAO/Contact.php";
             $contact = CRM_Contact_BAO_Contact::createFlat($params, $idParams );
         }
