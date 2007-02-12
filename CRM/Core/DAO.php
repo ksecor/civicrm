@@ -732,7 +732,6 @@ class CRM_Core_DAO extends DB_DataObject {
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object   =& new ' . $daoName . '( );' );
-               
         if ( ! $newData ) {
             $object->id =  $criteria['id'];     
         } else {
@@ -764,6 +763,9 @@ class CRM_Core_DAO extends DB_DataObject {
                     $newObject->$dbName = $fieldsToPrefix[$dbName] . $object->$dbName;
                 } else {
                     $newObject->$dbName = $object->$dbName;
+                }
+                if( substr($name , -5) == '_date') {
+                    $newObject->$dbName = CRM_Utils_Date::isoToMysql($object->$dbName);
                 }
             }
             $newObject->save( );        

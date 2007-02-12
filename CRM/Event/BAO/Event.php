@@ -449,16 +449,21 @@ WHERE civicrm_event.id = $id ";
     static function copy( $id )
     {
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
-        $copyEvent =& CRM_Core_DAO::copy( 'CRM_Event_DAO_Event', $id, $fieldsToPrefix );
-        self::copyObjects( 'CRM_Event_DAO_EventPage', $id ,$copyEvent->id, 'event_id');
-        self::copyObjects( 'CRM_Core_DAO_CustomOption', $id, $copyEvent->id, 'entity_id');
-        self::copyObjects( 'CRM_Core_DAO_UFJoin', $id, $copyEvent->id, 'entity_id');
+                
+        $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', array( 'id' => $id ), null, $fieldsToPrefix );
+        $copyEventPage  =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_EventPage', 
+                                                      array( 'event_id'    => $id),
+                                                      array( 'event_id'    => $copyEvent->id ));
+        $copyCustom     =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_CustomOption',  
+                                                      array( 'entity_id'    => $id,
+                                                             'entity_table' => 'civicrm_event'),
+                                                      array( 'entity_id'    => $copyEvent->id ));
+        $copyUF         =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin',
+                                                      array( 'entity_id'    => $id,
+                                                             'entity_table' => 'civicrm_event'),
+                                                      array( 'entity_id'    => $copyEvent->id ));
 
-        $entityFields = array();
-        $entityFields['entity_table'] = 'civicrm_event';
-        $entityFields['entity_id']    = $id;
-
-        
+             
         require_once 'CRM/Core/BAO/Location.php';
         require_once 'CRM/Event/Form/ManageEvent/Location.php';
         $params  = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
@@ -483,36 +488,5 @@ WHERE civicrm_event.id = $id ";
         CRM_Core_BAO_Location::add( $values, $ids, 1, false );
     }
 
-    /**
-     * This function is to make a shallow copy of an object
-     * and all the fields in the object
-     * @param $daoName     DAO name in which to copy
-     * @param $oldId       id on the basis we need to copy     
-     * @param $newId       id in which to copy  
-     *
-     * @return $ids        array of ids copied from and copied to the particular table 
-     * @access public
-     */
-    static function &copyObjects( $daoName, &$oldId, &$newId,$tableField ) 
-    {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-        eval( '$object   =& new ' . $daoName . '( );' );
-        if ( $tableField == 'entity_id' ) {
-            $object->entity_table = 'civicrm_event';
-        }
-        $object->$tableField =  $oldId;
-        $object->find( );
-        
-        $ids = array( );
-        while( $object->fetch( ) ) {
-            $ids[] = $object->id;
-            $object->$tableField  = $newId;
-            $object->id     = null;
-            $object->save( );
-        }
-        
-        $ids[] = $object->id;
-        return $ids;
-    }       
 }
 ?>
