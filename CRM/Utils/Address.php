@@ -37,7 +37,8 @@
 /**
  * Address utilties
  */
-class CRM_Utils_Address {
+class CRM_Utils_Address 
+{
 
     /**
      * format an address string from address fields and a format string
@@ -91,6 +92,7 @@ class CRM_Utils_Address {
         }
         
         if ( !$individualFormat ) {  
+            require_once "CRM/Contact/BAO/Contact.php"; 
             $type = CRM_Contact_BAO_Contact::getContactType($fields['id']);
 
             if ( $type == 'Individual' ) {
