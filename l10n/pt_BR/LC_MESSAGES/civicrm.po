@@ -10,13 +10,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-21 19:06+0100\n"
+"POT-Creation-Date: 2007-01-29 09:54+0100\n"
 "PO-Revision-Date: 2007-01-25 21:12-0200\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: Portuguese/Brazil\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Mailing/Selector/Event.php
@@ -1105,16 +1105,23 @@ msgstr "%1 é campo obrigatório."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
 "Duplicate Contact button below."
+msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Duplicate Contact button below."
-msgstr ""
-"Um contato equivalente foi encontrado. Você pode editá-lo aqui: %1, ou clicar"
-"abaixo no botão Salvar Contato Duplicado."
-"%count contatos equivalentes foram encontrados. Você pode editá-los aqui: %1,"
-" ou clicar abaixo no botão Salvar Contato Duplicado."
+msgstr[0] ""
+"Um contato equivalente foi encontrado. Você pode editá-lo aqui: %1, ou "
+"clicarabaixo no botão Salvar Contato Duplicado.%count contatos equivalentes "
+"foram encontrados. Você pode editá-los aqui: %1, ou clicar abaixo no botão "
+"Salvar Contato Duplicado."
+msgstr[1] ""
+"Um contato equivalente foi encontrado. Você pode editá-lo aqui: %1, ou "
+"clicarabaixo no botão Salvar Contato Duplicado.%count contatos equivalentes "
+"foram encontrados. Você pode editá-los aqui: %1, ou clicar abaixo no botão "
+"Salvar Contato Duplicado."
 
 #: CRM/Contact/Form/Individual.php CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Contribute/Form/Contribution.php
@@ -1361,8 +1368,8 @@ msgstr ""
 msgid ""
 "Relationship record(s) not created - duplicate of existing relationship: %1."
 msgstr ""
-"Registros de relacionamento não foram criados - duplicação de um relacionamento "
-"existente: %1"
+"Registros de relacionamento não foram criados - duplicação de um "
+"relacionamento existente: %1"
 
 #: CRM/Contact/Form/Task/Delete.php CRM/Contact/Task.php
 msgid "Delete Contacts"
@@ -3688,6 +3695,7 @@ msgstr "<< Desativar"
 msgid "Settings - Date Formatting"
 msgstr "Definições - Formatação de Data"
 
+#: CRM/Admin/Form/Setting/Date.php
 msgid "Complete Date and Time"
 msgstr "Data e Hora Completas"
 
@@ -3928,7 +3936,8 @@ msgid ""
 "Are you sure you want to delete this mapping? This operation can not be "
 "undone"
 msgstr ""
-"Quer mesmo excluir esse mapeamento? A operação de exclusão não pode ser desfeita."
+"Quer mesmo excluir esse mapeamento? A operação de exclusão não pode ser "
+"desfeita."
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
 msgid "Edit Mapping"
@@ -4520,28 +4529,37 @@ msgid "Save Relationship"
 msgstr "Salvar Relacionamento"
 
 #: CRM/Contact/Form/Relationship.php
+#, fuzzy
 msgid "%count new relationship record created."
-msgstr "Criado %count novo registro de relacionamento."
+msgid_plural "%count new relationship records created."
+msgstr[0] "Criado %count novo registro de relacionamento."
+msgstr[1] "Criado %count novo registro de relacionamento."
 
 #: CRM/Contact/Form/Relationship.php
+#, fuzzy
 msgid ""
 "%count relationship record not created due to invalid target contact type."
+msgid_plural ""
 "%count relationship records not created due to invalid target contact type."
-msgstr ""
-"Registro(s) de relacionamento não criado devido ao tipo de contato destino "
-"inválido: %1"
-"Registro(s) de relacionamento não criados devido ao tipo de contato destino "
-"inválido: %1"
+msgstr[0] ""
+"Registros de relacionamento não foram criados porque é inválido o tipo de "
+"contato: %1"
+msgstr[1] ""
+"Registros de relacionamento não foram criados porque é inválido o tipo de "
+"contato: %1"
 
 #: CRM/Contact/Form/Relationship.php
+#, fuzzy
 msgid ""
 "%count relationship record not created - duplicate of existing relationship."
+msgid_plural ""
 "%count relationship records not created - duplicate of existing relationship."
-msgstr ""
-"Registro(s) de relacionamento não criado - duplicata de um relacionamento "
-"existente: %1"
-"Registro(s) de relacionamento não criados - duplicata de um relacionamento "
-"existente: %1"
+msgstr[0] ""
+"Registros de relacionamento não foram criados - duplicação de um "
+"relacionamento existente: %1"
+msgstr[1] ""
+"Registros de relacionamento não foram criados - duplicação de um "
+"relacionamento existente: %1"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Relationship record has been updated."
@@ -5716,8 +5734,8 @@ msgid ""
 "A valid Receipt From Email address must be specified if Email Receipt to "
 "Contributor is enabled"
 msgstr ""
-"Uma mensagem de Recebimento de Endereço de Email deve ser especificada se "
-"a função Enviar Recibo por Email ao Contribuinte for ativada"
+"Uma mensagem de Recebimento de Endereço de Email deve ser especificada se a "
+"função Enviar Recibo por Email ao Contribuinte for ativada"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -6045,8 +6063,8 @@ msgid ""
 "%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; "
 "Payment Processor."
 msgstr ""
-"%1 não está definido em Administrar CiviCRM &raquo; Definições Globais &raquo; "
-"Processador de Pagamento."
+"%1 não está definido em Administrar CiviCRM &raquo; Definições Globais "
+"&raquo; Processador de Pagamento."
 
 #: CRM/Contribute/Payment/PayPalImpl.php
 msgid "Recurring contribution, but no database id"
@@ -6127,19 +6145,22 @@ msgstr "%1 deve ser um número (com ou sem ponto decimal)."
 msgid ""
 "%1 From must in proper money format. (decimal point/comma/space is allowed)."
 msgstr ""
-"%1 From deve ter formato próprio de dinheiro. (aceitos ponto decimal/vírgula/espaço)."
+"%1 From deve ter formato próprio de dinheiro. (aceitos ponto decimal/vírgula/"
+"espaço)."
 
 #: CRM/Core/BAO/CustomField.php
 msgid ""
 "%1 To must in proper money format. (decimal point/comma/space is allowed)."
 msgstr ""
-"%1 From deve ter formato próprio de dinheiro. (aceitos ponto decimal/vírgula/espaço)."
+"%1 From deve ter formato próprio de dinheiro. (aceitos ponto decimal/vírgula/"
+"espaço)."
 
 #: CRM/Core/BAO/CustomField.php
 msgid ""
 "%1 must be in proper money format. (decimal point/comma/space is allowed)."
 msgstr ""
-"%1 From deve ter formato próprio de dinheiro. (aceitos ponto decimal/vírgula/espaço)."
+"%1 From deve ter formato próprio de dinheiro. (aceitos ponto decimal/vírgula/"
+"espaço)."
 
 #: CRM/Core/BAO/CustomGroup.php
 msgid "Are you sure you want to delete attached file."
@@ -6162,7 +6183,8 @@ msgid ""
 "We could not find the backup sql script. Check %1 exists and is readable by "
 "the webserver."
 msgstr ""
-"Impossível encontrar o script de backup do sql. Verifique se %1 existe e pode ser lido no servidor web."
+"Impossível encontrar o script de backup do sql. Verifique se %1 existe e "
+"pode ser lido no servidor web."
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
@@ -6177,16 +6199,25 @@ msgid "Synchronize Users to Contacts completed."
 msgstr "Concluída Sincronização de Usuários com Contatos."
 
 #: CRM/Core/BAO/DrupalUser.php
+#, fuzzy
 msgid "Checked one user record."
-msgstr "Verificado um registro de usuário."
+msgid_plural "Checked %count user records."
+msgstr[0] "Verificado um registro de usuário."
+msgstr[1] "Verificado um registro de usuário."
 
 #: CRM/Core/BAO/DrupalUser.php
+#, fuzzy
 msgid "Found one matching contact record."
-msgstr "Encontrado um registro idêntico de contato."
+msgid_plural "Found %count matching contact records."
+msgstr[0] "Encontrado um registro idêntico de contato."
+msgstr[1] "Encontrado um registro idêntico de contato."
 
 #: CRM/Core/BAO/DrupalUser.php
+#, fuzzy
 msgid "Created one new contact record."
-msgstr "Criado um novo registro de contato."
+msgid_plural "Created %count new contact records."
+msgstr[0] "Criado um novo registro de contato."
+msgstr[1] "Criado um novo registro de contato."
 
 #: CRM/Core/BAO/EmailHistory.php
 msgid "To: %1; Subject: %2"
@@ -7873,8 +7904,7 @@ msgstr "Mailing de Teste:"
 
 #: CRM/Mailing/Form/Test.php
 msgid "The test mailing could not be delivered due to the following error:"
-msgstr ""
-"O teste de mailing não pode ser enviado devido ao seguinte erro:"
+msgstr "O teste de mailing não pode ser enviado devido ao seguinte erro:"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Forward Replies?"
@@ -8081,7 +8111,8 @@ msgid "Tracked Opens"
 msgstr "Aberturas Rastreadas"
 
 #: CRM/Member/BAO/Membership.php
-msgid "Please select one of the memberships"
+#, fuzzy
+msgid "Please select one of the memeberships"
 msgstr "Selecione pelo menos uma das afiliações"
 
 #: CRM/Member/BAO/Membership.php
@@ -8329,8 +8360,7 @@ msgstr "O status de afiliação \"%1\" foi salvo."
 #: CRM/Member/Form/MembershipType.php
 msgid ""
 "A membership type with this name already exists. Please select another name."
-msgstr ""
-"Um tipo de afiliação com esse nome já existe. Selecione um outro nome."
+msgstr "Um tipo de afiliação com esse nome já existe. Selecione um outro nome."
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Please enter a monetary value for the Minimum Fee."
@@ -8733,8 +8763,8 @@ msgid ""
 "Which of the following describes the student's choices of academic courses "
 "and in comparison to other college prep students at your school"
 msgstr ""
-"Quais dos seguintes descrevem as escolhas de cursos acadêmicos do aluno e "
-"em comparação com outros alunos college prep na sua escola"
+"Quais dos seguintes descrevem as escolhas de cursos acadêmicos do aluno e em "
+"comparação com outros alunos college prep na sua escola"
 
 #: CRM/Quest/Form/Counselor/Academic.php
 msgid ""
@@ -10047,8 +10077,9 @@ msgstr "Exibe o endereço físico da sua organização."
 msgid ""
 "Creates a link for recipients to opt out of receiving emails from your "
 "organization."
-msgstr "Cria um link para permitir que destinatários optem parar de "
-"receber emails de sua organização."
+msgstr ""
+"Cria um link para permitir que destinatários optem parar de receber emails "
+"de sua organização."
 
 #: CRM/Utils/Token.php
 msgid ""
@@ -10177,8 +10208,8 @@ msgstr ""
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
 "WARNING: Deleting this option will remove this permission from all ACL Roles."
-msgstr "AVISO: Se excluir essa opção removerá a permissão de todos os Papéis "
-"ACL."
+msgstr ""
+"AVISO: Se excluir essa opção removerá a permissão de todos os Papéis ACL."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid "Which action to permit."
@@ -10209,8 +10240,8 @@ msgid ""
 "Select a group of contacts who should have this role when logged in to your "
 "site."
 msgstr ""
-"Selecione um grupo de contatos que deveriam ter esse papel quando logados "
-"em seu site."
+"Selecione um grupo de contatos que deveriam ter esse papel quando logados em "
+"seu site."
 
 #: templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl
 #: templates/CRM/Admin/Page/Options.tpl
@@ -10225,11 +10256,11 @@ msgid ""
 msgstr ""
 "ACL&rsquo;s lhe permite controlar acesso aos dados CiviCRM data. Um ACL "
 "consiste numa <strong>Operação</strong>\n"
-"        (ex: 'Ver' ou 'Editar'), um <strong>conjunto de dados</strong> "
-"em que a operação pode ser desempenhada (ex: um grupo de contatos),\n"
+"        (ex: 'Ver' ou 'Editar'), um <strong>conjunto de dados</strong> em "
+"que a operação pode ser desempenhada (ex: um grupo de contatos),\n"
 "        e um<strong>Papel</strong> que tem permissão para realizar essa "
-"operation. Consulte o <a href=\"%1\">Guia do Administrador ACL</a> para "
-"mais informação."
+"operation. Consulte o <a href=\"%1\">Guia do Administrador ACL</a> para mais "
+"informação."
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid ""
@@ -10238,14 +10269,15 @@ msgid ""
 "        and you can assign Roles to CiviCRM contacts who are users of your "
 "site <a href=\"%1\">here</a>."
 msgstr ""
-"Você pode acrescentar ou modificar seu ACL&rsquo;s abaixo. Pode criar "
-"Papéis ACL adicionais <a href=\"%2\">aqui</a>...\n"
-"        e pode atribuir Papéis a contatos CiviCRM que sejam usuários de "
-"seu site <a href=\"%1\">aqui</a>."
+"Você pode acrescentar ou modificar seu ACL&rsquo;s abaixo. Pode criar Papéis "
+"ACL adicionais <a href=\"%2\">aqui</a>...\n"
+"        e pode atribuir Papéis a contatos CiviCRM que sejam usuários de seu "
+"site <a href=\"%1\">aqui</a>."
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid "There are no ACL&rsquo;s entered. You can <a href=\"%1\">add one</a>."
-msgstr "Não há ACL&rsquo;s informado. Você pode <a href=\"%1\">adicionar um</a>."
+msgstr ""
+"Não há ACL&rsquo;s informado. Você pode <a href=\"%1\">adicionar um</a>."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid ""
@@ -10258,8 +10290,8 @@ msgstr ""
 "Um Papel ACL representa uma coleção de ACL&rsquo;s (permissões). Você pode "
 "atribuir papéis a grupos de contatos CiviCRM que sejam usuários de seu site "
 "abaixo.\n"
-"        Você pode adicionar ou modificar ACL&rsquo;s <a href=\"%1\">aqui</a>. "
-"Você pode criar Papéis ACL adicionais <a href=\"%2\">aqui</a>."
+"        Você pode adicionar ou modificar ACL&rsquo;s <a href=\"%1\">aqui</"
+"a>. Você pode criar Papéis ACL adicionais <a href=\"%2\">aqui</a>."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "New Role Assignment"
@@ -10267,7 +10299,8 @@ msgstr "Nova Atribuição de Papel"
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "There are no Role Assignments. You can <a href=\"%1\">add one</a> now."
-msgstr "Não há Atribuições de Papéis. Você pode <a href=\"%1\">adicionar um</a>."
+msgstr ""
+"Não há Atribuições de Papéis. Você pode <a href=\"%1\">adicionar um</a>."
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
@@ -10436,7 +10469,8 @@ msgid ""
 "contact to existing contact records for duplicate matching. If some of the "
 "fields in your matching rule are OPTIONAL, then all <strong>non-empty</"
 "strong> fields in the incoming data are used."
-msgstr "Selecione até cinco campos de contato para usar na comparação de novo "
+msgstr ""
+"Selecione até cinco campos de contato para usar na comparação de novo "
 "contato de indivíduo com outros registros, em busca de duplicatas. Se alguns "
 "dos campos da regra de confronto são OPCIONAIS, então todos os campos "
 "<strong>não-vazios</strong> nos dados de entrada são usados."
@@ -10449,9 +10483,9 @@ msgid ""
 "and leaves the first and last name blank. The new contact will be flagged as "
 "a potential duplicate."
 msgstr ""
-"Por exemplo, usando a regra predefinida de comparação de <strong>Email AND "
-" First Name AND Last Name</strong>... Jane Doe jane.doe@example.org existe "
-"em sua base de dados. Agora alguém tenta adicionar novo contato com o mesmo "
+"Por exemplo, usando a regra predefinida de comparação de <strong>Email AND  "
+"First Name AND Last Name</strong>... Jane Doe jane.doe@example.org existe em "
+"sua base de dados. Agora alguém tenta adicionar novo contato com o mesmo "
 "endereço de email e deixa o primeiro e o último nomes em branco. O novo "
 "contato será então marcado como uma possível duplicata."
 
@@ -10577,10 +10611,9 @@ msgid ""
 msgstr ""
 "O CiviCRM inclui um plugin opcional para interfacear com o serviço web de "
 "padronização de endereços do Correio dos Estados Unidos (USPS).\n"
-"           Você precisa se cadastrar para usar esse serviços que fica em "
-"<a href=\"http://www.usps.com/webtools/address.htm\">http://www.usps.com/ "
+"           Você precisa se cadastrar para usar esse serviços que fica em <a "
+"href=\"http://www.usps.com/webtools/address.htm\">http://www.usps.com/ "
 "webtools/address.htm</a>.\n"
-
 
 #: templates/CRM/Admin/Form/Setting/Address.tpl
 msgid "Address Standarization Provider. Currently, only 'USPS' is supported."
@@ -10600,8 +10633,8 @@ msgid ""
 "CiviCRM includes several optional components which give you more tools to "
 "connect with and engage your constituents."
 msgstr ""
-"O CiviCRM inclui diversos componentes opcionais que lhe dão mais "
-"ferramentas para contato e interação com seus segmentos de público."
+"O CiviCRM inclui diversos componentes opcionais que lhe dão mais ferramentas "
+"para contato e interação com seus segmentos de público."
 
 #: templates/CRM/Admin/Form/Setting/Component.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -10619,8 +10652,8 @@ msgid ""
 msgstr ""
 "Componentes ativados estão listados na caixa à direita. Os desativados ficam "
 "na caixa à esquerda.\n"
-"    Destaque um componente e clique no botão Ativar ou Desativar para movê-lo "
-"de uma caixa para a outra.\n"
+"    Destaque um componente e clique no botão Ativar ou Desativar para movê-"
+"lo de uma caixa para a outra.\n"
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid ""
@@ -10661,8 +10694,8 @@ msgid ""
 "be enabled for production sites</strong>"
 msgstr ""
 "Defina este valor como <strong>Sim</strong> caso queira exibir uma listagem "
-"de rastreamento quando houver um erro fatal. <strong>Esta funcionalidade "
-"NÃO deve ativada para sites em atividade</strong>"
+"de rastreamento quando houver um erro fatal. <strong>Esta funcionalidade NÃO "
+"deve ativada para sites em atividade</strong>"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid ""
@@ -10678,8 +10711,8 @@ msgid ""
 "want to override built-in CiviCRM error handling for your site."
 msgstr ""
 "Digite o caminho e a classe para uma função de manejo de erros de PHP "
-"customizada caso queira sobrescrever o manejo de erros próprio do "
-"CiviCRM para o seu site."
+"customizada caso queira sobrescrever o manejo de erros próprio do CiviCRM "
+"para o seu site."
 
 #: templates/CRM/Admin/Form/Setting/Localisation.tpl
 msgid "Language and Currency"
@@ -10696,8 +10729,8 @@ msgstr ""
 "Idioma usado para esta instalação. Traduções instaladas são listadas no "
 "formato langageCode_countryCode.\n"
 "                    Consulte a <a href=\"%1\" target=\"_blank\">página de "
-"downloads do CiviCRM</a> para traduções adicionais se a que você precisa "
-"não estiver listada."
+"downloads do CiviCRM</a> para traduções adicionais se a que você precisa não "
+"estiver listada."
 
 #: templates/CRM/Admin/Form/Setting/Localisation.tpl
 msgid ""
@@ -10708,8 +10741,9 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Localisation.tpl
 msgid "Locale for monetary display (affects formatting specifiers below)."
-msgstr "Locale para exibição monetária (afeta os especificadores de "
-"formatação abaixo indicados)."
+msgstr ""
+"Locale para exibição monetária (afeta os especificadores de formatação "
+"abaixo indicados)."
 
 #: templates/CRM/Admin/Form/Setting/Localisation.tpl
 msgid "Format for displaying monetary values."
@@ -10733,7 +10767,8 @@ msgstr "Campos de Endereço de Contato - Valores de Seleção"
 
 #: templates/CRM/Admin/Form/Setting/Localisation.tpl
 msgid "This value is selected by default when adding a new contact address."
-msgstr "Este valor tem seleção predefinida ao adicionar um endereço de contato."
+msgstr ""
+"Este valor tem seleção predefinida ao adicionar um endereço de contato."
 
 #: templates/CRM/Admin/Form/Setting/Localisation.tpl
 msgid ""
@@ -10760,11 +10795,10 @@ msgid ""
 "(opens in a new window)\">CiviMail Guide</a> for more information."
 msgstr ""
 "Estas definições servem para configurar propriedades do mailer para o "
-"componente CiviMail. Eles NÃO servem para a funcionalidade embutida "
-"\"Enviar Email a Contatos\"\n"
+"componente CiviMail. Eles NÃO servem para a funcionalidade embutida \"Enviar "
+"Email a Contatos\"\n"
 "        Consulte o <a href=\"%1\" target=\"_blank\" title=\"Guia do CiviMail "
 "(abre numa janela nova)\">Guia do CiviMail</a> para mais detalhes."
-
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -10773,8 +10807,9 @@ msgstr "Configuração do CiviMail"
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid "Number of seconds between delivery attempts for new outgoing mailings."
-msgstr "Número de segundos entre tentativas de entrega para novos mailings "
-"que serão expedidos."
+msgstr ""
+"Número de segundos entre tentativas de entrega para novos mailings que serão "
+"expedidos."
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid ""
@@ -10809,8 +10844,8 @@ msgid ""
 " Choose the provider that has the best coverage for the majority of your "
 "contact addresses."
 msgstr ""
-" Escolha o provedor que tenha a melhor cobertura para a maior parte dos "
-"seus endereços de contatos."
+" Escolha o provedor que tenha a melhor cobertura para a maior parte dos seus "
+"endereços de contatos."
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid "Enter your Google API Key OR your Yahoo Application ID."
@@ -10841,11 +10876,10 @@ msgid ""
 "enabled the CAPTCHA feature for any of your CiviCRM Profile input forms.</"
 "strong>"
 msgstr ""
-"Nome de arquivo para uma adequada fonte true-type (*.ttf) renderizar "
-"a imagem CAPTCHA. "
-"<strong>IMPORTANTE: Exigem-se uma fonte válida e um caminho para CAPTCHA "
-"a fim de ativar a funcionalidade CAPTCHA para cada um dos formulários de "
-"entrada de Perfil CiviCRM.</strong>"
+"Nome de arquivo para uma adequada fonte true-type (*.ttf) renderizar a "
+"imagem CAPTCHA. <strong>IMPORTANTE: Exigem-se uma fonte válida e um caminho "
+"para CAPTCHA a fim de ativar a funcionalidade CAPTCHA para cada um dos "
+"formulários de entrada de Perfil CiviCRM.</strong>"
 
 #: templates/CRM/Admin/Form/Setting/Miscellaneous.tpl
 msgid ""
@@ -10899,7 +10933,8 @@ msgid ""
 msgstr ""
 "Caminho no qual documentos e imagens que são anexos a registros de contatos "
 "ficam armazenados (ex: fotos de contatos, currículos, contratos etc). \n"
-"          Esses anexos são definidos com \"file\" campos do tipo customizados."
+"          Esses anexos são definidos com \"file\" campos do tipo "
+"customizados."
 
 #: templates/CRM/Admin/Form/Setting/Payment.tpl
 msgid ""
@@ -10920,9 +10955,9 @@ msgid ""
 "Configuration Guide</a> for more information.</strong>"
 msgstr ""
 "<strong>Por razões de segurança, algumas das definições de processador de "
-"pagamentos ficam armazenadas no arquivo de definições do CiviCRM "
-"(civicrm.settings.php). Você deve digitar esses valores antes de processar "
-"transações em TESTE ou PARA VALER.\n"
+"pagamentos ficam armazenadas no arquivo de definições do CiviCRM (civicrm."
+"settings.php). Você deve digitar esses valores antes de processar transações "
+"em TESTE ou PARA VALER.\n"
 "Consulte o <a href=\"%1\" target=\"_blank\" title=\"Guia de Configuração de "
 "Processador de Pagamento. Abre numa nova janela.\">Guia de Configuração de "
 "Processador de Pagamento</a> para mais detalhes.</strong>"
@@ -10936,8 +10971,9 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Payment.tpl
 msgid "Redirect online contribution page requests to a secure (https) URL?"
-msgstr "Redirecionar solicitações de página de contribuição online para "
-"uma URL segura (https)?"
+msgstr ""
+"Redirecionar solicitações de página de contribuição online para uma URL "
+"segura (https)?"
 
 #: templates/CRM/Admin/Form/Setting/Payment.tpl
 msgid "PayPal TEST account - username OR merchant email."
@@ -10954,17 +10990,16 @@ msgid ""
 "Signature authentication, leave this field blank."
 msgstr ""
 "Esta definição só é usada para os websites de pagamentos Pro/Express do "
-"PayPal com o método de autenticação certificada. Se estiver usando o "
-"método de autenticação de assinatura (recomendado), deixe este campo "
-"em branco."
+"PayPal com o método de autenticação certificada. Se estiver usando o método "
+"de autenticação de assinatura (recomendado), deixe este campo em branco."
 
 #: templates/CRM/Admin/Form/Setting/Payment.tpl
 msgid ""
 "URL to the button image used for the PayPal Express service. Keep the "
 "default value, unless you want to use a different button image."
 msgstr ""
-"URL para a imagem de botão usada pelo serviço PayPal Express. Mantenha "
-"o valor predefinido, a menos que deseje usar outra imagem de botão."
+"URL para a imagem de botão usada pelo serviço PayPal Express. Mantenha o "
+"valor predefinido, a menos que deseje usar outra imagem de botão."
 
 #: templates/CRM/Admin/Form/Setting/Payment.tpl
 msgid ""
@@ -10972,8 +11007,8 @@ msgid ""
 "unless you need to connect to a specific international PayPal processing "
 "host."
 msgstr ""
-"URL de TESTE para o portal do serviço de processamento PayPal. Mantenha "
-"o valor predefinido, a menos que deseje se conectar a um servidor de "
+"URL de TESTE para o portal do serviço de processamento PayPal. Mantenha o "
+"valor predefinido, a menos que deseje se conectar a um servidor de "
 "processamento internacional específico do PayPal."
 
 #: templates/CRM/Admin/Form/Setting/Payment.tpl
@@ -10982,8 +11017,8 @@ msgid ""
 "unless you need to connect to a specific international PayPal processing "
 "host."
 msgstr ""
-"URL PRA VALER para o portal do serviço de processamento PayPal. Mantenha "
-"o valor predefinido, a menos que deseje se conectar a um servidor de "
+"URL PRA VALER para o portal do serviço de processamento PayPal. Mantenha o "
+"valor predefinido, a menos que deseje se conectar a um servidor de "
 "processamento internacional específico do PayPal."
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
@@ -10995,8 +11030,8 @@ msgid ""
 msgstr ""
 "Se estiver enviando emails a contatos usando o CiviCRM, precisa informar as "
 "definições para seu servidor SMTP. Se\n"
-"    você não tem certeza sobre os valores corretos, consulte o "
-"administrador de seu sistema ou provedor de acesso ou de hospedagem."
+"    você não tem certeza sobre os valores corretos, consulte o administrador "
+"de seu sistema ou provedor de acesso ou de hospedagem."
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid "SMTP Configuration"
@@ -11024,9 +11059,9 @@ msgid ""
 "must also enter you SMTP password in the CiviCRM\n"
 "            settings file (civicrm.settings.php)."
 msgstr ""
-"Se o servidor SMTP exige autenticação, digite seu Nome de Usuário aqui. "
-"Você deve inserir também a senha do SMTP no arquivo de definições "
-"do CiviCRM (civicrm.settings.php)."
+"Se o servidor SMTP exige autenticação, digite seu Nome de Usuário aqui. Você "
+"deve inserir também a senha do SMTP no arquivo de definições do CiviCRM "
+"(civicrm.settings.php)."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
@@ -11045,8 +11080,7 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
 "URL of the location where the civicrm module or component has been installed."
-msgstr ""
-"URL do local em que foi instalado o módulo ou componente civicrm."
+msgstr "URL do local em que foi instalado o módulo ou componente civicrm."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "URL of the location for uploaded image files."
@@ -11074,7 +11108,6 @@ msgstr ""
 "operação. Consulte o <a href=\"%1\">Guia de Administração de ACL</a> para "
 "mais detalhes."
 
-
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
 "<strong>EXAMPLE:</strong> &quot;Team Leaders&quot; (<em>ACL Role</em>) can "
@@ -11082,8 +11115,8 @@ msgid ""
 "Volunteers Group&quot; (<em>Data</em>)."
 msgstr ""
 "<strong>EXEMPLO:</strong> &quot;Líderes de Equipe&quot; (<em>Papel ACL</em>)"
-"podem &quot;Editar&quot; (<em>Operação</em>) todos os contatos no &quot;Grupo "
-"de Voluntários Ativos&quot; (<em>Dados</em>)."
+"podem &quot;Editar&quot; (<em>Operação</em>) todos os contatos no &quot;"
+"Grupo de Voluntários Ativos&quot; (<em>Dados</em>)."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -11094,12 +11127,12 @@ msgid ""
 "be able to control access to Profiles, Custom Data Fields and other types of "
 "data."
 msgstr ""
-"Use <a href=\"%1\">Controle de Acesso Drupal</a> para gerenciar acesso básico "
-"aos componentes e itens de menu do CiviCRM. Use CiviCRM ACL&rsquo;s para "
-"controlar o acesso a\n"
-"        grupos específicos de contatos do CiviCRM. Numa próxima distribuição, "
-"você também poderá controlar acesso a Perfis, Campos de Dados Customizados "
-"e outros tipos de dados."
+"Use <a href=\"%1\">Controle de Acesso Drupal</a> para gerenciar acesso "
+"básico aos componentes e itens de menu do CiviCRM. Use CiviCRM ACL&rsquo;s "
+"para controlar o acesso a\n"
+"        grupos específicos de contatos do CiviCRM. Numa próxima "
+"distribuição, você também poderá controlar acesso a Perfis, Campos de Dados "
+"Customizados e outros tipos de dados."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -11107,10 +11140,10 @@ msgid ""
 "or \"smart\" groups. In a future release, you will also be able to control\n"
 "        access to Profiles, Custom Data Fields and other types of data."
 msgstr ""
-"ACL&rsquo;s podem ser usados para controlar acesso aos contatos nos grupos "
-" \"static\" ou \"smart\" do CiviCRM. Numa próxima distribuição, "
-"você também poderá controlar acesso a Perfis, Campos de Dados Customizados "
-"e outros tipos de dados."
+"ACL&rsquo;s podem ser usados para controlar acesso aos contatos nos grupos  "
+"\"static\" ou \"smart\" do CiviCRM. Numa próxima distribuição, você também "
+"poderá controlar acesso a Perfis, Campos de Dados Customizados e outros "
+"tipos de dados."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "Drupal Access Control"
@@ -11157,7 +11190,6 @@ msgstr ""
 "ACL&rsquo;s definem permissão para realizar uma operação sobre um conjunto "
 "de dados, ou conceder aquela permissão a um papel. Use este link para criar "
 "ou editar ACL&rsquo;s para seu site."
-
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "3. Assign Users to Roles"
@@ -11377,9 +11409,10 @@ msgid ""
 "methods, you can add them here."
 msgstr ""
 "Pode-se escolher gravar o Instrumento de Pagamento usado para cada "
-"Contribuição. Os métodos de pagamento comuns são instalados por predefinição e não "
-"podem ser modificados (ex: Cheque, Dinheiro, Cartão de Crédito...). Se o seu "
-"site exige métodos adicionais de pagamento, V. pode acrescentá-los aqui."
+"Contribuição. Os métodos de pagamento comuns são instalados por predefinição "
+"e não podem ser modificados (ex: Cheque, Dinheiro, Cartão de Crédito...). Se "
+"o seu site exige métodos adicionais de pagamento, V. pode acrescentá-los "
+"aqui."
 
 #: templates/CRM/Admin/Page/Options.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
@@ -11501,8 +11534,8 @@ msgid ""
 "URLs used to access CiviCRM resources (CSS files, Javascript files, images, "
 "etc.)."
 msgstr ""
-"URLs usadas para acessar recursos do CiviCRM (arquivos CSS, arquivos Javascript,"
-"imagens etc.)."
+"URLs usadas para acessar recursos do CiviCRM (arquivos CSS, arquivos "
+"Javascript,imagens etc.)."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Outbound Email (SMTP)"
@@ -11517,8 +11550,8 @@ msgid ""
 "Configure a mapping provider (e.g. Google or Yahoo) to display maps for "
 "contact addresses."
 msgstr ""
-"Configurar um provedor de mapas (ex: Google ou Yahoo) para exibir mapas "
-"para endereços de contatos."
+"Configurar um provedor de mapas (ex: Google ou Yahoo) para exibir mapas para "
+"endereços de contatos."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -11637,9 +11670,9 @@ msgid ""
 "documentation</a>."
 msgstr ""
 "Movido a CiviCRM %1. O CiviCRM é aberto e disponível sob <a href=\"%2"
-"\">Licença Pública Geral Affero (AGPL)</a>. <a href=\"%3\">Baixe fontes</"
-"a>. <a href=\"%4\"Veja questões e reporte bugs</a>. <a href=\"%5\"> "
-"Documentação Online</a>."
+"\">Licença Pública Geral Affero (AGPL)</a>. <a href=\"%3\">Baixe fontes</a>. "
+"<a href=\"%4\"Veja questões e reporte bugs</a>. <a href=\"%5\"> Documentação "
+"Online</a>."
 
 #: templates/CRM/common/pager.tpl
 msgid "Rows per page:"
@@ -11914,9 +11947,9 @@ msgid ""
 "search values. Review the <a href=\"%1\">Search Builder documentation</a> "
 "before building your first search."
 msgstr ""
-"IMPORTANTE: O Montador de Buscas exige formatos específicos para valores "
-"de pesquisa. Consulte a <a href=\"%1\">documentação Search Builder</a> "
-"antes de montar sua primeira pesquisa."
+"IMPORTANTE: O Montador de Buscas exige formatos específicos para valores de "
+"pesquisa. Consulte a <a href=\"%1\">documentação Search Builder</a> antes de "
+"montar sua primeira pesquisa."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Complete OR partial contact name OR email."
@@ -11932,9 +11965,9 @@ msgid ""
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
 msgstr ""
-"Por predefinição, a busca por localidade usa a localidade PRIMÁRIA de cada contato."
-"Para buscar tipos específicos de localidade (ex: Casa, Trabalho...), marque "
-"umaou mais caixas acima."
+"Por predefinição, a busca por localidade usa a localidade PRIMÁRIA de cada "
+"contato.Para buscar tipos específicos de localidade (ex: Casa, Trabalho...), "
+"marque umaou mais caixas acima."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."
@@ -12074,12 +12107,18 @@ msgid "smart group"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
+#, fuzzy
 msgid "Found %count group member"
-msgstr "Encontrado %count membro de grupo"
+msgid_plural "Found %count group members"
+msgstr[0] "Encontrado %count membro de grupo"
+msgstr[1] "Encontrado %count membro de grupo"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
+#, fuzzy
 msgid "Found %count contact"
-msgstr "Encontrado %count contato"
+msgid_plural "Found %count contacts"
+msgstr[0] "Encontrado %count contato"
+msgstr[1] "Encontrado %count contato"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
@@ -12090,8 +12129,11 @@ msgstr "só registros selecionados"
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
 #: templates/CRM/Member/Form/Search/ResultTasks.tpl
+#, fuzzy
 msgid "the found record"
-msgstr "o registro encontrado"
+msgid_plural "all %count records"
+msgstr[0] "o registro encontrado"
+msgstr[1] "o registro encontrado"
 
 #: templates/CRM/Contact/Form/Search/table.tpl
 msgid "Include contacts where"
@@ -12142,8 +12184,8 @@ msgstr ""
 "Atualizar valores de campo para cada contato como necessário. Clique "
 "<strong>Atualizar Contatos</strong> abaixo para salvar todas as alterações. "
 "Para definir um campo com o mesmo valor para TODAS as carreiras, digite o "
-"valor para o primeiro contato e então clique em <strong>Copiar ícone</strong> "
-"(junto do título da coluna)."
+"valor para o primeiro contato e então clique em <strong>Copiar ícone</"
+"strong> (junto do título da coluna)."
 
 #: templates/CRM/Contact/Form/Task/BatchUpdateProfile.tpl
 #: templates/CRM/Contribute/Form/Task/Batch.tpl
@@ -12153,7 +12195,8 @@ msgstr "Clique para copiar %1 da carreira um para todas as carreiras."
 #: templates/CRM/Contact/Form/Task/BatchUpdateProfile.tpl
 #: templates/CRM/Contribute/Form/Task/Batch.tpl
 msgid "Click here to copy the value in row one to ALL rows."
-msgstr "Clique aqui para copiar o valor da carreira um para TODAS as carreiras."
+msgstr ""
+"Clique aqui para copiar o valor da carreira um para TODAS as carreiras."
 
 #: templates/CRM/Contact/Form/Task/Delete.tpl
 msgid ""
@@ -12177,16 +12220,21 @@ msgid "Send an Email"
 msgstr "Enviar um Email"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
+#, fuzzy
 msgid ""
 "Email will NOT be sent to %count contact - communication preferences specify "
 "DO NOT EMAIL."
+msgid_plural ""
 "Email will NOT be sent to %count contacts - communication preferences "
 "specify DO NOT EMAIL."
-msgstr ""
+msgstr[0] ""
 "Email NÃO será enviado para %count contato - preferências de comunicação "
-"especificam NÃO ENVIAR EMAIL."
-"\"Email NÃO será enviado para %count contatos - preferências de comunicação "
-"especificam NÃO ENVIAR EMAIL."
+"especificam NÃO ENVIAR EMAIL.\"Email NÃO será enviado para %count contatos - "
+"preferências de comunicação especificam NÃO ENVIAR EMAIL."
+msgstr[1] ""
+"Email NÃO será enviado para %count contato - preferências de comunicação "
+"especificam NÃO ENVIAR EMAIL.\"Email NÃO será enviado para %count contatos - "
+"preferências de comunicação especificam NÃO ENVIAR EMAIL."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -12194,8 +12242,11 @@ msgid "Recipient(s)"
 msgstr "Destinatário(s)"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
+#, fuzzy
 msgid "Email will NOT be sent to %count contact."
-msgstr "Email NÃO será enviado para %count contato.'"
+msgid_plural "Email will NOT be sent to %count contacts."
+msgstr[0] "Email NÃO será enviado para %count contato.'"
+msgstr[1] "Email NÃO será enviado para %count contato.'"
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
@@ -12209,10 +12260,10 @@ msgid ""
 "record)."
 msgstr ""
 "Selecione os campos a serem exportados usando a tabela abaixo. Para cada "
-"campo, primeiro selecione o tipo de contato ao qual o campo pertence "
-"(ex: selecione <strong>Indivíduo</strong> se estiver exportanto <strong> "
-"Sobrenome</strong). Aí, selecione o campo real a ser exportado do menu "
-"tipo drop-down que aparecerá junto ao tipo de contato. Sua exportação pode "
+"campo, primeiro selecione o tipo de contato ao qual o campo pertence (ex: "
+"selecione <strong>Indivíduo</strong> se estiver exportanto <strong> "
+"Sobrenome</strong). Aí, selecione o campo real a ser exportado do menu tipo "
+"drop-down que aparecerá junto ao tipo de contato. Sua exportação pode "
 "incluir múltiplos tipos de registros de contatos, e campos não-aplicáveis "
 "ficarão vazios (ex: <strong>Sobrenome</strong> não será populado por um "
 "registro de Organização)."
@@ -12265,8 +12316,11 @@ msgstr ""
 "'mapeamento de campo' a ser usado novamente mais tarde."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
+#, fuzzy
 msgid "One record selected for export."
-msgstr "Um registro selecionado para exportar."
+msgid_plural "%count records selected for export."
+msgstr[0] "Um registro selecionado para exportar."
+msgstr[1] "Um registro selecionado para exportar."
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 msgid "Select a Different Mapping"
@@ -12695,6 +12749,10 @@ msgstr ""
 "contribuição offline para este contato."
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
+msgid "Overdue"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "No activities are currently scheduled."
 msgstr "Nenhuma atividade atualmente agendada."
 
@@ -12977,8 +13035,8 @@ msgid ""
 "confirmation step. You will be able to modify or cancel future\n"
 "                contributions at any time by logging in to your account."
 msgstr ""
-"Sua contribuição inicial será processada uma vez que você complete o passo de "
-"confirmação. Você poderá modificar ou cancelar contribuições futuras a "
+"Sua contribuição inicial será processada uma vez que você complete o passo "
+"de confirmação. Você poderá modificar ou cancelar contribuições futuras a "
 "qualquer tempo, bastando logar em sua conta."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -13170,10 +13228,9 @@ msgstr ""
 "Use este formulário para configurar opções de Quantia de Contribuição. Você "
 "pode ativar contribuições recorrentes (se o seu processador de pagamentos "
 "for o &quot;PayPal Website Payments-Standard). Pode tambem dar aos "
-"contribuintes a opção de digitar as quantias que preferirem -- "
-"e/ou fr oferecer uma lista fixa de quantias. Para quantias fixas, pode-se "
-"colocar um rótulo para cada 'nível' de contribuição. Exemplos: Amigo, "
-"Apoiador etc."
+"contribuintes a opção de digitar as quantias que preferirem -- e/ou fr "
+"oferecer uma lista fixa de quantias. Para quantias fixas, pode-se colocar um "
+"rótulo para cada 'nível' de contribuição. Exemplos: Amigo, Apoiador etc."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -13194,7 +13251,6 @@ msgstr ""
 "selecionem ou digitem quaisquer quantias adicionais de contribuição."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-
 msgid ""
 "Uncheck this box if you are using this contribution page to solicit in-"
 "kind / non-monetary donations such as furniture, equipment.. etc."
@@ -13238,9 +13294,9 @@ msgid ""
 "will be presented as a list of radio button options. Both the label and "
 "dollar amount will be displayed."
 msgstr ""
-"Use a tabela abaixo para definir até dez quantias fixas de contribuição. Elas "
-"serão apresentadas como uma lista de opções do tipo botão de rádio. Tanto o "
-"rótulo como a quantia em dinheiro serão exibidos."
+"Use a tabela abaixo para definir até dez quantias fixas de contribuição. "
+"Elas serão apresentadas como uma lista de opções do tipo botão de rádio. "
+"Tanto o rótulo como a quantia em dinheiro serão exibidos."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid "Contribution Label"
@@ -13259,8 +13315,8 @@ msgstr ""
 "Você pode querer coletar informação dos contribuintes além do nome e do "
 "endereço necessários para contribuir. Por exemplo, sobre se querem ser "
 "voluntários. Adicione qualquer número de campos ao seu formulário de "
-"contribuição selecionando Perfis CiviCRM (conjuntos de campos) para "
-"incluir no início e/ou no rodapé da página."
+"contribuição selecionando Perfis CiviCRM (conjuntos de campos) para incluir "
+"no início e/ou no rodapé da página."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -13280,13 +13336,12 @@ msgid ""
 "Select a CiviCRM Profile to be included at the top of the page (immediately "
 "after the introductory message)."
 msgstr ""
-"Selecione um Perfil CiviCRM a ser incluído no topo da página, logo abaixo "
-"da mensagem introdutória."
+"Selecione um Perfil CiviCRM a ser incluído no topo da página, logo abaixo da "
+"mensagem introdutória."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid "Select a CiviCRM Profile to be included at the bottom of the page."
-msgstr ""
-"Selecione um Perfil CiviCRM a ser incluído no pé da página."
+msgstr "Selecione um Perfil CiviCRM a ser incluído no pé da página."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Delete.tpl
 msgid "Are you sure you want to delete the contribution page \"%1\"?"
@@ -13724,15 +13779,14 @@ msgid ""
 "This recurring contribution will be automatically processed every %1 %2(s) "
 "for a total %3 installments (including this initial contribution)."
 msgstr ""
-"Esta contribuição recorrente será automaticamente processada a cada %1 "
-"%2(s) até um total de %3 parcelas (incluindo esta contribuição inicial)."
+"Esta contribuição recorrente será automaticamente processada a cada %1 %2(s) "
+"até um total de %3 parcelas (incluindo esta contribuição inicial)."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
 "This recurring contribution will be automatically processed every %1 %2(s)."
 msgstr ""
-"Esta contribuição recorrente será automaticamente processada a cada %1 "
-"%2(s)."
+"Esta contribuição recorrente será automaticamente processada a cada %1 %2(s)."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
@@ -13758,8 +13812,8 @@ msgid ""
 "WARNING: Deleting this contribution will result in the loss of the "
 "associated financial transactions (if any)."
 msgstr ""
-"AVISO: Excluir esta contribuição resultará na perda de todas as "
-"transações financeiras associadas, caso existam."
+"AVISO: Excluir esta contribuição resultará na perda de todas as transações "
+"financeiras associadas, caso existam."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "(test)"
@@ -13767,8 +13821,7 @@ msgstr "(teste)"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Select the appropriate contribution type for this transaction."
-msgstr ""
-"Selecione o tipo de contribuição apropriado a esta transação."
+msgstr "Selecione o tipo de contribuição apropriado a esta transação."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "The date this contribution was received."
@@ -13847,7 +13900,7 @@ msgstr "Novo Tipo de Contribuição"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all contribution "
 "records of this type."
-msgstr""
+msgstr ""
 "AVISO: Se excluir esta opção haverá perda de todos os registros de "
 "contribuição deste tipo."
 
@@ -14061,22 +14114,20 @@ msgid ""
 "up during 2006."
 msgstr ""
 "Mês e dia (MMDD) nos quais começará um período de assinatura ou afiliação. "
-"EXEMPLO: Um período fixo com Dia Inicial definido como 0101 significa que "
-"a afiliação será de 1/1/06 - 12/31/06 para qualquer pessoa que se filiar "
+"EXEMPLO: Um período fixo com Dia Inicial definido como 0101 significa que a "
+"afiliação será de 1/1/06 - 12/31/06 para qualquer pessoa que se filiar "
 "durante o ano de 2006."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Duration of subscription or service (e.g. 12-month subscription)."
-msgstr ""
-"Duração de assinatura ou serviço (ex: assinatura de 12 meses)."
+msgstr "Duração de assinatura ou serviço (ex: assinatura de 12 meses)."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Frequency of subscription or service (e.g. journal delivered every two "
 "months)."
 msgstr ""
-"Freqüência de assinatura ou serviço (ex: jornal entregue a cada "
-"dois meses)."
+"Freqüência de assinatura ou serviço (ex: jornal entregue a cada dois meses)."
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
@@ -14115,8 +14166,11 @@ msgstr ""
 "se estiver pesquisando numa faixa de datas ou quantias, tente uma faixa "
 
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
+#, fuzzy
 msgid "Found %count contribution."
-msgstr "Encontrada %count contribuição"
+msgid_plural "Found %count contributions."
+msgstr[0] "Encontrada %count contribuição"
+msgstr[1] "Encontrada %count contribuição"
 
 #: templates/CRM/Contribute/Form/Search.tpl
 msgid ""
@@ -14162,8 +14216,11 @@ msgstr ""
 "poderá ser desfeita, e então você perderá todo o histórico "
 
 #: templates/CRM/Contribute/Form/Task/Export.tpl
+#, fuzzy
 msgid "One contribution record selected for export."
-msgstr "Um registro de contribuição selecionado para exportação."
+msgid_plural "%count contribution records selected for export."
+msgstr[0] "Um registro de contribuição selecionado para exportação."
+msgstr[1] "Um registro de contribuição selecionado para exportação."
 
 #: templates/CRM/Contribute/Form/Task/Export.tpl
 msgid ""
@@ -14413,16 +14470,21 @@ msgstr ""
 "resumem os resultados."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected mismatched contribution ID. This record have not been "
 "updated."
+msgid_plural ""
 "CiviCRM has detected mismatched contribution IDs. These records have not "
 "been Updated."
-msgstr ""
-"O CiviCRM detectou ID de contribuição desparelhado. Esse registro não foi "
-"então atualizado."
-"O CiviCRM detectou IDs de contribuição desparelhados. Esses registros não "
-"foram então atualizados."
+msgstr[0] ""
+"CiviCRM detectou ID de contato que não confere. Este registro NÃO foi "
+"atualizado.CiviCRM detectou IDs de contatos que não confere. Estes registro "
+"NÃO foram atualizados."
+msgstr[1] ""
+"CiviCRM detectou ID de contato que não confere. Este registro NÃO foi "
+"atualizado.CiviCRM detectou IDs de contatos que não confere. Estes registro "
+"NÃO foram atualizados."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -14437,16 +14499,23 @@ msgstr ""
 #: templates/CRM/History/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 #: templates/CRM/Member/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected invalid data and/or formatting errors in one record. "
 "This record have not been imported."
+msgid_plural ""
 "CiviCRM has detected invalid data and/or formatting errors in %count "
 "records. These records have not been imported."
-msgstr ""
+msgstr[0] ""
 "O CiviCRM detectou dados inválidos e/ou erros de formatação em um registro. "
-"Esse registro, por isso, não foi importado."
-"O CiviCRM detectou dados inválidos e/ou erros de formatação em %count "
-"registros. Esses registros, por isso, não foram importados."
+"Esse registro, por isso, não foi importado.O CiviCRM detectou dados "
+"inválidos e/ou erros de formatação em %count registros. Esses registros, por "
+"isso, não foram importados."
+msgstr[1] ""
+"O CiviCRM detectou dados inválidos e/ou erros de formatação em um registro. "
+"Esse registro, por isso, não foi importado.O CiviCRM detectou dados "
+"inválidos e/ou erros de formatação em %count registros. Esses registros, por "
+"isso, não foram importados."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
@@ -14460,20 +14529,29 @@ msgstr ""
 "o novo arquivo com os dados corretos."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing contribution records. This record have not "
 "been imported."
+msgid_plural ""
 "CiviCRM has detected %count records with conflicting transaction IDs within "
 "this data file or relative to existing contribution records. These records "
 "have not been imported."
-msgstr ""
+msgstr[0] ""
 "O CiviCRM detectou um registro com ID de transação conflitante dentro desse "
 "arquivo de dados ou em relação a atuais registros de contribuição. Esse "
-"registro, por isso, não foi importado."
-"O CiviCRM detectou %count registros com IDs de transação conflitantes dentro "
-"desse arquivo de dados ou em relação a atuais registros de contribuição. "
-"Esses registros, por isso, não foram importados."
+"registro, por isso, não foi importado.O CiviCRM detectou %count registros "
+"com IDs de transação conflitantes dentro desse arquivo de dados ou em "
+"relação a atuais registros de contribuição. Esses registros, por isso, não "
+"foram importados."
+msgstr[1] ""
+"O CiviCRM detectou um registro com ID de transação conflitante dentro desse "
+"arquivo de dados ou em relação a atuais registros de contribuição. Esse "
+"registro, por isso, não foi importado.O CiviCRM detectou %count registros "
+"com IDs de transação conflitantes dentro desse arquivo de dados ou em "
+"relação a atuais registros de contribuição. Esses registros, por isso, não "
+"foram importados."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
@@ -14488,16 +14566,17 @@ msgstr ""
 "transação, se for o caso."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "contribution record."
+msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contribution records."
-msgstr ""
-"O CiviCRM detectou um registro que é duplicata de outro registro de "
-"contribuição."
-"O CiviCRM detectou %count registros que são duplicatas de outros registros "
-"de contribuição."
+msgstr[0] ""
+"Carreiras que são duplicatas de registros de contribuições no CiviCRM."
+msgstr[1] ""
+"Carreiras que são duplicatas de registros de contribuições no CiviCRM."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
@@ -14638,8 +14717,8 @@ msgid ""
 "Select 'Individual' if each record in your file represents and individual "
 "person."
 msgstr ""
-"Selecione 'Indivíduo' se cada registro em seu arquivo representa uma "
-"pessoal individual."
+"Selecione 'Indivíduo' se cada registro em seu arquivo representa uma pessoal "
+"individual."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
@@ -14821,8 +14900,8 @@ msgid ""
 "If your page is enabled, click <strong>Live Page</strong> to view to the "
 "page in <strong>live mode</strong>."
 msgstr ""
-"Se sua página for ativada, clique em <strong>Página Ativa</strong> para "
-"vê-la em <strong>modo ativo</strong>."
+"Se sua página for ativada, clique em <strong>Página Ativa</strong> para vê-"
+"la em <strong>modo ativo</strong>."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
@@ -15293,11 +15372,10 @@ msgid ""
 msgstr ""
 "Dados customizados são armazenados em arquivos customizados. Campos "
 "customizados são organizados em grupos de dados customizados logicamente "
-"relacionados (ex: Informação de Voluntários). Use campos customizados "
-"para coletar e guardar dados customizados que não estejam incluídos nos "
-"formulários padrões do CiviCRM. Você pode criar um ou mais grupos de "
-"campos customizados."
-
+"relacionados (ex: Informação de Voluntários). Use campos customizados para "
+"coletar e guardar dados customizados que não estejam incluídos nos "
+"formulários padrões do CiviCRM. Você pode criar um ou mais grupos de campos "
+"customizados."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Group Title"
@@ -15364,8 +15442,11 @@ msgid "Are you sure you want to delete the group %1?"
 msgstr "Você quer mesmo excluir o grupo %1?"
 
 #: templates/CRM/Group/Form/Delete.tpl
+#, fuzzy
 msgid "This group currently has one member in it."
-msgstr "Este grupo atualmente possui só um membro."
+msgid_plural "This group currently has %count members in it."
+msgstr[0] "Este grupo atualmente possui só um membro."
+msgstr[1] "Este grupo atualmente possui só um membro."
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid ""
@@ -15481,16 +15562,21 @@ msgstr ""
 "carregado."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected mismatched activity history ID. This record have not "
 "been updated."
+msgid_plural ""
 "CiviCRM has detected mismatched activity history IDs. These records have not "
 "been Updated."
-msgstr ""
-"CiviCRM detectou dados inválidos de ID de histórico de atividades. Este "
-"registro não foi atualizado."
-"CiviCRM detectou dados inválidos de IDs de histórico de atividades. Estes "
-"registros não foram atualizados."
+msgstr[0] ""
+"CiviCRM detectou ID de contato que não confere. Este registro NÃO foi "
+"atualizado.CiviCRM detectou IDs de contatos que não confere. Estes registro "
+"NÃO foram atualizados."
+msgstr[1] ""
+"CiviCRM detectou ID de contato que não confere. Este registro NÃO foi "
+"atualizado.CiviCRM detectou IDs de contatos que não confere. Estes registro "
+"NÃO foram atualizados."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid ""
@@ -15502,14 +15588,16 @@ msgstr ""
 "dados corretos."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing activity history records. This record have "
 "not been imported."
+msgid_plural ""
 "CiviCRM has detected %count records with conflicting transaction IDs within "
 "this data file or relative to existing activity history records. These "
 "records have not been imported."
-msgstr ""
+msgstr[0] ""
 "CiviCRM detectou  um registro com conflito no ID de transação dentro deste "
 "arquivo de dados ou relativamente a registros de histórico de atividades "
 "existentes. Esses registros não foram importados.\"gistros de contatos "
@@ -15518,22 +15606,38 @@ msgstr ""
 "CiviCRM detectou  %1 registros com conflito nos endereços email no arquivo "
 "de dados ou registros de contatos relativos já existentes. Estes registros "
 "não foram importados. CiviCRM não permite múltiplos contatos que tenham o "
-"mesmo endereço de email primário."
-"CiviCRM detectou %count registros com conflito no ID de transação dentro "
-"deste arquivo de dados ou relativamente a registros de histórico de "
-"atividades existentes. Esses registros não foram importados."
+"mesmo endereço de email primário.CiviCRM detectou %count registros com "
+"conflito no ID de transação dentro deste arquivo de dados ou relativamente a "
+"registros de histórico de atividades existentes. Esses registros não foram "
+"importados."
+msgstr[1] ""
+"CiviCRM detectou  um registro com conflito no ID de transação dentro deste "
+"arquivo de dados ou relativamente a registros de histórico de atividades "
+"existentes. Esses registros não foram importados.\"gistros de contatos "
+"relativos já existentes. Estes registros não foram importados. CiviCRM não "
+"permite múltiplos contatos que tenham o mesmo endereço de email primário."
+"CiviCRM detectou  %1 registros com conflito nos endereços email no arquivo "
+"de dados ou registros de contatos relativos já existentes. Estes registros "
+"não foram importados. CiviCRM não permite múltiplos contatos que tenham o "
+"mesmo endereço de email primário.CiviCRM detectou %count registros com "
+"conflito no ID de transação dentro deste arquivo de dados ou relativamente a "
+"registros de histórico de atividades existentes. Esses registros não foram "
+"importados."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "activity history record."
+msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "activity history records."
-msgstr ""
-"O CiviCRM detectou um registro que é uma duplicata de outro registro de "
-"histórico de atividades\"."
-"O CiviCRM detectou %count registros que são duplicatas de outros registros "
-"de histórico de atividades\"."
+msgstr[0] ""
+"Carreiras que são duplicatas de registros de históricos de atividades no "
+"CiviCRM."
+msgstr[1] ""
+"Carreiras que são duplicatas de registros de históricos de atividades no "
+"CiviCRM."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid "Rows with mismatched activity history IDs (NOT updated)."
@@ -15644,16 +15748,21 @@ msgid "Tag imported records"
 msgstr "Rotular registros importados"
 
 #: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected mismatched contact ID. This record have not been "
 "updated."
+msgid_plural ""
 "CiviCRM has detected mismatched contact IDs. These records have not been "
 "updated."
-msgstr ""
+msgstr[0] ""
 "CiviCRM detectou ID de contato que não confere. Este registro NÃO foi "
-"atualizado."
-"CiviCRM detectou IDs de contatos que não confere. Estes registro NÃO foram "
-"atualizados."
+"atualizado.CiviCRM detectou IDs de contatos que não confere. Estes registro "
+"NÃO foram atualizados."
+msgstr[1] ""
+"CiviCRM detectou ID de contato que não confere. Este registro NÃO foi "
+"atualizado.CiviCRM detectou IDs de contatos que não confere. Estes registro "
+"NÃO foram atualizados."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -15664,27 +15773,44 @@ msgstr ""
 "corrigí-los e depois importar o novo arquivo com os dados corrigidos."
 
 #: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record with conflicting email addresses within this "
 "data file or relative to existing contact records. This record have not been "
 "imported."
+msgid_plural ""
 "CiviCRM has detected %count records with conflicting email addresses within "
 "this data file or relative to existing contact records. These records have "
 "not been imported."
-msgstr ""
+msgstr[0] ""
 "CiviCRM detectou  %1 registros com conflito nos endereços email no arquivo "
 "de dados ou registros de contatos relativos já existentes. Estes registros "
 "não foram importados. CiviCRM não permite múltiplos contatos que tenham o "
 "mesmo endereço de email primário.CiviCRM detectou  %1 registros com conflito "
 "nos endereços email no arquivo de dados ou registros de contatos relativos "
 "já existentes. Estes registros não foram importados. CiviCRM não permite "
+"múltiplos contatos que tenham o mesmo endereço de email primário.CiviCRM "
+"detectou  %1 registros com conflito nos endereços email no arquivo de dados "
+"ou registros de contatos relativos já existentes. Estes registros não foram "
+"importados. CiviCRM não permite múltiplos contatos que tenham o mesmo "
+"endereço de email primário.CiviCRM detectou  %1 registros com conflito nos "
+"endereços email no arquivo de dados ou registros de contatos relativos já "
+"existentes. Estes registros não foram importados. CiviCRM não permite "
 "múltiplos contatos que tenham o mesmo endereço de email primário."
+msgstr[1] ""
 "CiviCRM detectou  %1 registros com conflito nos endereços email no arquivo "
 "de dados ou registros de contatos relativos já existentes. Estes registros "
 "não foram importados. CiviCRM não permite múltiplos contatos que tenham o "
 "mesmo endereço de email primário.CiviCRM detectou  %1 registros com conflito "
 "nos endereços email no arquivo de dados ou registros de contatos relativos "
 "já existentes. Estes registros não foram importados. CiviCRM não permite "
+"múltiplos contatos que tenham o mesmo endereço de email primário.CiviCRM "
+"detectou  %1 registros com conflito nos endereços email no arquivo de dados "
+"ou registros de contatos relativos já existentes. Estes registros não foram "
+"importados. CiviCRM não permite múltiplos contatos que tenham o mesmo "
+"endereço de email primário.CiviCRM detectou  %1 registros com conflito nos "
+"endereços email no arquivo de dados ou registros de contatos relativos já "
+"existentes. Estes registros não foram importados. CiviCRM não permite "
 "múltiplos contatos que tenham o mesmo endereço de email primário."
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -15706,13 +15832,15 @@ msgstr ""
 "email que precisem disso."
 
 #: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "contact record."
+msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contact records."
-msgstr "Detectado um registro que é duplicação de outro já existente."
-"Detectados %count registros que são duplicações de outros já existentes."
+msgstr[0] "Carreiras que são duplicatas de registros de contatos no CiviCRM."
+msgstr[1] "Carreiras que são duplicatas de registros de contatos no CiviCRM."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -15745,28 +15873,43 @@ msgid "Import to Groups"
 msgstr "Importar para Grupos"
 
 #: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid "One contact added to this new group."
-msgstr "Um contato foi adicionado a este novo grupo."
+msgid_plural "%count contacts added to this new group."
+msgstr[0] "Um contato foi adicionado a este novo grupo."
+msgstr[1] "Um contato foi adicionado a este novo grupo."
 
 #: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid "One contact added to this existing group."
-msgstr "Um contato adicionado a este grupo."
+msgid_plural "%count contacts added to this existing group."
+msgstr[0] "Um contato adicionado a este grupo."
+msgstr[1] "Um contato adicionado a este grupo."
 
 #: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid "One contact NOT added (already in this group)."
-msgstr "Um contato NÃO adicionado (já existia neste grupo)."
+msgid_plural "%count contacts NOT added (already in this group)."
+msgstr[0] "Um contato NÃO adicionado (já existia neste grupo)."
+msgstr[1] "Um contato NÃO adicionado (já existia neste grupo)."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Tagged imported contacts"
 msgstr "Contatos importados rotulados"
 
 #: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid "One contact is tagged with this tag."
-msgstr "Um contato está rotulado com esta tag."
+msgid_plural "%count contacts are tagged with this tag."
+msgstr[0] "Um contato está rotulado com esta tag."
+msgstr[1] "Um contato está rotulado com esta tag."
 
 #: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid "One contact NOT tagged (already tagged to this tag)."
-msgstr "Um contato NÃO rotulado (já existia rotulado com esta tag."
+msgid_plural "%count contacts NOT tagged (already tagged to this tag)."
+msgstr[0] "Um contato NÃO rotulado (já existia rotulado com esta tag."
+msgstr[1] "Um contato NÃO rotulado (já existia rotulado com esta tag."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -15887,7 +16030,6 @@ msgstr ""
 "esta emissão."
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-
 msgid " Mailing"
 msgstr ""
 
@@ -16453,8 +16595,11 @@ msgstr ""
 "se você estiver pesquisando dentro de uma faixa de datas, tente uma faixa "
 
 #: templates/CRM/Member/Form/Search/ResultTasks.tpl
+#, fuzzy
 msgid "Found %count member."
-msgstr "Encontrado %count membro."
+msgid_plural "Found %count members."
+msgstr[0] "Encontrado %count membro."
+msgstr[1] "Encontrado %count membro."
 
 #: templates/CRM/Member/Form/Search.tpl
 msgid ""
@@ -16496,8 +16641,11 @@ msgstr ""
 "poderá ser desfeita, e ocasionará o apagamento de todas as "
 
 #: templates/CRM/Member/Form/Task/Export.tpl
+#, fuzzy
 msgid "One membership record selected for export."
-msgstr "Um registro de afiliação selecionado para exportar."
+msgid_plural "%count membership records selected for export."
+msgstr[0] "Um registro de afiliação selecionado para exportar."
+msgstr[1] "Um registro de afiliação selecionado para exportar."
 
 #: templates/CRM/Member/Form/Task/Export.tpl
 msgid ""
@@ -16524,16 +16672,21 @@ msgid "Total rows (membership records) in uploaded file."
 msgstr "Total de carreiras (registros de afiliação) no arquivo carregado."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected mismatched membership ID. This record have not been "
 "updated."
+msgid_plural ""
 "CiviCRM has detected mismatched membership IDs. These records have not been "
 "Updated."
-msgstr ""
+msgstr[0] ""
 "CiviCRM detectou ID de contato que não confere. Este registro NÃO foi "
-"atualizado."
-"CiviCRM detectou IDs de contatos que não conferem. Estes registro NÃO foram "
-"atualizados."
+"atualizado.CiviCRM detectou IDs de contatos que não conferem. Estes registro "
+"NÃO foram atualizados."
+msgstr[1] ""
+"CiviCRM detectou ID de contato que não confere. Este registro NÃO foi "
+"atualizado.CiviCRM detectou IDs de contatos que não conferem. Estes registro "
+"NÃO foram atualizados."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid ""
@@ -16544,30 +16697,40 @@ msgstr ""
 "poderá corrigí-las e depois importar o novo arquivo com os dados corrigidos."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing membership records. This record have not "
 "been imported."
+msgid_plural ""
 "CiviCRM has detected %count records with conflicting transaction IDs within "
 "this data file or relative to existing membership records. These records "
 "have not been imported."
-msgstr ""
+msgstr[0] ""
 "O CiviCRM detectou um registro com ID de transação conflitante dentro desse "
 "arquivo de dados ou em relação a atuais registros de contribuição. Esse "
-"registro, por isso, não foi importado."
-"O CiviCRM detectou %count registros com IDs de transação conflitantes dentro "
-"desse arquivo de dados ou em relação a atuais registros de contribuição. "
-"Esses registros, por isso, não foram importados."
+"registro, por isso, não foi importado.O CiviCRM detectou %count registros "
+"com IDs de transação conflitantes dentro desse arquivo de dados ou em "
+"relação a atuais registros de contribuição. Esses registros, por isso, não "
+"foram importados."
+msgstr[1] ""
+"O CiviCRM detectou um registro com ID de transação conflitante dentro desse "
+"arquivo de dados ou em relação a atuais registros de contribuição. Esse "
+"registro, por isso, não foi importado.O CiviCRM detectou %count registros "
+"com IDs de transação conflitantes dentro desse arquivo de dados ou em "
+"relação a atuais registros de contribuição. Esses registros, por isso, não "
+"foram importados."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "membership record."
+msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "membership records."
-msgstr ""
-"O CiviCRM detectou um registro que é duplicação de outro já existente."
-"O CiviCRM detectou %count registros que são duplicações de outros já existentes."
+msgstr[0] "Carreiras que são duplicatas de registros de afiliação no CiviCRM."
+msgstr[1] "Carreiras que são duplicatas de registros de afiliação no CiviCRM."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid "Rows with mismatched membership IDs... (NOT updated)."
@@ -16736,8 +16899,9 @@ msgstr ""
 #: templates/CRM/Member/Page/MessageTemplates.tpl
 msgid ""
 "There are no Message Templates  entered. You can <a href=\"%1\">add one</a>."
-msgstr""
-"Não há Modelos de Mensagem informados. Você pode <a href=\"%1\">adicionar um</a>."
+msgstr ""
+"Não há Modelos de Mensagem informados. Você pode <a href=\"%1\">adicionar "
+"um</a>."
 
 #: templates/CRM/Profile/Form/Dojo.tpl
 msgid ""
@@ -18519,6 +18683,77 @@ msgstr "Mensagem capturada por filtro de conteúdo."
 msgid "Error in SMTP transaction"
 msgstr "Erro na transação SMTP"
 
+#~ msgid ""
+#~ "%count relationship record not created due to invalid target contact type."
+#~ "%count relationship records not created due to invalid target contact "
+#~ "type."
+#~ msgstr ""
+#~ "Registro(s) de relacionamento não criado devido ao tipo de contato "
+#~ "destino inválido: %1Registro(s) de relacionamento não criados devido ao "
+#~ "tipo de contato destino inválido: %1"
+
+#~ msgid ""
+#~ "%count relationship record not created - duplicate of existing "
+#~ "relationship.%count relationship records not created - duplicate of "
+#~ "existing relationship."
+#~ msgstr ""
+#~ "Registro(s) de relacionamento não criado - duplicata de um relacionamento "
+#~ "existente: %1Registro(s) de relacionamento não criados - duplicata de um "
+#~ "relacionamento existente: %1"
+
+#~ msgid ""
+#~ "CiviCRM has detected mismatched contribution ID. This record have not "
+#~ "been updated.CiviCRM has detected mismatched contribution IDs. These "
+#~ "records have not been Updated."
+#~ msgstr ""
+#~ "O CiviCRM detectou ID de contribuição desparelhado. Esse registro não foi "
+#~ "então atualizado.O CiviCRM detectou IDs de contribuição desparelhados. "
+#~ "Esses registros não foram então atualizados."
+
+#~ msgid ""
+#~ "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
+#~ "contribution record.CiviCRM has detected %count records which are "
+#~ "duplicates of existing CiviCRM contribution records."
+#~ msgstr ""
+#~ "O CiviCRM detectou um registro que é duplicata de outro registro de "
+#~ "contribuição.O CiviCRM detectou %count registros que são duplicatas de "
+#~ "outros registros de contribuição."
+
+#~ msgid ""
+#~ "CiviCRM has detected mismatched activity history ID. This record have not "
+#~ "been updated.CiviCRM has detected mismatched activity history IDs. These "
+#~ "records have not been Updated."
+#~ msgstr ""
+#~ "CiviCRM detectou dados inválidos de ID de histórico de atividades. Este "
+#~ "registro não foi atualizado.CiviCRM detectou dados inválidos de IDs de "
+#~ "histórico de atividades. Estes registros não foram atualizados."
+
+#~ msgid ""
+#~ "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
+#~ "activity history record.CiviCRM has detected %count records which are "
+#~ "duplicates of existing CiviCRM activity history records."
+#~ msgstr ""
+#~ "O CiviCRM detectou um registro que é uma duplicata de outro registro de "
+#~ "histórico de atividades\".O CiviCRM detectou %count registros que são "
+#~ "duplicatas de outros registros de histórico de atividades\"."
+
+#~ msgid ""
+#~ "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
+#~ "contact record.CiviCRM has detected %count records which are duplicates "
+#~ "of existing CiviCRM contact records."
+#~ msgstr ""
+#~ "Detectado um registro que é duplicação de outro já existente.Detectados %"
+#~ "count registros que são duplicações de outros já existentes."
+
+#~ msgid ""
+#~ "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
+#~ "membership record.CiviCRM has detected %count records which are "
+#~ "duplicates of existing CiviCRM membership records."
+#~ msgstr ""
+#~ "O CiviCRM detectou um registro que é duplicação de outro já existente.O "
+#~ "CiviCRM detectou %count registros que são duplicações de outros já "
+#~ "existentes."
+
 #~ msgid "Contribution Receipt"
 #~ msgstr "Recibo de Contribuição"
 
@@ -18616,8 +18851,8 @@ msgstr "Erro na transação SMTP"
 #~ "Users will no longer be able to select this value when adding or editing "
 #~ "activities."
 #~ msgstr ""
-#~ "Usuários não poderão mais selecionar este valor para adicionar ou "
-#~ "editar atividades."
+#~ "Usuários não poderão mais selecionar este valor para adicionar ou editar "
+#~ "atividades."
 
 #~ msgid "Disable Activity Type"
 #~ msgstr "Desativar Tipo de Atividade"
@@ -18653,8 +18888,8 @@ msgstr "Erro na transação SMTP"
 #~ "Users will no longer be able to select this value when adding or editing "
 #~ "Individual Prefix."
 #~ msgstr ""
-#~ "Usuários não poderão mais selecionar este valor para adicionar ou "
-#~ "editar Prefixo Individual."
+#~ "Usuários não poderão mais selecionar este valor para adicionar ou editar "
+#~ "Prefixo Individual."
 
 #~ msgid "Edit Individual Prefix"
 #~ msgstr "Editar Prefixo Individual"
@@ -18675,8 +18910,8 @@ msgstr "Erro na transação SMTP"
 #~ "Users will no longer be able to select this value when adding or editing "
 #~ "Individual Suffix."
 #~ msgstr ""
-#~ "Usuários não poderão mais selecionar este valor para adicionar ou "
-#~ "editar Sufixo Individual."
+#~ "Usuários não poderão mais selecionar este valor para adicionar ou editar "
+#~ "Sufixo Individual."
 
 #~ msgid "Edit Individual Suffix"
 #~ msgstr "Editar Sufixo Individual"
@@ -18817,15 +19052,6 @@ msgstr "Erro na transação SMTP"
 
 #~ msgid "View Gender"
 #~ msgstr "Ver Gênero"
-
-#~ msgid "San Francisco"
-#~ msgstr ""
-
-#~ msgid "Postal Mail"
-#~ msgstr ""
-
-#~ msgid "SMS"
-#~ msgstr ""
 
 #~ msgid "- All Contacts -"
 #~ msgstr "- Todos os Contatos -"
@@ -19186,8 +19412,8 @@ msgstr "Erro na transação SMTP"
 #~ "link to display a search and listings page for a Profile with ID = 3 "
 #~ "would be:"
 #~ msgstr ""
-#~ "<strong>Listagens de Perfil</strong> - Um formulário predefinido de busca de "
-#~ "perfil e busca de listagens de resultados é exibido quando V. liga "
+#~ "<strong>Listagens de Perfil</strong> - Um formulário predefinido de busca "
+#~ "de perfil e busca de listagens de resultados é exibido quando V. liga "
 #~ "usuários ao caminho %1/%2. Se houver vários perfis que V. quer usar para "
 #~ "diferentes finalidades de busca e listagem, simplesmente acrescente o ID "
 #~ "de perfil ao final de sua query string usando o parâmetro 'gid' . Por "
@@ -19277,20 +19503,20 @@ msgstr "Erro na transação SMTP"
 #~ msgid ""
 #~ "CiviCRM usa uma Regra de Checagem de Duplicatas para determinar quando um "
 #~ "novo contato Individual deve ser marcado com uma possível duplicação de "
-#~ "um registro. A configuração predefinida compara endereço de email E prenome E "
-#~ "sobenome. Esta regra é usada ao digitar um novo contato individual, ao "
-#~ "atualizar um contato já existente, e ao importar contatos com o "
-#~ "Assistente de Importação. Clique em <a href=\"%1\">Editar Regra</a> para "
-#~ "modificar o conjunto de campos de contato usado na identificação de "
+#~ "um registro. A configuração predefinida compara endereço de email E "
+#~ "prenome E sobenome. Esta regra é usada ao digitar um novo contato "
+#~ "individual, ao atualizar um contato já existente, e ao importar contatos "
+#~ "com o Assistente de Importação. Clique em <a href=\"%1\">Editar Regra</a> "
+#~ "para modificar o conjunto de campos de contato usado na identificação de "
 #~ "contatos duplicados.'"
 #~ msgstr ""
 #~ "CiviCRM usa uma Regra de Checagem de Duplicatas para determinar quando um "
 #~ "novo contato Individual deve ser marcado com uma possível duplicação de "
-#~ "um registro. A configuração predefinida compara endereço de email E prenome E "
-#~ "sobenome. Esta regra é usada ao digitar um novo contato individual, ao "
-#~ "atualizar um contato já existente, e ao importar contatos com o "
-#~ "Assistente de Importação. Clique em <a href=\"%1\">Editar Regra</a> para "
-#~ "modificar o conjunto de campos de contato usado na identificação de "
+#~ "um registro. A configuração predefinida compara endereço de email E "
+#~ "prenome E sobenome. Esta regra é usada ao digitar um novo contato "
+#~ "individual, ao atualizar um contato já existente, e ao importar contatos "
+#~ "com o Assistente de Importação. Clique em <a href=\"%1\">Editar Regra</a> "
+#~ "para modificar o conjunto de campos de contato usado na identificação de "
 #~ "contatos duplicados."
 
 #~ msgid "%1 $op \"%2\""
