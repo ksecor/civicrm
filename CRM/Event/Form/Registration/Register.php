@@ -112,8 +112,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                     ) 
                               );
         }
+        $this->addFormRule( array( 'CRM_Event_Form_Registration_Register', 'formRule' ),$this );
+       
     }
-    
+
     /**
      * build the radio/text form elements for the amount field
      *
@@ -165,6 +167,34 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                        array( 'class' => 'form-submit' ) );
         }
     }
+
+
+    /** 
+     * global form rule 
+     * 
+     * @param array $fields  the input form values 
+     * @param array $files   the uploaded files if any 
+     * @param array $options additional user data 
+     * 
+     * @return true if no errors, else array of errors 
+     * @access public 
+     * @static 
+     */ 
+    static function formRule(&$fields, &$files, $self) {
+        foreach ( $self->_fields as $name => $fld ) {
+            if ( $fld['is_required'] &&
+                 CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
+                $errors[$name] = ts( '%1 is a required field.', array( 1 => $fld['title'] ) );
+            }
+        }
+        
+        if ( !empty($errors) ) {
+            return $errors;
+        }
+        
+        return true;
+   }
+    
 
     /**
      * Function to process the form
