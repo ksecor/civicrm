@@ -36,20 +36,41 @@
 <script type="text/javascript">
     function copyValues(fieldName) 
     {
-        var cId = new Array();	
+	var cId = new Array();	
         var i = 0;{/literal}
         {foreach from=$contributionIds item=field}
-        {literal}cId[i++]{/literal} = {$field}
+	{literal}cId[i++]{/literal} = {$field}
         {/foreach}
 	{literal}        
 	
-        for ( k=0; k<cId.length; k++ ) {
-            document.getElementById("field_"+cId[k]+"_"+fieldName).value = document.getElementById("field_"+cId[0]+"_"+fieldName).value;
-        }
+        if ( document.getElementById("field_"+cId[0]+"_"+fieldName ) ) {
+	    for ( k=0; k<cId.length; k++ ) {
+                document.getElementById("field_"+cId[k]+"_"+fieldName).value = document.getElementById("field_"+cId[0]+"_"+fieldName).value;           }  
+        } else if ( document.getElementsByName("field"+"["+cId[0]+"]"+"["+fieldName+"]")[0].type == "radio" ) {
+	    for ( t=0; t<document.getElementsByName("field"+"["+cId[0]+"]"+"["+fieldName+"]").length; t++ ) { 
+                if  (document.getElementsByName("field"+"["+cId[0]+"]"+"["+fieldName+"]")[t].checked == true ) {break}
+	    }
+	    
+	    if ( t == document.getElementsByName("field"+"["+cId[0]+"]"+"["+fieldName+"]").length ) {
+		for ( k=0; k<cId.length; k++ ) {
+		    for ( t=0; t<document.getElementsByName("field"+"["+cId[0]+"]"+"["+fieldName+"]").length; t++ ) {
+			document.getElementsByName("field"+"["+cId[k]+"]"+"["+fieldName+"]")[t].checked = false;
+		    }
+		}
+	    } else {
+		for ( k=0; k<cId.length; k++ ) {
+		    document.getElementsByName("field"+"["+cId[k]+"]"+"["+fieldName+"]")[t].checked = document.getElementsByName("field"+"["+cId[0]+"]"+"["+fieldName+"]")[t].checked;
+		}
+	    }
+	} else if ( document.getElementsByName("field"+"["+cId[0]+"]"+"["+fieldName+"]")[0].type == "checkbox" ) {
+	    for ( k=0; k<cId.length; k++ ) {
+		document.getElementsByName("field"+"["+cId[k]+"]"+"["+fieldName+"]")[0].checked = document.getElementsByName("field"+"["+cId[0]+"]"+"["+fieldName+"]")[0].checked;
+	    }   
+	}
     }  
     function copyValuesDate(fieldName) 
     {
-        var cId = new Array();	
+	var cId = new Array();	
         var i = 0;{/literal}
         {foreach from=$contributionIds item=field}
         {literal}cId[i++]{/literal} = {$field}
