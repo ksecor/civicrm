@@ -90,7 +90,7 @@ class CRM_Utils_Address {
             }
         }
         
-        if ( !$individualFormat && $mailing ) {  
+        if ( !$individualFormat ) {  
             $type = CRM_Contact_BAO_Contact::getContactType($fields['id']);
 
             if ( $type == 'Individual' ) {
@@ -98,8 +98,7 @@ class CRM_Utils_Address {
                     $config =& CRM_Core_Config::singleton();
                 }  
                 $format = $config->individualNameFormat;
-                $contactName = self::format($fields, $format, null, true, true);
-
+                $contactName = self::format($fields, $format, null, null, true);
             } else {
                 $contactName = $fields['display_name'];
             }
