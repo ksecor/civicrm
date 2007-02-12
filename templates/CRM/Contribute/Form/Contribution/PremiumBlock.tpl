@@ -51,7 +51,7 @@ function selectPremium(optionField) {
                 {assign var="pid" value=$row.id}
                 <td>{$form.selectProduct.$pid.html}</td>
             {/if}
-            <td>{if $row.thumbnail}<a href="javascript:popUp('{$row.image}')" ><img src="{$row.thumbnail}" alt="{$row.name}" class="no-border" /></a>{else}&nbsp;{/if}</td>    	
+            <td>{if $row.thumbnail}<a href="javascript:popUp('{$row.image}')" ><img src="{$row.thumbnail}" alt="{$row.name}" class="no-border" /></a>{/if}</td>    	
 	        <td>
                 <strong>{$row.name}</strong><br />
                 {$row.description} &nbsp;
