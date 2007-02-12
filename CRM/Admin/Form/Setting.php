@@ -239,6 +239,20 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
                                          {city}{, }{state_province}{ }{postal_code}
                                          {country}';
         }
+
+        if ( ! isset( $defaults['individualNameFormat'] ) ) {
+            $defaults['individualNameFormat']= '{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}';
+        }
+
+        if ( ! isset( $defaults['mailingLabelFormat'] ) ) {
+            $defaults['mailingLabelFormat']= '{contact_name}
+{street_address}
+{supplemental_address_1}
+{supplemental_address_2}
+{city}{, }{state_province}{ }{postal_code}
+{country}';
+        }
+
     }
 
   

@@ -45,15 +45,17 @@ class CRM_Utils_Address {
      * Format an address basing on the address fields provided.
      * Use $config->addressFormat if there's no format specified.
      *
-     * @param array   $fields       the address fields
-     * @param string  $format       the desired address format
-     * @param boolean $microformat  if true indicates, the address to be built in hcard-microformat standard.
+     * @param array   $fields            the address fields
+     * @param string  $format            the desired address format
+     * @param boolean $microformat       if true indicates, the address to be built in hcard-microformat standard.
+     * @param boolean $mailing           if true indicates, the call has been made from mailing label
+     * @param boolean $individualFormat  if true indicates, the call has been made for the contact of type 'individual'
      *
      * @return string  formatted address string
      *
      * @static
      */
-    static function format($fields, $format = null, $microformat = false)
+    static function format($fields, $format = null, $microformat = false, $mailing = false, $individualFormat = false )
     {
         static $config = null;
         
@@ -63,9 +65,15 @@ class CRM_Utils_Address {
             }
             $format = $config->addressFormat;
         }
-                
+
+        if ( $mailing ) {
+            if ( ! $config ) {
+                $config =& CRM_Core_Config::singleton();
+            }  
+            $format = $config->mailingLabelFormat;
+        }
         $formatted = $format;
-     
+
         $fullPostalCode = $fields['postal_code'];
         if (isset( $fields['postal_code_suffix'] ) ) {
             $fullPostalCode .= "-$fields[postal_code_suffix]";
@@ -81,9 +89,30 @@ class CRM_Utils_Address {
                 $fields[$f] = null;
             }
         }
+        
+        if ( !$individualFormat && $mailing ) {  
+            $type = CRM_Contact_BAO_Contact::getContactType($fields['id']);
+
+            if ( $type == 'Individual' ) {
+                if ( ! $config ) {
+                    $config =& CRM_Core_Config::singleton();
+                }  
+                $format = $config->individualNameFormat;
+                $contactName = self::format($fields, $format, null, true, true);
+
+            } else {
+                $contactName = $fields['display_name'];
+            }
+        }
 
         if (! $microformat) {
-            $replacements = array(
+            $replacements = array( // replacements in case of Individual Name Format
+                                  'contact_name'           => $contactName,
+                                  'individual_prefix'      => $fields['individual_prefix'],
+                                  'first_name'             => $fields['first_name'],
+                                  'middle_name'            => $fields['middle_name'],
+                                  'last_name'              => $fields['last_name'],
+                                  'individual_suffix'      => $fields['individual_suffix'],
                                   'street_address'         => $fields['street_address'],
                                   'supplemental_address_1' => $fields['supplemental_address_1'],
                                   'supplemental_address_2' => $fields['supplemental_address_2'],
@@ -156,7 +185,7 @@ class CRM_Utils_Address {
             }
         }
         $formatted = implode("\n", $lines);
-        
+
         return $formatted;
     }
 

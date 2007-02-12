@@ -101,7 +101,14 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         }
         
         //build the returnproperties
-        $returnProperties = array ('display_name' => 1) ;
+        $returnProperties = array (
+                                   'display_name'      => 1, 
+                                   'individual_prefix' => 1, 
+                                   'first_name'        => 1, 
+                                   'middle_name'       => 1, 
+                                   'last_name'         => 1, 
+                                   'individual_suffix' => 1
+                                   ) ;
 
         if ($fv['location_type_id']) {
             $locType = CRM_Core_PseudoConstant::locationType();
@@ -139,12 +146,13 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 }
             }
         }
-
+    
         // format the addresses according to CIVICRM_ADDRESS_FORMAT (CRM-1327)
         require_once 'CRM/Utils/Address.php';
         foreach ($rows as $id => $row) {
-            $formatted = CRM_Utils_Address::format($row);
-            $rows[$id] = array($row['display_name'], $formatted);
+            $row['id'] = $id;
+            $formatted = CRM_Utils_Address::format( $row, null, null, true );
+            $rows[$id]= array( $formatted );
         }
 
         //call function to create labels

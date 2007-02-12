@@ -59,7 +59,10 @@ class CRM_Admin_Form_Setting_Address extends CRM_Admin_Form_Setting
         $this->addElement('text','AddressStdProvider', ts('Provider'));
         $this->addElement('text','AddressStdUserID', ts('User ID'));
         $this->addElement('text','AddressStdURL', ts('Web Service URL'));
-  
+        //Mailing Labels
+        $this->addElement('text','individualNameFormat', ts('Individual Name Format'));
+        $this->addElement('textarea','mailingLabelFormat', ts('Mailing Label Format'));  
+
         parent::buildQuickForm();
     }
 }

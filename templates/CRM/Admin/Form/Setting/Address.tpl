@@ -24,6 +24,15 @@
         <dt>&nbsp</dt><dd class="description">{ts}USPS-provided web service URL.{/ts}</dd>
     </dl>
 </fieldset>
+<fieldset><legend>{ts}Mailing Labels{/ts}</legend>
+      <dl>
+        <dt>{$form.individualNameFormat.label}</dt><dd>{$form.individualNameFormat.html|crmReplace:class:huge}</dd>
+        <dt>&nbsp</dt><dd class="description">{ts}Maximum number of different locations/addresses that can be entered for a contact.{/ts}</dd>
+        <dt>{$form.mailingLabelFormat.label}</dt><dd>{$form.mailingLabelFormat.html|crmReplace:class:huge}</dd>      
+        <dt>&nbsp</dt><dd class="description">{ts}Contact address display format.<br />Use state_province tag for state province abbreviation or state_province_name for state province name.{/ts}</dd>
+  
+    </dl>
+</fieldset>
 <dl>
     <dt></dt><dd>{$form.buttons.html}</dd>
 </dl>

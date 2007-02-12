@@ -173,6 +173,18 @@ class CRM_Core_Config
     public $lcMessages = 'en_US';
 
     /**
+     * The format of the individual name.
+     * @var string
+     */
+    public $individualNameFormat = "{individual_prefix}{ }{first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}";
+
+    /**
+     * The format of the mailing label fields.
+     * @var string
+     */
+    public $mailingLabelFormat = "{contact_name}\n{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}";
+
+    /**
      * The format of the address fields.
      * @var string
      */
