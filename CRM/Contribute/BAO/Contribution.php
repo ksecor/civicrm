@@ -458,9 +458,12 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
         require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
         while ( $contribution->fetch( ) ) {
             self::deleteContribution($contribution->id);
-            //self::deleteContributionSubobjects($contribution->id);
-            $contribution->delete( );
         }
+
+        require_once 'CRM/Contribute/DAO/ContributionRecur.php';
+        $recur =& new CRM_Contribute_DAO_ContributionRecur( );
+        $recur->contact_id = $contactId;
+        $recur->delete( );
     }
     /**                                                           
      * Delete the record that are associated with this contribution 

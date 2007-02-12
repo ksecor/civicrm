@@ -84,8 +84,10 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
 
         $params = $this->_params;
      
-        $honor_block_is_active = $this->get( 'honor_block_is_active');
-        if ( $honor_block_is_active )  {
+        $honor_block_is_active = $this->get( 'honor_block_is_active'); 
+        if ( $honor_block_is_active &&
+             ( ( ! empty( $params["honor_first_name"] ) && ! empty( $params["honor_last_name"] ) ) ||
+               ( ! empty( $params["honor_email"] ) ) ) ) {
             $this->assign('honor_block_is_active', $honor_block_is_active );
             $this->assign("honor_block_title",$this->_values['honor_block_title']);
           

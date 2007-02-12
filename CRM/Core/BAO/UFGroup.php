@@ -887,6 +887,13 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         unset( $params['group'] );
         unset( $params['tag']   );
         
+        if ( isset( $params["contact_type"] ) && $params["contact_type"] ) {
+            $fields["contact_type"] = array("name"  => "contact_type" ,
+                                            "title" => "Contact Type",
+                                            "where" => "civicrm_contact.contact_type"
+                                            );
+        }
+        
         // also eliminate all the params that are not present in fields
         foreach ( $params as $name => $value ) {
             if ( ! array_key_exists( $name, $fields ) ) {
@@ -899,13 +906,6 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         }
 
         require_once 'CRM/Contact/BAO/Query.php';
-        if ( isset( $params["contact_type"] ) && $params["contact_type"] ) {
-            $fields["contact_type"] = array("name"  => "contact_type" ,
-                                            "title" => "Contact Type",
-                                            "where" => "civicrm_contact.contact_type"
-                                            );
-        }
-        
         $params =& CRM_Contact_BAO_Query::convertFormValues( $params );
         $whereTables = array( );
 

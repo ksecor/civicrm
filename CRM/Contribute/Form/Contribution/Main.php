@@ -334,15 +334,20 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
-         if ($self->_values["honor_block_is_active"]) {
-            if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
-                      CRM_Utils_Array::value( 'honor_last_name' , $fields )) ||
-                      CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
-                $errors['_qf_default'] = ts('In Honor Of - First Name and Last Name, OR an Email Address is required.');
+        if ( $self->_values["honor_block_is_active"] ) {
+            // make sure there is a first name and last name if email is not there
+            if ( ! CRM_Utils_Array::value( 'honor_email' , $fields ) ) {
+                if ( !  CRM_Utils_Array::value( 'honor_first_name', $fields ) &&
+                     CRM_Utils_Array::value( 'honor_last_name' , $fields ) ) {
+                    $errors['_qf_default'] = ts('In Honor Of - First Name and Last Name, OR an Email Address is required.');
+                } else if ( CRM_Utils_Array::value( 'honor_first_name', $fields ) &&
+                            ! CRM_Utils_Array::value( 'honor_last_name' , $fields ) ) {
+                    $errors['_qf_default'] = ts('In Honor Of - First Name and Last Name, OR an Email Address is required.');
+                }
             }
-         }
+        }
 
-         if ( isset( $fields['is_recur'] ) && $fields['is_recur'] ) {
+        if ( isset( $fields['is_recur'] ) && $fields['is_recur'] ) {
             if ( $fields['frequency_interval'] <= 0 ) {
                 $errors['frequency_interval'] = ts('Please enter a number for how often you want to make this recurring contribution (EXAMPLE: Every 3 months).'); 
             }

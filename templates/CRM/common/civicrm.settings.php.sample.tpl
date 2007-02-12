@@ -176,8 +176,8 @@ define( 'CIVICRM_SMTP_PASSWORD', ''    );
  */
 
 /* API Password
- * PayPal API Signature credential: API Password value (from your PayPal account - View API Signature screen).
- * PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this value.
+ * PayPal API Signature credential: API Password value (from your PayPal sandbox account - View API Signature screen).
+ * PayPal Pro or Express with API Certificate credential: API Password value (from your PayPal sandbox account).
  * Moneris: API Token value.
  */
  
@@ -205,7 +205,7 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_SUBJECT'       , '' );
 
 /* API Password
  * PayPal Pro or Express with API Signature credential: API Password value (from your PayPal account - View API Signature screen)
- * PayPal Pro or Express with API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+ * PayPal Pro or Express with API Certificate credential: API Password value (from your PayPal account).
  * Moneris: API Token value.
  */
 

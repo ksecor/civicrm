@@ -447,10 +447,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             //$query = "SELECT *,contact_a.id as contact_id, (talk to lobo before re-enabling this)
             //civicrm_email.email as email";
         } else {
-            $query  = "SELECT contact_a.id as contact_id , $grpStatus as status";
+            $query  = "SELECT contact_a.id as contact_id , $grpStatus as status,";
             $query .= implode( ',', $returnProperties );
         }
-  
+        
         $params = array( );
         $params[] = array( 'group', '=', array($group->id => true), 0, 0 );
 
@@ -490,6 +490,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ( $offset != null && $row_count != null ) {
             $query .= " LIMIT $offset, $row_count";
         }
+        
         //CRM_Core_Error::debug( 'q', $query );
         
         $dao =& new CRM_Contact_DAO_Contact( );
