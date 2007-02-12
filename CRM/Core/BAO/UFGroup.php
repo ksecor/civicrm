@@ -864,6 +864,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         unset( $params['group'] );
         unset( $params['tag']   );
         
+        if ( $params["contact_type"] ) {
+            $fields["contact_type"] = array("name"  => "contact_type" ,
+                                            "title" => "Contact Type",
+                                            "where" => "civicrm_contact.contact_type"
+                                            );
+        }
+        
         // also eliminate all the params that are not present in fields
         foreach ( $params as $name => $value ) {
             if ( ! array_key_exists( $name, $fields ) ) {
@@ -876,13 +883,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
 
         require_once 'CRM/Contact/BAO/Query.php';
-        if ( $params["contact_type"] ) {
-            $fields["contact_type"] = array("name"  => "contact_type" ,
-                                            "title" => "Contact Type",
-                                            "where" => "civicrm_contact.contact_type"
-                                            );
-        }
-        
         $params =& CRM_Contact_Form_Search::convertFormValues( $params );
         $whereTables = array( );
 
