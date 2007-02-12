@@ -239,6 +239,7 @@
        <headerPattern>/Note|Comment/i</headerPattern>
        <dataPattern>//</dataPattern>
        <add>1.4</add>
+       <drop>1.7</drop>
   </field>
   <index>
     <name>UI_contrib_trxn_id_domain_id</name>
