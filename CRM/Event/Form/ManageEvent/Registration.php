@@ -167,7 +167,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     {
         $form->add('text','confirm_title',ts('Title '));   
         $form->add('textarea','confirm_text',ts('Intro Text'), array("rows"=>6,"cols"=>80));
-        $form->add('textarea','confirm_footer_text',ts('Footer Text'), array("rows"=>6,"cols"=>80));
+        $form->add('textarea','confirm_footer_text',ts('Footer Text'), array("rows"=>6,"cols"=>80));     
     }
 
     /**
@@ -183,7 +183,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $form->add('text','cc_confirm',ts('CC Confirmation To '));
         $form->addRule( "cc_confirm", ts('Email is not valid.'), 'email' );  
         $form->add('text','bcc_confirm',ts('BCC Confirmation To '));  
-        $form->addRule( "bcc_confirm", ts('Email is not valid.'), 'email' );  
+        $form->addRule( "bcc_confirm", ts('Email is not valid.'), 'email' );          
+        $form->add('text', 'confirm_from_name', ts('Confirm From Name') );
+        $form->add('text', 'confirm_from_email', ts('Confirm From Email') );  
+        $form->addRule( "confirm_from_email", ts('Email is not valid.'), 'email' );
     }
 
 
@@ -228,10 +231,28 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             }
         }
         
+        if ( $values['is_email_confirm'] ) { 
+            if ( !$values['cc_confirm'] ) { 
+                $errorMsg['cc_confirm'] = "Please enter Cc Confirm.";
+            }
+            
+            if ( !$values['bcc_confirm'] ) {
+                $errorMsg['bcc_confirm'] = "Please enter Bcc Confirm.";
+            } 
+            
+            if ( !$values['confirm_from_name'] ) {
+                $errorMsg['confirm_from_name'] = "Please enter Confirm From Name.";
+            } 
+            
+            if ( !$values['confirm_from_email'] ) {
+                $errorMsg['confirm_from_email'] = "Please enter Confirm From Email.";
+            }
+        }
+        
         if ( !empty($errorMsg) ) {
             return $errorMsg;
-        }
-
+        }        
+        
         return true;
     }
     
@@ -242,7 +263,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      * @return None
      */
     public function postProcess() 
-    {
+    {   
         $params = $ids = array();
         $params = $this->exportValues();
 
@@ -270,8 +291,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
 
         $ufJoinParams['weight'     ] = 2; 
         $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
-        CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
-
+        CRM_Core_BAO_UFJoin::create( $ufJoinParams );         
         CRM_Core_Session::setStatus( ts('Online Registration details has been saved.') );
         
     }//end of function

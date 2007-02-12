@@ -35,7 +35,7 @@
     <dl>
     	<dt>{$form.confirm_title.label}</dt><dd>{$form.confirm_title.html}</dd>
 	    <dt>{$form.confirm_text.label}</dt><dd>{$form.confirm_text.html}</dd>
-    	<dt>{$form.confirm_footer_text.label}</dt><dd>{$form.confirm_footer_text.html}</dd>
+    	<dt>{$form.confirm_footer_text.label}</dt><dd>{$form.confirm_footer_text.html}</dd>       
     </dl>
     </fieldset>
 	</div>
@@ -52,8 +52,10 @@
     	<dt>{$form.is_email_confirm.label}</dt><dd>{$form.is_email_confirm.html}</dd>
 <div id="confirmEmail">
 	    <dt>{$form.confirm_email_text.label}</dt><dd>{$form.confirm_email_text.html}</dd>
+        <dt>{$form.confirm_from_name.label}</dt><dd>{$form.confirm_from_name.html}</dd>
+        <dt>{$form.confirm_from_email.label}</dt><dd>{$form.confirm_from_email.html}</dd>
     	<dt>{$form.cc_confirm.label}</dt><dd>{$form.cc_confirm.html}</dd>
-	    <dt>{$form.bcc_confirm.label}</dt><dd>{$form.bcc_confirm.html}</dd>
+	    <dt>{$form.bcc_confirm.label}</dt><dd>{$form.bcc_confirm.html}</dd>       
 </div>
     </dl>
  {/strip}
