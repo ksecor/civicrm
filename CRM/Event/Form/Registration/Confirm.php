@@ -215,12 +215,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 
                 $contribution =& $this->processContribution( $this->_params, null, $contactID, true );
                 $this->_params['contributionID'    ] = $contribution->id;
-                $this->_params['contributionTypeID'] = $contributionType->id;
+                $this->_params['contributionTypeID'] = $contribution->contribution_type_id;
                 $this->_params['item_name'         ] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
                 $this->_params['receive_date'      ] = $now;
-                
-//                 $participant  =& $this->addParticipant( $this->_params, $contactID );
-//                 CRM_Event_BAO_Participant::setActivityHistory( $participant );
                 
                 $result =& $payment->doTransferCheckout( $this->_params );
                 break;
@@ -363,6 +360,7 @@ WHERE  v.option_group_id = g.id
        
         // return if pending
         if ( $pending ) {
+            CRM_Core_DAO::transaction( 'COMMIT' );
             return $contribution;
         }
         

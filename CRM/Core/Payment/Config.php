@@ -37,8 +37,6 @@
  *
  */
 
-//require_once 'CRM/Core/Config.php';
-
 class CRM_Core_Payment_Config {
 
     /**

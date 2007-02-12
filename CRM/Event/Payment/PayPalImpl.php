@@ -34,7 +34,6 @@
  * 
  */ 
 
-//require_once 'CRM/Contribute/Payment.php';
 require_once 'CRM/Core/Payment/PayPalImpl.php';
 
 class CRM_Event_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
@@ -47,8 +46,6 @@ class CRM_Event_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
      */ 
     static private $_singleton = null; 
     
-    //static protected $_mode = null;
-
     /** 
      * Constructor 
      * 
@@ -79,7 +76,7 @@ class CRM_Event_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
     function doTransferCheckout( &$params ) {
         $config =& CRM_Core_Config::singleton( );
         
-        $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&module='event'&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}&eventID={$params['eventID']}";
+        $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&module=event&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}&eventID={$params['eventID']}";
         
         $returnURL = CRM_Utils_System::url( 'civicrm/event/register', '_qf_ThankYou_display=1', true, null, false );
         $cancelURL = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1&cancel=1', true, null, false );

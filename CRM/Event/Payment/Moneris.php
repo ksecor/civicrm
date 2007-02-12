@@ -36,7 +36,7 @@
 
 require_once 'CRM/Core/Payment/Moneris.php';
 
-class CRM_Contribute_Payment_Moneris extends CRM_Core_Payment_Moneris { 
+class CRM_Event_Payment_Moneris extends CRM_Core_Payment_Moneris { 
     /** 
      * We only need one instance of this object. So we use the singleton 
      * pattern and cache the instance in this variable 
@@ -68,7 +68,7 @@ class CRM_Contribute_Payment_Moneris extends CRM_Core_Payment_Moneris {
      */ 
     static function &singleton( $mode ) {
         if (self::$_singleton === null ) { 
-            self::$_singleton =& new CRM_Contribute_Payment_Moneris( $mode );
+            self::$_singleton =& new CRM_Event_Payment_Moneris( $mode );
         } 
         return self::$_singleton; 
     } 
