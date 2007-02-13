@@ -7,25 +7,37 @@
         {if !$wizard.steps[step].collapsed && $wizard.steps[step].name NEQ 'Submit' && $wizard.steps[step].name NEQ 'PartnerSubmit'}
             {assign var=i value=$smarty.section.step.iteration}
             {if $wizard.currentStepNumber > $wizard.steps[step].stepNumber}
-                {assign var="stepClass" value="past-step"}
                 {if $wizard.steps[step].step}
-                    {assign var="stepPrefix" value=$wizard.style.stepPrefixPast|cat:$wizard.steps[step].stepNumber|cat:". "}
-                {else}
+                    {assign var="stepClass" value="past-step"}
+                {else} {* This is a sub-step *}
+                    {assign var="stepClass" value="past-sub-step"}
+                {/if}
+                {if $wizard.style.hideStepNumbers}
                     {assign var="stepPrefix" value=$wizard.style.subStepPrefixPast}
+                {else}
+                    {assign var="stepPrefix" value=$wizard.style.stepPrefixPast|cat:$wizard.steps[step].stepNumber|cat:". "}
                 {/if}
             {elseif $wizard.currentStepNumber == $wizard.steps[step].stepNumber}
-                {assign var="stepClass" value="current-step"}
                 {if $wizard.steps[step].step}
-                    {assign var="stepPrefix" value=$wizard.style.stepPrefixCurrent|cat:$wizard.steps[step].stepNumber|cat:". "}
+                    {assign var="stepClass" value="current-step"}
                 {else}
+                    {assign var="stepClass" value="current-sub-step"}
+                {/if}
+                {if $wizard.style.hideStepNumbers}
                     {assign var="stepPrefix" value=$wizard.style.subStepPrefixCurrent}
+                {else}
+                    {assign var="stepPrefix" value=$wizard.style.stepPrefixCurrent|cat:$wizard.steps[step].stepNumber|cat:". "}
                 {/if}
             {else}
-                {assign var="stepClass" value="future-step"}
                 {if $wizard.steps[step].step}
-                    {assign var="stepPrefix" value=$wizard.style.stepPrefixFuture|cat:$wizard.steps[step].stepNumber|cat:". "}
+                    {assign var="stepClass" value="future-step"}
                 {else}
+                    {assign var="stepClass" value="future-sub-step"}
+                {/if}
+                {if $wizard.style.hideStepNumbers}
                     {assign var="stepPrefix" value=$wizard.style.subStepPrefixFuture}
+                {else}
+                    {assign var="stepPrefix" value=$wizard.style.stepPrefixFuture|cat:$wizard.steps[step].stepNumber|cat:". "}
                 {/if}
             {/if}
             {if !$wizard.steps[step].valid}
