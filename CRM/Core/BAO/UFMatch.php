@@ -178,6 +178,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 if ( ! $ctype ) {
                     $ctype = "Individual";
                 }
+                $params['contact_type'] = $ctype;
                 $contact =& crm_create_contact( $params, $ctype );
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::debug( 'error', $contact );
