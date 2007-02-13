@@ -176,6 +176,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 if ( ! $ctype ) {
                     $ctype = "Individual";
                 }
+                $params['contact_type'] = $ctype;
 
                 // extract first / middle / last name
                 // for joomla
