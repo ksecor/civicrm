@@ -155,7 +155,7 @@
           </dl>
           {if $action neq 4}
           <dl>
-          <dt>&nbsp;</dt><dd class="description">{ts}Is this field included in the Advanced Search form? NOTE: This feature is only available to custom fields used for <strong>Contacts</strong> at this time.{/ts}</dd>
+          <dt>&nbsp;</dt><dd class="description">{ts}Is this field included in the Advanced Search form? NOTE: This feature is only available to custom fields used for <strong>Contacts</strong> and <strong>Contributions</strong> at this time.{/ts}</dd>
           </dl>
           {/if}        
 	</div>        

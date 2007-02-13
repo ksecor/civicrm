@@ -23,8 +23,8 @@ and CiviCRM will automatically redirect requests for all online contribution pag
 {htxt id='test-username'}
 {ts}
 <strong>TEST Account Username or Email Address:</strong>
-<p><strong>PayPal Website Payments Pro or Express</strong> - If you are using the recommended <strong>Signature-based API Credentials</strong> - enter your API Username value as displayed in your account Profile - View API Signature screen.
-If you are using Certificate-based credentials, leave this field blank.</p>
+<p><strong>PayPal Website Payments Pro or Express</strong> - If you are using the recommended <strong>Signature-based API Credentials</strong> - enter your API Username value as displayed in your account Profile - View API Signature screen.</p>
+<p>If you are using <strong>Certificate-based credentials</strong> this field <strong>must be blank</strong> (or you will get errors from PayPal when submitting the transaction).</p>
 <p><strong>PayPal Website Standard</strong> - Enter the email address of your TEST (sandbox) merchant account.</p>
 {/ts}
 {/htxt}
@@ -32,8 +32,8 @@ If you are using Certificate-based credentials, leave this field blank.</p>
 {htxt id='live-username'}
 {ts}
 <strong>LIVE Account Username or Email Address:</strong>
-<p><strong>PayPal Website Payments Pro or Express</strong> - If you are using the recommended <strong>Signature-based API Credentials</strong> - enter your API Username value as displayed in your account Profile - View API Signature screen.
-If you are using Certificate-based credentials, leave this field blank.</p>
+<p><strong>PayPal Website Payments Pro or Express</strong> - If you are using the recommended <strong>Signature-based API Credentials</strong> - enter your API Username value as displayed in your account Profile - View API Signature screen.</p>
+<p>If you are using <strong>Certificate-based credentials</strong> this field <strong>must be blank</strong> (or you will get errors from PayPal when submitting the transaction).</p>
 <p><strong>PayPal Website Standard</strong> - Enter the email address of your LIVE merchant account.</p>
 {/ts}
 {/htxt}

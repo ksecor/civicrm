@@ -87,7 +87,6 @@ class CRM_Core_Component
                                            'edit Quest Recommendation',
                                            'view Quest Recommendation',
                                            'edit Quest Partner Supplement',
-                                           'edit Quest Fix Recommendation',
                                            'view Quest Partner Supplement'
                                            ),
                        'search'  => 1,
