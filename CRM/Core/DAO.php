@@ -739,7 +739,7 @@ class CRM_Core_DAO extends DB_DataObject {
                 $object->$key = $value;
             }
         } 
-        
+
         $object->find( );
         while ( $object->fetch( ) ) {
             eval( '$newObject   =& new ' . $daoName . '( );' );
@@ -753,24 +753,27 @@ class CRM_Core_DAO extends DB_DataObject {
                 if ( $name == 'id' ) {
                     // copy everything but the id!
                     continue;
-                } else if ( $newData ) {
-                    foreach( $newData as $k => $v ) {
-                        $newObject->$k = $v;
-                    }
-                } 
+                }
+                
                 $dbName = $value['name'];
                 if ( isset( $fieldsToPrefix[$dbName] ) ) {
                     $newObject->$dbName = $fieldsToPrefix[$dbName] . $object->$dbName;
                 } else {
                     $newObject->$dbName = $object->$dbName;
                 }
+                
                 if( substr($name , -5) == '_date') {
                     $newObject->$dbName = CRM_Utils_Date::isoToMysql($object->$dbName);
                 }
+                
+                if ( $newData ) {
+                    foreach( $newData as $k => $v ) {
+                        $newObject->$k = $v;
+                    }
+                } 
             }
             $newObject->save( );        
         }
-        
         return $newObject;
     }
 }

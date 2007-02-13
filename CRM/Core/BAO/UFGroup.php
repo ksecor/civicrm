@@ -1636,14 +1636,14 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
      * @return void
      * @access public
      */
-    static function copy( $id ) {
+    static function copy( $id ) 
+    {
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
+        
+        $copy        =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFGroup', array( 'id' => $id ), null, $fieldsToPrefix );
 
-        $copy =& CRM_Core_DAO::copy( 'CRM_Core_DAO_UFGroup', $id, $fieldsToPrefix );
-
-        require_once 'CRM/Core/BAO/UFField.php';
-        CRM_Core_BAO_UFField::copy( $id, $copy->id );
-
+        $copyUFJoin  =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin', array( 'uf_group_id' => $id ), array( 'uf_group_id' => $copy->id ) );
+        $copyUFField =& CRM_Core_DAO::copyGeneric( 'CRM_Core_BAO_UFField', array( 'uf_group_id' => $id ), array( 'uf_group_id' => $copy->id ) );
         return $copy;
     }
 
