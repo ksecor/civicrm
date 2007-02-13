@@ -1250,7 +1250,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         }
         
         $config =& CRM_Core_Config::singleton( );
-
+        
         if ( substr($fieldName,0,14) === 'state_province' ) {
             $form->add('select', $name, $title,
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
@@ -1262,6 +1262,10 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 $form->add('select', $name, $title, 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::county(), $required);
             }
+        } else if ( substr($fieldName, 0, 2) === 'im' ) {
+            $form->add('select', 'im_provider', 'IM Provider', 
+                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::IMProvider(), $required);
+            $form->add('text', $name, $title, $attributes, $required );
         } else if ( $fieldName === 'birth_date' ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ( $fieldName === 'deceased_date' ) {  

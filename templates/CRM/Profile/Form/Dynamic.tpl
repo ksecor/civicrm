@@ -77,7 +77,15 @@
         </td>
     </tr>
 	{else}
-        <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
+        <tr>
+        <td class="label">{$form.$n.label}</td>
+        <td>
+        {if $form.im_provider}
+            {$form.im_provider.html}
+        {/if}
+        {$form.$n.html}
+        </td>
+        </tr>
 	  {if $form.$n.type eq 'file'}
 	      <tr><td class="label"></td><td>{$customFiles.$n.displayURL}</td></tr>
 	      <tr><td class="label"></td><td>{$customFiles.$n.deleteURL}</td></tr>
