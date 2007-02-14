@@ -152,7 +152,8 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
             $defaultValue = $customFieldBAO->default_value;
             $fieldHtmlType = $customFieldBAO->html_type; 
         }
-        $defVal = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultValue);
+        $defVal = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                          substr( $defaultValue, 1, -1 ) );
 
         while ($customOptionBAO->fetch()) {
             $customOption[$customOptionBAO->id] = array();
