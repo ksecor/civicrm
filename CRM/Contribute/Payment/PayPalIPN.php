@@ -176,7 +176,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         }
 
         $now = date( 'YmdHis' );
-        $amount =  self::retrieve( 'payment_gross', 'Money', 'POST', true );
+        $amount =  self::retrieve( 'mc_gross', 'Money', 'POST', true );
         if ( ! $recur ) {
             if ( $contribution->total_amount != $amount ) {
                 CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
