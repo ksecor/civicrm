@@ -586,7 +586,8 @@ ORDER BY
                     $noteParams = array(
                                         'entity_id'     => $contact->id,
                                         'entity_table'  => 'civicrm_contact',
-                                        'note'          => $note['note']
+                                        'note'          => $note['note'],
+                                        'contact_id'    => $contact->id
                                         );
                     CRM_Core_BAO_Note::add($noteParams, CRM_Core_DAO::$_nullArray);
                 }
@@ -594,7 +595,8 @@ ORDER BY
                 $noteParams = array(
                                     'entity_id'     => $contact->id,
                                     'entity_table'  => 'civicrm_contact',
-                                    'note'          => $params['note']
+                                    'note'          => $params['note'],
+                                    'contact_id'    => $contact->id
                                     );
                 CRM_Core_BAO_Note::add($noteParams, CRM_Core_DAO::$_nullArray);
             }

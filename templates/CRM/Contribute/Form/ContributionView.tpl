@@ -11,7 +11,11 @@
         <dt>{ts}Received{/ts}</dt><dd>{if $receive_date}{$receive_date|truncate:10:''|crmDate}{else}({ts}pending{/ts}){/if}&nbsp;</dd>
         <dt>{ts}Paid By{/ts}</dt><dd>{$payment_instrument}&nbsp;</dd>
         <dt>{ts}Source{/ts}</dt><dd>{$source}&nbsp;</dd>
-        <dt>{ts}Note{/ts}</dt><dd>{$note}&nbsp;</dd>
+        {foreach from=$note item="rec"}
+		    {if $rec }
+			<dt>{ts}Note:{/ts}</dt><dd>{$rec}</dd>	
+	   	    {/if}
+        {/foreach}
         <dt>{ts}Total Amount{/ts}</dt><dd>{$total_amount|crmMoney}&nbsp;
             {if $contribution_recur_id}
                 (Recurring Contribution)

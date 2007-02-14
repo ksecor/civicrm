@@ -514,7 +514,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
        
         //process note
         require_once 'CRM/Core/BAO/Note.php';
-        $noteParams = array('entity_table' => 'civicrm_contribution', 'note' => $formValues['note'], 'entity_id' => $contribution->id);
+        $noteParams = array('entity_table' => 'civicrm_contribution', 'note' => $formValues['note'], 'entity_id' => $contribution->id,
+                            'contact_id' => $this->_contactID);
         $noteID = array();
         if( $this->_noteId ) {
             $noteID = array("id" => $this->_noteId);

@@ -62,9 +62,11 @@ class TestOfCreateContribution extends UnitTestCase
                         'trxn_id'                => 12345,
                         'invoice_id'             => 67890,
                         'source'                 => 'SSF',
-                        'contribution_status_id' => 1
+                        'contribution_status_id' => 1,
+                        'note'                   =>'ppp'
                         );
-        $contribution = crm_create_contribution($params);//CRM_Core_Error::debug('$contribution',$contribution);
+
+        $contribution = crm_create_contribution($params);
         $this->assertIsA($contribution,'CRM_Contribute_BAO_Contribution' );
         $this->assertEqual($contribution->domain_id, 1);
         $this->assertEqual($contribution->contact_id, $this->_individual->id);                              

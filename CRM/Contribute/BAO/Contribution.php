@@ -201,6 +201,27 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                 CRM_Core_BAO_CustomValue::create($cvParams);
             }
         }
+        $session = & CRM_Core_Session::singleton();
+       
+
+
+
+        if ( CRM_Utils_Array::value('note', $params) ) {
+            require_once 'CRM/Core/BAO/Note.php';
+           
+            $noteParams = array(
+                                'entity_table'  => 'civicrm_contribution',
+                                'note'          => $params['note'],
+                                'entity_id'     => $contribution->id,
+                                'contact_id'    => $session->get('userID'),
+                                'modified_date' => date('Ymd')
+                                );
+            if( ! $noteParams['contact_id'] ) {
+                $noteParams['contact_id'] =  $params['contact_id'];
+            } 
+            
+            CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
+        }
 
         // let's create an (or update the relevant) Acitivity History record
         require_once 'CRM/Contribute/PseudoConstant.php';
@@ -251,7 +272,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         CRM_Core_DAO::transaction('COMMIT');
-
+        
         return $contribution;
     }
 
@@ -347,6 +368,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                 $fields = array( '' => array( 'title' => ts('- Contribution Fields -') ) );
             }
 
+            require_once 'CRM/Core/DAO/Note.php';
+            $note          = CRM_Core_DAO_Note::import( );
             $tmpFields     = CRM_Contribute_DAO_Contribution::import( );
             unset($tmpFields['option_value']);
             require_once 'CRM/Core/OptionValue.php';
@@ -372,6 +395,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             }
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
+            $fields = array_merge($fields, $note);
             $fields = array_merge($fields, $optionFields);
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
             self::$_importableFields = $fields;

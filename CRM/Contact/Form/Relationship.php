@@ -349,6 +349,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                 'entity_id'     => $relationshipIds[0],
                                 'entity_table'  => 'civicrm_relationship',
                                 'note'          => $params['note'],
+                                'contact_id'    => $this->_contactId
                                 );
         CRM_Core_BAO_Note::add( $noteParams , $ids);
         

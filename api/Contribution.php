@@ -249,10 +249,12 @@ function &crm_update_contribution( &$contribution, $params ) {
     if (isset($params['source'])) {
         $values['contribution_source'] = $params['source'];        
     } 
-    
+    if($params['note']) {
+        $contribution->note = $params['note'];
+    }
+
     $contribution = _crm_update_contribution( $contribution, $values );
     
-
     return $contribution;
 }
 

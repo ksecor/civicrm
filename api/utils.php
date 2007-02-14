@@ -444,7 +444,9 @@ function _crm_format_contrib_params( &$params, &$values, $create=false ) {
             break;
         }
     }
-    
+    if ( array_key_exists( 'note', $params ) ) {
+        $values['note'] = $params['note'];
+    }
     _crm_format_custom_params( $params, $values, 'Contribution' );
     
     if ( $create ) {
@@ -1141,7 +1143,7 @@ function _crm_update_contribution($contribution, $values, $overwrite = true)
         _crm_update_from_object($contribution, $values, true, true);
     }
     _crm_update_object($contribution, $values);
-
+    
     return $contribution;
 }
 

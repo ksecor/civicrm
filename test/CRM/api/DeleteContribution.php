@@ -34,7 +34,8 @@ class TestOfDeleteContribution extends UnitTestCase
                         'trxn_id'                => 12345,
                         'invoice_id'             => 67890,
                         'source'                 => 'SSF',
-                        'contribution_status_id' => 1
+                        'contribution_status_id' => 1,
+                        'note'                   =>'SSS'  
                         );
         $contribution = crm_create_contribution($params);       
         $this->_contribution = $contribution;

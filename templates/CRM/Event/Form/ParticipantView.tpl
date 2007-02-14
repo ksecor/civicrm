@@ -14,7 +14,12 @@
         {if $history neq 1}
             <dt>{ts}Event Source{/ts}</dt><dd>{$source}&nbsp;</dd>
             <dt>{ts}Event Level{/ts}</dt><dd>{$event_level}&nbsp;</dd>
-            <dt>{ts}Note{/ts}</dt><dd>{$note}&nbsp;</dd>
+	    {foreach from=$note item="rec"}
+		    {if $rec }
+			<dt>{ts}Note:{/ts}</dt><dd>{$rec}</dd>	
+	   	    {/if}
+        {/foreach}
+         
             {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}  
         {/if}
         <dl>

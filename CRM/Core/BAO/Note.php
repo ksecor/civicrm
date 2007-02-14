@@ -98,21 +98,19 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         $note =& new CRM_Core_BAO_Note( );
         
         $params['modified_date']  = date("Ymd");
-       
+        
         $note->copyValues( $params );
-
-        $session =& CRM_Core_Session::singleton( );
-        $note->contact_id = $session->get( 'userID' );
-        if ( ! $note->contact_id ) {
-            if ( $params['entity_table'] == 'civicrm_contact' ) {
-                $note->contact_id = $params['entity_id'];
-            } else {
+        if ( ! $params['contact_id'] ) {
+            if( $params['entity_table'] =='civicrm_contact' ) {
+                $note->contact_id = $params['entity_id'];   
+            }else {
                 CRM_Core_Error::statusBounce(ts('We could not find your logged in user ID'));
             }
         }
+
         $note->id = CRM_Utils_Array::value( 'id', $ids );
         $note->save( );
-
+       
         return $note;
     }
 
