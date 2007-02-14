@@ -2518,7 +2518,7 @@ WHERE     civicrm_contact.id = %1";
         }
         
         if ( ! $live ) {
-            $live = 24;
+            $live = 24 * 7;
         }
 
         $cs = md5( "{$hash}_{$contactID}_{$ts}_{$live}" );
