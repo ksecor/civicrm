@@ -95,10 +95,17 @@ class CRM_Utils_PDFlib {
                     // pdflib does like the forward slash character, hence convert
                     $value = str_replace( '/', '_', $value );
 
-                    $pdf->fill_textblock( $page,
-                                          $key,
-                                          $value,
-                                          'embedding encoding=winansi' );
+                    $res = $pdf->fill_textblock( $page,
+                                                 $key,
+                                                 $value,
+                                                 'embedding encoding=winansi' );
+                    /**
+                    if ( $res == 0 ) {
+                        CRM_Core_Error::debug( "$key, $value: $res", $pdf->get_errmsg( ) );
+                    } else {
+                        CRM_Core_Error::debug( "SUCCESS: $key, $value", null );
+                    }
+                    **/
                 }
                 
                 $pdf->end_page_ext( '' );

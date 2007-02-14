@@ -462,7 +462,8 @@ ORDER BY
 
         // since hash was required, make sure we have a 0 value for it, CRM-1063
         // fixed in 1.5 by making hash optional
-        if ( ! array_key_exists( 'hash', $contact ) || ! $contact->hash ) {
+        // only do this in create mode, not update
+        if ( ( ! array_key_exists( 'hash', $contact ) || ! $contact->hash ) && ! $contact->id ) {
             $contact->hash = md5( uniqid( rand( ), true ) );
         }
 
@@ -2491,7 +2492,65 @@ WHERE     civicrm_contact.id = %1";
         return CRM_Core_BAO_UFMatch::getUFId( $dao->contact_id );
     }
 
+    /**
+     * Generate a checksum for a contactID
+     *
+     * @param int    $contactID
+     * @param int    $ts         timestamp that checksum was generated
+     * @param int    $live       life of this checksum in hours
+     *
+     * @return array ( $cs, $ts, $live )
+     * @static
+     * @access public
+     */
+    static function generateChecksum( $contactID, $ts = null, $live = null ) {
+        $hash = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                             $contactID, 'hash' );
+        if ( ! $hash ) {
+            $hash = md5( uniqid( rand( ), true ) );
+            CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Contact',
+                                         $contactID,
+                                         'hash', $hash );
+        }
 
+        if ( ! $ts ) {
+            $ts = time( );
+        }
+        
+        if ( ! $live ) {
+            $live = 24;
+        }
+
+        $cs = md5( "{$hash}_{$contactID}_{$ts}_{$live}" );
+        return "{$cs}_{$ts}_{$live}";
+        
+    }
+
+    /**
+     * Make sure the checksum is valid for the passed in contactID
+     *
+     * @param int    $contactID
+     * @param string $cs         checksum to match against
+     * @param int    $ts         timestamp that checksum was generated
+     * @param int    $live       life of this checksum in hours
+     *
+     * @return boolean           true if valid, else false
+     * @static
+     * @access public
+     */
+    static function validChecksum( $contactID, $inputCheck ) {
+        list( $inputCS, $inputTS, $inputLF ) = explode( '_', $inputCheck );
+
+        $check = self::generateChecksum( $contactID, $inputTS, $inputLF );
+
+        if ( $check != $inputCheck ) {
+            return false;
+        }
+
+        // checksum matches so now check timestamp
+        $now = time( );
+        return ( $inputTS + ( $inputLF * 60 * 60 ) >= $now ) ? true : false;
+    }
 }
 
 ?>

@@ -67,8 +67,18 @@ class CRM_Utils_Money {
         static $currencySymbols = null;
 
         if (!$currencySymbols) {
-            $currencySymbols = array('EUR' => '€', 'GBP' => '£', 'ILS' => '₪', 'JPY' => '¥', 'KRW' => '₩', 'LAK' => '₭',
-                                     'MNT' => '₮', 'NGN' => '₦', 'PLN' => 'zł', 'THB' => '฿', 'USD' => '$', 'VND' => '₫');
+            $currencySymbols = array('EUR' => '€',
+                                     'GBP' => '£',
+                                     'ILS' => '₪',
+                                     'JPY' => '¥',
+                                     'KRW' => '₩',
+                                     'LAK' => '₭',
+                                     'MNT' => '₮',
+                                     'NGN' => '₦',
+                                     'PLN' => 'zł',
+                                     'THB' => '฿',
+                                     'USD' => '$',
+                                     'VND' => '₫');
         }
 
         if (!$currency) {

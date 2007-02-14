@@ -661,6 +661,7 @@ class CRM_Utils_System {
         for ( $i = count( $result ); $i < $limit; $i++ ) {
             $result[$i] = null;
         }
+        return $result;
     }
 
     static function checkURL( $url ) {

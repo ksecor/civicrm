@@ -70,9 +70,14 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
             $id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false, $userID );
             
             require_once 'CRM/Contact/BAO/Contact.php';
-            if ( $id != $userID &&
-                 ! CRM_Contact_BAO_Contact::permissionedContact( $id, CRM_Core_Permission::EDIT ) ) {
-                CRM_Core_Error::fatal( ts( 'You do not have permission to edit this contact' ) );
+            if ( $id != $userID ) {
+                if ( ! CRM_Contact_BAO_Contact::permissionedContact( $id, CRM_Core_Permission::EDIT ) ) {
+                    // check if this is of the format cs=XXX
+                    $cs = CRM_Utils_Request::retrieve( 'cs', 'String' , $this, false );
+                    if ( ! CRM_Contact_BAO_Contact::validChecksum( $id, $cs ) ) {
+                        CRM_Core_Error::fatal( ts( 'You do not have permission to edit this contact' ) );
+                    }
+                }
             }
         }
 

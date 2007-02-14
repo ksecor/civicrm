@@ -255,9 +255,9 @@ class CRM_Utils_Token {
     public static function &replaceContactTokens($str, &$contact, $html = false) {
         if (self::$_tokens['contact'] == null) {
             /* This should come from UF */
-            self::$_tokens['contact'] =& 
-                array_keys(CRM_Contact_BAO_Contact::importableFields())
-                + array('display_name');
+            self::$_tokens['contact'] =
+                array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
+                             array( 'display_name', 'checksum', 'contact_id' ) );
         }
 
         $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['contact_id']);
@@ -265,6 +265,7 @@ class CRM_Utils_Token {
             if ($token == '') {
                 continue;
             }
+
             /* If the string doesn't contain this token, skip it. */
             if (! self::token_match('contact', $token, $str)) {
                 continue;
@@ -280,6 +281,9 @@ class CRM_Utils_Token {
                         break;
                     }
                 }
+            } else if ( $token == 'checksum' ) {
+                $cs = CRM_Contact_BAO_Contact::generateChecksum( $contact['contact_id'] );
+                $value = "cs={$cs}";
             } else {
                 $value = CRM_Contact_BAO_Contact::retrieveValue($contact, $token);
             }

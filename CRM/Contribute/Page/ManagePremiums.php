@@ -175,8 +175,9 @@ class CRM_Contribute_Page_ManagePremiums extends CRM_Core_Page_Basic
                 $action -= CRM_Core_Action::DISABLE;
             }
        
-            $premiums[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $dao->id));
+            $premiums[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(),
+                                                                      $action, 
+                                                                      array('id' => $dao->id));
         }
         $this->assign('rows', $premiums);
     }
