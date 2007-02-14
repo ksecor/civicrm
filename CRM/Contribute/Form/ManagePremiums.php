@@ -303,7 +303,10 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                             $height_orig . "<br>";    
                             $path = explode( '/', $imageFile );
                             $thumbFileName = $path[count($path) - 1];
-                            $thumbFileName = $thumbFileName.".thumb";
+                            $info   = pathinfo($thumbFileName);
+                            $basename = substr($info['basename'], 0,
+                                               -(strlen($info['extension']) + ($info['extension'] == '' ? 0 : 1)));
+                            $thumbFileName = $basename . "_thumb." . $info['extension'];
                             $path[count($path) - 1] = $thumbFileName;
                             $path = implode('/',$path);
                             
