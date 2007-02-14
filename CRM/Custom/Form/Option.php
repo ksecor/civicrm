@@ -96,7 +96,8 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             CRM_Core_BAO_CustomField::retrieve($paramsField, $fieldDefaults);
 
             if ( $fieldDefaults['html_type'] == 'CheckBox' || $fieldDefaults['html_type'] == 'Multi-Select' ) {
-                $defaultCheckValues = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $fieldDefaults['default_value']);
+                $defaultCheckValues = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                              substr( $fieldDefaults['default_value'], 1, -1 ) );
                 if ( in_array($defaults['value'], $defaultCheckValues ) ) 
                     $defaults['default_value'] = 1;
             } else {
@@ -354,28 +355,37 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->id = $this->_fid;
-        if ( $customField->find( true ) && ($customField->html_type == 'CheckBox' || $customField->html_type == 'Multi-Select')) {
-            $defVal = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customField->default_value);
-
+        if ( $customField->find( true ) &&
+             ( $customField->html_type == 'CheckBox' ||
+               $customField->html_type == 'Multi-Select' ) ) {
+            $defVal = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                              substr( $customField->default_value, 1, -1 ) );
+            CRM_Core_Error::debug( 'd', $defVal );
             if ( CRM_Utils_Array::value( 'default_value', $params ) ) {
                 if ( !in_array($customOption->value, $defVal) ) {
-                    
-                    if ( empty($defVal[0]) ) {
-                        $customField->default_value = $customOption->value;
+                    if ( empty( $defVal[0] ) ) {
+                        $defVal = array( $customOption->value );
                     } else {
-                        $customField->default_value .= CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.$customOption->value;                   
+                        $defVal[] = $customOption->value;
                     }
-                    
+                    $customField->default_value =
+                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
+                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defVal) .
+                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                     $customField->save();
                 }
             } else if ( in_array($customOption->value, $defVal) ) {
                 $tempVal = array();
                 foreach ($defVal as $v ) {
-                    if ($v != $customOption->value)
-                    $tempVal[] = $v;
+                    if ($v != $customOption->value) {
+                        $tempVal[] = $v;
+                    }
                 }
 
-                $customField->default_value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $tempVal);                
+                $customField->default_value =
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
+                    implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $tempVal) .
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                 $customField->save(); 
             }           
         } else {            

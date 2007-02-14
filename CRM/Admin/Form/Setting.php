@@ -116,7 +116,14 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         }
 
         if ( ! isset( $defaults['imageUploadURL'] ) ) {
-            $defaults['imageUploadURL'] = $baseURL . "files/civicrm/persist/contribute/";
+            if ( $config->userFramework == 'Joomla' ) {
+                // gross hack
+                // we need to remove the administrator/ from the end
+                $tempURL = str_replace( "/administrator/", "/", $baseURL );
+                $defaults['imageUploadURL'] = $tempURL . "media/civicrm/persist/contribute/";
+            } else {
+                $defaults['imageUploadURL'] = $baseURL . "files/civicrm/persist/contribute/";
+            }
         }
 
         if ( ! isset( $defaults['imageUploadDir'] ) && is_dir($config->templateCompileDir) ) {

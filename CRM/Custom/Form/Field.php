@@ -703,8 +703,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     if ( $params['option_value'][$v] ) {
                         $defaultArray[] = $params['option_value'][$v];
                     }
-                }                
-                $customField->default_value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray);                
+                }
+                if ( ! empty( $defaultArray ) ) {
+                    // also add the seperator before and after the value per new conventio (CRM-1604)
+                    $customField->default_value =
+                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray) .
+                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                }
             } else {
                 if ( isset($params['option_value'][$params['default_option']]) ) {
                     $customField->default_value = $params['option_value'][$params['default_option']];

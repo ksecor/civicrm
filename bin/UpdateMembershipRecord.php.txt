@@ -5,6 +5,8 @@
  * update_contact_membership APIs.
  * It takes the first argument as the domain-id if specified, otherwise takes the domain-id as 1.
  *
+ * IMPORTANT: You must set a valid FROM email address on line 63 before and then save the file as
+ * UpdateMembershipRecord.php prior to running this script.
  */
 
 require_once '../civicrm.config.php';
@@ -41,7 +43,7 @@ class CRM_UpdateMembershipRecord {
                 }
 
                 
-                //send remider for memnership renewal
+                //send reminder for membership renewal
                 
                 if ($membership->reminder_date && ( $membership->reminder_date <= date("Y-m-d")) ) {
                     $membershipType = $membership->membership_type_id;
@@ -58,8 +60,8 @@ class CRM_UpdateMembershipRecord {
                                 }
                             }
                             if ( $toEmail ) {
-                                // NEED to be FIXED
-                                $from = "admin@civicrm.org";
+                                // Set the FROM email address for reminder emails here. This must be a valid account for your SMTP service.
+                                $from = "EMAIL@FIXME.ORG";
                                 CRM_Member_BAO_MessageTemplates::sendReminder( $contact->id, $toEmail, $domainID, $memType->renewal_msg_id,$from);
 
                                 //modify the the membership record, set remider date to NULL
