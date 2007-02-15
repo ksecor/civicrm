@@ -559,7 +559,9 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         $config =& CRM_Core_Config::singleton( );
         
         require_once 'CRM/Core/PseudoConstant.php'; 
+        $locationTypes = $imProviders = array( );
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
+        $imProviders   = CRM_Core_PseudoConstant::IMProvider( );
         //start of code to set the default values
         foreach ($fields as $name => $field ) {
             $index   = $field['title'];
@@ -703,17 +705,18 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                     $values[$index] = $details->$detailName;
                     $idx = $detailName . '_id';
                     $params[$index] = $details->$idx;
-                } else {
+                } else if ( $fieldName == 'im'){
+                    $providerId     = $detailName . '-provider_id';
+                    $providerName   = $imProviders[$details->$providerId];
+                    $values[$index] = $details->$detailName . " (" . $providerName .")";
+                    $params[$index] = $details->$detailName ;        
+                }  else {
                     $values[$index] = $params[$index] = $details->$detailName;
                 }
             }
-           
 
             if ( $field['visibility'] == "Public User Pages and Listings" &&
                  CRM_Core_Permission::check( 'profile listings and forms' ) ) {
-                
-//             if ( $field['visibility'] == "Public User Pages and Listings" &&
-//                  CRM_Core_Permission::check( 'profile listings and forms' ) && !$field['is_view'] ) {
                 
                 if ( CRM_Utils_System::isNull( $params[$index] ) ) {
                     $params[$index] = $values[$index];
@@ -721,6 +724,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 if ( !isset( $params[$index] ) ) {
                     continue;
                 }
+                
                 $fieldName = $field['name'];
                 $url = CRM_Utils_System::url( 'civicrm/profile',
                                               'reset=1&force=1&gid=' . $field['group_id'] .'&'. 

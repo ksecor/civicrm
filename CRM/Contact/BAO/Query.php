@@ -660,8 +660,15 @@ class CRM_Contact_BAO_Query {
                         if ( substr( $tName, -15 ) == '-state_province' ) {
                             $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.abbreviation as `{$name}-{$elementFullName}`";
                         } else {
+                            if ( substr( $elementFullName,0,2) == 'im' ) {
+                                $provider = "{$name}-{$elementFullName}-provider_id";
+                                $this->_select[$provider]  = "`$tName`.provider_id as `{$name}-{$elementFullName}-provider_id`";
+                                $this->_element[$provider] = 1;
+                            }
+                            
                             $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.$fieldName as `{$name}-{$elementFullName}`";
                         }
+                        
                         $this->_element["{$name}-{$elementFullName}"] = 1;
                         if ( ! CRM_Utils_Array::value( "`$tName`", $processed ) ) {
                             $processed["`$tName`"] = 1;
@@ -1242,18 +1249,32 @@ class CRM_Contact_BAO_Query {
      */
     function store( $dao ) {
         $value = array( );
+
         foreach ( $this->_element as $key => $dontCare ) {
             if ( isset( $dao->$key ) ) {
                 if ( strpos( $key, '-' ) ) {
                     $values = explode( '-', $key );
                     $lastElement = array_pop( $values );
                     $current =& $value;
+                    $cnt   = count($values);
+                    $count = 1;
                     foreach ( $values as $v ) {
                         if ( ! array_key_exists( $v, $current ) ) {
                             $current[$v] = array( );
                         }
-                        $current =& $current[$v];
+                        //bad hack for im_provider
+                        if ( $lastElement == 'provider_id') {
+                            if ( $count < $cnt ) {
+                                $current =& $current[$v];
+                            } else {
+                                $lastElement = "{$v}_{$lastElement}"; 
+                            }
+                        } else {
+                            $current =& $current[$v];
+                        }
+                        $count++;
                     }
+
                     $current[$lastElement] = $dao->$key;
                 } else {
                     $value[$key] = $dao->$key;
@@ -2397,7 +2418,7 @@ class CRM_Contact_BAO_Query {
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }
-        
+        //crm_core_error::debug('$sql', $sql);
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
 
         $values = array( );
