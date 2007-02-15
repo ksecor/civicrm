@@ -80,8 +80,9 @@
         <tr>
         <td class="label">{$form.$n.label}</td>
         <td>
-        {if $form.im_provider}
-            {$form.im_provider.html}
+        {if $n|substr:0:2 eq 'im'}
+            {assign var="provider" value=$n|cat:"-provider_id"}
+            {$form.$provider.html}
         {/if}
         {$form.$n.html}
         </td>

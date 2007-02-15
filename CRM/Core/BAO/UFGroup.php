@@ -1263,7 +1263,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::county(), $required);
             }
         } else if ( substr($fieldName, 0, 2) === 'im' ) {
-            $form->add('select', 'im_provider', 'IM Provider', 
+            $form->add('select', $name . '-provider_id', 'IM Provider', 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::IMProvider(), $required);
             $form->add('text', $name, $title, $attributes, $required );
         } else if ( $fieldName === 'birth_date' ) {  

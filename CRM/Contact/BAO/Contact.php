@@ -1948,11 +1948,6 @@ WHERE civicrm_contact.id IN $idString ";
             $contactDetails = $details[$contactID];
         }
 
-        // CRM_Core_Error::debug( $contactID, $params );
-        // CRM_Core_Error::debug( $contactID, $fields );
-        // CRM_Core_Error::debug( 'c', $contactDetails );
-        // exit( );
-
         if ( $ctype == "Organization" ) {
             $data["organization_name"] = $contactDetails["organization_name"];
         } else if ( $ctype == "Household" ) {
@@ -2030,8 +2025,9 @@ WHERE civicrm_contact.id IN $idString ";
                     $data['location'][$loc]['email'][1]['email'] = $value;
                     $data['location'][$loc]['email'][1]['is_primary'] = 1;
                 } else if ($fieldName == 'im') {
-                    $data['location'][$loc]['im'][1]['name'] = $value;
-                    $data['location'][$loc]['im'][1]['is_primary'] = 1;
+                    $data['location'][$loc]['im'][1]['name']        = $value;
+                    $data['location'][$loc]['im'][1]['provider_id'] = $params[$key . '-provider_id'];
+                    $data['location'][$loc]['im'][1]['is_primary']  = 1;
                 } else {
                     if ($fieldName === 'state_province') {
                         if ( is_numeric( $value ) ) {
