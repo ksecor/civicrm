@@ -75,16 +75,6 @@
             	<dt>&nbsp;</dt><dd class="html-adjust description">{$element.help_post}</dd>
         	{/if}
 	{/if}
-        {if $cd_edit.is_multi_valued}
-           {ts}Other values are{/ts}
-<br>
-<table>
-           {foreach from=$element.multipleValues item=mv}
-              <tr><td>{$mv.data}</td><td>{$mv.id}</td></tr>
-	   {/foreach}
-</table>
-<br>
-        {/if}
     {/foreach}
     </dl>
     <div class="spacer"></div>

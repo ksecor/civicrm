@@ -148,7 +148,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         'title',
                         'help_pre',
                         'help_post',
-                        'is_multi_valued',
                         'collapse_display'),
                   );
 
@@ -368,12 +367,6 @@ ORDER BY civicrm_custom_group.weight,
                 }
                 
                 if ( ! empty( $customValue ) ) {
-                    if ( $crmDAO->civicrm_custom_group_is_multi_valued ) {
-                        if ( ! array_key_exists( 'multipleValues', $groupTree[$groupId]['fields'][$fieldId] ) ) {
-                            $groupTree[$groupId]['fields'][$fieldId]['multipleValues'] = array( );
-                        }
-                        $groupTree[$groupId]['fields'][$fieldId]['multipleValues'][] = $customValue;
-                    }
                     $groupTree[$groupId]['fields'][$fieldId]['customValue'] = $customValue;
                 }
 
@@ -633,8 +626,7 @@ ORDER BY civicrm_custom_group.weight,
                         'help_post',
                         'collapse_display',
                         'extends',
-                        'extends_entity_column_value',
-                        'is_multi_valued' ),
+                        'extends_entity_column_value' ),
                   );
 
         // create select
@@ -693,7 +685,6 @@ ORDER BY civicrm_custom_group.weight,
                 $groupTree[$groupId]['collapse_display'] = $crmDAO->civicrm_custom_group_collapse_display;       
                 $groupTree[$groupId]['extends'] = $crmDAO->civicrm_custom_group_extends;
                 $groupTree[$groupId]['extends_entity_column_value'] = $crmDAO->civicrm_custom_group_extends_entity_column_value;
-                $groupTree[$groupId]['is_multi_valued'] = $crmDAO->civicrm_custom_group_is_multi_valued;
                 $groupTree[$groupId]['fields'] = array();
                 
             }

@@ -70,16 +70,6 @@
                            <dd class="html-adjust">{$form.$element_name.html}&nbsp;</dd>
                          {/if}
                         {/if}
-        {if $cd.is_multi_valued and $cd_value.multipleValues}
-<br>
-o           {ts}Other values are{/ts}
-<table>
-           {foreach from=$cd_value.multipleValues item=mv}
-              <tr><td>{$mv.data}</td><td>{$mv.id}</td></tr>
-	   {/foreach}
-</table>
-<br>
-        {/if}
                     {/foreach}
                     </dl>
                     <div class="spacer"></div>
