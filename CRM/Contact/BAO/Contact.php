@@ -1256,12 +1256,11 @@ WHERE civicrm_contact.id IN $idString ";
             }
         }
 
-	//delete TMF student Record
-	if ( CRM_Core_Permission::access( 'TMF' ) ) {
-	  if ( $contact->contact_sub_type == 'Student' ) {
-                require_once 'CRM/TMF/BAO/Student.php';
-		CRM_TMF_BAO_Student::deleteStudent($id);
-            }
+        //delete TMF student Record
+        if ( CRM_Core_Permission::access( 'TMF' ) ) {
+            // delete both students and nominators
+            require_once 'CRM/TMF/BAO/Student.php';
+            CRM_TMF_BAO_Student::deleteStudent($id);
         }
              
         require_once 'CRM/Core/DAO/Log.php';

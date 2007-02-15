@@ -112,7 +112,11 @@ class CRM_Core_Component
                                            ),
                        'search'  => 1,
                        'metaTpl' => 'quest',
-                       'formTpl' => 'quest' 
+                       'formTpl' => 'quest',
+                       'task'    => array( '34' => array( 'title'  => 'Export XML',
+                                                          'class'  => 'CRM_TMF_Form_Task_XML',
+                                                          'result' => false ),
+                                           )
                        );
         }
         return self::$_info;
