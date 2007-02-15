@@ -666,7 +666,8 @@ class CRM_Utils_System {
 
     static function checkURL( $url ) {
         require_once 'HTTP/Request.php';
-        $request =& new HTTP_Request( $url );
+        $params = array( 'method' => 'HEAD' );
+        $request =& new HTTP_Request( $url, $params );
         $request->sendRequest( );
         // CRM_Core_Error::debug( $url, $request->getResponseCode( ) );
         return $request->getResponseCode( ) == 200 ? true : false;

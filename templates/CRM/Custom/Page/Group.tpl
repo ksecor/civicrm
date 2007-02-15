@@ -17,12 +17,13 @@
         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
         <thead>
         <tr class="columnheader">
-            <th field="Group Title" dataType="String">{ts}Group Title{/ts}</th>
-            <th field="Status"      dataType="String">{ts}Status?{/ts}</th>
-            <th field="Used For"    dataType="String">{ts}Used For{/ts}</th>
-            <th field="Type"        dataType="String">{ts}Type{/ts}</th>
-            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
-            <th field="Style"       dataType="String">{ts}Style{/ts}</th>
+            <th field="Group Title"  dataType="String">{ts}Group Title{/ts}</th>
+            <th field="Status"       dataType="String">{ts}Status?{/ts}</th>
+            <th field="Multi Valued" dataType="String">{ts}Multi Valued?{/ts}</th>
+            <th field="Used For"     dataType="String">{ts}Used For{/ts}</th>
+            <th field="Type"         dataType="String">{ts}Type{/ts}</th>
+            <th field="Weight"       dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+            <th field="Style"        dataType="String">{ts}Style{/ts}</th>
             <th datatype="html"></th>
         </tr>
         </thead>
@@ -30,7 +31,8 @@
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
-            <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
+            <td>{if $row.is_active       eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
+            <td>{if $row.is_multi_valued eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{if $row.extends eq 'Contact'}{ts}All Contact Types{/ts}{else}{$row.extends_display}{/if}</td>
             <td>{$row.extends_entity_column_value}</td>
             <td>{$row.weight}</td>

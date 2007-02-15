@@ -133,7 +133,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->_entitySubType = null;
         
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail($this->_groupId);
-        
+
         if ( $groupDetails[$this->_groupId]['extends'] == 'Contact') {
             $this->_entitySubType = $this->get('entitySubType');
         }

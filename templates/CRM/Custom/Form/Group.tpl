@@ -22,6 +22,7 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of this group of fields.{/ts}</dd>
     <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed below this group of fields.{/ts}</dd>
+    <dt></dt><dd>{$form.is_multi_valued.html} {$form.is_multi_valued.label}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     {if $action ne 4}
         <dt></dt>

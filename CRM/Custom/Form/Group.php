@@ -194,6 +194,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
 
+        // is this group multi valued?
+        $this->addElement('checkbox', 'is_multi_valued', ts('Do the fields in this custom group have multiple values?' ) );
 
         // $this->addFormRule(array('CRM_Custom_Form_Group', 'formRule'));
         $this->addButtons(array(
@@ -246,6 +248,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             
         } else {
             $defaults['is_active'] = 1;
+            $defaults['is_multi_valued'] = 0;
             $defaults['style'] = 'Inline';
         }
 
@@ -354,7 +357,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         $group->help_pre         = $params['help_pre'];
         $group->help_post        = $params['help_post'];
-        $group->is_active        = CRM_Utils_Array::value('is_active', $params, false);
+        $group->is_active        = CRM_Utils_Array::value('is_active'      , $params, false);
+        $group->is_multi_valued  = CRM_Utils_Array::value('is_multi_valued', $params, false);
         $group->domain_id        = CRM_Core_Config::domainID( );
 
         if ($this->_action & CRM_Core_Action::UPDATE) {

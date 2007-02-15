@@ -114,6 +114,12 @@
        <comment>Is this property active?</comment>
        <add>1.1</add>
   </field>
+  <field>
+       <name>is_multi_valued</name>
+       <type>boolean</type>
+       <comment>Is this property multi valued?</comment>
+       <add>1.7</add>
+  </field>
   <index>
     <name>UI_title_domain_id</name>
     <fieldName>title</fieldName>

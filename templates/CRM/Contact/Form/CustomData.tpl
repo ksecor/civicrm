@@ -53,7 +53,6 @@
                    &nbsp;Attached File : &nbsp
                    {if $groupTree.$group_id.fields.$field_id.customValue.displayURL }
                       <a href="javascript:popUp('{$groupTree.$group_id.fields.$field_id.customValue.displayURL}')" ><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a>
-                      {*<a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}"><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a>*}
                    {else}
                       <a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a>
                    {/if}
@@ -66,7 +65,6 @@
               {if $element.data_type eq 'Date'}
 	          {if $element.skip_calendar NEQ true } 
               <span>
-               
 		      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_customdata_$field_id}
 		      {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years trigger=trigger_customdata_$field_id} 
 		      </span>
@@ -77,6 +75,16 @@
             	<dt>&nbsp;</dt><dd class="html-adjust description">{$element.help_post}</dd>
         	{/if}
 	{/if}
+        {if $cd_edit.is_multi_valued}
+           {ts}Other values are{/ts}
+<br>
+<table>
+           {foreach from=$element.multipleValues item=mv}
+              <tr><td>{$mv.data}</td><td>{$mv.id}</td></tr>
+	   {/foreach}
+</table>
+<br>
+        {/if}
     {/foreach}
     </dl>
     <div class="spacer"></div>
