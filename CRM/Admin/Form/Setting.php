@@ -106,11 +106,14 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
                 }
             } else if ( $config->userFramework == 'Drupal' ) {
                 // check and see if we are installed in sites/all (for D5 and above)
+                // we dont use checkURL since drupal generates an error page and throws
+                // the system for a loop on lobo's macosx box
                 // or in modules
-                if ( CRM_Utils_System::checkURL( "{$baseURL}modules/civicrm/{$testIMG}" ) ) {
-                    $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 
-                } else if ( CRM_Utils_System::checkURL( "{$baseURL}sites/all/modules/civicrm/{$testIMG}" ) ) {
+                global $civicrm_root;
+                if ( strpos( $civicrm_root, '/sites/all/modules' ) !== false ) {
                     $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/"; 
+                } else {
+                    $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 
                 }
             }
         }
