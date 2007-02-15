@@ -606,30 +606,11 @@ class CRM_Core_Config
             $this->lcMonetary = CIVICRM_LC_MONETARY;
             setlocale(LC_MONETARY, $this->lcMonetary . '.UTF-8', $this->lcMonetary, 'C');
         }
-        
-        $this->currencySymbols = array('CAD' => '$',
-                                       'EUR' => '€',
-                                       'GBP' => '£',
-                                       'ILS' => '₪',
-                                       'JPY' => '¥',
-                                       'KRW' => '₩',
-                                       'LAK' => '₭',
-                                       'MNT' => '₮',
-                                       'NGN' => '₦',
-                                       'PLN' => 'zł',
-                                       'THB' => '฿',
-                                       'USD' => '$',
-                                       'VND' => '₫',
-                                       );
-        
+          
         if ( defined( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' ) &&
              CRM_Utils_Rule::currencyCode( CIVICONTRIBUTE_DEFAULT_CURRENCY ) ) {
             $this->defaultCurrency       = CIVICONTRIBUTE_DEFAULT_CURRENCY;
         }        
-        
-        if ($this->defaultCurrency) {
-            $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
-        }
         
         if ( defined( 'CIVICRM_GETTEXT_CODESET' ) ) {
             $this->gettextCodeset = CIVICRM_GETTEXT_CODESET;
@@ -1198,8 +1179,10 @@ class CRM_Core_Config
         }
         
         if ( $this->defaultCurrency ) {
+            require_once "CRM/Core/PseudoConstant.php";
+            $this->currencySymbols = array_combine( CRM_Core_PseudoConstant::currencySymbols( 'name'), CRM_Core_PseudoConstant::currencySymbols( ));
             $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
-        }    
+                  }    
         
         if ( $this->mapProvider ) {
             $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;

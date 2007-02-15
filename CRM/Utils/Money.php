@@ -66,19 +66,9 @@ class CRM_Utils_Money {
         static $config          = null;
         static $currencySymbols = null;
 
-        if (!$currencySymbols) {
-            $currencySymbols = array('EUR' => '€',
-                                     'GBP' => '£',
-                                     'ILS' => '₪',
-                                     'JPY' => '¥',
-                                     'KRW' => '₩',
-                                     'LAK' => '₭',
-                                     'MNT' => '₮',
-                                     'NGN' => '₦',
-                                     'PLN' => 'zł',
-                                     'THB' => '฿',
-                                     'USD' => '$',
-                                     'VND' => '₫');
+        if ( !$currencySymbols ) {
+            require_once "CRM/Core/PseudoConstant.php";
+            $currencySymbols = array_combine( CRM_Core_PseudoConstant::currencySymbols( 'name'), CRM_Core_PseudoConstant::currencySymbols( ));
         }
 
         if (!$currency) {

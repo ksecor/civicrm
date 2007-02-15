@@ -180,7 +180,14 @@ class CRM_Core_PseudoConstant
      * @static
      */
     private static $currencyCode;
-
+    
+    /**
+     * currency Symbols
+     * @var array
+     * @static
+     */
+    private static $currencySymbols;
+    
     /**
      * project tasks
      * @var array
@@ -782,6 +789,19 @@ class CRM_Core_PseudoConstant
             }
         }
         return self::$relationshipType;
+    }
+
+    /**
+     * Get all the Currency Symbols from Database
+     *
+     * @access public
+     * @return array - array reference of all Currency Symbols
+     * @static
+     */
+    public static function &currencySymbols( $name = 'symbol' )
+    {
+        self::populate( self::$currencySymbols, 'CRM_Core_DAO_Currency', true, $name, null, null, 'name');
+        return self::$currencySymbols;
     }
 
     /**
