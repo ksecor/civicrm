@@ -210,7 +210,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         //date-Format part ends
 
-        $params['contact_type'] =  $this->_contactType;
+        //$params['contact_type'] =  $this->_contactType;
+        $params['contact_type'] =  'Contribution';
 
         //checking error in custom data
         CRM_Import_Parser_Contact::isErrorInCustomData($params, $errorMessage);
