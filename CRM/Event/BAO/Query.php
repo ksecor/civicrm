@@ -263,10 +263,28 @@ class CRM_Event_BAO_Query
             $status[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
         }
         $form->addGroup($status, 'event_participant_status', ts('Participant status'));
-        
+
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Participant' ) );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('participantGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
+
         $form->assign( 'validCiviEvent', true );
     }
-
+    
     static function searchAction( &$row, $id ) 
     {
     }

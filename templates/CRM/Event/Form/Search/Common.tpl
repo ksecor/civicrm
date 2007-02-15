@@ -21,4 +21,8 @@
     <td class="label">{ts}Status{/ts}</td> 
     <td>{$form.event_participant_status.html}</td>
  </tr> 
-    
+ <tr>
+    <td colspan="4">
+       {include file="CRM/Custom/Form/Search.tpl" groupTree=$participantGroupTree showHideLinks=false}
+    </td>
+ </tr>

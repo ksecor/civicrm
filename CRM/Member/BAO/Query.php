@@ -261,6 +261,23 @@ class CRM_Member_BAO_Query
         $form->add('date', 'member_end_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('member_end_date_high', ts('Select a valid date.'), 'qfDate'); 
 
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Membership' ) );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('membershipGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
         $form->assign( 'validCiviMember', true );
     }
 

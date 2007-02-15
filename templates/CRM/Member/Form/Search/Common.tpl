@@ -60,3 +60,8 @@
     </tr> 
 </td>
 
+<tr>
+            <td colspan="4">
+            {include file="CRM/Custom/Form/Search.tpl" groupTree=$membershipGroupTree showHideLinks=false}
+            </td>
+</tr>
