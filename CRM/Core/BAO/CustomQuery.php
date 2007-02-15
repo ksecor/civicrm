@@ -209,21 +209,21 @@ class CRM_Core_BAO_CustomQuery {
             } else if ( $field['extends'] == 'civicrm_contribution' ) {
                 $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
                     " AND $name.entity_table = 'civicrm_contribution' AND $name.entity_id = civicrm_contribution.id ";
-                $this->_tables['civicrm_contribution'] = 1;
+                $this->_whereTables['civicrm_contribution'] = $this->_tables['civicrm_contribution'] = 1;
                 if ( $this->_ids[$id] ) {
                     $this->_whereTables[$name] = $this->_tables[$name];
                 }
             } else if ( $field['extends'] == 'civicrm_participant' ) {
                 $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
                     " AND $name.entity_table = 'civicrm_participant' AND $name.entity_id = civicrm_participant.id ";
-                $this->_tables['civicrm_participant'] = 1;
+                $this->_whereTables['civicrm_participant'] = $this->_tables['civicrm_participant'] = 1;
                 if ( $this->_ids[$id] ) {
                     $this->_whereTables[$name] = $this->_tables[$name];
                 }
             } else if ( $field['extends'] == 'civicrm_membership' ) {
                 $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
                     " AND $name.entity_table = 'civicrm_membership' AND $name.entity_id = civicrm_membership.id ";
-                $this->_tables['civicrm_membership'] = 1;
+                $this->_whereTables['civicrm_membership'] = $this->_tables['civicrm_membership'] = 1;
                 if ( $this->_ids[$id] ) {
                     $this->_whereTables[$name] = $this->_tables[$name];
                 }
