@@ -611,8 +611,11 @@ class CRM_Core_Config
         if ( defined( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' ) &&
              CRM_Utils_Rule::currencyCode( CIVICONTRIBUTE_DEFAULT_CURRENCY ) ) {
             $this->defaultCurrency       = CIVICONTRIBUTE_DEFAULT_CURRENCY;
-            $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
         }        
+        
+        if ($this->defaultCurrency) {
+            $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
+        }
         
         if ( defined( 'CIVICRM_GETTEXT_CODESET' ) ) {
             $this->gettextCodeset = CIVICRM_GETTEXT_CODESET;
