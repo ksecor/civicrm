@@ -382,6 +382,20 @@ class CRM_Core_Config
     public $mailerBatchLimit = 0;
 
     /**
+     * How many emails that may be queued in CiviMail  in a given period (0 - no limit, -1 - blocked).
+     *
+     * @var int
+     */
+    public $mailerQuotaLimit = 0;
+
+    /**
+     * Number of days of CiviMail quota period. 
+     *
+     * @var int
+     */
+    public $mailerQuotaPeriod = 30;
+
+    /**
      * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
      *
      * @var array
@@ -894,6 +908,14 @@ class CRM_Core_Config
 
         if ( defined( 'CIVICRM_MAILER_BATCH_LIMIT' ) ) {
             $this->mailerBatchLimit = (int) CIVICRM_MAILER_BATCH_LIMIT;
+        }
+
+        if ( defined( 'CIVICRM_MAILER_QUOTA_LIMIT' ) ) {
+            $this->mailerQuotaLimit = (int) CIVICRM_MAILER_QUOTA_LIMIT;
+        }
+
+        if ( defined( 'CIVICRM_MAILER_QUOTA_PERIOD' ) ) {
+            $this->mailerQuotaPeriod = (int) CIVICRM_MAILER_QUOTA_PERIOD;
         }
 
         require_once 'CRM/Core/Payment/Config.php';

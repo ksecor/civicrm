@@ -54,6 +54,8 @@ class CRM_Admin_Form_Setting_Mail extends CRM_Admin_Form_Setting
         $this->addElement('text','mailerPeriod', ts('Mailer Spool Period'));
         $this->addElement('text','verpSeparator', ts(' VERP Separator'));
         $this->addElement('text','mailerBatchLimit', ts('Mailer Batch Limit'));
+        $this->addElement('text','mailerQuotaLimit', ts('Mailer Quota Limit'));
+        $this->addElement('text','mailerQuotaPeriod', ts('Mailer Quota Period'));
   
         parent::buildQuickForm();
     }
