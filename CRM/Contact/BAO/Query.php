@@ -2462,9 +2462,6 @@ class CRM_Contact_BAO_Query {
         $permission = ' ( 1 ) ';
         if ( $this->_search ) {
             require_once 'CRM/ACL/API.php';
-            // $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
-            // CRM_Core_Error::debug( 't', $this->_tables );
-            // CRM_Core_Error::debug( 'w', $this->_whereTables );
             $permission = CRM_ACL_API::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
             // CRM_Core_Error::debug( 'p', $permission );
             // CRM_Core_Error::debug( 't', $this->_tables );

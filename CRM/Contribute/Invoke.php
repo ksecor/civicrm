@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -44,7 +44,8 @@ class CRM_Contribute_Invoke {
             return;
         }
 
-        if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
+        if ( ! CRM_Core_Permission::check( 'administer CiviCRM' ) ||
+             ! CRM_Core_Permission::check('access CiviContribute') ) {
             CRM_Core_Error::fatal( 'You do not have access to this page' );
         }
 
@@ -139,6 +140,9 @@ class CRM_Contribute_Invoke {
             $controller->set( 'context', 'search' );
             return $controller->run();
         } elseif ($secondArg == 'import') {
+            if ( ! CRM_Core_Permission::check('administer CiviCRM') ) {
+                CRM_Core_Error::fatal( 'You do not have access to this page' );
+            }
             require_once 'CRM/Contribute/Import/Controller.php';
             $controller =& new CRM_Contribute_Import_Controller(ts('Import Contributions'));
             return $controller->run();
