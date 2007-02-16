@@ -526,6 +526,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     } else {
                         $row[$property] = $result->$property;
                     }
+                } else if ( strpos($property, '-im-')) {
+                    $row[$property] = $result->$property;
+                    if ( !empty($result->$property) ) { 
+                        $imProviders    = CRM_Core_PseudoConstant::IMProvider( );
+                        $providerId     = $property."-provider_id";
+                        $providerName   = $imProviders[$result->$providerId];
+                        $row[$property] = $result->$property . " ({$providerName})";
+                    }
                 } else {
                     $row[$property] = $result->$property;
                 }

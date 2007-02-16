@@ -466,6 +466,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             } else {
                 continue;
             }
+
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                     $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name, $cfID, $this->_options );
@@ -495,6 +496,15 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                         $row[] = $paramsNew[$key]; 
                     } else {
                         $row[] = $result->$name;
+                    }
+                } else if ( strpos($name, '-im-')) {
+                    if ( !empty($result->$name) ) {
+                        $imProviders  = CRM_Core_PseudoConstant::IMProvider( );
+                        $providerId   = $name."-provider_id";
+                        $providerName = $imProviders[$result->$providerId];
+                        $row[] = $result->$name . " ({$providerName})";
+                    } else {
+                        $row[] = '';
                     }
                 } else {
                     $row[] = $result->$name;
