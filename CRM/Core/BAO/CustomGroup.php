@@ -1123,18 +1123,25 @@ ORDER BY civicrm_custom_group.weight,
 
         // this is fix for date field
         $form->assign('currentYear',date('Y'));
-        
-
+       
         require_once 'CRM/Core/ShowHideBlocks.php'; 
         foreach ($groupTree as $group) { 
             CRM_Core_ShowHideBlocks::links( $form, $group['title'], '', ''); 
                  
             $groupId = $group['id']; 
             foreach ($group['fields'] as $field) { 
+                $required = $field['is_required'];
+                //fix for CRM-1620
+                if ( $field['data_type']  == 'File') {
+                    if ( isset($field['customValue']['data']) ) {
+                        $required = 0;
+                    }
+                }
+
                 $fieldId = $field['id'];                 
                 $elementName = 'custom_' . $fieldId;
                 require_once "CRM/Core/BAO/CustomField.php";
-                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $field['is_required']); 
+                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $required); 
             } 
  
             if ( $group['collapse_display'] ) { 
