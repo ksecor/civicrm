@@ -284,8 +284,9 @@ class CRM_Core_Session {
 
         // see if there is a match between the new UC and the top one. the match needs to be
         // fuzzy since we use the referer at times
+        // if close enough, lets just replace the top with the new one
         if ( $check && $topUC && CRM_Utils_String::match( $topUC, $userContext ) ) {
-            array_push( $this->_session[$this->_key][self::USER_CONTEXT], $topUC );
+            array_push( $this->_session[$this->_key][self::USER_CONTEXT], $userContext );
         } else {
             if ( $topUC ) {
                 array_push( $this->_session[$this->_key][self::USER_CONTEXT], $topUC       );
