@@ -57,7 +57,16 @@
         </td> 
     </tr> 
         {else} 
-        <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td></tr> 
+        <tr>
+           <td class="label">{$form.$n.label}</td>
+	   <td>
+             {if $n|substr:0:2 eq 'im'}
+               {assign var="provider" value=$n|cat:"-provider_id"}
+               {$form.$provider.html}&nbsp;
+             {/if}
+             {$form.$n.html}
+           </td>
+        </tr> 
         {/if} 
         {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
         {if $field.help_post && $action neq 4 && $action neq 1028}

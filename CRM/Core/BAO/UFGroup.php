@@ -1270,6 +1270,10 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             if ( !$contactId ) {
                 $form->add('select', $name . '-provider_id', 'IM Provider', 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::IMProvider(), $required);
+            
+                if ($view && $mode != CRM_Profile_Form::MODE_SEARCH) {
+                    $form->freeze($name."-provider_id");
+                }
             }
             $form->add('text', $name, $title, $attributes, $required );
         } else if ( $fieldName === 'birth_date' ) {  

@@ -78,14 +78,14 @@
     </tr>
 	{else}
         <tr>
-        <td class="label">{$form.$n.label}</td>
-        <td>
-        {if $n|substr:0:2 eq 'im'}
-            {assign var="provider" value=$n|cat:"-provider_id"}
-            {$form.$provider.html}
-        {/if}
-        {$form.$n.html}
-        </td>
+           <td class="label">{$form.$n.label}</td>
+           <td>
+           {if $n|substr:0:2 eq 'im'}
+             {assign var="provider" value=$n|cat:"-provider_id"}
+             {$form.$provider.html}&nbsp;
+           {/if}
+           {$form.$n.html}
+           </td>
         </tr>
 	  {if $form.$n.type eq 'file'}
 	      <tr><td class="label"></td><td>{$customFiles.$n.displayURL}</td></tr>
