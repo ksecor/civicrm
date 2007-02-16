@@ -99,7 +99,6 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     { 
         $this->applyFilter('__ALL__', 'trim');
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
-        CRM_Core_Error::debug('attr', $attributes);
                    
         $urlParams = "reset=1&context=event";
         
@@ -114,7 +113,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                                       $urlParams, true, null, false );
       
         $this->assign("refreshURL",$url);
-        $this->add('text','title',ts('Title'), $attributes['title'], true);
+        $this->add('text','title',ts('Event Title'), $attributes['event_title'], true);
 //        $this->addRule( 'title', ts('This Event Title already exist in Database.'), 'objectExists', array( 'CRM_Event_DAO_Event', $eventId, 'title' ) );
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
