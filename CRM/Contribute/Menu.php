@@ -159,6 +159,7 @@ class CRM_Contribute_Menu {
                                  'path'    => 'civicrm/contribute/search',
                                  'query'   => 'reset=1',
                                  'title'   => ts( 'Find Contributions' ), 
+                                 'access'  => CRM_Core_Permission::check( 'access CiviContribute' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,  
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                                  'weight'  => 510,  
@@ -167,6 +168,8 @@ class CRM_Contribute_Menu {
                                  'path'    => 'civicrm/contribute/import', 
                                  'query'   => 'reset=1',
                                  'title'   => ts( 'Import Contributions' ), 
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                              CRM_Core_Permission::check( 'access CiviContribute' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,  
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                                  'weight'  => 520,  
