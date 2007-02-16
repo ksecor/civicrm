@@ -346,6 +346,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         
         $customFieldId = explode('_', $fieldName);
         
+        require_once "CRM/Core/DAO/CustomField.php";
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->id = $customFieldId[1];
 

@@ -1267,8 +1267,10 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::county(), $required);
             }
         } else if ( substr($fieldName, 0, 2) === 'im' ) {
-            $form->add('select', $name . '-provider_id', 'IM Provider', 
-                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::IMProvider(), $required);
+            if ( !$contactId ) {
+                $form->add('select', $name . '-provider_id', 'IM Provider', 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::IMProvider(), $required);
+            }
             $form->add('text', $name, $title, $attributes, $required );
         } else if ( $fieldName === 'birth_date' ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
@@ -1397,6 +1399,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             require_once 'CRM/Contact/BAO/Contact.php';
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
             $details = $contactDetails[$contactId];
+
             //start of code to set the default values
             foreach ($fields as $name => $field ) {
                 //set the field name depending upon the profile mode(single/batch)
@@ -1489,8 +1492,9 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                                             //adding the first email (currently we don't support multiple emails of same location type)
                                             $defaults[$fldName] = $value['email'][1];
                                         } else if ( $fieldName == 'im' ) {
-                                            //adding the first email (currently we don't support multiple ims of same location type)
+                                            //adding the first im (currently we don't support multiple ims of same location type)
                                             $defaults[$fldName] = $value['im'][1];
+                                            $defaults[$fldName . "-provider_id"] = $value['im']['1_provider_id'];
                                         } else {
                                             $defaults[$fldName] = $value[$fieldName];
                                         }
