@@ -77,8 +77,9 @@ class CRM_Mailing_Event_BAO_Opened extends CRM_Mailing_Event_DAO_Opened {
      * @access public
      * @static
      */
-    public static function getTotalCount($mailing_id, $job_id = null,
-                                            $is_distinct = false) {
+    public static function getTotalCount($mailing_id,
+                                         $job_id = null,
+                                         $is_distinct = false) {
         $dao =& new CRM_Core_DAO();
         
         $open       = self::getTableName();

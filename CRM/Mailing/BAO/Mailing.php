@@ -104,6 +104,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $email      = CRM_Core_DAO_Email::getTableName();
         $contact    = CRM_Contact_DAO_Contact::getTableName();
         $location   = CRM_Core_DAO_Location::getTableName();
+
         require_once 'CRM/Contact/DAO/Group.php';
         $group      = CRM_Contact_DAO_Group::getTableName();
         $g2contact  = CRM_Contact_DAO_GroupContact::getTableName();
@@ -912,7 +913,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             SELECT          {$t['job']}.*,
                             COUNT(DISTINCT {$t['queue']}.id) as queue,
                             COUNT(DISTINCT {$t['delivered']}.id) as delivered,
-                            COUNT(DISTINCT {$t['opened']}.id) as opened,
                             COUNT(DISTINCT {$t['reply']}.id) as reply,
                             COUNT(DISTINCT {$t['unsubscribe']}.id) as unsubscribe,
                             COUNT(DISTINCT {$t['forward']}.id) as forward,
@@ -921,8 +921,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             FROM            {$t['job']}
             LEFT JOIN       {$t['queue']}
                     ON      {$t['queue']}.job_id = {$t['job']}.id
-            LEFT JOIN       {$t['opened']}
-                    ON      {$t['opened']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['reply']}
                     ON      {$t['reply']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['forward']}
@@ -941,17 +939,21 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             WHERE           {$t['job']}.mailing_id = $mailing_id
             GROUP BY        {$t['job']}.id");
         
-
-        
         $report['jobs'] = array();
         $report['event_totals'] = array();
         while ($mailing->fetch()) {
             $row = array();
-            foreach(array(  'queue', 'delivered',   'opened', 'url', 'forward',
+            foreach(array(  'queue', 'delivered', 'url', 'forward',
                             'reply', 'unsubscribe', 'bounce') as $field) {
                 $row[$field] = $mailing->$field;
                 $report['event_totals'][$field] += $mailing->$field;
             }
+            
+            // compute open total seperately to discount duplicates
+            // CRM-1258
+            $row['opened'] = CRM_Mailing_Event_BAO_Opened::getTotalCount( $mailing_id, $mailing->id, true );
+            $report['event_totals']['opened'] += $row['opened'];
+
             foreach(array_keys(CRM_Mailing_BAO_Job::fields()) as $field) {
                 $row[$field] = $mailing->$field;
             }
