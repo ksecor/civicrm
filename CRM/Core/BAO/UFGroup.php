@@ -708,7 +708,11 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 } else if ( $fieldName == 'im'){
                     $providerId     = $detailName . '-provider_id';
                     $providerName   = $imProviders[$details->$providerId];
-                    $values[$index] = $details->$detailName . " (" . $providerName .")";
+                    if ( $providerName ) {
+                        $values[$index] = $details->$detailName . " (" . $providerName .")";
+                    } else {
+                        $values[$index] = $details->$detailName;
+                    }
                     $params[$index] = $details->$detailName ;        
                 }  else {
                     $values[$index] = $params[$index] = $details->$detailName;
