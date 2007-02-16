@@ -71,12 +71,10 @@ INSERT INTO
 VALUES
   ( '{ts}Donation{/ts}'             , @domain_id, 0, 1, 1 ),
   ( '{ts}Member Dues{/ts}'          , @domain_id, 0, 1, 1 ), 
-  ( '{ts}Campaign Contribution{/ts}', @domain_id, 0, 1, 0 );
+  ( '{ts}Campaign Contribution{/ts}', @domain_id, 0, 1, 0 ),
+  ( '{ts}Event Fee{/ts}'            , @domain_id, 0, 1, 0 );
 
--- payment instrument
-
-
--- option group and values for 'preferred communication methods' , 'activity types' and 'gender'
+-- option groups and values for 'preferred communication methods' , 'activity types', 'gender', etc.
 
 INSERT INTO 
    `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 

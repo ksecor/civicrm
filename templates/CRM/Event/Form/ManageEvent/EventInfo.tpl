@@ -9,7 +9,6 @@
      	<dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     	<dt>{$form.summary.label}</dt><dd>{$form.summary.html}</dd>
     	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
-    	<dt>&nbsp;</dt><dd>{$form.is_public.label} {$form.is_public.html}</dd>
         <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
         <dt></dt>
         <dd>{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
@@ -21,7 +20,8 @@
             {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=3 doTime=1 trigger=trigger_event_1}</dd>
         <dt>{$form.max_participants.label}</dt><dd>{$form.max_participants.html|crmReplace:class:four}</dd>
         <dt>{$form.event_full_text.label}</dt><dd>{$form.event_full_text.html}</dd>
-        <dt>&nbsp;</dt><dd>{$form.is_map.label} {$form.is_map.html}</dd>
+        <dt>&nbsp;</dt><dd>{$form.is_map.html} {$form.is_map.label}</dd>
+    	<dt>&nbsp;</dt><dd>{$form.is_public.html} {$form.is_public.label}</dd>
         <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
         {if $id}
             <dt>&nbsp;</dt><dd class="description">{ts}When this Event is active, you can link people to the page by copying and pasting the following URL:{/ts}<br />

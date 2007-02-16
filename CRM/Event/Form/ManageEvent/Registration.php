@@ -153,8 +153,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     {
         $form->add('textarea','intro_text',ts('Intro Text'), array("rows"=>6,"cols"=>80));
         $form->add('textarea','footer_text',ts('Footer Text'), array("rows"=>6,"cols"=>80));
-        $form->add('select', 'custom_pre_id', ts('Custom Fields'),array(''=>'-select-') + CRM_Core_PseudoConstant::ufGroup( ));
-        $form->add('select', 'custom_post_id', ts('Custom Fields'),array(''=>'-select-')+ CRM_Core_PseudoConstant::ufGroup( ));
+        $form->add('select', 'custom_pre_id', ts('Custom Fields') . '<br />' . ts('(top of page)'),array(''=>'-select-') + CRM_Core_PseudoConstant::ufGroup( ));
+        $form->add('select', 'custom_post_id', ts('Custom Fields') . '<br />' . ts('(bottom of page)'),array(''=>'-select-')+ CRM_Core_PseudoConstant::ufGroup( ));
     }
 
     /**
