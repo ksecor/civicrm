@@ -115,6 +115,33 @@ CREATE TABLE civicrm_participant_payment (
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
 
+
+-- /*******************************************************
+-- * 
+-- * civicrm_currency
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_currency (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Currency Id',
+     name varchar(64)    COMMENT 'Currency Name',
+     symbol varchar(8)    COMMENT 'Currency Symbol' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+ 
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+-- /*******************************************************
+-- * 
+-- * Insert sample data to 
+-- *
+-- *******************************************************/
+
+	INSERT INTO `civicrm_currency` VALUES (1,'AUD','$'),(2,'CAD','$'),(3,'EUR','€'),(4,'GBP','£'),(5,'ILS','₪'),(6,'INR','₨'),(7,'JPY','¥'),(8,'KRW','₩'),(9,'LAK','₭'),(10,'MNT','₮'),(11,'NGN','₦'),(12,'PLN','zł'),(13,'THB','฿'),(14,'USD','$'),(15,'VND','₫'),(16,'ZAR','R');
+
 -- /*******************************************************
 -- *
 -- * civicrm_address
@@ -220,3 +247,4 @@ CREATE TABLE civicrm_participant_payment (
 -- *******************************************************/
 
   UPDATE civicrm_activity_history SET callback = 'CRM_Activity_BAO_Activity::showActivityDetails' WHERE callback IN ('CRM_Activity_Form_Meeting::showMeetingDetails', 'CRM_Activity_Form_OtherActivity::showOtherActivityDetails', 'CRM_Activity_Form_Phonecall::showCallDetails');
+
