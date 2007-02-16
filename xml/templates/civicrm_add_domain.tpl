@@ -186,9 +186,11 @@ VALUES
   (@option_group_id_pRole, 'Speaker',   4, 'Speaker',   NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
   (@option_group_id_etype, 'Conference', 1, 'Conference',  NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, 'Dinner',     2, 'Dinner',      NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, 'Concert',    3, 'Concert',     NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, 'Tournament', 4, 'Tournament',  NULL, 0, NULL, 4, NULL, 0, 0, 1 );
+  (@option_group_id_etype, 'Exhibition', 2, 'Exhibition',  NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, 'Fundraiser', 3, 'Fundraiser',  NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, 'Meeting',    4, 'Meeting',     NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, 'Performance',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, 'Workshop',   6, 'Conference',  NULL, 0, NULL, 6, NULL, 0, 0, 1 );
 
 -- sample membership status entries
 INSERT INTO
