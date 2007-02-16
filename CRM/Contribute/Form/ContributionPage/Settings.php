@@ -86,7 +86,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         // thermometer block title
         $this->add('text', 'thermometer_title', ts('Thermometer Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thermometer_title') );
 
-        // is this group active ?
+        // is this page active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Online Contribution Page Active?') );
 
         // should the honor be enabled

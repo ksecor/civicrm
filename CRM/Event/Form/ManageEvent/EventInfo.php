@@ -98,6 +98,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     public function buildQuickForm( )  
     { 
         $this->applyFilter('__ALL__', 'trim');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
                    
         $urlParams = "reset=1&context=event";
         
@@ -112,8 +113,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                                       $urlParams, true, null, false );
       
         $this->assign("refreshURL",$url);
-        $this->add('text','title',ts('Title'));
-        $this->addRule( 'title', ts('Event Title is already exist in Database.'), 'objectExists', array( 'CRM_Event_DAO_Event', $eventId, 'title' ) );
+        $this->add('text','title',ts('Title'), $attributes['title'], true);
+//        $this->addRule( 'title', ts('This Event Title already exist in Database.'), 'objectExists', array( 'CRM_Event_DAO_Event', $eventId, 'title' ) );
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
         
@@ -121,10 +122,10 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
         
-        $this->add('textarea','description',ts('Full description'), array("rows"=>4,"cols"=>60));
+        $this->add('textarea','description',ts('Complete Description'), array("rows"=>4,"cols"=>60));
         
-        $this->addElement('checkbox', 'is_public', ts('Public?') );
-        $this->addElement('checkbox', 'is_map', ts('Is Map?') );
+        $this->addElement('checkbox', 'is_public', ts('Public Event?') );
+        $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
         $this->add('date', 'start_date', ts('Start Date and Time'), CRM_Core_SelectValues::date('datetime'),true);
         $this->addRule('start_date', ts('Select a valid date.'), 'qfDate');
         $this->add('date', 'end_date', ts('End Date and Time'), CRM_Core_SelectValues::date('datetime'));
@@ -134,7 +135,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->addRule('max_participants', ts(' is a numeric field') , 'numeric');
         $this->add('text','event_full_text', ts('Event full text'));
         
-        $this->addElement('checkbox', 'is_active', ts('Enabled?') );
+        $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
         
         if ($this->_action & CRM_Core_Action::VIEW ) { 
             CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );

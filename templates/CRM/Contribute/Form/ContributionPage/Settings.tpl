@@ -39,8 +39,10 @@
     </div>
     
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
+    {if $id}
     <dt>&nbsp;</dt><dd class="description">{ts}When your page is active, you can link people to the page by copying and pasting the following URL:{/ts}<br />
         <strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
+    {/if}
     </dl>
     </fieldset>
 </div>
