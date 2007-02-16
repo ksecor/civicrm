@@ -50,3 +50,5 @@ templates - smarty templates for civicrm
 test - unit test
 tools - other 3rd party tools (amavisd, procmail scripts)
 xml - CiviCRM xml config files
+
+test
