@@ -99,6 +99,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     { 
         $this->applyFilter('__ALL__', 'trim');
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
+        CRM_Core_Error::debug('attr', $attributes);
                    
         $urlParams = "reset=1&context=event";
         
