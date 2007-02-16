@@ -209,8 +209,32 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         }
         return false;
     }
-    
 
+    /**
+     * return the last modified date for participation
+     *
+     * @param int $contactId      contact id
+     * @param int $participantId  participant id
+     *
+     * @static
+     * @access public
+     */
+    static function getModifiedDate( $contactId, $participantId )
+    {
+        $query = "SELECT   civicrm_log.id as id, civicrm_log.modified_date as modified_date
+                  FROM     civicrm_log
+                  WHERE    civicrm_log.entity_table='civicrm_participant' 
+                     AND   civicrm_log.entity_id={$participantId} 
+                     AND   civicrm_log.modified_id={$contactId} 
+                  ORDER BY id DESC LIMIT 1";
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        if ( $dao->fetch( ) ) {
+             return $dao->modified_date;
+        }
+        return false;
+    }
+    
     /**
      * takes an associative array and creates a participant object
      *

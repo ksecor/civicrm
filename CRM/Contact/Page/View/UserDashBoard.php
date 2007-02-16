@@ -64,35 +64,17 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         
         $session =& CRM_Core_Session::singleton( );
         $this->_contactId = $session->get( 'userID' );
-
+        
         if ( ! $this->_contactId) {
             CRM_Core_Error::statusBounce( ts( 'We could not find a contact id.' ) );
         }
-        
-        
-        require_once "CRM/Contact/Page/View/UserDashBoard/GroupContact.php";
-        $gContact = new CRM_Contact_Page_View_UserDashBoard_GroupContact();
-        $gContact->run( );
-
+     
         list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
         
         CRM_Utils_System::setTitle( 'User Dashboard' );
-
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-            $components['CiviContribute'] = 'CiviContribute';
-        }
-        
-        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-            $components['CiviMember'] = 'CiviMember';
-        }
-
-        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
-            $components['CiviEvent'] = 'CiviEvent';
-        }
-    
-        $this->assign ( 'components', $components );
-
-        $this->assign ( 'displayName', $contactImage . ' ' . $displayName );
+  
+        $this->assign ( 'displayName', $displayName );
+        $this->assign ( 'DisplayName', $contactImage . ' ' . $displayName );
     }
     
     /**
@@ -103,9 +85,32 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
      * @access public
      */
     function browse( )
-    { 
+    {
         //build group selector
+        require_once "CRM/Contact/Page/View/UserDashBoard/GroupContact.php";
+        $gContact = new CRM_Contact_Page_View_UserDashBoard_GroupContact( );
+        $gContact->run( );
+
         //build component selectors
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            $components['CiviContribute'] = 'CiviContribute';
+        }
+        
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            $components['CiviMember'] = 'CiviMember';
+            require_once "CRM/Contact/Page/View/UserDashBoard/Membership.php";
+            $membership = new CRM_Contact_Page_View_UserDashBoard_Membership( );
+            $membership->run( );
+        }
+
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+            $components['CiviEvent'] = 'CiviEvent';
+            require_once "CRM/Contact/Page/View/UserDashBoard/Participant.php";
+            $participant = new CRM_Contact_Page_View_UserDashBoard_Participant( );
+            $participant->run( );
+        }        
+
+        $this->assign ( 'components', $components );
     }
         
     /**

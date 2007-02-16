@@ -142,7 +142,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
      * @access public 
      */ 
     function preProcess( ) 
-    {
+    { 
         /** 
          * set the button names 
          */ 
@@ -151,24 +151,19 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' ); 
         
         $this->_done = false;
-        
         $this->defaults = array( );
         
         /* 
          * we allow the controller to set force/reset externally, useful when we are being 
          * driven by the wizard framework 
          */ 
-        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
-                                                       CRM_Core_DAO::$_nullObject ); 
-        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
-                                                       $this, false ); 
-        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
-                                                       $this );
-        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
-                                                       $this );
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean', CRM_Core_DAO::$_nullObject ); 
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean', $this, false ); 
+        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive', $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         
         $this->assign( "{$this->_prefix}limit", $this->_limit );
-        
+          
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
         if ( ! empty( $_POST ) ) { 
@@ -176,12 +171,18 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
-        
+   
+        $session =& CRM_Core_Session::singleton();
+        if ( strstr( $session->readUserContext( ) ,'user') ) {
+            $this->_force = 1;
+            $this->set('cid', $session->get( 'userID' ) );
+        }
+     
         if ( $this->_force ) { 
             $this->postProcess( );
             $this->set( 'force', 0 );
         }
-        
+      
         $sortID = null; 
         if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
@@ -213,7 +214,6 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $controller->moveFromSessionToTemplate(); 
         
         $this->assign( 'summary', $this->get( 'summary' ) );
-        
     }
     
     /**
@@ -271,7 +271,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                  array ( 'type'      => 'refresh', 
                                          'name'      => ts('Search') , 
                                          'isDefault' => true     ) 
-                                 )    );     
+                                 )    );
     }
     
     /**
@@ -296,7 +296,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         if ( $this->_done ) {
             return;
         }
-        
+   
         $this->_done = true;
         
         $this->_formValues = $this->controller->exportValues($this->_name);
@@ -368,7 +368,11 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             CRM_Core_DAO::$_nullObject );
-        
+
+        if ( !$cid ) {
+            $cid = $this->get('cid');
+        }
+
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {

@@ -1,5 +1,5 @@
 <table class="no-border">
-    <tr><td>{$displayName}</td></tr>
+    <tr><td>{$DisplayName}</td></tr>
     <tr>
         <td>
             <fieldset><legend>{ts}Groups{/ts}</legend>
@@ -12,6 +12,13 @@
     <tr>
         <td>
             <fieldset><legend>{$componentName}</legend>
+            {if $componentName eq CiviContribute}
+                 {*include file="CRM/Contact/Page/View/UserDashBoard/Contribution.tpl"*}	    
+            {elseif $componentName eq CiviMember}
+                 {include file="CRM/Contact/Page/View/UserDashBoard/Membership.tpl"}	    
+            {elseif $componentName eq CiviEvent}
+                {include file="CRM/Contact/Page/View/UserDashBoard/Participant.tpl"}	
+            {/if}
             </fieldset>
         </td>
     </tr>

@@ -81,7 +81,8 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'event_level',
                                  'participant_id',
                                  'start_date',
-                                 'end_date'
+                                 'end_date',
+                                 'modified_date'
                                  );
 
     /** 
@@ -318,11 +319,10 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                  $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
                  break;
              }
-             $row['contact_type'] = $contact_type;
-             
+             $row['contact_type' ] = $contact_type;
+             $row['modified_date'] = CRM_Event_BAO_Participant::getModifiedDate( $result->contact_id, $result->participant_id );
              $rows[] = $row;
          }
-         
          return $rows;
      }
      

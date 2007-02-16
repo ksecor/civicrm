@@ -1,0 +1,132 @@
+<?php
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 1.7                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the Affero General Public License Version 1,    |
+ | March 2002.                                                        |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the Affero General Public License for more details.            |
+ |                                                                    |
+ | You should have received a copy of the Affero General Public       |
+ | License along with this program; if not, contact the Social Source |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
+ | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
+ | http://www.civicrm.org/licensing/                                  |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2007
+ * $Id$
+ *
+ */
+require_once 'CRM/Contact/Page/View/UserDashBoard.php';
+
+
+class CRM_Contact_Page_View_UserDashBoard_Membership extends CRM_Contact_Page_View_UserDashBoard 
+{
+    /**
+     * The action links that we need to display for the browse screen
+     *
+     * @var array
+     * @static
+     */
+    static $_links = null;
+
+    /**
+     * This function is called when action is browse
+     * 
+     * return null
+     * @access public
+     */
+    function browse( ) 
+    {
+        $links =& self::links( );
+
+        $idList = array('membership_type' => 'MembershipType',
+                        'status'          => 'MembershipStatus',
+                      );
+
+        $membership = array( );
+        require_once 'CRM/Member/DAO/Membership.php';
+        $dao =& new CRM_Member_DAO_Membership( );
+        $dao->contact_id = $this->_contactId;
+        $dao->find();
+        
+        $mask = CRM_Core_Action::mask( $permission );
+        while ($dao->fetch()) {
+            $membership[$dao->id] = array( );
+            CRM_Core_DAO::storeValues( $dao, $membership[$dao->id]);
+            foreach ( $idList as $name => $file ) {
+                if ( $membership[$dao->id][$name .'_id'] ) {
+                    $membership[$dao->id][$name] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_' . $file, 
+                                                                                $membership[$dao->id][$name .'_id'] );
+                }
+            }
+            if ( $dao->status_id ) {
+                $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $dao->status_id, 'is_current_member');
+                if ( $active ) {
+                    $membership[$dao->id]['active'] = $active;
+                }
+            }
+
+            //$renewPageID = CRM_Member_BAO_Membership::getContributionPageId();
+            $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $renewPageID ));
+        }
+
+        require_once "CRM/Member/BAO/Membership.php";
+        $activeMembers   = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership );
+        $inActiveMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership, 'inactive' );
+        $this->assign('activeMembers', $activeMembers);
+        $this->assign('inActiveMembers', $inActiveMembers);
+    }
+
+   /**
+     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+     * 
+     * return null
+     * @access public
+     */
+    function run( ) 
+    {
+        parent::preProcess( );
+        $this->browse( );
+    }
+
+    /**
+     * Get action links
+     *
+     * @return array (reference) of action links
+     * @static
+     */
+    static function &links( )
+    {
+        if (!(self::$_links)) {
+            self::$_links = array(
+                                  CRM_Core_Action::UPDATE  => array(
+                                                                    'name'  => ts('[Renew Now]'),
+                                                                    'url'   => 'civicrm/contribute/transact',
+                                                                    'qs'    => '&reset=1&id=2',
+                                                                    'title' => ts('Renew Now')
+                                                                    ),
+                                  );
+        }
+        return self::$_links;
+    }
+ 
+}
+
+?>
