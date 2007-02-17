@@ -310,6 +310,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks' && 
              $this->_contributeMode != 'notify' ) {
+            self::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
             require_once "CRM/Member/BAO/Membership.php";
             CRM_Member_BAO_Membership::postProcessMembership($membershipParams,$contactID,$this );
         } else {

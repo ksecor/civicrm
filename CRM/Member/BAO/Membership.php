@@ -628,8 +628,8 @@ civicrm_membership_status.is_current_member =1";
         $membershipParams['contributionForm_id']              = $form->_values['id'];
 
         if ($form->_values['is_monetary']) {
-            require_once 'CRM/Contribute/Payment.php';
-            $payment =& CRM_Contribute_Payment::singleton( $form->_mode );
+            require_once 'CRM/Core/Payment.php';
+            $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute' );
             
             if ( $form->_contributeMode == 'express' ) {
                 $result =& $payment->doExpressCheckout( $membershipParams);
