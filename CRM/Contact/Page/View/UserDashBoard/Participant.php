@@ -36,27 +36,30 @@
 
 require_once 'CRM/Contact/Page/View/UserDashBoard.php';
 
+/**
+ * This class is for building event(participation) block on user dashboard
+ */
 class CRM_Contact_Page_View_UserDashBoard_Participant extends CRM_Contact_Page_View_UserDashBoard 
 {
-    
     /**
-     * This function is called when action is browse
+     * Function to list participations for the UF user
      * 
      * return null
      * @access public
      */
-    function browse( ) 
+    function listParticipations( ) 
     {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_Search', ts('Events'), null );
         $controller->setEmbedded( true );
         $controller->reset( );
-        //$controller->set( 'context', 'participant' ); 
+        $controller->set( 'context', 'user' ); 
         $controller->process( );
         $controller->run( );
     }
     
     /**
-     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+     * This function is the main function that is called when the page
+     * loads, it decides the which action has to be taken for the page.
      * 
      * return null
      * @access public
@@ -64,7 +67,7 @@ class CRM_Contact_Page_View_UserDashBoard_Participant extends CRM_Contact_Page_V
     function run( ) 
     {
         parent::preProcess( );
-        $this->browse( ); 
+        $this->listParticipations( ); 
     }
       
 }

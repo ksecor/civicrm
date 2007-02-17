@@ -33,35 +33,28 @@
  * $Id$
  *
  */
+
 require_once 'CRM/Contact/Page/View/UserDashBoard.php';
 
-
+/**
+ * This class is for building membership block on user dashboard
+ */
 class CRM_Contact_Page_View_UserDashBoard_Membership extends CRM_Contact_Page_View_UserDashBoard 
 {
     /**
-     * The action links that we need to display for the browse screen
-     *
-     * @var array
-     * @static
-     */
-    static $_links = null;
-
-    /**
-     * This function is called when action is browse
+     * Function to list memberships for the UF user
      * 
      * return null
      * @access public
      */
-    function browse( ) 
+    function listMemberships( ) 
     {
-        $links =& self::links( );
-
         $idList = array('membership_type' => 'MembershipType',
                         'status'          => 'MembershipStatus',
                       );
 
         $membership = array( );
-        require_once 'CRM/Member/DAO/Membership.php';
+        require_once "CRM/Member/BAO/Membership.php";
         $dao =& new CRM_Member_DAO_Membership( );
         $dao->contact_id = $this->_contactId;
         $dao->find();
@@ -83,19 +76,19 @@ class CRM_Contact_Page_View_UserDashBoard_Membership extends CRM_Contact_Page_Vi
                 }
             }
 
-            //$renewPageID = CRM_Member_BAO_Membership::getContributionPageId();
-            $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $renewPageID ));
+            $membership[$dao->id]['renewPageId'] = CRM_Member_BAO_Membership::getContributionPageId( $dao->id );
         }
-
-        require_once "CRM/Member/BAO/Membership.php";
+        
         $activeMembers   = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership );
         $inActiveMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership, 'inactive' );
+
         $this->assign('activeMembers', $activeMembers);
         $this->assign('inActiveMembers', $inActiveMembers);
     }
 
-   /**
-     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+    /**
+     * This function is the main function that is called when the page
+     * loads, it decides the which action has to be taken for the page.
      * 
      * return null
      * @access public
@@ -103,30 +96,8 @@ class CRM_Contact_Page_View_UserDashBoard_Membership extends CRM_Contact_Page_Vi
     function run( ) 
     {
         parent::preProcess( );
-        $this->browse( );
+        $this->listMemberships( );
     }
-
-    /**
-     * Get action links
-     *
-     * @return array (reference) of action links
-     * @static
-     */
-    static function &links( )
-    {
-        if (!(self::$_links)) {
-            self::$_links = array(
-                                  CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('[Renew Now]'),
-                                                                    'url'   => 'civicrm/contribute/transact',
-                                                                    'qs'    => '&reset=1&id=2',
-                                                                    'title' => ts('Renew Now')
-                                                                    ),
-                                  );
-        }
-        return self::$_links;
-    }
- 
 }
 
 ?>

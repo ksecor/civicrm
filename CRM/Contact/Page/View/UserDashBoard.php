@@ -39,6 +39,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
 
 /**
  * CMS User Dashboard
+ * This class is used to build User Dashboard
  *
  */
 class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
@@ -78,19 +79,13 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
     }
     
     /**
-     * Browse user dashboard
+     * Function to build user dashboard
      *
      * @return none
-     *
      * @access public
      */
-    function browse( )
+    function buildUserDashBoard( )
     {
-        //build group selector
-        require_once "CRM/Contact/Page/View/UserDashBoard/GroupContact.php";
-        $gContact = new CRM_Contact_Page_View_UserDashBoard_GroupContact( );
-        $gContact->run( );
-
         //build component selectors
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $components['CiviContribute'] = 'CiviContribute';
@@ -111,6 +106,11 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         }        
 
         $this->assign ( 'components', $components );
+
+        //build group selector
+        require_once "CRM/Contact/Page/View/UserDashBoard/GroupContact.php";
+        $gContact = new CRM_Contact_Page_View_UserDashBoard_GroupContact( );
+        $gContact->run( );
     }
         
     /**
@@ -124,7 +124,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
     {
         $this->preProcess( );
         
-        $this->browse( );
+        $this->buildUserDashBoard( );
       
         return parent::run( );
     }

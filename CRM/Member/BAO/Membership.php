@@ -788,5 +788,32 @@ civicrm_membership_status.is_current_member =1";
         }
     }
     
+    /**
+     * Function to get the contribution page id from the membership record
+     *
+     * @param int membershipId membership id
+     *
+     * @return int $contributionPageId contribution page id
+     * @access public
+     * @static
+     */
+    static function getContributionPageId( $membershipId )
+    {
+        $query = "
+SELECT c.contribution_page_id pageId
+FROM civicrm_membership_payment mp, civicrm_contribution c
+WHERE mp.payment_entity_table ='civicrm_contribution'
+  AND mp.payment_entity_id = c.id
+  AND mp.membership_id = " . CRM_Utils_Type::escape( $membershipId, 'Integer' )  . "
+";
+        
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $query );
+        while ( $dao->fetch( ) ) {
+            $contributionPageId = $dao->pageId;
+        }
+        
+        return $contributionPageId;
+    }
 }
 ?>

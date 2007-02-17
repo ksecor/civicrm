@@ -405,7 +405,7 @@ LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
 LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
 LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
 LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
-WHERE civicrm_event.id = $id ";
+WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
        
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );

@@ -37,7 +37,7 @@
 require_once 'CRM/Core/Page.php';
 
 /**
- * Page for displaying list of Payment-Instrument
+ * This is page is for Event Dashboard
  */
 class CRM_Event_Page_DashBoard extends CRM_Core_Page 
 {
