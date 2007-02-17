@@ -93,11 +93,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $this->_totalAmountIndex      = -1;
         $this->_contributionTypeIndex = -1;
         
-        
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
             switch ($key) {
-            case 'contact_id':
+            case 'contribution_contact_id':
                 $this->_contactIdIndex        = $index;
                 break;
             case 'total_amount':
@@ -282,12 +281,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             if ($field == null || $field === '') {
                 continue;
             }
-            
             $values[$key] = $field;
         }
         
         _crm_format_contrib_params($values, $formatted, true);
-        
+
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {

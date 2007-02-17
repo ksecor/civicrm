@@ -404,9 +404,9 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             }
             // FIXME: should use the schema titles, not redeclare them
             $requiredFields = array(
-                'contact_id'        => ts('Contact ID'),
-                'total_amount'      => ts('Total Amount'),
-                'contribution_type' => ts('Contribution Type')
+                'contribution_contact_id' => ts('Contact ID'),
+                'total_amount'            => ts('Total Amount'),
+                'contribution_type'       => ts('Contribution Type')
             );
             
             // validation for defalut dupe matching rule
@@ -429,7 +429,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
-                    if( $field == 'contact_id' &&  $defaultFlag ) {
+                    if( $field == 'contribution_contact_id' &&  $defaultFlag ) {
                         if ( in_array('email', $importKeys) || 
                              ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
                              in_array('household_name', $importKeys) ||
@@ -439,7 +439,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                             $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)') . '<br />';
                         }
                         
-                    } else if ( $field == 'contact_id' &&  ! $defaultFlag ) {
+                    } else if ( $field == 'contribution_contact_id' &&  ! $defaultFlag ) {
                         $flag = true;
                         foreach ( $fieldsArray as $v ) {
                             if ( in_array( trim($v), $importKeys )) {

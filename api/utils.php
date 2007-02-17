@@ -397,7 +397,7 @@ function _crm_format_contrib_params( &$params, &$values, $create=false ) {
 
         switch ($key) {
 
-        case 'contact_id':
+        case 'contribution_contact_id':
             if (!CRM_Utils_Rule::integer($value)) {
                 return _crm_error("contact_id not valid: $value");
             }
@@ -407,6 +407,9 @@ function _crm_format_contrib_params( &$params, &$values, $create=false ) {
             if (!$svq) {
                 return _crm_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
+            
+            $values['contact_id'] = $values['contribution_contact_id'];
+            unset ($values['contribution_contact_id']);
             break;
 
         case 'receive_date':
