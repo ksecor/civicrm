@@ -511,6 +511,8 @@ function _crm_format_participant_params( &$params, &$values, $create=false)
             if (!$svq) {
                 return _crm_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
+            $values['contact_id'] = $values['participant_contact_id'];
+            unset ($values['participant_contact_id']);
             break;
         case 'event_register_date':
             if (!CRM_Utils_Rule::date($value)) {
@@ -603,6 +605,8 @@ function _crm_format_membership_params( &$params, &$values, $create=false)
             if (!$svq) {
                 return _crm_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
+            $values['contact_id'] = $values['membership_contact_id'];
+            unset($values['membership_contact_id']);
             break;
         case 'join_date':
         case 'membership_start_date':

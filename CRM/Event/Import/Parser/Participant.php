@@ -98,7 +98,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         
         foreach ( $this->_mapperKeys as $key ) {
             switch ($key) {
-            case 'contact_id':
+            case 'participant_contact_id':
                 $this->_contactIdIndex           = $index;
                 break;
             case 'event_id':

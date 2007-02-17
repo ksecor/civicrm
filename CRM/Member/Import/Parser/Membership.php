@@ -97,7 +97,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
             switch ($key) {
-            case 'contact_id':
+            case 'membership_contact_id':
                 $this->_contactIdIndex        = $index;
                 break;
             case 'membership_type_id':
