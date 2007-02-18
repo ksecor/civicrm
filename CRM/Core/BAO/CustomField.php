@@ -555,7 +555,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      * @access public
      */
-    static function getDisplayValue( $value, $id, &$options ) {
+    static function getDisplayValue( $value, $id, &$options,
+                                     $contactID = null,
+                                     $valueID   = null ) {
         $option     =& $options[$id];
         $attributes =& $option['attributes'];
         $html_type  =  $attributes['html_type'];
@@ -563,9 +565,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $index      =  $attributes['label'];
 
         $display = $value;
-     
+
         switch ( $html_type ) {
-           
+
         case "Radio":
             if ( $data_type == 'Boolean' ) {
                 $display = $value ? ts('Yes') : ts('No');
@@ -635,6 +637,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 $display = '';
             } else {
                 $display = CRM_Core_PseudoConstant::country($value);
+            }
+            break;
+
+        case 'File':
+            if ( $valueID ) {
+                $url = self::getFileURL( $contactID, $display, $valueID);
+                if ( $url ) {
+                    $display = $url;
+                }
             }
             break;
         }
@@ -810,5 +821,31 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $defaults[$elementName] = $value;
         }
     }
+
+    static function getFileURL( $contactID, $value, $valueID ) {
+        $fileID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue',
+                                               $valueID,
+                                               'file_id',
+                                               'id' );
+        $result = null;
+        if ($fileID) {
+            $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File',
+                                                     $fileID,
+                                                     'mime_type',
+                                                     'id' );
+            
+            if ( $fileType == "image/jpeg" ||
+                 $fileType == "image/gif"  ||
+                 $fileType == "image/png" ) { 
+                $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id=$fileID&eid=$contactID" );
+                $result = "<a href='javascript:popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
+            } else { // for non image files
+                $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id=$fileID&eid=$contactID" );
+                $result = "<a href=$url>{$value}</a>";
+            }                                    
+        }
+        return $result;
+    }
+
 }
 ?>

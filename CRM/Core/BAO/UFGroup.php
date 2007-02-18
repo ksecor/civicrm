@@ -644,16 +644,11 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                             if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                                 $customOptionValueId = "custom_value_{$cfID}_id";
 
-                                $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $details->$customOptionValueId, 'file_id', 'id' );
-                                if ($fileId) {
-                                    $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File', $fileId, 'mime_type', 'id' );
-                                    if ( $fileType == "image/jpeg" || $fileType =="image/gif" || $fileType =="image/png" ) { 
-                                        $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id=$fileId&eid=$cid" );
-                                        $params[$index] = $values[$index] = "<a href='javascript:popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
-                                    } else { // for non image files
-                                        $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id=$fileId&eid=$cid" );
-                                        $params[$index] = $values[$index] = "<a href=$url>" . $details->$name ."</a>";
-                                    }                                    
+                                $fileURL = CRM_Core_BAO_CustomField::getFileURL( $cid,
+                                                                                 $details->$name,
+                                                                                 $details->$customOptionValueId );
+                                if ( $fileURL ) {
+                                    $params[$index] = $values[$index] = $fileURL;
                                 } else {
                                     if (preg_match("/^\d*(\.\d+)?$/", $details->{$name})) {
                                         $customVal = (float)($details->{$name});

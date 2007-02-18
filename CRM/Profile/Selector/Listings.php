@@ -451,6 +451,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             require_once 'api/UFGroup.php';
         }
 
+        // CRM_Core_Error::debug( 'f', $this->_fields );
         while ($result->fetch()) {
             if (isset($result->country)) {
                 // the query returns the untranslated country name
@@ -469,7 +470,12 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
 
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                    $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name, $cfID, $this->_options );
+                    $idName = "custom_value_{$cfID}_id";
+                    $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name,
+                                                                        $cfID,
+                                                                        $this->_options,
+                                                                        $result->contact_id,
+                                                                        $result->$idName );
                 } else if ( $name == 'home_URL' &&
                             ! empty( $result->$name ) ) {
                     $url = CRM_Utils_System::fixURL( $result->$name );
