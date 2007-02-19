@@ -254,7 +254,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         CRM_Event_BAO_Participant::setActivityHistory( $participant );
         
         require_once "CRM/Event/BAO/EventPage.php";
-        CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values['event_page'] );
+        
+        CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values );
 
     }//end of function
     
