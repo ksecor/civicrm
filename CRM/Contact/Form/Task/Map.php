@@ -67,15 +67,16 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
                                             $this, false );
         $type = 'Contact';
         if ( $cid ) {
-            $this->_ids = array( $cid );
+            $ids = array( $cid );
             $this->_single     = true;
         } else if ( $eid ) {
-            $this->_ids = $eid;
+            $ids = $eid;
             $type = 'Event';
         } else {
             parent::preProcess( );
+            $ids = $this->_contactIds;
         }
-        self::createMapXML( $this->_ids, $lid, $this, true ,$type);
+        self::createMapXML( $ids, $lid, $this, true ,$type);
         $this->assign( 'single', $this->_single );
     }
     
