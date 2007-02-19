@@ -290,6 +290,16 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         return;
     }
 
+    function getTemplateFileName() {
+        if ( $this->_gid ) {
+            $templateFile = "CRM/Profile/Page/{$this->_gid}/Listings.tpl";
+            if ( CRM_Core_Page::$_template->template_exists( $templateFile ) ) {
+                return $templateFile;
+            }
+        }
+        return parent::getTemplateFileName( );
+    }
+
 }
 
 ?>

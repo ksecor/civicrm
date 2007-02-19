@@ -127,6 +127,17 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
     public function postProcess() 
     {
     }
+
+    function getTemplateFileName() {
+        if ( $this->_gid ) {
+            $templateFile = "CRM/Profile/Page/{$this->_gid}/Search.tpl";
+            if ( CRM_Core_Page::$_template->template_exists( $templateFile ) ) {
+                return $templateFile;
+            }
+        }
+        return parent::getTemplateFileName( );
+    }
+
 }
 
 ?>
