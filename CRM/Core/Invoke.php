@@ -320,6 +320,7 @@ class CRM_Core_Invoke
                 $contact_type     = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type'     );
                 
                 $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'View' );
+
                 if( $properties ) {
                     require_once $properties['file'];
                     eval( '$view =& new ' . $properties['class'] . '( );' );

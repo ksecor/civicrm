@@ -41,6 +41,13 @@
 require_once 'CRM/Core/Page.php';
 class CRM_Profile_Page_View extends CRM_Core_Page {
 
+    /** 
+     * The group id that we are editing
+     * 
+     * @var int 
+     */ 
+    protected $_gid; 
+
     /**
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
@@ -53,21 +60,21 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
     {
         $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                           $this, true);
-        $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this);
 
-        if ($gid) {
+        if ($this->_gid) {
             require_once 'CRM/Profile/Page/Dynamic.php';
-            $page =& new CRM_Profile_Page_Dynamic($id, $gid, 'Profile' );
+            $page =& new CRM_Profile_Page_Dynamic($id, $this->_gid, 'Profile' );
             $profileGroup = array( );
             $profileGroup['title'] = $title;
             $profileGroup['content'] = $page->run();
             $profileGroups[] = $profileGroup;
-            $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_map' );
+            $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map' );
             if ( $map ) {
                 $this->assign( 'mapURL',
                                CRM_Utils_System::url( "civicrm/profile/map",
-                                                      "&reset=1&cid=$id&gid=$gid" ) );
+                                                      "&reset=1&cid=$id&gid={$this->_gid}" ) );
             }
             
         } else {
