@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: iso-codes 0.18\n"
-"Report-Msgid-Bugs-To: Debian iso-codes team <pkg-isocodes-devel@lists.alioth.debian.org>\n"
-"POT-Creation-Date: 2006-10-01 19:37+0200\n"
+"Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
+"POT-Creation-Date: 2005-03-07 08:29-0500\n"
 "PO-Revision-Date: 2001-09-14 15:07-0200\n"
 "Last-Translator: Georgi Georgiev <assenov_g@operamail.com>\n"
 "Language-Team: BULGARIAN <bg@li.org>\n"
@@ -519,6 +519,17 @@ msgstr ""
 msgid "Dominican Republic"
 msgstr "Доминиканска Република"
 
+#. name for TLS
+msgid "Timor-Leste"
+msgstr ""
+
+# CD
+# fuzzy
+#. official_name for TLS
+#, fuzzy
+msgid "Democratic Republic of Timor-Leste"
+msgstr "Лаос, Народна Демократична Република"
+
 # EC
 #. name for ECU
 msgid "Ecuador"
@@ -738,12 +749,6 @@ msgstr "Гватемала"
 msgid "Republic of Guatemala"
 msgstr "Гватемала"
 
-# DE
-#. name for GGY
-#, fuzzy
-msgid "Guernsey"
-msgstr "Германия"
-
 # GN
 #. name for GIN
 msgid "Guinea"
@@ -887,10 +892,6 @@ msgstr "Корея, Република"
 msgid "Ireland"
 msgstr "Ирландия"
 
-#. name for IMN
-msgid "Isle of Man"
-msgstr ""
-
 # IL
 #. name for ISR
 msgid "Israel"
@@ -921,10 +922,6 @@ msgstr "Ямайка"
 #. name for JPN
 msgid "Japan"
 msgstr "Япония"
-
-#. name for JEY
-msgid "Jersey"
-msgstr ""
 
 # JO
 #. name for JOR
@@ -1255,16 +1252,6 @@ msgstr ""
 #. name for MNG
 msgid "Mongolia"
 msgstr "Монголия"
-
-# MS
-#. name for MNE
-#, fuzzy
-msgid "Montenegro"
-msgstr "Монсерат"
-
-#. official_name for MNE
-msgid "Republic of Montenegro"
-msgstr ""
 
 # MS
 #. name for MSR
@@ -1655,19 +1642,6 @@ msgstr "Сенегал"
 msgid "Republic of Senegal"
 msgstr ""
 
-# SY
-# fuzzy
-#. name for SRB
-#, fuzzy
-msgid "Serbia"
-msgstr "Суринам"
-
-# KR
-#. official_name for SRB
-#, fuzzy
-msgid "Republic of Serbia"
-msgstr "Корея, Република"
-
 # SC
 #. name for SYC
 msgid "Seychelles"
@@ -1874,17 +1848,6 @@ msgstr "Тайланд"
 #. official_name for THA
 msgid "Kingdom of Thailand"
 msgstr ""
-
-#. name for TLS
-msgid "Timor-Leste"
-msgstr ""
-
-# CD
-# fuzzy
-#. official_name for TLS
-#, fuzzy
-msgid "Democratic Republic of Timor-Leste"
-msgstr "Лаос, Народна Демократична Република"
 
 # TG
 #. name for TGO
@@ -2122,6 +2085,28 @@ msgstr "Зимбабве"
 #. official_name for ZWE
 msgid "Republic of Zimbabwe"
 msgstr ""
+
+# MS
+#. name for SCG
+#, fuzzy
+msgid "Serbia and Montenegro"
+msgstr "Монсерат"
+
+# DE
+#, fuzzy
+#~ msgid "Guernsey"
+#~ msgstr "Германия"
+
+# SY
+# fuzzy
+#, fuzzy
+#~ msgid "Serbia"
+#~ msgstr "Суринам"
+
+# KR
+#, fuzzy
+#~ msgid "Republic of Serbia"
+#~ msgstr "Корея, Република"
 
 # FM
 # fuzzy

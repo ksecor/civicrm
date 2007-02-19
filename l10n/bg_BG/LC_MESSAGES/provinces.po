@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: iso-codes 0.1.1\n"
-"Report-Msgid-Bugs-To: Debian iso-codes team <pkg-isocodes-devel@lists.alioth.debian.org>\n"
-"POT-Creation-Date: 2006-10-01 19:37+0200\n"
+"Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
+"POT-Creation-Date: 2005-09-08 08:52+0200\n"
 "PO-Revision-Date: 2001-09-14 15:07-0200\n"
 "Last-Translator: Georgi Georgiev <assenov_g@operamail.com>\n"
 "Language-Team: BULGARIAN <bg@li.org>\n"
@@ -2791,7 +2791,7 @@ msgstr ""
 msgid "North"
 msgstr ""
 
-#. name for CM-SU
+#. name for CM-SW
 msgid "South"
 msgstr ""
 
@@ -2842,8 +2842,9 @@ msgid "Guangdong"
 msgstr ""
 
 #. name for CN-52
-msgid "Guizhou"
-msgstr ""
+#, fuzzy
+msgid "Gulzhou"
+msgstr "Тувалу"
 
 #. name for CN-46
 #, fuzzy
@@ -3416,7 +3417,7 @@ msgstr "Мериленд"
 msgid "Schleswig-Holstein"
 msgstr ""
 
-#. name for DE-BE
+#. name for DE-BR
 #, fuzzy
 msgid "Berlin"
 msgstr "Бенин"
@@ -4215,7 +4216,7 @@ msgstr "Албания"
 msgid "Badajoz"
 msgstr ""
 
-#. name for ES-IB
+#. name for ES-PM
 #, fuzzy
 msgid "Baleares"
 msgstr "Беларус"
@@ -4456,7 +4457,7 @@ msgstr ""
 msgid "Galicia"
 msgstr "Гвинея"
 
-#. name for IB
+#. name for PM
 #, fuzzy
 msgid "Islas Baleares"
 msgstr "Беларус"
@@ -4531,30 +4532,96 @@ msgstr ""
 msgid "Tigrai"
 msgstr "Нигерия"
 
-#. name for FI-AL
-msgid "Ahvenanmaan lääni"
-msgstr ""
+#. name for FI-SK
+#, fuzzy
+msgid "South Karelia"
+msgstr "Южна Каролина"
+
+#. name for FI-SO
+#, fuzzy
+msgid "South Ostrobothnia"
+msgstr "Австралия"
 
 #. name for FI-ES
-msgid "Etelä-Suomen lääni"
+msgid "Etelä-Savo"
 msgstr ""
 
-#. name for FI-IS
-msgid "Itä-Suomen lääni"
+#. name for FI-HH
+msgid "Häme"
 msgstr ""
 
-#. name for FI-LL
+#. name for FI-IU
+msgid "Itä-Uusimaa"
+msgstr ""
+
+#. name for FI-KA
 #, fuzzy
-msgid "Lapin lääni"
-msgstr "Латвия"
+msgid "Kainuu"
+msgstr "Канзас"
 
-#. name for FI-LS
-msgid "Länsi-Suomen lääni"
+#. name for FI-CO
+msgid "Central Ostrobothnia"
 msgstr ""
 
-#. name for FI-OL
-msgid "Oulun lääni"
+#. name for FI-CF
+#, fuzzy
+msgid "Central Finland"
+msgstr "Отказ"
+
+#. name for FI-KY
+msgid "Kymenlaakso"
 msgstr ""
+
+#. name for FI-LA
+#, fuzzy
+msgid "Lapland "
+msgstr "Полша"
+
+#. name for FI-TR
+msgid "Tampere Region"
+msgstr ""
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+#, fuzzy
+msgid "North Karelia"
+msgstr "Северна Каролина"
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+#, fuzzy
+msgid "Northern Savo"
+msgstr "Северни Мариани"
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+#, fuzzy
+msgid "Satakunta"
+msgstr "Судан"
+
+#. name for FI-UM
+#, fuzzy
+msgid "Uusimaa "
+msgstr "Гияна"
+
+#. name for FI-SW
+#, fuzzy
+msgid "South-West Finland"
+msgstr "Южна Дакота"
+
+#. name for FI-AL
+#, fuzzy
+msgid "Åland"
+msgstr "Исландия"
 
 #. name for FJ-E
 msgid "Eastern"
@@ -5623,8 +5690,9 @@ msgid "Norfolk"
 msgstr "Норфолк Остров"
 
 #. name for GB-NAY
-msgid "North Ayrahire"
-msgstr ""
+#, fuzzy
+msgid "North Ayrshire"
+msgstr "Южна Африка"
 
 #. name for GB-NDN
 #, fuzzy
@@ -5663,7 +5731,7 @@ msgstr "Ню Хемпшир"
 
 #. name for GB-NBL
 #, fuzzy
-msgid "Northumbarland"
+msgid "Northumberland"
 msgstr "Северна Каролина"
 
 #. name for GB-NGM
@@ -5736,8 +5804,9 @@ msgid "Redcar and Cleveland"
 msgstr ""
 
 #. name for GB-RFW
-msgid "Renfrewshlre"
-msgstr ""
+#, fuzzy
+msgid "Renfrewshire"
+msgstr "Чили"
 
 #. name for GB-RCT
 msgid "Rhondda, Cynon, Taff"
@@ -5804,8 +5873,9 @@ msgid "Solihull"
 msgstr ""
 
 #. name for GB-SOM
-msgid "merset"
-msgstr ""
+#, fuzzy
+msgid "Somerset"
+msgstr "Израел"
 
 #. name for GB-SAY
 #, fuzzy
@@ -6058,10 +6128,6 @@ msgstr "Ню Хемпшир"
 msgid "Grampian"
 msgstr "Замбия"
 
-#. name for HERWOR
-msgid "Herefordshire & Worcestershire"
-msgstr ""
-
 #. name for HUMBER
 #, fuzzy
 msgid "Humberside"
@@ -6097,11 +6163,6 @@ msgstr "Естония"
 #. name for MIDDX
 msgid "Middlesex"
 msgstr ""
-
-#. name for NTHUMB
-#, fuzzy
-msgid "Northumberland"
-msgstr "Северна Каролина"
 
 #. name for RUTLAND
 #, fuzzy
@@ -7318,7 +7379,6 @@ msgstr "Кения"
 msgid "Nusa Tenggara"
 msgstr ""
 
-#. name for SL
 #, fuzzy
 msgid "Sulawesi"
 msgstr "Испания"
@@ -8873,7 +8933,7 @@ msgstr ""
 
 #. name for KH-3
 #, fuzzy
-msgid "Kampong Chaam"
+msgid "Rampong Chaam"
 msgstr "Kmail"
 
 #. name for KH-4
@@ -10853,7 +10913,7 @@ msgstr "Мичиган"
 
 #. name for MX-MOR
 #, fuzzy
-msgid "Moreloa"
+msgid "Morelos"
 msgstr "Молдова"
 
 #. name for MX-NAY
@@ -11480,7 +11540,7 @@ msgstr ""
 msgid "Sir-Trindelag"
 msgstr ""
 
-#. name for NO-08
+#. name for NO-06
 #, fuzzy
 msgid "Telemark"
 msgstr "Дания"
@@ -12225,71 +12285,76 @@ msgstr "Северни Мариани"
 
 #. name for PL-DS
 #, fuzzy
-msgid "Dolnoślaskie"
+msgid "dolnośląskie"
 msgstr "Испания"
 
 #. name for PL-KP
-msgid "Kujawsksöo-pomorskie"
+msgid "kujawsko-pomorskie"
 msgstr ""
 
 #. name for PL-LU
-msgid "Lubelskie"
-msgstr ""
+#, fuzzy
+msgid "lubelskie"
+msgstr "Хеликс"
 
 #. name for PL-LB
-msgid "Lubuskie"
-msgstr ""
+#, fuzzy
+msgid "lubuskie"
+msgstr "Испания"
 
 #. name for PL-LD
 #, fuzzy
-msgid "Łodzkie"
+msgid "łódzkie"
 msgstr "Логин:"
 
 #. name for PL-MA
-msgid "Małopolskie"
-msgstr ""
+#, fuzzy
+msgid "małopolskie"
+msgstr "Испания"
 
 #. name for PL-MZ
 #, fuzzy
-msgid "Mazowieckie"
+msgid "mazowieckie"
 msgstr "Мейн"
 
 #. name for PL-OP
-msgid "Opolskie"
-msgstr ""
+#, fuzzy
+msgid "opolskie"
+msgstr "Комори"
 
 #. name for PL-PK
-msgid "Podkarpackie"
+msgid "podkarpackie"
 msgstr ""
 
 #. name for PL-PD
-msgid "Podlaskie"
-msgstr ""
+#, fuzzy
+msgid "podlaskie"
+msgstr "Испания"
 
 #. name for PL-PM
 #, fuzzy
-msgid "Pomorskie"
+msgid "pomorskie"
 msgstr "Комори"
 
 #. name for PL-SL
 #, fuzzy
-msgid "Ślaskie"
+msgid "śląskie"
 msgstr "Испания"
 
 #. name for PL-SK
-msgid "Świetokrzyskie"
+msgid "świętokrzyskie"
 msgstr ""
 
 #. name for PL-WN
-msgid "Warminsko-mazurskie"
+msgid "warmińsko-mazurskie"
 msgstr ""
 
 #. name for PL-WP
-msgid "Wielkopolskie"
+msgid "wielkopolskie"
 msgstr ""
 
 #. name for PL-ZP
-msgid "Zachodniopomorskie "
+msgid "zachodniopomorskie"
 msgstr ""
 
 #. name for PS
@@ -14606,7 +14671,7 @@ msgid "Kalasin"
 msgstr "Малайзия"
 
 #. name for TH-62
-msgid "Kamphaeng Phet"
+msgid "Kamphasng Phet"
 msgstr ""
 
 #. name for TH-71
@@ -14746,7 +14811,7 @@ msgstr ""
 
 #. name for TH-83
 #, fuzzy
-msgid "Phuket"
+msgid "Phaket"
 msgstr "Куба"
 
 #. name for TH-25
@@ -16250,11 +16315,11 @@ msgstr "Ню Хемпшир"
 msgid "New Jersey"
 msgstr "Ню Джърси"
 
-#. name for US-NM
+#. name for us-NM
 msgid "New Mexico"
 msgstr "Ню Мексико"
 
-#. name for US-NY
+#. name for us-NY
 msgid "New York"
 msgstr "Ню Йорк"
 
@@ -16435,7 +16500,7 @@ msgid "Treinta y Tres"
 msgstr ""
 
 #. name for UZ-TK
-msgid "Toshkent "
+msgid "Toshkent (city)"
 msgstr ""
 
 #. name for UZ-QR
@@ -17126,12 +17191,16 @@ msgid "Midlands"
 msgstr "Финландия"
 
 #, fuzzy
-#~ msgid "Susa "
-#~ msgstr "Судан"
+#~ msgid "Lapin lääni"
+#~ msgstr "Латвия"
 
 #, fuzzy
-#~ msgid "Central "
-#~ msgstr "Отказ"
+#~ msgid "Northumbarland"
+#~ msgstr "Северна Каролина"
+
+#, fuzzy
+#~ msgid "Susa "
+#~ msgstr "Судан"
 
 #, fuzzy
 #~ msgid "Chobe"
