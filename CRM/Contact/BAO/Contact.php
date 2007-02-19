@@ -1254,6 +1254,10 @@ WHERE civicrm_contact.id IN $idString ";
                 require_once 'CRM/Quest/BAO/Student.php';
                 CRM_Quest_BAO_Student::deleteStudent($id);
             }
+            if ( $contact->contact_sub_type == 'Recommender' ) {
+                require_once 'CRM/Quest/BAO/Recommendation.php';
+                CRM_Quest_BAO_Recommendation::deleteRecommender($id);
+            }
         }
 
         //delete TMF student Record
