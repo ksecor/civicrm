@@ -177,11 +177,13 @@ function crm_update_location(&$contact, $location_id, $params) {
     $fields =& CRM_Core_DAO_Address::fields( );
     _crm_store_values($fields, $params, $loc['address']);
 
-    $ids = array( 'county', 'country_id', 'country', 'state_province_id', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name', 'street_address' );
+    $names = array( 'county', 'country_id', 'country', 'state_province_id',
+                    'state_province', 'supplemental_address_1', 'supplemental_address_2',
+                    'StateProvince.name', 'street_address' );
     
-    foreach ( $ids as $id ) {
-        if ( array_key_exists( $id, $params ) ) {
-            $loc['address'][$id] = $params[$id];
+    foreach ( $names as $n ) {
+        if ( array_key_exists( $n, $params ) ) {
+            $loc['address'][$n] = $params[$n];
         }
     }
         
@@ -230,10 +232,24 @@ function crm_update_location(&$contact, $location_id, $params) {
     }
 
     $par = array('id' => $contact->id,'contact_id' => $contact->id);
+    $ids = $defaults = array( );
     $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
-       
+
     CRM_Contact_BAO_Contact::resolveDefaults($values, true);
-   
+
+    $ids['newLocation'] = array( );
+    foreach ( array_keys( $ids['location'] ) as $lid ) {
+        if ( $ids['location'][$lid]['id'] == $location_id ) {
+            $ids['newLocation'][1] = $ids['location'][$lid];
+        }
+    }
+    unset( $ids['location'] );
+    $ids['location'] = $ids['newLocation'];
+
+    if ( count( $ids['location'] ) != 1 ) {
+        _crm_error( "Could not retrieve ids for that location" );
+    }
+
     $location = CRM_Core_BAO_Location::add($values, $ids, 1);
     return $location;
 }
