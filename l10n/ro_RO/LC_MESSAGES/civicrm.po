@@ -9,25 +9,24 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-29 09:54+0100\n"
-"PO-Revision-Date: 2006-11-27 23:49+0200\n"
+"PO-Revision-Date: 2007-02-18 17:32+0200\n"
 "Last-Translator: Claudiu Cristea <clau.cristea@gmail.com>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || ((n%100) > 0 && (n%"
-"100) < 20)) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || ((n%100) > 0 && (n%100) < 20)) ? 1 : 2);\n"
 "X-Generator: Pootle 0.10\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Mailing/Selector/Event.php
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "ACL Role"
-msgstr ""
+msgstr "Rol ACL"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/Core/DAO/CustomGroup.php
 #: templates/CRM/Contact/Form/Task/AddToGroup.tpl
@@ -37,11 +36,11 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Group"
-msgstr ""
+msgstr "Grup"
 
 #: CRM/ACL/BAO/ACL.php CRM/Core/DAO/Mapping.php CRM/Core/Menu.php
 msgid "Import"
-msgstr ""
+msgstr "Import"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Admin/Page/RelationshipType.php
 #: CRM/Contact/Page/View/Membership.php CRM/Contact/Page/View/Note.php
@@ -82,19 +81,19 @@ msgstr "Editează"
 #: CRM/Core/DAO/UFJoin.php CRM/Mailing/DAO/Group.php
 #: CRM/Member/DAO/MembershipBlock.php
 msgid "Entity Table"
-msgstr ""
+msgstr "Tabel Entitate"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
-msgstr ""
+msgstr "Operaţiune"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contribute/BAO/Query.php
 msgid "All"
-msgstr ""
+msgstr "Tot"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
-msgstr ""
+msgstr "Crează"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php
@@ -129,7 +128,7 @@ msgstr "Şterge"
 #: CRM/ACL/DAO/Cache.php CRM/Contribute/DAO/ContributionRecur.php
 #: CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "Data Modificării"
 
 #: CRM/ACL/Form/ACL.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php
@@ -167,14 +166,12 @@ msgid "Description"
 msgstr "Descriere"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
-#, fuzzy
 msgid " -select- "
 msgstr "- selectaţi -"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Groups"
-msgstr "Grup(uri)"
+msgstr "Toate Grupurile"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/OptionGroup.php
@@ -238,7 +235,7 @@ msgstr "Activează"
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Admin/Page/Options.php
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Access Control"
-msgstr ""
+msgstr "Control Acces"
 
 #: CRM/Activity/BAO/Activity.php CRM/Contact/Selector/Activity.php
 msgid "Phone Call"
@@ -347,11 +344,11 @@ msgstr "Număr de telefon"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Left Message"
-msgstr ""
+msgstr "Mesaj Rămas"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Unreachable"
-msgstr ""
+msgstr "Negăsit"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
@@ -380,7 +377,7 @@ msgstr "Durata"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 msgid "Selected Meeting is deleted sucessfully."
-msgstr ""
+msgstr "Întâlnirea Selectată este ştearsă cu succes."
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
@@ -536,7 +533,7 @@ msgstr "Implicit?"
 #: CRM/Admin/Form/Mapping.php CRM/Core/DAO/Mapping.php
 #: templates/CRM/Admin/Page/Mapping.tpl
 msgid "Mapping Type"
-msgstr ""
+msgstr "Tip Cartografie"
 
 #: CRM/Admin/Form/Options.php CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomOption.php
@@ -544,7 +541,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/Options.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Label"
-msgstr ""
+msgstr "Etichetă"
 
 #: CRM/Admin/Form/Options.php CRM/Admin/Form/OptionValue.php
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
@@ -593,7 +590,7 @@ msgstr "Titlu"
 #: CRM/Custom/Form/Field.php templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Value"
-msgstr ""
+msgstr "Valoare"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/OptionValue.php
 msgid "Option Grouping Name"
@@ -612,34 +609,33 @@ msgstr "Contact tip B"
 #: CRM/Admin/Form/Setting/Address.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Invoke.php templates/CRM/Admin/Form/Setting/Address.tpl
 msgid "Address Formatting"
-msgstr ""
+msgstr "Formatare Adresă"
 
 #: CRM/Admin/Form/Setting/Component.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Invoke.php
-#, fuzzy
 msgid "Components"
-msgstr "Finalizat"
+msgstr "Componente"
 
 #: CRM/Admin/Form/Setting/Localisation.php CRM/Mailing/Form/Group.php
 msgid "Add >>"
-msgstr ""
+msgstr "Adaugă >>"
 
 #: CRM/Admin/Form/Setting/Localisation.php CRM/Mailing/Form/Group.php
 msgid "<< Remove"
-msgstr ""
+msgstr "<< Şterge"
 
 #: CRM/Admin/Form/Setting/Payment.php CRM/Contribute/DAO/FinancialTrxn.php
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Payment Processor"
-msgstr ""
+msgstr "Procesor Plăţi"
 
 #: CRM/Admin/Form/Setting.php CRM/Admin/Page/Setting.php CRM/Core/Menu.php
 msgid "Global Settings"
-msgstr ""
+msgstr "Configurare Globală"
 
 #: CRM/Admin/Form/Setting/Smtp.php CRM/Admin/Page/Setting.php
 msgid "SMTP Server"
-msgstr ""
+msgstr "Server SMTP"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Manage"
@@ -670,22 +666,22 @@ msgstr "Editează opţiune"
 #: CRM/Admin/Page/Options.php CRM/Custom/Form/Group.php
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
-msgstr ""
+msgstr "Editează %1"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "File System Paths"
-msgstr ""
+msgstr "Căi Fişier Sistem"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Site URLs"
-msgstr ""
+msgstr "URL site "
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Cartografie şi Geocoding"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -696,16 +692,16 @@ msgstr "Locaţie"
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Date Formatting"
-msgstr ""
+msgstr "Formatare Dată"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diverse"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Debugging"
-msgstr ""
+msgstr "Depanare"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -761,11 +757,11 @@ msgstr "Etichete"
 #: CRM/Contact/BAO/Contact.php CRM/Core/BAO/CustomGroup.php
 #: CRM/Core/BAO/File.php
 msgid "Could not move custom file to custom upload directory"
-msgstr ""
+msgstr "Nu se poate muta fişierul în directorul de încărcare"
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
-msgstr ""
+msgstr "Căutare Contacte CiviCRM"
 
 #: CRM/Contact/BAO/Query.php CRM/Member/BAO/Query.php
 msgid "or"
@@ -786,7 +782,7 @@ msgstr "Tip contact"
 
 #: CRM/Contact/DAO/Contact.php CRM/Member/Form/Task/Export.php
 msgid "Sort Name"
-msgstr ""
+msgstr "Nume Sortare"
 
 #: CRM/Contact/DAO/Contact.php CRM/Member/Form/Task/Export.php
 msgid "Display Name"
@@ -795,7 +791,7 @@ msgstr "Nume afişat"
 #: CRM/Contact/DAO/Contact.php CRM/Mailing/Event/DAO/Queue.php
 #: CRM/Mailing/Event/DAO/Subscribe.php
 msgid "Hash"
-msgstr ""
+msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
@@ -849,7 +845,7 @@ msgstr "Vizibilitate"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Clauză Where"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 #, fuzzy
@@ -858,22 +854,22 @@ msgstr "Selectează etichetă"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Tabele Where"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "User and User Admin Only"
-msgstr ""
+msgstr "Numai Utilizator şi Utilizator Admin"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "Public User Pages"
-msgstr ""
+msgstr "Pagini Publice Utilizator"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "Public User Pages and Listings"
-msgstr ""
+msgstr "Pagini Publice Utilizator şi Liste"
 
 #: CRM/Contact/DAO/Household.php CRM/Contact/Form/Household.php
 msgid "Household Name"
@@ -1031,7 +1027,7 @@ msgstr "Cod poştal"
 
 #: CRM/Contact/Form/Address.php CRM/Core/Form.php
 msgid "Add-on Code"
-msgstr ""
+msgstr "Cod Add-on"
 
 #: CRM/Contact/Form/Address.php CRM/Core/DAO/County.php CRM/Core/Form.php
 #, fuzzy
@@ -1103,7 +1099,7 @@ msgstr "Confin"
 
 #: CRM/Contact/Form/Email.php CRM/Core/DAO/Email.php
 msgid "On Hold"
-msgstr ""
+msgstr "În aşteptare"
 
 #: CRM/Contact/Form/GroupTag.php CRM/Contact/Form/Task/Email.php
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Core/BAO/CustomField.php
@@ -1132,12 +1128,12 @@ msgstr[2] ""
 #: CRM/Contact/Form/Individual.php CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Contribute/Form/Contribution.php
 msgid "Prefix"
-msgstr ""
+msgstr "Prefix"
 
 #: CRM/Contact/Form/Individual.php CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Contribute/Form/Contribution.php
 msgid "- prefix -"
-msgstr ""
+msgstr "- prefix -"
 
 #: CRM/Contact/Form/Individual.php CRM/Quest/Form/Counselor/Personal.php
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
@@ -1181,7 +1177,7 @@ msgstr "Nume locaţie"
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Notes"
-msgstr ""
+msgstr "Note"
 
 #: CRM/Contact/Form/Phone.php CRM/Contact/Selector.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php
@@ -1230,7 +1226,7 @@ msgstr "Caută"
 #: CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "Custom Fields"
-msgstr ""
+msgstr "Câmpuri Personalizate"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/Menu.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -1238,7 +1234,7 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Activity History"
-msgstr ""
+msgstr "Istoric Activitate"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
@@ -1246,11 +1242,11 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Relationships"
-msgstr ""
+msgstr "Relaţii"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 msgid "Change Log"
-msgstr ""
+msgstr "Jurnal Schimbări"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Contribution.php CRM/Contact/Page/View/Tabbed.php
@@ -1267,7 +1263,7 @@ msgstr "Membrii"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
 msgid "Task"
-msgstr ""
+msgstr "Sarcină"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search.php
 msgid "Find..."
@@ -1305,7 +1301,7 @@ msgstr "Către"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomQuery.php
 msgid "and"
-msgstr ""
+msgstr "şi"
 
 #: CRM/Contact/Form/Search.php CRM/Contribute/Form/Search.php
 #: CRM/Member/Form/Search.php
@@ -1504,13 +1500,13 @@ msgstr "SMS trimis"
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Menu.php
 #: CRM/Core/SelectValues.php
 msgid "Activities"
-msgstr ""
+msgstr "Activităţi"
 
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Invoke.php CRM/Core/Menu.php
 #: CRM/Core/SelectValues.php CRM/Profile/Form/Dojo.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Groups"
-msgstr ""
+msgstr "Grupuri"
 
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Menu.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -1518,7 +1514,7 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl templates/CRM/Tag/Form/Tag.tpl
 msgid "Tags"
-msgstr ""
+msgstr "Etichete"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/Menu.php
 #: templates/CRM/Activity/Form/OtherActivity.tpl
@@ -1557,11 +1553,11 @@ msgstr "Hartă"
 
 #: CRM/Contact/Selector.php CRM/Core/Invoke.php
 msgid "Map Contact"
-msgstr ""
+msgstr "Contact Map"
 
 #: CRM/Contact/Selector.php CRM/Profile/Selector/Listings.php
 msgid "Contact %%StatusMessage%%"
-msgstr ""
+msgstr "Contact %%StatusMessage%%"
 
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: templates/CRM/Contact/Form/Address.tpl
@@ -1602,28 +1598,28 @@ msgstr "Contribuţia selectată a fost ştearsă."
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 msgid "Contribution Source"
-msgstr ""
+msgstr "Sursă Contribuţie"
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Cantitate Minimă"
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Vă rugăm introduceţi o cantitate validă de bani (ex. 9.99)."
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Cantitate Maximă"
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Vă rugăm introduceţi o valoare validă de bani (ex. 99.99)."
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -1633,53 +1629,53 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 msgid "Contribution Type"
-msgstr ""
+msgstr "Tip Contribuţie"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/Invoke.php
 #: templates/CRM/Contribute/Form/Preview.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 msgid "Contribution Page"
-msgstr ""
+msgstr "Pagină Contribuţie"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Contribution Status"
-msgstr ""
+msgstr "Stare Contribuţie"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Goal Amount"
-msgstr ""
+msgstr "Cantitate Aşteptată"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Name"
-msgstr ""
+msgstr "Chitanţă de la Nume"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Email"
-msgstr ""
+msgstr "Chitanţă de la Email"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Thermometer Title"
-msgstr ""
+msgstr "Titlu Termometru"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Honor Block Title"
-msgstr ""
+msgstr "Titlu Bloc Onoare"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Core/DAO/ActivityHistory.php
 #: CRM/Member/DAO/Membership.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "ID Contact (potrivit la contact)"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Non-deductible Amount"
-msgstr ""
+msgstr "Cantitate Nedeductibilă"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php
@@ -1688,42 +1684,42 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Total Amount"
-msgstr ""
+msgstr "Cantitate Totală"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Fee Amount"
-msgstr ""
+msgstr "Mărime Onorariu"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Net Amount"
-msgstr ""
+msgstr "Cantitate Netă"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Transaction ID"
-msgstr ""
+msgstr "ID Tranzacţie"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Invoice ID"
-msgstr ""
+msgstr "ID Factură"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Currency"
-msgstr ""
+msgstr "Monedă"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Cancel Date"
-msgstr ""
+msgstr "Dată Renunţare"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/DAO/Address.php CRM/Core/DAO/Note.php
@@ -1734,12 +1730,12 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Note"
-msgstr ""
+msgstr "Notă"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Mailing/Form/Test.php
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: CRM/Contribute/Form/Contribution/Main.php
@@ -1749,16 +1745,16 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Amount"
-msgstr ""
+msgstr "Cantitate"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency Unit"
-msgstr ""
+msgstr "Unitate Frecvenţă"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "Frequency Interval"
-msgstr ""
+msgstr "Interval Frecvenţă"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Core/SelectValues.php CRM/Member/DAO/MembershipStatus.php
@@ -1785,13 +1781,13 @@ msgstr "an"
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Accounting Code"
-msgstr ""
+msgstr "Cod Contabilitate"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid "SKU"
-msgstr ""
+msgstr "SKU"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Core/Invoke.php
@@ -1812,147 +1808,147 @@ msgstr "Tip perioadă"
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Start Day"
-msgstr ""
+msgstr "Dată Start Perioadă Fixă"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php
 msgid "Duration Unit"
-msgstr ""
+msgstr "Unitate Durată"
 
 #: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
 #: CRM/Member/Form/MembershipType.php
 msgid "Duration Interval"
-msgstr ""
+msgstr "Interval Durată"
 
 #: CRM/Contribute/DAO/Product.php CRM/Core/SelectValues.php
 #: CRM/Member/DAO/MembershipType.php
 msgid "rolling"
-msgstr ""
+msgstr "rulant"
 
 #: CRM/Contribute/DAO/Product.php CRM/Core/SelectValues.php
 #: CRM/Member/DAO/MembershipType.php
 msgid "fixed"
-msgstr ""
+msgstr "fix"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php CRM/Core/Form.php
 msgid "Processing"
-msgstr ""
+msgstr "Procesare"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 #: CRM/Contribute/Payment/PayPalIPN.php CRM/Member/BAO/Membership.php
 msgid "Online Contribution:"
-msgstr ""
+msgstr "Contribuţie Online:"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Selector/Event.php
 #: CRM/Quest/Form/Verify.php
 msgid "Email Address"
-msgstr ""
+msgstr "Adresă Email:"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 #: CRM/Contribute/Form/ManagePremiums.php CRM/Custom/Form/Preview.php
 #: CRM/UF/Form/Preview.php
 msgid "Done with Preview"
-msgstr ""
+msgstr "Realizat cu Previzualizare"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Introductory Message"
-msgstr ""
+msgstr "Mesaj Introductiv"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Core/BAO/UFGroup.php
 #: CRM/Core/SelectValues.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipType.php CRM/Quest/BAO/Student.php
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/UF/Form/Preview.php
 msgid "-select-"
-msgstr ""
+msgstr "- selectaţi -"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 msgid "Paid By"
-msgstr ""
+msgstr "Plătit de"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Received"
-msgstr ""
+msgstr "Primit"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Thank-you Sent"
-msgstr ""
+msgstr "Mulţumire Trimisă"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid amount."
-msgstr ""
+msgstr "Vă rugăm introduceţi o cantitate validă."
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Premium"
-msgstr ""
+msgstr "Premium"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/ManagePremiums.php
 msgid "Minimum Contribution Amount"
-msgstr ""
+msgstr "Cantitate Minimă Contribuţie"
 
 #: CRM/Contribute/Form/CreatePPD.php CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 #: CRM/Member/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
-msgstr ""
+msgstr "Trebuie încărcat un fişier valid."
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 msgid "Delete Contributions"
-msgstr ""
+msgstr "Şterge Contribuţii"
 
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
 #: CRM/Core/DAO/Mapping.php
 msgid "Export Contributions"
-msgstr ""
+msgstr "Exportă Contribuţii"
 
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Member/Form/Task/Export.php
 #: CRM/Member/Import/Form/MapField.php
 msgid "Contact ID"
-msgstr ""
+msgstr "ID Contact"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 #: CRM/Member/Import/Form/MapField.php
 msgid "Mapping Option"
-msgstr ""
+msgstr "Opţiuni Mapare"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 #: CRM/Member/Import/Form/MapField.php
 msgid "Load Mapping"
-msgstr ""
+msgstr "Încarcă Mapare"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 #: CRM/Member/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr ""
+msgstr "Salvează acest câmp mapare"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 #: CRM/Member/Import/Form/MapField.php
 msgid "Update this field mapping"
-msgstr ""
+msgstr "Actualizează acest câmp mapare"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 #: CRM/Member/Import/Form/MapField.php
 msgid "Save as a new field mapping"
-msgstr ""
+msgstr "Salvează ca şi câmp mapare nou"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 #: CRM/Member/Import/Form/MapField.php
 msgid "Mapper for Field %1"
-msgstr ""
+msgstr "Mapare pentru Câmp %1"
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
@@ -1961,36 +1957,36 @@ msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
 "before continuing."
-msgstr ""
+msgstr "Datele în acest import par să fie diferite faţă de maparea salvată. Vă rugăm verificaţi dacă aţi selectat maparea înainte de a continua."
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Member/Import/Form/MapField.php
 msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.)"
-msgstr ""
+msgstr "Lipsesc câmpurile potrivite necesare. (Trebuie să fie Prenume ŞI Nume sau Email Principal sau Prenume, Nume ŞI Email Principal.)"
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Member/Import/Form/MapField.php
 msgid "Missing required contact matching field: Contact ID."
-msgstr ""
+msgstr "Lipseşte câmpul potrivit pentru contact: Contact ID."
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Member/Import/Form/MapField.php
 msgid "Missing required field: %1"
-msgstr ""
+msgstr "Lipseşte câmpul necesar: %1"
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 #: CRM/Member/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
-msgstr ""
+msgstr "Numele este necesar pentru a salva Maping Import"
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 #: CRM/Member/Import/Form/MapField.php
 msgid "Match Fields"
-msgstr ""
+msgstr "Potriveşte Câmpuri"
 
 #: CRM/Contribute/Import/Form/Preview.php CRM/History/Import/Form/Preview.php
 #: CRM/Import/Form/Preview.php CRM/Member/Import/Form/Preview.php
@@ -2073,79 +2069,79 @@ msgstr "Umple"
 #: CRM/History/Import/Form/UploadFile.php
 #: CRM/Member/Import/Form/UploadFile.php
 msgid "On duplicate entries"
-msgstr ""
+msgstr "În caz de duplicate"
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 #: CRM/Member/Import/Form/UploadFile.php
 msgid "Upload Data"
-msgstr ""
+msgstr "Încarcă Date"
 
 #: CRM/Contribute/Import/Parser/Contribution.php
 #: CRM/History/Import/Parser/ActivityHistory.php CRM/Import/Parser/Contact.php
 #: CRM/Member/Import/Parser/Membership.php
 msgid "Missing required fields"
-msgstr ""
+msgstr "Lipsesc câmpurile obligatorii"
 
 #: CRM/Contribute/Import/Parser.php CRM/History/Import/Parser.php
 #: CRM/Import/Parser.php CRM/Member/Import/Parser.php
 msgid "Record Number"
-msgstr ""
+msgstr "Număr Înregistrare"
 
 #: CRM/Contribute/Import/Parser.php CRM/History/Import/Parser.php
 #: CRM/Import/Parser.php CRM/Member/Import/Parser.php
 msgid "Reason"
-msgstr ""
+msgstr "Motiv"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
-msgstr ""
+msgstr "Tip Contribuţie"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Payment Instruments"
-msgstr ""
+msgstr "Instrumente de Plată"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Gestionează Premium"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php CRM/Core/DAO/Mapping.php
 msgid "Import Contributions"
-msgstr ""
+msgstr "Importă Contribuţie"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
-msgstr ""
+msgstr "Tablou de Bord"
 
 #: CRM/Contribute/Menu.php CRM/Core/SelectValues.php
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviContribute"
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
 msgid "Configure Online Contribution Pages"
-msgstr ""
+msgstr "Configurează Pagina de Contribuţii Online"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Custom/Form/DeleteField.php
 #: CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
-msgstr ""
+msgstr "Şterge Câmp Personalizat"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Edit Premium"
-msgstr ""
+msgstr "Editează Premium"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Preview Premium"
-msgstr ""
+msgstr "Previzualizează Premium"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Disable Premium"
-msgstr ""
+msgstr "Dezactivează Premium"
 
 #: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPalImpl.php
 msgid "%1 is not set in the config file."
-msgstr ""
+msgstr "%1 nu este setat în fişierul config."
 
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
 #: CRM/Member/Selector/Search.php templates/CRM/Contribute/Form/Task/Print.tpl
@@ -2155,23 +2151,23 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Type"
-msgstr ""
+msgstr "Tip"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
-msgstr ""
+msgstr "Întreg"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php
 msgid "Money"
-msgstr ""
+msgstr "Bani"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "File"
-msgstr ""
+msgstr "Fişier"
 
 #: CRM/Core/BAO/CustomField.php CRM/Quest/Form/MatchApp/Guardian.php
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php
@@ -2184,7 +2180,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipView.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "From"
-msgstr ""
+msgstr "De la"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php CRM/Core/Form.php
 #: CRM/Custom/Form/Field.php CRM/Mailing/Event/BAO/Unsubscribe.php
@@ -2204,7 +2200,7 @@ msgstr ""
 #: templates/CRM/Member/Page/MessageTemplates.tpl
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php CRM/Core/Form.php
 #: CRM/Custom/Form/Field.php CRM/Mailing/Event/BAO/Unsubscribe.php
@@ -2224,109 +2220,109 @@ msgstr ""
 #: templates/CRM/Member/Page/MessageTemplates.tpl
 #: templates/CRM/UF/Page/Field.tpl
 msgid "No"
-msgstr ""
+msgstr "Nu"
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
-msgstr ""
+msgstr "Nu putem găsi ID-ul dumnevoastră de logare"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
 msgid "Send Mailing"
-msgstr ""
+msgstr "Trimite Mailing"
 
 #: CRM/Core/Block.php CRM/Mailing/Menu.php
 msgid "Browse Sent Mailings"
-msgstr ""
+msgstr "Răsfoieşte Mailing-uri Trimise"
 
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/UFJoin.php
 msgid "Module"
-msgstr ""
+msgstr "Module"
 
 #: CRM/Core/DAO/Address.php CRM/Member/Form/Task/Export.php
 msgid "Supplemental Address 1"
-msgstr ""
+msgstr "Adresă Suplimentară 1"
 
 #: CRM/Core/DAO/Address.php CRM/Member/Form/Task/Export.php
 msgid "Supplemental Address 2"
-msgstr ""
+msgstr "Adresă Suplimentară 2"
 
 #: CRM/Core/DAO/Address.php CRM/Member/Form/Task/Export.php
 msgid "Postal Code Suffix"
-msgstr ""
+msgstr "Sufix Cod Poştal"
 
 #: CRM/Core/DAO/Address.php CRM/Member/Form/Task/Export.php
 msgid "Geo Code 1"
-msgstr ""
+msgstr "Geo Cod 1"
 
 #: CRM/Core/DAO/Address.php CRM/Member/Form/Task/Export.php
 msgid "Geo Code 2"
-msgstr ""
+msgstr "Geo Cod 2"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
-msgstr ""
+msgstr "Valoare Implicită"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/UFGroup.php
 msgid "Help Pre"
-msgstr ""
+msgstr "Ajutor Pre"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
 msgid "Help Post"
-msgstr ""
+msgstr "Ajutor Post"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
-msgstr ""
+msgstr "Mască"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Options Per Line"
-msgstr ""
+msgstr "Opţiuni pe Linie"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Memo"
-msgstr ""
+msgstr "Memo"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "TextArea"
-msgstr ""
+msgstr "TextArea"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select"
-msgstr ""
+msgstr "Selectează"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Multi-Select"
-msgstr ""
+msgstr "Mult-Selecţie"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Radio"
-msgstr ""
+msgstr "Radio"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "CheckBox"
-msgstr ""
+msgstr "CheckBox"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Date"
-msgstr ""
+msgstr "Selectează Dată"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select State/Province"
-msgstr ""
+msgstr "Selectează Judeţ/Provincie"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Country"
-msgstr ""
+msgstr "Selectează Ţară"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
 msgid "Collapse Display"
-msgstr ""
+msgstr "Compactează Afişaj"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Quest/Form/MatchApp/Household.php
 #: CRM/Quest/Form/MatchApp/Scholarship.php CRM/Quest/Form/PreApp/Household.php
@@ -2335,113 +2331,113 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Relationship"
-msgstr ""
+msgstr "Relaţie"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Inline"
-msgstr ""
+msgstr "Inline"
 
 #: CRM/Core/DAO/EmailHistory.php CRM/SMS/DAO/History.php
 msgid "Sent Date"
-msgstr ""
+msgstr "Data Trimitere"
 
 #: CRM/Core/DAO/IM.php CRM/Member/Form/Task/Export.php
 msgid "IM Screen Name"
-msgstr ""
+msgstr "Nume Ecran IM"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
 msgid "Phone Type"
-msgstr ""
+msgstr "Tip Telefon"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
 msgid "Import Activity History"
-msgstr ""
+msgstr "Importă Istorie Activităţi"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
-msgstr ""
+msgstr "Constructor de Căutare"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "Option Label"
-msgstr ""
+msgstr "Etichetă Opţiune"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "Option Value"
-msgstr ""
+msgstr "Valoare Opţiune"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
-msgstr ""
+msgstr "Mobil"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Pager"
-msgstr ""
+msgstr "Pager"
 
 #: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
 msgid "Field Name"
-msgstr ""
+msgstr "Nume Câmp"
 
 #: CRM/Core/DAO/UFGroup.php CRM/Core/Menu.php templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "Profil CiviCRM"
 
 #: CRM/Core/DAO/Validation.php CRM/Mailing/Selector/Event.php
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
-msgstr ""
+msgstr "Pagină Informaţii Domeniu"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Advanced Search"
-msgstr ""
+msgstr "Căutare Avansată"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "New Contact"
-msgstr ""
+msgstr "Contact Nou"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Câmpuri Date Personalizate"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group"
-msgstr ""
+msgstr "CiviCRM Group Profil"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Field.php templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
-msgstr ""
+msgstr "CiviCRM Câmp Profil"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Duplicate Matching"
-msgstr ""
+msgstr "Căutare Duplicate"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Administrează CiviCRM"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
-msgstr ""
+msgstr "Contacte"
 
 #: CRM/Core/Menu.php CRM/Group/Page/Group.php
 msgid "Group Members"
-msgstr ""
+msgstr "Membrii Grup"
 
 #: CRM/Core/Page/File.php CRM/Custom/Form/DeleteFile.php
 #, fuzzy
@@ -2450,141 +2446,142 @@ msgstr "Contribuţia selectată a fost ştearsă."
 
 #: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
 #: CRM/Mailing/DAO/Component.php
+#, fuzzy
 msgid "Header"
-msgstr ""
+msgstr "Header"
 
 #: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
 #: CRM/Mailing/DAO/Component.php
 msgid "Footer"
-msgstr ""
+msgstr "Subsol"
 
 #: CRM/Core/SelectValues.php CRM/Mailing/Form/Upload.php
 msgid "Opt-out Message"
-msgstr ""
+msgstr "Mesaj Opt-out"
 
 #: CRM/Core/SelectValues.php CRM/Mailing/Menu.php
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviMail"
 
 #: CRM/Core/SelectValues.php CRM/Member/Menu.php
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviMember"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
-msgstr ""
+msgstr "Grupul \"%1\" a fost şters."
 
 #: CRM/Custom/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Field Label"
-msgstr ""
+msgstr "Etichetă Câmp"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Please enter a valid value for this field."
-msgstr ""
+msgstr "Vă rugăm introduceţi o valoare validă pentru acest câmp."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php CRM/UF/Form/Field.php
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Active?"
-msgstr ""
+msgstr "Activ?"
 
 #: CRM/Custom/Form/Field.php CRM/UF/Form/Field.php
 msgid "Required?"
-msgstr ""
+msgstr "Necesar?"
 
 #: CRM/Custom/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
-msgstr ""
+msgstr "Ajutor Câmp"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Please enter a valid number value."
-msgstr ""
+msgstr "Vă rugăm introduceţi un număr valid."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Invalid default value for country."
-msgstr ""
+msgstr "Valoare implicită invalidă pentru ţară."
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Used For"
-msgstr ""
+msgstr "Utilizat pentru"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 msgid "Pre-form Help"
-msgstr ""
+msgstr "Ajutor Pre-formular"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 msgid "Post-form Help"
-msgstr ""
+msgstr "Ajutor Post-formular"
 
 #: CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/UF/Page/Field.php
 msgid "Preview Custom Data"
-msgstr ""
+msgstr "Previzualizare Date Personalizate"
 
 #: CRM/Custom/Page/Group.php CRM/Group/Page/Group.php CRM/UF/Page/Group.php
 msgid "Settings"
-msgstr ""
+msgstr "Configurare"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
-msgstr ""
+msgstr "Şterge Grup"
 
 #: CRM/Group/Form/Edit.php CRM/Quest/Form/App.php
 #: CRM/Quest/Form/Recommender.php
 msgid "Continue"
-msgstr ""
+msgstr "Continuă"
 
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Duplicate Import Mapping Name"
-msgstr ""
+msgstr "Nume Maping Import Duplicat"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
-msgstr ""
+msgstr "Rulează"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Complete"
-msgstr ""
+msgstr "Finalizat"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Paused"
-msgstr ""
+msgstr "Pauză"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Canceled"
-msgstr ""
+msgstr "Abandonat"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
 #: CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
-msgstr ""
+msgstr "Necunoscut"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
-msgstr ""
+msgstr "Răspuns"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Dezabonare"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
-msgstr ""
+msgstr "Opt-Out"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
-msgstr ""
+msgstr "Tip Componentă"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 msgid "Body Html"
-msgstr ""
+msgstr "Corp HTML"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body Text"
-msgstr ""
+msgstr "Corp Text"
 
 #: CRM/Mailing/DAO/Job.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -2592,27 +2589,27 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Scheduled Date"
-msgstr ""
+msgstr "Dată Planificată"
 
 #: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Upload.php
 msgid "From Name"
-msgstr ""
+msgstr "Nume Formular"
 
 #: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Upload.php
 msgid "From Email"
-msgstr ""
+msgstr "Email Formular"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Subscribe.php
 msgid "\"%1 Administrator\" <do-not-reply@%2>"
-msgstr ""
+msgstr "\"%1 Administrator\" <do-not-reply@%2>"
 
 #: CRM/Mailing/Event/BAO/Reply.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "\"%1 Administrator\" <%2>"
-msgstr ""
+msgstr "\"%1 Administrator\" <%2>"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
 msgid "Bounce Reason"
-msgstr ""
+msgstr "Motiv Lovitură"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Event/DAO/Confirm.php
 #: CRM/Mailing/Event/DAO/Delivered.php CRM/Mailing/Event/DAO/Forward.php
@@ -2621,21 +2618,21 @@ msgstr ""
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Time Stamp"
-msgstr ""
+msgstr "Marcă Timp"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Name.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
 msgid "Next >>"
-msgstr ""
+msgstr "Următor >>"
 
 #: CRM/Mailing/Form/Retry.php CRM/Mailing/Form/Schedule.php
 msgid "Send Immediately"
-msgstr ""
+msgstr "Trimite Imediat"
 
 #: CRM/Mailing/Form/Retry.php CRM/Mailing/Invoke.php
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Retry Mailing"
-msgstr ""
+msgstr "Reîncearcă Mailing"
 
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
 #, fuzzy
@@ -2644,11 +2641,11 @@ msgstr "- orice ţară -"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Page/Browse.php
 msgid "Mailings"
-msgstr ""
+msgstr "Mailing-uri"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
-msgstr ""
+msgstr "Raport"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #, fuzzy
@@ -2663,77 +2660,77 @@ msgstr "Şterge activitate"
 #: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
 msgid "Membership Types"
-msgstr ""
+msgstr "Tip Membru"
 
 #: CRM/Member/DAO/MembershipLog.php CRM/Member/DAO/Membership.php
 #: CRM/Member/Import/Form/MapField.php CRM/Member/Invoke.php
 #: templates/CRM/Member/Form/Search/Common.tpl
 msgid "Membership Status"
-msgstr ""
+msgstr "Stare Membru"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/Task/Export.php CRM/Member/Import/Form/MapField.php
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Membership Type"
-msgstr ""
+msgstr "Tip Membru"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Form/Task/Export.php
 #: CRM/Member/Selector/Search.php templates/CRM/Member/Form/Task/Print.tpl
 msgid "Member Since"
-msgstr ""
+msgstr "Membru din"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "Start Event"
-msgstr ""
+msgstr "Start Eveniment"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjust Interval"
-msgstr ""
+msgstr "Interval Ajustare Start Eveniment"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "End Event"
-msgstr ""
+msgstr "Sfârşit Eveniment"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjust Interval"
-msgstr ""
+msgstr "Interval Ajustare Sfârşi Eveniment"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Current Membership?"
-msgstr ""
+msgstr "Membru Curent?"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid "Minimum Fee"
-msgstr ""
+msgstr "Onorariu Minim"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Rollover Day"
-msgstr ""
+msgstr "Ziua Rollover pentru Perioadă Fixă"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Renewal Reminder Day"
-msgstr ""
+msgstr "Ziuă Alarmă Reînnoire"
 
 #: CRM/Member/Form/Search.php CRM/Member/Page/DashBoard.php
 #: CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "Member"
-msgstr ""
+msgstr "Membru"
 
 #: CRM/Member/Form/Task/Delete.php CRM/Member/Task.php
 msgid "Delete Members"
-msgstr ""
+msgstr "Şterge Membri"
 
 #: CRM/Member/Form/Task/Export.php CRM/Member/Task.php
 msgid "Export Members"
-msgstr ""
+msgstr "Exportă Membri"
 
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
 msgid "Message Templates"
-msgstr ""
+msgstr "Şablon Mesaj"
 
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
 #, fuzzy
@@ -2743,276 +2740,276 @@ msgstr "Editează membru"
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MembershipType.php
 #: CRM/Member/Page/MessageTemplates.php
 msgid "Are you sure you want to disable this membership type?"
-msgstr ""
+msgstr "Sunteţi sigur că doriţi dezactivarea acestui tip de membru?"
 
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid "Edit Membership Status"
-msgstr ""
+msgstr "Editare Stare Membru"
 
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
 msgid "Disable Membership Status"
-msgstr ""
+msgstr "Dezactivare Stare Membru"
 
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
 msgid "Enable Membership Status"
-msgstr ""
+msgstr "Activare Stare Membru"
 
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid "Delete Membership Status"
-msgstr ""
+msgstr "Şterge Stare Membru"
 
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
 msgid "Owner Entity Table"
-msgstr ""
+msgstr "Tabel Entitate Proprietar"
 
 #: CRM/Quest/API.php CRM/Quest/Form/MatchApp/RecommendationV2.php
 msgid "Not Started"
-msgstr ""
+msgstr "Nu e pornit"
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
 msgid "You do not have the necessary permission to view this Application."
-msgstr ""
+msgstr "Nu aveţi drepturile necesare pentru a vedea acestă Aplicaţie."
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
 msgid "You do not have the necessary permission to edit this Application."
-msgstr ""
+msgstr "Nu aveţi drepturile necesare pentru a edita acestă Aplicaţie."
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
 #: CRM/Quest/Controller/Recommender.php
 msgid "Could not find a valid contact id"
-msgstr ""
+msgstr "Nu se gaseşte un ID contact valid"
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
 #: CRM/Quest/Controller/Recommender.php
 msgid "Could not find a valid contact record"
-msgstr ""
+msgstr "Nu se găseşte o înregistrare contact validă"
 
 #: CRM/Quest/Form/App.php CRM/Quest/Form/Recommender.php
 msgid "Save & Continue"
-msgstr ""
+msgstr "Salvează & Continuă"
 
 #: CRM/Quest/Form/App.php CRM/Quest/Form/MatchApp/Submit.php
 msgid "Submit Application"
-msgstr ""
+msgstr "Trimite Aplicaţie"
 
 #: CRM/Quest/Form/App.php CRM/Quest/Form/MatchApp/Partner/PartnerSubmit.php
 #: templates/CRM/Quest/Form/MatchApp/Partner/PartnerSubmit.tpl
 msgid "Submit Partner Supplement"
-msgstr ""
+msgstr "Trimite Supliment Partener"
 
 #: CRM/Quest/Form/Counselor/Academic.php CRM/Quest/Form/MatchApp/Academic.php
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Academic.php
 #: CRM/Quest/Form/PreApp/Personal.php
 msgid "Number not valid."
-msgstr ""
+msgstr "Număr invalid."
 
 #: CRM/Quest/Form/Counselor/Evaluation.php
 #: CRM/Quest/Form/Teacher/Evaluation.php
 msgid "Evaluation"
-msgstr ""
+msgstr "Evaluare"
 
 #: CRM/Quest/Form/Counselor/Personal.php
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid "Department"
-msgstr ""
+msgstr "Departament"
 
 #: CRM/Quest/Form/Counselor/Personal.php CRM/Quest/Form/Teacher/Personal.php
 msgid "Which best describes your relationship to the student"
-msgstr ""
+msgstr "Care descrie cel mai bine relaţia ta cu elevul"
 
 #: CRM/Quest/Form/Counselor/Personal.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/PreApp/Personal.php CRM/Quest/Form/Teacher/Personal.php
 msgid "Personal Information"
-msgstr ""
+msgstr "Informaţii Personale"
 
 #: CRM/Quest/Form/Counselor/Ranking.php CRM/Quest/Form/Teacher/Ranking.php
 msgid "Please select a ranking for %1"
-msgstr ""
+msgstr "Vă rugăm selectaţi un rang pentru %1"
 
 #: CRM/Quest/Form/Counselor/Ranking.php CRM/Quest/Form/Teacher/Ranking.php
 msgid "I recommend this student"
-msgstr ""
+msgstr "Îl recomand pe acest elev"
 
 #: CRM/Quest/Form/Counselor/Ranking.php CRM/Quest/Form/Teacher/Ranking.php
 msgid "Student Ranking"
-msgstr ""
+msgstr "Rang Elev"
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 msgid "Does your school give class rankings?"
-msgstr ""
+msgstr "Şcoala dumneavoastră atribuie ranguri pentru clasă?"
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 msgid "If yes, what is your class rank?"
-msgstr ""
+msgstr "Daca da, care este rangul clasei?"
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 msgid "Percent class rank"
-msgstr ""
+msgstr "Procent rang clasă"
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 msgid ""
 "If there are any extenuating circumstances, or details regarding your "
 "academic performance that you would like to add or clarify, please do so here"
-msgstr ""
+msgstr "Dacă există alte detalii sau circumstanţe cu privire la performanţa dumneavostră academică pe care aţi dori să le adăugaţi sau clarifica, vă rugăm să o faceţi aici"
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 msgid "Honors"
-msgstr ""
+msgstr "Titluri"
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 msgid "add another honor"
-msgstr ""
+msgstr "adaugă titlu"
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 msgid "hide this honor"
-msgstr ""
+msgstr "ascunde acest titlu"
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Academic Information"
-msgstr ""
+msgstr "Informaţii Academice"
 
 #: CRM/Quest/Form/MatchApp/Educational.php
 #: CRM/Quest/Form/PreApp/Educational.php
 msgid "Other Educational Interest"
-msgstr ""
+msgstr "Alte Interese Educaţionale"
 
 #: CRM/Quest/Form/MatchApp/Educational.php
 #: CRM/Quest/Form/PreApp/Educational.php
 msgid "Educational Interests"
-msgstr ""
+msgstr "Interese Educaţionale"
 
 #: CRM/Quest/Form/MatchApp/Essay/PersonalStat.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfEssay.php
 msgid "Upload photograph:"
-msgstr ""
+msgstr "Încarcă fotografia:"
 
 #: CRM/Quest/Form/MatchApp/Essay/PersonalStat.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfEssay.php
 msgid "Please upload a photo"
-msgstr ""
+msgstr "Vă rugăm încărcaţi o fotografie"
 
 #: CRM/Quest/Form/MatchApp/Essay/Short.php
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrShortAnswer.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfShortEssay.php
 msgid "Short Answers"
-msgstr ""
+msgstr "Răspunsuri Scurte"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Marital Status?"
-msgstr ""
+msgstr "Stare Civilă?"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Year your parents separated or divorced"
-msgstr ""
+msgstr "Anul în care părinţii s-au separat sau au divorţat"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Deceased?"
-msgstr ""
+msgstr "Decedat?"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Year Deceased"
-msgstr ""
+msgstr "Anul Decesului"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php
 #: CRM/Quest/Form/PreApp/Personal.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Birthdate (month/day/year)"
-msgstr ""
+msgstr "Data naşterii (luna/ziua/anul)"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php
 #: CRM/Quest/Form/PreApp/Personal.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Select a valid date for Birthdate."
-msgstr ""
+msgstr "Selectaţi o dată de naştere validă."
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "All my life"
-msgstr ""
+msgstr "Toată viaţa"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "From Age"
-msgstr ""
+msgstr "De la vârsta"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Please enter a valid number for From Age."
-msgstr ""
+msgstr "Vă rugăm introduceţi un număr valid pentru Vârstă."
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "To Age"
-msgstr ""
+msgstr "Până la vârsta"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Please enter a valid number for To Age."
-msgstr ""
+msgstr "Vă rugăm introduceţi un număr valid pentru Vârsta."
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Industry"
-msgstr ""
+msgstr "Industria"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Name of business or organization"
-msgstr ""
+msgstr "Numele companiei sau organizaţiei"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Occupation/Job Title"
-msgstr ""
+msgstr "Ocupaţia/Funcţia"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Number of years in current occupation"
-msgstr ""
+msgstr "Număr de ani cu ocupaţia curentă"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "not a valid number"
-msgstr ""
+msgstr "nu e un număr valid"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Highest level of schooling"
-msgstr ""
+msgstr "Cel mai mare nivel de educaţie"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "College Name"
-msgstr ""
+msgstr "Nume Colegiu"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Which country is the college located in?"
-msgstr ""
+msgstr "În ce ţară este localizat colegiul?"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Year of college completion"
-msgstr ""
+msgstr "Anul absolvirii colegiului"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Area of concentration"
-msgstr ""
+msgstr "Zona"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Name of professional or graduate school"
-msgstr ""
+msgstr "Numele şcolii"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Year in which graduate degree was received"
-msgstr ""
+msgstr "Anul în care a fost primită diploma de absolvire"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Degree received in professional or graduate school "
-msgstr ""
+msgstr "Grad obţinut în universitate"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/PreApp/Personal.php
@@ -3020,7 +3017,7 @@ msgstr ""
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
 msgid "Permanent Address"
-msgstr ""
+msgstr "Adresa permanentă"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/PreApp/Personal.php
@@ -3028,137 +3025,137 @@ msgstr ""
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
 msgid "Permanent Telephone"
-msgstr ""
+msgstr "Telefon Permanent"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Parent/Guardian Detail"
-msgstr ""
+msgstr "Detalii Părinte/Tutore"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Current High School"
-msgstr ""
+msgstr "Liceul Curent"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Please enter School Name"
-msgstr ""
+msgstr "Vă rugăm introduceţi Numele Şcolii"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Previous High School"
-msgstr ""
+msgstr "Liceul Precedent"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "School Search Code"
-msgstr ""
+msgstr "Cod de Căutare Şcoală"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Dates Attended (month/year)"
-msgstr ""
+msgstr "Date Frecventare (lună/an)"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Dates attended (month/year)"
-msgstr ""
+msgstr "Date frecventare (lună/an)"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Your School Is"
-msgstr ""
+msgstr "Şcoala ta este"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "Number of students in your entire school (all classes)"
-msgstr ""
+msgstr "Numărul de elevi în întreaga şcoală (toate clasele)"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "number of students is not valid value"
-msgstr ""
+msgstr "numărul de elevi nu este o valoare validă"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 #: templates/CRM/Quest/Form/MatchApp/HighSchool.tpl
 #: templates/CRM/Quest/Form/PreApp/HighSchool.tpl
 msgid "School Address"
-msgstr ""
+msgstr "Adresă Şcoală"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "School Phone"
-msgstr ""
+msgstr "Telefon Şcoală"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "add another High School "
-msgstr ""
+msgstr "adaugă alt Liceu"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "hide this High School"
-msgstr ""
+msgstr "ascunde acest Liceu"
 
 #: CRM/Quest/Form/MatchApp/HighSchool.php CRM/Quest/Form/PreApp/HighSchool.php
 msgid "High School Information"
-msgstr ""
+msgstr "Informaţii Liceu"
 
 #: CRM/Quest/Form/MatchApp/Household.php CRM/Quest/Form/PreApp/Household.php
 msgid "How many people lived with you in your previous household?"
-msgstr ""
+msgstr "Câte persoane au trăit cu dumneavoastră în gospodăria anterioară?"
 
 #: CRM/Quest/Form/MatchApp/Household.php CRM/Quest/Form/PreApp/Household.php
 msgid "How long have you lived in this household?"
-msgstr ""
+msgstr "Cât timp aţi trăit în acestă gospodărie?"
 
 #: CRM/Quest/Form/MatchApp/Household.php CRM/Quest/Form/PreApp/Household.php
 msgid "Please enter the number of people who live with you."
-msgstr ""
+msgstr "Vă rugăm introduceţi numărul de oameni care trăiesc cu dumneavoastră."
 
 #: CRM/Quest/Form/MatchApp/Household.php CRM/Quest/Form/PreApp/Household.php
 msgid "Please select a value for years lived in this household."
-msgstr ""
+msgstr "Vă rugăm selectaţi o valoare pentru anii trăiţi în acestă gospodărie."
 
 #: CRM/Quest/Form/MatchApp/Household.php CRM/Quest/Form/PreApp/Household.php
 msgid "Not a valid number."
-msgstr ""
+msgstr "Nu e un număr valid."
 
 #: CRM/Quest/Form/MatchApp/Household.php CRM/Quest/Form/PreApp/Household.php
 msgid "Household Information"
-msgstr ""
+msgstr "Informaţii Gospodărie"
 
 #: CRM/Quest/Form/MatchApp/Household.php CRM/Quest/Form/PreApp/Household.php
 msgid "This should have been trapped in a form rule"
-msgstr ""
+msgstr "Acesta ar fi trebuit să fie detectată de o regulă a formularului"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Type of Income"
-msgstr ""
+msgstr "Tip Venit"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Total 2005 Income from this Source"
-msgstr ""
+msgstr "Total venit 2005 din acestă Sursă"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Additional Income Type"
-msgstr ""
+msgstr "Tip Venit Adiţional"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Additional 2005 Income Amount"
-msgstr ""
+msgstr "Cantitate venit adiţional 2005"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Job Description (if applicable)"
-msgstr ""
+msgstr "Descriere Post (dacă e cazul)"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "add another type of income"
-msgstr ""
+msgstr "adaugă un nou tip de venit"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "hide this type of income"
-msgstr ""
+msgstr "ascunde acest tip de venit"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Add another income source?"
-msgstr ""
+msgstr "Adăugaţi o nouă sursă de venit?"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Delete this Income Source"
-msgstr ""
+msgstr "Şterge această Sursă de Venit"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Household Income"
-msgstr ""
+msgstr "Venit Gospodărie"
 
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowApplicant.php
@@ -3170,30 +3167,30 @@ msgstr ""
 #: CRM/Quest/Form/MatchApp/Partner/Wellesley/WellApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Wheaton/WheApplicant.php
 msgid "Applicant Information"
-msgstr ""
+msgstr "Informaţii Aplicant"
 
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhArts.php
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhAthletics.php
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhEssay.php
 msgid "Amherst College"
-msgstr ""
+msgstr "Amherst College"
 
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhArts.php
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowArts.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfArts.php
 msgid "Arts Supplement"
-msgstr ""
+msgstr "Supliment Arte"
 
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhAthletics.php
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowAthletics.php
 msgid "Height"
-msgstr ""
+msgstr "Înălţime"
 
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhAthletics.php
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowAthletics.php
 msgid "Athletics Supplement"
-msgstr ""
+msgstr "Supliment Atletism"
 
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhEssay.php
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrEssay.php
@@ -3201,261 +3198,261 @@ msgstr ""
 #: CRM/Quest/Form/MatchApp/Partner/Wellesley/WellEssay.php
 #: CRM/Quest/Form/PreApp/Essay.php
 msgid "Essay"
-msgstr ""
+msgstr "Eseu"
 
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowArts.php
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowAthletics.php
 msgid "Bowdoin College"
-msgstr ""
+msgstr "Bowdoin College"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColInterest.php
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColPersonal.php
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColRecommendation.php
 msgid "Columbia University"
-msgstr ""
+msgstr "Columbia University"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColRecommendation.php
 #: CRM/Quest/Form/MatchApp/Recommendation.php
 #: CRM/Quest/Form/MatchApp/RecommendationV2.php
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Recommendations"
-msgstr ""
+msgstr "Recomandări"
 
 #: CRM/Quest/Form/MatchApp/Partner/PartnerSubmit.php
 #: CRM/Quest/Form/MatchApp/Submit.php CRM/Quest/Form/Recommender/Submit.php
 msgid "Submission Agreement"
-msgstr ""
+msgstr "Agrement de Trimitere"
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "Score"
-msgstr ""
+msgstr "Scor"
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrEnggEssay.php
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrEssay.php
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrShortAnswer.php
 msgid "Princeton University"
-msgstr ""
+msgstr "Princeton University"
 
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfArts.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfEssay.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfShortEssay.php
 msgid "Stanford University"
-msgstr ""
+msgstr "Stanford University"
 
 #: CRM/Quest/Form/MatchApp/Partner/Wellesley/WellApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Wellesley/WellEssay.php
 msgid "Wellesley College"
-msgstr ""
+msgstr "Wellesley College"
 
 #: CRM/Quest/Form/MatchApp/Partner/Wheaton/WheApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Wheaton/WheRecommendation.php
 msgid "Wheaton College"
-msgstr ""
+msgstr "Wheaton College"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Please select Gender"
-msgstr ""
+msgstr "Selectaţi Sexul"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
 msgid "Mailing Address"
-msgstr ""
+msgstr "Adresă Poştală"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
 msgid "Mailing Telephone"
-msgstr ""
+msgstr "Telefon"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
 msgid "Alternate Telephone"
-msgstr ""
+msgstr "Telefon Alternativ"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "U.S. Citizenship Status"
-msgstr ""
+msgstr "Stare Cetăţenie US"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Country of Citizenship"
-msgstr ""
+msgstr "Ţara de Cetăţenie"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Race/Ethnicity"
-msgstr ""
+msgstr "Rasă/Etnie"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "add another Race/Ethnicity"
-msgstr ""
+msgstr "adaugă încă o Rasă/Etnie"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "hide this Race/Ethnicity field"
-msgstr ""
+msgstr "ascunde acestă Rasă/Etnie"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Number of years in U.S."
-msgstr ""
+msgstr "Număr de ani în US"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Please enter value for Number of Years in U.S."
-msgstr ""
+msgstr "Vă rugăm introduceţi numărul de ani în US"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Number of siblings"
-msgstr ""
+msgstr "Număr de fraţi"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Please enter Number of Siblings"
-msgstr ""
+msgstr "Vă rugăm introduceţi numărul de fraţi"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Number of Siblings not valid."
-msgstr ""
+msgstr "Număr de fraţi invalid."
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "First language(s)"
-msgstr ""
+msgstr "Primele limbi"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Primary language spoken at home"
-msgstr ""
+msgstr "Limba primară vorbită acasă"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Year of high school graduation"
-msgstr ""
+msgstr "Anul absolvirii liceului"
 
 #: CRM/Quest/Form/MatchApp/Recommendation.php
 #: CRM/Quest/Form/MatchApp/RecommendationV2.php
 #: templates/CRM/Quest/Form/MatchApp/Recommendation.tpl
 #: templates/CRM/Quest/Form/MatchApp/RecommendationV2.tpl
 msgid "School"
-msgstr ""
+msgstr "Şcoala"
 
 #: CRM/Quest/Form/MatchApp/Recommendation.php
 #: CRM/Quest/Form/MatchApp/RecommendationV2.php
 msgid "You cannot serve as your own recommender"
-msgstr ""
+msgstr "Nu puteţi fi propria persoană care vă recomandă"
 
 #: CRM/Quest/Form/MatchApp/Recommendation.php
 #: CRM/Quest/Form/MatchApp/RecommendationV2.php
 msgid "there was an error when processing some of your recommendations"
-msgstr ""
+msgstr "a intervenit o eroare în timp ce erau procesate unele din recomandările dumneavoastră"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php CRM/Quest/Form/PreApp/Personal.php
 msgid ""
 "Have either of your parents/guardians graduated from a four-year college?"
-msgstr ""
+msgstr "Aveţi părinţi/tutori absolvenţi ai unui colegiu de patru ani?"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 #: CRM/Quest/Form/PreApp/Scholarship.php CRM/Quest/Form/Teacher/Additional.php
 msgid "Additional Information"
-msgstr ""
+msgstr "Informaţii Adiţionale"
 
 #: CRM/Quest/Form/MatchApp/SchoolOther.php
 #: CRM/Quest/Form/PreApp/SchoolOther.php
 msgid "Name of Institution"
-msgstr ""
+msgstr "Numele Instituţiei"
 
 #: CRM/Quest/Form/MatchApp/SchoolOther.php
 #: CRM/Quest/Form/PreApp/SchoolOther.php
 msgid "Dates Attended"
-msgstr ""
+msgstr "Date Frecvenţă"
 
 #: CRM/Quest/Form/MatchApp/SchoolOther.php
 #: CRM/Quest/Form/PreApp/SchoolOther.php
 msgid "School Description"
-msgstr ""
+msgstr "Descriere Şcolii"
 
 #: CRM/Quest/Form/MatchApp/SchoolOther.php
 #: CRM/Quest/Form/PreApp/SchoolOther.php
 msgid "Other School Information"
-msgstr ""
+msgstr "Alte Informaţii ale Şcolii"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Please Enter First Name"
-msgstr ""
+msgstr "Vă rugăm introduceţi Prenumele"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Please Enter Last Name"
-msgstr ""
+msgstr "Vă rugăm introduceţi Numele"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Relationship to you"
-msgstr ""
+msgstr "Relaţia cu tine"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "College attending or attended (if any)"
-msgstr ""
+msgstr "Colegiu frecventat (dacă este cazul)"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Delete this Sibling"
-msgstr ""
+msgstr "Ştergeţi acest frate"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Sibling Information"
-msgstr ""
+msgstr "Informaţii Fraţi"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "%1 Score"
-msgstr ""
+msgstr "Scor %1"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "%1 score not valid."
-msgstr ""
+msgstr "scor %1 invalid."
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "%1 %2 score must be a whole number."
-msgstr ""
+msgstr "%1 %2 scorul trebuie să fie un număr"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "Date Taken (month/year)"
-msgstr ""
+msgstr "Dată Obţinere (lună/an)"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "SAT II score not valid."
-msgstr ""
+msgstr "Scor SAT II invalid."
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "Add another SAT II test score"
-msgstr ""
+msgstr "Adaugă alt scor test SAT II"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "Hide this SAT II test"
-msgstr ""
+msgstr "Scor Test AP invalid."
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "AP Test score not valid."
-msgstr ""
+msgstr "Scor AP Test invalid."
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "add another AP test score"
-msgstr ""
+msgstr "adaugă alt scor AP test"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "hide this AP test"
-msgstr ""
+msgstr "ascunde acest AP test"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "If yes, for which tests?"
-msgstr ""
+msgstr "Daca da, pentru care teste?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php CRM/Quest/Form/PreApp/Testing.php
 msgid "Testing Information"
-msgstr ""
+msgstr "Informaţii Testare"
 
 #: CRM/Quest/Form/Recommender.php CRM/Quest/Form/Recommender/Submit.php
 msgid "Submit Recommendation"
-msgstr ""
+msgstr "Trimite Recomandare"
 
 #: CRM/Quest/Form/Task/PDF.php CRM/Quest/Form/Task/XML.php
 msgid "Print XML File"
-msgstr ""
+msgstr "Tipăreşte Fişier XML"
 
 #: CRM/ACL/BAO/ACL.php
 #, fuzzy
@@ -3474,27 +3471,27 @@ msgstr "Nume"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "Interzis"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Object Table"
-msgstr ""
+msgstr "Obiect Tabel"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "Tabel ACL"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Grant"
-msgstr ""
+msgstr "Acordă"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Revoke"
-msgstr ""
+msgstr "revocă"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Role"
-msgstr ""
+msgstr "Rol"
 
 #: CRM/ACL/Form/ACL.php
 #, fuzzy
@@ -3503,15 +3500,15 @@ msgstr "- selectaţi -"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Permission For"
-msgstr ""
+msgstr "Drepturi pentru"
 
 #: CRM/ACL/Form/EntityRole.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr ""
+msgstr "Atribuit lui"
 
 #: CRM/ACL/Page/ACL.php
 msgid "Are you sure you want to disable this ACL?"
-msgstr ""
+msgstr "Sunteţi sigut că doriţi dezactivarea acestui ACL?"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
 #, fuzzy
@@ -3535,89 +3532,89 @@ msgstr "Şterge"
 
 #: CRM/ACL/Page/ACL.php
 msgid "All Roles"
-msgstr ""
+msgstr "Toate Rolurile"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Are you sure you want to disable this ACL Role Assignment?"
-msgstr ""
+msgstr "Sigur doriţi dezactivarea Atribuirii acestui ACL Rol?"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Edit ACL Role Assignment"
-msgstr ""
+msgstr "Editează Atribuire Rol ACL"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Disable ACL Role Assignment"
-msgstr ""
+msgstr "Dezactivează Atribuirea Rolului ACL"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Enable ACL Role Assignment"
-msgstr ""
+msgstr "Activează Atribuirea Rolului ACL"
 
 #: CRM/ACL/Page/EntityRole.php templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Delete ACL Role Assignment"
-msgstr ""
+msgstr "Şterge Atribuirea Rolului ACL"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Assign Users to Roles"
-msgstr ""
+msgstr "Atribuie Utilizatori la Roluri"
 
 #: CRM/Activity/BAO/Activity.php
 msgid "\"%1\" has been logged to Activity History."
-msgstr ""
+msgstr "\"%1\" a fost înregistrat în Istoricul Activităţilor."
 
 #: CRM/Activity/BAO/Activity.php
 msgid "\"%1\" has been saved."
-msgstr ""
+msgstr "\"%1\" a fost salvat."
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "- select activity type -"
-msgstr ""
+msgstr "- selectaţi tip activitate -"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Select Phone Number"
-msgstr ""
+msgstr "Selectaţi Număr Telefon"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "OR New Phone"
-msgstr ""
+msgstr "SAU Telefon Nou"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Selected Phone Call is deleted sucessfully."
-msgstr ""
+msgstr "Apelul Telefonic Selectat este şters cu succes."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "Match On:"
-msgstr ""
+msgstr "Potrivit pe:"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid ""
 "The Duplicate Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
-msgstr ""
+msgstr "Regula de potrivire duplicată nu a fost salvată deoarece regula este invalidă. Regulile trebuie să conţină doar nume valide de câmpuri,'AND', 'OR' sau paranteze."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Duplicate Matching rule has been saved."
-msgstr ""
+msgstr "Regula de potrivire duplicată a fost salvată."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "vCard Name"
-msgstr ""
+msgstr "Nume vCard"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Selected Location type has been deleted."
-msgstr ""
+msgstr "Tipul selectat de locaţie a fost şters."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "The location type \"%1\" has been saved."
-msgstr ""
+msgstr "Tipul de locaţie \"%1\" a fost salvat."
 
 #: CRM/Admin/Form/OptionGroup.php
 msgid "Selected option group has been deleted."
-msgstr ""
+msgstr "Grupul de opţiuni selectat a fost şters."
 
 #: CRM/Admin/Form/OptionGroup.php
 msgid "The Option Group \"%1\" has been saved."
-msgstr ""
+msgstr "Frupul de Opţiuni \"%1\" a fost salvat."
 
 #: CRM/Admin/Form/Options.php
 #, fuzzy
@@ -3631,7 +3628,7 @@ msgstr "Contribuţia selectată a fost ştearsă."
 
 #: CRM/Admin/Form/Options.php
 msgid "The %1 \"%2\" has been saved."
-msgstr ""
+msgstr "%1 \"%2\" a fost salvat."
 
 #: CRM/Admin/Form/OptionValue.php
 #, fuzzy
@@ -3645,27 +3642,27 @@ msgstr "Nume Grup Opţiuni"
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "Selected option value has been deleted."
-msgstr ""
+msgstr "Valoarea selectată a opţiunii a fost ştearsă."
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "The Option Value \"%1\" has been saved."
-msgstr ""
+msgstr "Valoarea opţiunii \"%1\" a fost salvată."
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-A to B"
-msgstr ""
+msgstr "Etichetă reşaţie de la A la B"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-B to A"
-msgstr ""
+msgstr "Etichetă relaţie de la B la A"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Selected Relationship type has been deleted."
-msgstr ""
+msgstr "Tipul de Relaţie selectat a fost şters."
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "The Relationship Type has been saved."
-msgstr ""
+msgstr "Tipul de Relaţie a fost salvat."
 
 #: CRM/Admin/Form/Setting/Address.php
 #, fuzzy
@@ -3679,7 +3676,7 @@ msgstr "Locaţie"
 
 #: CRM/Admin/Form/Setting/Address.php
 msgid "Include County?"
-msgstr ""
+msgstr "Includeţi Ţara?"
 
 #: CRM/Admin/Form/Setting/Address.php
 #, fuzzy
@@ -3688,15 +3685,15 @@ msgstr "Previzualizare"
 
 #: CRM/Admin/Form/Setting/Address.php
 msgid "User ID"
-msgstr ""
+msgstr "ID Utilizator"
 
 #: CRM/Admin/Form/Setting/Address.php
 msgid "Web Service URL"
-msgstr ""
+msgstr "URL Serviciu Web"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Settings - Enable Components"
-msgstr ""
+msgstr "Configura'ie - Activare Componente"
 
 #: CRM/Admin/Form/Setting/Component.php
 #, fuzzy
@@ -3710,7 +3707,7 @@ msgstr "Dezactivează"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Settings - Date Formatting"
-msgstr ""
+msgstr "Configuraţie - Format Dată"
 
 #: CRM/Admin/Form/Setting/Date.php
 #, fuzzy
@@ -3724,19 +3721,19 @@ msgstr "Finalizat"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Month and Year"
-msgstr ""
+msgstr "Lună şi An"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Year Only"
-msgstr ""
+msgstr "Doar An"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Settings - Debugging"
-msgstr ""
+msgstr "Configuraţie - Depanare"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Enable Debugging"
-msgstr ""
+msgstr "Activează Depanarea"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 #, fuzzy
@@ -3745,31 +3742,31 @@ msgstr "Nume afişat"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Template"
-msgstr ""
+msgstr "Eroare Fatală Şablon"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Handler"
-msgstr ""
+msgstr "Eroare Fatală Manipulator"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 msgid "Settings - Localisation"
-msgstr ""
+msgstr "Configuraţie - Localizare"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 msgid "User Language"
-msgstr ""
+msgstr "Limbă Utilizator"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 msgid "Monetary Locale"
-msgstr ""
+msgstr "Moneda Locală"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 msgid "Monetary Display"
-msgstr ""
+msgstr "Moneda Afişată"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 msgid "Available Countries"
-msgstr ""
+msgstr "Ţări Disponibile"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 #, fuzzy
@@ -3783,59 +3780,59 @@ msgstr "Ţara"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 msgid "Default Currency"
-msgstr ""
+msgstr "Moneda Implicită"
 
 #: CRM/Admin/Form/Setting/Localisation.php
 msgid "Legacy Encoding"
-msgstr ""
+msgstr "Moştenire Encoding"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Settings - CiviMail"
-msgstr ""
+msgstr "Configuraţie - CiviMail"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Period"
-msgstr ""
+msgstr "Perioadă Pregătire Mail"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid " VERP Separator"
-msgstr ""
+msgstr "Separator VERP"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Batch Limit"
-msgstr ""
+msgstr "Limiă Serie Mailer"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Settings - Mapping Provider"
-msgstr ""
+msgstr "Configuraţie - Furnizor Hărţi"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Map Provider"
-msgstr ""
+msgstr "Furnizor Hărţi"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Provider Key"
-msgstr ""
+msgstr "Cheie Furnizor"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Settings - Miscellaneous"
-msgstr ""
+msgstr "Configuraţie - Diverse"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "CiviCRM Version Check"
-msgstr ""
+msgstr "Verificare Versiune CiviCRM"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font Path"
-msgstr ""
+msgstr "Cale Font Captcha"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font"
-msgstr ""
+msgstr "Font Captcha"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Settings - Upload Directories"
-msgstr ""
+msgstr "Configuraţie - Directoare de Încărcare"
 
 #: CRM/Admin/Form/Setting/Path.php
 #, fuzzy
@@ -3844,7 +3841,7 @@ msgstr "Fişier date de import"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Images"
-msgstr ""
+msgstr "Imagini"
 
 #: CRM/Admin/Form/Setting/Path.php
 #, fuzzy
@@ -3853,147 +3850,147 @@ msgstr "Date personalizate"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Settings - Payment Processor"
-msgstr ""
+msgstr "Configuraţie - Procesor Plăţi"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Force Secure URLs (SSL)"
-msgstr ""
+msgstr "Forţează URL Securizat (SSL)"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "PayPal Express Button"
-msgstr ""
+msgstr "PayPal Express Button"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Username - TEST"
-msgstr ""
+msgstr "Nume utilizator - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Certificate Path - TEST"
-msgstr ""
+msgstr "Cale Certificat - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Paypal Url - TEST"
-msgstr ""
+msgstr "Paypal Url - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Username - LIVE"
-msgstr ""
+msgstr "Nume utilizator - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Certificate Path - LIVE"
-msgstr ""
+msgstr "Cale Certificat - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Paypal Url - LIVE"
-msgstr ""
+msgstr "Paypal Url - LIVE"
 
 #: CRM/Admin/Form/Setting.php
 msgid "Your settings changes have been saved."
-msgstr ""
+msgstr "Modificările configuraţiei au fost salvate."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Settings - SMTP Configuration"
-msgstr ""
+msgstr "Configuraţie - Configuraţie SMTP"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Port"
-msgstr ""
+msgstr "Port SMTP"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Authentication?"
-msgstr ""
+msgstr "Identificare?"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Username"
-msgstr ""
+msgstr "Utilizator SMTP"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Settings - Resource URLs"
-msgstr ""
+msgstr "Configuraţie - URL Resurse"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "CiviCRM Resource URL"
-msgstr ""
+msgstr "CiviCRM URL Resurse"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Image Upload URL"
-msgstr ""
+msgstr "URL Încărcare Imagine"
 
 #: CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
-msgstr ""
+msgstr "Editează Regulă"
 
 #: CRM/Admin/Page/DupeMatch.php
 msgid "Edit DupeMatch"
-msgstr ""
+msgstr "Editează DupeMatch"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Are you sure you want to disable this location type?"
-msgstr ""
+msgstr "Sigur doriţi să dezactivaţi acest tip de locaţie?"
 
 #: CRM/Admin/Page/LocationType.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact locations."
-msgstr ""
+msgstr "Utilizatorii nu vor mai putea să aleagă această valoare atunci când adaugă sau editează locaţia contactului."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
-msgstr ""
+msgstr "Editare Tip Locaţie"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Disable Location Type"
-msgstr ""
+msgstr "Dezactivează Tip Locaţie"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Enable Location Type"
-msgstr ""
+msgstr "Activează Tip Locaţie"
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Delete Location Type"
-msgstr ""
+msgstr "Şterge Tip Locaţie"
 
 #: CRM/Admin/Page/Mapping.php
 msgid ""
 "Are you sure you want to delete this mapping? This operation can not be "
 "undone"
-msgstr ""
+msgstr "Sunteţi sigur că doriţi ştergerea acetui maping? Acestă operaţie nu poate fi refăcută"
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
 msgid "Edit Mapping"
-msgstr ""
+msgstr "Editează Mapare"
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
 msgid "Delete Mapping"
-msgstr ""
+msgstr "Şterge Mapare"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Are you sure you want to disable this Option?"
-msgstr ""
+msgstr "Sigur doriţi dezactivarea acestei Opţiuni?"
 
 #: CRM/Admin/Page/OptionGroup.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Multiple Choice Options"
-msgstr ""
+msgstr "Opţiuni Multiple"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "View and Edit Multiple Choice Options"
-msgstr ""
+msgstr "Vizualizează şi Editează Opţiuni Multiple"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Disable Option"
-msgstr ""
+msgstr "Dezactivează Opţiune"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Enable Option"
-msgstr ""
+msgstr "Activează Opţiune"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Delete Option"
-msgstr ""
+msgstr "Şterge Opţiune"
 
 #: CRM/Admin/Page/Options.php
 msgid "Manage ACL Roles"
-msgstr ""
+msgstr "Gestionează Roluri ACL"
 
 #: CRM/Admin/Page/Options.php
 #, fuzzy
@@ -4002,12 +3999,12 @@ msgstr "Opţiuni"
 
 #: CRM/Admin/Page/Options.php
 msgid "Are you sure you want to disable this %1?"
-msgstr ""
+msgstr "Sigur dezactivaţi acest %1?"
 
 #: CRM/Admin/Page/Options.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing %1."
-msgstr ""
+msgstr "Utilizatorii nu vor mai putea selecta această valoare atunci când adaugă sau editează %1."
 
 #: CRM/Admin/Page/Options.php
 #, fuzzy
@@ -4026,509 +4023,509 @@ msgstr "Şterge"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "Are you sure you want to disable this Option Value?"
-msgstr ""
+msgstr "Sigur dezactivaţi acestă Opţiune?"
 
 #: CRM/Admin/Page/OptionValue.php templates/CRM/Admin/Form/OptionValue.tpl
 msgid "Edit Option Value"
-msgstr ""
+msgstr "Editează Valoare Opţiune"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "Disable Option Value"
-msgstr ""
+msgstr "Dezactivează Valoare Opţiune"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "Enable Option Value"
-msgstr ""
+msgstr "Activează Valoare Opţiune"
 
 #: CRM/Admin/Page/OptionValue.php templates/CRM/Admin/Form/OptionValue.tpl
 msgid "Delete Option Value"
-msgstr ""
+msgstr "Şterge Valoare Opţiune "
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "%1 - Option Values"
-msgstr ""
+msgstr "%1 - Valoare Opţiune"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Are you sure you want to disable this relationship type?"
-msgstr ""
+msgstr "Sigur dezactivaţi acest tip de relaţie?"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "relationships between contacts."
-msgstr ""
+msgstr "Utilizatorii nu vor ma putea selecta acestă valoare atunci când adaugă sau editează reşaţii între contacte."
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "View Relationship Type"
-msgstr ""
+msgstr "Vizualizare Tip Relaţie"
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "Edit Relationship Type"
-msgstr ""
+msgstr "Editează Tip Relaţie"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Disable Relationship Type"
-msgstr ""
+msgstr "Dezactivează Tip Relaţie"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Enable Relationship Type"
-msgstr ""
+msgstr "Activează Tip Relaţie"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Delete Reletionship Type"
-msgstr ""
+msgstr "Şterge Tip Relaţie"
 
 #: CRM/Admin/Page/Setting.php
 msgid "Online Payment"
-msgstr ""
+msgstr "Plată Online"
 
 #: CRM/Admin/Page/Tag.php
 msgid "Are you sure you want to delete this tag?"
-msgstr ""
+msgstr "Sigur ştergeţi acestă etichetă?"
 
 #: CRM/Admin/Page/Tag.php
 msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
-msgstr ""
+msgstr "Acestă etichetă va fi ştearsă de la  toate contactele iar utilizatorii nu vor ma putea să atribuie contactelor acestă etichetă ."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
-msgstr ""
+msgstr "Editează Etichetă"
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Delete Tag"
-msgstr ""
+msgstr "Şterge Etichetă"
 
 #: CRM/Contact/BAO/Contact.php
 msgid "- Contact Fields -"
-msgstr ""
+msgstr "- Câmpuri Contact -"
 
 #: CRM/Contact/BAO/Query.php
 msgid "State %2 \"%1\""
-msgstr ""
+msgstr "Stare %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "State (%2) %3 \"%1\""
-msgstr ""
+msgstr "Stare (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Country %2 \"%1\""
-msgstr ""
+msgstr "Ţara %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Country (%2) %3 \"%1\""
-msgstr ""
+msgstr "Ţara (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "County %2 \"%1\""
-msgstr ""
+msgstr "Ţara %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "County (%2) %3 \"%1\""
-msgstr ""
+msgstr "Ţara (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Prefix %2 \"%1\""
-msgstr ""
+msgstr "Prefix Individual %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix %2 \"%1\""
-msgstr ""
+msgstr "Sufix Individual %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Gender %2 \"%1\""
-msgstr ""
+msgstr "Sex %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "This is an unexpected place to be in, contact support"
-msgstr ""
+msgstr "Acesta este un loc în care nu ar trebui să fiţi, contactaţi suportul"
 
 #: CRM/Contact/BAO/Query.php
 msgid "phone"
-msgstr ""
+msgstr "telefon"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contact Type -"
-msgstr ""
+msgstr "Tip Contact -"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
-msgstr ""
+msgstr "Membru al Grupului %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Group Status -"
-msgstr ""
+msgstr "Stare Grup -"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Tagged %1"
-msgstr ""
+msgstr "Etichetat %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name or Email like - \"%1\""
-msgstr ""
+msgstr "Nume sau Email ca - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name like - \"%1\""
-msgstr ""
+msgstr "Nume ca - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Restricted to Contacts starting with: \"%1\""
-msgstr ""
+msgstr "Restricţionat la Contacte care încep cu: \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code - \"%1\""
-msgstr ""
+msgstr "Cod poştal - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code greater than \"%1\""
-msgstr ""
+msgstr "Cod poştal mai mare decât \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code less than \"%1\""
-msgstr ""
+msgstr "Cod poştal mai mic decât \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Location type -"
-msgstr ""
+msgstr "Tip locaţie -"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Location name %1 '%2'"
-msgstr ""
+msgstr "Nume locaţie %1 '%2'"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Activity Type %2 '%1'"
-msgstr ""
+msgstr "Tip Activitate %2 '%1'"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Changed by: %1"
-msgstr ""
+msgstr "Modificat de: %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "%1 %2 %3"
-msgstr ""
+msgstr "%1 %2 %3"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Task: %1"
-msgstr ""
+msgstr "Sarcină: %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Task Status: %1"
-msgstr ""
+msgstr "Stare Sarcină: %1"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
-msgstr ""
+msgstr "Relaţia selectată a fost ştearsă cu succes."
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Email"
-msgstr ""
+msgstr "Fără mail"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Phone"
-msgstr ""
+msgstr "Fără telefon"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Mail"
-msgstr ""
+msgstr "Fără poştă"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Contact Sub Type"
-msgstr ""
+msgstr "Subtip Contact"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Identificator Legal"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "External Identifier"
-msgstr ""
+msgstr "Identificator Extern"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Home URL"
-msgstr ""
+msgstr "Home URL"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Image Url"
-msgstr ""
+msgstr "URL Imagine"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Preferred Communication Method"
-msgstr ""
+msgstr "Metoda de Comunicare Preferată"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Preferred Mail Format"
-msgstr ""
+msgstr "Forma de Email Preferată"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Trade"
-msgstr ""
+msgstr "Fără comerţ"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "Fără mail în masă (Opted-Out)"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Internal Contact ID"
-msgstr ""
+msgstr "ID Intern Contact"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Source of Contact Data"
-msgstr ""
+msgstr "Sursa Datelor Contact"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Greeting Type"
-msgstr ""
+msgstr "Tip Salut"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Custom Greeting"
-msgstr ""
+msgstr "Salut Personalizat"
 
 #: CRM/Contact/DAO/Individual.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Job Title"
-msgstr ""
+msgstr "Titlu Post"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Birth Date"
-msgstr ""
+msgstr "Data Naşterii"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Is Deceased"
-msgstr ""
+msgstr "Este decedat"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Deceased Date"
-msgstr ""
+msgstr "Data decesului"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Formal"
-msgstr ""
+msgstr "Formal"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Informal"
-msgstr ""
+msgstr "Informal"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Honorific"
-msgstr ""
+msgstr "Onorific"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Custom"
-msgstr ""
+msgstr "Personalizat"
 
 #: CRM/Contact/DAO/Organization.php
 msgid "Sic Code"
-msgstr ""
+msgstr "Cod Sic"
 
 #: CRM/Contact/DAO/RelationshipType.php
 msgid "Name A B"
-msgstr ""
+msgstr "Nume A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
 msgid "Name B A"
-msgstr ""
+msgstr "Nume B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
-msgstr ""
+msgstr "Valorile formularului au fost trimise"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Method"
-msgstr ""
+msgstr "Metoda"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
-msgstr ""
+msgstr "Urmărire"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Web"
-msgstr ""
+msgstr "Web"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "API"
-msgstr ""
+msgstr "API"
 
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 1"
-msgstr ""
+msgstr "Adresa adiţională 1"
 
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 2"
-msgstr ""
+msgstr "Adresa adiţională 2"
 
 #: CRM/Contact/Form/Address.php
 msgid "Latitude"
-msgstr ""
+msgstr "Latitudine"
 
 #: CRM/Contact/Form/Address.php
 msgid "Longitude"
-msgstr ""
+msgstr "Longitudine"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Contact Name:"
-msgstr ""
+msgstr "Nume Contact:"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Email Domain:"
-msgstr ""
+msgstr "Domeniu email:"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Send Emails RETURN-PATH:"
-msgstr ""
+msgstr "Send Emails RETURN-PATH:"
 
 #: CRM/Contact/Form/Domain.php
 msgid "The Domain \"%1\" has been saved."
-msgstr ""
+msgstr "Domeniul \"%1\" a fost salvat."
 
 #: CRM/Contact/Form/Edit.php
 msgid "contact does not exist: %1"
-msgstr ""
+msgstr "contact inexistent: %1"
 
 #: CRM/Contact/Form/Edit.php
 msgid "You do not have the necessary permission to edit this contact."
-msgstr ""
+msgstr "Nu aveţi suficiente drepturi pentru a edita acest contact."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Could not get a contact_id and/or contact_type"
-msgstr ""
+msgstr "Nu găsim un contact_is şi/sau contact_type"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Check for Matching Contact(s)"
-msgstr ""
+msgstr "Caută Contacte Potrivite"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save Duplicate Contact"
-msgstr ""
+msgstr "Salvează contact duplicat"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save and New"
-msgstr ""
+msgstr "Salvare & Nou"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
-msgstr ""
+msgstr "Înregistrarea contactului %1 a fost salvată."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Prefers"
-msgstr ""
+msgstr "Preferă"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Mail Format"
-msgstr ""
+msgstr "Format mail"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
-msgstr ""
+msgstr "Doar o singură locaţie poate fi primară."
 
 #: CRM/Contact/Form/Edit.php
 msgid "The Location Type should be set if there is any location information"
-msgstr ""
+msgstr "Tipul locaţiei trebuie să fie ales dacă există informaţii locaţie"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Two locations cannot have same location type"
-msgstr ""
+msgstr "Două locaţii nu pot să aibe acelaşi tip de locaţie"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
-msgstr ""
+msgstr "Una din locaţii trebuie să fie marcată ca şi locală."
 
 #: CRM/Contact/Form/Email.php
 msgid "Email (preferred)"
-msgstr ""
+msgstr "Email (preferat)"
 
 #: CRM/Contact/Form/Email.php
 msgid "another email"
-msgstr ""
+msgstr "alt email"
 
 #: CRM/Contact/Form/Email.php
 msgid "hide this email"
-msgstr ""
+msgstr "ascunde acest email"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add to a group"
-msgstr ""
+msgstr "Adaugă un grup"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add"
-msgstr ""
+msgstr "Adaugă"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Contact has been added to the selected group."
-msgstr ""
+msgstr "Contactul a fost adăugat la grupul selectat."
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger (preferred)"
-msgstr ""
+msgstr "Instant Messenger (preferat)"
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger"
-msgstr ""
+msgstr "Instant Messenger"
 
 #: CRM/Contact/Form/IM.php
 msgid "another IM"
-msgstr ""
+msgstr "alt IM"
 
 #: CRM/Contact/Form/IM.php
 msgid "hide this IM"
-msgstr ""
+msgstr "ascunde acest IM"
 
 #: CRM/Contact/Form/IM.php
 msgid "- select service -"
-msgstr ""
+msgstr "- seletaţi serviciu -"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Greeting"
-msgstr ""
+msgstr "Salut"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Job title"
-msgstr ""
+msgstr "Titlu post"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Contact is deceased"
-msgstr ""
+msgstr "Contact decedat"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Deceased date"
-msgstr ""
+msgstr "Data decesului"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Current Employer"
-msgstr ""
+msgstr "Angajator curent"
 
 #: CRM/Contact/Form/Individual.php
 msgid "External Id"
-msgstr ""
+msgstr "ID Extern"
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
 "First Name and Last Name OR an email in the Primary Location should be set."
-msgstr ""
+msgstr "Prenumele şi Numele SAU emailul din locaţia primară trebuie să existe."
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
-msgstr ""
+msgstr "Locaţia primară a acestui contact"
 
 #: CRM/Contact/Form/Organization.php
 msgid "SIC Code"
-msgstr ""
+msgstr "Cod SIC"
 
 #: CRM/Contact/Form/Phone.php
 msgid "Phone (preferred)"
-msgstr ""
+msgstr "Telefon (preferat)"
 
 #: CRM/Contact/Form/Phone.php
 msgid "another phone"
-msgstr ""
+msgstr "alt telefon"
 
 #: CRM/Contact/Form/Phone.php
 msgid "hide this phone"
-msgstr ""
+msgstr "ascunde acest telefon"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Please select a relationship type."
@@ -4536,49 +4533,52 @@ msgstr "Selectaţi un tip de relaţie."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "End date is not valid."
-msgstr ""
+msgstr "Data de sfârşit este invalidă."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Find Target Contact"
-msgstr ""
+msgstr "Găseşte contact ţintă"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Save Relationship"
-msgstr ""
+msgstr "Salvează relaţie"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "%count new relationship record created."
 msgid_plural "%count new relationship records created."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%count relaţie nouă creată."
+msgstr[1] "%count relaţii noi create."
+msgstr[2] ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
 "%count relationship record not created due to invalid target contact type."
 msgid_plural ""
 "%count relationship records not created due to invalid target contact type."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%count relaţie nu a fost creată din cauza tipului ţintă invalid de contact."
+msgstr[1] "%count relaţii nu au fost create din cauza tipului ţintă invalid de contact."
+msgstr[2] ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
 "%count relationship record not created - duplicate of existing relationship."
 msgid_plural ""
 "%count relationship records not created - duplicate of existing relationship."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%count relaţie nu a fost creată - duplicat al unei relaţii existente."
+msgstr[1] "%count relaţii nu au fost create - duplicat al unei relaţii existente."
+msgstr[2] ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Relationship record has been updated."
-msgstr ""
+msgstr "Înregistrarea relaţiei a fost actualizată."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Please select at least one contact."
-msgstr ""
+msgstr "Vă rugăm să selectaţi cel puţin un contact."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "The relationship end date cannot be prior to the start date."
-msgstr ""
+msgstr "Data de încheiere a relaţiei nu poate fi mai mică decât cea de start."
 
 #: CRM/Contact/Form/Search/Advanced.php
 #, fuzzy
@@ -4589,16 +4589,16 @@ msgstr "Adresă"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Scheduled Activities"
-msgstr ""
+msgstr "Activităţi Planificate"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Quest"
-msgstr ""
+msgstr "Caută"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Contact Type(s)"
-msgstr ""
+msgstr "Tip(uri) Contact"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -4607,123 +4607,123 @@ msgstr "Comentarii contact"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Search Views"
-msgstr ""
+msgstr "Caută Views"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- default view -"
-msgstr ""
+msgstr "- view implicit -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
-msgstr ""
+msgstr "Rang-De La"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Location Types"
-msgstr ""
+msgstr "Tipuri Locaţia"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Activity Dates - From"
-msgstr ""
+msgstr "Date Activitate - De La"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Modified By"
-msgstr ""
+msgstr "Modificat de"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Modified Between"
-msgstr ""
+msgstr "Modificat între"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Task Status"
-msgstr ""
+msgstr "Stare Sarcină"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Target Contact"
-msgstr ""
+msgstr "Contact Ţintă"
 
 #: CRM/Contact/Form/Search.php
 msgid "Group Status"
-msgstr ""
+msgstr "Stare Grup"
 
 #: CRM/Contact/Form/Search.php
 msgid "Please select at least one membership status."
-msgstr ""
+msgstr "Vă rugăm selectaţi cel puţin o stare de membru."
 
 #: CRM/Contact/Form/Search.php
 msgid "Group Members: %1"
-msgstr ""
+msgstr "Membri Grup: %1"
 
 #: CRM/Contact/Form/Search.php
 msgid "Add Contacts to %1"
-msgstr ""
+msgstr "Adaugă Contacte la %1"
 
 #: CRM/Contact/Form/Search.php
 msgid "in"
-msgstr ""
+msgstr "în"
 
 #: CRM/Contact/Form/Search.php
 msgid "- any tag -"
-msgstr ""
+msgstr "- orice etichetă -"
 
 #: CRM/Contact/Form/Search.php
 msgid "Tagged"
-msgstr ""
+msgstr "Etichetat"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add Members to A Group"
-msgstr ""
+msgstr "Adaugă Membri la un Grup"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add to Group"
-msgstr ""
+msgstr "Adaugă un Grup"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Added Contact(s) to %1"
-msgstr ""
+msgstr "Contact(e) Adăugate la %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Total Contact(s) added to group: %1"
-msgstr ""
+msgstr "Total Contact(e) adăugate la grupul: %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Total Contact(s) already in group: %1"
-msgstr ""
+msgstr "Total Contacte aflate deja în grup: %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Add Members to Household"
-msgstr ""
+msgstr "Adaugă Membri la Gospodărie"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Find Target Household"
-msgstr ""
+msgstr "Găseşte Gospodărie Ţintă"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Add to Household"
-msgstr ""
+msgstr "Adaugă la Gospodărie"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Added Contact(s) to Household"
-msgstr ""
+msgstr "Contacte Adăugate la Gospodărie"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Add Members to Organization"
-msgstr ""
+msgstr "Adaugp Membru la Organizaţie"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Find Target Organization"
-msgstr ""
+msgstr "Caută Organizaţia Ţintă"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Add to Organization"
-msgstr ""
+msgstr "Adaugă la Organizaţie"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Added Contact(s) to Organization"
-msgstr ""
+msgstr "Contacte Adaugate la Organizaţie"
 
 #: CRM/Contact/Form/Task/AddToTag.php
 msgid "Tag Contacts"
-msgstr ""
+msgstr "Etichetează Contacte"
 
 #: CRM/Contact/Form/Task/BatchUpdateProfile.php
 #, fuzzy
@@ -4742,36 +4742,36 @@ msgstr "Sterge contacte"
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Deleted Contact(s): %1"
-msgstr ""
+msgstr "Contacte Şterse: %1"
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "\"%1\" - can not be deleted."
-msgstr ""
+msgstr "Înregistrarea contactului care este legată de contul utilizatorului conectat - \"%1\" - nu poate fi ştearsă."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact was deleted sucessfully."
-msgstr ""
+msgstr "Contactul selectat a fost şters cu succes."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact cannot be deleted."
-msgstr ""
+msgstr "Contactul selectat nu poate fi şters."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid ""
 "This contact record is linked to the currently logged in user account - \"%1"
 "\" - and can not be deleted."
-msgstr ""
+msgstr "Această înregistrare este legată la contul utilizatorului conectat - \"%1\" - şi nu poate şi ştearsă."
 
 #: CRM/Contact/Form/Task/Email.php
 msgid "Selected contact(s) does not have a valid email address"
-msgstr ""
+msgstr "Contactele selectat nu au o adresă validă de email"
 
 #: CRM/Contact/Form/Task/Email.php
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send Email"
-msgstr ""
+msgstr "Trimite email"
 
 #: CRM/Contact/Form/Task/Email.php
 msgid ""
@@ -4780,11 +4780,11 @@ msgid ""
 "address is resolved, you can take the address off Hold by editing the "
 "contact record. Otherwise, you will need to try an different email address "
 "for this contact."
-msgstr ""
+msgstr "Adresa selectată de email este în aşteptare deoarece numărul maxim de încercări de trimitere a eşuat. Dacă aţi fost informat că problema cu această adresă este rezolvată, puteţi scoate adresa din aşteptare prin editarea înregistrării contactului. Altfel va trebui să încercaţi un email diferit pentru acest contact."
 
 #: CRM/Contact/Form/Task/Email.php
 msgid "Email was not sent to %1 because primary email address (%2) is On Hold."
-msgstr ""
+msgstr "Email-ul nu a dost trimis către %1 deoarece emailul primar (%2) este în aşteptare."
 
 #: CRM/Contact/Form/Task/Email.php
 #, fuzzy
@@ -4795,202 +4795,202 @@ msgstr "Total contacte selectate: %1"
 msgid ""
 "Email not sent to contact(s) (no email address on file or communication "
 "preferences specify DO NOT EMAIL): %1  <br />Details : "
-msgstr ""
+msgstr "Email-ul nu a fost trimis ls contacte: %1 <br />Detalii:"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Export >>"
-msgstr ""
+msgstr "Export >>"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Duplicate Export Mapping Name"
-msgstr ""
+msgstr "Nume mapare export duplicat"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Select Fields to Export"
-msgstr ""
+msgstr "Selectaţi câmpurile pentru export"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 msgid "Export PRIMARY contact fields"
-msgstr ""
+msgstr "Exporă câmpurile contact PRIMARE"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 msgid "Select fields for export"
-msgstr ""
+msgstr "Selectaţii câmpuri pentru export"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 msgid "Export Type"
-msgstr ""
+msgstr "Tip export"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 msgid "Export All or Selected Fields"
-msgstr ""
+msgstr "Exportă toate câmpurile selectate"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Make Mailing Labels"
-msgstr ""
+msgstr "Creează etichete poştale"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Select Label"
-msgstr ""
+msgstr "Selectează etichetă"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "- select label -"
-msgstr ""
+msgstr "- selectaţi etichetă -"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Select Location"
-msgstr ""
+msgstr "Selectaţi locaţia"
 
 #: CRM/Contact/Form/Task/Map.php
 msgid ""
 "This contact's primary address does not contain latitude/longitude "
 "information and can not be mapped."
-msgstr ""
+msgstr "Adresa primară a acestui conatct nu conţine informaţii despre latitudine/longitudine şi nu poate fi cartografiată."
 
 #: CRM/Contact/Form/Task.php
 msgid "Confirm Action"
-msgstr ""
+msgstr "Confirmă acţiune"
 
 #: CRM/Contact/Form/Task/PickProfile.php
 msgid "Batch Profile Update"
-msgstr ""
+msgstr "Actualizare profil în serie"
 
 #: CRM/Contact/Form/Task/Print.php
 msgid "Print Contact List"
-msgstr ""
+msgstr "Tipăreşte listă contacte"
 
 #: CRM/Contact/Form/Task/Record.php
 msgid "Your user record does not have a valid user ID"
-msgstr ""
+msgstr "Înregistrarea de utilizator nu are un ID valid"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Remove Members from Group"
-msgstr ""
+msgstr "Şterge membrii din grup"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Remove from Group"
-msgstr ""
+msgstr "Şterge din grup"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Removed Contact(s) from %1"
-msgstr ""
+msgstr "Şterge contacte din %1"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Total Contact(s) removed from group: %1"
-msgstr ""
+msgstr "Totaş contacte şterse din grup: %1"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Total Contact(s) not in group: %1"
-msgstr ""
+msgstr "Total contacte care nu sunt în grup: %1"
 
 #: CRM/Contact/Form/Task/RemoveFromTag.php
 msgid "Remove Tag Contacts"
-msgstr ""
+msgstr "Şterge etichete contacte"
 
 #: CRM/Contact/Form/Task/SaveSearch.php
 msgid "Save Smart Group"
-msgstr ""
+msgstr "Salvează grup inteligent"
 
 #: CRM/Contact/Form/Task/SaveSearch.php
 msgid "Your smart group has been saved as \"%1\"."
-msgstr ""
+msgstr "Grupul inteligent a fost salvat ca \"%1\"."
 
 #: CRM/Contact/Form/Test.php
 msgid "State / Province Id"
-msgstr ""
+msgstr "ID judeţ/provincie"
 
 #: CRM/Contact/Page/View/Delete.php
 msgid "Contact Delete"
-msgstr ""
+msgstr "Ştereg contact"
 
 #: CRM/Contact/Page/View/GroupContact.php
 msgid "Contact's Groups"
-msgstr ""
+msgstr "Grupuri contact"
 
 #: CRM/Contact/Page/View/Meeting.php
 msgid "Contact Meetings"
-msgstr ""
+msgstr "Întâlniri contact"
 
 #: CRM/Contact/Page/View/Note.php
 msgid "Are you sure you want to delete this note?"
-msgstr ""
+msgstr "Sigur ştergeţi acestă notă?"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Edit Note"
-msgstr ""
+msgstr "Editează nota"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Delete Note"
-msgstr ""
+msgstr "Şterge nota"
 
 #: CRM/Contact/Page/View/OtherActivity.php
 msgid "Contact Other Activity"
-msgstr ""
+msgstr "Alte activităţi"
 
 #: CRM/Contact/Page/View/Phonecall.php
 msgid "Contact Calls"
-msgstr ""
+msgstr "Apeluri contact"
 
 #: CRM/Contact/Page/View.php
 msgid "You do not have the necessary permission to view this contact."
-msgstr ""
+msgstr "Nu aveţi suficiente drepturi pentru a vizualiza acest contact."
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Contact Relationships"
-msgstr ""
+msgstr "Relaţii contact"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Are you sure you want to delete this relationship?"
-msgstr ""
+msgstr "Sigur ştergeţi acestă relaţie?"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Are you sure you want to disable this relationship?"
-msgstr ""
+msgstr "Sigur dezactivaţi acestă relaţie?"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Are you sure you want to re-enable this relationship?"
-msgstr ""
+msgstr "Sigure reactivaţi acestă relaţie?"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "View Relationship"
-msgstr ""
+msgstr "Vizualizeză relaţie"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Edit Relationship"
-msgstr ""
+msgstr "Editează relaţie"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Enable Relationship"
-msgstr ""
+msgstr "Activează relaţie"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Disable Relationship"
-msgstr ""
+msgstr "Dezactivează relaţie"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Delete Relationship"
-msgstr ""
+msgstr "Şterge relaţie"
 
 #: CRM/Contact/Page/View/Tag.php
 msgid "Contact Tags"
-msgstr ""
+msgstr "Etichete contact"
 
 #: CRM/Contact/Selector/Activity.php
 msgid "Are you sure you want to delete this activity record?"
-msgstr ""
+msgstr "Sigur ştergeţi acestă înregistrare de activitate?"
 
 #: CRM/Contact/Selector/Activity.php
 msgid "View Activity"
-msgstr ""
+msgstr "Vizualizare activitate"
 
 #: CRM/Contact/Selector/Activity.php
 msgid "Open Activities %%StatusMessage%%"
-msgstr ""
+msgstr "Deschide activităţi %%StatusMessage%%"
 
 #: CRM/Contact/Selector/Activity.php templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
@@ -5007,23 +5007,23 @@ msgstr "Creat de"
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "With Contact"
-msgstr ""
+msgstr "Cu contact"
 
 #: CRM/Contact/Selector.php
 msgid "View Contact Details"
-msgstr ""
+msgstr "Vizualizeză detalii contact"
 
 #: CRM/Contact/Selector.php
 msgid "Edit Contact Details"
-msgstr ""
+msgstr "Editează detalii contact"
 
 #: CRM/Contact/Selector.php
 msgid "Contact Id"
-msgstr ""
+msgstr "ID Contact"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
-msgstr ""
+msgstr "Inteligent"
 
 #: CRM/Contact/Selector.php templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
@@ -5031,103 +5031,103 @@ msgstr "Poştal"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to a Group"
-msgstr ""
+msgstr "Adaugă contacte la grup"
 
 #: CRM/Contact/Task.php
 msgid "Remove Contacts from a Group"
-msgstr ""
+msgstr "Şterge contacte din grup"
 
 #: CRM/Contact/Task.php
 msgid "Tag Contacts (assign tags)"
-msgstr ""
+msgstr "Etichetează contacte"
 
 #: CRM/Contact/Task.php
 msgid "Untag Contacts (remove tags)"
-msgstr ""
+msgstr "Şterge etichete de la contacte"
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
-msgstr ""
+msgstr "Trimite email la contacte"
 
 #: CRM/Contact/Task.php
 msgid "Send SMS to Contacts"
-msgstr ""
+msgstr "Trimite SMS la contacte"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Household"
-msgstr ""
+msgstr "Adaugă contacte la gospodărie"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Organization"
-msgstr ""
+msgstr "Adaugă contacte la organizaţie"
 
 #: CRM/Contact/Task.php
 msgid "Map Contacts"
-msgstr ""
+msgstr "Mapare contacte"
 
 #: CRM/Contact/Task.php
 msgid "New Smart Group"
-msgstr ""
+msgstr "Grup inteligent nou"
 
 #: CRM/Contact/Task.php
 msgid "Print Contacts"
-msgstr ""
+msgstr "Tipăreşte contacte"
 
 #: CRM/Contact/Task.php
 msgid "Mailing Labels"
-msgstr ""
+msgstr "Etichete mailing"
 
 #: CRM/Contact/Task.php templates/CRM/Contact/Form/Task/PickProfile.tpl
 msgid "Batch Update via Profile"
-msgstr ""
+msgstr "Actualizare în serie prin profil"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "%1 - %2 (offline)"
-msgstr ""
+msgstr "%1 - %2 (offline)"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid "This contribution type can not be deleted"
-msgstr ""
+msgstr "Acest tip de contribuţie nu poate fi şters"
 
 #: CRM/Contribute/BAO/ManagePremiums.php
 msgid "This premium can not be deleted."
-msgstr ""
+msgstr "Acest premium nu poat efi şters."
 
 #: CRM/Contribute/BAO/Premium.php
 msgid "Selected Option"
-msgstr ""
+msgstr "Opţiune selectată"
 
 #: CRM/Contribute/BAO/Premium.php
 msgid "No thank you"
-msgstr ""
+msgstr "Nu, mulţumesc"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Total Amount %1 %2"
-msgstr ""
+msgstr "Cantitate totală contribuţie %1 %2"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Thank-you date is null"
-msgstr ""
+msgstr "Data 'Vă mulţumim' este nulă"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Receipt date is null"
-msgstr ""
+msgstr "Data chitanţei contribuţiei este nulă"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Type - %1"
-msgstr ""
+msgstr "Tip contribuţie - %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Page - %1"
-msgstr ""
+msgstr "Pagina contribuţie - %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Paid By - %1"
-msgstr ""
+msgstr "Plătit de - %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Honor name like - \"%1\""
-msgstr ""
+msgstr "Nume onoare ca şi - \"%1\""
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
@@ -5136,25 +5136,25 @@ msgstr "Contribuţii"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Dates - From"
-msgstr ""
+msgstr "Date contribuţie - de la"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Payment Instrument"
-msgstr ""
+msgstr "Instrument plată"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Thank-you date not set?"
-msgstr ""
+msgstr "Dată 'Vă mulţumim' nu este stabilită?"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Receipt not set?"
-msgstr ""
+msgstr "Chitanţa nu este stabilită?"
 
 #: CRM/Contribute/BAO/Query.php
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "In Honor Of"
-msgstr ""
+msgstr "În onoarea lui"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
@@ -5168,95 +5168,95 @@ msgstr "Contribuţii"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Intro Text"
-msgstr ""
+msgstr "Text intro"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Default Amount"
-msgstr ""
+msgstr "Cantitate implicită"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Min Amount"
-msgstr ""
+msgstr "Canitate min"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Max Amount"
-msgstr ""
+msgstr "Cantitate max"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Title"
-msgstr ""
+msgstr "Titlu 'Vă mulţumim'"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Text"
-msgstr ""
+msgstr "Text 'Vă mulţumim'"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Footer"
-msgstr ""
+msgstr "Subsol 'Vă mulţumim'"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Cc Receipt"
-msgstr ""
+msgstr "CC chitanţă"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Bcc Receipt"
-msgstr ""
+msgstr "BCC chitanţă"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Receipt Text"
-msgstr ""
+msgstr "Text chitanţă"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Footer Text"
-msgstr ""
+msgstr "Text subsol"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Text"
-msgstr ""
+msgstr "Bloc text onoare"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Solicitor ID"
-msgstr ""
+msgstr "ID solicitator"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Receive Date"
-msgstr ""
+msgstr "Data recepţie"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Cancel Reason"
-msgstr ""
+msgstr "Motiv anulare"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Receipt Date"
-msgstr ""
+msgstr "Data chitanţă"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Thank-you Date"
-msgstr ""
+msgstr "Dată 'Vă mulţumim'"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Product Option"
-msgstr ""
+msgstr "Opţiune produs"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Quantity"
-msgstr ""
+msgstr "Cantitate"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Fulfilled Date"
-msgstr ""
+msgstr "Dată finalizare"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Comment"
-msgstr ""
+msgstr "Comentariu"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Installments"
-msgstr ""
+msgstr "Rate"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Create Date"
-msgstr ""
+msgstr "Dată creere"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #, fuzzy
@@ -5265,122 +5265,122 @@ msgstr "Contribuţii"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Cycle Day"
-msgstr ""
+msgstr "Zi ciclu"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Next Sched Contribution"
-msgstr ""
+msgstr "Următoarea contribuţie planificată"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Count"
-msgstr ""
+msgstr "Număr eşecuri"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Retry Date"
-msgstr ""
+msgstr "Data reîncercare "
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Auto Renew"
-msgstr ""
+msgstr "Auto înnoire"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Date"
-msgstr ""
+msgstr "Dată Trxn"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Type"
-msgstr ""
+msgstr "Tip Trxn"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Result Code"
-msgstr ""
+msgstr "Cod rezultat Trxn"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Debit"
-msgstr ""
+msgstr "Debit"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Credit"
-msgstr ""
+msgstr "Credit"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Active"
-msgstr ""
+msgstr "Premium-uri active"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Title for Premiums section"
-msgstr ""
+msgstr "Titlu pentru secţiune Premium"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Intro Text"
-msgstr ""
+msgstr "Intro text premium"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Contact Email"
-msgstr ""
+msgstr "Email contact premium"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Contact Phone"
-msgstr ""
+msgstr "Telefon contact premium"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Display Min Contribution"
-msgstr ""
+msgstr "Contribuţia min premium"
 
 #: CRM/Contribute/DAO/PremiumsProduct.php
 msgid "Sort Position"
-msgstr ""
+msgstr "Poziţie sortare"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Product Name"
-msgstr ""
+msgstr "Nume produs"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Image"
-msgstr ""
+msgstr "Imagine"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Thumbnail"
-msgstr ""
+msgstr "Fotogramă"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Price"
-msgstr ""
+msgstr "Preţ"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Minimum Contribution"
-msgstr ""
+msgstr "Contribuţie minimă"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Cost"
-msgstr ""
+msgstr "Cost"
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
-msgstr ""
+msgstr "Nu putem găsi detaliile cererii dumneavostră. Încercaţi ăncă o cerere."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This contribution has already been submitted. Click <a href=\"%1\">here</a> "
 "if you want to make another contribution."
-msgstr ""
+msgstr "Acestă contribuţie a fost deja trimisă.  Click <a href=\"%1\">aici</a> dacă doriţi să cotribuiţi din nou."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
-msgstr ""
+msgstr "Pagina solicitată nu este diponibilă acum."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set."
-msgstr ""
+msgstr "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR nu este stabilit."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "The requested online contribution page is missing a required Contribution "
 "Amount section or Membership section. Please check with the site "
 "administrator for assistance."
-msgstr ""
+msgstr "Contribuţiei online solicitate îi lipseşte secţiunea 'mărime contribuţie' sau secţiunea 'membru'. Cereţi asistenţăadministratorului sitului."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -5388,76 +5388,79 @@ msgid ""
 "and membership payments. The PayPal Website Payments Standard plugin\n"
 "does not currently support multiple simultaneous payments. Please\n"
 "contact the site administrator and notify them of this error"
-msgstr ""
+msgstr "Acestă pagină de contribuţie este configurată să accepte contribuţie separată\n"
+"şi plăţi membrii. Pugin-urile de paltă standard ale website-ului PayPal\n"
+"nu suportă plăţi multiple simultane. Vă rugăm contactaţi\n"
+"administratorul sitului şi anunţaţi acestă eroare"
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Card Number"
-msgstr ""
+msgstr "Număr card"
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Security Code"
-msgstr ""
+msgstr "Cod securitate"
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Expiration Date"
-msgstr ""
+msgstr "Data expirării"
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Card Type"
-msgstr ""
+msgstr "Tip card"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
-msgstr ""
+msgstr "Contribuiţi"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "<< Go Back"
-msgstr ""
+msgstr "<< Înapoi"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Other Amount"
-msgstr ""
+msgstr "Altă cantitate"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid amount (numbers and decimal point only)."
-msgstr ""
+msgstr "Introduceţi o cantitate validă (doar numere şi punct zecimal)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "Contribution Amount"
-msgstr ""
+msgstr "Cantitate contribuţie"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
-msgstr ""
+msgstr "Introduceţi o valoare validă pentru codul de siguranţă al cardului. De regulă e vorba de ultimele 3-4 cifre de pe suprafaţa de semnătură."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Select a valid date greater than today."
-msgstr ""
+msgstr "Selectaţi o dată validă mai mare decât astăzi."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "I want to make a one-time contribution."
-msgstr ""
+msgstr "Doresc să fac o contribuţie o sinugură dată."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "I want to contribute this amount"
-msgstr ""
+msgstr "Doresc să contribui cu acestă sumă"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Every"
-msgstr ""
+msgstr "Fiecare"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Frequency must be a whole number (EXAMPLE: Every 3 months)."
-msgstr ""
+msgstr "Frecvenţa trebuie să fie un număr întreg (ex. la fiecare 3 luni)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid " -period-"
-msgstr ""
+msgstr "- perioada -"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #, fuzzy
@@ -5481,88 +5484,88 @@ msgstr "an"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "installments"
-msgstr ""
+msgstr "rate"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Number of installments must be a whole number."
-msgstr ""
+msgstr "Numărul de rate trebuie să fie un număr întreg."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "The premium you have selected requires a minimum contribution of %1"
-msgstr ""
+msgstr "Premium-ul selectat necesită o contrubuţie de minimum %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
 "In Honor Of - First Name and Last Name, OR an Email Address is required."
-msgstr ""
+msgstr "În onoarea lui - sunt necesare prenume şi nume SAU o adresă de email."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
 "Please enter a number for how often you want to make this recurring "
 "contribution (EXAMPLE: Every 3 months)."
-msgstr ""
+msgstr "Introduceţi un număr pentru cât de des doriţi să faceţi contribuţia periodică (ex. la fiecare 3 luni)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
 "Please select a period (e.g. months, years ...) for how often you want to "
 "make this recurring contribution (EXAMPLE: Every 3 MONTHS)."
-msgstr ""
+msgstr "Selectaţi o unitate de perioadă (ex. luni, ani...) pentru contribuţia periodică (ex. la fiecare 3 LUNI)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid " The Membership you have selected requires a minimum contribution of %1"
-msgstr ""
+msgstr "Membrul selectat necesită o contribuţie minimă de %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be greater than %1"
-msgstr ""
+msgstr "Acestă sumă trebuie să fie ma mare de %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be less than %1"
-msgstr ""
+msgstr "Acestă sumă trebuie să fie mai mică de %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid Credit Card Number"
-msgstr ""
+msgstr "Introduceţi un număr de card de credit valid"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr ""
+msgstr "Introduceţi un număr valid de verificare al cadului de credit"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
-msgstr ""
+msgstr "Produsul premium selecta a fost şters de pe această pagină de contribuţie."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Select the Product"
-msgstr ""
+msgstr "Selectaţi un produs"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Please enter integer value for weight"
-msgstr ""
+msgstr "Introduceţi o valoare întreagă pentru greutate"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Add Premium to Contribution Page"
-msgstr ""
+msgstr "Adăugaţi premium la pagina de contribuţie"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Allow Other Amounts?"
-msgstr ""
+msgstr "Permiteţi alte sume?"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
-msgstr ""
+msgstr "Introduceţi o valoare validă de bani (ex. 99.99)."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Contribution Amounts Section Enabled"
-msgstr ""
+msgstr "Secţiunea sume contribuţie activată"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Execute real-time monetary transactions"
-msgstr ""
+msgstr "Executaţi tranzacţii monetare în timp real"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Enable recurring payments"
-msgstr ""
+msgstr "Activează plăţi periodice"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #, fuzzy
@@ -5571,39 +5574,39 @@ msgstr "Contribuţii"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Minimum Amount should be less than Maximum Amount"
-msgstr ""
+msgstr "Suma minimă trebuie să fie mai mică decât suma maximă"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Contribution Amounts"
-msgstr ""
+msgstr "Sumă contribuţie"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "(top of page)"
-msgstr ""
+msgstr "(început pagină)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "(bottom of page)"
-msgstr ""
+msgstr "(sfârşi pagină)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "Custom Elements (%1)"
-msgstr ""
+msgstr "Elemente personalizate (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Custom Page Elements"
-msgstr ""
+msgstr "Elemente personalizate pagină"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 msgid "Delete Contribution Page"
-msgstr ""
+msgstr "Şterge pagină contribuţie"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 msgid "The contribution page \"%1\" has been deleted."
-msgstr ""
+msgstr "Pagina de contribuţie \"%1\"  a fost ştearsă."
 
 #: CRM/Contribute/Form/ContributionPage.php
 #, fuzzy
@@ -5612,23 +5615,23 @@ msgstr "Configurează"
 
 #: CRM/Contribute/Form/ContributionPage.php
 msgid "Preview Page - %1"
-msgstr ""
+msgstr "Previzualizare pagina - %1"
 
 #: CRM/Contribute/Form/ContributionPage.php
 msgid "Delete Page - %1"
-msgstr ""
+msgstr "Şterge pagina - %1"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums (%1)"
-msgstr ""
+msgstr "Premium (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums Section Enabled?"
-msgstr ""
+msgstr "Activaţi secţiune premium?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Contact Email"
-msgstr ""
+msgstr "Email contact"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #, fuzzy
@@ -5637,7 +5640,7 @@ msgstr "Introduceţi un nume valid de Grup Opţiuni."
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Contact Phone"
-msgstr ""
+msgstr "Telefon contact"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #, fuzzy
@@ -5646,71 +5649,71 @@ msgstr "Introduceţi un nume valid."
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Display Minimum Contribution Amount?"
-msgstr ""
+msgstr "Afişează suma minimă contribuţie?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Configure Premiums"
-msgstr ""
+msgstr "Configurează Premium"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Title and Settings (%1)"
-msgstr ""
+msgstr "Titlu şi configurare (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Footer Message"
-msgstr ""
+msgstr "Mesaj subsol"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Should a thermometer block be displayed during a contribution?"
-msgstr ""
+msgstr "Afişează un bloc termometru în timpul unei contribuţii?"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
-msgstr ""
+msgstr "Este activă pagina de contribuţie online?"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Honor Section Enabled "
-msgstr ""
+msgstr "Scţiunea de onoare activată"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Honor Block Introductory Message"
-msgstr ""
+msgstr "Mesaj introducere bloc de onoare"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid ""
 "You must enter a contribution page Goal Amount if you want to track progress "
 "by enabling the Progress Thermometer block."
-msgstr ""
+msgstr "Introduceţi o sumă ţintă dacă doriţi urmărirea progresului prin activarea blocului termometru."
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Title and Settings"
-msgstr ""
+msgstr "Titlu şi configuraţie"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank-you and Receipting (%1)"
-msgstr ""
+msgstr "Mulţumiri şi chitanţă (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank-you Page Title"
-msgstr ""
+msgstr "Titlu pagină 'Vă mulţumim'"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank-you Message"
-msgstr ""
+msgstr "Mesaj 'Vă mulţumim'"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank-you Page Footer"
-msgstr ""
+msgstr "Subsol pagină 'Vă mulţumim'"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Email Receipt to Contributor?"
-msgstr ""
+msgstr "Chitanţă prin email donatorului?"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt Message"
-msgstr ""
+msgstr "Mesaj chitanţă"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "CC Receipt To"
@@ -6211,7 +6214,7 @@ msgstr ""
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Select more fields"
-msgstr ""
+msgstr "Selectaţi mai multe câmpuri"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Cannot have two clauses with different types: %1, %2"
@@ -6253,7 +6256,7 @@ msgstr ""
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Shortcuts"
-msgstr ""
+msgstr "Scurtături CiviCRM"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Quick Add"
@@ -6265,15 +6268,15 @@ msgstr ""
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Search"
-msgstr ""
+msgstr "Căutare CiviCRM"
 
 #: CRM/Core/Block.php
 msgid "Contact Search"
-msgstr ""
+msgstr "Căutare contact"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Menu"
-msgstr ""
+msgstr "Meniu CiviCRM"
 
 #: CRM/Core/Block.php
 msgid "CiviContribute Progress Meter"
@@ -6281,15 +6284,15 @@ msgstr ""
 
 #: CRM/Core/Block.php
 msgid "New Organization"
-msgstr ""
+msgstr "Organizaţie nouă"
 
 #: CRM/Core/Block.php
 msgid "New Household"
-msgstr ""
+msgstr "Gospodărie nouă"
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
-msgstr ""
+msgstr "Grup nou"
 
 #: CRM/Core/Config.php
 msgid "CIVICRM_SMTP_SERVER is not set in the config file"
@@ -6301,19 +6304,19 @@ msgstr ""
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Activity ID"
-msgstr ""
+msgstr "ID activitate"
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Activity Summary"
-msgstr ""
+msgstr "Sumar activitate"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number"
-msgstr ""
+msgstr "Număr stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Suffix"
-msgstr ""
+msgstr "Sufix număr stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
@@ -6406,19 +6409,19 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomField.php
 msgid "String"
-msgstr ""
+msgstr "Şir"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Int"
-msgstr ""
+msgstr "Int"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Float"
-msgstr ""
+msgstr "Flotant"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Boolean"
-msgstr ""
+msgstr "Logic"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "StateProvince"
@@ -6438,18 +6441,18 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Custom/Page/Group.tpl
 msgid "Style"
-msgstr ""
+msgstr "Stil"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Phonecall"
-msgstr ""
+msgstr "Apel telefonic"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Membership.tpl
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid "Membership"
-msgstr ""
+msgstr "Membru"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Int Data"
@@ -6481,7 +6484,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Domain.php
 msgid "Email Domain"
-msgstr ""
+msgstr "Domeniu email"
 
 #: CRM/Core/DAO/Domain.php
 msgid "Email Return Path"
@@ -6499,7 +6502,7 @@ msgstr "Configurează"
 
 #: CRM/Core/DAO/DupeMatch.php
 msgid "Rule"
-msgstr ""
+msgstr "Regulă"
 
 #: CRM/Core/DAO/Email.php
 msgid "Hold Date"
@@ -6507,112 +6510,112 @@ msgstr ""
 
 #: CRM/Core/DAO/Email.php
 msgid "Reset Date"
-msgstr ""
+msgstr "Dată reset"
 
 #: CRM/Core/DAO/File.php
 msgid "Mime Type"
-msgstr ""
+msgstr "Mime Type"
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
-msgstr ""
+msgstr "URI"
 
 #: CRM/Core/DAO/File.php
 msgid "Document"
-msgstr ""
+msgstr "Document"
 
 #: CRM/Core/DAO/File.php templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Upload Date"
-msgstr ""
+msgstr "Dată încărcare"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Coord Type"
-msgstr ""
+msgstr "Tip coordonate"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Coord Units"
-msgstr ""
+msgstr "Unităţi coordonate"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Coord Ogc Wkt String"
-msgstr ""
+msgstr "Coord Ogc Wkt String"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "LatLong"
-msgstr ""
+msgstr "LatLong"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Projected"
-msgstr ""
+msgstr "Proiectat"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Degree"
-msgstr ""
+msgstr "Grad"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Grad"
-msgstr ""
+msgstr "Grad cent"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Radian"
-msgstr ""
+msgstr "Radian"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Foot"
-msgstr ""
+msgstr "Foot"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Meter"
-msgstr ""
+msgstr "Metru"
 
 #: CRM/Core/DAO/LocationType.php
 msgid "Location Type"
-msgstr ""
+msgstr "Tip locaţie"
 
 #: CRM/Core/DAO/LocationType.php
 msgid "vCard Location Type"
-msgstr ""
+msgstr "Tip locaţie vCard"
 
 #: CRM/Core/DAO/Log.php
 msgid "Data"
-msgstr ""
+msgstr "Date"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "Column Number"
-msgstr ""
+msgstr "Număr coloană"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "Grouping"
-msgstr ""
+msgstr "Grupare"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "Operator"
-msgstr ""
+msgstr "Operator"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "="
-msgstr ""
+msgstr "="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "!="
-msgstr ""
+msgstr "!="
 
 #: CRM/Core/DAO/MappingField.php
 msgid ">"
-msgstr ""
+msgstr ">"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "<"
-msgstr ""
+msgstr "<"
 
 #: CRM/Core/DAO/MappingField.php
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "IN"
@@ -6649,11 +6652,11 @@ msgstr ""
 
 #: CRM/Core/DAO/OptionValue.php
 msgid "Filter"
-msgstr ""
+msgstr "Filtru"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
-msgstr ""
+msgstr "Abreviere judeţ"
 
 #: CRM/Core/DAO/UFField.php
 msgid "In Selector"
@@ -6661,7 +6664,7 @@ msgstr ""
 
 #: CRM/Core/DAO/UFField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Field Type"
-msgstr ""
+msgstr "Tip câmp"
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Form Type"
@@ -6685,7 +6688,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Validation.php
 msgid "Function Name"
-msgstr ""
+msgstr "Nume funcţie"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Positive Integer"
@@ -6697,7 +6700,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Validation.php
 msgid "Range"
-msgstr ""
+msgstr "Rang"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Regular Expression Match"
@@ -6741,7 +6744,7 @@ msgstr ""
 
 #: CRM/Core/Form.php
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 #: CRM/Core/Form.php
 msgid "Please select %1"
@@ -6793,7 +6796,7 @@ msgstr ""
 
 #: CRM/Core/Invoke.php
 msgid "Delete Contact"
-msgstr ""
+msgstr "Şterge contact"
 
 #: CRM/Core/Invoke.php
 msgid "Could not retrieve a valid contact"
@@ -6801,7 +6804,7 @@ msgstr ""
 
 #: CRM/Core/Invoke.php
 msgid "Simple Search"
-msgstr ""
+msgstr "Cautare simplă"
 
 #: CRM/Core/Invoke.php
 msgid "YMap Contact"
@@ -6825,7 +6828,7 @@ msgstr ""
 
 #: CRM/Core/Invoke.php
 msgid "View Tags"
-msgstr ""
+msgstr "Vizualizare etichete"
 
 #: CRM/Core/Invoke.php
 msgid "View Mapping"
@@ -6850,31 +6853,31 @@ msgstr ""
 
 #: CRM/Core/Invoke.php
 msgid "Import Contacts"
-msgstr ""
+msgstr "Import contacte"
 
 #: CRM/Core/Invoke.php
 msgid "View Groups"
-msgstr ""
+msgstr "Vizualizare grupuri"
 
 #: CRM/Core/Invoke.php
 msgid "Create Profile"
-msgstr ""
+msgstr "Crează profil"
 
 #: CRM/Core/Invoke.php
 msgid "Smtp Server"
-msgstr ""
+msgstr "Server SMTP"
 
 #: CRM/Core/Invoke.php templates/CRM/Admin/Form/Setting/Payment.tpl
 msgid "Online Payments"
-msgstr ""
+msgstr "Plăţi online"
 
 #: CRM/Core/Invoke.php
 msgid "CiviMail Settings"
-msgstr ""
+msgstr "Configuraţie CiviCRM"
 
 #: CRM/Core/Menu.php templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Users to Contacts:"
-msgstr ""
+msgstr "Sincronizează utilizatori cu contacte:"
 
 #: CRM/Core/Menu.php templates/CRM/Admin/Form/DrupalUser.tpl
 msgid ""
@@ -6904,7 +6907,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Do you want to continue?"
-msgstr ""
+msgstr "Doriţi să continuaţi?"
 
 #: CRM/Core/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Your Data:"
@@ -6920,7 +6923,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Backup Data"
-msgstr ""
+msgstr "Backup date"
 
 #: CRM/Core/Menu.php
 msgid "Synchronize Users-to-Contacts"
@@ -6928,11 +6931,11 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Activity Types"
-msgstr ""
+msgstr "Tipuri activitate"
 
 #: CRM/Core/Menu.php
 msgid "CiviCRM Profile Fields"
-msgstr ""
+msgstr "Câmpuri profil CiviCRM"
 
 #: CRM/Core/Menu.php
 msgid "Location Types (Home, Work...)"
@@ -6940,7 +6943,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "Etichete (categorii)"
 
 #: CRM/Core/Menu.php
 msgid "Import/Export Mappings"
@@ -6952,7 +6955,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Relationship Types"
-msgstr ""
+msgstr "Tipuri relaţii"
 
 #: CRM/Core/Menu.php
 msgid "Gender Options (Male, Female...)"
@@ -6980,7 +6983,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Quick Registration"
-msgstr ""
+msgstr "Înregistrare rapidă"
 
 #: CRM/Core/Menu.php
 msgid "Browse Uploaded files"
@@ -6992,39 +6995,39 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "View Contact"
-msgstr ""
+msgstr "Vizualizare contact"
 
 #: CRM/Core/Menu.php
 msgid "Contact Summary"
-msgstr ""
+msgstr "Sumar contact"
 
 #: CRM/Core/Menu.php
 msgid "Manage Groups"
-msgstr ""
+msgstr "Gestionează grupuri"
 
 #: CRM/Core/Menu.php
 msgid "Create New Group"
-msgstr ""
+msgstr "Crează grup nou"
 
 #: CRM/Core/Menu.php
 msgid "Activity Detail"
-msgstr ""
+msgstr "Detalii activitate"
 
 #: CRM/Core/Menu.php templates/CRM/Contact/Page/View/Email.tpl
 msgid "Sent Email Message"
-msgstr ""
+msgstr "Trimite mesaj email"
 
 #: CRM/Core/Menu.php
 msgid "Contact Information"
-msgstr ""
+msgstr "Informaţii contact"
 
 #: CRM/Core/Menu.php
 msgid "Add Contact Information"
-msgstr ""
+msgstr "Adaugă informaţie contact"
 
 #: CRM/Core/Menu.php
 msgid "Notes about the Person"
-msgstr ""
+msgstr "Note despre persoane"
 
 #: CRM/Core/Menu.php
 #, fuzzy
@@ -7040,51 +7043,51 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [first] [last]"
-msgstr ""
+msgstr "implicit - Dragă [first] [last]"
 
 #: CRM/Core/SelectValues.php
 msgid "Dear [first]"
-msgstr ""
+msgstr "Dragă [first]"
 
 #: CRM/Core/SelectValues.php
 msgid "Dear [prefix] [last]"
-msgstr ""
+msgstr "Dragă [prefix] [last]"
 
 #: CRM/Core/SelectValues.php
 msgid "Customized"
-msgstr ""
+msgstr "Personalizat"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not phone"
-msgstr ""
+msgstr "Fără apel"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not email"
-msgstr ""
+msgstr "Fără email"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not mail"
-msgstr ""
+msgstr "Fără poştă"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not trade"
-msgstr ""
+msgstr "Fără comerţ"
 
 #: CRM/Core/SelectValues.php
 msgid "- all contacts -"
-msgstr ""
+msgstr "- toate contactele -"
 
 #: CRM/Core/SelectValues.php
 msgid "Individuals"
-msgstr ""
+msgstr "Indivizi"
 
 #: CRM/Core/SelectValues.php
 msgid "Households"
-msgstr ""
+msgstr "Gospodării"
 
 #: CRM/Core/SelectValues.php
 msgid "Organizations"
-msgstr ""
+msgstr "Organizaţii"
 
 #: CRM/Core/SelectValues.php
 msgid "life time"
@@ -7092,15 +7095,15 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Public"
-msgstr ""
+msgstr "Public"
 
 #: CRM/Core/SelectValues.php
 msgid "start date"
-msgstr ""
+msgstr "dată start"
 
 #: CRM/Core/SelectValues.php
 msgid "end date"
-msgstr ""
+msgstr "dată sfârşit"
 
 #: CRM/Core/SelectValues.php
 msgid "join date"
@@ -7108,11 +7111,11 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Decimal Number"
-msgstr ""
+msgstr "Număr zecimal"
 
 #: CRM/Core/SelectValues.php
 msgid "Yes/No"
-msgstr ""
+msgstr "Da/Nu"
 
 #: CRM/Core/SelectValues.php
 msgid "Single-line input field (text or numeric)"
@@ -7136,35 +7139,35 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Date selector"
-msgstr ""
+msgstr "Selector dată"
 
 #: CRM/Core/SelectValues.php
 msgid "State / Province selector"
-msgstr ""
+msgstr "Selector judeţ/provincie"
 
 #: CRM/Core/SelectValues.php
 msgid "Country selector"
-msgstr ""
+msgstr "Selctor ţară"
 
 #: CRM/Core/SelectValues.php
 msgid "User Registration"
-msgstr ""
+msgstr "Înregistrare utilizator"
 
 #: CRM/Core/SelectValues.php
 msgid "View/Edit User Account"
-msgstr ""
+msgstr "Vizualizează/editează cont"
 
 #: CRM/Core/SelectValues.php
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: CRM/Core/SelectValues.php
 msgid "Dynamic"
-msgstr ""
+msgstr "Dinamic"
 
 #: CRM/Core/SelectValues.php
 msgid "Static"
-msgstr ""
+msgstr "Static"
 
 #: CRM/Core/SelectValues.php
 msgid "Reply Auto-responder"
@@ -7176,7 +7179,7 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Welcome Message"
-msgstr ""
+msgstr "Mesaj de bun venit"
 
 #: CRM/Core/SelectValues.php
 msgid "Farewell Message"
@@ -7200,19 +7203,19 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: CRM/Core/SelectValues.php
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "show field or section"
-msgstr ""
+msgstr "arată câmp sau selecţie"
 
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "hide field or section"
-msgstr ""
+msgstr "ascunde câmp sau selecţie"
 
 #: CRM/Custom/Form/DeleteField.php
 msgid "Confirm Custom Field Delete"
@@ -7228,7 +7231,7 @@ msgstr ""
 
 #: CRM/Custom/Form/DeleteGroup.php
 msgid "Delete Custom Group"
-msgstr ""
+msgstr "Şterge grup personalizat"
 
 #: CRM/Custom/Form/DeleteGroup.php
 msgid ""
@@ -7238,7 +7241,7 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Select File"
-msgstr ""
+msgstr "Selectează fişier"
 
 #: CRM/Custom/Form/Field.php
 msgid "Data and Input Field Type"
@@ -7254,15 +7257,15 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Month"
-msgstr ""
+msgstr "Lună"
 
 #: CRM/Custom/Form/Field.php
 msgid "Day"
-msgstr ""
+msgstr "Ziuă"
 
 #: CRM/Custom/Form/Field.php
 msgid "Year"
-msgstr ""
+msgstr "An"
 
 #: CRM/Custom/Form/Field.php
 msgid "Included date parts"
@@ -7270,15 +7273,15 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Width (columns)"
-msgstr ""
+msgstr "Lăţime (coloane)"
 
 #: CRM/Custom/Form/Field.php
 msgid "Height (rows)"
-msgstr ""
+msgstr "Înălţime (rânduri)"
 
 #: CRM/Custom/Form/Field.php
 msgid " must be a numeric value"
-msgstr ""
+msgstr "trebuie să fie o valoare numerică"
 
 #: CRM/Custom/Form/Field.php
 msgid "Is this Field Searchable?"
@@ -7294,7 +7297,7 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid number as default value."
-msgstr ""
+msgstr "Introduceţi un număr valid ca valoare implicită."
 
 #: CRM/Custom/Form/Field.php
 msgid ""
@@ -7304,7 +7307,7 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter 1 or 0 as default value."
-msgstr ""
+msgstr "Introduceţi 1 sau 0 ca şi valoare implicită."
 
 #: CRM/Custom/Form/Field.php
 msgid "The invalid default value for State/Province data type"
@@ -7328,7 +7331,7 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid integer."
-msgstr ""
+msgstr "Introduceţi un întreg valid."
 
 #: CRM/Custom/Form/Field.php
 #, fuzzy
@@ -7337,15 +7340,15 @@ msgstr "Introduceţi un nume valid."
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid number."
-msgstr ""
+msgstr "Introduceţi un număr valid."
 
 #: CRM/Custom/Form/Field.php
 msgid "Your custom field \"%1\" has been saved"
-msgstr ""
+msgstr "Câmpul personalizat \"%1\" a fost salvat"
 
 #: CRM/Custom/Form/Group.php
 msgid "Preview %1"
-msgstr ""
+msgstr "Previzualizare %1"
 
 #: CRM/Custom/Form/Group.php
 msgid "New Custom Data Group"
@@ -7357,11 +7360,11 @@ msgstr ""
 
 #: CRM/Custom/Form/Group.php
 msgid "Group Name"
-msgstr ""
+msgstr "Nume grup"
 
 #: CRM/Custom/Form/Group.php
 msgid "Display Style"
-msgstr ""
+msgstr "Afilează stil"
 
 #: CRM/Custom/Form/Group.php
 msgid "Collapse this group on initial display"
@@ -7384,11 +7387,11 @@ msgstr ""
 #: CRM/Custom/Form/Option.php templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "Default"
-msgstr ""
+msgstr "Implicit"
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter a valid integer value."
-msgstr ""
+msgstr "Introduceţi o valoare întreagă validă."
 
 #: CRM/Custom/Form/Option.php
 #, fuzzy
@@ -7401,7 +7404,7 @@ msgstr ""
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter 1 or 0 as value."
-msgstr ""
+msgstr "Introduceţi 1 sau 0 ca valoare."
 
 #: CRM/Custom/Form/Option.php
 msgid "The invalid value for State/Province data type"
@@ -7425,11 +7428,11 @@ msgstr ""
 
 #: CRM/Custom/Page/Field.php
 msgid "Edit Field"
-msgstr ""
+msgstr "Editare câmp"
 
 #: CRM/Custom/Page/Field.php
 msgid "Edit Custom Field"
-msgstr ""
+msgstr "Editare câmp personalizat"
 
 #: CRM/Custom/Page/Field.php
 msgid "Edit Multiple Choice Options"
@@ -7461,7 +7464,7 @@ msgstr ""
 
 #: CRM/Custom/Page/Field.php
 msgid "%1 - Custom Fields"
-msgstr ""
+msgstr "%1 - câmpuri personalizate"
 
 #: CRM/Custom/Page/Group.php
 msgid ""
@@ -7491,7 +7494,7 @@ msgstr ""
 
 #: CRM/Custom/Page/Group.php
 msgid "Custom Group"
-msgstr ""
+msgstr "Grup personalizat"
 
 #: CRM/Custom/Page/Option.php
 msgid ""
@@ -7516,7 +7519,7 @@ msgstr ""
 
 #: CRM/Custom/Page/Option.php
 msgid "Custom Option"
-msgstr ""
+msgstr "Opţiune personalizată"
 
 #: CRM/Custom/Page/Option.php
 msgid "%1 - Multiple Choice Options"
@@ -7528,36 +7531,36 @@ msgstr ""
 
 #: CRM/Group/Form/Edit.php
 msgid "Group Settings: %1"
-msgstr ""
+msgstr "Configuraţie grup: %1"
 
 #: CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been saved."
-msgstr ""
+msgstr "Grupul \"%1\" a fost salvat."
 
 #: CRM/Group/Page/Group.php
 msgid "Are you sure you want to disable this Group?"
-msgstr ""
+msgstr "Sigur dezactivaţi acest grup?"
 
 #: CRM/Group/Page/Group.php
 msgid "Members"
-msgstr ""
+msgstr "Membri"
 
 #: CRM/Group/Page/Group.php
 msgid "Disable Group"
-msgstr ""
+msgstr "Dezactivează grup"
 
 #: CRM/Group/Page/Group.php
 msgid "Enable Group"
-msgstr ""
+msgstr "Activează grup"
 
 #: CRM/Group/Page/Group.php templates/CRM/Group/Form/Edit.tpl
 msgid "Show Group Members"
-msgstr ""
+msgstr "Arată membri grup"
 
 #: CRM/Group/Page/Group.php templates/CRM/Contact/Form/Task/SaveSearch.tpl
 #: templates/CRM/Group/Form/Edit.tpl
 msgid "Smart Group"
-msgstr ""
+msgstr "Grup inteligent"
 
 #: CRM/History/Import/Parser.php
 msgid "View Activity History URL"
@@ -7573,7 +7576,7 @@ msgstr ""
 
 #: CRM/History/Selector/Activity.php
 msgid "View Activity Details"
-msgstr ""
+msgstr "Vizualizează detalii activitate"
 
 #: CRM/History/Selector/Activity.php
 msgid "History %%StatusMessage%%"
@@ -7581,11 +7584,11 @@ msgstr ""
 
 #: CRM/Import/Form/Preview.php
 msgid "Name for new group"
-msgstr ""
+msgstr "Numele noului grup"
 
 #: CRM/Import/Form/Preview.php
 msgid "Description of new group"
-msgstr ""
+msgstr "Descrierea noului grup"
 
 #: CRM/Import/Form/Preview.php
 msgid "Join new contacts to existing group(s)"
@@ -7593,23 +7596,23 @@ msgstr ""
 
 #: CRM/Import/Form/Preview.php templates/CRM/Admin/Page/Tag.tpl
 msgid "Tag"
-msgstr ""
+msgstr "Etichetă"
 
 #: CRM/Import/Form/Preview.php
 msgid "Group \"%1\" already exists."
-msgstr ""
+msgstr "Grupul \"%1\" există deja."
 
 #: CRM/Import/Form/Preview.php
 msgid "Tag \"%1\" already exists."
-msgstr ""
+msgstr "Eticheta \"%1\" există deja."
 
 #: CRM/Import/Form/Summary.php
 msgid "These records have been replaced with the imported data."
-msgstr ""
+msgstr "Aceste înregistrări au fost înlocuite cu datele importate."
 
 #: CRM/Import/Form/UploadFile.php
 msgid "No Duplicate Checking"
-msgstr ""
+msgstr "Fără verificare duplicate"
 
 #: CRM/Import/Form/UploadFile.php
 #, fuzzy
@@ -7618,11 +7621,11 @@ msgstr "Sterge contacte"
 
 #: CRM/Import/Parser/Contact.php
 msgid "Invalid Email address"
-msgstr ""
+msgstr "Adresa email invalidă"
 
 #: CRM/Import/Parser/Contact.php
 msgid "Email address conflicts with record %1"
-msgstr ""
+msgstr "Adresa email e în conflict cu înregistrarea %1"
 
 #: CRM/Import/Parser/Contact.php
 msgid "Record duplicates multiple contacts"
@@ -7634,19 +7637,19 @@ msgstr ""
 
 #: CRM/Import/Parser.php
 msgid "minutes"
-msgstr ""
+msgstr "minute"
 
 #: CRM/Import/Parser.php
 msgid "seconds"
-msgstr ""
+msgstr "secunde"
 
 #: CRM/Import/Parser.php
 msgid "%1 of %2 records - %3 remaining"
-msgstr ""
+msgstr "%1 din %2 înregistrări - rămase %3"
 
 #: CRM/Import/Parser.php
 msgid "View Contact URL"
-msgstr ""
+msgstr "Vizualizează URL contact"
 
 #: CRM/Mailing/BAO/Job.php
 msgid "The mailing has been canceled."
@@ -7659,7 +7662,7 @@ msgstr "Contribuţia selectată a fost ştearsă."
 
 #: CRM/Mailing/DAO/BouncePattern.php
 msgid "Pattern"
-msgstr ""
+msgstr "Şablon"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Hold Threshold"
@@ -7667,7 +7670,7 @@ msgstr ""
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "AOL"
-msgstr ""
+msgstr "AOL"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Away"
@@ -7675,26 +7678,26 @@ msgstr ""
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 #: CRM/Mailing/DAO/BounceType.php
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Inactive"
-msgstr ""
+msgstr "Inactiv"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Invalid"
-msgstr ""
+msgstr "Invalid"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Loop"
-msgstr ""
+msgstr "Salt"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Quota"
@@ -7702,43 +7705,43 @@ msgstr ""
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Relay"
-msgstr ""
+msgstr "Relay"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Syntax"
-msgstr ""
+msgstr "Sintaxă"
 
 #: CRM/Mailing/DAO/Component.php
 msgid "Component Name"
-msgstr ""
+msgstr "Nume componentă"
 
 #: CRM/Mailing/DAO/Component.php
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonează"
 
 #: CRM/Mailing/DAO/Component.php
 msgid "Welcome"
-msgstr ""
+msgstr "Bun venit"
 
 #: CRM/Mailing/DAO/Component.php
 msgid "OptOut"
-msgstr ""
+msgstr "OptOut"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Group Type"
-msgstr ""
+msgstr "Tip grup"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Include"
-msgstr ""
+msgstr "Include"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Exclude"
-msgstr ""
+msgstr "Exclude"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Replyto Email"
@@ -7754,7 +7757,7 @@ msgstr ""
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Auto Responder"
-msgstr ""
+msgstr "Auto Responder"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Open Tracking"
@@ -7762,7 +7765,7 @@ msgstr ""
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Org Unsubscribe"
@@ -7787,7 +7790,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Group.php
 msgid "Include Group(s)"
-msgstr ""
+msgstr "Include grup(uri)"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Please select a group to be mailed."
@@ -7795,7 +7798,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Group.php
 msgid "Exclude Group(s)"
-msgstr ""
+msgstr "Exclude grup(uri)"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Include mailing(s)"
@@ -7807,7 +7810,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Group.php
 msgid "Select Recipients"
-msgstr ""
+msgstr "Selectează destinatari"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same groups in Include Group(s) and Exclude Group(s)."
@@ -7888,7 +7891,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Mailing Subject"
-msgstr ""
+msgstr "Subiect mailing"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Upload Text Message"
@@ -7944,7 +7947,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Upload Message"
-msgstr ""
+msgstr "Încarcă mesaj"
 
 #: CRM/Mailing/Invoke.php templates/CRM/Profile/Form/ForwardMailing.tpl
 msgid "Forward Mailing"
@@ -7992,7 +7995,7 @@ msgstr ""
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "Action"
-msgstr ""
+msgstr "Acţiune"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "Are you sure you want to cancel this mailing?"
@@ -8144,7 +8147,7 @@ msgstr ""
 
 #: CRM/Member/DAO/MembershipBlock.php
 msgid "New Text"
-msgstr ""
+msgstr "Text nou"
 
 #: CRM/Member/DAO/MembershipBlock.php
 msgid "Renewal Title"
@@ -8156,7 +8159,7 @@ msgstr ""
 
 #: CRM/Member/DAO/MembershipBlock.php
 msgid "Is Required"
-msgstr ""
+msgstr "Este necesar"
 
 #: CRM/Member/DAO/MembershipLog.php
 msgid "Membership Change Date"
@@ -8201,23 +8204,23 @@ msgstr ""
 
 #: CRM/Member/DAO/MembershipStatus.php
 msgid "Default Status?"
-msgstr ""
+msgstr "Stare implicită?"
 
 #: CRM/Member/DAO/MembershipStatus.php
 msgid "start_date"
-msgstr ""
+msgstr "start_date"
 
 #: CRM/Member/DAO/MembershipStatus.php
 msgid "end_date"
-msgstr ""
+msgstr "end_date"
 
 #: CRM/Member/DAO/MembershipStatus.php
 msgid "join_date"
-msgstr ""
+msgstr "join_date"
 
 #: CRM/Member/DAO/MembershipType.php
 msgid "Visible"
-msgstr ""
+msgstr "Vizibil"
 
 #: CRM/Member/DAO/MembershipType.php
 msgid "lifetime"
@@ -8252,7 +8255,7 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Introductory Message - New Memberships"
-msgstr ""
+msgstr "Mesj introductiv - Membrii noi"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Title - Renewals"
@@ -8280,7 +8283,7 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Configure Membership"
-msgstr ""
+msgstr "Configurează membru"
 
 #: CRM/Member/Form/Membership.php
 msgid "Join Date"
@@ -8316,7 +8319,7 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "Administrator Only?"
-msgstr ""
+msgstr "Doar administrator?"
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "Selected membership status has been deleted."
@@ -8346,7 +8349,7 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Change"
-msgstr ""
+msgstr "Schimbă"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Selected membership type has been deleted."
@@ -8417,7 +8420,7 @@ msgstr ""
 
 #: CRM/Member/Menu.php templates/CRM/Member/Form/Search.tpl
 msgid "Find Members"
-msgstr ""
+msgstr "Găseşte membri"
 
 #: CRM/Member/Page/MembershipType.php
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -8443,7 +8446,7 @@ msgstr ""
 
 #: CRM/Note/Form/Note.php templates/CRM/Contact/Page/View/Note.tpl
 msgid "Subject:"
-msgstr ""
+msgstr "Subiect:"
 
 #: CRM/Note/Form/Note.php
 msgid "Your Note has been saved."
@@ -8467,7 +8470,7 @@ msgstr ""
 
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Email %1"
-msgstr ""
+msgstr "Email %1"
 
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Forward"
@@ -8489,7 +8492,7 @@ msgstr ""
 
 #: CRM/Profile/Page/Listings.php
 msgid "Search Profile"
-msgstr ""
+msgstr "Caută profil"
 
 #: CRM/Profile/Page/View.php
 msgid "Contact's Profile"
@@ -8505,7 +8508,7 @@ msgstr ""
 
 #: CRM/Project/DAO/Project.php
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
 #: CRM/Project/DAO/Project.php
 msgid "Project Owner ID"
@@ -8513,7 +8516,7 @@ msgstr ""
 
 #: CRM/Project/DAO/Task.php
 msgid "Task Type"
-msgstr ""
+msgstr "Tip sarcină"
 
 #: CRM/Project/DAO/Task.php
 msgid "Task Owner ID"
@@ -8525,7 +8528,7 @@ msgstr ""
 
 #: CRM/Project/DAO/Task.php
 msgid "Task Parent"
-msgstr ""
+msgstr "Sarcină părinte"
 
 #: CRM/Project/DAO/Task.php
 msgid "Due Date"
@@ -8533,7 +8536,7 @@ msgstr ""
 
 #: CRM/Project/DAO/Task.php
 msgid "Priority"
-msgstr ""
+msgstr "Prioritate"
 
 #: CRM/Project/DAO/Task.php
 msgid "Task Class"
@@ -8549,19 +8552,19 @@ msgstr ""
 
 #: CRM/Project/DAO/TaskStatus.php
 msgid "Target"
-msgstr ""
+msgstr "Ţintă"
 
 #: CRM/Project/DAO/TaskStatus.php
 msgid "Status Details"
-msgstr ""
+msgstr "Detalii stare"
 
 #: CRM/Project/DAO/TaskStatus.php
 msgid "Created"
-msgstr ""
+msgstr "Creat"
 
 #: CRM/Project/DAO/TaskStatus.php
 msgid "Last Modified"
-msgstr ""
+msgstr "Modificat la"
 
 #: CRM/Quest/BAO/CEEB.php
 msgid "Could not find details for school %1"
@@ -8609,7 +8612,7 @@ msgstr ""
 
 #: CRM/Quest/BAO/Query.php
 msgid "Income Total"
-msgstr ""
+msgstr "Total venituri"
 
 #: CRM/Quest/BAO/Query.php
 msgid "Financial Need Index"
@@ -9764,7 +9767,7 @@ msgstr ""
 
 #: CRM/UF/Form/Group.php
 msgid "Profile Name"
-msgstr ""
+msgstr "Nume profil"
 
 #: CRM/UF/Form/Group.php
 msgid "Is this CiviCRM Profile active?"
@@ -16922,11 +16925,11 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Active volunteers."
-msgstr ""
+msgstr "Voluntari activi."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Donation"
-msgstr ""
+msgstr "Donaţie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Member Dues"
@@ -16934,7 +16937,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Campaign Contribution"
-msgstr ""
+msgstr "Contribuţie Campanie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
@@ -16942,11 +16945,11 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"
-msgstr ""
+msgstr "Destinatarul e în vacanţă"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to resolve recipient domain"
-msgstr ""
+msgstr "Nu poate fi rezolvat domeniul destinatarului"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to destintation mail server"
