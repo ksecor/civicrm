@@ -187,7 +187,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/profile',
                             'title'   => ts( 'Contact Information' ),
-                            'access'  => CRM_Core_Permission::check( 'profile listings and forms'),
+                            'access'  => 1,
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0, 

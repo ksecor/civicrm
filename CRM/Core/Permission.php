@@ -139,6 +139,27 @@ class CRM_Core_Permission {
         }
     }
 
+    public static function ufGroup( $type = CRM_Core_Permission::VIEW ) {
+        $ufGroups = array_keys( CRM_Core_PseudoConstant::ufGroup( ) );
+
+        // check if user has all powerful permission
+        if ( self::check( 'profile listings and forms' ) ) {
+            return $ufGroups;
+        }
+
+        require_once 'CRM/ACL/API.php';
+        return CRM_ACL_API::group( $type, null, 'civicrm_uf_group', $ufGroups );
+    }
+
+    static function ufGroupClause( $type = CRM_Core_Permission::VIEW, $prefix = null ) {
+        $groups = self::ufGroup( $type );
+        if ( empty( $groups ) ) {
+            return ' ( 0 ) ';
+        } else {
+            return "{$prefix}id IN ( " . implode( ',', $groups ) . ' ) ';
+        }
+    }
+
     static function access( $module, $checkPermission = true ) {
         $config =& CRM_Core_Config::singleton( );
 

@@ -397,7 +397,6 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
             }
         }
 
-        CRM_Core_Error::debug( 'q', $query );
         $rule->query($query);
         
         while ($rule->fetch()) {
