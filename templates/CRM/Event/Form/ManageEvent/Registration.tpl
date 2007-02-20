@@ -4,7 +4,8 @@
  <dl>
     	<dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
         <div id="registrationLink">
- 	  <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
+     	  <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
+          <dt>&nbsp;</dt><dd class="description">{ts}Link text for link from Event Information to Event Registration pages (e.g. "Register Now!").{/ts}</dd>
         </div>
  </dl>
 <div id="registration">
@@ -18,9 +19,12 @@
     <fieldset><legend><a href="#" onclick= "hide('registration'); show('registration_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Registration Screen:{/ts}</legend>
     <dl>
     	<dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Introductory message / instructions for online event registration page.{/ts}</dd>
 	    <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
     	<dt>{$form.custom_pre_id.label}</dt><dd>{$form.custom_pre_id.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Select a CiviCRM Profile to be included at the top of the page (immediately after the introductory message).{/ts}</dd>
 	    <dt>{$form.custom_post_id.label}</dt><dd>{$form.custom_post_id.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Select a CiviCRM Profile to be included at the bottom of the page.{/ts}</dd>
     </dl>
     </fieldset>
 	</div>

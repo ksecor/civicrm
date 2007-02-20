@@ -12,17 +12,17 @@
 <p></p>
     <div class="form-item" id=event_status_id>
         {strip}
-        <a href="{$newEventURL}" id="newManageEvent">&raquo; {ts}New Event Wizard{/ts}</a><br />
+        <a href="{$newEventURL}" id="newManageEvent">&raquo; {ts}New Event{/ts}</a><br />
         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
         <thead>
          <tr class="columnheader">
             <th field="Event" dataType="String">{ts}Event{/ts}</th>
             <th field="City" dataType="String">{ts}City{/ts}</th>
-            <th field="State" dataType="String">{ts}State{/ts}</th>
+            <th field="State" dataType="String">{ts}State/Province{/ts}</th>
             <th field="Public?" dataType="String">{ts}Public?{/ts}</th>
-            <th field="Start Date" dataType="String">{ts}Start Date{/ts}</th>
-	        <th field="End Date" dataType="String">{ts}End Date{/ts}</th>
-	        <th field="Enabled"  dataType="String" >{ts}Enabled?{/ts}</th>
+            <th field="Start Date" dataType="String">{ts}Starts{/ts}</th>
+	        <th field="End Date" dataType="String">{ts}Ends{/ts}</th>
+	        <th field="Enabled"  dataType="String" >{ts}Active?{/ts}</th>
 	        <th datatype="html"></th>
          </tr>
         </thead>

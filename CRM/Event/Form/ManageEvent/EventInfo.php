@@ -126,14 +126,14 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         $this->addElement('checkbox', 'is_public', ts('Public Event?') );
         $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
-        $this->add('date', 'start_date', ts('Start Date and Time'), CRM_Core_SelectValues::date('datetime'),true);
-        $this->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-        $this->add('date', 'end_date', ts('End Date and Time'), CRM_Core_SelectValues::date('datetime'));
-        $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
+        $this->add('date', 'start_date', ts('Start Date /Time'), CRM_Core_SelectValues::date('datetime'),true);
+        $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
+        $this->add('date', 'end_date', ts('End Date / Time'), CRM_Core_SelectValues::date('datetime'));
+        $this->addRule('end_date', ts('Please select a end valid date.'), 'qfDate');
         
         $this->add('text','max_participants', ts('Max Number of Participants'));
         $this->addRule('max_participants', ts(' is a numeric field') , 'numeric');
-        $this->add('text','event_full_text', ts('Event full text'));
+        $this->add('text','event_full_text', ts('Message if Event is Full'));
         
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
         
