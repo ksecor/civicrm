@@ -460,8 +460,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         
         $params['payment_action'] = 'Sale'; 
-        
-        if ( $params['amount'] == 'amount_other_radio' || isset( $params['amount_other'] ) ) {
+        if ( $params['amount'] == 'amount_other_radio' || ! empty( $params['amount_other'] ) ) {
             $params['amount'] = $params['amount_other'];
         } else {
             if ( !empty($this->_values['value']) ) {
@@ -482,7 +481,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( ! isset( $params['amount_other'] ) ) {
             $this->set( 'amount_level', $params['amount_level'] ); 
         }
-        
+
         $this->set( 'amount', $params['amount'] ); 
         
         // generate and set an invoiceID for this transaction
