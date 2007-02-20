@@ -34,10 +34,10 @@
  *
  */
 
-require_once 'CRM/Core/Page/Basic.php';
+require_once 'CRM/Core/Page.php';
 
 /**
- * Page for displaying list of event types
+ * Page for displaying list of events
  */
 class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 {
@@ -70,13 +70,13 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::PREVIEW => array(
                                                                           'name'  => ts('Test-drive'),
-                                                                          'url'   => 'civicrm/event/register',
+                                                                          'url'   => 'civicrm/event/info',
                                                                           'qs'    => 'reset=1&action=preview&id=%%id%%',
                                                                           'title' => ts('Preview') 
                                                                           ),
                                         CRM_Core_Action::FOLLOWUP    => array(
                                                                           'name'  => ts('Live Page'),
-                                                                          'url'   => 'civicrm/event/register',
+                                                                          'url'   => 'civicrm/event/info',
                                                                           'qs'    => 'reset=1&id=%%id%%',
                                                                           'title' => ts('FollowUp'),
                                                                           ),
@@ -252,11 +252,10 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
      */
     function copy( )
     {
-        $eid = CRM_Utils_Request::retrieve('id', 'Positive',
-                                           $this, true, 0, 'GET');
+        $id = CRM_Utils_Request::retrieve('id', 'Positive', $this, true, 0, 'GET');
         
         require_once 'CRM/Event/BAO/Event.php';
-        CRM_Event_BAO_Event::copy( $eid );
+        CRM_Event_BAO_Event::copy( $id );
     }
 }
 ?>

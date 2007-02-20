@@ -40,7 +40,8 @@ require_once 'CRM/Core/StateMachine.php';
  * State machine for managing different states of the EventWizard process.
  *
  */
-class CRM_Event_StateMachine_Registration extends CRM_Core_StateMachine {
+class CRM_Event_StateMachine_Registration extends CRM_Core_StateMachine 
+{
 
     /**
      * class constructor
@@ -50,14 +51,14 @@ class CRM_Event_StateMachine_Registration extends CRM_Core_StateMachine {
      *
      * @return object CRM_Event_StateMachine
      */
-    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
+    function __construct( $controller, $action = CRM_Core_Action::NONE ) 
+    {
         parent::__construct( $controller, $action );
         
         $this->_pages = array(
-                              'CRM_Event_Form_Registration_EventInfo'      => null,
-                              'CRM_Event_Form_Registration_Register'       => null,
-                              'CRM_Event_Form_Registration_Confirm'        => null,
-                              'CRM_Event_Form_Registration_ThankYou'     => null,
+                              'CRM_Event_Form_Registration_Register'  => null,
+                              'CRM_Event_Form_Registration_Confirm'   => null,
+                              'CRM_Event_Form_Registration_ThankYou'  => null
                               );
         
         $this->addSequentialPages( $this->_pages, $action );

@@ -76,6 +76,10 @@ class CRM_Event_Invoke
         if ( $args[1] !== 'event' ) {  
             return;  
         }
+
+        if ( ! CRM_Core_Permission::check('access CiviEvent') ) {
+            CRM_Core_Error::fatal( 'You do not have access to this page' );
+        }
         
         $session =& CRM_Core_Session::singleton( );
         $config  =& CRM_Core_Config::singleton ( );
@@ -100,13 +104,11 @@ class CRM_Event_Invoke
             require_once 'CRM/Event/Controller/Registration.php';
             $controller =& new CRM_Event_Controller_Registration(ts('Online Registration'));
             return $controller->run();
-        } 
-
-        if ( ! CRM_Core_Permission::check('access CiviEvent') ) {
-            CRM_Core_Error::fatal( 'You do not have access to this page' );
-        }
-
-        if ($secondArg == 'search') {
+        } else if ($secondArg == 'info') {
+            require_once 'CRM/Event/Page/EventInfo.php';
+            $page =& new CRM_Event_Page_EventInfo( );
+            return $page->run( );
+        } else if ($secondArg == 'search') {
             require_once 'CRM/Event/Controller/Search.php';
             $controller =& new CRM_Event_Controller_Search($title, $mode); 
             $url = 'civicrm/event/search';

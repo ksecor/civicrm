@@ -96,7 +96,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return void 
      * @access public 
      */ 
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
         
@@ -168,13 +169,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return void 
      * @access public 
      */ 
-    function setCreditCardFields( ) {
+    function setCreditCardFields( ) 
+    {
         
         $this->_fields['first_name']  = array( 'htmlType'   => 'text', 
-                                              'name'       => 'first_name', 
-                                              'title'      => ts('First Name'), 
-                                              'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                              'is_required'=> true );
+                                               'name'       => 'first_name', 
+                                               'title'      => ts('First Name'), 
+                                               'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                               'is_required'=> true );
         
         $this->_fields['middle_name'] = array( 'htmlType'   => 'text', 
                                                'name'       => 'middle_name', 
@@ -253,7 +255,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return void 
      * @access public 
      */ 
-    function assignToTemplate( ) {
+    function assignToTemplate( ) 
+    {
         $name = $this->_params['first_name'];
         if ( CRM_Utils_Array::value( 'middle_name', $this->_params ) ) {
             $name .= " {$this->_params['middle_name']}";
@@ -300,7 +303,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function buildCustom( $id, $name ) {
+    function buildCustom( $id, $name ) 
+    {
         if ( $id ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             require_once 'CRM/Profile/Form.php';

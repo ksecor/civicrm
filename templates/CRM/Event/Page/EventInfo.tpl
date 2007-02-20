@@ -32,7 +32,9 @@
 
    </table>
    </div>	
-    <div id="crm-submit-buttons" class="underline-effect">
-        {$form.buttons.html|crmReplace:class:"submit-link"}
-    </div>
+   {if $is_online_registration }
+   <div>
+       <a href="{$registerURL}" title="{ts}{$registerText}{/ts}">{ts}{$registerText}{/ts}</a>
+   </div>
+   {/if}
 </div>
