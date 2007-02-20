@@ -84,8 +84,13 @@ class CRM_Event_Invoke
         $session =& CRM_Core_Session::singleton( );
         $config  =& CRM_Core_Config::singleton ( );
 
-        $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
-        if ( $secondArg == 'register' ) { 
+        $secondArg = CRM_Utils_Array::value( 2, $args, '' );
+
+        if ( $secondArg == 'ical' ) {
+            require_once 'CRM/Event/Page/ICalendar.php'; 
+            $view =& new CRM_Event_Page_ICalendar( );
+            return $view->run();
+        } else if ( $secondArg == 'register' ) { 
             if ( $config->enableSSL     &&
                  CRM_Core_Invoke::onlySSL( $args ) ) {
                 if ( !isset($_SERVER['HTTPS'] ) ) {
@@ -95,12 +100,12 @@ class CRM_Event_Invoke
                 }
             }
             $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
-
+            
             // set breadcrumb to append to 2nd layer pages
             $breadCrumbPath = CRM_Utils_System::url( 'civicrm/event', 'reset=1' );
             $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('CiviEvent') . '</a>';
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-
+            
             require_once 'CRM/Event/Controller/Registration.php';
             $controller =& new CRM_Event_Controller_Registration(ts('Online Registration'));
             return $controller->run();

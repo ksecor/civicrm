@@ -372,6 +372,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         return $eventSummary;
     }
+   
     /**
      * function to get the information to map a event
      *
@@ -437,6 +438,88 @@ WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
         }
         return $locations;
     }
+
+    /**
+     * function to get the complete information of an event
+     *
+     * @param  date    $start    the start date for the event
+     * @param  integer $type     the type id for the event 
+     *
+     * @return  array  $all      array of all the events that are searched
+     * @static
+     * @access public
+     */      
+    static function &getCompleteInfo( $start = null, $type = null ) 
+    {
+        
+        if( $start && $type) { 
+            $condition =  CRM_Utils_Type::escape( $start, 'Date' ).
+                   " AND civicrm_event.event_type_id = " .CRM_Utils_Type::escape( $type, 'Integer' );
+        } else {
+            // the default case
+            $condition =  date("Ymd");
+        }
+
+        $sql = "
+SELECT
+  civicrm_event.id as event_id,
+  civicrm_email.email as email,
+  civicrm_event.title as summary,
+  civicrm_event.start_date as start,
+  civicrm_event.end_date as end,
+  civicrm_event.description as description,
+  civicrm_address.street_address as street_address,
+  civicrm_address.city as city,
+  civicrm_address.postal_code as postal_code,
+  civicrm_state_province.abbreviation as state,
+  civicrm_country.name as country,
+  civicrm_location_type.name as location_type
+FROM civicrm_event
+LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_event' AND
+                               civicrm_event.id = civicrm_location.entity_id )
+LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
+LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
+LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
+LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
+LEFT JOIN civicrm_email ON civicrm_location.id = civicrm_email.location_id
+LEFT JOIN civicrm_domain ON civicrm_event.domain_id = civicrm_domain.id
+WHERE civicrm_event.is_active = 1 
+      AND civicrm_event.is_public = 1 
+      AND civicrm_event.start_date >= ".$condition;
+
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $sql );
+
+        $all = array( );
+
+        $config =& CRM_Core_Config::singleton( );
+
+        while ( $dao->fetch( ) ) {
+        
+            $info                  = array( );
+            $info['summary'      ] = $dao->summary;
+            $info['description'  ] = $dao->description;
+            $info['start_date'   ] = $dao->start;
+            $info['end_date'     ] = $dao->end;
+            $info['contact_email'] = $dao->email;
+  
+            $address = '';
+
+            CRM_Utils_String::append( $address, ';',
+                                      array( $dao->street_address, $dao->city) );
+            CRM_Utils_String::append( $address, ', ',
+                                      array(   $dao->state, $dao->postal_code ) );
+            CRM_Utils_String::append( $address, '\n',
+                                      array( $dao->country ) );
+            $info['location'     ] = $address;
+            $info['url'          ] = CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $dao->event_id, true, null, false );
+           
+            $all[] = $info;
+        }
+        
+        return $all;
+    }
+
     /**
      * This function is to make a copy of a Event, including
      * all the fields in the event Wizard
