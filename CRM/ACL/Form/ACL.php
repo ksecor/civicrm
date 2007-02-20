@@ -79,6 +79,34 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         $this->addFormRule( array( 'CRM_ACL_Form_ACL', 'formRule' ) );
     }
 
+    /**
+     * This function sets the default values for the form. MobileProvider that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $defaults = parent::setDefaultValues( );
+
+        if ( isset( $defaults['object_table'] ) ) {
+            switch ( $defaults['object_table'] ) {
+            case 'civicrm_saved_search':
+                $defaults['group_id'] = $defaults['object_id'];
+                break;
+
+            case 'civicrm_custom_group':
+                $defaults['custom_group_id'] = $defaults['object_id'];
+                break;
+
+            case 'civicrm_uf_group':
+                $defaults['uf_group_id'] = $defaults['object_id'];
+                break;
+            }
+        }
+        return $defaults;
+    }
+
     static function formRule( &$params ) {
         // make sure that at only one of group_id, custom_group_id and uf_group_id is selected
         $count = 0;

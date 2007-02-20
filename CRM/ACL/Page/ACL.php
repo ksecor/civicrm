@@ -69,26 +69,26 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
                                     CRM_Core_Action::UPDATE  => array(
                                                                       'name'  => ts('Edit'),
                                                                       'url'   => 'civicrm/acl',
-                                                                      'qs'    => 'action=update&id=%%id%%',
+                                                                      'qs'    => 'reset=1&action=update&id=%%id%%',
                                                                       'title' => ts('Edit ACL') 
                                                                       ),
                                     CRM_Core_Action::DISABLE => array(
                                                                       'name'  => ts('Disable'),
                                                                       'url'   => 'civicrm/acl',
-                                                                      'qs'    => 'action=disable&id=%%id%%',
+                                                                      'qs'    => 'reset=1&action=disable&id=%%id%%',
                                                                       'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                       'title' => ts('Disable ACL') 
                                                                       ),
                                     CRM_Core_Action::ENABLE  => array(
                                                                       'name'  => ts('Enable'),
                                                                       'url'   => 'civicrm/acl',
-                                                                      'qs'    => 'action=enable&id=%%id%%',
+                                                                      'qs'    => 'reset=1&action=enable&id=%%id%%',
                                                                       'title' => ts('Enable ACL') 
                                                                       ),
                                     CRM_Core_Action::DELETE  => array(
                                                                       'name'  => ts('Delete'),
                                                                       'url'   => 'civicrm/acl',
-                                                                      'qs'    => 'action=delete&id=%%id%%',
+                                                                      'qs'    => 'reset=1&action=delete&id=%%id%%',
                                                                       'title' => ts('Delete ACL') 
                                                                       ),
 
