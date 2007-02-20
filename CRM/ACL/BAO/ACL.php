@@ -353,6 +353,12 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
      * @static
      */
     public static function &getACLs($contact_id = null, $group_id = null, $aclRoles = false) {
+        $results = array();
+
+        if ( empty( $contact_id ) ) {
+            return $results;
+        }
+
         $contact_id = CRM_Utils_Type::escape($contact_id, 'Integer');
         if ( $group_id ) {
             $group_id   = CRM_Utils_Type::escape($group_id, 'Integer');
@@ -383,7 +389,6 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                 $query .= " AND     $c2g.contact_id     = $contact_id
                             AND     $c2g.status         = 'Added'";
             }
-            
         } else {
             if (!empty($contact_id)) {
                 $query .= " WHERE   $acl.entity_table   = '$contact'
@@ -392,9 +397,9 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
             }
         }
 
+        CRM_Core_Error::debug( 'q', $query );
         $rule->query($query);
         
-        $results = array();
         while ($rule->fetch()) {
             $results[$rule->id] = $rule->toArray( );
         }
@@ -486,24 +491,30 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         $contact_id = CRM_Utils_Type::escape($contact_id, 'Integer');
 
         $rule       =& new CRM_ACL_BAO_ACL();
-        
+
+        require_once 'CRM/Contact/BAO/GroupContact.php';
+        require_once 'CRM/Contact/BAO/Group.php';
+
         $acl        = self::getTableName();
         $c2g        = CRM_Contact_BAO_GroupContact::getTableName();
         $group      = CRM_Contact_BAO_Group::getTableName();
-        
-        $query      = " SELECT      $acl.*
-                        FROM        $acl 
-                        INNER JOIN  $c2g
-                            ON      $acl.entity_id      = $c2g.group_id
-                        WHERE       $acl.entity_table   = '$group'
-                            AND     $c2g.contact_id     = $contact_id
-                            AND     $c2g.status         = 'Added'";
+        $results    = array();
 
-        $rule->query($query);
-        
-        $results = array();
-        while ($rule->fetch()) {
-            $results[$rule->id] =& $rule->toArray();
+        if ( $contact_id ) {
+            $query      = "
+SELECT      $acl.*
+  FROM      $acl 
+INNER JOIN  $c2g
+        ON  $acl.entity_id      = $c2g.group_id
+     WHERE  $acl.entity_table   = '$group'
+       AND  $c2g.contact_id     = $contact_id
+       AND  $c2g.status         = 'Added'";
+
+            $rule->query($query);
+            
+            while ($rule->fetch()) {
+                $results[$rule->id] =& $rule->toArray();
+            }
         }
 
         if ($aclRoles) {
@@ -529,6 +540,9 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                                                                                 
         $acl        = self::getTableName();
         $aclRole   = 'civicrm_acl_role';
+        
+        require_once 'CRM/ACL/DAO/EntityRole.php';
+
         $aclER      = CRM_ACL_DAO_EntityRole::getTableName( );
         $c2g        = CRM_Contact_BAO_GroupContact::getTableName();
         $group      = CRM_Contact_BAO_Group::getTableName();
@@ -555,13 +569,25 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
             
         $results = array();
 
-        //CRM_Core_Error::debug( 'q', $query );
         $rule->query($query);
         
         while ($rule->fetch()) {
             $results[$rule->id] =& $rule->toArray();
         }
         
+        // also get all acls for "Any Role" case
+        $query      = "
+SELECT $acl.*
+  FROM $acl 
+ WHERE $acl.entity_id      = 0
+   AND $acl.entity_table   = 'civicrm_acl_role'
+";
+
+        $rule->query($query);
+        while ($rule->fetch()) {
+            $results[$rule->id] =& $rule->toArray();
+        }
+
         return $results;
     }
 
@@ -738,6 +764,8 @@ SELECT   a.operation, a.object_id
 ORDER BY a.object_id
 ";
         $params = array( 1 => array( $tableName, 'String' ) );
+
+        // CRM_Core_Error::debug( $query, $params );
 
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 

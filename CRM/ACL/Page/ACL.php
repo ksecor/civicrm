@@ -170,7 +170,7 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
             if ( $acl[$dao->id]['entity_id'] ) {
                 $acl[$dao->id]['entity'] = $roles [$acl[$dao->id]['entity_id']];
             } else {
-                $acl[$dao->id]['entity'] = ts( 'All Roles' );
+                $acl[$dao->id]['entity'] = ts( 'Any Role' );
             }
 
             switch ( $acl[$dao->id]['object_table'] ) {

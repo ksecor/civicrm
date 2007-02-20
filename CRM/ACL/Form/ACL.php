@@ -63,12 +63,20 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         require_once 'CRM/Core/OptionGroup.php';
 
         $label = ts( 'Role' );
-        $role = array( '' => ts(' -select role- ')) + CRM_Core_OptionGroup::values( 'acl_role' );
+        $role = array( '-1' => ts(' -select role- '),
+                       '0'  => ts( 'Any Role' ) ) +
+            CRM_Core_OptionGroup::values( 'acl_role' );
         $this->add( 'select', 'entity_id', $label, $role, true );
 
-        $group       = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Groups' ) )        + CRM_Core_PseudoConstant::group( )      ;
-        $customGroup = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Custom Groups' ) ) + CRM_Core_PseudoConstant::customGroup( );
-        $ufGroup     = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Profiles' ) )      + CRM_Core_PseudoConstant::ufGroup( )    ;
+        $group       = array( '-1' => ts( '-select-' ),
+                              '0'  => ts( 'All Groups' ) )        +
+            CRM_Core_PseudoConstant::group( )      ;
+        $customGroup = array( '-1' => ts( '-select-' ),
+                              '0'  => ts( 'All Custom Groups' ) ) +
+            CRM_Core_PseudoConstant::customGroup( );
+        $ufGroup     = array( '-1' => ts( '-select-' ),
+                              '0'  => ts( 'All Profiles' ) )      +
+            CRM_Core_PseudoConstant::ufGroup( )    ;
 
         $this->add( 'select', 'group_id'       , ts( 'Group'        ), $group       );
         $this->add( 'select', 'custom_group_id', ts( 'Custom Group' ), $customGroup );
@@ -124,6 +132,10 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
             $errors['_qf_default'] = ts( 'Please select one of Group, Custom Group and Profile' );
         }
         
+        // also make sure role is not -1
+        if ( $params['entity_id'] == -1 ) {
+            $errors['entity_id'] = ts( 'Please select a Role' );
+        }
         return empty($errors) ? true : $errors;
     }
 

@@ -85,10 +85,6 @@ SELECT acl_id
     }
 
     static function store( $id, &$cache ) {
-        if ( ! $id ) {
-            return;
-        }
-
         foreach ( $cache as $aclID => $data ) {
             $dao =& new CRM_ACL_DAO_Cache( );
             $dao->contact_id = $id;
