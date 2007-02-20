@@ -106,7 +106,7 @@ foreach ($tables as $k => $v) {
         }
     }
 }
-//create a foregin key link table
+//create a foreign key link table
 $frTable = array();
 
 foreach ($tables as $key => $value) {
@@ -265,6 +265,7 @@ $fd = fopen( $sqlCodePath . "civicrm_41.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
+/***
 // now generate the mysql4.0 version
 $smarty->assign( 'mysql', 'simple' );
 echo "Generating mysql 4.0 file\n";
@@ -274,6 +275,7 @@ createDir( $sqlCodePath );
 $fd = fopen( $sqlCodePath . "civicrm_40.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
+***/
 
 // write the civicrm data file fixing the domain
 // id variable and translate the {ts}-tagged strings
@@ -558,7 +560,7 @@ function getTable( $tableXML, &$database, &$tables ) {
                 continue;
             }
             if ( value( 'add', $foreignXML, 0 ) <= $build_version) {
-                getForeignKey( $foreignXML, $fields, $foreign );
+                getForeignKey( $foreignXML, $fields, $foreign, $name );
             }
             
         }
@@ -759,7 +761,7 @@ function getIndex(&$indexXML, &$fields, &$indices)
 }
 
 
-function getForeignKey( &$foreignXML, &$fields, &$foreignKeys ) {
+function getForeignKey( &$foreignXML, &$fields, &$foreignKeys, &$currentTableName ) {
     $name = trim( (string ) $foreignXML->name );
     
     /** need to make sure there is a field of type name */
@@ -773,6 +775,7 @@ function getForeignKey( &$foreignXML, &$fields, &$foreignKeys ) {
     $table = trim( value( 'table' , $foreignXML ) );
     $foreignKey = array( 'name'       => $name,
                          'table'      => $table,
+                         'uniqName'   => "{$currentTableName}_{$name}",
                          'key'        => trim( value( 'key'   , $foreignXML ) ),
                          'import'     => value( 'import', $foreignXML, false ),
                          'export'     => value( 'import', $foreignXML, false ),
