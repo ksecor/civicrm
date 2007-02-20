@@ -20,6 +20,8 @@
  <tr>
     <td class="label">{ts}Status{/ts}</td> 
     <td>{$form.event_participant_status.html}</td>
+    <td class="label">{$form.event_participant_test.html}</td>
+    <td>{$form.event_participant_test.label}</td>
  </tr> 
  <tr>
     <td colspan="4">

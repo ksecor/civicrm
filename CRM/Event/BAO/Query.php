@@ -148,6 +148,15 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
             return;
 
+        case 'event_participant_test':
+            $query->_where[$grouping][] = " civicrm_participant.is_test $op '$value'";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Test Participants Only";
+            }
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+            
+            return;
+
         case 'event_participant_status':
 
             foreach ($value as $k => $v) {
@@ -263,6 +272,8 @@ class CRM_Event_BAO_Query
             $status[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
         }
         $form->addGroup($status, 'event_participant_status', ts('Participant status'));
+
+        $form->addElement( 'checkbox', 'event_participant_test' , ts( 'Find Test Participants ?' ) );
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
