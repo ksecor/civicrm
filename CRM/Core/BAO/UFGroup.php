@@ -233,6 +233,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $query  = "SELECT g.* from civicrm_uf_group g WHERE g.is_active = 1 AND g.id = %1 ";
             $params = array( 1 => array( $id, 'Integer' ) );
         }
+
         
         $group =& CRM_Core_DAO::executeQuery( $query, $params );
         
@@ -279,7 +280,20 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $importableFields['tag'  ]['title'] = ts('Tag(s)');
             $importableFields['tag'  ]['where'] = null;
 
-            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im', 'location_name' );
+            $specialFields = array ( 'street_address',
+                                     'supplemental_address_1',
+                                     'supplemental_address_2',
+                                     'city',
+                                     'postal_code',
+                                     'postal_code_suffix',
+                                     'geo_code_1',
+                                     'geo_code_2',
+                                     'state_province',
+                                     'country',
+                                     'phone',
+                                     'email',
+                                     'im',
+                                     'location_name' );
             
             //get location type
             $locationType = array( );
@@ -287,7 +301,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             
             require_once 'CRM/Core/BAO/CustomField.php';
             $customFields = CRM_Core_BAO_CustomField::getFieldsForImport();
-            
+
             while ( $field->fetch( ) ) {
                 $name  = $title = $locType = $phoneType = '';
                 $name  = $field->field_name;
@@ -334,9 +348,16 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                           'collapse_display' => $group->collapse_display,
                           'add_captcha'      => $group->add_captcha
                           );
+
                 //adding custom field property 
                 if ( substr($name, 0, 6) == 'custom' ) {
-                    $fields[$name]['is_search_range'] = $customFields[$name]['is_search_range'];
+                    // if field is not present in customFields, that means the user
+                    // DOES NOT HAVE permission to access that field
+                    if ( array_key_exists( $name, $customFields ) ) {
+                        $fields[$name]['is_search_range'] = $customFields[$name]['is_search_range'];
+                    } else {
+                        unset( $fields[$name] );
+                    }
                 }
             }
         } else {

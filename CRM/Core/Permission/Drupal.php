@@ -231,22 +231,6 @@ class CRM_Core_Permission_Drupal {
         return true;
     }
 
-    /**
-     * Get all custom groups from the database
-     * filtered by permission type for this user
-     *
-     * @access public
-     * @static
-     *
-     * @return array - array reference of all groups.
-     *
-     */
-    public static function &customGroup( $type = CRM_Core_Permission::VIEW ) {
-        $customGroups = array_keys( CRM_Core_PseudoConstant::customGroup( ) );
-        
-        require_once 'CRM/ACL/API.php';
-        return CRM_ACL_API::group( $type, null, 'civicrm_custom_group', $customGroups );
-    }
 }
 
 ?>

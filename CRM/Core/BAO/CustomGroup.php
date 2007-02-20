@@ -238,15 +238,16 @@ WHERE civicrm_custom_group.domain_id = $domainID
             $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
         }
 
-        /***
         // ensure that the user has access to these custom groups
         $permissionedCustomGroups = CRM_Core_Permission::customGroup( );
         if ( empty( $permissionedCustomGroups ) ) {
             return $groupTree;
         }
 
-        $strWhere .= " AND civicrm_custom_group.id IN ( " . implode( ',', $permissionedCustomGroups ) . ' ) ';
-        ***/
+        $strWhere .= 
+            " AND " .
+            CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
+                                                    'civicrm_custom_group.' );
 
         $orderBy = "
 ORDER BY civicrm_custom_group.weight,
@@ -747,11 +748,15 @@ ORDER BY civicrm_custom_group.weight,
         // add whereAdd for entity type
         self::_addWhereAdd($customGroupDAO, $entityType);
 
+        $groups = array( );
+
+        $permissionClause = CRM_Core_Permission::customGroupClause( );
+        $customGroupDAO->whereAdd( $permissionClause );
+        
         // order by weight
         $customGroupDAO->orderBy('weight');
         $customGroupDAO->find();
 
-        $groups = array( );
         // process each group with menu tab
         while ($customGroupDAO->fetch( ) ) {
             $group = array();

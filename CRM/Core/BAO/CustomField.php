@@ -226,8 +226,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             if (! $showAll) {
                 $query .= " AND $cfTable.is_active = 1 AND $cgTable.is_active = 1 ";
             }
-            
-            $query .= " $extends
+
+            // also get the permission stuff here
+            $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
+                                                                        "{$cgTable}." );
+
+            $query .= " $extends AND $permissionClause
                         ORDER BY $cgTable.weight, $cgTable.title,
                                  $cfTable.weight, $cfTable.label";
          

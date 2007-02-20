@@ -119,8 +119,24 @@ class CRM_Core_Permission {
     }
 
     public static function customGroup( $type = CRM_Core_Permission::VIEW ) {
-        $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userPermissionClass . '::customGroup( $type );' );
+        $customGroups = array_keys( CRM_Core_PseudoConstant::customGroup( ) );
+
+        // check if user has all powerful permission
+        if ( self::check( 'access all custom groups' ) ) {
+            return $customGroups;
+        }
+
+        require_once 'CRM/ACL/API.php';
+        return CRM_ACL_API::group( $type, null, 'civicrm_custom_group', $customGroups );
+    }
+
+    static function customGroupClause( $type = CRM_Core_Permission::VIEW, $prefix = null ) {
+        $groups = self::customGroup( $type );
+        if ( empty( $groups ) ) {
+            return ' ( 0 ) ';
+        } else {
+            return "{$prefix}id IN ( " . implode( ',', $groups ) . ' ) ';
+        }
     }
 
     static function access( $module, $checkPermission = true ) {
