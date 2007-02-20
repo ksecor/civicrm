@@ -248,3 +248,18 @@ CREATE TABLE civicrm_currency (
 
   UPDATE civicrm_activity_history SET callback = 'CRM_Activity_BAO_Activity::showActivityDetails' WHERE callback IN ('CRM_Activity_Form_Meeting::showMeetingDetails', 'CRM_Activity_Form_OtherActivity::showOtherActivityDetails', 'CRM_Activity_Form_Phonecall::showCallDetails');
 
+-- /*******************************************************
+-- *
+-- * civicrm_option_group
+-- *
+-- *******************************************************/
+
+	INSERT INTO `civicrm_option_group` VALUES (12,1,'participant_status','Participant Status',0,1),(13,1,'participant_role','Participant Role',0,1),(14,1,'event_type','Event Type',0,1);
+
+-- /*******************************************************
+-- *
+-- * civicrm_option_value
+-- *
+-- *******************************************************/
+
+	INSERT INTO `civicrm_option_value` VALUES (51,12,'Registered',1,'Registered',NULL,0,NULL,1,NULL,0,1,1),(52,12,'Attended',2,'Attended',NULL,0,NULL,2,NULL,0,0,1),(53,12,'No-show',3,'No-show',NULL,0,NULL,3,NULL,0,0,1),(54,12,'Cancelled',4,'Cancelled',NULL,0,NULL,4,NULL,0,1,1),(55,13,'Attendee',1,'Attendee',NULL,0,NULL,1,NULL,0,0,1),(56,13,'Volunteer',2,'Volunteer',NULL,0,NULL,2,NULL,0,0,1),(57,13,'Host',3,'Host',NULL,0,NULL,3,NULL,0,0,1),(58,13,'Speaker',4,'Speaker',NULL,0,NULL,4,NULL,0,0,1),(59,14,'Conference',1,'Conference',NULL,0,NULL,1,NULL,0,0,1),(60,14,'Dinner',2,'Dinner',NULL,0,NULL,2,NULL,0,0,1),(61,14,'Concert',3,'Concert',NULL,0,NULL,3,NULL,0,0,1),(62,14,'Tournament',4,'Tournament',NULL,0,NULL,4,NULL,0,0,1);
