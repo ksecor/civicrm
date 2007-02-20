@@ -269,8 +269,8 @@ SELECT module
 
     function getTemplateFileName() {
         if ( $this->_gid ) {
-            $templateFile = "CRM/Profile/Page/{$this->_gid}/Edit.tpl";
-            if ( CRM_Core_Page::$_template->template_exists( $templateFile ) ) {
+            $templateFile = "CRM/Profile/Form/{$this->_gid}/Edit.tpl";
+            if ( CRM_Core_Form::$_template->template_exists( $templateFile ) ) {
                 return $templateFile;
             }
         }
