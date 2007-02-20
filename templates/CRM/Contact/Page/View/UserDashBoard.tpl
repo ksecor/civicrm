@@ -13,7 +13,7 @@
         <td>
             <fieldset><legend>{$componentName}</legend>
             {if $componentName eq CiviContribute}
-                 {*include file="CRM/Contact/Page/View/UserDashBoard/Contribution.tpl"*}	    
+                 {include file="CRM/Contact/Page/View/UserDashBoard/Contribution.tpl"}	    
             {elseif $componentName eq CiviMember}
                  {include file="CRM/Contact/Page/View/UserDashBoard/Membership.tpl"}	    
             {elseif $componentName eq CiviEvent}

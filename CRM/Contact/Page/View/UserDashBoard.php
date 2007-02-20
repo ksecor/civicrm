@@ -89,6 +89,9 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         //build component selectors
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $components['CiviContribute'] = 'CiviContribute';
+            require_once "CRM/Contact/Page/View/UserDashBoard/Contribution.php";
+            $contribution = new CRM_Contact_Page_View_UserDashBoard_Contribution( );
+            $contribution->run( );
         }
         
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {

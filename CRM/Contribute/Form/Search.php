@@ -158,10 +158,14 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
          * we allow the controller to set force/reset externally, useful when we are being 
          * driven by the wizard framework 
          */ 
+        
         $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
                                                        CRM_Core_DAO::$_nullObject ); 
+        
         $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
-                                                       $this, false ); 
+                                                       $this, false );  
+   
+                
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
                                                        $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
@@ -172,11 +176,17 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
+        
         if ( ! empty( $_POST ) ) { 
-            $this->_formValues = $this->controller->exportValues( $this->_name );  
+            $this->_formValues = $this->controller->exportValues( $this->_name ); 
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
+
+        $session =& CRM_Core_Session::singleton( );
+        if ( strstr( $session->readUserContext( ) ,'user') ) {
+            $this->_force = 1;
+        }
         if ( $this->_force ) {
             $this->postProcess( );
             $this->set( 'force', 0 );
@@ -187,9 +197,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
-
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
+        
         $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,
                                                          $this->_action,
                                                          null,
@@ -197,10 +207,10 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                          $this->_limit,
                                                          $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' ) {
+        if ( $this->_context == 'basic' || $this->_context == 'user') {
             $prefix = $this->_prefix;
         }
-        
+
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
                                                         $sortID,  
@@ -208,7 +218,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                         $this, 
                                                         CRM_Core_Selector_Controller::TRANSFER,
                                                         $prefix);
-
+        
         $controller->setEmbedded( true ); 
         $controller->moveFromSessionToTemplate(); 
 
@@ -349,7 +359,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                          $this->_limit,
                                                          $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' ) {
+        if ( $this->_context == 'basic' || $this->_context == 'user' ) {
             $prefix = $this->_prefix;
         }
 
@@ -396,10 +406,15 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             CRM_Core_DAO::$_nullObject );
 
+        $session =& CRM_Core_Session::singleton( );
+        if ( strstr( $session->readUserContext( ) ,'user') ) {
+            $cid = $session->get( 'userID' ); 
+        }
+        
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {
-	      require_once 'CRM/Contact/BAO/Contact.php';
+                require_once 'CRM/Contact/BAO/Contact.php';
                 $this->_formValues['contact_id'] = $cid;
                 list( $display, $image ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $cid );
                 $this->_defaults['sort_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $cid,

@@ -99,7 +99,7 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
         $controller->set( 'cid'  , $this->_contactId );
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'context', 'contribution' ); 
-	$controller->process( );
+        $controller->process( );
         $controller->run( );
 
 	//add honor block
@@ -194,6 +194,10 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
         case 'basic':
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                           'reset=1&cid=' . $this->_contactId );
+            break;
+
+        case 'user':
+            $url = CRM_Utils_System::url( 'civicrm/user', 'reset=1' );
             break;
 
         case 'dashboard':
