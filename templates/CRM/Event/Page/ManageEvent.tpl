@@ -8,6 +8,7 @@
     <p>{ts 1=$pastEventsURL}This page lists current (in-progress) events, and upcoming events. <a href="%1">Click here</a> to browse completed (past) events.{/ts}
 </div>
 {if $rows}
+{include file="CRM/common/dojo.tpl"}
 <div id="ltype">
 <p></p>
     <div class="form-item" id=event_status_id>
@@ -21,9 +22,9 @@
             <th field="State" dataType="String">{ts}State/Province{/ts}</th>
             <th field="Public?" dataType="String">{ts}Public?{/ts}</th>
             <th field="Start Date" dataType="String">{ts}Starts{/ts}</th>
-	        <th field="End Date" dataType="String">{ts}Ends{/ts}</th>
-	        <th field="Enabled"  dataType="String" >{ts}Active?{/ts}</th>
-	        <th datatype="html"></th>
+            <th field="End Date" dataType="String">{ts}Ends{/ts}</th>
+	    <th field="Enabled"  dataType="String" >{ts}Active?{/ts}</th>
+	    <th datatype="html"></th>
          </tr>
         </thead>
         <tbody> 
@@ -38,15 +39,14 @@
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
           </tr>
-        {/foreach}
-     
-        {if $past and $action ne 1 and $action ne 2} 
-        <tr class="odd-row">
-           <td colspan=8> <a href="{$pastEventsURL}" id="pastEvents">&raquo; {ts}Show Past Events{/ts}</a></td>
-        </tr>
-        {/if}
+        {/foreach}    
         </tbody>
         </table>
+        {if $past and $action ne 1 and $action ne 2} 
+           <div class="form-item">
+             <a href="{$pastEventsURL}" id="pastEvents">&raquo; {ts}Show Past Events{/ts}</a>
+           </div>
+        {/if}
         {/strip}
       
     </div>
