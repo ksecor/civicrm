@@ -36,8 +36,8 @@
  */
 
 require_once 'CRM/Event/Form/Registration.php';
-//require_once 'CRM/Contribute/Payment.php';
 require_once 'CRM/Core/Payment.php';
+
 /**
  * This class generates form components for processing Event  
  * 
@@ -188,11 +188,29 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         }
         
-        if ( !empty($errors) ) {
-            return $errors;
+        if ( $self->_values['event']['is_monetary'] ) {
+            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event' );
+            $error   =  $payment->checkConfig( $self->_mode );
+            if ( $error ) {
+                $errors['_qf_default'] = $error;
+            }
         }
         
-        return true;
+        // make sure that credit card number and cvv are valid
+        require_once 'CRM/Utils/Rule.php';
+        if ( CRM_Utils_Array::value( 'credit_card_type', $fields ) ) {
+            if ( CRM_Utils_Array::value( 'credit_card_number', $fields ) &&
+                 ! CRM_Utils_Rule::creditCardNumber( $fields['credit_card_number'], $fields['credit_card_type'] ) ) {
+                $errors['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
+            }
+            
+            if ( CRM_Utils_Array::value( 'cvv2', $fields ) &&
+                 ! CRM_Utils_Rule::cvv( $fields['cvv2'], $fields['credit_card_type'] ) ) {
+                $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
+            }
+        }
+        
+        return empty( $errors ) ? true : $errors;
    }
     
 

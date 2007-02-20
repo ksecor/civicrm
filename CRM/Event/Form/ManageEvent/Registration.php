@@ -135,7 +135,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?'),null,array('onclick' =>"return showHideByValue('is_online_registration','','registrationLink|registration','block','radio',false);")); 
         
         $this->add('text','registration_link_text',ts('Registration Link Text'));
-       
+        
         self::buildRegistrationBlock( $this );
         self::buildConfirmationBlock( $this );
         self::buildMailBlock( $this );
@@ -151,8 +151,9 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function buildRegistrationBlock( $form ) 
     {
-        $form->add('textarea','intro_text',ts('Introductory Text'), array("rows"=>6,"cols"=>80));
-        $form->add('textarea','footer_text',ts('Footer Text'), array("rows"=>6,"cols"=>80));
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
+        $form->add('textarea','intro_text',ts('Introductory Text'), $attributes['intro_text']);
+        $form->add('textarea','footer_text',ts('Footer Text'), $attributes['footer_text']);
         $form->add('select', 'custom_pre_id', ts('Custom Fields') . '<br />' . ts('(top of page)'),array(''=>'-select-') + CRM_Core_PseudoConstant::ufGroup( ));
         $form->add('select', 'custom_post_id', ts('Custom Fields') . '<br />' . ts('(bottom of page)'),array(''=>'-select-')+ CRM_Core_PseudoConstant::ufGroup( ));
     }
@@ -165,9 +166,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function buildConfirmationBlock( $form) 
     {
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
         $form->add('text','confirm_title',ts('Title '));   
-        $form->add('textarea','confirm_text',ts('Intro Text'), array("rows"=>6,"cols"=>80));
-        $form->add('textarea','confirm_footer_text',ts('Footer Text'), array("rows"=>6,"cols"=>80));     
+        $form->add('textarea','confirm_text',ts('Intro Text'), $attributes['confirm_text']);
+        $form->add('textarea','confirm_footer_text',ts('Footer Text'), $attributes['confirm_footer_text']);     
     }
 
     /**
@@ -178,8 +180,9 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function buildMailBlock( $form ) 
     {
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
         $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, null, array('onclick' =>"return showHideByValue('is_email_confirm','','confirmEmail','block','radio',false);"));
-        $form->add('textarea','confirm_email_text',ts('Text'), array("rows"=>2,"cols"=>60));
+        $form->add('textarea','confirm_email_text',ts('Text'), $attributes['confirm_email_text']);
         $form->add('text','cc_confirm',ts('CC Confirmation To '));
         $form->addRule( "cc_confirm", ts('Email is not valid.'), 'email' );  
         $form->add('text','bcc_confirm',ts('BCC Confirmation To '));  
@@ -213,33 +216,24 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     static function formRule( &$values ) 
     {
         if ( $values['is_online_registration'] ) {
-            //intro text
             if ( !$values['intro_text'] ) {
-                $errorMsg['intro_text'] = "Please enter Introduction text.";;
+                $errorMsg['intro_text'] = "Please enter Introduction text.";
             }
 
             if ( !$values['confirm_title'] ) {
-                $errorMsg['confirm_title'] = "Please enter Confirmation text.";;
+                $errorMsg['confirm_title'] = "Please enter Confirmation text.";
             }
 
             if ( !$values['confirm_text'] ) {
-                $errorMsg['confirm_text'] = "Please enter Confirmation text.";;
+                $errorMsg['confirm_text'] = "Please enter Confirmation text.";
             }
 
             if ( $values['is_email_confirm'] && !$values['confirm_email_text'] ) {
-                $errorMsg['confirm_email_text'] = "Please enter Email Confirmation text.";;
+                $errorMsg['confirm_email_text'] = "Please enter Email Confirmation text.";
             }
         }
         
         if ( $values['is_email_confirm'] ) { 
-            if ( !$values['cc_confirm'] ) { 
-                $errorMsg['cc_confirm'] = "Please enter Cc Confirm.";
-            }
-            
-            if ( !$values['bcc_confirm'] ) {
-                $errorMsg['bcc_confirm'] = "Please enter Bcc Confirm.";
-            } 
-            
             if ( !$values['confirm_from_name'] ) {
                 $errorMsg['confirm_from_name'] = "Please enter Confirm From Name.";
             } 

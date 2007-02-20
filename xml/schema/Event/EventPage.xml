@@ -27,6 +27,9 @@
   <field>        
       <name>intro_text</name>     
       <type>text</type>     
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
       <title>Introductory Message</title>
       <comment>Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.</comment>
       <add>1.7</add>     
@@ -35,6 +38,9 @@
       <name>footer_text</name>     
       <title>Footer Message</title>
       <type>text</type>     
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
       <comment>Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.</comment>
       <add>1.7</add>     
   </field>   
@@ -50,6 +56,9 @@
   <field>        
       <name>confirm_text</name>     
       <type>text</type>     
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
       <title>Confirm Text</title>
       <comment>Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.</comment>
       <add>1.7</add>     
@@ -58,6 +67,9 @@
       <name>confirm_footer_text</name>     
       <type>text</type>     
       <title>Footer Text</title>
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
       <comment>Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.</comment>
       <add>1.7</add>     
   </field> 
@@ -73,6 +85,9 @@
       <name>confirm_email_text</name>     
       <type>text</type>     
       <title>Confirmation Email Text</title>
+      <htmlType>textarea</htmlType>
+      <rows>4</rows>
+      <cols>50</cols>
       <comment>text to include above standard event info on confirmation email. emails are text-only, so do not allow html for now</comment>
       <add>1.7</add>     
   </field> 

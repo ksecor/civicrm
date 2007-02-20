@@ -1,5 +1,8 @@
+{if $action & 1024}
+    {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
+{/if}
 <div class="form-item">
- {ts}<strong>{$eventPage.intro_text}{/ts}<br/>	
+ {ts}{$eventPage.intro_text}{/ts}<br/>	
 
  <table class="form-layout-compressed">
     <tr><td class="label nowrap">{$form.amount.label}</td><td>{$form.amount.html}</td></tr>

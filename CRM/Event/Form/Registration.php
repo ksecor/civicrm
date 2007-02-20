@@ -109,11 +109,6 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         $config  =& CRM_Core_Config::singleton( );
 
-        // make sure we have a valid payment class, else abort
-        if ( $this->_values['event']['is_monetary'] && ! $config->paymentFile ) {
-            CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
-        }
-
         if ( ! $this->_values ) {
             // get all the values from the dao object
             $this->_values = array( );
@@ -153,6 +148,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->set( 'fields', $this->_fields );
         }
       
+        // make sure we have a valid payment class, else abort
+        if ( $this->_values['event']['is_monetary'] && ! $config->paymentFile ) {
+            CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
+        }
+
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode );
         
