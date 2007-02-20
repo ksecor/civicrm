@@ -1,5 +1,6 @@
 {capture assign=newEventURL}{crmURL p='civicrm/admin/event' q="action=add&reset=1"}{/capture}
 {capture assign=pastEventsURL}{crmURL q="action=browse&past=true&reset=1"}{/capture}
+{capture assign=currentEventsURL}{crmURL q="reset=1"}{/capture}
 
 {if $action eq 1 or $action eq 2 }
    {include file="CRM/Event/Page/ManageEventEdit.tpl"}
@@ -30,14 +31,14 @@
         <tbody> 
         {foreach from=$rows item=row}
           <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-	        <td>{$row.title}</td>
+            <td>{$row.title}</td>
             <td>{$row.city}</td>  
             <td>{$row.state_province}</td>	
             <td>{if $row.is_public eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>    
-	        <td>{$row.start_date|crmDate}</td>
-   	        <td>{$row.end_date|crmDate}</td>
-	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	        <td>{$row.action}</td>
+	    <td>{$row.start_date|crmDate}</td>
+   	    <td>{$row.end_date|crmDate}</td>
+	    <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	    <td>{$row.action}</td>
           </tr>
         {/foreach}    
         </tbody>
@@ -45,6 +46,10 @@
         {if $past and $action ne 1 and $action ne 2} 
            <div class="form-item">
              <a href="{$pastEventsURL}" id="pastEvents">&raquo; {ts}Show Past Events{/ts}</a>
+           </div>
+        {else}
+           <div class="form-item">
+             <a href="{$currentEventsURL}" id="currentEvents">&raquo; {ts}Show Current and Upcoming Events{/ts}</a>
            </div>
         {/if}
         {/strip}

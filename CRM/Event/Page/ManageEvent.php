@@ -199,6 +199,8 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         if ( ! CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
             $past = true;
             $dao->whereAdd( 'end_date >= ' . date( 'YmdHis' ) );
+        } else {
+            $dao->whereAdd( 'end_date < ' . date( 'YmdHis' ) );
         }
         
         $dao->find();
