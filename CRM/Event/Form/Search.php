@@ -198,7 +198,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                                     $this->_limit,
                                                     $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' ) {
+        if ( $this->_context == 'basic' || $this->_context == 'user' ) {
             $prefix = $this->_prefix;
         }
         
@@ -335,7 +335,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                                     $this->_limit,
                                                     $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' ) {
+        if ( $this->_context == 'basic' || $this->_context == 'user') {
             $prefix = $this->_prefix;
         }
         

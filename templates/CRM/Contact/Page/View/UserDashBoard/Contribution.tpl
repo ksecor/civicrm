@@ -5,6 +5,8 @@
 </div>
 
 {if $contribute_rows}
+ {include file="CRM/Contribute/Page/ContributionTotals.tpl" mode="view"}
+
     {strip}
  <div><label>{ts}Contributions{/ts}</label></div>
   <table class="selector">
@@ -17,23 +19,23 @@
       <th></th>
     </tr>
 
-     {counter start=0 skip=1 print=false}
      {foreach from=$contribute_rows item=row}
-       <tr>
+       <tr id='rowid{$row.contribution_id}' class="{cycle values="odd-row,even-row"}{if $row.cancel_date} disabled{/if}">
        <td>{$row.total_amount|crmMoney} {if $row.amount_level } - {$row.amount_level} {/if}
     {if $row.contribution_recur_id}
      <br /> {ts}(Recurring Contribution){/ts}
-    {/if}
-
-    </td>
-    <td>{$row.contribution_type}</td>
-    <td>{$row.receive_date|truncate:10:''|crmDate}</td>
-    <td>{$row.receipt_date|truncate:10:''|crmDate}</td>
-    <td>{$row.contrib_status}</td>
+    {/if}</td>
+       <td>{$row.contribution_type}</td>
+       <td>{$row.receive_date|truncate:10:''|crmDate}</td>
+       <td>{$row.receipt_date|truncate:10:''|crmDate}</td>
+       <td>{$row.contrib_status}</td>
        </tr>
       {/foreach}
   </table>
   {/strip}
+{if $contributionSummary.total.count gt 12} 
+{ts}Contact us for information about contributions prior to those listed above.{/ts}
+{/if}
 {else}
    <div class="messages status">
        <dl>
@@ -91,9 +93,9 @@
         <th >{ts}Terms:{/ts}</th> 
         <th></th>   
      </tr>
-	{foreach from=$recurRows item=row}
+	{foreach from=$recurRows item=row key=id}
 	   <tr>
-        <td> <label>{ts}{$recurRows.0.amount}{/ts}</label>  every {$recurRows.0.frequency_interval} {$recurRows.0.frequency_unit} for {$recurRows.0.installments} installments  </td>
+        <td> <label>{ts}{$recurRows.$id.amount}{/ts}</label>  every {$recurRows.$id.frequency_interval} {$recurRows.$id.frequency_unit} for {$recurRows.$id.installments} installments  </td>
         <td><a href="{$cancelSubscriptionUrl}">{ts}Change Recurring Contribution{/ts}</a></td>
 	   </tr>
     {/foreach}

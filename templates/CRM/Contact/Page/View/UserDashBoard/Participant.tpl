@@ -4,7 +4,7 @@
 </p>
 </div>
 
-{if $rows}
+{if $event_rows}
   {strip}
   <div><label>{ts}Registered Events{/ts}</label></div>
   <table class="selector">
@@ -15,7 +15,7 @@
       <th></th>
     </tr>
      {counter start=0 skip=1 print=false}
-     {foreach from=$rows item=row}
+     {foreach from=$event_rows item=row}
         <tr id='rowid{$row.participant_id}' class="{cycle values="odd-row,even-row"}{if $row.status eq Cancelled} disabled{/if}">
            <td>{$row.event_title}</td>
            <td>{$row.start_date|crmDate}<br/> {$row.end_date|crmDate}</td>
