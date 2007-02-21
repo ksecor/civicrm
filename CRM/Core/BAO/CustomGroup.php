@@ -239,11 +239,6 @@ WHERE civicrm_custom_group.domain_id = $domainID
         }
 
         // ensure that the user has access to these custom groups
-        $permissionedCustomGroups = CRM_Core_Permission::customGroup( );
-        if ( empty( $permissionedCustomGroups ) ) {
-            return $groupTree;
-        }
-
         $strWhere .= 
             " AND " .
             CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
