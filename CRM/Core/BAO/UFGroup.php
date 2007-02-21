@@ -1607,8 +1607,8 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
 
                foreach ($fields as $name => $field ) {
                    $fldName = "field[$componentId][$name]";
-                   if ( array_key_exists($name,$values) ) {
-                       $defaults[$fldName] = $values[$name];
+                   if ( array_key_exists($name,$values[$componentId]) ) {
+                       $defaults[$fldName] = $values[$componentId][$name];
                    } 
                }
         }

@@ -307,7 +307,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 } else {
                     $cid = $matchedIDs[0];
                     $formatted['contact_id'] = $cid;
-                    $newParticipant = crm_create_contact_participant($formatted, $cid);
+                    $newParticipant = crm_create_participant($formatted, $cid);
                     if ( is_a( $newParticipant, CRM_Core_Error ) ) {
                         array_unshift($values, $newParticipant->_errors[0]['message']);
                         return CRM_Event_Import_Parser::ERROR;
@@ -344,7 +344,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             }
             
         } else {
-            $newParticipant = crm_create_contact_participant($formatted, $formatted['contact_id']);
+            $newParticipant = crm_create_participant($formatted, $formatted['contact_id']);
             if ( is_a( $newParticipant, CRM_Core_Error ) ) {
                 array_unshift($values, $newParticipant->_errors[0]['message']);
                 return CRM_Event_Import_Parser::ERROR;

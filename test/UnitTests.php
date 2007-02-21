@@ -163,6 +163,12 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetTag.php');
         
+        //Participant api
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateParticipant.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetParticipants.php'      );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateParticipant.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteParticipant.php'    );
+        
         // UFGroup api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFGroup.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFGroup.php'    );

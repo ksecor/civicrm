@@ -68,10 +68,14 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
     {
         $participant =& new CRM_Event_BAO_Participant( );
         $participant->copyValues( $params );
-        
-        if ( $participant->find(true) ) {
-            CRM_Core_DAO::storeValues( $participant, $values );
-        }
+        $participant->find();
+        $participants = array();
+        while ( $participant->fetch() ) {
+            $ids['participant'] = $participant->id;
+            CRM_Core_DAO::storeValues( $participant, $values[$participant->id] );
+            $participants[$participant->id] = $participant;
+        }       
+        return $participants;
     }
 
     /**
@@ -247,7 +251,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      */
 
     static function &create(&$params, &$ids) 
-    { 
+        { 
         require_once 'CRM/Utils/Date.php';
 
         CRM_Core_DAO::transaction('BEGIN');
@@ -294,7 +298,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         // Log the information on successful add/edit of Participant
         // data.
         require_once 'CRM/Core/BAO/Log.php';
-        
+        require_once 'CRM/Event/PseudoConstant.php' ;
         $logParams = array(
                         'entity_table'  => 'civicrm_participant',
                         'entity_id'     => $participant->id,

@@ -136,16 +136,16 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             require_once "CRM/Event/BAO/Participant.php";
             CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );
-            $this->_contactID = $defaults['contact_id'];
+            $this->_contactID = $defaults[$this->_id]['contact_id'];
         } 
         
         $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
         if ( $subType ) {
-            $defaults["role_id"] = $subType;
+            $defaults[$this->_id]["role_id"] = $subType;
         }
         
         if($this->_noteId) {
-            $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
+            $defaults[$this->_id]['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
         }
         
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
@@ -157,10 +157,10 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         }
 
         if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
         }
         
-        return $defaults;
+        return $defaults[$this->_id];
     }
     
     /** 

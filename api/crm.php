@@ -62,6 +62,7 @@ require_once 'api/File.php';
 require_once 'api/Activity.php';
 require_once 'api/Membership.php';
 require_once 'api/Event.php';
+require_once 'api/Participant.php';
 
 function crm_create_extended_property_group($class_name, $params) {
 }
