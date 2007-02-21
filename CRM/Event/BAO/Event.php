@@ -506,11 +506,11 @@ WHERE civicrm_event.is_active = 1
   
             $address = '';
 
-            CRM_Utils_String::append( $address, ';',
+            CRM_Utils_String::append( $address, ', ',
                                       array( $dao->street_address, $dao->city) );
             CRM_Utils_String::append( $address, ', ',
                                       array(   $dao->state, $dao->postal_code ) );
-            CRM_Utils_String::append( $address, '\n',
+            CRM_Utils_String::append( $address, ', ',
                                       array( $dao->country ) );
             $info['location'     ] = $address;
             $info['url'          ] = CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $dao->event_id, true, null, false );

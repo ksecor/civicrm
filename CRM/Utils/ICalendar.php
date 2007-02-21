@@ -73,8 +73,8 @@ class CRM_Utils_ICalendar
             }
 
             if ( $event['start_date'] && $event['end_date'] ) {
-                $content .= "DTSTART;VALUE=DATE:" . $event['start_date'] . "\n";
-                $content .= "DTEND;VALUE=DATE:" . $event['end_date'] . "\n";
+                $content .= "DTSTART;VALUE=DATE:" . gmdate("Ymd\THis\Z", strtotime($event['start_date'])) . "\n";
+                $content .= "DTEND;VALUE=DATE:" . gmdate("Ymd\THis\Z", strtotime($event['end_date'])) . "\n";
             }
             
             if ( $event['location'] ) {

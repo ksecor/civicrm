@@ -1,5 +1,5 @@
 {capture assign=newEventURL}{crmURL p='civicrm/admin/event' q="action=add&reset=1"}{/capture}
-{capture assign=icalURL}{crmURL p='civicrm/event/ical' q="&reset=1"}{/capture}
+{capture assign=icalURL}{crmURL p='civicrm/event/ical' q="reset=1"}{/capture}
 {capture assign=pastEventsURL}{crmURL q="action=browse&past=true&reset=1"}{/capture}
 {capture assign=currentEventsURL}{crmURL q="reset=1"}{/capture}
 
@@ -7,7 +7,7 @@
    {include file="CRM/Event/Page/ManageEventEdit.tpl"}
 {/if}
 <div id="help">
-    <p>{ts 1=$pastEventsURL 2=$icalURL}This page lists current (in-progress) events, and upcoming events. <a href="%1">Click here</a> to browse completed (past) events. A list of upcoming events can be published in the <a href="%2">iCalendar format</a>.{/ts}
+    <p>{ts 1=$pastEventsURL 2=$icalURL}This page lists current (in-progress) events, and upcoming events. <a href="%1">Click here</a> to browse completed (past) events. A list of "public" upcoming events can be published in the <a href="%2">iCalendar format</a>.{/ts}
 </div>
 {if $rows}
 {include file="CRM/common/dojo.tpl"}
