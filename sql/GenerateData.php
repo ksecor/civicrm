@@ -1533,11 +1533,11 @@ function addEventFeeLabel()
         $event = "INSERT INTO civicrm_custom_option
         (entity_table, entity_id, label, value, weight, is_active)
         VALUES
-        ('civicrm_event', 1, 'Single', 50, 1, 1),('civicrm_event', 1, 'Couple', 100, 2, 1),('civicrm_event', 1, 'Family', 200, 3, 1),
+        ('civicrm_event_page', 1, 'Single', 50, 1, 1),('civicrm_event_page', 1, 'Couple', 100, 2, 1),('civicrm_event_page', 1, 'Family', 200, 3, 1),
 
-        ('civicrm_event', 2, 'gift', 25, 1, 1),('civicrm_event', 2, 'games', 40, 2, 1),('civicrm_event', 2, 'prize', 50, 3, 1),
+        ('civicrm_event_page', 2, 'gift', 25, 1, 1),('civicrm_event_page', 2, 'games', 40, 2, 1),('civicrm_event_page', 2, 'prize', 50, 3, 1),
 
-        ('civicrm_event', 3, 'Summer Tournament', 800, 1, 1), ('civicrm_event', 3, 'Title Cup', 1000, 2, 1), ('civicrm_event', 3, 'Pepsi Cup', 1500, 3, 1)
+        ('civicrm_event_page', 3, 'Summer Tournament', 800, 1, 1), ('civicrm_event_page', 3, 'Title Cup', 1000, 2, 1), ('civicrm_event_page', 3, 'Pepsi Cup', 1500, 3, 1)
      
          ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      

@@ -120,7 +120,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             //retrieve custom information
             require_once 'CRM/Core/BAO/CustomOption.php'; 
-            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event', $this->_id, $this->_values['custom'] );
+            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $this->_id, $this->_values['custom'] );
 
             // get the profile ids
             require_once 'CRM/Core/BAO/UFJoin.php'; 
