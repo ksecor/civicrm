@@ -105,10 +105,6 @@ class CRM_Event_Invoke
             $controller =& new CRM_Event_Controller_Registration(ts('Online Registration'));
             return $controller->run();
         } else if ($secondArg == 'info') {
-            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/event', 'reset=1' );
-            $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Manage Events') . '</a>';
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-
             require_once 'CRM/Event/Page/EventInfo.php';
             $page =& new CRM_Event_Page_EventInfo( );
             return $page->run( );
