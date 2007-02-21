@@ -25,7 +25,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactFlat.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactCustom.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactGroups.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM619.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM600.php' );
@@ -164,10 +164,10 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetTag.php');
         
         //Participant api
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateParticipant.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetParticipants.php'      );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateParticipant.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteParticipant.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateParticipant.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetParticipants.php'      );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateParticipant.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteParticipant.php'    );
         
         // UFGroup api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFGroup.php'    );
@@ -179,7 +179,11 @@ class UnitTests extends GroupTest {
 
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateProfileContact.php'    );
         
-        
+        //Event api
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateEvent.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetEvent.php'       );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateEvent.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteEvent.php'    );
     }
 
 }

@@ -231,11 +231,12 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         require_once 'CRM/Event/DAO/Event.php';
         $event           = & new CRM_Event_DAO_Event( );
         $event->id = $id; 
+
         $event->find();
         while ($event->fetch() ) {
-            $event->delete();
+            return $event->delete();
         }
-        return true;
+        return false;
     }
     
     /**
