@@ -329,12 +329,17 @@ class CRM_Core_SelectValues
     {
         static $ufGroupType = null;
         if (!$ufGroupType) {
-            $ufGroupType = array(
-                'User Registration' => ts('User Registration'),
-                'User Account'      => ts('View/Edit User Account'),
-                'Profile'           => ts('Profile'),
-                'Search Profile'    => ts('Search Results'),
-            );
+            $ufGroupType = array( );
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->userFramework == 'Drupal' ) {
+                $ufGroupType += array(
+                                      'User Registration' => ts('User Registration'),
+                                      'User Account'      => ts('View/Edit User Account') );
+            }
+            $ufGroupType += array(
+                                  'Profile'           => ts('Profile'),
+                                  'Search Profile'    => ts('Search Results'),
+                                  );
         }
         return $ufGroupType;
     }

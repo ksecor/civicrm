@@ -14,22 +14,19 @@
     {else}
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
-    {* Hide 'Used For' property if userFramework NEQ Drupal and no non-user module link exists for this profile *}
-    {if $config->userFramework EQ 'Drupal' OR $otherModuleString}
-        <dt>{$form.uf_group_type.label}</dt><dd>{if $config->userFramework EQ 'Drupal'}{$form.uf_group_type.html}&nbsp;{/if}{$otherModuleString}</dd>
+        <dt>{$form.uf_group_type.label}</dt><dd>{$form.uf_group_type.html}&nbsp;{$otherModuleString}</dd>
         <dt>&nbsp;</dt><dd class="description">
         <table class="form-layout-compressed">
         <tr><td>{ts}Profiles can be explicitly linked to a module page.{/ts}
-        {if $config->userFramework EQ 'Drupal'}
         <ul class="left-alignment">
+        {if $config->userFramework EQ 'Drupal'}
           <li>{ts}Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form.{/ts}</li>
           <li>{ts}Check <strong>View/Edit User Account</strong> to include it in the view and edit screens for existing user accounts.{/ts}</li>
+         {/if}
           <li>{ts}Check <strong>Profile</strong> if you want it to use it for customized listings and view screens for the civicrm/profile path.{/ts}</li>
           <li>{ts}Check <strong>Search Results</strong> to use this profile to display an alternate set of results columns for CiviCRM Basic and Advanced Search.{/ts}</li>
         </ul>
-        {/if}
         </td></tr></table></dd>
-    {/if}
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which profiles are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
     <dt>{$form.group.label}</dt><dd>{$form.group.html}</dd>
