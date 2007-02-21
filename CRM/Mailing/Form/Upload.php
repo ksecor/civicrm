@@ -203,7 +203,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         foreach (array('header', 'footer') as $part) {
             $$part = array( );
             if ($params["{$part}_id"]) {
-                echo "found<p>";
+	        //echo "found<p>";
                 $component =& new CRM_Mailing_BAO_Component();
                 $component->id = $params["{$part}_id"];
                 $component->find(true);
