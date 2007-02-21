@@ -940,6 +940,10 @@ class CRM_Core_Config
             $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
         }
 
+        if ( defined( 'CIVICRM_GETTEXT_RESOURCEDIR' ) ) {
+            $this->gettextResourceDir = self::addTrailingSlash( CIVICRM_GETTEXT_RESOURCEDIR );
+        }
+
         // set the error callback
         CRM_Core_Error::setCallback();
 
@@ -1180,10 +1184,11 @@ class CRM_Core_Config
         
         if ( $this->defaultCurrency ) {
             require_once "CRM/Core/PseudoConstant.php";
-            $this->currencySymbols = array_combine( CRM_Core_PseudoConstant::currencySymbols( 'name'), CRM_Core_PseudoConstant::currencySymbols( ));
+            $this->currencySymbols = array_combine( CRM_Core_PseudoConstant::currencySymbols( 'name'),
+                                                     CRM_Core_PseudoConstant::currencySymbols( ));
             $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
-                  }    
-        
+        }
+
         if ( $this->mapProvider ) {
             $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
         }
