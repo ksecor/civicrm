@@ -155,12 +155,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode );
-        
+
         // setting CMS page title
         CRM_Utils_System::setTitle($this->_values['event']['title']);  
         $this->assign( 'title', $this->_values['event']['title'] );
 
         $this->assign('paidEvent', $this->_values['event']['is_monetary']);
+
+        // assign all event properties so wizard templates can display event info.
+        $this->assign('event', $this->_values['event']);
     }
 
     /** 

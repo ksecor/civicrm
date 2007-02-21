@@ -84,7 +84,4 @@
         {$thankyou_footer}
         </p>
     </div>
-
 </div>
-{capture assign=mngEvent}{crmURL p='civicrm/admin/event' q="reset=1"}{/capture}
-{ts 1=$mngEvent}<a href="%1">&raquo; Back to Manage Event</a>{/ts}

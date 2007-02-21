@@ -93,6 +93,13 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             $this->assign( 'registerURL', $url );
         }
 
+        // we do not want to display recently viewed items, so turn off
+        $this->assign('displayRecent' , false );
+
+        // assigning title to template in case someone wants to use it, also setting CMS page title
+        $this->assign( 'title', $values['event']['title'] );
+        CRM_Utils_System::setTitle($values['event']['title']);  
+
         $this->assign('event',   $values['event']);
         $this->assign('custom',  $values['custom']);
         $this->assign('location',$values['location']);

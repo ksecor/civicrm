@@ -133,7 +133,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                     $this->_values['custom']['amount_id'][$index] );
             }
             $this->_defaults['amount'] = $this->_values['event_page']['default_fee_id'];
-            $this->addGroup( $elements, 'amount', ts('Fee Level'), '<br />' );
+            $this->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );
             $this->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
         }
     }

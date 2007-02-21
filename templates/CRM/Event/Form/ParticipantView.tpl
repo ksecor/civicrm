@@ -2,7 +2,7 @@
 <fieldset>
       <legend>{ts}View Participant{/ts}</legend>
       <dl>  
-        <dt class="font-size12pt">{ts}From{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
+        <dt class="font-size12pt">{ts}Name{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
         <dt>{ts}Event{/ts}</dt><dd>{$event}&nbsp;</dd>
         <dt>{ts}Participant Role{/ts}</dt><dd>{$role}&nbsp;</dd>
         {if $history neq 1}
@@ -10,7 +10,7 @@
         {else}
             <dt>{ts}Modified Date{/ts}</dt><dd>{$modified_date|truncate:10:''|crmDate}&nbsp;</dd>   
         {/if}
-        <dt>{ts}Participant Status{/ts}</dt><dd>{$status}&nbsp;</dd>
+        <dt>{ts}Status{/ts}</dt><dd>{$status}&nbsp;</dd>
         {if $history neq 1}
             <dt>{ts}Event Source{/ts}</dt><dd>{$source}&nbsp;</dd>
             <dt>{ts}Event Level{/ts}</dt><dd>{$event_level}&nbsp;</dd>

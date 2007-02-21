@@ -126,7 +126,7 @@
   <field> 
       <name>is_monetary</name> 
       <type>boolean</type> 
-      <default>1</default>                
+      <default>0</default>                
       <comment>Is this a PAID event? If true, one or more fee amounts must be set and a Payment Processor must be configured for Online Event Registration.</comment> 
       <add>1.7</add> 
   </field> 

@@ -2,7 +2,7 @@
     {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
 {/if}
 <div class="form-item">
- {ts}{$eventPage.intro_text}{/ts}<br/>	
+  <p>{$eventPage.intro_text}</p>
 
  <table class="form-layout-compressed">
     <tr><td class="label nowrap">{$form.amount.label}</td><td>{$form.amount.html}</td></tr>
@@ -60,7 +60,7 @@
     </fieldset>
 {/if}
 
- {ts}<strong>{$eventPage.footer_text}{/ts}<br/>	  
+   <strong>{$eventPage.footer_text}<br/>	  
    <div id="crm-submit-buttons">
      {$form.buttons.html}
    </div>
