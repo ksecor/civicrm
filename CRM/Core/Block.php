@@ -328,6 +328,16 @@ class CRM_Core_Block {
         $items  =& CRM_Core_Menu::items( );
         $values =  array( );
 
+        /**
+         * This is a hack for now, since we do not know the entire menu structure
+         * and hence dont know what items have children
+         */
+        $components = array( ts( 'CiviContribute' ) => 1,
+                             ts( 'CiviEvent'      ) => 1,
+                             ts( 'CiviMember'     ) => 1,
+                             ts( 'CiviMail'       ) => 1,
+                             ts( 'Import'         ) => 1 );
+                             
         foreach ( $items as $item ) {
             if ( ! CRM_Utils_Array::value( 'crmType', $item ) ) {
                 continue;
@@ -340,7 +350,11 @@ class CRM_Core_Block {
                 $value['url'  ]  = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'query', $item ) );
                 $value['title']  = $item['title'];
                 $value['path']   = $item['path'];
-                $value['class']  = 'leaf';
+                if ( array_key_exists( $item['title'], $components ) ) {
+                    $value['class']  = 'collapsed';
+                } else {
+                    $value['class']  = 'leaf';
+                }
                 $value['parent'] = null;
                 $value['start']  = $value['end'] = null;
 
@@ -349,7 +363,7 @@ class CRM_Core_Block {
                 } else {
                     $value['active'] = '';
                 }
-                
+
                 // check if there is a parent
                 foreach ( $values as $weight => $v ) {
                     if ( strpos( $item['path'], $v['path'] ) !== false) {

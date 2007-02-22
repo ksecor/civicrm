@@ -114,6 +114,8 @@ class CRM_Core_Menu {
                 break;
                 
             case 'contact':
+                // unset the search item
+                unset( self::$_items[2] );
                 $items =& self::contactItems( );
                 break;
 
@@ -175,23 +177,6 @@ class CRM_Core_Menu {
                             'weight'   => 0,
                             ),
 
-                      array( 
-                            'path'    => 'civicrm/file', 
-                            'title'   => ts( 'Browse Uploaded files' ), 
-                            'access'  => CRM_Core_Permission::check( 'access uploaded files' ),
-                            'type'    => self::CALLBACK,  
-                            'crmType' => self::CALLBACK,  
-                            'weight'  => 0,  
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/profile',
-                            'title'   => ts( 'Contact Information' ),
-                            'access'  => 1,
-                            'type'    => self::CALLBACK, 
-                            'crmType' => self::CALLBACK, 
-                            'weight'  => 0, 
-                            ),
                       array(
                             'path'   => 'civicrm/dashboard',
                             'title'  => ts('CiviCRM Home'),
@@ -243,6 +228,23 @@ class CRM_Core_Menu {
                             'crmType' => self::NORMAL_ITEM,
                             'weight'  => 9000,
                             ),
+                      array( 
+                            'path'    => 'civicrm/file', 
+                            'title'   => ts( 'Browse Uploaded files' ), 
+                            'access'  => CRM_Core_Permission::check( 'access uploaded files' ),
+                            'type'    => self::CALLBACK,  
+                            'crmType' => self::CALLBACK,  
+                            'weight'  => 0,  
+                            ),
+
+                      array(
+                            'path'    => 'civicrm/profile',
+                            'title'   => ts( 'Contact Information' ),
+                            'access'  => 1,
+                            'type'    => self::CALLBACK, 
+                            'crmType' => self::CALLBACK, 
+                            'weight'  => 0, 
+                            ),
 
                       );                     
             
@@ -267,6 +269,10 @@ class CRM_Core_Menu {
             return;
         }
 
+        if ( self::$_localTasks ) {
+            return;
+        }
+
         self::items( );
 
         $config =& CRM_Core_Config::singleton( );
@@ -285,7 +291,7 @@ class CRM_Core_Menu {
 
         foreach ( self::$_rootLocalTasks as $root => $dontCare ) {
             if ( strpos( $path, self::$_items[$root]['path'] ) !== false ) {
-                $localTasks = array( );
+                self::$_localTasks = array( );
                 foreach ( self::$_rootLocalTasks[$root]['children'] as $dontCare => $item ) {
                     $index = $item['index'];
                     $klass = '';
@@ -309,16 +315,16 @@ class CRM_Core_Menu {
                         }
                     }
                     $url = CRM_Utils_System::url( self::$_items[$index]['path'], $qs );
-                    $localTasks[self::$_items[$index]['weight']] =
+                    self::$_localTasks[self::$_items[$index]['weight']] =
                         array(
                               'url'    => $url, 
                               'title'  => self::$_items[$index]['title'],
                               'class'  => $klass
                               );
                 }
-                ksort( $localTasks );
+                ksort( self::$_localTasks );
                 $template =& CRM_Core_Smarty::singleton( );
-                $template->assign_by_ref( 'localTasks', $localTasks );
+                $template->assign_by_ref( 'localTasks', self::$_localTasks );
                 return;
             }
         }
@@ -367,6 +373,7 @@ class CRM_Core_Menu {
      */
     static function initialize( ) {
         self::$_rootLocalTasks = array( );
+
         for ( $i = 0; $i < count( self::$_items ); $i++ ) {
             // this item is a root_local_task and potentially more
             if ( ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) & self::ROOT_LOCAL_TASK ) &&
@@ -775,7 +782,19 @@ class CRM_Core_Menu {
                              'crmType' => self::ROOT_LOCAL_TASK,
                              'weight'  => 10,
                              ),
-        
+
+                       /* Repeat this year for local nav bar, remove it when we switch *
+                        * to using Tab Container                                       */
+                       array(
+                             'path'    => 'civicrm/contact/search/basic',
+                             'title'   => ts('Find Contacts'),
+                             'query'   => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
+                             'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
+                             'weight'  => 1
+                             ),
+                       
                        array(
                              'path'    => 'civicrm/contact/search/advanced',
                              'query'   => 'reset=1',
