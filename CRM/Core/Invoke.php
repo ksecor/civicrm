@@ -910,8 +910,8 @@ class CRM_Core_Invoke
             return $wrapper->run( 'CRM_Admin_Form_Setting_Mapping', ts('Mapping and Geocoding'), null); 
         case 'payment' : 
             return $wrapper->run( 'CRM_Admin_Form_Setting_Payment', ts('Online Payments'), null); 
-        case 'localisation' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Localisation', ts('Localisation'), null); 
+        case 'localization' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Localization', ts('Localization'), null); 
         case 'address' : 
             return $wrapper->run( 'CRM_Admin_Form_Setting_Address', ts('Address Formatting'), null); 
         case 'date' : 

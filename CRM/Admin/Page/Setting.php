@@ -53,7 +53,7 @@ class CRM_Admin_Page_Setting extends CRM_Core_Page {
                        'smtp'         => ts( 'SMTP Server'          ),
                        'mapping'      => ts( 'Mapping and Geocoding'),
                        'payment'      => ts( 'Online Payment'       ),
-                       'localisation' => ts( 'Localisation'         ),
+                       'localization' => ts( 'Localization'         ),
                        'address'      => ts( 'Address Formatting'   ),
                        'date'         => ts( 'Date Formatting'      ),
                        'misc'         => ts( 'Miscellaneous'        ),

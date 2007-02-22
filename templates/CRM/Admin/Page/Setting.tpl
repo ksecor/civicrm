@@ -33,8 +33,8 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/localisation' q='reset=1'}" id="idLocale">&raquo; {ts}Localisation{/ts}</a></td>
-    <td>{ts}Localisation settings include user language, default currency and available countries for address input.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/localization' q='reset=1'}" id="idLocale">&raquo; {ts}Localization{/ts}</a></td>
+    <td>{ts}Localization settings include user language, default currency and available countries for address input.{/ts}</td>
 </tr>
 
 <tr>
