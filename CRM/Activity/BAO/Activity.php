@@ -217,7 +217,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $activityType, $activity->id); 
         
         if ( $activityType == 'Phonecall' ) {
-            $title = ts('Phone Call');
+            $title = 'Phone Call';
         } else if ( $activityType == 'Activity' ) {
             $activityType = CRM_Core_PseudoConstant::activityType(false);
             $title        = $activityType[$params['activity_type_id']];

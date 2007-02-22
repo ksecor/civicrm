@@ -223,6 +223,17 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
         $mask  =  array_sum(array_keys($links)) & CRM_Core_Action::mask( $this->_permission );
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
+
+            // localize the built-in activity names for display
+            // (these are not enums, so we can't use any automagic here)
+            switch ($row['activity_type']) {
+                case 'Meeting':    $row['activity_type'] = ts('Meeting');    break;
+                case 'Phone Call': $row['activity_type'] = ts('Phone Call'); break;
+                case 'Email':      $row['activity_type'] = ts('Email');      break;
+                case 'SMS':        $row['activity_type'] = ts('SMS');        break;
+                case 'Event':      $row['activity_type'] = ts('Event');      break;
+            }
+
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
                 if ( $row['callback'] &&

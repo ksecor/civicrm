@@ -243,6 +243,8 @@ CREATE TABLE civicrm_currency (
 -- /*******************************************************
 -- *
 -- * CRM-1570 - migrate the old, CiviCRM 1.4 callbacks
+-- * (we don't support localized CiviCRM in MySQL 4.0,
+-- * so no localized acitivity names update here)
 -- *
 -- *******************************************************/
 

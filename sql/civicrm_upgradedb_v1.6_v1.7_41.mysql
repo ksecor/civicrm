@@ -243,10 +243,15 @@ CREATE TABLE civicrm_currency (
 -- /*******************************************************
 -- *
 -- * CRM-1570 - migrate the old, CiviCRM 1.4 callbacks
+-- * and fix (un-translate) localized activity names
 -- *
 -- *******************************************************/
 
   UPDATE civicrm_activity_history SET callback = 'CRM_Activity_BAO_Activity::showActivityDetails' WHERE callback IN ('CRM_Activity_Form_Meeting::showMeetingDetails', 'CRM_Activity_Form_OtherActivity::showOtherActivityDetails', 'CRM_Activity_Form_Phonecall::showCallDetails');
+  UPDATE civicrm_activity_history SET activity_type = 'Meeting'    WHERE activity_type IN ('Treffen', 'Cita', 'Tapaaminen', 'Réunion', 'Reunion', 'Találkozó', 'Riunione', 'Bijeenkomst', 'Spotkanie', 'Reunião', 'Întâlnire', 'Möte(n)', 'ลบกิจกรรม');
+  UPDATE civicrm_activity_history SET activity_type = 'Phone Call' WHERE activity_type IN ('Telefonanruf', 'Llamada telefónica', 'Puhelu', 'Appel', 'Appel téléphonique', 'Telefonhívás', 'Telefonata', 'Telefoonoproep', 'Telefonsamtale', 'Rozmowa', 'Telefonema', 'Apel telefon', 'Telefonkontakt', 'ลบที่ติดต่อ');
+  UPDATE civicrm_activity_history SET activity_type = 'Email'      WHERE activity_type IN ('Sähköposti', 'Courriel', 'Epost', 'E-post', 'อีเมล์');
+  UPDATE civicrm_activity_history SET activity_type = 'Event'      WHERE activity_type IN ('Evenement', 'Wydarzenie', 'Evento');
 
 -- /*******************************************************
 -- *

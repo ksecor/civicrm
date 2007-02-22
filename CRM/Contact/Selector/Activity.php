@@ -211,13 +211,14 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
 
-            //check the if the activity type is meeting or phonecall
-            if (is_numeric($row['activity_type'])) {
-                if ($row['activity_type'] == 2) {
-                    $row['activity_type'] = ts('Phone Call');
-                } else {
-                    $row['activity_type'] = ts('Meeting');
-                }
+            // localize the built-in activity names for display
+            // (these are not enums, so we can't use any automagic here)
+            switch ($row['activity_type']) {
+                case 'Meeting':    $row['activity_type'] = ts('Meeting');    break;
+                case 'Phone Call': $row['activity_type'] = ts('Phone Call'); break;
+                case 'Email':      $row['activity_type'] = ts('Email');      break;
+                case 'SMS':        $row['activity_type'] = ts('SMS');        break;
+                case 'Event':      $row['activity_type'] = ts('Event');      break;
             }
 
             // add class to this row if overdue
