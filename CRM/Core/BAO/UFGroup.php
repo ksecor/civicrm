@@ -416,7 +416,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $controller->run( );
 
             // we are done processing so restore the POST/REQUEST vars
-            if ( $reset || $doNotProcess ) {
+            if ( ( $reset || $doNotProcess ) && $oldQFDefault ) {
                 $_POST['_qf_default'] = $_REQUEST['_qf_default'] = $oldQFDefault;
             }
 
