@@ -322,40 +322,50 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contactType = 'Individual', $status = null ) 
+    function &importableFields( $contactType = 'Individual', $status = null, $onlyParticipant = false ) 
     {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
                 self::$_importableFields = array();
             }
 
-            if (!$status) {
-                $fields = array( '' => array( 'title' => ts('- do not import -') ) );
-            } else {
-                $fields = array( '' => array( 'title' => ts('- Participant Fields -') ) );
-            }
+            if ( !$onlyParticipant ) {
 
+                if (!$status) {
+                    $fields = array( '' => array( 'title' => ts('- do not import -') ) );
+                } else {
+                    $fields = array( '' => array( 'title' => ts('- Participant Fields -') ) );
+                }
+            } else {
+                $fields = array( );
+            }
+            
             require_once 'CRM/Core/DAO/Note.php';
             $tmpFields     = CRM_Event_DAO_Participant::import( );
             $note          = CRM_Core_DAO_Note::import( );
-            $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
-            if ($contactType == 'Individual') {
-                require_once 'CRM/Core/DAO/DupeMatch.php';
-                $dao = & new CRM_Core_DAO_DupeMatch();
-                $dao->find(true);
-                $fieldsArray = explode('AND',$dao->rule);
-            } elseif ($contactType == 'Household') {
-                $fieldsArray = array('household_name', 'email');
-            } elseif ($contactType == 'Organization') {
-                $fieldsArray = array('organization_name', 'email');
-            }
-            $tmpConatctField = array();
-            if( is_array($fieldsArray) ) {
-                foreach ( $fieldsArray as $value) {
-                    $tmpConatctField[trim($value)] = $contactFields[trim($value)];
-                    $tmpConatctField[trim($value)]['title'] = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+            
+            $tmpConatctField = array( );
+            if ( !$onlyParticipant ) {
+                $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
+                if ($contactType == 'Individual') {
+                    require_once 'CRM/Core/DAO/DupeMatch.php';
+                    $dao = & new CRM_Core_DAO_DupeMatch();
+                    $dao->find(true);
+                    $fieldsArray = explode('AND',$dao->rule);
+                } elseif ($contactType == 'Household') {
+                    $fieldsArray = array('household_name', 'email');
+                } elseif ($contactType == 'Organization') {
+                    $fieldsArray = array('organization_name', 'email');
+                }
+
+                if( is_array($fieldsArray) ) {
+                    foreach ( $fieldsArray as $value) {
+                        $tmpConatctField[trim($value)] = $contactFields[trim($value)];
+                        $tmpConatctField[trim($value)]['title'] = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                    }
                 }
             }
+            
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, $note);

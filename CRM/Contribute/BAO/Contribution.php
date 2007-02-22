@@ -79,7 +79,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @access public
      * @static
      */
-    static function add(&$params, &$ids) {
+    static function add(&$params, &$ids) 
+    {
         require_once 'CRM/Utils/Hook.php';
         
         $duplicates = array( );
@@ -134,8 +135,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids ) {
-
+    static function &getValues( &$params, &$values, &$ids ) 
+    {
         $contribution =& new CRM_Contribute_BAO_Contribution( );
 
         $contribution->copyValues( $params );
@@ -161,7 +162,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids) {
+    static function &create(&$params, &$ids) 
+    {
         require_once 'CRM/Utils/Money.php';
         require_once 'CRM/Utils/Date.php';
 
@@ -292,9 +294,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         self::lookupValue($defaults, 'contribution_type', CRM_Contribute_PseudoConstant::contributionType(), $reverse);
         self::lookupValue($defaults, 'payment_instrument', CRM_Contribute_PseudoConstant::paymentInstrument(), $reverse);
-        self::lookupValue($defaults, 'contribution_status', CRM_Contribute_PseudoConstant::contributionStatus(), $reverse);
-       
-    }
+        self::lookupValue($defaults, 'contribution_status', CRM_Contribute_PseudoConstant::contributionStatus(), $reverse);    }
 
     /**
      * This function is used to convert associative array names to values
@@ -356,7 +356,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contacType = 'Individual', $status = null ) {
+    function &importableFields( $contacType = 'Individual', $status = null ) 
+    {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
                 self::$_importableFields = array();
@@ -403,7 +404,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         return self::$_importableFields;
     }
 
-    function &exportableFields( ) {
+    function &exportableFields( ) 
+    {
         if ( ! self::$_exportableFields ) {
             if ( ! self::$_exportableFields ) {
                 self::$_exportableFields = array();
@@ -428,7 +430,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         return self::$_exportableFields;
     }
 
-    function getTotalAmountAndCount( $status = null, $startDate = null, $endDate = null ) {
+    function getTotalAmountAndCount( $status = null, $startDate = null, $endDate = null ) 
+    {
         
         $where = array( );
         switch ( $status ) {
@@ -474,7 +477,8 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
      * @access public 
      * @static 
      */ 
-    static function deleteContact( $contactId ) {
+    static function deleteContact( $contactId ) 
+    {
         $contribution =& new CRM_Contribute_DAO_Contribution( );
         $contribution->contact_id = $contactId;
         $contribution->find( );
@@ -489,10 +493,11 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
         $recur->contact_id = $contactId;
         $recur->delete( );
     }
+    
     /**                                                           
      * Delete the record that are associated with this contribution 
      * record are deleted from contribution product, note and contribution                   
-     * @param  int  $id id of the contribution to delete                                                                           
+     * @param  int  $id id of the contribution to delete                                                                  
      * 
      * @return boolean  true if deleted, false otherwise
      * @access public 
@@ -525,7 +530,8 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
         return true;
     }
 
-    static function deleteContributionSubobjects($contribId) {
+    static function deleteContributionSubobjects($contribId) 
+    {
         require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
         $trxn =& new CRM_Contribute_DAO_FinancialTrxn();
         $trxn->entity_table = 'civicrm_contribution';
@@ -553,7 +559,8 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
      * @access public
      * static
      */
-    static function checkDuplicate( $params, &$duplicates ) {
+    static function checkDuplicate( $params, &$duplicates ) 
+    {
         $id         = CRM_Utils_Array::value( 'id'        , $params );
         $trxn_id    = CRM_Utils_Array::value( 'trxn_id'   , $params );
         $invoice_id = CRM_Utils_Array::value( 'invoice_id', $params );
@@ -604,7 +611,8 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
      * @access public
      * @static
      */
-    static function addPremium ( &$params ) {
+    static function addPremium ( &$params ) 
+    {
 
         require_once 'CRM/Contribute/DAO/ContributionProduct.php';
         $contributionProduct = new CRM_Contribute_DAO_ContributionProduct();
@@ -626,18 +634,18 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
         $contributionFields =& CRM_Contribute_DAO_Contribution::export( );
 
         foreach ($contributionFields as $key => $var) {
-            if ($key == 'contact_id') {
+            if ($key == 'contribution_contact_id') {
                 continue;
             }
             $fields[$key] = $var;
         }
 
         $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
-        // $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Contribution');
         return $fields;
     }
 
-    static function getCurrentandGoalAmount( $pageID ) {
+    static function getCurrentandGoalAmount( $pageID ) 
+    {
         $query = "
 SELECT p.goal_amount as goal, sum( c.total_amount ) as total
   FROM civicrm_contribution_page p,
@@ -661,7 +669,8 @@ GROUP BY p.id
         }
     }
 
-    function createHonorContact( $params , $honorId = null ) {
+    function createHonorContact( $params , $honorId = null ) 
+    {
         $honorParams = array();
         $honorParams["prefix_id"] = $params["honor_prefix"];
         $honorParams["first_name"]   = $params["honor_firstname"];
@@ -695,6 +704,7 @@ GROUP BY p.id
             }
          }
     }
+    
     /**
      * Function to get list of contribution In Honor of contact Ids
      *
@@ -724,7 +734,7 @@ GROUP BY p.id
 	  return $params;
     }
 
- /**
+    /**
      * function to get the sort name of a contact for a particular contribution
      *
      * @param  int    $id      id of the contribution
@@ -733,7 +743,8 @@ GROUP BY p.id
      * @static
      * @access public
      */
-    static function sortName( $id ) {
+    static function sortName( $id ) 
+    {
         $query = "
 SELECT civicrm_contact.sort_name
 FROM   civicrm_contribution, civicrm_contact

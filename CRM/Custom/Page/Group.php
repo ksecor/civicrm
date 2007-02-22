@@ -33,7 +33,6 @@
  * $Id$
  *
  */
-
 require_once 'CRM/Core/Page.php';
 
 /**
@@ -226,7 +225,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
      */
     function browse($action=null)
     {
-        
         // get all custom groups sorted by weight
         $customGroup = array();
         $dao =& new CRM_Core_DAO_CustomGroup();
@@ -254,55 +252,54 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
             $customGroup[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('id' => $dao->id));
         }
+
         $customGroupExtends = CRM_Core_SelectValues::customGroupExtends();
         foreach ($customGroup as $key => $array) {
             CRM_Core_DAO_CustomGroup::addDisplayEnums($customGroup[$key]);
             $customGroup[$key]['extends_display'] = $customGroupExtends[$customGroup[$key]['extends']];
-            
         }
         
-        //fix for Diplay the subTypes  
-        
+        //fix for Displaying subTypes  
         $subTypes= array();
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once "CRM/Member/BAO/MembershipType.php";
         
-        $subTypes['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType();
-        $subTypes['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
-        $subTypes['Membership']   = array("" => "-- Any --") + CRM_Member_BAO_MembershipType::getMembershipTypes( false );
-        $subTypes['Event']        = array("" => "-- Any --") + CRM_Core_OptionGroup::values('event_type');
-        $subTypes['Participant']  = array("" => "-- Any --") + CRM_Core_OptionGroup::values('participant_role');
+        $subTypes['Activity']     = CRM_Core_PseudoConstant::activityType();
+        $subTypes['Contribution'] = CRM_Contribute_PseudoConstant::contributionType( );
+        $subTypes['Membership']   = CRM_Member_BAO_MembershipType::getMembershipTypes( false );
+        $subTypes['Event']        = CRM_Core_OptionGroup::values('event_type');
+        $subTypes['Participant']  = CRM_Core_OptionGroup::values('participant_role');
         
         require_once "CRM/Contact/BAO/Relationship.php";
         
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
         $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
         $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
-        $allRelationshipType =array();
+
+        $allRelationshipType = array( );
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
         
-        
-        $subTypes['Relationship'] = array("" => "-- Any --") + $allRelationshipType;
+        $subTypes['Relationship'] = $allRelationshipType;
 
         require_once "CRM/Core/Component.php";
         $cSubTypes = CRM_Core_Component::contactSubTypes();
         $contactSubTypes = array();
-        foreach($cSubTypes as $key => $value ) {
+        foreach ($cSubTypes as $key => $value ) {
             $contactSubTypes[$key] = $key;
         }
-        $subTypes['Contact']  =  array("" => "-- Any --") + $contactSubTypes;
-        foreach($customGroup as $key => $values ) {
-            $sub  = CRM_Utils_Array::value( 'extends_entity_column_value',
-                                            $customGroup[$key] );
-            $type = CRM_Utils_Array::value( 'extends',
-                                            $customGroup[$key] );
+        
+        $subTypes['Contact']  =  $contactSubTypes;
+        foreach ($customGroup as $key => $values ) {
+            $sub  = CRM_Utils_Array::value( 'extends_entity_column_value', $customGroup[$key] );
+            $type = CRM_Utils_Array::value( 'extends', $customGroup[$key] );
             
             if ( $sub ) {
                 $customGroup[$key]["extends_entity_column_value"] = $subTypes[$type][$sub];
             } else {
-                $customGroup[$key]["extends_entity_column_value"] = CRM_Utils_Array::value( $type,
-                                                                                            $subTypes );
+                if ( is_array( CRM_Utils_Array::value( $type, $subTypes ) ) ) {
+                    $customGroup[$key]["extends_entity_column_value"] = ts("-- Any --");
+                }
             }
         }
       

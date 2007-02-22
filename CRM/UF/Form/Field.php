@@ -122,7 +122,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         if ( CRM_Core_Permission::access( 'TMF' ) ) {
             require_once 'CRM/TMF/BAO/Student.php';
             $this->_fields = array_merge (CRM_TMF_BAO_Student::exportableFields(), $this->_fields);
-
         }
 
         $this->_selectFields = array( );
@@ -244,7 +243,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $participantFields =& CRM_Event_BAO_Query::getParticipantFields();
             if ( ! empty( $participantFields ) ) {
                 unset($participantFields['event_id']);
-                unset($participantFields['contact_id']);
+                unset($participantFields['participant_contact_id']);
                 $fields['Participant'] =& $participantFields;
             }
         }
