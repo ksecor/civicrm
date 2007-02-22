@@ -538,11 +538,33 @@ WHERE  civicrm_participant.id = {$participantId}
     
     static function deleteParticipantSubobjects( $contribId ) 
     {
-
         require_once 'CRM/Contribute/BAO/Contribution.php';
         CRM_Contribute_BAO_Contribution::deleteContribution( $contribId );
         return;
     }
 
+
+    /**                          
+     * Delete the record that are associated with this Participation Payment
+     * 
+     * @param  int  $id id of the Participation Payment to delete                                                                                * 
+     * @return Int      Count of no of Participant Payment deleted.
+     * @access public 
+     * @static 
+     */ 
+    static function deleteParticipantPayment( $id ) 
+    {
+        //check dependencies        
+        require_once 'CRM/Event/DAO/ParticipantPayment.php';
+        $participantPayment = & new CRM_Event_DAO_ParticipantPayment( );
+        $participantPayment->id  = $id;
+        
+        if ( $participantPayment->find( true ) ) {
+            self::deleteParticipantSubobjects( $participantPayment->payment_entity_id );
+            return $participantPayment->delete( ); 
+        }   
+        
+        return false;
+    }
 }
 ?>

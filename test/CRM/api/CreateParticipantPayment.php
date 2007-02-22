@@ -58,8 +58,8 @@ class TestOfCreateParticipantPayment extends UnitTestCase
 
     function testDeleteParticipantPayment()
     {
-        //$delete = & crm_delete_participant_payment($this->_participantPayment['id']);
-        //$this->assertNull($delete);
+        $delete = & crm_delete_participant_payment($this->_participantPayment['id']);
+        $this->assertNull($delete);
     }
 }
 ?>

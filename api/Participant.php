@@ -269,5 +269,27 @@ function crm_update_participant_payment($params)
     return $participantPayment;
 }
 
-
+/**
+ * Deletes an existing Participant Payment
+ * 
+ * This API is used for deleting a Participant Payment
+ * 
+ * @param  Int  $participantPaymentID   Id of the Participant Payment to be deleted
+ * 
+ * @return null if successfull, object of CRM_Core_Error otherwise
+ * @access public
+ */
+function crm_delete_participant_payment($participantPaymentID)
+{
+    _crm_initialize();
+    
+    if (empty($participantPaymentID)) {
+        return _crm_error('Invalid value for participantPaymentID');
+    }
+    require_once 'CRM/Event/BAO/Participant.php';
+    $participant = new CRM_Event_BAO_Participant();
+    $result = $participant->deleteParticipantPayment($participantPaymentID);
+    
+    return $result ? null : _crm_error('Error while deleting participantPayment');
+}
 ?>
