@@ -459,7 +459,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $controller->run( );
 
             // we are done processing so restore the POST/REQUEST vars
-            if ( $reset || $doNotProcess ) {
+            if ( ( $reset || $doNotProcess ) && $oldQFDefault ) {
                 $_POST['_qf_default'] = $_REQUEST['_qf_default'] = $oldQFDefault;
             }
 
