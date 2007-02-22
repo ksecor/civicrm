@@ -1,7 +1,9 @@
 {* make sure there are some fields in the selector *}
 {if ! empty( $columnHeaders ) || $isReset }
 
+{if $search}
 {include file="CRM/Profile/Form/Search.tpl"}
+{/if}
 
 {* show profile listings criteria ($qill) *}
 {if $rows}

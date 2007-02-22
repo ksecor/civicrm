@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -460,7 +460,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access public
      */
     public function &compose($job_id, $event_queue_id, $hash, $contactId, 
-                                $email, &$recipient, $test = false) 
+                             $email, &$recipient, $test = false) 
     {
         if ($test) {
             $domain_id = 'DOMAIN';
