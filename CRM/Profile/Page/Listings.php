@@ -239,7 +239,6 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             $formController->run( ); 
         }
 
-        CRM_Core_Error::debug( 's', $this->_search );
         $this->assign( 'search', $this->_search );
 
         return parent::run( );

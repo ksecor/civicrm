@@ -128,16 +128,6 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $recipients =& $mailing->getRecipients($this->id);
         }
         
-        //added for CRM-1225
-        // Cancel if the request would exceed the available quota.
-        $count = $mailing->getTotalCount($mailing->id);
-        require_once 'CRM/Mailing/DAO/Quota.php';
-        $quota =& new CRM_Mailing_DAO_Quota();
-        if ($count > $quota->remaining()) {
-            // Set some sort of admin message.
-            exit();
-        }
-        
         while ($recipients->fetch()) {
             $params = array(
                 'job_id'        => $this->id,
