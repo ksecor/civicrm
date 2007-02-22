@@ -1630,3 +1630,19 @@ msgstr ""
 #. name for SCG
 msgid "Serbia and Montenegro"
 msgstr ""
+
+#. name for SRB
+msgid "Serbia"
+msgstr ""
+
+#. official_name for SRB
+msgid "Republic of Serbia"
+msgstr ""
+
+#. name for MNE
+msgid "Montenegro"
+msgstr ""
+
+#. official_name for MNE
+msgid "Republic of Montenegro"
+msgstr ""

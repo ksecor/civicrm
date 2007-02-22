@@ -251,7 +251,5 @@ INSERT INTO civicrm_country (id, name,iso_code) VALUES("1238", "Serbia and Monte
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1239", "Zambia", "ZM");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1240", "Zimbabwe", "ZW");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1241", "Åland Islands", "AX");
-
-
-
-
+INSERT INTO civicrm_country (id, name,iso_code) VALUES("1242", "Serbia", "RS");
+INSERT INTO civicrm_country (id, name,iso_code) VALUES("1243", "Montenegro", "ME");
