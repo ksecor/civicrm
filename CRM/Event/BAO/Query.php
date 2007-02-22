@@ -40,9 +40,10 @@ class CRM_Event_BAO_Query
     
     static function &getFields( ) 
     {
-        require_once 'CRM/Event/BAO/Participant.php';
-        $fields =& CRM_Event_BAO_Participant::importableFields( );
-
+//         require_once 'CRM/Event/BAO/Participant.php';
+//         $fields =& CRM_Event_BAO_Participant::importableFields( );
+        
+        $fields = array( );
         require_once 'CRM/Event/DAO/Event.php';
         $fields = array_merge( $fields, CRM_Event_DAO_Event::import( ) );
         $fields = array_merge( $fields, self::getParticipantFields( ) );
@@ -51,11 +52,10 @@ class CRM_Event_BAO_Query
     }
 
 
-    static function &getParticipantFields( ) 
+    static function &getParticipantFields( $onlyParticipant = false ) 
     {
         require_once 'CRM/Event/BAO/Participant.php';
-        $fields =& CRM_Event_BAO_Participant::importableFields( 'Individual', true, true );
-
+        $fields =& CRM_Event_BAO_Participant::importableFields( 'Individual', true, $onlyParticipant );
         return $fields;
     }
     

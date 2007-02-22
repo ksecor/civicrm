@@ -305,7 +305,13 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $locationType =& CRM_Core_PseudoConstant::locationType();
             
             require_once 'CRM/Core/BAO/CustomField.php';
-            $customFields = CRM_Core_BAO_CustomField::getFieldsForImport();
+            $customFields = CRM_Core_BAO_CustomField::getFieldsForImport( );
+            
+            // hack to add custom data for components
+            $components = array("Contribute", "Participant");
+            foreach ( $components as $value) {
+                $customFields = array_merge($customFields, CRM_Core_BAO_CustomField::getFieldsForImport($value));
+            }
 
             while ( $field->fetch( ) ) {
                 $name  = $title = $locType = $phoneType = '';
@@ -1239,7 +1245,14 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             //match if exixting contact type is same as profile contact type
             require_once "CRM/Core/BAO/UFField.php";
             $profileType = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
+            
+            //allow special mix profiles for Contribution and Participant
+            $specialProfiles = array('Contribution', 'Participant');
 
+            if ( in_array($profileType, $specialProfiles )  ) {
+                return true;
+            }
+            
             if ($contactType == $profileType) {
                 return true;
             }
@@ -1358,11 +1371,14 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $form->add('select', $name, ts( 'Contribution Type' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
         } else if ($fieldName == 'event_register_date' ) {
+            require_once "CRM/Event/PseudoConstant.php";
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ($fieldName == 'event_status_id' ) {
+            require_once "CRM/Event/PseudoConstant.php";
             $form->add('select', $name, ts( 'Participant Status' ),
                        array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantStatus( ), $required);
         } else if ($fieldName == 'role_id' ) {
+            require_once "CRM/Event/PseudoConstant.php";
             $form->add('select', $name, ts( 'Participant Role' ),
                        array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantRole( ), $required);
         } else if ($fieldName == 'scholarship_type_id' ) {

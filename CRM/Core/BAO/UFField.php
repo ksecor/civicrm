@@ -420,7 +420,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         
         $ufField =& new CRM_Core_DAO_UFField();
         $ufField->uf_group_id = $ufGroupId;
-        
+        $ufField->is_active   = 1;        
+
         $ufField->find();
 
         $fieldType = null;
@@ -428,7 +429,9 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             if ( array_key_exists( $ufField->field_type, $profileTypes ) ) {
                 if ( $fieldType &&
                      $fieldType != $ufField->field_type) {
-                    return 'Mixed';
+                    //commented this part so that we return other field type
+                    //return 'Mixed';
+                    return $ufField->field_type;
                 }
                 $fieldType = $ufField->field_type;
             }

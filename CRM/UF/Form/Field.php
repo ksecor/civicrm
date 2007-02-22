@@ -240,7 +240,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
 
         if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
             require_once 'CRM/Event/BAO/Query.php';
-            $participantFields =& CRM_Event_BAO_Query::getParticipantFields();
+            $participantFields =& CRM_Event_BAO_Query::getParticipantFields( true );
             if ( ! empty( $participantFields ) ) {
                 unset($participantFields['event_id']);
                 unset($participantFields['participant_contact_id']);

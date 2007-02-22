@@ -99,7 +99,9 @@ class CRM_Event_Invoke
                     CRM_Utils_System::mapConfigToSSL( );
                 }
             }
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
+
+            $id     = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, false, null, 'GET');
+            $session->pushUserContext( CRM_Utils_System::url("civicrm/event/info", "id={$id}&reset=1" ) );
             
             require_once 'CRM/Event/Controller/Registration.php';
             $controller =& new CRM_Event_Controller_Registration(ts('Online Registration'));
