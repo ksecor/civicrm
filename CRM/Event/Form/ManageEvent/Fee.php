@@ -200,9 +200,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $params = $ids = array();
         
         $params = $this->exportValues( );
+        $params['event_id'] = $ids['event_id'] = $this->_id;
+
         CRM_Event_BAO_EventPage::retrieve( $params, $values );
         $eventPageId = $values['id'];
-        $params['event_id'] = $ids['event_id'] = $this->_id;
 
         // delete all the prior label values in the custom options table
         if ( $this->_action & CRM_Core_Action::UPDATE ){
