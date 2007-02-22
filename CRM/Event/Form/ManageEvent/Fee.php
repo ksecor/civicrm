@@ -247,8 +247,6 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         
         //update event page table
         CRM_Event_BAO_EventPage::add( $params );
-      
-        CRM_Core_Session::setStatus( ts('Event Fee details have been saved.') );
     }
 
     /**

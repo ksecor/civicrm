@@ -74,7 +74,12 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $params = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
         $location = CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
-
+        
+        //retrieve custom field information
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $id, 0, $values['event']['event_type_id'] );
+        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+        $this->assign( 'action', CRM_Core_Action::VIEW);
         
         if ( $values['event']['is_online_registration'] ) {
             $registerText = "Register Now";

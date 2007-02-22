@@ -286,8 +286,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $ufJoinParams['weight'     ] = 2; 
         $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
         CRM_Core_BAO_UFJoin::create( $ufJoinParams );         
-        CRM_Core_Session::setStatus( ts('Online Registration details has been saved.') );
-        
+         
     }//end of function
     
     /**

@@ -50,6 +50,15 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      * @protected
      */
     public $_id;
+
+    /**
+     * is this the first page?
+     *
+     * @var boolean 
+     * @access protected  
+     */  
+    protected $_first = false;
+
     
     /** 
      * Function to set variables up before form is built 
@@ -66,6 +75,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         } else {
             $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         }
+
     }
     
     /**
@@ -106,16 +116,21 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     { 
-        $this->addButtons(array(
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Save'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                )
-                          );
-
+        $buttons = array( );
+        if ( ! $this->_first ) {
+            $buttons[] =  array ( 'type'      => 'back', 
+                                  'name'      => ts('<< Previous'), 
+                                  'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' );
+        }
+        $buttons[] = array ( 'type'      => 'next',
+                             'name'      => ts('Continue >>'),
+                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                             'isDefault' => true   );
+        $buttons[] = array ( 'type'      => 'cancel',
+                             'name'      => ts('Cancel') );
+        
+        $this->addButtons( $buttons );
+        
     }
 }
 ?>

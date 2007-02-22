@@ -154,7 +154,6 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         
         require_once 'CRM/Core/BAO/Location.php';
         CRM_Core_BAO_Location::add($params, $ids, self::LOCATION_BLOCKS);
-        CRM_Core_Session::setStatus( ts('The Event Location has been saved.' ));
         
     }//end of function
 

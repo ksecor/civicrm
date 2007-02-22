@@ -97,6 +97,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      */ 
     public function buildQuickForm( )  
     { 
+        $this->_first = true;
         $this->applyFilter('__ALL__', 'trim');
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
                    
@@ -170,8 +171,6 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Event/BAO/Event.php';
         $event =  CRM_Event_BAO_Event::create($params ,$ids);
         
-        CRM_Core_Session::setStatus( ts('The event "%1" has been saved.', array(1 => $event->title)) );
-
         $this->set( 'eId', $event->id );
         
 
