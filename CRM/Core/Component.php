@@ -116,9 +116,14 @@ class CRM_Core_Component
                        'formTpl' => 'quest',
                        'task'    => array( '34' => array( 'title'  => 'Export XML',
                                                           'class'  => 'CRM_TMF_Form_Task_XML',
-                                                          'result' => false ),
-                                           )
-                       );
+                                                          'result' => false ),                                           
+                                           
+                                           '35' => array( 'title'  => 'Export PDF',
+                                                          'class'  => 'CRM_TMF_Form_Task_PDF',
+                                                          'result' => false )
+                       ) 
+                       )
+                       ;
         }
         return self::$_info;
     }
