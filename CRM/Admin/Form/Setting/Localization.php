@@ -64,7 +64,7 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             }
             closedir($dir);
         }
-        sort($locales);
+        asort($locales);
         
         $this->addElement('select','lcMessages', ts('User Language'), array('en_US' => 'en_US') + $locales);
         $this->addElement('select','lcMonetary', ts('Monetary Locale'), array('en_US' => 'en_US') + $locales);
