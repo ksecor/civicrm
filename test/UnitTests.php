@@ -169,6 +169,11 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateParticipant.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteParticipant.php'    );
         
+        //Participant Payment api
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateParticipantPayment.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateParticipantPayment.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteParticipantPayment.php'    );
+        
         // UFGroup api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFGroup.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFGroup.php'    );
@@ -183,7 +188,8 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateEvent.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetEvent.php'       );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateEvent.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteEvent.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteEvent.php'    );
+
     }
 
 }

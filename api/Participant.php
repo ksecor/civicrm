@@ -62,6 +62,7 @@ function crm_create_participant($params, $contactID)
         return _crm_error( 'Params is not an array' );
     }
     
+
     if ( !isset($params['event_id']) || empty($contactID)) {
         return _crm_error( 'Required parameter missing' );
     }
@@ -114,7 +115,6 @@ function crm_get_participants( $params )
     }
     return $participantValues;
 }
-
 
 
 /**
@@ -193,4 +193,81 @@ function crm_delete_participant($participantID)
     
     return $result ? null : _crm_error('Error while deleting participant');
 }
+
+
+/**
+ * Create a Event Participant Payment
+ *  
+ * This API is used for creating a Participant Payment of Event.
+ * Required parameters : participant_id, contribution_id.
+ * 
+ * @param   array  $params     an associative array of name/value property values of civicrm_participant_payment
+ * @param   int    $contactID  ID of a contact
+ * 
+ * @return array of newly created payment property values.
+ * @access public
+ */
+function crm_create_participant_payment($params)
+{
+    _crm_initialize();
+    if ( !is_array( $params ) ) {
+        return _crm_error( 'Params is not an array' );
+    }
+    
+    if ( !isset($params['participant_id']) || !isset($params['payment_entity_id']) ) {
+        return _crm_error( 'Required parameter missing' );
+    }
+
+    require_once 'CRM/Event/DAO/ParticipantPayment.php';
+    $participantPaymentDAO =& new CRM_Event_DAO_ParticipantPayment();
+    $participantPaymentDAO->copyValues($params);
+    $participantPaymentDAO = $participantPaymentDAO->save();
+    
+    $participantPayment = array();
+    _crm_object_to_array($participantPaymentDAO, $participantPayment);
+    return $participantPayment;
+}
+
+/**
+ * Update an existing contact participant payment
+ *
+ * This api is used for updating an existing contact participant payment
+ * Required parrmeters : id of a participant_payment
+ * 
+ * @param  Array   $params  an associative array of name/value property values of civicrm_participant_payment
+ * 
+ * @return array of updated participant_payment property values
+ * @access public
+ */
+function crm_update_participant_payment($params)
+{
+    _crm_initialize();
+    if ( !is_array( $params ) ) {
+        return _crm_error( 'Params is not an array' );
+    }
+    
+    if ( !isset($params['id']) ) {
+        return _crm_error( 'Required parameter missing' );
+    }
+    
+    require_once 'CRM/Event/DAO/ParticipantPayment.php';
+    $participantPaymentBAO =& new CRM_Event_DAO_ParticipantPayment( );
+    $participantPaymentBAO->id = $params['id'];
+    $fields = $participantPaymentBAO->fields( );   
+    if ($participantPaymentBAO->find(true)) {
+        foreach ( $fields as $name => $field) {
+            if (array_key_exists($name, $params)) {                
+                $participantPaymentBAO->$name = $params[$name];
+            }
+        }
+        
+        $participantPaymentBAO->save();
+    }
+    
+    $participantPayment = array();
+    _crm_object_to_array( $participantPaymentBAO, $participantPayment );
+    return $participantPayment;
+}
+
+
 ?>
