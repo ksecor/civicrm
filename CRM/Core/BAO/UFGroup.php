@@ -234,9 +234,12 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $params = array( 1 => array( $id, 'Integer' ) );
         }
 
-        // add permissioning for profiles
-        $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
-        $query .= " AND $permissionClause ";
+        // add permissioning for profiles onlu if not registration
+        if ( ! $register ) {
+            $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
+            $query .= " AND $permissionClause ";
+        }
+
         $group =& CRM_Core_DAO::executeQuery( $query, $params );
         
         $fields = array( );
