@@ -129,7 +129,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
         $this->add('date', 'start_date', ts('Start Date /Time'), CRM_Core_SelectValues::date('datetime'),true);
         $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
-        $this->add('date', 'end_date', ts('End Date / Time'), CRM_Core_SelectValues::date('datetime'));
+        $this->add('date', 'end_date', ts('End Date / Time'), CRM_Core_SelectValues::date('datetime'),true);
         $this->addRule('end_date', ts('Please select a end valid date.'), 'qfDate');
         
         $this->add('text','max_participants', ts('Max Number of Participants'));

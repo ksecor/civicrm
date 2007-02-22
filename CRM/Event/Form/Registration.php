@@ -112,7 +112,6 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( ! $this->_values ) {
             // get all the values from the dao object
             $this->_values = array( );
-            
             //retrieve event information
             $params = array( 'id' => $this->_id );
             require_once 'CRM/Event/BAO/Event.php';
@@ -298,6 +297,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         // also assign the receipt_text
         $this->assign( 'receipt_text', $this->_values['event_page']['confirm_email_text'] );
+       
+        $this->assign('thankyou_title', $this->_params['thankyou_title']);
+        $this->assign('thankyou_text', $this->_params['thankyou_text']);
+        $this->assign('thankyou_footer_text', $this->_params['thankyou_footer_text']);                  
+        
+        
     }
 
     /**  

@@ -107,7 +107,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
         } else {
             $this->_params = $this->controller->exportValues( 'Register' );
-
+          
             if ( isset( $this->_params['state_province_id'] ) ) {
                 $this->_params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['state_province_id'] ); 
             }
@@ -240,11 +240,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
             
             $this->_params['receive_date'] = $now;
-            
+           
+            $this->_params['thankyou_title']= $this->_values['event_page']['thankyou_title'];
+            $this->_params['thankyou_text']= $this->_values['event_page']['thankyou_text'];
+            $this->_params['thankyou_footer_text']= $this->_values['event_page']['thankyou_footer_text'];
             // if paid event add a contribution record
             $contribution =& $this->processContribution( $this->_params, $result, $contactID );
         }
-        
         $this->set( 'params', $this->_params );
         
         // insert participant record

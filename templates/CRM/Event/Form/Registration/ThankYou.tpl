@@ -1,4 +1,10 @@
 <div class="form-item">
+   
+     <div id="thankyou_title">
+        <p>
+        {$thankyou_title}
+        </p>
+    </div>  
     <div id="thankyou_text">
         <p>
         {$thankyou_text}
@@ -79,9 +85,9 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
 
-    <div id="thankyou_footer">
+    <div id="thankyou_footer_text">
         <p>
-        {$thankyou_footer}
+        {$thankyou_footer_text}
         </p>
     </div>
 </div>

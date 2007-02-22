@@ -108,16 +108,20 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $this->_showHide->addShow( 'registration_show' );
             $this->_showHide->addShow( 'confirm_show' );
             $this->_showHide->addShow( 'mail_show' );
+            $this->_showHide->addShow( 'thankyou_show' );
             $this->_showHide->addHide( 'registration' );
             $this->_showHide->addHide( 'confirm' );
             $this->_showHide->addHide( 'mail' );
+            $this->_showHide->addHide( 'thankyou' );
         } else {
             $this->_showHide->addShow( 'registration' );
             $this->_showHide->addShow( 'confirm' );
             $this->_showHide->addShow( 'mail' );
+            $this->_showHide->addShow( 'thankyou' );
             $this->_showHide->addHide( 'registration_show' );
             $this->_showHide->addHide( 'confirm_show' );            
             $this->_showHide->addHide( 'mail_show' );
+            $this->_showHide->addHide( 'thankyou_show' );
         }
         $this->_showHide->addToTemplate( );
     }
@@ -139,6 +143,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         self::buildRegistrationBlock( $this );
         self::buildConfirmationBlock( $this );
         self::buildMailBlock( $this );
+        self::buildThankYouBlock( $this );
 
         parent::buildQuickForm();
     }
@@ -192,7 +197,13 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $form->addRule( "confirm_from_email", ts('Email is not valid.'), 'email' );
     }
 
-
+    function buildThankYouBlock( $form) 
+    {
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
+        $form->add('text','thankyou_title',ts('Title '));   
+        $form->add('textarea','thankyou_text',ts('Intro Text'), $attributes['thankyou_text']);
+        $form->add('textarea','thankyou_footer_text',ts('Footer Text'), $attributes['thankyou_footer_text']);     
+    }
     /**
      * Add local and global form rules
      *

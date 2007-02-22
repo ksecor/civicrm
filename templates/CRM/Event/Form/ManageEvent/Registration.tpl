@@ -66,6 +66,22 @@
     </fieldset>
 	</div>
 
+     {*ThankYou Block*}
+	<div id="thankyou_show" class="section-hidden section-hidden-border">
+        <a href="#" onclick="hide('thankyou_show'); show('thankyou'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}ThankYou Screen:{/ts}</label><br />
+	</div>	
+
+	<div id="thankyou">
+    <fieldset><legend><a href="#" onclick="hide('thankyou'); show('thankyou_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}ThankYou Screen:{/ts}</legend>
+    <dl>
+    	<dt>{$form.thankyou_title.label}</dt><dd>{$form.thankyou_title.html}</dd>
+	    <dt>{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}</dd>
+    	<dt>{$form.thankyou_footer_text.label}</dt><dd>{$form.thankyou_footer_text.html}</dd>       
+    </dl>
+    </fieldset>
+	</div>
+
+
 <dl>
 </div>
 <div id="crm-submit-buttons">
