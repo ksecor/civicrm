@@ -382,7 +382,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     {
         $errors = '';
 
-        CRM_Core_Error::debug( 'i', $ids );
         // get the string of relationship type
         $relationshipTypes = CRM_Utils_Array::value( 'relationship_type_id', $params );
         list( $type, $first, $second ) = explode('_', $relationshipTypes);
