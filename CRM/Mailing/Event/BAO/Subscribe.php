@@ -66,17 +66,18 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $contact_id = CRM_Core_BAO_UFGroup::findContact($params);
         
         CRM_Core_DAO::transaction('BEGIN');
-        if (is_a($contact_id, CRM_Core_Error)) {
+        if ( ! $contact_id ) {
             require_once 'CRM/Core/BAO/LocationType.php';
             /* If the contact does not exist, create one. */
             $formatted = array('contact_type' => 'Individual');
-            $value = array('email' => $email, 'location_type' =>
-                           CRM_Core_BAO_LocationType::getDefaultID());
+            $locationType = CRM_Core_BAO_LocationType::getDefault( );
+            $value = array('email' => $email,
+                           'location_type_id' => $locationType->id );
             _crm_add_formatted_param($value, $formatted);
             require_once 'api/Contact.php';
+            require_once 'CRM/Import/Parser.php';
             $contact =& crm_create_contact_formatted($formatted,
                                                      CRM_Import_Parser::DUPLICATE_SKIP);
-
             if (is_a($contact, CRM_Core_Error)) {
                 return null;
             }

@@ -127,8 +127,8 @@ function crm_mailer_event_domain_unsubscribe($job, $queue, $hash) {
  * @return boolean
  */
 function crm_mailer_event_subscribe($email, $domain_id, $group_id) {
-    $se =& CRM_Mailing_Event_BAO_Subscribe::subscribe(
-                    $domain_id, $group_id, $email);
+    $se =&
+        CRM_Mailing_Event_BAO_Subscribe::subscribe($domain_id, $group_id, $email);
 
     if ($se !== null) {
         /* Ask the contact for confirmation */
