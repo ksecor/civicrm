@@ -33,7 +33,7 @@
           {/if*}
           <tr class="{cycle values="odd-row,even-row"}">
             <td class="label"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&selectedChild=rel&cid=`$contactId`&id=`$rel.id`&rtype=`$rel.rtype`"}">{$rel.relation}</a></td>
-            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
+            <td><a href="{crmURL p='civicrm/contact/view/rel' q="action=view&reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>

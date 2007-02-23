@@ -1,5 +1,5 @@
 <div id="help">
-    {ts}Use the links below to configure or modify the global settings for CiviCRM for this site. Click the help icon <strong>( ? )</strong> in each section for details on the settings and options.{/ts}
+    {ts}Use the links below to configure or modify the global settings for CiviCRM for this site. Click the help icon <strong>( ? )</strong> for details on settings and options.{/ts}
 </div>
 <table class="report"> 
 <tr>
