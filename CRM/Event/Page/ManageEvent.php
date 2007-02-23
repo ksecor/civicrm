@@ -146,7 +146,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $title = "New Event Wizard";
             $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-            CRM_Utils_System::setTitle( ts( $title ) );
+            CRM_Utils_System::setTitle( $title );
             
             require_once 'CRM/Event/Controller/ManageEvent.php';
             $controller =& new CRM_Event_Controller_ManageEvent( );
