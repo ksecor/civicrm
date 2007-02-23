@@ -177,10 +177,10 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      *
      */
     static function del( $id )
-    {
+    { 
         require_once 'CRM/Core/BAO/Location.php';
         CRM_Core_BAO_Location::deleteContact( $id );
-      
+        
         require_once 'CRM/Event/DAO/EventPage.php';
         $registration           = & new CRM_Event_DAO_EventPage( );
         $registration->event_id = $id; 
@@ -204,12 +204,10 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         while ($customValue->fetch() ) {
             $customValue->delete();
         }
-        
         require_once 'CRM/Event/DAO/Participant.php';
         require_once 'CRM/Event/DAO/ParticipantPayment.php';
         $participant = & new CRM_Event_DAO_Participant( );
-        $participant->entity_id    = $id; 
-        $participant->entity_table = 'civicrm_event'; 
+        $participant->event_id = $id;
         $participant->find();
         while ($participant->fetch() ) {
             $payment = & new CRM_Event_DAO_ParticipantPayment( );
