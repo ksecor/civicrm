@@ -575,10 +575,17 @@ INNER JOIN  $c2g
         }
         
         // also get all acls for "Any Role" case
+        // and authenticated User Role if present
+        $roles = "0";
+        $session =& CRM_Core_Session::singleton( );
+        if ( $session->get( 'ufID' ) > 0 ) {
+            $roles .= ",2";
+        }
+
         $query      = "
 SELECT $acl.*
   FROM $acl 
- WHERE $acl.entity_id      = 0
+ WHERE $acl.entity_id      IN ( $roles )
    AND $acl.entity_table   = 'civicrm_acl_role'
 ";
 
