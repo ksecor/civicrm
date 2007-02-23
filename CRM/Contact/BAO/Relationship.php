@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -62,7 +62,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     static function create( &$params, &$ids ) 
     {
         $valid = $invalid = $duplicate = $saved = 0;
-        
+
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
         
         if ( ! $relationshipId ) {
@@ -382,6 +382,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     {
         $errors = '';
 
+        CRM_Core_Error::debug( 'i', $ids );
         // get the string of relationship type
         $relationshipTypes = CRM_Utils_Array::value( 'relationship_type_id', $params );
         list( $type, $first, $second ) = explode('_', $relationshipTypes);

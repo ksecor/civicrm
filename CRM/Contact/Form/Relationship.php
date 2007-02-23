@@ -167,7 +167,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             // add a form rule only when creating a new relationship
             // edit is severely limited, so add a simpleer form rule
             if ( $this->_action & CRM_Core_Action::ADD ) {
-                $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'formRule' ) );
+                $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'formRule' ), $this );
                 $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'dateRule' ) );
             } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
                 $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'dateRule' ) );
@@ -470,7 +470,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
    * @access public
    * @static
    */
-    static function formRule( &$params ) {
+    static function formRule( &$params, &$files, &$form ) {
         // hack, no error check for refresh
         if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
             return true;
@@ -478,8 +478,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         $ids = array( );
         $session =& CRM_Core_Session::singleton( );
-        $ids['contact'     ] = $session->get( 'contactId'     , 'CRM_Contact_Form_Relationship' );
-        $ids['relationship'] = $session->get( 'relationshipId', 'CRM_Contact_Form_Relationship' );
+        $ids['contact'     ] = $form->get( 'contactId'     );
+        $ids['relationship'] = $form->get( 'relationshipId');
 
         $errors        = array( );
         if ( CRM_Utils_Array::value( 'contact_check', $params ) && is_array( $params['contact_check'] ) ) {
