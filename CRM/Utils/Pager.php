@@ -155,7 +155,7 @@ class CRM_Utils_Pager extends Pager_Sliding {
         $params['spacesBeforeSeparator'] = 1;
         $params['spacesAfterSeparator']  = 1;
         $params['extraVars']             = array( 'force' => 1 );
-        $params['excludeVars']           = array( 'reset' => 1 );
+        $params['excludeVars']           = array( 'reset', 'snippet' );
 
         // set previous and next text labels
         $params['prevImg']    = ' ' . ts('&lt; Previous');
