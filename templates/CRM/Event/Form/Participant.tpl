@@ -41,7 +41,7 @@
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
 
-        <tr><td class="label">{$form.event_level.label}</td><td>{$form.event_level.html}</td></tr>
+        <tr><td class="label">{$form.amount.label}</td><td>{$form.amount.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Event Fee Level (if applicable).{/ts}</td></tr>
         <tr><td class="label">{$form.note.label}</td><td>{$form.note.html}</td></tr>
         <tr><td colspan=2>
@@ -66,12 +66,19 @@
  {literal}
  function reload(refresh) {
         var roleId = document.getElementById("role_id");
+        var eventId = document.getElementById("event_id");    
         var url = {/literal}"{$refreshURL}"{literal}
-        var post = url + "&subType=" + roleId.value;
+
+        if( eventId.value ) {
+            var post = url + "&event=" + eventId.value;
+            
+        }
+        if( roleId.value ) {
+            var post = post + "&subType=" + roleId.value;
+        }
         if( refresh ) {
             window.location= post; 
         }
-      
     } 
  {/literal}
 </script>

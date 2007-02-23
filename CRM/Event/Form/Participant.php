@@ -68,7 +68,15 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
      * @protected
      */
     protected $_contactID;
-
+    
+    /**
+     * array of event values
+     * 
+     * @var array
+     * @protected
+     */
+    protected $_event;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -78,14 +86,14 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
     public function preProcess()  
     {  
         // action
-        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
-                                                      $this, false, 'add' );
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
             
         $this->assign( 'action'  , $this->_action   ); 
         
-        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', 
-                                                         $this );
-        
+        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+
+        $this->_eId       = CRM_Utils_Request::retrieve( 'event', 'Positive', $this );
+       
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
@@ -112,7 +120,6 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             }
         }     
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Participant", $this->_id, 0,$this->_roleId );
-        
         parent::preProcess( );        
     }
     
@@ -143,6 +150,10 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         if ( $subType ) {
             $defaults[$this->_id]["role_id"] = $subType;
         }
+
+        if ( $this->_eId ) {
+            $defaults[$this->_id]["event_id"] = $this->_eId;
+        }
         
         if($this->_noteId) {
             $defaults[$this->_id]['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
@@ -160,6 +171,13 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
         }
         
+        require_once "CRM/Core/BAO/CustomOption.php";
+        $eventPage = array( 'entity_table' => 'civicrm_event_page',
+                            'label'        => $defaults[$this->_id]['event_level']);
+        CRM_Core_BAO_CustomOption::retrieve( $eventPage, $params );
+        
+        $defaults[$this->_id]['amount'] = $params['id'];
+
         return $defaults[$this->_id];
     }
     
@@ -188,7 +206,8 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                               );
             return;
         }
-
+        
+        
         $urlParams = "reset=1&cid={$this->_contactID}&context=participant";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
@@ -199,20 +218,20 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         if (CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
             $urlParams .= "&past=true";
         }
-
+        
         $url = CRM_Utils_System::url( 'civicrm/contact/view/participant',
                                       $urlParams, true, null, false ); 
-
+        
         $this->assign("refreshURL",$url);
         
         $url .= "&past=true";
-
+        
         $this->assign("pastURL", $url);
-
+        
         $events = array( );
-
+        
         $this->assign("past", false);
-
+        
         require_once "CRM/Event/BAO/Event.php";
 
         if ( CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) || ( $this->_action & CRM_Core_Action::UPDATE ) ) {
@@ -222,7 +241,8 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             $events = CRM_Event_BAO_Event::getEvents( );
         }
         
-        $this->add('select', 'event_id',  ts( 'Event' ),  array( '' => ts( '-select-' ) ) + $events, 'true' );
+        $this->add('select', 'event_id',  ts( 'Event' ),  
+                   array( '' => ts( '-select-' ) ) + $events, true, array('onchange' => "reload(true)") );
         
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),CRM_Core_SelectValues::date('datetime' ),true);   
         $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
@@ -234,7 +254,25 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                     array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantStatus( ),true );
         
         $this->add( 'text', 'source', ts('Event Source') );
-        $this->add( 'text', 'event_level', ts('Event Level') );
+        
+        $params = array( 'id' => $this->_eId );
+        CRM_Event_BAO_Event::retrieve( $params, $this->_event );
+        
+        if ( $this->_event['is_monetary'] ) {
+            
+            require_once "CRM/Event/BAO/EventPage.php";
+            $params = array( 'event_id' => $this->_eId );
+            CRM_Event_BAO_EventPage::retrieve( $params, $eventPage );
+            
+            //retrieve custom information
+            require_once 'CRM/Core/BAO/CustomOption.php';
+            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPage['id'], $this->_values['custom'] );
+            
+            require_once "CRM/Event/Form/Registration/Register.php";
+            CRM_Event_Form_Registration_Register::buildAmount( );
+        } else {
+            $this->add( 'text', 'amount', ts('Event Fee(s)') );
+        }
         
         $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
         
@@ -247,7 +285,8 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         } else {
             $buttonType = 'next';
         }
-        if ($this->_action & CRM_Core_Action::VIEW ) { 
+        
+        if ($this->_action & CRM_Core_Action::VIEW ) {
             CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
         } else {
             CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
@@ -262,9 +301,8 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
-        
     }
-
+    
     /**
      * Add local and global form rules
      *
@@ -322,9 +360,21 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         
         // get the submitted form values.  
         $params = $_POST;
-        $params['contact_id']    = $this->_contactID;
-        $params['register_date'] = CRM_Utils_Date::format($params['register_date']);
         
+        if( ! $this->_event['is_monetary'] ) {
+            $params['event_level']    = $params['amount'];
+        } else {
+            require_once "CRM/Core/BAO/CustomOption.php";
+            $eventPage = array( 'id' => $params['amount'] );
+            CRM_Core_BAO_CustomOption::retrieve( $eventPage, $pageInfo);
+            
+            $params['event_level']    = $pageInfo['label'];
+        }
+        
+        unset($params['amount']);
+
+        $params['register_date'] = CRM_Utils_Date::format($params['register_date']);
+        $params['contact_id']    = $this->_contactID;
         if ( $this->_id ) {
             $ids['participant']  = $params['id'] = $this->_id;
         }
@@ -349,7 +399,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         // do the updates / insert with custom data
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $participant->id, 0, $params['role_id']);
-        
+
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Participant", $participant->id); 
                 
