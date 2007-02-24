@@ -9,7 +9,20 @@
       {if $event.description}
         <tr><td colspan="2">{$event.description}</td></tr>
       {/if}
-	  <tr><td><label>{ts}When{/ts}</label></td><td width="90%">{$event.event_start_date|crmDate}{if $event.event_end_date} &nbsp; {ts}through{/ts} &nbsp; {$event.event_end_date|crmDate}{/if}</td></tr>
+	  <tr><td><label>{ts}When{/ts}</label></td>
+          <td width="90%">
+            {$event.event_start_date|crmDate}
+            {if $event.event_end_date}
+                &nbsp; {ts}through{/ts} &nbsp;
+                {* Only show end time if end date = start date *}
+                {if $event.event_end_date|date_format:"%Y%m%d" == $event.event_start_date|date_format:"%Y%m%d"}
+                    {$event.event_end_date|date_format:"%I:%M %p"}
+                {else}
+                    {$event.event_end_date|crmDate}
+                {/if}
+            {/if}
+          </td>
+      </tr>
       <tr><td><label>{ts}Location{/ts}</label></td>
           <td>
             {if $location.1.name}{$location.1.name}<br />{/if}
@@ -40,7 +53,7 @@
       {/if}
       
       {if $event.is_monetary eq 1}
-      <tr><td style="vertical-align:top;"><label>{ts}Event Fee(s){/ts}</label></td>
+      <tr><td style="vertical-align:top;"><label>{ts}Fee(s){/ts}</label></td>
         <td>
         <table class="form-layout-compressed">
          {section name=loop start=1 loop=11}

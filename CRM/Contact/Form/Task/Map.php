@@ -141,7 +141,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
             if ( $type == 'Contact') {
                 $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Search Results') . '</a>';
             } else {
-                $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Manage Event') . '</a>';
+                $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Event Info') . '</a>';
             }
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
         }
