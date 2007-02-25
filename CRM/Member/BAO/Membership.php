@@ -288,8 +288,11 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         if ( !$userID ) {
             $session =& CRM_Core_Session::singleton( );
             $userID  = $session->get( 'userID' );
+            if ( ! $userID ) {
+                return;
+            }
         }
-        
+
         $query = "
 UPDATE civicrm_membership_type
   SET  member_of_contact_id = %1

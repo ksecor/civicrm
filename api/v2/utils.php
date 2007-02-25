@@ -40,6 +40,14 @@ function _civicrm_initialize( ) {
     $config =& CRM_Core_Config::singleton( );
 }
 
+function _civicrm_create_error( $msg ) {
+    $values = array( );
+    
+    $values['is_error']      = 1;
+    $values['error_message'] = $msg;
+    return $values;
+}
+
 /**
  * Check if the given array is actually an error
  *
@@ -49,7 +57,7 @@ function _civicrm_initialize( ) {
  * @static void
  * @access public
  */
-function civicrm_error( &$params ) {
+function civicrm_error( $params ) {
     return ( array_key_exists( 'is_error', $params ) &&
              $params['is_error'] ) ? true : false;
 }

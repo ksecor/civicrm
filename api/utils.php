@@ -122,7 +122,6 @@ function _crm_update_from_object(&$object, &$values, $empty = false, $zeroMoney 
     }
 }
 
-
 /**
  * This function ensures that we have the right input parameters
  *
@@ -137,7 +136,7 @@ function _crm_update_from_object(&$object, &$values, $empty = false, $zeroMoney 
  * @return bool|CRM_Utils_Error
  * @access public
  */
-function _crm_check_params( &$params, $contact_type = 'Individual' ) {
+function _crm_check_params( &$params, $contact_type = 'Individual', $dupeCheck = true ) {
     static $required = array(
                              'Individual'   => array(
                                                    array( 'first_name', 'last_name' ),
@@ -188,11 +187,13 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
         return _crm_error( "Required fields not found for $contact_type $error" );
     }
 
-    // check for record already existing
-    require_once 'CRM/Core/BAO/UFGroup.php';
-    if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ) != null ) {
-        return _crm_error( "Found matching contacts: $ids", 8000, 'Fatal',
-                           $ids );
+    if ( $dupeCheck ) {
+        // check for record already existing
+        require_once 'CRM/Core/BAO/UFGroup.php';
+        if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ) != null ) {
+            return _crm_error( "Found matching contacts: $ids", 8000, 'Fatal',
+                               $ids );
+        }
     }
 
     return true;

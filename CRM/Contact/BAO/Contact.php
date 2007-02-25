@@ -341,7 +341,10 @@ ORDER BY
         $prefComm =  $newPref;
         
         if ( is_array($prefComm) && !empty($prefComm) ) {
-            $prefComm = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+            $prefComm =
+                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)) .
+                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             
             $contact->preferred_communication_method = $prefComm;
         } else {
@@ -675,13 +678,15 @@ ORDER BY
 
         CRM_Core_DAO::transaction( 'BEGIN' ); 
 
-        $params['contact_type'] = 'Individual';
+        if ( ! array_key_exists( 'contact_type', $params ) ) {
+            $params['contact_type'] = 'Individual';
+        }
         $contact = CRM_Contact_BAO_Contact::add   ( $params, $ids );
 
         $params['contact_id'] = $contact->id;
 
-        require_once 'CRM/Contact/BAO/Individual.php';
-        CRM_Contact_BAO_Individual::add( $params, $ids );
+        require_once "CRM/Contact/BAO/{$params['contact_type']}.php";
+        eval( 'CRM_Contact_BAO_' . $params['contact_type'] . '::add( $params, $ids );' );
 
         require_once 'CRM/Core/BAO/LocationType.php';
         $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
@@ -752,6 +757,7 @@ ORDER BY
                 $cf->id = $custom_field_id;
                 if ( $cf->find( true ) ) {
                     switch($cf->html_type) {
+
                     case 'Select Date':
                         $date = CRM_Utils_Date::format( $value );
                         if ( ! $date ) {
@@ -759,13 +765,22 @@ ORDER BY
                         }
                         $customValue = $date;
                         break;
+
                     case 'CheckBox':
-                        $customValue = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                        $customValue =
+                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                            implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)) .
+                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                         break;
+
                     //added a case for Multi-Select
                     case 'Multi-Select':
-                        $customValue = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                        $customValue = 
+                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
+                            implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)) . 
+                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                         break;
+
                     default:
                         $customValue = $value;
                     }

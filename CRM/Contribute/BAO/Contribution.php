@@ -685,7 +685,6 @@ GROUP BY p.id
             CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
             $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
             return $contact->id;    
-             
         } else {
             require_once "CRM/Core/BAO/UFGroup.php";
             $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
