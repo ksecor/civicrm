@@ -52,9 +52,11 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
     function preProcess( ) {
         parent::preProcess( );
         $this->_params = $this->get( 'params' );
+       
+        $this->assign( 'thankyou_text' , $this->_values['event_page']['thankyou_text']  );
+        $this->assign( 'thankyou_footer_text' , $this->_values['event_page']['thankyou_footer_text']  );
 
-        $thankYouMsg = "Registration Successful for \"" . $this->_values['event']['title'] . "\"";
-        CRM_Utils_System::setTitle($thankYouMsg);
+        CRM_Utils_System::setTitle($this->_values['event_page']['thankyou_title']);
     }
 
     /** 

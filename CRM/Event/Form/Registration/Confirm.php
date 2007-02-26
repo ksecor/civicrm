@@ -241,9 +241,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             
             $this->_params['receive_date'] = $now;
            
-            $this->_params['thankyou_title']= $this->_values['event_page']['thankyou_title'];
-            $this->_params['thankyou_text']= $this->_values['event_page']['thankyou_text'];
-            $this->_params['thankyou_footer_text']= $this->_values['event_page']['thankyou_footer_text'];
             // if paid event add a contribution record
             $contribution =& $this->processContribution( $this->_params, $result, $contactID );
         }
