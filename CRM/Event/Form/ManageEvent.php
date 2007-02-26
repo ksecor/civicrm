@@ -58,7 +58,15 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      * @access protected  
      */  
     protected $_first = false;
-
+ 
+    /** 
+     * are we in single form mode or wizard mode?
+     * 
+     * @var boolean
+     * @access protected 
+     */ 
+    protected $_single;
+    
     
     /** 
      * Function to set variables up before form is built 
@@ -75,6 +83,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         } else {
             $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         }
+        $this->_single = $this->get( 'single' );
 
     }
     
@@ -117,20 +126,33 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
     public function buildQuickForm( )  
     { 
         $buttons = array( );
-        if ( ! $this->_first ) {
-            $buttons[] =  array ( 'type'      => 'back', 
-                                  'name'      => ts('<< Previous'), 
-                                  'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' );
+        if ( $this->_single ) {
+            $this->addButtons(array(
+                                    array ( 'type'      => 'next',
+                                            'name'      => ts('Save'),
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                            'isDefault' => true   ),
+                                    array ( 'type'      => 'cancel',
+                                            'name'      => ts('Cancel') ),
+                                    )
+                              );
+        } else {
+            $buttons = array( );
+            if ( ! $this->_first ) {
+                $buttons[] =  array ( 'type'      => 'back', 
+                                      'name'      => ts('<< Previous'), 
+                                      'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' );
+            }
+            $buttons[] = array ( 'type'      => 'next',
+                                 'name'      => ts('Continue >>'),
+                                 'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                 'isDefault' => true   );
+            $buttons[] = array ( 'type'      => 'cancel',
+                                 'name'      => ts('Cancel') );
+            
+            $this->addButtons( $buttons );
+
         }
-        $buttons[] = array ( 'type'      => 'next',
-                             'name'      => ts('Continue >>'),
-                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                             'isDefault' => true   );
-        $buttons[] = array ( 'type'      => 'cancel',
-                             'name'      => ts('Cancel') );
-        
-        $this->addButtons( $buttons );
-        
     }
 }
 ?>

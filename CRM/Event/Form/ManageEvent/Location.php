@@ -67,6 +67,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      * @access public 
      */ 
     function preProcess( ) {
+       
         parent::preProcess( );
     }
 
@@ -112,9 +113,16 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     function setShowHide( &$defaults, $force ) 
     {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array(),'') ;
-
-        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS );
-        
+        $prefix =  array( 'phone','email' );
+        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS , $prefix);
+        if ( $force ) {
+            $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
+            $config =& CRM_Core_Config::singleton( );
+            
+            CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
+                                                       $locationDefaults,
+                                                       $config->maxLocationBlocks, $prefix );
+        }
         $this->_showHide->addToTemplate( );
     }
     
@@ -129,7 +137,12 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);
         
         require_once 'CRM/Contact/Form/Location.php';
-        CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
+
+        //blocks to be displayed
+        $locationCompoments = array('Phone', 'Email');
+        CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS ,$locationCompoments);
+
+        $this->assign( 'index' , 1 );
         $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
     
         parent::buildQuickForm();

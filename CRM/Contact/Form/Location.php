@@ -52,7 +52,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      */
     const BLOCKS = 3;
 
-    static $_commPrefs = array( 'phone', 'email', 'im' );
+    static $_commPrefs = array( 'phone','email' ,'im');
 
     /**
      * function to build location block
@@ -60,10 +60,12 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @param object $form the object of the form (QF Object)
      * @param int $maxLocationBlocks no of location blocks
      *
+     * @param array $locationCompoments blocks to be displayed(Phone,Email,IM)
+     *
      * @static 
      * @access public
      */
-    static function &buildLocationBlock(&$form, $maxLocationBlocks) 
+    static function &buildLocationBlock(&$form, $maxLocationBlocks, $locationCompoments = null) 
     {
         $location = array();
         
@@ -71,17 +73,24 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             $location[$locationId]['location_type_id'] =& $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_Core_PseudoConstant::locationType());
             $location[$locationId]['is_primary']       =& $form->addElement('checkbox', "location[$locationId][is_primary]", ts('Primary location for this contact'),  ts('Primary location for this contact'), array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks);" ) );
             $location[$locationId]['name']    =& $form->addElement('text', "location[$locationId][name]",ts('Location Name'),CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name'));
+
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
-
-            CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, self::BLOCKS); 
-            CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS); 
-            CRM_Contact_Form_IM::buildIMBlock      ($form, $location, $locationId, self::BLOCKS); 
-
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '');
-
+            
+            if ( ! $locationCompoments ) {
+                CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, self::BLOCKS); 
+                CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS); 
+                CRM_Contact_Form_IM::buildIMBlock      ($form, $location, $locationId, self::BLOCKS); 
+            } else {
+                foreach ( $locationCompoments as $key) {
+                    eval('CRM_Contact_Form_' . $key . '::build' . $key . 'Block( $form ,$location , $locationId , 2 );');
+                }
+                require_once 'CRM/Core/ShowHideBlocks.php';
+                CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '');
+            }
+            return $location;
         }
-        return $location;
     }
+
     
     /**
      * function to show/hide the location block
@@ -91,7 +100,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      *
      * @access public
      */
-    function setShowHideDefaults( &$showHide, $maxLocationBlocks ) {
+    function setShowHideDefaults( &$showHide, $maxLocationBlocks ,$prefixBlock = null) {
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
             if ( $locationId == 1 ) {
                 $showHide->addShow( "id_location_{$locationId}" );
@@ -105,7 +114,10 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                 }
             }
             
-            foreach ( self::$_commPrefs as $block ) {
+            if ( ! $prefixBlock ) {
+                $prefixBlock = self::$_commPrefs ;
+            }
+            foreach ( $prefixBlock as $block ) {
                 for ( $blockId = 1; $blockId <= self::BLOCKS; $blockId++ ) {
                     if ( $blockId != 1 ) {
                         $showHide->addHide( "id_location_{$locationId}_{$block}_{$blockId}");
@@ -119,7 +131,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             }
         }
     }
-
+    
     /**
      * Fix what blocks to show/hide based on the default values set
      *
@@ -128,7 +140,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      *
      * @return void
      */
-    function updateShowHide( &$showHide, &$values, $maxLocationBlocks ) {
+    function updateShowHide( &$showHide, &$values, $maxLocationBlocks, $prefixBlock = null ) {
         if ( empty( $values ) ) {
             return;
         }
@@ -171,8 +183,10 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                 $showHide->addShow( "id_location_{$nextLocationId}_show" );
             }
             
-            $commPrefs = array( 'phone', 'email', 'im' );
-            foreach ( self::$_commPrefs as $block ) {
+            if ( ! $prefixBlock ) {
+                $prefixBlock = self::$_commPrefs;
+            }
+            foreach ( $prefixBlock as $block ) {
                 $tmpArray = CRM_Utils_Array::value( $block, $values[$locationId] );
                 self::updateShowHideSubBlocks( $showHide, $block, "id_location_{$locationId}",
                                                $tmpArray );
