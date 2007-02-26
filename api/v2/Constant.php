@@ -51,7 +51,7 @@ function civicrm_constant_get( $name ) {
         eval( '$values =& CRM_Core_PseudoConstant::' . $name . '( );' );
         return $values;
     } else {
-        return _civicrm_create_error( ts( 'Unknown civicrm constant' ) ); 
+        return civicrm_create_error( ts( 'Unknown civicrm constant' ) ); 
     }
 }
 

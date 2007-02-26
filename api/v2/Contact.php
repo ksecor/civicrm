@@ -44,15 +44,16 @@ require_once 'api/v2/utils.php';
  * ignoreDupe flag to ignore or return error
  *
  * @param  array   $params           (reference ) input parameters
- * @param  int     $contactID        if present the contact with that ID is updated
- * @param  boolean $dupeCheck        should we do a dupeCheck before attempting to insert?
  *
- * @return array (reference )        array of properties, if error an array with an error id and error message
+ * @return array (reference )        contact_id of created or updated contact
  * @static void
  * @access public
  */
-function &civicrm_contact_add( &$params, $contactID = null, $dupeCheck = true ) {
+function &civicrm_contact_add( &$params ) {
     _civicrm_initialize( );
+
+    $contactID = CRM_Utils_Array::value( 'contact_id', $params );
+    $dupeCheck = CRM_Utils_Array::value( 'dupe_check', $params, false );
 
     if ( ! $contactID ) {
         $values = civicrm_contact_check_params( $params, $dupeCheck );
@@ -64,7 +65,7 @@ function &civicrm_contact_add( &$params, $contactID = null, $dupeCheck = true ) 
 
     $contact =& _civicrm_contact_add( $params, $contactID );
     if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-        return _civicrm_create_error( $contact->_errors[0]['message'] );
+        return civicrm_create_error( $contact->_errors[0]['message'] );
     } else {
         $values = array( );
         $values['contact_id'] = $contact->id;
@@ -79,35 +80,31 @@ function &civicrm_contact_add( &$params, $contactID = null, $dupeCheck = true ) 
  * the client has requested to return the first found contact
  *
  * @param  array   $params           (reference ) input parameters
- * @param array    $returnProperties Which properties should be included in the
- *                                   returned Contact object. If NULL, the default
- *                                   set of properties will be included.
-
  *
  * @return array (reference )        array of properties, if error an array with an error id and error message
  * @static void
  * @access public
  */
-function &civicrm_contact_get( &$params, $returnProperties = null ) {
+function &civicrm_contact_get( &$params ) {
     _civicrm_initialize( );
 
     $values = array( );
     if ( empty( $params ) ) {
-        return _civicrm_create_error( ts( 'No input parameters present' ) );
+        return civicrm_create_error( ts( 'No input parameters present' ) );
     }
 
     if ( ! is_array( $params ) ) {
-        return _civicrm_create_error( ts( 'Input parameters is not an array' ) );
+        return civicrm_create_error( ts( 'Input parameters is not an array' ) );
     }
 
-    $contacts =& civicrm_contact_search( $params, $returnProperties );
+    $contacts =& civicrm_contact_search( $params ) {
     if ( civicrm_error( $contacts ) ) {
         return $contacts;
     }
 
     if ( count( $contacts ) != 1 &&
          ! $params['returnFirst'] ) {
-        return _civicrm_create_error( ts( '%1 contacts matching input params', array( 1 => count( $contacts ) ) ) );
+        return civicrm_create_error( ts( '%1 contacts matching input params', array( 1 => count( $contacts ) ) ) );
     }
 
     $contacts = array_values( $contacts );
@@ -125,10 +122,16 @@ function &civicrm_contact_get( &$params, $returnProperties = null ) {
  */
 function civicrm_contact_delete( &$params ) {
     require_once 'CRM/Contact/BAO/Contact.php';
-    if ( CRM_Contact_BAO_Contact::deleteContact( $params['id'] ) ) {
-        return _civicrm_create_success( );
+
+    $contactID = CRM_Utils_Array::value( 'contact_id', $params );
+    if ( ! $contactID ) {
+        return civicrm_create_error( ts( 'Could not find contact_id in input parameters' ) );
+    }
+
+    if ( CRM_Contact_BAO_Contact::deleteContact( $contactID ) ) {
+        return civicrm_create_success( );
     } else {
-        return _civicrm_create_error( ts( 'Could not delete contact' ) );
+        return civicrm_create_error( ts( 'Could not delete contact' ) );
     }
 }
 
@@ -139,9 +142,6 @@ function civicrm_contact_delete( &$params ) {
  * @param array    $returnProperties Which properties should be included in the
  *                                   returned Contact object. If NULL, the default
  *                                   set of properties will be included.
- * @param string   $sort             sort order for sql query
- * @param int      $offset           the row number to start from
- * @param int      $rowCount         the number of rows to return
  *
  * @return array (reference )        array of contacts, if error an array with an error id and error message
  * @static void
@@ -154,8 +154,29 @@ function &civicrm_contact_search( &$params,
                                   $rowCount = 25 ) {
     _civicrm_initialize( );
 
+    $inputParams      = array( );
+    $returnProperties = array( );
+    $otherVars = array( 'sort', 'offset', 'rowCount' );
+    
+    $sort     = null;
+    $offset   = 0;
+    $rowCount = 25;
+    foreach ( $params as $n => $v ) {
+        if ( substr( $n, 0, 7 ) == 'return.' ) {
+            $returnProperties[ substr( $n, 8 ) ] = $v;
+        } elseif ( array_key_exists( $n, $otherVars ) ) {
+            $$n = $v;
+        } else {
+            $inputParams[$n] = $v;
+        }
+    }
+
+    if ( empty( $returnProperties ) ) {
+        $returnProperties = null;
+    }
+
     require_once 'CRM/Contact/BAO/Query.php';
-    $newParams =& CRM_Contact_BAO_Query::convertFormValues( $params );
+    $newParams =& CRM_Contact_BAO_Query::convertFormValues( $inputParams );
     list( $contacts, $options ) = CRM_Contact_BAO_Query::apiQuery( $newParams,
                                                                    $returnProperties,
                                                                    null,
@@ -195,17 +216,17 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true ) {
 
     // cannot create a contact with empty params
     if ( empty( $params ) ) {
-        return _civicrm_create_error( 'Input Parameters empty' );
+        return civicrm_create_error( 'Input Parameters empty' );
     }
 
     if ( ! array_key_exists( 'contact_type', $params ) ) {
-        return _civicrm_create_error( 'Contact Type not specified' );
+        return civicrm_create_error( 'Contact Type not specified' );
     }
 
     // contact_type has a limited number of valid values
     $fields = CRM_Utils_Array::value( $params['contact_type'], $required );
     if ( $fields == null ) {
-        return _civicrm_create_error( "Invalid Contact Type: {$params['contact_type']}" );
+        return civicrm_create_error( "Invalid Contact Type: {$params['contact_type']}" );
     }
 
     $valid = false;
@@ -231,14 +252,14 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true ) {
     }
 
     if ( ! $valid ) {
-        return _civicrm_create_error( "Required fields not found for {$params['contact_type']} $error" );
+        return civicrm_create_error( "Required fields not found for {$params['contact_type']} $error" );
     }
 
     if ( $dupeCheck ) {
         // check for record already existing
         require_once 'CRM/Core/BAO/UFGroup.php';
         if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ) != null ) {
-            return _civicrm_create_error( "Found matching contacts: $ids", 8000, 'Fatal',
+            return civicrm_create_error( "Found matching contacts: $ids", 8000, 'Fatal',
                                           $ids );
         }
     }

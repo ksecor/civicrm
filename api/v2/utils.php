@@ -40,7 +40,7 @@ function _civicrm_initialize( ) {
     $config =& CRM_Core_Config::singleton( );
 }
 
-function _civicrm_create_error( $msg ) {
+function civicrm_create_error( $msg ) {
     $values = array( );
     
     $values['is_error']      = 1;
@@ -48,7 +48,7 @@ function _civicrm_create_error( $msg ) {
     return $values;
 }
 
-function _civicrm_create_success( $result = 1 ) {
+function civicrm_create_success( $result = 1 ) {
     $values = array( );
     
     $values['is_error'] = 0;

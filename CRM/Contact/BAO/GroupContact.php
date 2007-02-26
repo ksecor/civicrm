@@ -128,7 +128,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @access public
      * @static
      */
-    static function addContactsToGroup( &$contactIds, $groupId, $method = 'Admin',$status = 'Added', $tracking = null)  {
+    static function addContactsToGroup( &$contactIds, $groupId,
+                                        $method = 'Admin',
+                                        $status = 'Added',
+                                        $tracking = null)  {
 
         require_once 'CRM/Utils/Hook.php';
         
