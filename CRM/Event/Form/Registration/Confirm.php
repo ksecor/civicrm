@@ -301,7 +301,7 @@ WHERE  v.option_group_id = g.id
         }
         
         $ids = array();
-        $participant = CRM_Event_BAO_Participant::add($participantParams, $ids);
+        $participant = CRM_Event_BAO_Participant::create($participantParams, $ids);
         
         CRM_Core_DAO::transaction( 'COMMIT' );
 
