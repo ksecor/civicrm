@@ -75,11 +75,22 @@ class TS_CiviCRMTests
     when '20' then
       suite << TC_TestContactContribution.suite
     when '21' then
+     # suite << TC_TestEventImportParticipant.suite
+    when '22' then
+      suite << TC_TestEventFindParticipants.suite
+    when '23' then
+      suite << TC_TestAdminParticipantRole.suite
+    when '24' then
+      suite << TC_TestAdminParticipantStatus.suite
+    when '25' then
+      suite << TC_TestAdminEventType.suite
+    when '26' then
+      suite << TC_TestAdminManageEvents.suite
+    when '27' then
       print "Sory, no test case present for this operation"
     else
       print "Sorry, you have entered wrong choice. Please try again"
-    end
-        
+    end        
     return suite
   end 
 end

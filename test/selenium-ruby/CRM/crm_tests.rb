@@ -57,4 +57,10 @@ require 'test_admin_membership_type'
 require 'test_admin_membership_status'
 require 'test_admin_message_templates'
 
-
+#CiviEvent sction
+require 'test_admin_manage_events'
+require 'test_admin_event_type'
+require 'test_admin_participant_role'
+require 'test_admin_participant_status'
+require 'test_event_find_participant'
+require 'test_event_import_participant'

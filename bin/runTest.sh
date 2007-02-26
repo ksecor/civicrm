@@ -113,6 +113,7 @@ sub_menu()
     echo "  19  : CiviMember - Find Memberships"
     echo "  20  : CiviMember - Import Memberships"
     echo "  21  : CiviMail"
+    echo "  22  : CiviEvent"
 }
 
 ###########################################################
