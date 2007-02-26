@@ -53,13 +53,13 @@ INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
 INSERT INTO civicrm_mailing_component
     (domain_id,name,component_type,subject,body_html,body_text,is_default,is_active)
 VALUES
-    (@domain_id,'Mailing Header','Header','This is the Header','HTML Body of Header','Text Body of Header',1,1),
-    (@domain_id,'Mailing Footer','Footer','This is the Footer','HTML Body of Footer','Text Body of Footer',1,1),
-    (@domain_id,'Subscribe Message','Subscribe','Subscription confirmation request','You have a pending subscription to {ldelim}subscribe.group{rdelim}.  To confirm this subscription, reply to this email.','You have a pending subscription to {ldelim}subscribe.group{rdelim}.  To confirm this subscription, reply to this email.',1,1),
-    (@domain_id,'Welcome Message','Welcome','Welcome','Welcome to {ldelim}welcome.group{rdelim}!','Welcome to {ldelim}welcome.group{rdelim}!',1,1),
-    (@domain_id,'Unsubscribe Message','Unsubscribe','Unsubscribe results','You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.','You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.',1,1),
-    (@domain_id,'Opt-out Message','OptOut','Goodbye','You have been removed from {ldelim}domain.name{rdelim}.  Goodbye.','You have been removed from {ldelim}domain.name{rdelim}.  Goodbye.',1,1),
-    (@domain_id,'Auto-responder','Reply','Automated response','Thank you for your reply.','Thank you for your reply.',1,1);
+    (@domain_id,'{ts}Mailing Header{/ts}','Header','{ts}This is the Header{/ts}','{ts}HTML Body of Header{/ts}','{ts}Text Body of Header{/ts}',1,1),
+    (@domain_id,'{ts}Mailing Footer{/ts}','Footer','{ts}This is the Footer{/ts}','{ts}HTML Body of Footer{/ts}','{ts}Text Body of Footer{/ts}',1,1),
+    (@domain_id,'{ts}Subscribe Message{/ts}','Subscribe','{ts}Subscription confirmation request{/ts}','{ts}You have a pending subscription to {ldelim}subscribe.group{rdelim}. To confirm this subscription, reply to this email.{/ts}','{ts}You have a pending subscription to {ldelim}subscribe.group{rdelim}. To confirm this subscription, reply to this email.{/ts}',1,1),
+    (@domain_id,'{ts}Welcome Message{/ts}','Welcome','{ts}Welcome{/ts}','{ts}Welcome to {ldelim}welcome.group{rdelim}!{/ts}','{ts}Welcome to {ldelim}welcome.group{rdelim}!{/ts}',1,1),
+    (@domain_id,'{ts}Unsubscribe Message{/ts}','Unsubscribe','{ts}Unsubscribe results{/ts}','{ts}You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.{/ts}','{ts}You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.{/ts}',1,1),
+    (@domain_id,'{ts}Opt-out Message{/ts}','OptOut','{ts}Goodbye{/ts}','{ts}You have been removed from {ldelim}domain.name{rdelim}. Goodbye.{/ts}','{ts}You have been removed from {ldelim}domain.name{rdelim}. Goodbye.{/ts}',1,1),
+    (@domain_id,'{ts}Auto-responder{/ts}','Reply','{ts}Automated response{/ts}','{ts}Thank you for your reply.{/ts}','{ts}Thank you for your reply.{/ts}',1,1);
 
 
 
@@ -79,20 +79,20 @@ VALUES
 INSERT INTO 
    `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
 VALUES 
-   (@domain_id, 'preferred_communication_method', 'Preferred communication method'     , 0, 1),
-   (@domain_id, 'activity_type'                 , 'Activity Type'                      , 0, 1),
-   (@domain_id, 'gender'                        , 'Gender'                             , 0, 1),
-   (@domain_id, 'instant_messenger_service'     , 'Instant Messenger (IM) screen-names', 0, 1),
-   (@domain_id, 'mobile_provider'               , 'Mobile Phone Providers'             , 0, 1),
-   (@domain_id, 'individual_prefix'             , 'Individual contact prefixes.'       , 0, 1),
-   (@domain_id, 'individual_suffix'             , 'Individual contact suffixes.'       , 0, 1),
-   (@domain_id, 'acl_role'                      , 'ACL Role.'                          , 0, 1),
-   (@domain_id, 'accept_creditcard'             , 'Accept Credit Card'                 , 0, 1),
-   (@domain_id, 'payment_instrument'            , 'Payment Instrument'                 , 0, 1),
-   (@domain_id, 'contribution_status'           , 'Contribution Status'                , 0, 1),
-   (@domain_id, 'participant_status'            , 'Participant Status'                 , 0, 1),
-   (@domain_id, 'participant_role'              , 'Participant Role'                   , 0, 1),
-   (@domain_id, 'event_type'                    , 'Event Type'                         , 0, 1);
+   (@domain_id, 'preferred_communication_method', '{ts}Preferred communication method{/ts}'     , 0, 1),
+   (@domain_id, 'activity_type'                 , '{ts}Activity Type{/ts}'                      , 0, 1),
+   (@domain_id, 'gender'                        , '{ts}Gender{/ts}'                             , 0, 1),
+   (@domain_id, 'instant_messenger_service'     , '{ts}Instant Messenger (IM) screen-names{/ts}', 0, 1),
+   (@domain_id, 'mobile_provider'               , '{ts}Mobile Phone Providers{/ts}'             , 0, 1),
+   (@domain_id, 'individual_prefix'             , '{ts}Individual contact prefixes{/ts}'        , 0, 1),
+   (@domain_id, 'individual_suffix'             , '{ts}Individual contact suffixes{/ts}'        , 0, 1),
+   (@domain_id, 'acl_role'                      , '{ts}ACL Role{/ts}'                           , 0, 1),
+   (@domain_id, 'accept_creditcard'             , '{ts}Accept Credit Card{/ts}'                 , 0, 1),
+   (@domain_id, 'payment_instrument'            , '{ts}Payment Instrument{/ts}'                 , 0, 1),
+   (@domain_id, 'contribution_status'           , '{ts}Contribution Status{/ts}'                , 0, 1),
+   (@domain_id, 'participant_status'            , '{ts}Participant Status{/ts}'                 , 0, 1),
+   (@domain_id, 'participant_role'              , '{ts}Participant Role{/ts}'                   , 0, 1),
+   (@domain_id, 'event_type'                    , '{ts}Event Type{/ts}'                         , 0, 1);
 
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -112,21 +112,21 @@ SELECT @option_group_id_etype          := max(id) from civicrm_option_group wher
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
 VALUES
-   (@option_group_id_pcm, 'Phone', 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_pcm, 'Email', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_pcm, 'Postal Mail', 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1),
-   (@option_group_id_pcm, 'SMS', 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1),
-   (@option_group_id_pcm, 'Fax', 5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1),
+   (@option_group_id_pcm, '{ts}Phone{/ts}', 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_pcm, '{ts}Email{/ts}', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_pcm, '{ts}Postal Mail{/ts}', 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_pcm, '{ts}SMS{/ts}', 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_pcm, '{ts}Fax{/ts}', 5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1),
  
-   (@option_group_id_act, 'Meeting', 1, 'Meeting',NULL, 0, NULL, 1, 'Schedule a meeting', 0, 1, 1),
-   (@option_group_id_act, 'Phone Call', 2, 'Phone Call', NULL,  0, NULL, 2, 'Schedule a Phone Call', 0, 1, 1),
-   (@option_group_id_act, 'Email', 3, 'Email', NULL, 0, NULL, 3, 'Email Sent', 0, 1, 1),
-   (@option_group_id_act, 'SMS', 4, 'SMS', NULL, 0, NULL, 4, 'SMS', 0, 1, 1),
-   (@option_group_id_act, 'Event', 5,'Event', NULL, 0, NULL, 5, 'Event', 0, 0, 1),
+   (@option_group_id_act, '{ts}Meeting{/ts}', 1, 'Meeting',NULL, 0, NULL, 1, 'Schedule a meeting', 0, 1, 1),
+   (@option_group_id_act, '{ts}Phone Call{/ts}', 2, 'Phone Call', NULL,  0, NULL, 2, 'Schedule a Phone Call', 0, 1, 1),
+   (@option_group_id_act, '{ts}Email{/ts}', 3, 'Email', NULL, 0, NULL, 3, 'Email Sent', 0, 1, 1),
+   (@option_group_id_act, '{ts}SMS{/ts}', 4, 'SMS', NULL, 0, NULL, 4, 'SMS', 0, 1, 1),
+   (@option_group_id_act, '{ts}Event{/ts}', 5,'Event', NULL, 0, NULL, 5, 'Event', 0, 0, 1),
 
-   (@option_group_id_gender, 'Female',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_gender, 'Male',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_gender, 'Transgender', 3, 'Transgender', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_gender, '{ts}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_gender, '{ts}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_gender, '{ts}Transgender{/ts}', 3, 'Transgender', NULL, 0, NULL, 3, NULL, 0, 0, 1),
 
    (@option_group_id_IMProvider, 'Yahoo', 1, 'Yahoo', NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_IMProvider, 'MSN',   2, 'Msn',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
@@ -139,13 +139,13 @@ VALUES
    (@option_group_id_mobileProvider, 'Verizon' , 2, 'Verizon' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
    (@option_group_id_mobileProvider, 'Cingular', 3, 'Cingular', NULL, 0, NULL, 3, NULL, 0, 0, 1),
 
-   (@option_group_id_prefix, 'Mrs', 1, 'Mrs', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_prefix, 'Ms',  2, 'Ms', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_prefix, 'Mr',  3, 'Mr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-   (@option_group_id_prefix, 'Dr',  4, 'Dr', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_prefix, '{ts}Mrs{/ts}', 1, 'Mrs', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_prefix, '{ts}Ms{/ts}',  2, 'Ms', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_prefix, '{ts}Mr{/ts}',  3, 'Mr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_prefix, '{ts}Dr{/ts}',  4, 'Dr', NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
-   (@option_group_id_suffix, 'Jr',  1, 'Jr', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_suffix, 'Sr',  2, 'Sr', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_suffix, '{ts}Jr{/ts}',  1, 'Jr', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_suffix, '{ts}Sr{/ts}',  2, 'Sr', NULL, 0, NULL, 2, NULL, 0, 0, 1),
    (@option_group_id_suffix, 'II',  3, 'II', NULL, 0, NULL, 3, NULL, 0, 0, 1),
    (@option_group_id_suffix, 'III', 4, 'III', NULL, 0, NULL, 4, NULL, 0, 0, 1),
    (@option_group_id_suffix, 'IV',  5, 'IV',  NULL, 0, NULL, 5, NULL, 0, 0, 1),
@@ -153,49 +153,49 @@ VALUES
    (@option_group_id_suffix, 'VI',  7, 'VI',  NULL, 0, NULL, 7, NULL, 0, 0, 1),
    (@option_group_id_suffix, 'VII', 8, 'VII', NULL, 0, NULL, 8, NULL, 0, 0, 1),
 
-   (@option_group_id_aclRole, 'Administrator',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_aclRole, 'Authenticated',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_aclRole, '{ts}Administrator{/ts}',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_aclRole, '{ts}Authenticated{/ts}',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
 
    (@option_group_id_acc, 'Visa',  1, 'Visa', NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_acc, 'MasterCard',  2, 'MasterCard', NULL, 0, NULL, 2, NULL, 0, 0, 1),
    (@option_group_id_acc, 'American Express',  3, 'American Express', NULL, 0, NULL, 3, NULL, 0, 0, 1),
    (@option_group_id_acc, 'Discover',  4, 'Discover', NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
-  (@option_group_id_pi, 'Credit Card',  1, 'Credit Card', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-  (@option_group_id_pi, 'Debit Card',  2, 'Debit Card', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_pi, 'Cash',  3, 'Cash', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_pi, 'Check',  4, 'Check', NULL, 0, NULL, 4, NULL, 0, 0, 1),
-  (@option_group_id_pi, 'EFT',  5, 'EFT', NULL, 0, NULL, 5, NULL, 0, 0, 1),
+  (@option_group_id_pi, '{ts}Credit Card{/ts}',  1, 'Credit Card', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_pi, '{ts}Debit Card{/ts}',  2, 'Debit Card', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_pi, '{ts}Cash{/ts}',  3, 'Cash', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_pi, '{ts}Check{/ts}',  4, 'Check', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+  (@option_group_id_pi, '{ts}EFT{/ts}',  5, 'EFT', NULL, 0, NULL, 5, NULL, 0, 0, 1),
 
-  (@option_group_id_cs, 'Completed'  , 1, 'Completed'  , NULL, 0, NULL, 1, NULL, 0, 0, 1),
-  (@option_group_id_cs, 'Pending'    , 2, 'Pending'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_cs, 'Cancelled'  , 3, 'Cancelled'  , NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_cs, 'Failed'     , 4, 'Failed'     , NULL, 0, NULL, 4, NULL, 0, 0, 1),
-  (@option_group_id_cs, 'In Progress', 5, 'In Progress', NULL, 0, NULL, 5, NULL, 0, 0, 1),
+  (@option_group_id_cs, '{ts}Completed{/ts}'  , 1, 'Completed'  , NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_cs, '{ts}Pending{/ts}'    , 2, 'Pending'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_cs, '{ts}Cancelled{/ts}'  , 3, 'Cancelled'  , NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_cs, '{ts}Failed{/ts}'     , 4, 'Failed'     , NULL, 0, NULL, 4, NULL, 0, 0, 1),
+  (@option_group_id_cs, '{ts}In Progress{/ts}', 5, 'In Progress', NULL, 0, NULL, 5, NULL, 0, 0, 1),
 
-  (@option_group_id_ps, 'Registered', 1, 'Registered', NULL, 0, NULL, 1, NULL, 0, 1, 1),
-  (@option_group_id_ps, 'Attended',   2, 'Attended',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_ps, 'No-show',    3, 'No-show',    NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_ps, 'Cancelled',  4, 'Cancelled',  NULL, 0, NULL, 4, NULL, 0, 1, 1),
+  (@option_group_id_ps, '{ts}Registered{/ts}', 1, 'Registered', NULL, 0, NULL, 1, NULL, 0, 1, 1),
+  (@option_group_id_ps, '{ts}Attended{/ts}',   2, 'Attended',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_ps, '{ts}No-show{/ts}',    3, 'No-show',    NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_ps, '{ts}Cancelled{/ts}',  4, 'Cancelled',  NULL, 0, NULL, 4, NULL, 0, 1, 1),
 
-  (@option_group_id_pRole, 'Attendee',  1, 'Attendee',  NULL, 0, NULL, 1, NULL, 0, 0, 1),
-  (@option_group_id_pRole, 'Volunteer', 2, 'Volunteer', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_pRole, 'Host',      3, 'Host',      NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_pRole, 'Speaker',   4, 'Speaker',   NULL, 0, NULL, 4, NULL, 0, 0, 1),
+  (@option_group_id_pRole, '{ts}Attendee{/ts}',  1, 'Attendee',  NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_pRole, '{ts}Volunteer{/ts}', 2, 'Volunteer', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_pRole, '{ts}Host{/ts}',      3, 'Host',      NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_pRole, '{ts}Speaker{/ts}',   4, 'Speaker',   NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
-  (@option_group_id_etype, 'Conference', 1, 'Conference',  NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, 'Exhibition', 2, 'Exhibition',  NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, 'Fundraiser', 3, 'Fundraiser',  NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, 'Meeting',    4, 'Meeting',     NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, 'Performance',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, 'Workshop',   6, 'Conference',  NULL, 0, NULL, 6, NULL, 0, 0, 1 );
+  (@option_group_id_etype, '{ts}Conference{/ts}', 1, 'Conference',  NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts}Exhibition{/ts}', 2, 'Exhibition',  NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts}Fundraiser{/ts}', 3, 'Fundraiser',  NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts}Meeting{/ts}',    4, 'Meeting',     NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts}Performance{/ts}',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts}Workshop{/ts}',   6, 'Conference',  NULL, 0, NULL, 6, NULL, 0, 0, 1 );
 
 -- sample membership status entries
 INSERT INTO
     civicrm_membership_status(domain_id, name, start_event, start_event_adjust_unit, start_event_adjust_interval, end_event, end_event_adjust_unit, end_event_adjust_interval, is_current_member, is_admin, weight, is_default, is_active)
 VALUES
-    (@domain_id,'New', 'join_date', null, null,'join_date','month',3, 1, 0, 1, 0, 1),
-    (@domain_id,'Current', 'start_date', null, null,'end_date', null, null, 1, 0, 2, 1, 1),
-    (@domain_id,'Grace', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 0, 1),
-    (@domain_id,'Expired', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 0, 1);
+    (@domain_id,'{ts}New{/ts}', 'join_date', null, null,'join_date','month',3, 1, 0, 1, 0, 1),
+    (@domain_id,'{ts}Current{/ts}', 'start_date', null, null,'end_date', null, null, 1, 0, 2, 1, 1),
+    (@domain_id,'{ts}Grace{/ts}', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 0, 1),
+    (@domain_id,'{ts}Expired{/ts}', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 0, 1);
 
