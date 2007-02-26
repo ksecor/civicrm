@@ -51,6 +51,24 @@ class CRM_Event_Menu {
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,
                              'weight'  => 800,
                              ),
+                       array( 
+                              'path'    => 'civicrm/event/info', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( 'Event Information' ), 
+                              'access'  => CRM_Core_Permission::check( 'register for events'), 
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/event/register', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( 'Event Registration' ), 
+                              'access'  => CRM_Core_Permission::check( 'register for events'), 
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
                        );
         return $items;
     }

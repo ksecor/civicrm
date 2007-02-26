@@ -41,8 +41,10 @@
     {/if}
     <td>{$row.event_title}</td>
     <td>{$row.event_level}</td>
-    <td>{$row.start_date|truncate:10:''|crmDate}<br/>
-       {$row.end_date|truncate:10:''|crmDate}
+    <td>{$row.start_date|truncate:10:''|crmDate}
+        {if $row.end_date && $row.end_date|date_format:"%Y%m%d" NEQ $row.start_date|date_format:"%Y%m%d"}
+            <br/>{$row.end_date|truncate:10:''|crmDate}
+        {/if}
    </td>
     <td>{$row.status}</td>
     <td>{$row.action}</td>
@@ -51,12 +53,12 @@
 {* Link to "View all participations" for Contact Summary selector display *}
 {if ($context EQ 'Contact Summary') AND $event_pager->_totalItems GT $limit}
   <tr class="even-row">
-    <td colspan="7"><a href="{crmURL p='civicrm/contact/view' q="reset=1&force=1&selectedChild=participant&cid=$contactId"}">&raquo; {ts}View all participations for this contact{/ts}...</a></td></tr>
+    <td colspan="7"><a href="{crmURL p='civicrm/contact/view' q="reset=1&force=1&selectedChild=participant&cid=$contactId"}">&raquo; {ts}View all events for this contact{/ts}...</a></td></tr>
   </tr>
 {/if}
 {if ($context EQ 'DashBoard') AND $pager->_totalItems GT $limit}
   <tr class="even-row">
-    <td colspan="9"><a href="{crmURL p='civicrm/event/search' q='reset=1&force=1'}">&raquo; {ts}List more Participants{/ts}...</a></td></tr>
+    <td colspan="9"><a href="{crmURL p='civicrm/event/search' q='reset=1&force=1'}">&raquo; {ts}List more Event Participants{/ts}...</a></td></tr>
   </tr>
 {/if}
 </table>

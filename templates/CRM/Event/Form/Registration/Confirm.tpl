@@ -1,7 +1,8 @@
 <div class="form-item">
     <div id="help">
-        <p>{ts}Please verify Contribution Amount and all other information carefully. Click <strong>Go Back</strong>
-            if you need to make changes.{/ts}</p>
+        <p>{ts}Please verify the information below. Click <strong>Go Back</strong>
+            if you need to make changes. Otherwise, click the <strong>Continue</strong> button below
+            to complete your registration.{/ts}</p>
     </div>
     {if $paidEvent}
     <div class="header-dark">
@@ -71,7 +72,7 @@
     {if $contributeMode NEQ 'notify'} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
-        {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
+        {ts}Your registration will not be completed until you click the <strong>Continue</strong> button. Please click the button one time only.{/ts}
         </p>
     </div>
     {/if}    

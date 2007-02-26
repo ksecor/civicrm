@@ -10,28 +10,28 @@
 <h3>{ts}Event Summary{/ts}</h3>
 <div class="description">
     {capture assign=findEventsURL}{crmURL p="civicrm/event/search/basic" q="reset=1"}{/capture}
-    <p>{ts 1=$findEventsURL}This table provides a summary of <strong>Events</strong>, and includes shortcuts to view the Events details.{/ts}</p>
+    <p>{ts 1=$findEventsURL}This table provides a summary of up to ten scheduled and recent <strong>Events</strong>. Click the Title to view the event as it will be displayed to site visitors. Click the Registered count to see a list of participants.{/ts}</p>
 </div>
 
-{*  *}
 {if $eventSummary.total_events}
 <table class="report">
 <tr class="columnheader-dark">
     <th scope="col">{ts}Event{/ts}</th>
-    <th scope="col">{ts}Event Type{/ts}</th>
-    <th scope="col">{ts}Is Public{/ts}</th>
-    <th scope="col">{ts}Max Participants{/ts}</th>
-    <th scope="col">{ts}Rigistered Partcipants{/ts}</th>
-    <th scope="col">{ts}Start and End Date{/ts}</th>
+    <th scope="col">{ts}Type{/ts}</th>
+    <th scope="col">{ts}Public{/ts}</th>
+    <th scope="col">{ts}Registered{/ts}</th>
+    <th scope="col">{ts}Date(s){/ts}</th>
     <th></th>
 </tr>
 {foreach from=$eventSummary.events item=values key=id}
 <tr>
-    <td>{$values.eventTitle}</td>
+    <td><a href="{crmURL p="civicrm/event/info" q="reset=1&id=`$id`"}">{$values.eventTitle}</a></td>
     <td>{$values.eventType}</td>
     <td>{$values.isPublic}</td>
-    <td>{$values.maxParticipants}</td>
-    <td>{if $values.participant_url}<a href="{$values.participant_url}">{$values.participants}</a>{else}{$values.participants}{/if}</td>
+    <td class="right">
+        {if $values.participant_url}<a href="{$values.participant_url}">{$values.participants}</a>{else}{$values.participants}{/if}
+        {if $values.maxParticipants}<br />{ts 1=$values.maxParticipants}(max %1){/ts}{/if}
+    </td>
     <td>{$values.startDate}&nbsp;{if $values.endDate}to{/if}&nbsp;{$values.endDate}</td>
     <td>{if $values.isMap}<a href="{$values.isMap}">{ts}Map{/ts}</a>&nbsp;|&nbsp;{/if}<a href="{$values.configure}">{ts}Configure{/ts}</a></td>
 </tr>
@@ -39,14 +39,14 @@
 
 {if $eventSummary.total_events GT 10}
 <tr>
-    <td colspan="7"><a href="{crmURL p='civicrm/admin/event' q='reset=1'}">&raquo; {ts}List more events{/ts}...</a></td>
+    <td colspan="7"><a href="{crmURL p='civicrm/admin/event' q='reset=1'}">&raquo; {ts}Browse more events{/ts}...</a></td>
 </tr>
 {/if}
 </table>
 {/if}
 
 {if $pager->_totalItems}
-    <h3>{ts}Recent Event Participations{/ts}</h3>
+    <h3>{ts}Recent Registrations{/ts}</h3>
     <div class="form-item">
         {include file="CRM/Event/Form/Selector.tpl" context="DashBoard"}
     </div>

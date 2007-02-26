@@ -120,6 +120,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
 
         $config =& CRM_Core_Config::singleton( );
 
+        CRM_Utils_System::setTitle( ts('Map Location(s)'));
         $page->assign( 'query', 'CiviCRM Search Query' );
         $page->assign( 'mapProvider', $config->mapProvider );
         $page->assign( 'mapKey', $config->mapAPIKey );
