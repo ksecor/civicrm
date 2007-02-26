@@ -142,6 +142,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
                 $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Search Results') . '</a>';
             } else {
                 $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Event Info') . '</a>';
+                $session->pushUserContext( CRM_Utils_System::url('civicrm/event/info', 'reset=1&action=preview&id='. $ids ) );
             }
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
         }

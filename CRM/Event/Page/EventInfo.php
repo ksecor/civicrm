@@ -69,7 +69,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
 
         //retrieve custom information
         require_once 'CRM/Core/BAO/CustomOption.php'; 
-        CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event', $id, $values['custom'] );
+        CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $id, $values['custom'] );
      
         $params = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
