@@ -300,9 +300,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
                 if ( is_array( CRM_Utils_Array::value( $type, $subTypes ) ) ) {
                     $customGroup[$key]["extends_entity_column_value"] = ts("-- Any --");
                 }
-                if ( is_array($customGroup[$key]["extends_entity_column_value"])) {
-                    $customGroup[$key]["extends_entity_column_value"]="--Any--";
-                }
             }
         }
         $this->assign('rows', $customGroup);

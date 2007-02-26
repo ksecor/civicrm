@@ -128,4 +128,33 @@
       <comment>FK to civicrm_custom_option.</comment>
       <add>1.7</add>
   </field>
+   <field>        
+      <name>thankyou_title</name>     
+      <type>varchar</type>   
+      <title>ThankYou Title</title>
+      <length>255</length> 
+      <default>NULL</default>
+      <comment>Title for ThankYou page.</comment>
+      <add>1.7</add>     
+  </field>   
+  <field>        
+      <name>thankyou_text</name>     
+      <type>text</type>     
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
+      <title>ThankYou Text</title>
+      <comment>ThankYou Text.</comment>
+      <add>1.7</add>     
+  </field>  
+  <field>        
+      <name>thankyou_footer_text</name>     
+      <type>text</type>     
+      <title>Footer Text</title>
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
+      <comment>Footer message.</comment>
+      <add>1.7</add>     
+  </field> 
 </table>
