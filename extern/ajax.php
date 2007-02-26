@@ -5,7 +5,6 @@ session_start( );
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
-
 // build the query
 function invoke( ) {
     // intialize the system
