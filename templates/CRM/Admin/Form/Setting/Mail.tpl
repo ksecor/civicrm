@@ -12,10 +12,7 @@
         <dt>&nbsp</dt><dd class="description">{ts}Throttle email delivery by setting the maximum number of emails sent during each CiviMail run (0 = unlimited).{/ts}</dd>
         <dt>{$form.verpSeparator.label}</dt><dd>{$form.verpSeparator.html}</dd>
         <dt>&nbsp</dt><dd class="description">{ts}Separator character used when CiviMail generates VERP (variable envelope return path) Mail-From addresses.{/ts}</dd>
-        <dt>{$form.mailerQuotaLimit.label}</dt><dd>{$form.mailerQuotaLimit.html}</dd>
-        <dt>{$form.mailerQuotaPeriod.label}</dt><dd>{$form.mailerQuotaPeriod.html}</dd>
-        
-         <dt></dt><dd>{$form.buttons.html}</dd>
+        <dt></dt><dd>{$form.buttons.html}</dd>
        </dl>
 <div class="spacer"></div>
 </fieldset>
