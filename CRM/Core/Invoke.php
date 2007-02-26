@@ -314,7 +314,8 @@ class CRM_Core_Invoke
                         CRM_Core_Error::statusBounce( ts( 'Could not retrieve a valid contact' ) );
                     }
                 }
-                $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/basic', "reset=1&cid=$id" ) );
+
+                $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$id" ) );
                 
                 $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
                 $contact_type     = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type'     );
@@ -390,19 +391,8 @@ class CRM_Core_Invoke
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Search_Simple', ts('Simple Search'),  null );
         } else if ( $thirdArg == 'map' ) {
-            // set the userContext stack
-            //$session =& CRM_Core_Session::singleton();
-            //$session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/basic' ) );
-
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
-        } else if ( $thirdArg == 'ymap' ) {
-            // set the userContext stack
-            $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/basic' ) );
-
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Task_YMap', ts('YMap Contact'),  null );
         } else {
             $mode  = CRM_Core_Action::BASIC;
             $title = ts('Search');
