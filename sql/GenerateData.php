@@ -1439,13 +1439,13 @@ kids 12 and under.Grab your dancing shoes, bring the kids and come join the part
   function addEventPage()
     {
         $event = "INSERT INTO civicrm_event_page
-        (event_id, intro_text, footer_text, confirm_title, confirm_text, confirm_footer_text, is_email_confirm, confirm_email_text, confirm_from_name, confirm_from_email, cc_confirm)
+        (event_id, intro_text, footer_text, confirm_title, confirm_text, confirm_footer_text, is_email_confirm, confirm_email_text, confirm_from_name, confirm_from_email, cc_confirm, thankyou_title, thankyou_text, thankyou_footer_text)
         VALUES
-        (1, 'congratulation you are registered for the dinner', 'you are welcome for dinner', 'confirmation for dinner', 'congratulation you are registered foe the dinner','you are welcome for dinner', 1,'this is a confirmation mail', 'organiser of dinner', 'organiser@dinner.com',''),
+        (1, 'congratulation you are registered for the dinner', 'you are welcome for dinner', 'confirmation for dinner', 'congratulation you are registered foe the dinner','you are welcome for dinner', 1,'this is a confirmation mail', 'organiser of dinner', 'organiser@dinner.com','','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about CiviCRM!</p>','<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>'),
 
-        (2, 'congratulation you are registered for the festival', 'you are welcome for all activities', 'confirmation for festival', 'congratulation you are registered for the festival', 'you are welcome for all activities', 1,'this is a confirmation mail','organiser of concert', 'organiser@concert.com',''),
+        (2, 'congratulation you are registered for the festival', 'you are welcome for all activities', 'confirmation for festival', 'congratulation you are registered for the festival', 'you are welcome for all activities', 1,'this is a confirmation mail','organiser of concert', 'organiser@concert.com','','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about CiviCRM!</p>','<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>'),
 
-        (3, 'congratulation you are registered for the tournament', 'all the best for all matches', 'confirmation for tournament', 'congratulation you are registered for the tournament', 'all the best for all matches', 1,'this is a confirmation mail','organiser of tournamrnt', 'organiser@tournament.com','')
+        (3, 'congratulation you are registered for the tournament', 'all the best for all matches', 'confirmation for tournament', 'congratulation you are registered for the tournament', 'all the best for all matches', 1,'this is a confirmation mail','organiser of tournamrnt', 'organiser@tournament.com','','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about CiviCRM!</p>','<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>')
      
          ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
@@ -1558,31 +1558,31 @@ function addEventFeeLabel()
 INSERT INTO civicrm_participant
         (contact_id, event_id, status_id, role_id, register_date, source, event_level)
 VALUES
-        ( ". $randomContacts[0]  .", 1, 1, 1, '2006-01-21', '', 'Payment'),
-        ( ". $randomContacts[1]  .", 2, 2, 2,'2005-05-07', '', 'Donation'),
-        ( ". $randomContacts[2]  .", 3, 3, 3,'2005-05-05', '', 'Check') ,
-        ( ". $randomContacts[3]  .", 1, 4, 4,'2005-10-21', '', 'Payment'),
-        ( ". $randomContacts[4]  .", 1, 1, 1,'2005-01-10', '', 'Donation'),
-        ( ". $randomContacts[5]  .", 2, 2, 2,'2005-03-05', '', 'Check'),
-        ( ". $randomContacts[6]  .", 3, 3, 3,'2006-07-21', '', 'Payment'),
-        ( ". $randomContacts[7]  .", 1, 4, 4,'2006-03-07', '', 'Donation'),
-        ( ". $randomContacts[8]  .", 3, 1, 1, '2005-02-05', '', 'Check'),
-        ( ". $randomContacts[9]  .", 1, 2, 2, '2005-02-01', '', 'Payment'),
-        ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10','', 'Donation'),
-        ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06','', 'Check'),
-        ( ". $randomContacts[12]  .", 1, 1, 2,'2005-06-04', '', 'Payment'),
-        ( ". $randomContacts[13]  .", 2, 2, 3,'2004-01-10', '', 'Donation'),
-        ( ". $randomContacts[14]  .", 2, 4, 1,'2005-07-04', '', 'Check'),
-        ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', '', 'Payment'),
-        ( ". $randomContacts[16]  .", 2, 2, 3, '2005-01-10', '', 'Donation'),
-        ( ". $randomContacts[17]  .", 3, 3, 1,'2006-03-05', '', 'Check'),
-        ( ". $randomContacts[18]  .", 1, 2, 1, '2005-10-21', '', 'Payment'),
-        ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', '', 'Donation'),
-        ( ". $randomContacts[20]  .", 2, 1, 4, '2005-03-25', '', 'Check'),
-        ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', '', 'Payment'),
-        ( ". $randomContacts[22]  .", 2, 4, 1, '2005-01-10', '', 'Donation'),
-        ( ". $randomContacts[23]  .", 2, 3, 1,'2005-03-11', '', 'Check'),
-        ( ". $randomContacts[24]  .", 3, 2, 2, '2005-04-05', '', 'Check');
+        ( ". $randomContacts[0]  .", 1, 1, 1, '2006-01-21', '', 'Single'),
+        ( ". $randomContacts[1]  .", 2, 2, 2,'2005-05-07', '', 'gift'),
+        ( ". $randomContacts[2]  .", 3, 3, 3,'2005-05-05', '', 'Summer Tournament') ,
+        ( ". $randomContacts[3]  .", 1, 4, 4,'2005-10-21', '', 'Single'),
+        ( ". $randomContacts[4]  .", 1, 1, 1,'2005-01-10', '', 'gift'),
+        ( ". $randomContacts[5]  .", 2, 2, 2,'2005-03-05', '', 'Summer Tournament'),
+        ( ". $randomContacts[6]  .", 3, 3, 3,'2006-07-21', '', 'Single'),
+        ( ". $randomContacts[7]  .", 1, 4, 4,'2006-03-07', '', 'gift'),
+        ( ". $randomContacts[8]  .", 3, 1, 1, '2005-02-05', '', 'Summer Tournament'),
+        ( ". $randomContacts[9]  .", 1, 2, 2, '2005-02-01', '', 'Single'),
+        ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10','', 'gift'),
+        ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06','', 'Summer Tournament'),
+        ( ". $randomContacts[12]  .", 1, 1, 2,'2005-06-04', '', 'Single'),
+        ( ". $randomContacts[13]  .", 2, 2, 3,'2004-01-10', '', 'gift'),
+        ( ". $randomContacts[14]  .", 2, 4, 1,'2005-07-04', '', 'Summer Tournament'),
+        ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', '', 'Single'),
+        ( ". $randomContacts[16]  .", 2, 2, 3, '2005-01-10', '', 'gift'),
+        ( ". $randomContacts[17]  .", 3, 3, 1,'2006-03-05', '', 'Summer Tournament'),
+        ( ". $randomContacts[18]  .", 1, 2, 1, '2005-10-21', '', 'Single'),
+        ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', '', 'gift'),
+        ( ". $randomContacts[20]  .", 2, 1, 4, '2005-03-25', '', 'Summer Tournament'),
+        ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', '', 'Single'),
+        ( ". $randomContacts[22]  .", 2, 4, 1, '2005-01-10', '', 'gift'),
+        ( ". $randomContacts[23]  .", 2, 3, 1,'2005-03-11', '', 'Summer Tournament'),
+        ( ". $randomContacts[24]  .", 3, 2, 2, '2005-04-05', '', 'Summer Tournament');
 ";
         CRM_Core_DAO::executeQuery( $participant, CRM_Core_DAO::$_nullArray );
         
