@@ -15,8 +15,39 @@
  * @license http://affero.org/oagpl.html  Affero General Public License
  */
 
-$phpPot = `find CRM packages/HTML/QuickForm -iname '*.php' | grep -v '^CRM/Core/I18n\.php$' | grep -v '^CRM/Core/Smarty/plugins/block\.ts\.php$' | sort | xargs ./bin/php-extractor.php`;
-$smartyPot = `find templates xml -iname '*.tpl' | sort | xargs ./bin/smarty-extractor.php`;
+$modules = array('Contribute', 'Event', 'Mailing', 'Member');
+
+$phpModifier    = '';
+$smartyModifier = '';
+
+switch ($argv[1]) {
+case '':
+case 'full':
+    break;
+case 'core':
+    foreach ($modules as $module) {
+        $phpModifier    .= " -not -wholename           'CRM/$module/*'";
+        $smartyModifier .= " -not -wholename 'templates/CRM/$module/*'";
+    }
+    break;
+case 'modules':
+    $firstModule    = array_shift($modules);
+    $phpModifier    = "\( -wholename           'CRM/$firstModule/*'";
+    $smartyModifier = "\( -wholename 'templates/CRM/$firstModule/*'";
+    foreach ($modules as $module) {
+        $phpModifier    .= " -or -wholename           'CRM/$module/*'";
+        $smartyModifier .= " -or -wholename 'templates/CRM/$module/*'";
+    }
+    $phpModifier    .= ' \)';
+    $smartyModifier .= ' \)';
+    break;
+default:
+    exit("Wrong parameter specified. Choose one of full, core, modules.\n");
+    break;
+}
+
+$phpPot = `find CRM packages/HTML/QuickForm -iname '*.php' $phpModifier -not -wholename 'CRM/Core/I18n.php' -not -wholename 'CRM/Core/Smarty/plugins/block.ts.php' | sort | xargs ./bin/php-extractor.php`;
+$smartyPot = `find templates xml -iname '*.tpl' $smartyModifier | sort | xargs ./bin/smarty-extractor.php`;
 
 $originalArray = explode("\n", $phpPot . $smartyPot);
 
