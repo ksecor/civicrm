@@ -40,9 +40,6 @@ $config->userFramework          = 'Soap';
 $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
 $config->userHookClass          = 'CRM_Utils_Hook_Soap';
 
-echo
-  "<civicrm_api>\n" .
-  CRM_Utils_Array::xml( $rest->run( $config ) ) .
-  "</civicrm_api>\n";
+echo $rest->run( $config );
 
 ?>

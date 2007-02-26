@@ -109,7 +109,6 @@ class CRM_Utils_Array {
         return str_replace( $src, $dst, $value );
     }
 
-
     static function &flatten( &$list, &$flat, $prefix = '', $seperator = "." ) {
         foreach( $list as $name => $value ) {
             $newPrefix = ( $prefix ) ? $prefix . $seperator . $name : $name;
@@ -153,6 +152,16 @@ class CRM_Utils_Array {
 
         return $a3;
     }
+
+    static function isHierarchical( &$list ) {
+        foreach ( $list as $n => $v ) {
+            if ( is_array( $v ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
 ?>

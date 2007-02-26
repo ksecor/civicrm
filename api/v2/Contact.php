@@ -37,6 +37,8 @@
  *
  */
 
+require_once 'api/v2/utils.php';
+
 /**
  * Add or update a contact. If a dupe is found, check for
  * ignoreDupe flag to ignore or return error
@@ -50,8 +52,6 @@
  * @access public
  */
 function &civicrm_contact_add( &$params, $contactID = null, $dupeCheck = true ) {
-    require_once 'api/v2/utils.php';
-
     _civicrm_initialize( );
 
     if ( ! $contactID ) {
@@ -62,14 +62,13 @@ function &civicrm_contact_add( &$params, $contactID = null, $dupeCheck = true ) 
             
     }
 
-    require_once 'CRM/Contact/BAO/Contact.php';
     $contact =& _civicrm_contact_add( $params, $contactID );
-    $values = array( );
     if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-        $values['error_message'] = $contact->_errors[0]['message'];
-        $values['is_error'] = 1;
+        return _civicrm_create_error( $contact->_errors[0]['message'] );
     } else {
+        $values = array( );
         $values['contact_id'] = $contact->id;
+        $values['is_error']   = 0;
     }
     return $values;
 }
@@ -90,21 +89,15 @@ function &civicrm_contact_add( &$params, $contactID = null, $dupeCheck = true ) 
  * @access public
  */
 function &civicrm_contact_get( &$params, $returnProperties = null ) {
-    require_once 'api/v2/utils.php';
-
     _civicrm_initialize( );
 
     $values = array( );
     if ( empty( $params ) ) {
-        $values['error_message'] = ts( 'No input parameters present' );
-        $values['is_error'     ] = 1;
-        return $values;
+        return _civicrm_create_error( ts( 'No input parameters present' ) );
     }
 
     if ( ! is_array( $params ) ) {
-        $values['error_message'] = ts( 'Input parameters is not an array' );
-        $values['is_error'     ] = 1;
-        return $values;
+        return _civicrm_create_error( ts( 'Input parameters is not an array' ) );
     }
 
     $contacts =& civicrm_contact_search( $params, $returnProperties );
@@ -114,9 +107,7 @@ function &civicrm_contact_get( &$params, $returnProperties = null ) {
 
     if ( count( $contacts ) != 1 &&
          ! $params['returnFirst'] ) {
-        $values['error_message'] = ts( '%1 contacts matching input params', array( 1 => count( $contacts ) ) );
-        $values['is_error'     ] = 1;
-        return $values;
+        return _civicrm_create_error( ts( '%1 contacts matching input params', array( 1 => count( $contacts ) ) ) );
     }
 
     $contacts = array_values( $contacts );
@@ -126,15 +117,19 @@ function &civicrm_contact_get( &$params, $returnProperties = null ) {
 /**
  * Delete a contact
  *
- * @param int $contactID  id of contact to be deleted
+ * @param  array   $params           (reference ) input parameters
  *
  * @return boolean        true if success, else false
  * @static void
  * @access public
  */
-function civicrm_contact_delete( $contactID ) {
+function civicrm_contact_delete( &$params ) {
     require_once 'CRM/Contact/BAO/Contact.php';
-    return CRM_Contact_BAO_Contact::deleteContact( $contactID );
+    if ( CRM_Contact_BAO_Contact::deleteContact( $params['id'] ) ) {
+        return _civicrm_create_success( );
+    } else {
+        return _civicrm_create_error( ts( 'Could not delete contact' ) );
+    }
 }
 
 /**
@@ -157,8 +152,6 @@ function &civicrm_contact_search( &$params,
                                   $sort = null,
                                   $offset = 0,
                                   $rowCount = 25 ) {
-    require_once 'api/v2/utils.php';
-
     _civicrm_initialize( );
 
     require_once 'CRM/Contact/BAO/Query.php';

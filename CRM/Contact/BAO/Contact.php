@@ -107,7 +107,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $temp       = array( );
         require_once 'CRM/ACL/API.php';
         $permission = CRM_ACL_API::whereClause( $type, $tables, $temp );
-        // $permission = CRM_Core_Permission::whereClause( $type, $tables, $temp );
+
         $from       = CRM_Contact_BAO_Query::fromClause( $tables );
         $query = "
 SELECT count(DISTINCT contact_a.id) 
@@ -1243,6 +1243,10 @@ WHERE civicrm_contact.id IN $idString ";
     {
         require_once 'CRM/Core/BAO/EmailHistory.php';
         require_once 'CRM/Activity/BAO/Activity.php';
+
+        if ( ! $id ) {
+            return false;
+        }
 
         // make sure we have edit permission for this contact
         // before we delete

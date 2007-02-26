@@ -48,6 +48,14 @@ function _civicrm_create_error( $msg ) {
     return $values;
 }
 
+function _civicrm_create_success( $result = 1 ) {
+    $values = array( );
+    
+    $values['is_error'] = 0;
+    $values['result']   = $result;
+    return $values;
+}
+
 /**
  * Check if the given array is actually an error
  *

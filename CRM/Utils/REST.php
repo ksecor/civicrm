@@ -136,10 +136,56 @@ class CRM_Utils_REST
     function simple( $params ) {
         $values  = array( 'is_error' => 0 );
         $values += $params;
-        return $params;
+        return $values;
     }
 
     function run( &$config ) {
+        $result = self::handle( $config );
+
+        return self::output( $config, $result );
+    }
+
+    function output( &$config, &$result ) {
+        $hier = false;
+        if ( is_scalar( $result ) ) {
+            if ( ! $result ) {
+                $result = 0;
+            }
+            $result = self::simple( array( 'result' => $result ) );
+        } else if ( is_array( $result ) ) {
+            if ( CRM_Utils_Array::isHierarchical( $result ) ) {
+                $hier = true;
+            } else if ( ! array_key_exists( 'is_error', $result ) ) {
+                $result['is_error'] = 0;
+            }
+        } else {
+            $result = self::error( ts( 'Could not interpert return values from function' ) );
+        }
+
+        if ( CRM_Utils_Array::value( 'json', $_GET ) ) {
+            require_once 'Services/JSON.php';
+            $json =& new Services_JSON( );
+            return $json->encode( $result ) . "\n";
+        }
+        
+        $xml = "<?xml version=\"1.0\"?>
+<ResultSet xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">
+";
+        // check if this is a single element result (contact_get etc)
+        // or multi element
+        if ( $hier ) {
+            foreach ( $result as $n => $v ) {
+                $xml .= "<Result>\n" . CRM_Utils_Array::xml( $v ) . "</Result>\n";
+            }
+        } else {
+            $xml .= "<Result>\n" . CRM_Utils_Array::xml( $result ) . "</Result>\n";
+        }
+
+        $xml .= "</ResultSet>\n";
+        return $xml;
+    }
+
+    function handle( $config ) {
 
         $q = $_GET['q'];
         $args = explode( '/', $q );
@@ -194,14 +240,20 @@ class CRM_Utils_REST
     }
 
     function contact( &$config, &$args, &$params ) {
+        require_once 'api/v2/Contact.php';
+
         switch ( $args[2] ) {
         case 'add':
         case 'get':
         case 'delete':
         case 'search':
-            require_once 'api/v2/Contact.php';
             $fnName = "civicrm_contact_{$args[2]}";
-            return $fnName( $params );
+            $result = $fnName( $params );
+            if ( ! $result ) {
+                return self::error( ts( 'Unknown error' ) );
+            } else {
+                return $result;
+            }
 
         default:
             return self::error( ts( 'Unknown function called' ) );
