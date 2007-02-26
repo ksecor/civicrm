@@ -92,8 +92,18 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
 
-        $this->_eId       = CRM_Utils_Request::retrieve( 'event', 'Positive', $this );
-       
+        if ( $this->_id ) {
+            $ids = array( );
+            $params = array( 'id' => $this->_id );
+            require_once "CRM/Event/BAO/Participant.php";
+            CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );
+            $this->_eId = $defaults[$this->_id]['event_id'];
+        }
+        
+        if( CRM_Utils_Request::retrieve( 'event', 'Positive', $this ) ) {
+            $this->_eId       = CRM_Utils_Request::retrieve( 'event', 'Positive', $this );            
+        }
+                
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
