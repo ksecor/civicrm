@@ -52,6 +52,7 @@ class CRM_Contact_Page_View_UserDashBoard_Contribution extends CRM_Contact_Page_
         $controller->set( 'limit', 12 ); 
         $controller->set( 'cid'  , $this->_contactId );
         $controller->set( 'context'  , 'user' );
+        $controller->set( 'force'  , 1 );
         $controller->process( );
         $controller->run( );
         

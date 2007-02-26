@@ -53,6 +53,7 @@ class CRM_Contact_Page_View_UserDashBoard_Participant extends CRM_Contact_Page_V
         $controller->setEmbedded( true );
         $controller->reset( );
         $controller->set( 'context', 'user' ); 
+        $controller->set( 'force'  , 1 );
         $controller->process( );
         $controller->run( );
     }

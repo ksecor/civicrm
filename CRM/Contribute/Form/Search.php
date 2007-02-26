@@ -183,10 +183,6 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
 
-        $session =& CRM_Core_Session::singleton( );
-        if ( strstr( $session->readUserContext( ) ,'user') ) {
-            $this->_force = 1;
-        }
         if ( $this->_force ) {
             $this->postProcess( );
             $this->set( 'force', 0 );
@@ -391,7 +387,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->_formValues['contribution_date_high']['i'] = 59;
             $this->_formValues['contribution_date_high']['s'] = 59;
         }
-
+        
         if ( ! $this->_force ) {
             return;
         }
@@ -406,11 +402,12 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             CRM_Core_DAO::$_nullObject );
 
-        $session =& CRM_Core_Session::singleton( );
-        if ( strstr( $session->readUserContext( ) ,'user') ) {
+
+        if ( $this->_context == 'user' ) {
+            $session =& CRM_Core_Session::singleton( );
             $cid = $session->get( 'userID' ); 
         }
-        
+
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {

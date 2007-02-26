@@ -172,12 +172,6 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             $this->_formValues = $this->get( 'formValues' ); 
         } 
    
-        $session =& CRM_Core_Session::singleton();
-        if ( strstr( $session->readUserContext( ) ,'user') ) {
-            $this->_force = 1;
-            $this->set('cid', $session->get( 'userID' ) );
-        }
-     
         if ( $this->_force ) { 
             $this->postProcess( );
             $this->set( 'force', 0 );
@@ -366,11 +360,11 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             $this->_formValues['event_title'] = CRM_Event_PseudoConstant::event( $event );
         }
         
-        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
-                                            CRM_Core_DAO::$_nullObject );
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject );
 
-        if ( !$cid ) {
-            $cid = $this->get('cid');
+        if ( $this->_context == 'user' ) {
+            $session =& CRM_Core_Session::singleton( );
+            $cid = $session->get( 'userID' ); 
         }
 
         if ( $cid ) {
