@@ -285,9 +285,8 @@ $smarty->assign('build_version',$build_version);
 
 $config =& CRM_Core_Config::singleton( 'crm', false );
 
-// $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
-// if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
-$locales = array( 'en_US' );
+$locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
+if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
 
 foreach ($locales as $locale) {
     echo "Generating data files for $locale\n";
