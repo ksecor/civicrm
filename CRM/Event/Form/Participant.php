@@ -110,7 +110,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         
-        $this->_roleId = CRM_Utils_Request::retrieve( 'subType', 'Positive',$this );
+        $this->_roleId = CRM_Utils_Request::retrieve( 'rid', 'Positive',$this );
         
         if ( $this->_id) {
             require_once 'CRM/Core/BAO/Note.php';
@@ -156,9 +156,9 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             $this->_contactID = $defaults[$this->_id]['contact_id'];
         } 
         
-        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
-        if ( $subType ) {
-            $defaults[$this->_id]["role_id"] = $subType;
+        $rId  = CRM_Utils_Request::retrieve( 'rid', 'Positive', CRM_Core_DAO::$_nullObject );
+        if ( $rId ) {
+            $defaults[$this->_id]["role_id"] = $rid;
         }
 
         if ( $this->_eId ) {
@@ -176,7 +176,25 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             $viewMode = false;
             $inactiveNeeded = false;
         }
-
+         
+        //setting default register date
+        if ($this->_action == CRM_Core_Action::ADD) {
+            $registerDate = getDate();
+            $defaults[$this->_id]['register_date']['A'] = 'AM';
+            $defaults[$this->_id]['register_date']['M'] = $registerDate['mon'];
+            $defaults[$this->_id]['register_date']['d'] = $registerDate['mday'];
+            $defaults[$this->_id]['register_date']['Y'] = $registerDate['year'];
+            if( $registerDate['hours'] > 12 ) {
+                $registerDate['hours'] -= 12;
+                $defaults[$this->_id]['register_date']['A'] = 'PM';
+            }
+            
+            $defaults[$this->_id]['register_date']['h'] = $registerDate['hours'];
+            $defaults[$this->_id]['register_date']['i'] = (integer)($registerDate['minutes']/15) *15;
+        } else {
+            $defaults[$this->_id]['register_date']['i'] = ( $defaults[$this->_id]['register_date']['i'] )/15 *15;
+        }
+        
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
         }

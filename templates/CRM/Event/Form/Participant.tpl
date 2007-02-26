@@ -74,7 +74,7 @@
             
         }
         if( roleId.value ) {
-            var post = post + "&subType=" + roleId.value;
+            var post = post + "&rid=" + roleId.value;
         }
         if( refresh ) {
             window.location= post; 
