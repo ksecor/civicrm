@@ -218,6 +218,9 @@ class CRM_Utils_REST
         case 'contact':
             return self::contact( $config, $args, $params );
 
+        case 'constants':
+            return self::constant( $config, $args, $params );
+            
         default:
             return self::error( ts( 'Unknown function invocation' ) );
         }
@@ -258,6 +261,24 @@ class CRM_Utils_REST
         default:
             return self::error( ts( 'Unknown function called' ) );
         }
+    }
+
+    function constant( &$config, &$args, &$params ) {
+        require_once 'api/v2/Constant.php';
+
+        $values = civicrm_constant_get( $args[2] );
+        if ( $values['is_error'] ) {
+            return $values;
+        }
+
+        // format this into a hierarchical array
+        $result = array( );
+        $id = $args[2] . '_id';
+        foreach ( $values as $n => $v ) {
+            $result[] = array( $id    => $n,
+                               'name' => $v );
+        }
+        return $result;
     }
 
 }
