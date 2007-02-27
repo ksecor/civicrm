@@ -158,7 +158,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         
         $rId  = CRM_Utils_Request::retrieve( 'rid', 'Positive', CRM_Core_DAO::$_nullObject );
         if ( $rId ) {
-            $defaults[$this->_id]["role_id"] = $rid;
+            $defaults[$this->_id]["role_id"] = $rId;
         }
 
         if ( $this->_eId ) {
