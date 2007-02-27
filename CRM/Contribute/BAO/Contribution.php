@@ -100,7 +100,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         $contribution =& new CRM_Contribute_BAO_Contribution();
         
         $contribution->copyValues($params);
-
+        
         $contribution->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         
         $contribution->id        = CRM_Utils_Array::value( 'contribution', $ids );
@@ -237,14 +237,14 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $insertDate = CRM_Utils_Date::customFormat(date('Y-m-d H:i'));
         }
 
-        $activitySummary = ts(
-            '%1 - %2 (offline)',
-            array(
-                1 => CRM_Utils_Money::format($contribution->total_amount, $contribution->currency),
-                2 => $contribution->source
-            )
-        );
+        $activitySummary = CRM_Utils_Money::format($contribution->total_amount, $contribution->currency);
+        
+        if ( $contribution->source != 'null' ) {
+            $activitySummary .= " - {$contribution->source}";
+        }
 
+        $activitySummary .= " (offline)";
+        
         $historyParams = array(
             'entity_table'     => 'civicrm_contact',
             'entity_id'        => $contribution->contact_id,
@@ -252,7 +252,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             'module'           => 'CiviContribute',
             'callback'         => 'CRM_Contribute_Page_Contribution::details',
             'activity_id'      => $contribution->id,
-            'activity_summary' => $activitySummary,
+            'activity_summary' => ts ( $activitySummary ),
             'activity_date'    => $contribution->receive_date
         );
 
