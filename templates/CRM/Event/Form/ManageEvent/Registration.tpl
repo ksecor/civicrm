@@ -12,11 +12,11 @@
 <br /><br />
     {*Registration Block*}
 	<div id="registration_show" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('registration_show'); show('registration'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Registration Screen:{/ts}</label><br />
+        <a href="#" onclick="hide('registration_show'); show('registration'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Registration Screen{/ts}</label><br />
 	</div>	
 
 	<div id="registration">
-    <fieldset><legend><a href="#" onclick= "hide('registration'); show('registration_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Registration Screen:{/ts}</legend>
+    <fieldset><legend><a href="#" onclick= "hide('registration'); show('registration_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Registration Screen{/ts}</legend>
     <dl>
     	<dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Introductory message / instructions for online event registration page.{/ts}</dd>
@@ -31,11 +31,11 @@
 
     {*Confirmation Block*}
 	<div id="confirm_show" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('confirm_show'); show('confirm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Confirmation Screen:{/ts}</label><br />
+        <a href="#" onclick="hide('confirm_show'); show('confirm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Confirmation Screen{/ts}</label><br />
 	</div>	
 
 	<div id="confirm">
-    <fieldset><legend><a href="#" onclick="hide('confirm'); show('confirm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Confirmation Screen:{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('confirm'); show('confirm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Confirmation Screen{/ts}</legend>
     <dl>
     	<dt>{$form.confirm_title.label}</dt><dd>{$form.confirm_title.html}</dd>
 	    <dt>{$form.confirm_text.label}</dt><dd>{$form.confirm_text.html}</dd>
@@ -44,35 +44,13 @@
     </fieldset>
 	</div>
 
-    {*Mail Block*}
-	<div id="mail_show" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('mail_show'); show('mail'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Send Confirmation Email{/ts}</label><br />
-	</div>	
-
-	<div id="mail">
-    <fieldset><legend><a href="#" onclick="hide('mail'); show('mail_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Send Confirmation Email{/ts}</legend>
- {strip}
-    <dl>
-    	<dt>{$form.is_email_confirm.label}</dt><dd>{$form.is_email_confirm.html}</dd>
-<div id="confirmEmail">
-	    <dt>{$form.confirm_email_text.label}</dt><dd>{$form.confirm_email_text.html}</dd>
-        <dt>{$form.confirm_from_name.label}</dt><dd>{$form.confirm_from_name.html}</dd>
-        <dt>{$form.confirm_from_email.label}</dt><dd>{$form.confirm_from_email.html}</dd>
-    	<dt>{$form.cc_confirm.label}</dt><dd>{$form.cc_confirm.html}</dd>
-	    <dt>{$form.bcc_confirm.label}</dt><dd>{$form.bcc_confirm.html}</dd>       
-</div>
-    </dl>
- {/strip}
-    </fieldset>
-	</div>
-
      {*ThankYou Block*}
 	<div id="thankyou_show" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('thankyou_show'); show('thankyou'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}ThankYou Screen:{/ts}</label><br />
+        <a href="#" onclick="hide('thankyou_show'); show('thankyou'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Thank-you Screen{/ts}</label><br />
 	</div>	
 
 	<div id="thankyou">
-    <fieldset><legend><a href="#" onclick="hide('thankyou'); show('thankyou_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}ThankYou Screen:{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('thankyou'); show('thankyou_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Thank-you Screen{/ts}</legend>
     <dl>
     	<dt>{$form.thankyou_title.label}</dt><dd>{$form.thankyou_title.html}</dd>
 	    <dt>{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}</dd>
@@ -81,6 +59,27 @@
     </fieldset>
 	</div>
 
+    {* Confirmation Email Block *}
+	<div id="mail_show" class="section-hidden section-hidden-border">
+        <a href="#" onclick="hide('mail_show'); show('mail'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Confirmation Email{/ts}</label><br />
+	</div>	
+
+	<div id="mail">
+    <fieldset><legend><a href="#" onclick="hide('mail'); show('mail_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Confirmation Email{/ts}</legend>
+ {strip}
+    <dl>
+    	<dt>{$form.is_email_confirm.label}</dt><dd>{$form.is_email_confirm.html}</dd>
+        <div id="confirmEmail">
+	    <dt>{$form.confirm_email_text.label}</dt><dd>{$form.confirm_email_text.html}</dd>
+        <dt>{$form.confirm_from_name.label}</dt><dd>{$form.confirm_from_name.html}</dd>
+        <dt>{$form.confirm_from_email.label}</dt><dd>{$form.confirm_from_email.html}</dd>
+    	<dt>{$form.cc_confirm.label}</dt><dd>{$form.cc_confirm.html}</dd>
+	    <dt>{$form.bcc_confirm.label}</dt><dd>{$form.bcc_confirm.html}</dd>       
+        </div>
+    </dl>
+ {/strip}
+    </fieldset>
+	</div>
 
 <dl>
 </div>
