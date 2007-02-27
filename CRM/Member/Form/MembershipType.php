@@ -69,7 +69,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         }
         //setting default relationshipType
         if ( $defaults['relationship_type_id'] ) {
-            $defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_a_b';
+            //$defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_a_b';
+            $defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_'.$defaults['relationship_direction'];
         }
         //setting default fixed_period_start_day & fixed_period_rollover_day
         $periods = array('fixed_period_start_day',  'fixed_period_rollover_day');
@@ -270,7 +271,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             }
             
         }
-
+        
         return empty($errors) ? true : $errors;
     }
        
@@ -296,12 +297,13 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $this->set( 'searchDone', 1 );
                 return;
             }
-
+           
             $params['minimum_fee'] = CRM_Utils_Rule::cleanMoney( $params['minimum_fee'] );
             if ( $params['relationship_type_id'] ) {
                 $relationId = explode( '_', $params['relationship_type_id'] );
-                $params['relationship_type_id'] = $relationId[0];
-            }
+                $params['relationship_type_id'  ] = $relationId[0];
+                $params['relationship_direction'] = $relationId[1].'_'.$relationId[2];
+            } 
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $ids['membershipType'] = $this->_id;
             }

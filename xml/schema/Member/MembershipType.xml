@@ -126,6 +126,12 @@
       <key>id</key> 
       <add>1.5</add>
   </foreignKey>
+  <field> 
+      <name>relationship_direction</name>     
+      <type>varchar</type>  
+      <length>6</length>                  
+      <add>1.7</add>  
+  </field> 
   <field>  
       <name>visibility</name>     
       <title>Visible</title>
