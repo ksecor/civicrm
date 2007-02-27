@@ -94,19 +94,20 @@ class CRM_Contribute_Payment_Google {
 
         require_once 'HTTP/Request.php';
         $params = array( 'method' => HTTP_REQUEST_METHOD_POST,
-                         'allowRedirects' => 2 );
+                         'allowRedirects' => false );
         $request =& new HTTP_Request( $url, $params );
         foreach ( $googleParams as $key => $value ) {
             $request->addPostData($key, $value);
         }
         $result = $request->sendRequest( );
-        if ( ! PEAR::isError($result) ) {
-            echo $request->getResponseBody();
-            exit( );
-        } else {
+        if ( PEAR::isError( $result ) ) {
             CRM_Core_Error::fatal( $response->getMessage( ) );
         }
-
+        if ( $request->getResponseCode( ) != 302 ) {
+            CRM_Core_Error::fatal( ts( 'Invalid response code received from Google Checkout' ) );
+        }
+        CRM_Utils_System::redirect( $request->getResponseHeader( 'location' ) );
+        exit( );
     }
 
     /** 
