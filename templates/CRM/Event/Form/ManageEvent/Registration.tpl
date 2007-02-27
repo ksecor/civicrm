@@ -9,7 +9,6 @@
         </div>
  </dl>
 <div id="registration">
-<br /><br />
     {*Registration Block*}
 	<div id="registration_show" class="section-hidden section-hidden-border">
         <a href="#" onclick="hide('registration_show'); show('registration'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Registration Screen{/ts}</label><br />

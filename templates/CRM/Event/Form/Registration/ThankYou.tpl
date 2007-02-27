@@ -1,10 +1,5 @@
 <div class="form-item">
-   
-    <div id="thankyou_text">
-        <p>
-        {$thankyou_text}
-        </p>
-    </div>
+
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
         {if $contributeMode EQ 'notify' and $paidEvent}
@@ -12,6 +7,14 @@
             {ts}Your registration payment has been submitted to PayPal for processing. Please print this page for your records.{/ts}
         {/if}
     </div>
+
+    {if $eventPage.thankyou_text} 
+    <div id="intro_text">
+        <p>
+        {$eventPage.thankyou_text}
+        </p>
+    </div>
+    {/if}
 
     <div class="header-dark">
         {ts}Event Information{/ts}
@@ -87,9 +90,9 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
 
-    <div id="thankyou_footer_text">
-        <p>
-        {$thankyou_footer_text}
-        </p>
-    </div>
+    {if $eventPage.thankyou_footer_text}
+        <div id="footer_text">
+            <p>{$eventPage.thankyou_footer_text}</p>
+        </div>
+    {/if}
 </div>

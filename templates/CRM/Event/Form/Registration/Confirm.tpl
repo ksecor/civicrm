@@ -4,6 +4,13 @@
             if you need to make changes. Otherwise, click the <strong>Continue</strong> button below
             to complete your registration.{/ts}</p>
     </div>
+
+    {if $eventPage.confirm_text}
+        <div id="intro_text">
+        <p>{$eventPage.confirm_text}</p>
+        </div>
+    {/if}
+    
     <div class="header-dark">
         {ts}Event Information{/ts}
     </div>
@@ -83,8 +90,14 @@
     </div>
     {/if}    
    
- <div id="crm-submit-buttons">
+    <div id="crm-submit-buttons">
      {$form.buttons.html}
-   </div>
+    </div>
+
+    {if $eventPage.confirm_footer_text}
+        <div id="footer_text">
+            <p>{$eventPage.confirm_footer_text}</p>
+        </div>
+    {/if}
 </div>
 

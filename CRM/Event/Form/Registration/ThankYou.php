@@ -53,9 +53,6 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         parent::preProcess( );
         $this->_params = $this->get( 'params' );
        
-        $this->assign( 'thankyou_text' , $this->_values['event_page']['thankyou_text']  );
-        $this->assign( 'thankyou_footer_text' , $this->_values['event_page']['thankyou_footer_text']  );
-
         CRM_Utils_System::setTitle($this->_values['event_page']['thankyou_title']);
     }
 

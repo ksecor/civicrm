@@ -3,7 +3,11 @@
 {/if}
 {capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
 <div class="form-item">
-  <p>{$eventPage.intro_text}</p>
+{if $eventPage.intro_text}
+    <div id="intro_text">
+        <p>{$eventPage.intro_text}</p>
+    </div>
+{/if}
 
  <table class="form-layout-compressed">
     <tr><td class="label nowrap">{$form.amount.label}</td><td>{$form.amount.html}</td></tr>
@@ -61,9 +65,14 @@
     </fieldset>
 {/if}
 
-   <strong>{$eventPage.footer_text}<br/>	  
    <div id="crm-submit-buttons">
      {$form.buttons.html}
    </div>
+
+    {if $eventPage.footer_text}
+        <div id="footer_text">
+            <p>{$eventPage.footer_text}</p>
+        </div>
+    {/if}
 </div>
 

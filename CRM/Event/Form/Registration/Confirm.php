@@ -131,6 +131,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         if ( $this->_values['event']['is_monetary'] ) {
             $this->_params['invoiceID'] = $this->get( 'invoiceID' );
         }
+        CRM_Utils_System::setTitle($this->_values['event_page']['confirm_title']);
         $this->set( 'params', $this->_params );
     }
 

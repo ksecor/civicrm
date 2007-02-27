@@ -172,8 +172,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     function buildConfirmationBlock( $form) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
-        $form->add('text','confirm_title',ts('Title '));   
-        $form->add('textarea','confirm_text',ts('Intro Text'), $attributes['confirm_text']);
+        $form->add('text','confirm_title',ts('Title '), $attributes['confirm_title'], true);   
+        $form->add('textarea','confirm_text',ts('Introductory Text'), $attributes['confirm_text']);
         $form->add('textarea','confirm_footer_text',ts('Footer Text'), $attributes['confirm_footer_text']);     
     }
 
@@ -200,8 +200,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     function buildThankYouBlock( $form) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
-        $form->add('text','thankyou_title',ts('Title '));   
-        $form->add('textarea','thankyou_text',ts('Intro Text'), $attributes['thankyou_text']);
+        $form->add('text','thankyou_title',ts('Title '), $attributes['thankyou_title'], true);   
+        $form->add('textarea','thankyou_text',ts('Introductory Text'), $attributes['thankyou_text']);
         $form->add('textarea','thankyou_footer_text',ts('Footer Text'), $attributes['thankyou_footer_text']);     
     }
     /**
@@ -227,30 +227,18 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     static function formRule( &$values ) 
     {
         if ( $values['is_online_registration'] ) {
-            if ( !$values['intro_text'] ) {
-                $errorMsg['intro_text'] = "Please enter Introduction text.";
-            }
-
-            if ( !$values['confirm_title'] ) {
-                $errorMsg['confirm_title'] = "Please enter Confirmation text.";
-            }
-
-            if ( !$values['confirm_text'] ) {
-                $errorMsg['confirm_text'] = "Please enter Confirmation text.";
-            }
-
             if ( $values['is_email_confirm'] && !$values['confirm_email_text'] ) {
-                $errorMsg['confirm_email_text'] = "Please enter Email Confirmation text.";
+                $errorMsg['confirm_email_text'] = ts("Please enter Email Confirmation text.");
             }
         }
         
         if ( $values['is_email_confirm'] ) { 
             if ( !$values['confirm_from_name'] ) {
-                $errorMsg['confirm_from_name'] = "Please enter Confirm From Name.";
+                $errorMsg['confirm_from_name'] = ts("Please enter Confirmation Email FROM Name.");
             } 
             
             if ( !$values['confirm_from_email'] ) {
-                $errorMsg['confirm_from_email'] = "Please enter Confirm From Email.";
+                $errorMsg['confirm_from_email'] = ts("Please enter Confirmation Email FROM email address.");
             }
         }
         
