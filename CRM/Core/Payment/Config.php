@@ -190,6 +190,17 @@ class CRM_Core_Payment_Config {
                 $config->paymentFile = 'Payment_Moneris';
                 $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_FORM;
                 break;
+
+            case 'Google_Checkout':
+                $config->paymentFile = 'Payment_Google';
+                $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_BUTTON;
+//                 if ( $oldMode ) {
+//                     $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
+//                     $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
+//                     $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
+//                 }
+                break;
+
             }
         }
 

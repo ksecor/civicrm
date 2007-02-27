@@ -593,7 +593,8 @@ class CRM_Core_SelectValues
                                'PayPal'           => ts('PayPal - Website Payments Pro'),
                                'PayPal_Express'   => ts('PayPal - Express'),
                                'PayPal_Standard'  => ts('PayPal - Website Payments Standard'),
-                               'Moneris'          => ts('Moneris')
+                               'Moneris'          => ts('Moneris'),
+                               'Google_Checkout'  => ts('Google Checkout')
                                );
         }
         return $processor;
