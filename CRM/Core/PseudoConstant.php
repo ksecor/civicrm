@@ -774,6 +774,7 @@ class CRM_Core_PseudoConstant
     {
         if (!self::$relationshipType) {
             self::$relationshipType = array();
+            require_once 'CRM/Contact/DAO/RelationshipType.php';
             $relationshipTypeDAO =& new CRM_Contact_DAO_RelationshipType();
             $relationshipTypeDAO->selectAdd();
             $relationshipTypeDAO->selectAdd('id, name_a_b, name_b_a, contact_type_a, contact_type_b');

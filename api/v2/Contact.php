@@ -97,7 +97,7 @@ function &civicrm_contact_get( &$params ) {
         return civicrm_create_error( ts( 'Input parameters is not an array' ) );
     }
 
-    $contacts =& civicrm_contact_search( $params ) {
+    $contacts =& civicrm_contact_search( $params );
     if ( civicrm_error( $contacts ) ) {
         return $contacts;
     }
@@ -293,6 +293,7 @@ function &_civicrm_contact_add( &$params, $contactID = null ) {
     if ( $contactID ) {
         $ids['contact'] = $contactID;
     }
+    require_once 'CRM/Contact/BAO/Contact.php';
     $contact = CRM_Contact_BAO_Contact::add   ( $params, $ids );
 
     $params['contact_id'] = $contact->id;

@@ -50,6 +50,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @const
      */
     const LOCATION_BLOCKS = 1;
+
     /**
      * the id of the event we are proceessing
      *

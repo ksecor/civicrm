@@ -166,13 +166,15 @@ class TestOfContactAPIV2 extends UnitTestCase
     function testDeleteContacts() 
     {
         foreach ($this->_contacts as $id) {
-            $result = civicrm_contact_delete( $id );
-            $this->assertEqual( $result, true );
+            $params = array( 'contact_id' => $id );
+            $result = civicrm_contact_delete( $params );
+            $this->assertEqual( $result['is_error'], 0 );
         }
         
         // delete an unknown id
-        $result = civicrm_contact_delete( 100056 );
-        $this->assertEqual( $result, false );
+        $params = array( 'contact_id' => 1000567 );
+        $result = civicrm_contact_delete( $params );
+        $this->assertEqual( $result['is_error'], 1 );
     }
 
 }

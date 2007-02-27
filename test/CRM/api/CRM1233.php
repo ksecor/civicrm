@@ -18,7 +18,7 @@ class TestOfSearch extends UnitTestCase
                           array( 'contact_type', '=', 'Individual', 1, 0 ),
                           );
         
-        $contact =& crm_search($params, $return_properties);
+        $contact =& crm_search($params, null);
         CRM_Core_Error::debug('contact', $contact);
     }
 
@@ -28,7 +28,7 @@ class TestOfSearch extends UnitTestCase
                           array( 'contact_type', '=', 'Individual', 1, 0 ),
                           );
 
-        $contact =& crm_search($params, $return_properties);
+        $contact =& crm_search($params, null);
         CRM_Core_Error::debug('contact', $contact);
     }
 
@@ -40,7 +40,17 @@ class TestOfSearch extends UnitTestCase
                           array( 'contact_type', '=', 'Individual', 1, 0 ),
                          );
 
-        $contact =& crm_search($params, $return_properties);
+        $contact =& crm_search($params, null);
+        CRM_Core_Error::debug('contact', $contact);
+    }
+
+    function testOrSearch()
+    {
+        $params = array ( array( 'sort_name', 'like', '%lobo%', 1, 0 ),
+                          array( 'sort_name', 'like', '%adam%', 1, 0 ),
+                          );
+
+        $contact =& crm_search($params, null);
         CRM_Core_Error::debug('contact', $contact);
     }
 }
