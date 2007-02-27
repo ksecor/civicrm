@@ -91,17 +91,20 @@ class CRM_Contribute_Payment_Google {
         
         $url = ( $this->_mode == 'test' ) ? $config->paymentPayPalExpressTestUrl : $config->paymentPayPalExpressUrl;
         $url = 'https://' . $url . '/cws/v2/Merchant/' . $config->paymentUsername[$this->_mode] . '/checkoutForm';
-        
+
         require_once 'HTTP/Request.php';
-        $request =& new HTTP_Request( $url );
-        $request->setMethod(HTTP_REQUEST_METHOD_POST);
+        $params = array( 'method' => HTTP_REQUEST_METHOD_POST,
+                         'allowRedirects' => 2 );
+        $request =& new HTTP_Request( $url, $params );
         foreach ( $googleParams as $key => $value ) {
             $request->addPostData($key, $value);
         }
-        if ( ! PEAR::isError($request->sendRequest())) {
-            echo $response = $request->getResponseBody();
+        $result = $request->sendRequest( );
+        if ( ! PEAR::isError($result) ) {
+            echo $request->getResponseBody();
+            exit( );
         } else {
-            echo $response->getMessage();
+            CRM_Core_Error::fatal( $response->getMessage( ) );
         }
 
     }
