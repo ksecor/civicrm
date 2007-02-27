@@ -357,7 +357,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                                $values['location'][1]['address']['city'] && 
                                $values['location'][1]['address']['state_province_id']
                              ) ) {
-                            $set = CRM_Utils_System::url( 'civicrm/contact/search/map',"reset=1&eid={$dao->id}" );
+                            $set = CRM_Utils_System::url( 'civicrm/contact/map',"reset=1&eid={$dao->id}" );
                         }
                     }
                     

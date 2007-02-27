@@ -80,7 +80,7 @@
     {/if}
     {* If mapGeoCoding config setting is 1, then we can map with just city and state (we don't need or use lat/long values) *}
     {if ( $config->mapAPIKey AND ( is_numeric($loc.address.geo_code_1)  OR ( $config->mapGeoCoding AND $loc.address.city AND $loc.address.state_province ) ) ) }
-        <a href="{crmURL p='civicrm/contact/search/map' q="reset=1&cid=$contactId&lid=`$loc.address.location_id`"}" title="{ts}Map this Address{/ts}">{ts}Map this Address{/ts}</a><br />
+        <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=$contactId&lid=`$loc.address.location_id`"}" title="{ts}Map this Address{/ts}">{ts}Map this Address{/ts}</a><br />
     {/if}
     {$loc.address.display|nl2br}
   </div>

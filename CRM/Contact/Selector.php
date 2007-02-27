@@ -220,7 +220,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             if ( $config->mapAPIKey && $config->mapProvider) {
                 self::$_links[CRM_Core_Action::MAP] = array(
                                                             'name'     => ts('Map'),
-                                                            'url'      => 'civicrm/contact/search/map',
+                                                            'url'      => 'civicrm/contact/map',
                                                             'qs'       => 'reset=1&cid=%%id%%',
                                                             'title'    => ts('Map Contact'),
                                                             );

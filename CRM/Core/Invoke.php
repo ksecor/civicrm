@@ -193,6 +193,11 @@ class CRM_Core_Invoke
             return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
         }
 
+        if ( $args[2] == 'map' ) {
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
+        }
+
         if ($args[2] == 'view') {
             
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
@@ -390,9 +395,6 @@ class CRM_Core_Invoke
 
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Search_Simple', ts('Simple Search'),  null );
-        } else if ( $thirdArg == 'map' ) {
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
         } else {
             $mode  = CRM_Core_Action::BASIC;
             $title = ts('Search');
