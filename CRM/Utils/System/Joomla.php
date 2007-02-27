@@ -73,6 +73,19 @@ class CRM_Utils_System_Joomla {
     }
 
     /**
+     * Reset an additional breadcrumb tag to the existing breadcrumb
+     *
+     * @param string $bc the new breadcrumb to be appended
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function resetBreadCrumb( $bc ) {
+        return;
+    }
+
+    /**
      * Append a string to the head of the html file
      *
      * @param string $head the new string to be appended

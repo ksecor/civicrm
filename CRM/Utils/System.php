@@ -415,6 +415,18 @@ class CRM_Utils_System {
     }
 
     /**
+     * Reset an additional breadcrumb tag to the existing breadcrumb
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function resetBreadCrumb( ) {
+        $config   =& CRM_Core_Config::singleton( );
+        return eval( 'return ' . $config->userFrameworkClass . '::resetBreadCrumb( );' );
+    }
+
+    /**
      * Append a string to the head of the html file
      *
      * @param string $head the new string to be appended

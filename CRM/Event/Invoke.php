@@ -99,10 +99,16 @@ class CRM_Event_Invoke
             $id     = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, false, null, 'GET');
             $session->pushUserContext( CRM_Utils_System::url("civicrm/event/info", "id={$id}&reset=1" ) );
             
+            // also reset the bread crumb
+            CRM_Utils_System::resetBreadCrumb( );
+
             require_once 'CRM/Event/Controller/Registration.php';
             $controller =& new CRM_Event_Controller_Registration(ts('Online Registration'));
             return $controller->run();
         } else if ($secondArg == 'info') {
+            // also reset the bread crumb
+            CRM_Utils_System::resetBreadCrumb( );
+
             require_once 'CRM/Event/Page/EventInfo.php';
             $page =& new CRM_Event_Page_EventInfo( );
             return $page->run( );

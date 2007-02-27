@@ -122,6 +122,9 @@ class CRM_Contribute_Invoke {
                 }
             }
 
+            // also reset the bread crumb
+            CRM_Utils_System::resetBreadCrumb( );
+
             require_once 'CRM/Contribute/Controller/Contribution.php'; 
             $controller =& new CRM_Contribute_Controller_Contribution( );
             return $controller->run(); 

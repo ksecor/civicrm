@@ -67,6 +67,18 @@ class CRM_Utils_System_Drupal {
     }
 
     /**
+     * Reset an additional breadcrumb tag to the existing breadcrumb
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function resetBreadCrumb( ) {
+        $bc = array( );
+        drupal_set_breadcrumb( $bc );
+    }
+
+    /**
      * Append a string to the head of the html file
      *
      * @param string $head the new string to be appended
