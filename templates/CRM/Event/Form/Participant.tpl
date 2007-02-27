@@ -70,7 +70,7 @@
         var url = {/literal}"{$refreshURL}"{literal}
 
         if( eventId.value ) {
-            var post = url + "&event=" + eventId.value;
+            var post = url + "&eid=" + eventId.value;
             
         }
         if( roleId.value ) {
