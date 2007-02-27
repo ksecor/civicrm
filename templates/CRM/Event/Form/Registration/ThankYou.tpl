@@ -9,19 +9,26 @@
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
         {if $contributeMode EQ 'notify' and $paidEvent}
             <p>
-            {ts}Your contribution has been submitted to PayPal for processing. Please print this page for your records.{/ts}
+            {ts}Your registration payment has been submitted to PayPal for processing. Please print this page for your records.{/ts}
         {/if}
+    </div>
+
+    <div class="header-dark">
+        {ts}Event Information{/ts}
+    </div>
+    <div class="display-block">
+         {include file="CRM/Event/Form/Registration/EventInfoBlock.tpl"}
     </div>
 
     {if $paidEvent}
     <div class="header-dark">
-        {ts}Fee Amount{/ts}
+        {ts}Registration Fee{/ts}
     </div>
     <div class="display-block">
         {if $amount}
-            {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
+            <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
         {/if}
-      {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
+        {ts}Transaction Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
         {if $contributeMode ne 'notify'}
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}

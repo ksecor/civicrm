@@ -115,6 +115,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->_values = array( );
             //retrieve event information
             $params = array( 'id' => $this->_id );
+            $ids = array();
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
             
@@ -164,6 +165,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         // assign all event properties so wizard templates can display event info.
         $this->assign('event', $this->_values['event']);
+        
+        // retrieve and assign event location info
+        $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
+        require_once 'CRM/Core/BAO/Location.php';
+        $location = CRM_Core_BAO_Location::getValues($params, $this->_values, $ids, 1);
+        $this->assign('location',$this->_values['location']);
     }
 
     /** 

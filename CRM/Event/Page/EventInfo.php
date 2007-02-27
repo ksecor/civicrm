@@ -64,6 +64,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
    
         //retrieve event information
         $params = array( 'id' => $id );
+        $ids = array();
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::retrieve($params, $values['event']);
 

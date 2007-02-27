@@ -4,13 +4,19 @@
             if you need to make changes. Otherwise, click the <strong>Continue</strong> button below
             to complete your registration.{/ts}</p>
     </div>
+    <div class="header-dark">
+        {ts}Event Information{/ts}
+    </div>
+    <div class="display-block">
+         {include file="CRM/Event/Form/Registration/EventInfoBlock.tpl"}
+    </div>
     {if $paidEvent}
     <div class="header-dark">
-        {ts}Fee Amount{/ts}
+        {ts}Registration Fee{/ts}
     </div>
     <div class="display-block">
         {if $amount}
-            {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
+            <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
         {/if}
     </div>
     {else}
