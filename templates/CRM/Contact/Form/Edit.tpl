@@ -128,7 +128,7 @@
 {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
 
 {* Plugging the Location block *}
- {include file="CRM/Contact/Form/Location.tpl"}
+{include file="CRM/Contact/Form/Location.tpl"}
 
 {if $contact_type eq 'Individual'}
  <div id = "id_demographics_show" class="section-hidden section-hidden-border label">

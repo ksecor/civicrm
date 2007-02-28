@@ -147,11 +147,7 @@ function civicrm_contact_delete( &$params ) {
  * @static void
  * @access public
  */
-function &civicrm_contact_search( &$params,
-                                  $returnProperties = null,
-                                  $sort = null,
-                                  $offset = 0,
-                                  $rowCount = 25 ) {
+function &civicrm_contact_search( &$params ) {
     _civicrm_initialize( );
 
     $inputParams      = array( );
@@ -163,7 +159,7 @@ function &civicrm_contact_search( &$params,
     $rowCount = 25;
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
-            $returnProperties[ substr( $n, 8 ) ] = $v;
+            $returnProperties[ substr( $n, 7 ) ] = $v;
         } elseif ( array_key_exists( $n, $otherVars ) ) {
             $$n = $v;
         } else {

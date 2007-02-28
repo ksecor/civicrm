@@ -72,7 +72,7 @@ function civicrm_group_contact_common( &$params, $op = 'add' ) {
     $tracking   = CRM_Utils_Array::value( 'tracking', $params );
 
     require_once 'CRM/Contact/BAO/GroupContact.php';
-    $values = array( 'is_error' = 0 );
+    $values = array( 'is_error' => 0 );
     if ( $op == 'add' ) {
         list( $values['total_count'], $values['added'], $values['not_added'] ) = 
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIDs, $groupID,

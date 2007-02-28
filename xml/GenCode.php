@@ -774,7 +774,7 @@ function getForeignKey( &$foreignXML, &$fields, &$foreignKeys, &$currentTableNam
     $table = trim( value( 'table' , $foreignXML ) );
     $foreignKey = array( 'name'       => $name,
                          'table'      => $table,
-                         'uniqName'   => "{$currentTableName}_{$name}",
+                         'uniqName'   => "FK_{$currentTableName}_{$name}",
                          'key'        => trim( value( 'key'   , $foreignXML ) ),
                          'import'     => value( 'import', $foreignXML, false ),
                          'export'     => value( 'import', $foreignXML, false ),
