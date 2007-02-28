@@ -206,17 +206,26 @@ class CRM_Core_Invoke
             
             switch ( $thirdArg ) {
             case 'contribution':
+                if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
+                    CRM_Core_Error::fatal( 'You do not have access to this page' );
+                }
                 require_once 'CRM/Contact/Page/View/Contribution.php'; 
                 $view =& new CRM_Contact_Page_View_Contribution( );
                 break;
 
            
             case 'membership':
+                if ( ! CRM_Core_Permission::check('access CiviMember') ) {
+                    CRM_Core_Error::fatal( 'You do not have access to this page' );
+                }
                 require_once 'CRM/Contact/Page/View/Membership.php'; 
                 $view =& new CRM_Contact_Page_View_Membership( );
                 break;
 
             case 'participant':
+                if ( ! CRM_Core_Permission::check('access CiviEvent') ) {
+                    CRM_Core_Error::fatal( 'You do not have access to this page' );
+                }
                 require_once 'CRM/Contact/Page/View/Participant.php'; 
                 $view =& new CRM_Contact_Page_View_Participant( );
                 break;
