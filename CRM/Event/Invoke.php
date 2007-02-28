@@ -47,7 +47,7 @@ class CRM_Event_Invoke
 
         if ( ! CRM_Core_Permission::check( 'administer CiviCRM' ) ||
              ! CRM_Core_Permission::check('access CiviEvent') ) {
-            CRM_Core_Error::fatal( 'You do not have access to this page' );
+            CRM_Core_Error::fatal( ts( 'You do not have access to this page' ) );
         }
 
         
