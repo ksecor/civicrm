@@ -14,8 +14,8 @@ class CRMPageController
   # login to Drupal
   def login()
     @selenium.open(@config.login_url)
-    @selenium.type('edit[name]', @config.user)
-    @selenium.type('edit[pass]', @config.pass)
+    @selenium.type('edit-name', @config.user)  
+    @selenium.type('edit-pass', @config.pass) 
     click_and_wait 'op'
     
     # Click link CiviCRM
@@ -24,7 +24,7 @@ class CRMPageController
   
   # log out of Drupal
   def logout()
-    click_and_wait 'link=log out'
+    click_and_wait 'link=Log out'
     @selenium.stop
   end
   
