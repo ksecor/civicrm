@@ -85,6 +85,11 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
+        // check for edit permission
+        if ( ! CRM_Core_Permission::check( 'edit event participants' ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        }
+
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
             

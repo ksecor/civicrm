@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -275,7 +275,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      * @static
      * @return array Array of event summary values
      */
-    static function getEventSummary( )
+    static function getEventSummary( $admin = false )
     {
         $eventSummary = array( );
         
@@ -298,19 +298,27 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
             $optionGroupId = $optionGroupDAO->id;
         }
         
-        $query = "SELECT     civicrm_event.id as id, civicrm_event.title as event_title, civicrm_event.is_public as is_public,
-                             civicrm_event.max_participants as max_participants, civicrm_event.start_date as start_date,
-                             civicrm_event.end_date as end_date, civicrm_event.is_map as is_map,
-                             civicrm_option_value.label as event_type, count(civicrm_participant.id) as participants
-                  FROM       civicrm_event
-                  LEFT JOIN  civicrm_participant  ON (civicrm_event.id=civicrm_participant.event_id ) 
-                  LEFT JOIN  civicrm_option_value ON (civicrm_event.event_type_id=civicrm_option_value.value AND civicrm_option_value.option_group_id=" . CRM_Utils_Type::escape( $optionGroupId, 'Integer' ) . ") 
-                  WHERE      civicrm_event.is_active=1 AND civicrm_event.domain_id =" . CRM_Utils_Type::escape( CRM_Core_Config::domainID(), 'Integer' ) . "
-                  GROUP BY   civicrm_event.id
-                  ORDER BY   civicrm_event.end_date DESC
-                  LIMIT      0 , 10";
+        $params = array( 1 => array( $optionGroupId, 'Integer' ),
+                         2 => array( CRM_Core_Config::domainID( ),
+                                     'Integer' ) );
+        $query = "
+SELECT     civicrm_event.id as id, civicrm_event.title as event_title, civicrm_event.is_public as is_public,
+           civicrm_event.max_participants as max_participants, civicrm_event.start_date as start_date,
+           civicrm_event.end_date as end_date, civicrm_event.is_map as is_map,
+           civicrm_option_value.label as event_type, count(civicrm_participant.id) as participants
+FROM       civicrm_event
+LEFT JOIN  civicrm_participant  ON ( civicrm_event.id = civicrm_participant.event_id ) 
+LEFT JOIN  civicrm_option_value ON (
+              civicrm_event.event_type_id = civicrm_option_value.value AND
+              civicrm_option_value.option_group_id = %1 )
+WHERE      civicrm_event.is_active = 1 AND
+           civicrm_event.domain_id = %2
+GROUP BY   civicrm_event.id
+ORDER BY   civicrm_event.end_date DESC
+LIMIT      0, 10
+";
         
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         
         $properties = array( 'eventTitle'      => 'event_title',      'isPublic'     => 'is_public', 
                              'maxParticipants' => 'max_participants', 'startDate'    => 'start_date', 
@@ -362,7 +370,10 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                     }
                     
                     $eventSummary['events'][$dao->id][$property] = $set;
-                    $eventSummary['events'][$dao->id]['configure'] = CRM_Utils_System::url( "civicrm/admin/event", "action=update&id=$dao->id&reset=1" );
+                    if ( $admin ) {
+                        $eventSummary['events'][$dao->id]['configure'] =
+                            CRM_Utils_System::url( "civicrm/admin/event", "action=update&id=$dao->id&reset=1" );
+                    }
                 } else {
                     $eventSummary['events'][$dao->id][$property] = $dao->$name;
                 }
