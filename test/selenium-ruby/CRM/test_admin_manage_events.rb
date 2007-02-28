@@ -20,9 +20,9 @@ class TC_TestAdminManageEvents < Test::Unit::TestCase
     move_to_manage_events( )
 
     add_events( )
-   # configure_events( )
-   # events_test_drive( )
-   # live_page_events( )
+    #configure_events( )
+    #events_test_drive( )
+    #live_page_events( )
     disable_events( )
     copy_events( )
     delete_events( )
@@ -121,8 +121,6 @@ class TC_TestAdminManageEvents < Test::Unit::TestCase
       @page.click_and_wait "//a[@id='idTest-drive']"
       configure_test_drive( )      
     end
-    
-    
   end
 
   def configure_event_info
@@ -210,11 +208,55 @@ class TC_TestAdminManageEvents < Test::Unit::TestCase
   end
 
   def events_test_drive
-  @page.click_and_wait "//div[@id='event_status_id']/descendant::tr[td[contains(.,'New Event 1')]]/descendant::a[contains(.,'Test-drive')]"
+    @page.click_and_wait "//div[@id='event_status_id']/descendant::tr[td[contains(.,'New Event 1')]]/descendant::a[contains(.,'Test-drive')]"
+
+    assert @selenium.is_text_present("Test-drive Your Event Registration Page\n\n    This page is currently running in test-drive mode. Transactions will be sent to your payment processor's test server. No live financial transactions will be submitted. However, a contact record will be created or updated and a contribution record will be saved to the database. Use obvious test contact names so you can review and delete these records as needed. Refer to your payment processor's documentation for information on values to use for test credit card number, security code, postal code, etc.")
+
+    assert @selenium.is_text_present("Register Now")
+    @page.click_and_wait "link=Register Now"
+    
+    @selenium.check "//input[@type='radio' and @name='amount' and @value='19']"
+    @selenium.type "email", "abhilasha@webaccess.co.in"
+    @selenium.select "credit_card_type", "label=Visa"
+    @selenium.type "credit_card_number", "4111111111111111"
+    @selenium.type "cvv2", "111"
+    @selenium.select "credit_card_exp_date[M]", "label=Dec"
+    @selenium.select "credit_card_exp_date[Y]", "label=2010"
+    @selenium.type "first_name", "Abhilasha"
+    @selenium.type "middle_name", "V."
+    @selenium.type "last_name", "Vasu"
+    @selenium.type "street_address", "b-1069"
+    @selenium.type "city", "Mumbai"
+    @selenium.select "state_province_id", "label=California"
+    @selenium.type "postal_code", "2321412"
+    @selenium.select "country_id", "label=United States"
+
+    @page.click_and_wait "//input[@name='_qf_Register_next' and @type='submit']"
   end
 
   def live_page_events
-   @page.click_and_wait "//div[@id='event_status_id']/descendant::tr[td[contains(.,'New Event 1')]]/descendant::a[contains(.,'Live Page')]"
+    @page.click_and_wait "//div[@id='event_status_id']/descendant::tr[td[contains(.,'New Event 1')]]/descendant::a[contains(.,'Live Page')]"
+    assert @selenium.is_text_present("Register Now")
+    @page.click_and_wait "link=Register Now"
+
+    @selenium.check "//input[@type='radio' and @name='amount' and @value='19']"
+    @selenium.type "email", "abhilasha@webaccess.co.in"
+    @selenium.select "credit_card_type", "label=Visa"
+    @selenium.type "credit_card_number", "4111111111111111"
+    @selenium.type "cvv2", "111"
+    @selenium.select "credit_card_exp_date[M]", "label=Dec"
+    @selenium.select "credit_card_exp_date[Y]", "label=2010"
+    @selenium.type "first_name", "Abhilasha"
+    @selenium.type "middle_name", "V."
+    @selenium.type "last_name", "Vasu"
+    @selenium.type "street_address", "b-1069"
+    @selenium.type "city", "Mumbai"
+    @selenium.select "state_province_id", "label=California"
+    @selenium.type "postal_code", "2321412"
+    @selenium.select "country_id", "label=United States"
+
+    @page.click_and_wait "//input[@name='_qf_Register_next' and @type='submit']"
+    
   end
 
   def disable_events

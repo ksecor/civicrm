@@ -100,11 +100,10 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         require_once 'CRM/Member/BAO/Membership.php';
         require_once 'CRM/Member/BAO/MembershipType.php';
         
-        //crm_core_error::debug('$membership', $membership);
         // get all the relationship for the current contact
         $getRelations = array ( );
         $getRelations = CRM_Contact_BAO_Relationship::getRelationship( $this->_contactId, null, null, null, null);
-      
+
         if ( !empty($getRelations) ) {
             $relMembership = array( );
             foreach ( $getRelations as $key => $value ) {
@@ -115,18 +114,23 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
 
                 if ( !empty($membershipValues) ) {
                     foreach ($membershipValues as $k => $val) {
-                        $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails($val['membership_type_id']); 
-
-                        // check if relationship type for the membership record is same as the relation between current contact
-                        // and the related contact  (check CRM-1645)
+                        $membershipType = 
+                            CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $val['membership_type_id'] ); 
+                        
+                        // check if relationship type for the
+                        // membership record is same as the relation
+                        // between current contact and the related contact  (check CRM-1645)
                         if ( $membershipType['relationship_type_id'] != $value['civicrm_relationship_type_id'] ) { 
                             continue;
                         }
 
-                        $relMembership = $membershipValues;
-                        $relMembership[$k]['membership_type'] = $membershipType['name'];                             
-                        $relMembership[$k]['status'         ] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus', 
-                                                                                          $val['status_id'] );
+                        $relMembership[$k]['start_date'     ] = $val['start_date'];
+                        $relMembership[$k]['end_date'       ] = $val['end_date'  ];
+                        $relMembership[$k]['membership_type'] = $membershipType['name'];
+                        $relMembership[$k]['source'         ] = $val['source'    ];
+                        $relMembership[$k]['status'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus',
+                                                                                    $val['status_id'] );
+                        
                         if ( $val['status_id'] ) {
                             $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', 
                                                                   $val['status_id'], 'is_current_member');
@@ -134,14 +138,15 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                                 $relMembership[$k]['active'] = $active;
                             }
                         }
-                        $relMembership[$k]['action'] = CRM_Core_Action::formLink(self::links(), 
-                                                                                 $mask, array('id' => $k, 'cid'=> $value['cid'] ) ); 
+                        
+                        $relMembership[$k]['action'] = CRM_Core_Action::formLink(self::links(), $mask,
+                                                                                 array('id' => $k, 
+                                                                                       'cid'=> $value['cid'] ) ); 
                     }
                 }
             }
             $membership = array_merge( $membership, $relMembership );
         }
-
 
         $activeMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership );
         $inActiveMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership, 'inactive');
@@ -192,6 +197,11 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
     function run( ) {
         $this->preProcess( );
 
+        if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit memberships' ) ) {
+            $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit membership rights
+            $this->assign( 'permission', 'view' );
+        }
+               
         $this->setContext( );
 
         if ( $this->_action & CRM_Core_Action::VIEW ) { 

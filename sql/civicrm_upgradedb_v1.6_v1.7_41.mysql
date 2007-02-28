@@ -166,6 +166,7 @@ CREATE TABLE civicrm_currency (
 
 	ALTER TABLE `civicrm_custom_group` MODIFY extends enum('Contact','Individual','Household','Organization','Location','Address','Contribution','Activity','Relationship','Phonecall','Meeting','Group','Membership','Participant','Event') NULL DEFAULT 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).';
 
+
 -- /*******************************************************
 -- *
 -- * civicrm_custom_value
@@ -190,6 +191,8 @@ CREATE TABLE civicrm_currency (
 
 	ALTER TABLE civicrm_mapping MODIFY mapping_type enum('Export','Import','Export Contributions','Import Contributions','Import Activity History','Search Builder','Import Memberships','Import Participants') NULL DEFAULT NULL COMMENT 'Type of Mapping.';
 
+	ALTER TABLE civicrm_mapping ADD `relationship_direction` varchar(6) NULL DEFAULT NULL COMMENT '';	
+
 -- /*******************************************************
 -- *
 -- * civicrm_membership_type
@@ -197,6 +200,11 @@ CREATE TABLE civicrm_currency (
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_membership_type` ADD `relationship_direction` varchar(6) NULL DEFAULT NULL COMMENT '';
+	
+	UPDATE `civicrm_membership_type` set `relationship_direction` = 
+		(SELECT `name_a_b` FROM `civicrm_relationship_type`
+		 WHERE `civicrm_relationship_type`.`id` = `civicrm_membership_type`.`relationship_type_id`
+	);
 
 -- /*******************************************************
 -- *
@@ -227,7 +235,6 @@ CREATE TABLE civicrm_currency (
 	ALTER TABLE `civicrm_uf_group` ADD `is_uf_link` tinyint(4) NULL DEFAULT '0' COMMENT 'Should we display a link to the website profile in profile selector' AFTER is_edit_link;
 	ALTER TABLE `civicrm_uf_group` ADD `is_update_dupe` tinyint(4) NULL DEFAULT '0' COMMENT 'Should we update the contact record if we find a duplicate' AFTER is_uf_link;
  
-
 -- /*******************************************************
 -- *
 -- * civicrm_uf_match
@@ -257,6 +264,13 @@ CREATE TABLE civicrm_currency (
 -- *
 -- *******************************************************/
 
+	SELECT @domain_id := id from civicrm_domain;
+	INSERT INTO `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
+	VALUES 
+	      (@domain_id, 'participant_status', 'Participant Status', 0, 1),
+	      (@domain_id, 'participant_role', 'Participant Role', 0, 1),
+              (@domain_id, 'event_type', 'Event Type', 0, 1);
+	
 	INSERT INTO `civicrm_option_group` VALUES (12,1,'participant_status','Participant Status',0,1),(13,1,'participant_role','Participant Role',0,1),(14,1,'event_type','Event Type',0,1);
 
 
@@ -266,4 +280,25 @@ CREATE TABLE civicrm_currency (
 -- *
 -- *******************************************************/
 
-	INSERT INTO `civicrm_option_value` VALUES (51,12,'Registered',1,'Registered',NULL,0,NULL,1,NULL,0,1,1),(52,12,'Attended',2,'Attended',NULL,0,NULL,2,NULL,0,0,1),(53,12,'No-show',3,'No-show',NULL,0,NULL,3,NULL,0,0,1),(54,12,'Cancelled',4,'Cancelled',NULL,0,NULL,4,NULL,0,1,1),(55,13,'Attendee',1,'Attendee',NULL,0,NULL,1,NULL,0,0,1),(56,13,'Volunteer',2,'Volunteer',NULL,0,NULL,2,NULL,0,0,1),(57,13,'Host',3,'Host',NULL,0,NULL,3,NULL,0,0,1),(58,13,'Speaker',4,'Speaker',NULL,0,NULL,4,NULL,0,0,1),(59,14,'Conference',1,'Conference',NULL,0,NULL,1,NULL,0,0,1),(60,14,'Exhibition',2,'Exhibition',NULL,0,NULL,2,NULL,0,0,1),(61,14,'Fundraiser',3,'Fundraiser',NULL,0,NULL,3,NULL,0,0,1),(62,14,'Meeting',4,'Meeting',NULL,0,NULL,4,NULL,0,0,1),(63,14,'Performance',5,'Performance',NULL,0,NULL,5,NULL,0,0,1),(64,14,'Workshop',6,'Conference',NULL,0,NULL,6,NULL,0,0,1);
+	SELECT @option_group_id_ps    := max(id) from civicrm_option_group where name = 'participant_status';
+	SELECT @option_group_id_pRole := max(id) from civicrm_option_group where name = 'participant_role';
+	SELECT @option_group_id_etype := max(id) from civicrm_option_group where name = 'event_type';
+	
+	INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
+	VALUES
+	  (@option_group_id_ps, 'Registered', 1, 'Registered', NULL, 0, NULL, 1, NULL, 0, 1, 1),
+	  (@option_group_id_ps, 'Attended',   2, 'Attended',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
+	  (@option_group_id_ps, 'No-show',    3, 'No-show',    NULL, 0, NULL, 3, NULL, 0, 0, 1),
+	  (@option_group_id_ps, 'Cancelled',  4, 'Cancelled',  NULL, 0, NULL, 4, NULL, 0, 1, 1),
+
+	  (@option_group_id_pRole, 'Attendee',  1, 'Attendee',  NULL, 0, NULL, 1, NULL, 0, 0, 1),
+	  (@option_group_id_pRole, 'Volunteer', 2, 'Volunteer', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+	  (@option_group_id_pRole, 'Host',      3, 'Host',      NULL, 0, NULL, 3, NULL, 0, 0, 1),
+	  (@option_group_id_pRole, 'Speaker',   4, 'Speaker',   NULL, 0, NULL, 4, NULL, 0, 0, 1),
+	
+	  (@option_group_id_etype, 'Conference', 1, 'Conference',  NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+	  (@option_group_id_etype, 'Exhibition', 2, 'Exhibition',  NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
+	  (@option_group_id_etype, 'Fundraiser', 3, 'Fundraiser',  NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+	  (@option_group_id_etype, 'Meeting',    4, 'Meeting',     NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
+	  (@option_group_id_etype, 'Performance',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
+	  (@option_group_id_etype, 'Workshop',   6, 'Conference',  NULL, 0, NULL, 6, NULL, 0, 0, 1 );

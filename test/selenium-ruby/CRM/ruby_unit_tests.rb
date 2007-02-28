@@ -55,39 +55,37 @@ class TS_CiviCRMTests
       suite << TC_TestAdminMembershipType.suite
       suite << TC_TestAdminMembershipStatus.suite
     when '12' then
+      suite << TC_TestAdminManageEvents.suite
+      suite << TC_TestAdminEventType.suite
+      suite << TC_TestAdminParticipantStatus.suite
+      suite << TC_TestAdminParticipantRole.suite
+    when '13' then  
       suite << TC_TestFindContacts.suite
-    when '13' then
-      suite << TC_TestAdvancedSearch.suite
     when '14' then
-      suite << TC_TestSearchBuilder.suite
+      suite << TC_TestAdvancedSearch.suite
     when '15' then
-      print "Sory, no test case present for this operation"
-      #suite << TC_TestImportContacts.suite
+      suite << TC_TestSearchBuilder.suite
     when '16' then
       print "Sory, no test case present for this operation"
-      suite << TC_TestImportActivityHistory.suite
+      #suite << TC_TestImportContacts.suite
     when '17' then
-      suite << TC_TestFindContribution.suite
-    when '18' then
-      suite << TC_TestContactMembership.suite
-    when '19' then
-      suite << TC_TestFindMembership.suite
-    when '20' then
-      suite << TC_TestContactContribution.suite
-    when '21' then
-     # suite << TC_TestEventImportParticipant.suite
-    when '22' then
-      suite << TC_TestEventFindParticipants.suite
-    when '23' then
-      suite << TC_TestAdminParticipantRole.suite
-    when '24' then
-      suite << TC_TestAdminParticipantStatus.suite
-    when '25' then
-      suite << TC_TestAdminEventType.suite
-    when '26' then
-      suite << TC_TestAdminManageEvents.suite
-    when '27' then
       print "Sory, no test case present for this operation"
+      #suite << TC_TestImportActivityHistory.suite
+    when '18' then
+      suite << TC_TestFindContribution.suite
+    when '19' then
+      print "Sory, no test case present for this operation"
+      #suite << TC_TestImportContribution.suite
+    when '20' then
+      suite << TC_TestFindMembership.suite
+    when '21' then
+      suite << TC_TestContactMembership.suite
+    when '22' then
+      print "Sory, no test case present for this operation"
+    when '23' then
+      suite << TC_TestContactEvents.suite
+      suite << TC_TestEventFindParticipants.suite
+      # suite << TC_TestEventImportParticipant.suite
     else
       print "Sorry, you have entered wrong choice. Please try again"
     end        

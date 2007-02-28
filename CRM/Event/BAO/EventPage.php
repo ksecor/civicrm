@@ -113,7 +113,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
      * @access public
      */
     static function sendMail( $contactID, &$values ) {
-        if ( $values['is_email_confirm'] ) {
+        if ( $values['event_page']['is_email_confirm'] ) {
             $template =& CRM_Core_Smarty::singleton( );
             
             require_once 'CRM/Contact/BAO/Contact.php';
@@ -123,11 +123,11 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
 
             // set email in the template here
             $template->assign( 'email', $email );
-
+            
             $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
            
-            $receiptFrom = '"' . $values['confirm_from_name'] . '" <' . $values['confirm_from_email'] . '>';
+            $receiptFrom = '"' . $values['event_page']['confirm_from_name'] . '" <' . $values['event_page']['confirm_from_email'] . '>';
             
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
@@ -135,8 +135,8 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                                   $email,
                                   $subject,
                                   $message,
-                                  $values['cc_confirm'],
-                                  $values['bcc_confirm']
+                                  $values['event_page']['cc_confirm'],
+                                  $values['event_page']['bcc_confirm']
                                   );
         }
     }
