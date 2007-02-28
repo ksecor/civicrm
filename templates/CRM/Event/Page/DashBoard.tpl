@@ -19,7 +19,7 @@
     <th scope="col">{ts}Event{/ts}</th>
     <th scope="col">{ts}Type{/ts}</th>
     <th scope="col">{ts}Public{/ts}</th>
-    <th scope="col">{ts}Registered{/ts}</th>
+    <th scope="col">{ts}Participants{/ts}</th>
     <th scope="col">{ts}Date(s){/ts}</th>
 {if $eventAdmin or $eventMap}
     <th></th>
