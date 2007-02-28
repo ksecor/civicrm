@@ -11,7 +11,6 @@
 -- *******************************************************/
 CREATE TABLE civicrm_event (
 
-
      id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Event',
      domain_id int unsigned NOT NULL  DEFAULT 0 COMMENT 'Event belongs to which Domain?',
      title varchar(255)    COMMENT 'Event Title (e.g. Fall Fundraiser Dinner)',
@@ -31,12 +30,12 @@ CREATE TABLE civicrm_event (
      is_active tinyint   DEFAULT 0 COMMENT 'Is this Event enabled or disabled/cancelled?' 
 ,
     PRIMARY KEY ( id )
- 
- 
+
 ,      INDEX FKEY_domain_id ( domain_id ) ,  
      FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
   
 )  TYPE=InnoDB  ;
+
 
 -- /*******************************************************
 -- *
@@ -59,11 +58,12 @@ CREATE TABLE civicrm_event_page (
      confirm_from_email varchar(255)    COMMENT 'FROM email address used for confirmation emails.',
      cc_confirm varchar(255)    COMMENT 'comma-separated list of email addresses to cc each time a confirmation is sent',
      bcc_confirm varchar(255)    COMMENT 'comma-separated list of email addresses to bcc each time a confirmation is sent',
-     default_fee_id int unsigned NOT NULL   COMMENT 'FK to civicrm_custom_option.' 
+     default_fee_id int unsigned NOT NULL   COMMENT 'FK to civicrm_custom_option.',
+     thankyou_title varchar(255)   DEFAULT NULL COMMENT 'Title for ThankYou page.',
+     thankyou_text text    COMMENT 'ThankYou Text.',
+     thankyou_footer_text text    COMMENT 'Footer message.' 
 ,
     PRIMARY KEY ( id )
- 
- 
  
 )  TYPE=InnoDB  ;
 
@@ -201,6 +201,15 @@ CREATE TABLE civicrm_currency (
 
 	ALTER TABLE civicrm_mapping MODIFY mapping_type enum('Export','Import','Export Contributions','Import Contributions','Import Activity History','Search Builder','Import Memberships','Import Participants') NULL DEFAULT NULL COMMENT 'Type of Mapping.';
 
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership_type
+-- *
+-- *******************************************************/
+
+	ALTER TABLE `civicrm_membership_type` ADD `relationship_direction` varchar(6) NULL DEFAULT NULL COMMENT '';
+
 -- /*******************************************************
 -- *
 -- * civicrm_note
@@ -265,4 +274,4 @@ CREATE TABLE civicrm_currency (
 -- *
 -- *******************************************************/
 
-	INSERT INTO `civicrm_option_value` VALUES (51,12,'Registered',1,'Registered',NULL,0,NULL,1,NULL,0,1,1),(52,12,'Attended',2,'Attended',NULL,0,NULL,2,NULL,0,0,1),(53,12,'No-show',3,'No-show',NULL,0,NULL,3,NULL,0,0,1),(54,12,'Cancelled',4,'Cancelled',NULL,0,NULL,4,NULL,0,1,1),(55,13,'Attendee',1,'Attendee',NULL,0,NULL,1,NULL,0,0,1),(56,13,'Volunteer',2,'Volunteer',NULL,0,NULL,2,NULL,0,0,1),(57,13,'Host',3,'Host',NULL,0,NULL,3,NULL,0,0,1),(58,13,'Speaker',4,'Speaker',NULL,0,NULL,4,NULL,0,0,1),(59,14,'Conference',1,'Conference',NULL,0,NULL,1,NULL,0,0,1),(60,14,'Dinner',2,'Dinner',NULL,0,NULL,2,NULL,0,0,1),(61,14,'Concert',3,'Concert',NULL,0,NULL,3,NULL,0,0,1),(62,14,'Tournament',4,'Tournament',NULL,0,NULL,4,NULL,0,0,1);
+	INSERT INTO `civicrm_option_value` VALUES (51,12,'Registered',1,'Registered',NULL,0,NULL,1,NULL,0,1,1),(52,12,'Attended',2,'Attended',NULL,0,NULL,2,NULL,0,0,1),(53,12,'No-show',3,'No-show',NULL,0,NULL,3,NULL,0,0,1),(54,12,'Cancelled',4,'Cancelled',NULL,0,NULL,4,NULL,0,1,1),(55,13,'Attendee',1,'Attendee',NULL,0,NULL,1,NULL,0,0,1),(56,13,'Volunteer',2,'Volunteer',NULL,0,NULL,2,NULL,0,0,1),(57,13,'Host',3,'Host',NULL,0,NULL,3,NULL,0,0,1),(58,13,'Speaker',4,'Speaker',NULL,0,NULL,4,NULL,0,0,1),(59,14,'Conference',1,'Conference',NULL,0,NULL,1,NULL,0,0,1),(60,14,'Exhibition',2,'Exhibition',NULL,0,NULL,2,NULL,0,0,1),(61,14,'Fundraiser',3,'Fundraiser',NULL,0,NULL,3,NULL,0,0,1),(62,14,'Meeting',4,'Meeting',NULL,0,NULL,4,NULL,0,0,1),(63,14,'Performance',5,'Performance',NULL,0,NULL,5,NULL,0,0,1),(64,14,'Workshop',6,'Conference',NULL,0,NULL,6,NULL,0,0,1);

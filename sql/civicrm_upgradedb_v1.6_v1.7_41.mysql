@@ -10,8 +10,6 @@
 -- *
 -- *******************************************************/
 CREATE TABLE civicrm_event (
-
-
      id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Event',
      domain_id int unsigned NOT NULL  DEFAULT 0 COMMENT 'Event belongs to which Domain?',
      title varchar(255)    COMMENT 'Event Title (e.g. Fall Fundraiser Dinner)',
@@ -25,18 +23,16 @@ CREATE TABLE civicrm_event (
      registration_link_text varchar(255)    COMMENT 'Text for link to Event Registration form which is displayed on Event Information screen when is_online_registration is true.',
      max_participants int unsigned   DEFAULT 0 COMMENT 'Maximum number of registered participants to allow. After max is reached, a custom Event Full message is displayed. If NULL, allow unlimited number of participants.',
      event_full_text text    COMMENT 'Message to display on Event Information page and INSTEAD OF Event Registration form if maximum participants are signed up. Can include email address/info about getting on a waiting list, etc. Text and html allowed.',
-     is_monetary tinyint   DEFAULT 1 COMMENT 'Is this a PAID event? If true, one or more fee amounts must be set and a Payment Processor must be configured for Online Event Registration.',
+     is_monetary tinyint   DEFAULT 0 COMMENT 'Is this a PAID event? If true, one or more fee amounts must be set and a Payment Processor must be configured for Online Event Registration.',
      contribution_type_id int unsigned   DEFAULT 0 COMMENT 'Contribution type assigned to paid event registrations for this event. Required if is_monetary is true.',
      is_map tinyint   DEFAULT 0 COMMENT 'Include a map block on the Event Information page when geocode info is available and a mapping provider has been specified?',
      is_active tinyint   DEFAULT 0 COMMENT 'Is this Event enabled or disabled/cancelled?' 
 ,
     PRIMARY KEY ( id )
-
 ,      
-     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+     CONSTRAINT FK_civicrm_event_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
 
 -- /*******************************************************
 -- *
@@ -44,6 +40,7 @@ CREATE TABLE civicrm_event (
 -- *
 -- *******************************************************/
 CREATE TABLE civicrm_event_page (
+
 
      id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Event Page ID',
      event_id int unsigned NOT NULL   COMMENT 'Event which this page belongs to.',
@@ -58,12 +55,14 @@ CREATE TABLE civicrm_event_page (
      confirm_from_email varchar(255)    COMMENT 'FROM email address used for confirmation emails.',
      cc_confirm varchar(255)    COMMENT 'comma-separated list of email addresses to cc each time a confirmation is sent',
      bcc_confirm varchar(255)    COMMENT 'comma-separated list of email addresses to bcc each time a confirmation is sent',
-     default_fee_id int unsigned NOT NULL   COMMENT 'FK to civicrm_custom_option.' 
+     default_fee_id int unsigned NOT NULL   COMMENT 'FK to civicrm_custom_option.',
+     thankyou_title varchar(255)   DEFAULT NULL COMMENT 'Title for ThankYou page.',
+     thankyou_text text    COMMENT 'ThankYou Text.',
+     thankyou_footer_text text    COMMENT 'Footer message.' 
 ,
     PRIMARY KEY ( id )
  
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
 
 -- /*******************************************************
 -- *
@@ -84,12 +83,10 @@ CREATE TABLE civicrm_participant (
      is_test tinyint   DEFAULT 0  
 ,
     PRIMARY KEY ( id )
- 
- 
 ,      
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
+     CONSTRAINT FK_civicrm_participant_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
 ,      
-     FOREIGN KEY (event_id) REFERENCES civicrm_event(id)
+     CONSTRAINT FK_civicrm_participant_event_id FOREIGN KEY (event_id) REFERENCES civicrm_event(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
@@ -107,14 +104,10 @@ CREATE TABLE civicrm_participant_payment (
      payment_entity_id int unsigned NOT NULL   COMMENT 'FK to table with payment record (e.g. civicrm_contribution.id).' 
 ,
     PRIMARY KEY ( id )
- 
- 
 ,      
-     FOREIGN KEY (participant_id) REFERENCES civicrm_participant(id)
+     CONSTRAINT FK_civicrm_participant_payment_participant_id FOREIGN KEY (participant_id) REFERENCES civicrm_participant(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
-
 
 -- /*******************************************************
 -- * 
@@ -129,9 +122,6 @@ CREATE TABLE civicrm_currency (
      symbol varchar(8)    COMMENT 'Currency Symbol' 
 ,
     PRIMARY KEY ( id )
- 
- 
- 
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
 -- /*******************************************************
@@ -139,8 +129,8 @@ CREATE TABLE civicrm_currency (
 -- * Insert sample data to 
 -- *
 -- *******************************************************/
-
 	INSERT INTO `civicrm_currency` VALUES (1,'AUD','$'),(2,'CAD','$'),(3,'EUR','€'),(4,'GBP','£'),(5,'ILS','₪'),(6,'INR','₨'),(7,'JPY','¥'),(8,'KRW','₩'),(9,'LAK','₭'),(10,'MNT','₮'),(11,'NGN','₦'),(12,'PLN','zł'),(13,'THB','฿'),(14,'USD','$'),(15,'VND','₫'),(16,'ZAR','R');
+
 
 -- /*******************************************************
 -- *
@@ -202,6 +192,14 @@ CREATE TABLE civicrm_currency (
 
 -- /*******************************************************
 -- *
+-- * civicrm_membership_type
+-- *
+-- *******************************************************/
+
+	ALTER TABLE `civicrm_membership_type` ADD `relationship_direction` varchar(6) NULL DEFAULT NULL COMMENT '';
+
+-- /*******************************************************
+-- *
 -- * civicrm_note
 -- *
 -- *******************************************************/
@@ -220,15 +218,15 @@ CREATE TABLE civicrm_currency (
 	ALTER TABLE `civicrm_contribution` ADD `amount_level` varchar(255) NULL DEFAULT NULL COMMENT '' AFTER source;
 	ALTER TABLE `civicrm_contribution` DROP `note`; 
 
-
 -- /*******************************************************
 -- *
 -- * civicrm_uf_group
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_uf_group` ADD is_uf_link tinyint(4) NULL DEFAULT '0' COMMENT 'Should we display a link to the website profile in profile selector' AFTER is_edit_link;
-	ALTER TABLE `civicrm_uf_group` ADD is_update_dupe tinyint(4) NULL DEFAULT '0' COMMENT 'Should we update the contact record if we find a duplicate' AFTER is_uf_link;
+	ALTER TABLE `civicrm_uf_group` ADD `is_uf_link` tinyint(4) NULL DEFAULT '0' COMMENT 'Should we display a link to the website profile in profile selector' AFTER is_edit_link;
+	ALTER TABLE `civicrm_uf_group` ADD `is_update_dupe` tinyint(4) NULL DEFAULT '0' COMMENT 'Should we update the contact record if we find a duplicate' AFTER is_uf_link;
+ 
 
 -- /*******************************************************
 -- *
@@ -236,9 +234,8 @@ CREATE TABLE civicrm_currency (
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_uf_match` DROP INDEX UI_uf_id;
-	ALTER TABLE `civicrm_uf_match` ADD UNIQUE UI_uf_domain_id (uf_id, domain_id);
-
+	ALTER TABLE `civicrm_uf_match` DROP INDEX `UI_uf_id`;
+	ALTER TABLE `civicrm_uf_match` ADD UNIQUE `UI_uf_domain_id`(`uf_id`, `domain_id`);
 
 -- /*******************************************************
 -- *
@@ -247,11 +244,12 @@ CREATE TABLE civicrm_currency (
 -- *
 -- *******************************************************/
 
-  UPDATE civicrm_activity_history SET callback = 'CRM_Activity_BAO_Activity::showActivityDetails' WHERE callback IN ('CRM_Activity_Form_Meeting::showMeetingDetails', 'CRM_Activity_Form_OtherActivity::showOtherActivityDetails', 'CRM_Activity_Form_Phonecall::showCallDetails');
-  UPDATE civicrm_activity_history SET activity_type = 'Meeting'    WHERE activity_type IN ('Treffen', 'Cita', 'Tapaaminen', 'Réunion', 'Reunion', 'Találkozó', 'Riunione', 'Bijeenkomst', 'Spotkanie', 'Reunião', 'Întâlnire', 'Möte(n)', 'ลบกิจกรรม');
-  UPDATE civicrm_activity_history SET activity_type = 'Phone Call' WHERE activity_type IN ('Telefonanruf', 'Llamada telefónica', 'Puhelu', 'Appel', 'Appel téléphonique', 'Telefonhívás', 'Telefonata', 'Telefoonoproep', 'Telefonsamtale', 'Rozmowa', 'Telefonema', 'Apel telefon', 'Telefonkontakt', 'ลบที่ติดต่อ');
-  UPDATE civicrm_activity_history SET activity_type = 'Email'      WHERE activity_type IN ('Sähköposti', 'Courriel', 'Epost', 'E-post', 'อีเมล์');
-  UPDATE civicrm_activity_history SET activity_type = 'Event'      WHERE activity_type IN ('Evenement', 'Wydarzenie', 'Evento');
+	  UPDATE civicrm_activity_history SET callback = 'CRM_Activity_BAO_Activity::showActivityDetails' WHERE callback IN ('CRM_Activity_Form_Meeting::showMeetingDetails', 'CRM_Activity_Form_OtherActivity::showOtherActivityDetails', 'CRM_Activity_Form_Phonecall::showCallDetails');
+	  UPDATE civicrm_activity_history SET activity_type = 'Meeting' WHERE activity_type IN ('Treffen', 'Cita', 'Tapaaminen', 'Réunion', 'Reunion', 'Találkozó', 'Riunione', 'Bijeenkomst', 'Spotkanie', 'Reunião', 'Întâlnire', 'Möte(n)', 'ลบกิจกรรม');
+	  UPDATE civicrm_activity_history SET activity_type = 'Phone Call' WHERE activity_type IN ('Telefonanruf', 'Llamada telefónica', 'Puhelu', 'Appel', 'Appel téléphonique', 'Telefonhívás', 'Telefonata', 'Telefoonoproep', 'Telefonsamtale', 'Rozmowa', 'Telefonema', 'Apel telefon', 'Telefonkontakt', 'ลบที่ติดต่อ');
+	  UPDATE civicrm_activity_history SET activity_type = 'Email' WHERE activity_type IN ('Sähköposti', 'Courriel', 'Epost', 'E-post', 'อีเมล์');
+	  UPDATE civicrm_activity_history SET activity_type = 'Event' WHERE activity_type IN ('Evenement', 'Wydarzenie', 'Evento');
+
 
 -- /*******************************************************
 -- *
@@ -261,10 +259,11 @@ CREATE TABLE civicrm_currency (
 
 	INSERT INTO `civicrm_option_group` VALUES (12,1,'participant_status','Participant Status',0,1),(13,1,'participant_role','Participant Role',0,1),(14,1,'event_type','Event Type',0,1);
 
+
 -- /*******************************************************
 -- *
 -- * civicrm_option_value
 -- *
 -- *******************************************************/
 
-	INSERT INTO `civicrm_option_value` VALUES (51,12,'Registered',1,'Registered',NULL,0,NULL,1,NULL,0,1,1),(52,12,'Attended',2,'Attended',NULL,0,NULL,2,NULL,0,0,1),(53,12,'No-show',3,'No-show',NULL,0,NULL,3,NULL,0,0,1),(54,12,'Cancelled',4,'Cancelled',NULL,0,NULL,4,NULL,0,1,1),(55,13,'Attendee',1,'Attendee',NULL,0,NULL,1,NULL,0,0,1),(56,13,'Volunteer',2,'Volunteer',NULL,0,NULL,2,NULL,0,0,1),(57,13,'Host',3,'Host',NULL,0,NULL,3,NULL,0,0,1),(58,13,'Speaker',4,'Speaker',NULL,0,NULL,4,NULL,0,0,1),(59,14,'Conference',1,'Conference',NULL,0,NULL,1,NULL,0,0,1),(60,14,'Dinner',2,'Dinner',NULL,0,NULL,2,NULL,0,0,1),(61,14,'Concert',3,'Concert',NULL,0,NULL,3,NULL,0,0,1),(62,14,'Tournament',4,'Tournament',NULL,0,NULL,4,NULL,0,0,1);
+	INSERT INTO `civicrm_option_value` VALUES (51,12,'Registered',1,'Registered',NULL,0,NULL,1,NULL,0,1,1),(52,12,'Attended',2,'Attended',NULL,0,NULL,2,NULL,0,0,1),(53,12,'No-show',3,'No-show',NULL,0,NULL,3,NULL,0,0,1),(54,12,'Cancelled',4,'Cancelled',NULL,0,NULL,4,NULL,0,1,1),(55,13,'Attendee',1,'Attendee',NULL,0,NULL,1,NULL,0,0,1),(56,13,'Volunteer',2,'Volunteer',NULL,0,NULL,2,NULL,0,0,1),(57,13,'Host',3,'Host',NULL,0,NULL,3,NULL,0,0,1),(58,13,'Speaker',4,'Speaker',NULL,0,NULL,4,NULL,0,0,1),(59,14,'Conference',1,'Conference',NULL,0,NULL,1,NULL,0,0,1),(60,14,'Exhibition',2,'Exhibition',NULL,0,NULL,2,NULL,0,0,1),(61,14,'Fundraiser',3,'Fundraiser',NULL,0,NULL,3,NULL,0,0,1),(62,14,'Meeting',4,'Meeting',NULL,0,NULL,4,NULL,0,0,1),(63,14,'Performance',5,'Performance',NULL,0,NULL,5,NULL,0,0,1),(64,14,'Workshop',6,'Conference',NULL,0,NULL,6,NULL,0,0,1);
