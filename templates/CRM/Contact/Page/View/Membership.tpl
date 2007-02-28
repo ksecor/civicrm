@@ -4,11 +4,12 @@
 {elseif $action eq 4}
     {include file="CRM/Member/Form/MembershipView.tpl"}
 {else}
-{capture assign=newURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}
-<div id="help">
-    {ts 1=$newURL}Current and inactive memberships for {$displayName} are listed below.{/ts}
-    {if $permission EQ 'edit'}{ts 1=$newURL}Click <a href="%1">New Membership</a> to record a new membership.{/ts}{/if}
-</div>
+    {if $permission EQ 'edit'}{capture assign=newURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}{/if}
+
+    <div id="help">
+        {ts 1=$newURL}Current and inactive memberships for {$displayName} are listed below.{/ts}
+        {if $permission EQ 'edit'}{ts 1=$newURL}Click <a href="%1">New Membership</a> to record a new membership.{/ts}{/if}
+    </div>
 {/if}
 
 {if $activeMembers}

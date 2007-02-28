@@ -197,6 +197,11 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
     function run( ) {
         $this->preProcess( );
 
+        if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit memberships' ) ) {
+            $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit membership rights
+            $this->assign( 'permission', 'view' );
+        }
+               
         $this->setContext( );
 
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
