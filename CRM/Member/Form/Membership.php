@@ -47,6 +47,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
     public function preProcess()  
     {  
+        // check for edit permission
+        if ( ! CRM_Core_Permission::check( 'edit memberships' ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        }
+
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                       $this, false, 'add' );
