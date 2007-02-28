@@ -21,7 +21,9 @@
     <th scope="col">{ts}Public{/ts}</th>
     <th scope="col">{ts}Registered{/ts}</th>
     <th scope="col">{ts}Date(s){/ts}</th>
+{if $eventAdmin or $eventMap}
     <th></th>
+{/if}
 </tr>
 {foreach from=$eventSummary.events item=values key=id}
 <tr>
@@ -33,7 +35,16 @@
         {if $values.maxParticipants}<br />{ts 1=$values.maxParticipants}(max %1){/ts}{/if}
     </td>
     <td>{$values.startDate}&nbsp;{if $values.endDate}to{/if}&nbsp;{$values.endDate}</td>
-    <td>{if $values.isMap}<a href="{$values.isMap}">{ts}Map{/ts}</a>&nbsp;|&nbsp;{/if}<a href="{$values.configure}">{ts}Configure{/ts}</a></td>
+{if $eventAdmin or $eventMap}
+    <td>
+{if $values.isMap}
+  <a href="{$values.isMap}">{ts}Map{/ts}</a>&nbsp;|&nbsp;
+{/if}
+{if $eventAdmin}
+  <a href="{$values.configure}">{ts}Configure{/ts}</a>
+{/if}
+{/if}
+    </td>
 </tr>
 {/foreach}
 
