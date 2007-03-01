@@ -371,14 +371,15 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $captcha->add( $this );
                 $this->assign( "isCaptcha" , true );
             }
+        }
 
+        if ( $this->_mode != self::MODE_SEARCH ) {
             if ($addToGroupId) {
                 $this->add('hidden', "group[$addToGroupId]", 1 );
                 $this->assign( 'addToGroupId' , $addToGroupId );
                 $this->_addToGroupID = $addToGroupId;
             }
-        
-        
+            
             $showBlocks = implode(",",$sBlocks); 
             $hideBlocks = implode(",",$hBlocks); 
             
