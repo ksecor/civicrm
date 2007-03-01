@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-13 17:52+0200\n"
-"PO-Revision-Date: 2005-10-13 17:52+0200\n"
-"Last-Translator: Nuri AKMAN <nuriakman@hotmail.com>\n"
+"PO-Revision-Date: 2007-02-20 18:26+0200\n"
+"Last-Translator: Atilla Gökhan Uz\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,79 +18,82 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "About the calendar"
-msgstr ""
+msgstr "Takvim hakkında"
 
 #: js/lang/calendar-lang.php
 msgid "For latest version visit: %1"
-msgstr ""
+msgstr "Son sürüm için bkz.: %1"
 
 #: js/lang/calendar-lang.php
 msgid "Distributed under GNU LGPL. See %1 for details."
-msgstr ""
+msgstr "GNU LGPL ile dağıtılır. Ayrıntılar için bakınız: %1."
 
 #: js/lang/calendar-lang.php
 msgid "Date selection:"
-msgstr ""
+msgstr "Tarih seçimi:"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\xab, \\xbb buttons to select year,"
-msgstr ""
+msgstr "- yıl seçmek için \\xab, \\xbb butonlarını kullanınız,"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\u2039, \\u203a buttons to select month,"
-msgstr ""
+msgstr "- ay seçmek için \\u2039, \\u203a butonlarını kullanınız,"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
 msgstr ""
+"- daha hızlı seçmek için farenin düğmesini yukardaki herhangi bir butonun "
+"üzerinde basılı tutunuz."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
-msgstr ""
+msgstr "Saat seçimi:"
 
 #: js/lang/calendar-lang.php
 msgid "- click on any of the time parts to increase it"
-msgstr ""
+msgstr "- saatin herhangi bir kısmını artırmak için üzerine tıklayınız"
 
 #: js/lang/calendar-lang.php
 msgid "- or Shift-click to decrease it"
 msgstr ""
+"- azaltmak içinse Shift tuşuna basarak ilgili kısmın üzerine tıklayınız"
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
-msgstr ""
+msgstr "- ya da daha hızlı seçmek için sürükle bırak yapınız."
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"
-msgstr "Menü için basýlý tutunuz"
+msgstr "menü için bekle"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. year"
-msgstr "Önceki Yýl"
+msgstr "Önceki yıl"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. month"
-msgstr "Önceki Ay"
+msgstr "Önceki ay"
 
 #: js/lang/calendar-lang.php
 msgid "Go Today"
-msgstr "Bugün'e git"
+msgstr "Bugüne git"
 
 #: js/lang/calendar-lang.php
 msgid "Next month"
-msgstr "Sonraki Ay"
+msgstr "Gelecek ay"
 
 #: js/lang/calendar-lang.php
 msgid "Next year"
-msgstr "Sonraki Yýl"
+msgstr "Gelecek yıl"
 
 #: js/lang/calendar-lang.php
 msgid "Select date"
-msgstr "Tarih seçiniz"
+msgstr "Tarih seç"
 
 #: js/lang/calendar-lang.php
 msgid "Drag to move"
-msgstr "Taþýmak için sürükleyiniz"
+msgstr "Taşımak için sürükleyiniz"
 
 #: js/lang/calendar-lang.php
 msgid "today"
@@ -98,7 +101,7 @@ msgstr "bugün"
 
 #: js/lang/calendar-lang.php
 msgid "Display %s first"
-msgstr "Takvim %s gününden baþlasýn"
+msgstr "Önce %s görüntüle"
 
 #: js/lang/calendar-lang.php
 msgid "Close"
@@ -110,12 +113,12 @@ msgstr "Bugün"
 
 #: js/lang/calendar-lang.php
 msgid "(Shift-)Click or drag to change value"
-msgstr ""
+msgstr "Değeri değiştirmek için Shift-Tıkla ya da sürükleyiniz"
 
 #: js/lang/calendar-lang.php
 msgid "wk"
-msgstr "Hafta"
+msgstr "wk"
 
 #: js/lang/calendar-lang.php
 msgid "Time:"
-msgstr ""
+msgstr "Saat:"
