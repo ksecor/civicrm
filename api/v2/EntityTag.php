@@ -39,6 +39,20 @@
 
 require_once 'api/v2/utils.php';
 
+function civicrm_entity_tag_get( &$params ) {
+    if ( ! array_key_exists( 'contact_id', $params ) ) {
+        return civicrm_create_error( ts( 'contact_id is a required field' ) );
+    }
+
+    require_once 'CRM/Core/BAO/EntityTag.php';
+    $values =& CRM_Core_BAO_EntityTag::getTag( 'civicrm_contact', $params['contact_id'] );
+    $result = array( );
+    foreach ( $values as $v ) {
+        $result[] = array( 'tag_id' => $v );
+    }
+    return $result;
+}
+
 function civicrm_entity_tag_add( &$params ) {
     return civicrm_entity_tag_common( $params, 'add' );
 }
@@ -49,28 +63,42 @@ function civicrm_entity_tag_remove( &$params ) {
 
 function civicrm_entity_tag_common( &$params, $op = 'add' ) {
     $contactIDs = array( );
+    $tagsIDs    = array( );
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 10 ) == 'contact_id' ) {
             $contactIDs[] = $v;
+        } else if ( substr( $n, 0, 6 ) == 'tag_id' ) {
+            $tagIDs[] = $v;
         }
     }
     if ( empty( $contactIDs ) ) {
         return civicrm_create_error( ts( 'contact_id is a required field' ) );
     }
 
-    $tagID = CRM_Utils_Array::value( 'tag_id', $params );
-    if ( ! $tagID ) {
+    if ( empty( $tagIDs ) ) {
         return civicrm_create_error( ts( 'tag_id is a required field' ) );
     }
 
     require_once 'CRM/Core/BAO/EntityTag.php';
     $values = array( 'is_error' => 0 );
     if ( $op == 'add' ) {
-        list( $values['total_count'], $values['added'], $values['not_added'] ) = 
-            CRM_Core_BAO_EntityTag::addContactsToTag( $contactIDs, $tagID );
+        $values['total_count'] = $values['added'] = $values['not_added'] = 0;
+        foreach ( $tagIDs as $tagID ) {
+            list( $tc, $a, $na ) = 
+                CRM_Core_BAO_EntityTag::addContactsToTag( $contactIDs, $tagID );
+            $values['total_count'] += $tc;
+            $values['added']       += $a;
+            $values['not_added']   += $na;
+        }
     } else {
-        list( $values['total_count'], $values['removed'], $values['not_removed'] ) = 
-            CRM_Core_BAO_EntityTag::removeContactsFromTag( $contactIDs, $tagID );
+        $values['total_count'] = $values['removed'] = $values['not_removed'] = 0;
+        foreach ( $tagIDs as $tagID ) {
+            list( $tc, $r, $nr ) = 
+                CRM_Core_BAO_EntityTag::removeContactsFromTag( $contactIDs, $tagID );
+            $values['total_count'] += $tc;
+            $values['removed']     += $r;
+            $values['not_removed'] += $nr;
+        }
     }
     return $values;
 }

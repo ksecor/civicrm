@@ -221,6 +221,12 @@ class CRM_Utils_REST
         case 'constants':
             return self::constant( $config, $args, $params );
             
+        case 'group_contact':
+            return self::groupContact( $config, $args, $params );
+            
+        case 'entity_tag':
+            return self::entityTag( $config, $args, $params );
+
         default:
             return self::error( ts( 'Unknown function invocation' ) );
         }
@@ -252,7 +258,7 @@ class CRM_Utils_REST
         case 'search':
             $fnName = "civicrm_contact_{$args[2]}";
             $result = $fnName( $params );
-            if ( ! $result ) {
+            if ( $result === false ) {
                 return self::error( ts( 'Unknown error' ) );
             } else {
                 return $result;
@@ -279,6 +285,46 @@ class CRM_Utils_REST
                                'name' => $v );
         }
         return $result;
+    }
+
+    function groupContact( &$config, &$args, &$params ) {
+        require_once 'api/v2/GroupContact.php';
+
+        switch ( $args[2] ) {
+        case 'add':
+        case 'get':
+        case 'remove':
+            $fnName = "civicrm_group_contact_{$args[2]}";
+            $result = $fnName( $params );
+            if ( $result === false ) {
+                return self::error( ts( 'Unknown error' ) );
+            } else {
+                return $result;
+            }
+
+        default:
+            return self::error( ts( 'Unknown function called' ) );
+        }
+    }
+
+    function entityTag( &$config, &$args, &$params ) {
+        require_once 'api/v2/EntityTag.php';
+
+        switch ( $args[2] ) {
+        case 'add':
+        case 'get':
+        case 'remove':
+            $fnName = "civicrm_entity_tag_{$args[2]}";
+            $result = $fnName( $params );
+            if ( $result === false ) {
+                return self::error( ts( 'Unknown error' ) );
+            } else {
+                return $result;
+            }
+
+        default:
+            return self::error( ts( 'Unknown function called' ) );
+        }
     }
 
 }
