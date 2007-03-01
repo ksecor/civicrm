@@ -518,9 +518,18 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 
                 // if post not empty then only proceed
                 if ( ! empty ( $_POST ) ) {
-                    if ( CRM_Utils_Rule::email( $_POST['edit']['mail'] ) && ( $_POST['edit']['mail']  != $userEmail[1] ) ) {
+                    // get the new email, location is different in Drupal 5 vs Drupal 4.7
+                    $config =& CRM_Core_Config::singleton( );
+                    if ( $config->userFrameworkVersion >= 5 ) {
+                        $email = CRM_Utils_Array::value( 'mail', $_POST );
+                    } else {
+                        $email = CRM_Utils_Array::value( 'mail',
+                                                         CRM_Utils_Array::value( 'edit', $_POST ) );
+                    }
+                    
+                    if ( CRM_Utils_Rule::email( $email ) && ( $email  != $userEmail[1] ) ) {
                         require_once 'CRM/Core/BAO/UFMatch.php';
-                        CRM_Core_BAO_UFMatch::updateContactEmail( $userID, $_POST['edit']['mail'] );
+                        CRM_Core_BAO_UFMatch::updateContactEmail( $userID, $email );
                     }
                 }
             }
