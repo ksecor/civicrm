@@ -52,10 +52,10 @@ class CRM_Core_DAO extends DB_DataObject {
     static $_nullArray  = array( );
 
     const
-        NOT_NULL       =   1,
-        IS_NULL        =   2,
+        NOT_NULL        =   1,
+        IS_NULL         =   2,
 
-        DB_DAO_NOTNULL = 128;
+        DB_DAO_NOTNULL  = 128;
 
     /**
      * the factory class for this application

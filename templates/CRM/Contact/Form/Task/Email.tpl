@@ -56,7 +56,9 @@
 <script type="text/javascript" >
      function selectValue(val)
      {
-       dojo.byId('message').value=val;
+       var tokens = val.split( "^A" );
+       dojo.byId('message').value=tokens[0];
+       dojo.byId('subject').value=tokens[1];
      }
      function verify( select )
      {
