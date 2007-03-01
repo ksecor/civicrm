@@ -156,6 +156,14 @@ class CRM_Utils_Date {
             $year = substr( $date, 0, 4 );
             $mon  = substr( $date, 4, 2 );
             $day  = substr( $date, 6, 2 );
+        } 
+        
+        if( strlen( $day ) > 2 ) {
+            if( substr_compare( $day,':', 3 ) ) {
+                $time = substr( $day, 3, 8 );
+                $day  = substr( $day, 0, 2 );
+                list( $hr, $min, $sec ) = explode( ':', $time, 3 );
+            }
         }
 
         $value = array( );
@@ -170,6 +178,23 @@ class CRM_Utils_Date {
 
         if ( is_numeric( $day ) && $day > 0 ) {
             $value['d'] = $day;
+        }
+
+        if ( is_numeric( $hr ) && $hr >= 0 ) {
+            $value['h'] = $hr;
+            if( $hr > 12 ) {
+                $value['h'] -= 12;
+                $value['A'] = 'PM';
+            } else if( $hr == 0 ) {
+                $value['h'] = 12;
+                $value['A'] = 'AM';
+            } else {
+                $value['A'] = 'AM';
+            }
+        }
+        
+        if ( is_numeric( $min ) && $min >= 0 ) {
+            $value['i'] = $min;
         }
         return $value;
     }

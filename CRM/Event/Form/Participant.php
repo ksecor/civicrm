@@ -89,7 +89,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         if ( ! CRM_Core_Permission::check( 'edit event participants' ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }
-
+        
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
             
@@ -197,7 +197,8 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             $defaults[$this->_id]['register_date']['h'] = $registerDate['hours'];
             $defaults[$this->_id]['register_date']['i'] = (integer)($registerDate['minutes']/15) *15;
         } else {
-            $defaults[$this->_id]['register_date']['i'] = ( $defaults[$this->_id]['register_date']['i'] )/15 *15;
+            $defaults[$this->_id]['register_date'] = CRM_Utils_Date::unformat($defaults[$this->_id]['register_date']);
+            $defaults[$this->_id]['register_date']['i'] = (integer)($defaults[$this->_id]['register_date']['i']/15) *15;
         }
         
         if( isset($this->_groupTree) ) {
