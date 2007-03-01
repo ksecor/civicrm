@@ -314,7 +314,9 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                                      );
                 CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
             } 
-            if ( $messageParams['updateTemplate'] ) {
+            if ( $messageParams['updateTemplate'] && 
+                 CRM_Utils_Array::key( $this->_submitValues['template_selected'], $template ) ) {
+
                 $newMessage = array( 'msg_text'    => $messageParams['message'],
                                      'msg_subject' => $messageParams['subject'],
                                      'is_active'   => true );

@@ -282,7 +282,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
         foreach ($mapperKeys as $key) {
             // check if there is a _a_b or _b_a in the key
-            if ( strpos( '_a_b', $key ) || strpos( '_b_a', $key ) ) {
+            if ( strpos( $key, '_a_b' ) || strpos( $key, '_b_a' ) ) {
                 list($id, $first, $second) = explode('_', $key);
             } else {
                 $id = $first = $second = null;
@@ -331,7 +331,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         
         //used to warn for mismatch column count or mismatch mapping      
         $warning = 0;
-
         
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
@@ -355,8 +354,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
                             $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $contactType );
                             foreach ($relations as $key => $var) {
-                                list( $type ) = explode( '_', $key );
-                                if ( $type == $mappingRelation[$i]) {
+                                if ( $key == $mappingRelation[$i]) {
                                     $relation = $key;
                                     break;
                                 }
@@ -619,6 +617,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
                 if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                     $updateMappingFields->relationship_type_id = $id;
+                    $updateMappingFields->relationship_direction = "{$first}_{$second}";
                     $updateMappingFields->name = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
                     $updateMappingFields->location_type_id = isset($mapperKeys[$i][2]) ? $mapperKeys[$i][2] : null;                 
                     $updateMappingFields->phone_type = isset($mapperKeys[$i][3]) ? $mapperKeys[$i][3] : null;                  
@@ -667,6 +666,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                     $saveMappingFields->name = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
                     $saveMappingFields->relationship_type_id = $id;
+                    $saveMappingFields->relationship_direction = "{$first}_{$second}";
                     $saveMappingFields->phone_type = isset($mapperKeys[$i][3]) ? $mapperKeys[$i][3] : null;
                     $saveMappingFields->location_type_id = isset($mapperKeys[$i][2]) ? $mapperKeys[$i][2] : null;
                 } else {

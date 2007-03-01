@@ -209,7 +209,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             }
             
             if ( !empty($mapping->relationship_type_id) ) {
-                $mappingRelation[$mapping->grouping][$mapping->column_number] = $mapping->relationship_type_id;
+                $mappingRelation[$mapping->grouping][$mapping->column_number] = 
+                    "{$mapping->relationship_type_id}_{$mapping->relationship_direction}";
             }
             
             if ( !empty($mapping->operator) ) {

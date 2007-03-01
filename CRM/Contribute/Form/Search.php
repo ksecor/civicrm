@@ -342,10 +342,12 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
-        
-        if ( $this->_context != "search" ) { 
-            $this->_formValues["is_test"] = 0;
-        }
+
+        //this is commented to show test contributions in all modes
+        //not sure why we hide test contributions
+//         if ( $this->_context != "search" ) { 
+//             $this->_formValues["is_test"] = 0;
+//         }
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
         $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,

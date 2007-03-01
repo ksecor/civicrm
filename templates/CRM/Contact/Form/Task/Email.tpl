@@ -57,7 +57,6 @@
      function selectValue(val)
      {
        dojo.byId('message').value=val;
-       var t = document.getElementById('template');
      }
      function verify( select )
      {
