@@ -187,21 +187,26 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         $this->assign( 'from', $from );
         
         //Added for CRM-1393
-	$this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Select');" );
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Select');" );
         $config   =& CRM_Core_Config::singleton( );
         $domainID =  CRM_Core_Config::domainID( );
-
+        
+        require_once 'CRM/Member/BAO/MessageTemplates.php';
+        $templateExist = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
         $attributes = array( 'dojoType'       => 'Select',
                              'style'          => 'width: 300px;',
                              'autocomplete'   => 'false',
                              'onValueChanged' => 'selectValue',
                              'dataUrl'        => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/message&d={$domainID}", );
-        $this->add('select', 'template', ts('Select Template'), null, false, $attributes );
+
+        //if no template Present then drop down select box and update template should not be displayed
+        if (! empty( $templateExist )) {
+            $this->add('select', 'template', ts('Select Template'), null, false, $attributes );
+            $this->add('checkbox','updateTemplate',ts('Update Template'), null);
+        }
 
         //insert message Text by selecting "Select Template option"
         $this->add( 'textarea', 'message', ts('Message'), array('cols' => '56', 'rows' => '7','onkeyup' => "return verify(this)"));
-        
-        $this->add('checkbox','updateTemplate',ts('Update Template'), null);
         $this->add('checkbox','saveTemplate', ts('Save as New Template'), null, false, array('onclick' => "showSaveDetails(this)"));
 
         if (!$this->get('saveTemplate') ) {
