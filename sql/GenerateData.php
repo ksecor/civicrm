@@ -1318,11 +1318,11 @@ class CRM_GCD {
         $contact_id = $organizationDAO->contact_id;
         
         $membershipType = "INSERT INTO civicrm_membership_type
-        (domain_id, name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, visibility, weight, is_active)
+        (domain_id, name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, relationship_direction, visibility, weight, is_active)
         VALUES
-        (1, 'General', 'Regular annual membership.', ". $contact_id .", 3, 100, 'year', 1, 'rolling',null, null, 7, 'Public', 1, 1),
-        (1, 'Student', 'Discount membership for full-time students.', ". $contact_id .", 1, 50, 'year', 1, 'rolling', null, null, 7, 'Public', 2, 1),
-        (1, 'Lifetime', 'Lifetime membership.', ". $contact_id .", 2, 1200, 'lifetime', 1, 'rolling', null, null, 7, 'Admin', 3, 1);
+        (1, 'General', 'Regular annual membership.', ". $contact_id .", 3, 100, 'year', 1, 'rolling',null, null, 7, 'a_b', 'Public', 1, 1),
+        (1, 'Student', 'Discount membership for full-time students.', ". $contact_id .", 1, 50, 'year', 1, 'rolling', null, null, 7, 'a_b', 'Public', 2, 1),
+        (1, 'Lifetime', 'Lifetime membership.', ". $contact_id .", 2, 1200, 'lifetime', 1, 'rolling', null, null, 7, 'a_b', 'Admin', 3, 1);
         ";
         CRM_Core_DAO::executeQuery( $membershipType, CRM_Core_DAO::$_nullArray );      
     }
