@@ -39,6 +39,17 @@
 
 require_once 'api/v2/utils.php';
 
+function civicrm_group_contact_get( &$params ) {
+    if ( ! array_key_exists( 'contact_id', $params ) ) {
+        return civicrm_create_error( ts( 'contact_id is a required field' ) );
+    }
+
+    $status = CRM_Utils_Array::value( 'status', $params, 'Added' );
+    require_once 'CRM/Contact/BAO/GroupContact.php';
+    $values =& CRM_Contact_BAO_GroupContact::getContactGroup( $params['contact_id'], $status, null, false, true );
+    return $values;
+}
+
 function civicrm_group_contact_add( &$params ) {
     return civicrm_group_contact_common( $params, 'add' );
 }

@@ -39,6 +39,20 @@
 
 require_once 'api/v2/utils.php';
 
+function civicrm_entity_tag_get( &$params ) {
+    if ( ! array_key_exists( 'contact_id', $params ) ) {
+        return civicrm_create_error( ts( 'contact_id is a required field' ) );
+    }
+
+    require_once 'CRM/Core/BAO/EntityTag.php';
+    $values =& CRM_Core_BAO_EntityTag::getTag( 'civicrm_contact', $params['contact_id'] );
+    $result = array( );
+    foreach ( $values as $v ) {
+        $result[] = array( 'tag_id' => $v );
+    }
+    return $result;
+}
+
 function civicrm_entity_tag_add( &$params ) {
     return civicrm_entity_tag_common( $params, 'add' );
 }

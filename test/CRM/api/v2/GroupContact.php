@@ -34,6 +34,12 @@ class TestOfEntityTag extends UnitTestCase
         CRM_Core_Error::debug( 'c', $contacts );
     }
 
+    function testGetGroupMembers( ) {
+        $params = array( 'contact_id' => 102 );
+        $groups = civicrm_group_contact_get( $params );
+        CRM_Core_Error::debug( 'g', $groups );
+    }
+
     function testRemoveFromGroup( ) {
         $params = array(
                         'contact_id.1' => 1,
