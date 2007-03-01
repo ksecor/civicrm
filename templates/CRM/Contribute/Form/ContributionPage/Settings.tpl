@@ -30,14 +30,16 @@
     <dt>&nbsp;</dt><dd>{$form.honor_block_is_active.html} {$form.honor_block_is_active.label}</dd>
     
     <dt>&nbsp;</dt><dd class="description">{ts}Display honor block block on a Contribution Page.{/ts}</dd>
-
+    </dl>
     <div id="honor">
+    <dl>
     <dt>{$form.honor_block_title.label}</dt><dd>{$form.honor_block_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Set a title for the honor block.{/ts}</dd>
     <dt>{$form.honor_block_text.label}</dt><dd>{$form.honor_block_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Set a text for the honor block.{/ts}</dd>
+    </dl>
     </div>
-    
+    <dl>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     {if $id}
     <dt>&nbsp;</dt><dd class="description">{ts}When your page is active, you can link people to the page by copying and pasting the following URL:{/ts}<br />

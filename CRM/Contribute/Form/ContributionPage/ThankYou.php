@@ -70,7 +70,7 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
         $this->add('textarea', 'thankyou_text', ts('Thank-you Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thankyou_text'), true);
         $this->add('textarea', 'thankyou_footer', ts('Thank-you Page Footer'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thankyou_footer') );
 
-        $this->addElement('checkbox', 'is_email_receipt', ts( 'Email Receipt to Contributor?' ) );
+        $this->addElement('checkbox', 'is_email_receipt', ts( 'Email Receipt to Contributor?' ),null,array('onclick' =>"showReceipt()") );
         $this->add('text', 'receipt_from_name', ts('Receipt From Name'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_from_name') );
         $this->add('text', 'receipt_from_email', ts('Receipt From Email'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_from_email'));
         $this->add('textarea', 'receipt_text', ts('Receipt Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_text') );
@@ -130,6 +130,13 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
         $params['id'] = $this->_id;
         $params['domain_id']             = CRM_Core_Config::domainID( );
         $params['is_email_receipt']      = CRM_Utils_Array::value('is_email_receipt'     , $params, false);
+        if ( !$params['is_email_receipt'] ) {
+            $params['receipt_from_name'] = null;
+            $params['receipt_from_email'] = null;
+            $params['receipt_text'] = null;
+            $params['cc_receipt'] = null;
+            $params['bcc_receipt'] = null;
+        }
 
         require_once 'CRM/Contribute/BAO/ContributionPage.php'; 
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params ); 

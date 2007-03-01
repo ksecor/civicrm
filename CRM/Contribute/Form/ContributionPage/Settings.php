@@ -142,6 +142,11 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
         $params['honor_block_is_active']   = CRM_Utils_Array::value('honor_block_is_active'  , $params, false);
 
+        if( !$params['honor_block_is_active'] ) {
+            $params['honor_block_title'] = null;
+            $params['honor_block_text'] = null;
+        }
+
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         $dao =& CRM_Contribute_BAO_ContributionPage::create( $params );
 
