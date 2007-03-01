@@ -360,7 +360,6 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                $customField->html_type == 'Multi-Select' ) ) {
             $defVal = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
                               substr( $customField->default_value, 1, -1 ) );
-            CRM_Core_Error::debug( 'd', $defVal );
             if ( CRM_Utils_Array::value( 'default_value', $params ) ) {
                 if ( !in_array($customOption->value, $defVal) ) {
                     if ( empty( $defVal[0] ) ) {
