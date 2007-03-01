@@ -298,26 +298,28 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         $messageParams = $this->exportValues( );
         $templateID = array();
 	
-	//Update Message template, if new or updated
+        // Update Message template, if new or updated
         require_once 'CRM/Member/BAO/MessageTemplates.php';
         if( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
             if ( $messageParams['saveTemplate'] ) {
                 $newMessage = array( 'msg_title'   => $messageParams['saveTemplateName'],
                                      'msg_text'    => $messageParams['message'],
-				     'msg_subject' => $messageParams['subject'],
+                                     'msg_subject' => $messageParams['subject'],
                                      'is_active'   => true
                                      );
                 CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
             } 
             if ( $messageParams['updateTemplate'] ) {
                 $newMessage = array( 'msg_text'    => $messageParams['message'],
-				     'msg_subject' => $messageParams['subject'],
+                                     'msg_subject' => $messageParams['subject'],
                                      'is_active'   => true );
-		require_once 'CRM/Member/BAO/MessageTemplates.php';
-		require_once 'CRM/Utils/Array.php';
-		$template = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
-		$templateID = array('messageTemplate' => CRM_Utils_Array::key($this->_submitValues['template_selected'], $template));
-		CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
+                require_once 'CRM/Member/BAO/MessageTemplates.php';
+                require_once 'CRM/Utils/Array.php';
+                $template = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
+                $templateID = array('messageTemplate' =>
+                                    CRM_Utils_Array::key( $this->_submitValues['template_selected'],
+                                                          $template ) );
+                CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
             }
         }
         

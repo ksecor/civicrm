@@ -93,7 +93,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
 
         $sent = $notSent = array();
         foreach ( $contactIds as $contactId ) {
-            if ( self::sendMessage( $from, $contactId, $subject, $message, $emailAddress, $email->id ) ) {
+            if ( self::sendMessage( $from, $userID, $contactId, $subject, $message, $emailAddress, $email->id ) ) {
                 $sent[] =  $contactId;
             } else {
                 $notSent[] = $contactId;
@@ -117,7 +117,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
      * @access public
      * @static
      */
-    static function sendMessage( $from, $toID, &$subject, &$message, $emailAddress, $activityID ) {
+    static function sendMessage( $from, $fromID, $toID, &$subject, &$message, $emailAddress, $activityID ) {
         list( $toDisplayName, $toEmail, $toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toID );
         if ( $emailAddress ) {
             $toEmail = trim( $emailAddress );
@@ -146,12 +146,21 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
                         'module'           => 'CiviCRM',
                         'callback'         => 'CRM_Core_BAO_EmailHistory::showEmailDetails',
                         'activity_id'      => $activityID,
-                        'activity_summary' => ts('To: %1; Subject: %2', array(1 => "$toDisplayName <$toEmail>", 2 => $subject)),
+                        'activity_summary' => ts('From: %1; Subject: %2', array(1 => $from, 2 => $subject)),
                         'activity_date'    => date('YmdHis')
                         );
+
         if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
             return false;
         }
+
+        // also insert an activity history record from the sender
+        $params['entity_id'] = $fromID;
+        $params['activity_summary'] = ts('To: %1; Subject: %2', array(1 => "$toDisplayName <$toEmail>", 2 => $subject) );
+        if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
+            return false;
+        }
+
         return true;
     }
     

@@ -49,17 +49,20 @@ function civicrm_group_contact_remove( &$params ) {
 
 function civicrm_group_contact_common( &$params, $op = 'add' ) {
     $contactIDs = array( );
+    $groupIDs = array( );
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 10 ) == 'contact_id' ) {
             $contactIDs[] = $v;
+        } else if ( substr( $n, 0, 8 ) == 'group_id' ) {
+            $groupIDs[] = $v;
         }
     }
+
     if ( empty( $contactIDs ) ) {
         return civicrm_create_error( ts( 'contact_id is a required field' ) );
     }
 
-    $groupID = CRM_Utils_Array::value( 'group_id', $params );
-    if ( ! $groupID ) {
+    if ( empty( $groupIDs ) ) {
         return civicrm_create_error( ts( 'group_id is a required field' ) );
     }
 
@@ -74,13 +77,25 @@ function civicrm_group_contact_common( &$params, $op = 'add' ) {
     require_once 'CRM/Contact/BAO/GroupContact.php';
     $values = array( 'is_error' => 0 );
     if ( $op == 'add' ) {
-        list( $values['total_count'], $values['added'], $values['not_added'] ) = 
-            CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIDs, $groupID,
-                                                              $method, $status, $tracking );
+        $values['total_count'] = $values['added'] = $values['not_added'] = 0;
+        foreach ( $groupIDs as $groupID ) {
+            list( $tc, $a, $na ) = 
+                CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIDs, $groupID,
+                                                                  $method, $status, $tracking );
+            $values['total_count'] += $tc;
+            $values['added']       += $a;
+            $values['not_added']   += $na;
+        }
     } else {
-        list( $values['total_count'], $values['removed'], $values['not_removed'] ) = 
-            CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contactIDs, $groupID,
-                                                                   $method, $status, $tracking );
+        $values['total_count'] = $values['removed'] = $values['not_removed'] = 0;
+        foreach ( $groupIDs as $groupID ) {
+            list( $tc, $r, $nr ) = 
+                CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contactIDs, $groupID,
+                                                                       $method, $status, $tracking );
+            $values['total_count'] += $tc;
+            $values['removed']     += $r;
+            $values['not_removed'] += $nr;
+        }
     }
     return $values;
 }
