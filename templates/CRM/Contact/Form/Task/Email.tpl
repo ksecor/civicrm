@@ -29,17 +29,18 @@
     <dt></dt><dd>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts.'}Email will NOT be sent to %count contact.{/ts}</dd>
 {/if}
 
-       <div id="editMessageDetails" class="form-item">
-          <dl>
-     	    {$form.updateTemplate.html}{$form.updateTemplate.label}
-            {$form.saveTemplate.html}{$form.saveTemplate.label}
-          </dl>
-        </div>
-    	<div id="saveDetails" class="form-item">
-    	      <dl>
-    		   <dt>{$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}</dd>
-       	      </dl>
-    	</div>
+<div id="editMessageDetails" class="form-item">
+<dt></dt>
+<dl>
+    {$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}
+    {$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}
+</dl>
+</div>
+<div id="saveDetails" class="form-item">
+<dl>
+    <dt>{$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}</dd>
+</dl>
+</div>
 
 <dt></dt><dd>{$form.buttons.html}</dd>
 </dl>
@@ -55,8 +56,9 @@
 <script type="text/javascript" >
      function selectValue(val)
      {
-       dojo.byId('message').value=val;
-       var t = document.getElementById('template');
+       var tokens = val.split( "^A" );
+       dojo.byId('message').value=tokens[0];
+       dojo.byId('subject').value=tokens[1];
      }
      function verify( select )
      {
@@ -65,7 +67,6 @@
 	}
 
 	document.getElementById("editMessageDetails").style.display = "block";
-	document.getElementsByName("updateTemplate")[0].checked = true;
 	document.getElementById("saveTemplateName").disabled = false;
      }
    

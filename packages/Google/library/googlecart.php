@@ -57,7 +57,7 @@
       $this->merchant_key = $key;
 
       if(strtolower($server_type) == "sandbox") 
-        $this->server_url = "https://sandbox.google.com/";
+        $this->server_url = "https://sandbox.google.com/checkout/";
       else
         $this->server_url=  "https://checkout.google.com/";  
 

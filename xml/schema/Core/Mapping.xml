@@ -57,10 +57,4 @@
     <fieldName>name</fieldName>
       <add>1.2</add>
   </index>
-  <field> 
-      <name>relationship_direction</name>     
-      <type>varchar</type>  
-      <length>6</length>                  
-      <add>1.7</add>  
-  </field> 
 </table>

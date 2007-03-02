@@ -246,7 +246,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params['reminder_date'] = str_replace('-', "", date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year)));
             }
         }
-
+        
         if ( !$params['is_override'] ) {
             $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
             $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
@@ -259,16 +259,33 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $params['status_id'] = $calcStatus['id'];
             
         }
-       
+        
         $ids['membership'] = $params['id'] = $this->_id;
+        
+        $session = CRM_Core_Session::singleton();
+        $ids['userId'] = $session->get('userID');
+        
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+        
+        if ( ! is_a( $membership, 'CRM_Core_Error') ) {
+            $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
+                                                                   $membership->id,
+                                                                   $membership->contact_id
+                                                                   );
+        }
+        
+        foreach ( $relatedContacts as $contactId ) {
+            $relatedParams['contact_id'] = $contactId;
+            unset( $params['id'] );
+            
+            CRM_Member_BAO_Membership::create( $relatedParams, $ids );
+        }
+        
         // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Membership', $membership->id);
+        //CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
+        //CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Membership', $membership->id);
 
         CRM_Core_Session::setStatus( ts('The membership information has been saved.') );
-
     }
 }
-
 ?>

@@ -256,7 +256,10 @@ class CRM_Event_BAO_Query
         
         $dojoAttributes = " dojoType='ComboBox' mode='remote' dataUrl='{$dataURL}' ";
         
-        $form->add('text', 'event_title', ts('Event Name'), $dojoAttributes );
+        $title =& $form->add('text', 'event_title', ts('Event Name'), $dojoAttributes );
+        if ( $title->getValue( ) ) {
+            $form->assign( 'event_title_value',  $title->getValue( ) );
+        }
 
         // Date selects for date 
         $form->add('date', 'event_start_date_low', ts('Event Date - From'), CRM_Core_SelectValues::date('relative')); 

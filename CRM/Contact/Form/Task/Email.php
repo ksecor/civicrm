@@ -61,6 +61,13 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
     protected $_noEmails = false;
 
     /**
+     * all the existing templates in the system
+     *
+     * @var array
+     */
+    protected $_templates = null;
+
+    /**
      * build all the data structures needed to build the form
      *
      * @return void
@@ -79,9 +86,11 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         $temp->is_active= 1;
         $temp->find();
         while ( $temp->fetch() ){
-            $messageText[$temp->id] = $temp->msg_text;
+            $messageText[$temp->id]    = $temp->msg_text;
+            $messageSubject[$temp->id] = $temp->msg_subject;
         } 
-        $this->assign( 'message', $messageText );
+        $this->assign( 'message'       , $messageText    );
+        $this->assign( 'messageSubject', $messageSubject );
         
         if ( $cid ) {
             // not sure why this is needed :(
@@ -187,129 +196,136 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         $this->assign( 'from', $from );
         
         //Added for CRM-1393
-	$this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Select');" );
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Select');" );
         $config   =& CRM_Core_Config::singleton( );
         $domainID =  CRM_Core_Config::domainID( );
-
+        
+        require_once 'CRM/Member/BAO/MessageTemplates.php';
+        $this->_templates = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
         $attributes = array( 'dojoType'       => 'Select',
                              'style'          => 'width: 300px;',
                              'autocomplete'   => 'false',
                              'onValueChanged' => 'selectValue',
                              'dataUrl'        => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/message&d={$domainID}", );
-        $this->add('select', 'template', ts('Select Template'), null, false, $attributes );
+
+        //if no template Present then drop down select box and update template should not be displayed
+        if (! empty( $this->_templates ) ){
+            $this->add('select', 'template', ts('Select Template'), null, false, $attributes );
+            $this->add('checkbox','updateTemplate',ts('Update Template'), null);
+        }
 
         //insert message Text by selecting "Select Template option"
         $this->add( 'textarea', 'message', ts('Message'), array('cols' => '56', 'rows' => '7','onkeyup' => "return verify(this)"));
-        
-        $this->add('checkbox','updateTemplate',ts('Update Template'), null);
-        $this->add('checkbox','saveTemplate', ts('Save as New Template'), null, false, array('onclick' => "showSaveDetails(this)"));
+         $this->add('checkbox','saveTemplate', ts('Save as New Template'), null, false, array('onclick' => "showSaveDetails(this)"));
 
-        if (!$this->get('saveTemplate') ) {
-	    $this->add('text','saveTemplateName',ts('Template Title'));
-        } 
-                
-        //$attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'message' );         
-        //$this->add( 'textarea', 'message', ts('Message'), $attributes, true );
-                
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' );
-        $this->add( 'text', 'subject', ts('Subject'), $attributes, true );
-        
-        if ( $this->_single ) {
-            // also fix the user context stack
-            $session->replaceUserContext( CRM_Utils_System::url('civicrm/contact/view',
-                                                                "&show=1&action=browse&cid={$this->_contactIds[0]}&selectedChild=activity" ) );
-            $this->addDefaultButtons( ts('Send Email'), 'next', 'cancel' );
-        } else {
-            $this->addDefaultButtons( ts('Send Email') );
-        }
-        $this->addFormRule( array( 'CRM_Contact_Form_Task_Email', 'formRule' ), $this );
-        
-    }
-    
-    /** 
-     * form rule  
-     *  
-     * @param array $fields    the input form values  
-     * @param array $dontCare   
-     * @param array $self      additional values form 'this'  
-     *  
-     * @return true if no errors, else array of errors  
-     * @access public  
-     * 
-     */  
-    function formRule($fields, $dontCare, $self) {
-        $toEmail = CRM_Utils_Array::value( 'to', $fields );
-        $errors = array();
-        
-        if ($self->_onHold[$toEmail]) {
-            $errors['to'] = ts("The selected email address is On Hold because the maximum number of delivery attempts has failed. If you have been informed that the problem with this address is resolved, you can take the address off Hold by editing the contact record. Otherwise, you will need to try an different email address for this contact.");
-        }
-        
-        //Added for CRM-1393
-        if( $fields['saveMessage'] ==1 && empty($fields['saveMessageName']) ){
-            $errors['saveMessageName'] = ts("Enter name to save message template");
-        }
-        return empty($errors) ? true : $errors;
-    }
-    
-    /**
-     * process the form after the input has been submitted and validated
-     *
-     * @access public
-     * @return None
-     */
-    public function postProcess() {
-        $emailAddress = null;
-        if ( $this->_single ) {
-            $emailAddress = $this->controller->exportValue( 'Email', 'to' );
-        }
-        if ( $this->_noEmails ) {
-            $emailAddress = $this->controller->exportValue( 'Email', 'emailAddress' );
+         if (!$this->get('saveTemplate') ) {
+             $this->add('text','saveTemplateName',ts('Template Title'));
+         } 
 
-            // for adding the email-id to the primary address
-            $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
-                                                $this, false );
-            if ( $cid ) {
-                $location =& CRM_Contact_BAO_Contact::getEmailDetails($cid);
-                if ( $location[3] ) {
-                    $locationID = $location[3];
-                    $email =& new CRM_Core_DAO_Email();
-                    $email->location_id = $locationID;
-                    $email->is_primary  = 1;
-                    $email->email       = $emailAddress; 
-                    $email->save( );
-                } else {
-                    require_once 'CRM/Core/BAO/LocationType.php';
-                    $ids = $params = $locID = array();
-                    $params['contact_id'] = $cid;
-                    $locType = CRM_Core_BAO_LocationType::getDefault();
-                    $params['location'][1]['location_type_id'] = $locType->id;
-                    $params['location'][1]['is_primary'] = 1;
-                    $params['location'][1]['email'][1]['email'] = $emailAddress;
-                    CRM_Core_BAO_Location::add($params, $ids, 1);
-                }
-            }
-        }
-        
-        $subject = $this->controller->exportValue( 'Email', 'subject' );
-        $message = $this->controller->exportValue( 'Email', 'message' );
-    
-        //added code for CRM-1393
-        $messageParams = $this->exportValues( );
-        $templateID = array();
-	
-        // Update Message template, if new or updated
-        require_once 'CRM/Member/BAO/MessageTemplates.php';
-        if( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
-            if ( $messageParams['saveTemplate'] ) {
-                $newMessage = array( 'msg_title'   => $messageParams['saveTemplateName'],
-                                     'msg_text'    => $messageParams['message'],
-                                     'msg_subject' => $messageParams['subject'],
-                                     'is_active'   => true
-                                     );
-                CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
-            } 
-            if ( $messageParams['updateTemplate'] ) {
+         //$attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'message' );         
+         //$this->add( 'textarea', 'message', ts('Message'), $attributes, true );
+
+         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' );
+         $this->add( 'text', 'subject', ts('Subject'), $attributes, true );
+
+         if ( $this->_single ) {
+             // also fix the user context stack
+             $session->replaceUserContext( CRM_Utils_System::url('civicrm/contact/view',
+                                                                 "&show=1&action=browse&cid={$this->_contactIds[0]}&selectedChild=activity" ) );
+             $this->addDefaultButtons( ts('Send Email'), 'next', 'cancel' );
+         } else {
+             $this->addDefaultButtons( ts('Send Email') );
+         }
+         $this->addFormRule( array( 'CRM_Contact_Form_Task_Email', 'formRule' ), $this );
+
+     }
+
+     /** 
+      * form rule  
+      *  
+      * @param array $fields    the input form values  
+      * @param array $dontCare   
+      * @param array $self      additional values form 'this'  
+      *  
+      * @return true if no errors, else array of errors  
+      * @access public  
+      * 
+      */  
+     function formRule($fields, $dontCare, $self) {
+         $toEmail = CRM_Utils_Array::value( 'to', $fields );
+         $errors = array();
+
+         if ($self->_onHold[$toEmail]) {
+             $errors['to'] = ts("The selected email address is On Hold because the maximum number of delivery attempts has failed. If you have been informed that the problem with this address is resolved, you can take the address off Hold by editing the contact record. Otherwise, you will need to try an different email address for this contact.");
+         }
+
+         //Added for CRM-1393
+         if( $fields['saveMessage'] ==1 && empty($fields['saveMessageName']) ){
+             $errors['saveMessageName'] = ts("Enter name to save message template");
+         }
+         return empty($errors) ? true : $errors;
+     }
+
+     /**
+      * process the form after the input has been submitted and validated
+      *
+      * @access public
+      * @return None
+      */
+     public function postProcess() {
+         $emailAddress = null;
+         if ( $this->_single ) {
+             $emailAddress = $this->controller->exportValue( 'Email', 'to' );
+         }
+         if ( $this->_noEmails ) {
+             $emailAddress = $this->controller->exportValue( 'Email', 'emailAddress' );
+
+             // for adding the email-id to the primary address
+             $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                                 $this, false );
+             if ( $cid ) {
+                 $location =& CRM_Contact_BAO_Contact::getEmailDetails($cid);
+                 if ( $location[3] ) {
+                     $locationID = $location[3];
+                     $email =& new CRM_Core_DAO_Email();
+                     $email->location_id = $locationID;
+                     $email->is_primary  = 1;
+                     $email->email       = $emailAddress; 
+                     $email->save( );
+                 } else {
+                     require_once 'CRM/Core/BAO/LocationType.php';
+                     $ids = $params = $locID = array();
+                     $params['contact_id'] = $cid;
+                     $locType = CRM_Core_BAO_LocationType::getDefault();
+                     $params['location'][1]['location_type_id'] = $locType->id;
+                     $params['location'][1]['is_primary'] = 1;
+                     $params['location'][1]['email'][1]['email'] = $emailAddress;
+                     CRM_Core_BAO_Location::add($params, $ids, 1);
+                 }
+             }
+         }
+
+         $subject = $this->controller->exportValue( 'Email', 'subject' );
+         $message = $this->controller->exportValue( 'Email', 'message' );
+
+         //added code for CRM-1393
+         $messageParams = $this->exportValues( );
+         $templateID = array();
+
+         // Update Message template, if new or updated
+         require_once 'CRM/Member/BAO/MessageTemplates.php';
+         if( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
+             if ( $messageParams['saveTemplate'] ) {
+                 $newMessage = array( 'msg_title'   => $messageParams['saveTemplateName'],
+                                      'msg_text'    => $messageParams['message'],
+                                      'msg_subject' => $messageParams['subject'],
+                                      'is_active'   => true
+                                      );
+                 CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
+             } 
+             if ( $messageParams['updateTemplate'] && 
+                  CRM_Utils_Array::key( $_POST['template_selected'], $this->_templates ) ) {
+
                 $newMessage = array( 'msg_text'    => $messageParams['message'],
                                      'msg_subject' => $messageParams['subject'],
                                      'is_active'   => true );
@@ -317,8 +333,8 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                 require_once 'CRM/Utils/Array.php';
                 $template = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
                 $templateID = array('messageTemplate' =>
-                                    CRM_Utils_Array::key( $this->_submitValues['template_selected'],
-                                                          $template ) );
+                                    CRM_Utils_Array::key( $_POST['template_selected'],
+                                                          $this->_templates ) );
                 CRM_Member_BAO_MessageTemplates::add($newMessage, $templateID);
             }
         }

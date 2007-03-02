@@ -330,6 +330,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->add('text','honor_firstname',ts(' First Name'));
         $this->add('text','honor_lastname',ts('Last Name'));
         $this->add('text','honor_email',ts('Email'));
+        $this->addRule( "honor_email", ts('Email is not valid.'), 'email' );
 
         // add various amounts
         $element =& $this->add( 'text', 'non_deductible_amount', ts('Non-deductible Amount'),

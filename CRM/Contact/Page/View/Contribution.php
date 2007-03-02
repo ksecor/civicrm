@@ -36,17 +36,17 @@
 
 require_once 'CRM/Contact/Page/View.php';
 
-class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
-
-     /**
+class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View 
+{
+    /**
      * The action links that we need to display for the browse screen
      *
      * @var array
      * @static
      */
-     static $_links = null;
-
-
+    static $_links = null;
+    
+    
     /**
      * This method returns the links that are given for honor search row.
      * currently the links added for each row are 
@@ -58,9 +58,8 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
      * @access public
      *
      */
-  static function &honorLinks()
+    static function &honorLinks()
     {
-
         if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
@@ -68,31 +67,32 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
                                                                    'url'      => 'civicrm/contact/view/contribution',
                                                                    'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&honorId=%%honorId%%&action=view&context=%%cxt%%&selectedChild=contribute',
                                                                    'title'    => ts('View Contribution'),
-                                                                  ),
+                                                                   ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
                                                                    'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&honorId=%%honorId%%&context=%%cxt%%&subType=%%contributionType%%',
                                                                    'title'    => ts('Edit Contribution'),
-                                                                  ),
+                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
                                                                    'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&honorId=%%honorId%%&context=%%cxt%%',
                                                                    'title'    => ts('Delete Contribution'),
-                                                                  ),
+                                                                   ),
                                   );
         }
         return self::$_links;
     } //end of function
-
-   /**
+    
+    /**
      * This function is called when action is browse
      * 
      * return null
      * @access public
      */
-    function browse( ) {
+    function browse( ) 
+    {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action );
         $controller->setEmbedded( true );
         $controller->reset( );
@@ -101,32 +101,32 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
         $controller->set( 'context', 'contribution' ); 
         $controller->process( );
         $controller->run( );
-
-	//add honor block
-	
-	// form all action links	
-	$action = array_sum(array_keys($this->honorLinks( )));	    
-
-	require_once 'CRM/Contribute/BAO/Contribution.php';
-	$params = array( );
-	$params =  CRM_Contribute_BAO_Contribution::getHonorContacts( $this->_contactId );
-	if ( ! empty($params) ) {
-	  foreach($params as $ids => $honorId){
-	    $contributionId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $honorId['honorId'],'id','contact_id' );
-	    $subType     = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $honorId['type'], 'id','name' );
-	    $params[$ids]['action'] = CRM_Core_Action::formLink(self::honorLinks( ), $action, 
-								array('cid'              => $honorId['honorId'],
-								      'id'               =>  $contributionId,
-								      'cxt'              => 'contribution',
-								      'contributionType' => $subType,
-                                      'honorId'          => $this->_contactId)
-								);
-	  }
-	  // assign vars to templates
-	  $this->assign('action', $this->_action);
-	  $this->assign('honorRows', $params);
-	  $this->assign('honor', true);
-	}
+        
+        //add honor block
+        
+        // form all action links	
+        $action = array_sum(array_keys($this->honorLinks( )));	    
+        
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        $params = array( );
+        $params =  CRM_Contribute_BAO_Contribution::getHonorContacts( $this->_contactId );
+        if ( ! empty($params) ) {
+            foreach($params as $ids => $honorId){
+                $contributionId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $honorId['honorId'],'id','contact_id' );
+                $subType     = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $honorId['type'], 'id','name' );
+                $params[$ids]['action'] = CRM_Core_Action::formLink(self::honorLinks( ), $action, 
+                                                                    array('cid'              => $honorId['honorId'],
+                                                                          'id'               =>  $contributionId,
+                                                                          'cxt'              => 'contribution',
+                                                                          'contributionType' => $subType,
+                                                                          'honorId'          => $this->_contactId)
+                                                                    );
+            }
+            // assign vars to templates
+            $this->assign('action', $this->_action);
+            $this->assign('honorRows', $params);
+            $this->assign('honor', true);
+        }
     }
 
     /** 
@@ -135,44 +135,48 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
      * return null 
      * @access public 
      */ 
-    function view( ) {
+    function view( ) 
+    {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_ContributionView',  
                                                        'View Contribution',  
                                                        $this->_action ); 
         $controller->setEmbedded( true );  
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );  
-
+        
         return $controller->run( ); 
     }
-
+    
     /** 
      * This function is called when action is update or new 
      *  
      * return null 
      * @access public 
      */ 
-    function edit( ) { 
+    function edit( ) 
+    { 
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Contribution', 
                                                        'Create Contribution', 
                                                        $this->_action );
         $controller->setEmbedded( true ); 
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
-
+        
         return $controller->run( );
     }
-
-
-   /**
-     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+    
+    
+    /**
+     * This function is the main function that is called when the page
+     * loads, it decides the which action has to be taken for the page.
      * 
      * return null
      * @access public
      */
-    function run( ) {
+    function run( ) 
+    {
         $this->preProcess( );
-
+        
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit contributions' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit contrib rights
             $this->assign( 'permission', 'view' );
@@ -190,41 +194,41 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
 
         return parent::run( );
     }
-
-    function setContext( ) {
+    
+    function setContext( ) 
+    {
         $context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                 $this, false, 'search' );
-
+        
         switch ( $context ) {
         case 'basic':
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                           'reset=1&cid=' . $this->_contactId );
             break;
-
+            
         case 'user':
             $url = CRM_Utils_System::url( 'civicrm/user', 'reset=1' );
             break;
-
+            
         case 'dashboard':
             $url = CRM_Utils_System::url( 'civicrm/contribute',
                                           'reset=1' );
             break;
-
+            
         case 'contribution':
-
-            $honorId = CRM_Utils_Request::retrieve( 'honorId', 'Positive',
-                                                $form, false );
+            
+            $honorId = CRM_Utils_Request::retrieve( 'honorId', 'Positive', $form, false );
             
             if ($honorId) {
                 $cid = $honorId;
             } else {
                 $cid = $this->_contactId;
             }
-
+            
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                           "reset=1&force=1&cid={$cid}&selectedChild=contribute" );
             break;
-
+            
         default:
             $cid = null;
             if ( $this->_contactId ) {
@@ -234,11 +238,9 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
                                           'reset=1&force=1' . $cid );
             break;
         }
-
+        
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $url );
     }
-
 }
-
 ?>

@@ -169,8 +169,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         if (CRM_Utils_Array::value('custom', $params)) {
             foreach ($params['custom'] as $customValue) {
                 $cvParams = array(
-                                  'entity_table'    => 'civicrm_participant',
-                                  'entity_id'       => $participant->id,
+                                  'entity_table'    => 'civicrm_membership',
+                                  'entity_id'       => $membership->id,
                                   'value'           => $customValue['value'],
                                   'type'            => $customValue['type'],
                                   'custom_field_id' => $customValue['custom_field_id'],
@@ -189,8 +189,44 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         return $membership;
     }
-
-
+    
+    /**
+     * 
+     * 
+     * @param int $membershipId 
+     *
+     * @return Array    array of contact_id of all related contacts.
+     * @static
+     */
+    static function checkMembershipRelationship( $membershipId, $contactId ) 
+    {
+        $membershipTypeId = CRM_Core_DAO::getFieldValue( 
+                                                        'CRM_Member_DAO_Membership',
+                                                        $membershipId,
+                                                        'membership_type_id'
+                                                        );
+        $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeId ); 
+        
+        if ( $membershipType['relationship_type_id'] ) {
+            $relationships = CRM_Contact_BAO_Relationship::getRelationship( 
+                                                              $contactId,
+                                                              CRM_Contact_BAO_Relationship::CURRENT
+                                                              );
+        }
+        
+        $contacts = array();
+        
+        foreach ( $relationships as $values) {
+            if ( ($values['civicrm_relationship_type_id'] == $membershipType['relationship_type_id']   ) && 
+                 ($values['rtype']                        == $membershipType['relationship_direction'] )
+                 ) {
+                $contacts[] = $values['cid'];
+            }
+        }
+        
+        return $contacts;
+    }
+    
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. We'll tweak this function to be more

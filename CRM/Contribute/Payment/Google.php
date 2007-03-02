@@ -38,10 +38,6 @@
 require_once('Google/library/googlecart.php');
 require_once('Google/library/googleitem.php');
 
-// require_once('library/googleshipping.php');
-// require_once('library/googletaxrule.php');
-// require_once('library/googletaxtable.php');
-
 class CRM_Contribute_Payment_Google { 
     const
         CHARSET  = 'utf-8';
@@ -87,26 +83,26 @@ class CRM_Contribute_Payment_Google {
         //print_r($config);
 
         $url = ( $this->_mode == 'test' ) ? $config->paymentPayPalExpressTestUrl : $config->paymentPayPalExpressUrl;
-        $url = 'https://' . $url . '/cws/v2/Merchant/' . $config->paymentUsername[$this->_mode] . '/checkoutForm';
+        $url = 'https://' . $url . '/cws/v2/Merchant/' . $config->paymentUsername[$this->_mode] . '/checkout';
         
         //Create a new shopping cart object
-        $merchant_id = $config->paymentUsername[$this->_mode];  //Your Merchant ID
+        $merchant_id  = $config->paymentUsername[$this->_mode];  //Your Merchant ID
         $merchant_key = $config->paymentKey[$this->_mode];  //Your Merchant Key
-        $server_type = "sandbox"; //provide provision for live
-
-        $cart =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
+        $server_type  = "sandbox"; //provide provision for live
         
-        $item1 = new GoogleItem($params['amount_level'],"", 1, $params['amount']);
+        $cart =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
+        $item1 = new GoogleItem('Help Support CiviCRM','', 1, $params['amount']); //generalize title
         $cart->AddItem($item1);
-
+        
         $cartVal      = base64_encode($cart->GetXML());
         $signatureVal = base64_encode($cart->CalcHmacSha1($cart->GetXML()));
         
         $googleParams = array('cart'      => $cartVal,
                               'signature' => $signatureVal );
-
+        
         require_once 'HTTP/Request.php';
-        $params = array( 'method' => HTTP_REQUEST_METHOD_POST );
+        $params = array( 'method' => HTTP_REQUEST_METHOD_POST,
+                         'allowRedirects' => false );
         $request =& new HTTP_Request( $url, $params );
         foreach ( $googleParams as $key => $value ) {
             $request->addPostData($key, $value);
@@ -115,32 +111,12 @@ class CRM_Contribute_Payment_Google {
         if ( PEAR::isError( $result ) ) {
             CRM_Core_Error::fatal( $result->getMessage( ) );
         }
-
-
-//         if ( $request->getResponseCode( ) != 302 ) {
-//             CRM_Core_Error::fatal( ts( 'Invalid response code received from Google Checkout' ) );
-//         }
-//         CRM_Utils_System::redirect( $request->getResponseHeader( 'location' ) );
-//         exit( );
-       
-
-
-//         require_once 'HTTP/Request.php';
-//         $params = array( 'method' => HTTP_REQUEST_METHOD_POST,
-//                          'allowRedirects' => false );
-//         $request =& new HTTP_Request( $url, $params );
-//         foreach ( $googleParams as $key => $value ) {
-//             $request->addPostData($key, $value);
-//         }
-//         $result = $request->sendRequest( );
-//         if ( PEAR::isError( $result ) ) {
-//             CRM_Core_Error::fatal( $result->getMessage( ) );
-//         }
-//         if ( $request->getResponseCode( ) != 302 ) {
-//             CRM_Core_Error::fatal( ts( 'Invalid response code received from Google Checkout' ) );
-//         }
-//         CRM_Utils_System::redirect( $request->getResponseHeader( 'location' ) );
-//         exit( );
+        
+        if ( $request->getResponseCode( ) != 302 ) {
+            CRM_Core_Error::fatal( ts( 'Invalid response code received from Google Checkout: ' . $request->getResponseCode( )) );
+        }
+        CRM_Utils_System::redirect( $request->getResponseHeader( 'location' ) );
+        exit( );
     }
 
     /** 

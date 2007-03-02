@@ -336,9 +336,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['contributionPageID']               = $this->_values['id'];
             
             
-            require_once 'CRM/Core/Payment.php';
-            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' );
-
+            if ( $this->_values['is_monetary'] ) {
+                require_once 'CRM/Core/Payment.php';
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' );
+            }
+            
             if ( $this->_contributeMode == 'express' ) {
                 if ( $this->_values['is_monetary'] ) {
                     $result =& $payment->doExpressCheckout( $paymentParams );

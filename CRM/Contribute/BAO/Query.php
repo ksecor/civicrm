@@ -82,7 +82,8 @@ class CRM_Contribute_BAO_Query
                 $fields =  array_merge( $fields ,$optionFields );
             }
             // add field to get recurent_id
-            $fields["contribution_recur_id"] = array("name"  => "contribution_recur_id",                                                                                                         "title" => "Recurring Contributions ID",
+            $fields["contribution_recur_id"] = array("name"  => "contribution_recur_id",
+                                                     "title" => "Recurring Contributions ID",
                                                      "where" => "civicrm_contribution.contribution_recur_id"
                                                      );
             unset( $fields['contact_id']);

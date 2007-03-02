@@ -129,7 +129,7 @@ function message( &$config ) {
     $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
 
     $query = "
-SELECT id, msg_title,msg_text
+SELECT id, msg_title,msg_text,msg_subject
   FROM civicrm_msg_template
  WHERE domain_id = $domainID
  AND is_active =1 
@@ -142,7 +142,9 @@ LIMIT 6";
     $count = 0;
     $elements = array( );
     while ( $dao->fetch( ) && $count < 5 ) {
-        $elements[] = array( $dao->msg_title, $dao->msg_text, $dao->id );
+        $elements[] = array( $dao->msg_title,
+                             $dao->msg_text . "^A" . $dao->msg_subject,
+                             $dao->id );
         $count++;
     }
     require_once 'Services/JSON.php';

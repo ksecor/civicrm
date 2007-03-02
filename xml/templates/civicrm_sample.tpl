@@ -56,11 +56,11 @@ VALUES
     (1,'Inner City Arts',NULL,NULL,NULL);
 
 INSERT INTO civicrm_membership_type
-    (domain_id, name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, visibility, weight, is_active)
+    (domain_id, name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, relationship_direction, visibility, weight, is_active)
 VALUES
-    (%%CIVICRM_DOMAIN_ID%%, 'General', 'Regular annual membership.', 1, 2, 100.00, 'year', 2, 'rolling', NULL, NULL, 7, 'Public', 1, 1),
-    (%%CIVICRM_DOMAIN_ID%%, 'Student', 'Discount membership for full-time students.', 1, 1, 50.00, 'year', 1, 'rolling', NULL, NULL, 7, 'Public', 2, 1),
-    (%%CIVICRM_DOMAIN_ID%%, 'Lifetime', 'Lifetime membership.', 1, 2, 1200.00, 'lifetime', 1, 'rolling', NULL, NULL, 7, 'Admin', 3, 1);
+    (%%CIVICRM_DOMAIN_ID%%, 'General', 'Regular annual membership.', 1, 2, 100.00, 'year', 2, 'rolling', NULL, NULL, 7, 'a_b', 'Public', 1, 1),
+    (%%CIVICRM_DOMAIN_ID%%, 'Student', 'Discount membership for full-time students.', 1, 1, 50.00, 'year', 1, 'rolling', NULL, NULL, 7, 'a_b', 'Public', 2, 1),
+    (%%CIVICRM_DOMAIN_ID%%, 'Lifetime', 'Lifetime membership.', 1, 2, 1200.00, 'lifetime', 1, 'rolling', NULL, NULL, 7, 'a_b', 'Admin', 3, 1);
 
 INSERT INTO civicrm_membership_block
     (entity_table, entity_id, membership_types, membership_type_default, display_min_fee, is_separate_payment, new_title, new_text, renewal_title, renewal_text, is_required, is_active)
