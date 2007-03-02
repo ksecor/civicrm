@@ -1,6 +1,13 @@
  {include file="CRM/common/dojo.tpl"} 
  <tr>
     <td class="label">{$form.event_title.label}</td> 
+{if $event_title_value}
+<script type="text/javascript">
+  dojo.addOnLoad( function( ) {ldelim}
+    dojo.widget.byId( 'event_title' ).textInputNode.value = '{$event_title_value}';
+  {rdelim} );
+</script>
+{/if}
     <td>{$form.event_title.html}</td>
  </tr>     
  <tr> 
