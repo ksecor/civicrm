@@ -18,7 +18,7 @@
     {include file="CRM/Contact/Form/Address.tpl"} 
 
     {* Display the email block(s) *}  
-    {include file="CRM/Contact/Form/Email.tpl" hold=0}
+    {include file="CRM/Contact/Form/Email.tpl" hold=1}
 
     {* Display the phone block(s) *}
     {include file="CRM/Contact/Form/Phone.tpl"}       

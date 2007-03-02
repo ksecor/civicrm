@@ -81,14 +81,15 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                 CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS); 
                 CRM_Contact_Form_IM::buildIMBlock      ($form, $location, $locationId, self::BLOCKS); 
             } else {
+                $blockCount = self::BLOCKS;
                 foreach ( $locationCompoments as $key) {
-                    eval('CRM_Contact_Form_' . $key . '::build' . $key . 'Block( $form ,$location , $locationId , 2 );');
+                    eval('CRM_Contact_Form_' . $key . '::build' . $key . 'Block( $form ,$location , $locationId , $blockCount );');
                 }
-                require_once 'CRM/Core/ShowHideBlocks.php';
-                CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '');
             }
-            return $location;
+            require_once 'CRM/Core/ShowHideBlocks.php';
+            CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '');
         }
+        return $location;
     }
 
     
