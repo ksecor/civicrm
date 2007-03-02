@@ -108,70 +108,12 @@ switch ($root) {
      break;
  }
  case "merchant-calculation-callback": {
-     // Create the results and send it
-     $merchant_calc = new GoogleMerchantCalculations();
-     
-     // Loop through the list of address ids from the callback
-     $addresses = get_arr_result($data[$root]['calculate']['addresses']['anonymous-address']);
-     foreach($addresses as $curr_address) {
-         $curr_id = $curr_address['id'];
-         $country = $curr_address['country-code']['VALUE'];
-         $city = $curr_address['city']['VALUE'];
-         $region = $curr_address['region']['VALUE'];
-         $postal_code = $curr_address['region']['VALUE'];
-         
-         // Loop through each shipping method if merchant-calculated shipping
-         // support is to be provided
-         if(isset($data[$root]['calculate']['shipping'])) {
-             $shipping = get_arr_result($data[$root]['calculate']['shipping']['method']);
-             foreach($shipping as $curr_ship) {
-                 $name = $curr_ship['name'];
-                 //Compute the price for this shipping method and address id
-                 $price = 10; // Modify this to get the actual price
-                 $shippable = "true"; // Modify this as required
-                 $merchant_result = new GoogleResult($curr_id);
-                 $merchant_result->SetShippingDetails($name, $price, "USD",
-                                                      $shippable);
-                 
-                 if($data[$root]['calculate']['tax']['VALUE'] == "true") {
-                     //Compute tax for this address id and shipping type
-                     $amount = 15; // Modify this to the actual tax value
-                     $merchant_result->SetTaxDetails($amount, "USD");
-                 }
-                 
-                 $codes = get_arr_result($data[$root]['calculate']['merchant-code-strings']
-                                         ['merchant-code-string']);
-                 foreach($codes as $curr_code) {
-                     //Update this data as required to set whether the coupon is valid, the code and the amount
-                     $coupons = new GoogleCoupons("true", $curr_code['code'], 5, "USD", "test2");
-                     $merchant_result->AddCoupons($coupons);
-                 }
-                 $merchant_calc->AddResult($merchant_result);
-             }
-         } else {
-             $merchant_result = new GoogleResult($curr_id);
-             if($data[$root]['calculate']['tax']['VALUE'] == "true") {
-                 //Compute tax for this address id and shipping type
-                 $amount = 15; // Modify this to the actual tax value
-                 $merchant_result->SetTaxDetails($amount, "USD");
-             }
-             $codes = get_arr_result($data[$root]['calculate']['merchant-code-strings']
-                                     ['merchant-code-string']);
-             foreach($codes as $curr_code) {
-                 //Update this data as required to set whether the coupon is valid, the code and the amount
-                 $coupons = new GoogleCoupons("true", $curr_code['code'], 5, "USD", "test2");
-                 $merchant_result->AddCoupons($coupons);
-             }
-             $merchant_calc->AddResult($merchant_result);
-         }
-     }
-     fwrite($message_log, sprintf("\n\r%s:- %s\n",date("D M j G:i:s T Y"),
-                                  $merchant_calc->GetXML()));
-     $response->ProcessMerchantCalculations($merchant_calc);
      break;
  }
  case "new-order-notification": {
      $response->SendAck();
+//      $abc = $data[$root]['shopping-cart']['merchant-private-data']['VALUE'];
+//      $abc = stringToArray($abc);
      break;
  }
  case "order-state-change-notification": {
@@ -184,11 +126,10 @@ switch ($root) {
          break;
      }
      case 'CHARGEABLE': {
-//          fwrite($message_log, ' ____________________Sending process & charge order_______________________');
+//          $response->SendChargeOrder($data[$root]['google-order-number']['VALUE'], 
+//                                     0.5, $message_log);
 //          $response->SendProcessOrder($data[$root]['google-order-number']['VALUE'], 
 //                                      $message_log);
-//          $response->SendChargeOrder($data[$root]['google-order-number']['VALUE'], 
-//                                     3, $message_log);
          break;
      }
      case 'CHARGING': {
@@ -235,6 +176,9 @@ switch ($root) {
      //    <carrier>, <tracking-number>, <send-email>, $message_log);
      //$response->SendArchiveOrder($data[$root]['google-order-number']['VALUE'], 
      //    $message_log);
+
+//      $response->SendDeliverOrder($data[$root]['google-order-number']['VALUE'], 
+//                                  'UPS', 'Z9842W69871281267', "false", $message_log);
      break;
  }
  case "chargeback-amount-notification": {
@@ -276,6 +220,15 @@ function get_arr_result($child_node) {
     return $result;
 }
 
+function stringToArray($str) {
+    $vars = $labels = array();
+    $labels = explode(',', $str);
+    foreach ($labels as $label) {
+        $terms = explode('=', $label);
+        $vars[$terms[0]] = $terms[1];
+    }
+    return $vars;
+}
 /* Returns true if a given variable represents an associative array */
 function is_associative_array( $var ) {
     return is_array( $var ) && !is_numeric( implode( '', array_keys( $var ) ) );
