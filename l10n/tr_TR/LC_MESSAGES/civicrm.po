@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-29 09:54+0100\n"
-"PO-Revision-Date: 2007-03-01 11:39+0200\n"
-"Last-Translator: Atilla Gökhan Uz\n"
+"PO-Revision-Date: 2007-03-01 06:49-0800\n"
+"Last-Translator: Atilla Gökhan Uz <atilla.uz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +40,7 @@ msgstr "Öbek"
 
 #: CRM/ACL/BAO/ACL.php CRM/Core/DAO/Mapping.php CRM/Core/Menu.php
 msgid "Import"
-msgstr "Al"
+msgstr "Karşıdan Al (İçeri Aktar)"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Admin/Page/RelationshipType.php
 #: CRM/Contact/Page/View/Membership.php CRM/Contact/Page/View/Note.php
@@ -268,7 +268,7 @@ msgstr "Konu"
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
 msgid "Scheduled Date Time"
-msgstr "Scheduled Date Time"
+msgstr "Planlandığı Tarih Saat"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
@@ -700,7 +700,7 @@ msgstr "Çeşitli"
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Debugging"
-msgstr "Yanlış Ayıklama"
+msgstr "Hata Ayıklama"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -730,7 +730,7 @@ msgstr "Yerel"
 #: CRM/Member/Import/Form/UploadFile.php CRM/Member/Selector/Search.php
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
-msgstr "Organizasyon"
+msgstr "Kuruluş"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contribute/BAO/Contribution.php
 #: CRM/Contribute/Import/Form/MapField.php CRM/Contribute/Import/Parser.php
@@ -17696,7 +17696,7 @@ msgstr "İzinli Alıcılar"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to resolve recipient domain"
-msgstr ""
+msgstr "Alıcı alanadı çözümlenemiyor"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to destintation mail server"
