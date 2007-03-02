@@ -204,19 +204,12 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         while ($customValue->fetch() ) {
             $customValue->delete();
         }
-        require_once 'CRM/Event/DAO/Participant.php';
-        require_once 'CRM/Event/DAO/ParticipantPayment.php';
+        require_once 'CRM/Event/BAO/Participant.php';
         $participant = & new CRM_Event_DAO_Participant( );
         $participant->event_id = $id;
         $participant->find();
         while ($participant->fetch() ) {
-            $payment = & new CRM_Event_DAO_ParticipantPayment( );
-            $payment->participant_id = $participant->id;
-            $payment->find();
-            while( $payment->fetch() ) {
-                $payment->delete();
-            }
-            $participant->delete();
+            CRM_Event_BAO_Participant::deleteParticipant( $participant->id );
         }
         require_once 'CRM/Core/DAO/UFJoin.php';
         $ufJoin = & new CRM_Core_DAO_UFJoin( );
@@ -227,7 +220,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
             $ufJoin->delete();
         }
         require_once 'CRM/Event/DAO/Event.php';
-        $event           = & new CRM_Event_DAO_Event( );
+        $event     = & new CRM_Event_DAO_Event( );
         $event->id = $id; 
 
         $event->find();
