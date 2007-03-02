@@ -276,28 +276,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //checking error in custom data
         $params =& $this->getActiveFieldParams( );
         $params['contact_type'] =  $this->_contactType;
-
-        //date-format part
-        $session =& CRM_Core_Session::singleton();
-        $dateType = $session->get("dateType");
-        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
-        foreach ( $params  as $key => $val ) {
-            if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-                if ($customFields[$customFieldID][2] == 'Date') {
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key);
-                }
-            }
-            if ( $key == 'birth_date' ) {
-                if( $val ) {
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                }
-            }
-            if ( $key == 'deceased_date' ) {
-                if( $val ) {
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                }
-            }
-        }
+       
         //date-format part ends
 
         $errorMessage = null;
@@ -308,7 +287,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
         //checking error in core data
         $this->isErrorInCoreData($params, $errorMessage);
-        
         if ( $errorMessage ) {
             $tempMsg = "Invalid value for field(s) : $errorMessage";
             array_unshift($values, $tempMsg);
@@ -735,6 +713,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
     function isErrorInCustomData($params, &$errorMessage) 
     {
+        $session =& CRM_Core_Session::singleton();
+        $dateType = $session->get("dateType");
         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
         foreach ($params as $key => $value) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
@@ -743,11 +723,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     self::addToErrorMsg('field ID', $errorMessage);
                 }
                 /* validate the data against the CF type */
-                //CRM_Core_Error::debug( $value, $customFields[$customFieldID] );
+     
                 if ( $value ) {
+                    if ($customFields[$customFieldID][2] == 'Date') {
+                        if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
+                            $value = $params[$key];
+                        } else {
+                            self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                        }
+                    }
                     // need not check for label filed import
                     $htmlType = array('CheckBox','Multi-Select','Select','Radio');
                     if ( ! in_array( $customFields[$customFieldID][3], $htmlType ) || $customFields[$customFieldID][2] =='Boolean' ) {
+
                         $valid = CRM_Core_BAO_CustomValue::typecheck(
                                                                      $customFields[$customFieldID][2], $value);
                         if (! $valid) {
@@ -801,15 +789,27 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     {
         foreach ($params as $key => $value) {
             if ( $value ) {
+                $session =& CRM_Core_Session::singleton();
+                $dateType = $session->get("dateType");
+                
                 switch( $key ) {
                 case 'birth_date': 
-                    if (! CRM_Utils_Rule::date($value)) {
-                        self::addToErrorMsg('Birth Date', $errorMessage);
+                    if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key  )) {
+                        if (! CRM_Utils_Rule::date($params[$key])) {
+                            self::addToErrorMsg('Birth Date', $errorMessage);
+                        } 
+                    } else {
+                        self::addToErrorMsg('Birth-Date', $errorMessage); 
                     }
+                    
                     break;
                 case 'deceased_date': 
-                    if (! CRM_Utils_Rule::date($value)) {
-                        self::addToErrorMsg('Deceased Date', $errorMessage);
+                    if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key  )) {
+                        if (! CRM_Utils_Rule::date($value)) {
+                            self::addToErrorMsg('Deceased Date', $errorMessage);
+                        }
+                    } else {
+                        self::addToErrorMsg('Deceased Date', $errorMessage); 
                     }
                     break;
                 case 'gender':    
@@ -817,7 +817,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         self::addToErrorMsg('Gender', $errorMessage);
                     }
                     break;
-
+                    
                 case 'preferred_communication_method':    
                     $preffComm = array( );
                     $preffComm = explode(',' , $value);
