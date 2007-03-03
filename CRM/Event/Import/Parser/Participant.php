@@ -180,12 +180,16 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         
         foreach ( $params as $key => $val ) {
             if( $val && ( $key == 'event_register_date' ) ) {
-                CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                if (! CRM_Utils_Rule::date($params[$key])) {
+                if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
+                    if (! CRM_Utils_Rule::date($params[$key])) {
+                        CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
+                    }
+                } else {
                     CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
                 }
             }
         }
+        
         //date-Format part ends
         
         //$params['contact_type'] =  $this->_contactType;
@@ -229,8 +233,11 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         foreach ($params as $key => $val) {
             if( $val ) {
                 if ( $key == 'event_register_date' ) {
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                    if (! CRM_Utils_Rule::date($params[$key])) {
+                    if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
+                        if (! CRM_Utils_Rule::date($params[$key])) {
+                            CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
+                        }
+                    } else {
                         CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
                     }
                 }

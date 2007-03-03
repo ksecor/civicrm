@@ -176,9 +176,12 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
         foreach ($params as $key => $val) {
             if ( $key == 'activity_date' ) {
                 if( $val ) {
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                    if (! CRM_Utils_Rule::date($params[$key])) {
-                        //return _crm_error('Invalid value for field  : Activity Date');
+                    if ( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
+                        if (! CRM_Utils_Rule::date($params[$key])) {
+                            //return _crm_error('Invalid value for field  : Activity Date');
+                            CRM_Import_Parser_Contact::addToErrorMsg('Activity date', $errorMessage);
+                        }
+                    } else {
                         CRM_Import_Parser_Contact::addToErrorMsg('Activity date', $errorMessage);
                     }
                 }
