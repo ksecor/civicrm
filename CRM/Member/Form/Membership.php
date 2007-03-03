@@ -274,12 +274,15 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                                                       );
         }
 
+        //delete all the related membership records before creating
+        CRM_Member_BAO_Membership::deleteRelatedMemberships( $membership->id );
+
         foreach ( $relatedContacts as $contactId ) {
             $params['contact_id'         ] = $contactId;
             $params['owner_membership_id'] = $membership->id;
             unset( $params['id'] );
             
-            CRM_Member_BAO_Membership::create( $params, $ids );
+            CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
         }
         
         // do the updates/inserts

@@ -136,9 +136,8 @@
        <add>1.7</add>
   </foreignKey>
   <index>
-    <name>UI_membership_id</name>
+    <name>index_owner_membership_id</name>
     <fieldName>owner_membership_id</fieldName>
-    <unique>true</unique>
     <add>1.7</add>
   </index>
 </table>
