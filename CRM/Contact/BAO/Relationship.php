@@ -716,6 +716,37 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         
         return $relationshipType;
     }
+    
+    static function createRelatedMemberships( $contactId, &$params, $ids)
+    {
+        $memParams        = array( 'contact_id' => $contactId);
+        $memberships   = array();
+        $membershipIds = array();
+        
+        require_once 'CRM/Member/BAO/Membership.php';
+        CRM_Member_BAO_Membership::getValues($memParams, $memberships, $membershipIds);
+        
+        if ( empty($memberships) ) {
+            return;
+        }
+        
+        require_once 'CRM/Member/BAO/MembershipType.php';
+        foreach( $memberships as $membershipId => $values ) {
+            $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $values['membership_type_id'] );
+            if( $params['relationship_type_id'] == $membershipType['relationship_type_id'] . "_" . $membershipType['relationship_direction'] ) {
+                $values['owner_membership_id'] = $membershipId;
+                unset($values['id']);
+                unset($values['membership_contact_id']);
+                unset($values['contact_id']);
+                foreach ( $params['contact_check'] as $relatedContactId => $donCare) {
+                    $values['contact_id'] = $relatedContactId;
+                    //delete all the related membership records before creating
+                    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
+                    CRM_Member_BAO_Membership::create($values, CRM_Core_DAO::$_nullArray);
+                }
+            }
+        }
+    }
 }
 
 ?>

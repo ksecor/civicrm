@@ -192,6 +192,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         require_once 'CRM/Member/BAO/MembershipStatus.php';
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
+            CRM_Member_BAO_Membership::deleteRelatedMemberships( $this->_id );
             CRM_Member_BAO_Membership::deleteMembership( $this->_id );
             return;
         }
@@ -273,7 +274,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                                                       $membership->contact_id
                                                                                       );
         }
-
+        
         //delete all the related membership records before creating
         CRM_Member_BAO_Membership::deleteRelatedMemberships( $membership->id );
 

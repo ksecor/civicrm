@@ -98,7 +98,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                'status_id'     => $result->status_id,
                                'start_date'    => $result->start_date,
                                'end_date'      => $result->end_date,
-                               'modified_id'   => $session->get('userID'),
+                               'modified_id'   => $ids['userId'],
                                'modified_date' => date('Ymd')
                                );
         require_once 'CRM/Member/BAO/MembershipLog.php';
