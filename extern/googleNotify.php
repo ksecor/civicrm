@@ -34,7 +34,7 @@
 
   //  chdir("..");
 session_start( );
-
+//print_r($_SESSION);
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
@@ -112,14 +112,21 @@ switch ($root) {
  }
  case "new-order-notification": {
      $response->SendAck();
-//      $abc = $data[$root]['shopping-cart']['merchant-private-data']['VALUE'];
-//      $abc = stringToArray($abc);
+     
+     $privateData = $data[$root]['shopping-cart']['merchant-private-data']['VALUE'];
+     $privateData = stringToArray($privateData);
+     
+     CRM_Core_Error::debug_log_message( "\n private data preserved in new-order-notification: contactID=" . $privateData['contactID'] . '\n');
+     //$_SESSION['contactID'] = $privateData['contactID'];
+     //main($privateData, $data[$root]);
      break;
  }
  case "order-state-change-notification": {
      $response->SendAck();
      $new_financial_state = $data[$root]['new-financial-order-state']['VALUE'];
      $new_fulfillment_order = $data[$root]['new-fulfillment-order-state']['VALUE'];
+
+     //CRM_Core_Error::debug_log_message( "\n private data preserved in order-state-change: contactID=" . $_SESSION['contactID'] . '\n');
      
      switch($new_financial_state) {
      case 'REVIEWING': {
@@ -220,6 +227,11 @@ function get_arr_result($child_node) {
     return $result;
 }
 
+/* Returns true if a given variable represents an associative array */
+function is_associative_array( $var ) {
+    return is_array( $var ) && !is_numeric( implode( '', array_keys( $var ) ) );
+}
+
 function stringToArray($str) {
     $vars = $labels = array();
     $labels = explode(',', $str);
@@ -229,8 +241,314 @@ function stringToArray($str) {
     }
     return $vars;
 }
-/* Returns true if a given variable represents an associative array */
-function is_associative_array( $var ) {
-    return is_array( $var ) && !is_numeric( implode( '', array_keys( $var ) ) );
+
+function main($params, $dataRoot) {
+    $contactID          = $params['contactID'];
+    $contributionID     = $params['contributionID'];
+    $contributionTypeID = $params['contributionTypeID'];
+    
+    // make sure contact exists and is valid
+    require_once 'CRM/Contact/DAO/Contact.php';
+    $contact =& new CRM_Contact_DAO_Contact( );
+    $contact->id = $contactID;
+    if ( ! $contact->find( true ) ) {
+        CRM_Core_Error::debug_log_message( "Could not find contact record: $contactID" );
+        echo "Failure: Could not find contact record: $contactID<p>";
+        return;
+    }
+    
+    // make sure contribution exists and is valid
+    require_once 'CRM/Contribute/DAO/Contribution.php';
+    $contribution =& new CRM_Contribute_DAO_Contribution( );
+    $contribution->id = $contributionID;
+    if ( ! $contribution->find( true ) ) {
+        CRM_Core_Error::debug_log_message( "Could not find contribution record: $contributionID" );
+        echo "Failure: Could not find contribution record for $contributionID<p>";
+        return;
+    }
+    
+    // make sure contribution type exists and is valid
+    require_once 'CRM/Contribute/DAO/ContributionType.php';
+    $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+    $contributionType->id = $contributionTypeID;
+    if ( ! $contributionType->find( true ) ) {
+        CRM_Core_Error::debug_log_message( "Could not find contribution type record: $contributionTypeID" );
+        echo "Failure: Could not find contribution type record for $contributionTypeID<p>";
+        return;
+    }
+    return single( $contactID, $contribution, $contributionType, false, false, $dataRoot );
 }
+
+function single( $contactID, &$contribution, &$contributionType, $recur = false, $first = false, $dataRoot ) {
+    //$store = null;
+
+    $privateData = $dataRoot['shopping-cart']['merchant-private-data']['VALUE'];
+    $privateData = stringToArray($privateData);
+    
+    $membershipTypeID   = $privateData['membershipTypeID'];
+    
+    // make sure the invoice is valid and matches what we have in the contribution record
+    $invoice             = $privateData['invoiceID'];
+    if ( $contribution->invoice_id != $invoice ) {
+        CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
+        echo "Failure: Invoice values dont match between database and IPN request<p>";
+        return;
+    }
+    
+    $now = date( 'YmdHis' );
+    $amount =  $dataRoot['order-total'];
+    if ( $contribution->total_amount != $amount ) {
+        CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
+        echo "Failure: Amount values dont match between database and IPN request<p>";
+        return;
+    }
+    
+    // ok we are done with error checking, now let the real work begin
+    // update the contact record with the name and address
+    $params = array( );
+    $lookup = array( 'first_name'     => 'contact-name',
+                     'last_name'      => 'last_name' , // not available with google (every thing in contact-name)
+                     'street_address' => 'address1',
+                     'city'           => 'city',
+                     'state'          => 'region',
+                     'postal_code'    => 'postal-code',
+                     'country'        => 'country-code' );
+    foreach ( $lookup as $name => $googleName ) {
+        $value = $dataRoot['buyer-billing-address'][$googleName];
+        if ( $value ) {
+            $params[$name] = $value;
+        } else {
+            $params[$name] = null;
+        }
+    }
+    
+    if ( ! empty( $params ) ) {
+        // update contact record
+        $idParams = array( 'id'         => $contactID, 
+                           'contact'    => $contactID );
+        $ids = $defaults = array( );
+        require_once "CRM/Contact/BAO/Contact.php";
+        CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+        $contact = CRM_Contact_BAO_Contact::createFlat($params, $ids );
+    }
+    
+    // lets keep this the same
+    $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
+    
+//     $status = self::retrieve( 'payment_status', 'String', 'POST', true );
+//     if ( $status == 'Denied' || $status == 'Failed' || $status == 'Voided' ) {
+//         $contribution->contribution_status_id = 4;
+//         $contribution->save( );
+//         CRM_Core_DAO::transaction( 'COMMIT' );
+//         CRM_Core_Error::debug_log_message( "Setting contribution status to failed" );
+//         echo "Success: Setting contribution status to failed<p>";
+//         return;
+//     } else if ( $status == 'Pending' ) {
+//         CRM_Core_Error::debug_log_message( "returning since contribution status is pending" );
+        
+//         echo "Success: Returning since contribution status is pending<p>";
+//         return;
+//     } else if ( $status == 'Refunded' || $status == 'Reversed' ) {
+//         $contribution->contribution_status_id = 3;
+//         $contribution->cancel_date = $now;
+//         $contribution->cancel_reason = self::retrieve( 'ReasonCode', 'String', 'POST', false );
+//         $contribution->save( );
+//         CRM_Core_DAO::transaction( 'COMMIT' );
+//         CRM_Core_Error::debug_log_message( "Setting contribution status to cancelled" );
+//         echo "Success: Setting contribution status to cancelled<p>";
+//         return;
+//     } else if ( $status != 'Completed' ) {
+//         // we dont handle this as yet
+//         CRM_Core_Error::debug_log_message( "returning since contribution status: $status is not handled" );
+//         echo "Failure: contribution status $status is not handled<p>";
+//         return;
+//     }
+    
+    // check if contribution is already completed, if so we ignore this ipn
+    if ( $contribution->contribution_status_id == 1 ) {
+        CRM_Core_Error::debug_log_message( "returning since contribution has already been handled" );
+        echo "Success: Contribution has already been handled<p>";
+        return;
+    }
+    
+    require_once 'CRM/Contribute/BAO/ContributionPage.php';
+    CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
+    
+    $contribution->contribution_status_id  = 1;
+    $contribution->source                  = ts( 'Online Contribution:' ) . ' ' . $values['title'];
+    $contribution->is_test    = $privateData['test'] ? 1 : 0;
+    $contribution->fee_amount = $dataRoot['fee_amount']; //not available
+    $contribution->net_amount = $dataRoot['net_amount']; //not available
+    $contribution->trxn_id    = $dataRoot['trnx_id'];    //not available
+    
+    if ( $values['is_email_receipt'] ) {
+        $contribution->receipt_date = $now;
+    }
+    
+    CRM_Core_DAO::transaction( 'BEGIN' );
+    
+    $contribution->save( );
+    
+    $config =& CRM_Core_Config::singleton( );
+    
+    // next create the transaction record
+    $trxnParams = array(
+                        'entity_table'      => 'civicrm_contribution',
+                        'entity_id'         => $contribution->id,
+                        'trxn_date'         => $now,
+                        'trxn_type'         => 'Debit',
+                        'total_amount'      => $amount,
+                        'fee_amount'        => $contribution->fee_amount,
+                        'net_amount'        => $contribution->net_amount,
+                        'currency'          => $contribution->currency,
+                        'payment_processor' => $config->paymentProcessor,
+                        'trxn_id'           => $contribution->trxn_id,
+                        );
+    
+    require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
+    $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
+    
+    // get the title of the contribution page
+    $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                          $contribution->contribution_page_id,
+                                          'title' );
+    
+    require_once 'CRM/Utils/Money.php';
+    $formattedAmount = CRM_Utils_Money::format($amount);
+    
+    // also create an activity history record
+    $ahParams = array('entity_table'     => 'civicrm_contact', 
+                      'entity_id'        => $contactID, 
+                      'activity_type'    => $contributionType->name,
+                      'module'           => 'CiviContribute', 
+                      'callback'         => 'CRM_Contribute_Page_Contribution::details',
+                      'activity_id'      => $contribution->id, 
+                      'activity_summary' => "$formattedAmount - $title (online)",
+                      'activity_date'    => $now,
+                      );
+    
+    require_once 'api/History.php';
+    if ( is_a( crm_create_activity_history($ahParams), 'CRM_Core_Error' ) ) { 
+        CRM_Core_Error::debug_log_message( "error in updating activity" );
+    }
+    
+    // create membership record
+    if ($membershipTypeID) {
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign('membership_assign' , true );
+        
+        require_once 'CRM/Member/BAO/Membership.php';
+        require_once 'CRM/Member/DAO/MembershipLog.php';
+        require_once 'CRM/Member/BAO/MembershipType.php';
+        $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeID );
+        $template->assign('membership_name',$membershipDetails['name']);
+        
+        $minimumFee = $membershipDetails['minimum_fee'];
+        $template->assign('membership_amount'  , $minimumFee);
+        
+        if ($currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID,  $membershipTypeID)) {
+            if ( ! $currentMembership['is_current_member'] ) {
+                $dao = &new CRM_Member_DAO_Membership();
+                $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id']);
+                $currentMembership['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
+                $currentMembership['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
+                $currentMembership['source']     = self::retrieve( 'item_name', 'String', 'POST', false );
+                $dao->copyValues($currentMembership);
+                $membership = $dao->save();
+                
+                //insert log here 
+                $dao = new CRM_Member_DAO_MembershipLog();
+                $dao->membership_id = $membership->id;
+                $dao->status_id     = $membership->status_id;
+                $dao->start_date    = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
+                $dao->end_date      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'); 
+                $dao->modified_id   = $contactID;
+                $dao->modified_date = date('Ymd');
+                $dao->save();
+                
+                $template->assign('mem_start_date', CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                $template->assign('mem_end_date',   CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
+                
+            } else {
+                $dao = &new CRM_Member_DAO_Membership();
+                $dao->id = $currentMembership['id'];
+                $dao->find(true); 
+                $membership = $dao ;
+                
+                //insert log here 
+                $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id);
+                $dao = new CRM_Member_DAO_MembershipLog();
+                $dao->membership_id = $membership->id;
+                $dao->status_id     = $membership->status_id;
+                $dao->start_date    = CRM_Utils_Date::customFormat($dates['log_start_date'],'%Y%m%d');
+                $dao->end_date      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'); 
+                $dao->modified_id   = $contactID;
+                $dao->modified_date = date('Ymd');
+                $dao->save();
+                
+                $template->assign('mem_start_date', CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                $template->assign('mem_end_date',   CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
+                
+            }
+        } else {
+            require_once 'CRM/Member/BAO/MembershipStatus.php';
+            $memParams = array();
+            $memParams['contact_id']             = $contactID;
+            $memParams['membership_type_id']     = $membershipTypeID;
+            $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membershipTypeID);
+            
+            $memParams['join_date']     = CRM_Utils_Date::customFormat($dates['join_date'],'%Y%m%d');
+            $memParams['start_date']    = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
+            $memParams['end_date']      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
+            $memParams['reminder_date'] = CRM_Utils_Date::customFormat($dates['reminder_date'],'%Y%m%d'); 
+            $memParams['source'  ]      = CRM_Utils_Request::retrieve( 'item_name', 'String', $store,
+                                                                       false, 0, 'POST' );
+            $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( CRM_Utils_Date::customFormat($dates['start_date'],'%Y-%m-%d'),CRM_Utils_Date::customFormat($dates['end_date'],'%Y-%m-%d'),CRM_Utils_Date::customFormat($dates['join_date'],'%Y-%m-%d')) ;
+            
+            $memParams['status_id']   = $status['id'];
+            $memParams['is_override'] = false;
+            $dao = &new CRM_Member_DAO_Membership();
+            $dao->copyValues($memParams);
+            $membership = $dao->save();
+            $template->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+            $template->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
+        }
+        require_once 'CRM/Member/DAO/MembershipBlock.php';
+        $dao = & new CRM_Member_DAO_MembershipBlock();
+        $dao->entity_table = 'civicrm_contribution_page';
+        $dao->entity_id = $contribution->contribution_page_id; 
+        $dao->is_active = 1;
+        if ( $dao->find(true) ) {
+            $membershipBlock   = array(); 
+            CRM_Core_DAO::storeValues($dao, $membershipBlock );
+            $template->assign( 'membershipBlock' , $membershipBlock );
+        }
+    }
+    
+    require_once 'CRM/Contribute/BAO/ContributionPage.php';
+    
+    CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
+    CRM_Core_DAO::transaction( 'COMMIT' );
+    
+    // add the new contribution values
+    $template =& CRM_Core_Smarty::singleton( );
+    $template->assign( 'title', $values['title']);
+    $template->assign( 'amount' , $amount );
+    $template->assign( 'trxn_id', $contribution->trxn_id );
+    $template->assign( 'receive_date', 
+                       CRM_Utils_Date::mysqlToIso( $contribution->receive_date ) );
+    $template->assign( 'contributeMode', 'notify' );
+    $template->assign( 'action', $contribution->is_test ? 1024 : 1 );
+    $template->assign( 'receipt_text', $values['receipt_text'] );
+    $template->assign( 'is_monetary', 1 );
+    $template->assign( 'is_recur', $recur );
+
+    require_once 'CRM/Utils/Address.php';
+    $template->assign( 'address', CRM_Utils_Address::format( $params ) );
+    
+    CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values );
+    
+    echo "Success: Database updated<p>";
+}
+
 ?>

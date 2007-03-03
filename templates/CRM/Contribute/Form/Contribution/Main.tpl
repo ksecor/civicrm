@@ -133,14 +133,6 @@ function clearAmountOther() {
     </table>
     </fieldset>
 {/if}
-{if $config->paymentProcessor EQ 'Google_Checkout'}
-    <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
-    <table class="form-layout-compressed">
-    <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>
-    <tr><td>{$form._qf_Main_next_express.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td></tr>
-    </table>
-    </fieldset>
-{/if}
 {/if}
 
 <div id="crm-submit-buttons">

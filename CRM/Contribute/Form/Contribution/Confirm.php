@@ -180,18 +180,31 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
-        if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
-            $contribButton = ts('Continue >>');
-        } else {
-            $contribButton = ts('Make Contribution');
-        }
 
+        if ($this->_contributeMode == 'checkout') {
+            $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
+            $this->add('image',
+                       $this->_expressButtonName,
+                       $config->paymentExpressButton,
+                       array( 'class' => 'form-submit' ) );
+        } else {
+            if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
+                $contribButton = ts('Continue >>');
+            } else {
+                $contribButton = ts('Make Contribution');
+            }
+            $this->addButtons(array(
+                                    array ( 'type'      => 'next',
+                                            'name'      => $contribButton,
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                            'isDefault' => true,
+                                            'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" )
+                                            )
+                                    )
+                              );
+        }
+        
         $this->addButtons(array(
-                                array ( 'type'      => 'next',
-                                        'name'      => $contribButton,
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true,
-                                        'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" ) ),
                                 array ( 'type'      => 'back',
                                         'name'      => ts('<< Go Back')),
                                 )
@@ -345,7 +358,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 if ( $this->_values['is_monetary'] ) {
                     $result =& $payment->doExpressCheckout( $paymentParams );
                 }
-            } else if ( $this->_contributeMode == 'notify' ) {
+            } else if ( $this->_contributeMode == 'notify' || $this->_contributeMode == 'checkout') {
                 // this is not going to come back, i.e. we fill in the other details
                 // when we get a callback from the payment processor
                 // also add the contact ID and contribution ID to the params list
@@ -373,6 +386,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
                 if ( $this->_values['is_monetary'] ) {
+                    if ($this->_contributeMode == 'checkout') {
+                        $payment->doCheckout( $this->_params );
+                    }
                     // addd qfKey so we can send to paypal
                     $this->_params['qfKey'] = $this->controller->_key;
                     $result =& $payment->doTransferCheckout( $this->_params );

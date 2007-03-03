@@ -146,7 +146,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
         // if payment is via a button only, dont display continue
-        if ( $config->paymentBillingMode != CRM_Core_Payment::BILLING_MODE_BUTTON || !$this->_values['is_monetary']) {
+        if ( $config->paymentBillingMode != CRM_Core_Payment::BILLING_MODE_BUTTON || $config->paymentProcessor == 'Google_Checkout' || !$this->_values['is_monetary']) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
                                             'name'      => ts('Continue >>'), 
@@ -253,7 +253,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->addRule( 'credit_card_exp_date', ts('Select a valid date greater than today.'), 'currentDate');
         }            
             
-        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
+        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON && $config->paymentProcessor != 'Google_Checkout') {
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
                        $this->_expressButtonName,
@@ -499,7 +499,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->set( 'contributeMode', 'direct' ); 
             if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
                 if ($config->paymentProcessor == 'Google_Checkout') {
-                    $payment->doCheckout( $params );
+                    //$payment->doCheckout( $params );
+                    $this->set( 'contributeMode', 'checkout' ); 
                 } else {
                     //get the button name  
                     $buttonName = $this->controller->getButtonName( );  

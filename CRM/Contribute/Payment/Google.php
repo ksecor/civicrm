@@ -93,6 +93,13 @@ class CRM_Contribute_Payment_Google {
         $cart =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
         $item1 = new GoogleItem('Help Support CiviCRM','', 1, $params['amount']); //generalize title
         $cart->AddItem($item1);
+
+        $privateData = "module=contribute,contactID={$params['contactID']},contributionID={$params['contributionID']},contributionTypeID={$params['contributionTypeID']},mode={$this->_mode}";
+        if ( $params['selectMembership'] &&  $params['selectMembership'] != 'no_thanks' ) {
+            $privateData .= ",membershipTypeID={$params['selectMembership']}";
+        }
+        
+        $cart->SetMerchantPrivateData($privateData);
         
         $cartVal      = base64_encode($cart->GetXML());
         $signatureVal = base64_encode($cart->CalcHmacSha1($cart->GetXML()));
