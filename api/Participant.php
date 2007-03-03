@@ -288,8 +288,9 @@ function crm_delete_participant_payment($participantPaymentID)
     }
     require_once 'CRM/Event/BAO/Participant.php';
     $participant = new CRM_Event_BAO_Participant();
-    $result = $participant->deleteParticipantPayment($participantPaymentID);
     
-    return $result ? null : _crm_error('Error while deleting participantPayment');
+    $params = array( 'id' => $participantPaymentID );
+    
+    return $participant->deleteParticipantPayment( $params ) ? null : _crm_error('Error while deleting participantPayment');
 }
 ?>

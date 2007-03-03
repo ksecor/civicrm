@@ -99,7 +99,7 @@ function crm_create_event( $params )
  * @return  Array of all found event property values.
  * @access public
  */
-function crm_get_event( $params ) 
+function crm_get_events( $params ) 
 {
     _crm_initialize();
     if ( ! is_array($params) ) {
@@ -122,15 +122,15 @@ function crm_get_event( $params )
     }
     
     if ( $eventBAO->find() ) {
-        $event = array();
+        $events = array();
         while ( $eventBAO->fetch() ) {
             _crm_object_to_array( clone($eventBAO), $event );
-            $event[$eventBAO->id] = $event;
+            $events[$eventBAO->id] = $event;
         }
     } else {
         return _crm_error('Exact match not found');
     }
-    return $event;
+    return $events;
 }
 
 /**
@@ -187,6 +187,5 @@ function &crm_delete_event( $eventID ) {
     }
     require_once 'CRM/Event/BAO/Event.php';
     return CRM_Event_BAO_Event::del($eventID);
-   
 }
 ?>
