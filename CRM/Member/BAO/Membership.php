@@ -191,39 +191,48 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     }
     
     /**
+     * Function to check the membership extended through relationship
      * 
-     * 
-     * @param int $membershipId 
+     * @param int $membershipId membership id
+     * @param int $contactId    contact id
      *
      * @return Array    array of contact_id of all related contacts.
      * @static
      */
     static function checkMembershipRelationship( $membershipId, $contactId ) 
     {
-        $membershipTypeId = CRM_Core_DAO::getFieldValue( 
-                                                        'CRM_Member_DAO_Membership',
-                                                        $membershipId,
-                                                        'membership_type_id'
-                                                        );
+        $membershipTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership',
+                                                         $membershipId,
+                                                         'membership_type_id'
+                                                         );
+        
         $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeId ); 
-        
+
         if ( $membershipType['relationship_type_id'] ) {
-            $relationships = CRM_Contact_BAO_Relationship::getRelationship( 
-                                                              $contactId,
-                                                              CRM_Contact_BAO_Relationship::CURRENT
-                                                              );
+            $relationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
+                                                                            CRM_Contact_BAO_Relationship::CURRENT
+                                                                            );
         }
+ 
+        require_once "CRM/Contact/BAO/RelationshipType.php";
+        $contacts = array( );
         
-        $contacts = array();
-        
+        // check for each contact relationships
         foreach ( $relationships as $values) {
-            if ( ($values['civicrm_relationship_type_id'] == $membershipType['relationship_type_id']   ) && 
-                 ($values['rtype']                        == $membershipType['relationship_direction'] )
-                 ) {
+            //get details of the relationship type
+            $relType   = array( 'id' => $values['civicrm_relationship_type_id'] );
+            $relValues = array( );
+            CRM_Contact_BAO_RelationshipType::retrieve( $relType, $relValues);
+
+            // 1. Check if contact and membership type relationship type are same
+            // 2. Check if relationship direction is same or name_a_b = name_b_a
+            if ( ( $values['civicrm_relationship_type_id'] == $membershipType['relationship_type_id'] )
+                 && ( ( $values['rtype'] == $membershipType['relationship_direction'] ) ||
+                      ( $relValues['name_a_b'] == $relValues['name_b_a'] ) ) ) {
                 $contacts[] = $values['cid'];
             }
         }
-        
+
         return $contacts;
     }
     

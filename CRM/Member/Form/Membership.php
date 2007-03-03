@@ -269,16 +269,17 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         if ( ! is_a( $membership, 'CRM_Core_Error') ) {
             $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
-                                                                   $membership->id,
-                                                                   $membership->contact_id
-                                                                   );
+                                                                                      $membership->id,
+                                                                                      $membership->contact_id
+                                                                                      );
         }
-        
+
         foreach ( $relatedContacts as $contactId ) {
-            $relatedParams['contact_id'] = $contactId;
+            $params['contact_id'         ] = $contactId;
+            $params['owner_membership_id'] = $membership->id;
             unset( $params['id'] );
             
-            CRM_Member_BAO_Membership::create( $relatedParams, $ids );
+            CRM_Member_BAO_Membership::create( $params, $ids );
         }
         
         // do the updates/inserts

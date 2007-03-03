@@ -85,69 +85,19 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                 }
             }
             if ( $dao->status_id ) {
-                $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $dao->status_id, 'is_current_member');
+                $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $dao->status_id,
+                                                      'is_current_member');
                 if ( $active ) {
                     $membership[$dao->id]['active'] = $active;
                 }
             }
-            
-            $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $dao->id, 
-                                                                                                   'cid'=> $this->_contactId));
-        }
-
-        // get all the membership records extended through relationship (check CRM-1645)
-        require_once 'CRM/Contact/BAO/Relationship.php';
-        require_once 'CRM/Member/BAO/Membership.php';
-        require_once 'CRM/Member/BAO/MembershipType.php';
-        
-        // get all the relationship for the current contact
-        $getRelations = array ( );
-        $getRelations = CRM_Contact_BAO_Relationship::getRelationship( $this->_contactId, null, null, null, null);
-
-        if ( !empty($getRelations) ) {
-            $relMembership = array( );
-            foreach ( $getRelations as $key => $value ) {
-                // get the membership records for each related contacts
-                $membershipValues = array( );
-                $membershipId     = array( 'contact_id' => $value['cid'] );
-                CRM_Member_BAO_Membership::getValues($membershipId, $membershipValues, $ids);
-
-                if ( !empty($membershipValues) ) {
-                    foreach ($membershipValues as $k => $val) {
-                        $membershipType = 
-                            CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $val['membership_type_id'] ); 
-                        
-                        // check if relationship type for the
-                        // membership record is same as the relation
-                        // between current contact and the related contact  (check CRM-1645)
-                        if ( $membershipType['relationship_type_id'] != $value['civicrm_relationship_type_id'] ) { 
-                            continue;
-                        }
-
-                        $relMembership[$k]['start_date'     ] = $val['start_date'];
-                        $relMembership[$k]['end_date'       ] = $val['end_date'  ];
-                        $relMembership[$k]['membership_type'] = $membershipType['name'];
-                        $relMembership[$k]['source'         ] = $val['source'    ];
-                        $relMembership[$k]['status'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus',
-                                                                                    $val['status_id'] );
-                        
-                        if ( $val['status_id'] ) {
-                            $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', 
-                                                                  $val['status_id'], 'is_current_member');
-                            if ( $active ) {
-                                $relMembership[$k]['active'] = $active;
-                            }
-                        }
-                        
-                        $relMembership[$k]['action'] = CRM_Core_Action::formLink(self::links(), $mask,
-                                                                                 array('id' => $k, 
-                                                                                       'cid'=> $value['cid'] ) ); 
-                    }
-                }
+            if ( ! $dao->owner_membership_id ) {
+                $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $mask, 
+                                                                            array('id' => $dao->id, 
+                                                                                  'cid'=> $this->_contactId));
             }
-            $membership = array_merge( $membership, $relMembership );
         }
-
+        
         $activeMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership );
         $inActiveMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership, 'inactive');
         $this->assign('activeMembers', $activeMembers);
