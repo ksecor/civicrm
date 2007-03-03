@@ -308,7 +308,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $customFields = CRM_Core_BAO_CustomField::getFieldsForImport( );
             
             // hack to add custom data for components
-            $components = array("Contribute", "Participant");
+            $components = array("Contribution", "Participant");
             foreach ( $components as $value) {
                 $customFields = array_merge($customFields, CRM_Core_BAO_CustomField::getFieldsForImport($value));
             }
