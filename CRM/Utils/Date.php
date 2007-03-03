@@ -509,27 +509,23 @@ class CRM_Utils_Date {
         case 2 :
             if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d$/', $value) ) {
                 return false;
-            } else {
-                break;
             }
+            break;
         case 4 :
             if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d\d\d$/', $value ) ) {
                 return false;
-            } else {
-                break;
             }
+            break;
         case 8 :
             if ( ! preg_match('/^[A-Za-z]*[ \t]?\d\d\,[ \t]?\d\d\d\d$/', $value ) ) {
                 return false;
-            } else {
-                break;
             }
+            break;
         case 16 :
             if ( ! preg_match('/^\d\d-[A-Za-z]{3}-\d\d$/', $value )) {
                 return false; 
-            }  else {
-                break;
             }
+            break;
         }
         
         if ( $dateType == 2 || $dateType == 4) {
