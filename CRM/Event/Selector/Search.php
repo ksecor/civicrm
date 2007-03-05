@@ -363,7 +363,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Event Date'),
+                                                'name'      => ts('Event Date(s)'),
                                                 'sort'      => 'start_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -380,7 +380,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                 $pre = array( 
                              array('desc' => ts('Contact Type') ), 
                              array( 
-                                   'name'      => ts('Name'), 
+                                   'name'      => ts('Participant'), 
                                    'sort'      => 'sort_name', 
                                    'direction' => CRM_Utils_Sort::DESCENDING, 
                                    )

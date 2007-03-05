@@ -121,8 +121,9 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template );
             self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template );
 
-            // set email in the template here
+            // set confirm_text and contact email address for display in the template here
             $template->assign( 'email', $email );
+            $template->assign( 'confirm_email_text', $values['event_page']['confirm_email_text'] );
             
             $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );

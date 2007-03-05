@@ -12,7 +12,7 @@
 {$event.event_start_date|crmDate}{if $event.event_end_date}-{if $event.event_end_date|date_format:"%Y%m%d" == $event.event_start_date|date_format:"%Y%m%d"}{$event.event_end_date|date_format:"%I:%M %p"}{else}{$event.event_end_date|crmDate}{/if}{/if}
 {if $location.1.name}{$location.1.name}
 {/if}
-{$location.1.address.display|nl2br}
+{$location.1.address.display}
 {if $location.1.phone.1.phone || $location.1.email.1.email}{ts}Event Contacts:{/ts}
 {foreach from=$location.1.phone item=phone}
 {if $phone.phone}{if $phone.phone_type}{$phone.phone_type_display}:{/if} {$phone.phone}{/if}
