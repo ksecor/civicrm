@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-29 09:54+0100\n"
-"PO-Revision-Date: 2007-02-27 14:48-0800\n"
+"PO-Revision-Date: 2007-03-02 15:10-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -5006,15 +5006,13 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Make Mailing Labels"
-msgstr ""
+msgstr "Création d'étiquettes pour la poste"
 
 #: CRM/Contact/Form/Task/Label.php
-#, fuzzy
 msgid "Select Label"
-msgstr "Choisir la date"
+msgstr "Choisir le format d'étiquette"
 
 #: CRM/Contact/Form/Task/Label.php
-#, fuzzy
 msgid "- select label -"
 msgstr "- choisir -"
 
@@ -6926,9 +6924,8 @@ msgid "Grouping"
 msgstr "Groupe"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Operator"
-msgstr "Actions"
+msgstr "Opérateur"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "="
@@ -12245,7 +12242,7 @@ msgid ""
 "name/email). EXAMPLE: Enter \"Volunteer%\" as your Activity Type to match "
 "any activity whose type is \"Volunteer\" + any other words (e.g. Volunteer "
 "for Open House)."
-msgstr ""
+msgstr "Vous pouvez utiliser le caractère <strong>%</strong> pour effectuer une recherche partielle (pour les champs autres que le nom et le courriel). Par exemple: dans le champ «Type d'activité» vous pouvez entrer «Bénévolat%» pour trouver toutes les entrées correspondant à «Bénévolat» + tout autre mot, tel que «Bénévolat pour les paniers de Noël»."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -12463,9 +12460,8 @@ msgid "Fields to Include in Export File"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Label.tpl
-#, fuzzy
 msgid "Label Contact(s)"
-msgstr "Repérer les contacts (carte)"
+msgstr "Étiquettes de contact(s)"
 
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
