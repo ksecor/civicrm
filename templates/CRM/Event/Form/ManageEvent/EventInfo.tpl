@@ -22,7 +22,7 @@
         <dt>{$form.max_participants.label}</dt><dd>{$form.max_participants.html|crmReplace:class:four}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text is displayed when the maximum number of registrations is reached.{/ts}</dd>
         <dt>{$form.event_full_text.label}</dt><dd>{$form.event_full_text.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Display this text on the Event Information page when the number of registrations equals maximum number of participants.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Display this text on the Event Information page if the number of registrations is equal to or greater than the maximum number of participants. If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}</dd>
         <dt>&nbsp;</dt><dd>{$form.is_map.html} {$form.is_map.label}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href="%1">Global Settings &raquo; Mapping</a>{/ts}</dd>
     	<dt>&nbsp;</dt><dd>{$form.is_public.html} {$form.is_public.label}</dd>
