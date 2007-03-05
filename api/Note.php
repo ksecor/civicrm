@@ -87,7 +87,7 @@ function &crm_create_note( &$params ) {
  *
  * @param array $params  Associative array of name/value property
  * 
- * @return Array of requierd Note object(s)
+ * @return If successful, array of notes for the contact; otherwise object of CRM_Core_Error
  * @access public
  */
 
@@ -99,6 +99,7 @@ function &crm_get_note( &$params ) {
     if ( ! isset($params['id']) && ( ! isset($params['entity_id']) || ! isset($params['entity_table']) ) ) {
         return _crm_error( 'Required parameters missing.' );
     }
+    
     $noteBAO =& new CRM_Core_BAO_Note( );
     
     $properties = array('id', 'entity_table', 'entity_id', 'note', 'contact_id', 'modified_date', 'subject');
@@ -109,16 +110,17 @@ function &crm_get_note( &$params ) {
         }
     }
     
-    if ( $noteBAO->find() ) {
+    $noteArray = array();
+    
+    $noteBAO->find();
+    
+    while ($noteBAO->fetch()) {
         $note = array();
-        while ($noteBAO->fetch()) {
-            _crm_object_to_array( clone($noteBAO), $note);
-            $noteArray[$noteBAO->id] = $note;
-        }
-        return $noteArray;
-    } else {
-        return _crm_error( 'Exact match not found.' );
+        _crm_object_to_array( clone($noteBAO), $note);
+        $noteArray[$noteBAO->id] = $note;
     }
+    
+    return $noteArray;
 }
 
 /**
