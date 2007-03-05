@@ -717,9 +717,25 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         return $relationshipType;
     }
     
+    /**
+     * Function to create / update / delete membership for related contacts.
+     * 
+     * This function will create/update/delete membership for related
+     * contact based on 1) contact have active membership 2) that
+     * membership is is extedned by the same relationship type to that
+     * of the existing relationship.
+     * 
+     * @param $contactId  Int     contact id
+     * @param $params     array   array of values submitted by POST
+     * @param $ids        array   array of ids
+     * @param $action             which action called this function
+     * 
+     * @static
+     *
+     */
     static function relatedMemberships( $contactId, &$params, $ids, $action = CRM_Core_Action::ADD )
     {
-        $memParams        = array( 'contact_id' => $contactId);
+        $memParams     = array( 'contact_id' => $contactId);
         $memberships   = array();
         $membershipIds = array();
         
@@ -753,5 +769,4 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         }
     }
 }
-
 ?>
