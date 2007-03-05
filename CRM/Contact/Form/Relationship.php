@@ -304,7 +304,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $ids['contact'] = $this->_contactId;
         
         if ($this->_action & CRM_Core_Action::DELETE ){
-            CRM_Contact_BAO_Relationship::del($this->_relationshipId); 
+            CRM_Contact_BAO_Relationship::del($this->_relationshipId);
+            CRM_Contact_BAO_Relationship::relatedMemberships( $this->_contactId, 
+                                                              $params, $ids, 
+                                                              $this->_action );
             return;
         }
         
@@ -355,7 +358,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         $config   =& CRM_Core_Config::singleton( );
         if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
-            CRM_Contact_BAO_Relationship::createRelatedMemberships( $this->_contactId, $params, $ids );
+            CRM_Contact_BAO_Relationship::relatedMemberships( $this->_contactId, 
+                                                              $params, $ids, 
+                                                              $this->_action );
         }
         
         CRM_Core_Session::setStatus( $status );
