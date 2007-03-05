@@ -4,10 +4,10 @@
     <div class="display-block">
 	<table class="form-layout">
       {if $event.summary}
-        <tr><td colspan="2">{$event.summary}</td></tr>
+        <tr><td colspan="2" class="report">{$event.summary}</td></tr>
       {/if}
       {if $event.description}
-        <tr><td colspan="2">{$event.description}</td></tr>
+        <tr><td colspan="2" class="report">{$event.description}</td></tr>
       {/if}
 	  <tr><td><label>{ts}When{/ts}</label></td>
           <td width="90%">
