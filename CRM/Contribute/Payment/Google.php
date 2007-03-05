@@ -82,11 +82,11 @@ class CRM_Contribute_Payment_Google {
         //print_r($params);
         //print_r($config);
 
-        $url = ( $this->_mode == 'test' ) ? $config->paymentPayPalExpressTestUrl : $config->paymentPayPalExpressUrl;
-        $url = 'https://' . $url . '/cws/v2/Merchant/' . $config->paymentUsername[$this->_mode] . '/checkout';
+        $url = ( $this->_mode == 'test' ) ? $config->googleCheckoutTestUrl : $config->googleCheckoutUrl;
+        $url = 'https://' . $url . '/cws/v2/Merchant/' . $config->merchantID[$this->_mode] . '/checkout';
         
         //Create a new shopping cart object
-        $merchant_id  = $config->paymentUsername[$this->_mode];  //Your Merchant ID
+        $merchant_id  = $config->merchantID[$this->_mode];  //Your Merchant ID
         $merchant_key = $config->paymentKey[$this->_mode];  //Your Merchant Key
         $server_type  = "sandbox"; //provide provision for live
         
@@ -94,12 +94,17 @@ class CRM_Contribute_Payment_Google {
         $item1 = new GoogleItem('Help Support CiviCRM','', 1, $params['amount']); //generalize title
         $cart->AddItem($item1);
 
-        $privateData = "module=contribute,contactID={$params['contactID']},contributionID={$params['contributionID']},contributionTypeID={$params['contributionTypeID']},mode={$this->_mode}";
+        $privateData = "module=contribute,contactID={$params['contactID']},contributionID={$params['contributionID']},contributionTypeID={$params['contributionTypeID']},invoiceID={$params['invoiceID']}";
         if ( $params['selectMembership'] &&  $params['selectMembership'] != 'no_thanks' ) {
             $privateData .= ",membershipTypeID={$params['selectMembership']}";
         }
         
         $cart->SetMerchantPrivateData($privateData);
+
+        $returnURL = CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                            "_qf_ThankYou_display=1&qfKey={$params['qfKey']}",
+                                            true, null, false );
+        $cart->SetContinueShoppingUrl( $returnURL );
         
         $cartVal      = base64_encode($cart->GetXML());
         $signatureVal = base64_encode($cart->CalcHmacSha1($cart->GetXML()));
@@ -139,11 +144,11 @@ class CRM_Contribute_Payment_Google {
 
         $error = array( );
 
-        if ( empty( $config->paymentUsername[$mode] ) ) {
+        if ( empty( $config->merchantID[$mode] ) ) {
             if ( $mode == 'live' ) {
-                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME (Merchant ID)'));
+                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_MERCHANT-ID'));
             } else {
-                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME (Merchant ID)'));
+                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_MERCHANT-ID'));
             }
         }
         

@@ -243,11 +243,11 @@ function stringToArray($str) {
 }
 
 function newOrderNotify($dataRoot) {
-    $params = $dataRoot['shopping-cart']['merchant-private-data']['VALUE'];
-    $params = stringToArray($params);
+    $privateData = $dataRoot['shopping-cart']['merchant-private-data']['VALUE'];
+    $privateData = stringToArray($privateData);
     
-    $contactID          = $params['contactID'];
-    $contributionID     = $params['contributionID'];
+    $contactID          = $privateData['contactID'];
+    $contributionID     = $privateData['contributionID'];
     
     // make sure contact exists and is valid
     require_once 'CRM/Contact/DAO/Contact.php';
@@ -270,13 +270,13 @@ function newOrderNotify($dataRoot) {
     }
     
     // make sure the invoice is valid and matches what we have in the contribution record
-    $invoice = $params['invoiceID'];
+    $invoice = $privateData['invoiceID'];
     if ( $contribution->invoice_id != $invoice ) {
         CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
         echo "Failure: Invoice values dont match between database and IPN request<p>";
         return;
     } else {
-        // lets replace invoice-id with google-order-number because thats what is common and unique in subsequent call or notification send by google.
+        // lets replace invoice-id with google-order-number because thats what is common and unique in subsequent calls or notifications send by google.
         $contribution->invoice_id = $dataRoot['google-order-number']['VALUE'];
     }
     
@@ -318,7 +318,7 @@ function newOrderNotify($dataRoot) {
     }
     
     // lets keep this the same
-    $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
+    //$contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
 
     // check if contribution is already completed, if so we ignore this ipn
     if ( $contribution->contribution_status_id == 1 ) {
@@ -326,7 +326,7 @@ function newOrderNotify($dataRoot) {
         echo "Success: Contribution has already been handled<p>";
         return;
     }
-    
+
     $contribution->save( );
 }
 function getAmount($orderNo) {
@@ -372,7 +372,8 @@ function orderStateChange($status, $dataRoot) {
     // lets start since payment has been made
     $now = date( 'YmdHis' );
     $amount = $contribution->total_amount;
-
+    $contactID = $contribution->contact_id;
+        
     require_once 'CRM/Contribute/BAO/ContributionPage.php';
     CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
     

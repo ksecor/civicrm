@@ -185,8 +185,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
                        $this->_expressButtonName,
-                       $config->paymentExpressButton,
+                       $config->googleCheckoutButton,
                        array( 'class' => 'form-submit' ) );
+
+            $this->addButtons(array(
+                                    array ( 'type'      => 'back',
+                                            'name'      => ts('<< Go Back')),
+                                    )
+                              );
+            
         } else {
             if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
                 $contribButton = ts('Continue >>');
@@ -199,16 +206,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                             'isDefault' => true,
                                             'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" )
+                                            ),
+                                    array ( 'type'      => 'back',
+                                            'name'      => ts('<< Go Back')
                                             )
                                     )
                               );
         }
-        
-        $this->addButtons(array(
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Go Back')),
-                                )
-                          );
         
         $defaults = array( );
         $options = array( );
@@ -322,7 +326,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks' && 
-             $this->_contributeMode != 'notify' ) {
+             $this->_contributeMode != 'notify' && $this->_contributeMode != 'checkout') {
             self::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
             require_once "CRM/Member/BAO/Membership.php";
             CRM_Member_BAO_Membership::postProcessMembership($membershipParams,$contactID,$this );
