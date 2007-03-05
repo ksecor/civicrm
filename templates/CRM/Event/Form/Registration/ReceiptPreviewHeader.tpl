@@ -1,8 +1,8 @@
-{* Displays Test-drive mode email receipt intro. *}
+{* Displays Test-drive mode email confirmation header. *}
 ***********************************************************
-{ts}Test-drive Transaction Receipt{/ts} 
+{ts}Event Registration - Test-drive Confirmation / Receipt{/ts} 
 
-{ts}This is a test-drive transaction receipt. No live financial
+{ts}This is a test-drive registration. No live financial
 transaction has occurred.{/ts}
 
 ***********************************************************

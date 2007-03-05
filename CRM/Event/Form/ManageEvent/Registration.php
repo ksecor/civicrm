@@ -102,14 +102,15 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     function setShowHide( &$defaults) 
     {
         require_once 'CRM/Core/ShowHideBlocks.php';
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( array('registration_show' => 1 ),
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( array('registration' => 1 ),
                                                          '') ;
         if ( empty($defaults)) {
-            $this->_showHide->addShow( 'registration_show' );
+            $this->_showHide->addShow( 'registration_screen_show' );
             $this->_showHide->addShow( 'confirm_show' );
             $this->_showHide->addShow( 'mail_show' );
             $this->_showHide->addShow( 'thankyou_show' );
             $this->_showHide->addHide( 'registration' );
+            $this->_showHide->addHide( 'registration_screen' );
             $this->_showHide->addHide( 'confirm' );
             $this->_showHide->addHide( 'mail' );
             $this->_showHide->addHide( 'thankyou' );
@@ -118,7 +119,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $this->_showHide->addShow( 'confirm' );
             $this->_showHide->addShow( 'mail' );
             $this->_showHide->addShow( 'thankyou' );
-            $this->_showHide->addHide( 'registration_show' );
+            $this->_showHide->addHide( 'registration_screen_show' );
             $this->_showHide->addHide( 'confirm_show' );            
             $this->_showHide->addHide( 'mail_show' );
             $this->_showHide->addHide( 'thankyou_show' );
@@ -172,7 +173,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     function buildConfirmationBlock( $form) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
-        $form->add('text','confirm_title',ts('Title '), $attributes['confirm_title'], true);   
+        $form->add('text','confirm_title',ts('Title '), $attributes['confirm_title']);
         $form->add('textarea','confirm_text',ts('Introductory Text'), $attributes['confirm_text']);
         $form->add('textarea','confirm_footer_text',ts('Footer Text'), $attributes['confirm_footer_text']);     
     }
@@ -200,9 +201,9 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     function buildThankYouBlock( $form) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
-        $form->add('text','thankyou_title',ts('Title '), $attributes['thankyou_title'], true);   
+        $form->add('text','thankyou_title',ts('Title '), $attributes['thankyou_title']);
         $form->add('textarea','thankyou_text',ts('Introductory Text'), $attributes['thankyou_text']);
-        $form->add('textarea','thankyou_footer_text',ts('Footer Text'), $attributes['thankyou_footer_text']);     
+        $form->add('textarea','thankyou_footer_text',ts('Footer Text'), $attributes['thankyou_footer_text']);
     }
     /**
      * Add local and global form rules
@@ -227,19 +228,23 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     static function formRule( &$values ) 
     {
         if ( $values['is_online_registration'] ) {
-            if ( $values['is_email_confirm'] && !$values['confirm_email_text'] ) {
-                $errorMsg['confirm_email_text'] = ts("Please enter Email Confirmation text.");
+            if ( !$values['confirm_title'] ) {
+                $errorMsg['confirm_title'] = ts("Please enter a Title for the registration Confirmation Page");
             }
-        }
-        
-        if ( $values['is_email_confirm'] ) { 
-            if ( !$values['confirm_from_name'] ) {
-                $errorMsg['confirm_from_name'] = ts("Please enter Confirmation Email FROM Name.");
-            } 
-            
-            if ( !$values['confirm_from_email'] ) {
-                $errorMsg['confirm_from_email'] = ts("Please enter Confirmation Email FROM email address.");
+            if ( !$values['thankyou_title'] ) {
+                $errorMsg['thankyou_title'] = ts("Please enter a Title for the registration Thank-you Page");
             }
+            if ( $values['is_email_confirm'] ) { 
+                if ( !$values['confirm_from_name'] ) {
+                    $errorMsg['confirm_from_name'] = ts("Please enter Confirmation Email FROM Name.");
+                } 
+                
+                if ( !$values['confirm_from_email'] ) {
+                    $errorMsg['confirm_from_email'] = ts("Please enter Confirmation Email FROM Email Address.");
+                }
+            }
+        } else if ( $values['is_email_confirm'] ) {
+            $errorMsg['is_email_confirm'] = ts("Automated confirmation emails are only sent for online registrations. Please disable Email Confirmations or enable Online Registration."); 
         }
         
         if ( !empty($errorMsg) ) {
