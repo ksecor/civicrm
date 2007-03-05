@@ -322,7 +322,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contactType = 'Individual', $status = null, $onlyParticipant = false ) 
+    function &importableFields( $contactType = 'Individual', $status = true, $onlyParticipant = false ) 
     {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
@@ -330,8 +330,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             }
 
             if ( !$onlyParticipant ) {
-
-                if (!$status) {
+                if ( !$status ) {
                     $fields = array( '' => array( 'title' => ts('- do not import -') ) );
                 } else {
                     $fields = array( '' => array( 'title' => ts('- Participant Fields -') ) );
@@ -361,7 +360,13 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                 if( is_array($fieldsArray) ) {
                     foreach ( $fieldsArray as $value) {
                         $tmpConatctField[trim($value)] = $contactFields[trim($value)];
-                        $tmpConatctField[trim($value)]['title'] = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                        if (!$status) {
+                            $title = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                        } else {
+                            $title = $tmpConatctField[trim($value)]['title'];
+                        }
+                        
+                        $tmpConatctField[trim($value)]['title'] = $title;
                     }
                 }
             }

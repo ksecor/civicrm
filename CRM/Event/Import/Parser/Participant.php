@@ -78,7 +78,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
     function init( )
     {
         require_once 'CRM/Event/BAO/Participant.php';
-        $fields =& CRM_Event_BAO_Participant::importableFields( $this->_contactType );
+        $fields =& CRM_Event_BAO_Participant::importableFields( $this->_contactType, false );
         
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern']);
@@ -268,7 +268,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             static $cIndieFields = null;
             if ($cIndieFields == null) {
                 require_once 'CRM/Contact/BAO/Contact.php';
-                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType, null );
+                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType);
                 $cIndieFields = $cTempIndieFields;
             }
             
