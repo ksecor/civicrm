@@ -29,7 +29,7 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Role for the participant (if applicable).{/ts}</td></tr>
         
         <tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
-    	{if $hideCalender neq true}
+    	{if $hideCalender neq true}<br />
 	      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event}
     	  {include file="CRM/common/calendar/body.tpl" dateVar=register_date  offset=3 doTime=1  trigger=trigger_event}       
 	    {/if}    
