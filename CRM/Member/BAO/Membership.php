@@ -208,6 +208,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                                          'membership_type_id'
                                                          );
         
+        require_once 'CRM/Member/BAO/MembershipType.php';
         $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeId ); 
 
         if ( $membershipType['relationship_type_id'] ) {

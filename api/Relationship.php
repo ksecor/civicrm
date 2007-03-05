@@ -107,8 +107,16 @@ function crm_create_relationship($contact =null, $target_contact= null, $relatio
         return _crm_error('Duplicate relationship');
     }
 
+    $relationship = CRM_Contact_BAO_Relationship::add($params, $ids, $targetContact);
+        
+    $config   =& CRM_Core_Config::singleton( );
+    if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
+        CRM_Contact_BAO_Relationship::relatedMemberships( $contact->contact_id,
+                                                          $params, $ids,
+                                                          CRM_Core_Action::ADD );
+    }
     
-    return CRM_Contact_BAO_Relationship::add($params, $ids,$targetContact);
+    return $relationship;
     
 }
 
@@ -177,7 +185,7 @@ function crm_get_relationships($contact_a,
  * @param object $relationship_type       An array of Relationship_type objects.
  *
  *
- * @return null if successfull 
+ * @return null if successful
  * 
  * @access public
  *
@@ -196,7 +204,15 @@ function crm_delete_relationship(&$contact, &$target_contact, $relationship_type
     if (!is_array($relationship_type)) {
         return _crm_error('$relationship_type is not array of relationship type objects');
     }
-   
+    
+    $config   =& CRM_Core_Config::singleton( );
+    if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
+        $params = $ids = array( );
+        CRM_Contact_BAO_Relationship::relatedMemberships( $contact->contact_id,
+                                                          $params, $ids,
+                                                          CRM_Core_Action::DELETE );
+    }
+    
     foreach ($relationship_type as $rel ) {
         $relationShip =  & new CRM_Contact_DAO_Relationship();
      
@@ -286,9 +302,19 @@ function crm_update_relationship(&$relationship, $params )
     $ids['relationship'] = $relationship->id;
     $ids['contactTarget'] = $relationship->contact_id_b;
     
+    $relationship = CRM_Contact_BAO_Relationship::add($params, $ids,$conactId);
     
-    return CRM_Contact_BAO_Relationship::add($params, $ids,$conactId);
-
+    $config   =& CRM_Core_Config::singleton( );
+    if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
+        
+        $params['contact_check'] = array( $relationship->contact_id_b => 1 );
+        
+        CRM_Contact_BAO_Relationship::relatedMemberships( $relationship->contact_id_a,
+                                                          $params, $ids,
+                                                          CRM_Core_Action::ADD );
+    }
+    
+    return $relationship;
 }
 
 ?>

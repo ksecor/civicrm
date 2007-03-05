@@ -717,7 +717,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         return $relationshipType;
     }
     
-    static function relatedMemberships( $contactId, &$params, $ids, $action=1 )
+    static function relatedMemberships( $contactId, &$params, $ids, $action = CRM_Core_Action::ADD )
     {
         $memParams        = array( 'contact_id' => $contactId);
         $memberships   = array();
@@ -732,7 +732,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         
         require_once 'CRM/Member/BAO/MembershipType.php';
         foreach( $memberships as $membershipId => $values ) {
-            if ( $action & CRM_Core_Action::ADD ) {
+            if ( ( $action & CRM_Core_Action::ADD    ) ||
+                 ( $action & CRM_Core_Action::UPDATE ) ) {
                 $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $values['membership_type_id'] );
                 if( $params['relationship_type_id'] == $membershipType['relationship_type_id'] . "_" . $membershipType['relationship_direction'] ) {
                     $values['owner_membership_id'] = $membershipId;
@@ -747,7 +748,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                     }
                 }
             } else if ( $action & CRM_Core_Action::DELETE ) {
-                CRM_Member_BAO_Membership::deleteRelatedMembership( $membershipId );
+                CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
             }
         }
     }
