@@ -176,30 +176,42 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             if( $val ) {
                 switch( $key ) {
                 case  'receive_date': 
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                    if (! CRM_Utils_Rule::date($params[$key])) {
-                        //return _crm_error('Invalid value for field  : Receive Date');
+                    if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
+                        if (! CRM_Utils_Rule::date($params[$key])) {
+                            //return _crm_error('Invalid value for field  : Receive Date');
+                            CRM_Import_Parser_Contact::addToErrorMsg('Receive Date', $errorMessage);
+                        }
+                    } else {
                         CRM_Import_Parser_Contact::addToErrorMsg('Receive Date', $errorMessage);
                     }
                     break;
                 case  'cancel_date': 
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                    if (! CRM_Utils_Rule::date($params[$key])) {
-                        //return _crm_error('Invalid value for field  : Cancel Date');
+                    if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
+                        if (! CRM_Utils_Rule::date($params[$key])) {
+                            //return _crm_error('Invalid value for field  : Cancel Date');
+                            CRM_Import_Parser_Contact::addToErrorMsg('Cancel Date', $errorMessage);
+                        }
+                    } else {
                         CRM_Import_Parser_Contact::addToErrorMsg('Cancel Date', $errorMessage);
                     }
                     break;
                 case  'receipt_date': 
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                    if (! CRM_Utils_Rule::date($params[$key])) {
-                        //return _crm_error('Invalid value for field  : Activity Date');
+                    if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
+                        if (! CRM_Utils_Rule::date($params[$key])) {
+                            //return _crm_error('Invalid value for field  : Activity Date');
+                            CRM_Import_Parser_Contact::addToErrorMsg('Receipt date', $errorMessage);
+                        }
+                    } else {
                         CRM_Import_Parser_Contact::addToErrorMsg('Receipt date', $errorMessage);
                     }
                     break;
                 case  'thankyou_date': 
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                    if (! CRM_Utils_Rule::date($params[$key])) {
-                        //return _crm_error('Invalid value for field  : Thankyou Date');
+                    if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
+                        if (! CRM_Utils_Rule::date($params[$key])) {
+                            //return _crm_error('Invalid value for field  : Thankyou Date');
+                            CRM_Import_Parser_Contact::addToErrorMsg('Thankyou Date', $errorMessage);
+                        }
+                    } else {
                         CRM_Import_Parser_Contact::addToErrorMsg('Thankyou Date', $errorMessage);
                     }
                     break;

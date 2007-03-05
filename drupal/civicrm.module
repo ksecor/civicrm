@@ -338,13 +338,18 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
     // make sure the system is initialized
     civicrm_initialize( );
 
+    //check for required civicrm permissions
+    require_once "CRM/Core/Permission.php";
+    if ( ! CRM_Core_Permission::check( 'profile listings and forms' ) ){
+        return;
+    }
+
     switch ( $type ) {
-        
+
     case 'login':
         require_once 'CRM/Core/BAO/UFMatch.php';
         return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
                                                   civicrm_get_ctype( 'Individual' ) );
-
     case 'register':
         $config =& CRM_Core_Config::singleton( );
         if ( empty( $_POST ) || $config->userFrameworkVersion < 4.7 ) {

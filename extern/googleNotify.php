@@ -108,99 +108,47 @@ switch ($root) {
      break;
  }
  case "merchant-calculation-callback": {
-     // Create the results and send it
-     $merchant_calc = new GoogleMerchantCalculations();
-     
-     // Loop through the list of address ids from the callback
-     $addresses = get_arr_result($data[$root]['calculate']['addresses']['anonymous-address']);
-     foreach($addresses as $curr_address) {
-         $curr_id = $curr_address['id'];
-         $country = $curr_address['country-code']['VALUE'];
-         $city = $curr_address['city']['VALUE'];
-         $region = $curr_address['region']['VALUE'];
-         $postal_code = $curr_address['region']['VALUE'];
-         
-         // Loop through each shipping method if merchant-calculated shipping
-         // support is to be provided
-         if(isset($data[$root]['calculate']['shipping'])) {
-             $shipping = get_arr_result($data[$root]['calculate']['shipping']['method']);
-             foreach($shipping as $curr_ship) {
-                 $name = $curr_ship['name'];
-                 //Compute the price for this shipping method and address id
-                 $price = 10; // Modify this to get the actual price
-                 $shippable = "true"; // Modify this as required
-                 $merchant_result = new GoogleResult($curr_id);
-                 $merchant_result->SetShippingDetails($name, $price, "USD",
-                                                      $shippable);
-                 
-                 if($data[$root]['calculate']['tax']['VALUE'] == "true") {
-                     //Compute tax for this address id and shipping type
-                     $amount = 15; // Modify this to the actual tax value
-                     $merchant_result->SetTaxDetails($amount, "USD");
-                 }
-                 
-                 $codes = get_arr_result($data[$root]['calculate']['merchant-code-strings']
-                                         ['merchant-code-string']);
-                 foreach($codes as $curr_code) {
-                     //Update this data as required to set whether the coupon is valid, the code and the amount
-                     $coupons = new GoogleCoupons("true", $curr_code['code'], 5, "USD", "test2");
-                     $merchant_result->AddCoupons($coupons);
-                 }
-                 $merchant_calc->AddResult($merchant_result);
-             }
-         } else {
-             $merchant_result = new GoogleResult($curr_id);
-             if($data[$root]['calculate']['tax']['VALUE'] == "true") {
-                 //Compute tax for this address id and shipping type
-                 $amount = 15; // Modify this to the actual tax value
-                 $merchant_result->SetTaxDetails($amount, "USD");
-             }
-             $codes = get_arr_result($data[$root]['calculate']['merchant-code-strings']
-                                     ['merchant-code-string']);
-             foreach($codes as $curr_code) {
-                 //Update this data as required to set whether the coupon is valid, the code and the amount
-                 $coupons = new GoogleCoupons("true", $curr_code['code'], 5, "USD", "test2");
-                 $merchant_result->AddCoupons($coupons);
-             }
-             $merchant_calc->AddResult($merchant_result);
-         }
-     }
-     fwrite($message_log, sprintf("\n\r%s:- %s\n",date("D M j G:i:s T Y"),
-                                  $merchant_calc->GetXML()));
-     $response->ProcessMerchantCalculations($merchant_calc);
      break;
  }
  case "new-order-notification": {
      $response->SendAck();
+     newOrderNotify($data[$root]);
+
      break;
  }
  case "order-state-change-notification": {
      $response->SendAck();
      $new_financial_state = $data[$root]['new-financial-order-state']['VALUE'];
      $new_fulfillment_order = $data[$root]['new-fulfillment-order-state']['VALUE'];
-     
+
      switch($new_financial_state) {
      case 'REVIEWING': {
          break;
      }
      case 'CHARGEABLE': {
-//          fwrite($message_log, ' ____________________Sending process & charge order_______________________');
-//          $response->SendProcessOrder($data[$root]['google-order-number']['VALUE'], 
-//                                      $message_log);
-//          $response->SendChargeOrder($data[$root]['google-order-number']['VALUE'], 
-//                                     3, $message_log);
+         $orderNo = $data[$root]['google-order-number']['VALUE'];
+         $amount = getAmount($orderNo);
+         if ($amount) {
+             $response->SendChargeOrder($data[$root]['google-order-number']['VALUE'], 
+                                        $amount, $message_log);
+             $response->SendProcessOrder($data[$root]['google-order-number']['VALUE'], 
+                                         $message_log);
+         }
          break;
      }
      case 'CHARGING': {
          break;
      }
      case 'CHARGED': {
+         orderStateChange('CHARGED', $data[$root]);
          break;
         }
      case 'PAYMENT_DECLINED': {
+         orderStateChange('PAYMENT_DECLINED', $data[$root]);
          break;
      }
      case 'CANCELLED': {
+         orderStateChange('CANCELLED', $data[$root]);
          break;
      }
      case 'CANCELLED_BY_GOOGLE': {
@@ -235,6 +183,9 @@ switch ($root) {
      //    <carrier>, <tracking-number>, <send-email>, $message_log);
      //$response->SendArchiveOrder($data[$root]['google-order-number']['VALUE'], 
      //    $message_log);
+
+//      $response->SendDeliverOrder($data[$root]['google-order-number']['VALUE'], 
+//                                  'UPS', 'Z9842W69871281267', "false", $message_log);
      break;
  }
  case "chargeback-amount-notification": {
@@ -279,5 +230,212 @@ function get_arr_result($child_node) {
 /* Returns true if a given variable represents an associative array */
 function is_associative_array( $var ) {
     return is_array( $var ) && !is_numeric( implode( '', array_keys( $var ) ) );
+}
+
+function stringToArray($str) {
+    $vars = $labels = array();
+    $labels = explode(',', $str);
+    foreach ($labels as $label) {
+        $terms = explode('=', $label);
+        $vars[$terms[0]] = $terms[1];
+    }
+    return $vars;
+}
+
+function newOrderNotify($dataRoot) {
+    $params = $dataRoot['shopping-cart']['merchant-private-data']['VALUE'];
+    $params = stringToArray($params);
+    
+    $contactID          = $params['contactID'];
+    $contributionID     = $params['contributionID'];
+    
+    // make sure contact exists and is valid
+    require_once 'CRM/Contact/DAO/Contact.php';
+    $contact =& new CRM_Contact_DAO_Contact( );
+    $contact->id = $contactID;
+    if ( ! $contact->find( true ) ) {
+        CRM_Core_Error::debug_log_message( "Could not find contact record: $contactID" );
+        echo "Failure: Could not find contact record: $contactID<p>";
+        return;
+    }
+    
+    // make sure contribution exists and is valid
+    require_once 'CRM/Contribute/DAO/Contribution.php';
+    $contribution =& new CRM_Contribute_DAO_Contribution( );
+    $contribution->id = $contributionID;
+    if ( ! $contribution->find( true ) ) {
+        CRM_Core_Error::debug_log_message( "Could not find contribution record: $contributionID" );
+        echo "Failure: Could not find contribution record for $contributionID<p>";
+        return;
+    }
+    
+    // make sure the invoice is valid and matches what we have in the contribution record
+    $invoice = $params['invoiceID'];
+    if ( $contribution->invoice_id != $invoice ) {
+        CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
+        echo "Failure: Invoice values dont match between database and IPN request<p>";
+        return;
+    } else {
+        // lets replace invoice-id with google-order-number because thats what is common and unique in subsequent call or notification send by google.
+        $contribution->invoice_id = $dataRoot['google-order-number']['VALUE'];
+    }
+    
+    $now = date( 'YmdHis' );
+    $amount =  $dataRoot['order-total']['VALUE'];
+    if ( $contribution->total_amount != $amount ) {
+        CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
+        echo "Failure: Amount values dont match between database and IPN request<p>";
+        return;
+    }
+    
+    // ok we are done with error checking, now let the real work begin
+    // update the contact record with the name and address
+    $params = array( );
+    $lookup = array( 'first_name'     => 'contact-name',
+                     'last_name'      => 'last_name' , // not available with google (every thing in contact-name)
+                     'street_address' => 'address1',
+                     'city'           => 'city',
+                     'state'          => 'region',
+                     'postal_code'    => 'postal-code',
+                     'country'        => 'country-code' );
+    foreach ( $lookup as $name => $googleName ) {
+        $value = $dataRoot['buyer-billing-address'][$googleName]['VALUE'];
+        if ( $value ) {
+            $params[$name] = $value;
+        } else {
+            $params[$name] = null;
+        }
+    }
+    
+    if ( ! empty( $params ) ) {
+        // update contact record
+        $idParams = array( 'id'         => $contactID, 
+                           'contact'    => $contactID );
+        $ids = $defaults = array( );
+        require_once "CRM/Contact/BAO/Contact.php";
+        CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+        $contact = CRM_Contact_BAO_Contact::createFlat($params, $ids );
+    }
+    
+    // lets keep this the same
+    $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
+
+    // check if contribution is already completed, if so we ignore this ipn
+    if ( $contribution->contribution_status_id == 1 ) {
+        CRM_Core_Error::debug_log_message( "returning since contribution has already been handled" );
+        echo "Success: Contribution has already been handled<p>";
+        return;
+    }
+    
+    $contribution->save( );
+}
+function getAmount($orderNo) {
+    require_once 'CRM/Contribute/DAO/Contribution.php';
+    $contribution =& new CRM_Contribute_DAO_Contribution( );
+    $contribution->invoice_id = $orderNo;
+    if ( ! $contribution->find( true ) ) {
+        CRM_Core_Error::debug_log_message( "Could not find contribution record with invoice id: $orderNo" );
+        echo "Failure: Could not find contribution record with invoice id: $orderNo <p>";
+        return;
+    }
+    return $contribution->total_amount;
+}
+function orderStateChange($status, $dataRoot) {
+    $orderNo = $dataRoot['google-order-number']['VALUE'];
+
+    require_once 'CRM/Contribute/DAO/Contribution.php';
+    $contribution =& new CRM_Contribute_DAO_Contribution( );
+    $contribution->invoice_id = $orderNo;
+    if ( ! $contribution->find( true ) ) {
+        CRM_Core_Error::debug_log_message( "Could not find contribution record with invoice id: $orderNo" );
+        echo "Failure: Could not find contribution record with invoice id: $orderNo <p>";
+        return;
+    }
+
+    if ( $status == 'PAYMENT_DECLINED' || $status == 'CANCELLED_BY_GOOGLE' || $status == 'CANCELLED' ) {        $contribution->contribution_status_id = 4;
+        $contribution->save( );
+        CRM_Core_DAO::transaction( 'COMMIT' );
+        CRM_Core_Error::debug_log_message( "Setting contribution status to failed" );
+        echo "Success: Setting contribution status to failed<p>";
+        return;
+    }
+
+    require_once 'CRM/Contribute/DAO/ContributionType.php';
+    $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+    $contributionType->id = $contribution->contribution_type_id;
+    if ( ! $contributionType->find( true ) ) {
+        CRM_Core_Error::debug_log_message( "Could not find contribution type record: $contributionTypeID" );
+        echo "Failure: Could not find contribution type record for $contributionTypeID<p>";
+        return;
+    }
+    
+    // lets start since payment has been made
+    $now = date( 'YmdHis' );
+    $amount = $contribution->total_amount;
+
+    require_once 'CRM/Contribute/BAO/ContributionPage.php';
+    CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
+    
+    $contribution->contribution_status_id  = 1;
+    $contribution->source                  = ts( 'Online Contribution:' ) . ' ' . $values['title'];
+    //$contribution->is_test    = $privateData['test'] ? 1 : 0; //since this is done before checkout
+    $contribution->fee_amount = $dataRoot['fee_amount']['VALUE']; //not available
+    $contribution->net_amount = $dataRoot['net_amount']['VALUE']; //not available
+    $contribution->trxn_id    = $dataRoot['trnx_id']['VALUE'];    //not available
+    
+    if ( $values['is_email_receipt'] ) {
+        $contribution->receipt_date = $now;
+    }
+    
+    CRM_Core_DAO::transaction( 'BEGIN' );
+    
+    $contribution->save( );
+    
+    $config =& CRM_Core_Config::singleton( );
+    
+    // next create the transaction record
+    $trxnParams = array(
+                        'entity_table'      => 'civicrm_contribution',
+                        'entity_id'         => $contribution->id,
+                        'trxn_date'         => $now,
+                        'trxn_type'         => 'Debit',
+                        'total_amount'      => $amount,
+                        'fee_amount'        => $contribution->fee_amount,
+                        'net_amount'        => $contribution->net_amount,
+                        'currency'          => $contribution->currency,
+                        'payment_processor' => $config->paymentProcessor,
+                        'trxn_id'           => $contribution->trxn_id,
+                        );
+    
+    require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
+    $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
+    
+    // get the title of the contribution page
+    $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                          $contribution->contribution_page_id,
+                                          'title' );
+    
+    require_once 'CRM/Utils/Money.php';
+    $formattedAmount = CRM_Utils_Money::format($amount);
+    
+    // also create an activity history record
+    $ahParams = array('entity_table'     => 'civicrm_contact', 
+                      'entity_id'        => $contactID, 
+                      'activity_type'    => $contributionType->name,
+                      'module'           => 'CiviContribute', 
+                      'callback'         => 'CRM_Contribute_Page_Contribution::details',
+                      'activity_id'      => $contribution->id, 
+                      'activity_summary' => "$formattedAmount - $title (online)",
+                      'activity_date'    => $now,
+                      );
+    
+    require_once 'api/History.php';
+    if ( is_a( crm_create_activity_history($ahParams), 'CRM_Core_Error' ) ) { 
+        CRM_Core_Error::debug_log_message( "error in updating activity" );
+    }
+
+    //need to update membership record.
+    CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
+    CRM_Core_DAO::transaction( 'COMMIT' );
 }
 ?>

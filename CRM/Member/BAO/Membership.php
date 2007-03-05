@@ -71,7 +71,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      * @static
      */
-    static function add(&$params, &$ids) {
+    static function add(&$params, &$ids) 
+    {
         require_once 'CRM/Utils/Hook.php';
         
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
@@ -97,7 +98,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                'status_id'     => $result->status_id,
                                'start_date'    => $result->start_date,
                                'end_date'      => $result->end_date,
-                               'modified_id'   => $session->get('userID'),
+                               'modified_id'   => $ids['userId'],
                                'modified_date' => date('Ymd')
                                );
         require_once 'CRM/Member/BAO/MembershipLog.php';
@@ -125,8 +126,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids ) {
-        
+    static function &getValues( &$params, &$values, &$ids ) 
+    {
         $membership =& new CRM_Member_BAO_Membership( );
         
         $membership->copyValues( $params );
@@ -153,7 +154,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids) {
+    static function &create(&$params, &$ids) 
+    {
         require_once 'CRM/Utils/Date.php';
 
         CRM_Core_DAO::transaction('BEGIN');
@@ -191,39 +193,48 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     }
     
     /**
+     * Function to check the membership extended through relationship
      * 
-     * 
-     * @param int $membershipId 
+     * @param int $membershipId membership id
+     * @param int $contactId    contact id
      *
      * @return Array    array of contact_id of all related contacts.
      * @static
      */
     static function checkMembershipRelationship( $membershipId, $contactId ) 
     {
-        $membershipTypeId = CRM_Core_DAO::getFieldValue( 
-                                                        'CRM_Member_DAO_Membership',
-                                                        $membershipId,
-                                                        'membership_type_id'
-                                                        );
+        $membershipTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership',
+                                                         $membershipId,
+                                                         'membership_type_id'
+                                                         );
+        
         $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeId ); 
-        
+
         if ( $membershipType['relationship_type_id'] ) {
-            $relationships = CRM_Contact_BAO_Relationship::getRelationship( 
-                                                              $contactId,
-                                                              CRM_Contact_BAO_Relationship::CURRENT
-                                                              );
+            $relationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
+                                                                            CRM_Contact_BAO_Relationship::CURRENT
+                                                                            );
         }
+ 
+        require_once "CRM/Contact/BAO/RelationshipType.php";
+        $contacts = array( );
         
-        $contacts = array();
-        
+        // check for each contact relationships
         foreach ( $relationships as $values) {
-            if ( ($values['civicrm_relationship_type_id'] == $membershipType['relationship_type_id']   ) && 
-                 ($values['rtype']                        == $membershipType['relationship_direction'] )
-                 ) {
+            //get details of the relationship type
+            $relType   = array( 'id' => $values['civicrm_relationship_type_id'] );
+            $relValues = array( );
+            CRM_Contact_BAO_RelationshipType::retrieve( $relType, $relValues);
+
+            // 1. Check if contact and membership type relationship type are same
+            // 2. Check if relationship direction is same or name_a_b = name_b_a
+            if ( ( $values['civicrm_relationship_type_id'] == $membershipType['relationship_type_id'] )
+                 && ( ( $values['rtype'] == $membershipType['relationship_direction'] ) ||
+                      ( $relValues['name_a_b'] == $relValues['name_b_a'] ) ) ) {
                 $contacts[] = $values['cid'];
             }
         }
-        
+
         return $contacts;
     }
     
@@ -242,7 +253,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults ) {
+    static function retrieve( &$params, &$defaults ) 
+    {
         $membership =& new CRM_Member_DAO_Membership( );
         $membership->copyValues( $params );
         $idList = array('membership_type' => 'MembershipType',
@@ -269,13 +281,16 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         return null;
     }
 
-    /** Function to delete membership.
+    /** 
+     * Function to delete membership.
      * 
+     * @param int $membershipId membership id that needs to be deleted 
+     *
      * @static
      * @access public
      */
-    static function deleteMembership( $membershipId ) {
-        
+    static function deleteMembership( $membershipId ) 
+    {
         require_once 'CRM/Member/BAO/MembershipLog.php';
         CRM_Member_BAO_MembershipLog::del($membershipId);
 
@@ -287,29 +302,21 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         require_once 'CRM/Member/DAO/Membership.php';
         $membership = & new CRM_Member_DAO_Membership( );
         $membership->id = $membershipId;
-        $count = $membership->delete( );
-        
-        // Changing the "return true" to "return count".
-        // Reason for change is "return true" can not be used to check 
-        // whether membership deleted or not. 
-        // ( The returned value is always true even in case no membership deleted. )
-        return $count;
-        //return true;
+        return $membership->delete( );
     }
-    
 
     /**                                                           
      * Delete the object records that are associated with this contact 
      *                    
      * @param  int  $contactId id of the contact to delete 
-     *
-     * @userId int  $userID of the Logged-in id of the Civicrm.                                                                          
+     * @userId int  $userID of the Logged-in id of the Civicrm.
      * 
      * @return boolean  true if deleted, false otherwise
      * @access public 
      * @static 
      */ 
-    static function deleteContact( $contactID, $userID = null ) {
+    static function deleteContact( $contactID, $userID = null ) 
+    {
         $membership =& new CRM_Member_DAO_Membership( );
         $membership->contact_id = $contactID;
         $membership->find( );
@@ -341,12 +348,19 @@ UPDATE civicrm_membership_type
 
 
 
-    /** Function to obtain active/inactive memberships from the list of memberships passed to it.
+    /** 
+     * Function to obtain active/inactive memberships from the list of memberships passed to it.
      * 
+     * @param int    $contactId   contact id
+     * @param array  $memberships membership records
+     * @param string $status      active or inactive
+     *
+     * @return array $actives array of memberships based on status
      * @static
      * @access public
      */
-    static function activeMembers( $contactId, $memberships, $status = 'active' ) {
+    static function activeMembers( $contactId, $memberships, $status = 'active' ) 
+    {
         $actives = array();
         if ( $status == 'active' ) {
             foreach ($memberships as $f => $v) {
@@ -366,26 +380,30 @@ UPDATE civicrm_membership_type
         return null;
     }
 
-
     /**
      * Function to build Membership  Block im Contribution Pages 
      * 
-     * @param int $pageId 
+     * @param object  $form                  form object
+     * @param int     $pageId                contribution page id
+     * @param boolean $formItems
+     * @param int     $selectedMembershipID  selected membership id
+     * @param boolean $thankPage             thank you page
+     *
      * @static
      */
-    function buildMembershipBlock( &$form , $pageID , $formItems = false, $selectedMembershipID = null ,$thankPage = false ) {
+    function buildMembershipBlock( &$form , $pageID , $formItems = false, $selectedMembershipID = null ,$thankPage = false )
+    {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
         require_once 'CRM/Member/DAO/MembershipType.php';
         require_once 'CRM/Member/DAO/Membership.php';
 
         $session = & CRM_Core_Session::singleton();
-        $cid = $session->get('userID');
-        
+        $cid = $session->get('userID');    
 
-        $membershipBlock   = array(); 
-        $membershipTypeIds = array();
-        $membershipTypes   = array(); 
-        $radio             = array(); 
+        $membershipBlock   = array( ); 
+        $membershipTypeIds = array( );
+        $membershipTypes   = array( ); 
+        $radio             = array( ); 
 
         $dao = & new CRM_Member_DAO_MembershipBlock();
         $dao->entity_table = 'civicrm_contribution_page';
@@ -463,10 +481,12 @@ UPDATE civicrm_membership_type
     /**
      * Function to return Membership  Block info in Contribution Pages 
      * 
-     * @param int $pageId 
+     * @param int $pageId contribution page id
+     *
      * @static
      */
-    static function getMembershipBlock( $pageID ) {
+    static function getMembershipBlock( $pageID ) 
+    {
         $membershipBlock = array();
         require_once 'CRM/Member/DAO/MembershipBlock.php';
         $dao = & new CRM_Member_DAO_MembershipBlock();
@@ -486,10 +506,11 @@ UPDATE civicrm_membership_type
     /**
      * Function to return current membership of given contacts 
      * 
-     * @param int $contactID  
+     * @param int $contactID  contact id
      * @static
      */
-    static function getContactMembership( $contactID , $memType ) {
+    static function getContactMembership( $contactID , $memType ) 
+    {
         require_once 'CRM/Member/DAO/MembershipStatus.php';
         $membership = array();
         $dao = &new CRM_Member_DAO_Membership();
@@ -510,12 +531,16 @@ UPDATE civicrm_membership_type
     }
 
     /**
-     * combine all the importable fields from the lower levels object
+     * Combine all the importable fields from the lower levels object
+     *
+     * @param string  $contactType contact type
+     * @param boolean $status      
      *
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contactType = 'Individual', $status = null ) {
+    function &importableFields( $contactType = 'Individual', $status = null ) 
+    {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
                 self::$_importableFields = array();
@@ -528,12 +553,6 @@ UPDATE civicrm_membership_type
             }
             
             $tmpFields     = CRM_Member_DAO_Membership::import( );
-            //$tmpFields     = array_merge($tmpFields, CRM_Member_DAO_MembershipType::import( ));
-            //print_r($tmpFields);
-            //unset($tmpFields['option_value']);
-            //require_once 'CRM/Core/OptionValue.php';
-            //$optionFields = CRM_Core_OptionValue::getFields($mode ='member' );
-            //$contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
             if ($contactType == 'Individual') {
                 require_once 'CRM/Core/DAO/DupeMatch.php';
@@ -554,17 +573,20 @@ UPDATE civicrm_membership_type
             }
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
-            //$fields = array_merge($fields, $optionFields);
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));
             self::$_importableFields = $fields;
         }
         return self::$_importableFields;
     }
 
-    function &exportableFields( ) { 
-//         require_once 'CRM/Member/DAO/Membership.php';
-//         require_once 'CRM/Member/DAO/MembershipType.php';
-        //$impFields = self::importableFields( );
+    /**
+     * function to get all exportable fields
+     *
+     * @retun array return array of all exportable fields
+     */
+    function &exportableFields( ) 
+    { 
+        require_once 'CRM/Member/DAO/MembershipType.php';
         $expFieldMembership = CRM_Member_DAO_Membership::export( );
         $expFieldsMemType   = CRM_Member_DAO_MembershipType::export( );
         $fields = array_merge($expFieldMembership, $expFieldsMemType);
@@ -572,7 +594,16 @@ UPDATE civicrm_membership_type
         return $fields;
     }
     
-    function getMembershipSummary( $membershipTypeId ,$membershipTypeName = null) {
+    /**
+     * Function to get membership summary
+     * 
+     * @param int    $membershipTypeId   membership type id
+     * @param string $membershipTypeName membership type name
+     *
+     * @return returns memberhsip summary
+     */
+    function getMembershipSummary( $membershipTypeId ,$membershipTypeName = null) 
+    {
         $membershipSummary = array();
         $queryString =  "SELECT  count( id ) as total_count
 FROM   civicrm_membership
@@ -615,7 +646,14 @@ civicrm_membership_status.is_current_member =1";
         return $membershipSummary;
     }
     
-    function statusAvilability($contactId) 
+    /** 
+     * Function check the status of the membership before adding membership for a contact
+     *
+     * @param int $contactId contact id
+     *
+     * @return 
+     */
+    function statusAvilability( $contactId ) 
     {
         require_once 'CRM/Member/DAO/MembershipStatus.php';
         $membership =& new CRM_Member_DAO_MembershipStatus( );
@@ -630,7 +668,11 @@ civicrm_membership_status.is_current_member =1";
     }
 
     /**
-     * Process the form
+     * Process the Memberships
+     *
+     * @param array  $membershipParams array of membership fields
+     * @param int    $contactID        contact id 
+     * @param object $form             form object  
      *
      * @return void
      * @access public
@@ -730,7 +772,7 @@ civicrm_membership_status.is_current_member =1";
         
         $index = $memBlockDetails['is_separate_payment'] ? 2 : 1;
 
-        if ( ! $errors[$index] ){
+        if ( !$errors[$index] ){
             if ( $currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID,  $membershipID) ) {
                 $form->set("renewal_mode", true );
                 if ( ! $currentMembership['is_current_member'] ) {
@@ -780,9 +822,7 @@ civicrm_membership_status.is_current_member =1";
                     $dao->save();
                     $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
                     $form->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
-                    
                 }
-                
             } else {
                 require_once 'CRM/Member/BAO/MembershipStatus.php';
                 $memParams = array();
@@ -853,5 +893,25 @@ WHERE mp.payment_entity_table ='civicrm_contribute'
         
         return $contributionPageId;
     }
+
+    /**
+     * Function to delete related memberships
+     *
+     * @param int $ownerMembershipId
+     *
+     * @return null
+     * @static
+     */
+    static function deleteRelatedMemberships( $ownerMembershipId ) 
+    {
+        $membership = & new CRM_Member_DAO_Membership( );
+        $membership->owner_membership_id = $ownerMembershipId;
+
+        $membership->find( );
+        while ( $membership->fetch( ) ) {
+            self::deleteMembership( $membership->id ) ;
+        }
+    }
+
 }
 ?>

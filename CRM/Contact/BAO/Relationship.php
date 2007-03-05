@@ -37,7 +37,8 @@
 require_once 'CRM/Contact/DAO/Relationship.php';
 require_once 'CRM/Contact/DAO/RelationshipType.php';
 
-class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
+class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship 
+{
     /**
      * various constants to indicate different type of relationships
      *
@@ -206,21 +207,24 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     /**
      * Function to get get list of relationship type based on the contact type.
      *
-     * @param int    $contactId this is the contact id of the current contact.
-     * @param string $strContact it's  values are 'a or b' if value is 'a' then selected contact is the value of contac_id_a 
-     *               for the relationship and if value is 'b' then selected contact is the value of contac_id_b for the relationship
-     * @param string $relationshipId the id of the existing relationship if any
-     * @param string $contactType contact type
+     * @param int     $contactId      this is the contact id of the current contact.
+     * @param string  $strContact     it's  values are 'a or b' if value is 'a' then selected contact is the
+     *                                value of contac_id_a for the relationship and if value is 'b' 
+                                      then selected contact is the value of contac_id_b for the relationship
+     * @param string  $relationshipId the id of the existing relationship if any
+     * @param string  $contactType    contact type
+     * @param boolean $all            if true returns relationship types in both the direction
+     *
      * @access public
      * @static
      *
      * @return array - array reference of all relationship types with context to current contact.
-     *
      */
-    function getContactRelationshipType( $contactId = null, $contactSuffix, $relationshipId, $contactType = null )
+    function getContactRelationshipType( $contactId = null, $contactSuffix, $relationshipId, 
+                                         $contactType = null, $all = false )
     {
-        $allRelationshipType = array();
-        $relationshipType    = array();
+        $allRelationshipType = array( );
+        $relationshipType    = array( );
         $allRelationshipType = CRM_Core_PseudoConstant::relationshipType();
         
         $otherContactType = null;
@@ -235,15 +239,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 }
             }
         }
-
-        if ($contactId) {
+        
+        if ( $contactId ) {
             $contact     =& new CRM_Contact_BAO_Contact();
             $contact->id = $contactId;
             if ( $contact->find(true) ) {
                 $contactType = $contact->contact_type;
             } 
         }
-        
+
         foreach ($allRelationshipType as $key => $value) {
             // the contact type is required or matches
             if ( ( ( ! $value['contact_type_a'] ) || $value['contact_type_a'] == $contactType ) &&
@@ -256,14 +260,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                  ( ( ! $value['contact_type_a'] ) || ( ! $otherContactType ) || $value['contact_type_a'] == $otherContactType ) ) {
                 $relationshipType[ $key . '_b_a' ] = $value[ 'name_b_a' ];
             }
+            
+            if ( $all ) {
+                $relationshipType[ $key . '_a_b' ] = $value[ 'name_a_b' ];
+                $relationshipType[ $key . '_b_a' ] = $value[ 'name_b_a' ];
+            }
         }
         
         // lets clean up the data and eliminate all duplicate values (i.e. the relationship is bi-directional)
-        $relationshipType = array_unique( $relationshipType );
-        return $relationshipType;
-        //}
-        
-        return null;
+        return $relationshipType = array_unique( $relationshipType );
     }
 
     /**
@@ -302,7 +307,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function deleteContact( $contactId ) 
     {
-        
         $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->contact_id_a = $contactId;
         $relationship->delete();
@@ -411,7 +415,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function checkDuplicateRelationship( &$params, $id, $contactId = 0, $relationshipId = 0) 
     {
-
         $start_date =  CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
         $end_date =  CRM_Utils_Date::format( CRM_Utils_Array::value( 'end_date', $params ) );
         
@@ -477,7 +480,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids ) {
+    static function &getValues( &$params, &$values, &$ids ) 
+    {
         $v = array( );
         $v['data'] =& 
             CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , 3 );
@@ -506,7 +510,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @static
      * @access public
      */
-    static function makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, $direction ) {
+    static function makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, $direction ) 
+    {
         $select = $from = $where = '';
 
         $select = '( ';
@@ -607,7 +612,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     static function getRelationship( $contactId,
                                      $status = 0, $numRelationship = 0,
                                      $count = 0, $relationshipId = 0,
-                                     $links = null, $permissionMask = null ) {
+                                     $links = null, $permissionMask = null ) 
+    {
         list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b' );
         list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a' );
 
@@ -697,7 +703,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @return array - array reference of all relationship types with context to current contact type .
      *
      */
-
     function getRelationType($targetContactType)
     {
         $relationshipType    = array();
@@ -710,6 +715,41 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         }
         
         return $relationshipType;
+    }
+    
+    static function relatedMemberships( $contactId, &$params, $ids, $action=1 )
+    {
+        $memParams        = array( 'contact_id' => $contactId);
+        $memberships   = array();
+        $membershipIds = array();
+        
+        require_once 'CRM/Member/BAO/Membership.php';
+        CRM_Member_BAO_Membership::getValues($memParams, $memberships, $membershipIds);
+        
+        if ( empty($memberships) ) {
+            return;
+        }
+        
+        require_once 'CRM/Member/BAO/MembershipType.php';
+        foreach( $memberships as $membershipId => $values ) {
+            if ( $action & CRM_Core_Action::ADD ) {
+                $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $values['membership_type_id'] );
+                if( $params['relationship_type_id'] == $membershipType['relationship_type_id'] . "_" . $membershipType['relationship_direction'] ) {
+                    $values['owner_membership_id'] = $membershipId;
+                    unset($values['id']);
+                    unset($values['membership_contact_id']);
+                    unset($values['contact_id']);
+                    foreach ( $params['contact_check'] as $relatedContactId => $donCare) {
+                        $values['contact_id'] = $relatedContactId;
+                        //delete all the related membership records before creating
+                        CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
+                        CRM_Member_BAO_Membership::create($values, CRM_Core_DAO::$_nullArray);
+                    }
+                }
+            } else if ( $action & CRM_Core_Action::DELETE ) {
+                CRM_Member_BAO_Membership::deleteRelatedMembership( $membershipId );
+            }
+        }
     }
 }
 

@@ -490,16 +490,44 @@ class CRM_Utils_Date {
      * @static
      */
     function convertToDefaultDate( &$params, $dateType, $dateParam ) {
-
-        if ( $dateType == 1 ) {
-            return ;
-        }
+        
         $now = getDate();
         $cen = substr($now['year'],  0, 2);
-
+        
         if ($params[$dateParam]) {
             $value = $params[$dateParam];
         }
+        
+        switch( $dateType ) {
+            
+        case 1 :
+            if ( ! preg_match('/^\d\d\d\d-?\d\d-?\d\d$/', $value) ) {
+                return false;
+            } else {
+                return true;
+            }
+        case 2 :
+            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d$/', $value) ) {
+                return false;
+            }
+            break;
+        case 4 :
+            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d\d\d$/', $value ) ) {
+                return false;
+            }
+            break;
+        case 8 :
+            if ( ! preg_match('/^[A-Za-z]*[ \t]?\d\d\,[ \t]?\d\d\d\d$/', $value ) ) {
+                return false;
+            }
+            break;
+        case 16 :
+            if ( ! preg_match('/^\d\d-[A-Za-z]{3}-\d\d$/', $value )) {
+                return false; 
+            }
+            break;
+        }
+        
         if ( $dateType == 2 || $dateType == 4) {
             $year   = (int) substr($value,  6, $dateType);
             $month  = (int) substr($value,  0, 2);
@@ -563,6 +591,7 @@ class CRM_Utils_Date {
         if ($params[$dateParam]) {
             $params[$dateParam] = "$year$month$day";
         }
+        return true;
     }
 
     static function isDate( &$date ) {

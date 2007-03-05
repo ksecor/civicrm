@@ -304,7 +304,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $ids['contact'] = $this->_contactId;
         
         if ($this->_action & CRM_Core_Action::DELETE ){
-            CRM_Contact_BAO_Relationship::del($this->_relationshipId); 
+            CRM_Contact_BAO_Relationship::del($this->_relationshipId);
+            CRM_Contact_BAO_Relationship::relatedMemberships( $this->_contactId, 
+                                                              $params, $ids, 
+                                                              $this->_action );
             return;
         }
         
@@ -315,7 +318,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $ids['contactTarget'] = ( $relation->contact_id_a == $this->_contactId ) ?
                 $relation->contact_id_b : $relation->contact_id_a;
         }    
-
+        
         list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
         $status = '';
         if ( $valid ) {
@@ -330,7 +333,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         if ( $saved ) {
             $status .= ts('Relationship record has been updated.');
         }
-        
+                
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
         foreach($relationshipIds as $index => $id) {
             CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Relationship',$id); 
@@ -351,8 +354,14 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                 'note'          => $params['note'],
                                 'contact_id'    => $this->_contactId
                                 );
-        CRM_Core_BAO_Note::add( $noteParams , $ids);
+        CRM_Core_BAO_Note::add( $noteParams , $ids );
         
+        $config   =& CRM_Core_Config::singleton( );
+        if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
+            CRM_Contact_BAO_Relationship::relatedMemberships( $this->_contactId, 
+                                                              $params, $ids, 
+                                                              $this->_action );
+        }
         
         CRM_Core_Session::setStatus( $status );
     }//end of function

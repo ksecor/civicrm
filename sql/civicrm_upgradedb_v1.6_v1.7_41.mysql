@@ -191,8 +191,6 @@ CREATE TABLE civicrm_currency (
 
 	ALTER TABLE civicrm_mapping MODIFY mapping_type enum('Export','Import','Export Contributions','Import Contributions','Import Activity History','Search Builder','Import Memberships','Import Participants') NULL DEFAULT NULL COMMENT 'Type of Mapping.';
 
-	ALTER TABLE civicrm_mapping ADD `relationship_direction` varchar(6) NULL DEFAULT NULL COMMENT '';	
-
 -- /*******************************************************
 -- *
 -- * civicrm_membership_type
@@ -200,11 +198,18 @@ CREATE TABLE civicrm_currency (
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_membership_type` ADD `relationship_direction` varchar(6) NULL DEFAULT NULL COMMENT '';
-	
-	UPDATE `civicrm_membership_type` set `relationship_direction` = 
-		(SELECT `name_a_b` FROM `civicrm_relationship_type`
-		 WHERE `civicrm_relationship_type`.`id` = `civicrm_membership_type`.`relationship_type_id`
-	);
+	UPDATE `civicrm_membership_type` SET `relationship_direction`='a_b';
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_mapping_field
+-- *
+-- *******************************************************/
+
+	ALTER TABLE civicrm_mapping_field ADD `relationship_direction` varchar(6) NULL DEFAULT NULL COMMENT '';	
+	UPDATE `civicrm_mapping_field` SET `relationship_direction`='a_b';
+
 
 -- /*******************************************************
 -- *
@@ -271,8 +276,6 @@ CREATE TABLE civicrm_currency (
 	      (@domain_id, 'participant_role', 'Participant Role', 0, 1),
               (@domain_id, 'event_type', 'Event Type', 0, 1);
 	
-	INSERT INTO `civicrm_option_group` VALUES (12,1,'participant_status','Participant Status',0,1),(13,1,'participant_role','Participant Role',0,1),(14,1,'event_type','Event Type',0,1);
-
 
 -- /*******************************************************
 -- *

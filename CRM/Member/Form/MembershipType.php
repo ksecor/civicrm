@@ -135,7 +135,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
 
         require_once 'CRM/Contact/BAO/Relationship.php';
-        $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
+        $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, null, true );
         $this->add('select', 'relationship_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $relTypeInd);
 
         $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::memberVisibility( ) );

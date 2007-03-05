@@ -7,6 +7,8 @@
         <p>{ts}Please verify the information below carefully. Click <strong>Go Back</strong> if you need to make changes.{/ts}
             {if $contributeMode EQ 'notify'}
                 {ts}Click the <strong>Continue</strong> button to go to PayPal, where you will select your payment method and complete the contribution.{/ts}
+            {elseif $contributeMode EQ 'checkout'}
+                {ts}Click the <strong>Google Checkout</strong> button to checkout to Google, where you will select your payment method and complete the contribution.{/ts}
             {elseif ! $is_monetary}
                 {ts}To complete this transaction, click the <strong>Continue</strong> button below.{/ts}
             {else}
@@ -15,7 +17,6 @@
         </p> 
     </div>
     
-       
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="confirmContribution"}
    
     {if $amount GT 0 OR $minimum_fee GT 0}
@@ -101,10 +102,8 @@
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
-
-
-    
-    {if $contributeMode NEQ 'notify' and $is_monetary} {* In 'notify mode, contributor is taken to processor payment forms next *}
+  
+    {if $contributeMode NEQ ('notify' and 'checkout') and $is_monetary} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
         {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
@@ -112,6 +111,15 @@
     </div>
     {/if}
     
+    {if $contributeMode EQ 'checkout' and $is_monetary}
+        <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
+         <table class="form-layout-compressed">
+          <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>
+          <tr><td>{$form._qf_Confirm_next_express.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td></tr>
+         </table>
+        </fieldset>    
+    {/if}
+
     <div id="crm-submit-buttons">
         {$form.buttons.html}
     </div>

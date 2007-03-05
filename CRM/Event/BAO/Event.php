@@ -181,55 +181,66 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         require_once 'CRM/Core/BAO/Location.php';
         CRM_Core_BAO_Location::deleteContact( $id );
         
-        require_once 'CRM/Event/DAO/EventPage.php';
-        $registration           = & new CRM_Event_DAO_EventPage( );
-        $registration->event_id = $id; 
-        $registration->find();
-        while ($registration->fetch() ) {
-            $registration->delete();
-        }
-        require_once 'CRM/Core/DAO/CustomOption.php';
-        $customOption = & new CRM_Core_DAO_CustomOption( );
-        $customOption->entity_id    = $id; 
-        $customOption->entity_table = 'civicrm_event'; 
-        $customOption->find();
-        while ($customOption->fetch() ) {
-            $customOption->delete();
-        }
-        require_once 'CRM/Core/DAO/CustomValue.php';
-        $customValue = & new CRM_Core_DAO_CustomValue( );
-        $customValue->entity_id    = $id; 
-        $customValue->entity_table = 'civicrm_event'; 
-        $customValue->find();
-        while ($customValue->fetch() ) {
-            $customValue->delete();
-        }
-        require_once 'CRM/Event/DAO/Participant.php';
-        require_once 'CRM/Event/DAO/ParticipantPayment.php';
-        $participant = & new CRM_Event_DAO_Participant( );
-        $participant->event_id = $id;
-        $participant->find();
-        while ($participant->fetch() ) {
-            $payment = & new CRM_Event_DAO_ParticipantPayment( );
-            $payment->participant_id = $participant->id;
-            $payment->find();
-            while( $payment->fetch() ) {
-                $payment->delete();
+        $dependencies = array(
+                  'CRM_Event_DAO_EventPage'    => 
+                             array( 
+                                   'event_id'       => $id ),
+                  'CRM_Core_DAO_CustomOption'  => 
+                             array( 
+                                   'entity_id'      => $id,
+                                   'entity_table'   => 'civicrm_event' ),
+                  'CRM_Core_DAO_CustomValue'   =>
+                             array(
+                                   'entity_id'      => $id,
+                                   'entity_table'   => 'civicrm_event' ),
+                  'CRM_Core_DAO_UFJoin'        => 
+                             array(
+                                   'entity_id'      => $id,
+                                   'entity_table'   => 'civicrm_event' ),
+                  'CRM_Event_BAO_Participant'  =>
+                             array( 
+                               'deleteParticipant'  => 
+                                     array(
+                                       'id'    => array( 
+                                                    'event_id' => $id ) ) )
+                  );
+        
+        foreach ( $dependencies as $daoName => $values ) {
+            require_once (str_replace( '_', DIRECTORY_SEPARATOR, $daoName ) . ".php");
+            eval('$dao = new ' . $daoName . '( );');
+            
+            $methodName = null;
+            
+            foreach ( $values as $fieldName => $fieldValue ) {
+                if ( ! is_array($fieldValue) ) {
+                    $dao->$fieldName = $fieldValue;
+                    continue;
+                }
+                
+                $methodName = $fieldName;
+                
+                foreach( $fieldValue  as $get => $subValues ) {
+                    foreach ( $subValues as $name => $value ) {
+                        $dao->$name = $value;
+                    }
+                }
             }
-            $participant->delete();
+            
+            $dao->find();
+            
+            while ( $dao->fetch() ) {
+                if ( is_null( $methodName ) ) {
+                    $dao->delete();
+                } else {
+                    eval( $daoName . '::$methodName( $dao->id );');
+                }
+            }
         }
-        require_once 'CRM/Core/DAO/UFJoin.php';
-        $ufJoin = & new CRM_Core_DAO_UFJoin( );
-        $ufJoin->entity_id    = $id; 
-        $ufJoin->entity_table = 'civicrm_event'; 
-        $ufJoin->find();
-        while ($ufJoin->fetch() ) {
-            $ufJoin->delete();
-        }
+        
         require_once 'CRM/Event/DAO/Event.php';
-        $event           = & new CRM_Event_DAO_Event( );
+        $event     = & new CRM_Event_DAO_Event( );
         $event->id = $id; 
-
+        
         $event->find();
         while ($event->fetch() ) {
             return $event->delete();

@@ -194,7 +194,14 @@ CREATE TABLE civicrm_currency (
 
 	ALTER TABLE civicrm_mapping MODIFY mapping_type enum('Export','Import','Export Contributions','Import Contributions','Import Activity History','Search Builder','Import Memberships','Import Participants') NULL DEFAULT NULL COMMENT 'Type of Mapping.';
 
-	ALTER TABLE civicrm_mapping ADD `relationship_direction` varchar(6) NULL DEFAULT NULL COMMENT '';
+-- /*******************************************************
+-- *
+-- * civicrm_mapping_field
+-- *
+-- *******************************************************/
+
+	ALTER TABLE civicrm_mapping_field ADD `relationship_direction` varchar(6) NULL DEFAULT NULL COMMENT '';
+	UPDATE `civicrm_mapping_field` set `relationship_direction` = 'a_b';
 
 -- /*******************************************************
 -- *
@@ -203,11 +210,7 @@ CREATE TABLE civicrm_currency (
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_membership_type` ADD `relationship_direction` varchar(6) NULL DEFAULT NULL COMMENT '';
-	
-	UPDATE `civicrm_membership_type` set `relationship_direction` = 
-	(SELECT `name_a_b` FROM `civicrm_relationship_type`
-		 WHERE `civicrm_relationship_type`.`id` = `civicrm_membership_type`.`relationship_type_id`
-	);
+	UPDATE `civicrm_membership_type` set `relationship_direction` = 'a_b';
 
 -- /*******************************************************
 -- *

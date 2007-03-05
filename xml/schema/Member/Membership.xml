@@ -123,5 +123,21 @@
       <comment>When should a reminder be sent.</comment>  
       <add>1.6</add>  
   </field> 
-
+  <field>
+      <name>owner_membership_id</name>
+      <type>int unsigned</type>
+      <comment>Optional FK to Parent Membership.</comment>
+      <add>1.7</add>
+  </field>
+  <foreignKey>
+       <name>owner_membership_id</name>
+       <table>civicrm_membership</table>
+       <key>id</key>
+       <add>1.7</add>
+  </foreignKey>
+  <index>
+    <name>index_owner_membership_id</name>
+    <fieldName>owner_membership_id</fieldName>
+    <add>1.7</add>
+  </index>
 </table>
