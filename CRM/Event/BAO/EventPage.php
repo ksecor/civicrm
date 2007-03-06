@@ -124,10 +124,12 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             // set confirm_text and contact email address for display in the template here
             $template->assign( 'email', $email );
             $template->assign( 'confirm_email_text', $values['event_page']['confirm_email_text'] );
-            
+
+            CRM_Core_Error::debug( 't', $template );
             $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
-           
+            CRM_Core_Error::debug( 't', $message );
+            exit( );
             $receiptFrom = '"' . $values['event_page']['confirm_from_name'] . '" <' . $values['event_page']['confirm_from_email'] . '>';
             
             require_once 'CRM/Utils/Mail.php';
