@@ -46,7 +46,7 @@
             <br/>- {$row.end_date|truncate:10:''|crmDate}
         {/if}
    </td>
-    <td>{$row.status}</td>
+    <td>{$row.status}<br /> {$row.role}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}

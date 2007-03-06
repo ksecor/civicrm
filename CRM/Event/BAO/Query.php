@@ -227,6 +227,7 @@ class CRM_Event_BAO_Query
                                 'event_register_date' => 1,
                                 'event_source'        => 1,
                                 'event_level'         => 1,
+                                'event_is_test'       => 1
                                 );
        
             // also get all the custom participant properties
