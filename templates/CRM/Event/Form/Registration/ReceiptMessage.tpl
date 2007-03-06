@@ -23,10 +23,10 @@
 
 {$phone.phone_type_display}:{/if} {$phone.phone}{/if}
 {/foreach}
-{foreach from=$location.1.email item=email}
-{if $email.email}
+{foreach from=$location.1.email item=eventEmail}
+{if $eventEmail.email}
 
-{ts}Email:{/ts} {$email.email}{/if}{/foreach}
+{ts}Email:{/ts} {$eventEmail.email}{/if}{/foreach}
 {/if}
 
 
