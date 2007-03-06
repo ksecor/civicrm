@@ -2548,7 +2548,7 @@ SELECT COUNT( civicrm_contribution.total_amount ) as total_count,
        SUM(   civicrm_contribution.total_amount ) as total_amount,
        AVG(   civicrm_contribution.total_amount ) as total_avg";
 
-        $additionalWhere = "civicrm_contribution.cancel_date IS NULL";
+        $additionalWhere = "civicrm_contribution.cancel_date IS NULL AND civicrm_contribution.is_test=0";
         if ( ! empty( $where ) ) {
             $newWhere = "$where AND $additionalWhere";
         } else {
@@ -2575,7 +2575,7 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
        SUM(   civicrm_contribution.total_amount ) as cancel_amount,
        AVG(   civicrm_contribution.total_amount ) as cancel_avg";
 
-        $additionalWhere = "civicrm_contribution.cancel_date IS NOT NULL";
+        $additionalWhere = "civicrm_contribution.cancel_date IS NOT NULL AND civicrm_contribution.is_test=0";
         if ( ! empty( $where ) ) {
             $newWhere = "$where AND $additionalWhere";
         } else {
