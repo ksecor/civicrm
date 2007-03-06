@@ -40,6 +40,7 @@
 require_once 'CRM/Event/PseudoConstant.php';
 require_once 'CRM/Event/Selector/Search.php';
 require_once 'CRM/Core/Selector/Controller.php';
+require_once 'CRM/Contact/BAO/SavedSearch.php';
 
 /**
  * This file is for civievent search
@@ -158,9 +159,10 @@ class CRM_Event_Form_Search extends CRM_Core_Form
          * driven by the wizard framework 
          */ 
         $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean', CRM_Core_DAO::$_nullObject ); 
-        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean', $this, false ); 
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',  $this, false ); 
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive', $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID', 'Positive',  $this );
         
         $this->assign( "{$this->_prefix}limit", $this->_limit );
           
@@ -171,7 +173,13 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
-   
+
+        if ( empty( $this->_formValues ) ) {
+            if ( isset( $this->_ssID ) ) {
+                $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
+            }
+        }
+        
         if ( $this->_force ) { 
             $this->postProcess( );
             $this->set( 'force', 0 );
@@ -245,6 +253,20 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             // also add the action and radio boxes
             require_once 'CRM/Event/Task.php';
             $tasks = array( '' => ts('- more actions -') ) + CRM_Event_Task::tasks( );
+            if ( isset( $this->_ssID ) ) {
+                require_once "CRM/Core/Permission.php";
+                $permission = CRM_Core_Permission::getPermission( );
+                if ( $permission == CRM_Core_Permission::EDIT ) {
+                    require_once "CRM/Contact/Task.php";
+                    $tasks = $tasks + CRM_Event_Task::optionalTaskTitle();
+                }
+                    
+                $savedSearchValues = array( 'id' => $this->_ssID,
+                                            'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID, 'title' ) );
+                $this->assign_by_ref( 'savedSearch', $savedSearchValues );
+                $this->assign( 'ssID', $this->_ssID );
+            }
+
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
                        array( 'class' => 'form-submit', 
@@ -295,6 +317,11 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         
         $this->_formValues = $this->controller->exportValues($this->_name);
         $this->fixFormValues( );
+
+        if ( isset( $this->_ssID ) && empty( $_POST ) ) {
+            // if we are editing / running a saved search and the form has not been posted
+            $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
+        }
         
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
@@ -348,6 +375,20 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         
     }
     
+
+    /**
+     * Set the default form values
+     *
+     * @access protected
+     * @return array the default array reference
+     */
+    function &setDefaultValues() {
+        $defaults = array();
+        $defaults = $this->_formValues;
+        return $defaults;
+    }
+
+
     function fixFormValues( )
     {
         // if this search has been forced
