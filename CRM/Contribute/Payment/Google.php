@@ -125,7 +125,7 @@ class CRM_Contribute_Payment_Google {
         }
         
         if ( $request->getResponseCode( ) != 302 ) {
-            CRM_Core_Error::fatal( ts( 'Invalid response code received from Google Checkout: ' . $request->getResponseCode( )) );
+            CRM_Core_Error::fatal( ts( 'Invalid response code received from Google Checkout: %1', array(1 => $request->getResponseCode())) );
         }
         CRM_Utils_System::redirect( $request->getResponseHeader( 'location' ) );
         exit( );
