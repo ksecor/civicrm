@@ -51,14 +51,20 @@ class CRM_Event_Page_ICalendar extends CRM_Core_Page
      */
     function run( )
     {
-        $type  = CRM_Utils_Request::retrieve('type', 'Positive',$this, false, 0);
-        $start = CRM_Utils_Request::retrieve('start', 'Positive',$this, false, 0);
+        $type     = CRM_Utils_Request::retrieve('type', 'Positive',$this, false, 0);
+        $start    = CRM_Utils_Request::retrieve('start', 'Positive',$this, false, 0);
+        $iCalPage = CRM_Utils_Request::retrieve('page', 'Positive',$this, false, 0);
 
         require_once "CRM/Event/BAO/Event.php";
         $info = CRM_Event_BAO_Event::getCompleteInfo( $start, $type );
 
         require_once "CRM/Utils/ICalendar.php";
         $format = CRM_Utils_ICalendar::iCalendar( $info );
+
+        if( $iCalPage == 1) {
+            echo $format;
+            exit();
+        }
 
         CRM_Utils_ICalendar::send( 'civicrm_ical.ics', 'attachment', 'utf-8', $format );
         exit( );
