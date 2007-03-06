@@ -32,7 +32,6 @@
   *
   */
 
-  //  chdir("..");
 session_start( );
 
 require_once '../civicrm.config.php';
@@ -44,7 +43,6 @@ require_once('Google/library/googleresponse.php');
 require_once('Google/library/googlemerchantcalculations.php');
 require_once('Google/library/googleresult.php');
 
-//define('RESPONSE_HANDLER_LOG_FILE', 'googlemessage.log');
 define('RESPONSE_HANDLER_LOG_FILE', $config->uploadDir . 'CiviCRM.log');
 
 //Setup the log file
@@ -371,19 +369,17 @@ function orderStateChange($status, $dataRoot) {
     
     // lets start since payment has been made
     $now = date( 'YmdHis' );
-    $amount = $contribution->total_amount;
-    $contactID = $contribution->contact_id;
         
     require_once 'CRM/Contribute/BAO/ContributionPage.php';
     CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
     
     $contribution->contribution_status_id  = 1;
     $contribution->source                  = ts( 'Online Contribution:' ) . ' ' . $values['title'];
-    //$contribution->is_test    = $privateData['test'] ? 1 : 0; //since this is done before checkout
+//     $contribution->is_test    = $privateData['test'] ? 1 : 0; //since this is done before checkout
     $contribution->fee_amount = $dataRoot['fee_amount']['VALUE']; //not available
     $contribution->net_amount = $dataRoot['net_amount']['VALUE']; //not available
-    $contribution->trxn_id    = $dataRoot['trnx_id']['VALUE'];    //not available
-    
+    $contribution->trxn_id    = $dataRoot['google-order-number']['VALUE']; // storing google-order-no
+
     if ( $values['is_email_receipt'] ) {
         $contribution->receipt_date = $now;
     }
@@ -392,6 +388,7 @@ function orderStateChange($status, $dataRoot) {
     
     $contribution->save( );
     
+    require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton( );
     
     // next create the transaction record
@@ -400,7 +397,7 @@ function orderStateChange($status, $dataRoot) {
                         'entity_id'         => $contribution->id,
                         'trxn_date'         => $now,
                         'trxn_type'         => 'Debit',
-                        'total_amount'      => $amount,
+                        'total_amount'      => $contribution->total_amount,
                         'fee_amount'        => $contribution->fee_amount,
                         'net_amount'        => $contribution->net_amount,
                         'currency'          => $contribution->currency,
@@ -410,7 +407,7 @@ function orderStateChange($status, $dataRoot) {
     
     require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
     $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
-    
+
     // get the title of the contribution page
     $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
                                           $contribution->contribution_page_id,
@@ -421,7 +418,7 @@ function orderStateChange($status, $dataRoot) {
     
     // also create an activity history record
     $ahParams = array('entity_table'     => 'civicrm_contact', 
-                      'entity_id'        => $contactID, 
+                      'entity_id'        => $contribution->contact_id,
                       'activity_type'    => $contributionType->name,
                       'module'           => 'CiviContribute', 
                       'callback'         => 'CRM_Contribute_Page_Contribution::details',
@@ -434,7 +431,7 @@ function orderStateChange($status, $dataRoot) {
     if ( is_a( crm_create_activity_history($ahParams), 'CRM_Core_Error' ) ) { 
         CRM_Core_Error::debug_log_message( "error in updating activity" );
     }
-
+    
     //need to update membership record.
     CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
     CRM_Core_DAO::transaction( 'COMMIT' );

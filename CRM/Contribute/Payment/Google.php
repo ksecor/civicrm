@@ -39,8 +39,6 @@ require_once('Google/library/googlecart.php');
 require_once('Google/library/googleitem.php');
 
 class CRM_Contribute_Payment_Google { 
-    const
-        CHARSET  = 'utf-8';
     /** 
      * We only need one instance of this object. So we use the singleton 
      * pattern and cache the instance in this variable 
@@ -86,12 +84,12 @@ class CRM_Contribute_Payment_Google {
         $url = 'https://' . $url . '/cws/v2/Merchant/' . $config->merchantID[$this->_mode] . '/checkout';
         
         //Create a new shopping cart object
-        $merchant_id  = $config->merchantID[$this->_mode];  //Your Merchant ID
-        $merchant_key = $config->paymentKey[$this->_mode];  //Your Merchant Key
-        $server_type  = "sandbox"; //provide provision for live
+        $merchant_id  = $config->merchantID[$this->_mode];  // Merchant ID
+        $merchant_key = $config->paymentKey[$this->_mode];  // Merchant Key
+        $server_type  = ( $this->_mode == 'test' ) ? "sandbox";
         
         $cart =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
-        $item1 = new GoogleItem('Help Support CiviCRM','', 1, $params['amount']); //generalize title
+        $item1 = new GoogleItem($params['item_name'],'', 1, $params['amount']);
         $cart->AddItem($item1);
 
         $privateData = "module=contribute,contactID={$params['contactID']},contributionID={$params['contributionID']},contributionTypeID={$params['contributionTypeID']},invoiceID={$params['invoiceID']}";
