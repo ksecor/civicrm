@@ -605,6 +605,9 @@ class CRM_Core_Invoke
             break;
         }
 
+        $config =& CRM_Core_Config::singleton();
+        $config->cleanup(1);
+
         if ( $view ) {
             return $view->run( );
         }
