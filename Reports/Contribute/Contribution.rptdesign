@@ -225,7 +225,6 @@
             <column id="27"/>
             <column id="28"/>
             <column id="29"/>
-            <column id="62"/>
             <header>
                 <row id="7">
                     <cell id="8">
@@ -253,11 +252,6 @@
                             <text-property name="text">Amount</text-property>
                         </label>
                     </cell>
-                    <cell id="59">
-                        <label id="65">
-                            <text-property name="text">Year</text-property>
-                        </label>
-                    </cell>
                 </row>
             </header>
             <detail>
@@ -269,7 +263,24 @@
                     </cell>
                     <cell id="15">
                         <data id="33">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Long Date</property>
+                                <property name="pattern">Long Date</property>
+                            </structure>
                             <property name="resultSetColumn">date</property>
+                            <structure name="action">
+                                <property name="formatType">html</property>
+                                <property name="linkType">drill-through</property>
+                                <property name="reportName">ContributionByYear.rptdesign</property>
+                                <property name="targetWindow">_blank</property>
+                                <property name="targetFileType">report-design</property>
+                                <list-property name="paramBindings">
+                                    <structure>
+                                        <property name="paramName">year</property>
+                                        <expression name="expression">row['year']</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
                         </data>
                     </cell>
                     <cell id="16">
@@ -301,25 +312,6 @@
                             <property name="resultSetColumn">amount</property>
                         </data>
                     </cell>
-                    <cell id="60">
-                        <data id="66">
-                            <property name="resultSetColumn">year</property>
-                            <structure name="action">
-                                <property name="formatType">html</property>
-                                <property name="linkType">drill-through</property>
-                                <property name="reportName">ContributionByYear.rptdesign</property>
-                                <property name="targetBookmarkType">bookmark</property>
-                                <property name="targetWindow">_blank</property>
-                                <property name="targetFileType">report-design</property>
-                                <list-property name="paramBindings">
-                                    <structure>
-                                        <property name="paramName">year</property>
-                                        <expression name="expression">row['year']</expression>
-                                    </structure>
-                                </list-property>
-                            </structure>
-                        </data>
-                    </cell>
                 </row>
             </detail>
             <footer>
@@ -329,7 +321,6 @@
                     <cell id="22"/>
                     <cell id="23"/>
                     <cell id="24"/>
-                    <cell id="61"/>
                 </row>
             </footer>
         </table>
