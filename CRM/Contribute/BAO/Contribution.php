@@ -356,7 +356,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contacType = 'Individual', $status = null ) 
+    function &importableFields( $contacType = 'Individual', $status = true ) 
     {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
@@ -391,7 +391,13 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
                     $tmpConatctField[trim($value)] = $contactFields[trim($value)];
-                    $tmpConatctField[trim($value)]['title'] = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                    if (!$status) {
+                        $title = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                    } else {
+                        $title = $tmpConatctField[trim($value)]['title'];
+                    }
+                    $tmpConatctField[trim($value)]['title'] = $title;
+
                 }
             }
             $fields = array_merge($fields, $tmpConatctField);

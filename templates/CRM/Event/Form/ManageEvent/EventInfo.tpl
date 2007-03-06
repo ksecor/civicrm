@@ -20,9 +20,9 @@
         <dd>{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
             {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=3 doTime=1 trigger=trigger_event_1}</dd>
         <dt>{$form.max_participants.label}</dt><dd>{$form.max_participants.html|crmReplace:class:four}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text is displayed when the maximum number of registrations is reached.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached.{/ts}</dd>
         <dt>{$form.event_full_text.label}</dt><dd>{$form.event_full_text.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Display this text on the Event Information page when the number of registrations equals maximum number of participants.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Text displayed on the Event Information page when the maximum number of registrations is reached. If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}</dd>
         <dt>&nbsp;</dt><dd>{$form.is_map.html} {$form.is_map.label}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href="%1">Global Settings &raquo; Mapping</a>{/ts}</dd>
     	<dt>&nbsp;</dt><dd>{$form.is_public.html} {$form.is_public.label}</dd>

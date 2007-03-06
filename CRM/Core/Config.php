@@ -1085,7 +1085,7 @@ class CRM_Core_Config
         $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
 
         $specialArray = array('countryLimit', 'provinceLimit');
-        $paymentArray = array('paymentCertPath', 'paymentUsername');
+        $paymentArray = array('paymentCertPath', 'paymentUsername', 'merchantID');
         $urlArray     = array('userFrameworkResourceURL', 'imageUploadURL');
         $dirArray     = array('uploadDir','customFileUploadDir');
         

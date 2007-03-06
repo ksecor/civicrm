@@ -43,7 +43,7 @@
     <td>{$row.event_level}</td>
     <td>{$row.start_date|truncate:10:''|crmDate}
         {if $row.end_date && $row.end_date|date_format:"%Y%m%d" NEQ $row.start_date|date_format:"%Y%m%d"}
-            <br/>{$row.end_date|truncate:10:''|crmDate}
+            <br/>- {$row.end_date|truncate:10:''|crmDate}
         {/if}
    </td>
     <td>{$row.status}</td>

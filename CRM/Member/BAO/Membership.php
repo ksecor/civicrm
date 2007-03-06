@@ -208,6 +208,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                                          'membership_type_id'
                                                          );
         
+        require_once 'CRM/Member/BAO/MembershipType.php';
         $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeId ); 
 
         if ( $membershipType['relationship_type_id'] ) {
@@ -539,7 +540,7 @@ UPDATE civicrm_membership_type
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contactType = 'Individual', $status = null ) 
+    function &importableFields( $contactType = 'Individual', $status = true ) 
     {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
@@ -568,7 +569,12 @@ UPDATE civicrm_membership_type
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
                     $tmpConatctField[trim($value)] = $contactFields[trim($value)];
-                    $tmpConatctField[trim($value)]['title'] = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                    if (!$status) {
+                        $title = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                    } else {
+                        $title = $tmpConatctField[trim($value)]['title'];
+                    }
+                    $tmpConatctField[trim($value)]['title'] = $title;
                 }
             }
             $fields = array_merge($fields, $tmpConatctField);

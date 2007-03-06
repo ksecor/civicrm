@@ -36,7 +36,7 @@ class TestOfGetEvent extends UnitTestCase
     function testGetWrongEventEmptyParams()
     {
         $params = array();                        
-        $event = & crm_get_event($params);
+        $event = & crm_get_events($params);
         $this->assertIsA($event,'CRM_Core_Error');
     }
     
@@ -56,7 +56,7 @@ class TestOfGetEvent extends UnitTestCase
                         'is_active'                => '1' 
                         );
         
-        $event = & crm_get_event($params);
+        $event = & crm_get_events($params);
         $this->assertIsA($event,'CRM_Core_Error');
     }
 
@@ -68,22 +68,19 @@ class TestOfGetEvent extends UnitTestCase
                         'description' => 'Award ceremony and cultural events',
                         );
         
-        $event = & crm_get_event($params);
-        $this->assertEqual($event['title'],'Annual Function');
-        //$this->assertEqual($event['summary'],'Regular function');
-        $this->assertEqual($event['description'],'Award ceremony and cultural events');
-        $this->assertEqual($event['event_type_id'],'3');
-        $this->assertEqual($event['is_public'],'1');
-        $this->assertEqual($event['start_date'],'2007-02-19 00:00:00');
-        #$this->assertEqual($event['end_date'],'');
-        $this->assertEqual($event['is_online_registration'],'0');
-        #$this->assertEqual($event['registration_link_text'],'');
-        $this->assertEqual($event['max_participants'],'15');
-        #$this->assertEqual($event['event_full_text'],'');
-        $this->assertEqual($event['is_monetary'],'0');
-        $this->assertEqual($event['contribution_type_id'],'0');
-        $this->assertEqual($event['is_map'],'0');
-        $this->assertEqual($event['is_active'],'1');                               
+        $event = & crm_get_events($params);
+
+        $this->assertEqual($event[$id]['title'],'Annual Function');
+        $this->assertEqual($event[$id]['description'],'Award ceremony and cultural events');
+        $this->assertEqual($event[$id]['event_type_id'],'3');
+        $this->assertEqual($event[$id]['is_public'],'1');
+        $this->assertEqual($event[$id]['start_date'],'2007-02-19 00:00:00');
+        $this->assertEqual($event[$id]['is_online_registration'],'0');
+        $this->assertEqual($event[$id]['max_participants'],'15');
+        $this->assertEqual($event[$id]['is_monetary'],'0');
+        $this->assertEqual($event[$id]['contribution_type_id'],'0');
+        $this->assertEqual($event[$id]['is_map'],'0');
+        $this->assertEqual($event[$id]['is_active'],'1');                               
     }    
     
     function testDeleteEvent()

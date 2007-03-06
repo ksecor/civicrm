@@ -65,6 +65,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1233.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1469.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1584.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1657.php' );
         
         //api for ActivityType
         
@@ -170,7 +171,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteParticipant.php'    );
         
         //Participant Payment api
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateParticipantPayment.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateParticipantPayment.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateParticipantPayment.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteParticipantPayment.php'    );
         

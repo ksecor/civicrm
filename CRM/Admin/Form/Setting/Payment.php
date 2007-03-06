@@ -54,7 +54,10 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
 
         $this->addYesNo( 'enableSSL', ts( 'Force Secure URLs (SSL)' ));
         $processor = CRM_Core_SelectValues::paymentProcessor();
-        $extra1 = array( 'onclick' => "return showHideByValue('paymentProcessor', 'PayPal|PayPal_Express', 'certificate_path', 'block', 'select', false);" );
+
+
+        $extra1 = array( 'onclick' => "showHideByValue('paymentProcessor', 'PayPal|PayPal_Express', 'certificate_path', 'block', 'select', false);showHideByValue('paymentProcessor','PayPal|PayPal_Express|PayPal_Standard|Moneris','paypal','block','select',false);return showHideByValue('paymentProcessor','Google_Checkout','google','block','select',false);" );
+
         $this->addElement('select','paymentProcessor', ts('Payment Processor'), array('select' => '- select -') + $processor, $extra1);  
         $this->addElement('text','paymentExpressButton', ts('PayPal Express Button'));  
         $this->addElement('text','paymentUsername_test', ts('Username - TEST')); 
@@ -63,6 +66,13 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
         $this->addElement('text','paymentUsername_live', ts('Username - LIVE')); 
         $this->addElement('text','paymentCertPath_live', ts('Certificate Path - LIVE')); 
         $this->addElement('text','paymentPayPalExpressUrl', ts('Paypal Url - LIVE'));
+        
+        //for google checkout.
+        $this->addElement('text','googleCheckoutButton', ts('Google Checkout Button'));  
+        $this->addElement('text','merchantID_test', ts('Merchant ID  - TEST')); 
+        $this->addElement('text','googleCheckoutTestUrl', ts('Google Url - TEST')); 
+        $this->addElement('text','merchantID_live', ts('Merchant ID - LIVE')); 
+        $this->addElement('text','googleCheckoutUrl', ts('Google Url - LIVE'));
         
         parent::buildQuickForm();
     }

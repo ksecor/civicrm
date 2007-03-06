@@ -96,7 +96,7 @@ function crm_create_event( $params )
  * 
  * @params  array $params  an associative array of title/value property values of civicrm_event
  * 
- * @return  Array of all found event property values.
+ * @return  If successful array of all found events for the contact; otherwise object of CRM_Core_Error.
  * @access public
  */
 function crm_get_events( $params ) 
@@ -110,26 +110,21 @@ function crm_get_events( $params )
         return _crm_error('Required parameters missing.');
     }
     
+    $events = array();
+    
     require_once 'CRM/Event/BAO/Event.php';
     $eventBAO = new CRM_Event_BAO_Event();
     
-    $properties = array_keys($eventBAO->fields());
+    $eventBAO->copyValues( $params );
     
-    foreach ($properties as $name) {
-        if (array_key_exists($name, $params)) {
-            $eventBAO->$name = $params[$name];
-        }
+    $eventBAO->find( );
+    
+    while ( $eventBAO->fetch( ) ) {
+        $event = array( );
+        _crm_object_to_array( clone($eventBAO), $event );
+        $events[$eventBAO->id] = $event;
     }
     
-    if ( $eventBAO->find() ) {
-        $events = array();
-        while ( $eventBAO->fetch() ) {
-            _crm_object_to_array( clone($eventBAO), $event );
-            $events[$eventBAO->id] = $event;
-        }
-    } else {
-        return _crm_error('Exact match not found');
-    }
     return $events;
 }
 

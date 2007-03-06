@@ -249,6 +249,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         // insert participant record
         $participant  =& $this->addParticipant( $this->_params, $contactID );
+
+        require_once 'CRM/Event/BAO/ParticipantPayment.php';
+        $paymentParams = array('participant_id'       => $participant->id,
+                               'payment_entity_id'    => $contribution->id,
+                               'payment_entity_table' => 'civicrm_contribution'
+                               ); 
+        $ids = array();       
+
+        $paymentPartcipant = CRM_Event_BAO_ParticipantPayment::create($paymentParams, $ids);
         
         // insert activity record
         CRM_Event_BAO_Participant::setActivityHistory( $participant );

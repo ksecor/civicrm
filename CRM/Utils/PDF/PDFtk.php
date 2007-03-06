@@ -11,15 +11,46 @@ require_once "packages/System/Command.php";
 */
 
 class CRM_Utils_PDF_PDFtk {
+    
+    private $metadataFields = array ('Creator','Producer','ModDate','CreationDate','NumberOfPages');
 
     private $pdftkBin = '';
+    
+    
+     static function &compose( $fileName,
+                              $searchPath,
+                              &$values,
+                              $numPages = 1,
+                              $echo    = true,
+                              $output  = 'College_Match_App',
+                              $creator = 'CiviCRM',
+                              $author  = 'http://www.civicrm.org/',
+                              $title   = '2006 College Match Scholarship Application' ) {
+        try {
+            $buffer = CRM_Utils_PDF_PDFtk::fill_form($fileName,CRM_Utils_PDF_PDFtk::createXfdfFromArray($values,$fileName),null,1);
+            
+            $metaData = array('Creator' => $creator);
+            $metaData = array('Author' => $author);
+            $metaData = array('title' => $title);
+            $buffer = CRM_Utils_PDF_PDFtk::fill_data($buffer,$metaData);
+            $outputFile = tmpfile();
+            file_put_contents($outputFile);
+            CRM_Utils_PDF_PDFtk::fixPDFV7($outputFile);
+            
+            
+            if($echo) {
+                CRM_Utils_System::download($output . ".pdf" , 'application/pdf', file_get_contents($outputFile) );                   
+            } else {
+                return file_get_contents($outputFile);                
+            }
+            
+        }catch (Exception $e) {
+            die($e->getMessage());
+        }
+        
+                              }
+                              
 
-    /**
- 	 * Returns either a true / false (in the case of specifying output file)
- 	 * or
- 	 * A stream of PDF data (in the case of no output file);
- 	 * 
- 	 */
     
     /**
      * fill_form: Takes a PDF form template, fdf or xfdf data and optionally an output file name.  Merges in the data and outputs.
@@ -74,6 +105,24 @@ class CRM_Utils_PDF_PDFtk {
             die("Error running pdftk");
         }
 
+    }
+    
+    function dump_data($pdfFile) {
+        
+    }
+    
+    /**
+     * fills metadata
+     *
+     * @param unknown_type $pdfFile
+     * @param unknown_type $data
+     */
+    function fill_data($buffer,$data = array()) {
+        
+    }
+    
+    function fill_data_from_file($pdfFile,$data = array()) {
+        
     }
 
     /**
@@ -145,7 +194,7 @@ class CRM_Utils_PDF_PDFtk {
 
 
         call_user_method_array("pushCommand",$cmd,$pdftkCommand);
-        CRM_Core_Error::debug('$parts',$cmd->systemCommand);
+        //CRM_Core_Error::debug('$parts',$cmd->systemCommand);
         $cmd->execute();
 
         //Clean up tmp files
@@ -176,7 +225,7 @@ class CRM_Utils_PDF_PDFtk {
         $pdftkCommand[] = "output";
         $pdftkCommand[] = "$outputFile";
         call_user_method_array("pushCommand",$cmd,$pdftkCommand);
-        CRM_Core_Error::debug('$parts',$cmd->systemCommand);
+        //CRM_Core_Error::debug('cat command',$cmd->systemCommand);
         return $cmd->execute();
 
     }
@@ -192,7 +241,7 @@ class CRM_Utils_PDF_PDFtk {
      * @param string $templateFile
      * @return unknown
      */
-    public function createXfdfFromArray($array,$templateFile = "") {
+    public function createXfdfFromArray(&$array,$templateFile = "") {
         
         $xfdf = new DOMDocument('1.0',"UTF-8");
         $xfdf->formatOutput = true;
@@ -247,7 +296,7 @@ class CRM_Utils_PDF_PDFtk {
         
         $pdftkCommand[] = "dump_data_fields";
         call_user_method_array("pushCommand",$cmd,$pdftkCommand);
-        CRM_Core_Error::debug('$parts',$cmd->systemCommand);
+        //CRM_Core_Error::debug('$parts',$cmd->systemCommand);
         $form_fields = $cmd->execute();
         return $form_fields;
         

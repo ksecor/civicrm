@@ -362,6 +362,21 @@ function crm_create_contact_membership($params, $contactID)
     $ids = array();
     $membershipBAO = CRM_Member_BAO_Membership::create($params, $ids);
     
+    if ( ! is_a( $membershipBAO, 'CRM_Core_Error') ) {
+        $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
+                                                                                  $membershipBAO->id,
+                                                                                  $contactID
+                                                                                  );
+    }
+    
+    foreach ( $relatedContacts as $contactId ) {
+        $params['contact_id'         ] = $contactId;
+        $params['owner_membership_id'] = $membershipBAO->id;
+        unset( $params['id'] );
+        
+        CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+    }
+    
     $membership = array();
     _crm_object_to_array($membershipBAO, $membership);
     return $membership;
@@ -389,33 +404,51 @@ function crm_update_contact_membership($params)
         return _crm_error( 'Required parameter missing' );
     }
     
-    require_once 'CRM/Member/BAO/Membership.php';
-    $membershipBAO =& new CRM_Member_BAO_Membership( );
-    $membershipBAO->id = $params['id'];
-    $fields = $membershipBAO->fields( );
-    $datefields = array("start_date"    => "membership_start_date",
-                        "end_date"      => "membership_end_date",
-                        "join_date"     => "join_date",
-                        "reminder_date" => "reminder_date"
-                        ); 
+    $changeFields = array(
+                          'membership_start_date' => 'start_date',
+                          'membership_end_date'   => 'end_date',
+                          'membership_source'     => 'source'
+                          );
     
-    if ($membershipBAO->find(true)) {
-        foreach ( $fields as $name => $field) {
-            if (array_key_exists($name, $params)) {
-                if ( array_key_exists( $name,  $datefields ) ) {
-                    $membershipBAO->$name = $params[$datefields[$name]];
-                } else {
-                    $membershipBAO->$name = $params[$name];
-                }
-            }
+    foreach ( $changeFields as $field => $requiredField ) {
+        if ( array_key_exists( $field, $params ) ) {
+            $params[$requiredField] = $params[$field];
+            unset($params[$field]);
         }
-        //fix the dates 
-        foreach ( $datefields as $key => $value ) {
-            $membershipBAO->$key  = CRM_Utils_Date::customFormat($membershipBAO->$key,'%Y%m%d');
-        }
-        $membershipBAO->save();
     }
     
+    require_once 'CRM/Member/BAO/Membership.php';
+    $membershipBAO     =& new CRM_Member_BAO_Membership( );
+    $membershipBAO->id = $params['id'];
+    $membershipBAO->find(true);
+        
+    $membershipBAO->copyValues($params);
+    
+    $datefields = array( 'start_date', 'end_date', 'join_date', 'reminder_date' );
+    
+    //fix the dates 
+    foreach ( $datefields as $value ) {
+        $membershipBAO->$value  = CRM_Utils_Date::customFormat($membershipBAO->$value,'%Y%m%d');
+    }
+    
+    $membershipBAO->save();
+    
+    $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
+                                                                              $membershipBAO->id,
+                                                                              $membershipBAO->contact_id
+                                                                              );
+    
+    //delete all the related membership records before creating
+    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipBAO->id );
+    
+    foreach ( $relatedContacts as $contactId ) {
+        $params['contact_id'         ] = $contactId;
+        $params['owner_membership_id'] = $membershipBAO->id;
+        unset( $params['id'] );
+        
+        CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+    }
+        
     $membership = array();
     _crm_object_to_array( $membershipBAO, $membership );
     return $membership;
@@ -510,6 +543,8 @@ function crm_delete_membership($membershipID)
     }
     
     require_once 'CRM/Member/BAO/Membership.php';
+    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipID );
+    
     $membership = new CRM_Member_BAO_Membership();
     $result = $membership->deleteMembership($membershipID);
     

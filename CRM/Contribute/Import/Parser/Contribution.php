@@ -76,7 +76,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
      */
     function init( ) {
         require_once 'CRM/Contribute/BAO/Contribution.php';
-        $fields =& CRM_Contribute_BAO_Contribution::importableFields( $this->_contactType );
+        $fields =& CRM_Contribute_BAO_Contribution::importableFields( $this->_contactType , false );
 
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern']);
@@ -303,7 +303,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             if ($cIndieFields == null) {
                 require_once 'CRM/Contact/BAO/Contact.php';
                 //$cTempIndieFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
-                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType, null );
+                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
                 $cIndieFields = $cTempIndieFields;
             }
 
