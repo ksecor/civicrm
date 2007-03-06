@@ -77,7 +77,7 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
     {
         $this->assign('showForm',false);
         
-        $this->addElement('checkbox', 'premiums_active', ts('Premiums Section Enabled?') );
+        $this->addElement('checkbox', 'premiums_active', ts('Premiums Section Enabled?'), null, array( 'onclick' => "premiumBlock(this);" ) );
         
         $this->addElement('text', 'premiums_intro_title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_intro_title'));
         

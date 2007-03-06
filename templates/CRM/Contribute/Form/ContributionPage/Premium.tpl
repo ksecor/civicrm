@@ -12,15 +12,12 @@
 
   <div id="id_form" class="form-item">
     <fieldset><legend><a href="#" onclick="hide('id_form'); show('id_form_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Premiums Settings{/ts}</legend>
-    <dl>
-     <dt> {$form.premiums_active.label}</dt><dd>{$form.premiums_active.html}</dd>
-     <dt>&nbsp;</dt><dd class="description">{ts}Is the Premiums section enabled for this Online Contributions page?{/ts}</dd>	
-  
-
+     <dl>
+     <dt>{$form.premiums_active.label}</dt><dd>{$form.premiums_active.html}</dd>
+     <dt>&nbsp;</dt><dd class="description">{ts}Is the Premiums section enabled for this Online Contributions page?{/ts}</dd></dl>
+    <div class="form-item"><dl id= "premiumFields">
     <dt>{$form.premiums_intro_title.label}</dt><dd>{$form.premiums_intro_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Title to appear at the top of the Premiums section.{/ts}</dd>
-
-    
     <dt>{$form.premiums_intro_text.label}</dt><dd>{$form.premiums_intro_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the Premiums section title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     
@@ -33,7 +30,7 @@
     <dt>{$form.premiums_display_min_contribution.label}</dt><dd>{$form.premiums_display_min_contribution.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Should the minimum contribution amount be automatically displayed after each premium description?{/ts}</dd>
 	
-    </dl>
+    </dl></div>
     {if  ! $showForm }   
      {if $action ne 4}
             <div id="crm-submit-buttons">
@@ -72,3 +69,20 @@
         myElement2.style.display = 'block';
     {/if}
 </script>
+{literal}
+<script type="text/javascript">
+	var premium_block = document.getElementsByName('premiums_active');
+  	if ( ! premium_block[0].checked) {
+	  hide('premiumFields');
+    }
+	function premiumBlock(chkbox) {
+        if (chkbox.checked) {
+		   show('premiumFields', 'table-row');
+		    return;
+		} else {
+		    hide('premiumFields', 'table-row');
+    	    return;
+		}
+	}	
+</script>
+{/literal}
