@@ -291,7 +291,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
+        
         $this->set( 'searchDone', 0 );
         if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
             $this->search( $params );
@@ -305,9 +305,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         if ($this->_action & CRM_Core_Action::DELETE ){
             CRM_Contact_BAO_Relationship::del($this->_relationshipId);
-            CRM_Contact_BAO_Relationship::relatedMemberships( $this->_contactId, 
-                                                              $params, $ids, 
-                                                              $this->_action );
             return;
         }
         
