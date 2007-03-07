@@ -224,26 +224,29 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         require_once 'CRM/Member/BAO/MembershipType.php';
         $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membership->membership_type_id ); 
         
+        $relationships = array( );
         if ( $membershipType['relationship_type_id'] ) {
             $relationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
                                                                             CRM_Contact_BAO_Relationship::CURRENT
                                                                             );
         }
         
-        require_once "CRM/Contact/BAO/RelationshipType.php";
-        // check for each contact relationships
-        foreach ( $relationships as $values) {
-            //get details of the relationship type
-            $relType   = array( 'id' => $values['civicrm_relationship_type_id'] );
-            $relValues = array( );
-            CRM_Contact_BAO_RelationshipType::retrieve( $relType, $relValues);
-            
-            // 1. Check if contact and membership type relationship type are same
-            // 2. Check if relationship direction is same or name_a_b = name_b_a
-            if ( ( $values['civicrm_relationship_type_id'] == $membershipType['relationship_type_id'] )
-                 && ( ( $values['rtype'] == $membershipType['relationship_direction'] ) ||
-                      ( $relValues['name_a_b'] == $relValues['name_b_a'] ) ) ) {
-                $contacts[] = $values['cid'];
+        if ( ! empty($relationships) ) {
+            require_once "CRM/Contact/BAO/RelationshipType.php";
+            // check for each contact relationships
+            foreach ( $relationships as $values) {
+                //get details of the relationship type
+                $relType   = array( 'id' => $values['civicrm_relationship_type_id'] );
+                $relValues = array( );
+                CRM_Contact_BAO_RelationshipType::retrieve( $relType, $relValues);
+                
+                // 1. Check if contact and membership type relationship type are same
+                // 2. Check if relationship direction is same or name_a_b = name_b_a
+                if ( ( $values['civicrm_relationship_type_id'] == $membershipType['relationship_type_id'] )
+                     && ( ( $values['rtype'] == $membershipType['relationship_direction'] ) ||
+                          ( $relValues['name_a_b'] == $relValues['name_b_a'] ) ) ) {
+                    $contacts[] = $values['cid'];
+                }
             }
         }
         
