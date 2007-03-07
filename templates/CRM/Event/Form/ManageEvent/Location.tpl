@@ -1,12 +1,15 @@
 {* this template used to build location block *}
 {include file="CRM/common/WizardHeader.tpl"}
+{*
  {section name = locationLoop start = 1 loop = $locationCount} 
 <div id="id_location_1_show" class="section-hidden section-hidden-border label">
     {$form.location.1.show.html}{ts}Primary Location{/ts}
  </div>
+
 <div id="id_location_1">
+*}
 	<fieldset>
-<legend>{$form.location.1.hide.html}
+<legend>{*$form.location.1.hide.html*}
         {ts}Primary Location{/ts}
     </legend>
 <div class="form-item">
@@ -22,9 +25,12 @@
 
     {* Display the phone block(s) *}
     {include file="CRM/Contact/Form/Phone.tpl"}       
+
  </fieldset>
+{*
 {/section}
 </div>
+*}
     
  <dl>
          <dt></dt><dd>{$form.buttons.html}</dd>
