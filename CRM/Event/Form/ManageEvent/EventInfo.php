@@ -119,7 +119,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
         
-        $this->add('select','event_type_id',ts('Event Type'),array('' => ts('- select -')) + $event, true, array('onchange' => "reload(true)"));
+        $this->add('select','event_type_id',ts('Event Type'),array('' => ts('- select -')) + $event, true, 
+                   array('onChange' => "if (this.value) reload(true); else return false"));          
         
         $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
         
