@@ -86,7 +86,7 @@ class CRM_Contribute_Payment_Google {
         //Create a new shopping cart object
         $merchant_id  = $config->merchantID[$this->_mode];  // Merchant ID
         $merchant_key = $config->paymentKey[$this->_mode];  // Merchant Key
-        $server_type  = ( $this->_mode == 'test' ) ? "sandbox";
+        $server_type  = ( $this->_mode == 'test' ) ? 'sandbox' : '';
         
         $cart =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
         $item1 = new GoogleItem($params['item_name'],'', 1, $params['amount']);
