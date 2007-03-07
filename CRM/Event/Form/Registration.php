@@ -300,8 +300,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         $this->assign( 'email', $this->controller->exportValue( 'Register', 'email' ) );
 
-        // also assign the receipt_text
-        $this->assign( 'receipt_text', $this->_values['event_page']['confirm_email_text'] );
+        // assign is_email_confirm to templates
+        $this->assign( 'is_email_confirm', $this->_values['event_page']['is_email_confirm'] );
     }
 
     /**  

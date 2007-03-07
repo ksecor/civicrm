@@ -472,9 +472,15 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
 
 #crm-container .report td {
-  /*border: 1px solid #ddd;*/
   border: 1px solid #92B6EC;
   background-color: #F6F6F6;
+}
+
+#crm-container .report td.separator {
+  padding-top: 1em;
+  background-color: #FFFFFF;
+  border-left-color: #FFFFFF;
+  border-right-color: #FFFFFF;
 }
 
 #crm-container .odd-row, tbody.scrollContent {
