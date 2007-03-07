@@ -235,13 +235,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             if ( $result ) {
                 $this->_params = array_merge( $this->_params, $result );
             }
+
+            $this->_params['receive_date'] = $now;
             
             // transactionID & receive date required while building email template
             $this->assign( 'trxn_id', $result['trxn_id'] );
             $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
-            
-            $this->_params['receive_date'] = $now;
-           
+          
             // if paid event add a contribution record
             $contribution =& $this->processContribution( $this->_params, $result, $contactID );
         }
