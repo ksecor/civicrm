@@ -277,7 +277,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         foreach ( $vars as $v ) {
             if ( CRM_Utils_Array::value( $v, $this->_params ) ) {
-                $this->assign( $v, $this->_params[$v] );
+                if ( $v == 'receive_date' ) {
+                     $this->assign( $v,  CRM_Utils_Date::mysqlToIso( $this->_params[$v] ) );
+                } else {
+                    $this->assign( $v, $this->_params[$v] );
+                }
             }
         }
 
