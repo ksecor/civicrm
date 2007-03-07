@@ -755,6 +755,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $relTypeId    = $rel[0];
         $relDirection = "_{$rel[1]}_{$rel[2]}";
         
+        if ( ( $action & CRM_Core_Action::ADD    ) ||
+             ( $action & CRM_Core_Action::DELETE ) ) {
+            $contact       = $contactId;
+            $targetContact = $params['contact_check'];
+        } else if ( $action & CRM_Core_Action::UPDATE ) {
+            $contact       = $ids['contact'];
+            $targetContact = array( $ids['contactTarget'] => 1 );
+        }
+        
         // Build the 'values' array for 
         // 1. ContactA
         // 2. ContactB
@@ -764,19 +773,19 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $values   = array();
         
         // 1. ContactA
-        $values[$contactId] = array(
-                                    'relatedContacts'           => $params['contact_check'],
+        $values[$contact] = array(
+                                    'relatedContacts'           => $targetContact,
                                     'relationshipTypeId'        => $relTypeId,
                                     'relationshipTypeDirection' => $relDirection
                                     );
         // 2. ContactB
-        foreach ($params['contact_check'] as $cid => $donCare) {
-            $values[$cid]   = array(
-                                    'relatedContacts'           => array( $contactId => 1 ),
-                                    'relationshipTypeId'        => $relTypeId
-                                    );
-            $values[$cid]['relationshipTypeDirection'] = ($relDirection == '_a_b') ? '_b_a' : '_a_b';
-        }
+        foreach ( $targetContact as $cid => $donCare ) {
+                $values[$cid]   = array(
+                                        'relatedContacts'           => array( $contact => 1 ),
+                                        'relationshipTypeId'        => $relTypeId
+                                        );
+                $values[$cid]['relationshipTypeDirection'] = ($relDirection == '_a_b') ? '_b_a' : '_a_b';
+            }
         // done with 'values' array.
         
         // Now get the active memberships for all the contacts.
@@ -797,8 +806,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $values[$cid]['memberships'] = $memberships;
         }
         
-        //CRM_Core_Error::debug( 'Values', $values );
-        //exit( );
+        // CRM_Core_Error::debug( 'Values', $values );
+        // exit( );
         
         // Finally add / edit / delete memberships for the related contacts
         foreach ( $values as $cid => $details ) {
@@ -818,10 +827,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 
                 // Get the Membership Type Details. 
                 $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipValues['membership_type_id'] );
-                // Check if relationship being created/updated is
-                // similar to that of membership type's
-                // relationship.
+
                 if( "{$details['relationshipTypeId']}{$details['relationshipTypeDirection']}" == $membershipType['relationship_type_id'] . "_" . $membershipType['relationship_direction'] ) {
+                    // Check if relationship being created/updated is
+                    // similar to that of membership type's
+                    // relationship.
+                    
                     $membershipValues['owner_membership_id'] = $membershipId;
                     unset($membershipValues['id']);
                     unset($membershipValues['membership_contact_id']);
@@ -836,6 +847,13 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                         
                         CRM_Member_BAO_Membership::create( $membershipValues, CRM_Core_DAO::$_nullArray );
                     }
+                } else if ( $action & CRM_Core_Action::UPDATE ) {
+                    // if action is update and updated relationship do
+                    // not match with the existing membership between
+                    // the two contacts then we need to
+                    // delete the membership record because of the
+                    // previous relationship.
+                    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
                 }
             }
         }

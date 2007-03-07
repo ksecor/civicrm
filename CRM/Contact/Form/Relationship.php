@@ -339,10 +339,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $note =& new CRM_Core_DAO_Note( );
         $note->entity_id = $relationshipIds[0];
         $note->entity_table = 'civicrm_relationship';
-        $ids = array();
+        $noteIds = array();
         if ( $note->find(true) ) {
-            $id = $note->id;    
-            $ids["id"] = $id;
+            $id            = $note->id;    
+            $noteIds["id"] = $id;
         }
         
         $noteParams = array(
@@ -351,7 +351,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                 'note'          => $params['note'],
                                 'contact_id'    => $this->_contactId
                                 );
-        CRM_Core_BAO_Note::add( $noteParams , $ids );
+        CRM_Core_BAO_Note::add( $noteParams , $noteIds );
         
         $config   =& CRM_Core_Config::singleton( );
         if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
