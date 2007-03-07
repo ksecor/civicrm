@@ -322,6 +322,12 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
+
+        // we don't show test registrations in Contact Summary / User Dashboard
+        // in Search mode by default we hide test registrations
+        if ( !$this->_formValues["event_participant_test"] ) {
+            $this->_formValues["event_participant_test"] = 0;
+        }
         
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
@@ -345,13 +351,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
-
-        // we don't show test registrations in Contact Summary / User Dashboard
-        // in Search mode by default we hide test registrations
-        if ( !$this->_formValues["event_participant_test"] ) {
-            $this->_formValues["event_participant_test"] = 0;
-        }
-        
+      
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
         

@@ -57,17 +57,8 @@ class CRM_Contribute_Form_Task_Print extends CRM_Contribute_Form_Task {
         // set print view, so that print templates are called
         $this->controller->setPrint( 1 );
 
-        // create the selector, controller and run - store results in session
-        $fv =  $this->get( 'formValues' );
-
-        // we don't show test contributions in Contact Summary / User Dashboard
-        // in Search mode by default we hide test contributions
-        if ( !$fv["contribution_test"] ) {
-            $fv["contribution_test"] = 0;
-        }
-
-        require_once 'CRM/Contact/BAO/Query.php';
-        $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $fv ); 
+        // get the formatted params
+        $queryParams = $this->get( 'queryParams' );
 
         $selector   =& new CRM_Contribute_Selector_Search($queryParams, $this->_action, $this->_contributionClause );
         $controller =& new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
