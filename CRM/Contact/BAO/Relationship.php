@@ -784,7 +784,17 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                                         'relatedContacts'           => array( $contact => 1 ),
                                         'relationshipTypeId'        => $relTypeId
                                         );
-                $values[$cid]['relationshipTypeDirection'] = ($relDirection == '_a_b') ? '_b_a' : '_a_b';
+                
+                $relTypeParams = array( 'id' => $relTypeId );
+                $relTypeValues = array( );
+                require_once 'CRM/Contact/BAO/RelationshipType.php';
+                CRM_Contact_BAO_RelationshipType::retrieve( $relTypeParams, $relTypeValues );
+                
+                if ( $relTypeValues['name_a_b'] == $relTypeValues['name_b_a'] ) {
+                    $values[$cid]['relationshipTypeDirection'] = '_a_b';
+                } else {
+                    $values[$cid]['relationshipTypeDirection'] = ($relDirection == '_a_b') ? '_b_a' : '_a_b';
+                }
             }
         // done with 'values' array.
         
