@@ -23,6 +23,7 @@
     </div>
     <div class="display-block">
         {if $amount}
+            {ts}Amount :{/ts} 
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
         {/if}
     </div>

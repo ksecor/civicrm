@@ -35,6 +35,7 @@
     </div>
     <div class="display-block">
         {if $amount}
+            {ts}Amount :{/ts}
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
         {/if}
         {ts}Transaction Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
