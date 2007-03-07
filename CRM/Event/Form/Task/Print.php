@@ -56,8 +56,18 @@ class CRM_Event_Form_Task_Print extends CRM_Event_Form_Task
         $this->controller->setPrint( 1 );
         
         // create the selector, controller and run - store results in session
-        $fv         = $this->get( 'formValues' );
-        $selector   =& new CRM_Event_Selector_Search($fv, $this->_action, $this->_eventClause );
+        $fv = $this->get( 'formValues' );
+
+        // we don't show test registrations in Contact Summary / User Dashboard
+        // in Search mode by default we hide test registrations
+        if ( !$fv["event_participant_test"] ) {
+            $fv["event_participant_test"] = 0;
+        }
+
+        require_once 'CRM/Contact/BAO/Query.php';
+        $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $fv ); 
+
+        $selector   =& new CRM_Event_Selector_Search($queryParams, $this->_action, $this->_eventClause );
         $controller =& new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
         $controller->setEmbedded( true );
         $controller->run();
