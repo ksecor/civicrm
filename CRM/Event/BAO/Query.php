@@ -65,7 +65,6 @@ class CRM_Event_BAO_Query
      */
     static function select( &$query ) 
     {
-        
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_EVENT ) {
 
             $query->_select['participant_id'] = "civicrm_participant.id as participant_id";
@@ -119,7 +118,6 @@ class CRM_Event_BAO_Query
   
     static function whereClauseSingle( &$values, &$query ) 
     {
-
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         
         switch( $name ) {
@@ -143,10 +141,11 @@ class CRM_Event_BAO_Query
             $query->_where[$grouping][] = "civicrm_event.title $op '{$value}'";
             $query->_qill[$grouping ][] = ts( 'Event %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
+
             return;
 
         case 'event_participant_test':
-            $query->_where[$grouping][] = " civicrm_participant.is_test $op '$value'";
+            $query->_where[$grouping][] = "civicrm_participant.is_test $op $value";
             if ( $value ) {
                 $query->_qill[$grouping][]  = "Test Participants Only";
             }
@@ -274,7 +273,7 @@ class CRM_Event_BAO_Query
         }
         $form->addGroup($status, 'event_participant_status', ts('Participant status'));
 
-        $form->addElement( 'checkbox', 'event_participant_test' , ts( 'Find Test Participants ?' ) );
+        $form->addElement( 'checkbox', 'event_participant_test' , ts( 'Find Test Participants Only?' ) );
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
