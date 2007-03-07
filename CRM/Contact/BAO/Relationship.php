@@ -293,17 +293,20 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         
         $relationship->find(true);
         
-        // create $params array which isrequired to delete memberships
-        // of the related contacts.
-        $params = array(
-                        'relationship_type_id' => "{$relationship->relationship_type_id}_a_b",
-                        'contact_check'        => array( $relationship->contact_id_b => 1 )
-                        );
-        
-        $ids = array();
-        // calling relatedMemberships to delete the memberships of
-        // related contacts.
-        self::relatedMemberships( $relationship->contact_id_a, $params, $ids, CRM_Core_Action::DELETE );
+        $config   =& CRM_Core_Config::singleton( );
+        if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
+            // create $params array which isrequired to delete memberships
+            // of the related contacts.
+            $params = array(
+                            'relationship_type_id' => "{$relationship->relationship_type_id}_a_b",
+                            'contact_check'        => array( $relationship->contact_id_b => 1 )
+                            );
+            
+            $ids = array();
+            // calling relatedMemberships to delete the memberships of
+            // related contacts.
+            self::relatedMemberships( $relationship->contact_id_a, $params, $ids, CRM_Core_Action::DELETE );
+        }
         
         $relationship->delete();
         CRM_Core_Session::setStatus( ts('Selected Relationship has been Deleted Successfuly.') );
