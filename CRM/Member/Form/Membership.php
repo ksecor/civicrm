@@ -135,7 +135,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->applyFilter('__ALL__', 'trim');
 
         $this->add('select', 'membership_type_id',ts( 'Membership Type' ), 
-                   array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ), true,array('onChange' => "reload(true)")
+                   array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ), true,
+                   array('onChange' => "if (this.value) reload(true); else return false")
                    );
                
         $this->add('date', 'join_date', ts('Join Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );         

@@ -68,10 +68,10 @@
         var roleId = document.getElementById("role_id");
         var eventId = document.getElementById("event_id");    
         var url = {/literal}"{$refreshURL}"{literal}
+        var post = url;
 
         if( eventId.value ) {
-            var post = url + "&eid=" + eventId.value;
-            
+            var post = post + "&eid=" + eventId.value;
         }
         if( roleId.value ) {
             var post = post + "&rid=" + roleId.value;
