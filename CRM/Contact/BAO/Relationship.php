@@ -797,7 +797,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $membershipIds = array( );
             
             require_once 'CRM/Member/BAO/Membership.php';
-            CRM_Member_BAO_Membership::getValues($memParams, $memberships, $membershipIds);
+            CRM_Member_BAO_Membership::getValues($memParams, $memberships, $membershipIds, true);
             
             if ( empty($memberships) ) {
                 continue;
@@ -806,8 +806,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $values[$cid]['memberships'] = $memberships;
         }
         
-        // CRM_Core_Error::debug( 'Values', $values );
-        // exit( );
+        //CRM_Core_Error::debug( 'Values', $values );
+        //exit( );
         
         // Finally add / edit / delete memberships for the related contacts
         foreach ( $values as $cid => $details ) {
@@ -849,9 +849,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                     }
                 } else if ( $action & CRM_Core_Action::UPDATE ) {
                     // if action is update and updated relationship do
-                    // not match with the existing membership between
-                    // the two contacts then we need to
-                    // delete the membership record because of the
+                    // not match with the existing
+                    // membership=>relationship then we need to
+                    // delete the membership record created for
                     // previous relationship.
                     CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
                 }
