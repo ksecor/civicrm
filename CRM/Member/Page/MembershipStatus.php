@@ -68,7 +68,7 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
     {
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this membership type?');
+            $disableExtra = ts('Are you sure you want to disable this membership status rule?');
 
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(

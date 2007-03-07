@@ -28,15 +28,14 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Set a title for the progress thermometer block.{/ts}</dd>
     
     <dt>&nbsp;</dt><dd>{$form.honor_block_is_active.html} {$form.honor_block_is_active.label}</dd>
-    
-    <dt>&nbsp;</dt><dd class="description">{ts}Display honor block block on a Contribution Page.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If you want to allow contributors to specify a person whom they are honoring with their gift, check this box. An optional Honoree section will be included in the form. Honoree information is automatically saved and linked with the contribution record.{/ts}</dd>
     </dl>
     <div id="honor">
     <dl>
     <dt>{$form.honor_block_title.label}</dt><dd>{$form.honor_block_title.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Set a title for the honor block.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Title for the Honoree section (e.g. &quot;Honoree Information&quot;).{/ts}</dd>
     <dt>{$form.honor_block_text.label}</dt><dd>{$form.honor_block_text.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Set a text for the honor block.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Optional explanatory text for the Honoree section (displayed above the Honoree fields).{/ts}</dd>
     </dl>
     </div>
     <dl>

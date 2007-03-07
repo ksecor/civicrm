@@ -646,24 +646,20 @@ div.crm-pager a {
 }
 #crm-container ul.wizard-bar li {
   display: inline;
-  /*background-color: #fff;
-  border: 1px solid #bbb;*/
   background-color: #FAFAFA;
   border: 1px solid #92B6EC;
   height: auto;
-  margin-right: 2em;
+  margin-right: 1em;
   padding: .5em 1em .5em;
   text-decoration: none;
+  font-size: .95em;
 }
 #crm-container ul.wizard-bar li.current-step {
-  /*background-color: #fff;
-  border-color: #000;*/
   background-color: #FAFAFA;
   border-color: #92B6EC;
   font-weight: bold;
 }
 #crm-container ul.wizard-bar li.past-step {
-  /*background-color: #eee;*/
   background-color: #EDF2FF;
   color: #666;
 }

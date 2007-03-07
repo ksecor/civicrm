@@ -127,7 +127,7 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
      * @access public 
      */ 
     public function getTitle( ) {
-        return ts( 'Custom Page Elements' );
+        return ts( 'Custom Fields' );
     }
 }
 

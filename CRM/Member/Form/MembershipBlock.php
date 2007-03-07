@@ -217,7 +217,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
      * @access public 
      */ 
     public function getTitle( ) {
-        return ts( 'Configure Membership' );
+        return ts( 'Memberships' );
     }
 }
 ?>

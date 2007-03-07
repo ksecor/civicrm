@@ -600,7 +600,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         foreach ( $comm as $k => $v ) {
             $commPreff[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
         }
-        $form->addGroup($commPreff, 'preferred_communication_method', ts('Prefers'));
+        $form->addGroup($commPreff, 'preferred_communication_method', ts('Method'));
 
         $form->add('select', 'preferred_mail_format', ts('Mail Format'), CRM_Core_SelectValues::pmf());
     }

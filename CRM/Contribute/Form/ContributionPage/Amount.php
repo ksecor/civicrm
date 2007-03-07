@@ -209,7 +209,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
      * @access public 
      */ 
     public function getTitle( ) {
-        return ts( 'Contribution Amounts' );
+        return ts( 'Amounts' );
     }
     
 }

@@ -1,11 +1,10 @@
 <div class="form-item">
 <fieldset><legend>{ts}Mailing Labels{/ts}</legend>
       <dl>
-        <dt>{$form.individualNameFormat.label}</dt><dd>{$form.individualNameFormat.html|crmReplace:class:huge}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Formatting for individual contact names when {literal}{contact_name}{/literal} token is included in mailing labels.{/ts}</dd>
         <dt>{$form.mailingLabelFormat.label}</dt><dd>{$form.mailingLabelFormat.html|crmReplace:class:huge}</dd>
         <dt>&nbsp</dt><dd class="description">{ts}Address format for mailing labels.<br />Use the {literal}{state_province}{/literal} token for state/province abbreviation or {literal}{state_province_name}{/literal} for full name.{/ts}{help id='label-tokens'}</dd>
-  
+        <dt>{$form.individualNameFormat.label}</dt><dd>{$form.individualNameFormat.html|crmReplace:class:huge}</dd>
+        <dt>&nbsp</dt><dd class="description">{ts}Formatting for individual contact names when {literal}{contact_name}{/literal} token is included in mailing labels.{/ts}</dd>
     </dl>
 </fieldset>
 <fieldset><legend>{ts}Address Display and Editing{/ts}</legend>
