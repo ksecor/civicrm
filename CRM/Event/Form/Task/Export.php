@@ -118,13 +118,13 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
                 }
             }
         }
-               
-        $result     = $query->searchQuery( 0, 0, null,
+
+        $result = $query->searchQuery( 0, 0, null,
                                        false, false,
                                        false, false,
                                        false,
                                        $this->_eventClause );
-     
+        
         $properties = array_keys( $header );
         
         require_once 'CRM/Event/PseudoConstant.php';
@@ -136,7 +136,9 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
             $row   = array( );
             $valid = false;
             foreach ( $properties as $property ) {
-                if ($property == 'event_status_id') {
+                if ($property == "event_is_test") {
+                    $row[] = $result->$property ? "Yes" : "No";
+                } else if ($property == 'event_status_id') {
                     $row[] = $statusTypes[$result->$property];
                 } else if ($property == 'role_id') {
                     $row[] = $roleTypes[$result->$property];
