@@ -77,8 +77,8 @@ class CRM_Member_Form_MessageTemplates extends CRM_Member_Form
         $this->add('text', 'msg_subject', ts('Message Subject'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MessageTemplates', 'msg_subject' ) );
         $this->add('textarea', 'msg_text', ts('Text Message'), 
-                   "cols=40 rows=3" );
-        $this->add('textarea', 'msg_html', ts('HTML Message'), "cols=40 rows=3"
+                   "cols=50 rows=6" );
+        $this->add('textarea', 'msg_html', ts('HTML Message'), "cols=50 rows=6"
                     );
 
       
