@@ -303,7 +303,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPage['id'], $this->_values['custom'] );
             
             require_once "CRM/Event/Form/Registration/Register.php";
-            CRM_Event_Form_Registration_Register::buildAmount( );
+            CRM_Event_Form_Registration_Register::buildAmount( false );
         } else {
             $this->add( 'text', 'amount', ts('Event Fee(s)') );
         }

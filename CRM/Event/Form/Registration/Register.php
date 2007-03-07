@@ -120,7 +120,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @return void
      * @access private
      */
-    public function buildAmount( ) {
+    public function buildAmount( $required = true ) {
         $elements = array( );
         if ( ! empty( $this->_values['custom']['label'] ) ) {
             require_once 'CRM/Utils/Money.php';
@@ -132,7 +132,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             $this->_defaults['amount'] = $this->_values['event_page']['default_fee_id'];
             $this->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );
-            $this->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
+            if ( $required ) {
+                $this->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
+            }
         }
     }
 
