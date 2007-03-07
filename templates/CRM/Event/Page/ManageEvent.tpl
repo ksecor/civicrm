@@ -8,7 +8,11 @@
    {include file="CRM/Event/Page/ManageEventEdit.tpl"}
 {/if}
 <div id="help">
+  {if $past and $action ne 1 and $action ne 2} 
     <p>{ts 1=$pastEventsURL}This page lists current (in-progress) events, and upcoming events. <a href="%1">Click here</a> to browse completed (past) events.{/ts}
+  {else}
+    <p>{ts 1=$currentEventsURL}This page lists completed (past) events. <a href="%1">Click here</a> to browse current (in-progress) events, and upcoming events.{/ts}
+  {/if}
 </div>
 {if $rows}
 {include file="CRM/common/dojo.tpl"}
