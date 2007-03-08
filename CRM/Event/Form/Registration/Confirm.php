@@ -69,18 +69,22 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 //require_once 'CRM/Contribute/Payment.php'; 
                 require_once 'CRM/Core/Payment.php'; 
                 $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event' );
-                $this->_params = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
+                $expressParams = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
+                
+                $this->_params['payer'       ] = $expressParams['payer'       ];
+                $this->_params['payer_id'    ] = $expressParams['payer_id'    ];
+                $this->_params['payer_status'] = $expressParams['payer_status'];
+
+                self::mapParams( $this->_bltID, $expressParams, $this->_params, false );
                 
                 // fix state and country id if present
-                if ( CRM_Utils_Array::value( 'state_province', $this->_params ) ) {
-                    $states = CRM_Core_PseudoConstant::stateProvinceAbbreviation();
-                    $states = array_flip( $states );
-                    $this->_params['state_province_id'] = CRM_Utils_Array::value( $this->_params['state_province'], $states );
+                if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
+                    $this->_params["state_province-{$this->_bltID}"] =
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
                 }
-                if ( CRM_Utils_Array::value( 'country', $this->_params ) ) {
-                    $states = CRM_Core_PseudoConstant::countryIsoCode();
-                    $states = array_flip( $states );
-                    $this->_params['country_id'] = CRM_Utils_Array::value( $this->_params['country'], $states );
+                if ( isset( $this->_params['country_id'] ) ) {
+                    $this->_params["country-{$this->_bltID}"]        =
+                        CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
                 }
 
                 // set a few other parameters for PayPal
@@ -108,11 +112,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         } else {
             $this->_params = $this->controller->exportValues( 'Register' );
           
-            if ( isset( $this->_params['state_province_id'] ) ) {
-                $this->_params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['state_province_id'] ); 
+            if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
+                $this->_params["state_province-{$this->_bltID}"] =
+                    CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
             }
-            if ( isset( $this->_params['country_id'] ) ) {
-                $this->_params['country']        = CRM_Core_PseudoConstant::countryIsoCode( $this->_params['country_id'] ); 
+            if ( isset( $this->_params["country_id-{$this->_bltID}"] ) ) {
+                $this->_params["country-{$this->_bltID}"]        =
+                    CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
             }
             if ( isset( $this->_params['credit_card_exp_date'] ) ) {
                 $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
@@ -169,7 +175,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         foreach ( $this->_fields as $name => $dontCare ) {
             $fields[$name] = 1;
         }
-        $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+        $fields["state_province-{$this->_bltID}"] =
+            $fields["country-{$this->_bltID}"] = $fields["email-{$this->_bltID}"] = 1;
+
         foreach ($fields as $name => $dontCare ) {
             if ( $this->_params[$name] ) {
                     $defaults[$name] = $this->_params[$name];
@@ -223,6 +231,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $result =& $payment->doTransferCheckout( $this->_params );
                 break;
             default   :
+                self::mapParams( $this->_bltID, $this->_params, $this->_params, true );
                 $result =& $payment->doDirectPayment( $this->_params );
                 break;
             }
@@ -407,19 +416,22 @@ WHERE  v.option_group_id = g.id
         foreach ( $this->_fields as $name => $dontCare ) {
             $fields[$name] = 1;
         }
-        $fields['first_name'] = $fields['last_name'] = 1;
-        $fields['street_address-Primary'] = $fields['supplemental_address_1-Primary'] = $fields['city-Primary'] = 1;
-        $fields['postal_code-Primary'] = 1;
-        $fields['state_province-Primary'] = $fields['country-Primary'] = $fields['email-Primary'] = 1;
-        
-        $fixLocationFields = array( 'street_address', 'supplemental_address_1', 
-                                    'city', 'state_province', 'postal_code', 'country', 'email' );
-        foreach ( $fixLocationFields as $name ) {
-            if ( array_key_exists( $name, $params ) ) {
-                $params["{$name}-Primary"] = $params[$name];
-                unset( $params[$name] );
+
+        if ( ! array_key_exists( 'first_name', $fields ) ) {
+            $nameFields = array( 'first_name', 'middle_name', 'last_name' );
+            foreach ( $nameFields as $name ) {
+                $fields[$name] = 1;
+                if ( array_key_exists( "billing_$name", $params ) ) {
+                    $params[$name] = $params["billing_{$name}"];
+                }
             }
         }
+
+        // also add location name to the array
+        $params["location_name-{$this->_bltID}"] = 
+            $params["billing_first_name"] . ' ' . $params["billing_middle_name"] . ' ' . $params["billing_last_name"];
+        $fields["location_name-{$this->_bltID}"] = 1;
+        $fields["email-{$this->_bltID}"] = 1;
     }
     
     /**
@@ -450,5 +462,39 @@ WHERE  v.option_group_id = g.id
         return $contactID;
     }
 
+    /**
+     * function to map address fields
+     *
+     * @return void
+     * @static
+     */
+    static function mapParams( $id, &$src, &$dst, $reverse = false ) {
+        static $map = null;
+        if ( ! $map ) {
+            $map = array( 'first_name'             => 'billing_first_name'        ,
+                          'middle_name'            => 'billing_middle_name'       ,
+                          'last_name'              => 'billing_last_name'         ,
+                          'email'                  => "email-$id"                 ,
+                          'street_address'         => "street_address-$id"        ,
+                          'supplemental_address_1' => "supplemental_address_1-$id",
+                          'city'                   => "city-$id"                  ,
+                          'state_province'         => "state_province-$id"        ,
+                          'postal_code'            => "postal_code-$id"           ,
+                          'country'                => "country-$id"               ,
+                          );
+        }
+        
+        foreach ( $map as $n => $v ) {
+            if ( ! $reverse ) {
+                if ( isset( $src[$n] ) ) {
+                    $dst[$v] = $src[$n];
+                }
+            } else {
+                if ( isset( $src[$v] ) ) {
+                    $dst[$n] = $src[$v];
+                }
+            }
+        }
+    }
 }
 ?>

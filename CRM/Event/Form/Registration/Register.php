@@ -73,7 +73,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             foreach ( $this->_fields as $name => $dontCare ) {
                 $fields[$name] = 1;
             }
-            $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+            $fields["state_province-{$this->_bltID}"] = 1;
+            $fields["country-{$this->_bltID}"       ] = 1;
+            $fields["email-{$this->_bltID}"         ] = 1;
             
             require_once 'CRM/Core/BAO/UFGroup.php';
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
@@ -99,7 +101,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     { 
         $config =& CRM_Core_Config::singleton( );
 
-        $this->add( 'text', 'email', ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
+        $this->add( 'text', "email-{$this->_bltID}", ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         if ( $this->_values['event']['is_monetary'] ) {
             $this->buildAmount( );
             $this->buildCreditCard( );
