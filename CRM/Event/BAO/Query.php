@@ -256,6 +256,12 @@ class CRM_Event_BAO_Query
         $title =& $form->add('text', 'event_title', ts('Event Name'), $dojoAttributes );
         if ( $title->getValue( ) ) {
             $form->assign( 'event_title_value',  $title->getValue( ) );
+        } else {
+            $fv  =& $form->getFormValues( );
+            $val = CRM_Utils_Array::value( 'event_title', $fv);
+            if ( $val ) {
+                $form->assign( 'event_title_value',  $val );
+            }
         }
 
         // Date selects for date 
