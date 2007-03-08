@@ -102,7 +102,8 @@ Paid events require that you have configured a <a href="%1" target="_blank" titl
     {/strip}
     </fieldset>
     </div>
-
+</div>
+</fieldset>
     <dl>
     <dt>&nbsp;</dt><dd>
         <div id="crm-submit-buttons">
@@ -110,8 +111,7 @@ Paid events require that you have configured a <a href="%1" target="_blank" titl
         </div>
         </dd>
     </dl>  
-</div>
-</fieldset>
+
 {include file="CRM/common/showHide.tpl"}
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_online_registration"

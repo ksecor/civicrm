@@ -131,6 +131,7 @@ class CRM_Event_Invoke
             }
             require_once 'CRM/Event/Import/Controller.php';
             $controller =& new CRM_Event_Import_Controller(ts('Import Participants'));
+            $session->pushUserContext( CRM_Utils_System::url("civicrm/event", "reset=1" ) );
             return $controller->run();
         } else {
             require_once 'CRM/Event/Page/DashBoard.php';

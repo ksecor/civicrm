@@ -58,7 +58,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
     {
         if (!(self::$_actionLinks)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this eventship type?');
+            $disableExtra = ts('Are you sure you want to disable this Event?');
             $deleteExtra = ts('Are you sure you want to delete this Event?');
 
             self::$_actionLinks = array(
