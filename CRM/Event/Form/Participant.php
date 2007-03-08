@@ -309,7 +309,6 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         }
         
         $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
-        
         $this->add('textarea', 'note', ts('Notes'), $noteAttributes['note']);
         
         $session = & CRM_Core_Session::singleton( );
