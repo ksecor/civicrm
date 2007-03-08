@@ -38,7 +38,7 @@
         <tbody> 
         {foreach from=$rows item=row}
           <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-            <td>{$row.title} ({td}ID:{/ts} {$row.id})</td>
+            <td>{$row.title} ({ts}ID:{/ts} {$row.id})</td> 
             <td>{$row.city}</td>  
             <td>{$row.state_province}</td>	
             <td>{if $row.is_public eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>    

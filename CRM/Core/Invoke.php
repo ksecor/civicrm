@@ -902,32 +902,45 @@ class CRM_Core_Invoke
         switch ( $thirdArg ) {
         case 'component' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
+            break;
         case 'path' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Path', ts('File System Paths'), null); 
+            break;
         case 'url' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Url', ts('Site URLs'), null); 
+            break;
         case 'smtp' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Smtp', ts('Smtp Server'), null); 
+            break;
         case 'mapping' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Mapping', ts('Mapping and Geocoding'), null); 
+            break;
         case 'payment' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Payment', ts('Online Payments'), null); 
+            break;
         case 'localization' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Localization', ts('Localization'), null); 
+            break;
         case 'address' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Address', ts('Address Formatting'), null); 
+            break;
         case 'date' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Date', ts('Date Formatting'), null); 
+            break;
         case 'misc' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Miscellaneous', ts('Miscellaneous'), null); 
+            break;
         case 'debug' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Debugging', ts('Debugging'), null); 
+            break;
         case 'mail' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Mail', ts('CiviMail Settings'), null); 
+            break;
         default : 
             require_once 'CRM/Admin/Page/Setting.php';
             $view =& new CRM_Admin_Page_Setting();
             $output = $view->run();
+            break;
         }
         $config =& CRM_Core_Config::singleton();
         $config->cleanup(1);

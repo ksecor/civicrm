@@ -50,6 +50,29 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
     protected $_title;
 
     /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        //Check if there are contributions related to Contribution Page
+        
+        parent::preProcess();
+        require_once 'CRM/Contribute/DAO/Contribution.php';
+        $dao =& new CRM_Contribute_DAO_Contribution();
+        $dao->contribution_page_id = $this->_id;
+        
+        if ( $dao->find(true) ) {
+            $this->_relatedContributions = true;
+            $this->assign('relatedContributions',true);
+            
+        }
+        
+    }
+
+    /**
      * Function to actually build the form
      *
      * @return None
@@ -60,14 +83,21 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
         $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
         $this->assign( 'title', $this->_title );
 
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Delete Contribution Page'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
+        //if there are contributions related to Contribution Page 
+        //then onle cancel button is displayed
+        $buttons = array();
+        if (! $this->_relatedContributions ) {
+            $buttons[]  =  array ( 'type'      => 'next',
+                                   'name'      => ts('Delete Contribution Page'),
+                                   'isDefault' => true   );
+        }
+
+        $buttons[] =  array ( 'type'       => 'cancel',
+                              'name'      => ts('Cancel') 
+                              );
+            
+        $this->addButtons( $buttons );
+        
     }
 
     /**
@@ -78,7 +108,7 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
      */
     public function postProcess( ) {
         CRM_Core_DAO::transaction('BEGIN');
-
+        
         // first delete the join entries associated with this contribution page
         require_once 'CRM/Core/DAO/UFJoin.php';
         $dao =& new CRM_Core_DAO_UFJoin( );
