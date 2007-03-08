@@ -1,3 +1,3 @@
 {strip}
-{ts}Receipt{/ts} - {$title}
+{ts}Registration Confirmation{/ts} - {$title}
 {/strip}

@@ -99,7 +99,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
 
         $this->addButtons( array(
                                  array ( 'type'      => 'submit',
-                                         'name'      => ts('Update Event Participantion(s)'),
+                                         'name'      => ts('Update Participant(s)'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
@@ -116,7 +116,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             }
         }
         
-        $this->addDefaultButtons( ts( 'Update Event Participations' ) );
+        $this->addDefaultButtons( ts( 'Update Participant(s)' ) );
     }
 
     /**

@@ -74,9 +74,7 @@ class CRM_Event_Form_Task_Cancel extends CRM_Event_Form_Task
     {
         CRM_Utils_System::setTitle( ts('Cancel Registration for Event Participation') );        
         $session =& CRM_Core_Session::singleton( );
-        //     $session->replaceUserContext( CRM_Utils_System::url('civicrm/event/view',
-        //          'reset=1&cid=' . $this->_participantIds[0] ) );
-        $this->addDefaultButtons( ts('Cancel Registration'), 'done' );
+        $this->addDefaultButtons( ts('Continue'), 'done' );
     }
     
 

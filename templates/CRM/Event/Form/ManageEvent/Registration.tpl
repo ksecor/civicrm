@@ -1,20 +1,22 @@
 {include file="CRM/common/WizardHeader.tpl"}
-<div class="form-item">
 <fieldset><legend>{ts}Online Registration{/ts}</legend>
 <div id="help">
 {ts 1="http://wiki.civicrm.org/"}If you want to provide an Online Registration page for this event, check the first box below and
 then complete the fields on this form. You can offer online registration for both Paid and Free events.
 Paid events require that you have configured a <a href="%1" target="_blank" title="Opens documentation in a new window">Payment Processor</a> for your site.{/ts}
 </div>
- <dl>
-    	<dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable online registration for this event.{/ts}</dd>
-        <div id="registrationLink">
-     	  <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
-          <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. "Register Now!").{/ts}</dd>
-        </div>
- </dl>
-<div id="registration">
+<div class="form-item">
+<dl>
+    <dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable online registration for this event.{/ts}</dd>
+</dl>
+<div id="registrationLink">
+    <dl>
+        <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. "Register Now!").{/ts}</dd>
+    </dl>
+</div>
+<div id="registration" class="form-item">
     {*Registration Block*}
 	<div id="registration_screen_show" class="section-hidden section-hidden-border">
         <a href="#" onclick="hide('registration_screen_show'); show('registration_screen'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Registration Screen{/ts}</label><br />
@@ -78,7 +80,7 @@ Paid events require that you have configured a <a href="%1" target="_blank" titl
 
 	<div id="mail">
     <fieldset><legend><a href="#" onclick="hide('mail'); show('mail_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Confirmation Email{/ts}</legend>
- {strip}
+    {strip}
     <dl>
     	<dt>{$form.is_email_confirm.label}</dt><dd>{$form.is_email_confirm.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Do you want a registration confirmation email sent automatically to the user? This email includes event date(s), location and contact information. For paid events, this email is also a receipt for their payment.{/ts}</dd>
@@ -97,18 +99,19 @@ Paid events require that you have configured a <a href="%1" target="_blank" titl
         <dt>&nbsp;</dt><dd class="description">{ts}You may specify an email address to receive a blind carbon copy (bcc) of the confirmation email.{/ts}</dd>
     </dl>
     </div>
- {/strip}
+    {/strip}
     </fieldset>
-	</div>
+    </div>
 
-<dl>
+    <dl>
+    <dt>&nbsp;</dt><dd>
+        <div id="crm-submit-buttons">
+        {$form.buttons.html}
+        </div>
+        </dd>
+    </dl>  
 </div>
-<div id="crm-submit-buttons">
-    {$form.buttons.html}
-</div>
-</dl>  
 </fieldset>
-</div>
 {include file="CRM/common/showHide.tpl"}
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_online_registration"
