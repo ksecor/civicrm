@@ -136,10 +136,14 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
             $url = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId );
             break;
             
-        case 'dashboard':
+        case 'dashboard':           
             $url = CRM_Utils_System::url( 'civicrm/event', 'reset=1' );
             break;
-
+            
+        case 'search':
+            $url = CRM_Utils_System::url( 'civicrm/event/search', 'force=1&reset=1' );
+            break;
+            
         case 'user':
             $url = CRM_Utils_System::url( 'civicrm/user', 'reset=1' );
             break;

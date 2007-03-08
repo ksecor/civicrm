@@ -185,6 +185,10 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                                           "reset=1&force=1&cid={$this->_contactId}&selectedChild=member" );
             break;
 
+        case 'search':
+            $url = CRM_Utils_System::url( 'civicrm/member/search', 'force=1&reset=1' );
+            break;
+
         default:
             $cid = null;
             if ( $this->_contactId ) {
