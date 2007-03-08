@@ -228,6 +228,10 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                           "reset=1&force=1&cid={$cid}&selectedChild=contribute" );
             break;
+
+        case 'search':
+            $url = CRM_Utils_System::url( 'civicrm/contribute/search', 'force=1&reset=1' );
+            break;
             
         default:
             $cid = null;
