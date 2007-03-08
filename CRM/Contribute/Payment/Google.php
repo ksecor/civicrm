@@ -35,10 +35,11 @@
  */ 
 
 
+require_once('CRM/Core/Payment/Google.php');
 require_once('Google/library/googlecart.php');
 require_once('Google/library/googleitem.php');
 
-class CRM_Contribute_Payment_Google { 
+class CRM_Contribute_Payment_Google extends CRM_Core_Payment_Google { 
     /** 
      * We only need one instance of this object. So we use the singleton 
      * pattern and cache the instance in this variable 
@@ -56,7 +57,7 @@ class CRM_Contribute_Payment_Google {
      * @return void 
      */ 
     function __construct( $mode ) {
-        $this->_mode = $mode;
+        parent::__construct( $mode );
     }
 
     /** 
@@ -75,10 +76,17 @@ class CRM_Contribute_Payment_Google {
         return self::$_singleton; 
     } 
 
+    /**  
+     * Sets appropriate parameters for checking out to google
+     *  
+     * @param array $params  name value pair of contribution datat
+     *  
+     * @return void  
+     * @access public 
+     *  
+     */  
     function doCheckout( &$params ) {
         $config =& CRM_Core_Config::singleton( );
-        //print_r($params);
-        //print_r($config);
 
         $url = ( $this->_mode == 'test' ) ? $config->googleCheckoutTestUrl : $config->googleCheckoutUrl;
         $url = 'https://' . $url . '/cws/v2/Merchant/' . $config->merchantID[$this->_mode] . '/checkout';
@@ -92,7 +100,7 @@ class CRM_Contribute_Payment_Google {
         $item1 = new GoogleItem($params['item_name'],'', 1, $params['amount']);
         $cart->AddItem($item1);
 
-        $privateData = "module=contribute,contactID={$params['contactID']},contributionID={$params['contributionID']},contributionTypeID={$params['contributionTypeID']},invoiceID={$params['invoiceID']}";
+        $privateData = "contactID={$params['contactID']},contributionID={$params['contributionID']},contributionTypeID={$params['contributionTypeID']},invoiceID={$params['invoiceID']}";
         if ( $params['selectMembership'] &&  $params['selectMembership'] != 'no_thanks' ) {
             $privateData .= ",membershipTypeID={$params['selectMembership']}";
         }
@@ -127,34 +135,6 @@ class CRM_Contribute_Payment_Google {
         }
         CRM_Utils_System::redirect( $request->getResponseHeader( 'location' ) );
         exit( );
-    }
-
-    /** 
-     * This function checks to see if we have the right config values 
-     * 
-     * @param  string $mode the mode we are operating in (live or test) 
-     * 
-     * @return string the error message if any 
-     * @public 
-     */ 
-    function checkConfig( $mode ) {
-        $config =& CRM_Core_Config::singleton( );
-
-        $error = array( );
-
-        if ( empty( $config->merchantID[$mode] ) ) {
-            if ( $mode == 'live' ) {
-                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_MERCHANT-ID'));
-            } else {
-                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_MERCHANT-ID'));
-            }
-        }
-        
-        if ( ! empty( $error ) ) {
-            return implode( ' ', $error );
-        } else {
-            return null;
-        }
     }
 
 }
