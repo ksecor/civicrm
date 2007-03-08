@@ -71,6 +71,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
             }
             $defaults['membership_type'] = $newMembershipType;
         }
+     
         return $defaults;
     }
     
@@ -84,7 +85,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
     public function buildQuickForm()
     {
              
-        $this->addElement('checkbox', 'is_active', ts('Membership Section Enabled?') );
+        $this->addElement('checkbox', 'is_active', ts('Membership Section Enabled?') , null, array( 'onclick' => "memberBlock(this);" ));
         
         $this->addElement('text', 'new_title', ts('Title - New Membership'), CRM_Core_DAO::getAttribute('CRM_Member_DAO_MembershipBlock', 'new_title'));
                
@@ -216,7 +217,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
      * @access public 
      */ 
     public function getTitle( ) {
-        return ts( 'Configure Membership' );
+        return ts( 'Memberships' );
     }
 }
 ?>

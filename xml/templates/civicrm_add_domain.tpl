@@ -19,7 +19,7 @@ INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Work{/ts}', 'WORK', '{ts}Work location{/ts}', 0, 1 );
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Main{/ts}', NULL, '{ts}Main office location{/ts}', 0, 1 );
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Other{/ts}', NULL, '{ts}Other location{/ts}', 0, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Billing{/ts}', NULL, '{ts}Location for all Online Contributions{/ts}', 0, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Billing{/ts}', NULL, '{ts}Billing Address location{/ts}', 1, 1 );
 
 -- Sample relationship types
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
@@ -79,7 +79,7 @@ VALUES
 INSERT INTO 
    `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
 VALUES 
-   (@domain_id, 'preferred_communication_method', '{ts}Preferred communication method{/ts}'     , 0, 1),
+   (@domain_id, 'preferred_communication_method', '{ts}Preferred Communication Method{/ts}'     , 0, 1),
    (@domain_id, 'activity_type'                 , '{ts}Activity Type{/ts}'                      , 0, 1),
    (@domain_id, 'gender'                        , '{ts}Gender{/ts}'                             , 0, 1),
    (@domain_id, 'instant_messenger_service'     , '{ts}Instant Messenger (IM) screen-names{/ts}', 0, 1),
@@ -87,8 +87,8 @@ VALUES
    (@domain_id, 'individual_prefix'             , '{ts}Individual contact prefixes{/ts}'        , 0, 1),
    (@domain_id, 'individual_suffix'             , '{ts}Individual contact suffixes{/ts}'        , 0, 1),
    (@domain_id, 'acl_role'                      , '{ts}ACL Role{/ts}'                           , 0, 1),
-   (@domain_id, 'accept_creditcard'             , '{ts}Accept Credit Card{/ts}'                 , 0, 1),
-   (@domain_id, 'payment_instrument'            , '{ts}Payment Instrument{/ts}'                 , 0, 1),
+   (@domain_id, 'accept_creditcard'             , '{ts}Accepted Credit Cards{/ts}'              , 0, 1),
+   (@domain_id, 'payment_instrument'            , '{ts}Payment Instruments{/ts}'                , 0, 1),
    (@domain_id, 'contribution_status'           , '{ts}Contribution Status{/ts}'                , 0, 1),
    (@domain_id, 'participant_status'            , '{ts}Participant Status{/ts}'                 , 0, 1),
    (@domain_id, 'participant_role'              , '{ts}Participant Role{/ts}'                   , 0, 1),

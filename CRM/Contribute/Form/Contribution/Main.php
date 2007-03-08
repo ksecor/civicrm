@@ -219,16 +219,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
 
         // prefix
-        $this->addElement('select', 'honor_prefix_id', ts('Prefix'), array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
+        $this->addElement('select', 'honor_prefix_id', ts('Honoree Prefix'), array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
         // first_name
-        $this->addElement('text', 'honor_first_name', ts('First Name'), $attributes['first_name'] );
+        $this->addElement('text', 'honor_first_name', ts('Honoree First Name'), $attributes['first_name'] );
         
         //last_name
-        $this->addElement('text', 'honor_last_name', ts('Last Name'), $attributes['last_name'] );
+        $this->addElement('text', 'honor_last_name', ts('Honoree Last Name'), $attributes['last_name'] );
         
         //email
-        $this->addElement('text', 'honor_email', ts('Email Address'));
-        $this->addRule( "honor_email", ts('Email is not valid.'), 'email' );
+        $this->addElement('text', 'honor_email', ts('Honoree Email Address'));
+        $this->addRule( "honor_email", ts('Honoree Email is not valid.'), 'email' );
     }
 
     /** 

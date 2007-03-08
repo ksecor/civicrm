@@ -202,19 +202,21 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $params = $this->exportValues( );
         $params['event_id'] = $ids['event_id'] = $this->_id;
 
-        CRM_Event_BAO_EventPage::retrieve( $params, $values );
-        $eventPageId = $values['id'];
-
         // delete all the prior label values in the custom options table
         if ( $this->_action & CRM_Core_Action::UPDATE ){
+            $eventPageId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $this->_id, 'id', 'event_id' );
             $dao =& new CRM_Core_DAO_CustomOption( );
             $dao->entity_table = 'civicrm_event_page'; 
             $dao->entity_id    = $eventPageId; 
             if($dao->find( )){
                 $dao->delete( );
             }
+        } else {
+            //add record in event page 
+            $eventPage = CRM_Event_BAO_EventPage::add( $params );
+            $eventPageId = $eventPage->id;
         }
-        
+
         if ( $params['is_monetary'] ) {
             // if there are label / values, create custom options for them
             $labels  = CRM_Utils_Array::value( 'label'  , $params );
@@ -241,11 +243,12 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         } else {
             $params['contribution_type_id'] = '';
         }
+
         //update events table
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add($params, $ids);
-        
-        //update event page table
+
+        //update event page record with default fee id
         CRM_Event_BAO_EventPage::add( $params );
     }
 

@@ -55,9 +55,11 @@ class CRM_Member_Form_Task_Print extends CRM_Member_Form_Task {
 
         // set print view, so that print templates are called
         $this->controller->setPrint( 1 );
-        // create the selector, controller and run - store results in session
-        $fv         =  $this->get( 'formValues' );
-        $selector   =& new CRM_Member_Selector_Search($fv, $this->_action, $this->_memberClause );
+
+        // get the formatted params
+        $queryParams = $this->get( 'queryParams' );
+
+        $selector   =& new CRM_Member_Selector_Search($queryParams, $this->_action, $this->_memberClause );
         $controller =& new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
         $controller->setEmbedded( true );
         $controller->run();

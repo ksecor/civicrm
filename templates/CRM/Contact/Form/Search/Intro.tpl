@@ -38,7 +38,7 @@
 {else}
     <div id="help">
         {if $action EQ 512}
-            <p>{ts}Use <strong>%</strong> wildcard(s) for partial matches (other than contact name/email). EXAMPLE: Enter "Volunteer%" as your Activity Type to match any activity whose type is "Volunteer" + any other words (e.g. Volunteer for Open House).{/ts} {help id='advanced-intro'}</p>
+            {ts}Use <strong>%</strong> wildcard(s) for partial matches (other than contact name/email). EXAMPLE: Enter "Volunteer%" as your Activity Type to match any activity whose type is "Volunteer" + any other words (e.g. Volunteer for Open House).{/ts} {help id='advanced-intro'}
         {else}
             {ts}Use the Search Criteria form to find contacts by name, type of contact, group membership, tags, etc. You can then view or edit contact details, print a contact list, assign tags, export contact data to a spreadsheet, etc.{/ts}
         {/if}

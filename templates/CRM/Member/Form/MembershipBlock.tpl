@@ -5,11 +5,15 @@
     {ts 1="http://wiki.civicrm.org/confluence//x/ui"}Use this form to enable and configure a Membership Signup and Renewal section for this Online Contribution Page. If you're not using this page for membership signup, leave the <strong>Enabled</strong> box un-checked.
     Refer to the <a href="%1" target="_blank" title="CiviMember Guide. Opens documentation in a new window.">CiviMember Guide</a> for more information.{/ts}
 </div>
-  <div id="form" class="form-item">
+
+<div id="form" class="form-item">
     <fieldset><legend>{ts}Configure Membership Section{/ts}</legend>
     <dl>
      <dt></dt><dd>{$form.is_active.html} &nbsp;{$form.is_active.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts 1=$title}Include a Membership Signup section in this Online Contribution page? (%1){/ts}</dd>	
+     <dt>&nbsp;</dt><dd class="description">{ts}Include a Membership Signup section in this Online Contribution page?{/ts}</dd>
+    </dl>
+    <div id="memberFields">
+    <dl>
     <dt>{$form.new_title.label}</dt><dd>{$form.new_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Membership section title - for new member signups.{/ts}</dd>
 
@@ -51,21 +55,37 @@
 
     <dt></dt><dd>{$form.is_separate_payment.html}&nbsp;{$form.is_separate_payment.label} </dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Should the membership fee be processed as a separate transaction? If this option is checked AND the contribution page includes a separate contribution amount block - two transactions will be generated: one for the membership fee amount; and one for the selected contribution amount.{/ts}</dd>
-	
     </dl>
-   
-   
+   </div>
   </fieldset>
 </div>
 
-
+<div>
 {if $action ne 4}
-<div id="crm-submit-buttons">
-    {$form.buttons.html}
-</div>
+    <div id="crm-submit-buttons">
+        <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
+    </div>
 {else}
     <div id="crm-done-button">
-        {$form.done.html}
+         <dl><dt></dt><dd>{$form.buttons.html}<br></dd></dl>
     </div>
 {/if} {* $action ne view *}
+</div>
 
+{literal}
+<script type="text/javascript">
+	var is_act = document.getElementsByName('is_active');
+  	if ( ! is_act[0].checked) {
+        hide('memberFields');
+	}
+  function memberBlock(chkbox) {
+        if (chkbox.checked) {
+		   show('memberFields');
+		    return;
+		} else {
+		    hide('memberFields');
+    	    return;
+		}
+	}	
+</script>
+{/literal}

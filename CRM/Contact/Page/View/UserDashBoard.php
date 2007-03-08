@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -56,23 +56,32 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
      */
     function preProcess()
     {
-        $admin   = CRM_Core_Permission::check( 'access User Dashboard' );
+        $check = CRM_Core_Permission::check( 'access Contact Dashboard' );
         
-        if ( !$admin ) {
+        if ( ! $check ) {
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' ) );
             break;
         }
         
-        $session =& CRM_Core_Session::singleton( );
-        $this->_contactId = $session->get( 'userID' );
-        
+        $this->_contactId = CRM_Utils_Request::retrieve('id', 'Positive',
+                                                        $this, true );
+        if ( ! $this->_contactId ) {
+            $session =& CRM_Core_Session::singleton( );
+            $this->_contactId = $session->get( 'userID' );
+        } else {
+            require_once 'CRM/Contact/BAO/Contact.php';
+            if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::VIEW ) ) {
+                CRM_Core_Error::fatal( ts( 'You do not have permission to view this contact' ) );
+            }
+        }
+
         if ( ! $this->_contactId) {
-            CRM_Core_Error::statusBounce( ts( 'We could not find a contact id.' ) );
+            CRM_Core_Error::fatal( ts( 'We could not find a contact id.' ) );
         }
      
         list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
         
-        CRM_Utils_System::setTitle( 'User Dashboard' );
+        CRM_Utils_System::setTitle( 'Contact Dashboard' );
   
         $this->assign ( 'displayName', $displayName );
         $this->assign ( 'DisplayName', $contactImage . ' ' . $displayName );

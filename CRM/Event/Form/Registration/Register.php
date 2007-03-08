@@ -77,6 +77,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             
             require_once 'CRM/Core/BAO/UFGroup.php';
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
+
+            //set custom field defaults
+            require_once "CRM/Core/BAO/CustomField.php";
+            foreach ($fields as $name => $field ) {
+                if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID($name) ) {
+                    CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $this->_defaults, null, CRM_Profile_Form::MODE_REGISTER );
+                }
+            }
         }
         return $this->_defaults;
     }
@@ -120,7 +128,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @return void
      * @access private
      */
-    public function buildAmount( ) {
+    public function buildAmount( $required = true ) {
         $elements = array( );
         if ( ! empty( $this->_values['custom']['label'] ) ) {
             require_once 'CRM/Utils/Money.php';
@@ -132,7 +140,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             $this->_defaults['amount'] = $this->_values['event_page']['default_fee_id'];
             $this->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );
-            $this->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
+            if ( $required ) {
+                $this->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
+            }
         }
     }
 

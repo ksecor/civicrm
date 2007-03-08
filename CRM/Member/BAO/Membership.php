@@ -118,15 +118,17 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param array $params input parameters to find object
-     * @param array $values output values of the object
-     * @param array $ids    the array that holds all the db ids
-     *
+     * @param array   $params input parameters to find object
+     * @param array   $values output values of the object
+     * @param array   $ids    the array that holds all the db ids
+     * @param boolean $active do you want only active memberships to
+     *                        be returned
+     * 
      * @return CRM_Member_BAO_Membership|null the found object or null
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids ) 
+    static function &getValues( &$params, &$values, &$ids, $active=false ) 
     {
         $membership =& new CRM_Member_BAO_Membership( );
         
@@ -134,6 +136,11 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $membership->find();
         $memberships = array();
         while ( $membership->fetch() ) {
+            if ( $active && 
+                 ( ! CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $membership->status_id, 'is_current_member') ) ) {
+                continue;
+            }
+            
             $ids['membership'] = $membership->id;
             
             CRM_Core_DAO::storeValues( $membership, $values[$membership->id] );
@@ -203,39 +210,46 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     static function checkMembershipRelationship( $membershipId, $contactId ) 
     {
-        $membershipTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership',
-                                                         $membershipId,
-                                                         'membership_type_id'
-                                                         );
+        $contacts = array( );
+        
+        $params   = array( 'id' => $membershipId );
+        $defaults = array( );
+        $membership = self::retrieve( $params, $defaults );
+        if ( ! array_key_exists( 'active', $defaults ) ) {
+            // if the membership is not active, then it should not be
+            // added to the related contact.
+            return $contacts;
+        }
         
         require_once 'CRM/Member/BAO/MembershipType.php';
-        $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeId ); 
-
+        $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membership->membership_type_id ); 
+        
+        $relationships = array( );
         if ( $membershipType['relationship_type_id'] ) {
             $relationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
                                                                             CRM_Contact_BAO_Relationship::CURRENT
                                                                             );
         }
- 
-        require_once "CRM/Contact/BAO/RelationshipType.php";
-        $contacts = array( );
         
-        // check for each contact relationships
-        foreach ( $relationships as $values) {
-            //get details of the relationship type
-            $relType   = array( 'id' => $values['civicrm_relationship_type_id'] );
-            $relValues = array( );
-            CRM_Contact_BAO_RelationshipType::retrieve( $relType, $relValues);
-
-            // 1. Check if contact and membership type relationship type are same
-            // 2. Check if relationship direction is same or name_a_b = name_b_a
-            if ( ( $values['civicrm_relationship_type_id'] == $membershipType['relationship_type_id'] )
-                 && ( ( $values['rtype'] == $membershipType['relationship_direction'] ) ||
-                      ( $relValues['name_a_b'] == $relValues['name_b_a'] ) ) ) {
-                $contacts[] = $values['cid'];
+        if ( ! empty($relationships) ) {
+            require_once "CRM/Contact/BAO/RelationshipType.php";
+            // check for each contact relationships
+            foreach ( $relationships as $values) {
+                //get details of the relationship type
+                $relType   = array( 'id' => $values['civicrm_relationship_type_id'] );
+                $relValues = array( );
+                CRM_Contact_BAO_RelationshipType::retrieve( $relType, $relValues);
+                
+                // 1. Check if contact and membership type relationship type are same
+                // 2. Check if relationship direction is same or name_a_b = name_b_a
+                if ( ( $values['civicrm_relationship_type_id'] == $membershipType['relationship_type_id'] )
+                     && ( ( $values['rtype'] == $membershipType['relationship_direction'] ) ||
+                          ( $relValues['name_a_b'] == $relValues['name_b_a'] ) ) ) {
+                    $contacts[] = $values['cid'];
+                }
             }
         }
-
+        
         return $contacts;
     }
     

@@ -612,8 +612,14 @@ ORDER BY
         // add custom field values
         if ( CRM_Utils_Array::value( 'custom', $params ) ) {
             foreach ($params['custom'] as $customValue) {
+                if ( $customValue['entity_table'] ) {
+                    $entityTable = $customValue['entity_table'];
+                } else {
+                    $entityTable = 'civicrm_contact';
+                }
+                
                 $cvParams = array(
-                                  'entity_table'    => 'civicrm_contact',
+                                  'entity_table'    => $entityTable, 
                                   'entity_id'       => $contact->id,
                                   'value'           => $customValue['value'],
                                   'type'            => $customValue['type'],
@@ -1935,7 +1941,8 @@ WHERE civicrm_contact.id IN $idString ";
      * @params  int    $contactID     contact_id of the contact to be edited/added.
      * @params  array  $fields        array of fields from UFGroup
      * @params  int    $addToGroupID  specifies the default group to which contact is added.
-     * $params  int    $ufGroupId     uf group id (profile id)
+     * @params  int    $ufGroupId     uf group id (profile id)
+     * @param   string $ctype         contact type
      *
      * @return  int                   contact id created/edited
      * @static
@@ -1979,6 +1986,12 @@ WHERE civicrm_contact.id IN $idString ";
 
         //get the custom fields for the contact
         $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );
+        
+        // hack to add custom data for components
+        $components = array("Contribution", "Participant");
+        foreach ( $components as $value) {
+            $customFields = array_merge($customFields, CRM_Core_BAO_CustomField::getFields($value));
+        }
         
         $locationType = array( );
         $count = 1;
@@ -2133,13 +2146,19 @@ WHERE civicrm_contact.id IN $idString ";
                             $value =  $filename;
                         }
 
+                        //get the entity table for the custom field
+                        require_once "CRM/Core/BAO/CustomQuery.php";
+
+                        $extends     = $customFields[$customFieldID][5];
+                        $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$extends];
+                        
                         $data['custom'][$customFieldID] = array( 
-                                                                'id'      => $customOptionValueId,
-                                                                'value'   => $value,
-                                                                'extends' => $customFields[$customFieldID][3],
-                                                                'type'    => $customFields[$customFieldID][2],
+                                                                'id'              => $customOptionValueId,
+                                                                'value'           => $value,
+                                                                'type'            => $customFields[$customFieldID][2],
                                                                 'custom_field_id' => $customFieldID,
-                                                                'file_id' => $fileId
+                                                                'file_id'         => $fileId,
+                                                                'entity_table'    => $entityTable
                                                                 );
                     }
                 } else if ($key == 'edit') {

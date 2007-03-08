@@ -96,22 +96,27 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
     /**
      * function to show/hide the location block
      *
-     * @param CRM_Core_ShowHideBlocks $showHide the showHide object
-     * @param int $maxLocationBlocks no of location blocks
+     * @param CRM_Core_ShowHideBlocks $showHide          the showHide object
+     * @param int                     $maxLocationBlocks no of location blocks
+     * @param array                   $prefixBloack      array of block names
+     * @param boolean                 $showHideLocation  do you want
+     *                                                   location show hide links 
      *
      * @access public
      */
-    function setShowHideDefaults( &$showHide, $maxLocationBlocks ,$prefixBlock = null) {
+    function setShowHideDefaults( &$showHide, $maxLocationBlocks ,$prefixBlock = null, $showHideLocation=true) {
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
-            if ( $locationId == 1 ) {
-                $showHide->addShow( "id_location_{$locationId}" );
-                $showHide->addHide( "id_location_{$locationId}_show" );
-            } else {
-                $showHide->addHide( "id_location_{$locationId}" );
-                if ( $locationId == 2 ) {
-                    $showHide->addShow( "id_location_{$locationId}_show" );
-                } else {
+            if ( $showHideLocation ) {
+                if ( $locationId == 1 ) {
+                    $showHide->addShow( "id_location_{$locationId}" );
                     $showHide->addHide( "id_location_{$locationId}_show" );
+                } else {
+                    $showHide->addHide( "id_location_{$locationId}" );
+                    if ( $locationId == 2 ) {
+                        $showHide->addShow( "id_location_{$locationId}_show" );
+                    } else {
+                        $showHide->addHide( "id_location_{$locationId}_show" );
+                    }
                 }
             }
             

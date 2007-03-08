@@ -132,7 +132,7 @@ function civicrm_perm()
                    'access uploaded files',
                    'profile listings and forms',
                    'access all custom groups',
-                   'access CiviCRM', 'access User Dashboard' );
+                   'access CiviCRM', 'access Contact Dashboard' );
                    
     // permissions for components which are conditionally enabled via config file setting
     require_once 'CRM/Core/Component.php';
@@ -509,8 +509,12 @@ function civicrm_view_data($user )
         require_once 'CRM/Contact/BAO/Contact.php';
         $contactURL = null;
         if ( CRM_Contact_BAO_Contact::permissionedContact( $userID ) ) {
-            $url = CRM_Utils_System::url( 'civicrm/contact/view&reset=1&cid=' .$userID );
+            $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid=$userID" );
             $contactURL = '<a href="' .$url. '">&raquo; ' .ts("View Contact Record") . '</a>';
+            if ( CRM_Core_Permission::check( 'access Contact Dashboard' ) ) {
+                $url = CRM_Utils_System::url( 'civicrm/user', "reset=1&id=$userID" );
+                $contactURL .= '<br/><a href="' .$url. '">&raquo; ' .ts("View Contact Dashboard") . '</a>';
+            }
         }
 
         require_once 'CRM/Profile/Page/Dynamic.php';

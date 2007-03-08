@@ -34,41 +34,50 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Event/Form/Task/SaveSearch.php';
 
 /**
- * ICalendar class
+ * This class provides the functionality to update a saved search
  *
  */
-class CRM_Event_Page_ICalendar extends CRM_Core_Page
-{
+class CRM_Event_Form_Task_SaveSearch_Update extends CRM_Event_Form_Task_SaveSearch {
+
     /**
-     * Heart of the iCalendar data assignment process. The runner gets all the meta
-     * data for the event and calls the  method to output the iCalendar
-     * to the user.
+     * build all the data structures needed to build the form
      *
      * @return void
+     * @access public
      */
-    function run( )
+    function preProcess()
     {
-        $type     = CRM_Utils_Request::retrieve('type', 'Positive',$this, false, 0);
-        $start    = CRM_Utils_Request::retrieve('start', 'Positive',$this, false, 0);
-        $iCalPage = CRM_Utils_Request::retrieve('page', 'Positive',$this, false, 0);
-
-        require_once "CRM/Event/BAO/Event.php";
-        $info = CRM_Event_BAO_Event::getCompleteInfo( $start, $type );
-
-        require_once "CRM/Utils/ICalendar.php";
-        $format = CRM_Utils_ICalendar::iCalendar( $info );
-
-        if( $iCalPage == 1) {
-            echo $format;
-            exit();
+        parent::preProcess( );
+        
+        $this->_id = $this->get( 'ssID' );
+        if ( ! $this->_id ) {
+            // fetch the value from the group id gid
+            $gid = $this->get( 'gid' );
+            $this->_id = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $gid, 'saved_search_id' );
         }
-
-        CRM_Utils_ICalendar::send( 'civicrm_ical.ics', 'attachment', 'utf-8', $format );
-        exit( );
     }
+
+    /**
+     * This function sets the default values for the form.
+     * the default values are retrieved from the database
+     *
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+
+        $defaults = array( );
+        $params   = array( );
+        
+        $params = array( 'saved_search_id' => $this->_id );
+        CRM_Contact_BAO_Group::retrieve( $params, $defaults );
+
+        return $defaults;
+    }
+
 }
 
 ?>

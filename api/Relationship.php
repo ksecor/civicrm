@@ -205,14 +205,6 @@ function crm_delete_relationship(&$contact, &$target_contact, $relationship_type
         return _crm_error('$relationship_type is not array of relationship type objects');
     }
     
-    $config   =& CRM_Core_Config::singleton( );
-    if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
-        $params = $ids = array( );
-        CRM_Contact_BAO_Relationship::relatedMemberships( $contact->contact_id,
-                                                          $params, $ids,
-                                                          CRM_Core_Action::DELETE );
-    }
-    
     foreach ($relationship_type as $rel ) {
         $relationShip =  & new CRM_Contact_DAO_Relationship();
      

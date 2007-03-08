@@ -290,6 +290,24 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         
         $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->id = $id;
+        
+        $relationship->find(true);
+        
+        $config   =& CRM_Core_Config::singleton( );
+        if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
+            // create $params array which isrequired to delete memberships
+            // of the related contacts.
+            $params = array(
+                            'relationship_type_id' => "{$relationship->relationship_type_id}_a_b",
+                            'contact_check'        => array( $relationship->contact_id_b => 1 )
+                            );
+            
+            $ids = array();
+            // calling relatedMemberships to delete the memberships of
+            // related contacts.
+            self::relatedMemberships( $relationship->contact_id_a, $params, $ids, CRM_Core_Action::DELETE );
+        }
+        
         $relationship->delete();
         CRM_Core_Session::setStatus( ts('Selected Relationship has been Deleted Successfuly.') );
         
@@ -735,36 +753,121 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      */
     static function relatedMemberships( $contactId, &$params, $ids, $action = CRM_Core_Action::ADD )
     {
-        $memParams     = array( 'contact_id' => $contactId);
-        $memberships   = array();
-        $membershipIds = array();
+        $rel = explode( "_", $params['relationship_type_id'] );
         
-        require_once 'CRM/Member/BAO/Membership.php';
-        CRM_Member_BAO_Membership::getValues($memParams, $memberships, $membershipIds);
+        $relTypeId    = $rel[0];
+        $relDirection = "_{$rel[1]}_{$rel[2]}";
         
-        if ( empty($memberships) ) {
-            return;
+        if ( ( $action & CRM_Core_Action::ADD    ) ||
+             ( $action & CRM_Core_Action::DELETE ) ) {
+            $contact       = $contactId;
+            $targetContact = $params['contact_check'];
+        } else if ( $action & CRM_Core_Action::UPDATE ) {
+            $contact       = $ids['contact'];
+            $targetContact = array( $ids['contactTarget'] => 1 );
         }
         
-        require_once 'CRM/Member/BAO/MembershipType.php';
-        foreach( $memberships as $membershipId => $values ) {
-            if ( ( $action & CRM_Core_Action::ADD    ) ||
-                 ( $action & CRM_Core_Action::UPDATE ) ) {
-                $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $values['membership_type_id'] );
-                if( $params['relationship_type_id'] == $membershipType['relationship_type_id'] . "_" . $membershipType['relationship_direction'] ) {
-                    $values['owner_membership_id'] = $membershipId;
-                    unset($values['id']);
-                    unset($values['membership_contact_id']);
-                    unset($values['contact_id']);
-                    foreach ( $params['contact_check'] as $relatedContactId => $donCare) {
-                        $values['contact_id'] = $relatedContactId;
-                        //delete all the related membership records before creating
-                        CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
-                        CRM_Member_BAO_Membership::create($values, CRM_Core_DAO::$_nullArray);
-                    }
+        // Build the 'values' array for 
+        // 1. ContactA
+        // 2. ContactB
+        // This will allow us to check if either of the contacts in
+        // relationship have active memberships.
+        
+        $values   = array();
+        
+        // 1. ContactA
+        $values[$contact] = array(
+                                    'relatedContacts'           => $targetContact,
+                                    'relationshipTypeId'        => $relTypeId,
+                                    'relationshipTypeDirection' => $relDirection
+                                    );
+        // 2. ContactB
+        foreach ( $targetContact as $cid => $donCare ) {
+                $values[$cid]   = array(
+                                        'relatedContacts'           => array( $contact => 1 ),
+                                        'relationshipTypeId'        => $relTypeId
+                                        );
+                
+                $relTypeParams = array( 'id' => $relTypeId );
+                $relTypeValues = array( );
+                require_once 'CRM/Contact/BAO/RelationshipType.php';
+                CRM_Contact_BAO_RelationshipType::retrieve( $relTypeParams, $relTypeValues );
+                
+                if ( $relTypeValues['name_a_b'] == $relTypeValues['name_b_a'] ) {
+                    $values[$cid]['relationshipTypeDirection'] = '_a_b';
+                } else {
+                    $values[$cid]['relationshipTypeDirection'] = ($relDirection == '_a_b') ? '_b_a' : '_a_b';
                 }
-            } else if ( $action & CRM_Core_Action::DELETE ) {
-                CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
+            }
+        // done with 'values' array.
+        
+        // Now get the active memberships for all the contacts.
+        // If contact have any valid membership(s), then add it to
+        // 'values' array.
+        foreach ( $values as $cid => $subValues) {
+            $memParams     = array( 'contact_id' => $cid );
+            $memberships   = array( );
+            $membershipIds = array( );
+            
+            require_once 'CRM/Member/BAO/Membership.php';
+            CRM_Member_BAO_Membership::getValues($memParams, $memberships, $membershipIds, true);
+            
+            if ( empty($memberships) ) {
+                continue;
+            }
+            
+            $values[$cid]['memberships'] = $memberships;
+        }
+        
+        //CRM_Core_Error::debug( 'Values', $values );
+        //exit( );
+        
+        // Finally add / edit / delete memberships for the related contacts
+        foreach ( $values as $cid => $details ) {
+            if ( ! array_key_exists( 'memberships', $details ) ) {
+                continue;
+            }
+            
+            require_once 'CRM/Member/BAO/MembershipType.php';
+            foreach ( $details['memberships'] as $membershipId => $membershipValues ) {
+                if ( $action & CRM_Core_Action::DELETE ) {
+                    // delete memberships of the related contacts.
+                    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
+                    continue;
+                }
+                // add / edit the memberships for related
+                // contacts.
+                
+                // Get the Membership Type Details. 
+                $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipValues['membership_type_id'] );
+
+                if( "{$details['relationshipTypeId']}{$details['relationshipTypeDirection']}" == $membershipType['relationship_type_id'] . "_" . $membershipType['relationship_direction'] ) {
+                    // Check if relationship being created/updated is
+                    // similar to that of membership type's
+                    // relationship.
+                    
+                    $membershipValues['owner_membership_id'] = $membershipId;
+                    unset($membershipValues['id']);
+                    unset($membershipValues['membership_contact_id']);
+                    unset($membershipValues['contact_id']);
+                    foreach ( $details['relatedContacts'] as $relatedContactId => $donCare) {
+                        $membershipValues['contact_id'] = $relatedContactId;
+                        
+                        if ( $action & CRM_Core_Action::UPDATE ) {
+                            //delete all the related membership records before creating
+                            CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
+                        }
+                        
+                        CRM_Member_BAO_Membership::create( $membershipValues, CRM_Core_DAO::$_nullArray );
+                    }
+                } else if ( $action & CRM_Core_Action::UPDATE ) {
+                    // if action is update and updated relationship do
+                    // not match with the existing
+                    // membership=>relationship then we need to
+                    // delete the membership record created for
+                    // previous relationship.
+                    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
+                }
             }
         }
     }

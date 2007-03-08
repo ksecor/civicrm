@@ -605,6 +605,7 @@ class CRM_Core_Invoke
             break;
         }
 
+
         if ( $view ) {
             return $view->run( );
         }
@@ -900,34 +901,37 @@ class CRM_Core_Invoke
         $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
         switch ( $thirdArg ) {
         case 'component' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
         case 'path' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Path', ts('File System Paths'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Path', ts('File System Paths'), null); 
         case 'url' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Url', ts('Site URLs'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Url', ts('Site URLs'), null); 
         case 'smtp' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Smtp', ts('Smtp Server'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Smtp', ts('Smtp Server'), null); 
         case 'mapping' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Mapping', ts('Mapping and Geocoding'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Mapping', ts('Mapping and Geocoding'), null); 
         case 'payment' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Payment', ts('Online Payments'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Payment', ts('Online Payments'), null); 
         case 'localization' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Localization', ts('Localization'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Localization', ts('Localization'), null); 
         case 'address' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Address', ts('Address Formatting'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Address', ts('Address Formatting'), null); 
         case 'date' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Date', ts('Date Formatting'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Date', ts('Date Formatting'), null); 
         case 'misc' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Miscellaneous', ts('Miscellaneous'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Miscellaneous', ts('Miscellaneous'), null); 
         case 'debug' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Debugging', ts('Debugging'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Debugging', ts('Debugging'), null); 
         case 'mail' : 
-            return $wrapper->run( 'CRM_Admin_Form_Setting_Mail', ts('CiviMail Settings'), null); 
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Mail', ts('CiviMail Settings'), null); 
         default : 
             require_once 'CRM/Admin/Page/Setting.php';
             $view =& new CRM_Admin_Page_Setting();
-            return $view->run();
+            $output = $view->run();
         }
+        $config =& CRM_Core_Config::singleton();
+        $config->cleanup(1);
+        return $output;
     }
 
     /**

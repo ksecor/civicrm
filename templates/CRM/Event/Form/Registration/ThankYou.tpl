@@ -1,13 +1,4 @@
 <div class="form-item">
-
-    <div id="help">
-        {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
-        {if $contributeMode EQ 'notify' and $paidEvent}
-            <p>
-            {ts}Your registration payment has been submitted to PayPal for processing. Please print this page for your records.{/ts}
-        {/if}
-    </div>
-
     {if $eventPage.thankyou_text} 
     <div id="intro_text">
         <p>
@@ -15,6 +6,21 @@
         </p>
     </div>
     {/if}
+
+    <div id="help">
+        {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
+        {if $contributeMode EQ 'notify' and $paidEvent}
+            <p>{ts}Your registration payment has been submitted to PayPal for processing. Please print this page for your records.{/ts}</p>
+            {if $is_email_confirm}
+                <p>{ts 1=$email}A registration confirmation email will be sent to %1 once the transaction is processed successfully.{/ts}</p>
+            {/if}
+        {else}
+            <p>{ts}Your registration has been processed successfully. Please print this page for your records.{/ts}</p>
+            {if $is_email_confirm}
+                <p>{ts 1=$email}A registration confirmation email has also been sent to %1{/ts}</p>
+            {/if}
+        {/if}
+    </div>
 
     <div class="header-dark">
         {ts}Event Information{/ts}
@@ -29,6 +35,7 @@
     </div>
     <div class="display-block">
         {if $amount}
+            {ts}Amount :{/ts}
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
         {/if}
         {ts}Transaction Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />

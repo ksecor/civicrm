@@ -265,13 +265,19 @@ class CRM_Core_Block {
                                     );
             }
 
-            if( CRM_Core_Permission::check('edit groups')) {
+            if ( CRM_Core_Permission::check('edit groups')) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
                                                                    'query' => 'reset=1',
                                                                    'title' => ts('New Group') ) ));
             }
 
-            if (! CRM_Core_Permission::check( 'add contacts' )  &&  ! CRM_Core_Permission::check('edit groups')) {
+            if ( CRM_Core_Permission::check('access Contact Dashboard')) {
+                $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/user',
+                                                                   'query' => 'reset=1',
+                                                                   'title' => ts('My Contact Dashboard') ) ));
+            }
+
+            if ( empty( $shortCuts ) ) {
                 return null;
             }
 

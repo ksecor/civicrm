@@ -1,5 +1,6 @@
 {capture assign=newEventURL}{crmURL p='civicrm/admin/event' q="action=add&reset=1"}{/capture}
 {capture assign=icalURL}{crmURL p='civicrm/event/ical' q="reset=1"}{/capture}
+{capture assign=icalPage}{crmURL p='civicrm/event/ical' q="reset=1&page=1"}{/capture}
 {capture assign=pastEventsURL}{crmURL q="action=browse&past=true&reset=1"}{/capture}
 {capture assign=currentEventsURL}{crmURL q="reset=1"}{/capture}
 
@@ -7,7 +8,11 @@
    {include file="CRM/Event/Page/ManageEventEdit.tpl"}
 {/if}
 <div id="help">
-    <p>{ts 1=$pastEventsURL 2=$icalURL}This page lists current (in-progress) events, and upcoming events. <a href="%1">Click here</a> to browse completed (past) events. A list of "public" upcoming events can be published in the <a href="%2">iCalendar format</a>.{/ts}
+  {if $past and $action ne 1 and $action ne 2} 
+    <p>{ts 1=$pastEventsURL}This page lists current (in-progress) events, and upcoming events. <a href="%1">Click here</a> to browse completed (past) events.{/ts}
+  {else}
+    <p>{ts 1=$currentEventsURL}This page lists completed (past) events. <a href="%1">Click here</a> to browse current (in-progress) events, and upcoming events.{/ts}
+  {/if}
 </div>
 {if $rows}
 {include file="CRM/common/dojo.tpl"}
@@ -15,7 +20,8 @@
 <p></p>
     <div class="form-item" id=event_status_id>
         {strip}
-        <a href="{$newEventURL}" id="newManageEvent">&raquo; {ts}New Event{/ts}</a><br />
+        {ts 1=$newEventURL 2=$icalPage 3=$icalURL} <a href="%1" id="newManageEvent">&raquo; New Event</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="%2">&raquo; Browse iCalendar Listing</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="%3">&raquo; Download iCalendar File</a>{/ts}   
+        <br />
         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
         <thead>
          <tr class="columnheader">

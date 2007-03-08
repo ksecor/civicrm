@@ -165,10 +165,15 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             if ($config->userFramework == 'Drupal') {
                 $url = CRM_Utils_System::url( 'user/' . $uid );
             } else {
-                //$url = CRM_Utils_System::url( 'option=com_users&task=editA&hidemainmenu=1&id=' . $uid );
                 $url = $config->userFrameworkBaseURL . 'index2.php?option=com_users&task=editA&hidemainmenu=1&id=' . $uid;
             }
             $this->assign( 'url', $url );
+        }
+    
+        if ( CRM_Core_Permission::check( 'access Contact Dashboard' ) ) {
+            $dashboardURL = CRM_Utils_System::url( 'civicrm/user',
+                                                   "reset=1&id={$this->_contactId}" );
+            $this->assign( 'dashboardURL', $dashboardURL );
         }
     }
 

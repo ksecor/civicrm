@@ -1,19 +1,19 @@
 {* this template used to build location block *}
 {include file="CRM/common/WizardHeader.tpl"}
- {section name = locationLoop start = 1 loop = $locationCount} 
-<div id="id_location_1_show" class="section-hidden section-hidden-border label">
-    {$form.location.1.show.html}{ts}Primary Location{/ts}
- </div>
-<div id="id_location_1">
-	<fieldset>
-<legend>{$form.location.1.hide.html}
-        {ts}Primary Location{/ts}
-    </legend>
-<div class="form-item">
- {$form.location.1.location_type_id.html}
- &nbsp; &nbsp; {$form.location.1.name.label}
- {$form.location.1.name.html|crmReplace:class:big}
-</div>
+<fieldset>
+    <legend>{ts}Event Location and Contact Information{/ts}</legend>
+    <div id="help">
+        {ts}Use this form to configure the location and optional contact information for the event.
+        This information will be displayed on the Event Information page. It will also be included
+        in online registration pages and confirmation emails if these features are enabled.{/ts}
+    </div>
+    
+    <div class="form-item">
+     {$form.location.1.location_type_id.html}
+     &nbsp; &nbsp; {$form.location.1.name.label}
+     &nbsp; {$form.location.1.name.html|crmReplace:class:big}
+    </div>
+    
     {* Display the address block *}
     {include file="CRM/Contact/Form/Address.tpl"} 
 
@@ -22,13 +22,11 @@
 
     {* Display the phone block(s) *}
     {include file="CRM/Contact/Form/Phone.tpl"}       
- </fieldset>
-{/section}
-</div>
+</fieldset>
     
- <dl>
-         <dt></dt><dd>{$form.buttons.html}</dd>
-     </dl>
+<dl>
+    <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
+</dl>
 
     
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *} 

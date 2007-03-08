@@ -136,7 +136,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
         require_once 'CRM/Contact/BAO/Relationship.php';
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, null, true );
-        $this->add('select', 'relationship_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $relTypeInd);
+        $memberRel =& $this->add('select', 'relationship_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $relTypeInd);
 
         $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::memberVisibility( ) );
         $this->add('text', 'weight', ts('Weight'), 
@@ -187,9 +187,10 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         }
         
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $memberOrg->freeze();
+            $memberRel->freeze( );
+            $memberOrg->freeze( );
             if ( $searchDone ) {
-                $memberOrg->unfreeze();
+                $memberOrg->unfreeze( );
             }
         }
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );

@@ -1,6 +1,9 @@
-{* this template is used for adding/editing/deleting event 
-<div class="form-item">*}
-
+{* This template is used for adding/editing/deleting offlin Event Registrations *}
+{if $action eq 1}
+    <div id="help">
+        {ts}Use this form to register contacts for an event. If this is a paid event and you are accepting payment offline - you should also enter a contribution record.{/ts}
+    </div>  
+{/if}
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend> 
     <div class="form-item">
     <table class="form-layout">
@@ -19,14 +22,13 @@
         {else} {* If action is other than Delete *}
         <tr><td class="label font-size12pt">{ts}Name{/ts}</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
         <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
-        {if $action eq 1 && !$past }<a href="{$pastURL}">&raquo; {ts}Select past Event(s) as well.{/ts}</a>{/if}    
+        {if $action eq 1 && !$past }<br /><a href="{$pastURL}">&raquo; {ts}Select from past event(s) too.{/ts}</a>{/if}    
         {if $is_test}
           {ts}(test){/ts}
         {/if}
         </td></tr> 
     
         <tr><td class="label">{$form.role_id.label}</td><td>{$form.role_id.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Role for the participant (if applicable).{/ts}</td></tr>
         
         <tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
     	{if $hideCalender neq true}<br />
@@ -43,7 +45,7 @@
 
         <tr><td class="label">{$form.amount.label}</td><td>{$form.amount.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Event Fee Level (if applicable).{/ts}</td></tr>
-        <tr><td class="label">{$form.note.label}</td><td>{$form.note.html}</td></tr>
+        <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
         <tr><td colspan=2>
         {if $action eq 4} 
             {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
@@ -68,10 +70,10 @@
         var roleId = document.getElementById("role_id");
         var eventId = document.getElementById("event_id");    
         var url = {/literal}"{$refreshURL}"{literal}
+        var post = url;
 
         if( eventId.value ) {
-            var post = url + "&eid=" + eventId.value;
-            
+            var post = post + "&eid=" + eventId.value;
         }
         if( roleId.value ) {
             var post = post + "&rid=" + roleId.value;

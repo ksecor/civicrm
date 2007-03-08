@@ -82,7 +82,9 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'participant_id',
                                  'start_date',
                                  'end_date',
-                                 'modified_date'
+                                 'modified_date',
+                                 'event_is_test',
+                                 'role_id'
                                  );
 
     /** 
@@ -285,7 +287,10 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
          }
 
          require_once 'CRM/Event/PseudoConstant.php';
+         $statusTypes  = array( );
          $statusTypes  = CRM_Event_PseudoConstant::participantStatus( );
+         $roles        = array( );
+         $roles        = CRM_Event_PseudoConstant::participantrole( );
 
          $mask = CRM_Core_Action::mask( $permission );
          while ($result->fetch()) {
@@ -298,6 +303,13 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              //fix status display
              $row['status']   = $statusTypes[$row['status_id']];
              
+             //fix role display
+             $row['role'] =  $roles[$row['role_id']];
+            
+             if ( $row["event_is_test"] ) {
+                 $row['status'] = $row['status'] . " (test)";
+            }
+
              if ($this->_context == 'search') {
                  $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->participant_id;
              }
@@ -372,7 +384,11 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'sort'      => 'status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          
+                                          array(
+                                                'name'      => ts('Role'),
+                                                'sort'      => 'role_id',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
                                           array('desc' => ts('Actions') ),
                                           );
 
@@ -382,7 +398,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                              array( 
                                    'name'      => ts('Participant'), 
                                    'sort'      => 'sort_name', 
-                                   'direction' => CRM_Utils_Sort::DESCENDING, 
+                                   'direction' => CRM_Utils_Sort::ASCENDING, 
                                    )
                              );
                 self::$_columnHeaders = array_merge( $pre, self::$_columnHeaders );

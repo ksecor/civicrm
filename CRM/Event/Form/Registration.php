@@ -277,7 +277,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         foreach ( $vars as $v ) {
             if ( CRM_Utils_Array::value( $v, $this->_params ) ) {
-                $this->assign( $v, $this->_params[$v] );
+                if ( $v == 'receive_date' ) {
+                     $this->assign( $v,  CRM_Utils_Date::mysqlToIso( $this->_params[$v] ) );
+                } else {
+                    $this->assign( $v, $this->_params[$v] );
+                }
             }
         }
 
@@ -300,8 +304,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         $this->assign( 'email', $this->controller->exportValue( 'Register', 'email' ) );
 
-        // also assign the receipt_text
-        $this->assign( 'receipt_text', $this->_values['event_page']['confirm_email_text'] );
+        // assign is_email_confirm to templates
+        $this->assign( 'is_email_confirm', $this->_values['event_page']['is_email_confirm'] );
     }
 
     /**  

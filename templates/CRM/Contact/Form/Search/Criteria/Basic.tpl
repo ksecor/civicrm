@@ -3,19 +3,23 @@
             <td class="font-size12pt">{$form.sort_name.label}</td>
             <td>{$form.sort_name.html}
                 <div class="description font-italic">
-                    {ts}Complete OR partial contact name.{/ts}
+                    {ts}Complete OR partial Contact Name.{/ts}
                 </div>
                 {$form.email.html}
                 <div class="description font-italic">
-                    {ts}Email.{/ts}
+                    {ts}Complete OR partial Email Address.{/ts}
                 </div>
             </td>
             <td>
                 {$form.uf_group_id.label} {$form.uf_group_id.html}
-                <br/>
-                {$form.uf_user.label} {$form.uf_user.html}
-                  &nbsp; <a href="#" title="unselect" onclick="unselectRadio('uf_user', 'Advanced'); return false;" >unselect</a>
-
+                <br /><br />
+                <div class="form-item">
+                    {$form.uf_user.label} {$form.uf_user.html}
+                    &nbsp; <a href="#" title="unselect" onclick="unselectRadio('uf_user', 'Advanced'); return false;" >unselect</a>
+                    <div class="description font-italic">
+                        {ts 1=$config->userFramework}Does the contact have a %1 Account?{/ts}
+                    </div>
+                </div>
             </td>
             <td class="label">{$form.buttons.html}</td>       
         </tr>
@@ -41,13 +45,17 @@
                     {/foreach}
                 </div>
             </td>
-	</tr>
+	    </tr>
         <tr>
-            <td><br />{$form.privacy.label} <br /><small>({ts}Exclude contacts who have the option checked{/ts})</small></td>
-            <td><br />{$form.privacy.html}</td>
+            <td><br />{$form.privacy.label}</td>
+            <td><br />{$form.privacy.html}
+                 <div class="description font-italic">
+                    {ts}Exclude contacts who have these privacy option(s).{/ts}
+                 </div>
+            </td>
         </tr>
         <tr>
-            <td><br />{$form.contact_source.label}</td>
-            <td><br />{$form.contact_source.html}</td>
+            <td>{$form.contact_source.label}</td>
+            <td colspan="2">{$form.contact_source.html}</td>
         </tr>
     </table>

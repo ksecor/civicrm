@@ -4,7 +4,7 @@
 {if $event_title_value}
 <script type="text/javascript">
   dojo.addOnLoad( function( ) {ldelim}
-    dojo.widget.byId( 'event_title' ).textInputNode.value = '{$event_title_value}';
+    dojo.widget.byId( 'event_title' ).setAllValues( '{$event_title_value}', '{$event_title_value}' )
   {rdelim} );
 </script>
 {/if}

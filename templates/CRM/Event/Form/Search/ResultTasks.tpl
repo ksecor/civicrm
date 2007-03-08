@@ -1,6 +1,7 @@
 {* Form elements for displaying and running action tasks on search results *}
 
  <div id="search-status">
+    {if $savedSearch.name}{$savedSearch.name} ({ts}smart group{/ts}) - {/if}
     {ts count=$pager->_totalItems plural='Found %count participants.'}Found %count participant.{/ts}
 
     {* Search criteria are passed to tpl in the $qill array *}

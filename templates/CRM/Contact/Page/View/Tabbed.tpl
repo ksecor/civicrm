@@ -18,6 +18,7 @@
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
+    {if $dashboardURL } &nbsp; &nbsp; <a href="{$dashboardURL}">&raquo; {ts}View Contact Dashboard{/ts}</a> {/if}
     {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
     <table class="form-layout-compressed">
     <tr>
@@ -121,7 +122,7 @@
     </span>
   </div>
   <div class="col2">
-    <label>{ts}Communication Preference:{/ts}</label> {$preferred_communication_method_display}
+    <label>{ts}Method:{/ts}</label> {$preferred_communication_method_display}
   </div>
   <div class="col2">
     <label>{ts}Mail Format Preference:{/ts}</label> {$preferred_mail_format_display}

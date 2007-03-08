@@ -459,7 +459,7 @@ class CRM_Contribute_BAO_Query
 
         //add fields for honor search
         $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
-        $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions ?' ) );
+        $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions Only?' ) );
 
         //add field for transaction ID search
         $form->addElement( 'text', 'contribution_transaction_id', ts( "Transaction ID" ) );

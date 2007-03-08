@@ -252,7 +252,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             'module'           => 'CiviContribute',
             'callback'         => 'CRM_Contribute_Page_Contribution::details',
             'activity_id'      => $contribution->id,
-            'activity_summary' => ts ( $activitySummary ),
+            'activity_summary' => $activitySummary,
             'activity_date'    => $contribution->receive_date
         );
 

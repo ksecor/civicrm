@@ -276,13 +276,13 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         }
         
         $this->add('select', 'event_id',  ts( 'Event' ),  
-                   array( '' => ts( '-select-' ) ) + $events, true, array('onchange' => "reload(true)") );
+                   array( '' => ts( '-select-' ) ) + $events, true, array('onchange' => "if (this.value) reload(true); else return false") );
         
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),CRM_Core_SelectValues::date('datetime' ),true);   
         $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
          
         $this->add( 'select', 'role_id' , ts( 'Participant Role' ),
-                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantRole( ), true, array('onchange' => "reload(true)") );
+                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantRole( ), true, array('onchange' => "if (this.value) reload(true); else return false") );
         
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
                     array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantStatus( ),true );
@@ -303,13 +303,12 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPage['id'], $this->_values['custom'] );
             
             require_once "CRM/Event/Form/Registration/Register.php";
-            CRM_Event_Form_Registration_Register::buildAmount( );
+            CRM_Event_Form_Registration_Register::buildAmount( false );
         } else {
             $this->add( 'text', 'amount', ts('Event Fee(s)') );
         }
         
         $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
-        
         $this->add('textarea', 'note', ts('Notes'), $noteAttributes['note']);
         
         $session = & CRM_Core_Session::singleton( );

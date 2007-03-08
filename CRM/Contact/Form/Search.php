@@ -549,6 +549,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $controller->moveFromSessionToTemplate();
     }
 
+    function &getFormValues( ) {
+        return $this->_formValues;
+    }
+
     /**
      * this method is called for processing a submitted search form
      *

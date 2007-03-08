@@ -99,7 +99,7 @@ class CRM_Event_Form_Task_PickProfile extends CRM_Event_Form_Task
      */
     function buildQuickForm( ) 
     {
-        CRM_Utils_System::setTitle( ts('Batch Profile Update for Event') );
+        CRM_Utils_System::setTitle( ts('Batch Update for Event Participants') );
         // add select for groups
         require_once "CRM/Core/BAO/UFGroup.php";
         $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles(array('Participant'));

@@ -34,41 +34,49 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Event/Form/Task.php';
 
 /**
- * ICalendar class
+ * Used for displaying results
+ *
  *
  */
-class CRM_Event_Page_ICalendar extends CRM_Core_Page
-{
+class CRM_Event_Form_Task_Result extends CRM_Event_Form_Task {
+
     /**
-     * Heart of the iCalendar data assignment process. The runner gets all the meta
-     * data for the event and calls the  method to output the iCalendar
-     * to the user.
+     * build all the data structures needed to build the form
      *
      * @return void
+     * @access public
      */
-    function run( )
-    {
-        $type     = CRM_Utils_Request::retrieve('type', 'Positive',$this, false, 0);
-        $start    = CRM_Utils_Request::retrieve('start', 'Positive',$this, false, 0);
-        $iCalPage = CRM_Utils_Request::retrieve('page', 'Positive',$this, false, 0);
+    function preProcess( ) {
+        $session =& CRM_Core_Session::singleton( );
+        
+        //this is done to unset searchRows variable assign during AddToHousehold and AddToOrganization
+        $this->set( 'searchRows', '');
 
-        require_once "CRM/Event/BAO/Event.php";
-        $info = CRM_Event_BAO_Event::getCompleteInfo( $start, $type );
-
-        require_once "CRM/Utils/ICalendar.php";
-        $format = CRM_Utils_ICalendar::iCalendar( $info );
-
-        if( $iCalPage == 1) {
-            echo $format;
-            exit();
+        $ssID = $this->get( 'ssID' );
+        if ( isset( $ssID ) ) {
+            $url = CRM_Utils_System::url( 'civicrm/event/search', 'reset=1&force=1&ssID=' . $ssID );
+            $session->replaceUserContext( $url );
+            return;
         }
-
-        CRM_Utils_ICalendar::send( 'civicrm_ical.ics', 'attachment', 'utf-8', $format );
-        exit( );
     }
-}
 
+    /**
+     * Function to actually build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) {
+        $this->addButtons( array(
+                                 array ( 'type'      => 'done',
+                                         'name'      => ts('Done'),
+                                         'isDefault' => true   ),
+                                 )
+                           );
+    }
+
+}
 ?>

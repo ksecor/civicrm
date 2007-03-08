@@ -135,7 +135,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->applyFilter('__ALL__', 'trim');
 
         $this->add('select', 'membership_type_id',ts( 'Membership Type' ), 
-                   array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ), true,array('onChange' => "reload(true)")
+                   array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ), true,
+                   array('onChange' => "if (this.value) reload(true); else return false")
                    );
                
         $this->add('date', 'join_date', ts('Join Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );         
@@ -197,7 +198,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             return;
         }
         
-      
+        
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
         
@@ -277,18 +278,20 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         //delete all the related membership records before creating
         CRM_Member_BAO_Membership::deleteRelatedMemberships( $membership->id );
-
-        foreach ( $relatedContacts as $contactId ) {
-            $params['contact_id'         ] = $contactId;
-            $params['owner_membership_id'] = $membership->id;
-            unset( $params['id'] );
-            
-            CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+        
+        if ( ! empty($relatedContacts) ) {
+            foreach ( $relatedContacts as $contactId ) {
+                $params['contact_id'         ] = $contactId;
+                $params['owner_membership_id'] = $membership->id;
+                unset( $params['id'] );
+                
+                CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+            }
         }
         
         // do the updates/inserts
-        //CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
-        //CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Membership', $membership->id);
+        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Membership', $membership->id);
 
         CRM_Core_Session::setStatus( ts('The membership information has been saved.') );
     }

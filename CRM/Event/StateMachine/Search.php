@@ -68,6 +68,10 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
         } else {
             $this->_pages[$task] = null;
         }
+
+        if ( $result ) {
+            $this->_pages['CRM_Event_Form_Task_Result'] = null;
+        }
         
         $this->addSequentialPages( $this->_pages, $action );
     }
@@ -118,9 +122,14 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
 
         case CRM_Event_Task::SAVE_SEARCH:
             $task   = 'CRM_Event_Form_Task_SaveSearch';
+            $result = true;
             break;
-   
-         
+
+        case CRM_Event_Task::SAVE_SEARCH_UPDATE:
+            $task   = 'CRM_Event_Form_Task_SaveSearch_Update';
+            $result = true;
+            break;
+            
         default: // the print task is the default and catch=all task
             $task = 'CRM_Event_Form_Task_Print';
             break;

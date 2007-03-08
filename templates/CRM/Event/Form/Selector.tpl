@@ -47,6 +47,7 @@
         {/if}
    </td>
     <td>{$row.status}</td>
+    <td>{$row.role}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}

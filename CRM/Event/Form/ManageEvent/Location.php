@@ -98,7 +98,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         } else {
             $this->setShowHide( $defaults, false );
         }
-
+        
         return $defaults;
     }
 
@@ -114,7 +114,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array(),'') ;
         $prefix =  array( 'phone','email' );
-        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS , $prefix);
+        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS , $prefix, false);
+        
         if ( $force ) {
             $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
             $config =& CRM_Core_Config::singleton( );
@@ -123,6 +124,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
                                                        $locationDefaults,
                                                        $config->maxLocationBlocks, $prefix );
         }
+        
         $this->_showHide->addToTemplate( );
     }
     

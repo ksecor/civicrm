@@ -36,7 +36,7 @@
         </tr>
         <tr><td>&nbsp;</td>
             <td colspan={if $context EQ 'smog'}"6"{else}"4" class="report"{/if}>
-                <div class="font-italic">
+                <div class="description font-italic">
                 {ts}Complete OR partial contact name. To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
                 </div></td>
             <td class="label">{$form.buttons.html}</td>

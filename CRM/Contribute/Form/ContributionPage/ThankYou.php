@@ -149,7 +149,7 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
      * @access public 
      */ 
     public function getTitle( ) {
-        return ts( 'Thank-you and Receipting' );
+        return ts( 'Thanks and Receipt' );
     }
 }
 ?>

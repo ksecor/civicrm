@@ -76,7 +76,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         $this->addGroup( $default, 'default' );
         
-        $this->addElement('checkbox', 'amount_block_is_active', ts('Contribution Amounts Section Enabled') );
+        $this->addElement('checkbox', 'amount_block_is_active', ts('Contribution Amounts Section Enabled'), null, array( 'onclick' => "amountBlock(this);" ) );
 
         $this->addElement('checkbox', 'is_monetary', ts('Execute real-time monetary transactions') );
 
@@ -209,7 +209,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
      * @access public 
      */ 
     public function getTitle( ) {
-        return ts( 'Contribution Amounts' );
+        return ts( 'Amounts' );
     }
     
 }

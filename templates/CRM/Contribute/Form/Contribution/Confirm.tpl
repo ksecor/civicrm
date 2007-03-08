@@ -64,8 +64,8 @@
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
-    
-    {if $contributeMode ne 'notify' and $is_monetary}    
+
+    {if $contributeMode ne 'notify' and $contributeMode ne 'checkout' and $is_monetary}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -103,7 +103,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
   
-    {if $contributeMode NEQ ('notify' and 'checkout') and $is_monetary} {* In 'notify mode, contributor is taken to processor payment forms next *}
+    {if $contributeMode NEQ 'notify' and $contributeMode NEQ 'checkout' and $is_monetary} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
         {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
