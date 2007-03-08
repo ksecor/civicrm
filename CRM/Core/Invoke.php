@@ -605,11 +605,12 @@ class CRM_Core_Invoke
             break;
         }
 
-        $config =& CRM_Core_Config::singleton();
- //     $config->cleanup(1);
 
         if ( $view ) {
-            return $view->run( );
+            $run = $view->run( );
+            $config =& CRM_Core_Config::singleton();
+            $config->cleanup(1);
+            return $run;
         }
 
         return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin', 'reset=1', false) );
