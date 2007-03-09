@@ -103,6 +103,9 @@ class CRM_Utils_VersionCheck
                 ini_restore('default_socket_timeout');
                 restore_error_handler();
 
+                if (!preg_match('/^\d+\.\d+\.\d+$/', $this->latestVersion)) {
+                    $this->latestVersion = null;
+                }
                 if (!$this->latestVersion) {
                     return;
                 }
