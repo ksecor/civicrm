@@ -12,10 +12,9 @@
   	{if $groupIn }
         
 	<div class="form-item">
-    <div><label>{ts} Groups{/ts}</label></div>
 	<div>
 	{strip}
-	<table>
+	<table class="selector">
         <tr class="columnheader">
 		<th>{ts}Group{/ts}</th>
 		<th>{ts}Status{/ts}</th>
@@ -24,7 +23,7 @@
 	</tr>
        	{foreach from=$groupIn item=row}
         <tr class="{cycle values="odd-row,even-row"}">
-        	<td class="label"><a href="{crmURL p='civicrm/group/search' q="reset=1&force=1&context=smog&gid=`$row.group_id`"}">{$row.title}</a></td>
+        	<td><strong><a href="{crmURL p='civicrm/group/search' q="reset=1&force=1&context=smog&gid=`$row.group_id`"}">{$row.title}</a></strong></td>
 	    	<td>{ts 1=$row.in_method}Added (by %1){/ts}</td> 
             <td>{$row.in_date|crmDate}</td>
             <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to unsubscribe from %1?{/ts}');">[ {ts}Unsubscribe{/ts} ]</a></td> 
@@ -43,12 +42,12 @@
     
     {if $groupPending }
 	<div class="form-item">
-        <div class="label status-pending">{ts}Pending{/ts}</div> 
+        <div class="label status-pending">{ts}Pending Subscriptions{/ts}</div> 
         <div class="description">{ts}Your subscription to these group(s) is pending confirmation.{/ts}</div>
 		
 	<div>
 	{strip}
-	<table>
+	<table class="selector">
 	<tr class="columnheader">
 		<th>{ts}Group{/ts}</th>
 		<th>{ts}Status{/ts}</th>
@@ -57,7 +56,7 @@
 	</tr>
    	{foreach from=$groupPending item=row}
         <tr class="{cycle values="odd-row,even-row"}">
-            <td class="label">{$row.title}</td>
+            <td><strong>{$row.title}</strong></td>
             <td>{ts 1=$row.pending_method}Pending (by %1){/ts}</td> 
             <td>{$row.pending_date|crmDate}</td>
             <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to remove from %1?{/ts}');">[ {ts}Confirm{/ts} ]</a></td> 
@@ -77,11 +76,11 @@
 	{if $groupOut }
 	<div class="form-item">
 	<div class="label status-removed">{ts}Unsubscribed Groups{/ts}</div>
-    <div class="description">{ts}You are no longer subscribed to these group(s).{/ts}</div>
+    <div class="description">{ts}You are no longer subscribed to these group(s). Click Rejoin Group if you want to re-subscribe.{/ts}</div>
 	
 	<div>
         {strip}
-	<table>
+	<table class="selector">
 	<tr class="columnheader">
 		<th>{ts}Group{/ts}</th>
 		<th>{ts}Status{/ts}</th>
@@ -91,7 +90,7 @@
 	</tr>
         {foreach from=$groupOut item=row}
         <tr class="{cycle values="odd-row,even-row"}">
-            <td class="label">{$row.title}</td>
+            <td><strong>{$row.title}</strong></td>
 	    	<td class="status-removed">{ts 1=$row.out_method}Removed (by %1){/ts}</td> 
             <td>{$row.date_added|crmDate}</td>
             <td>{$row.out_date|crmDate}</td>

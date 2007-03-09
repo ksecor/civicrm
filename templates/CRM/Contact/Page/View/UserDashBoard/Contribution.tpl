@@ -9,7 +9,6 @@
       <th>{ts}Received date{/ts}</th>
       <th>{ts}Receipt Sent{/ts}</th>
       <th>{ts}Status{/ts}</th>
-      <th></th>
     </tr>
 
      {foreach from=$contribute_rows item=row}
@@ -45,8 +44,7 @@
  {if $honorRows}
 {strip}
 <div id="help">
-<p>{ts 1=$displayName}Contributions made in honor of %1.{/ts} 
-</p>
+    <p>{ts}Contributions made in your honor.{/ts}</p>
 </div>
   <table class="selector">
     <tr class="columnheader">

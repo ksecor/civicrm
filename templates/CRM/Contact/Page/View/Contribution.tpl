@@ -7,10 +7,9 @@
 {if $permission EQ 'edit'}
     {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution"}{/capture}
 {/if}
-<div id="help">
-<p>{ts 1=$displayName}This page lists all contributions received from %1 since inception.{/ts} 
-{if $permission EQ 'edit'}{ts 1=$newContribURL}Click <a href="%1">New Contribution</a> to record a new offline contribution for this contact.{/ts}{/if}
-</p>
+<div class="description">
+    {ts 1=$displayName}Contributions received from %1 since inception.{/ts} 
+    {if $permission EQ 'edit'}{ts 1=$newContribURL}Click <a href="%1">New Contribution</a> to record a new offline contribution from this contact.{/ts}{/if}
 </div>
 
 {if $rows}
@@ -30,20 +29,19 @@
        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
        <dd>
             {if $permission EQ 'edit'}
-                {ts 1=$newContribURL}There are no contributions recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
+                {ts 1=$newContribURL}There are no contributions recorded from this contact. You can <a href="%1">enter one now</a>.{/ts}
             {else}
-                {ts}There are no contributions recorded for this contact.{/ts}
+                {ts}There are no contributions recorded from this contact.{/ts}
             {/if}
        </dd>
        </dl>
   </div>
 {/if}
    {if $honor}	
-<div id="help">
-<p>{ts 1=$displayName}Contributions made in honor of %1.{/ts} 
-</p>
-</div>
-    	  {include file="CRM/Contribute/Page/ContributionHonor.tpl"}	
+    <div class="description">
+        <p>{ts 1=$displayName}Contributions made in honor of %1.{/ts}</p>
+    </div>
+    {include file="CRM/Contribute/Page/ContributionHonor.tpl"}	
    {/if} 
 
 {/if}
