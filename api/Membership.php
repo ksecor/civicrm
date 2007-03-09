@@ -364,9 +364,10 @@ function crm_create_contact_membership($params, $contactID)
     
     if ( ! is_a( $membershipBAO, 'CRM_Core_Error') ) {
         $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
-                                                                                  $membershipBAO->id,
-                                                                                  $contactID
-                                                                                  );
+                                                            $membershipBAO->id,
+                                                            $contactID,
+                                                            CRM_Core_Action::ADD
+                                                            );
     }
     
     foreach ( $relatedContacts as $contactId ) {
@@ -434,9 +435,10 @@ function crm_update_contact_membership($params)
     $membershipBAO->save();
     
     $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
-                                                                              $membershipBAO->id,
-                                                                              $membershipBAO->contact_id
-                                                                              );
+                                                            $membershipBAO->id,
+                                                            $membershipBAO->contact_id,
+                                                            CRM_Core_Action::UPDATE
+                                                            );
     
     //delete all the related membership records before creating
     CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipBAO->id );

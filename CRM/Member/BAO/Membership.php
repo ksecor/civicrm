@@ -208,17 +208,19 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @return Array    array of contact_id of all related contacts.
      * @static
      */
-    static function checkMembershipRelationship( $membershipId, $contactId ) 
+    static function checkMembershipRelationship( $membershipId, $contactId, $action = CRM_Core_Action::ADD ) 
     {
         $contacts = array( );
         
-        $params   = array( 'id' => $membershipId );
-        $defaults = array( );
-        $membership = self::retrieve( $params, $defaults );
-        if ( ! array_key_exists( 'active', $defaults ) ) {
-            // if the membership is not active, then it should not be
-            // added to the related contact.
-            return $contacts;
+        if ( $action & CRM_Core_Action::ADD ) {
+            $params   = array( 'id' => $membershipId );
+            $defaults = array( );
+            $membership = self::retrieve( $params, $defaults );
+            if ( ! array_key_exists( 'active', $defaults ) ) {
+                // if the membership is not active, then it should not be
+                // added to the related contact.
+                return $contacts;
+            }
         }
         
         require_once 'CRM/Member/BAO/MembershipType.php';
@@ -226,9 +228,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         $relationships = array( );
         if ( $membershipType['relationship_type_id'] ) {
-            $relationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
+            $relationships        = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
                                                                             CRM_Contact_BAO_Relationship::CURRENT
                                                                             );
+            if ( $action & CRM_Core_Action::UPDATE ) {
+                $pastRelationships    = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
+                                                                                       CRM_Contact_BAO_Relationship::PAST
+                                                                                       );
+                $relationships = array_merge( $relationships, $pastRelationships );
+            }
         }
         
         if ( ! empty($relationships) ) {
@@ -245,7 +253,9 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 if ( ( $values['civicrm_relationship_type_id'] == $membershipType['relationship_type_id'] )
                      && ( ( $values['rtype'] == $membershipType['relationship_direction'] ) ||
                           ( $relValues['name_a_b'] == $relValues['name_b_a'] ) ) ) {
-                    $contacts[] = $values['cid'];
+                    // $values['status'] is going to have value for
+                    // current or past relationships.
+                    $contacts[$values['cid']] = $values['status'];
                 }
             }
         }

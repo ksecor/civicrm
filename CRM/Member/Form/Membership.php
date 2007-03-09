@@ -269,20 +269,41 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         
+        $relatedContacts = array( );
         if ( ! is_a( $membership, 'CRM_Core_Error') ) {
             $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
                                                                                       $membership->id,
-                                                                                      $membership->contact_id
+                                                                                      $membership->contact_id,
+                                                                                      $this->_action
                                                                                       );
         }
-        
-        //delete all the related membership records before creating
-        CRM_Member_BAO_Membership::deleteRelatedMemberships( $membership->id );
-        
+
         if ( ! empty($relatedContacts) ) {
-            foreach ( $relatedContacts as $contactId ) {
+            //delete all the related membership records before creating
+            CRM_Member_BAO_Membership::deleteRelatedMemberships( $membership->id );
+            
+            foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
                 $params['contact_id'         ] = $contactId;
                 $params['owner_membership_id'] = $membership->id;
+                // set status_id as it might have been changed for
+                // past relationship
+                $params['status_id'          ] = $membership->status_id;
+                
+                if ( ( $this->_action & CRM_Core_Action::UPDATE ) && 
+                     ( $relationshipStatus == CRM_Contact_BAO_Relationship::PAST ) ) {
+                    // FIXME : While updating/ renewing the
+                    // membership, if the relationship is PAST then
+                    // the membership of the related contact must be
+                    // expired. 
+                    // For that, getting Membership Status for which
+                    // is_current_member is 0. It works for the
+                    // generated data as there is only one membership
+                    // status having is_current_member = 0.
+                    // But this wont work exactly if there will be
+                    // more than one status having is_current_member = 0.
+                    $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
+                }
+                
                 unset( $params['id'] );
                 
                 CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );

@@ -91,6 +91,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     protected $_fields;
 
+    /**
+     * The billing location id for this contribiution page
+     *
+     * @var int
+     * @protected
+     */
+    protected $_bltID;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -107,6 +115,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         $this->_values = $this->get( 'values' );
         $this->_fields = $this->get( 'fields' );
+        $this->_bltID  = $this->get( 'bltID'  );
 
         $config  =& CRM_Core_Config::singleton( );
 
@@ -116,6 +125,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             //retrieve event information
             $params = array( 'id' => $this->_id );
             $ids = array();
+            
+            require_once 'CRM/Event/BAO/Participant.php';
+            $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_id );
+            if ( $eventFull ) {
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $this->_id ) );
+            }
+            
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
             
@@ -136,7 +152,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             require_once 'CRM/Event/BAO/EventPage.php';
             CRM_Event_BAO_EventPage::retrieve($params, $this->_values['event_page']);
             
-            if ( $this->_values['event']['is_monetary'] ) {
+            // get the billing location type
+            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+            $this->_bltID = array_search( ts('Billing'),  $locationTypes );
+            if ( ! $this->_bltID ) {
+                CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+            }
+            $this->set( 'bltID', $this->_bltID );
+
+            if ( ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM ) && $this->_values['event']['is_monetary'] ) {
                 $this->setCreditCardFields( );
             }
 
@@ -167,7 +191,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->assign('event', $this->_values['event']);
         $this->assign('eventPage', $this->_values['event_page']);
         $this->assign('location',$this->_values['location']);
-        
+        $this->assign( 'bltID', $this->_bltID );
+
     }
 
     /** 
@@ -178,74 +203,75 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     function setCreditCardFields( ) 
     {
+        $bltID = $this->_bltID;
+
+        $this->_fields['billing_first_name']         = array( 'htmlType'   => 'text', 
+                                                              'name'       => 'billing_first_name', 
+                                                              'title'      => ts('Billing First Name'), 
+                                                              'attributes' => array( 'size' => 30, 'maxlength' => 60 ),
+                                                              'is_required'=> true );
         
-        $this->_fields['first_name']  = array( 'htmlType'   => 'text', 
-                                               'name'       => 'first_name', 
-                                               'title'      => ts('First Name'), 
-                                               'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                               'is_required'=> true );
+        $this->_fields['billing_middle_name']        = array( 'htmlType'   => 'text', 
+                                                              'name'       => 'billing_middle_name', 
+                                                              'title'      => ts('Billing Middle Name'), 
+                                                              'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                              'is_required'=> false );
         
-        $this->_fields['middle_name'] = array( 'htmlType'   => 'text', 
-                                               'name'       => 'middle_name', 
-                                               'title'      => ts('Middle Name'), 
-                                               'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                               'is_required'=> false );
+        $this->_fields['billing_last_name']          = array( 'htmlType'   => 'text', 
+                                                              'name'       => 'billing_last_name', 
+                                                              'title'      => ts('Billing Last Name'), 
+                                                              'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                              'is_required'=> true );
         
-        $this->_fields['last_name']   = array( 'htmlType'   => 'text', 
-                                               'name'       => 'last_name', 
-                                               'title'      => ts('Last Name'), 
-                                               'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                               'is_required'=> true );
-                                         
-        $this->_fields['street_address'] = array( 'htmlType'   => 'text', 
-                                                  'name'       => 'street_address', 
-                                                  'title'      => ts('Street Address'), 
-                                                  'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                                  'is_required'=> true );
+        $this->_fields["street_address-{$bltID}"]    = array( 'htmlType'   => 'text', 
+                                                              'name'       => "street_address-{$bltID}",
+                                                              'title'      => ts('Street Address'), 
+                                                              'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                              'is_required'=> true );
         
-        $this->_fields['city'] = array( 'htmlType'   => 'text', 
-                                        'name'       => 'city', 
-                                        'title'      => ts('City'), 
-                                        'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                        'is_required'=> true );
-                                         
-        $this->_fields['state_province_id'] = array( 'htmlType'   => 'select', 
-                                                     'name'       => 'state_province_id', 
-                                                     'title'      => ts('State / Province'), 
-                                                     'attributes' => array( '' => ts( '- select -' ) ) +
-                                                     CRM_Core_PseudoConstant::stateProvince( ),
-                                                     'is_required'=> true );
+        $this->_fields["city-{$bltID}"]              = array( 'htmlType'   => 'text', 
+                                                              'name'       => "city-{$bltID}",
+                                                              'title'      => ts('City'), 
+                                                              'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                              'is_required'=> true );
         
-        $this->_fields['postal_code'] = array( 'htmlType'   => 'text', 
-                                               'name'       => 'postal_code', 
-                                               'title'      => ts('Postal Code'), 
-                                               'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
-                                               'is_required'=> true );
+        $this->_fields["state_province_id-{$bltID}"] = array( 'htmlType'   => 'select', 
+                                                              'name'       => "state_province_id-{$bltID}",
+                                                              'title'      => ts('State / Province'), 
+                                                              'attributes' => array( '' => ts( '- select -' ) ) +
+                                                              CRM_Core_PseudoConstant::stateProvince( ),
+                                                              'is_required'=> true );
         
-        $this->_fields['country_id'] = array( 'htmlType'   => 'select', 
-                                              'name'       => 'country_id', 
-                                              'title'      => ts('Country'), 
-                                              'attributes' => array( '' => ts( '- select -' ) ) + 
-                                              CRM_Core_PseudoConstant::country( ),
-                                              'is_required'=> true );
+        $this->_fields["postal_code-{$bltID}"]       = array( 'htmlType'   => 'text', 
+                                                              'name'       => "postal_code-{$bltID}",
+                                                              'title'      => ts('Postal Code'), 
+                                                              'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                              'is_required'=> true );
         
-        $this->_fields['credit_card_number'] = array( 'htmlType'   => 'text', 
-                                                      'name'       => 'credit_card_number', 
-                                                      'title'      => ts('Card Number'), 
-                                                      'attributes' => array( 'size' => 20, 'maxlength' => 20 ), 
-                                                      'is_required'=> true );
-                                         
-        $this->_fields['cvv2'] = array( 'htmlType'   => 'text', 
-                                        'name'       => 'cvv2', 
-                                        'title'      => ts('Security Code'), 
-                                        'attributes' => array( 'size' => 5, 'maxlength' => 10 ), 
-                                        'is_required'=> true );
+        $this->_fields["country_id-{$bltID}"]        = array( 'htmlType'   => 'select', 
+                                                              'name'       => "country_id-{$bltID}", 
+                                                              'title'      => ts('Country'), 
+                                                              'attributes' => array( '' => ts( '- select -' ) ) + 
+                                                              CRM_Core_PseudoConstant::country( ),
+                                                              'is_required'=> true );
         
-        $this->_fields['credit_card_exp_date'] = array( 'htmlType'   => 'date', 
-                                                        'name'       => 'credit_card_exp_date', 
-                                                        'title'      => ts('Expiration Date'), 
-                                                        'attributes' => CRM_Core_SelectValues::date( 'creditCard' ),
-                                                        'is_required'=> true );
+        $this->_fields['credit_card_number']         = array( 'htmlType'   => 'text', 
+                                                              'name'       => 'credit_card_number', 
+                                                              'title'      => ts('Card Number'), 
+                                                              'attributes' => array( 'size' => 20, 'maxlength' => 20 ), 
+                                                              'is_required'=> true );
+        
+        $this->_fields['cvv2']                       = array( 'htmlType'   => 'text', 
+                                                              'name'       => 'cvv2', 
+                                                              'title'      => ts('Security Code'), 
+                                                              'attributes' => array( 'size' => 5, 'maxlength' => 10 ), 
+                                                              'is_required'=> true );
+        
+        $this->_fields['credit_card_exp_date']       = array( 'htmlType'   => 'date', 
+                                                              'name'       => 'credit_card_exp_date', 
+                                                              'title'      => ts('Expiration Date'), 
+                                                              'attributes' => CRM_Core_SelectValues::date( 'creditCard' ),
+                                                              'is_required'=> true );
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $creditCardType = array( ''           => '- select -') + CRM_Contribute_PseudoConstant::creditCard( );
@@ -255,7 +281,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                     'attributes' => $creditCardType,
                                                     'is_required'=> true );
     }
-
+    
     /** 
      * assign the minimal set of variables to the template
      *                                                           
@@ -264,11 +290,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     function assignToTemplate( ) 
     {
-        $name = $this->_params['first_name'];
-        if ( CRM_Utils_Array::value( 'middle_name', $this->_params ) ) {
-            $name .= " {$this->_params['middle_name']}";
+        $name = $this->_params['billing_first_name'];
+        if ( CRM_Utils_Array::value( 'billing_middle_name', $this->_params ) ) {
+            $name .= " {$this->_params['billing_middle_name']}";
         }
-        $name .= " {$this->_params['last_name']}";
+        $name .= " {$this->_params['billing_last_name']}";
         $this->assign( 'name', $name );
         $this->set( 'name', $name );
 
@@ -286,10 +312,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         }
 
         // assign the address formatted up for display
-        $addressParts  = array('street_address', 'city', 'postal_code', 'state_province', 'country');
+        $addressParts  = array( "street_address-{$this->_bltID}",
+                                "city-{$this->_bltID}",
+                                "postal_code-{$this->_bltID}",
+                                "state_province-{$this->_bltID}",
+                                "country-{$this->_bltID}");
         $addressFields = array();
         foreach ($addressParts as $part) {
-            $addressFields[$part] = $this->_params[$part];
+            list( $n, $id ) = explode( '-', $part );
+            $addressFields[$n] = $this->_params[$part];
         }
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
@@ -302,7 +333,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                            CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
         }
 
-        $this->assign( 'email', $this->controller->exportValue( 'Register', 'email' ) );
+        $this->assign( 'email', $this->controller->exportValue( 'Register', "email-{$this->_bltID}" ) );
 
         // assign is_email_confirm to templates
         $this->assign( 'is_email_confirm', $this->_values['event_page']['is_email_confirm'] );

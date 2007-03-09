@@ -1,25 +1,35 @@
 <table class="no-border">
-    <tr><td>{$DisplayName}</td></tr>
     <tr>
         <td>
-            <fieldset><legend>{ts}Groups{/ts}</legend>
-            {include file="CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl"}	
-            </fieldset>
+          <div class="header-dark">
+          {ts}Your Group(s){/ts}  
+          </div>	  
+          {include file="CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl"}	
+            
         </td>
     </tr>
 
     {foreach from=$components key=componentName item=group}
     <tr>
         <td>
-            <fieldset><legend>{$componentName}</legend>
+      
             {if $componentName eq CiviContribute}
-                 {include file="CRM/Contact/Page/View/UserDashBoard/Contribution.tpl"}	    
+                 <div class="header-dark">
+                  {ts}Your Contribution(s){/ts}  
+                  </div>	        
+                  {include file="CRM/Contact/Page/View/UserDashBoard/Contribution.tpl"}
             {elseif $componentName eq CiviMember}
+                 <div class="header-dark">
+                  {ts}Your Membership(s){/ts}  
+                  </div>	      
                  {include file="CRM/Contact/Page/View/UserDashBoard/Membership.tpl"}	    
             {elseif $componentName eq CiviEvent}
-                {include file="CRM/Contact/Page/View/UserDashBoard/Participant.tpl"}	
+                 <div class="header-dark">
+                  {ts}Your Event(s){/ts}  
+                  </div>	      
+                  {include file="CRM/Contact/Page/View/UserDashBoard/Participant.tpl"}	
             {/if}
-            </fieldset>
+      
         </td>
     </tr>
     {/foreach}

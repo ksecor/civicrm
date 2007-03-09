@@ -61,7 +61,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         // set breadcrumb to append to 2nd layer pages
         $breadCrumbPath = CRM_Utils_System::url( "civicrm/event/info", "id={$id}&reset=1" );
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Events') . '</a>';
-   
+       
         //retrieve event information
         $params = array( 'id' => $id );
         $ids = array();
@@ -82,26 +82,32 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
         $this->assign( 'action', CRM_Core_Action::VIEW);
         
-        if ( $values['event']['is_online_registration'] ) {
-            $registerText = "Register Now";
-            if ( $registerText ) {
-                $registerText = $values['event']['registration_link_text'];
+        require_once 'CRM/Event/BAO/Participant.php';
+        $eventFullMessage = CRM_Event_BAO_Participant::eventFull( $id );
+        if( $eventFullMessage ) {
+            CRM_Core_Session::setStatus( $eventFullMessage );
+        } else {
+            if ( $values['event']['is_online_registration'] ) {
+                $registerText = "Register Now";
+                if ( $registerText ) {
+                    $registerText = $values['event']['registration_link_text'];
+                }
+                
+                $this->assign( 'registerText', $registerText );
+                $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
+                
+                if ( $action ==  CRM_Core_Action::PREVIEW ) {
+                    $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1&action=preview" );
+                } else {
+                    $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1" );
+                }
+                $this->assign( 'registerURL', $url );
             }
-        
-            $this->assign( 'registerText', $registerText );
-            $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
-
-            if ( $action == 1024 ) {
-                $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1&action=preview" );
-            } else {
-                $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1" );
-            }
-            $this->assign( 'registerURL', $url );
+            
         }
-
         // we do not want to display recently viewed items, so turn off
         $this->assign('displayRecent' , false );
-
+        
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $values['event']['title'] );
         CRM_Utils_System::setTitle($values['event']['title']);  

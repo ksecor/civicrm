@@ -9,11 +9,9 @@
 {ts}Membership Information{/ts}
 
 ===========================================================
-Membership Type : {$membership_name}
-
-Membership Start Date : {$mem_start_date|crmDate}
-
-Membership End Date   : {$mem_end_date|crmDate}
+{ts}Membership Type{/ts}: {$membership_name}
+{ts}Membership Start Date{/ts}: {$mem_start_date|crmDate}
+{ts}Membership End Date{/ts}: {$mem_end_date|crmDate}
 
 {/if}
 ===========================================================
@@ -50,7 +48,7 @@ future contributions by logging in to your account at:{/ts}
 
 ===========================================================
 {$honor_prefix} {$honor_first_name} {$honor_last_name}
-Email : {$honor_email}
+{ts}Honoree Email{/ts}: {$honor_email}
 
 {/if}
 {if $contributeMode ne 'notify' and $is_monetary}
@@ -84,7 +82,7 @@ Email : {$honor_email}
 Option: {$option}
 {/if}
 {if $sku}
-SKU: {$sku}
+SKU   : {$sku}
 {/if}
 {if $start_date}
 Start Date: {$start_date|crmDate}

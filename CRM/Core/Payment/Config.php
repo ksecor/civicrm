@@ -193,7 +193,7 @@ class CRM_Core_Payment_Config {
 
             case 'Google_Checkout':
                 $config->paymentFile = 'Payment_Google';
-                $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_BUTTON;
+                $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_NOTIFY;
 //                 if ( $oldMode ) {
 //                     $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
 //                     $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;

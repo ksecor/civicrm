@@ -1,9 +1,4 @@
 <div class="view-content">
-<div id="help">
-<p>{ts 1=$displayName}This page lists all events participated by %1 since inception.{/ts} 
-</p>
-</div>
-
 {if $event_rows}
   {strip}
   <div><label>{ts}Registered Events{/ts}</label></div>
@@ -11,7 +6,7 @@
     <tr class="columnheader">
       <th>{ts}Event{/ts}</th>
       <th>{ts}Event Date{/ts}</th>
-      <th>{ts}Status <br/>Participant Record /  Last Modified Date{/ts}</th>
+      <th>{ts}Status{/ts}</th>
       <th></th>
     </tr>
      {counter start=0 skip=1 print=false}
@@ -30,7 +25,7 @@
        <dl>
          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
            <dd>
-               {ts}You are currently not registered for any Events.{/ts}
+               {ts}You are currently not registered for any current or upcoming Events.{/ts}
            </dd>
        </dl>
    </div>

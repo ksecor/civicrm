@@ -64,6 +64,7 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
 
         $this->_contactId      = $this->get('contactId');
         $this->_groupContactId = $this->get('groupContactId');
+        $this->_context        = CRM_Utils_Request::retrieve( 'context', 'String', $this );
     }
 
     /**
@@ -148,8 +149,8 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         $contactID = array($this->_contactId);
         $groupId = $this->controller->exportValue( 'GroupContact', 'group_id'  );
         $groupContact = CRM_Contact_BAO_GroupContact::addContactsToGroup($contactID, $groupId);
-        
-        if ($groupContact) {
+
+        if ($groupContact &&  $this->_context != 'user') {
             CRM_Core_Session::setStatus( ts('Contact has been added to the selected group.') );
         }
     }//end of function

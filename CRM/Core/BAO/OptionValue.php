@@ -137,9 +137,10 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
         $optionValue =& new CRM_Core_DAO_OptionValue( );
         $optionValue->id = $optionValueId;
 
-        self::updateRecords($optionValueId, CRM_Core_Action::DELETE);
-        
-        return $optionValue->delete();
+        if ( self::updateRecords($optionValueId, CRM_Core_Action::DELETE) ){
+            return $optionValue->delete();        
+        }
+        return false;
     }
 
 
@@ -194,13 +195,17 @@ AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.n
         $value = $optionValue->value; //value
         
         // get the proper group name & affected field name
-        $individuals   = array('gender'            => 'gender_id', 
-                               'individual_prefix' => 'prefix_id', 
-                               'individual_suffix' => 'suffix_id');
-        $contributions = array('payment_instrument'=> 'payment_instrument_id');
-        $activities    = array('activity_type'     => 'activity_type_id');
+        $individuals      = array('gender'              => 'gender_id', 
+                                  'individual_prefix'   => 'prefix_id', 
+                                  'individual_suffix'   => 'suffix_id');
+        $contributions    = array('payment_instrument'  => 'payment_instrument_id');
+        $activities       = array('activity_type'       => 'activity_type_id');
+        $participant      = array('participant_role'    => 'role_id',
+                                  'participant_status'  => 'status_id'
+                                  );
+        $eventType        = array('event_type'          => 'event_type_id');
 
-        $all = array_merge($individuals, $contributions, $activities);
+        $all = array_merge($individuals, $contributions, $activities, $participant, $eventType);
         $fieldName = '';
         
         foreach($all as $name => $id) {
@@ -229,6 +234,7 @@ AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.n
                 $contact->display_name = $individual->displayName();
                 $contact->save();
             }
+            return true;
         }
         
         if (array_key_exists($gName, $contributions)) {
@@ -242,6 +248,7 @@ AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.n
                     $contribution->save();
                 }
             }
+            return true;
         }
         
         if (array_key_exists($gName, $activities)) {
@@ -252,6 +259,29 @@ AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.n
             while ($activity->fetch()) {
                 $activity->delete();
             }
+            return true;
+        }
+        
+        //delete participant role, type and event type option value
+        if (array_key_exists($gName, $participant)) {
+            require_once 'CRM/Event/DAO/Participant.php';
+            $participantValue =& new CRM_Event_DAO_Participant( );
+            $participantValue->$fieldName = $value;
+            if ( $participantValue->find(true)) {
+                return false;
+            }
+            return true;
+        }
+
+        //delete event type option value
+        if (array_key_exists($gName, $eventType)) {
+            require_once 'CRM/Event/DAO/Event.php';
+            $event =& new CRM_Event_DAO_Event( );
+            $event->$fieldName = $value;
+            if ( $event->find(true) ) {
+                return false;
+            }
+            return true;
         }
     }
 }

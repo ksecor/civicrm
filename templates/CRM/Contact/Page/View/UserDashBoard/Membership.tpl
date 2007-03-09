@@ -1,14 +1,6 @@
 <div class="view-content">
-<div id="help">
-    {if ($activeMembers or $inActiveMembers) }
-        {ts}Current and inactive memberships for {$displayName} are listed below.{/ts}
-    {/if}
-
-</div>
-
 {if $activeMembers}
 <div id="memberships">
-<p></p>
     <div><label>{ts}Active Memberships{/ts}</label></div>
     <div class="form-item">
         {strip}
@@ -39,7 +31,7 @@
 {if $inActiveMembers}
 <div id="ltype">
 <p></p>
-    <div class="label font-red">{ts}Inactive Memberships{/ts}</div>
+    <div class="label font-red">{ts}Expired / Inactive Memberships{/ts}</div>
     <div class="form-item">
         {strip}
         <table>
@@ -72,7 +64,7 @@
        <dl>
        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
        <dd>
-            {ts}You are not currently recorded for any memberships.{/ts}
+            {ts}There are no memberships on record for you.{/ts}
        </dd>
        </dl>
   </div>

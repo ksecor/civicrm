@@ -51,33 +51,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
     {
         parent::__construct();
     }
-    
-   
-    /**
-     * Given the list of params in the params array, fetch the object
-     * and store the values in the values array
-     *
-     * @param array $params input parameters to find object
-     * @param array $values output values of the object
-     *
-     * @return CRM_Event_BAO_Participant|null the found object or null
-     * @access public
-     * @static
-     */
-    static function getValues( &$params, &$values, &$ids ) 
-    {
-        $participant =& new CRM_Event_BAO_Participant( );
-        $participant->copyValues( $params );
-        $participant->find();
-        $participants = array();
-        while ( $participant->fetch() ) {
-            $ids['participant'] = $participant->id;
-            CRM_Core_DAO::storeValues( $participant, $values[$participant->id] );
-            $participants[$participant->id] = $participant;
-        }       
-        return $participants;
-    }
-
+        
     /**
      * takes an associative array and creates a participant object
      *
@@ -120,6 +94,117 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         }
         
         return $result;
+    }
+
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params input parameters to find object
+     * @param array $values output values of the object
+     *
+     * @return CRM_Event_BAO_Participant|null the found object or null
+     * @access public
+     * @static
+     */
+    static function getValues( &$params, &$values, &$ids ) 
+    {
+        $participant =& new CRM_Event_BAO_Participant( );
+        $participant->copyValues( $params );
+        $participant->find();
+        $participants = array();
+        while ( $participant->fetch() ) {
+            $ids['participant'] = $participant->id;
+            CRM_Core_DAO::storeValues( $participant, $values[$participant->id] );
+            $participants[$participant->id] = $participant;
+        }       
+        return $participants;
+    }
+    
+    /**
+     * takes an associative array and creates a participant object
+     *
+     * @param array $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids
+     *
+     * @return object CRM_Event_BAO_Participant object 
+     * @access public
+     * @static
+     */
+
+    static function &create(&$params, &$ids) 
+    { 
+        require_once 'CRM/Utils/Date.php';
+
+        CRM_Core_DAO::transaction('BEGIN');
+        
+        if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
+            $status = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant', $ids['participant'], 'status_id' );
+        }
+        
+        $participant = self::add($params, $ids);
+        
+        if ( is_a( $participant, 'CRM_Core_Error') ) {
+            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            return $participant;
+        }
+        
+        if ( ( ! CRM_Utils_Array::value( 'participant', $ids ) ) ||
+             ( $params['status_id'] != $status ) ) {
+            self::setActivityHistory($participant);
+        }
+        
+        $session = & CRM_Core_Session::singleton();
+        
+        // add custom field values
+        if (CRM_Utils_Array::value('custom', $params)) {
+            foreach ($params['custom'] as $customValue) {
+                $cvParams = array(
+                                  'entity_table'    => 'civicrm_participant',
+                                  'entity_id'       => $participant->id,
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
+                                  );
+                
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+        }
+        
+        if ( CRM_Utils_Array::value('note', $params) ) {
+            require_once 'CRM/Core/BAO/Note.php';
+            $noteParams = array(
+                                'entity_table'  => 'civicrm_participant',
+                                'note'          => $params['note'],
+                                'entity_id'     => $participant->id,
+                                'contact_id'    => $session->get('userID'),
+                                'modified_date' => date('Ymd')
+                                );
+            
+            CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
+        }
+        // Log the information on successful add/edit of Participant
+        // data.
+        require_once 'CRM/Core/BAO/Log.php';
+        require_once 'CRM/Event/PseudoConstant.php' ;
+        $logParams = array(
+                        'entity_table'  => 'civicrm_participant',
+                        'entity_id'     => $participant->id,
+                        'data'          => CRM_Event_PseudoConstant::participantStatus($participant->status_id),
+                        'modified_id'   => $session->get('userID'),
+                        'modified_date' => date('Ymd')
+                        );
+        
+        CRM_Core_BAO_Log::add( $logParams );
+        
+        $params['participant_id'] = $participant->id;
+        
+        CRM_Core_DAO::transaction('COMMIT');
+        
+        return $participant;
     }
  
     /**
@@ -196,10 +281,13 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      */
     static function eventFull( $eventId )
     {
-        $query = "SELECT   count(civicrm_participant.id) as total_participants, civicrm_event.max_participants as max_participants,
+        $query = "SELECT   count(civicrm_participant.id) as total_participants,
+                           civicrm_event.max_participants as max_participants,
                            civicrm_event.event_full_text as event_full_text  
                   FROM     civicrm_participant, civicrm_event 
                   WHERE    civicrm_participant.event_id = civicrm_event.id
+                     AND   civicrm_participant.status_id!=4 
+                     AND   civicrm_participant.is_test=0 
                      AND   civicrm_participant.event_id={$eventId} 
                   GROUP BY civicrm_participant.event_id";
         
@@ -207,8 +295,12 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         
 
         while ( $dao->fetch( ) ) {
-            if( $dao->total_participants == $dao->max_participants ) {
-                return $dao->event_full_text;
+            if( $dao->total_participants >= $dao->max_participants ) {
+                if( $dao->event_full_text ) {
+                    return $dao->event_full_text;
+                } else {
+                    return ts( "This event is full !!!" );
+                }
             }
         }
         return false;
@@ -238,84 +330,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         }
         return false;
     }
-    
-    /**
-     * takes an associative array and creates a participant object
-     *
-     * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
-     *
-     * @return object CRM_Event_BAO_Participant object 
-     * @access public
-     * @static
-     */
-
-    static function &create(&$params, &$ids) 
-    { 
-        require_once 'CRM/Utils/Date.php';
-
-        CRM_Core_DAO::transaction('BEGIN');
         
-        $participant = self::add($params, $ids);
-        
-        if ( is_a( $participant, 'CRM_Core_Error') ) {
-            CRM_Core_DAO::transaction( 'ROLLBACK' );
-            return $participant;
-        }
-        
-        $session = & CRM_Core_Session::singleton();
-        
-        // add custom field values
-        if (CRM_Utils_Array::value('custom', $params)) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_participant',
-                                  'entity_id'       => $participant->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
-        }
-        
-        if ( CRM_Utils_Array::value('note', $params) ) {
-            require_once 'CRM/Core/BAO/Note.php';
-            $noteParams = array(
-                                'entity_table'  => 'civicrm_participant',
-                                'note'          => $params['note'],
-                                'entity_id'     => $participant->id,
-                                'contact_id'    => $session->get('userID'),
-                                'modified_date' => date('Ymd')
-                                );
-            
-            CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
-        }
-        // Log the information on successful add/edit of Participant
-        // data.
-        require_once 'CRM/Core/BAO/Log.php';
-        require_once 'CRM/Event/PseudoConstant.php' ;
-        $logParams = array(
-                        'entity_table'  => 'civicrm_participant',
-                        'entity_id'     => $participant->id,
-                        'data'          => CRM_Event_PseudoConstant::participantStatus($participant->status_id),
-                        'modified_id'   => $session->get('userID'),
-                        'modified_date' => date('Ymd')
-                        );
-        
-        CRM_Core_BAO_Log::add( $logParams );
-        
-        $params['participant_id'] = $participant->id;
-        
-        CRM_Core_DAO::transaction('COMMIT');
-        
-        return $participant;
-    }
-    
     /**
      * combine all the importable fields from the lower levels object
      *

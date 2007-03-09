@@ -9,8 +9,8 @@
 
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
-        {if $contributeMode EQ 'notify' and $paidEvent}
-            <p>{ts}Your registration payment has been submitted to PayPal for processing. Please print this page for your records.{/ts}</p>
+        {if $contributeMode EQ ('notify' or 'checkout') and $paidEvent}
+            <p>{ts}Your registration payment has been submitted to {if $contributeMode EQ 'checkout'}Google{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</p>
             {if $is_email_confirm}
                 <p>{ts 1=$email}A registration confirmation email will be sent to %1 once the transaction is processed successfully.{/ts}</p>
             {/if}
@@ -39,7 +39,7 @@
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
         {/if}
         {ts}Transaction Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
-        {if $contributeMode ne 'notify'}
+        {if $contributeMode ne 'notify' and $contributeMode ne 'checkout'}
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
     </div>
@@ -64,7 +64,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
-    {if $contributeMode ne 'notify' and $paidEvent}    
+    {if $contributeMode ne 'notify' and $contributeMode ne 'checkout' and $paidEvent}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>

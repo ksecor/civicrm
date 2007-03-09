@@ -435,10 +435,6 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
 
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Participant", $participant->id); 
-                
-        if ( ( $this->_action & CRM_Core_Action::ADD ) || ( $status != $params['status_id'] ) ) {
-            CRM_Event_BAO_Participant::setActivityHistory( $participant );
-        }       
     }
 }
 ?>
