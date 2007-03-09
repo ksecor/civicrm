@@ -56,6 +56,21 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         CRM_Utils_System::setTitle($this->_values['event_page']['thankyou_title']);
     }
 
+    /**
+     * overwrite action, since we are only showing elements in frozen mode
+     * no help display needed
+     * @return int
+     * @access public
+     */
+    function getAction( ) 
+    {
+        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+            return CRM_Core_Action::VIEW | CRM_Core_Action::PREVIEW;
+        } else {
+            return CRM_Core_Action::VIEW;
+        }
+    }
+
     /** 
      * Function to build the form 
      * 

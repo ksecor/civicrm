@@ -14,12 +14,12 @@
               </fieldset> 
            {/if} 
         {/if} 
-        {if $mode ne 8} 
+        {if $mode ne 8 && $action ne 1028} 
             <fieldset><legend>{$field.groupTitle}</legend> 
         {/if} 
         {assign var=fieldset  value=`$field.groupTitle`} 
         {assign var=groupHelpPost  value=`$field.groupHelpPost`} 
-        {if $field.groupHelpPre && $action neq 4} 
+        {if $field.groupHelpPre && $action neq 4 && $action neq 1028} 
             <div class="messages help">{$field.groupHelpPre}</div> 
         {/if} 
         <table class="form-layout-compressed"> 
@@ -74,7 +74,7 @@
         {/if} 
     {/foreach} 
    </table> 
-{if $field.groupHelpPost && $action neq 4} 
+{if $field.groupHelpPost && $action neq 4  && $action neq 1028} 
     <div class="messages help">{$field.groupHelpPost}</div> 
 {/if} 
 {if $mode eq 4} 
@@ -82,7 +82,7 @@
      {$form.buttons.html} 
 </div> 
 {/if} 
-  {if $mode ne 8} 
+  {if $mode ne 8 && $action neq 1028} 
     </fieldset> 
   {/if} 
      

@@ -41,10 +41,10 @@
 {ts}Registration Fee{/ts}
 
 ===========================================================
-{ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
+{ts}Amount{/ts}           : {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 
-{ts}Transaction Date{/ts}: {$receive_date|crmDate}
-{ts}Transaction #{/ts}: {$trxn_id}
+{ts}Transaction Date{/ts} : {$receive_date|crmDate}
+{ts}Transaction #{/ts}    : {$trxn_id}
 
 ===========================================================
 {ts}Billing Name and Address{/ts}
