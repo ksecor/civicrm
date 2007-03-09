@@ -125,6 +125,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             //retrieve event information
             $params = array( 'id' => $this->_id );
             $ids = array();
+            
+            require_once 'CRM/Event/BAO/Participant.php';
+            $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_id );
+            if ( $eventFull ) {
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $this->_id ) );
+            }
+            
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
             
