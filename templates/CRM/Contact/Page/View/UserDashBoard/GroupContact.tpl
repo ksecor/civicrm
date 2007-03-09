@@ -12,8 +12,7 @@
   	{if $groupIn }
         
 	<div class="form-item">
-	<div><label>{ts}Your Groups{/ts}</label></div>
-	
+    <div><label>{ts} Groups{/ts}</label></div>
 	<div>
 	{strip}
 	<table>

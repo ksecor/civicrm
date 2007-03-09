@@ -1,7 +1,7 @@
 <div class="view-content">
 {if $contribute_rows}
 {strip}
- <div><label>{ts}Contributions{/ts}</label></div>
+
   <table class="selector">
     <tr class="columnheader">
       <th>{ts}Total Amount{/ts}</th>
@@ -34,11 +34,7 @@
        <dl>
        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
        <dd>
-            {if $permission EQ 'edit'}
-                {ts 1=$newContribURL}There are no contributions recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
-            {else}
-                {ts}There are no contributions on record for you.{/ts}
-            {/if}
+         {ts}There are no contributions on record for you.{/ts}
        </dd>
        </dl>
   </div>

@@ -93,8 +93,15 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         $this->assign( 'id', $this->_id );
         
-        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive',
-                                                         $this, true );
+        // retrieve the group contact id, so that we can get contact id
+        $gcid = CRM_Utils_Request::retrieve( 'gcid', 'Positive', $this );
+        
+        if ( !$gcid ) {
+            $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
+        } else {
+            $this->_contactId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_GroupContact', $gcid, 'contact_id' );
+        }
+
         if ( ! $this->_contactId ) {
             CRM_Core_Error::statusBounce( ts( 'We could not find a contact id.' ) );
         }

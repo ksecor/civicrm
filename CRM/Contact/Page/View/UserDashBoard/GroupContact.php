@@ -77,16 +77,17 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
         $session =& CRM_Core_Session::singleton();
         $this->_contactId = $session->get( 'userID' );
 
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/user', 'reset=1' ) ,false);
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/user', 'reset=1&id='. $this->_contactId ) ,false);
 
         $controller->reset( );
 
         $controller->set( 'contactId', $this->_contactId );
 
         $controller->set( 'groupId'  , $groupId );
- 
+        $controller->set( 'context'  , 'user' );
         $controller->process( );
         $controller->run( );
+
     }
 
     /**

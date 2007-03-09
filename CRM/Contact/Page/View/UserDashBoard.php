@@ -64,8 +64,9 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         }
         
         $this->_contactId = CRM_Utils_Request::retrieve('id', 'Positive',
-                                                        $this, true );
-        if ( ! $this->_contactId ) {
+                                                        $this );
+
+        if ( ! $this->_contactId ) { 
             $session =& CRM_Core_Session::singleton( );
             $this->_contactId = $session->get( 'userID' );
         } else {
@@ -78,13 +79,10 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         if ( ! $this->_contactId) {
             CRM_Core_Error::fatal( ts( 'We could not find a contact id.' ) );
         }
-     
-        list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
         
         CRM_Utils_System::setTitle( 'Contact Dashboard' );
   
-        $this->assign ( 'displayName', $displayName );
-        $this->assign ( 'DisplayName', $contactImage . ' ' . $displayName );
+        $this->assign('recentlyViewed', false);
     }
     
     /**
