@@ -81,12 +81,21 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
                 $fields[$name] = 1;
             }
+
+            $names = array("first_name", "middle_name", "last_name");
+            foreach ($names as $name) {
+                $fields[$name] = 1;
+            }
             $fields["state_province-{$this->_bltID}"] = 1;
             $fields["country-{$this->_bltID}"       ] = 1;
             $fields["email-{$this->_bltID}"         ] = 1;
 
             require_once "CRM/Core/BAO/UFGroup.php";
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
+            
+            foreach ($names as $name) {
+                $this->_defaults["billing_" . $name] = $this->_defaults[$name];
+            }
         }
 
         //set default membership for membershipship block
@@ -146,7 +155,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
         // if payment is via a button only, dont display continue
-        if ( $config->paymentBillingMode != CRM_Core_Payment::BILLING_MODE_BUTTON || $config->paymentProcessor == 'Google_Checkout' || !$this->_values['is_monetary']) {
+        if ( $config->paymentBillingMode != CRM_Core_Payment::BILLING_MODE_BUTTON || !$this->_values['is_monetary']) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
                                             'name'      => ts('Continue >>'), 
@@ -155,7 +164,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                                     ) 
                               );
         }
-
+        
         $this->addFormRule( array( 'CRM_Contribute_Form_Contribution_Main', 'formRule' ), $this );
     }
 
@@ -253,7 +262,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->addRule( 'credit_card_exp_date', ts('Select a valid date greater than today.'), 'currentDate');
         }            
             
-        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON && $config->paymentProcessor != 'Google_Checkout') {
+        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
                        $this->_expressButtonName,
@@ -498,10 +507,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
             if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
-                if ($config->paymentProcessor == 'Google_Checkout') {
-                    //$payment->doCheckout( $params );
-                    $this->set( 'contributeMode', 'checkout' ); 
-                } else {
                     //get the button name  
                     $buttonName = $this->controller->getButtonName( );  
                     if ($buttonName == $this->_expressButtonName || 
@@ -529,9 +534,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                         }
                         CRM_Utils_System::redirect( $paymentURL ); 
                     }
-                }
             } else if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
-                $this->set( 'contributeMode', 'notify' );
+                if ($config->paymentProcessor == 'Google_Checkout') {
+                    $this->set( 'contributeMode', 'checkout' ); 
+                } else {
+                    $this->set( 'contributeMode', 'notify' );
+                }
             }
         }         
     }
