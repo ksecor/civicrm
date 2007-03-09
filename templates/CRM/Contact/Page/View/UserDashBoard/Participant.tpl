@@ -1,7 +1,6 @@
 <div class="view-content">
 {if $event_rows}
   {strip}
-  <div><label>{ts}Registered Events{/ts}</label></div>
   <div class="description">
     {ts}Click on the event name for more information.{/ts}
   </div>
