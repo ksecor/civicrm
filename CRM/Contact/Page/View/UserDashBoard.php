@@ -46,16 +46,9 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
 {
     public $_contactId   = null;
 
-    /*
-     * Heart of the viewing process. The runner gets all the meta data for
-     * the contact and calls the appropriate type of page to view.
-     *
-     * @return void
-     * @access public
-     *
-     */
-    function preProcess()
-    {
+    function __construct( ) {
+        parent::__construct( );
+
         $check = CRM_Core_Permission::check( 'access Contact Dashboard' );
         
         if ( ! $check ) {
@@ -63,8 +56,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             break;
         }
         
-        $this->_contactId = CRM_Utils_Request::retrieve('id', 'Positive',
-                                                        $this );
+        $this->_contactId = CRM_Utils_Request::retrieve('id', 'Positive', $this );
 
         if ( ! $this->_contactId ) { 
             $session =& CRM_Core_Session::singleton( );
@@ -75,12 +67,28 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
                 CRM_Core_Error::fatal( ts( 'You do not have permission to view this contact' ) );
             }
         }
+    }
 
+    /*
+     * Heart of the viewing process. The runner gets all the meta data for
+     * the contact and calls the appropriate type of page to view.
+     *
+     * @return void
+     * @access public
+     *
+     */
+    function preProcess()
+    {
         if ( ! $this->_contactId) {
             CRM_Core_Error::fatal( ts( 'We could not find a contact id.' ) );
         }
         
-        CRM_Utils_System::setTitle( 'Contact Dashboard' );
+        list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
+
+        $this->set( 'displayName' , $displayName );
+        $this->set( 'contactImage', $contactImage );
+
+        CRM_Utils_System::setTitle( ts( 'Contact Dashboard: %1', array( 1 => $displayName ) ) );
   
         $this->assign('recentlyViewed', false);
     }
@@ -139,4 +147,5 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         return parent::run( );
     }
 }
+
 ?>
