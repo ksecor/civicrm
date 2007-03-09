@@ -246,6 +246,15 @@ class CRM_Core_Menu {
                             'weight'  => 0, 
                             ),
 
+                      array(
+                            'path'    => 'civicrm/user',
+                            'title'   => ts( 'Contact Dashboard' ),
+                            'access'  => CRM_Core_Permission::check( 'access Contact Dashboard' ),
+                            'type'    => self::CALLBACK, 
+                            'crmType' => self::CALLBACK, 
+                            'weight'  => 0, 
+                            ),
+                      
                       );                     
             
             require_once 'CRM/Core/Component.php';
