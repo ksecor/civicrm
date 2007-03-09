@@ -275,6 +275,37 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         // insert participant record
         $participant  =& $this->addParticipant( $this->_params, $contactID );
 
+        //hack to add participant custom data
+
+        //get all participant custom data
+        $customFields = array( );
+        $customFields = CRM_Core_BAO_CustomField::getFields('Participant');
+
+        //format custom data
+
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+
+        }
+        // add custom field values
+//         if ( CRM_Utils_Array::value( 'custom', $params ) ) {
+//             foreach ($params['custom'] as $customValue) {
+//                 $cvParams = array(
+//                                   'entity_table'    => 'civicrm_contact', 
+//                                   'entity_id'       => $contact->id,
+//                                   'value'           => $customValue['value'],
+//                                   'type'            => $customValue['type'],
+//                                   'custom_field_id' => $customValue['custom_field_id'],
+//                                   'file_id'         => $customValue['file_id'],
+//                                   );
+                
+//                 if ($customValue['id']) {
+//                     $cvParams['id'] = $customValue['id'];
+//                 }
+//                 CRM_Core_BAO_CustomValue::create($cvParams);
+//             }
+//         }
+
+
         require_once 'CRM/Event/BAO/ParticipantPayment.php';
         $paymentParams = array('participant_id'       => $participant->id,
                                'payment_entity_id'    => $contribution->id,
