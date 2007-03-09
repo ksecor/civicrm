@@ -138,6 +138,10 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
 
         CRM_Core_DAO::transaction('BEGIN');
         
+        if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
+            $status = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant', $ids['participant'], 'status_id' );
+        }
+        
         $participant = self::add($params, $ids);
         
         if ( is_a( $participant, 'CRM_Core_Error') ) {
@@ -146,7 +150,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         }
         
         if ( ( ! CRM_Utils_Array::value( 'participant', $ids ) ) ||
-             ( $params['status_id'] != CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Participant', $participant->id, 'status_id' ) ) ) {
+             ( $params['status_id'] != $status ) ) {
             self::setActivityHistory($participant);
         }
         
