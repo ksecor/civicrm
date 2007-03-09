@@ -25,7 +25,7 @@
        <dl>
          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
            <dd>
-               {ts}You are currently not registered for any current or upcoming Events.{/ts}
+               {ts}You are not registered for any current or upcoming Events.{/ts}
            </dd>
        </dl>
    </div>

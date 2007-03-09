@@ -88,7 +88,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         $this->set( 'displayName' , $displayName );
         $this->set( 'contactImage', $contactImage );
 
-        CRM_Utils_System::setTitle( ts( 'Contact Dashboard: %1', array( 1 => $displayName ) ) );
+        CRM_Utils_System::setTitle( ts( 'Dashboard - %1', array( 1 => $displayName ) ) );
   
         $this->assign('recentlyViewed', false);
     }
@@ -102,21 +102,33 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
     function buildUserDashBoard( )
     {
         //build component selectors
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+        $components = array( );
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( in_array( 'CiviContribute', $config->enableComponents ) &&
+             ( CRM_Core_Permission::access( 'CiviContribute' ) ||
+               CRM_Core_Permission::check('make online contributions') )
+             ) {
             $components['CiviContribute'] = 'CiviContribute';
             require_once "CRM/Contact/Page/View/UserDashBoard/Contribution.php";
             $contribution = new CRM_Contact_Page_View_UserDashBoard_Contribution( );
             $contribution->run( );
         }
         
-        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+        if ( in_array( 'CiviMember', $config->enableComponents ) &&
+             ( CRM_Core_Permission::access( 'CiviMember' ) ||
+               CRM_Core_Permission::check('make online contributions') )
+             ) {
             $components['CiviMember'] = 'CiviMember';
             require_once "CRM/Contact/Page/View/UserDashBoard/Membership.php";
             $membership = new CRM_Contact_Page_View_UserDashBoard_Membership( );
             $membership->run( );
         }
 
-        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+        if ( in_array( 'CiviEvent', $config->enableComponents ) &&
+             ( CRM_Core_Permission::access( 'CiviEvent' ) ||
+               CRM_Core_Permission::check('register for events') )
+             ) {
             $components['CiviEvent'] = 'CiviEvent';
             require_once "CRM/Contact/Page/View/UserDashBoard/Participant.php";
             $participant = new CRM_Contact_Page_View_UserDashBoard_Participant( );
