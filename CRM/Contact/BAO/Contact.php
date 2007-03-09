@@ -1990,9 +1990,9 @@ WHERE civicrm_contact.id IN $idString ";
         // hack to add custom data for components
         $components = array("Contribution", "Participant");
         foreach ( $components as $value) {
-            $customFields = array_merge($customFields, CRM_Core_BAO_CustomField::getFields($value));
+            $customFields = $customFields + CRM_Core_BAO_CustomField::getFields($value);
         }
-        
+
         $locationType = array( );
         $count = 1;
         if ( $contactID ) {
@@ -2002,6 +2002,7 @@ WHERE civicrm_contact.id IN $idString ";
             $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
             $defaultLocationId = $defaultLocation->id;
         }
+        
         $phoneLoc = 0;
         $phoneReset = array( );
         foreach ($params as $key => $value) {
@@ -2294,7 +2295,7 @@ WHERE civicrm_contact.id IN $idString ";
                 CRM_Contact_BAO_SubscriptionHistory::create($shParams);
             }
         }
-        
+
         require_once 'CRM/Contact/BAO/Contact.php';
 
         $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
