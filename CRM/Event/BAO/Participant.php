@@ -211,7 +211,11 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
 
         while ( $dao->fetch( ) ) {
             if( $dao->total_participants >= $dao->max_participants ) {
-                return $dao->event_full_text;
+                if( $dao->event_full_text ) {
+                    return $dao->event_full_text;
+                } else {
+                    return ts( "This event is full !!!" );
+                }
             }
         }
         return false;
