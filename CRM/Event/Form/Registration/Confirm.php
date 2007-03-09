@@ -179,10 +179,11 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $fields["country-{$this->_bltID}"] = $fields["email-{$this->_bltID}"] = 1;
 
         foreach ($fields as $name => $dontCare ) {
-            if ( $this->_params[$name] ) {
+            if ( isset($this->_params[$name]) ) {
                     $defaults[$name] = $this->_params[$name];
             }
         }
+
         $this->setDefaults( $defaults );
         
         $this->freeze();
