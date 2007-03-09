@@ -196,10 +196,13 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      */
     static function eventFull( $eventId )
     {
-        $query = "SELECT   count(civicrm_participant.id) as total_participants, civicrm_event.max_participants as max_participants,
+        $query = "SELECT   count(civicrm_participant.id) as total_participants,
+                           civicrm_event.max_participants as max_participants,
                            civicrm_event.event_full_text as event_full_text  
                   FROM     civicrm_participant, civicrm_event 
                   WHERE    civicrm_participant.event_id = civicrm_event.id
+                     AND   civicrm_participant.status_id!=4 
+                     AND   civicrm_participant.is_test=0 
                      AND   civicrm_participant.event_id={$eventId} 
                   GROUP BY civicrm_participant.event_id";
         
@@ -207,7 +210,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         
 
         while ( $dao->fetch( ) ) {
-            if( $dao->total_participants == $dao->max_participants ) {
+            if( $dao->total_participants >= $dao->max_participants ) {
                 return $dao->event_full_text;
             }
         }
