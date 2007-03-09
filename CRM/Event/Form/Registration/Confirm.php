@@ -165,25 +165,40 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
     public function buildQuickForm( )  
     { 
         $this->assignToTemplate( );
+        $config =& CRM_Core_Config::singleton( );
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
-        $contribButton = ts('Make Contribution');
-        if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
-            $contribButton = ts('Continue >>');
+        if ($this->_contributeMode == 'checkout') {
+            $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
+            $this->add('image',
+                       $this->_checkoutButtonName,
+                       $config->googleCheckoutButton,
+                       array( 'class' => 'form-submit' ) );
+            
+            $this->addButtons(array(
+                                    array ( 'type'      => 'back',
+                                            'name'      => ts('<< Go Back')),
+                                    )
+                              );
+            
+        } else {
+            $contribButton = ts('Make Contribution');
+            if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
+                $contribButton = ts('Continue >>');
+            }
+            $this->addButtons(array(
+                                    array ( 'type'      => 'next',
+                                            'name'      => $contribButton,
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                            'isDefault' => true,
+                                            'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" ) ),
+                                    array ( 'type'      => 'back',
+                                            'name'      => ts('<< Go Back')),
+                                    )
+                              );
         }
-        $this->addButtons(array(
-                                array ( 'type'      => 'next',
-                                        'name'      => $contribButton,
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true,
-                                        'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" ) ),
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Go Back')),
-                                )
-                          );
-
         
         $defaults = array( );
         $fields = array( );
@@ -234,6 +249,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             case 'express':
                 $result =& $payment->doExpressCheckout( $this->_params );
                 break;
+            case 'checkout':
             case 'notify':
                 $this->_params['contactID'] = $contactID;
                 $this->_params['eventID']   = $this->_id;
@@ -243,7 +259,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $this->_params['contributionTypeID'] = $contribution->contribution_type_id;
                 $this->_params['item_name'         ] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
                 $this->_params['receive_date'      ] = $now;
-                
+                //print_r($this->_params);
+                if ($this->_contributeMode == 'checkout') {
+                    $payment->doCheckout( $this->_params );
+                }
                 $result =& $payment->doTransferCheckout( $this->_params );
                 break;
             default   :

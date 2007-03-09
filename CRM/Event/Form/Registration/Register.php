@@ -73,12 +73,20 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             foreach ( $this->_fields as $name => $dontCare ) {
                 $fields[$name] = 1;
             }
+            $names = array("first_name", "middle_name", "last_name");
+            foreach ($names as $name) {
+                $fields[$name] = 1;
+            }
             $fields["state_province-{$this->_bltID}"] = 1;
             $fields["country-{$this->_bltID}"       ] = 1;
             $fields["email-{$this->_bltID}"         ] = 1;
             
             require_once 'CRM/Core/BAO/UFGroup.php';
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
+
+            foreach ($names as $name) {
+                $this->_defaults["billing_" . $name] = $this->_defaults[$name];
+            }
 
             //set custom field defaults
             require_once "CRM/Core/BAO/CustomField.php";
@@ -292,7 +300,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     CRM_Utils_System::redirect( $paymentURL ); 
                 }
             } else if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
-                $this->set( 'contributeMode', 'notify' );
+                if ($config->paymentProcessor == 'Google_Checkout') {
+                    $this->set( 'contributeMode', 'checkout' ); 
+                } else {
+                    $this->set( 'contributeMode', 'notify' );
+                }
             }
         }
     }//end of function
