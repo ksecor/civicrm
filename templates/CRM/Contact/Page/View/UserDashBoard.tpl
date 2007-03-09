@@ -1,5 +1,5 @@
 <table class="no-border">
-    <tr><td>{$DisplayName}</td></tr>
+    <tr><td><label>{$DisplayName}</label></td></tr>
     <tr>
         <td>
             <fieldset><legend>{ts}Groups{/ts}</legend>

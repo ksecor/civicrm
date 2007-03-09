@@ -9,9 +9,9 @@
 {ts}Membership Information{/ts}
 
 ===========================================================
-{ts}Membership Type{/ts}      : {$membership_name}
+{ts}Membership Type{/ts}: {$membership_name}
 {ts}Membership Start Date{/ts}: {$mem_start_date|crmDate}
-{ts}Membership End Date{/ts}  : {$mem_end_date|crmDate}
+{ts}Membership End Date{/ts}: {$mem_end_date|crmDate}
 
 {/if}
 ===========================================================
@@ -22,12 +22,12 @@
 {ts}Contribution Amount{/ts}: {$amount|crmMoney}
 {ts 1=$membership_name}%1 Membership{/ts}: {$membership_amount|crmMoney} 
 -------------------------------------------
-{ts}Total{/ts}        : {$amount+$membership_amount|crmMoney}
+{ts}Total{/ts}: {$amount+$membership_amount|crmMoney}
 {else}
-{ts}Amount{/ts}       : {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
+{ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 {/if}
 
-{ts}Date{/ts}         : {$receive_date|crmDate}
+{ts}Date{/ts}: {$receive_date|crmDate}
 {if $is_monetary}
 {ts}Transaction #{/ts}: {$trxn_id}
 {/if}

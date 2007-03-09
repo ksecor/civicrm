@@ -12,7 +12,7 @@
   	{if $groupIn }
         
 	<div class="form-item">
-	<div><label>{ts}Current Groups{/ts}</label></div>
+	<div><label>{ts}Your Groups{/ts}</label></div>
 	
 	<div>
 	{strip}
@@ -45,7 +45,7 @@
     {if $groupPending }
 	<div class="form-item">
         <div class="label status-pending">{ts}Pending{/ts}</div> 
-        <div class="description">{ts}Joining these group(s) is pending confirmation by this contact.{/ts}</div>
+        <div class="description">{ts}Your subscription to these group(s) is pending confirmation.{/ts}</div>
 		
 	<div>
 	{strip}
@@ -77,8 +77,8 @@
        	
 	{if $groupOut }
 	<div class="form-item">
-	<div class="label status-removed">{ts}Past Groups{/ts}</div>
-    <div class="description">{ts 1=$displayName}%1 is no longer part of these group(s).{/ts}</div>
+	<div class="label status-removed">{ts}Unsubscribed Groups{/ts}</div>
+    <div class="description">{ts}You are no longer subscribed to these group(s).{/ts}</div>
 	
 	<div>
         {strip}

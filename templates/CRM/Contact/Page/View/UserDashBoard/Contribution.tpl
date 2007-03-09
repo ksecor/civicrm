@@ -1,13 +1,6 @@
 <div class="view-content">
-<div id="help">
-<p>{ts 1=$displayName}This page lists all contributions received from %1 since inception.{/ts} 
-</p>
-</div>
-
 {if $contribute_rows}
- {include file="CRM/Contribute/Page/ContributionTotals.tpl" mode="view"}
-
-    {strip}
+{strip}
  <div><label>{ts}Contributions{/ts}</label></div>
   <table class="selector">
     <tr class="columnheader">
@@ -44,7 +37,7 @@
             {if $permission EQ 'edit'}
                 {ts 1=$newContribURL}There are no contributions recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
             {else}
-                {ts}There are no contributions recorded for this contact.{/ts}
+                {ts}There are no contributions on record for you.{/ts}
             {/if}
        </dd>
        </dl>
