@@ -710,7 +710,7 @@ class CRM_GCD {
         for($cnt = 0; $cnt <= $randLength; $cnt++) {
 
             $item = mt_rand(0, 2);
-            if ( $done[$item] ) {
+            if ( CRM_Utils_Array::value( $item, $done ) ) {
                 continue;
             }
             $done[$item] = true;
@@ -1330,7 +1330,7 @@ class CRM_GCD {
     function addMembership()
     {
         $contact = new CRM_Contact_DAO_Contact();
-        $contact->query("SELECT id FROM civicrm_contact");
+        $contact->query("SELECT id FROM civicrm_contact where contact_type = 'Individual'");
         while ( $contact->fetch() ) {
             $contacts[] = $contact->id;
         }
@@ -1367,8 +1367,7 @@ VALUES
         ( ". $randomContacts[23]  .", 2, '2005-03-11', '2005-03-11', '2006-01-04', 'Check', 1),
         ( ". $randomContacts[24]  .", 3, '2005-04-05', '2005-04-05', '2006-01-04', 'Check', 1);
 ";
-        CRM_Core_DAO::executeQuery( $membership, CRM_Core_DAO::$_nullArray );
-        
+        $result = CRM_Core_DAO::executeQuery( $membership, CRM_Core_DAO::$_nullArray );
         require_once 'CRM/Member/DAO/Membership.php';
         require_once 'api/crm.php';
         $membership = new CRM_Member_DAO_Membership();
@@ -1557,6 +1556,10 @@ function user_access( $str = null ) {
     return true;
 }
 
+function module_list( ) {
+    return array( );
+}
+
 function add_contributions( ) {
     
     $query = "
@@ -1620,7 +1623,6 @@ $obj1->addEventLocation();
 $obj1->addEventLocationAddress();
 $obj1->addEventPhone();
 $obj1->addEventemail();
-$obj1->addEventIM();
 $obj1->addEventFeeLabel();
 $obj1->addParticipant();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
