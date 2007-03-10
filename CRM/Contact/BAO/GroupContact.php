@@ -110,10 +110,15 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     static function getValues( &$params, &$values, &$ids ) {
 
-        $values['group']['data']       =& CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'Added' , 3 );
+        $values['group']['data']       =& CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'],
+                                                                                        'Added' ,
+                                                                                        3 );
 
         // get the total count of groups
-        $values['group']['totalCount'] =  CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'Added' , null, true );
+        $values['group']['totalCount'] =  CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'],
+                                                                                        'Added' ,
+                                                                                        null,
+                                                                                        true );
 
         return null;
     }
@@ -305,7 +310,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      *
      * $access public
      */
-    static function &getContactGroup( $contactId, $status = null, $numGroupContact = null, $count = false,
+    static function &getContactGroup( $contactId, $status = null,
+                                      $numGroupContact = null,
+                                      $count = false,
                                       $ignorePermission = false ) {
         if ( $count ) {
             $select = 'SELECT count(DISTINCT civicrm_group_contact.id)';
@@ -427,7 +434,12 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      *
      * @access public
      */
-    static function getGroupContacts(&$group, $returnProperties = null, $status = 'Added', $sort = null, $offset = null, $row_count= null)
+    static function getGroupContacts(&$group,
+                                     $returnProperties = null,
+                                     $status = 'Added',
+                                     $sort = null,
+                                     $offset = null,
+                                     $row_count= null)
     {
         $groupDAO =& new CRM_Contact_DAO_Group();
         $groupDAO->id = $group->id;
