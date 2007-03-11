@@ -860,6 +860,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     {
         //get the custom fields for the contact
         $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend );
+        
+        if ( ! array_key_exists( $customFieldId, $customFields )) {
+            return;
+        }
 
         //fix checkbox
         if ( $customFields[$customFieldId][3] == 'CheckBox' ) {
@@ -918,24 +922,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $value =  $filename;
         }
         
-        //get the entity table for the custom field
-        require_once "CRM/Core/BAO/CustomQuery.php";
-        $extends     = $customFields[$customFieldId][5];
-        $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$extends];
-        
-        // skip all custom data other then Contact
-        if ( $entityTable == "civicrm_contact" ) {
-            $customFormatted[$customFieldId] = array('id'              => $customOptionValueId,
-                                                     'value'           => $value,
-                                                     'type'            => $customFields[$customFieldId][2],
-                                                     'custom_field_id' => $customFieldId,
-                                                     'file_id'         => $fileId
-                                                     );
-        }
-        
+        $customFormatted[$customFieldId] = array('id'              => $customOptionValueId,
+                                                 'value'           => $value,
+                                                 'type'            => $customFields[$customFieldId][2],
+                                                 'custom_field_id' => $customFieldId,
+                                                 'file_id'         => $fileId
+                                                 );
         return $customFormatted;
-
     }
-    
 }
 ?>
