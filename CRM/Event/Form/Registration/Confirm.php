@@ -337,7 +337,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $this->assign('action',$this->_action);
         
-        CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values );
+        CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
 
     }//end of function
     

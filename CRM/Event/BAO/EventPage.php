@@ -112,14 +112,13 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
      * @return void
      * @access public
      */
-    static function sendMail( $contactID, &$values ) {
+    static function sendMail( $contactID, &$values, $participantId ) {
         if ( $values['event_page']['is_email_confirm'] ) {
             $template =& CRM_Core_Smarty::singleton( );
-            
             require_once 'CRM/Contact/BAO/Contact.php';
             list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
-            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template );
-            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template );
+            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId );
+            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId );
 
             // set confirm_text and contact email address for display in the template here
             $template->assign( 'email', $email );
@@ -147,21 +146,25 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
      * @return None  
      * @access public  
      */ 
-    function buildCustomDisplay( $gid, $name, $cid, &$template ) {
+    function buildCustomDisplay( $gid, $name, $cid, &$template, $participantId ) 
+    {
         if ( $gid ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $cid) ){
                 $values = array( );
                 $groupTitle = null;
                 $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
-                CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false );
+
+                //this condition is added, since same contact can have multiple event registrations..
+                $params = array( array( 'event_participant_id', '=', $participantId, 0, 0 ) );
+
+                CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
                 foreach( $fields as $v  ) {
                     $groupTitle = $v["groupTitle"];
                 }
                 if ( $groupTitle ) {
                     $template->assign( $name."_grouptitle", $groupTitle );
                 }
-                
                 if ( count( $values ) ) {
                     $template->assign( $name, $values );
                 }
