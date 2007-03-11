@@ -83,15 +83,15 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
      * @return void
      * @access public
      */
-    static function sendMail( $contactID, &$values ) 
+    static function sendMail( $contactID, &$values, $contributionId ) 
     {
         if ( $values['is_email_receipt'] ) {
             $template =& CRM_Core_Smarty::singleton( );
 
             require_once 'CRM/Contact/BAO/Contact.php';
             list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
-            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template );
-            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template );
+            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $contributionId );
+            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $contributionId );
 
             // set email in the template here
             $template->assign( 'email', $email );
@@ -119,7 +119,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
      * @return None  
      * @access public  
      */ 
-    function buildCustomDisplay( $gid, $name, $cid, &$template ) 
+    function buildCustomDisplay( $gid, $name, $cid, &$template, $contributionId ) 
     {
         if ( $gid ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
@@ -127,7 +127,12 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                 $values = array( );
                 $groupTitle = null;
                 $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
-                CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false );
+
+                //this condition is added, since same contact can have multiple contributions
+                $params = array( array( 'contribution_id', '=', $contributionId, 0, 0 ) );
+
+                CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
+
                 foreach( $fields as $v  ) {
                     $groupTitle = $v["groupTitle"];
                 }
