@@ -275,6 +275,18 @@ CREATE TABLE civicrm_currency (
 
 -- /*******************************************************
 -- *
+-- * Insert Billing location type (used for billing address
+-- * entered in online contribution forms)
+-- *
+-- *******************************************************/
+
+	SELECT @domain_id := id from civicrm_domain;
+    INSERT INTO `civicrm_location_type` ( `domain_id`, `name`, `vcard_name`, `description`, `is_reserved`, `is_active` )
+    VALUES
+        ( @domain_id, 'Billing', NULL, 'Billing Address location', 1, 1 );
+
+-- /*******************************************************
+-- *
 -- * civicrm_option_group
 -- *
 -- *******************************************************/
@@ -284,7 +296,7 @@ CREATE TABLE civicrm_currency (
 	VALUES 
 	      (@domain_id, 'participant_status', 'Participant Status', 0, 1),
 	      (@domain_id, 'participant_role', 'Participant Role', 0, 1),
-              (@domain_id, 'event_type', 'Event Type', 0, 1);
+          (@domain_id, 'event_type', 'Event Type', 0, 1);
 	
 -- /*******************************************************
 -- *
