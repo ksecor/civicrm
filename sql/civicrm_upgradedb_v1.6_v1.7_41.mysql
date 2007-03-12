@@ -313,4 +313,4 @@ CREATE TABLE civicrm_currency (
 	  (@option_group_id_etype, 'Fundraiser', 3, 'Fundraiser',  NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
 	  (@option_group_id_etype, 'Meeting',    4, 'Meeting',     NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
 	  (@option_group_id_etype, 'Performance',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
-	  (@option_group_id_etype, 'Workshop',   6, 'Conference',  NULL, 0, NULL, 6, NULL, 0, 0, 1 );
+	  (@option_group_id_etype, 'Workshop',   6, 'Workshop',    NULL, 0, NULL, 6, NULL, 0, 0, 1 );
