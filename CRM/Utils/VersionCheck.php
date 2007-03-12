@@ -41,7 +41,7 @@ class CRM_Utils_VersionCheck
 {
 
     const
-        LATEST_VERSION_AT = 'http://downloads.openngo.org/civicrm/latest-version.txt',
+        LATEST_VERSION_AT = 'http://latest.civicrm.org/stable.txt',
         CHECK_TIMEOUT     = 5,                          // timeout for when the connection or the server is slow
         LOCALFILE_NAME    = 'civicrm-version.txt',      // relative to $civicrm_root
         CACHEFILE_NAME    = 'latest-version-cache.txt', // relative to $config->uploadDir
@@ -103,6 +103,9 @@ class CRM_Utils_VersionCheck
                 ini_restore('default_socket_timeout');
                 restore_error_handler();
 
+                if (!preg_match('/^\d+\.\d+\.\d+$/', $this->latestVersion)) {
+                    $this->latestVersion = null;
+                }
                 if (!$this->latestVersion) {
                     return;
                 }
