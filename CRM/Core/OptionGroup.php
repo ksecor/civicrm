@@ -137,6 +137,7 @@ WHERE  v.option_group_id = g.id
                         AND    $lookupBy";
 
                     $newValue[] = CRM_Core_DAO::singleValueQuery( $query, $p );
+                    $newValue = str_replace( array( ' ', ',', '/', '.', '(', ')' ), '_', $newValue );
                 }
                 $params[$value['newName']] = implode(', ', $newValue);
             }
