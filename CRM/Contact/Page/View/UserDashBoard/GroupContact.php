@@ -48,17 +48,23 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
      */
     function browse( ) 
     {  
-        $count   = CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, null, null, true, true);
+        $count   = CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
+                                                                 null,
+                                                                 null, true, true,
+                                                                 $this->_onlyPublicGroups );
 
         $in      =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
                                                                   'Added',
-                                                                  null, false, true );
+                                                                  null, false, true,
+                                                                  $this->_onlyPublicGroups );
         $pending =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
                                                                   'Pending',
-                                                                  null, false, true );
+                                                                  null, false, true,
+                                                                  $this->_onlyPublicGroups );
         $out     =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
                                                                   'Removed',
-                                                                  null, false, true );
+                                                                  null, false, true,
+                                                                  $this->_onlyPublicGroups );
 
         $this->assign       ( 'groupCount'  , $count );
         $this->assign_by_ref( 'groupIn'     , $in );
@@ -91,11 +97,11 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
         $controller->set( 'context'  , 'user' );
         $controller->process( );
         $controller->run( );
-
     }
 
     /**
-     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+     * This function is the main function that is called when the page loads,
+     * it decides the which action has to be taken for the page.
      * 
      * return null
      * @access public
