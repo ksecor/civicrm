@@ -300,6 +300,11 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
             $eventSummary['total_events'] = $dao->total_events;
         }
         
+        if ( empty( $eventSummary ) ||
+             $dao->total_events = 0 ) {
+            return $eventSummary;
+        }
+        
         // Get the Id of Option Group for Event
         require_once 'CRM/Core/DAO/OptionGroup.php';
         $optionGroupDAO = new CRM_Core_DAO_OptionGroup();
