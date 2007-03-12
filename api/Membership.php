@@ -356,6 +356,12 @@ function crm_create_contact_membership($params, $contactID)
         return _crm_error( 'Required parameter missing' );
     }
     
+    $values  = array( );   
+    $error = _crm_format_membership_params( $params, $values );
+    if (is_a($error, 'CRM_Core_Error') ) {
+        return $error;
+    }
+    $params = array_merge($values,$params);
     $params['contact_id'] = $contactID;
     
     require_once 'CRM/Member/BAO/Membership.php';
