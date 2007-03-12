@@ -376,7 +376,9 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $controller->setEmbedded( true ); 
         
         $query   =& $selector->getQuery( );
-        
+        if ( $this->_context == 'user' ) {
+            $query->setSkipPermission( true );
+        }
         $controller->run(); 
         
     }

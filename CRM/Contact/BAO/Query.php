@@ -181,6 +181,13 @@ class CRM_Contact_BAO_Query {
     public $_search = true;
 
     /**
+     * should we skip permission checking
+     *
+     * @var boolean
+     */
+    public $_skipPermission = false;
+
+    /**
      * are we in strict mode (use equality over LIKE)
      *
      * @var boolean
@@ -257,7 +264,8 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function __construct( $params = null, $returnProperties = null, $fields = null,
-                          $includeContactIds = false, $strict = false, $mode = 1 ) 
+                          $includeContactIds = false, $strict = false, $mode = 1,
+                          $skipPermission = false ) 
     {
         require_once 'CRM/Contact/BAO/Contact.php';
 
@@ -267,7 +275,7 @@ class CRM_Contact_BAO_Query {
         // CRM_Core_Error::debug( 'post', $_POST );
         // CRM_Core_Error::debug( 'r', $returnProperties );
         $this->_params =& $params;
-
+        
         if ( empty( $returnProperties ) ) {
             $this->_returnProperties =& self::defaultReturnProperties( $mode );
         } else {
@@ -277,10 +285,12 @@ class CRM_Contact_BAO_Query {
         $this->_includeContactIds = $includeContactIds;
         $this->_strict            = $strict;
         $this->_mode              = $mode;
+        $this->_skipPermission    = false;
 
         if ( $fields ) {
             $this->_fields =& $fields;
             $this->_search = false;
+            $this->_skipPermission = true;
         } else {
             require_once 'CRM/Contact/BAO/Contact.php';
             $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All', false, true );
@@ -2462,7 +2472,7 @@ class CRM_Contact_BAO_Query {
 
         // hack for now, add permission only if we are in search
         $permission = ' ( 1 ) ';
-        if ( $this->_search ) {
+        if ( ! $this->_skipPermission ) {
             require_once 'CRM/ACL/API.php';
             $permission = CRM_ACL_API::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
             // CRM_Core_Error::debug( 'p', $permission );
@@ -2539,6 +2549,10 @@ class CRM_Contact_BAO_Query {
         }
 
         return $dao;
+    }
+
+    function setSkipPermission( $val ) {
+        $this->_skipPermission = $val;
     }
 
     function &summaryContribution( ) {
