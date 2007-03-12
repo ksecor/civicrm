@@ -48,7 +48,7 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
      */
     function browse( ) 
     {  
-        $count   = CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, null, null, true);
+        $count   = CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, null, null, true, true);
 
         $in      =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
                                                                   'Added',
@@ -76,16 +76,17 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
      */
     function edit( $groupId = null ) 
     {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', ts("Contact's Groups"), CRM_Core_Action::ADD );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact',
+                                                       ts("Contact's Groups"),
+                                                       CRM_Core_Action::ADD );
         $controller->setEmbedded( true );
 
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/user', 'reset=1&id='. $this->_contactId ) ,false);
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/user', "reset=1&id={$this->_contactId}" ),
+                                   false);
 
         $controller->reset( );
-
         $controller->set( 'contactId', $this->_contactId );
-
         $controller->set( 'groupId'  , $groupId );
         $controller->set( 'context'  , 'user' );
         $controller->process( );
