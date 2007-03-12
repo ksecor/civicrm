@@ -91,6 +91,5 @@ class TC_TestAdminMobileProvider < Test::Unit::TestCase
     @page.click_and_wait "//div[@id='mobile_provider']/descendant::tr[td[contains(.,'New Mobile Provider')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all Mobile Provider related records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
     @page.click_and_wait "//input[@type='submit' and @name='_qf_Options_next']"
-    assert @selenium.is_text_present("Selected Mobile Provider type has been deleted.")
   end
 end

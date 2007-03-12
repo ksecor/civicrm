@@ -57,7 +57,7 @@ class TC_TestAdminCustomData < Test::Unit::TestCase
   
   # Add new Custom Group
   def add_custom_group
-    @page.click_and_wait "link=» New Custom Data Group"
+    @page.click_and_wait "link=» New Group of Custom Fields"
     
     @selenium.type   "title", "New Custom Group"
     @selenium.select "extends[0]", "label=Individuals"

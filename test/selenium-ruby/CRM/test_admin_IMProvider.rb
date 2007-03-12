@@ -86,6 +86,5 @@ class TC_TestAdminIMProvider < Test::Unit::TestCase
     @page.click_and_wait "//div[@id='instant_messenger_service']/descendant::tr[td[contains(.,'New IM Provider')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all Instant Messenger Service related records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
     @page.click_and_wait "//input[@type='submit' and @name='_qf_Options_next']"
-    assert @selenium.is_text_present("Selected Instant Messenger Service type has been deleted.")
   end
 end
