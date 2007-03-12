@@ -46,16 +46,9 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
 {
     public $_contactId   = null;
 
-    /*
-     * Heart of the viewing process. The runner gets all the meta data for
-     * the contact and calls the appropriate type of page to view.
-     *
-     * @return void
-     * @access public
-     *
-     */
-    function preProcess()
-    {
+    function __construct( ) {
+        parent::__construct( );
+
         $check = CRM_Core_Permission::check( 'access Contact Dashboard' );
         
         if ( ! $check ) {
@@ -63,8 +56,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             break;
         }
         
-        $this->_contactId = CRM_Utils_Request::retrieve('id', 'Positive',
-                                                        $this );
+        $this->_contactId = CRM_Utils_Request::retrieve('id', 'Positive', $this );
 
         if ( ! $this->_contactId ) { 
             $session =& CRM_Core_Session::singleton( );
@@ -75,12 +67,28 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
                 CRM_Core_Error::fatal( ts( 'You do not have permission to view this contact' ) );
             }
         }
+    }
 
+    /*
+     * Heart of the viewing process. The runner gets all the meta data for
+     * the contact and calls the appropriate type of page to view.
+     *
+     * @return void
+     * @access public
+     *
+     */
+    function preProcess()
+    {
         if ( ! $this->_contactId) {
             CRM_Core_Error::fatal( ts( 'We could not find a contact id.' ) );
         }
         
-        CRM_Utils_System::setTitle( 'Contact Dashboard' );
+        list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
+
+        $this->set( 'displayName' , $displayName );
+        $this->set( 'contactImage', $contactImage );
+
+        CRM_Utils_System::setTitle( ts( 'Dashboard - %1', array( 1 => $displayName ) ) );
   
         $this->assign('recentlyViewed', false);
     }
@@ -94,21 +102,33 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
     function buildUserDashBoard( )
     {
         //build component selectors
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+        $components = array( );
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( in_array( 'CiviContribute', $config->enableComponents ) &&
+             ( CRM_Core_Permission::access( 'CiviContribute' ) ||
+               CRM_Core_Permission::check('make online contributions') )
+             ) {
             $components['CiviContribute'] = 'CiviContribute';
             require_once "CRM/Contact/Page/View/UserDashBoard/Contribution.php";
             $contribution = new CRM_Contact_Page_View_UserDashBoard_Contribution( );
             $contribution->run( );
         }
         
-        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+        if ( in_array( 'CiviMember', $config->enableComponents ) &&
+             ( CRM_Core_Permission::access( 'CiviMember' ) ||
+               CRM_Core_Permission::check('make online contributions') )
+             ) {
             $components['CiviMember'] = 'CiviMember';
             require_once "CRM/Contact/Page/View/UserDashBoard/Membership.php";
             $membership = new CRM_Contact_Page_View_UserDashBoard_Membership( );
             $membership->run( );
         }
 
-        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+        if ( in_array( 'CiviEvent', $config->enableComponents ) &&
+             ( CRM_Core_Permission::access( 'CiviEvent' ) ||
+               CRM_Core_Permission::check('register for events') )
+             ) {
             $components['CiviEvent'] = 'CiviEvent';
             require_once "CRM/Contact/Page/View/UserDashBoard/Participant.php";
             $participant = new CRM_Contact_Page_View_UserDashBoard_Participant( );
@@ -139,4 +159,5 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         return parent::run( );
     }
 }
+
 ?>

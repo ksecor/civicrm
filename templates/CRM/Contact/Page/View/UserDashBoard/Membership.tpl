@@ -1,7 +1,6 @@
 <div class="view-content">
 {if $activeMembers}
 <div id="memberships">
-    <div><label>{ts}Active Memberships{/ts}</label></div>
     <div class="form-item">
         {strip}
         <table>

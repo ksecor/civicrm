@@ -261,6 +261,12 @@ class CRM_Contribute_BAO_Query
             }
             return;
 
+        case 'contribution_id':
+            $query->_where[$grouping][] = " civicrm_contribution.id $op $value";
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            
+            return;
+
         default :
             //all other elements are handle in this case
             $fldName = substr($name, 13 );

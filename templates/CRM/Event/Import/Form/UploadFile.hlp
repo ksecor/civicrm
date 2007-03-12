@@ -1,7 +1,7 @@
 {htxt id='upload-intro'}
-    <p>
-    {ts}Files to be imported must be in the <strong>comma-separated-values format (CSV)</strong>. Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}
-    </p>
+<p>{ts}Files to be imported must be in the <strong>comma-separated-values format (CSV)</strong>. Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}</p>
+<p>{ts}Participant information that is going to be imported into CiviEvent must have corresponding contact records in CiviCRM. This means that you need to run import to CiviCRM first, if participant records you are importing don't have proper contact records in main CiviCRM database.{/ts}</p>
+<p>{ts}Import data file MUST include following colums: event name, participant status (ie. Registered, Attended, etc) and participant role (ie. Attendee, Volunteer, etc). Proper values for the last two can be found in CiviEvent part of Administer CiviCRM screen. Imported data also needs to include unique identifier for the contact: internal contact id, some other external identifier or another set of fields that are configured in CiviCRM's Duplicate Matching configuration section.{/ts}</p>
 {/htxt}
 
 {htxt id='contact-type'}

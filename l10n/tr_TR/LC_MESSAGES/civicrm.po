@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-29 09:54+0100\n"
-"PO-Revision-Date: 2007-03-01 06:49-0800\n"
+"PO-Revision-Date: 2007-03-05 07:31-0800\n"
 "Last-Translator: Atilla Gökhan Uz <atilla.uz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -681,7 +681,7 @@ msgstr "Site URL'leri"
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Mapping and Geocoding"
-msgstr "Haritalandırma ve Koordinatlandırma"
+msgstr "Haritala ve Koordinatlar"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -781,7 +781,7 @@ msgstr "İrtibat Türü"
 
 #: CRM/Contact/DAO/Contact.php CRM/Member/Form/Task/Export.php
 msgid "Sort Name"
-msgstr "Adları Sırala"
+msgstr "Sıralama Adı"
 
 #: CRM/Contact/DAO/Contact.php CRM/Member/Form/Task/Export.php
 msgid "Display Name"
@@ -920,11 +920,11 @@ msgstr "Soyad"
 #: CRM/Contact/DAO/Individual.php CRM/Core/Form.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Other"
-msgstr "Dİğer"
+msgstr "Diğer"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Organization Name"
-msgstr "Kurum Adı"
+msgstr "Kuruluşun Adı"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 #: templates/CRM/Quest/Form/Counselor/Personal.tpl
@@ -1024,7 +1024,7 @@ msgstr "Posta Kodu"
 
 #: CRM/Contact/Form/Address.php CRM/Core/Form.php
 msgid "Add-on Code"
-msgstr "Eklenti Kod"
+msgstr "Ek Kod"
 
 #: CRM/Contact/Form/Address.php CRM/Core/DAO/County.php CRM/Core/Form.php
 msgid "County"
@@ -1318,7 +1318,7 @@ msgstr "Yazdır"
 
 #: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
 msgid "- any group -"
-msgstr " - her hangi bir öbek - "
+msgstr " - herhangi bir öbek - "
 
 #: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
 msgid "Name or email"
@@ -1540,11 +1540,11 @@ msgstr "Harita"
 
 #: CRM/Contact/Selector.php CRM/Core/Invoke.php
 msgid "Map Contact"
-msgstr "Map Contact"
+msgstr "İrtibatı Eşle"
 
 #: CRM/Contact/Selector.php CRM/Profile/Selector/Listings.php
 msgid "Contact %%StatusMessage%%"
-msgstr "Contact %%StatusMessage%%"
+msgstr "İrtibat %%Durumİletisi%%"
 
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: templates/CRM/Contact/Form/Address.tpl
@@ -9699,9 +9699,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Quest/Form/SchoolSearch.php templates/CRM/Quest/Form/SchoolSearch.tpl
-#, fuzzy
 msgid "School Name"
-msgstr "Sort Name"
+msgstr "Okul Adı"
 
 #: CRM/Quest/Form/SchoolSearch.php
 msgid "Find Your School"

@@ -9,9 +9,9 @@
 {/if}
 <div id="help">
   {if $past and $action ne 1 and $action ne 2} 
-    <p>{ts 1=$pastEventsURL}This page lists current (in-progress) events, and upcoming events. <a href="%1">Click here</a> to browse completed (past) events.{/ts}
+    <p>{ts 1=$pastEventsURL}This page lists current (in-progress) and upcoming events. Click a column header to sort by that column. <a href="%1">Click here</a> to browse completed (past) events.{/ts}
   {else}
-    <p>{ts 1=$currentEventsURL}This page lists completed (past) events. <a href="%1">Click here</a> to browse current (in-progress) events, and upcoming events.{/ts}
+    <p>{ts 1=$currentEventsURL}This page lists completed (past) events. Click a column header to sort by that column. <a href="%1">Click here</a> to browse current (in-progress) and upcoming events.{/ts}
   {/if}
 </div>
 {if $rows}

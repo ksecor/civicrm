@@ -1671,7 +1671,9 @@ class CRM_Contact_BAO_Query {
         $names = array( );
         $groupNames =& CRM_Core_PseudoConstant::group();
         foreach ( $value as $id => $dontCare ) {
-            $names[] = $groupNames[$id];
+            if ( array_key_exists( $id, $groupNames ) ) {
+                $names[] = $groupNames[$id];
+            }
         }
         $this->_qill[$grouping][]  = ts('Member of Group %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
         

@@ -44,8 +44,8 @@ require_once 'CRM/Core/BAO/CustomOption.php';
  * Business objects for managing custom data fields.
  *
  */
-class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
-
+class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField 
+{
     /**
      * Array for valid combinations of data_type & descriptions
      *
@@ -53,7 +53,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      */
     public static $_dataType = null;
-
 
     /**
      * Array to hold (formatted) fields for import
@@ -193,7 +192,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @access public
      * @static
      */
-    public static function &getFields($contactType = 'Individual', $showAll = false ) {
+    public static function &getFields($contactType = 'Individual', $showAll = false ) 
+    {
         if ( ! self::$_importFields || ! CRM_Utils_Array::value( $contactType, self::$_importFields ) ) { 
             
             if ( ! self::$_importFields ) {
@@ -262,7 +262,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @access public
      * @static
      */
-    public static function &getFieldsForImport($contactType = 'Individual', $showAll = false) {
+    public static function &getFieldsForImport($contactType = 'Individual', $showAll = false) 
+    {
         $fields =& self::getFields($contactType, $showAll);
         
         $importableFields = array();
@@ -294,7 +295,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @access public
      * @static
      */
-    public static function getKeyID($key) {
+    public static function getKeyID($key) 
+    {
         $match = array( );
         if (preg_match('/^custom_(\d+)$/', $key, $match)) {
             return $match[1];
@@ -416,7 +418,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
  
             break;
 
-
         case 'CheckBox':
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
             $check = array();
@@ -464,6 +465,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         }
         
         switch ( $field->data_type ) {
+
         case 'Int':
             // integers will have numeric rule applied to them.
             if ( $field->is_search_range && $search) {
@@ -514,8 +516,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      *
      */
-
-    public static function deleteGroup($id) { 
+    public static function deleteGroup($id) 
+    { 
         //delete first all custon values
         $customValue = & new CRM_Core_DAO_CustomValue();
         $customValue->custom_field_id = $id;
@@ -523,15 +525,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $customValue->delete();
         }
         
-        //delete first all custon values for file related data
-        /*
-        require_once 'CRM/Core/DAO/File.php';
-        $customFile = & new CRM_Core_DAO_File();
-        $customFile->custom_field_id = $id;
-        if ($customFile->find()) {
-            $customFile->delete();
-        }
-        */
         //delete first all custom option
         $customOption = & new CRM_Core_DAO_CustomOption();
         $customOption->entity_id    = $id;
@@ -559,9 +552,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      * @access public
      */
-    static function getDisplayValue( $value, $id, &$options,
-                                     $contactID = null,
-                                     $valueID   = null ) {
+    static function getDisplayValue( $value, $id, &$options, $contactID = null, $valueID   = null ) 
+    {
         $option     =& $options[$id];
         $attributes =& $option['attributes'];
         $html_type  =  $attributes['html_type'];
@@ -670,7 +662,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      * @access public
      */
-    function getDefaultValue( $value, $id, &$options ) { 
+    function getDefaultValue( $value, $id, &$options ) 
+    { 
         $option     =& $options[$id]; 
         $attributes =& $option['attributes']; 
         $html_type  =  $attributes['html_type']; 
@@ -691,12 +684,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case "Select Date":
             $default = CRM_Utils_Date::unformat($value);
             break;
-
         }
 
         return $default;
     }
-
 
     /**
      * Function to set default values for custom data used in profile
@@ -826,7 +817,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         }
     }
 
-    static function getFileURL( $contactID, $value, $valueID ) {
+    static function getFileURL( $contactID, $value, $valueID ) 
+    {
         $fileID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue',
                                                $valueID,
                                                'file_id',
@@ -850,6 +842,93 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         }
         return $result;
     }
+    
+    /**
+     * Format custom fields before inserting
+     *
+     * @param int    $customFieldId       custom field id
+     * @param array  $customFormatted     formatted array
+     * @param mix    $value               value of custom field
+     * @param string $customFieldExtend   custom field extends
+     * @param int    $customOptionValueId custom option value id
+     *
+     * @return array $customFormatted formatted custom field array
+     * @static
+     */
+    static function formatCustomField( $customFieldId, &$customFormatted, $value, 
+                                       $customFieldExtend, $customOptionValueId = null ) 
+    {
+        //get the custom fields for the contact
+        $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend );
+        
+        if ( ! array_key_exists( $customFieldId, $customFields )) {
+            return;
+        }
 
+        //fix checkbox
+        if ( $customFields[$customFieldId][3] == 'CheckBox' ) {
+            if ( $value ) {
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+            } else {
+                $value = '';
+            }
+        } 
+        
+        if ( $customFields[$customFieldId][3] == 'Multi-Select' ) {
+            if ( $value ) {
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+            } else {
+                $value = '';
+            }
+        }
+
+        // fix the date field 
+        if ( $customFields[$customFieldId][2] == 'Date' ) {
+            $date =CRM_Utils_Date::format( $value );
+            if ( ! $date ) {
+                $date = '';
+            }
+            $value = $date;
+        }
+        
+        if ( $customFields[$customFieldId][2] == 'File' ) { 
+            require_once 'CRM/Core/DAO/File.php';
+            $config = & CRM_Core_Config::singleton();
+            
+            $path = explode( '/', $value );
+            $filename = $path[count($path) - 1];
+            
+            // rename this file to go into the secure directory
+            if ( ! rename( $value, $config->customFileUploadDir . $filename ) ) {
+                CRM_Core_Error::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
+                break;
+            }
+            
+            $mimeType = $params["custom_{$customFieldId}_type"];
+            
+            $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $customOptionValueId, 'file_id', 'id' );
+            $fileDAO =& new CRM_Core_DAO_File();
+            
+            if ( $fileId ) {
+                $fileDAO->id = $fileId;
+            }
+            
+            $fileDAO->uri         = $filename;
+            $fileDAO->mime_type   = $mimeType; 
+            $fileDAO->upload_date = date('Ymdhis'); 
+            $fileDAO->save();
+            
+            $fileId    = $fileDAO->id;
+            $value =  $filename;
+        }
+        
+        $customFormatted[$customFieldId] = array('id'              => $customOptionValueId,
+                                                 'value'           => $value,
+                                                 'type'            => $customFields[$customFieldId][2],
+                                                 'custom_field_id' => $customFieldId,
+                                                 'file_id'         => $fileId
+                                                 );
+        return $customFormatted;
+    }
 }
 ?>

@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -49,10 +49,16 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
     function browse( ) 
     {  
         $count   = CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, null, null, true);
-        
-        $in      =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'Added' );
-        $pending =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'Pending' );
-        $out     =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'Removed' );
+
+        $in      =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
+                                                                  'Added',
+                                                                  null, false, true );
+        $pending =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
+                                                                  'Pending',
+                                                                  null, false, true );
+        $out     =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
+                                                                  'Removed',
+                                                                  null, false, true );
 
         $this->assign       ( 'groupCount'  , $count );
         $this->assign_by_ref( 'groupIn'     , $in );
@@ -73,10 +79,7 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', ts("Contact's Groups"), CRM_Core_Action::ADD );
         $controller->setEmbedded( true );
 
-        // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $this->_contactId = $session->get( 'userID' );
-
         $session->pushUserContext( CRM_Utils_System::url('civicrm/user', 'reset=1&id='. $this->_contactId ) ,false);
 
         $controller->reset( );

@@ -119,7 +119,7 @@ class CRM_Event_BAO_Query
     static function whereClauseSingle( &$values, &$query ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        
+
         switch( $name ) {
             
         case 'event_start_date_low':
@@ -180,6 +180,13 @@ class CRM_Event_BAO_Query
             $query->_where[$grouping][] = "civicrm_participant.status_id {$op} {$status}";
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
+
+        case 'event_participant_id':
+            $query->_where[$grouping][] = "civicrm_participant.id $op $value";
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+            
+            return;
+
         }
     }
 

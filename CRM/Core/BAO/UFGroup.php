@@ -564,15 +564,17 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
      * Given a contact id and a field set, return the values from the db
      * for this contact
      *
-     * @param int     $id       the contact id
-     * @param array   $fields   the profile fields of interest
-     * @param array   $values   the values for the above fields
-
+     * @param int     $id             the contact id
+     * @param array   $fields         the profile fields of interest
+     * @param array   $values         the values for the above fields
+     * @param boolean $searchable     searchable or not
+     * @param array   $componentWhere component condition
+     *
      * @return void
      * @access public
      * @static
      */
-    public static function getValues( $cid, &$fields, &$values ,$searchable = true ) 
+    public static function getValues( $cid, &$fields, &$values, $searchable = true, $componentWhere = null ) 
     {
         $options = array( );
         $studentFields = array( );
@@ -586,6 +588,12 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
 
         $params  = array( array( 'contact_id', '=', $cid, 0, 0 ) );
+        
+        // add conditions specified by components. eg partcipant_id etc
+        if ( !empty($componentWhere) ) {
+            $params = array_merge($params, $componentWhere);
+        }
+
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
         $options =& $query->_options;
         
@@ -594,8 +602,8 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             return;
         }
 
-        // CRM_Core_Error::debug( 'd', $details );
-        // CRM_Core_Error::debug( 'f', $fields );
+        //CRM_Core_Error::debug( 'd', $details );
+        //CRM_Core_Error::debug( 'f', $fields );
 
         $config =& CRM_Core_Config::singleton( );
         

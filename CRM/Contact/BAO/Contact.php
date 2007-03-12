@@ -1978,9 +1978,6 @@ WHERE civicrm_contact.id IN $idString ";
             $data["household_name"] = $contactDetails["household_name"];
         }
 
-        //get the custom fields for the contact
-        $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );
-        
         $locationType = array( );
         $count = 1;
         if ( $contactID ) {
@@ -2079,69 +2076,12 @@ WHERE civicrm_contact.id IN $idString ";
                     $data['prefix_id'] = $value;
                 } else if ($key === 'gender') { 
                     $data['gender_id'] = $value;
-                } else if (substr($key, 0, 6) === 'custom') {
-                    if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-                        
-                        $str = "custom_value_{$customFieldID}_id";
-                        
-                        $customOptionValueId = $contactDetails[$str] ? $contactDetails[$str] : NULL;
-                        
-                        //fix checkbox
-                        if ( $customFields[$customFieldID][3] == 'CheckBox' ) {
-                            $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-                        } 
-                        
-                        if ( $customFields[$customFieldID][3] == 'Multi-Select' ) {
-                            $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-                        }
-                        // fix the date field 
-                        if ( $customFields[$customFieldID][2] == 'Date' ) {
-                            $date =CRM_Utils_Date::format( $value );
-                            if ( ! $date ) {
-                                $date = '';
-                            }
-                            $value = $date;
-                        }
-                        
-                        if ( $customFields[$customFieldID][2] == 'File' ) { 
-                            require_once 'CRM/Core/DAO/File.php';
-                            $config = & CRM_Core_Config::singleton();
-                        
-                            $path = explode( '/', $value );
-                            $filename = $path[count($path) - 1];
+                } else if ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($key)) {
+                    $str = "custom_value_{$customFieldId}_id";
+                    $customOptionValueId = $contactDetails[$str] ? $contactDetails[$str] : NULL;
 
-                            // rename this file to go into the secure directory
-                            if ( ! rename( $value, $config->customFileUploadDir . $filename ) ) {
-                                CRM_Core_Error::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
-                                break;
-                            }
-
-                            $mimeType = $params["custom_{$customFieldID}_type"];
-          
-                            $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $customOptionValueId, 'file_id', 'id' );
-                            $fileDAO =& new CRM_Core_DAO_File();
-                            
-                            if ( $fileId ) {
-                                $fileDAO->id = $fileId;
-                            }
-                            
-                            $fileDAO->uri               = $filename;
-                            $fileDAO->mime_type         = $mimeType; 
-                            $fileDAO->upload_date       = date('Ymdhis'); 
-                            $fileDAO->save();
-                            
-                            $fileId    = $fileDAO->id;
-                            
-                            $value =  $filename;
-                        }
-
-                        $data['custom'][$customFieldID] = array( 'id'              => $customOptionValueId,
-                                                                 'value'           => $value,
-                                                                 'type'            => $customFields[$customFieldID][2],
-                                                                 'custom_field_id' => $customFieldID,
-                                                                 'file_id'         => $fileId
-                                                                 );
-                    }
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $data['custom'], 
+                                                                 $value, $data['contact_type'], $customOptionValueId);
                 } else if ($key == 'edit') {
                     continue;
                 } else {
@@ -2149,6 +2089,10 @@ WHERE civicrm_contact.id IN $idString ";
                 }
             }
         }
+
+
+        //get the custom fields for the contact
+        $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );
 
         $studentFieldPresent = 0;
         $TMFFieldPresent     = 0;
@@ -2176,21 +2120,12 @@ WHERE civicrm_contact.id IN $idString ";
             // then set it to null, thanx to html protocol
             if ( $cfID &&
                  ($customFields[$cfID][3] == 'CheckBox' || $customFields[$cfID][3] == 'Multi-Select')&&
-                 //CRM_Utils_Array::value( 'custom', $data ) &&
                  ! CRM_Utils_Array::value( $cfID, $data['custom'] ) ) {
-                
-                $str = 'custom_value_' . $cfID . '_id'; 
-                if ($contactDetails[$str]) { 
-                    $id = $contactDetails[$str]; 
-                }
-                
-                $data['custom'][$cfID] = array(  
-                                               'id'      => $id, 
-                                               'value'   => '',
-                                               'extends' => $customFields[$cfID][3], 
-                                               'type'    => $customFields[$cfID][2], 
-                                               'custom_field_id' => $cfID,
-                                               ); 
+
+                $str = "custom_value_{$cfID}_id";
+                $customOptionValueId = $contactDetails[$str] ? $contactDetails[$str] : NULL;
+                CRM_Core_BAO_CustomField::formatCustomField( $cfID, $data['custom'], 
+                                                             '', $data['contact_type'], $customOptionValueId);
             }
         }
        

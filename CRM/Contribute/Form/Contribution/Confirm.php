@@ -430,7 +430,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         
             // finally send an email receipt
             require_once "CRM/Contribute/BAO/ContributionPage.php";
-            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $this->_values );
+            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $this->_values, $contribution->id );
         }
     
     }

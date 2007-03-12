@@ -430,19 +430,22 @@ function crm_update_contact_membership($params)
     //fix the dates 
     foreach ( $datefields as $value ) {
         $membershipBAO->$value  = CRM_Utils_Date::customFormat($membershipBAO->$value,'%Y%m%d');
+        $params[$value] = $membershipBAO->$value;
     }
     
     $membershipBAO->save();
     
-    $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
-                                                            $membershipBAO->id,
-                                                            $membershipBAO->contact_id,
-                                                            CRM_Core_Action::UPDATE
-                                                            );
+    $relatedContacts =
+        CRM_Member_BAO_Membership::checkMembershipRelationship( 
+                                                               $membershipBAO->id,
+                                                               $membershipBAO->contact_id,
+                                                               CRM_Core_Action::UPDATE
+                                                               );
     
     //delete all the related membership records before creating
     CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipBAO->id );
-    
+
+    $params['membership_type_id'] = $membershipBAO->membership_type_id;
     foreach ( $relatedContacts as $contactId ) {
         $params['contact_id'         ] = $contactId;
         $params['owner_membership_id'] = $membershipBAO->id;
@@ -571,11 +574,14 @@ function crm_calc_membership_status( $membershipID )
         return _crm_error( 'Invalid value for membershipID' );
     }
     require_once 'CRM/Member/BAO/Membership.php';
-    $params['id'] = $membershipID;
+    $params = array( 'id' => $membershipID );
     $values = $ids = array();
     CRM_Member_BAO_Membership::getValues($params, $values, $ids);
 
     require_once 'CRM/Member/BAO/MembershipStatus.php';
-    return CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate($values[$membershipID]['start_date'], $values[$membershipID]['end_date'], $values[$membershipID]['join_date']);
+    return
+        CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate($values[$membershipID]['start_date'],
+                                                                   $values[$membershipID]['end_date'],
+                                                                   $values[$membershipID]['join_date']);
 }
 ?>
