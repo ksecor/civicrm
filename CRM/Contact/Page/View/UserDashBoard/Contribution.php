@@ -62,8 +62,16 @@ class CRM_Contact_Page_View_UserDashBoard_Contribution extends CRM_Contact_Page_
         $params =  CRM_Contribute_BAO_Contribution::getHonorContacts( $this->_contactId );
         if ( ! empty($params) ) {
             foreach($params as $ids => $honorId){
-                $contributionId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $honorId['honorId'],'id','contact_id' );
-                $subType     = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $honorId['type'], 'id','name' );
+                $contributionId =
+                    CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution',
+                                                 $honorId['honorId'],
+                                                 'id',
+                                                 'contact_id' );
+                $subType =
+                    CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                 $honorId['type'],
+                                                 'id',
+                                                 'name' );
             }
             
             // assign vars to templates

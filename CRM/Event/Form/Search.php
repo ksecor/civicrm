@@ -408,12 +408,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             $this->assign( 'event_title_value', $this->_formValues['event_title'] );
         }
         
-        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject );
-
-        if ( $this->_context == 'user' ) {
-            $session =& CRM_Core_Session::singleton( );
-            $cid = $session->get( 'userID' ); 
-        }
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );

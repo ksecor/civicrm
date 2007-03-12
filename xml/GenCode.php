@@ -326,7 +326,7 @@ fclose( $fd );
 
 $params = array(
                 'cms' => 'Drupal',
-                'cmsVersion' => '4.7',
+                'cmsVersion' => '5.1',
                 'cmsURLVar'  => 'q',
                 'usersTable' => 'users',
                 'crmRoot' => '',
