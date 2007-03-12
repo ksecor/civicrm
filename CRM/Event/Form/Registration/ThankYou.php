@@ -86,9 +86,10 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
 
         $defaults = array( );
         $fields   = array( );
-        
-        foreach ( $this->_fields as $name => $dontCare ) {
-            $fields[$name] = 1;
+        if( ! empty($this->_fields) ) {
+            foreach ( $this->_fields as $name => $dontCare ) {
+                $fields[$name] = 1;
+            }
         }
         $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
         foreach ($fields as $name => $dontCare ) {

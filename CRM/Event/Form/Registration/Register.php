@@ -70,8 +70,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $options = array( );
             $fields = array( );
             require_once "CRM/Core/BAO/CustomGroup.php";
-            foreach ( $this->_fields as $name => $dontCare ) {
-                $fields[$name] = 1;
+            if ( ! empty($this->_fields)) {
+                foreach ( $this->_fields as $name => $dontCare ) {
+                    $fields[$name] = 1;
+                }
             }
             $names = array("first_name", "middle_name", "last_name");
             foreach ($names as $name) {
@@ -199,10 +201,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @static 
      */ 
     static function formRule(&$fields, &$files, $self) {
-        foreach ( $self->_fields as $name => $fld ) {
-            if ( $fld['is_required'] &&
-                 CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
-                $errors[$name] = ts( '%1 is a required field.', array( 1 => $fld['title'] ) );
+        
+        if ( ! empty($self->_fields) ) {
+            foreach ( $self->_fields as $name => $fld ) {
+                if ( $fld['is_required'] &&
+                     CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
+                    $errors[$name] = ts( '%1 is a required field.', array( 1 => $fld['title'] ) );
+                }
             }
         }
         

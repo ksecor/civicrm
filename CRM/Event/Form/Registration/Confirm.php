@@ -202,8 +202,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         $defaults = array( );
         $fields = array( );
-        foreach ( $this->_fields as $name => $dontCare ) {
-            $fields[$name] = 1;
+        if( ! empty( $this->_fields ) ) {
+            foreach ( $this->_fields as $name => $dontCare ) {
+                $fields[$name] = 1;
+            }
         }
         $fields["state_province-{$this->_bltID}"] =
             $fields["country-{$this->_bltID}"] = $fields["email-{$this->_bltID}"] = 1;
@@ -477,8 +479,10 @@ WHERE  v.option_group_id = g.id
      */
     public function fixLocationFields( &$params, &$fields ) 
     {
-        foreach ( $this->_fields as $name => $dontCare ) {
-            $fields[$name] = 1;
+        if( ! empty($this->_field) ) {
+            foreach ( $this->_fields as $name => $dontCare ) {
+                $fields[$name] = 1;
+            }
         }
 
         if ( ! array_key_exists( 'first_name', $fields ) ) {
