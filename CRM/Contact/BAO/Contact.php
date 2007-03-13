@@ -1079,15 +1079,26 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @static
      * @access public
      */
-    static function getEmailDetails( $id ) 
+    static function getEmailDetails( $id, $locationTypeID = null ) 
     {
-        $sql = " SELECT    civicrm_contact.display_name, civicrm_email.email, civicrm_location.location_type_id, civicrm_location.id
-                 FROM      civicrm_contact
-                 LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                                                civicrm_contact.id = civicrm_location.entity_id AND
-                                                civicrm_location.is_primary = 1)
-                 LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-                 WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+        if ( ! $locationTypeID ) {
+            $locationClause = " civicrm_location.is_primary = 1";
+        } else {
+            $locationClause = " civicrm_location.location_type_id = $locationTypeID";
+        }
+
+        $sql = "
+SELECT    civicrm_contact.display_name,
+          civicrm_email.email,
+          civicrm_location.location_type_id,
+          civicrm_location.id
+FROM      civicrm_contact
+LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
+                               civicrm_contact.id = civicrm_location.entity_id AND
+                               $locationClause )
+LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
+    WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
         $result = $dao->getDatabaseResult();

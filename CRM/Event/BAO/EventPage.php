@@ -116,7 +116,12 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
         if ( $values['event_page']['is_email_confirm'] ) {
             $template =& CRM_Core_Smarty::singleton( );
             require_once 'CRM/Contact/BAO/Contact.php';
-            list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+
+            // get the billing location type
+            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+            $bltID = array_search( ts('Billing'),  $locationTypes );
+            
+            list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID, $bltID );
             self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId );
             self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId );
 
