@@ -105,11 +105,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         // hack to simplify credit card entry for testing
-        $this->_defaults['credit_card_type']     = 'Visa';
-        $this->_defaults['amount']               = 5.00;
-        $this->_defaults['credit_card_number']   = '4807731747657838';
-        $this->_defaults['cvv2']                 = '000';
-        $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
+        // $this->_defaults['credit_card_type']     = 'Visa';
+        // $this->_defaults['amount']               = 5.00;
+        // $this->_defaults['credit_card_number']   = '4807731747657838';
+        // $this->_defaults['cvv2']                 = '000';
+        // $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
 
         return $this->_defaults;
     }
@@ -318,11 +318,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //$config =& CRM_Core_Config::singleton( );print_r($config);
         $errors = array( ); 
 
-        // first clean up the other amount field if present
-        if ( isset( $fields['amount_other'] ) ) {
-            $fields['amount_other'] = CRM_Utils_Rule::cleanMoney( $fields['amount_other'] );
-        }
-
+        $amount = self::computeAmount( $fields, $self );
         if( isset( $fields['selectProduct'] )       &&
             $fields['selectProduct'] != 'no_thanks' &&
             $self->_values['amount_block_is_active'] ) {
@@ -332,14 +328,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $productDAO->id = $fields['selectProduct'];
             $productDAO->find(true);
             $min_amount = $productDAO->min_contribution;
-            if ($fields['amount'] == 'amount_other_radio') {
-                if ( $fields['amount_other'] < $min_amount ) {
-                    $errors['selectProduct'] = ts('The premium you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($min_amount)));
-                }
-            } else {
-                if($fields['amount'] < $min_amount) {
-                    $errors['selectProduct'] = ts('The premium you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($min_amount)));
-                }
+            if ( $amount < $min_amount ) {
+                $errors['selectProduct'] = ts('The premium you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($min_amount)));
             }
         }
 
@@ -372,16 +362,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $memTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $fields['selectMembership']);
             if ( $self->_values['amount_block_is_active'] && ! $memBlock['is_separate_payment']) {
                 require_once 'CRM/Utils/Money.php';
-                if ($fields['amount'] == 'amount_other_radio') {
-                    if ( $fields['amount_other'] < $memTypeDetails['minimum_fee']) {
-                         $errors['selectMembership'] = ts(' The Membership you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'])));
-                    }
-                } else if ( $fields['amount'] <  $memTypeDetails['minimum_fee'] ) {
-                    require_once 'CRM/Utils/Money.php';
+                if ( $amount < $memTypeDetails['minimum_fee']) {
                     $errors['selectMembership'] = ts(' The Membership you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'])));
                 }
             }
-            
         }
 
         if ( $self->_values['is_monetary'] ) {
@@ -445,6 +429,28 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         return empty( $errors ) ? true : $errors;
     }
 
+    public function computeAmount( &$params, &$form ) {
+
+        // first clean up the other amount field if present
+        if ( isset( $params['amount_other'] ) ) {
+            $params['amount_other'] = CRM_Utils_Rule::cleanMoney( $params['amount_other'] );
+        }
+        
+        if ( $params['amount'] == 'amount_other_radio' || ! empty( $params['amount_other'] ) ) {
+            $amount = $params['amount_other'];
+        } else {
+            if ( !empty($form->_values['value']) ) {
+                $params['amount_level'] =
+                    $form->_values['label'][array_search( $params['amount'],
+                                                          $form->_values['amount_id'])];
+                $amount = 
+                    $form->_values['value'][array_search( $params['amount'],
+                                                          $form->_values['amount_id'])];
+            }
+        }
+        return $amount;
+    }
+
     /**
      * Function to process the form
      *
@@ -463,21 +469,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $params['currencyID']     = $config->defaultCurrency;
 
-        // first clean up the other amount field if present
-        if ( isset( $params['amount_other'] ) ) {
-            $params['amount_other'] = CRM_Utils_Rule::cleanMoney( $params['amount_other'] );
-        }
-        
-        $params['payment_action'] = 'Sale'; 
-        if ( $params['amount'] == 'amount_other_radio' || ! empty( $params['amount_other'] ) ) {
-            $params['amount'] = $params['amount_other'];
-        } else {
-            if ( !empty($this->_values['value']) ) {
-                $params['amount_level'] = $this->_values['label'][array_search( $params['amount'], $this->_values['amount_id'])];
-                $params['amount'      ] = $this->_values['value'][array_search( $params['amount'], $this->_values['amount_id'])];
-            }
-        }
-    
+        $params['amount'] = self::computeAmount( $params, $this );
+
         if ( !$params['amount'] && $params['selectMembership'] ) {
             $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
             if ( $memFee ) {

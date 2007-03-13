@@ -48,17 +48,23 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
      */
     function browse( ) 
     {  
-        $count   = CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, null, null, true);
+        $count   = CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
+                                                                 null,
+                                                                 null, true, true,
+                                                                 $this->_onlyPublicGroups );
 
         $in      =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
                                                                   'Added',
-                                                                  null, false, true );
+                                                                  null, false, true,
+                                                                  $this->_onlyPublicGroups );
         $pending =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
                                                                   'Pending',
-                                                                  null, false, true );
+                                                                  null, false, true,
+                                                                  $this->_onlyPublicGroups );
         $out     =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId,
                                                                   'Removed',
-                                                                  null, false, true );
+                                                                  null, false, true,
+                                                                  $this->_onlyPublicGroups );
 
         $this->assign       ( 'groupCount'  , $count );
         $this->assign_by_ref( 'groupIn'     , $in );
@@ -76,25 +82,33 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
      */
     function edit( $groupId = null ) 
     {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', ts("Contact's Groups"), CRM_Core_Action::ADD );
+        $this->assign( 'edit', $this->_edit );
+        if ( ! $this->_edit ) {
+            return;
+
+        }
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact',
+                                                       ts("Contact's Groups"),
+                                                       CRM_Core_Action::ADD );
         $controller->setEmbedded( true );
 
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/user', 'reset=1&id='. $this->_contactId ) ,false);
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/user',
+                                                         "reset=1&id={$this->_contactId}" ),
+                                   false);
 
         $controller->reset( );
-
         $controller->set( 'contactId', $this->_contactId );
-
         $controller->set( 'groupId'  , $groupId );
         $controller->set( 'context'  , 'user' );
+        $controller->set( 'onlyPublicGroups', $this->_onlyPublicGroups );
         $controller->process( );
         $controller->run( );
-
     }
 
     /**
-     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+     * This function is the main function that is called when the page loads,
+     * it decides the which action has to be taken for the page.
      * 
      * return null
      * @access public
@@ -132,7 +146,7 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
             break;
         }
         $contactID = array($this->_contactId);
-        $method = 'Admin';
+        $method = 'Web';
         CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $groupId, $method  ,$groupStatus);
 
     }

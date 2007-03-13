@@ -325,7 +325,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID,null,null,$ctype);
         }
 
-        if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks' && 
+        // store the fact that this is a membership and membership type is selected
+        $processMembership = false;
+        if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks' ) {
+            $processMembership = true;
+            $this->assign( 'membership_assign' , true );
+            $this->set('membershipID' , $this->_params['selectMembership']);
+        }
+
+        if ( $processMembership &&
              $this->_contributeMode != 'notify' && $this->_contributeMode != 'checkout') {
             self::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
             require_once "CRM/Member/BAO/Membership.php";

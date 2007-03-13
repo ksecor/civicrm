@@ -61,7 +61,22 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
 
         CRM_Utils_System::setTitle($this->_values['thankyou_title']);
     }
-
+    
+    /**
+     * overwrite action, since we are only showing elements in frozen mode
+     * no help display needed
+     * @return int
+     * @access public
+     */
+    function getAction( ) 
+    {
+        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+            return CRM_Core_Action::VIEW | CRM_Core_Action::PREVIEW;
+        } else {
+            return CRM_Core_Action::VIEW;
+        }
+    }
+    
     /**
      * Function to actually build the form
      *
@@ -100,12 +115,11 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         
         }
 
-
         if ( $membershipID ) {
-            $tansactionID     = $this->get('membership_trx_id');
+            $transactionID     = $this->get('membership_trx_id');
             $membershipAmount = $this->get('membership_amount');
             $renewalMode = $this->get("renewal_mode");
-            $this->assign('membership_trx_id',$tansactionID);
+            $this->assign('membership_trx_id',$transactionID);
             $this->assign('membership_amount',$membershipAmount);
             $this->assign('renewal_mode',$renewalMode);
             
@@ -128,15 +142,15 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
             $fields[$name] = 1;
         }
         $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
-        //$contact =& CRM_Contact_BAO_Contact::contactDetails( $contactID, $options, $fields );
         $contact = $this->_params = $this->controller->exportValues( 'Main' );
+
         foreach ($fields as $name => $dontCare ) {
             if ( $contact[$name] ) {
                 if ( substr( $name, 0, 7 ) == 'custom_' ) {
                     $id = substr( $name, 7 );
                     $defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact[$name],
-                                                                                         $id,
-                                                                                         $options );
+                                                                                  $id,
+                                                                                  $options );
                 } else {
                     $defaults[$name] = $contact[$name];
                 } 
@@ -147,7 +161,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $this->setDefaults( $defaults );
         $this->freeze();
         // can we blow away the session now to prevent hackery
-        $this->controller->reset( );
+        // $this->controller->reset( );
     }
 }
 

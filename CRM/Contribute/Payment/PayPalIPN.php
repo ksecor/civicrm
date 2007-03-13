@@ -177,6 +177,7 @@ class CRM_Contribute_Payment_PayPalIPN {
 
         $now = date( 'YmdHis' );
         $amount =  self::retrieve( 'mc_gross', 'Money', 'POST', true );
+        $contribAmount = $amount;
         if ( ! $recur ) {
             if ( $contribution->total_amount != $amount ) {
                 CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
@@ -298,7 +299,7 @@ class CRM_Contribute_Payment_PayPalIPN {
                                               'title' );
 
         require_once 'CRM/Utils/Money.php';
-        $formattedAmount = CRM_Utils_Money::format($amount);
+        $formattedAmount = CRM_Utils_Money::format($contribAmount);
 
         // also create an activity history record
         $ahParams = array('entity_table'     => 'civicrm_contact', 
@@ -329,6 +330,10 @@ class CRM_Contribute_Payment_PayPalIPN {
             
             $minimumFee = $membershipDetails['minimum_fee'];
             $template->assign('membership_amount'  , $minimumFee);
+            $contribAmount -= $minimumFee;
+            if ( $contribAmount < 0 ) {
+                $contribAmount = 0;
+            }
             
             if ($currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID,  $membershipTypeID)) {
                 if ( ! $currentMembership['is_current_member'] ) {
@@ -417,7 +422,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         // add the new contribution values
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'title', $values['title']);
-        $template->assign( 'amount' , $amount );
+        $template->assign( 'amount' , $contribAmount );
         $template->assign( 'trxn_id', $contribution->trxn_id );
         $template->assign( 'receive_date', 
                            CRM_Utils_Date::mysqlToIso( $contribution->receive_date ) );

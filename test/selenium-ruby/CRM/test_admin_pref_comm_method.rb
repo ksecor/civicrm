@@ -83,6 +83,6 @@ class TC_TestPrefCommMethod < Test::Unit::TestCase
     @page.click_and_wait "//div[@id='preferred_communication_method']/descendant::tr[td[contains(.,'testMethod')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all Preferred Communication Method related records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
     @page.click_and_wait "//input[@type='submit' and @name='_qf_Options_next']"
-    assert @selenium.is_text_present("Selected Preferred Communication Method type has been deleted.")
+   
   end
 end

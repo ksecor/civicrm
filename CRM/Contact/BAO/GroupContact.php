@@ -304,6 +304,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @param boolean $count             true if we are interested only in the count
      * @param boolean $ignorePermission  true if we should ignore permissions for the current user
      *                                   useful in profile where permissions are limited for the user
+     * @param boolean $onlyPublicGroups  true if we want to hide system groups
      *
      * @return array (reference )|int $values the relevant data object values for the contact or
                                       the total count when $count is true
@@ -313,7 +314,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
     static function &getContactGroup( $contactId, $status = null,
                                       $numGroupContact = null,
                                       $count = false,
-                                      $ignorePermission = false ) {
+                                      $ignorePermission = false,
+                                      $onlyPublicGroups = false ) {
         if ( $count ) {
             $select = 'SELECT count(DISTINCT civicrm_group_contact.id)';
         } else {
@@ -348,6 +350,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $from = CRM_Contact_BAO_Query::fromClause( $tables );
         
         $where .= " AND $permission ";
+
+        if ( $onlyPublicGroups ) {
+            $where .= " AND civicrm_group.visibility != 'User and User Admin Only' ";
+        }
 
         $order = $limit = '';
         if (! $count ) {

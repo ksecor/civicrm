@@ -1,6 +1,6 @@
 <?php
 /**
- * CiviCRM Configuration File - v1.6
+ * CiviCRM Configuration File - v1.7
  */
 
 /**
@@ -8,11 +8,13 @@
  *
  * CiviCRM can be hosted in either Drupal or Joomla.
  * 
- * Settings for Drupal 5.0.x:
+ * Settings for Drupal 5.1:
  *      define( 'CIVICRM_UF'        , 'Drupal' );
- *      define( 'CIVICRM_UF_VERSION', '5.0' );
+ *      define( 'CIVICRM_UF_VERSION', '5.1' );
  *      define( 'CIVICRM_UF_URLVAR' , 'q'  );
  *
+ * For Drupal 5.0 same as above except
+ *      define( 'CIVICRM_UF_VERSION', '5.0' );
  * For Drupal 4.7.x, same as above except
  *      define( 'CIVICRM_UF_VERSION', '4.7' );
  * For Drupal 4.6.x, same as above except

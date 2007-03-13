@@ -57,9 +57,13 @@ class CRM_Event_Page_DashBoard extends CRM_Core_Page
         $eventSummary = CRM_Event_BAO_Event::getEventSummary( $admin );
 
         $eventMap = false;
-        foreach ( $eventSummary['events'] as $e ) {
-            if ( isset( $e['isMap'] ) ) {
-                $eventMap = true;
+
+        if ( ! empty( $eventSummary ) &&
+             is_array( $eventSummary['events'] ) ) {
+            foreach ( $eventSummary['events'] as $e ) {
+                if ( isset( $e['isMap'] ) ) {
+                    $eventMap = true;
+                }
             }
         }
                 

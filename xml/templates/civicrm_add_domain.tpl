@@ -188,7 +188,7 @@ VALUES
   (@option_group_id_etype, '{ts}Fundraiser{/ts}', 3, 'Fundraiser',  NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
   (@option_group_id_etype, '{ts}Meeting{/ts}',    4, 'Meeting',     NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
   (@option_group_id_etype, '{ts}Performance{/ts}',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, '{ts}Workshop{/ts}',   6, 'Conference',  NULL, 0, NULL, 6, NULL, 0, 0, 1 );
+  (@option_group_id_etype, '{ts}Workshop{/ts}',   6, 'Workshop',    NULL, 0, NULL, 6, NULL, 0, 0, 1 );
 
 -- sample membership status entries
 INSERT INTO
