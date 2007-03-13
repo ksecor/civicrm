@@ -1512,7 +1512,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                             foreach ( $v as $item ) {
                                 if ($item) {
-                                    $defaults[$fldName][$item] = $item;
+                                    $defaults[$fldName."[$item]"] = 1;
                                 }
                             }
                             break;
