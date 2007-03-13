@@ -181,19 +181,18 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
 
-        if ($this->_contributeMode == 'checkout') {
-            $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
+        if ($config->paymentProcessor == 'Google_Checkout') {
+            $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
-                       $this->_expressButtonName,
+                       $this->_checkoutButtonName,
                        $config->googleCheckoutButton,
                        array( 'class' => 'form-submit' ) );
-
+            
             $this->addButtons(array(
                                     array ( 'type'      => 'back',
                                             'name'      => ts('<< Go Back')),
                                     )
                               );
-            
         } else {
             if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
                 $contribButton = ts('Continue >>');
@@ -279,6 +278,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      */
     public function postProcess( )
     {
+        $config =& CRM_Core_Config::singleton( );
         require_once "CRM/Contact/BAO/Contact.php";
 
         $session =& CRM_Core_Session::singleton( );
@@ -333,8 +333,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->set('membershipID' , $this->_params['selectMembership']);
         }
 
-        if ( $processMembership &&
-             $this->_contributeMode != 'notify' && $this->_contributeMode != 'checkout') {
+        if ( $processMembership && $this->_contributeMode != 'notify' ) {
             self::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
             require_once "CRM/Member/BAO/Membership.php";
             CRM_Member_BAO_Membership::postProcessMembership($membershipParams,$contactID,$this );
@@ -370,7 +369,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 if ( $this->_values['is_monetary'] ) {
                     $result =& $payment->doExpressCheckout( $paymentParams );
                 }
-            } else if ( $this->_contributeMode == 'notify' || $this->_contributeMode == 'checkout') {
+            } else if ( $this->_contributeMode == 'notify' ) {
                 // this is not going to come back, i.e. we fill in the other details
                 // when we get a callback from the payment processor
                 // also add the contact ID and contribution ID to the params list
@@ -398,7 +397,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
                 if ( $this->_values['is_monetary'] ) {
-                    if ($this->_contributeMode == 'checkout') {
+                    if ($config->paymentProcessor == 'Google_Checkout') {
                         $payment->doCheckout( $this->_params );
                     }
                     // addd qfKey so we can send to paypal
@@ -425,7 +424,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             // result has all the stuff we need
             // lets archive it to a financial transaction
-            $config =& CRM_Core_Config::singleton( );
             if ( $contributionType->is_deductible ) {
                 $this->assign('is_deductible',  true );
                 $this->set('is_deductible',  true);

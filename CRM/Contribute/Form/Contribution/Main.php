@@ -528,11 +528,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                         CRM_Utils_System::redirect( $paymentURL ); 
                     }
             } else if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
-                if ($config->paymentProcessor == 'Google_Checkout') {
-                    $this->set( 'contributeMode', 'checkout' ); 
-                } else {
-                    $this->set( 'contributeMode', 'notify' );
-                }
+                $this->set( 'contributeMode', 'notify' );
             }
         }         
     }
