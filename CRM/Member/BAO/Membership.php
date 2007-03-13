@@ -195,6 +195,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $params['membership_id'] = $membership->id;
                 
         // Create activity history record.
+        require_once "CRM/Member/PseudoConstant.php";
         $membershipType = CRM_Member_PseudoConstant::membershipType( $membership->membership_type_id );
         
         if ( ! $membershipType ) {

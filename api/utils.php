@@ -585,7 +585,8 @@ function _crm_format_membership_params( &$params, &$values, $create=false)
         $config =& CRM_Core_Config::singleton();
         $domainID = $config->domainID();
     }
-        
+    
+    require_once "CRM/Member/DAO/Membership.php";
     $fields =& CRM_Member_DAO_Membership::fields( );
     _crm_store_values( $fields, $params, $values );
     
