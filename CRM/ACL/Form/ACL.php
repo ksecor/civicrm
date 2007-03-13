@@ -38,6 +38,57 @@ require_once 'CRM/Admin/Form.php';
 class CRM_ACL_Form_ACL extends CRM_Admin_Form
 {
     /**
+    * This function sets the default values for the form.
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $defaults = parent::setDefaultValues( );
+        
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks( );
+
+        if ( isset( $defaults['object_table'] ) ) {
+            switch ( $defaults['object_table'] ) {
+                case 'civicrm_saved_search':
+                    $defaults['group_id'] = $defaults['object_id'];
+                    $defaults['object_type'] = 1;
+                    $showHide->addShow( "id-group-acl" );
+                    $showHide->addHide( "id-profile-acl" );
+                    $showHide->addHide( "id-custom-acl" );
+                    break;
+                    
+                case 'civicrm_uf_group':
+                    $defaults['uf_group_id'] = $defaults['object_id'];
+                    $defaults['object_type'] = 2;
+                    $showHide->addShow( "id-profile-acl" );
+                    $showHide->addHide( "id-group-acl" );
+                    $showHide->addHide( "id-custom-acl" );
+                    break;
+
+                case 'civicrm_custom_group':
+                    $defaults['custom_group_id'] = $defaults['object_id'];
+                    $defaults['object_type'] = 3;
+                    $showHide->addShow( "id-custom-acl" );
+                    $showHide->addHide( "id-group-acl" );
+                    $showHide->addHide( "id-profile-acl" );
+                    break;
+                    
+            }
+        } else {
+            $showHide->addHide( "id-group-acl" );
+            $showHide->addHide( "id-profile-acl" );
+            $showHide->addHide( "id-custom-acl" );
+        }
+
+        $showHide->addToTemplate( );
+
+        return $defaults;
+    }
+
+
+    /**
      * Function to build the form
      *
      * @return None
@@ -60,6 +111,18 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         $this->add( 'select', 'operation', ts( 'Operation' ),
                            $operations, true );
 
+        $objTypes = array( '1' => ts('A group of contacts'),
+                           '2' => ts('A profile'),
+                           '3' => ts('A set of custom data fields')
+                           );
+        $extra = array( 'onclick' => "showObjectSelect();");
+        $this->addRadio( 'object_type',
+                         ts('Type of Data'),
+                         $objTypes,
+                         $extra,
+                         '&nbsp;', true
+                         );
+
         require_once 'CRM/Core/OptionGroup.php';
 
         $label = ts( 'Role' );
@@ -79,7 +142,7 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
             CRM_Core_PseudoConstant::ufGroup( )    ;
 
         $this->add( 'select', 'group_id'       , ts( 'Group'        ), $group       );
-        $this->add( 'select', 'custom_group_id', ts( 'Custom Group' ), $customGroup );
+        $this->add( 'select', 'custom_group_id', ts( 'Custom Data' ), $customGroup );
         $this->add( 'select', 'uf_group_id'    , ts( 'Profile'      ), $ufGroup     );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
@@ -87,33 +150,6 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         $this->addFormRule( array( 'CRM_ACL_Form_ACL', 'formRule' ) );
     }
 
-    /**
-     * This function sets the default values for the form. MobileProvider that in edit/view mode
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( ) {
-        $defaults = parent::setDefaultValues( );
-
-        if ( isset( $defaults['object_table'] ) ) {
-            switch ( $defaults['object_table'] ) {
-            case 'civicrm_saved_search':
-                $defaults['group_id'] = $defaults['object_id'];
-                break;
-
-            case 'civicrm_custom_group':
-                $defaults['custom_group_id'] = $defaults['object_id'];
-                break;
-
-            case 'civicrm_uf_group':
-                $defaults['uf_group_id'] = $defaults['object_id'];
-                break;
-            }
-        }
-        return $defaults;
-    }
 
     static function formRule( &$params ) {
         // make sure that at only one of group_id, custom_group_id and uf_group_id is selected
