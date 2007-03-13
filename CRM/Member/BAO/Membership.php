@@ -193,6 +193,47 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
         
         $params['membership_id'] = $membership->id;
+                
+        // Create activity history record.
+        $membershipType = CRM_Member_PseudoConstant::membershipType( $membership->membership_type_id );
+        
+        if ( ! $membershipType ) {
+            $membershipType = ts('Membership');
+        }
+        
+        $activitySummary = "{$membershipType}";
+        
+        if ( $membership->source != 'null' ) {
+            $activitySummary .= " - {$membership->source}";
+        }
+        
+        $historyParams = array(
+            'entity_table'     => 'civicrm_contact',
+            'entity_id'        => $membership->contact_id,
+            'activity_type'    => 'Membership Registration',
+            'module'           => 'CiviMember',
+            'callback'         => 'CRM_Member_Page_Membership::details',
+            'activity_id'      => $membership->id,
+            'activity_summary' => $activitySummary,
+            'activity_date'    => $membership->start_date
+        );
+        
+        if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
+            // this contribution should have an Activity History record already
+            $getHistoryParams = array('module' => 'CiviMember', 'activity_id' => $membership->id);
+            require_once "CRM/Core/BAO/History.php";
+            $getHistoryValues =& CRM_Core_BAO_History::getHistory($getHistoryParams, 0, 1, null, 'Activity');
+            if ( ! empty( $getHistoryValues ) ) {
+                $tmp = array_keys( $getHistoryValues  );
+                $ids['activity_history'] = $tmp[0];
+            }
+        }
+        
+        require_once 'CRM/Core/BAO/History.php';
+        $historyDAO =& CRM_Core_BAO_History::create($historyParams, $ids, 'Activity');
+        if (is_a($historyDAO, 'CRM_Core_Error')) {
+            CRM_Core_Error::fatal("Failed creating Activity History for contribution of id {$contribution->id}");
+        }
         
         CRM_Core_DAO::transaction('COMMIT');
         
