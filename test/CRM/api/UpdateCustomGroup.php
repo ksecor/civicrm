@@ -78,5 +78,11 @@ class TestOfUpdateCustomGroupAPI extends UnitTestCase
         $updatedCustomGroup =& crm_update_custom_group($params, $this->customGroup);
         $this->assertIsA($updatedCustomGroup, 'CRM_Core_BAO_CustomGroup');
     }
+
+    function testDeleteCustomGroup()
+    {
+        crm_delete_custom_group($this->customGroup->id);
+    }
+
 }
 ?>

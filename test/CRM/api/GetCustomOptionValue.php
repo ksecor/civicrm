@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfUpdateDeleteCustomOption extends UnitTestCase 
+class TestOfGetCustomOptionValue extends UnitTestCase 
 {
     function setUp() 
     {
@@ -106,6 +106,8 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
                                );
         $option6 =& crm_create_option_value($paramsOption6, $this->customField2); 
         $this->assertIsA($option6, 'CRM_Core_BAO_CustomOption');
+        $this->customGroup = $customGroup;
+        
     }
     
     function testGetOptionValuePC()
@@ -114,5 +116,13 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
         $options =& crm_get_option_values($this->customField2);
         CRM_Core_Error::debug('Options', $options);
     }
+
+    function testDeleteCustomGroup()
+    {
+        crm_delete_custom_field($this->customField1->id);
+        crm_delete_custom_field($this->customField2->id);
+        crm_delete_custom_group($this->customGroup->id);
+    }
+    
 }
 ?>

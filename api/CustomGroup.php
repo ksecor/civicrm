@@ -252,6 +252,18 @@ function crm_create_custom_group($class_name, $params)
 }
 
 /**
+ * Use this API to delete an existing group.
+ * @id id of the group to be deleted
+ *
+ **/
+function crm_delete_custom_group($id)
+{    
+    require_once 'CRM/Core/BAO/CustomGroup.php';
+    $customGroup = CRM_Core_BAO_CustomGroup::deleteGroup($id);
+    return $customGroup;
+}
+
+/**
  * Updating Custom Group.
  * 
  * Use this API to update the custom group. See the CRM Data Model for custom_group property definitions.
@@ -428,6 +440,17 @@ function crm_get_custom_field( $params ) {
     $dao->label = $params['label'];
     $dao->find(true);
     return $dao;
+}
+
+/**
+ * Use this API to delete an existing custom group field.
+ * @id id of the field to be deleted
+ **/
+function crm_delete_custom_field( $id ) {
+
+    require_once 'CRM/Core/BAO/CustomField.php';
+    $customField = CRM_Core_BAO_CustomField::deleteGroup($id);
+    return $customField;
 }
 /**
  *  Defines 'custom value' within a field for a specific entity table/id combination.

@@ -113,6 +113,7 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
         $option6 =& crm_create_option_value($paramsOption6, $this->customField2); 
         $this->assertIsA($option6, 'CRM_Core_BAO_CustomOption');
         $this->option6Group1 = $option6;
+        $this->customGroup1 = $customGroup;
     }
     
     function testCreateCustomGroupFieldOptionG()
@@ -211,6 +212,7 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
         $option6 =& crm_create_option_value($paramsOption6, $this->customField4); 
         $this->assertIsA($option6, 'CRM_Core_BAO_CustomOption');
         $this->option6Group2 = $option6;
+        $this->customGroup2 = $customGroup;
     }
     
     /*****************************************************
@@ -260,6 +262,17 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
         // Get the options for the Custom Field and confirm if the option is deleted.
         $options =& crm_get_option_values($this->customField4);
         $this->assertNull($options[$this->option6Group2->id]);
+    }
+
+
+    function testDeleteCustomGroup()
+    {
+        crm_delete_custom_field($this->customField1->id);
+        crm_delete_custom_field($this->customField2->id);
+        crm_delete_custom_field($this->customField3->id);
+        crm_delete_custom_field($this->customField4->id);
+        crm_delete_custom_group($this->customGroup1->id);
+        crm_delete_custom_group($this->customGroup2->id);
     }
 }
 ?>
