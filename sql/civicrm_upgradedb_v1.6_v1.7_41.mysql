@@ -58,10 +58,13 @@ CREATE TABLE civicrm_event_page (
      confirm_from_email varchar(255)    COMMENT 'FROM email address used for confirmation emails.',
      cc_confirm varchar(255)    COMMENT 'comma-separated list of email addresses to cc each time a confirmation is sent',
      bcc_confirm varchar(255)    COMMENT 'comma-separated list of email addresses to bcc each time a confirmation is sent',
-     default_fee_id int unsigned NOT NULL   COMMENT 'FK to civicrm_custom_option.' 
+     default_fee_id int unsigned NOT NULL   COMMENT 'FK to civicrm_custom_option.',
+     thankyou_title varchar(255)   DEFAULT NULL COMMENT 'Title for ThankYou page.',
+     thankyou_text text    COMMENT 'ThankYou Text.',
+     thankyou_footer_text text    COMMENT 'Footer message.' 
 ,
     PRIMARY KEY ( id )
- 
+  
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
 
@@ -200,6 +203,14 @@ CREATE TABLE civicrm_currency (
 -- *******************************************************/
 
 	ALTER TABLE civicrm_mapping MODIFY mapping_type enum('Export','Import','Export Contributions','Import Contributions','Import Activity History','Search Builder','Import Memberships','Import Participants') NULL DEFAULT NULL COMMENT 'Type of Mapping.';
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_membership ADD owner_membership_id int(10) UNSIGNED NULL DEFAULT NULL COMMENT 'Optional FK to Parent Membership.';
+	ALTER TABLE civicrm_membership ADD INDEX index_owner_membership_id( owner_membership_id );
 
 -- /*******************************************************
 -- *
