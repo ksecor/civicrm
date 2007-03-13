@@ -306,6 +306,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $params["billing_first_name"] . ' ' . $params["billing_middle_name"] . ' ' . $params["billing_last_name"];
         $fields["location_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
+        $fields["email-Primary"] = 1;
+        $params["email-Primary"] = $params["email-{$this->_bltID}"];
 
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
