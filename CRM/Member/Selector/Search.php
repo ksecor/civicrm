@@ -165,10 +165,9 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
         $this->_context = $context;
 
         $this->_memberClause = $memberClause;
-
+        
         // type of selector
         $this->_action = $action;
-
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_MEMBER );
         // CRM_Core_Error::debug( 'q', $this->_query );
@@ -188,32 +187,39 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      * @access public
      *
      */
-    static function &links()
+    static function &links( $status = 'all' )
     {
-
-        if (!(self::$_links)) {
-            self::$_links = array(
-                                  CRM_Core_Action::VIEW   => array(
+        
+        if ( !self::$_links['view'] ) {
+            self::$_links['view'] = array(
+                                          CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
                                                                    'url'      => 'civicrm/contact/view/membership',
                                                                    'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=member',
                                                                    'title'    => ts('View Membership'),
-                                                                   ),
-                                  CRM_Core_Action::UPDATE => array(
-                                                                   'name'     => ts('Edit'),
-                                                                   'url'      => 'civicrm/contact/view/membership',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Edit Membership'),
-                                                                  ),
-                                  CRM_Core_Action::DELETE => array(
-                                                                   'name'     => ts('Delete'),
-                                                                   'url'      => 'civicrm/contact/view/membership',
-                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Delete Membership'),
-                                                                  ),
+                                                                   )
                                   );
         }
-        return self::$_links;
+        
+        if ( !self::$_links['all'] ) {
+            $extraLinks = array(
+                                CRM_Core_Action::UPDATE => array(
+                                                                 'name'     => ts('Edit'),
+                                                                 'url'      => 'civicrm/contact/view/membership',
+                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                 'title'    => ts('Edit Membership'),
+                                                                 ),
+                                CRM_Core_Action::DELETE => array(
+                                                                 'name'     => ts('Delete'),
+                                                                 'url'      => 'civicrm/contact/view/membership',
+                                                                 'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                 'title'    => ts('Delete Membership'),
+                                                                 ),
+                                );
+            self::$_links['all'] = self::$_links['view'] + $extraLinks;
+        }
+        
+        return self::$_links[$status];
     } //end of function
 
 
@@ -298,10 +304,18 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                  $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
              }
              
-             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                           array( 'id'  => $result->membership_id,
-                                                                  'cid' => $result->contact_id,
-                                                                  'cxt' => $this->_context ) );
+             if ( ! $result->owner_membership_id ) {
+                 $row['action']   = CRM_Core_Action::formLink( self::links( 'all' ), $mask,
+                                                               array( 'id'  => $result->membership_id,
+                                                                      'cid' => $result->contact_id,
+                                                                      'cxt' => $this->_context ) );
+             } else {
+                 $row['action']   = CRM_Core_Action::formLink( self::links( 'view' ) , $mask,
+                                                               array( 'id'  => $result->membership_id,
+                                                                      'cid' => $result->contact_id,
+                                                                      'cxt' => $this->_context ) );
+             }
+             
              $config =& CRM_Core_Config::singleton( );
              $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
              switch ($result->contact_type) {

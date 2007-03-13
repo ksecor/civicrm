@@ -681,7 +681,7 @@ WHERE ";
         //calculate member count for current month 
         $currentMonth    = date("Y-m-01");
         $currentMonthEnd = date("Y-m-31");
-        $whereCond =  "membership_type_id = $membershipTypeId AND start_date > '".$currentMonth ."' AND start_date < ' ".$currentMonthEnd."'" ;
+        $whereCond =  "membership_type_id = $membershipTypeId AND start_date >= '".$currentMonth ."' AND start_date <= ' ".$currentMonthEnd."'" ;
 
         $query = $queryString . $whereCond;
         
@@ -693,7 +693,7 @@ WHERE ";
         //calculate member count for current year 
         $currentYear    = date("Y-01-01");
         $currentYearEnd = date("Y-12-31");
-        $whereCond =  "membership_type_id = $membershipTypeId AND start_date > '".$currentYear ."' AND start_date < '".$currentYearEnd."'";
+        $whereCond =  "membership_type_id = $membershipTypeId AND start_date >= '".$currentYear ."' AND start_date <= '".$currentYearEnd."'";
 
         $query = $queryString . $whereCond;
         
@@ -967,15 +967,20 @@ WHERE mp.payment_entity_table ='civicrm_contribute'
      * Function to delete related memberships
      *
      * @param int $ownerMembershipId
+     * @param int $contactId
      *
      * @return null
      * @static
      */
-    static function deleteRelatedMemberships( $ownerMembershipId ) 
+    static function deleteRelatedMemberships( $ownerMembershipId, $contactId = null ) 
     {
         $membership = & new CRM_Member_DAO_Membership( );
         $membership->owner_membership_id = $ownerMembershipId;
-
+        
+        if ( $contactId ) {
+            $membership->contact_id      = $contactId;
+        }
+        
         $membership->find( );
         while ( $membership->fetch( ) ) {
             self::deleteMembership( $membership->id ) ;

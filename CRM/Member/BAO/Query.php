@@ -87,6 +87,10 @@ class CRM_Member_BAO_Query
             $query->_element['start_date'] = 1;
             $query->_select['end_date']  = "civicrm_membership.end_date as end_date";
             $query->_element['end_date'] = 1;
+            
+            //add owner_membership_id
+            $query->_select['owner_membership_id']  = "civicrm_membership.owner_membership_id as owner_membership_id";
+            $query->_element['owner_membership_id'] = 1;
         }
     }
 

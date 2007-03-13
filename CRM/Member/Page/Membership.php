@@ -37,13 +37,13 @@
 require_once 'CRM/Core/Page.php';
 
 /**
- * Create a page for displaying Contributions
+ * Create a page for displaying Memberships
  *
  */
 class CRM_Member_Page_Membership extends CRM_Core_Page {
 
     /** 
-     * compose the url to show details of this specific contribution 
+     * compose the url to show details of this specific membership
      * 
      * @param int $id 
      * @param int $activityHistoryId 

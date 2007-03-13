@@ -789,8 +789,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         // 2. ContactB
         foreach ( $targetContact as $cid => $donCare ) {
                 $values[$cid]   = array(
-                                        'relatedContacts'           => array( $contact => 1 ),
-                                        'relationshipTypeId'        => $relTypeId
+                                        'relatedContacts'       => array( $contact => 1 ),
+                                        'relationshipTypeId'    => $relTypeId
                                         );
                 
                 $relTypeParams = array( 'id' => $relTypeId );
@@ -804,7 +804,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                     $values[$cid]['relationshipTypeDirection'] = ($relDirection == '_a_b') ? '_b_a' : '_a_b';
                 }
             }
-        // done with 'values' array.
         
         // Now get the active memberships for all the contacts.
         // If contact have any valid membership(s), then add it to
@@ -823,6 +822,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             
             $values[$cid]['memberships'] = $memberships;
         }
+        // done with 'values' array.
         
         //CRM_Core_Error::debug( 'Values', $values );
         //exit( );
@@ -857,10 +857,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                     unset($membershipValues['contact_id']);
                     foreach ( $details['relatedContacts'] as $relatedContactId => $donCare) {
                         $membershipValues['contact_id'] = $relatedContactId;
-                        
+                                                
                         if ( $action & CRM_Core_Action::UPDATE ) {
-                            //delete all the related membership records before creating
-                            CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
+                            //delete the membership record for related
+                            //contact before creating new membership record.
+                            CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId, $relatedContactId );
                         }
                         
                         CRM_Member_BAO_Membership::create( $membershipValues, CRM_Core_DAO::$_nullArray );
@@ -871,7 +872,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                     // membership=>relationship then we need to
                     // delete the membership record created for
                     // previous relationship.
-                    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
+                    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId, $ids['contactTarget'] );
                 }
             }
         }
