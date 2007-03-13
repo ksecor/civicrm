@@ -38,15 +38,15 @@ class TC_TestContactMembership < Test::Unit::TestCase
 
     #enter search value
     @selenium.select "document.Search.contact_type", "label=Individuals"
-    @selenium.type "document.Search.sort_name", "Abhilasha Vasu"
+    @selenium.type "document.Search.sort_name", "Smith, Dan"
     
     #click search     
     @page.click_and_wait "document.Search._qf_Search_refresh"
 
     #click name
-    assert @selenium.is_text_present("Vasu, Abhilasha")
-    assert_equal "Vasu, Abhilasha", @selenium.get_text("link=Vasu, Abhilasha")
-    @page.click_and_wait "link=Vasu, Abhilasha"
+    assert @selenium.is_text_present("Smith, Dan")
+    assert_equal "Smith, Dan", @selenium.get_text("link=Smith, Dan")
+    @page.click_and_wait "link=Smith, Dan"
   end
 
   #Click Membership

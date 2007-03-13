@@ -80,7 +80,7 @@ class TC_TestAdminMembershipStatus < Test::Unit::TestCase
   def disable_membership_status
     assert_equal "Disable", @selenium.get_text("//div[@id='membership_status_id']/descendant::tr[td[contains(.,'New Membership Status')]]/descendant::a[contains(.,'Disable')]")
     @page.click_and_wait "//div[@id='membership_status_id']/descendant::tr[td[contains(.,'New Membership Status')]]/descendant::a[contains(.,'Disable')]"
-    assert_equal "Are you sure you want to disable this membership type?", @selenium.get_confirmation()
+    assert_equal "Are you sure you want to disable this membership status rule?", @selenium.get_confirmation()
   end
 
   # Enable Membership Status information

@@ -37,15 +37,15 @@ class TC_TestContactEvents < Test::Unit::TestCase
 
     #enter search value
     @selenium.select "contact_type", "label=Individuals"
-    @selenium.type "sort_name", "Abhilasha Vasu"
+    @selenium.type "sort_name", "Grant, Bill"
     
     #click search     
     @page.click_and_wait "document.Search._qf_Search_refresh"
 
     #click name
-    assert @selenium.is_text_present("Vasu, Abhilasha")
-    assert_equal "Vasu, Abhilasha", @selenium.get_text("link=Vasu, Abhilasha")
-    @page.click_and_wait "link=Vasu, Abhilasha"
+    assert @selenium.is_text_present("Grant, Bill")
+    assert_equal "Grant, Bill", @selenium.get_text("link=Grant, Bill")
+    @page.click_and_wait "link=Grant, Bill"
   end
 
   def click_events_tab

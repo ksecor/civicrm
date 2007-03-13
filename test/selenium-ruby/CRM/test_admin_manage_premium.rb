@@ -54,20 +54,20 @@ class TC_TestAdminManagePremium < Test::Unit::TestCase
     @selenium.type  "min_contribution", "100"
     @selenium.type  "price", "150"
     @selenium.type  "cost", "120"
-       
+    @selenium.type  "options", "New Options 1"
     @selenium.click  "//a[img/@alt='open section']"
+    @selenium.select "period_type", "label=Rolling"
     @selenium.type   "fixed_period_start_day", "0806"
     @selenium.type   "duration_interval", "1"
     @selenium.select "duration_unit", "label=Month"
     @selenium.type   "frequency_interval", "1"
-    @selenium.select "duration_unit", "label=Year"
     @selenium.select "frequency_unit", "label=Month"
-    @selenium.select "period_type", "label=Rolling"
+  
 
     # Submit the form 
     @page.click_and_wait "//input[@type='submit' and @name='_qf_ManagePremiums_upload']"
-    if @selenium.is_text_present("The Premium Product \"New Premium\" has been saved.")
-      assert @selenium.is_text_present("The Premium Product \"New Premium\" has been saved.")
+    if @selenium.is_text_present("The Premium \"New Premium\" has been saved.")
+      assert @selenium.is_text_present("The Premium \"New Premium\" has been saved.")
     else
       assert @selenium.is_text_present("A product with this name already exists. Please select another name.")
     end
@@ -85,7 +85,7 @@ class TC_TestAdminManagePremium < Test::Unit::TestCase
     
     #Submit the form 
     @page.click_and_wait "//input[@type='submit' and @name='_qf_ManagePremiums_upload']"
-    assert @selenium.is_text_present("The Premium Product \"New Premium\" has been saved.")
+    assert @selenium.is_text_present("The Premium \"New Premium\" has been saved.")
   end
 
   # Enable Premium type
@@ -104,7 +104,7 @@ class TC_TestAdminManagePremium < Test::Unit::TestCase
   # Delete Premium type
   def delete_premium
     @page.click_and_wait "//div[@id='ltype']/descendant::tr[td[contains(.,'New Premium')]]/descendant::a[contains(.,'Delete')]"
-    assert @selenium.is_text_present("Are you sure you want to delete this premium? This action cannot be undone. This will also remove the premium from any contribution pages that currently include it. ")
+    assert @selenium.is_text_present("Are you sure you want to delete this premium? This action cannot be undone. This will also remove the premium from any contribution pages that currently include it.")
     @page.click_and_wait"_qf_ManagePremiums_next"
     assert @selenium.is_text_present("Selected Premium Product type has been deleted.")
   end
