@@ -172,6 +172,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
         }
+        //  CRM_Core_Error::debug( 'values', $this->_values );
+        // check if form is active
+        if ( ! $this->_values['event']['is_active'] ) {
+            // form is inactive, die a fatal death
+            CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
+        }
       
         // make sure we have a valid payment class, else abort
         if ( $this->_values['event']['is_monetary'] && ! $config->paymentFile ) {
