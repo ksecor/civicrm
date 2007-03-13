@@ -150,8 +150,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                 if ( substr( $name, 0, 7 ) == 'custom_' ) {
                     $id = substr( $name, 7 );
                     $defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact[$name],
-                                                                                         $id,
-                                                                                         $options );
+                                                                                  $id,
+                                                                                  $options );
                 } else {
                     $defaults[$name] = $contact[$name];
                 } 
