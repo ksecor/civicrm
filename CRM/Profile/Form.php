@@ -248,7 +248,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( $this->_mode != self::MODE_REGISTER && $this->_mode != self::MODE_SEARCH) {
             //check for mix profile fields (eg:  individual + other contact type)
             if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
-                CRM_Core_Error::fatal( ts( "This Profile includes fields for contact types other than 'Individuals' and can not be used to create/update contacts.") );
+                CRM_Core_Error::fatal( ts( "This Profile includes fields for more than one record type.") );
             }
         }
         
