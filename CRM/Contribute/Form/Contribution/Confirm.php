@@ -118,7 +118,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
             }
             $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR']; 
-
+            // hack for safari
+            if ( $this->_params['ip_address'] == '::1' ) {
+                $this->_params['ip_address'] = '127.0.0.1';
+            }
             $this->_params['amount'        ] = $this->get( 'amount' );
             $this->_params['amount_level'  ] = $this->get( 'amount_level' );
             $this->_params['currencyID'    ] = $config->defaultCurrency;
