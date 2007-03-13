@@ -165,12 +165,12 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
 
         $errors = array( );
         if ( $count != 1 ) {
-            $errors['_qf_default'] = ts( 'Please select one of Group, Custom Group and Profile' );
+            $errors['_qf_default'] = ts( 'An ACL must be applied to only one set of data (either a Group of contacts, a Profile, or a set of Custom Fields).' );
         }
         
         // also make sure role is not -1
         if ( $params['entity_id'] == -1 ) {
-            $errors['entity_id'] = ts( 'Please select a Role' );
+            $errors['entity_id'] = ts( 'Please assign this ACL to a Role.' );
         }
         return empty($errors) ? true : $errors;
     }
