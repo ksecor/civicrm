@@ -1665,7 +1665,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         $profiles = array();
         $ufGroups = CRM_Core_PseudoConstant::ufgroup( );
         foreach ($ufGroups as $id => $title) {
-            $ptype = CRM_Core_BAO_UFField::getProfileType($id);
+            $ptype = CRM_Core_BAO_UFField::getProfileType($id, false);
             if ( in_array ($ptype, $types) ) {
                 $profiles[$id] = $title;
             }
