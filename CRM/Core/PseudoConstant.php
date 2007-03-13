@@ -701,10 +701,13 @@ class CRM_Core_PseudoConstant
      * @return array - array reference of all groups.
      *
      */
-    public static function &staticGroup()
+    public static function &staticGroup( $onlyPublic = false )
     {
         if ( ! self::$staticGroup ) {
             $condition = 'saved_search_id = 0 OR saved_search_id IS NULL';
+            if ( $onlyPublic ) {
+                $condition .= " and visibility != 'User and User Admin Only'";
+            }
             self::populate( self::$staticGroup, 'CRM_Contact_DAO_Group', false, 'title', 'is_active', $condition, 'title' );
         }
         return self::$staticGroup;        

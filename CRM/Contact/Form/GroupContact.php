@@ -104,7 +104,12 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         // get the list of all the groups
-        $allGroups = CRM_Core_PseudoConstant::group( );
+        if ( $this->_context == 'user' ) {
+            $onlyPublicGroups = CRM_Utils_Request::retrieve( 'onlyPublicGroups', 'Boolean', $this, false );
+            $allGroups = CRM_Core_PseudoConstant::staticGroup( $onlyPublicGroups );
+        } else {
+            $allGroups = CRM_Core_PseudoConstant::group( );
+        }
 
         // get the list of groups for the contact
         $currentGroups = CRM_Contact_BAO_GroupContact::getGroupList($this->_contactId);

@@ -69,14 +69,17 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
      * @access public
      */
     function edit( $groupId = null ) {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', ts('Contact\'s Groups'), $this->_action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact',
+                                                       ts('Contact\'s Groups'),
+                                                       $this->_action );
         $controller->setEmbedded( true );
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
 
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=group' ) ,false);
-
+        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contact/view',
+                                                          'action=browse&selectedChild=group' ),
+                                   false);
         $controller->reset( );
 
         $controller->set( 'contactId', $this->_contactId );
@@ -88,7 +91,9 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
     }
 
     /**
-     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+     * This function is the main function that is called
+     * when the page loads, it decides the which action has
+     * to be taken for the page.
      * 
      * return null
      * @access public

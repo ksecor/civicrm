@@ -19,14 +19,18 @@
 		<th>{ts}Group{/ts}</th>
 		<th>{ts}Status{/ts}</th>
 		<th>{ts}Date Added{/ts}</th>
+{if $edit}
 		<th></th>
+{/if}
 	</tr>
        	{foreach from=$groupIn item=row}
         <tr class="{cycle values="odd-row,even-row"}">
         	<td><strong><a href="{crmURL p='civicrm/group/search' q="reset=1&force=1&context=smog&gid=`$row.group_id`"}">{$row.title}</a></strong></td>
 	    	<td>{ts 1=$row.in_method}Added (by %1){/ts}</td> 
             <td>{$row.in_date|crmDate}</td>
+{if $edit}
             <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to unsubscribe from %1?{/ts}');">[ {ts}Unsubscribe{/ts} ]</a></td> 
+{/if}
 	    </tr>
      	{/foreach}
         </table>
@@ -35,10 +39,11 @@
 	</div>
 	{/if}
     
-	{* Include 'Join a Group' form *}
        
+{if $edit}
+    {* Include 'Join a Group' form *}
     {include file="CRM/Contact/Form/GroupContact.tpl"}	
-   
+{/if}   
     
     {if $groupPending }
 	<div class="form-item">
@@ -52,14 +57,18 @@
 		<th>{ts}Group{/ts}</th>
 		<th>{ts}Status{/ts}</th>
 		<th>{ts}Date Pending{/ts}</th>
+{if $edit}
 		<th></th>
+{/if}
 	</tr>
    	{foreach from=$groupPending item=row}
         <tr class="{cycle values="odd-row,even-row"}">
             <td><strong>{$row.title}</strong></td>
             <td>{ts 1=$row.pending_method}Pending (by %1){/ts}</td> 
             <td>{$row.pending_date|crmDate}</td>
+{if $edit}
             <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to remove from %1?{/ts}');">[ {ts}Confirm{/ts} ]</a></td> 
+{/if}
     	</tr>
      	{/foreach}
 	</table>
@@ -86,7 +95,9 @@
 		<th>{ts}Status{/ts}</th>
         <th>{ts}Date Added{/ts}</th>
 		<th>{ts}Date Removed{/ts}</th>
+{if $edit}
 		<th></th>
+{/if}
 	</tr>
         {foreach from=$groupOut item=row}
         <tr class="{cycle values="odd-row,even-row"}">
@@ -94,7 +105,9 @@
 	    	<td class="status-removed">{ts 1=$row.out_method}Removed (by %1){/ts}</td> 
             <td>{$row.date_added|crmDate}</td>
             <td>{$row.out_date|crmDate}</td>
+{if $edit}
 	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=i"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to add back into %1?{/ts}');">[ {ts}Rejoin Group{/ts} ]</a></td>
+{/if}
     	</tr>
      	{/foreach}
    	</table>

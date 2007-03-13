@@ -48,6 +48,8 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
 
     public $_onlyPublicGroups = false;
 
+    public $_edit = true;
+
     function __construct( ) {
         parent::__construct( );
 
@@ -68,6 +70,9 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             require_once 'CRM/Contact/BAO/Contact.php';
             if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::VIEW ) ) {
                 CRM_Core_Error::fatal( ts( 'You do not have permission to view this contact' ) );
+            }
+            if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
+                $this->_edit = false;
             }
         }
     }

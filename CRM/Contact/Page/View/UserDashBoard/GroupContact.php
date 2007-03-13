@@ -82,19 +82,26 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
      */
     function edit( $groupId = null ) 
     {
+        $this->assign( 'edit', $this->_edit );
+        if ( ! $this->_edit ) {
+            return;
+
+        }
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact',
                                                        ts("Contact's Groups"),
                                                        CRM_Core_Action::ADD );
         $controller->setEmbedded( true );
 
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/user', "reset=1&id={$this->_contactId}" ),
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/user',
+                                                         "reset=1&id={$this->_contactId}" ),
                                    false);
 
         $controller->reset( );
         $controller->set( 'contactId', $this->_contactId );
         $controller->set( 'groupId'  , $groupId );
         $controller->set( 'context'  , 'user' );
+        $controller->set( 'onlyPublicGroups', $this->_onlyPublicGroups );
         $controller->process( );
         $controller->run( );
     }
@@ -139,7 +146,7 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
             break;
         }
         $contactID = array($this->_contactId);
-        $method = 'Admin';
+        $method = 'Web';
         CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $groupId, $method  ,$groupStatus);
 
     }
