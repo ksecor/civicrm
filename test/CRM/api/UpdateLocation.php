@@ -70,7 +70,7 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         
         $email = array($workEmailFirst, $workEmailSecond, $workEmailThird);
         
-        $params = array('location_type'          => 'Main',
+        $params = array('location_type'          => 'Work',
                         'phone'                  => $phone,
                         'city'                   => 'pune',
                         'country_id'             => 1001,
