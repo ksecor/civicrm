@@ -65,8 +65,8 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1233.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1469.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1584.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1657.php' );
-        
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1657.php' );
+       
         //api for ActivityType
         
         
@@ -131,6 +131,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetCustomField.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetCustomOptionValue.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateDeleteCustomOption.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteCustomGroup.php');
          
         //note api
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateNote.php');
