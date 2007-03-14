@@ -37,3 +37,70 @@ and CiviCRM will automatically redirect requests for all online contribution pag
 <p><strong>PayPal Website Standard</strong> - Enter the email address of your LIVE merchant account.</p>
 {/ts}
 {/htxt}
+
+{htxt id='test-merchantID'}
+{ts}
+<strong>TEST/Sandbox Account Merchant-ID:</strong>
+<p>Enter Merchant ID from your Sandbox account.</p>
+<p><strong>How to obtain Merchant-ID ?</strong></p><p>After signing in to your account, click on the Settings tab. Then click on the Integration link on the left side of the page. Your 10- or 15-digit Merchant ID and your Merchant Key will both be listed under the Account information header.</p>
+<p>Also make sure, you have Merchant-Key set in your civicrm settings file.</p>
+{/ts}
+{/htxt}
+
+{htxt id='live-merchantID'}
+{ts}
+<strong>LIVE/Production Account Merchant-ID:</strong>
+<p>Enter Merchant ID from your Production account.</p>
+<p><strong>How to obtain Merchant-ID ?</strong></p><p>After signing in to your account, click on the Settings tab. Then click on the Integration link on the left side of the page. Your 10- or 15-digit Merchant ID and your Merchant Key will both be listed under the Account information header.</p>
+<p>Also make sure, you have Merchant-Key set in your civicrm settings file.</p>
+{/ts}
+{/htxt}
+
+{htxt id='googleCheckoutButton'}
+{ts}
+<strong>Google Checkout Button:</strong>
+<p>The base URL for the image is :<br/>
+&nbsp;&nbsp;&nbsp; <strong>TEST:</strong> http://sandbox.google.com/checkout/buttons/checkout.gif<br/>
+&nbsp;&nbsp;&nbsp; <strong>LIVE:</strong> http://checkout.google.com/buttons/checkout.gif
+</p>
+To display an image, you must add several parameters to this URL as name=value pairs.
+<table>
+<tr><th>Parameters</th><th>large/medium/small</th><th>Description</th></tr>
+<tr>
+	<td>w</td>
+	<td>180/168/160</td>
+	<td>width of the button in pixels</td>
+</tr>
+<tr>
+	<td>h</td>
+	<td>46/44/43</td>
+	<td>height of the button in pixels</td>
+</tr>
+<tr>
+	<td>style</td>
+	<td>white/trans..</td>
+	<td>background color for the button</td>
+</tr>
+<tr>
+	<td>variant</td>
+	<td>text/disabled</td>
+	<td>whether the button is clickable or disabled</td>
+</tr>
+<tr>
+	<td>loc</td>
+	<td>en_US</td>
+	<td>a locale associated with the transaction (Optional)</td>
+</tr>
+<tr>
+	<td>merchant_id</td>
+	<td>(e.g 1234567890)</td>
+	<td>Merchant ID</td>
+</tr>
+</table>
+
+<p><strong>Example of a large Google Checkout button on a white background (For TEST Account):</strong></p>
+<p>http://sandbox.google.com/checkout/buttons/checkout.gif? merchant_id=1234567890&w=180&h=46&style=white&variant=text &loc=en_US
+</p>
+{/ts}
+{/htxt}
+

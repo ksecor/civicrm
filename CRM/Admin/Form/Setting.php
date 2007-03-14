@@ -202,6 +202,18 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
             $defaults['paymentPayPalExpressUrl'] = 'www.paypal.com';
         }
 
+        if ( ! isset( $defaults['googleCheckoutButton'] ) ) {
+            $defaults['googleCheckoutButton'] = 'http://[TEST-OR-LIVE-URL]/buttons/checkout.gif?merchant_id=[MerchantID]&w=180&h=46&style=white&variant=text&loc=en_US';
+        }
+
+        if ( ! isset( $defaults['googleCheckoutTestUrl'] ) ) {
+            $defaults['googleCheckoutTestUrl'] = 'sandbox.google.com/checkout';
+        }
+
+        if ( ! isset( $defaults['googleCheckoutUrl'] ) ) {
+            $defaults['googleCheckoutUrl'] = 'checkout.google.com';
+        }
+
         if ( ! isset( $defaults['maxLocationBlocks'] ) ) {
             $defaults['maxLocationBlocks'] = 2;
         }
