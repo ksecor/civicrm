@@ -419,7 +419,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         if ( $searchCount <= self::MAX_RELATIONSHIPS ) {
             // get the result of the search
             $result = $query->searchQuery(0, 50, null);
-
+            
             $config =& CRM_Core_Config::singleton( );
             $searchRows = array( );
 
@@ -438,7 +438,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $searchRows[$contactID]['id'] = $contactID;
                 $searchRows[$contactID]['name'] = $result->sort_name;
                 $searchRows[$contactID]['city'] = $result->city;
-                $searchRows[$contactID]['state'] = $result->state;
+                $searchRows[$contactID]['state'] = $result->state_province;
                 $searchRows[$contactID]['email'] = $result->email;
                 $searchRows[$contactID]['phone'] = $result->phone;
 

@@ -285,7 +285,7 @@ function crm_update_relationship(&$relationship, $params )
     $ids = array();
     
     if( ! isset($relationship->id) && ! isset($relationship->contact_id_a) && ! isset($relationship->contact_id_b)) {
-        return _crm_error("$relationship is not valid relationship type object");
+        return _crm_error('$relationship is not valid relationship type object');
     }
     
     $conactId = $relationship->contact_id_b;

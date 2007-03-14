@@ -154,8 +154,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         } else {
             // if action is enable or disable to the needful.
             if ($action & CRM_Core_Action::DISABLE) {
+                require_once "CRM/Core/BAO/UFGroup.php";
                 CRM_Core_BAO_UFGroup::setIsActive($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
+                require_once "CRM/Core/BAO/UFGroup.php";
                 CRM_Core_BAO_UFGroup::setIsActive($id, 1);
             } else if ( $action & CRM_Core_Action::PROFILE ) { 
                 $this->profile( ); 

@@ -973,35 +973,35 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             
             $row['links'] = array(
                 'clicks' => CRM_Utils_System::url(
-                        'civicrm/mailing/event',
+                        'civicrm/mailing/report/event',
                         "reset=1&event=click&mid=$mailing_id&jid={$mailing->id}"
                 ),
                 'queue' =>  CRM_Utils_System::url(
-                        'civicrm/mailing/event',
+                        'civicrm/mailing/report/event',
                         "reset=1&event=queue&mid=$mailing_id&jid={$mailing->id}"
                 ),
                 'delivered' => CRM_Utils_System::url(
-                        'civicrm/mailing/event',
+                        'civicrm/mailing/report/event',
                         "reset=1&event=delivered&mid=$mailing_id&jid={$mailing->id}"
                 ),
                 'bounce'    => CRM_Utils_System::url(
-                        'civicrm/mailing/event',
+                        'civicrm/mailing/report/event',
                         "reset=1&event=bounce&mid=$mailing_id&jid={$mailing->id}"
                 ),
                 'unsubscribe'   => CRM_Utils_System::url(
-                        'civicrm/mailing/event',
+                        'civicrm/mailing/report/event',
                         "reset=1&event=unsubscribe&mid=$mailing_id&jid={$mailing->id}"
                 ),
                 'forward'       => CRM_Utils_System::url(
-                        'civicrm/mailing/event',
+                        'civicrm/mailing/report/event',
                         "reset=1&event=forward&mid=$mailing_id&jid={$mailing->id}"
                 ),
                 'reply'         => CRM_Utils_System::url(
-                        'civicrm/mailing/event',
+                        'civicrm/mailing/report/event',
                         "reset=1&event=reply&mid=$mailing_id&jid={$mailing->id}"
                 ),
                 'opened'        => CRM_Utils_System::url(
-                        'civicrm/mailing/event',
+                        'civicrm/mailing/report/event',
                         "reset=1&event=opened&mid=$mailing_id&jid={$mailing->id}"
                 ),
             );
@@ -1059,39 +1059,39 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         $report['event_totals']['links'] = array(
             'clicks' => CRM_Utils_System::url(
-                            'civicrm/mailing/event',
+                            'civicrm/mailing/report/event',
                             "reset=1&event=click&mid=$mailing_id"
             ),
             'clicks_unique' => CRM_Utils_System::url(
-                            'civicrm/mailing/event',
+                            'civicrm/mailing/report/event',
                             "reset=1&event=click&mid=$mailing_id&distinct=1"
             ),
             'queue' =>  CRM_Utils_System::url(
-                            'civicrm/mailing/event',
+                            'civicrm/mailing/report/event',
                             "reset=1&event=queue&mid=$mailing_id"
             ),
             'delivered' => CRM_Utils_System::url(
-                            'civicrm/mailing/event',
+                            'civicrm/mailing/report/event',
                             "reset=1&event=delivered&mid=$mailing_id"
             ),
             'bounce'    => CRM_Utils_System::url(
-                            'civicrm/mailing/event',
+                            'civicrm/mailing/report/event',
                             "reset=1&event=bounce&mid=$mailing_id"
             ),
             'unsubscribe'   => CRM_Utils_System::url(
-                            'civicrm/mailing/event',
+                            'civicrm/mailing/report/event',
                             "reset=1&event=unsubscribe&mid=$mailing_id"
             ),
             'forward'         => CRM_Utils_System::url(
-                            'civicrm/mailing/event',
+                            'civicrm/mailing/report/event',
                             "reset=1&event=forward&mid=$mailing_id"
             ),
             'reply'         => CRM_Utils_System::url(
-                            'civicrm/mailing/event',
+                            'civicrm/mailing/report/event',
                             "reset=1&event=reply&mid=$mailing_id"
             ),
             'opened'        => CRM_Utils_System::url(
-                            'civicrm/mailing/event',
+                            'civicrm/mailing/report/event',
                             "reset=1&event=opened&mid=$mailing_id"
             ),
         );

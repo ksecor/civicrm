@@ -99,10 +99,21 @@ class CRM_Contribute_Form_Task_PickProfile extends CRM_Contribute_Form_Task {
      */
     function buildQuickForm( ) 
     {
+
+        $types = array( 'Contribution' );
+        
+        require_once "CRM/Core/BAO/UFGroup.php";
+
+        if ( CRM_Core_BAO_UFGroup::getProfiles($types) == null ) {
+            CRM_Core_Session::setStatus("The contributions(s) selected for Batch Update do not have corresponding profiles. Please make sure that {$types[0]} has a profile and try again." );
+            CRM_Utils_System::redirect( $this->_userContext );
+        }
+
+
         CRM_Utils_System::setTitle( ts('Batch Profile Update for Contribution') );
         require_once 'CRM/Core/BAO/UFGroup.php';
         // add select for groups
-        $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles(array('Contribution'));
+        $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles( $types );
 
         $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $profiles, true);
         $this->addDefaultButtons( ts( 'Continue >>' ) );

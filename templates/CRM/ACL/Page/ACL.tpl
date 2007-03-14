@@ -3,7 +3,7 @@
 
 <div id="help">
     <p>{ts 1="http://wiki.civicrm.org/confluence//x/fCM"}ACL&rsquo;s allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong>
-        (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts),
+        (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts, a profile or a set of custom fields),
         and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1">ACL Administrator Guide</a> for more info.{/ts}</p>
     <p>{ts 1=$erURL 2=$rolesURL}You can add or modify your ACL&rsquo;s below. You can create additional ACL Roles <a href="%2">here</a>...
         and you can assign Roles to CiviCRM contacts who are users of your site <a href="%1">here</a>.{/ts}</p>
@@ -22,8 +22,8 @@
         <tr class="columnheader">
             <th>{ts}Role{/ts}</th>
             <th>{ts}Operation{/ts}</th>
-            <th>{ts}Permission Object{/ts}</th>
-            <th>{ts}Permission For{/ts}</th>
+            <th>{ts}Type of Data{/ts}</th>
+            <th>{ts}Which Data{/ts}</th>
             <th>{ts}Description{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>

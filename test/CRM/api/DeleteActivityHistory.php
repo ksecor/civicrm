@@ -31,9 +31,9 @@ class TestOfDeleteHistoryAPI extends UnitTestCase
         $this->assertIsA($dao1, 'CRM_Core_DAO_ActivityHistory');
         $this->assertEqual($dao1->entity_id, $this->_individual->id);
         $this->assertEqual($dao1->activity_id, 111);        
-        
+
         // delete the record now
-        $rowAffected =& crm_delete_activity_history($dao1);       
+        $rowAffected =& crm_delete_activity_history($dao1);      
         $this->assertEqual($rowAffected, 1);
     }
 
@@ -56,7 +56,7 @@ class TestOfDeleteHistoryAPI extends UnitTestCase
         // delete the record now
         $dao1 = new CRM_Core_DAO_ActivityHistory();
         $dao1->entity_id = $this->_individual->id;
-        $rowAffected =& crm_delete_activity_history($dao1);        
+        $rowAffected =& crm_delete_activity_history($dao1);  
         $this->assertEqual($rowAffected, 2);
     }
     
@@ -81,7 +81,7 @@ class TestOfDeleteHistoryAPI extends UnitTestCase
         $dao1->activity_id = 113;
         $rowAffected =& crm_delete_activity_history($dao1);
         
-        $this->assertEqual($rowAffected,2);
+        $this->assertEqual($rowAffected,1);
     }
     
     function testDeleteIndividual()

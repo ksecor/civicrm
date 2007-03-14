@@ -305,11 +305,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     CRM_Utils_System::redirect( $paymentURL ); 
                 }
             } else if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
-                if ($config->paymentProcessor == 'Google_Checkout') {
-                    $this->set( 'contributeMode', 'checkout' ); 
-                } else {
-                    $this->set( 'contributeMode', 'notify' );
-                }
+                $this->set( 'contributeMode', 'notify' );
             }
         }
     }//end of function

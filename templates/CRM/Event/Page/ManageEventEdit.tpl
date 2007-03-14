@@ -4,7 +4,7 @@
 <table class="report"> 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/event' q="reset=1&action=update&id=`$id`&subPage=EventInfo"}" id="idEventInformationandSettings">&raquo; {ts}Event Information and Settings{/ts}</a></td>
-    <td>{ts}Set event title, type (conference, performance etc.), description, start and end dates, and activate the event.{/ts}</td>
+    <td>{ts}Set event title, type (conference, performance etc.), description, start and end dates, maximum number of participants, and activate the event.{/ts}</td>
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/event' q="reset=1&action=update&id=`$id`&subPage=Location"}" id="idLocation">&raquo; {ts}Event Location{/ts}</a></td>

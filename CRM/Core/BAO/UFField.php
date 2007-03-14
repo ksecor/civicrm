@@ -405,13 +405,14 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     /**
      * function to get the profile type (eg: individual/organization/household)
      *
-     * @params int $ufGroupId  uf group id 
+     * @param int      $ufGroupId  uf group id 
+     * @param boolean  $mixType    this is true, then field type of  mix profile field is returned
      *
      * @return  contact_type
      * @acess public
      * @static
      */
-    static function getProfileType($ufGroupId) 
+    static function getProfileType($ufGroupId, $mixType = true ) 
     {
         require_once "CRM/Core/SelectValues.php";
         $profileTypes = CRM_Core_SelectValues::contactType();
@@ -429,9 +430,13 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             if ( array_key_exists( $ufField->field_type, $profileTypes ) ) {
                 if ( $fieldType &&
                      $fieldType != $ufField->field_type) {
-                    //commented this part so that we return other field type
-                    //return 'Mixed';
-                    return $ufField->field_type;
+                    //for a mix profile, depending on mixType we
+                    //return field type of mix field or we return 'Mixed' (kurund)
+                    if ( $mixType ) {
+                        return $ufField->field_type;
+                    } else{
+                        return 'Mixed';
+                    }
                 }
                 $fieldType = $ufField->field_type;
             }

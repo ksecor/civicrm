@@ -170,7 +170,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
-        if ($this->_contributeMode == 'checkout') {
+        if ($config->paymentProcessor == 'Google_Checkout') {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
@@ -231,6 +231,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
     {
         require_once 'CRM/Event/BAO/Participant.php';
 
+        $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
         $now = date( 'YmdHis' );
@@ -261,8 +262,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $this->_params['contributionTypeID'] = $contribution->contribution_type_id;
                 $this->_params['item_name'         ] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
                 $this->_params['receive_date'      ] = $now;
-                //print_r($this->_params);
-                if ($this->_contributeMode == 'checkout') {
+                if ($config->paymentProcessor == 'Google_Checkout') {
                     $payment->doCheckout( $this->_params );
                 }
                 $result =& $payment->doTransferCheckout( $this->_params );

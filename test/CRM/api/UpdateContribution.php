@@ -44,7 +44,7 @@ class TestOfUpdateContribution extends UnitTestCase
     
     function testUpdateBadContributionWrongParam()
     {
-        $params =  array('contact_id' => -123);
+        $params =  array('contribution_contact_id' => -123);
         $contribution = crm_update_contribution(& $this->_contribution,$params);
         $this->assertIsA($contribution,'CRM_Core_Error');
     }

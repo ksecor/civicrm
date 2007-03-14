@@ -67,6 +67,10 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $ids = array();
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::retrieve($params, $values['event']);
+        if (! $values['event']['is_active']){
+            // form is inactive, die a fatal death
+            CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
+        }          
 
         //retrieve custom information
         require_once 'CRM/Core/BAO/CustomOption.php'; 

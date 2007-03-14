@@ -48,7 +48,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
-    {if $contributeMode ne 'notify' and $contributeMode ne 'checkout' and $paidEvent}
+    {if $contributeMode ne 'notify' and $paidEvent}
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -83,7 +83,7 @@
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
-    {if $contributeMode NEQ 'notify' and $contributeMode NEQ 'checkout'} {* In 'notify mode, contributor is taken to processor payment forms next *}
+    {if $contributeMode NEQ 'notify'} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
         {ts}Your registration will not be completed until you click the <strong>Continue</strong> button. Please click the button one time only.{/ts}
@@ -91,7 +91,7 @@
     </div>
     {/if}    
    
-    {if $contributeMode EQ 'checkout' and $paidEvent}
+    {if $config->paymentProcessor EQ 'Google_Checkout' and $paidEvent}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
          <table class="form-layout-compressed">
           <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>

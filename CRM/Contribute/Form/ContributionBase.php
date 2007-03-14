@@ -110,7 +110,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
     {  
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
-        $session->debug( 1 );
+        //$session->debug( 1 );
 
         // current contribution page id 
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive',

@@ -89,10 +89,17 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $fields["state_province-{$this->_bltID}"] = 1;
             $fields["country-{$this->_bltID}"       ] = 1;
             $fields["email-{$this->_bltID}"         ] = 1;
+            $fields["email-Primary"                 ] = 1;
 
             require_once "CRM/Core/BAO/UFGroup.php";
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
-            
+
+            // use primary email address if billing email address is empty
+            if ( empty( $this->_defaults["email-{$this->_bltID}"] ) &&
+                 ! empty( $this->_defaults["email-Primary"] ) ) {
+                $this->_defaults["email-{$this->_bltID}"] = $this->_defaults["email-Primary"];
+            }
+
             foreach ($names as $name) {
                 $this->_defaults["billing_" . $name] = $this->_defaults[$name];
             }
@@ -528,11 +535,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                         CRM_Utils_System::redirect( $paymentURL ); 
                     }
             } else if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
-                if ($config->paymentProcessor == 'Google_Checkout') {
-                    $this->set( 'contributeMode', 'checkout' ); 
-                } else {
-                    $this->set( 'contributeMode', 'notify' );
-                }
+                $this->set( 'contributeMode', 'notify' );
             }
         }         
     }

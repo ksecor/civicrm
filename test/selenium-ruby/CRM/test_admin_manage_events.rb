@@ -261,7 +261,7 @@ class TC_TestAdminManageEvents < Test::Unit::TestCase
 
   def disable_events
     @page.click_and_wait "//div[@id='event_status_id']/descendant::tr[td[contains(.,'New Event 1')]]/descendant::a[contains(.,'Disable')]"
-    assert_equal "Are you sure you want to disable this eventship type?",@selenium.get_confirmation()
+    assert_equal "Are you sure you want to disable this Event?",@selenium.get_confirmation()
   end
   
   def copy_events

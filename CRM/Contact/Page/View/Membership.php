@@ -92,7 +92,11 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                 }
             }
             if ( ! $dao->owner_membership_id ) {
-                $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $mask, 
+                $membership[$dao->id]['action'] = CRM_Core_Action::formLink( self::links( 'all' ), $mask, 
+                                                                            array('id' => $dao->id, 
+                                                                                  'cid'=> $this->_contactId));
+            } else {
+                $membership[$dao->id]['action'] = CRM_Core_Action::formLink( self::links( 'view' ), $mask, 
                                                                             array('id' => $dao->id, 
                                                                                   'cid'=> $this->_contactId));
             }
@@ -209,34 +213,41 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      * @return array (reference) of action links
      * @static
      */
-    static function &links()
+    static function &links( $status = 'all' )
     {
-        if (!(self::$_links)) {
-
-            self::$_links = array(
+        if ( ! self::$_links['view'] ) {
+            
+            self::$_links['view'] = array(
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
                                                                     'url'   => 'civicrm/contact/view/membership',
                                                                     'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
                                                                     'title' => ts('View Membership')
                                                                     ),
-                                  CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/contact/view/membership',
-                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
-                                                                    'title' => ts('Edit Membership')
-                                                                    ),
-                                  CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/contact/view/membership',
-                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
-                                                                    'title' => ts('Delete Membership')
-                                                                    ),
                                   );
         }
-        return self::$_links;
+        
+        if ( ! self::$_links['all'] ) {
+            $extraLinks = array(
+                                CRM_Core_Action::UPDATE  => array(
+                                                                  'name'  => ts('Edit'),
+                                                                  'url'   => 'civicrm/contact/view/membership',
+                                                                  'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
+                                                                  'title' => ts('Edit Membership')
+                                                                  ),
+                                CRM_Core_Action::DELETE  => array(
+                                                                  'name'  => ts('Delete'),
+                                                                  'url'   => 'civicrm/contact/view/membership',
+                                                                  'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
+                                                                  'title' => ts('Delete Membership')
+                                                                  )
+                                );
+            self::$_links['all'] = self::$_links['view'] + $extraLinks;
+        }
+        
+        return self::$_links[$status];
     }
-
+    
     /**
      * Get BAO Name
      *

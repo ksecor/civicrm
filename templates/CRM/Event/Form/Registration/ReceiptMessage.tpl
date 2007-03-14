@@ -17,16 +17,17 @@
 {/if}
 {$location.1.address.display}
 {if $location.1.phone.1.phone || $location.1.email.1.email}
+
 {ts}Event Contacts:{/ts}
 {foreach from=$location.1.phone item=phone}
 {if $phone.phone}{if $phone.phone_type}
 
-{$phone.phone_type_display}:{/if} {$phone.phone}{/if}
+  {$phone.phone_type_display}:{/if} {$phone.phone}{/if}
 {/foreach}
 {foreach from=$location.1.email item=eventEmail}
 {if $eventEmail.email}
 
-{ts}Email:{/ts} {$eventEmail.email}{/if}{/foreach}
+  {ts}Email:{/ts} {$eventEmail.email}{/if}{/foreach}
 {/if}
 
 

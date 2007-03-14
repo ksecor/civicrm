@@ -61,7 +61,7 @@ CREATE TABLE civicrm_event_page (
      thankyou_footer_text text    COMMENT 'Footer message.' 
 ,
     PRIMARY KEY ( id )
- 
+  
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
 -- /*******************************************************
@@ -190,6 +190,14 @@ CREATE TABLE civicrm_currency (
 -- *******************************************************/
 
 	ALTER TABLE civicrm_mapping MODIFY mapping_type enum('Export','Import','Export Contributions','Import Contributions','Import Activity History','Search Builder','Import Memberships','Import Participants') NULL DEFAULT NULL COMMENT 'Type of Mapping.';
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_membership ADD owner_membership_id int(10) UNSIGNED NULL DEFAULT NULL COMMENT 'Optional FK to Parent Membership.';
+	ALTER TABLE civicrm_membership ADD INDEX index_owner_membership_id( owner_membership_id );
 
 -- /*******************************************************
 -- *

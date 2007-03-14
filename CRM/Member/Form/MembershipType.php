@@ -362,7 +362,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $searchRows[$contactID]['id'] = $contactID;
                 $searchRows[$contactID]['name'] = $result->sort_name;
                 $searchRows[$contactID]['city'] = $result->city;
-                $searchRows[$contactID]['state'] = $result->state;
+                $searchRows[$contactID]['state'] = $result->state_province;
                 $searchRows[$contactID]['email'] = $result->email;
                 $searchRows[$contactID]['phone'] = $result->phone;
 

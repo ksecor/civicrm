@@ -1,7 +1,11 @@
 <div class="form-item">  
 <fieldset>
-      <legend>{ts}View Participant{/ts}</legend>
-      <dl>  
+        {if $history neq 1}
+            <legend>{ts}View Participant{/ts}</legend>
+        {else}
+            <legend>{ts}View Activity History{/ts}</legend>
+        {/if}
+        <dl>  
         <dt class="font-size12pt">{ts}Name{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
         <dt>{ts}Event{/ts}</dt><dd>{$event}&nbsp;</dd>
         <dt>{ts}Participant Role{/ts}</dt><dd>{$role}&nbsp;</dd>

@@ -46,7 +46,7 @@ class TestOfCreateLocationAPI extends UnitTestCase
     {
         $contact = $this->_individual;
         $params = array (
-                         'location_type' => 'Home',
+                         'location_type' => 'Work',
                          'city'          => 'pune',
                          );
         $location =& crm_create_location($contact, $params);

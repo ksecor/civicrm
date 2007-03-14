@@ -100,7 +100,7 @@ class TC_TestSearchBuilder < Test::Unit::TestCase
     @selenium.select "mapper[1][2][0]", "label=Contribution"
     @selenium.select "mapper[1][2][1]", "label=Contribution Source"
     @selenium.select "operator[1][2]", "label=LIKE"
-    @selenium.type "value[1][2]", "Online"
+    @selenium.type "value[1][2]", "online"
     
     
     #submit form
@@ -112,6 +112,7 @@ class TC_TestSearchBuilder < Test::Unit::TestCase
   end
 
   def search_with_field_household
+    @selenium.refresh()
     @selenium.select "mapper[1][0][0]", "label=Households"
     @selenium.select "operator[1][0]", "label=="
     @selenium.type "value[1][0]", "Sheila Roberts's home"
@@ -147,6 +148,7 @@ class TC_TestSearchBuilder < Test::Unit::TestCase
   end
   
   def search_with_field_organization
+    @selenium.refresh()
     @selenium.select "mapper[1][0][0]", "label=Organizations"
     @selenium.select "operator[1][0]", "label=="
     @selenium.type "value[1][0]", "Magic Bus"
@@ -179,6 +181,7 @@ class TC_TestSearchBuilder < Test::Unit::TestCase
   end
 
   def search_with_multiple_field_household
+    @selenium.refresh()
     @selenium.select "mapper[1][0][0]", "label=Households"
     @selenium.select "operator[1][0]", "label=="
     @selenium.type "value[1][0]", "Sheila Roberts's home"

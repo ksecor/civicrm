@@ -24,8 +24,8 @@ class TestOfUpdateCustomFieldAPI extends UnitTestCase
                          'help_post' => 'This is for extending INDIVIDUAL type of Class.'
                          );
         $class_name = 'Individual';
-        $customGroup =& crm_create_custom_group($class_name, $paramsG);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroup =& crm_create_custom_group($class_name, $paramsG);
+        $this->assertIsA($this->customGroup, 'CRM_Core_BAO_CustomGroup');
         
         $paramsF = array('label' => 'Test Field 1 for Group 2',
                          'name'  => 'test_field_1',
@@ -36,7 +36,7 @@ class TestOfUpdateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Tes Field 1 for Group 2',
                          'help_post'=> 'Post Help For Tes Field 1 for Group 2'
                          );
-        $this->customField = & crm_create_custom_field($customGroup, $paramsF);
+        $this->customField = & crm_create_custom_field($this->customGroup, $paramsF);
         $this->assertIsA($this->customField, 'CRM_Core_BAO_CustomField');
     }
     
@@ -85,5 +85,12 @@ class TestOfUpdateCustomFieldAPI extends UnitTestCase
         $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
         $this->assertEqual($customField->label, 'Test Field 1 for Group 2');
     }
+
+    function testDeleteCustomGroup()
+    {
+        crm_delete_custom_field($this->customField->id);
+        crm_delete_custom_group($this->customGroup->id);
+    }
+
 }
 ?>
