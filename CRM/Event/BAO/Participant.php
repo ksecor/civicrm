@@ -529,7 +529,7 @@ WHERE  civicrm_participant.id = {$participantId}
                                                       'entity_id'    => $id,
                                                       'entity_table' => 'civicrm_participant'
                                                       ),
-                        'CRM_Event_DAO_ParticipantPayment' => array(
+                        'CRM_Event_BAO_ParticipantPayment' => array(
                                                       'deleteParticipantPayment' => array (
                                                               'params' => array (
                                                                           'entity_table'   => 'civicrm_contribution',
@@ -562,10 +562,10 @@ WHERE  civicrm_participant.id = {$participantId}
                     
                 }
             } else {
-                eval( 'self::$methodName( $params["params"] );' );
+                eval( $daoName . '::$methodName( $params["params"] );' );
             }
         }
-        
+      
         require_once 'CRM/Event/DAO/Participant.php';
         $participant        = & new CRM_Event_DAO_Participant( );
         $participant->id    = $id;
@@ -584,33 +584,5 @@ WHERE  civicrm_participant.id = {$participantId}
         return;
     }
 
-
-    /**                          
-     * Delete the record that are associated with this Participation Payment
-     * 
-     * @param  array  $params   array in the format of $field => $value. 
-     * 
-     * @return Int      Count of no of Participant Payment deleted.
-     * @access public 
-     */ 
-    function deleteParticipantPayment( $params ) 
-    {
-        require_once 'CRM/Event/DAO/ParticipantPayment.php';
-        $participantPayment = & new CRM_Event_DAO_ParticipantPayment( );
-        foreach ( $params as $field => $value ) {
-            $participantPayment->$field  = $value;
-        }
-        
-        if ( ! $participantPayment->find( ) ) {
-            return false;
-        }
-        
-        while ( $participantPayment->fetch() ) {
-            self::deleteParticipantSubobjects( $participantPayment->payment_entity_id );
-            $participantPayment->delete( ); 
-        }
-        
-        return true;
-    }
 }
 ?>

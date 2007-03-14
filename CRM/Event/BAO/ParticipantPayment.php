@@ -49,5 +49,34 @@ class CRM_Event_BAO_ParticipantPayment extends CRM_Event_DAO_ParticipantPayment
         
         return $paymenParticipant;
     }
+
+    
+    /**                          
+     * Delete the record that are associated with this Participation Payment
+     * 
+     * @param  array  $params   array in the format of $field => $value. 
+     * 
+     * @return boolean  true if deleted false otherwise
+     * @access public 
+     */ 
+    static function deleteParticipantPayment( $params ) 
+    {
+        require_once 'CRM/Event/DAO/ParticipantPayment.php';
+        $participantPayment = & new CRM_Event_DAO_ParticipantPayment( );
+
+        foreach ( $params as $field => $value ) {
+            $participantPayment->$field  = $value;
+        }
+        if ( ! $participantPayment->find( ) ) {
+            return false;
+        }
+        
+        while ( $participantPayment->fetch() ) {
+            CRM_Event_BAO_Participant::deleteParticipantSubobjects( $participantPayment->payment_entity_id );
+            $participantPayment->delete( ); 
+        }
+        
+        return true;
+    }
 }
 ?>
