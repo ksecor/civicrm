@@ -145,7 +145,7 @@
 
      {/if} 
     <dl>    
-      <dt>&nbsp;</dt><dt>{$form.buttons.html}</dt> 
+       <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
     </dl> 
 </fieldset> 
 </div> 
