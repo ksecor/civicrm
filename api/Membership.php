@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | copyright CiviCRM LLC (c) 2004-2007                                  |
+ | copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | http://www.civicrm.org/licensing/                                 |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -168,6 +168,7 @@ function &crm_update_membership_type( $params ) {
     
     $membershipType = array();
     _crm_object_to_array( $membershipTypeBAO, $membershipType );
+    $membershipTypeBAO->free( );
     return $membershipType;
 }
 
@@ -579,15 +580,25 @@ function crm_calc_membership_status( $membershipID )
     if ( empty( $membershipID ) ) {
         return _crm_error( 'Invalid value for membershipID' );
     }
-    require_once 'CRM/Member/BAO/Membership.php';
-    $params = array( 'id' => $membershipID );
-    $values = $ids = array();
-    CRM_Member_BAO_Membership::getValues($params, $values, $ids);
 
-    require_once 'CRM/Member/BAO/MembershipStatus.php';
-    return
-        CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate($values[$membershipID]['start_date'],
-                                                                   $values[$membershipID]['end_date'],
-                                                                   $values[$membershipID]['join_date']);
+    $query = "
+SELECT start_date, end_date, join_date
+  FROM civicrm_membership
+ WHERE id = %1
+";
+    $params = array( 1 => array( $membershipID, 'Integer' ) );
+    $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+    if ( $dao->fetch( ) ) {
+        require_once 'CRM/Member/BAO/MembershipStatus.php';
+        $result =&
+            CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $dao->start_date,
+                                                                        $dao->end_date,
+                                                                        $dao->join_date );
+    } else {
+        $result =& _crm_error( 'Invalid value for membershipID' );
+    }
+    $dao->free( );
+    return $result;
 }
+
 ?>

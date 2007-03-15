@@ -499,7 +499,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $ids['contribution'] = $params['id'] = $this->_id;
         if ( CRM_Utils_Array::value( 'contribution_honor', $formValues) ) {
             if ($formValues["contribution_honor"]) {
-	      require_once 'CRM/Contribute/BAO/Contribution.php';
+                require_once 'CRM/Contribute/BAO/Contribution.php';
                 if ( $this->_honorID ) {
                     $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues , $this->_honorID );
                 } else {

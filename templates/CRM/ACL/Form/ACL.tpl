@@ -16,7 +16,7 @@
     <dt>{$form.operation.label}</dt><dd>{$form.operation.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}What type of operation (action) is being permitted?{/ts}</dd>
     <dt>{$form.object_type.label}</dt><dd>{$form.object_type.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data this ACL operates on. Warning: you need to know that "access all custom groups" and "profile listings and forms" override and disable specific ACL settings for custom fields groups and profiles respectively. You need to disable them in order to get an access control effect with above ACL settings!{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data this ACL operates on. Warning: you need to know that "access all custom data" and "profile listings and forms" override and disable specific ACL settings for custom fields groups and profiles respectively. You need to disable them in order to get an access control effect with above ACL settings!{/ts}</dd>
   </dl>
   <div id="id-group-acl">
     <dl>

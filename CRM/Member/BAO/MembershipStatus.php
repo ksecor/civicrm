@@ -165,16 +165,12 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                 $check = true;
             }
         }
+
         if ($check) {
             $session =& CRM_Core_Session::singleton();
             CRM_Core_Session::setStatus( ts('This membership status can not be deleted') );
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/member/membershipStatus', "reset=1" ));
         }
-        
-        //require_once 'CRM/Member/DAO/Membership.php';
-        // $query = 'DELETE FROM civicrm_membership 
-        //                       WHERE status_id=' . $membershipStatusId . ';';
-        //         $membership->query($query);
         
 
         //delete from membership Type table
@@ -182,6 +178,7 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         $membershipStatus =& new CRM_Member_DAO_MembershipStatus( );
         $membershipStatus->id = $membershipStatusId;
         $membershipStatus->delete();
+        $membershipStatus->free( );
     }
 
     /**
@@ -200,8 +197,13 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         $membershipDetails = array();
         if ( $statusDate == 'today' ) {
             $statusDate = getDate();
-            $statusDate = date('Y-m-d',mktime($statusDate['hours'], $statusDate['minutes'], $statusDate['seconds'], 
-                                              $statusDate['mon'], $statusDate['mday'], $statusDate['year']));
+            $statusDate = date( 'Y-m-d',
+                                mktime( $statusDate['hours'],
+                                        $statusDate['minutes'],
+                                        $statusDate['seconds'], 
+                                        $statusDate['mon'],
+                                        $statusDate['mday'],
+                                        $statusDate['year'] ) );
         }
 
         $dates  = array('start', 'end', 'join');
@@ -218,18 +220,20 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         
         /* FIXME: query below (commented) does not work for cases where admin=NULL */
         //$query = "SELECT * FROM `civicrm_membership_status` WHERE `is_active`=1 AND `is_admin`!=1 ORDER BY weight ASC";
-        $query = "SELECT * FROM `civicrm_membership_status` WHERE `is_active`=1 ORDER BY weight ASC";
-        $membershipStatus =& new CRM_Core_DAO( );
-        $membershipStatus->query( $query );
+        $query = "SELECT * FROM civicrm_membership_status WHERE is_active=1 ORDER BY weight ASC";
+
+        $membershipStatus =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $hour = $minute = $second = 0;
-        while ( $membershipStatus->fetch() ) {
+        while ( $membershipStatus->fetch( ) ) {
             $startEvent = null;
             $endEvent   = null;
             foreach ( $events as $eve ) {
                 foreach ( $dates as $dat ) {
                     // calculate start-event/date and end-event/date
-                    if ( ($membershipStatus->{$eve.'_event'} == $dat.'_date') && ${$dat.'Date'} ) {
-                        if ( $membershipStatus->{$eve.'_event_adjust_unit'} &&  $membershipStatus->{$eve.'_event_adjust_interval'} ) {
+                    if ( ($membershipStatus->{$eve.'_event'} == $dat.'_date') &&
+                         ${$dat.'Date'} ) {
+                        if ( $membershipStatus->{$eve.'_event_adjust_unit'} &&
+                             $membershipStatus->{$eve.'_event_adjust_interval'} ) {
                             if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'month' ) {//add in months
                                 ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
                                                                       ${$dat.'Month'}+$membershipStatus->{$eve.'_event_adjust_interval'},
@@ -272,12 +276,15 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                     $membershipDetails['name'] = $membershipStatus->name;
                 }
             }
+
             // returns FIRST status record for which status_date is in range.
             if ( $membershipDetails ) { 
+                $membershipStatus->free( );
                 return $membershipDetails;
             }
-        } //end fetch
+       } //end fetch
         
+        $membershipStatus->free( );
         return $membershipDetails;
     }
 
@@ -294,10 +301,12 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         $membershipStatus =& new CRM_Member_DAO_MembershipStatus( );
         $membershipStatus->is_current_member = 1;
         $membershipStatus->find();
+        $membershipStatus->selectAdd( );
+        $membershipStatus->selectAdd( 'id' );
         while ( $membershipStatus->fetch() ) {
             $statusIds[] = $membershipStatus->id;
         }
-        
+        $membershipStatus->free( );
         return $statusIds;
     }
     

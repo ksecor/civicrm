@@ -2422,12 +2422,13 @@ LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id 
 WHERE     civicrm_contact.id = %1";
         $p = array( 1 => array( $contactID, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
-        
-        if ( ! $dao->fetch( ) || ! $dao->email ) {
-            // if we cannott find a primary email return
-            return null;
+
+        $email = null;
+        if ( $dao->fetch( ) ) {
+            $email = $dao->email;
         }
-        return $dao->email;
+        $dao->free( );
+        return $email;
     }
     
     /**
