@@ -160,13 +160,14 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
     }
 
     static function sendReminder( $contactId, $email, $domainID, $messageTemplateID ,$from) {
-        $messageTemplates =& new CRM_Member_DAO_MessageTemplates( );
-        $messageTemplates->id = $messageTemplateID;
         require_once "CRM/Core/BAO/Domain.php";
         require_once "CRM/Utils/String.php";
         require_once "CRM/Utils/Token.php";
 
-        $domain = CRM_Core_BAO_Domain::getDomainByID($domainID);
+        $messageTemplates =& new CRM_Member_DAO_MessageTemplates( );
+        $messageTemplates->id = $messageTemplateID;
+
+        $domain = CRM_Core_BAO_Domain::getDomainByID( $domainID );
         
         if ( $messageTemplates->find(true) ) {
             $body_text = $messageTemplates->msg_text;

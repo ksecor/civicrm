@@ -65,15 +65,15 @@ and CiviCRM will automatically redirect requests for all online contribution pag
 </p>
 To display an image, you must add several parameters to this URL as name=value pairs.
 <table>
-<tr><th>Parameters</th><th>large/medium/small</th><th>Description</th></tr>
+<tr><th>Parameters</th><th>Values</th><th>Description</th></tr>
 <tr>
 	<td>w</td>
-	<td>180/168/160</td>
+	<td>180/168/160 (large/medium/small)</td>
 	<td>width of the button in pixels</td>
 </tr>
 <tr>
 	<td>h</td>
-	<td>46/44/43</td>
+	<td>46/44/43 (large/medium/small)</td>
 	<td>height of the button in pixels</td>
 </tr>
 <tr>

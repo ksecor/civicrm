@@ -122,7 +122,7 @@ class CRM_Core_Permission {
         $customGroups = array_keys( CRM_Core_PseudoConstant::customGroup( ) );
 
         // check if user has all powerful permission
-        if ( self::check( 'access all custom groups' ) ) {
+        if ( self::check( 'access all custom data' ) ) {
             return $customGroups;
         }
 

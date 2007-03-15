@@ -2419,8 +2419,14 @@ class CRM_Contact_BAO_Query {
      * @return void 
      * @access public 
      */
-    static function apiQuery( $params = null, $returnProperties = null, $options = null ,$sort = null, $offset = 0, $row_count = 25 ) {
-        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );
+    static function apiQuery( $params = null,
+                              $returnProperties = null,
+                              $options = null,
+                              $sort = null,
+                              $offset = 0,
+                              $row_count = 25 ) {
+        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null );
+
         list( $select, $from, $where ) = $query->query( );
         $options = $query->_options;
         $sql = "$select $from $where";
@@ -2430,13 +2436,13 @@ class CRM_Contact_BAO_Query {
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }
-        //crm_core_error::debug('$sql', $sql);
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
 
         $values = array( );
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );
         }
+        $dao->free( );
         return array($values, $options);
     }
 
