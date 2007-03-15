@@ -57,8 +57,14 @@ class CRM_Event_Form_Task_Print extends CRM_Event_Form_Task
         // get the formatted params
         $queryParams = $this->get( 'queryParams' );
 
+        $sortID = null;
+        if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
+            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+        }
+
         $selector   =& new CRM_Event_Selector_Search($queryParams, $this->_action, $this->_eventClause );
-        $controller =& new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
+        $controller =& new CRM_Core_Selector_Controller($selector , null, $sortID, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
         $controller->setEmbedded( true );
         $controller->run();
     }

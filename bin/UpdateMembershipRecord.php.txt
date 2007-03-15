@@ -10,6 +10,7 @@
  */
 
 require_once '../civicrm.config.php';
+require_once 'CRM/Core/Config.php';
 
 require_once 'api/crm.php';
 require_once 'CRM/Member/BAO/Membership.php';
@@ -24,6 +25,10 @@ class CRM_UpdateMembershipRecord {
     function __construct() 
     {
         _crm_initialize();
+	$config =& CRM_Core_Config::singleton();
+	$config->userFramework          = 'Soap';
+	$config->userFrameworkClass     = 'CRM_Utils_System_Soap';
+	$config->userHookClass          = 'CRM_Utils_Hook_Soap';
     }
     
     public function updateMembershipStatus( $domainID )
@@ -31,8 +36,9 @@ class CRM_UpdateMembershipRecord {
         $query = "
 SELECT civicrm_membership.id as membership_id,
        civicrm_contact.id    as contact_id
- WHERE civicrm_membership.contact_id = civicrm_contact.id
-   AND civicrm_contact.domain_id = %1
+FROM   civicrm_membership, civicrm_contact
+WHERE  civicrm_membership.contact_id = civicrm_contact.id
+       AND civicrm_contact.domain_id = %1
 ";
         $params = array( 1 => array( $domainID, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );

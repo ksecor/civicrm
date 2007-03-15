@@ -208,10 +208,29 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $activitySummary .= " - {$membership->source}";
         }
         
+        if ( $membership->owner_membership_id ) {
+            $cid         = CRM_Core_DAO::getFieldValue( 
+                                                       'CRM_Member_DAO_Membership', 
+                                                       $membership->owner_membership_id,
+                                                       'contact_id' );
+            $displayName = CRM_Core_DAO::getFieldValue( 
+                                                       'CRM_Contact_DAO_Contact',
+                                                       $cid, 'display_name' );
+            
+            $activitySummary .= " (by {$displayName})";
+                                                       
+        }        
+        
+        require_once 'CRM/Member/DAO/MembershipStatus.php';
+        $activityType = "Membership - " . CRM_Core_DAO::getFieldValue( 
+                                                        'CRM_Member_DAO_MembershipStatus', 
+                                                        $membership->status_id
+                                                        );
+        
         $historyParams = array(
             'entity_table'     => 'civicrm_contact',
             'entity_id'        => $membership->contact_id,
-            'activity_type'    => 'Membership Registration',
+            'activity_type'    => $activityType,
             'module'           => 'CiviMember',
             'callback'         => 'CRM_Member_Page_Membership::details',
             'activity_id'      => $membership->id,
@@ -219,21 +238,9 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             'activity_date'    => $membership->start_date
         );
         
-        if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
-            // this contribution should have an Activity History record already
-            $getHistoryParams = array('module' => 'CiviMember', 'activity_id' => $membership->id);
-            require_once "CRM/Core/BAO/History.php";
-            $getHistoryValues =& CRM_Core_BAO_History::getHistory($getHistoryParams, 0, 1, null, 'Activity');
-            if ( ! empty( $getHistoryValues ) ) {
-                $tmp = array_keys( $getHistoryValues  );
-                $ids['activity_history'] = $tmp[0];
-            }
-        }
-        
-        require_once 'CRM/Core/BAO/History.php';
-        $historyDAO =& CRM_Core_BAO_History::create($historyParams, $ids, 'Activity');
-        if (is_a($historyDAO, 'CRM_Core_Error')) {
-            CRM_Core_Error::fatal("Failed creating Activity History for contribution of id {$contribution->id}");
+        require_once "api/History.php";
+        if ( is_a( crm_create_activity_history( $historyParams ), 'CRM_Core_Error' ) ) {
+            CRM_Core_Error::fatal("Failed creating Activity History for membership of id {$membership->id}");
         }
         
         CRM_Core_DAO::transaction('COMMIT');

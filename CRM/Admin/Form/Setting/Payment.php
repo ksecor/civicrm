@@ -72,7 +72,12 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
         $this->addElement('text','googleCheckoutTestUrl', ts('Checkout Url - TEST'), array( 'size' => 31 )); 
         $this->addElement('text','merchantID_live', ts('Merchant ID - LIVE')); 
         $this->addElement('text','googleCheckoutUrl', ts('Checkout Url - LIVE'));
-        
+
+        //for Authorize.Net
+        $this->addElement('text'    ,'apiLogin'         , ts('Authorize.Net API Login'));
+        $this->addElement('text'    ,'md5Hash'          , ts('MD5 Hash Key'));
+        $this->addElement('checkbox', 'gatewaySendEmail', ts('Send Email'));
+
         parent::buildQuickForm();
     }
 }
