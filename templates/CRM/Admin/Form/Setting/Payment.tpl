@@ -37,15 +37,15 @@ must input these values before your can process TEST or LIVE transactions. Refer
             <div id="google">
                 <dl>
                 <dt>{$form.merchantID_test.label}</dt><dd>{$form.merchantID_test.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}Google Checkout TEST account -  merchant id.{/ts} </dd>
+                <dt>&nbsp</dt><dd class="description">{ts}Google Checkout  <strong>TEST</strong> account -  <strong>Merchant ID</strong> (e.g. 123456789012345).{/ts} {help id='test-merchantID'}</dd>
                 <dt>{$form.merchantID_live.label}</dt><dd>{$form.merchantID_live.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}Google Checkout LIVE account -  merchant id.{/ts} </dd>
+                <dt>&nbsp</dt><dd class="description">{ts}Google Checkout <strong>LIVE</strong> account -  <strong>Merchant ID</strong> (e.g. 123456789012345).{/ts} {help id='live-merchantID'}</dd>
                 <dt>{$form.googleCheckoutButton.label}</dt><dd>{$form.googleCheckoutButton.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}URL to the button image used for the Google Checkout service. Keep the default value, unless you want to use a different button image.{/ts}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}URL of Google Checkout Button. Replace <strong>[TEST-OR-LIVE-URL]</strong> with checout url - Test/Live ( e.g. sandbox.google.com/checkout ) and <strong>[MerchantID]</strong> with your MerchantID (e.g. 123456789012345).{/ts} {help id='googleCheckoutButton'}</dd>
                 <dt>{$form.googleCheckoutTestUrl.label}</dt><dd>{$form.googleCheckoutTestUrl.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}TEST URL for the Google Checkout processing service gateway. Keep the default value, unless you need to connect to a specific international Google Checkout processing host.{/ts}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}TEST URL for the Google Checkout processing service gateway.{/ts}</dd>
                 <dt>{$form.googleCheckoutUrl.label}</dt><dd>{$form.googleCheckoutUrl.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}LIVE URL for Google Checkout processing service gateway. Keep the default value, unless you need to connect to a specific international Google Checkout processing host.{/ts}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}LIVE URL for Google Checkout processing service gateway.{/ts}</dd>
                 
                 </dl>
             </div>

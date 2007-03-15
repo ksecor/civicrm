@@ -28,7 +28,8 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
     
     function testCreateIndividual() 
     {
-        $params = array('first_name'    => 'abc1',
+        $params = array(
+                        'first_name'    => 'abc1',
                         'last_name'     => 'xyz1',
                         'email'         => 'man1@yahoo.com',
                         'location_type' => 'Work'
@@ -165,6 +166,8 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
                                );
         $option6 =& crm_create_option_value($paramsOption6, $customField2); 
         $this->assertIsA($option6, 'CRM_Core_BAO_CustomOption');
+        $this->_customGroupC = $customGroup;
+
     }
     
     function testCreateCustomGroupFieldOptionI()
@@ -372,6 +375,7 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
                                );
         $option2 =& crm_create_option_value($paramsOption2, $customField2); 
         $this->assertIsA($option2, 'CRM_Core_BAO_CustomOption');
+        $this->_customGroupG = $customGroup;
     }
     
     function testCreateCustomGroupFieldOptionPC()
@@ -434,6 +438,7 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
                                );
         $option2 =& crm_create_option_value($paramsOption2, $customField2); 
         $this->assertIsA($option2, 'CRM_Core_BAO_CustomOption');
+        $this->_customGroupPC = $customGroup;
     }
     
     function testCreateCustomGroupFieldOptionM()
@@ -496,6 +501,7 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
                                );
         $option2 =& crm_create_option_value($paramsOption2, $customField2); 
         $this->assertIsA($option2, 'CRM_Core_BAO_CustomOption');
+        $this->_customGroupM = $customGroup;
     }
     
     /**************************************
@@ -548,6 +554,71 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
         $this->assertIsA($customValue, 'CRM_Core_BAO_CustomValue');
     }
     */
+ 
+
+    function testDeleteIndividual() 
+    {
+       
+        $val =& crm_delete_contact(& $this->_individual);
+        $this->assertNull($val);
+    }
+    
+    function testDeleteHousehold() 
+    {
+        $val =& crm_delete_contact(& $this->_houseHold);
+        $this->assertNull($val);
+    }
+    
+    function testDeleteOrganization() 
+    {
+        $val =& crm_delete_contact(& $this->_organization);
+        $this->assertNull($val);
+        
+        $val =& crm_delete_contact(& $this->_organization02);
+        $this->assertNull($val);
+    }
+    
+    function testDeleteCustomGroup()
+    {
+       
+        $val =&  crm_delete_custom_field($this->_customFieldC1->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->_customFieldC2->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->_customFieldI->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->_customFieldH->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->_customFieldO->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->_customFieldG1->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->_customFieldG2->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->_customFieldPC1->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->_customFieldPC2->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->_customFieldM1->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->_customFieldM2->id);
+        
+        
+        $val =&  crm_delete_custom_group($this->_customGroupC->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->_customGroupI->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->_customGroupH->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->_customGroupO->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->_customGroupG->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->_customGroupPC->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->_customGroupM->id);
+        $this->assertNull($val);
+    }
     
 }
 ?>

@@ -35,6 +35,7 @@ class TestOfCreateCustomGroupAPI extends UnitTestCase
         $class_name = 'Individual';
         $customGroup =& crm_create_custom_group($class_name, $params);
         $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroup1 = $customGroup;
     } 
     
     function testCustomGroupNoTitle()
@@ -49,6 +50,7 @@ class TestOfCreateCustomGroupAPI extends UnitTestCase
         $class_name = 'Contact';
         $customGroup =& crm_create_custom_group($class_name, $params);
         $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroup2 = $customGroup;
     }
     
     function testCustomGroupErrorNoWeight()
@@ -111,6 +113,7 @@ class TestOfCreateCustomGroupAPI extends UnitTestCase
         $class_name = 'Contribution';
         $customGroup =& crm_create_custom_group($class_name, $params);
         $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroup3 = $customGroup;
     }
     
     function testCreateCustomGroupForGroupError()
@@ -143,6 +146,7 @@ class TestOfCreateCustomGroupAPI extends UnitTestCase
         $class_name = 'Group';
         $customGroup =& crm_create_custom_group($class_name, $params);
         $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroup4 = $customGroup;
     }
     
     function testCreateCustomGroupForActivityError()
@@ -175,6 +179,7 @@ class TestOfCreateCustomGroupAPI extends UnitTestCase
         $class_name = 'Activity';
         $customGroup =& crm_create_custom_group($class_name, $params);
         $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroup5 = $customGroup;
     }
     
     function testCreateCustomGroupForPhonecallError()
@@ -207,6 +212,7 @@ class TestOfCreateCustomGroupAPI extends UnitTestCase
         $class_name = 'Phonecall';
         $customGroup =& crm_create_custom_group($class_name, $params);
         $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroup6 = $customGroup;
     }
     
     function testCreateCustomGroupForMeetingError()
@@ -239,6 +245,25 @@ class TestOfCreateCustomGroupAPI extends UnitTestCase
         $class_name = 'Meeting';
         $customGroup =& crm_create_custom_group($class_name, $params);
         $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroup7 = $customGroup;
+    }
+    
+    function testDeleteCustomGroup()
+    {
+        $val =&   crm_delete_custom_group($this->customGroup1->id);
+        $this->assertNull($val);
+        $val =&   crm_delete_custom_group($this->customGroup2->id);
+        $this->assertNull($val);
+        $val =&   crm_delete_custom_group($this->customGroup3->id);
+        $this->assertNull($val);
+        $val =&   crm_delete_custom_group($this->customGroup4->id);
+        $this->assertNull($val);
+        $val =&   crm_delete_custom_group($this->customGroup5->id);
+        $this->assertNull($val);
+        $val =&   crm_delete_custom_group($this->customGroup6->id);
+        $this->assertNull($val);
+        $val =&   crm_delete_custom_group($this->customGroup7->id);
+        $this->assertNull($val);
     }
 }
 ?>

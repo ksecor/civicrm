@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 require_once 'api/crm.php';
 
@@ -25,15 +25,15 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                         'help_post' => 'This is for extending CONTACT type of Class.'
                         );
         $class_name = 'Contact';
-        $customGroup =& crm_create_custom_group($class_name, $params);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroupC =& crm_create_custom_group($class_name, $params);
+        $this->assertIsA($this->customGroupC, 'CRM_Core_BAO_CustomGroup');
         
         $paramsF = array('label' => 'Test Field 1 for Group 2',
                          'weight' => 3,
                          'is_active' => 1
                          );
-        $customField = & crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
+        $this->customFieldC = & crm_create_custom_field($this->customGroupC, $paramsF);
+        $this->assertIsA($this->customFieldC, 'CRM_Core_BAO_CustomField');
     }
     
     function testCreateCustomFieldI()
@@ -48,8 +48,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_post' => 'This is for extending INDIVIDUAL type of Class.'
                          );
         $class_name = 'Individual';
-        $customGroup =& crm_create_custom_group($class_name, $paramsG);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroupI =& crm_create_custom_group($class_name, $paramsG);
+        $this->assertIsA($this->customGroupI, 'CRM_Core_BAO_CustomGroup');
      
         $paramsF = array('label' => 'Test Field 1 for Group 2',
                          'name'  => 'test_field_1',
@@ -61,8 +61,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Tes Field 1 for Group 2',
                          'help_post'=> 'Post Help For Tes Field 1 for Group 2'
                          );
-        $customField = & crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
+        $this->customFieldI = & crm_create_custom_field($this->customGroupI, $paramsF);
+        $this->assertIsA($this->customFieldI, 'CRM_Core_BAO_CustomField');
     }
     
     function testCreateCustomFieldH()
@@ -78,8 +78,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                         'is_active' => 1
                         );
         $class_name = 'Household';
-        $customGroup =& crm_create_custom_group($class_name, $params);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroupH =& crm_create_custom_group($class_name, $params);
+        $this->assertIsA($this->customGroupH, 'CRM_Core_BAO_CustomGroup');
         
         $paramsF = array('label' => 'Test Field 1 for Group 3',
                          'name'  => 'test_field_1',
@@ -91,8 +91,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Tes Field 1 for Group 3',
                          'help_post'=> 'Post Help For Tes Field 1 for Group 3'
                          );
-        $customField =& crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
+        $this->customFieldH =& crm_create_custom_field($this->customGroupH, $paramsF);
+        $this->assertIsA($this->customFieldH, 'CRM_Core_BAO_CustomField');
     }
     
     function testCreateCustomFieldOErrorNoWeight()
@@ -106,8 +106,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                         'help_post' => 'This is for extending ORGANIZATION type of Class.'
                         );
         $class_name = 'Organization';
-        $customGroup =& crm_create_custom_group($class_name, $params);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroupE1 =& crm_create_custom_group($class_name, $params);
+        $this->assertIsA($this->customGroupE1, 'CRM_Core_BAO_CustomGroup');
         
         $paramsF = array('label' => 'Test Field 1 for Group 4',
                          'name'  => 'test_field_1',
@@ -118,7 +118,7 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Tes Field 1 for Group 4',
                          'help_post'=> 'Post Help For Tes Field 1 for Group 4'
                          );
-        $customField =& crm_create_custom_field($customGroup, $paramsF);
+        $customField =& crm_create_custom_field($this->customGroupE1, $paramsF);
         $this->assertIsA($customField, 'CRM_Core_Error');
     }
     
@@ -133,11 +133,11 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                         'help_post' => 'This is for extending CONTACT type of Class.'
                         );
         $class_name = 'Activity';
-        $customGroup =& crm_create_custom_group($class_name, $params);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroupE2 =& crm_create_custom_group($class_name, $params);
+        $this->assertIsA($this->customGroupE2, 'CRM_Core_BAO_CustomGroup');
         
         $paramsF = array();
-        $customField =& crm_create_custom_field($customGroup, $paramsF);
+        $customField =& crm_create_custom_field($this->customGroupE2, $paramsF);
         $this->assertIsA($customField, 'CRM_Core_Error');
     }
     
@@ -154,8 +154,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_post' => 'This is for extending GROUP type of Class.'
                          );
         $class_name = 'Group';
-        $customGroup =& crm_create_custom_group($class_name, $paramsG);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroupG =& crm_create_custom_group($class_name, $paramsG);
+        $this->assertIsA($this->customGroupG, 'CRM_Core_BAO_CustomGroup');
         
         $paramsF = array('label' => 'Test Field 1 for Group 6',
                          'name'  => 'test_field_1',
@@ -167,8 +167,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Test Field 1 for Group 6',
                          'help_post'=> 'Post Help For Test Field 1 for Group 6'
                          );
-        $customField =& crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
+        $this->customFieldG =& crm_create_custom_field($this->customGroupG, $paramsF);
+        $this->assertIsA($this->customFieldG, 'CRM_Core_BAO_CustomField');
     }
     
     function testCreateCustomFieldPC()
@@ -184,8 +184,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_post' => 'This is for extending PHONECALL type of Class.'
                          );
         $class_name = 'Phonecall';
-        $customGroup =& crm_create_custom_group($class_name, $paramsG);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroupPC =& crm_create_custom_group($class_name, $paramsG);
+        $this->assertIsA($this->customGroupPC, 'CRM_Core_BAO_CustomGroup');
         
         $paramsF = array('label' => 'Test Field 1 for Group 7',
                          'name'  => 'test_field_1',
@@ -197,8 +197,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Test Field 1 for Group 7',
                          'help_post'=> 'Post Help For Test Field 1 for Group 7'
                          );
-        $customField =& crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
+        $this->customFieldPC =& crm_create_custom_field($this->customGroupPC, $paramsF);
+        $this->assertIsA($this->customFieldPC, 'CRM_Core_BAO_CustomField');
     }
     
     function testCreateCustomFieldM()
@@ -214,8 +214,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_post' => 'This is for extending MEETING type of Class.'
                          );
         $class_name = 'Meeting';
-        $customGroup =& crm_create_custom_group($class_name, $paramsG);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->customGroupM =& crm_create_custom_group($class_name, $paramsG);
+        $this->assertIsA($this->customGroupM, 'CRM_Core_BAO_CustomGroup');
         
         $paramsF = array('label' => 'Test Field 1 for Group 8',
                          'name'  => 'test_field_1',
@@ -227,8 +227,41 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Test Field 1 for Group 8',
                          'help_post'=> 'Post Help For Test Field 1 for Group 8'
                          );
-        $customField =& crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
+        $this->customFieldM =& crm_create_custom_field($this->customGroupM, $paramsF);
+        $this->assertIsA($this->customFieldM, 'CRM_Core_BAO_CustomField');
+    }
+
+    function testDeleteCustomFieldBeforeCustomGroup()
+    {        
+        $val =&  crm_delete_custom_field($this->customFieldC->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->customFieldI->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->customFieldH->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->customFieldG->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->customFieldPC->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_field($this->customFieldM->id);
+        $this->assertNull($val);
+               
+        $val =&  crm_delete_custom_group($this->customGroupC->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->customGroupI->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->customGroupH->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->customGroupG->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->customGroupPC->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->customGroupM->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->customGroupE1->id);
+        $this->assertNull($val);
+        $val =&  crm_delete_custom_group($this->customGroupE2->id);
+        $this->assertNull($val);
     }
 }
 ?>

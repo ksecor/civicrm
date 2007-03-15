@@ -39,6 +39,10 @@ require_once 'CRM/Core/Config.php';
 
 $config =& CRM_Core_Config::singleton();
 
+$config->userFramework          = 'Soap';
+$config->userFrameworkClass     = 'CRM_Utils_System_Soap';
+$config->userHookClass          = 'CRM_Utils_Hook_Soap';
+
 require_once('Google/library/googleresponse.php');
 require_once('Google/library/googlemerchantcalculations.php');
 require_once('Google/library/googleresult.php');
@@ -113,7 +117,6 @@ switch ($root) {
  case "new-order-notification": {
      $response->SendAck();
      $ipn->newOrderNotify($data[$root], $privateData);
-
      break;
  }
  case "order-state-change-notification": {
@@ -141,7 +144,7 @@ switch ($root) {
      case 'CHARGED': {
          $ipn->orderStateChange('CHARGED', $data[$root]);
          break;
-        }
+     }
      case 'PAYMENT_DECLINED': {
          $ipn->orderStateChange('PAYMENT_DECLINED', $data[$root]);
          break;
@@ -157,7 +160,7 @@ switch ($root) {
      }
      default:
          break;
-      }
+     }
      
      switch($new_fulfillment_order) {
      case 'NEW': {
@@ -178,13 +181,13 @@ switch ($root) {
  }
  case "charge-amount-notification": {
      $response->SendAck();
-//      $response->SendDeliverOrder($data[$root]['google-order-number']['VALUE'], 
-//                                  <carrier>, <tracking-number>, <send-email>, $message_log);
-//      $response->SendArchiveOrder($data[$root]['google-order-number']['VALUE'], 
-//                                  $message_log);
+     //      $response->SendDeliverOrder($data[$root]['google-order-number']['VALUE'], 
+     //                                  <carrier>, <tracking-number>, <send-email>, $message_log);
+     //      $response->SendArchiveOrder($data[$root]['google-order-number']['VALUE'], 
+     //                                  $message_log);
      
-//      $response->SendDeliverOrder($data[$root]['google-order-number']['VALUE'], 
-//                                  'UPS', 'Z9842W69871281267', "false", $message_log);
+     //      $response->SendDeliverOrder($data[$root]['google-order-number']['VALUE'], 
+     //                                  'UPS', 'Z9842W69871281267', "false", $message_log);
      break;
  }
  case "chargeback-amount-notification": {
@@ -202,7 +205,7 @@ switch ($root) {
  default: {
      break;
  }
- }
+}
 
 /* In case the XML API contains multiple open tags
  with the same value, then invoke this function and

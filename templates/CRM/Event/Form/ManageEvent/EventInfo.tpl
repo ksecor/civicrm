@@ -32,14 +32,15 @@
             <dt>&nbsp;</dt><dd class="description">{ts}When this Event is active, create links to the Event Information page by copying and pasting the following URL:{/ts}<br />
             <strong>{crmURL p='civicrm/event/info' q="reset=1&id=`$id`"}</strong></dd>
         {/if}
-        <dt></dt>
-        <dd class="description">
+        </dl>
+        <div class="spacer"></div>
 	    {if $action eq 4}
          {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
         {else}
           {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
         {/if}
-        </dd>
+        
+        <dl>
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
 </fieldset>

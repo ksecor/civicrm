@@ -518,25 +518,37 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      */
     public static function deleteGroup($id) 
     { 
-        //delete first all custon values
-        $customValue = & new CRM_Core_DAO_CustomValue();
-        $customValue->custom_field_id = $id;
-        if ($customValue->find()) {
-            $customValue->delete();
-        }
+        $dependencies = array(
+                              'CRM_Core_DAO_CustomValue'  => array( 
+                                                                   'custom_field_id' => $id 
+                                                                   ),
+                              'CRM_Core_DAO_CustomOption' => array ( 
+                                                                    'entity_id'       => $id,
+                                                                    'entity_table'    => 'civicrm_custom_field'
+                                                                    )
+                              );
         
-        //delete first all custom option
-        $customOption = & new CRM_Core_DAO_CustomOption();
-        $customOption->entity_id    = $id;
-        $customOption->entity_table = 'civicrm_custom_field';
-        $customOption->delete();
+        foreach( $dependencies as $daoName => $values ) {
+            require_once ( str_replace( '_', '/', $daoName) . ".php" );
+            eval('$dao= new ' . $daoName . '();');
+            foreach( $values as $field => $value ) {
+                $dao->field = $value;
+            }
+            
+            $dao->find( );
+            while( $dao->fetch( ) ) {
+                $dao->delete( );
+            }
+        }
         
         //delete  custom field
         $field = & new CRM_Core_DAO_CustomField();
         $field->id = $id; 
-        $field->delete();
+        if ( $field->find( ) ) {
+            return $field->delete( );
+        }
         
-        return true;
+        return null;
     }
 
     /**

@@ -253,14 +253,23 @@ function crm_create_custom_group($class_name, $params)
 
 /**
  * Use this API to delete an existing group.
- * @id id of the group to be deleted
  *
+ * @param $id  Int  id of the group to be deleted
+ *
+ * @return Null if success, object of crm_core_error otherwise
+ * @access public
  **/
 function crm_delete_custom_group($id)
 {    
+    _crm_initialize( );
+    
+    if ( !$id ) {
+        return _crm_error( 'Invalid custom group id passed in' );
+    }
+
     require_once 'CRM/Core/BAO/CustomGroup.php';
-    $customGroup = CRM_Core_BAO_CustomGroup::deleteGroup($id);
-    return $customGroup;
+    $result = CRM_Core_BAO_CustomGroup::deleteGroup($id);
+    return $result ? null : _crm_error('Error while deleting custom group');
 }
 
 /**
@@ -444,13 +453,22 @@ function crm_get_custom_field( $params ) {
 
 /**
  * Use this API to delete an existing custom group field.
- * @id id of the field to be deleted
+ *
+ * @param $id Int     id of the field to be deleted
+ *
+ * @return Null if success, object of crm_core_error otherwise
+ * @access public
  **/
 function crm_delete_custom_field( $id ) {
-
+    _crm_initialize( );
+   
+    if ( !$id ) {
+        return _crm_error( 'Invalid custom field id passed in' );
+    }
+   
     require_once 'CRM/Core/BAO/CustomField.php';
-    $customField = CRM_Core_BAO_CustomField::deleteGroup($id);
-    return $customField;
+    $result = CRM_Core_BAO_CustomField::deleteGroup( $id );
+    return $result ? null : _crm_error('Error while deleting custom field');
 }
 /**
  *  Defines 'custom value' within a field for a specific entity table/id combination.
