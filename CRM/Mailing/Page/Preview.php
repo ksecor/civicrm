@@ -30,7 +30,6 @@
 /** 
  * 
  * @package CRM 
- * @author Piotr Szotkowski <shot@civicrm.org> 
  * @copyright CiviCRM LLC (c) 2004-2007 
  * $Id$ 
  * 

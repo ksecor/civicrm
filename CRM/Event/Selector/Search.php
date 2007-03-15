@@ -29,7 +29,6 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2007
  * $Id: Selector.php 3854 2005-11-23 13:28:15Z kurund $
  *

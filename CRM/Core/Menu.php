@@ -29,7 +29,6 @@
  * This file contains the various menus of the CiviCRM module
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2007
  * $Id$
  *
