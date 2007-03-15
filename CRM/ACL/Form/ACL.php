@@ -81,8 +81,11 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
             $showHide->addHide( "id-custom-acl" );
         }
 
-        $showHide->addToTemplate( );
-
+        // Don't assign showHide elements to template in DELETE mode (fields to be shown and hidden don't exist)
+        if ( !( $this->_action & CRM_Core_Action::DELETE )  ) {
+            $showHide->addToTemplate( );
+        }
+        
         return $defaults;
     }
 
@@ -151,26 +154,44 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
 
 
     static function formRule( &$params ) {
-        // make sure that at only one of group_id, custom_group_id and uf_group_id is selected
-        $count = 0;
+        $showHide =& new CRM_Core_ShowHideBlocks( );
 
-        $fields = array( 'group_id', 'custom_group_id', 'uf_group_id' );
-        foreach ( $fields as $field ) {
-            if ( isset( $params[$field] ) &&
-                 $params[$field] != -1 ) {
-                $count++;
-            }
-        }
-
-        $errors = array( );
-        if ( $count != 1 ) {
-            $errors['_qf_default'] = ts( 'An ACL must be applied to only one set of data (either a Group of contacts, a Profile, or a set of Custom Fields).' );
-        }
-        
-        // also make sure role is not -1
+        // Make sure role is not -1
         if ( $params['entity_id'] == -1 ) {
-            $errors['entity_id'] = ts( 'Please assign this ACL to a Role.' );
+            $errors['entity_id'] = ts( 'Please assign this permission to a Role.' );
         }
+
+        // Figure out which type of object we're permissioning on and make sure user has selected a value.
+        switch ( $params['object_type'] ) {
+            case 1:
+                if ( $params['group_id'] == -1 ) {
+                    $errors['group_id'] = ts( 'Please select a Group (or ALL Groups).' );
+                    $showHide->addShow( "id-group-acl" );
+                    $showHide->addHide( "id-profile-acl" );
+                    $showHide->addHide( "id-custom-acl" );
+                }
+                break;
+            case 2:
+                if ( $params['uf_group_id'] == -1 ) {
+                    $errors['uf_group_id'] = ts( 'Please select a Profile (or ALL Profiles).' );
+                    $showHide->addShow( "id-profile-acl" );
+                    $showHide->addHide( "id-group-acl" );
+                    $showHide->addHide( "id-custom-acl" );
+                }
+                break;
+            case 3:
+                if ( $params['custom_group_id'] == -1 ) {
+                    $errors['custom_group_id'] = ts( 'Please select a set of Custom Data (or ALL Custom Data).' );
+                    $showHide->addShow( "id-custom-acl" );
+                    $showHide->addHide( "id-group-acl" );
+                    $showHide->addHide( "id-profile-acl" );
+                }
+                break;
+                
+        }
+
+        $showHide->addToTemplate( );
+
         return empty($errors) ? true : $errors;
     }
 
@@ -182,29 +203,40 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/ACL/BAO/ACL.php';        
+        require_once 'CRM/ACL/BAO/ACL.php';
 
-        $params = $this->controller->exportValues( $this->_name );
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            CRM_ACL_BAO_ACL::del($this->_id);
+            CRM_Core_Session::setStatus( ts('Selected ACL has been deleted.') );
+        } else {
+            $params = $this->controller->exportValues( $this->_name );
 
-        $params['deny'] = 0;
-        $params['entity_table'] = 'civicrm_acl_role';
+            $params['deny'] = 0;
+            $params['entity_table'] = 'civicrm_acl_role';
 
-        // unset them just to make sure
-        $fields = array( 'group_id'        => 'civicrm_saved_search',
-                         'custom_group_id' => 'civicrm_custom_group',
-                         'uf_group_id'     => 'civicrm_uf_group' );
-        foreach ( $fields as $name => $table ) {
-            if ( $params[$name] != -1 ) {
-                $params['object_table'] = $table;
-                $params['object_id']    = $params[$name];
+            // Figure out which type of object we're permissioning on and set object_table and object_id.
+            switch ( $params['object_type'] ) {
+                case 1:
+                    $params['object_table'] = 'civicrm_saved_search';
+                    $params['object_id']    = $params['group_id'];
+                    break;
+                case 2:
+                    $params['object_table'] = 'civicrm_uf_group';
+                    $params['object_id']    = $params['uf_group_id'];
+                    break;
+                case 3:
+                    $params['object_table'] = 'civicrm_custom_group';
+                    $params['object_id']    = $params['custom_group_id'];
+                    break;
+                    
             }
-            unset( $params[$name] );
+          
+            if ( $this->_id ) {
+                $params['id'] = $this->_id;
+            }
+            
+            CRM_ACL_BAO_ACL::create( $params );
         }
-        
-        if ( $this->_id ) {
-            $params['id'] = $this->_id;
-       }
-        CRM_ACL_BAO_ACL::create( $params );
     }
 
 }

@@ -3,6 +3,7 @@
 <script type="text/javascript" src="{crmURL p='civicrm/server/search' q="set=1&path=civicrm/server/search"}"></script>
 <script type="text/javascript" src="{$config->resourceBase}js/Search.js"></script>
 *}
+{capture assign=advSearchURL}{crmURL p='civicrm/contact/search/advanced' q="reset=1"}{/capture}
 <fieldset>
     <legend>{if $context EQ 'smog'}<span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>{/if}
         {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
@@ -37,7 +38,9 @@
         <tr><td>&nbsp;</td>
             <td colspan={if $context EQ 'smog'}"6"{else}"4" class="report"{/if}>
                 <div class="description font-italic">
-                {ts}Complete OR partial contact name. To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
+                {ts 1=$advSearchURL}To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'.
+                For partial name search, use '%partialname' ('%' equals 'begins with any combination of letters').
+                To search by email address, use <a href="%1">Advanced Search</a>.{/ts}
                 </div></td>
             <td class="label">{$form.buttons.html}</td>
         </tr>
@@ -48,7 +51,7 @@
                 {elseif $context EQ 'amtg'}
                      <a href="{crmURL p='civicrm/contact/search/advanced' q="context=amtg&amtgID=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a>
                 {else}
-                     <a href="{crmURL p='civicrm/contact/search/advanced'}">&raquo; {ts}Advanced Search{/ts}</a>
+                     <a href="{$advSearchURL}">&raquo; {ts}Advanced Search{/ts}</a>
                 {/if}
             </td>
         </tr>

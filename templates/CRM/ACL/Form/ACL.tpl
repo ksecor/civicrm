@@ -7,7 +7,7 @@
     <dl>
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
       <dd>    
-        {ts}WARNING: Deleting this ACL will remove this permission from all ACL Roles.{/ts} {ts}Do you want to continue?{/ts}
+        {ts}WARNING: Delete will remove this permission from the specified ACL Role.{/ts} {ts}Do you want to continue?{/ts}
       </dd>
     </dl>
   </div>
@@ -40,6 +40,7 @@
     <dt>{$form.entity_id.label}</dt><dd>{$form.entity_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a Role to assign (grant) this permission to.{/ts}</dd>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Enter a descriptive name for this permission (e.g. "Edit Advisory Board Contacts").{/ts}</dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
   </dl>
 {/if}
