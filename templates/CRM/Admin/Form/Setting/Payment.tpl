@@ -50,6 +50,16 @@ must input these values before your can process TEST or LIVE transactions. Refer
                 </dl>
             </div>
 
+            <div id="authnet">
+                <dl>
+                <dt>{$form.apiLogin.label}</dt><dd>{$form.apiLogin.html}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}Authorize.Net API login ID.  This is used for both live and test sites.{/ts}</dd>
+                <dt>{$form.md5Hash.label}</dt><dd>{$form.md5Hash.html}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}MD5 hash key for verification of payment gateway response.  Must be the same as is set in the Authorize.Net merchant settings.  Leave blank if you do not want to use MD5 verification{/ts}</dd>
+                <dt>{$form.gatewaySendEmail.label}</dt><dd>{$form.gatewaySendEmail.html}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}Check if you want Authorize.Net to send email to the payer.  This is in addition to any email that CiviCRM sends out.{/ts}</dd>
+                </dl>
+            </div>
 
             <dt></dt><dd>{$form.buttons.html}</dd>
         </dl>

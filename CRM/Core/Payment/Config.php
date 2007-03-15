@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -147,9 +147,8 @@ class CRM_Core_Payment_Config {
             $config->paymentPayPalExpressUrl = "www.paypal.com";
             $config->paymentPayPalExpressTestUrl = "www.sandbox.paypal.com";
         }
-        //print_r($config);
+
         if ( isset( $config->paymentProcessor ) ) {
-            //require_once 'CRM/Contribute/Payment.php';
             require_once 'CRM/Core/Payment.php';
             switch ( $config->paymentProcessor ) {
             case 'PayPal':
@@ -193,14 +192,15 @@ class CRM_Core_Payment_Config {
             case 'Google_Checkout':
                 $config->paymentFile = 'Payment_Google';
                 $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_NOTIFY;
-//                 if ( $oldMode ) {
-//                     $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
-//                     $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
-//                     $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
-//                 }
                 break;
+ 
+            case 'AuthNet_AIM':
+                $config->paymentFile = 'Payment_AuthorizeNet';
+                $config->paymentType = 'AIM';
+                $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_NOTIFY;
+                break;
+           }
 
-            }
         }
 
         if ( $oldMode ) {
