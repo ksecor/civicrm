@@ -32,7 +32,6 @@
  * and display names
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2007
  * $Id$
  *

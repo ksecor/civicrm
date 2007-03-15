@@ -29,7 +29,6 @@
  * We redefine the Smarty Renderer to make things compliant with Drupal and
  * folks using other Drupal theming packages instead of Smarty
  * @package CRM
- * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2007
  * $Id$
  *

@@ -31,7 +31,6 @@
  * The default values in general, should reflect production values (minimizes chances of screwing up)
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2007
  * $Id$
  *

@@ -29,8 +29,6 @@
  * CiviCRM's Smarty gettext plugin
  *
  * @package CRM
- * @author Piotr Szotkowski <shot@caltha.pl>
- * @author Michal Mach <mover@artnet.org>
  * @copyright CiviCRM LLC (c) 2004-2007
  * $Id$
  */
