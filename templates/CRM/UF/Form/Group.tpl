@@ -51,7 +51,9 @@
     <dt></dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the profile title to be displayed when the page is initially loaded (form fields are hidden until the user expands the form by clicking on the "plus" icon).{/ts}</dd>
     <dt></dt><dd>{$form.is_uf_link.html} {$form.is_uf_link.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to include a links in the listings to view contacts' Website Profiles (e.g. their 'My Account' page). This link will only be included for contacts who have a User Account on your website.{/ts}</dd>
     <dt></dt><dd>{$form.is_edit_link.html} {$form.is_edit_link.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to include a link in the listings to Edit profile fields. Only users with permission to edit the contact will see this link.{/ts}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
         
     
