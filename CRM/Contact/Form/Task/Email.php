@@ -276,12 +276,14 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
          if ( $this->_single ) {
              $emailAddress = $this->controller->exportValue( 'Email', 'to' );
          }
+         
+         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                             $this, false );
+         
          if ( $this->_noEmails ) {
              $emailAddress = $this->controller->exportValue( 'Email', 'emailAddress' );
 
              // for adding the email-id to the primary address
-             $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
-                                                 $this, false );
              if ( $cid ) {
                  $location =& CRM_Contact_BAO_Contact::getEmailDetails($cid);
                  if ( $location[3] ) {
@@ -303,7 +305,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                  }
              }
          }
-
+         
          $subject = $this->controller->exportValue( 'Email', 'subject' );
          $message = $this->controller->exportValue( 'Email', 'message' );
 
@@ -356,8 +358,26 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             }
         }
         
+        // replace domain tokens
+        $config   = CRM_Core_Config::singleton( );
+        $domainId = $config->domainID( );
+        require_once 'CRM/Core/BAO/Domain.php';
+        $domain = CRM_Core_BAO_Domain::getDomainByID( $domainId );
+        require_once 'CRM/Utils/Token.php';
+        $text = CRM_Utils_Token::replaceDomainTokens( $message,
+                                                      $domain, false  );
+        // replace contact tokens
+        require_once 'api/Contact.php';
+        $params  = array( 'contact_id' => $cid );
+        $contact =& crm_fetch_contact( $params );
+        if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+            return null;
+        }
+        $text = CRM_Utils_Token::replaceContactTokens($text, 
+                                                      $contact, false );
+        // send the mail
         require_once 'CRM/Core/BAO/EmailHistory.php';
-        list( $total, $sent, $notSent ) = CRM_Core_BAO_EmailHistory::sendEmail( $this->_contactIds, $subject, $message, $emailAddress );
+        list( $total, $sent, $notSent ) = CRM_Core_BAO_EmailHistory::sendEmail( $this->_contactIds, $subject, $text, $emailAddress );
         
         if ( $sent ) {
             $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));
