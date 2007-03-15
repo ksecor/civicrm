@@ -455,6 +455,8 @@ class CRM_Core_PseudoConstant
                 }
                 if ( !empty($limitIds) ) {
                     $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
+                } else {
+                    $whereClause = 'false';
                 }
             }
             self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true, 'name', 'is_active', $whereClause );
