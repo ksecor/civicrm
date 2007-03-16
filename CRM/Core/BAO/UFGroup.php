@@ -119,7 +119,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile');  
         }
         
-        if (!is_array($ufGroups)) {
+        if ( ! is_array( $ufGroups ) ) {
             return false;
         }
         
@@ -138,7 +138,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
             }
 
-            $subset = self::getFields( $id, true, $action );
+            $subset = self::getFields( $id, true, $action,
+                                       null, null, false, null, true );
 
             // we do not allow duplicates. the first field is the winner
             foreach ( $subset as $name => $field ) {
@@ -168,10 +169,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                       $considerSelector = false,
                                       $ufGroupId = null,
                                       $searchable = null,
-                                      $restrict = null ) 
+                                      $restrict = null,
+                                      $skipPermission = false ) 
     {
         if ($ufGroupId) {
-            $subset = self::getFields( $ufGroupId, false, $action, $visibility, $searchable, false, $restrict );
+            $subset = self::getFields( $ufGroupId, false, $action,
+                                       $visibility, $searchable,
+                                       false, $restrict,
+                                       $skipPermission );
             if ($considerSelector) {
                 // drop the fields not meant for the selector
                 foreach ($subset as $name => $field) {
@@ -186,7 +191,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             $fields = array( ); 
             foreach ( $ufGroups as $id => $title ) { 
-                $subset = self::getFields( $id, false, $action, $visibility, $searchable, false, $restrict );
+                $subset = self::getFields( $id, false, $action,
+                                           $visibility, $searchable,
+                                           false, $restrict,
+                                           $skipPermission );
                 if ($considerSelector) {
                     // drop the fields not meant for the selector
                     foreach ($subset as $name => $field) {
@@ -216,7 +224,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function getFields( $id, $register = false, $action = null,
                                $visibility = null , $searchable = null,
-                               $showAll= false, $restrict = null ) 
+                               $showAll= false, $restrict = null,
+                               $skipPermission = false ) 
     {
         if ( $restrict ) {
             $query  = "
@@ -233,8 +242,8 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $params = array( 1 => array( $id, 'Integer' ) );
         }
 
-        // add permissioning for profiles onlu if not registration
-        if ( ! $register ) {
+        // add permissioning for profiles only if not registration
+        if ( ! $skipPermission ) {
             $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
             $query .= " AND $permissionClause ";
         }
@@ -446,7 +455,9 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
 
         if ( $register ) {
             require_once "CRM/Core/Controller/Simple.php";
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic',
+                                                           ts('Dynamic Form Creator'),
+                                                           $action );
             if ( $reset || $doNotProcess ) {
                 // hack to make sure we do not process this form
                 $oldQFDefault = $_POST['_qf_default'];
@@ -458,6 +469,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             }
             $controller->set( 'id'      , $userID );
             $controller->set( 'register', 1 );
+            $controller->set( 'skipPermission', 1 );
             $controller->set( 'ctype'   , $ctype );
             $controller->process( );
             $controller->setEmbedded( true );
@@ -493,13 +505,16 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 }
 
                 require_once 'CRM/Core/Controller/Simple.php';
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic',
+                                                               ts('Dynamic Form Creator'),
+                                                               $action );
                 if ( $reset ) {
                     $controller->reset( );
                 }
                 $controller->set( 'gid'     , $profileID );
                 $controller->set( 'id'      , $userID );
                 $controller->set( 'register', 0 );
+                $controller->set( 'skipPermission', 1 );
                 if ( $ctype ) {
                     $controller->set( 'ctype'   , $ctype );
                 }

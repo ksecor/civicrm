@@ -337,12 +337,6 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
     // make sure the system is initialized
     civicrm_initialize( );
 
-    //check for required civicrm permissions
-    require_once "CRM/Core/Permission.php";
-    if ( ! CRM_Core_Permission::check( 'profile listings and forms' ) ){
-        return;
-    }
-
     switch ( $type ) {
 
     case 'login':
@@ -434,9 +428,15 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
 
     if ( $userID ) {
-        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '', CRM_Core_Action::UPDATE, true, $reset, null, $doNotProcess, $ctype );
+        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '',
+                                                   CRM_Core_Action::UPDATE, true,
+                                                   $reset, null,
+                                                   $doNotProcess, $ctype );
     } else {
-        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '', CRM_Core_Action::ADD, true, $reset, null, $doNotProcess, $ctype );
+        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '',
+                                                   CRM_Core_Action::ADD, true,
+                                                   $reset, null,
+                                                   $doNotProcess, $ctype );
     }
 
     $output = array( );
@@ -530,7 +530,7 @@ function civicrm_view_data($user )
             if ( $fieldType != $ctype ) {
                 continue;
             }
-            $page =& new CRM_Profile_Page_Dynamic( $userID, $id, null );
+            $page =& new CRM_Profile_Page_Dynamic( $userID, $id, null, true );
             $pageContent = $page->run( );
             
             if ( $pageContent ) {
