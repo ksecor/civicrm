@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -151,8 +151,13 @@ SELECT module
         }
         
         if ( ! $this->_cancelURL ) {
-            $this->_cancelURL = $ufGroup->cancel_URL;
-        } 
+            if (  $ufGroup->cancel_URL ) {
+                $this->_cancelURL = $ufGroup->cancel_URL;
+            } else {
+                $this->_cancelURL = CRM_Utils_System::url('civicrm/profile',
+                                                          "reset=1&gid={$this->_gid}" );
+            }
+        }
 
         // we do this gross hack since qf also does entity replacement
         $this->_postURL   = str_replace( '&amp;', '&', $this->_postURL   );

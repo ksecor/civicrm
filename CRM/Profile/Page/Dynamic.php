@@ -70,6 +70,14 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
     protected $_restrict;
 
     /**
+     * Should we bypass permissions
+     *
+     * @var boolean
+     * @access prootected
+     */
+    protected $_skipPermission;
+
+    /**
      * class constructor
      *
      * @param int $id  the contact id
@@ -78,10 +86,11 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
      * @return void
      * @access public
      */
-    function __construct( $id, $gid, $restrict ) {
+    function __construct( $id, $gid, $restrict, $skipPermission = false ) {
         $this->_id       = $id;
         $this->_gid      = $gid;
         $this->_restrict = $restrict;
+        $this->_skipPermission = $skipPermission;
     }
 
     /**
@@ -113,7 +122,7 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
 
             $values = array( );
             $fields = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, CRM_Core_Action::VIEW,
-                                                       null, null, false, $this->_restrict );
+                                                       null, null, false, $this->_restrict, $this->_skipPermission );
 
             // make sure we dont expose all fields based on permission
             $admin = false; 

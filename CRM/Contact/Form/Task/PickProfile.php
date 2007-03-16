@@ -120,6 +120,10 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
             $types['TMF'] = 'TMF';            
         }
 
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            $types['Student'] = 'Student';            
+        }
+
         $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles($types);
         
         if( CRM_Core_BAO_UFGroup::getProfiles($types) == null ) {

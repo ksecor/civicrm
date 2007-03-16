@@ -65,7 +65,11 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
         } else {
             $this->_mode = CRM_Profile_Form::MODE_EDIT;
         }
-         
+
+        if ( $this->get( 'skipPermission' ) ) {
+            $this->_skipPermission = true;
+        }
+
         parent::preProcess( ); 
     } 
 

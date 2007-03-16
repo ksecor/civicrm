@@ -794,6 +794,21 @@ ORDER BY a.object_id
         
         return $ids;
     }
+    /**
+    * Function to delete ACL records 
+     * 
+     * @param  int  $aclId     ID of the ACL record to be deleted.
+     * 
+     * @access public
+     * @static
+     */
+    static function del($aclId) 
+    {
+        $acl = & new CRM_ACL_DAO_ACL();
+        $acl->id = $aclId;
+        $acl->delete();
+    }
+        
 
 }
 

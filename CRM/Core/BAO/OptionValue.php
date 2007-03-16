@@ -203,8 +203,9 @@ AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.n
                                   'participant_status'  => 'status_id'
                                   );
         $eventType        = array('event_type'          => 'event_type_id');
+        $aclRole          = array('acl_role'            => 'acl_role_id');
 
-        $all = array_merge($individuals, $contributions, $activities, $participant, $eventType);
+        $all = array_merge($individuals, $contributions, $activities, $participant, $eventType, $aclRole);
         $fieldName = '';
         
         foreach($all as $name => $id) {
@@ -278,6 +279,21 @@ AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.n
             $event =& new CRM_Event_DAO_Event( );
             $event->$fieldName = $value;
             if ( $event->find(true) ) {
+                return false;
+            }
+            return true;
+        }
+
+        //delete event type option value
+        if (array_key_exists( $gName, $aclRole )) {
+            require_once 'CRM/ACL/DAO/EntityRole.php';
+            require_once 'CRM/ACL/DAO/ACL.php';
+            $entityRole =& new CRM_ACL_DAO_EntityRole( );
+            $entityRole->$fieldName = $value;
+
+            $aclDAO =& new CRM_ACL_DAO_ACL( );
+            $aclDAO->entity_id = $value;
+            if ( $entityRole->find(true) || $aclDAO->find(true)) {
                 return false;
             }
             return true;

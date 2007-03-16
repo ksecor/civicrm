@@ -45,7 +45,10 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
 {
     public $_contactId        = null;
 
-    public $_onlyPublicGroups = false;
+    /*
+     * always show public groups
+     */
+    public $_onlyPublicGroups = true;
 
     public $_edit = true;
 
@@ -64,7 +67,6 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         if ( ! $this->_contactId ) { 
             $session =& CRM_Core_Session::singleton( );
             $this->_contactId = $session->get( 'userID' );
-            $this->_onlyPublicGroups = true;
         } else {
             require_once 'CRM/Contact/BAO/Contact.php';
             if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::VIEW ) ) {

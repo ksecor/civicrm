@@ -78,16 +78,20 @@ class CRM_ACL_Form_EntityRole extends CRM_Admin_Form
     {
         require_once 'CRM/ACL/BAO/EntityRole.php';        
 
-        $params = $this->controller->exportValues( $this->_name );
 
-        if ( $this->_id ) {
-            $params['id'] = $this->_id;
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            CRM_ACL_BAO_EntityRole::del($this->_id);
+            CRM_Core_Session::setStatus( ts('Selected Entity Role has been deleted.') );
+        } else {
+            $params = $this->controller->exportValues( $this->_name );
+            if ( $this->_id ) {
+                $params['id'] = $this->_id;
+            }
+            
+            $params['entity_table'] = 'civicrm_group';
+            CRM_ACL_BAO_EntityRole::create( $params );
         }
-
-        $params['entity_table'] = 'civicrm_group';
-        CRM_ACL_BAO_EntityRole::create( $params );
     }
-
 }
 
 ?>

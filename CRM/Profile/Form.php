@@ -52,6 +52,8 @@ class CRM_Profile_Form extends CRM_Core_Form
         MODE_EDIT     = 8;
 
     protected $_mode;
+    
+    protected $_skipPermission = false;
 
     /** 
      * The contact id that we are editing 
@@ -151,9 +153,13 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                       CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
                                                                       false,
                                                                       $this->_gid,
-                                                                      true ); 
+                                                                      true, null,
+                                                                      $this->_skipPermission ); 
         } else {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid ); 
+            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null,
+                                                               null, null,
+                                                               false, null,
+                                                               true );
         }
 
         if (! is_array($this->_fields)) {
