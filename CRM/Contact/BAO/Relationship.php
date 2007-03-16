@@ -291,9 +291,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $relationship->id = $id;
         
         $relationship->find(true);
-        
-        $config   =& CRM_Core_Config::singleton( );
-        if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
+                
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             // create $params array which isrequired to delete memberships
             // of the related contacts.
             $params = array(
