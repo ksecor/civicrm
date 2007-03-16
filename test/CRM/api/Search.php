@@ -152,6 +152,67 @@ class TestOfSearch extends UnitTestCase
         $result = crm_contact_search( $params );
         
     }
+
+    function testSearchByEmail( )
+    {
+        $params = array( 'email' => '%yahoo.com' );
+        $returnProperties = array(
+                                  'sort_name' => 1,
+                                  'email'=> 1
+                                  );
+        $sort   = array( 'sort_name' => 'ASC' ); 
+        
+        $contacts =& crm_contact_search( $params, $returnProperties, $sort, 0, 100 );
+        echo " <b>Search by email:</b> <br /.>" ;
+        foreach ($contacts[0] as $key => $contactArray) {
+            echo  "[<i>Sort Name:</i> ] " . $contactArray['sort_name'] . " &nbsp;&nbsp;&nbsp;&nbsp;[<i>Email :</i> ]" . $contactArray['email']  . "\n <br />";
+        }
+    }
+    
+
+
+
+    function testSearchByDisplayName( )
+    {
+        $params = array( 'display_name' => '%lic%' );
+        
+        $returnProperties = array(
+                                  'sort_name' => 1,
+                                  'city' => 1,
+                                  'phone' => 1,
+                                  'email'=> 1
+                                  );
+        $sort   = array( 'sort_name' => 'ASC' ); 
+        
+        $contacts =& crm_contact_search( $params, $returnProperties, $sort, 0, 100 );
+        echo " <b>Search by display name</b> <br /.>" ;
+        foreach ($contacts[0] as $key => $contactArray) {
+            echo " [<i>Sort Name:</i> ] " . $contactArray['sort_name'] . " &nbsp;&nbsp;&nbsp;&nbsp;[<i>Email:</i> ]" . $contactArray['email']  . "\n <br />";
+        }
+    }
+    
+
+
+
+    function testSearchBySortName( )
+    {
+        $params = array( 'sort_name' => 'Gr%' );
+        
+        $returnProperties = array(
+                                  'sort_name' => 1,
+                                  'city' => 1,
+                                  'phone' => 1,
+                                  'email'=> 1
+                                  );
+        $sort   = array( 'sort_name' => 'ASC' ); 
+       
+        $contacts =& crm_contact_search( $params, $returnProperties, $sort, 0, 100 );
+        echo " <b>Search by sort name</b> <br /.>" ;
+        foreach ($contacts[0] as $key => $contactArray) {
+            echo " [<i>Sort Name:</i> ] " . $contactArray['sort_name'] . " &nbsp;&nbsp;&nbsp;&nbsp;[<i>Email :</i> ]" . $contactArray['email']  . " &nbsp;&nbsp;&nbsp;&nbsp;[<i>City:</i>]" . $contactArray['city'] . " &nbsp;&nbsp;&nbsp;&nbsp;[<i>Phone:</i>]" . $contactArray['phone'] . "\n <br />";
+        }
+    }
+    
 }
 
 ?>

@@ -269,7 +269,7 @@ class CRM_Contact_BAO_Query {
         require_once 'CRM/Contact/BAO/Contact.php';
 
         // CRM_Core_Error::backtrace( );
-        // CRM_Core_Error::debug( 'params', $params );
+        //CRM_Core_Error::debug( 'params', $params );
         // CRM_Core_Error::debug( 'f', $fields );
         // CRM_Core_Error::debug( 'post', $_POST );
         // CRM_Core_Error::debug( 'r', $returnProperties );
@@ -860,7 +860,8 @@ class CRM_Contact_BAO_Query {
 
         if ( $id == 'sort_name' ||
              $id == 'email'     ||
-             $id == 'notes' ) {
+             $id == 'notes'     ||
+             $id == 'display_name') {
             $result = array( $id, 'LIKE', $values, 0, 1 );
         } else if ( is_string( $values ) && strpos( $values, '%' ) !== false ) {
             $result = array( $id, 'LIKE', $values, 0, 0 );
@@ -884,7 +885,7 @@ class CRM_Contact_BAO_Query {
         }
 
         switch ( $values[0] ) {
-
+            
         case 'contact_type':
             $this->contactType( $values );
             return;
@@ -906,6 +907,7 @@ class CRM_Contact_BAO_Query {
             return;
 
         case 'sort_name':
+        case 'display_name':
             $this->sortName( $values );
             return;
 
@@ -1879,9 +1881,9 @@ class CRM_Contact_BAO_Query {
      */
     function sortName( &$values ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        $newName = $name;
+        $name    = trim( $value ); 
         
-        $name = trim( $value ); 
-
         $config =& CRM_Core_Config::singleton( );
 
         $sub  = array( ); 
@@ -1894,7 +1896,11 @@ class CRM_Contact_BAO_Query {
             } else {
                 $value = "'$value'";
             }
-            $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
+            if( $newName == 'sort_name') {
+                $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
+            } else {
+                $sub[] = " ( LOWER(contact_a.display_name) $op $value )";
+            }
         } else { 
             // split the string into pieces 
             $pieces =  explode( ' ', $name ); 
@@ -1906,13 +1912,18 @@ class CRM_Contact_BAO_Query {
                 } else {
                     $value = "'$value'";
                 }
-                $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
+                if( $newName == 'sort_name') {
+                    $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
+                } else {
+                    $sub[] = " ( LOWER(contact_a.display_name) $op $value )";
+                }
             } 
-        } 
+        }
 
         $this->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
         $this->_qill[$grouping][]  = ts( 'Name like - "%1"', array( 1 => $name ) );
     }
+
 
     /**
      * where / qill clause for email
@@ -2425,7 +2436,7 @@ class CRM_Contact_BAO_Query {
                               $offset = 0,
                               $row_count = 25 ) {
         $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null );
-
+ 
         list( $select, $from, $where ) = $query->query( );
         $options = $query->_options;
         $sql = "$select $from $where";
@@ -2435,6 +2446,7 @@ class CRM_Contact_BAO_Query {
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }
+
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
 
         $values = array( );
@@ -2535,7 +2547,7 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = "$select $from $where $order $limit";
-        //CRM_Core_Error::debug("q", $query);
+        
         if ( $returnQuery ) {
             return $query;
         }
