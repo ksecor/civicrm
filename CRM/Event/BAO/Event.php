@@ -477,14 +477,18 @@ WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
     static function &getCompleteInfo( $start = null, $type = null ) 
     {
         
-        if( $start && $type) { 
-            $condition =  CRM_Utils_Type::escape( $start, 'Date' ).
-                   " AND civicrm_event.event_type_id = " .CRM_Utils_Type::escape( $type, 'Integer' );
+        if ( $start ) {
+            // get events with start_date >= requested start
+            $condition =  CRM_Utils_Type::escape( $start, 'Date' );
         } else {
-            // the default case
+            // get events with start date >= today
             $condition =  date("Ymd");
         }
-        // Get the Id of Option Group for Event
+        if ( $type ) {
+            $condition = $condition . " AND civicrm_event.event_type_id = " . CRM_Utils_Type::escape( $type, 'Integer' );
+        }
+
+        // Get the Id of Option Group for Event Types
         require_once 'CRM/Core/DAO/OptionGroup.php';
         $optionGroupDAO = new CRM_Core_DAO_OptionGroup();
         $optionGroupDAO->name = 'event_type';
@@ -526,9 +530,9 @@ LEFT JOIN  civicrm_option_value ON (
 WHERE civicrm_event.is_active = 1 
       AND civicrm_event.domain_id = %2
       AND civicrm_event.is_public = 1 
-      AND civicrm_event.start_date >= ".$condition .
+      AND civicrm_event.start_date >= ". $condition .
 " ORDER BY   civicrm_event.start_date ASC";
-        
+
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
         $all = array( );

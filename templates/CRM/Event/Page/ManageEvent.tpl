@@ -20,7 +20,7 @@
 <p></p>
     <div class="form-item" id=event_status_id>
         {strip}
-        {ts 1=$newEventURL 2=$icalPage 3=$icalURL} <a href="%1" id="newManageEvent">&raquo; New Event</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="%2">&raquo; Browse iCalendar Listing</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="%3">&raquo; Download iCalendar File</a>{/ts}   
+        {ts 1=$newEventURL 2=$icalPage 3=$icalURL} <a href="%1" id="newManageEvent">&raquo; New Event</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="%2">&raquo; Browse iCalendar Listing</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="%3">&raquo; Download iCalendar File</a>{/ts} &nbsp; {help id='icalendar'}   
         <br />
         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
         <thead>
