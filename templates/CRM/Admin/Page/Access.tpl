@@ -18,7 +18,7 @@
         <td class="nowrap"><a href="{$ufAccessURL}" id="adminAccess">&raquo; {ts}Drupal Access Control{/ts}</a></td>
         <td>{ts}Grant access to CiviCRM components and access to view or edit contacts using <strong>Drupal roles</strong>.{/ts}</td>
     </tr>
-    <tr><td colspan="2" class="separator"><strong>{ts}Use following steps if you need to control View and/or Edit permissions for specific contact groups.{/ts}</strong></td></tr>
+    <tr><td colspan="2" class="separator"><strong>{ts}Use following steps if you need to control View and/or Edit permissions for specific contact groups, specific profiles or specific custom data fields.{/ts}</strong></td></tr>
 {/if}
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/options' q="reset=1&group=acl_role"}" id="editACLRoles">&raquo; {ts}1. Manage Roles{/ts}</a></td>

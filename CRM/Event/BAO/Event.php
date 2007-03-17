@@ -484,8 +484,20 @@ WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
             // the default case
             $condition =  date("Ymd");
         }
-
-        $sql = "
+        // Get the Id of Option Group for Event
+        require_once 'CRM/Core/DAO/OptionGroup.php';
+        $optionGroupDAO = new CRM_Core_DAO_OptionGroup();
+        $optionGroupDAO->name = 'event_type';
+        $optionGroupId = null;
+        if ($optionGroupDAO->find(true) ) {
+            $optionGroupId = $optionGroupDAO->id;
+        }
+        
+        $params = array( 1 => array( $optionGroupId, 'Integer' ),
+                         2 => array( CRM_Core_Config::domainID( ),
+                                     'Integer' ) );
+        
+        $query = "
 SELECT
   civicrm_event.id as event_id,
   civicrm_email.email as email,
@@ -493,6 +505,7 @@ SELECT
   civicrm_event.start_date as start,
   civicrm_event.end_date as end,
   civicrm_event.description as description,
+  civicrm_option_value.label as event_type,
   civicrm_address.street_address as street_address,
   civicrm_address.city as city,
   civicrm_address.postal_code as postal_code,
@@ -507,17 +520,18 @@ LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_
 LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
 LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
 LEFT JOIN civicrm_email ON civicrm_location.id = civicrm_email.location_id
-LEFT JOIN civicrm_domain ON civicrm_event.domain_id = civicrm_domain.id
+LEFT JOIN  civicrm_option_value ON (
+                                    civicrm_event.event_type_id = civicrm_option_value.value AND
+                                    civicrm_option_value.option_group_id = %1 )
 WHERE civicrm_event.is_active = 1 
+      AND civicrm_event.domain_id = %2
       AND civicrm_event.is_public = 1 
-      AND civicrm_event.start_date >= ".$condition;
-
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $sql );
+      AND civicrm_event.start_date >= ".$condition .
+" ORDER BY   civicrm_event.start_date ASC";
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
         $all = array( );
-
-        $config =& CRM_Core_Config::singleton( );
 
         while ( $dao->fetch( ) ) {
         
@@ -527,6 +541,7 @@ WHERE civicrm_event.is_active = 1
             $info['start_date'   ] = $dao->start;
             $info['end_date'     ] = $dao->end;
             $info['contact_email'] = $dao->email;
+            $info['event_type'   ] = $dao->event_type;
   
             $address = '';
 
