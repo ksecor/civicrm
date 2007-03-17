@@ -254,7 +254,7 @@ class CRM_Core_DAO extends DB_DataObject {
             $this->insert();
             $this->log( true );
         }
-
+        $this->free( );
         return $this;
     }
 
@@ -475,10 +475,12 @@ class CRM_Core_DAO extends DB_DataObject {
         $object->$idName =  $id;
         $object->selectAdd( );
         $object->selectAdd( 'id, ' . $fieldName );
+        $result = null;
         if ( $object->find( true ) ) {
-            return $object->$fieldName;
+            $result = $object->$fieldName;
         }
-        return null;
+        $object->free( );
+        return $result;
      }
 
     /**
@@ -499,13 +501,15 @@ class CRM_Core_DAO extends DB_DataObject {
         $object->selectAdd( );
         $object->selectAdd( 'id, ' . $fieldName );
         $object->id    = $id;
+        $result = false;
         if ( $object->find( true ) ) {
             $object->$fieldName = $value;
             if ( $object->save( ) ) {
-                return true;
+                $result = true;
             }
         }
-        return false;
+        $object->free( );
+        return $result;
     }
 
 

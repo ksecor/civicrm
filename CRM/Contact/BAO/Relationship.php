@@ -175,13 +175,16 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         
         $relationship->id = CRM_Utils_Array::value( 'relationship', $ids );
         
+        $relationship->save( );
+        $relationship->free( );
+
         if ( CRM_Utils_Array::value( 'relationship', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Relationship', $relationship->id, $relationship );
         } else {
             CRM_Utils_Hook::post( 'create', 'Contribution', $relationship->id, $relationship );
         }
-        
-        return  $relationship->save( );
+
+        return $relationship;
     }
 
 
@@ -459,9 +462,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
 
         $relationship =& new CRM_Contact_BAO_Relationship();
         $relationship->query($queryString);
-        $relationship->fetch();
-        $relationship->id;
-
+        $relationship->fetch( );
+        $relationship->free( );
         return ( $relationship->id ) ? true : false;
     }
 
@@ -712,6 +714,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 }
             }
 
+            $relationship->free( );
             return $values;
         }
     }

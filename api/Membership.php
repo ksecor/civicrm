@@ -463,6 +463,7 @@ function crm_update_contact_membership($params)
         
     $membership = array();
     _crm_object_to_array( $membershipBAO, $membership );
+    $membershipBAO->free( );
     return $membership;
 }
 
@@ -595,7 +596,7 @@ SELECT start_date, end_date, join_date
                                                                         $dao->end_date,
                                                                         $dao->join_date );
     } else {
-        $result =& _crm_error( 'Invalid value for membershipID' );
+        $result = null;
     }
     $dao->free( );
     return $result;
