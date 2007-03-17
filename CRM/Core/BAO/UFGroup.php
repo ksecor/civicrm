@@ -139,7 +139,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
 
             $subset = self::getFields( $id, true, $action,
-                                       null, null, false, null, true );
+                                       null, null, false, null, true, $ctype );
 
             // we do not allow duplicates. the first field is the winner
             foreach ( $subset as $name => $field ) {
@@ -225,7 +225,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function getFields( $id, $register = false, $action = null,
                                $visibility = null , $searchable = null,
                                $showAll= false, $restrict = null,
-                               $skipPermission = false ) 
+                               $skipPermission = false,
+                               $ctype = 'Individual' ) 
     {
         if ( $restrict ) {
             $query  = "
@@ -313,8 +314,8 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $locationType =& CRM_Core_PseudoConstant::locationType();
             
             require_once 'CRM/Core/BAO/CustomField.php';
-            $customFields = CRM_Core_BAO_CustomField::getFieldsForImport( );
-            
+            $customFields = CRM_Core_BAO_CustomField::getFieldsForImport( $ctype );
+
             // hack to add custom data for components
             $components = array("Contribution", "Participant");
             foreach ( $components as $value) {
@@ -382,6 +383,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         } else {
             CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );
         }
+
         return $fields;
     }
     
