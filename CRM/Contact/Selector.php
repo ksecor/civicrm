@@ -147,7 +147,11 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues = null, &$params = null, &$returnProperties = null, $action = CRM_Core_Action::NONE) 
+    function __construct(&$formValues = null,
+                         &$params = null,
+                         &$returnProperties = null,
+                         $action = CRM_Core_Action::NONE,
+                         $includeContactIds = false ) 
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact =& new CRM_Contact_BAO_Contact();
@@ -180,7 +184,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $this->_returnProperties['sort_name'   ] = 1;
         }
 
-        $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $this->_returnProperties );
+        $this->_query   =& new CRM_Contact_BAO_Query( $this->_params,
+                                                      $this->_returnProperties,
+                                                      null, $includeContactIds );
         $this->_options =& $this->_query->_options;
     }//end of constructor
 
