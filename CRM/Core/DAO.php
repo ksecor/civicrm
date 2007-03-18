@@ -420,15 +420,64 @@ class CRM_Core_DAO extends DB_DataObject {
      * Function to begin/commit/rollback a transaction
      *
      * @param string $type an enum which is either BEGIN|COMMIT|ROLLBACK
+     *                     or null if you just want transaction status
      * 
-     * @return void
+     * @return boolean true if success| false if rollback or transaction will be rolled back
      * @access public
      */
     static function transaction( $type ) {
+        static $count = 0, $rollback = false;
+
+        if ( empty( $type ) ) {
+            // return status if no type sent
+            return ! $rollback;
+        }
+
         if ( self::$_singleton == null ) {
             self::$_singleton =& new CRM_Core_DAO( );
         }
-        self::$_singleton->query( $type );
+
+        $result = true;
+        switch ( $type ) {
+        case 'BEGIN':
+            if ( $count == 0 ) {
+                self::$_singleton->query( 'BEGIN' );
+            }
+            $count++;
+            break;
+
+        case 'ROLLBACK':
+            $count--;
+            if ( $count == 0 ) {
+                self::$_singleton->query( 'ROLLBACK' );
+                $rollback = false;
+            } else {
+                $rollback = true;
+            }
+            $result = false;
+            break;
+
+        case 'COMMIT':
+            $count--;
+            if ( $rollback ) {
+                $result = false;
+            }
+            if ( $count == 0 ) {
+                if ( $rollback ) {
+                    self::$_singleton->query( 'ROLLBACK' );
+                } else {
+                    self::$_singleton->query( 'COMMIT' );
+                }
+                $rollback = false;
+            }
+            break;
+
+        default:
+            CRM_Core_Error::fatal( ts( 'Unhandled transaction type: %1',
+                                       array( 1 => $type ) ) );
+            break;
+        }
+        return $result;
     }
 
     /**
