@@ -87,11 +87,11 @@ Paid events require that you have configured a <a href="%1" target="_blank" titl
     </dl>
     <div id="confirmEmail">
     <dl>
-	    <dt>{$form.confirm_email_text.label}</dt><dd>{$form.confirm_email_text.html}</dd>
+	    <dt>{$form.confirm_email_text.label} </dt><dd>{$form.confirm_email_text.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Additional message or instructions to include in confirmation email.{/ts}</dd>
-        <dt>{$form.confirm_from_name.label}</dt><dd>{$form.confirm_from_name.html}</dd>
+        <dt>{$form.confirm_from_name.label} <span class="marker">*</span></dt><dd>{$form.confirm_from_name.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}FROM name for email.{/ts}</dd>
-        <dt>{$form.confirm_from_email.label}</dt><dd>{$form.confirm_from_email.html}</dd>
+        <dt>{$form.confirm_from_email.label} <span class="marker">*</span></dt><dd>{$form.confirm_from_email.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}FROM email address (this must be a valid email account wiht your SMTP email service provider).{/ts}</dd>
     	<dt>{$form.cc_confirm.label}</dt><dd>{$form.cc_confirm.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}You can notify event organizers of each online registration by specifying an email address to receive a cc (carbon copy).{/ts}</dd>
