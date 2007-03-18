@@ -194,7 +194,11 @@ class CRM_Core_Invoke
 
         if ( $args[2] == 'map' ) {
             $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
+            if ( CRM_Utils_Array::value( 3, $args ) == 'event' ) {
+                return $wrapper->run( 'CRM_Contact_Form_Task_Map_Event', ts('Map Event Location'),  null );
+            } else {
+                return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
+            }
         }
 
         if ($args[2] == 'view') {

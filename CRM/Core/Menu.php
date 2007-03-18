@@ -197,8 +197,8 @@ class CRM_Core_Menu {
                             ),
 
                       array(
-                            'path'    => 'civicrm/contact/map',
-                            'title'   => ts('Map Location'),
+                            'path'    => 'civicrm/contact/map/event',
+                            'title'   => ts('Map Event Location'),
                             'query'   => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::CALLBACK,
