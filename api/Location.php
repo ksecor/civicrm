@@ -4,7 +4,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | copyright CiviCRM LLC (c) 2004-2007                                  |
+ | copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -19,7 +19,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -67,7 +67,6 @@ function crm_create_location(&$contact, $params) {
     $loc['address'] = array( );    
     _crm_store_values($fields, $params, $loc['address']);
     
-    //$ids = array( 'county', 'country_id', 'state_province_id', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
     $ids = array( 'county', 'country_id', 'country', 'state_province_id', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
     
     foreach ( $ids as $id ) {
@@ -97,18 +96,7 @@ function crm_create_location(&$contact, $params) {
             }
         }
     }
-    /*
-    foreach ( $blocks as $block ) {
-        $name = strtolower($block);
-        $loc[$name]    = array( );
-        if ( $params[$name] ){
-            $count = 1;
-            foreach ( $params[$name] as $val) {
-                CRM_Core_DAO::storeValues($val,$loc[$name][$count++]);
-            }
-        }
-    }
-    */
+
     $ids = array();
     require_once 'CRM/Core/BAO/Location.php';
     
