@@ -926,7 +926,17 @@ if (isset($argv[1])) {
 }
 
 function clean_dir( $path ) {
+    if ( ! is_dir( $path ) ) {
+        echo "WARNING: $path is not a directory\n";
+        return;
+    }
+    
     $dir = opendir( $path );
+    if ( ! $dir ) {
+        echo "WARNING: Could not open $path\n";
+        return;
+    }
+
     while ( false !== ($file = readdir($dir)) ) {
         if ( $file == '.' || $file == '..' ) {
             continue;
