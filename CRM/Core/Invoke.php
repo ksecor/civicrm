@@ -959,6 +959,10 @@ class CRM_Core_Invoke
      */
     static function user( $args ) 
     {
+        if ( $args[1] !== 'user' ) {
+            return;
+        }
+
         require_once 'CRM/Contact/Page/View/UserDashBoard.php';
         $view =& new CRM_Contact_Page_View_UserDashBoard( );
         return $view->run();
