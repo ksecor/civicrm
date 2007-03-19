@@ -116,7 +116,13 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         // check for permissions
         $this->_permission = null;
-        if ( CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
+
+        // automatically grant permissin for users on their own record. makes 
+        // things easier in dashboard
+        if ( $session->get( 'userID' ) == $this->_contactId ) {
+            $this->assign( 'permission', 'edit' );
+            $this->_permission = CRM_Core_Permission::EDIT;            
+        } else if ( CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
             $this->assign( 'permission', 'edit' );
             $this->_permission = CRM_Core_Permission::EDIT;            
         } else if ( CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::VIEW ) ) {
