@@ -83,6 +83,14 @@ must input these values before your can process TEST or LIVE transactions. Refer
 }
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="paymentProcessor"
+    trigger_value       ="AuthNet_AIM"
+    target_element_id   ="authnet" 
+    target_element_type ="block"
+    field_type          ="select"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="paymentProcessor"
     trigger_value       ="PayPal|PayPal_Express|PayPal_Standard|Moneris"
     target_element_id   ="paypal" 
     target_element_type ="block"
