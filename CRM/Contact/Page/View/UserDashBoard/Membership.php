@@ -58,18 +58,21 @@ class CRM_Contact_Page_View_UserDashBoard_Membership extends CRM_Contact_Page_Vi
         $dao->contact_id = $this->_contactId;
         $dao->find();
         
-        $mask = CRM_Core_Action::mask( $permission );
         while ($dao->fetch()) {
             $membership[$dao->id] = array( );
             CRM_Core_DAO::storeValues( $dao, $membership[$dao->id]);
             foreach ( $idList as $name => $file ) {
                 if ( $membership[$dao->id][$name .'_id'] ) {
-                    $membership[$dao->id][$name] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_' . $file, 
-                                                                                $membership[$dao->id][$name .'_id'] );
+                    $membership[$dao->id][$name] = 
+                        CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_$file", 
+                                                     $membership[$dao->id][$name .'_id'] );
                 }
             }
             if ( $dao->status_id ) {
-                $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $dao->status_id, 'is_current_member');
+                $active =
+                    CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus',
+                                                $dao->status_id,
+                                                'is_current_member');
                 if ( $active ) {
                     $membership[$dao->id]['active'] = $active;
                 }

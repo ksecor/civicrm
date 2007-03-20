@@ -89,10 +89,15 @@ class CRM_Utils_Address
                 $fields[$f] = null;
             }
         }
-        
+
+        $contactName = null;
         if ( !$individualFormat ) {  
             require_once "CRM/Contact/BAO/Contact.php"; 
-            $type = CRM_Contact_BAO_Contact::getContactType($fields['id']);
+            if ( isset( $fields['id'] ) ) {
+                $type = CRM_Contact_BAO_Contact::getContactType($fields['id']);
+            } else {
+                $type = 'Individual';
+            }
 
             if ( $type == 'Individual' ) {
                 if ( ! $config ) {
@@ -106,35 +111,38 @@ class CRM_Utils_Address
         }
 
         if (! $microformat) {
-            $replacements = array( // replacements in case of Individual Name Format
-                                  'contact_name'           => $contactName,
-                                  'individual_prefix'      => $fields['individual_prefix'],
-                                  'first_name'             => $fields['first_name'],
-                                  'middle_name'            => $fields['middle_name'],
-                                  'last_name'              => $fields['last_name'],
-                                  'individual_suffix'      => $fields['individual_suffix'],
-                                  'street_address'         => $fields['street_address'],
-                                  'supplemental_address_1' => $fields['supplemental_address_1'],
-                                  'supplemental_address_2' => $fields['supplemental_address_2'],
-                                  'city'                   => $fields['city'],
-                                  'state_province_name'    => $fields['state_province_name'],
-                                  'county'                 => $fields['county'],
-                                  'state_province'         => $fields['state_province'],
-                                  'postal_code'            => $fullPostalCode,
-                                  'country'                => $fields['country']
-                                  );
+            $replacements =
+                array( // replacements in case of Individual Name Format
+                      'contact_name'           => $contactName,
+                      'individual_prefix'      => CRM_Utils_Array::value( 'individual_prefix', $fields ),
+                      'first_name'             => CRM_Utils_Array::value( 'first_name', $fields ),
+                      'middle_name'            => CRM_Utils_Array::value( 'middle_name', $fields ),
+                      'last_name'              => CRM_Utils_Array::value( 'last_name', $fields ),
+                      'individual_suffix'      => CRM_Utils_Array::value( 'individual_suffix', $fields ),
+                      'street_address'         => CRM_Utils_Array::value( 'street_address', $fields ),
+                      'supplemental_address_1' => CRM_Utils_Array::value( 'supplemental_address_1', $fields ),
+                      'supplemental_address_2' => CRM_Utils_Array::value( 'supplemental_address_2', $fields ),
+                      'city'                   => CRM_Utils_Array::value( 'city', $fields ),
+                      'state_province_name'    => CRM_Utils_Array::value( 'state_province_name', $fields ),
+                      'county'                 => CRM_Utils_Array::value( 'county', $fields ),
+                      'state_province'         => CRM_Utils_Array::value( 'state_province', $fields ),
+                      'postal_code'            => $fullPostalCode,
+                      'country'                => CRM_Utils_Array::value( 'country', $fields )
+                      );
         } else {
-            $replacements = array(
-                                  'street_address'         => "<span class=\"street-address\">" .   $fields['street_address'] . "</span>",
-                                  'supplemental_address_1' => "<span class=\"extended-address\">" . $fields['supplemental_address_1'] . "</span>",
-                                  'supplemental_address_2' => $fields['supplemental_address_2'],
-                                  'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
-                                  'state_province_name'    => "<span class=\"region\">" .           $fields['state_province_name'] . "</span>",
-                                  'county'                 => "<span class=\"region\">" .           $fields['county'],
-                                  'state_province'         => "<span class=\"region\">" .           $fields['state_province'] . "</span>",
-                                  'postal_code'            => "<span class=\"postal-code\">" .      $fullPostalCode . "</span>",
-                                  'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>"
-                                  );
+            $replacements =
+                array(
+                      'street_address'         => "<span class=\"street-address\">" . $fields['street_address'] . "</span>",
+                      'supplemental_address_1' => "<span class=\"extended-address\">" . $fields['supplemental_address_1'] . "</span>",
+                      'supplemental_address_2' => $fields['supplemental_address_2'],
+                      'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
+                      'state_province_name'    => "<span class=\"region\">" .           $fields['state_province_name'] . "</span>",
+                      'county'                 => "<span class=\"region\">" .           $fields['county'],
+                      'state_province'         => "<span class=\"region\">" .           $fields['state_province'] . "</span>",
+                      'postal_code'            => "<span class=\"postal-code\">" .      $fullPostalCode . "</span>",
+                      'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>"
+                      );
+
             // erase all empty ones, so we dont get blank lines
             foreach ( array_keys( $replacements ) as $key ) {
                 if ( $key != 'postal_code' &&
@@ -146,7 +154,7 @@ class CRM_Utils_Address
                 $replacements['postal_code'] = '';
             }
         }
-
+        
         // for every token, replace {fooTOKENbar} with fooVALUEbar if
         // the value is not empty, otherwise drop the whole {fooTOKENbar}
         foreach ($replacements as $token => $value) {

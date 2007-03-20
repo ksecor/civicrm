@@ -222,7 +222,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
     function setDefaultValues( ) 
     { 
-        if (! $this->_defaults['contribution_status']) {
+        if ( ! CRM_Utils_Array::value( 'contribution_status',
+                                       $this->_defaults ) ) {
             $this->_defaults['contribution_status'] = 1;
         }
         return $this->_defaults;
@@ -321,7 +322,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         // we don't show test contributions in Contact Summary / User Dashboard
         // in Search mode by default we hide test contributions
-        if ( !$this->_formValues["contribution_test"] ) {
+        if ( ! CRM_Utils_Array::value( 'contribution_test',
+                                       $this->_formValues ) ) {
             $this->_formValues["contribution_test"] = 0;
         }
 

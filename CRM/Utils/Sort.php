@@ -135,7 +135,9 @@ class CRM_Utils_Sort {
         }
     
         $this->_currentSortID        = 1;
-        $this->_currentSortDirection = $this->_vars[$this->_currentSortID]['direction'];
+        if ( isset( $this->_vars[$this->_currentSortID] ) ) {
+            $this->_currentSortDirection = $this->_vars[$this->_currentSortID]['direction'];
+        }
         $this->_urlVar               = self::SORT_ID;
         $this->_link                 = CRM_Utils_System::makeUrl( $this->_urlVar );
 
