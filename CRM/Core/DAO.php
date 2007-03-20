@@ -426,7 +426,8 @@ class CRM_Core_DAO extends DB_DataObject {
      * @access public
      */
     static function transaction( $type ) {
-        static $count = 0, $rollback = false;
+        static $count    = 0;
+        static $rollback = false;
 
         if ( empty( $type ) ) {
             // return status if no type sent

@@ -2723,10 +2723,10 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
 
         if ( $name == $fieldName . '_low' ) {
             $op     = '>=';
-            $phrase = 'greater than';
+            $phrase = 'greater than or equal to';
         } else if ( $name == $fieldName . '_high' ) {
             $op     = '<=';
-            $phrase = 'less than';
+            $phrase = 'less than or equal to';
         } else if ( $name == $fieldName ) {
             $op     = '=';
             $phrase = '=';
