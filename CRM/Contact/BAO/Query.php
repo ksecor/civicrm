@@ -960,6 +960,7 @@ class CRM_Contact_BAO_Query {
         case 'changed_by':
             $this->changeLog( $values );
             return;
+
         case 'do_not_phone':
         case 'do_not_email':
         case 'do_not_mail':
@@ -1578,8 +1579,8 @@ class CRM_Contact_BAO_Query {
                 continue;
 
             case 'civicrm_log':
-                $from .= " $side JOIN civicrm_log ON (civicrm_log.entity_id = contact_a.id )";
-                $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_log.modified_id = contact_b.id AND civicrm_log.entity_table=\"civicrm_contact\")";
+                $from .= " $side JOIN civicrm_log ON (civicrm_log.entity_id = contact_a.id AND civicrm_log.entity_table = 'civicrm_contact')";
+                $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_log.modified_id = contact_b.id)";
                 continue;
                 
             case 'civicrm_activity':
@@ -2124,7 +2125,7 @@ class CRM_Contact_BAO_Query {
         $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) LIKE '%$name%'";
         $this->_tables['civicrm_log'] = $this->_whereTables['civicrm_log'] = 1; 
         $this->_qill[$grouping][] = ts( "Changed by: %1", 
-                                            array( 1 => $name) );
+                                        array( 1 => $name) );
     }
 
     function modifiedDates( $values )
@@ -2547,7 +2548,6 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = "$select $from $where $order $limit";
-        
         if ( $returnQuery ) {
             return $query;
         }
@@ -2738,6 +2738,11 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
             $revDate = array_reverse( $value );
             $date    = CRM_Utils_Date::format( $revDate );
             $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
+            // add 235959 if its less that or equal to
+            if ( $op == '<=' &&
+                 strlen( $date ) == 8 ) {
+                $date .= '235959';
+            }
             if ( $date ) {
                 $this->_where[$grouping][] = $tableName . '.' . $dbFieldName . " $op '$date'";
                 $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
