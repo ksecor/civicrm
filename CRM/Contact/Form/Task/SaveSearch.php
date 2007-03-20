@@ -83,7 +83,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
     function buildQuickForm()
     {
         // get the qill 
-        $query =& new CRM_Contact_BAO_Query( $this->get( 'formValues' ) );
+        $query =& new CRM_Contact_BAO_Query( $this->get( 'queryParams' ) );
         $qill = $query->qill( );
 
         // need to save qill for the smarty template
