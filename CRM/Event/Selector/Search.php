@@ -296,7 +296,9 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              $row = array();
              // the columns we are interested in
              foreach (self::$_properties as $property) {
-                 $row[$property] = $result->$property;
+                 if ( isset( $result->$property ) ) {
+                     $row[$property] = $result->$property;
+                 }
              }
 
              //fix status display

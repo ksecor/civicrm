@@ -80,7 +80,7 @@ class CRM_Utils_System_Joomla {
      * @access public
      * @static
      */
-    static function resetBreadCrumb( $bc ) {
+    static function resetBreadCrumb( ) {
         return;
     }
 

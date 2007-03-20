@@ -202,7 +202,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $dao->whereAdd( 'end_date < ' . date( 'YmdHis' ) );
         }
         
-        $dao->find();
+        $dao->find( );
         
         $this->assign( 'past', $past );
         
@@ -213,15 +213,10 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             // form all action links
             $action = array_sum(array_keys($this->links()));
             
-            // update enable/disable links depending on if it is is_reserved or is_active
-            if ($dao->is_reserved) {
-                continue;
+            if ($dao->is_active) {
+                $action -= CRM_Core_Action::ENABLE;
             } else {
-                if ($dao->is_active) {
-                    $action -= CRM_Core_Action::ENABLE;
-                } else {
-                    $action -= CRM_Core_Action::DISABLE;
-                }
+                $action -= CRM_Core_Action::DISABLE;
             }
             
             $manageEvent[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
