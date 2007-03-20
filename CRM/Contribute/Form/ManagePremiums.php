@@ -333,7 +333,6 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                             $params['thumbnail'] = $config->imageUploadURL .$thumbFileName;
                         } else {
                             $error = true;
-                            $url = parse_url($config->userFrameworkBaseURL);
                             $params['thumbnail'] =
                                 $config->resourceBase .'i/contribute/default_premium_thumb.jpg'; 
                         }
