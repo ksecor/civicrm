@@ -170,7 +170,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $this->add( $field['htmlType'],
                             $field['name'],
                             $field['title'],
-                            $field['attributes'] );
+                            $field['attributes'],
+                            $field['is_required'] );
             }
 
             $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
@@ -200,15 +201,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @static 
      */ 
     static function formRule(&$fields, &$files, $self) {
-        
-        if ( ! empty($self->_fields) ) {
-            foreach ( $self->_fields as $name => $fld ) {
-                if ( $fld['is_required'] &&
-                     CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
-                    $errors[$name] = ts( '%1 is a required field.', array( 1 => $fld['title'] ) );
-                }
-            }
-        }
         
         if ( $self->_values['event']['is_monetary'] ) {
             $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event' );
