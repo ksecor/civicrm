@@ -110,7 +110,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     { 
         $config =& CRM_Core_Config::singleton( );
 
-        $this->add( 'text', "email-{$this->_bltID}", ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
+        $this->add( 'text',
+                    "email-{$this->_bltID}",
+                    ts( 'Email Address' ),
+                    array( 'size' => 30, 'maxlength' => 60 ), true );
+
         if ( $this->_values['event']['is_monetary'] ) {
             $this->buildAmount( );
             $this->buildCreditCard( );
@@ -118,18 +122,23 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-        
+
+        $uploadNames = $this->get( 'uploadNames' );
+        $buttonName = empty( $uploadNames ) ? 'next' : 'upload';
+
         // if payment is via a button only, dont display continue
-        if ( $config->paymentBillingMode != CRM_Core_Payment::BILLING_MODE_BUTTON || !$this->_values['event']['is_monetary']) {
+        if ( $config->paymentBillingMode != CRM_Core_Payment::BILLING_MODE_BUTTON ||
+             ! $this->_values['event']['is_monetary']) {
             $this->addButtons(array( 
-                                    array ( 'type'      => 'next', 
+                                    array ( 'type'      => $buttonName, 
                                             'name'      => ts('Continue >>'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
                                     ) 
                               );
         }
-        $this->addFormRule( array( 'CRM_Event_Form_Registration_Register', 'formRule' ),$this );
+        $this->addFormRule( array( 'CRM_Event_Form_Registration_Register', 'formRule' ),
+                            $this );
        
     }
 
@@ -200,16 +209,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @static 
      */ 
     static function formRule(&$fields, &$files, $self) {
-        
-        if ( ! empty($self->_fields) ) {
-            foreach ( $self->_fields as $name => $fld ) {
-                if ( $fld['is_required'] &&
-                     CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
-                    $errors[$name] = ts( '%1 is a required field.', array( 1 => $fld['title'] ) );
-                }
-            }
-        }
-        
         if ( $self->_values['event']['is_monetary'] ) {
             $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event' );
             $error   =  $payment->checkConfig( $self->_mode );

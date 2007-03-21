@@ -49,8 +49,16 @@ class CRM_Event_Controller_Registration extends CRM_Core_Controller {
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );
 
-        // add all the actions
-        $this->addActions( );
+        $config =& CRM_Core_Config::singleton( );
+
+        //changes for custom data type File
+        $uploadNames = $this->get( 'uploadNames' );
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $this->addActions( $config->customFileUploadDir, $uploadNames );
+        } else {
+            // add all the actions
+            $this->addActions( );
+        }
     }
 
 }
