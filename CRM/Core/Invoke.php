@@ -636,11 +636,16 @@ class CRM_Core_Invoke
         }
 
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
+        $session =& CRM_Core_Session::singleton( );
 
         if ( $secondArg == 'activityHistory' ) {
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/import/activityHistory', 'reset=1'));
+
             require_once 'CRM/History/Import/Controller.php';
             $controller =& new CRM_History_Import_Controller(ts('Import Activity History'));
         } else {
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/import', 'reset=1'));
+
             require_once 'CRM/Import/Controller.php';
             $controller =& new CRM_Import_Controller(ts('Import Contacts'));
         }
