@@ -124,6 +124,7 @@ class CRM_Utils_System {
                                                 'acl'                => 'ACL',
                                                 'entityrole'         => 'EntityRole',
                                                 'manageevent'        => 'ManageEvent',
+                                                'manageeventedit'    => 'ManageEventEdit',
                                                 'pickprofile'        => 'PickProfile',
                                                 'userdashboard'      => 'UserDashBoard'
                                                 );

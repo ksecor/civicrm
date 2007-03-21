@@ -154,7 +154,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      * @param int $pageId 
      * @static
      */
-    function buildRegistrationBlock( $form ) 
+    function buildRegistrationBlock(&$form ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
         $form->add('textarea','intro_text',ts('Introductory Text'), $attributes['intro_text']);
@@ -169,7 +169,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      * @param int $pageId 
      * @static
      */
-    function buildConfirmationBlock( $form) 
+    function buildConfirmationBlock(&$form) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
         $form->add('text','confirm_title',ts('Title '), $attributes['confirm_title']);
@@ -183,7 +183,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      * @param int $pageId 
      * @static
      */
-    function buildMailBlock( $form ) 
+    function buildMailBlock(&$form ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
         $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, null, array('onclick' =>"return showHideByValue('is_email_confirm','','confirmEmail','block','radio',false);"));
@@ -197,7 +197,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $form->addRule( "confirm_from_email", ts('Email is not valid.'), 'email' );
     }
 
-    function buildThankYouBlock( $form) 
+    function buildThankYouBlock(&$form) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
         $form->add('text','thankyou_title',ts('Title '), $attributes['thankyou_title']);
