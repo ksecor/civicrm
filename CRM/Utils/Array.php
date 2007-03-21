@@ -160,7 +160,31 @@ class CRM_Utils_Array {
         }
         return false;
     }
-
+    
+    /**
+     * emulated version of array_combine
+     *
+     * As array_combine is PHP5 only method, need to have emulated
+     * version for PHP4.
+     * 
+     * @params  array  $keyList
+     * @params  array  $valueList
+     * 
+     * @return  array  combined array.
+     * 
+     * @static
+     * @access public
+     */
+    static function combine( &$keyList, &$valuesList ) {
+        $keys = array_values( (array) $keyList );
+        $vals = array_values( (array) $valueList );
+        $n = max( count( $keys ), count( $vals ) );
+        $r = array();
+        for( $i=0; $i<$n; $i++ ) {
+            $r[ $keys[ $i ] ] = $vals[ $i ];
+        }
+        return $r;
+    }
 }
 
 ?>

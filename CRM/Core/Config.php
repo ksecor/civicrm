@@ -1163,11 +1163,13 @@ class CRM_Core_Config
         
         if ( $this->defaultCurrency ) {
             require_once "CRM/Core/PseudoConstant.php";
-            $this->currencySymbols = array_combine( CRM_Core_PseudoConstant::currencySymbols( 'name'),
-                                                     CRM_Core_PseudoConstant::currencySymbols( ));
+            $this->currencySymbols = CRM_Utils_Array::combine(
+                                                     CRM_Core_PseudoConstant::currencySymbols( 'name'),
+                                                     CRM_Core_PseudoConstant::currencySymbols( )     
+                                                     );
             $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
         }
-
+        
         if ( $this->mapProvider ) {
             $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
         }

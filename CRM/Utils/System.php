@@ -122,7 +122,10 @@ class CRM_Utils_System {
                                                 'optionvalue'        => 'OptionValue',
                                                 'messagetemplates'   => 'MessageTemplates',
                                                 'acl'                => 'ACL',
-                                                'entityrole'         => 'EntityRole'
+                                                'entityrole'         => 'EntityRole',
+                                                'manageevent'        => 'ManageEvent',
+                                                'pickprofile'        => 'PickProfile',
+                                                'userdashboard'      => 'UserDashBoard'
                                                 );
     
     static $_callbacks = null;

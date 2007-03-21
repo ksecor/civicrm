@@ -67,7 +67,7 @@ class CRM_Utils_Money {
 
         if ( !$currencySymbols ) {
             require_once "CRM/Core/PseudoConstant.php";
-            $currencySymbols = array_combine( CRM_Core_PseudoConstant::currencySymbols( 'name'), CRM_Core_PseudoConstant::currencySymbols( ));
+            $currencySymbols = CRM_Utils_Array::combine( CRM_Core_PseudoConstant::currencySymbols( 'name'), CRM_Core_PseudoConstant::currencySymbols( ));
         }
 
         if (!$currency) {

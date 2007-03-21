@@ -65,7 +65,7 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
         }
-       
+        
         $includeContactIds = false;
         if ( $fv['radio_ts'] == 'ts_sel' ) {
             $includeContactIds = true;
