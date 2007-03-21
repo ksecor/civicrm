@@ -67,7 +67,6 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
         $this->addPages( $this->_stateMachine, $mode );
         
         //changes for custom data type File
-        $session = & CRM_Core_Session::singleton( );
         $uploadNames = $this->get( 'uploadNames' );
         
         $config =& CRM_Core_Config::singleton( );
