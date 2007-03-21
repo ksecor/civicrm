@@ -348,6 +348,26 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
      * @public
      */
     function checkConfig( $mode ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        $error = array();
+        if ( empty( $config->apiLogin ) ) {
+            $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME'));
+        }
+
+        if ( empty( $config->paymentKey[$mode] ) ) {
+            if ( $mode == 'live' ) {
+                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_KEY') );
+            } else {
+                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY') );
+            }
+        }
+
+        if ( ! empty( $error ) ) {
+            return implode( ' ', $error );
+        } else {
+            return null;
+        }
     }
 
 }         
