@@ -317,7 +317,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded, $useRequired = true, $search = false, $label = null) 
+    public static function addQuickFormElement( &$qf,
+                                                $elementName,
+                                                $fieldId,
+                                                $inactiveNeeded,
+                                                $useRequired = true,
+                                                $search = false,
+                                                $label = null ) 
     {
         $field =& new CRM_Core_DAO_CustomField();
         $field->id = $fieldId;
@@ -430,14 +436,18 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
             
         case 'File':
-            $element =& $qf->add(strtolower($field->html_type), $elementName, $label,
-                                 $field->attributes, (($useRequired && $field->is_required) && !$search));
+            $element =& $qf->add( strtolower($field->html_type), $elementName, $label,
+                                  $field->attributes,
+                                  ( ( $useRequired && $field->is_required ) && ! $search ) );
 
-            $uploadNames = array();
             $uploadNames = $qf->get('uploadNames');
-            $uploadNames[] = $elementName;
+            if ( ! $uploadNames ) {
+                $uploadNames = array( );
+            }
+            if ( ! in_array( $elementName, $uploadNames ) ) {
+                $uploadNames[] = $elementName;
+            }
             $qf->set( 'uploadNames', $uploadNames );
-
             $config =& CRM_Core_Config::singleton( );
             $qf->controller->fixUploadAction( $config->customFileUploadDir, $uploadNames );
             break;
