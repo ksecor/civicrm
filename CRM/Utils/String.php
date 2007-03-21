@@ -277,7 +277,48 @@ class CRM_Utils_String {
         $converter = new html2text($html);
         return $converter->get_text();
     }
-
+    
+    /** 
+     * emulated version of substr_compare
+     *
+     * substr_comapre is php5 only function. This is emulated version
+     * of substr_compare for php4.
+     *
+     * @param  $mainStr          String
+     * @param  $str              String
+     * @param  $offset           Int
+     * @param  $length           Int
+     * @param  $caseInsensitive  Boolean
+     *
+     * @static
+     * @access public
+     */
+    static function compareSubString( $mainStr, $str, $offset, $length = NULL, $caseInsensitive = false ) {
+        if ( $offset >= strlen($mainStr) ) {
+            return false;
+        }
+        
+        // We are comparing the first n-characters of each string
+        if ( ($offset == 0) && $length && ( $caseInsensitive === true ) ) {
+            return strncasecmp($mainStr, $str, $length);
+        }
+        
+        // Get the substring that we are comparing
+        if ( $length ) {
+            $mainSubStr = substr($mainStr, $offset, $length);
+            $strSubStr  = substr($str, 0, $length);
+        } else {
+            $mainSubStr = substr($mainStr, $offset);
+            $strSubStr  = $str;
+        }
+        
+        // Return a case-insensitive comparison of the two strings
+        if ($caseInsensitive === true) {
+            return strcasecmp( $mainSubStr, $strSubStr );
+        }
+        
+        // Return a case-sensitive comparison of the two strings
+        return strcmp( $mainSubStr, $strSubStr );
+    }
 }
-
 ?>
