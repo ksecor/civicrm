@@ -68,9 +68,19 @@ class CRM_Core_Payment_Google {
 
         if ( empty( $config->merchantID[$mode] ) ) {
             if ( $mode == 'live' ) {
-                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_MERCHANT-ID'));
+                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', 
+                              array(1 => 'Merchant-ID'));
             } else {
-                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_MERCHANT-ID'));
+                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', 
+                              array(1 => 'Merchant-ID'));
+            }
+        }
+        
+        if ( empty( $config->paymentKey[$mode] ) ) {
+            if ( $mode == 'live' ) {
+                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_KEY') );
+            } else {
+                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY') );
             }
         }
         
