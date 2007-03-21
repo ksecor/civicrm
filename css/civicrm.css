@@ -615,6 +615,7 @@ div.crm-pager a {
   padding: 5px;
 }*/
 #crm-container .section-hidden, #crm-container div.view-content {
+  display: block;
   margin: 0px 0px 5px 5px;
   padding: 5px;
 }
