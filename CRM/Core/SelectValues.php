@@ -572,7 +572,8 @@ class CRM_Core_SelectValues
                                 'CiviMember'      => ts('CiviMember'),
                                 'CiviEvent'       => ts('CiviEvent'),
                                 // 'Quest'           => ts('Quest'),
-                                // 'TMF'             => ts('TMF')
+                                // 'TMF'             => ts('TMF'),
+                                'Gcc'             => ts('Gcc')
                                 );
         }
         return $components;

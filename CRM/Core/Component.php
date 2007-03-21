@@ -123,6 +123,20 @@ class CRM_Core_Component
                        ) 
                        )
                        ;
+
+            self::$_info['Gcc'] =
+                array( 'title'   => 'Gcc Application Process',
+                       'path'    => 'CRM_Gcc_',
+                       'url'     => 'gcc',
+                       'perm'    => array( 'edit Gcc Application',
+                                           'view Gcc Application',
+                                           ),
+                       'search'  => 0,
+                       'metaTpl' => 'gcc',
+                       'formTpl' => 'gcc',
+                       'task'    => array( ) 
+                       );
+
         }
         return self::$_info;
     }
