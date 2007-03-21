@@ -2222,10 +2222,12 @@ WHERE civicrm_contact.id IN $idString ";
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
+      
+        if ($data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
+            $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
+            $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
 
-        $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
-        $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
-
+        }
         // contact is null if the profile does not have any contact fields
         if ( $contact ) {
           $contactID = $contact->id;
