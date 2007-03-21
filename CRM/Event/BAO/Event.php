@@ -181,58 +181,35 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         CRM_Core_BAO_Location::deleteContact( $id );
         
         $dependencies = array(
-                  'CRM_Event_DAO_EventPage'    => 
-                             array( 
-                                   'event_id'       => $id ),
-                  'CRM_Core_DAO_CustomOption'  => 
-                             array( 
-                                   'entity_id'      => $id,
-                                   'entity_table'   => 'civicrm_event' ),
                   'CRM_Core_DAO_CustomValue'   =>
                              array(
                                    'entity_id'      => $id,
                                    'entity_table'   => 'civicrm_event' ),
+                  'CRM_Core_DAO_CustomOption'  => 
+                             array( 
+                                   'entity_id'      => $id,
+                                   'entity_table'   => 'civicrm_event_page' ),
+                  'CRM_Event_DAO_EventPage'    => 
+                             array( 
+                                   'event_id'       => $id ),
                   'CRM_Core_DAO_UFJoin'        => 
                              array(
                                    'entity_id'      => $id,
                                    'entity_table'   => 'civicrm_event' ),
-                  'CRM_Event_BAO_Participant'  =>
-                             array( 
-                               'deleteParticipant'  => 
-                                     array(
-                                       'id'    => array( 
-                                                    'event_id' => $id ) ) )
                   );
         
         foreach ( $dependencies as $daoName => $values ) {
             require_once (str_replace( '_', DIRECTORY_SEPARATOR, $daoName ) . ".php");
             eval('$dao = new ' . $daoName . '( );');
             
-            $methodName = null;
-            
             foreach ( $values as $fieldName => $fieldValue ) {
-                if ( ! is_array($fieldValue) ) {
-                    $dao->$fieldName = $fieldValue;
-                    continue;
-                }
-                
-                $methodName = $fieldName;
-                
-                foreach( $fieldValue  as $get => $subValues ) {
-                    foreach ( $subValues as $name => $value ) {
-                        $dao->$name = $value;
-                    }
-                }
+                $dao->$fieldName = $fieldValue;
             }
             
             $dao->find();
             
             while ( $dao->fetch() ) {
-                if ( is_null( $methodName ) ) {
-                    $dao->delete();
-                } else {
-                    eval( $daoName . '::$methodName( $dao->id );');
-                }
+                $dao->delete();
             }
         }
         

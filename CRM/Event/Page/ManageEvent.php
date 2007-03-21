@@ -163,9 +163,16 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::setIsActive($id ,1); 
         } else if ($action & CRM_Core_Action::DELETE ) {
-            require_once 'CRM/Event/BAO/Event.php';
-            CRM_Event_BAO_Event::del($id);
-            CRM_Core_Session::setStatus( ts('The event  has been deleted successfully.') );
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1&action=browse' ) );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ManageEvent_Delete',
+                                                           'Delete Event',
+                                                           $action );
+            $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                              $this, false, 0);
+            $controller->set( 'id', $id );
+            $controller->process( );
+            return $controller->run( );
         } else if ($action & CRM_Core_Action::COPY ) {
             $this->copy( );
         }
