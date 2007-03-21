@@ -175,9 +175,10 @@ class CRM_Utils_Array {
      * @static
      * @access public
      */
-    static function combine( &$keyList, &$valuesList ) {
+    static function combine( &$keyList, &$valueList ) {
         $keys = array_values( (array) $keyList );
         $vals = array_values( (array) $valueList );
+        
         $n = max( count( $keys ), count( $vals ) );
         $r = array();
         for( $i=0; $i<$n; $i++ ) {
