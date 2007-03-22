@@ -39,11 +39,11 @@
         {else}
           {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
         {/if}
-        
+        </fieldset>
         <dl>
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
-</fieldset>
+
 </div>
 
 <script type="text/javascript">

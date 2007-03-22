@@ -147,8 +147,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-
-        if($this->_action & CRM_Core_Action::DELETE) {
+            if($this->_action & CRM_Core_Action::DELETE) {
             $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Delete Profile Field'),
@@ -233,8 +232,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $contribFields =& CRM_Contribute_BAO_Contribution::getContributionFields();
             if ( ! empty( $contribFields ) ) {
+                unset( $contribFields['is_test']);
                 $fields['Contribution'] =& $contribFields;
             }
+         
         }
 
         if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
@@ -243,6 +244,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             if ( ! empty( $participantFields ) ) {
                 unset($participantFields['event_id']);
                 unset($participantFields['participant_contact_id']);
+                unset($participantFields['event_is_test']);
                 $fields['Participant'] =& $participantFields;
             }
         }
