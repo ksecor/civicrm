@@ -8,7 +8,26 @@
 
         <dl>
             <dt>{$form.userFrameworkResourceURL.label}</dt><dd>{$form.userFrameworkResourceURL.html|crmReplace:class:'huge'}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}URL of the location where the civicrm module or component has been installed.{/ts} {help id='resource-url'}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}URL of the location where the civicrm module or component has been installed.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">
+            <table class="form-layout">
+            <tr><td>
+            {ts}
+            <strong>Drupal Example</strong><br />
+            If your site's home url is http://www.example.com/ ... then your CiviCRM Resource URL would be:
+            <div class="font-italic description">
+             &nbsp;&nbsp; http://www.example.com/modules/civicrm/
+            </div>
+            
+            <strong>Joomla Example</strong><br />
+            If your site's home url is http://www.example.com/ ... then your CiviCRM Resource URL would be:
+            <div class="font-italic description">
+             &nbsp;&nbsp; http://www.example.com/administrator/components/com_civicrm/civicrm/
+            </div>
+            {/ts}
+            </td></tr>
+            </table>
+            </dd>
             <dt>{$form.imageUploadURL.label}</dt><dd>{$form.imageUploadURL.html|crmReplace:class:'huge'}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}URL of the location for uploaded image files.{/ts}</dd>
         </dl>
