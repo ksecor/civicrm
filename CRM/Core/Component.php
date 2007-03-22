@@ -132,8 +132,8 @@ class CRM_Core_Component
                                            'view Gcc Application',
                                            ),
                        'search'  => 0,
-                       'metaTpl' => 'gcc',
-                       'formTpl' => 'gcc',
+                       'metaTpl' => 'quest',
+                       'formTpl' => 'quest',
                        'task'    => array( ) 
                        );
 
