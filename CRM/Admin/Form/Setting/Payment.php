@@ -67,11 +67,12 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
         $this->addElement('text','paymentPayPalExpressUrl', ts('Paypal Url - LIVE'));
         
         //for google checkout.
-        $this->addElement('text','googleCheckoutButton', ts('Google Checkout Button'), array( 'size' => 50 ));  
+        $this->addElement('text','googleCheckoutButton_test', ts('Checkout Button - TEST'), array( 'size' => 50 ));  
+        $this->addElement('text','googleCheckoutButton_live', ts('Checkout Button - LIVE'), array( 'size' => 50 ));  
         $this->addElement('text','merchantID_test', ts('Merchant ID  - TEST')); 
-        $this->addElement('text','googleCheckoutTestUrl', ts('Checkout Url - TEST'), array( 'size' => 31 )); 
+        $this->addElement('text','googleCheckoutTestUrl', ts('Checkout URL - TEST'), array( 'size' => 31 )); 
         $this->addElement('text','merchantID_live', ts('Merchant ID - LIVE')); 
-        $this->addElement('text','googleCheckoutUrl', ts('Checkout Url - LIVE'));
+        $this->addElement('text','googleCheckoutUrl', ts('Checkout URL - LIVE'));
 
         //for Authorize.Net
         $this->addElement('text'    ,'apiLogin'         , ts('Authorize.Net API Login'));

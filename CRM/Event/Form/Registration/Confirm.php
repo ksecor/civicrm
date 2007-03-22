@@ -173,7 +173,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
-                       $config->googleCheckoutButton,
+                       $config->googleCheckoutButton[$this->_mode],
                        array( 'class' => 'form-submit' ) );
             
             $this->addButtons(array(
