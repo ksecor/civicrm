@@ -35,6 +35,7 @@
  */
 
 class CRM_Core_Key {
+    static $_key = null;
 
     /**
      * Generate a private key per session and store in session
@@ -44,18 +45,17 @@ class CRM_Core_Key {
      * @access private
      */
     static function privateKey( ) {
-        static $key = null;
-        if ( ! $key ) {
+        if ( ! self::$_key ) {
             $session =& CRM_Core_Session::singleton( );
-            $key     =  $session->get( 'qfPrivateKey' );
-            if ( ! $key ) {
-                $key =
+            self::$_key     =  $session->get( 'qfPrivateKey' );
+            if ( ! self::$_key ) {
+                self::$_key =
                     md5( uniqid( mt_rand( ), true ) ) .
                     md5( uniqid( mt_rand( ), true ) );
-                $session->set( 'qfPrivateKey', $key );
+                $session->set( 'qfPrivateKey', self::$_key );
             }
         }
-        return $key;
+        return self::$_key;
     }
 
     /**
