@@ -30,7 +30,7 @@ DBLOAD=
 
 CALLEDPATH=`dirname $0`
 
-if [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
+if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 	echo; echo Usage: setup.sh [schema file] [database data file] [database name] [database user] [database password] [additional args]; echo
 	exit 0
 fi
