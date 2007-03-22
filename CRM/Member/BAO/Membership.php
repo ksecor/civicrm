@@ -763,7 +763,6 @@ civicrm_membership_status.is_current_member =1";
     {
         $tempParams = $membershipParams;
         $paymemtDone = false;
-
         $form->assign('membership_assign' , true );
         $form->set('membershipID' , $membershipParams['selectMembership']);
         
@@ -879,7 +878,7 @@ civicrm_membership_status.is_current_member =1";
                     $dao->modified_id   = $contactID;
                     $dao->modified_date = date('Ymd');
                     $dao->save();
-                    
+                  
                     $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
                     $form->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                     
@@ -889,7 +888,7 @@ civicrm_membership_status.is_current_member =1";
                     $dao->id = $currentMembership['id'];
                     $dao->find(true); 
                     $membership = $dao ;
-                    
+
                     //insert log here 
                     require_once 'CRM/Member/DAO/MembershipLog.php';
                     $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id);
@@ -902,6 +901,8 @@ civicrm_membership_status.is_current_member =1";
                     $dao->modified_id   = $contactID;
                     $dao->modified_date = date('Ymd');
                     $dao->save();
+                    //retrieve $membershipId for sendMail()
+                    $membershipId = $dao->membership_id;   
                     $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
                     $form->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                 }
@@ -945,7 +946,7 @@ civicrm_membership_status.is_current_member =1";
         //finally send an email receipt
         if ( !$errors[1]  &&  !$errors[2] ) {
             require_once "CRM/Contribute/BAO/ContributionPage.php";
-            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,$form->_values );
+            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,$form->_values, self::getContributionPageId( $membershipId ) );
         }
     }
     
