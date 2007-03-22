@@ -715,8 +715,14 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                                 if ( $fileURL ) {
                                     $params[$index] = $values[$index] = $fileURL;
                                 } else {
-                                    if (preg_match("/^\d*(\.\d+)?$/", $details->{$name})) {
-                                        $customVal = (float)($details->{$name});
+                                    // 
+                                    if (is_numeric( $details->{$name} ) ) {
+                                        // check if there is a . and hence a float
+                                        if ( strpos( '.', $details->{$name} ) ) {
+                                            $customVal = (float )($details->{$name});
+                                        } else {
+                                            $customVal = (int ) ($details->{$name});
+                                        }
                                     } else {
                                         $customVal = $details->{$name};
                                     }
