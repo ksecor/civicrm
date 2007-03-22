@@ -221,10 +221,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             $labels  = CRM_Utils_Array::value( 'label'  , $params );
             $values  = CRM_Utils_Array::value( 'value'  , $params );
             $default = CRM_Utils_Array::value( 'default', $params ); 
-            
-            if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values ) ) {
+
+            if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values )) {
                 for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
-                    if ( ! empty( $labels[$i] ) && !empty( $values[$i] ) ) {
+                    if ( ! empty( $labels[$i] ) && ! CRM_Utils_System::isNull( $values[$i] ) ) {
                         $dao =& new CRM_Core_DAO_CustomOption( );
                         $dao->label        = trim( $labels[$i] );
                         $dao->value        = CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) );
