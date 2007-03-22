@@ -50,6 +50,9 @@ class CRM_Core_DAO extends DB_DataObject {
     static $_nullObject = null;
     static $_nullArray  = array( );
 
+    static $_transactionCount    = 0;
+    static $_transactionRollback = false;
+
     const
         NOT_NULL        =   1,
         IS_NULL         =   2,
@@ -426,12 +429,9 @@ class CRM_Core_DAO extends DB_DataObject {
      * @access public
      */
     static function transaction( $type ) {
-        static $count    = 0;
-        static $rollback = false;
-
         if ( empty( $type ) ) {
             // return status if no type sent
-            return ! $rollback;
+            return ! self::$_transactionRollback;
         }
 
         if ( self::$_singleton == null ) {
@@ -441,35 +441,35 @@ class CRM_Core_DAO extends DB_DataObject {
         $result = true;
         switch ( $type ) {
         case 'BEGIN':
-            if ( $count == 0 ) {
+            if ( self::$_transactionCount == 0 ) {
                 self::$_singleton->query( 'BEGIN' );
             }
-            $count++;
+            self::$_transactionCount++;
             break;
 
         case 'ROLLBACK':
-            $count--;
-            if ( $count == 0 ) {
+            self::$_transactionCount--;
+            if ( self::$_transactionCount == 0 ) {
                 self::$_singleton->query( 'ROLLBACK' );
-                $rollback = false;
+                self::$_transactionRollback = false;
             } else {
-                $rollback = true;
+                self::$_transactionRollback = true;
             }
             $result = false;
             break;
 
         case 'COMMIT':
-            $count--;
-            if ( $rollback ) {
+            self::$_transactionCount--;
+            if ( self::$_transactionRollback ) {
                 $result = false;
             }
-            if ( $count == 0 ) {
-                if ( $rollback ) {
+            if ( self::$_transactionCount == 0 ) {
+                if ( self::$_transactionRollback ) {
                     self::$_singleton->query( 'ROLLBACK' );
                 } else {
                     self::$_singleton->query( 'COMMIT' );
                 }
-                $rollback = false;
+                self::$_transactionRollback = false;
             }
             break;
 
