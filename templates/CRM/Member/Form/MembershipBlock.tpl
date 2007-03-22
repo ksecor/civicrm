@@ -31,7 +31,8 @@
         {assign var="count" value="1"}
            {strip}
              <table border="1">
-            <tr><th>Which membership option(s) should be displayed on this signup form?</th><th>Default option?</th></tr>
+            <tr><th>Which membership option(s) should be displayed on this signup form?</th><th>Default option?<br />
+            <a href="#" title="unselect" onclick="unselectRadio('membership_type_default', 'MembershipBlock'); return false;" >unselect</a></th></tr>
             {assign var="index" value="1"}
                {foreach name=outer key=key item=item from=$form.membership_type}
                   {if $index < 10}
@@ -76,16 +77,16 @@
 <script type="text/javascript">
 	var is_act = document.getElementsByName('is_active');
   	if ( ! is_act[0].checked) {
-        hide('memberFields');
+           hide('memberFields');
 	}
-  function memberBlock(chkbox) {
-        if (chkbox.checked) {
-		   show('memberFields');
-		    return;
-		} else {
-		    hide('memberFields');
-    	    return;
-		}
-	}	
+       function memberBlock(chkbox) {
+           if (chkbox.checked) {
+	      show('memberFields');
+	      return;
+           } else {
+	      hide('memberFields');
+    	      return;
+	   }
+       }
 </script>
 {/literal}
