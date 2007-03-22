@@ -187,7 +187,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                                    'entity_table'   => 'civicrm_event' ),
                   'CRM_Core_DAO_CustomOption'  => 
                              array( 
-                                   'entity_id'      => $id,
+                                   'event_id'       => $id,
                                    'entity_table'   => 'civicrm_event_page' ),
                   'CRM_Event_DAO_EventPage'    => 
                              array( 
@@ -202,14 +202,29 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
             require_once (str_replace( '_', DIRECTORY_SEPARATOR, $daoName ) . ".php");
             eval('$dao = new ' . $daoName . '( );');
             
-            foreach ( $values as $fieldName => $fieldValue ) {
-                $dao->$fieldName = $fieldValue;
-            }
-            
-            $dao->find();
-            
-            while ( $dao->fetch() ) {
-                $dao->delete();
+            if ( $daoName == 'CRM_Core_DAO_CustomOption' ) {
+                require_once 'CRM/Event/DAO/EventPage.php';
+                $eventPage = new CRM_Event_DAO_EventPage( );
+                $eventPage->event_id = $values['event_id'];
+                $eventPage->find( );
+                while ( $eventPage->fetch( ) ) {
+                    $dao->entity_id    = $eventPage->id;
+                    $dao->entity_table = $values['entity_table'];
+                    $dao->find( );
+                    while ( $dao->fetch( ) ) {
+                        $dao->delete( );
+                    }
+                }
+            } else {
+                foreach ( $values as $fieldName => $fieldValue ) {
+                    $dao->$fieldName = $fieldValue;
+                }
+                
+                $dao->find();
+                
+                while ( $dao->fetch() ) {
+                    $dao->delete();
+                }
             }
         }
         
