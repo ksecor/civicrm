@@ -126,7 +126,9 @@ class CRM_Utils_System {
                                                 'manageevent'        => 'ManageEvent',
                                                 'manageeventedit'    => 'ManageEventEdit',
                                                 'pickprofile'        => 'PickProfile',
-                                                'userdashboard'      => 'UserDashBoard'
+                                                'userdashboard'      => 'UserDashBoard',
+                                                'eventinfo'          => 'EventInfo',
+                                                'batchupdateprofile' => 'BatchUpdateProfile',
                                                 );
     
     static $_callbacks = null;
