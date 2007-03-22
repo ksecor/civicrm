@@ -200,14 +200,15 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         foreach ( $dependencies as $daoName => $values ) {
             require_once (str_replace( '_', DIRECTORY_SEPARATOR, $daoName ) . ".php");
-            eval('$dao = new ' . $daoName . '( );');
-            
+            eval('$dao =& new ' . $daoName . '( );');
+
             if ( $daoName == 'CRM_Core_DAO_CustomOption' ) {
                 require_once 'CRM/Event/DAO/EventPage.php';
                 $eventPage = new CRM_Event_DAO_EventPage( );
                 $eventPage->event_id = $values['event_id'];
                 $eventPage->find( );
                 while ( $eventPage->fetch( ) ) {
+                    eval('$dao =& new ' . $daoName . '( );');
                     $dao->entity_id    = $eventPage->id;
                     $dao->entity_table = $values['entity_table'];
                     $dao->find( );
