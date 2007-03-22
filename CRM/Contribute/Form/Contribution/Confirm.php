@@ -81,7 +81,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['token']          = $this->get( 'token' );
 
                 $this->_params['amount'        ] = $this->get( 'amount' );
-                $this->_params['amount_level'  ] = $this->get( 'amount_level' );
                 $this->_params['currencyID'    ] = $config->defaultCurrency;
                 $this->_params['payment_action'] = 'Sale';
 
@@ -122,7 +121,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['ip_address'] = '127.0.0.1';
             }
             $this->_params['amount'        ] = $this->get( 'amount' );
-            $this->_params['amount_level'  ] = $this->get( 'amount_level' );
+            $this->_params['amount_level'  ] = CRM_Core_BAO_CustomOption::getOptionLabel($this->_id, $this->_params['amount'], null, 'civicrm_contribution_page' );
             $this->_params['currencyID'    ] = $config->defaultCurrency;
             $this->_params['payment_action'] = 'Sale';
         }
@@ -142,10 +141,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->assignToTemplate( );
         require_once 'CRM/Contribute/BAO/Premium.php';
         $amount = $this->get( 'amount' );
-        $amount_level = $this->get( 'amount_level' );
-
-        $this->assign('amount_level', $amount_level );
-
+        
         $params = $this->_params;
         $honor_block_is_active = $this->get( 'honor_block_is_active');
         // make sure we have values for it

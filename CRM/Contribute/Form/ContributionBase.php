@@ -266,7 +266,7 @@ contact the site administrator and notify them of this error' ) );
         $this->set( 'name', $name );
 
         $vars = array( 'amount', 'currencyID',
-                       'credit_card_type', 'trxn_id' );
+                       'credit_card_type', 'trxn_id', 'amount_level' );
  
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_values['is_recur'] && 

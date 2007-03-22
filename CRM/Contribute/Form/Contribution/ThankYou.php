@@ -88,8 +88,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $productID    = $this->get ('productID');
         $option       = $this->get ('option');
         $membershipID = $this->get ('membershipID');
-        $amount_level = $this->get ('amount_level' );
-        $this->assign('amount_level', $amount_level );
+
         if ( $productID ) {
             require_once 'CRM/Contribute/BAO/Premium.php';  
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);
