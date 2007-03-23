@@ -326,28 +326,27 @@ ORDER BY
         }
 
         //fix for preferred communication method
-        $prefComm = CRM_Utils_Array::value('preferred_communication_method', $params, array());
-
-        unset($params['preferred_communication_method']);
-        $newPref = array();
-        
-        foreach ( $prefComm  as $k => $v ) {
-            if ( $v ) {
-                $newPref[$k] = $v;
-            }
-        }
-
-        $prefComm =  $newPref;
-        
-        if ( is_array($prefComm) && !empty($prefComm) ) {
-            $prefComm =
-                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-                implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)) .
-                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+        $prefComm = CRM_Utils_Array::value('preferred_communication_method', $params);
+        if ( $prefComm && is_array( $prefComm) ) {
+            unset($params['preferred_communication_method']);
+            $newPref = array();
             
-            $contact->preferred_communication_method = $prefComm;
-        } else {
-            $contact->preferred_communication_method = '';
+            foreach ( $prefComm  as $k => $v ) {
+                if ( $v ) {
+                    $newPref[$k] = $v;
+                }
+            }
+            
+            $prefComm =  $newPref;
+            if ( is_array($prefComm) && !empty($prefComm) ) {
+                $prefComm =
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                    implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)) .
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                $contact->preferred_communication_method = $prefComm;
+            } else {
+                $contact->preferred_communication_method = '';
+            }
         }
 
         $contact->copyValues($params);
