@@ -476,7 +476,7 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
     /**                                                           
      * Delete the object records that are associated with this contact 
      *                    
-     * @param  int  $contactId id of the contact to delete                                                                           
+     * @param  int  $contactId id of the contact to delete
      * 
      * @return boolean  true if deleted, false otherwise
      * @access public 
@@ -484,15 +484,35 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
      */ 
     static function deleteContact( $contactId ) 
     {
+        // While deleting the contact, two cases needs to be
+        // handled. 
+        // 1. Check if this contactd is present in "in honor of" field. If yes
+        // then update that particular record and set "in honor of" = null.
+        // 2. Check if this contact is having any contribution. If yes
+        // then delete the contribution(s).
+        
+        // 1.
+        $contribution =& new CRM_Contribute_DAO_Contribution( );
+        $contribution->honor_contact_id = $contactId;
+        $contribution->find( );
+        while( $contribution->fetch( ) ) {
+            $values = array( );
+            $contribution->storeValues( $contribution, $values );
+            $values['honor_contact_id'] = '';
+            $contribution->copyValues( $values );
+            $contribution->save( );
+        }
+        
+        // 2.
         $contribution =& new CRM_Contribute_DAO_Contribution( );
         $contribution->contact_id = $contactId;
         $contribution->find( );
-
+        
         require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
         while ( $contribution->fetch( ) ) {
             self::deleteContribution($contribution->id);
         }
-
+        
         require_once 'CRM/Contribute/DAO/ContributionRecur.php';
         $recur =& new CRM_Contribute_DAO_ContributionRecur( );
         $recur->contact_id = $contactId;
@@ -502,7 +522,7 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
     /**                                                           
      * Delete the record that are associated with this contribution 
      * record are deleted from contribution product, note and contribution                   
-     * @param  int  $id id of the contribution to delete                                                                  
+     * @param  int  $id id of the contribution to delete
      * 
      * @return boolean  true if deleted, false otherwise
      * @access public 
