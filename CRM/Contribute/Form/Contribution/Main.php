@@ -100,7 +100,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
 
             foreach ($names as $name) {
-                $this->_defaults["billing_" . $name] = $this->_defaults[$name];
+                if ( ! empty( $this->_defaults[$name] ) ) {
+                    $this->_defaults["billing_" . $name] = $this->_defaults[$name];
+                }
             }
         }
 

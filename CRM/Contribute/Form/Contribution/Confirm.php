@@ -171,7 +171,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         $config =& CRM_Core_Config::singleton( );
         if ( in_array("CiviMember", $config->enableComponents) ) {
-            if ($params['selectMembership'] && $params['selectMembership'] != 'no_thanks') {
+            if ( isset( $params['selectMembership'] ) &&
+                 $params['selectMembership'] != 'no_thanks' ) {
                 CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,false , $params['selectMembership'] );
             }
         }
@@ -224,7 +225,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $contact =  $this->_params;
         foreach ($fields as $name => $dontCare ) {
-            if ( $contact[$name] ) {
+            if ( isset( $contact[$name] ) ) {
                 if ( substr( $name, 0, 7 ) == 'custom_' ) {
                     $id = substr( $name, 7 );
                     $defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact[$name],
