@@ -391,7 +391,8 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         }
         
         // get the submitted form values.  
-        $params = $_POST;
+        $params = $this->controller->exportValues( $this->_name );
+        //$params = $_POST;
         
         if( ! $this->_event['is_monetary'] ) {
             $params['event_level']    = $params['amount'];
