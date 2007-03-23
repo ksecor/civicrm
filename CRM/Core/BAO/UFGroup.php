@@ -718,7 +718,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                                     // 
                                     if (is_numeric( $details->{$name} ) ) {
                                         // check if there is a . and hence a float
-                                        if ( strpos( '.', $details->{$name} ) ) {
+                                        if ( strpos( $details->{$name}, '.' ) ) {
                                             $customVal = (float )($details->{$name});
                                         } else {
                                             $customVal = (int ) ($details->{$name});
