@@ -5,7 +5,7 @@
   <copyright>(C) CiviCRM LLC</copyright>
   <authorEmail>info@civicrm.org</authorEmail>
   <authorUrl>civicrm.org</authorUrl>
-  <version>1.6</version>
+  <version>1.7</version>
   <description>CiviCRM</description>
   <files>
       <filename>civicrm.php</filename>
@@ -35,6 +35,7 @@
   <administration>
     <menu>CiviCRM</menu>
                 <submenu>
+                        <menu task="civicrm/dashboard&reset=1">CiviCRM Home</menu>
                         <menu task="civicrm/contact/search&reset=1">Find Contacts</menu>
                         <menu task="civicrm/group&reset=1">Manage Groups</menu>
                         <menu task="civicrm/import&reset=1">Import Contacts</menu>
