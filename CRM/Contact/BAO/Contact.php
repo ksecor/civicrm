@@ -1314,7 +1314,10 @@ WHERE civicrm_contact.id IN $idString ";
         
         CRM_Contact_BAO_Relationship::deleteContact( $id );
 
-        CRM_Contribute_BAO_Contribution::deleteContact( $id );
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            CRM_Contribute_BAO_Contribution::deleteContact( $id );
+        }
         
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             require_once 'CRM/Member/BAO/Membership.php';
