@@ -87,10 +87,6 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
                         }
                     }
                 }
-                $customFieldID = CRM_Core_BAO_CustomField::getKeyID($key);
-                if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'is_search_range' ) ) {
-                    $defaults[$key.'_from'] = $value;   
-                }
             } else if ( $key == 'group' || $key == 'tag' ) {
                 $v = explode( ',', $value );
                 $value = array( ); 

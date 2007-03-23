@@ -726,8 +726,14 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                                     } else {
                                         $customVal = $details->{$name};
                                     }
+
                                     $params[$index] = $customVal;
                                     $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal, $cfID, $options );
+                                    $fieldName = null;
+                                    if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', 
+                                                                      $cfID, 'is_search_range' ) ) {
+                                        $fieldName = "{$name}_from";
+                                    }
                                 }
                             } else if ( $name == 'home_URL' &&
                                         ! empty( $details->$name ) ) {
@@ -795,7 +801,10 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                     continue;
                 }
                 
-                $fieldName = $field['name'];
+                if ( !$fieldName ) { 
+                    $fieldName = $field['name'];
+                }
+                
                 $url = CRM_Utils_System::url( 'civicrm/profile',
                                               'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                               urlencode( $fieldName ) .
