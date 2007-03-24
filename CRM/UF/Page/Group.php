@@ -65,7 +65,8 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         // check if variable _actionsLinks is populated
         if ( ! self::$_actionLinks ) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this CiviCRM Profile group?');
+            $disableExtra = ts('Are you sure you want to disable this CiviCRM Profile?');
+            $copyExtra = ts('Are you sure you want to make a copy this Profile?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::BROWSE  => array(
                                                                           'name'  => ts('View and Edit Fields'),
@@ -115,6 +116,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                                                           'url'   => 'civicrm/admin/uf/group',
                                                                           'qs'    => 'action=copy&gid=%%id%%',
                                                                           'title' => ts('Make a Copy of CiviCRM Profile Group'),
+                                                                          'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
                                                                           ),
 
                                         );
