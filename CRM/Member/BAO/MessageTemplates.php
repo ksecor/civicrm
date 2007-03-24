@@ -242,7 +242,6 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
             $headers = $message->headers();
             
             $result = $mailer->send($recipient, $headers, $body);
-         
         }
         
     }

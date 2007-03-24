@@ -158,7 +158,7 @@ class CRM_Utils_Date {
         } 
         
         if( strlen( $day ) > 2 ) {
-            if( substr_compare( $day,':', 3 ) ) {
+            if( CRM_Utils_String::compareSubString( $day,':', 3 ) ) {
                 $time = substr( $day, 3, 8 );
                 $day  = substr( $day, 0, 2 );
                 list( $hr, $min, $sec ) = explode( ':', $time, 3 );
@@ -179,7 +179,7 @@ class CRM_Utils_Date {
             $value['d'] = $day;
         }
 
-        if ( is_numeric( $hr ) && $hr >= 0 ) {
+        if ( isset( $hr ) && is_numeric( $hr ) && $hr >= 0 ) {
             $value['h'] = $hr;
             if( $hr > 12 ) {
                 $value['h'] -= 12;
@@ -192,7 +192,7 @@ class CRM_Utils_Date {
             }
         }
         
-        if ( is_numeric( $min ) && $min >= 0 ) {
+        if ( isset( $min ) && is_numeric( $min ) && $min >= 0 ) {
             $value['i'] = $min;
         }
         return $value;

@@ -257,16 +257,17 @@ contact the site administrator and notify them of this error' ) );
      * @access public 
      */ 
     function assignToTemplate( ) {
-        $name = $this->_params['billing_first_name'];
+        $name = CRM_Utils_Array::value( 'billing_first_name', $this->_params );
         if ( CRM_Utils_Array::value( 'billing_middle_name', $this->_params ) ) {
             $name .= " {$this->_params['billing_middle_name']}";
         }
-        $name .= " {$this->_params['billing_last_name']}";
+        $name .= ' ' . CRM_Utils_Array::value( 'billing_last_name', $this->_params );
+        $name = trim( $name );
         $this->assign( 'name', $name );
         $this->set( 'name', $name );
 
         $vars = array( 'amount', 'currencyID',
-                       'credit_card_type', 'trxn_id' );
+                       'credit_card_type', 'trxn_id', 'amount_level' );
  
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_values['is_recur'] && 
@@ -293,7 +294,7 @@ contact the site administrator and notify them of this error' ) );
 
         foreach ($addressParts as $part) {
             list( $n, $id ) = explode( '-', $part );
-            $addressFields[$n] = $this->_params[$part];
+            $addressFields[$n] = CRM_Utils_Array::value( $part, $this->_params );
         }
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));

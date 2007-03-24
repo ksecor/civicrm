@@ -352,8 +352,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                 );
         CRM_Core_BAO_Note::add( $noteParams , $noteIds );
         
-        $config   =& CRM_Core_Config::singleton( );
-        if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             CRM_Contact_BAO_Relationship::relatedMemberships( $this->_contactId, 
                                                               $params, $ids, 
                                                               $this->_action );

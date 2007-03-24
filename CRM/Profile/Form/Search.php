@@ -95,7 +95,7 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
                 } 
             }
             $defaults[$key] = $value;
-        }
+        } 
         return $defaults;
     }
 

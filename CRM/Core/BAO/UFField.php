@@ -156,18 +156,21 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      */
     static function add( &$params, &$ids) 
     {
-      // set values for uf field properties and save
+        // set values for uf field properties and save
         $ufField                   =& new CRM_Core_DAO_UFField();
         $ufField->field_type       = $params['field_name'][0];
         $ufField->field_name       = $params['field_name'][1];
-	$uffield->location_type_id = CRM_Utils_Array::value( 2, $params['field_name'], null );
-	$ufField->phone_type       = CRM_Utils_Array::value( 3, $params['field_name'], 'NULL' );
 
-        $ufField->listings_title = CRM_Utils_Array::value( 'listings_title', $params );
-        $ufField->visibility     = $params['visibility'];
-        $ufField->help_post      = $params['help_post'];
-        $ufField->label          = $params['label'];
+        //should not set location type id for Primary
+        if ( $locationTypeId = CRM_Utils_Array::value( 2, $params['field_name']) ) {
+            $ufField->location_type_id = $locationTypeId;
+        }
 
+        $ufField->phone_type      = CRM_Utils_Array::value( 3, $params['field_name'], 'NULL' );
+        $ufField->listings_title  = CRM_Utils_Array::value( 'listings_title', $params );
+        $ufField->visibility      = $params['visibility'];
+        $ufField->help_post       = $params['help_post'];
+        $ufField->label           = $params['label'];
         $ufField->is_required     = CRM_Utils_Array::value( 'is_required'    , $params, false );
         $ufField->is_active       = CRM_Utils_Array::value( 'is_active'      , $params, false );
         $ufField->in_selector     = CRM_Utils_Array::value( 'in_selector'    , $params, false );
@@ -192,11 +195,11 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
                     $p = array( 1 => array( $searchWeight->weight, 'Integer' ),
                                 2 => array( $ids['uf_group']     , 'Integer' ) );
                     $tempDAO =& CRM_Core_DAO::executeQuery($query, $p);
-		    $fieldIds = array();
+                    $fieldIds = array();
                     while($tempDAO->fetch()) {
                         $fieldIds[] = $tempDAO->id; 
                     }
-		    if ( !empty($fieldIds) ) {
+                    if ( !empty($fieldIds) ) {
                         $sql = "UPDATE civicrm_uf_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
                         CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
                     }
@@ -231,6 +234,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         // need the FKEY - uf group id
         $ufField->uf_group_id = CRM_Utils_Array::value('uf_group', $ids , false );
         $ufField->id          = CRM_Utils_Array::value('uf_field', $ids , false ); 
+
         return $ufField->save();
     }
 

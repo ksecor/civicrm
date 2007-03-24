@@ -70,10 +70,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      * @static
      */
-    static function add(&$params, &$ids) 
+    static function &add(&$params, &$ids) 
     {
         require_once 'CRM/Utils/Hook.php';
-        
+
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Membership', $ids['membership'], $params );
         } else {
@@ -89,15 +89,16 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $membership->copyValues($params);
         $membership->id = CRM_Utils_Array::value( 'membership', $ids );
         
-        $result = $membership->save();
-        
+        $membership->save();
+        $membership->free( );
+
         $session = & CRM_Core_Session::singleton();
         
-        $membershipLog = array('membership_id' => $result->id,
-                               'status_id'     => $result->status_id,
-                               'start_date'    => $result->start_date,
-                               'end_date'      => $result->end_date,
-                               'modified_id'   => $ids['userId'],
+        $membershipLog = array('membership_id' => $membership->id,
+                               'status_id'     => $membership->status_id,
+                               'start_date'    => $membership->start_date,
+                               'end_date'      => $membership->end_date,
+                               'modified_id'   => CRM_Utils_Array::value( 'userId', $ids ),
                                'modified_date' => date('Ymd')
                                );
         require_once 'CRM/Member/BAO/MembershipLog.php';
@@ -110,7 +111,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             CRM_Utils_Hook::post( 'create', 'Membership', $membership->id, $membership );
         }
         
-        return $result;
+        return $membership;
     }
 
     /**
@@ -167,7 +168,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
 
         CRM_Core_DAO::transaction('BEGIN');
         
-        $membership = self::add($params, $ids);
+        $membership =& self::add($params, $ids);
         
         if ( is_a( $membership, 'CRM_Core_Error') ) {
             CRM_Core_DAO::transaction( 'ROLLBACK' );
@@ -223,9 +224,9 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         require_once 'CRM/Member/DAO/MembershipStatus.php';
         $activityType = "Membership - " . CRM_Core_DAO::getFieldValue( 
-                                                        'CRM_Member_DAO_MembershipStatus', 
-                                                        $membership->status_id
-                                                        );
+                                                                      'CRM_Member_DAO_MembershipStatus', 
+                                                                      $membership->status_id
+                                                                      );
         
         $historyParams = array(
             'entity_table'     => 'civicrm_contact',
@@ -244,7 +245,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
         
         CRM_Core_DAO::transaction('COMMIT');
-        
+
         return $membership;
     }
     
@@ -275,13 +276,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         $relationships = array( );
         if ( $membershipType['relationship_type_id'] ) {
-            $relationships        = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
-                                                                            CRM_Contact_BAO_Relationship::CURRENT
-                                                                            );
+            $relationships =
+                CRM_Contact_BAO_Relationship::getRelationship( $contactId,
+                                                               CRM_Contact_BAO_Relationship::CURRENT
+                                                               );
             if ( $action & CRM_Core_Action::UPDATE ) {
-                $pastRelationships    = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
-                                                                                       CRM_Contact_BAO_Relationship::PAST
-                                                                                       );
+                $pastRelationships =
+                    CRM_Contact_BAO_Relationship::getRelationship( $contactId,
+                                                                   CRM_Contact_BAO_Relationship::PAST
+                                                                   );
                 $relationships = array_merge( $relationships, $pastRelationships );
             }
         }
@@ -342,12 +345,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
 
             if ( $membership->status_id ) {
-                $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $membership->status_id, 'is_current_member');
+                $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus',
+                                                      $membership->status_id,
+                                                      'is_current_member');
                 if ( $active ) {
                     $defaults['active'] = $active;
                 }
             }
-            
+
+            $membership->free( );
             return $membership;
         }
         return null;
@@ -757,7 +763,6 @@ civicrm_membership_status.is_current_member =1";
     {
         $tempParams = $membershipParams;
         $paymemtDone = false;
-
         $form->assign('membership_assign' , true );
         $form->set('membershipID' , $membershipParams['selectMembership']);
         
@@ -873,7 +878,7 @@ civicrm_membership_status.is_current_member =1";
                     $dao->modified_id   = $contactID;
                     $dao->modified_date = date('Ymd');
                     $dao->save();
-                    
+                  
                     $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
                     $form->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                     
@@ -883,7 +888,7 @@ civicrm_membership_status.is_current_member =1";
                     $dao->id = $currentMembership['id'];
                     $dao->find(true); 
                     $membership = $dao ;
-                    
+
                     //insert log here 
                     require_once 'CRM/Member/DAO/MembershipLog.php';
                     $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id);
@@ -896,6 +901,8 @@ civicrm_membership_status.is_current_member =1";
                     $dao->modified_id   = $contactID;
                     $dao->modified_date = date('Ymd');
                     $dao->save();
+                    //retrieve $membershipId for sendMail()
+                    $membershipId = $dao->membership_id;   
                     $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
                     $form->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                 }
@@ -939,7 +946,7 @@ civicrm_membership_status.is_current_member =1";
         //finally send an email receipt
         if ( !$errors[1]  &&  !$errors[2] ) {
             require_once "CRM/Contribute/BAO/ContributionPage.php";
-            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,$form->_values );
+            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,$form->_values, self::getContributionPageId( $membershipId ) );
         }
     }
     
@@ -992,6 +999,7 @@ WHERE mp.payment_entity_table ='civicrm_contribute'
         while ( $membership->fetch( ) ) {
             self::deleteMembership( $membership->id ) ;
         }
+        $membership->free( );
     }
 
 }

@@ -83,7 +83,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }
 
         if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
         
         return $defaults;
@@ -138,6 +138,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
         
+        $this->addFormRule( array( 'CRM_Event_Form_ManageEvent_EventInfo', 'formRule' ) );
+
         if ($this->_action & CRM_Core_Action::VIEW ) { 
             CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
         } else {
@@ -145,6 +147,39 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }
 
         parent::buildQuickForm();
+    }
+
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$values ) 
+    {
+        $errors = array( );
+        if ( ! $values['start_date'] ) {
+            $errors['start_date'] = ts( 'Start date is a required field' );
+            return $errors;
+        }
+
+        if ( ! $values['end_date'] ) {
+            $errors['end_date'] = ts( 'Start date is a required field' );
+            return $errors;
+        }
+
+        $start = CRM_Utils_Date::format( $values['start_date'] );
+        $end   = CRM_Utils_Date::format( $values['end_date'  ] );
+
+        if ( $end <= $start ) {
+            $errors['end_date'] = ts( 'End date should be after Start date' );
+            return $errors;
+        }
+
+        return true;
     }
 
     /**

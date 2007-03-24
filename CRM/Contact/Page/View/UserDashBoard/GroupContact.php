@@ -84,8 +84,27 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
         $this->assign( 'edit', $this->_edit );
         if ( ! $this->_edit ) {
             return;
-
         }
+
+        $action = CRM_Utils_Request::retrieve( 'action', 'String',
+                                               CRM_Core_DAO::$_nullObject,
+                                               false, 'browse' );
+        
+        if ( $action == CRM_Core_Action::DELETE ) {
+            $groupContactId = CRM_Utils_Request::retrieve( 'gcid', 'Positive',
+                                                           CRM_Core_DAO::$_nullObject, true );
+            $status         = CRM_Utils_Request::retrieve( 'st', 'String',
+                                                           CRM_Core_DAO::$_nullObject, true );
+            if ( is_numeric($groupContactId) && $status ) {
+                require_once 'CRM/Contact/Page/View/GroupContact.php';
+                CRM_Contact_Page_View_GroupContact::del( $groupContactId, $status, $this->_contactId);
+            }
+
+            $url = CRM_Utils_System::url( 'civicrm/user',
+                                          "reset=1&id={$this->_contactId}" );
+            CRM_Utils_System::redirect( $url );
+        }
+
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact',
                                                        ts("Contact's Groups"),
                                                        CRM_Core_Action::ADD );
@@ -95,11 +114,11 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
         $session->pushUserContext( CRM_Utils_System::url('civicrm/user',
                                                          "reset=1&id={$this->_contactId}" ),
                                    false);
-
+        
         $controller->reset( );
-        $controller->set( 'contactId', $this->_contactId );
-        $controller->set( 'groupId'  , $groupId );
-        $controller->set( 'context'  , 'user' );
+        $controller->set( 'contactId'       , $this->_contactId );
+        $controller->set( 'groupId'         , $groupId );
+        $controller->set( 'context'         , 'user' );
         $controller->set( 'onlyPublicGroups', $this->_onlyPublicGroups );
         $controller->process( );
         $controller->run( );
@@ -118,37 +137,6 @@ class CRM_Contact_Page_View_UserDashBoard_GroupContact extends CRM_Contact_Page_
         $this->browse( );
     }
 
- 
-    /**
-     * function to remove/ rejoin the group
-     *
-     * @param int $groupContactId id of crm_group_contact
-     * @param string $status this is the status that should be updated.
-     *
-     * $access public
-     */
-    function del($groupContactId, $status ) 
-    {
-        $groupContact =& new CRM_Contact_DAO_GroupContact( );
-        $groupId = CRM_Contact_BAO_GroupContact::getGroupId($groupContactId);
-       
-        switch ($status) {
-        case 'i' :
-            $groupStatus = 'Added';
-            break;
-        case 'p' :
-            $groupStatus = 'Pending';
-           
-            break;
-        case 'o' :
-            $groupStatus = 'Removed';
-            break;
-        }
-        $contactID = array($this->_contactId);
-        $method = 'Web';
-        CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $groupId, $method  ,$groupStatus);
-
-    }
 }
 
 ?>

@@ -70,6 +70,7 @@ function conf_init() {
       }
   }
 
+  // FIXME: problem spot for Drupal 5.1 config dir layout
   $conf = "$confdir/default";
   return $conf;
 }

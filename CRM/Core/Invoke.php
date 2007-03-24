@@ -194,7 +194,11 @@ class CRM_Core_Invoke
 
         if ( $args[2] == 'map' ) {
             $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
+            if ( CRM_Utils_Array::value( 3, $args ) == 'event' ) {
+                return $wrapper->run( 'CRM_Contact_Form_Task_Map_Event', ts('Map Event Location'),  null );
+            } else {
+                return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
+            }
         }
 
         if ($args[2] == 'view') {
@@ -632,11 +636,16 @@ class CRM_Core_Invoke
         }
 
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
+        $session =& CRM_Core_Session::singleton( );
 
         if ( $secondArg == 'activityHistory' ) {
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/import/activityHistory', 'reset=1'));
+
             require_once 'CRM/History/Import/Controller.php';
             $controller =& new CRM_History_Import_Controller(ts('Import Activity History'));
         } else {
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/import', 'reset=1'));
+
             require_once 'CRM/Import/Controller.php';
             $controller =& new CRM_Import_Controller(ts('Import Contacts'));
         }
@@ -955,6 +964,10 @@ class CRM_Core_Invoke
      */
     static function user( $args ) 
     {
+        if ( $args[1] !== 'user' ) {
+            return;
+        }
+
         require_once 'CRM/Contact/Page/View/UserDashBoard.php';
         $view =& new CRM_Contact_Page_View_UserDashBoard( );
         return $view->run();

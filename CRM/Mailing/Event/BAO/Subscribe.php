@@ -63,7 +63,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $params = array('email' => $email, 'domain_id' => $domain_id);
         require_once 'CRM/Core/BAO/UFGroup.php';
         $contact_id = CRM_Core_BAO_UFGroup::findContact($params);
-        
+
         CRM_Core_DAO::transaction('BEGIN');
         if ( ! $contact_id ) {
             require_once 'CRM/Core/BAO/LocationType.php';
@@ -81,6 +81,10 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
                 return null;
             }
             $contact_id = $contact->id;
+        } else if ( ! is_numeric( $contact_id ) &&
+                    (int ) $contact_id > 0 ) {
+            // make sure contact_id is numeric
+            return null;
         }
 
         require_once 'CRM/Core/BAO/Email.php';

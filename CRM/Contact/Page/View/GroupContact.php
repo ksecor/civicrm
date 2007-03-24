@@ -100,19 +100,23 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
     function run( ) {
         $this->preProcess( );
 
-        if ( $this->_action == CRM_Core_Action::DELETE ) {
+        $action = CRM_Utils_Request::retrieve( 'action', 'String',
+                                               CRM_Core_DAO::$_nullObject,
+                                               false, 'browse' );
+
+        if ( $action == CRM_Core_Action::DELETE ) {
             $groupContactId = CRM_Utils_Request::retrieve( 'gcid', 'Positive',
-                                                           $this );
+                                                           CRM_Core_DAO::$_nullObject, true );
             $status         = CRM_Utils_Request::retrieve( 'st', 'String',
-                                                           $this );
+                                                           CRM_Core_DAO::$_nullObject, true );
             if ( is_numeric($groupContactId) && $status ) {
-                $this->del( $groupContactId,$status );
+                $this->del( $groupContactId, $status, $this->_contactId);
             }
             $session =& CRM_Core_Session::singleton();
             CRM_Utils_System::redirect( $session->popUserContext() );
         }
 
-        $this->edit( CRM_Core_Action::ADD );
+        $this->edit( null, CRM_Core_Action::ADD );
         $this->browse( );
         return parent::run( );
     }
@@ -126,7 +130,7 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
      *
      * $access public
      */
-    function del($groupContactId, $status ) {
+    function del( $groupContactId, $status, $contactID ) {
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupId = CRM_Contact_BAO_GroupContact::getGroupId($groupContactId);
        
@@ -142,9 +146,9 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
             $groupStatus = 'Removed';
             break;
         }
-        $contactID = array($this->_contactId);
+        $ids = array($contactID);
         $method = 'Admin';
-        CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $groupId, $method  ,$groupStatus);
+        CRM_Contact_BAO_GroupContact::removeContactsFromGroup($ids, $groupId, $method  ,$groupStatus);
 
     }
 }

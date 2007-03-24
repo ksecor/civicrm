@@ -6,12 +6,17 @@ dojo.require('dojo.widget.ProgressBar');
 setFinished = function(type,data,evt){
   finished = 1;
 {/literal}
-  location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
+  if ( data.match( 'Fatal error' ) ) {ldelim}
+    var prog = dojo.byId('error_status');
+    prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
+  {rdelim} else {ldelim}
+    location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
+  {rdelim}
 {literal}
 }
 setError = function(type,data,evt){
   var prog = dojo.byId('error_status');
-  prog.innerHTML = "<p>We encountered an unknown error: $data</p>";
+  prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
   finished = 1;
 }
 setIntermediate = function(type,data,evt){

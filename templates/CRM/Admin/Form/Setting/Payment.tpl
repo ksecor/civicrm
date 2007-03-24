@@ -37,15 +37,17 @@ must input these values before your can process TEST or LIVE transactions. Refer
             <div id="google">
                 <dl>
                 <dt>{$form.merchantID_test.label}</dt><dd>{$form.merchantID_test.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}Google Checkout  <strong>TEST</strong> account -  <strong>Merchant ID</strong> (e.g. 123456789012345).{/ts} {help id='test-merchantID'}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}Google Checkout  <strong>TEST</strong> account -  Merchant ID (e.g. 123456789012345).{/ts} {help id='test-merchantID'}</dd>
                 <dt>{$form.merchantID_live.label}</dt><dd>{$form.merchantID_live.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}Google Checkout <strong>LIVE</strong> account -  <strong>Merchant ID</strong> (e.g. 123456789012345).{/ts} {help id='live-merchantID'}</dd>
-                <dt>{$form.googleCheckoutButton.label}</dt><dd>{$form.googleCheckoutButton.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}URL of Google Checkout Button. Replace <strong>[TEST-OR-LIVE-URL]</strong> with checout url - Test/Live ( e.g. sandbox.google.com/checkout ) and <strong>[MerchantID]</strong> with your MerchantID (e.g. 123456789012345).{/ts} {help id='googleCheckoutButton'}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}Google Checkout <strong>LIVE</strong> account -  Merchant ID (e.g. 123456789012345).{/ts} {help id='live-merchantID'}</dd>
+                <dt>{$form.googleCheckoutButton_test.label}</dt><dd>{$form.googleCheckoutButton_test.html}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}TEST URL of Google Checkout Button Image. Replace <strong>[MerchantID]</strong> with your MerchantID (e.g. 123456789012345).{/ts} {help id='googleCheckoutButton_test'}</dd>
+                <dt>{$form.googleCheckoutButton_live.label}</dt><dd>{$form.googleCheckoutButton_live.html}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}LIVE URL of Google Checkout Button Image. Replace <strong>[MerchantID]</strong> with your MerchantID (e.g. 123456789012345).{/ts} {help id='googleCheckoutButton_live'}</dd>
                 <dt>{$form.googleCheckoutTestUrl.label}</dt><dd>{$form.googleCheckoutTestUrl.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}TEST URL for the Google Checkout processing service gateway.{/ts}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}TEST URL for the Google Checkout processing service gateway ( sandbox.google.com/checkout ).{/ts}</dd>
                 <dt>{$form.googleCheckoutUrl.label}</dt><dd>{$form.googleCheckoutUrl.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}LIVE URL for Google Checkout processing service gateway.{/ts}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}LIVE URL for Google Checkout processing service gateway ( checkout.google.com ).{/ts}</dd>
                 
                 </dl>
             </div>
@@ -77,6 +79,14 @@ must input these values before your can process TEST or LIVE transactions. Refer
     trigger_field_id    ="paymentProcessor"
     trigger_value       ="Google_Checkout"
     target_element_id   ="google" 
+    target_element_type ="block"
+    field_type          ="select"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="paymentProcessor"
+    trigger_value       ="AuthNet_AIM"
+    target_element_id   ="authnet" 
     target_element_type ="block"
     field_type          ="select"
     invert              = 0

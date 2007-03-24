@@ -447,9 +447,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         // get the submitted form values.  
-        //$formValues = $this->controller->exportValues( $this->_name );
-        $formValues = $_POST;
- 
+        $formValues = $this->controller->exportValues( $this->_name );
+        //$formValues = $_POST;
+
         $config =& CRM_Core_Config::singleton( );
 
         $params = array( );

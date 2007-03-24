@@ -81,7 +81,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['token']          = $this->get( 'token' );
 
                 $this->_params['amount'        ] = $this->get( 'amount' );
-                $this->_params['amount_level'  ] = $this->get( 'amount_level' );
                 $this->_params['currencyID'    ] = $config->defaultCurrency;
                 $this->_params['payment_action'] = 'Sale';
 
@@ -122,7 +121,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['ip_address'] = '127.0.0.1';
             }
             $this->_params['amount'        ] = $this->get( 'amount' );
-            $this->_params['amount_level'  ] = $this->get( 'amount_level' );
+            $this->_params['amount_level'  ] = CRM_Core_BAO_CustomOption::getOptionLabel($this->_id, $this->_params['amount'], null, 'civicrm_contribution_page' );
             $this->_params['currencyID'    ] = $config->defaultCurrency;
             $this->_params['payment_action'] = 'Sale';
         }
@@ -142,10 +141,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->assignToTemplate( );
         require_once 'CRM/Contribute/BAO/Premium.php';
         $amount = $this->get( 'amount' );
-        $amount_level = $this->get( 'amount_level' );
-
-        $this->assign('amount_level', $amount_level );
-
+        
         $params = $this->_params;
         $honor_block_is_active = $this->get( 'honor_block_is_active');
         // make sure we have values for it
@@ -175,7 +171,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         $config =& CRM_Core_Config::singleton( );
         if ( in_array("CiviMember", $config->enableComponents) ) {
-            if ($params['selectMembership'] && $params['selectMembership'] != 'no_thanks') {
+            if ( isset( $params['selectMembership'] ) &&
+                 $params['selectMembership'] != 'no_thanks' ) {
                 CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,false , $params['selectMembership'] );
             }
         }
@@ -187,7 +184,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
-                       $config->googleCheckoutButton,
+                       $config->googleCheckoutButton[$this->_mode],
                        array( 'class' => 'form-submit' ) );
             
             $this->addButtons(array(
@@ -228,7 +225,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $contact =  $this->_params;
         foreach ($fields as $name => $dontCare ) {
-            if ( $contact[$name] ) {
+            if ( isset( $contact[$name] ) ) {
                 if ( substr( $name, 0, 7 ) == 'custom_' ) {
                     $id = substr( $name, 7 );
                     $defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact[$name],
@@ -628,13 +625,31 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
  
         // process the custom data that is submitted or that came via the url
-        $groupTree    = $this->get( 'groupTree' );
-        $customValues = $this->get( 'customGetValues' );
-        $customValues = array_merge( $params, $customValues );
-
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $customValues );
-        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
+        //format custom data
+        $customData = array( );
+        foreach ( $this->_params as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,$value, 'Contribution');
+            }
+        }
+        
+        if ( ! empty($customData) ) {
+            foreach ( $customData as $customValue) {
+                $cvParams = array(
+                                  'entity_table'    => 'civicrm_contribution', 
+                                  'entity_id'       => $contribution->id,
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
+                                  'file_id'         => $customValue['file_id'],
+                                  );
+                
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+        }
 
         // return if pending
         if ( $pending ) {

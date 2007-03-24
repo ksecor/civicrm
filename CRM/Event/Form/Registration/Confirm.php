@@ -173,7 +173,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
-                       $config->googleCheckoutButton,
+                       $config->googleCheckoutButton[$this->_mode],
                        array( 'class' => 'form-submit' ) );
             
             $this->addButtons(array(
@@ -226,7 +226,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      * @access public
      * @return None
      */
-    public function postProcess() 
+    public function postProcess( ) 
     {
         require_once 'CRM/Event/BAO/Participant.php';
 
@@ -499,6 +499,8 @@ WHERE  v.option_group_id = g.id
             $params["billing_first_name"] . ' ' . $params["billing_middle_name"] . ' ' . $params["billing_last_name"];
         $fields["location_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
+        $fields["email-Primary"] = 1;
+        $params["email-Primary"] = $params["email-{$this->_bltID}"];
     }
     
     /**

@@ -324,7 +324,8 @@ class CRM_Event_Form_Search extends CRM_Core_Form
 
         // we don't show test registrations in Contact Summary / User Dashboard
         // in Search mode by default we hide test registrations
-        if ( !$this->_formValues["event_participant_test"] ) {
+        if ( ! CRM_Utils_Array::value( 'event_participant_test',
+                                       $this->_formValues ) ) {
             $this->_formValues["event_participant_test"] = 0;
         }
         

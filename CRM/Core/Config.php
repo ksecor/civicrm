@@ -971,7 +971,7 @@ class CRM_Core_Config
         if ( ! isset( self::$_mail ) ) {
             if ( self::$_singleton->smtpServer == '' ||
                  ! self::$_singleton->smtpServer ) {
-                CRM_Core_Error::fatal( ts( 'CIVICRM_SMTP_SERVER is not set in the config file' ) ); 
+                CRM_Core_Error::fatal( ts( 'CIVICRM_SMTP_SERVER is not set. Click <a href="%1">Administer CiviCRM >> Global Settings</a> to set the Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
             }
 
             $params['host'] = self::$_singleton->smtpServer;
@@ -1086,7 +1086,7 @@ class CRM_Core_Config
         $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
 
         $specialArray = array('countryLimit', 'provinceLimit');
-        $paymentArray = array('paymentCertPath', 'paymentUsername', 'merchantID');
+        $paymentArray = array('paymentCertPath', 'paymentUsername', 'merchantID', 'googleCheckoutButton');
         $urlArray     = array('userFrameworkResourceURL', 'imageUploadURL');
         $dirArray     = array('uploadDir','customFileUploadDir');
         
@@ -1163,11 +1163,14 @@ class CRM_Core_Config
         
         if ( $this->defaultCurrency ) {
             require_once "CRM/Core/PseudoConstant.php";
-            $this->currencySymbols = array_combine( CRM_Core_PseudoConstant::currencySymbols( 'name'),
-                                                     CRM_Core_PseudoConstant::currencySymbols( ));
+            $currencySymbolName = CRM_Core_PseudoConstant::currencySymbols( 'name' );
+            $currencySymbol     = CRM_Core_PseudoConstant::currencySymbols( );
+            
+            $this->currencySymbols = CRM_Utils_Array::combine( $currencySymbolName, $currencySymbol );
+            
             $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
         }
-
+        
         if ( $this->mapProvider ) {
             $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
         }

@@ -71,6 +71,10 @@ class CRM_Utils_ICalendar
                 $content .= "DESCRIPTION:" . self::escapeText( $event['description'] )  . "\n";
             }
 
+            if ( $event['event_type'] ) {
+                $content .= "CATEGORIES:" . self::escapeText( $event['event_type'] )  . "\n";
+            }
+            
             if ( $event['start_date'] && $event['end_date'] ) {
                 $content .= "DTSTART;VALUE=DATE:" . gmdate("Ymd\THis\Z", strtotime($event['start_date'])) . "\n";
                 $content .= "DTEND;VALUE=DATE:" . gmdate("Ymd\THis\Z", strtotime($event['end_date'])) . "\n";
@@ -85,7 +89,7 @@ class CRM_Utils_ICalendar
             }
             
             if ( $event['url'] ) {
-                $content .= "ATTACH;FMTTYPE=text/html:" . $event['url'] . "\n";
+                $content .= "URL:" . $event['url'] . "\n";
             }
              
             $content .= "END:VEVENT\n";

@@ -568,7 +568,7 @@ class CRM_GCD {
         // get the household to individual mapping array
         $this->householdIndividual = array_diff($this->individual, $this->strictIndividual);
         $this->householdIndividual = array_chunk($this->householdIndividual, self::NUM_INDIVIDUAL_PER_HOUSEHOLD);
-        $this->householdIndividual = array_combine($this->household, $this->householdIndividual);
+        $this->householdIndividual = CRM_Utils_Array::combine($this->household, $this->householdIndividual);
     }
 
 

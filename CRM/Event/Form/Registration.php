@@ -135,8 +135,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
             
             //retrieve custom information
+            $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+                                                        $this->_id,
+                                                        'id',
+                                                        'event_id' );
             require_once 'CRM/Core/BAO/CustomOption.php'; 
-            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $this->_id, $this->_values['custom'] );
+            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageID, $this->_values['custom'] );
 
             // get the profile ids
             require_once 'CRM/Core/BAO/UFJoin.php'; 
@@ -166,7 +170,6 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $this->_values, $ids, self::LOCATION_BLOCKS);
-
 
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );

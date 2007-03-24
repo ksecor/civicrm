@@ -486,6 +486,10 @@ class CRM_Utils_Rule
         return false;
     }
 
+    static function xssString( $value ) {
+        return preg_match( '!<(vb)?script[^>]*>.*</(vb)?script.*>!ims',
+                           $value ) ? false : true;
+    }
 }
 
 ?>

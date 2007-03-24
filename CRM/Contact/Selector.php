@@ -147,7 +147,11 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues = null, &$params = null, &$returnProperties = null, $action = CRM_Core_Action::NONE) 
+    function __construct($formValues = null,
+                         $params = null,
+                         $returnProperties = null,
+                         $action = CRM_Core_Action::NONE,
+                         $includeContactIds = false ) 
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact =& new CRM_Contact_BAO_Contact();
@@ -180,7 +184,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $this->_returnProperties['sort_name'   ] = 1;
         }
 
-        $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $this->_returnProperties );
+        $this->_query   =& new CRM_Contact_BAO_Query( $this->_params,
+                                                      $this->_returnProperties,
+                                                      null, $includeContactIds );
         $this->_options =& $this->_query->_options;
     }//end of constructor
 
@@ -412,7 +418,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // note that the default action is basic
         $result = $this->_query->searchQuery($offset, $rowCount, $sort,
                                              false, $includeContactIds );
-
         // process the result of the query
         $rows = array( );
 
@@ -591,7 +596,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $rows[] = $row;
             }
         }
-        //print_r($rows);
+        //CRM_Core_Error::debug( '$rows', $rows );
         return $rows;
     }
    

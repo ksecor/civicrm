@@ -326,28 +326,27 @@ ORDER BY
         }
 
         //fix for preferred communication method
-        $prefComm = CRM_Utils_Array::value('preferred_communication_method', $params, array());
-
-        unset($params['preferred_communication_method']);
-        $newPref = array();
-        
-        foreach ( $prefComm  as $k => $v ) {
-            if ( $v ) {
-                $newPref[$k] = $v;
-            }
-        }
-
-        $prefComm =  $newPref;
-        
-        if ( is_array($prefComm) && !empty($prefComm) ) {
-            $prefComm =
-                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-                implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)) .
-                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+        $prefComm = CRM_Utils_Array::value('preferred_communication_method', $params);
+        if ( $prefComm && is_array( $prefComm) ) {
+            unset($params['preferred_communication_method']);
+            $newPref = array();
             
-            $contact->preferred_communication_method = $prefComm;
-        } else {
-            $contact->preferred_communication_method = '';
+            foreach ( $prefComm  as $k => $v ) {
+                if ( $v ) {
+                    $newPref[$k] = $v;
+                }
+            }
+            
+            $prefComm =  $newPref;
+            if ( is_array($prefComm) && !empty($prefComm) ) {
+                $prefComm =
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                    implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)) .
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                $contact->preferred_communication_method = $prefComm;
+            } else {
+                $contact->preferred_communication_method = '';
+            }
         }
 
         $contact->copyValues($params);
@@ -1315,7 +1314,10 @@ WHERE civicrm_contact.id IN $idString ";
         
         CRM_Contact_BAO_Relationship::deleteContact( $id );
 
-        CRM_Contribute_BAO_Contribution::deleteContact( $id );
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            CRM_Contribute_BAO_Contribution::deleteContact( $id );
+        }
         
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             require_once 'CRM/Member/BAO/Membership.php';
@@ -2222,10 +2224,12 @@ WHERE civicrm_contact.id IN $idString ";
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
+      
+        if ($data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
+            $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
+            $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
 
-        $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
-        $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
-
+        }
         // contact is null if the profile does not have any contact fields
         if ( $contact ) {
           $contactID = $contact->id;

@@ -25,11 +25,11 @@
 	</tr>
        	{foreach from=$groupIn item=row}
         <tr class="{cycle values="odd-row,even-row"}">
-        	<td><strong><a href="{crmURL p='civicrm/group/search' q="reset=1&force=1&context=smog&gid=`$row.group_id`"}">{$row.title}</a></strong></td>
+        	<td><strong>{$row.title}</strong></td>
 	    	<td>{ts 1=$row.in_method}Added (by %1){/ts}</td> 
-            <td>{$row.in_date|crmDate}</td>
+                <td>{$row.in_date|crmDate}</td>
 {if $edit}
-            <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to unsubscribe from %1?{/ts}');">[ {ts}Unsubscribe{/ts} ]</a></td> 
+            <td><a href="{crmURL p='civicrm/user/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to unsubscribe from %1?{/ts}');">[ {ts}Unsubscribe{/ts} ]</a></td> 
 {/if}
 	    </tr>
      	{/foreach}
@@ -67,7 +67,7 @@
             <td>{ts 1=$row.pending_method}Pending (by %1){/ts}</td> 
             <td>{$row.pending_date|crmDate}</td>
 {if $edit}
-            <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to remove from %1?{/ts}');">[ {ts}Confirm{/ts} ]</a></td> 
+            <td><a href="{crmURL p='civicrm/user/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to remove from %1?{/ts}');">[ {ts}Confirm{/ts} ]</a></td> 
 {/if}
     	</tr>
      	{/foreach}
@@ -106,7 +106,7 @@
             <td>{$row.date_added|crmDate}</td>
             <td>{$row.out_date|crmDate}</td>
 {if $edit}
-	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=i"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to add back into %1?{/ts}');">[ {ts}Rejoin Group{/ts} ]</a></td>
+	        <td><a href="{crmURL p='civicrm/user/group' q="gcid=`$row.id`&action=delete&st=i"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to add back into %1?{/ts}');">[ {ts}Rejoin Group{/ts} ]</a></td>
 {/if}
     	</tr>
      	{/foreach}

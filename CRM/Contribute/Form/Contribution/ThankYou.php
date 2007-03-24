@@ -88,8 +88,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $productID    = $this->get ('productID');
         $option       = $this->get ('option');
         $membershipID = $this->get ('membershipID');
-        $amount_level = $this->get ('amount_level' );
-        $this->assign('amount_level', $amount_level );
+
         if ( $productID ) {
             require_once 'CRM/Contribute/BAO/Premium.php';  
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);
@@ -128,7 +127,9 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
-        $this->assign( 'trxn_id', $this->_params['trxn_id'] );       
+        $this->assign( 'trxn_id', 
+                       CRM_Utils_Array::value( 'trxn_id',
+                                               $this->_params ) );
         $this->assign( 'receive_date', 
                        CRM_Utils_Date::mysqlToIso( $this->_params['receive_date'] ) );
 
@@ -144,7 +145,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $contact = $this->_params = $this->controller->exportValues( 'Main' );
 
         foreach ($fields as $name => $dontCare ) {
-            if ( $contact[$name] ) {
+            if ( isset( $contact[$name] ) ) {
                 if ( substr( $name, 0, 7 ) == 'custom_' ) {
                     $id = substr( $name, 7 );
                     $defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact[$name],

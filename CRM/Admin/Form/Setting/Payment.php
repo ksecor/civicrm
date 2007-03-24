@@ -55,7 +55,7 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
         $processor = CRM_Core_SelectValues::paymentProcessor();
 
 
-        $extra1 = array( 'onclick' => "showHideByValue('paymentProcessor', 'PayPal|PayPal_Express', 'certificate_path', 'block', 'select', false);showHideByValue('paymentProcessor','PayPal|PayPal_Express|PayPal_Standard|Moneris','paypal','block','select',false);return showHideByValue('paymentProcessor','Google_Checkout','google','block','select',false);" );
+        $extra1 = array( 'onclick' => "showHideByValue('paymentProcessor', 'PayPal|PayPal_Express', 'certificate_path', 'block', 'select', false);showHideByValue('paymentProcessor','PayPal|PayPal_Express|PayPal_Standard|Moneris','paypal','block','select',false);showHideByValue('paymentProcessor','Google_Checkout','google','block','select',false);return showHideByValue('paymentProcessor','AuthNet_AIM','authnet','block','select',false);" );
 
         $this->addElement('select','paymentProcessor', ts('Payment Processor'), array('select' => '- select -') + $processor, $extra1);  
         $this->addElement('text','paymentExpressButton', ts('PayPal Express Button'));  
@@ -67,16 +67,17 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
         $this->addElement('text','paymentPayPalExpressUrl', ts('Paypal Url - LIVE'));
         
         //for google checkout.
-        $this->addElement('text','googleCheckoutButton', ts('Google Checkout Button'), array( 'size' => 50 ));  
+        $this->addElement('text','googleCheckoutButton_test', ts('Checkout Button - TEST'), array( 'size' => 50 ));  
+        $this->addElement('text','googleCheckoutButton_live', ts('Checkout Button - LIVE'), array( 'size' => 50 ));  
         $this->addElement('text','merchantID_test', ts('Merchant ID  - TEST')); 
-        $this->addElement('text','googleCheckoutTestUrl', ts('Checkout Url - TEST'), array( 'size' => 31 )); 
+        $this->addElement('text','googleCheckoutTestUrl', ts('Checkout URL - TEST'), array( 'size' => 31 )); 
         $this->addElement('text','merchantID_live', ts('Merchant ID - LIVE')); 
-        $this->addElement('text','googleCheckoutUrl', ts('Checkout Url - LIVE'));
+        $this->addElement('text','googleCheckoutUrl', ts('Checkout URL - LIVE'));
 
         //for Authorize.Net
         $this->addElement('text'    ,'apiLogin'         , ts('Authorize.Net API Login'));
         $this->addElement('text'    ,'md5Hash'          , ts('MD5 Hash Key'));
-        $this->addElement('checkbox', 'gatewaySendEmail', ts('Send Email'));
+        $this->addElement('checkbox','gatewaySendEmail' , ts('Send Email'));
 
         parent::buildQuickForm();
     }

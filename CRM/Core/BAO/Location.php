@@ -67,7 +67,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         if ( ! self::dataExists( $params, $locationId, $ids ) ) {
             return null;
         }
-
+        
         $location =& new CRM_Core_BAO_Location( );
         
         if (! isset($params['contact_id'])) {
@@ -131,6 +131,20 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             $location->email[$i] = CRM_Core_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
             $location->im   [$i] = CRM_Core_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIM    );
         }
+                
+        // check if location is empty
+        foreach ( $ids['location'] as $lValues ) {
+            if ( self::isLocationEmpty( $params, $lValues['id'] ) ) {
+                $locationDAO =& new CRM_Core_DAO_Location( );
+                $locationDAO->id = $lValues['id'];
+                $locationDAO->find( );
+                // delete the empty location
+                while ( $locationDAO->fetch( ) ) {
+                    self::deleteLocationBlocks( $locationDAO->id );
+                    $locationDAO->delete( );
+                }
+            }
+        }
         return $location;
     }
 
@@ -177,7 +191,72 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         }
         return false;
     }
-
+    
+    /**
+     * Check if location Empty
+     *
+     * Check if the location is empty Location
+     *
+     * @param  array   $params
+     * @params int     $lid       location id
+     *
+     * @return boolean  true if location is empty, flase otherwise
+     * 
+     * @static
+     * @access public
+     */
+    static function isLocationEmpty(  &$params, $lid )
+    {
+        // get the location values
+        $location =& new CRM_Core_BAO_Location( );
+        $location->id = $lid;
+        
+        $location->find( true );
+        $values = array( );
+        if ( !empty($location->name) || !empty($location->location_name)  ) {
+            $values[$lid]['location'] = array( $location->name, $location->location_name );
+        }
+        
+        //get the phone values
+        $phone =& new CRM_Core_BAO_Phone( );
+        $phone->location_id = $lid;
+        
+        $phone->find( );
+        while( $phone->fetch( ) ) {
+            $values[$lid]['phone'][] = $phone->phone;
+        }
+        
+        // get the email values
+        $email =& new CRM_Core_BAO_Email( );
+        $email->location_id = $lid;
+        
+        $email->find( );
+        while( $email->fetch( ) ) {
+            $values[$lid]['email'][] = $email->email;
+        }
+        
+        // get the IM values
+        $im =& new CRM_Core_BAO_IM( );
+        $im->location_id = $lid;
+        
+        $im->find( );
+        while( $im->fetch( ) ) {
+            $values[$lid]['im'][] = $im->name;
+        }
+        
+        // get the address values
+        $address =& new CRM_Core_BAO_Address( );
+        $address->location_id = $lid;
+        
+        if ( $address->find( true ) ) {
+            $address->storeValues( $address, $values[$lid]['address'][] );
+            unset( $values[$lid]['address'][0]['id'] );
+            unset( $values[$lid]['address'][0]['location_id'] );
+        }
+        
+        return empty($values) ? true : false;
+    }
+    
     /**
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array

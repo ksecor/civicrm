@@ -181,57 +181,50 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         CRM_Core_BAO_Location::deleteContact( $id );
         
         $dependencies = array(
-                  'CRM_Event_DAO_EventPage'    => 
-                             array( 
-                                   'event_id'       => $id ),
-                  'CRM_Core_DAO_CustomOption'  => 
-                             array( 
-                                   'entity_id'      => $id,
-                                   'entity_table'   => 'civicrm_event' ),
                   'CRM_Core_DAO_CustomValue'   =>
                              array(
                                    'entity_id'      => $id,
                                    'entity_table'   => 'civicrm_event' ),
+                  'CRM_Core_DAO_CustomOption'  => 
+                             array( 
+                                   'event_id'       => $id,
+                                   'entity_table'   => 'civicrm_event_page' ),
+                  'CRM_Event_DAO_EventPage'    => 
+                             array( 
+                                   'event_id'       => $id ),
                   'CRM_Core_DAO_UFJoin'        => 
                              array(
                                    'entity_id'      => $id,
                                    'entity_table'   => 'civicrm_event' ),
-                  'CRM_Event_BAO_Participant'  =>
-                             array( 
-                               'deleteParticipant'  => 
-                                     array(
-                                       'id'    => array( 
-                                                    'event_id' => $id ) ) )
                   );
         
         foreach ( $dependencies as $daoName => $values ) {
             require_once (str_replace( '_', DIRECTORY_SEPARATOR, $daoName ) . ".php");
-            eval('$dao = new ' . $daoName . '( );');
-            
-            $methodName = null;
-            
-            foreach ( $values as $fieldName => $fieldValue ) {
-                if ( ! is_array($fieldValue) ) {
-                    $dao->$fieldName = $fieldValue;
-                    continue;
-                }
-                
-                $methodName = $fieldName;
-                
-                foreach( $fieldValue  as $get => $subValues ) {
-                    foreach ( $subValues as $name => $value ) {
-                        $dao->$name = $value;
+            eval('$dao =& new ' . $daoName . '( );');
+
+            if ( $daoName == 'CRM_Core_DAO_CustomOption' ) {
+                require_once 'CRM/Event/DAO/EventPage.php';
+                $eventPage = new CRM_Event_DAO_EventPage( );
+                $eventPage->event_id = $values['event_id'];
+                $eventPage->find( );
+                while ( $eventPage->fetch( ) ) {
+                    eval('$dao =& new ' . $daoName . '( );');
+                    $dao->entity_id    = $eventPage->id;
+                    $dao->entity_table = $values['entity_table'];
+                    $dao->find( );
+                    while ( $dao->fetch( ) ) {
+                        $dao->delete( );
                     }
                 }
-            }
-            
-            $dao->find();
-            
-            while ( $dao->fetch() ) {
-                if ( is_null( $methodName ) ) {
+            } else {
+                foreach ( $values as $fieldName => $fieldValue ) {
+                    $dao->$fieldName = $fieldValue;
+                }
+                
+                $dao->find();
+                
+                while ( $dao->fetch() ) {
                     $dao->delete();
-                } else {
-                    eval( $daoName . '::$methodName( $dao->id );');
                 }
             }
         }
@@ -477,15 +470,31 @@ WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
     static function &getCompleteInfo( $start = null, $type = null ) 
     {
         
-        if( $start && $type) { 
-            $condition =  CRM_Utils_Type::escape( $start, 'Date' ).
-                   " AND civicrm_event.event_type_id = " .CRM_Utils_Type::escape( $type, 'Integer' );
+        if ( $start ) {
+            // get events with start_date >= requested start
+            $condition =  CRM_Utils_Type::escape( $start, 'Date' );
         } else {
-            // the default case
+            // get events with start date >= today
             $condition =  date("Ymd");
         }
+        if ( $type ) {
+            $condition = $condition . " AND civicrm_event.event_type_id = " . CRM_Utils_Type::escape( $type, 'Integer' );
+        }
 
-        $sql = "
+        // Get the Id of Option Group for Event Types
+        require_once 'CRM/Core/DAO/OptionGroup.php';
+        $optionGroupDAO = new CRM_Core_DAO_OptionGroup();
+        $optionGroupDAO->name = 'event_type';
+        $optionGroupId = null;
+        if ($optionGroupDAO->find(true) ) {
+            $optionGroupId = $optionGroupDAO->id;
+        }
+        
+        $params = array( 1 => array( $optionGroupId, 'Integer' ),
+                         2 => array( CRM_Core_Config::domainID( ),
+                                     'Integer' ) );
+        
+        $query = "
 SELECT
   civicrm_event.id as event_id,
   civicrm_email.email as email,
@@ -493,6 +502,7 @@ SELECT
   civicrm_event.start_date as start,
   civicrm_event.end_date as end,
   civicrm_event.description as description,
+  civicrm_option_value.label as event_type,
   civicrm_address.street_address as street_address,
   civicrm_address.city as city,
   civicrm_address.postal_code as postal_code,
@@ -507,17 +517,18 @@ LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_
 LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
 LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
 LEFT JOIN civicrm_email ON civicrm_location.id = civicrm_email.location_id
-LEFT JOIN civicrm_domain ON civicrm_event.domain_id = civicrm_domain.id
+LEFT JOIN  civicrm_option_value ON (
+                                    civicrm_event.event_type_id = civicrm_option_value.value AND
+                                    civicrm_option_value.option_group_id = %1 )
 WHERE civicrm_event.is_active = 1 
+      AND civicrm_event.domain_id = %2
       AND civicrm_event.is_public = 1 
-      AND civicrm_event.start_date >= ".$condition;
+      AND civicrm_event.start_date >= ". $condition .
+" ORDER BY   civicrm_event.start_date ASC";
 
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $sql );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
         $all = array( );
-
-        $config =& CRM_Core_Config::singleton( );
 
         while ( $dao->fetch( ) ) {
         
@@ -527,6 +538,7 @@ WHERE civicrm_event.is_active = 1
             $info['start_date'   ] = $dao->start;
             $info['end_date'     ] = $dao->end;
             $info['contact_email'] = $dao->email;
+            $info['event_type'   ] = $dao->event_type;
   
             $address = '';
 

@@ -69,7 +69,7 @@ require_once 'CRM/Contact/BAO/Query.php';
 function crm_contact_search_count( &$params ) {
     // convert the params to new format
     require_once 'CRM/Contact/Form/Search.php';
-    $newP =& CRM_Contact_Form_Search::convertFormValues( $params );
+    $newP =& CRM_Contact_BAO_Query::convertFormValues( $params );
     $query =& new CRM_Contact_BAO_Query( $newP );
     return $query->searchQuery( 0, 0, null, true );
 }

@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -333,8 +333,8 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                             $params['thumbnail'] = $config->imageUploadURL .$thumbFileName;
                         } else {
                             $error = true;
-                            $url = parse_url($config->userFrameworkBaseURL);
-                            $params['thumbnail'] = $url['scheme']."://".$url['host'].$config->resourceBase .'i/contribute/default_premium_thumb.jpg'; 
+                            $params['thumbnail'] =
+                                $config->resourceBase .'i/contribute/default_premium_thumb.jpg'; 
                         }
                     }
                 } else if (  $value == 'thumbnail' ) {
@@ -342,8 +342,8 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                     $params['thumbnail'] =  $params['thumbnailUrl'];
                 } else if ( $value == 'default_image' ) {
                     $url = parse_url($config->userFrameworkBaseURL);
-                    $params['image']    = $url['scheme']."://".$url['host'].$config->resourceBase .'i/contribute/default_premium.jpg';
-                    $params['thumbnail']= $url['scheme']."://".$url['host'].$config->resourceBase .'i/contribute/default_premium_thumb.jpg'; 
+                    $params['image']     = $config->resourceBase . 'i/contribute/default_premium.jpg';
+                    $params['thumbnail'] = $config->resourceBase . 'i/contribute/default_premium_thumb.jpg'; 
                 } else {
                     $params['image']     = "";
                     $params['thumbnail'] = "";

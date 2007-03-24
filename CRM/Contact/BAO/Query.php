@@ -269,7 +269,7 @@ class CRM_Contact_BAO_Query {
         require_once 'CRM/Contact/BAO/Contact.php';
 
         // CRM_Core_Error::backtrace( );
-        // CRM_Core_Error::debug( 'params', $params );
+        //CRM_Core_Error::debug( 'params', $params );
         // CRM_Core_Error::debug( 'f', $fields );
         // CRM_Core_Error::debug( 'post', $_POST );
         // CRM_Core_Error::debug( 'r', $returnProperties );
@@ -860,7 +860,8 @@ class CRM_Contact_BAO_Query {
 
         if ( $id == 'sort_name' ||
              $id == 'email'     ||
-             $id == 'notes' ) {
+             $id == 'notes'     ||
+             $id == 'display_name') {
             $result = array( $id, 'LIKE', $values, 0, 1 );
         } else if ( is_string( $values ) && strpos( $values, '%' ) !== false ) {
             $result = array( $id, 'LIKE', $values, 0, 0 );
@@ -884,7 +885,7 @@ class CRM_Contact_BAO_Query {
         }
 
         switch ( $values[0] ) {
-
+            
         case 'contact_type':
             $this->contactType( $values );
             return;
@@ -906,6 +907,7 @@ class CRM_Contact_BAO_Query {
             return;
 
         case 'sort_name':
+        case 'display_name':
             $this->sortName( $values );
             return;
 
@@ -958,6 +960,7 @@ class CRM_Contact_BAO_Query {
         case 'changed_by':
             $this->changeLog( $values );
             return;
+
         case 'do_not_phone':
         case 'do_not_email':
         case 'do_not_mail':
@@ -1576,8 +1579,8 @@ class CRM_Contact_BAO_Query {
                 continue;
 
             case 'civicrm_log':
-                $from .= " $side JOIN civicrm_log ON (civicrm_log.entity_id = contact_a.id )";
-                $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_log.modified_id = contact_b.id AND civicrm_log.entity_table=\"civicrm_contact\")";
+                $from .= " $side JOIN civicrm_log ON (civicrm_log.entity_id = contact_a.id AND civicrm_log.entity_table = 'civicrm_contact')";
+                $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_log.modified_id = contact_b.id)";
                 continue;
                 
             case 'civicrm_activity':
@@ -1879,9 +1882,9 @@ class CRM_Contact_BAO_Query {
      */
     function sortName( &$values ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        $newName = $name;
+        $name    = trim( $value ); 
         
-        $name = trim( $value ); 
-
         $config =& CRM_Core_Config::singleton( );
 
         $sub  = array( ); 
@@ -1894,7 +1897,11 @@ class CRM_Contact_BAO_Query {
             } else {
                 $value = "'$value'";
             }
-            $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
+            if( $newName == 'sort_name') {
+                $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
+            } else {
+                $sub[] = " ( LOWER(contact_a.display_name) $op $value )";
+            }
         } else { 
             // split the string into pieces 
             $pieces =  explode( ' ', $name ); 
@@ -1906,13 +1913,18 @@ class CRM_Contact_BAO_Query {
                 } else {
                     $value = "'$value'";
                 }
-                $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
+                if( $newName == 'sort_name') {
+                    $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
+                } else {
+                    $sub[] = " ( LOWER(contact_a.display_name) $op $value )";
+                }
             } 
-        } 
+        }
 
         $this->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
         $this->_qill[$grouping][]  = ts( 'Name like - "%1"', array( 1 => $name ) );
     }
+
 
     /**
      * where / qill clause for email
@@ -2113,7 +2125,7 @@ class CRM_Contact_BAO_Query {
         $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) LIKE '%$name%'";
         $this->_tables['civicrm_log'] = $this->_whereTables['civicrm_log'] = 1; 
         $this->_qill[$grouping][] = ts( "Changed by: %1", 
-                                            array( 1 => $name) );
+                                        array( 1 => $name) );
     }
 
     function modifiedDates( $values )
@@ -2425,7 +2437,7 @@ class CRM_Contact_BAO_Query {
                               $offset = 0,
                               $row_count = 25 ) {
         $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null );
-
+ 
         list( $select, $from, $where ) = $query->query( );
         $options = $query->_options;
         $sql = "$select $from $where";
@@ -2435,6 +2447,7 @@ class CRM_Contact_BAO_Query {
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }
+
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
 
         $values = array( );
@@ -2535,7 +2548,6 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = "$select $from $where $order $limit";
-        //CRM_Core_Error::debug("q", $query);
         if ( $returnQuery ) {
             return $query;
         }
@@ -2711,10 +2723,10 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
 
         if ( $name == $fieldName . '_low' ) {
             $op     = '>=';
-            $phrase = 'greater than';
+            $phrase = 'greater than or equal to';
         } else if ( $name == $fieldName . '_high' ) {
             $op     = '<=';
-            $phrase = 'less than';
+            $phrase = 'less than or equal to';
         } else if ( $name == $fieldName ) {
             $op     = '=';
             $phrase = '=';
@@ -2726,6 +2738,11 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
             $revDate = array_reverse( $value );
             $date    = CRM_Utils_Date::format( $revDate );
             $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
+            // add 235959 if its less that or equal to
+            if ( $op == '<=' &&
+                 strlen( $date ) == 8 ) {
+                $date .= '235959';
+            }
             if ( $date ) {
                 $this->_where[$grouping][] = $tableName . '.' . $dbFieldName . " $op '$date'";
                 $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;

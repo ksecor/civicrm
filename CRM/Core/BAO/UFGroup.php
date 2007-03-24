@@ -139,7 +139,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
 
             $subset = self::getFields( $id, true, $action,
-                                       null, null, false, null, true );
+                                       null, null, false, null, true, $ctype );
 
             // we do not allow duplicates. the first field is the winner
             foreach ( $subset as $name => $field ) {
@@ -225,7 +225,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function getFields( $id, $register = false, $action = null,
                                $visibility = null , $searchable = null,
                                $showAll= false, $restrict = null,
-                               $skipPermission = false ) 
+                               $skipPermission = false,
+                               $ctype = 'Individual' ) 
     {
         if ( $restrict ) {
             $query  = "
@@ -313,8 +314,8 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $locationType =& CRM_Core_PseudoConstant::locationType();
             
             require_once 'CRM/Core/BAO/CustomField.php';
-            $customFields = CRM_Core_BAO_CustomField::getFieldsForImport( );
-            
+            $customFields = CRM_Core_BAO_CustomField::getFieldsForImport( $ctype );
+
             // hack to add custom data for components
             $components = array("Contribution", "Participant");
             foreach ( $components as $value) {
@@ -382,6 +383,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         } else {
             CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );
         }
+
         return $fields;
     }
     
@@ -713,13 +715,25 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                                 if ( $fileURL ) {
                                     $params[$index] = $values[$index] = $fileURL;
                                 } else {
-                                    if (preg_match("/^\d*(\.\d+)?$/", $details->{$name})) {
-                                        $customVal = (float)($details->{$name});
+                                    // 
+                                    if (is_numeric( $details->{$name} ) ) {
+                                        // check if there is a . and hence a float
+                                        if ( strpos( $details->{$name}, '.' ) ) {
+                                            $customVal = (float )($details->{$name});
+                                        } else {
+                                            $customVal = (int ) ($details->{$name});
+                                        }
                                     } else {
                                         $customVal = $details->{$name};
                                     }
+
                                     $params[$index] = $customVal;
                                     $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal, $cfID, $options );
+                                    $fieldName = null;
+                                    if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', 
+                                                                      $cfID, 'is_search_range' ) ) {
+                                        $fieldName = "{$name}_from";
+                                    }
                                 }
                             } else if ( $name == 'home_URL' &&
                                         ! empty( $details->$name ) ) {
@@ -787,7 +801,10 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                     continue;
                 }
                 
-                $fieldName = $field['name'];
+                if ( !$fieldName ) { 
+                    $fieldName = $field['name'];
+                }
+                
                 $url = CRM_Utils_System::url( 'civicrm/profile',
                                               'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                               urlencode( $fieldName ) .

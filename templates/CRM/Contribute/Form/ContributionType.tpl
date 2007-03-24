@@ -7,7 +7,8 @@
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
-          {ts}WARNING: Deleting this option will result in the loss of all contribution records of this type.{/ts} {ts}This may mean the loss of a substantial amount of data, and the action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
+          {ts}WARNING: You can not delete a contribution type if it is currently used by any Contributions, Contribution Pages or Membership Types. Consider disabling this option
+          instead.{/ts} {ts}Deleting a contribution type cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
           </dd>
        </dl>
       </div>

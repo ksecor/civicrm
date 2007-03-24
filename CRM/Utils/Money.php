@@ -37,6 +37,7 @@
  * Money utilties
  */
 class CRM_Utils_Money {
+    static $_currencySymbols = null;
 
     /**
      * format a monetary string
@@ -62,21 +63,22 @@ class CRM_Utils_Money {
             return '';
         }
 
-        static $config          = null;
-        static $currencySymbols = null;
+        $config = CRM_Core_Config::singleton( );
 
-        if ( !$currencySymbols ) {
+        if ( !self::$_currencySymbols ) {
             require_once "CRM/Core/PseudoConstant.php";
-            $currencySymbols = array_combine( CRM_Core_PseudoConstant::currencySymbols( 'name'), CRM_Core_PseudoConstant::currencySymbols( ));
+            $currencySymbolName = CRM_Core_PseudoConstant::currencySymbols( 'name' );
+            $currencySymbol     = CRM_Core_PseudoConstant::currencySymbols( );
+            
+            self::$_currencySymbols =
+                CRM_Utils_Array::combine( $currencySymbolName, $currencySymbol );
         }
 
         if (!$currency) {
-            if (!$config) $config =& CRM_Core_Config::singleton();
             $currency = $config->defaultCurrency;
         }
 
         if (!$format) {
-            if (!$config) $config =& CRM_Core_Config::singleton();
             $format = $config->moneyformat;
         }
 
@@ -89,7 +91,7 @@ class CRM_Utils_Money {
         $replacements = array(
                               '%a' => $money,
                               '%C' => $currency,
-                              '%c' => CRM_Utils_Array::value($currency, $currencySymbols, $currency),
+                              '%c' => CRM_Utils_Array::value($currency, self::$_currencySymbols, $currency),
                               );
 
         return strtr($format, $replacements);

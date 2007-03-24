@@ -4,7 +4,7 @@ if( isset( $GLOBALS['_SERVER']['DM_SOURCEDIR'] ) ) {
     $sourceCheckoutDir = $GLOBALS['_SERVER']['DM_SOURCEDIR'];
 } else {
     // backward compatibility
-    $sourceCheckoutDir = $GLOBALS['_SERVER']['HOME'] . '/svn/trunk';
+    $sourceCheckoutDir = $GLOBALS['_SERVER']['HOME'] . '/svn/crm_v1.7';
 }
 
 if( isset( $GLOBALS['_SERVER']['DM_GENFILESDIR'] ) ) {
@@ -14,8 +14,6 @@ if( isset( $GLOBALS['_SERVER']['DM_GENFILESDIR'] ) ) {
     $targetDir = $GLOBALS['_SERVER']['HOME'] . '/dist';
 }
 
-//$sourceCheckoutDir ='/home/anil/svn/crm';
-//$targetDir         ='/home/anil/svn/crm4';  
 ini_set('include_path', ini_get('include_path') . ":$sourceCheckoutDir/packages");
 require_once "$sourceCheckoutDir/civicrm.config.php";
 require_once 'PHP/Beautifier.php';
@@ -154,7 +152,7 @@ class PHP_DownGrade {
         // $this->dereferences();
         
         //$this->cloning();
-        return $this->toString();
+        return trim( $this->toString() );
    }
     
     
@@ -926,7 +924,17 @@ if (isset($argv[1])) {
 }
 
 function clean_dir( $path ) {
+    if ( ! is_dir( $path ) ) {
+        echo "WARNING: $path is not a directory\n";
+        return;
+    }
+    
     $dir = opendir( $path );
+    if ( ! $dir ) {
+        echo "WARNING: Could not open $path\n";
+        return;
+    }
+
     while ( false !== ($file = readdir($dir)) ) {
         if ( $file == '.' || $file == '..' ) {
             continue;
@@ -967,7 +975,7 @@ function convert_file( $rootDir, $destDir, $filePath, $fileName ) {
     print "Converting: $filePath/$fileName\n"; 
  
     $x    =& new PHP_DownGrade($filePath . '/' . $fileName );
-    $php4 = $x->toPHP4( ); 
+    $php4 = trim( $x->toPHP4( ) );
                  
     $php4Dir  = str_replace( $rootDir, $destDir, $filePath );
     createDir( $php4Dir ); 

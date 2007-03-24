@@ -108,8 +108,7 @@ function crm_create_relationship($contact =null, $target_contact= null, $relatio
 
     $relationship = CRM_Contact_BAO_Relationship::add($params, $ids, $targetContact);
         
-    $config   =& CRM_Core_Config::singleton( );
-    if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
+    if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
         CRM_Contact_BAO_Relationship::relatedMemberships( $contact->contact_id,
                                                           $params, $ids,
                                                           CRM_Core_Action::ADD );
@@ -295,8 +294,7 @@ function crm_update_relationship(&$relationship, $params )
     
     $relationship = CRM_Contact_BAO_Relationship::add($params, $ids,$conactId);
     
-    $config   =& CRM_Core_Config::singleton( );
-    if ( CRM_Utils_Array::key( 'CiviMember', $config->enableComponents ) ) {
+    if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
         
         $params['contact_check'] = array( $relationship->contact_id_b => 1 );
         

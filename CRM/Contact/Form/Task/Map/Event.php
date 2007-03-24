@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -33,44 +33,35 @@
  *
  */
 
-require_once 'CRM/Member/DAO/MembershipLog.php';
+require_once 'CRM/Contact/Form/Task/Map.php';
 
-class CRM_Member_BAO_MembershipLog extends CRM_Member_DAO_MembershipLog 
-{
+/**
+ * This class provides the functionality to map 
+ * the address for group of
+ * contacts. 
+ */
+class CRM_Contact_Form_Task_Map_Event  extends CRM_Contact_Form_Task_Map {
 
     /**
-     * function to add the membership types
+     * build all the data structures needed to build the form
      *
-     * @param array $params reference array contains the values submitted by the form
-     * @param array $ids    reference array contains the id
-     * 
+     * @return void
      * @access public
-     * @static 
-     * @return object
      */
-    static function add(&$params, &$ids) 
-    {
-        $membershipLog              =& new CRM_Member_DAO_MembershipLog( );
-        $membershipLog->copyValues( $params );
-        
-        $membershipLog->save( );
-        $membershipLog->free( );
-        
-        return $membershipLog;
+    function preProcess( ) {
+        $ids = CRM_Utils_Request::retrieve( 'eid', 'Positive',
+                                            $this, true );
+        $lid = CRM_Utils_Request::retrieve( 'lid', 'Positive',
+                                            $this, false );
+        $type = 'Event';
+        self::createMapXML( $ids, $lid, $this, true ,$type);
+        $this->assign( 'single', false );
     }
-    
-    /**
-     * Function to delete membership Types 
-     * 
-     * @param int $membershipTypeId
-     * @static
-     */
-    
-    static function del( $membershiID ) 
-    {
-        $membershipLog  =& new CRM_Member_DAO_MembershipLog( );
-        $membershipLog->membership_id = $membershiID ;
-        return $membershipLog->delete();
+
+    function getTemplateFileName( ) {
+        return 'CRM/Contact/Form/Task/Map.tpl';
     }
+
 }
+
 ?>

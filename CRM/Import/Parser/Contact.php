@@ -444,18 +444,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $newContact = crm_create_contact_formatted( $formatted, $onDuplicate, false );
             $relationship = true;
         }
+
         if ( $relationship ) {
-           
             $primaryContactId = null;
             if ( self::isDuplicate($newContact) ) {
-                if ( CRM_Utils_Rule::integer( $newContact->_errors[0]['params'] ) ) {
-                    $primaryContactId = CRM_Utils_Rule::integer( $newContact->_errors[0]['params'] );
+                if ( CRM_Utils_Rule::integer( $newContact->_errors[0]['params'][0] ) ) {
+                    $primaryContactId = $newContact->_errors[0]['params'][0];
                 }
             } else {
                 $primaryContactId = $newContact->id;
             }
-            
-            if ( ( self::isDuplicate($newContact)  || is_a( $newContact,CRM_Contact_BAO_Contact ) ) && $primaryContactId ) {
+
+            if ( ( self::isDuplicate($newContact)  || is_a( $newContact,CRM_Contact_BAO_Contact ) ) 
+                 && $primaryContactId ) {
                 //relationship contact insert
                 foreach ($params as $key => $field) {
                     list($id, $first, $second) = explode('_', $key);

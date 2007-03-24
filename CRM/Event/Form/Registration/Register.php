@@ -179,7 +179,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $this->add( $field['htmlType'],
                             $field['name'],
                             $field['title'],
-                            $field['attributes'] );
+                            $field['attributes'],
+                            $field['is_required'] );
             }
 
             $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );

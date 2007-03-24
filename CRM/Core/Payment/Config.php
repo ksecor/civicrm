@@ -197,7 +197,7 @@ class CRM_Core_Payment_Config {
             case 'AuthNet_AIM':
                 $config->paymentFile = 'Payment_AuthorizeNet';
                 $config->paymentType = 'AIM';
-                $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_NOTIFY;
+                $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_FORM;
                 break;
            }
 

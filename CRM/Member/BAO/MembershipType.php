@@ -129,7 +129,8 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
     static function del($membershipTypeId) 
     {
         //check dependencies
-        $check = false;
+        $check  = false;
+        $status = array( );
         $dependancy = array(
                             'Membership'      => 'membership_type_id', 
                             'MembershipBlock' => 'membership_type_default'
@@ -141,12 +142,25 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             $dao->$field = $membershipTypeId;
             if ($dao->find(true)) {
                 $check = true;
+                $status[] = $name;
             }
         }
         if ($check) {
-            $deleteURL = CRM_Utils_System::url('civicrm/member/search', 'reset=1');
+
             $session =& CRM_Core_Session::singleton();
-            CRM_Core_Session::setStatus(ts('This membership type cannot be deleted because there are some contacts who have this membership type assigned to them. Search for contacts with this membership type on the <a href="%1">CiviMember >> Find Members</a> page. If you delete all memberships of this type, you will then be able to delete the membership type on this page. To delete the membership type, all memberships of this type should be deleted.', array(1 => $deleteURL)));
+            $cnt = 1;
+            $message = ts('This membership type cannot be deleted due to following reason(s):' ); 
+            if ( in_array( 'Membership', $status) ) {
+                $deleteURL = CRM_Utils_System::url('civicrm/member/search', 'reset=1');
+                $message .= ts('<br>%2. There are some contacts who have this membership type assigned to them. Search for contacts with this membership type on the <a href="%1">CiviMember >> Find Members</a> page. If you delete all memberships of this type, you will then be able to delete the membership type on this page. To delete the membership type, all memberships of this type should be deleted.', array(1 => $deleteURL, 2 => $cnt));
+                $cnt++;
+            }
+            
+            if ( in_array( 'MembershipBlock', $status) ) {
+                $deleteURL = CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1');
+                $message .= ts('<br>%2. This Membership Type is being link to <a href="%1">Online Contribution page</a>. Please change/delete it in order to delete this Membership Type.', array(1 => $deleteURL, 2 => $cnt));
+            }
+            CRM_Core_Session::setStatus($message);
 
             return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin/member/membershipType', 'reset=1&action=browse'));
         }
@@ -220,6 +234,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         while ( $membershipType->fetch() ) {
             $membershipTypes[$membershipType->id] = $membershipType->name; 
         }
+        $membershipType->free( );
         return $membershipTypes;
      }
     
@@ -239,6 +254,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         $membershipType->id = $membershipTypeId;
         if ( $membershipType->find(true) ) {
             CRM_Core_DAO::storeValues($membershipType, $membershipTypeDetails );
+            $membershipType->free( );
             return   $membershipTypeDetails;
         } else {
             return null;
