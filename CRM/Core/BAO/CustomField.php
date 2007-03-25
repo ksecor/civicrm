@@ -722,7 +722,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @static
      * @access public
      */
-    static function setProfileDefaults( $customFieldId, $elementName, &$defaults, $contactId = null, $mode = null ) 
+    static function setProfileDefaults( $customFieldId,
+                                        $elementName,
+                                        &$defaults,
+                                        $contactId = null,
+                                        $mode = null ) 
     {
         //get the type of custom field
         $customField =& new CRM_Core_BAO_CustomField();
@@ -733,7 +737,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         
         require_once "CRM/Profile/Form.php";
 
-        if (!$contactId ) {
+        if ( ! $contactId ) {
             if ($mode == CRM_Profile_Form::MODE_CREATE ) {
                 $value = $customField->default_value;
             }
@@ -778,8 +782,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     break;
                 }
             }
-            if($customField->data_type == 'Country') {
-                if (!$value) {
+
+            if ( $customField->data_type == 'Country' ) {
+                if ( ! $value ) {
                     $config =& CRM_Core_Config::singleton();
                     if ( $config->defaultContactCountry ) {
                         $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
@@ -793,14 +798,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
         
         //set defaults if mode is registration / edit
-        if (!trim($value) && ($value !== 0) && ($mode != CRM_Profile_Form::MODE_SEARCH) ) {
+        if ( ! trim( $value ) &&
+             ( $value !== 0 ) &&
+             ( $mode != CRM_Profile_Form::MODE_SEARCH ) ) {
             $value = $customField->default_value;
         }
 
         switch ($customField->html_type) {
             
         case 'CheckBox':
-            
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldId, $inactiveNeeded);
 
             $defaults[$elementName] = array();
@@ -825,12 +831,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     $defaults[$elementName][$val['value']] = $val['value'];
                 }
             }                            
-        
             break;
+
         case 'File':
             $defaults["custom_value_{$customFieldId}_id"] = $cv->id; 
             $defaults[$elementName] = $value;
-
             break;
             
         default:

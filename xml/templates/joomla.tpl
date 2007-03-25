@@ -3,6 +3,7 @@
   <name>CiviCRM</name>
   <creationDate>03/15/2007</creationDate>
   <copyright>(C) CiviCRM LLC</copyright>
+  <author>CiviCRM LLC</author>
   <authorEmail>info@civicrm.org</authorEmail>
   <authorUrl>civicrm.org</authorUrl>
   <version>1.7</version>
@@ -13,12 +14,15 @@
   </files>
   <params>
     <param name="task" type="list" default="civicrm/profile" label="Choose CiviCRM task">
+       <option value="civicrm/dashboard">CiviCRM Home</option>
+       <option value="civicrm/user">Contact Dashboard</option>
        <option value="civicrm/profile">Profile Search and Listings</option>
        <option value="civicrm/profile/create">Profile Create</option>
        <option value="civicrm/profile/edit">Profile Edit</option>
        <option value="civicrm/contribute/transact">Online Contribution</option>
+       <option value="civicrm/event/register">Online Event Registration</option>
     </param>
-    <param name="id"    type="text" size="5" default="1" label="Contribution id" />
+    <param name="id"    type="text" size="5" default="1" label="Contribution or Event id" />
     <param name="gid"   type="text" size="5" default="1" label="Profile id" />
     <param name="reset" type="text" size="5" default="1" label="Reset" />
   </params>

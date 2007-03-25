@@ -133,15 +133,17 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         }
                 
         // check if location is empty
-        foreach ( $ids['location'] as $lValues ) {
-            if ( self::isLocationEmpty( $params, $lValues['id'] ) ) {
-                $locationDAO =& new CRM_Core_DAO_Location( );
-                $locationDAO->id = $lValues['id'];
-                $locationDAO->find( );
-                // delete the empty location
-                while ( $locationDAO->fetch( ) ) {
-                    self::deleteLocationBlocks( $locationDAO->id );
-                    $locationDAO->delete( );
+        if ( isset( $ids['location'] ) ) {
+            foreach ( $ids['location'] as $lValues ) {
+                if ( self::isLocationEmpty( $params, $lValues['id'] ) ) {
+                    $locationDAO =& new CRM_Core_DAO_Location( );
+                    $locationDAO->id = $lValues['id'];
+                    $locationDAO->find( );
+                    // delete the empty location
+                    while ( $locationDAO->fetch( ) ) {
+                        self::deleteLocationBlocks( $locationDAO->id );
+                        $locationDAO->delete( );
+                    }
                 }
             }
         }

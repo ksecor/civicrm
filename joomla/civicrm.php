@@ -69,11 +69,8 @@ function civicrm_check_permission( $args ) {
 
     // all profile and file urls are valid
     $arg1 = CRM_Utils_Array::value( 1, $args );
-    if ( $arg1 == 'profile' ) {
-        return true;
-    }
-
-    if ( $arg1 == 'file' ) {
+    $validPaths = array( 'profile', 'path', 'user', 'dashboard' );
+    if ( in_array( $arg1 , $validPaths ) ) {
         return true;
     }
 
@@ -83,6 +80,13 @@ function civicrm_check_permission( $args ) {
     if ( in_array( 'CiviContribute', $config->enableComponents ) &&
          CRM_Utils_Array::value( 1, $args ) == 'contribute' &&
          CRM_Utils_Array::value( 2, $args ) == 'transact' ) {
+        return true;
+    }
+
+    // an event registration page is also valid
+    if ( in_array( 'CiviEvent', $config->enableComponents ) &&
+         CRM_Utils_Array::value( 1, $args ) == 'event' &&
+         CRM_Utils_Array::value( 2, $args ) == 'register' ) {
         return true;
     }
     
