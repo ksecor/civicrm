@@ -397,7 +397,11 @@ class CRM_Utils_System {
      * @access public
      * @static
      */
-    static function redirect( $url ) {
+    static function redirect( $url = null ) {
+        if ( ! $url ) {
+            $url = self::url( 'civicrm/dashboard', 'reset=1' );
+        }
+
         // replace the &amp; characters with &
         // this is kinda hackish but not sure how to do it right
         $url = str_replace( '&amp;', '&', $url );

@@ -130,7 +130,7 @@ class CRM_Core_Invoke
             if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
             }
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' ) );
+            CRM_Utils_System::redirect( );
             break;
 
         }
@@ -361,7 +361,7 @@ class CRM_Core_Invoke
             return self::search( $args );
         }
         
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/dashboard', 'reset=1', true) );
+        return CRM_Utils_System::redirect( );
     }
 
     /**
