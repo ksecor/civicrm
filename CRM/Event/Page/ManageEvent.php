@@ -59,6 +59,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this Event?');
             $deleteExtra = ts('Are you sure you want to delete this Event?');
+            $copyExtra = ts('Are you sure you want to make a copy this Event?');
 
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
@@ -100,10 +101,11 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           'title' => ts('Delete Event') 
                                                                           ),
                                         CRM_Core_Action::COPY     => array(
-                                                                           'name'  => ts('Copy'),
-                                                                          'url'   => 'civicrm/admin/event',
-                                                                          'qs'    => 'reset=1&action=copy&id=%%id%%',
-                                                                          'title' => ts('Copy Event') 
+                                                                           'name'  => ts('Copy Event'),
+                                                                           'url'   => 'civicrm/admin/event',
+                                                                           'qs'    => 'reset=1&action=copy&id=%%id%%',
+                                                                           'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
+                                                                           'title' => ts('Copy Event') 
                                                                           )
                                         );
         }

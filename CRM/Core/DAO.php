@@ -520,6 +520,13 @@ class CRM_Core_DAO extends DB_DataObject {
      * @access public
      */
     static function getFieldValue( $daoName, $id, $fieldName = 'name', $idName = 'id' ) {
+        if ( empty( $id ) ) {
+            // adding this year since developers forget to check for an id
+            // and hence we get the first value in the db
+            CRM_Core_Error::fatal( 'Please file an issue with the backtrace' );
+            return null;
+        }
+
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object   =& new ' . $daoName . '( );' );
         $object->$idName =  $id;

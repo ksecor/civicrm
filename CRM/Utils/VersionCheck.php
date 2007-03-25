@@ -143,7 +143,7 @@ class CRM_Utils_VersionCheck
         $latest = explode('.', $this->latestVersion);
 
         // return early if the array do not match
-        if ( count( $local ) != 2 || count( $latest ) != 2 ) {
+        if ( count( $local ) != 3 || count( $latest ) != 3 ) {
             return $this->latestVersion;
         }
 

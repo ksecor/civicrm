@@ -50,8 +50,15 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
      */
     function setDefaultValues()
     {
-        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
-        CRM_Utils_System::setTitle(ts('Title and Settings (%1)', array(1 => $title)));
+        if ( $this->_id ) {
+            $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                                  $this->_id,
+                                                  'title' );
+            CRM_Utils_System::setTitle( ts( 'Title and Settings (%1)',
+                                            array( 1 => $title ) ) );
+        } else {
+            CRM_Utils_System::setTitle( ts( 'Title and Settings' ) );
+        }
         return parent::setDefaultValues();
     }
     

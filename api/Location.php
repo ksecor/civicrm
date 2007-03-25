@@ -67,7 +67,10 @@ function crm_create_location(&$contact, $params) {
     $loc['address'] = array( );    
     _crm_store_values($fields, $params, $loc['address']);
     
-    $ids = array( 'county', 'country_id', 'country', 'state_province_id', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
+    $ids = array( 'county', 'country_id', 'country', 
+                  'state_province_id', 'state_province',
+                  'supplemental_address_1', 'supplemental_address_2',
+                  'StateProvince.name' );
     
     foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {
@@ -76,11 +79,13 @@ function crm_create_location(&$contact, $params) {
     }
      
     if (is_numeric($loc['address']['state_province'])) {
-        $loc['address']['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc['address']['state_province']);
+        $loc['address']['state_province'] =
+            CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc['address']['state_province']);
     }
     
     if (is_numeric($loc['address']['country'])) {
-        $loc['address']['country']        = CRM_Core_PseudoConstant::countryIsoCode($loc['address']['country']);
+        $loc['address']['country'] =
+            CRM_Core_PseudoConstant::countryIsoCode($loc['address']['country']);
     }
     
     $blocks = array( 'Email', 'Phone', 'IM' );
@@ -101,7 +106,7 @@ function crm_create_location(&$contact, $params) {
     require_once 'CRM/Core/BAO/Location.php';
     
     CRM_Contact_BAO_Contact::resolveDefaults($values, true);
-    
+
     $location = CRM_Core_BAO_Location::add($values, $ids,1);
     return $location;
 }
