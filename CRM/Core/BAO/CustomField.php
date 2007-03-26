@@ -845,10 +845,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
     static function getFileURL( $contactID, $value, $valueID ) 
     {
-        $fileID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue',
-                                               $valueID,
-                                               'file_id',
-                                               'id' );
+        if ( $valueID ) {
+            $fileID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue',
+                                                   $valueID,
+                                                   'file_id',
+                                                   'id' );
+        }
+        
         $result = null;
         if ($fileID) {
             $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File',
@@ -932,7 +935,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             
             $mimeType = $params["custom_{$customFieldId}_type"];
             
-            $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $customOptionValueId, 'file_id', 'id' );
+            if ( $customOptionValueId ) {
+                $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', 
+                                                       $customOptionValueId, 'file_id', 'id' );
+            }
+            
             $fileDAO =& new CRM_Core_DAO_File();
             
             if ( $fileId ) {
