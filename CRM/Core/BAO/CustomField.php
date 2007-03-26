@@ -924,16 +924,17 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             require_once 'CRM/Core/DAO/File.php';
             $config = & CRM_Core_Config::singleton();
             
-            $path = explode( '/', $value );
+            $fName    = $value['name']; 
+            $mimeType = $value['type']; 
+
+            $path = explode( '/', $fName );
             $filename = $path[count($path) - 1];
             
             // rename this file to go into the secure directory
-            if ( ! rename( $value, $config->customFileUploadDir . $filename ) ) {
+            if ( ! rename( $fName, $config->customFileUploadDir . $filename ) ) {
                 CRM_Core_Error::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
                 break;
             }
-            
-            $mimeType = $params["custom_{$customFieldId}_type"];
             
             if ( $customOptionValueId ) {
                 $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', 
