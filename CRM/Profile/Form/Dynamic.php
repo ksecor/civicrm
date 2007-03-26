@@ -34,7 +34,6 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
 
 /**
  * This class generates form components for custom data
@@ -44,7 +43,6 @@ require_once 'CRM/Core/Form.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
  */
-
 require_once 'CRM/Profile/Form.php';
 
 class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
@@ -120,18 +118,6 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
 
         return CRM_Profile_Form::formRule( $fields, $files, $form );
     }
-
-    /**
-     * Set the default form values
-     *
-     * @access protected
-     * @return array the default array reference
-     */
-    function &setDefaultValues()
-    {
-        return parent::setContactValues( );
-    }
-
        
     /**
      * Process the user submitted custom data values.

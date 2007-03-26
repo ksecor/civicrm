@@ -148,7 +148,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         $this->_householdNameIndex = -1;
         $this->_organizationNameIndex = -1;
 
-        $index             = 0 ;
+        $index = 0 ;
         foreach ( $this->_mapperKeys as $key ) {
             if ( $key == 'email' ) {
                 $this->_emailIndex = $index;
@@ -384,14 +384,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
         $relationship = false;
         // Support Match and Update Via Contact ID
-        if($this->_updateWithId) {
+        if ( $this->_updateWithId ) {
             $error = _crm_duplicate_formatted_contact($formatted);
             if ( self::isDuplicate($error) ) {
                 $matchedIDs= explode(',',$error->_errors[0]['params'][0]);
-                if(count( $matchedIDs) >= 1){
+                if ( count( $matchedIDs) >= 1 ) {
                         $updateflag = true;
                         foreach ($matchedIDs  as $contactId) {
-                            if($params['id'] == $contactId) {
+                            if ($params['id'] == $contactId) {
                                 $paramsValues = array('contact_id'=>$contactId);
                                 $contactExists =& CRM_Contact_BAO_Contact::check_contact_exists($params['id']);
                                 if ($formatted['contact_type'] == $contactExists->contact_type) {
@@ -444,6 +444,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $newContact = crm_create_contact_formatted( $formatted, $onDuplicate, false );
             $relationship = true;
         }
+        
+        // $newContact is a crm_core_error object, due to some wierd behavior
+        // of php this variable gets overwritten when we check for duplicate
+        // contact while creating related contact which also returns
+        // crm_core_error object.
+        $newContact = clone($newContact);
 
         if ( $relationship ) {
             $primaryContactId = null;
@@ -520,7 +526,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         }
                         _crm_add_formatted_param($value, $formatting);
                     }
-                    
+
                     //fix for CRM-1315
                     if ( $params[$key]['id']) {
                         $contactId = array('contact_id' => $params[$key]['id']);
@@ -528,7 +534,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     } else {
                         $relatedNewContact = crm_create_contact_formatted( $formatting, $onDuplicate );
                     }
-                       
+
+                    $relatedNewContact = clone($relatedNewContact);
+
                     if ( self::isDuplicate($relatedNewContact) ) {
                         foreach ($relatedNewContact->_errors[0]['params'] as $cid) {
                             $relContactId = $cid;
@@ -538,7 +546,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $this->_newRelatedContacts[] = $relContactId;
                     }
                     
-                    if( self::isDuplicate($relatedNewContact) || is_a( $relatedNewContact ,CRM_Contact_BAO_Contact )) {
+                    if ( self::isDuplicate($relatedNewContact) || is_a( $relatedNewContact ,CRM_Contact_BAO_Contact )) {
                         //store the related contact id for groups
                         //$this->_newRelatedContacts[] = $relContactId;
                         
@@ -557,6 +565,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                 $householdName = "The ".$formatting['last_name']." household";
                                 $householdFormatting = array( 'contact_type' => 'Household', 'household_name' => $householdName );
                                 $householdContact = crm_create_contact_formatted( $householdFormatting, $onDuplicate );
+                                $householdContact = clone($householdContact);
                                 if ( self::isDuplicate($householdContact) ) {
                                     foreach ($householdContact->_errors[0]['params'] as $cid) {
                                         $householdId = $cid;
@@ -590,11 +599,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if( $this->_updateWithId ) {
             return $this->_retCode;
         }
-        
+
         //dupe checking
-        if ( is_a( $newContact, CRM_Core_Error ) ) 
-        {   
-            $code = $newContact->_errors[0]['code'];
+        if ( is_a( $newContact, CRM_Core_Error ) ) {
+             $code = $newContact->_errors[0]['code'];
             if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
                 $urls = array( );
                 // need to fix at some stage and decide if the error will return an 
@@ -620,7 +628,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
            
                 /* Params only had one id, so shift it out */
                 $contactId = array_shift($newContact->_errors[0]['params']);
-            
+
                 if ($onDuplicate == CRM_Import_Parser::DUPLICATE_REPLACE) {
                     $newContact = crm_replace_contact_formatted($contactId, $formatted);
                 } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) {
@@ -694,9 +702,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
     function isDuplicate($error) 
     {
-        if( is_a( $error, 'CRM_Core_Error' ) ) {
+        if ( is_a( $error, 'CRM_Core_Error' ) ) {
             $code = $error->_errors[0]['code'];
-            if($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
+            if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
                 return true ;
             }
         }
