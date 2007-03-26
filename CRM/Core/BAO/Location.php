@@ -250,7 +250,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         $address->location_id = $lid;
         
         if ( $address->find( true ) ) {
-            $address->storeValues( $address, $values[$lid]['address'][] );
+            $address->storeValues( $address, $values[$lid]['address'] );
             unset( $values[$lid]['address'][0]['id'] );
             unset( $values[$lid]['address'][0]['location_id'] );
         }
