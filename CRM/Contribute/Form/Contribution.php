@@ -509,14 +509,37 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         } else {
             $params["honor_contact_id"] = null;
         }
+
+        // format custom data
+        // get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $formValues[$key] ) {
+                    $files['name'] = $formValues[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $formValues[$key] = $files;
+            }
+        }
+        
+        $customData = array( );
+        foreach ( $formValues as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                             $value, 'Contribution', null, $this->_id);
+            }
+        }
+        
+        if (! empty($customData) ) {
+            $params['custom'] = $customData;
+        }
+
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
         
-        // do the updates/inserts
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $params['contribution_type_id']);
-        
-        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $formValues );
-       
         //process note
         require_once 'CRM/Core/BAO/Note.php';
         $noteParams = array('entity_table' => 'civicrm_contribution', 'note' => $formValues['note'], 'entity_id' => $contribution->id,
@@ -552,7 +575,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $premium = $dao->save();
             }
         }
-        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
     }
 
     /** 

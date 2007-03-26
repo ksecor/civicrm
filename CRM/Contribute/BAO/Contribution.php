@@ -194,6 +194,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                                   'value'           => $customValue['value'],
                                   'type'            => $customValue['type'],
                                   'custom_field_id' => $customValue['custom_field_id'],
+                                  'file_id'         => $customValue['file_id'],
                                   );
                 
                 if ($customValue['id']) {
@@ -202,10 +203,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                 CRM_Core_BAO_CustomValue::create($cvParams);
             }
         }
+
         $session = & CRM_Core_Session::singleton();
-       
-
-
 
         if ( CRM_Utils_Array::value('note', $params) ) {
             require_once 'CRM/Core/BAO/Note.php';

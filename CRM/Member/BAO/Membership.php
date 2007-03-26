@@ -184,6 +184,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                   'value'           => $customValue['value'],
                                   'type'            => $customValue['type'],
                                   'custom_field_id' => $customValue['custom_field_id'],
+                                  'file_id'         => $customValue['file_id'],
                                   );
                 
                 if ($customValue['id']) {

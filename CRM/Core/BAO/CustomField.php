@@ -880,18 +880,33 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @param mix    $value               value of custom field
      * @param string $customFieldExtend   custom field extends
      * @param int    $customOptionValueId custom option value id
+     * @param int    $entityId            entity id (contribution, membership...)
      *
      * @return array $customFormatted formatted custom field array
      * @static
      */
     static function formatCustomField( $customFieldId, &$customFormatted, $value, 
-                                       $customFieldExtend, $customOptionValueId = null ) 
+                                       $customFieldExtend, $customOptionValueId = null, $entityId = null ) 
     {
         //get the custom fields for the contact
         $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend );
         
         if ( ! array_key_exists( $customFieldId, $customFields )) {
             return;
+        }
+
+        //get the $customOptionValueId if entity id is passed
+        if ( !$customOptionValueId && $entityId ) {
+            //get the entity table for the custom field
+            require_once "CRM/Core/BAO/CustomQuery.php";
+            $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$customFieldExtend];
+
+            $query = "
+SELECT id 
+FROM civicrm_custom_value 
+WHERE custom_field_id = {$customFieldId} AND entity_table='{$entityTable}' AND entity_id={$entityId}";
+
+            $customOptionValueId = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
         //fix checkbox
