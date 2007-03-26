@@ -502,6 +502,18 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         CRM_Utils_System::redirect($redirect);
     }
 
+    /**
+     * Function to reset the error stack
+     *
+     * @access public
+     * @static
+     */
+    public static function reset( ) 
+    {
+        $error =& self::singleton( );
+        $error->_errors = array( ) ;
+        $error->_errorsByLevel = array( ) ;
+    }
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');

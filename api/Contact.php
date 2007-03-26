@@ -164,6 +164,7 @@ function &crm_create_contact_formatted( &$params , $onDuplicate, $fixAddress = t
 
     require_once 'CRM/Import/Parser.php';
     if ( $onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK) {
+        CRM_Core_Error::reset( );
         $error = _crm_duplicate_formatted_contact($params);
         if (is_a( $error, 'CRM_Core_Error')) {
             return $error;
