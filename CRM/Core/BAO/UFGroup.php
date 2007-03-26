@@ -1325,6 +1325,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
     {
         require_once "CRM/Profile/Form.php";
         require_once "CRM/Core/OptionGroup.php";
+
         $fieldName  = $field['name'];
         $title      = $field['title'];
         $attributes = $field['attributes'];
@@ -1413,9 +1414,11 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('manual', 3, 1), $required );  
             $form->addRule($name, ts('Select a valid date.'), 'qfDate');
         } else if ($fieldName == 'payment_instrument' ) {
+            require_once "CRM/Contribute/PseudoConstant.php";
             $form->add('select', $name, ts( 'Paid By' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
         } else if ($fieldName == 'contribution_type' ) {
+            require_once "CRM/Contribute/PseudoConstant.php";
             $form->add('select', $name, ts( 'Contribution Type' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
         } else if ($fieldName == 'event_register_date' ) {

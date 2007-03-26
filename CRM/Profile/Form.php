@@ -136,12 +136,10 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
 
-        $this->_context  = CRM_Utils_Request::retrieve( 'context', 'String',
-                                                        $this );
+        $this->_context  = CRM_Utils_Request::retrieve( 'context', 'String', $this );
 	
         if ( ! $this->_gid ) {
-            $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
-                                                      $this, false, 0, 'GET');
+            $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this, false, 0, 'GET');
         }
 
         // if we dont have a gid use the default, else just use that specific gid
@@ -168,17 +166,13 @@ class CRM_Profile_Form extends CRM_Core_Form
 
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm', 'reset=1' ) );
         }
-        
-        if ( $this->_id ) {
-            $defaults = array( );
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $defaults, true );
-            $this->setDefaults( $defaults );       
-        }
 
         if( $this->_mode != self::MODE_SEARCH ) {
             CRM_Core_BAO_UFGroup::setRegisterDefaults(  $this->_fields, $defaults );
             $this->setDefaults( $defaults );    
         }
+        
+        $this->setDefaultsValues();
     }
     
     /** 
@@ -188,55 +182,50 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @access public 
      * @return void 
      */ 
-    function &setDefaultValues( ) { 
-    } 
-    
-    /**
-     * This functions sets the default values for a contact and is invoked by the inherited classes
-     *
-     * @access protected 
-     * @return array the default array reference 
-     */ 
-    function &setContactValues()
+    function &setDefaultsValues( ) 
     {
-        $defaults = array();
+        $defaults = array( );        
+        if ( $this->_id ) {
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $defaults, true );
+        }
 
-        if ( $this->_contact ) {
-            foreach ( $this->_fields as $name => $field ) {
-                $objName = $field['name'];
-                if ( $objName == 'state_province' ) {
-                    $states =& CRM_Core_PseudoConstant::stateProvince( );
-                    if ( $this->_contact->state_province ) {
-                        $defaults[$name] = array_search( $this->_contact->state_province, $states );
+        //set custom field defaults
+        require_once "CRM/Core/BAO/CustomField.php";
+        foreach ( $this->_fields as $name => $field ) {
+            if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID($name) ) {
+                
+                $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
+
+                if ( !isset( $defaults[$name] ) || $htmlType == 'File') {
+                    CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id, $this->_mode );
+                }
+                
+                if ( $htmlType == 'File') {
+                    $customOptionValueId = "custom_value_{$customFieldID}_id";
+                    $url = CRM_Core_BAO_CustomField::getFileURL( $this->_id,
+                                                                 $defaults[$name],
+                                                                 $defaults[$customOptionValueId] );
+                    
+                    if ( $url ) {
+                        $customFiles[$field['name']]['displayURL'] = "Attached File : $url";
+
+                        $deleteExtra = "Are you sure you want to delete attached file ?";
+                        $fileId      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue',
+                                                                    $defaults[$customOptionValueId],
+                                                                    'file_id', 'id' );
+                        $deleteURL   = CRM_Utils_System::url( 'civicrm/file',
+                                                              "reset=1&id={$fileId}&eid=$this->_id&action=delete" );
+                        $customFiles[$field['name']]['deleteURL'] =
+                            "<a href=\"{$deleteURL}\" onclick = \"if (confirm( ' $deleteExtra ' )) this.href+='&amp;confirmed=1'; else return false;\">Delete Attached File</a>";
                     }
-                } else if ( $objName == 'country' ) {
-                    $country =& CRM_Core_PseudoConstant::country( );
-                    if ( $this->_contact->country ) {
-                        $defaults[$name] = array_search( $this->_contact->country, $country );
-                    } 
-                } else if ( $objName == 'gender' ) {
-                    if ($this->_contact->gender_id) {
-                        $defaults[$name] = $this->_contact->gender_id;
-                    }
-                } else if ( $objName == 'group' ) {
-                    CRM_Contact_Form_GroupTag::setDefaults( $this->_id, 
-                                                            $defaults,
-                                                            CRM_Contact_Form_GroupTag::GROUP ); 
-                } else if ( $objName == 'tag' ) { 
-                    CRM_Contact_Form_GroupTag::setDefaults( $this->_id, 
-                                                            $defaults,
-                                                            CRM_Contact_Form_GroupTag::TAG ); 
-                } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
-                    CRM_Core_BAO_CustomField::setProfileDefaults( $cfID, $name, $defaults, $this->_id, $this->_mode );
-                } else {
-                    $defaults[$name] = $this->_contact->$objName;
                 }
             }
         }
-       
-        return $defaults;
-    }
 
+        $this->assign( 'customFiles', $customFiles ); 
+        $this->setDefaults( $defaults );
+    } 
+    
     /**
      * Function to actually build the form
      *
@@ -281,8 +270,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
 
-        require_once "CRM/Contribute/PseudoConstant.php";
-
         $addCaptcha = array();
 
         // add the form elements
@@ -302,34 +289,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
             CRM_Core_BAO_UFGroup::buildProfile($this, $field, $this->_mode );
-            
-            //for custom data
-            if (substr($field['name'], 0, 6) === 'custom') {
-                $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
-                
-                CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id , $this->_mode);
-                $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
-                
-                if ( $htmlType == 'File') {
-                    $customOptionValueId = "custom_value_{$customFieldID}_id";
-                    $url = CRM_Core_BAO_CustomField::getFileURL( $this->_id,
-                                                                 $defaults[$field['name']],
-                                                                 $defaults[$customOptionValueId] );
-                    if ( $url ) {
-                        $customFiles[$field['name']]['displayURL'] =
-                            "Attached File : $url";
-
-                        $deleteExtra = "Are you sure you want to delete attached file ?";
-                        $fileId      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue',
-                                                                    $defaults[$customOptionValueId],
-                                                                    'file_id', 'id' );
-                        $deleteURL   = CRM_Utils_System::url( 'civicrm/file',
-                                                              "reset=1&id={$fileId}&eid=$this->_id&action=delete" );
-                        $customFiles[$field['name']]['deleteURL'] =
-                            "<a href=\"{$deleteURL}\" onclick = \"if (confirm( ' $deleteExtra ' )) this.href+='&amp;confirmed=1'; else return false;\">Delete Attached File</a>";
-                    }
-                }
-            }
 
             if ($field['add_to_group_id']) {
                 $addToGroupId = $field['add_to_group_id'];
@@ -392,18 +351,13 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
         
-        $this->assign( 'customFiles', $customFiles ); 
-
         $this->assign( 'groupId', $this->_gid ); 
 
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
         }
-        
-        $this->setDefaults( $defaults );
     }
-    
 
     /**
      * global form rule

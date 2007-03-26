@@ -33,7 +33,6 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
 require_once 'CRM/Profile/Form.php';
 /**
  * This class generates form components for custom data
@@ -99,17 +98,6 @@ SELECT module
         if ( ! $dao->fetch( ) ) {
             CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );
         }
-    }
-
-    /**
-     * Set the default form values
-     *
-     * @access protected
-     * @return array the default array reference
-     */
-     function &setDefaultValues()
-    {
-        return parent::setContactValues( );
     }
 
     /**
