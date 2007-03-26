@@ -921,9 +921,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
         
         if ( $customFields[$customFieldId][2] == 'File' ) { 
+            if ( empty($value) ) {
+                return;
+            }
+
             require_once 'CRM/Core/DAO/File.php';
             $config = & CRM_Core_Config::singleton();
-            
+
             $fName    = $value['name']; 
             $mimeType = $value['type']; 
 

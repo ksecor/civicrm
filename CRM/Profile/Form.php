@@ -569,7 +569,9 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( !empty($_FILES) ) {
             foreach ( $_FILES as $key => $value) {
                 $files = array( );
-                $files['name'] = $params[$key];
+                if ( $params[$key] ){ 
+                    $files['name'] = $params[$key];
+                }
                 if ( $value['type'] ) {
                     $files['type'] = $value['type']; 
                 }
