@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-29 09:54+0100\n"
-"PO-Revision-Date: 2007-03-05 07:31-0800\n"
+"PO-Revision-Date: 2007-03-12 08:15-0800\n"
 "Last-Translator: Atilla Gökhan Uz <atilla.uz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1112,7 +1112,7 @@ msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Duplicate Contact button below."
 msgstr[0] "Aranan irtibat bulundı. Buradan güncelleyebilirsiniz: %1"
-msgstr[1] "% aranan irtibat bulundu. Buradan güncelleyebilirsiniz: %1"
+msgstr[1] "% adet irtibat bulundu. Buradan güncelleyebilirsiniz: %1"
 
 #: CRM/Contact/Form/Individual.php CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Contribute/Form/Contribution.php
