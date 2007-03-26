@@ -59,7 +59,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this Event?');
             $deleteExtra = ts('Are you sure you want to delete this Event?');
-            $copyExtra = ts('Are you sure you want to make a copy this Event?');
+            $copyExtra = ts('Are you sure you want to make a copy of this Event?');
 
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
