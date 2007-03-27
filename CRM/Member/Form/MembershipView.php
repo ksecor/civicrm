@@ -52,12 +52,15 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form
         require_once 'CRM/Member/BAO/Membership.php';
 
         $values = array( ); 
-        $params = array( 'id' => $this->get( 'id' ) ); 
-        
-        CRM_Member_BAO_Membership::retrieve( $params, $values );
-        
-        $memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$this->get( 'id' ),"membership_type_id");
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $this->get( 'id' ),0,$memType);
+        $id = $this->get( 'id' );
+        if ( $id ) {
+            $params = array( 'id' => $id ); 
+            
+            CRM_Member_BAO_Membership::retrieve( $params, $values );
+            
+            $memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$id,"membership_type_id");
+            $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $id,0,$memType);
+        }
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
         
         $this->assign( $values ); 
