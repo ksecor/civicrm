@@ -197,7 +197,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             return;
         }
         
-        
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
         
@@ -266,6 +265,32 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $session = CRM_Core_Session::singleton();
         $ids['userId'] = $session->get('userID');
         
+        //format custom data
+        // get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $formValues[$key] ) {
+                    $files['name'] = $formValues[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $formValues[$key] = $files;
+            }
+        }
+
+        $customData = array( );
+        foreach ( $formValues as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, $value, 'Membership', null, $this->_id);
+            }
+        }
+        
+        if (! empty($customData) ) {
+            $params['custom'] = $customData;
+        }
+        
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         
         $relatedContacts = array( );
@@ -309,10 +334,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         }
         
-        // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Membership', $membership->id);
-
         CRM_Core_Session::setStatus( ts('The membership information has been saved.') );
     }
 }

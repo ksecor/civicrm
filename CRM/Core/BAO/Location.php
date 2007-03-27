@@ -131,11 +131,11 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             $location->email[$i] = CRM_Core_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
             $location->im   [$i] = CRM_Core_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIM    );
         }
-                
-        // check if location is empty
+        
         if ( isset( $ids['location'] ) ) {
             foreach ( $ids['location'] as $lValues ) {
-                if ( self::isLocationEmpty( $params, $lValues['id'] ) ) {
+                // check if location is empty
+                if ( self::isLocationEmpty( $lValues['id'] ) ) {
                     $locationDAO =& new CRM_Core_DAO_Location( );
                     $locationDAO->id = $lValues['id'];
                     $locationDAO->find( );
@@ -199,7 +199,6 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      *
      * Check if the location is empty Location
      *
-     * @param  array   $params
      * @params int     $lid       location id
      *
      * @return boolean  true if location is empty, flase otherwise
@@ -207,7 +206,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      * @static
      * @access public
      */
-    static function isLocationEmpty(  &$params, $lid )
+    static function isLocationEmpty( $lid )
     {
         // get the location values
         $location =& new CRM_Core_BAO_Location( );
@@ -251,7 +250,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         $address->location_id = $lid;
         
         if ( $address->find( true ) ) {
-            $address->storeValues( $address, $values[$lid]['address'][] );
+            $address->storeValues( $address, $values[$lid]['address'] );
             unset( $values[$lid]['address'][0]['id'] );
             unset( $values[$lid]['address'][0]['location_id'] );
         }

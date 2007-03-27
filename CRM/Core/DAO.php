@@ -172,7 +172,7 @@ class CRM_Core_DAO extends DB_DataObject {
         }
 
         $this->_connect();
-    
+
         if ( !isset($GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database]) ) {
             $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database] = array();
         }
@@ -653,8 +653,8 @@ class CRM_Core_DAO extends DB_DataObject {
      * @access public
      */
     static function &executeQuery( $query, &$params, $abort = true ) {
-        $queryStr = self::composeQuery( $query, $params, $abort );
         $dao =& new CRM_Core_DAO( );
+        $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         $dao->query( $queryStr );
         return $dao;
     }
@@ -669,8 +669,8 @@ class CRM_Core_DAO extends DB_DataObject {
      * @access public 
      */ 
     static function singleValueQuery( $query, &$params, $abort = true ) {
-        $queryStr = self::composeQuery( $query, $params, $abort );
         $dao =& new CRM_Core_DAO( ); 
+        $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         $dao->query( $queryStr ); 
         
         $result = $dao->getDatabaseResult();
@@ -683,13 +683,14 @@ class CRM_Core_DAO extends DB_DataObject {
         return null;
     }
 
-    static function composeQuery( $query, &$params, $abort = true ) {
+    static function composeQuery( $query, &$params, $abort, &$dao ) {
         require_once 'CRM/Utils/Type.php';
 
         $tr = array( );
         foreach ( $params as $key => $item ) {
             if ( is_numeric( $key ) ) {
                 if ( CRM_Utils_Type::validate( $item[0], $item[1] ) !== null ) {
+                    $item[0] = $dao->escape( $item[0] );
                     if ( $item[1] == 'String' ) {
                         $item[0] = "'{$item[0]}'";
                     }

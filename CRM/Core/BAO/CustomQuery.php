@@ -252,7 +252,7 @@ class CRM_Core_BAO_CustomQuery {
                  ! $values ) {
                 continue;
             }
-
+           
             foreach ( $values as $tuple ) {
                 list( $name, $op, $value, $grouping, $wildcard ) = $tuple;
                 
@@ -263,7 +263,7 @@ class CRM_Core_BAO_CustomQuery {
                 if ( ! is_array( $value ) ) {
                     $value = addslashes(trim($value));
                 }
-
+           
                 switch ( $field['data_type'] ) {
 
                 case 'String':
@@ -326,8 +326,15 @@ class CRM_Core_BAO_CustomQuery {
                 
                 case 'Money':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
+                        foreach( $value as $key => $val ) {
+                            require_once "CRM/Utils/Rule.php";
+                            $moneyFormat = CRM_Utils_Rule::cleanMoney($value[$key]);
+                            $value[$key] = $moneyFormat;
+                        }
                         $this->searchRange( $field['id'], $field['label'], 'decimal_data', $value, $grouping );
-                    } else {                
+                    } else { 
+                        $moneyFormat = CRM_Utils_Rule::cleanMoney($value);
+                        $value       = $moneyFormat;
                         $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".decimal_data {$op} " . CRM_Utils_Type::escape( $value, 'Float' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
                     }

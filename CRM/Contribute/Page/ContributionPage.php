@@ -70,6 +70,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this Contribution page?');
             $deleteExtra = ts('Are you sure you want to delete this Contribution page?');
+            $copyExtra = ts('Are you sure you want to make a copy of this Contribution page?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Configure'),
@@ -114,6 +115,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                                                            'url'   => 'civicrm/admin/contribute',
                                                                            'qs'    => 'action=copy&gid=%%id%%',
                                                                            'title' => ts('Make a Copy of CiviCRM Contribution Page'),
+                                                                           'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
                                                                            ),
                                         );
         }

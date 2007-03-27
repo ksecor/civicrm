@@ -87,8 +87,9 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     
     public function buildQuickForm( ) {
         //get the saved search mapping id
-        $mappingId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' );
-            
+        if ( $this->_ssID ) {
+            $mappingId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' );
+        }
         CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $mappingId, $this->_columnCount, $this->_blockCount);
         
         $this->buildQuickFormCommon();

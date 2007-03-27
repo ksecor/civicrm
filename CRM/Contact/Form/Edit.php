@@ -473,7 +473,34 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         } else {
             CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
         }
+
+        // format custom data
+        // get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $params[$key] ) {
+                    $files['name'] = $params[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $params[$key] = $files;
+            }
+        }
         
+        $customData = array( );
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                             $value, $params['contact_type'], null, $this->_contactId);
+            }
+        }
+        
+        if (! empty($customData) ) {
+            $params['custom'] = $customData;
+        }
+
         $config  =& CRM_Core_Config::singleton( );
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks, true, false );
@@ -507,9 +534,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
         }
 
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
-        
         //add relationship for the contact
         if ( isset( $params['current_employer'] ) && $params['current_employer'] ) {
             
@@ -553,9 +577,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 }
             }
         }
-
-        // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, $this->_contactType, $contact->id);
     
         // now invoke the post hook
         if ($this->_action & CRM_Core_Action::UPDATE) {
