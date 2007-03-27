@@ -144,7 +144,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Profile
      * @access public
      */
-    function __construct( &$params, &$customFields, $ufGroupId = null, $map = false , $editLink = false, $linkToUF = false )
+    function __construct( &$params, &$customFields, $ufGroupId = null, $map = false, 
+                          $editLink = false, $linkToUF = false )
     {
         $this->_params   = $params;
         
@@ -154,11 +155,11 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $this->_linkToUF = $linkToUF;
 
         //get the details of the uf group 
-        $ufGroupParam   = array('id' => $ufGroupId);
-        CRM_Core_BAO_UFGroup::retrieve($ufGroupParam, $details);
+        if ( $ufGroupId ) {
+            $groupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_UFGroup', 
+                                                    $ufGroupId, 'limit_listings_group_id' );
+        }
 
-        $groupId = CRM_Utils_Array::value('limit_listings_group_id', $details);
-        
         // add group id to params if a uf group belong to a any group
         if ($groupId) {
             if ( CRM_Utils_Array::value('group', $this->_params ) ) {

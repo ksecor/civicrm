@@ -93,7 +93,10 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
                 foreach ( $v as $item ) { 
                     $value[$item] = 1; 
                 } 
+            } else if ( in_array( $key, array('birth_date', 'deceased_date')) ) {
+                $value = CRM_Utils_Date::mysqlToiso($value);
             }
+            
             $defaults[$key] = $value;
         } 
         return $defaults;
