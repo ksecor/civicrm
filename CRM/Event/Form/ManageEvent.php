@@ -124,9 +124,11 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     { 
+        $className = CRM_Utils_System::getClassName($this);
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) 
+             && $className == 'CRM_Event_Form_ManageEvent_EventInfo' ) {
             $buttonType = 'upload';
         } else {
             $buttonType = 'next';
