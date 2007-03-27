@@ -100,6 +100,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $groupId = null;
         if ( isset( $this->_id ) ) { 
             $params = array( 'saved_search_id' => $this->_id );
+            require_once "CRM/Contact/BAO/Group.php";
             CRM_Contact_BAO_Group::retrieve( $params, $values );
             $groupId = $values['id'];
 
