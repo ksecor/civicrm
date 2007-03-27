@@ -9,11 +9,14 @@
     </div>
     
     <div class="form-item">
-     {$form.location.1.location_type_id.html}
-     &nbsp; &nbsp; {$form.location.1.name.label}
-     &nbsp; {$form.location.1.name.html|crmReplace:class:big}
+       <span class="labels">
+         <label>{$form.location.1.name.label}</label>
+       </span>  
+       <span class="fields">
+        {$form.location.1.name.html|crmReplace:class:big}
+       </span>   
     </div>
-    
+    <div class="spacer"></div>
     {* Display the address block *}
     {include file="CRM/Contact/Form/Address.tpl"} 
 
