@@ -1,16 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Italian (it) translation of debconf templates for amavis-new
+# Copyright (C) 2007 Free Software Foundation, Inc.
+# This file is distributed under the same license as the amavis-new package.
+# Luca Monducci <luca.mo@tiscali.it>, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: amavisd-new\n"
+"Project-Id-Version: amavisd-new italian debconf templates\n"
 "Report-Msgid-Bugs-To: bam@debian.org\n"
 "POT-Creation-Date: 2006-08-10 11:09-0300\n"
-"PO-Revision-Date: 2006-03-24 19:36+0100\n"
-"Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
-"Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
+"PO-Revision-Date: 2007-02-04 20:02+0100\n"
+"Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
+"Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +19,7 @@ msgstr ""
 #. Description
 #: ../amavisd-new.templates:1001
 msgid "Incompatible configuration file layout detected"
-msgstr "Rozpoznáno nekompatibilní rozložení konfiguračního souboru"
+msgstr "Rilevata una struttura del file di configurazione non compatibile"
 
 #. Type: note
 #. Description
@@ -29,9 +29,9 @@ msgid ""
 "amavisd-new to a better system, which uses multiple files instead of a "
 "single, monolithic file."
 msgstr ""
-"Debianí balík amavisd-new změnil způsob, jakým spravuje konfigurační "
-"soubory. Nyní se místo jediného monolitického souboru používá několik "
-"menších."
+"Nei pacchetti Debian è stato cambiato il modo con cui sono gestiti i file di "
+"configurazione di amavisd-new con uno migliore, sono usati più file al posto "
+"di un singolo file monolitico."
 
 #. Type: note
 #. Description
@@ -41,9 +41,9 @@ msgid ""
 "system (named either /etc/amavisd.conf or /etc/amavis/amavisd.conf) are "
 "incompatible with this new config file layout."
 msgstr ""
-"Staré konfigurační soubory amavisd-new (pojmenované buď /etc/amavisd.conf "
-"nebo /etc/amavis/amavisd.conf), které jsou stále nainstalovány na vašem "
-"systému, jsou nekompatibilní s novým rozložením konfiguračních souborů."
+"I vecchi file di configurazione di amavid-new, ancora presenti nel sistema "
+"(chiamati /etc/amavisd.conf o /etc/amavis/amavisd.conf), sono incompatibili "
+"con la nuova struttura per i file di configurazione."
 
 #. Type: note
 #. Description
@@ -53,9 +53,9 @@ msgid ""
 "new configuration layout, and after that you should port your configuration "
 "to the new layout."
 msgstr ""
-"Nejprve byste si měli přečíst /usr/share/doc/amavisd-new/README.Debian, "
-"abyste porozuměli novému rozložení konfiguračních souborů, a poté byste měli "
-"převést své nastavení na nové rozložení."
+"Si consulti /usr/share/doc/amavisd-new/README.Debian per capire la nuova "
+"struttura della configurazione e poi adattare la propria configurazione alla "
+"nuova struttura."
 
 #. Type: note
 #. Description
@@ -66,9 +66,10 @@ msgid ""
 "amavisd-new service will refuse to start until you remove (or rename) these "
 "\".disabled\" files."
 msgstr ""
-"Pro větší bezpečí byly staré konfigurační soubory deaktivovány a "
-"přejmenovány s příponou \".disabled\". Dokud tyto soubory neodstraníte (nebo "
-"nepřejmenujete), služba amavisd-new se odmítne spustit."
+"Per sicurezza i vecchi file di configurazione sono stati disabilitati, in "
+"pratica è stato aggiunto il suffisso \".disabled\" al loro nome. Il servizio "
+"amavisd-new non si avvia fino a quando i file \".disabled\" non vengono "
+"rimossi (o rinominati)."
 
 #. Type: note
 #. Description
@@ -79,7 +80,8 @@ msgid ""
 "files until you have read the /usr/share/doc/amavisd-new/README.Debian file "
 "and ported your old configuration to the new layout."
 msgstr ""
-"Tato bezpečnostní opatření mají zabránit spuštění nenastaveného amavisd-new. "
-"Soubory \".disabled\" neodstraňujte, dokud si nepřečtete soubor /usr/share/"
-"doc/amavisd-new/README.Debian a nepřevedete své staré nastavení na nové "
-"rozložení."
+"Questa misura di sicurezza impedisce l'avvio di una versione non configurata "
+"di amavisd-new al posto della precedente che era configurata. Non eliminare "
+"i file \".disabled\" fino a quando non si è convertito, seguendo le "
+"indicazioni in /usr/share/doc/amavisd-new/README.Debian, la vecchia "
+"configurazione alla nuova struttura."

@@ -16,6 +16,15 @@
 #   ${PARAMS} are the parameters to give the daemon when really starting
 #   it.
 
+### BEGIN INIT INFO
+# Provides:          amavisd-new-milter
+# Required-Start:    $local_fs $remote_fs $syslog $named $network
+# Required-Stop:     $local_fs $remote_fs $syslog $named $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Interface between sendmail-milter and amavisd-new
+### END INIT INFO
+
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/sbin/amavisd-new
 DAEMON2=/usr/bin/perl

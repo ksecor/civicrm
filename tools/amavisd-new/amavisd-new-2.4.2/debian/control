@@ -1,7 +1,7 @@
 Source: amavisd-new
 Section: mail
 Priority: extra
-Maintainer: Brian May <bam@debian.org>
+Maintainer: Brian May <bam@snoopy.debian.net>
 Uploaders: Henrique de Moraes Holschuh <hmh@debian.org>
 Build-Depends: debhelper (>= 4.1.16), libmilter-dev, dpkg-dev (>= 1.13.19), po-debconf
 Standards-Version: 3.7.2

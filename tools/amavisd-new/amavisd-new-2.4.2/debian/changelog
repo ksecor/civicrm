@@ -1,24 +1,39 @@
-amavisd-new (1:2.4.2-4civimail3) unstable; urgency=low
-
-  * make Amavis::CiviCRM actually work reliably with
-    Mail::Verp, which requires proper initialisation
-
- -- Piotr Szotkowki <shot@civicrm.org>  Fri, 22 Dec 2006 15:42:27 +0100
-
-amavisd-new (1:2.4.2-4civimail2) unstable; urgency=low
-
-  * limit the body size passed to the SOAP interface on bounces to 4096 bytes
-
- -- Piotr Szotkowki <shot@civicrm.org>  Fri, 10 Nov 2006 00:12:28 +0100
-
-amavisd-new (1:2.4.2-4civimail1) unstable; urgency=low
+amavisd-new (1:2.4.2-6.1civimail1) feisty; urgency=low
 
   * add debian/etc/conf.d/40-civimail
   * amavisd: add CiviMail changes
   * debian/control: add the libsoap-lite-perl and
     libmail-verp-perl dependencies required by CiviMail
 
- -- Piotr Szotkowki <shot@civicrm.org>  Wed,  8 Nov 2006 11:02:57 +0100
+ -- Piotr Szotkowki <shot@civicrm.org>  Tue, 27 Mar 2007 13:54:28 +0200
+
+amavisd-new (1:2.4.2-6.1) unstable; urgency=low
+
+  * Non-maintainer upload to fix pending l10n issues.
+  * Debconf translations
+    - Remove extra debian/po/de.po~
+    - Convert all translation files to UTF-8
+    - Russian. Closes: #405243
+    - Spanish. Closes: #408734
+    - Italian. Closes: #409831
+  * Add very simple LSB headers to init scripts
+
+ -- Christian Perrier <bubulle@debian.org>  Sat, 24 Feb 2007 19:27:53 +0100
+
+amavisd-new (1:2.4.2-6) unstable; urgency=high
+
+  * [l10n] Add pt_BR deconf translation, thanks to André Luís Lopes
+    <andrelop@debian.org> (closes: #403551)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Mon, 18 Dec 2006 13:12:20 -0200
+
+amavisd-new (1:2.4.2-5) unstable; urgency=high
+
+  * Update Brian May's email address (this needs to make it to Etch)
+  * amavisd-new.postinst: Do not add amavis email aliases if a commented one
+    is present (closes: #398978)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed, 22 Nov 2006 11:26:08 -0200
 
 amavisd-new (1:2.4.2-4) unstable; urgency=high
 

@@ -1,6 +1,6 @@
 #! /bin/sh
 # postinst script for amavisd-new
-# $Id: amavisd-new.postinst,v 1.17.2.3 2006/10/16 12:52:18 hmh Exp $
+# $Id: amavisd-new.postinst,v 1.17.2.4 2006/11/22 13:29:06 hmh Exp $
 #
 # see: dh_installdeb(1)
 
@@ -99,8 +99,9 @@ case "$1" in
 	done
 
 	# add amavis: root entry to aliases, if none exist
+	# (doesn't add anything if it is commented)
 	if [ -f /etc/aliases ] || [ -L /etc/aliases ]; then
-		if ! grep -qi "^amavis[[:blank:]]*:" /etc/aliases; then
+		if ! grep -qi "^[[:blank:]]*\(#.*\)\?\<amavis[[:blank:]]*:" /etc/aliases; then
 			echo "amavis: root" >> /etc/aliases
 			newaliases=$(which newaliases)
 			if [ "$newaliases" ] && [ -x "$newaliases" ]; then

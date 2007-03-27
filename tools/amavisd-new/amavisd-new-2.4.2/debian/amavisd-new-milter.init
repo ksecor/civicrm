@@ -8,6 +8,15 @@
 #		Distributed under the GPL version 2
 #
 
+### BEGIN INIT INFO
+# Provides:          amavisd-new
+# Required-Start:    $local_fs $remote_fs $syslog $named $network
+# Required-Stop:     $local_fs $remote_fs $syslog $named $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Interface between MTA and virus scanner/content filters
+### END INIT INFO
+
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/sbin/amavis-milter
 PARENTDAEMON=/usr/sbin/amavisd-new
