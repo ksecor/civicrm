@@ -989,7 +989,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         }
 
         require_once 'CRM/Contact/BAO/Query.php';
-        $params =& CRM_Contact_BAO_Query::convertFormValues( $params );
+        $params =& CRM_Contact_BAO_Query::convertFormValues( $params, 0, true );
         $whereTables = array( );
 
         return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, $whereTables, true );
