@@ -315,6 +315,32 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $relation->contact_id_b : $relation->contact_id_a;
         }    
         
+        //format custom data
+        // get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $params[$key] ) {
+                    $files['name'] = $params[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $params[$key] = $files;
+            }
+        }
+        
+        $customData = array( );
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, $value, 'Relationship', null, $id);
+            }
+        }
+        
+        if (! empty($customData) ) {
+            $params['custom'] = $customData;
+        }
+        
         list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
         $status = '';
         if ( $valid ) {
@@ -330,11 +356,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $status .= ts('Relationship record has been updated.');
         }
                 
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
-        foreach($relationshipIds as $index => $id) {
-            CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Relationship',$id); 
-        }
-        
         $note =& new CRM_Core_DAO_Note( );
         $note->entity_id = $relationshipIds[0];
         $note->entity_table = 'civicrm_relationship';
@@ -345,11 +366,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
         
         $noteParams = array(
-                                'entity_id'     => $relationshipIds[0],
-                                'entity_table'  => 'civicrm_relationship',
-                                'note'          => $params['note'],
-                                'contact_id'    => $this->_contactId
-                                );
+                            'entity_id'     => $relationshipIds[0],
+                            'entity_table'  => 'civicrm_relationship',
+                            'note'          => $params['note'],
+                            'contact_id'    => $this->_contactId
+                            );
         CRM_Core_BAO_Note::add( $noteParams , $noteIds );
         
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
@@ -360,7 +381,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         CRM_Core_Session::setStatus( $status );
     }//end of function
-
+    
 
     /**
      * This function is to get the result of the search for contact in relationship form
