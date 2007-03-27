@@ -164,6 +164,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                                   'value'           => $customValue['value'],
                                   'type'            => $customValue['type'],
                                   'custom_field_id' => $customValue['custom_field_id'],
+                                  'file_id'         => $customValue['file_id'],
                                   );
                 
                 if ($customValue['id']) {

@@ -49,7 +49,7 @@
               <span>{$form.$element_name.html}</span>
               {if $element.data_type eq 'File'}
                 {if $element.customValue.data}
-                <span class="html-adjust">
+                <span class="html-adjust"><br />
                    &nbsp;Attached File : &nbsp
                    {if $groupTree.$group_id.fields.$field_id.customValue.displayURL }
                       <a href="javascript:popUp('{$groupTree.$group_id.fields.$field_id.customValue.displayURL}')" ><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a>
@@ -57,8 +57,9 @@
                       <a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a>
                    {/if}
                    {if $groupTree.$group_id.fields.$field_id.customValue.deleteURL }
-		      {$groupTree.$group_id.fields.$field_id.customValue.deleteURL}
-		   {/if}	
+	                  <br />
+                      {$groupTree.$group_id.fields.$field_id.customValue.deleteURL}
+        		   {/if}	
                 </span>  
                {/if} 
               {/if}

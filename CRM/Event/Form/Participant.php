@@ -427,14 +427,34 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             }
         }
         
-        $participant =  CRM_Event_BAO_Participant::create( $params, $ids );   
+        // format custom data
+        // get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $params[$key] ) {
+                    $files['name'] = $params[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $params[$key] = $files;
+            }
+        }
+       
+        $customData = array( );
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                             $value, 'Participant', null, $this->_id);
+            }
+        }
         
-        // do the updates / insert with custom data
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Participant", $participant->id, 0, $params['role_id']);
-
-        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
-        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Participant", $participant->id); 
+        if (! empty($customData) ) {
+            $params['custom'] = $customData;
+        }
+        
+        $participant =  CRM_Event_BAO_Participant::create( $params, $ids );   
     }
 }
 ?>
