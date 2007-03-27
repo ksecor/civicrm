@@ -64,8 +64,10 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
     { 
         $defaults = parent::setDefaultValues( );
 
-        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
-        CRM_Utils_System::setTitle(ts('Custom Elements (%1)', array(1 => $title)));
+         if ( $this->_id ) {
+             $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
+             CRM_Utils_System::setTitle(ts('Custom Elements (%1)', array(1 => $title)));
+         }
             
         require_once 'CRM/Core/BAO/UFJoin.php';
 
