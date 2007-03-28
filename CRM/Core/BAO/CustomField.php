@@ -541,7 +541,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             require_once ( str_replace( '_', '/', $daoName) . ".php" );
             eval('$dao= new ' . $daoName . '();');
             foreach( $values as $field => $value ) {
-                $dao->field = $value;
+                $dao->$field = $value;
             }
             
             $dao->find( );
