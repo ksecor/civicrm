@@ -41,27 +41,37 @@ require_once 'CRM/Dedupe/Criterion.php';
 class CRM_Dedupe_Engine
 {
     /**
-     * Based on the provided contact_id and an array of criteria, returns an array 
-     * of duplicate contact ids.
+     * Based on the provided contact_id, an array of criteria, and minimal 
+     * threshold, return an array of duplicate contact ids.
      */
-    function findDuplicateContacts($cid, $params)
+    function findDuplicateContacts($cid, $params, $threshold)
     {
-        $dao =& new CRM_Core_DAO();
-
         $criteria = array();
         foreach ($params as $param) {
             $criteria[] =& new CRM_Dedupe_Criterion($param);
         }
 
+        $dao =& new CRM_Core_DAO();
+        $weights = array();
         foreach ($criteria as $criterion) {
+            $weight = $criterion->getWeight();
             $dao->query($criterion->matchQuery($cid));
             $dao->fetch();
             $match = $dao->match;
             $dao->query($criterion->query($match));
             while ($dao->fetch()) {
-                print_r($dao);
+                $weights[$dao->contact_id] += $weight;
             }
         }
+        CRM_Core_Error::debug('$weights', $weights);
+
+        $cids = array();
+        foreach ($weights as $cid => $weight) {
+            if ($weight >= $threshold) {
+                $cids[] = $cid;
+            }
+        }
+        return $cids;
     }
 }
 

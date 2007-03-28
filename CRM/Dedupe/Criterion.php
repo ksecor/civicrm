@@ -59,8 +59,7 @@ class CRM_Dedupe_Criterion
     private $_weight;
 
     /**
-     * Construct the criterion based on the contact_id and a hash of criterion 
-     * data.
+     * Construct the criterion based on a hash of criterion data.
      */
     function __construct($params)
     {
@@ -69,6 +68,14 @@ class CRM_Dedupe_Criterion
         if (preg_match('/^[a-zA-Z_]+$/',      $params['field'])) $this->_field = $params['field'];
         $this->_length = (int) $params['length'];
         $this->_weight = (int) $params['weight'];
+    }
+
+    /**
+     * Weight getter.
+     */
+    function getWeight()
+    {
+        return $this->_weight;
     }
 
     /**
@@ -81,8 +88,14 @@ class CRM_Dedupe_Criterion
 
         // return the query
         switch ($this->_table) {
+
         case 'civicrm_contact':
             return "SELECT {$this->_field} AS 'match' FROM {$this->_table} WHERE id = $cid";
+
+        case 'civicrm_household':
+        case 'civicrm_individual':
+        case 'civicrm_organization':
+            return "SELECT {$this->_field} AS 'match' FROM {$this->_table} WHERE contact_id = $cid";
 
         case 'civicrm_address':
         case 'civicrm_email':
@@ -95,7 +108,7 @@ class CRM_Dedupe_Criterion
 
     /**
      * Return the SQL query for the criterion, based on the match string and 
-     * which table is being polled.
+     * the table being polled.
      */
     function query($match)
     {
@@ -113,6 +126,11 @@ class CRM_Dedupe_Criterion
 
         case 'civicrm_contact':
             return "SELECT id AS contact_id FROM {$this->_table} WHERE {$this->_field} $condition";
+
+        case 'civicrm_household':
+        case 'civicrm_individual':
+        case 'civicrm_organization':
+            return "SELECT contact_id FROM {$this->_table} WHERE {$this->_field} $condition";
 
         case 'civicrm_address':
         case 'civicrm_email':
