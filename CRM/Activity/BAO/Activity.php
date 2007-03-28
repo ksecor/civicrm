@@ -83,7 +83,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $activity->id = CRM_Utils_Array::value( 'id', $ids );
 
         return $activity->save( );
-        
     }
 
     /**
@@ -121,7 +120,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     static function retrieve( &$params, &$defaults, $activityType ) 
     {
-
         if ( $activityType == 1) {
             $activityType = "Meeting";
         } else if($activityType == 2) {
@@ -172,7 +170,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     {
         $activity = array("Meeting", "Phonecall", "Activity");
         foreach ($activity as $key) {
-            
             // need to delete for both source and target
             eval ('$dao =& new CRM_Activity_DAO_' . $key . '();');
             $dao->source_contact_id = $id;
@@ -182,7 +179,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $dao->target_entity_table = 'civicrm_contact';
             $dao->target_entity_id    = $id;        
             $dao->delete();
-
         }
     }
 
@@ -200,20 +196,61 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     public static function createActivity( &$params, &$ids, $activityType = 'Meeting') 
     {
         $activity = self::add($params, $ids, $activityType);
-        
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $ids['id'], 0,$activityType);
-       
-        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
-     
+  
         // do the updates/inserts
         if ( $activityType == 1) {
-            $activityType = "Meeting";
+            $activityType = 'Meeting';
+            $entityTable  = 'civicrm_meeting';
         } else if($activityType == 2) {
-            $activityType = "Phonecall";
+            $activityType = 'Phonecall';
+            $entityTable  = 'civicrm_phonecall';
         } else {
-            $activityType = "Activity";
+            $activityType = 'Activity';
+            $entityTable  = 'civicrm_activity';
         }
-        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $activityType, $activity->id); 
+      
+        // format custom data
+        // get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $params[$key] ) {
+                    $files['name'] = $params[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $params[$key] = $files;
+            }
+        }
+
+        $customData = array( );
+        require_once "CRM/Core/BAO/CustomField.php";
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                             $value, 'Activity', null, $activity->id);
+            }
+        }
+
+        if ( !empty($customData) ) {
+            // add custom field values
+            foreach ($customData as $customValue) {
+                $cvParams = array(
+                                  'entity_table'    => $entityTable,
+                                  'entity_id'       => $activity->id,
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
+                                  'file_id'         => $customValue['file_id'],
+                                  );
+                
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+        }
         
         if ( $activityType == 'Phonecall' ) {
             $title = 'Phone Call';

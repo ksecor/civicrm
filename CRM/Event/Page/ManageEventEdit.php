@@ -74,7 +74,7 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
 
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title');
 
-        CRM_Utils_System::setTitle(ts('Configure Event (%1)', array(1 => $title)));
+        CRM_Utils_System::setTitle(ts('Configure Event - %1', array(1 => $title)));
         
         $form = null;
         switch ( $subPage ) {

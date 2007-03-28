@@ -811,7 +811,7 @@ class CRM_Contact_BAO_Query {
         return $result;
     }
 
-    static function convertFormValues( &$formValues, $wildcard = 0 ) {
+    static function convertFormValues( &$formValues, $wildcard = 0, $useEquals = false ) {
         $params = array( );
 
         if ( empty( $formValues ) ) {
@@ -829,7 +829,7 @@ class CRM_Contact_BAO_Query {
                     } 
                 }
             } else {
-                $values =& CRM_Contact_BAO_Query::fixWhereValues( $id, $values, $wildcard );
+                $values =& CRM_Contact_BAO_Query::fixWhereValues( $id, $values, $wildcard, $useEquals );
                 
                 if ( ! $values ) {
                     continue;
@@ -840,10 +840,11 @@ class CRM_Contact_BAO_Query {
         return $params;
     }
 
-    static function &fixWhereValues( $id, &$values, $wildcard = 0 ) {
+    static function &fixWhereValues( $id, &$values, $wildcard = 0, $useEquals = false ) {
         // skip a few search variables
         static $skipWhere   = null;
         static $arrayValues = null;
+        static $likeNames   = null;
         $result = null;
 
         if ( CRM_Utils_System::isNull( $values ) ) {
@@ -858,10 +859,12 @@ class CRM_Contact_BAO_Query {
             return $result;
         }
 
-        if ( $id == 'sort_name' ||
-             $id == 'email'     ||
-             $id == 'notes'     ||
-             $id == 'display_name') {
+        if ( ! $likeNames ) {
+            $likeNames = array( 'sort_name', 'email', 'notes', 'display_name' );
+        }
+
+        if ( ! $useEquals &&
+             in_array( $id, $likeNames ) ) {
             $result = array( $id, 'LIKE', $values, 0, 1 );
         } else if ( is_string( $values ) && strpos( $values, '%' ) !== false ) {
             $result = array( $id, 'LIKE', $values, 0, 0 );

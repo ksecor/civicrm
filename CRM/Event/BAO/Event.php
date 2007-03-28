@@ -155,12 +155,25 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         CRM_Core_BAO_Log::add( $logParams );
         
-        // Handle Custom Data
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $ids['id'], 0, $params["event_type_id"]);
-        
-        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
-        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, "Event", $event->id); 
-        
+        // add custom field values
+        if (CRM_Utils_Array::value('custom', $params)) {
+            foreach ($params['custom'] as $customValue) {
+                $cvParams = array(
+                                  'entity_table'    => 'civicrm_event',
+                                  'entity_id'       => $event->id,
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
+                                  'file_id'         => $customValue['file_id'],
+                                  );
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
+                require_once 'CRM/Core/BAO/CustomValue.php';
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+        }
+
         CRM_Core_DAO::transaction('COMMIT');
         
         return $event;
@@ -178,7 +191,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
     static function del( $id )
     { 
         require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::deleteContact( $id );
+        CRM_Core_BAO_Location::deleteContact( $id, 'civicrm_event' );
         
         $dependencies = array(
                   'CRM_Core_DAO_CustomValue'   =>

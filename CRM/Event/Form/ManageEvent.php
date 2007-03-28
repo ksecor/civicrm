@@ -124,10 +124,20 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     { 
+        $className = CRM_Utils_System::getClassName($this);
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) 
+             && $className == 'CRM_Event_Form_ManageEvent_EventInfo' ) {
+            $buttonType = 'upload';
+        } else {
+            $buttonType = 'next';
+        }
+
         $buttons = array( );
         if ( $this->_single ) {
             $this->addButtons(array(
-                                    array ( 'type'      => 'next',
+                                    array ( 'type'      => $buttonType,
                                             'name'      => ts('Save'),
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                             'isDefault' => true   ),
@@ -142,7 +152,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
                                       'name'      => ts('<< Previous'), 
                                       'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' );
             }
-            $buttons[] = array ( 'type'      => 'next',
+            $buttons[] = array ( 'type'      => $buttonType,
                                  'name'      => ts('Continue >>'),
                                  'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                  'isDefault' => true   );

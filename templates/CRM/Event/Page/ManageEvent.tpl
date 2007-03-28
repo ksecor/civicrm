@@ -15,7 +15,6 @@
   {/if}
 </div>
 {if $rows}
-{include file="CRM/common/dojo.tpl"}
 <div id="ltype">
 <p></p>
     <div class="form-item" id=event_status_id>

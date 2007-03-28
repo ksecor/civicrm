@@ -2,7 +2,6 @@
 {if $action eq 2}
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
-{include file="CRM/common/dojo.tpl"}
 <div id="mainTabContainer" dojoType="TabContainer" style="width: 100%; height: 600px; overflow-y: auto;" selectedTab="{$selectedChild}">
 
 <div id="summary" dojoType="ContentPane" style="overflow: auto; width: 100%; height: 100%;" label="Summary">

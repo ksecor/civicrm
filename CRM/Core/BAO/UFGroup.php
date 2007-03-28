@@ -631,6 +631,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         foreach ($fields as $name => $field ) {
             $index   = $field['title'];
             $params[$index] = $values[$index] = '';
+            $customFieldName = null;
 
             if ( isset($details->$name) || $name == 'group' || $name == 'tag') {//hack for CRM-665
                 // to handle gender / suffix / prefix
@@ -729,16 +730,19 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
 
                                     $params[$index] = $customVal;
                                     $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal, $cfID, $options );
-                                    $fieldName = null;
                                     if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', 
                                                                       $cfID, 'is_search_range' ) ) {
-                                        $fieldName = "{$name}_from";
+                                        $customFieldName = "{$name}_from";
                                     }
                                 }
                             } else if ( $name == 'home_URL' &&
                                         ! empty( $details->$name ) ) {
                                 $url = CRM_Utils_System::fixURL( $details->$name );
                                 $values[$index] = "<a href=\"$url\">{$details->$name}</a>";
+                            } else if ( in_array( $name, array('birth_date', 'deceased_date')) ) {
+                                $values[$index] = $details->$name;
+                                require_once 'CRM/Utils/Date.php';
+                                $params[$index] = CRM_Utils_Date::isoToMysql( $details->$name );
                             } else {
                                 $values[$index] = $details->$name;
                             }
@@ -801,8 +805,10 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                     continue;
                 }
                 
-                if ( !$fieldName ) { 
+                if ( !$customFieldName ) { 
                     $fieldName = $field['name'];
+                } else {
+                    $fieldName = $customFieldName;
                 }
                 
                 $url = CRM_Utils_System::url( 'civicrm/profile',
@@ -989,7 +995,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         }
 
         require_once 'CRM/Contact/BAO/Query.php';
-        $params =& CRM_Contact_BAO_Query::convertFormValues( $params );
+        $params =& CRM_Contact_BAO_Query::convertFormValues( $params, 0, true );
         $whereTables = array( );
 
         return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, $whereTables, true );

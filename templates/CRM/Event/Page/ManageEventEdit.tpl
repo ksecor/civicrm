@@ -1,6 +1,3 @@
-<h2>{$title}</h2>   
-
-
 <table class="report"> 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/event' q="reset=1&action=update&id=`$id`&subPage=EventInfo"}" id="idEventInformationandSettings">&raquo; {ts}Event Information and Settings{/ts}</a></td>

@@ -79,7 +79,9 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         $this->_single = $this->get( 'single' );
  
         // setting title for html page
-        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
+        if ( $this->_id ) {
+            $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
+        }
         if ($this->_action == CRM_Core_Action::UPDATE) {
             CRM_Utils_System::setTitle(ts('Configure Page - %1', array(1 => $title)));
         } else if ($this->_action == CRM_Core_Action::VIEW) {

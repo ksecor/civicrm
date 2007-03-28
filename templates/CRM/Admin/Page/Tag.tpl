@@ -7,7 +7,6 @@
 {/if}
 
 {if $rows}
-{include file="CRM/common/dojo.tpl"}
 <div id="cat">
 <p></p>
     <div class="form-item">

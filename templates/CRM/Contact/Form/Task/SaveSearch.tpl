@@ -4,7 +4,7 @@
 {if $qill[0]}
 <div id="search-status">
     <ul>
-        {foreach from=$qill item=criteria}
+        {foreach from=$qill[0] item=criteria}
           <li>{$criteria}</li>
         {/foreach}
     </ul>

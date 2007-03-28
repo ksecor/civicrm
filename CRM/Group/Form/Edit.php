@@ -190,14 +190,37 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $params['id'] = $this->_id;
             }
+
+            // format custom data
+            // get mime type of the uploaded file
+            if ( !empty($_FILES) ) {
+                foreach ( $_FILES as $key => $value) {
+                    $files = array( );
+                if ( $params[$key] ) {
+                    $files['name'] = $params[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $params[$key] = $files;
+                }
+            }
+            
+            $customData = array( );
+            foreach ( $params as $key => $value ) {
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                                 $value, 'Group', null, $this->_id);
+                }
+            }
+            
+            if (! empty($customData) ) {
+                $params['custom'] = $customData;
+            }
+            
             require_once 'CRM/Contact/BAO/Group.php';
             $group =& CRM_Contact_BAO_Group::create( $params );
-
             
-            // do the updates/inserts
-            CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );            
-            CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Group',$group->id); 
-
             CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        
             
             /*

@@ -74,7 +74,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $relationshipIds = array();
             foreach ( $params['contact_check'] as $key => $value) {
                 $errors = '';
-                // check if the realtionship is valid between contacts.
+                // check if the relationship is valid between contacts.
                 // step 1: check if the relationship is valid if not valid skip and keep the count
                 // step 2: check the if two contacts already have a relationship if yes skip and keep the count
                 // step 3: if valid relationship then add the relation and keep the count
@@ -176,6 +176,26 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $relationship->id = CRM_Utils_Array::value( 'relationship', $ids );
         
         $relationship->save( );
+        
+        // add custom field values
+        if (CRM_Utils_Array::value('custom', $params)) {
+            foreach ($params['custom'] as $customValue) {
+                $cvParams = array(
+                                  'entity_table'    => 'civicrm_relationship',
+                                  'entity_id'       => $relationship->id,
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
+                                  'file_id'         => $customValue['file_id'],
+                                  );
+                
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+        }
+
         $relationship->free( );
 
         if ( CRM_Utils_Array::value( 'relationship', $ids ) ) {

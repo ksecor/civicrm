@@ -1,4 +1,3 @@
- {include file="CRM/common/dojo.tpl"} 
  <tr>
     <td class="label">{$form.event_title.label}</td> 
 {if $event_title_value}
