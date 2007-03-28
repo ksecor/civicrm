@@ -28,7 +28,6 @@
     </div>
 
     {if $rows}
-    {include file="CRM/common/dojo.tpl"}
     <div id="uf_profile">
     <p></p>
         <div class="form-item">

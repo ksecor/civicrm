@@ -33,12 +33,9 @@
 
 {if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Admin/Form/Options.tpl"}
-{*elseif $rows*}
 {/if}	
 
 {if $rows}
-
-{include file="CRM/common/dojo.tpl"}
 <div id={$gName}>
 <p></p>
     <div class="form-item">

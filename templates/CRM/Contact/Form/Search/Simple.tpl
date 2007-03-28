@@ -1,4 +1,3 @@
-{include file="CRM/common/dojo.tpl"}
 <table>
         <tr> 
             <td class="label">{$form.sort_name.label}</td>

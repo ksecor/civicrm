@@ -1,4 +1,3 @@
-{include file="CRM/common/dojo.tpl"}
 <div class="form-item">
 {if $config->smtpAuth and ($config->smtpUsername == '' or $config->smtpPassword == '')}
 <div class="status">
@@ -50,7 +49,6 @@
  <div>
 
 {*Added For CRM-1393*}
-{include file="CRM/common/dojo.tpl"}
 {if $dojoIncludes}
 {literal}
 <script type="text/javascript" >
