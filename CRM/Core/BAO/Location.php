@@ -373,8 +373,8 @@ SELECT count( civicrm_location.id )
    AND entity_id    = %2
    AND is_primary   = 1";
 
-        $sqlParams = array( 1 => array( $location->entity_table, 'String' ),
-                                2 => array( $location->entity_id   , 'Integer' ) );
+        $sqlParams = array( 1 => array( $entityTable, 'String' ),
+                                2 => array( $entityID   , 'Integer' ) );
         $count = CRM_Core_DAO::singleValueQuery( $sql, $sqlParams );
         return ( $count == 0 ) ? true : false;
     }
