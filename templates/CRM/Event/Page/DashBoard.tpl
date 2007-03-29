@@ -10,7 +10,7 @@
 <h3>{ts}Event Summary{/ts}</h3>
 <div class="description">
     {capture assign=findEventsURL}{crmURL p="civicrm/event/search/basic" q="reset=1"}{/capture}
-    <p>{ts 1=$findEventsURL}This table provides a summary of up to ten scheduled and recent <strong>Events</strong>. Click the Title to view the event as it will be displayed to site visitors. Click the Registered count to see a list of participants.{/ts}</p>
+    <p>{ts 1=$findEventsURL}This table provides a summary of up to ten scheduled and recent <strong>Events</strong>. Click the <strong>Event name</strong> to view the event as it will be displayed to site visitors. Click the <strong>Participants count</strong> to see a list of participants. To run your own customized searches - click <a href="%1">Find Participants</a>. You can search by Participant Name, Event, Date Range and Status.{/ts}</p>
 </div>
 
 {if $eventSummary.total_events}
