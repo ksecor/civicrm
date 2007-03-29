@@ -704,14 +704,8 @@ ORDER BY
         $location->entity_table = 'civicrm_contact';
         $location->entity_id    = $contact->id;
         $location->id = CRM_Utils_Array::value( 'id', $locationIds );
-
-        if ( $location->find( true ) ) {
-            if ( ! $location->is_primary ) {
-                $location->is_primary = true;
-            }
-        } else {
-            $location->is_primary = true;
-        }
+        $location->is_primary = CRM_Core_BAO_Location::primaryLocationValue( $contact->id,
+                                                                             'civicrm_contact' );
         $location->save( );
        
         
