@@ -333,7 +333,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $customData = array( );
         foreach ( $params as $key => $value ) {
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, $value, 'Relationship', null, $id);
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, $value, 'Relationship', null, $this->_relationshipId);
             }
         }
         
