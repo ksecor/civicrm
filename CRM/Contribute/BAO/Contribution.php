@@ -440,11 +440,11 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         $where = array( );
         switch ( $status ) {
         case 'Valid':
-            $where[] = 'cancel_date is null';
+            $where[] = 'contribution_status_id = 1';
             break;
 
         case 'Cancelled':
-            $where[] = 'cancel_date is not null';
+            $where[] = 'contribution_status_id = 3';
             break;
         }
 
