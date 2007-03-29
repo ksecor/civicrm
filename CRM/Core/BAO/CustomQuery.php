@@ -105,6 +105,9 @@ class CRM_Core_BAO_CustomQuery {
                                'Contribution' => 'civicrm_contribution',
                                'Membership'   => 'civicrm_membership',
                                'Participant'  => 'civicrm_participant',
+                               'Group'        => 'civicrm_group',
+                               'Relationship' => 'civicrm_relationship',
+                               'Event'        => 'civicrm_event'
                                );
 
     /**
