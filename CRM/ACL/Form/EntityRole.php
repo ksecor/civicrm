@@ -1,4 +1,5 @@
 <?php
+
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
@@ -21,9 +22,17 @@
  | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | CiviCRM, see the CiviCRM license FAQ at                            |
- | http://www.civicrm.org/licensing/                                  |
+ | http://civicrm.org/licensing/                                      |
  +--------------------------------------------------------------------+
 */
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2007
+ * $Id$
+ *
+ */
 
 require_once 'CRM/Admin/Form.php';
 
