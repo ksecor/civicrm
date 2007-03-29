@@ -294,7 +294,8 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     function getTemplateFileName() {
         if ( $this->_gid ) {
             $templateFile = "CRM/Profile/Page/{$this->_gid}/Listings.tpl";
-            if ( CRM_Core_Page::$_template->template_exists( $templateFile ) ) {
+            $template     =& CRM_Core_Page::getTemplate( );
+            if ( $template->template_exists( $templateFile ) ) {
                 return $templateFile;
             }
         }
