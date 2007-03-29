@@ -149,6 +149,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     static function del ( $id , $activityType ) 
     {
+        //delete Custom Data, if any
+        require_once 'CRM/Core/BAO/CustomQuery.php';
+        $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
+
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        $cutomDAO = & new CRM_Core_DAO_CustomValue();
+        $cutomDAO->entity_id = $id;
+        $cutomDAO->entity_table = $entityTable;
+        $cutomDAO->find( );
+        while( $cutomDAO->fetch( )) {
+            $cutomDAO->delete();
+        }
+        
         eval ('$activity =& new CRM_Activity_DAO_' .$activityType. '( );');
         $activity->id = $id;
         $activity->delete();
@@ -196,7 +209,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     public static function createActivity( &$params, &$ids, $activityType = 'Meeting') 
     {
         $activity = self::add($params, $ids, $activityType);
-  
+
         // do the updates/inserts
         if ( $activityType == 1) {
             $activityType = 'Meeting';

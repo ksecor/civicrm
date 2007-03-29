@@ -373,6 +373,16 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         require_once 'CRM/Member/BAO/MembershipLog.php';
         CRM_Member_BAO_MembershipLog::del($membershipId);
 
+        //delete Custom Data, if any
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        $cutomDAO = & new CRM_Core_DAO_CustomValue();
+        $cutomDAO->entity_id = $id;
+        $cutomDAO->entity_table = 'civicrm_membership';
+        $cutomDAO->find( );
+        while( $cutomDAO->fetch( )) {
+            $cutomDAO->delete();
+        }
+
         require_once 'CRM/Member/DAO/MembershipPayment.php';
         $membershipPayment = & new CRM_Member_DAO_MembershipPayment( );
         $membershipPayment->membership_id = $membershipId;

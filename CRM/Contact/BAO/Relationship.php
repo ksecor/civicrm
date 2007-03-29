@@ -305,8 +305,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      */
     static function del ( $id ) 
     {
+
         // delete from relationship table
-        
         require_once 'CRM/Utils/Hook.php';
         CRM_Utils_Hook::pre( 'delete', 'Relationship', $id, CRM_Core_DAO::$_nullArray );
         
@@ -329,6 +329,16 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             self::relatedMemberships( $relationship->contact_id_a, $params, $ids, CRM_Core_Action::DELETE );
         }
         
+        //delete Custom Data, if any
+        require_once 'CRM/Core/DAO/CustomValue.php';
+        $cutomDAO = & new CRM_Core_DAO_CustomValue();
+        $cutomDAO->entity_id = $id;
+        $cutomDAO->entity_table = 'civicrm_relationship';
+        $cutomDAO->find( );
+        while( $cutomDAO->fetch( )) {
+            $cutomDAO->delete();
+        }
+
         $relationship->delete();
         CRM_Core_Session::setStatus( ts('Selected Relationship has been Deleted Successfuly.') );
         
