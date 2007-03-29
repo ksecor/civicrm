@@ -700,17 +700,13 @@ ORDER BY
         }
             
         $location =& new CRM_Core_DAO_Location( );
-        $location->location_type_id = $locationTypeId;
         $location->entity_table = 'civicrm_contact';
         $location->entity_id    = $contact->id;
+        $location->is_primary = CRM_Core_BAO_Location::primaryLocationValue( $contact->id,
+                                                                             'civicrm_contact' );
         $location->id = CRM_Utils_Array::value( 'id', $locationIds );
-
-        if ( $location->find( true ) ) {
-            if ( ! $location->is_primary ) {
-                $location->is_primary = true;
-            }
-        } else {
-            $location->is_primary = true;
+        if ( ! $location->id ) {
+            $location->location_type_id = $locationTypeId;
         }
         $location->save( );
        

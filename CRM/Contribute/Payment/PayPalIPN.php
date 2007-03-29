@@ -439,7 +439,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         require_once 'CRM/Utils/Address.php';
         $template->assign( 'address', CRM_Utils_Address::format( $params ) );
                                                                                         
-        CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values );
+        CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values, $contribution->id );
 
         echo "Success: Database updated<p>";
     }

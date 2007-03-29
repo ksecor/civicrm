@@ -291,6 +291,10 @@ class CRM_Core_Page {
     function getPrint( ) {
         return $this->_print;
     }
+
+    static function &getTemplate( ) {
+        return self::$_template;
+    }
 }
 
 ?>

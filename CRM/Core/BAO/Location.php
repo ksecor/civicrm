@@ -98,18 +98,8 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
                                 2 => array( $location->entity_id   , 'Integer' ) );
             CRM_Core_DAO::executeQuery( $sql, $sqlParams );
         } else {
-            // make sure there is at once location with is_primary set
-            $sql = "SELECT count( " . self::getTableName( ) . ".id )
- FROM " . self::getTableName( ) . " WHERE
- entity_table = %1 AND
- entity_id    = %2 AND
- is_primary   = 1";
-            $sqlParams = array( 1 => array( $location->entity_table, 'String' ),
-                                2 => array( $location->entity_id   , 'Integer' ) );
-            $count = CRM_Core_DAO::singleValueQuery( $sql, $sqlParams );
-            if ( $count == 0 ) {
-                $location->is_primary = true;
-            }
+            $location->is_primary = self::primaryLocationValue( $location->entity_id,
+                                                                $location->entity_table );
         }
         
         $location->id = CRM_Utils_Array::value( 'id', $ids['location'][$locationId] );
@@ -373,6 +363,20 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         }
         
         CRM_Core_BAO_Email::deleteLocation($locationId);
+    }
+
+    static function primaryLocationValue( $entityID, $entityTable = 'civicrm_contact' ) {
+        $sql = "
+SELECT count( civicrm_location.id )
+  FROM civicrm_location
+ WHERE entity_table = %1
+   AND entity_id    = %2
+   AND is_primary   = 1";
+
+        $sqlParams = array( 1 => array( $entityTable, 'String' ),
+                                2 => array( $entityID   , 'Integer' ) );
+        $count = CRM_Core_DAO::singleValueQuery( $sql, $sqlParams );
+        return ( $count == 0 ) ? true : false;
     }
 
 }
