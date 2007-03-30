@@ -768,7 +768,7 @@ civicrm_membership_status.is_current_member =1";
      *
      * @return void
      * @access public
-     */
+     */                                   
     public function postProcessMembership( $membershipParams, $contactID ,&$form )
     {
         $tempParams = $membershipParams;
@@ -835,7 +835,7 @@ civicrm_membership_status.is_current_member =1";
                                                                                $contactID,
                                                                                $contributionType,
                                                                                true );
-            CRM_Contribute_Form_Contribution_Confirm::postProcessPremium( $premiumParams,
+            CRM_Contribute_Form_Contribution_Confirm::postProcessPremium( $membershipParams,
                                                                           $contribution[1] );
             
         }
