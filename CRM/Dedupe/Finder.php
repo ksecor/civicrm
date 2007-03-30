@@ -27,7 +27,7 @@
 */
 
 /**
- * CiviCRM deduping engine
+ * CiviCRM duplicates finder
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2007
@@ -38,7 +38,7 @@
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Dedupe/Criterion.php';
 
-class CRM_Dedupe_Engine
+class CRM_Dedupe_Finder
 {
     /**
      * Based on the provided contact_id, an array of criteria, and minimal 
