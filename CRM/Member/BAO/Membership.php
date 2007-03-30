@@ -865,11 +865,11 @@ civicrm_membership_status.is_current_member =1";
                 $form->assign('membership_trx_id' , $result['trxn_id']);
                 $form->assign('membership_amount'  , $minimumFee);
                 $contribution[2] =
-                    CRM_Contribute_Form_Contribution_Confirm:processContribution( $tempParams,
-                                                                                  $result,
-                                                                                  $contactID,
-                                                                                  $contributionType,
-                                                                                  false );
+                    CRM_Contribute_Form_Contribution_Confirm::processContribution( $tempParams,
+                                                                                   $result,
+                                                                                   $contactID,
+                                                                                   $contributionType,
+                                                                                   false );
             }
         }
         
