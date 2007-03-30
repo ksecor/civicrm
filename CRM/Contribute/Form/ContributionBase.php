@@ -276,6 +276,10 @@ contact the site administrator and notify them of this error' ) );
                                                'installments' ) );
         }
 
+        if( $this->_params['amount_other'] || $this->_params['selectMembership'] ) {
+            $this->_params['amount_level'] = '';
+        }
+       
         foreach ( $vars as $v ) {
             if ( CRM_Utils_Array::value( $v, $this->_params ) ) {
                 $this->assign( $v, $this->_params[$v] );
