@@ -102,7 +102,8 @@ dojo.event.browser = new function(){
 				return eventName;
 				break;
 			default:
-				return eventName.toLowerCase();
+				var lcn = eventName.toLowerCase();
+				return (lcn.indexOf("on") == 0) ? lcn.substr(2) : lcn;
 				break;
 		}
 	}
@@ -165,13 +166,12 @@ dojo.event.browser = new function(){
 		//		Optional. should this listener prevent propigation?
 		if(!capture){ var capture = false; }
 		evtName = dojo.event.browser.normalizedEventName(evtName);
-		if( (evtName == "onkey") || (evtName == "key") ){
+		if(evtName == "key"){
 			if(dojo.render.html.ie){
 				this.removeListener(node, "onkeydown", fp, capture);
 			}
-			evtName = "onkeypress";
+			evtName = "keypress";
 		}
-		if(evtName.substr(0,2)=="on"){ evtName = evtName.substr(2); }
 		// FIXME: this is mostly a punt, we aren't actually doing anything on IE
 		if(node.removeEventListener){
 			node.removeEventListener(evtName, fp, capture);
@@ -197,13 +197,12 @@ dojo.event.browser = new function(){
 		if(!node){ return; } // FIXME: log and/or bail?
 		if(!capture){ var capture = false; }
 		evtName = dojo.event.browser.normalizedEventName(evtName);
-		if( (evtName == "onkey") || (evtName == "key") ){
+		if(evtName == "key"){
 			if(dojo.render.html.ie){
 				this.addListener(node, "onkeydown", fp, capture, dontFix);
 			}
-			evtName = "onkeypress";
+			evtName = "keypress";
 		}
-		if(evtName.substr(0,2)!="on"){ evtName = "on"+evtName; }
 
 		if(!dontFix){
 			// build yet another closure around fp in order to inject fixEvent
@@ -221,9 +220,10 @@ dojo.event.browser = new function(){
 		}
 
 		if(node.addEventListener){ 
-			node.addEventListener(evtName.substr(2), newfp, capture);
+			node.addEventListener(evtName, newfp, capture);
 			return newfp;
 		}else{
+			evtName = "on"+evtName;
 			if(typeof node[evtName] == "function" ){
 				var oldEvt = node[evtName];
 				node[evtName] = function(e){

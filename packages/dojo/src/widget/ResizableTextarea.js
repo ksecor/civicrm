@@ -23,8 +23,8 @@ dojo.widget.defineWidget(
 	// usage
 	//	<textarea dojoType="ResizableTextArea">...</textarea>
 
-	templatePath: dojo.uri.dojoUri("src/widget/templates/ResizableTextarea.html"),
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/ResizableTextarea.css"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/ResizableTextarea.html"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/ResizableTextarea.css"),
 
 	fillInTemplate: function(args, frag){
 		this.textAreaNode = this.getFragNodeRef(frag).cloneNode(true);

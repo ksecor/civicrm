@@ -14,7 +14,7 @@ dojo.widget.defineWidget(
 	"dojo.widget.Editor2CreateLinkDialog",
 	dojo.widget.Editor2DialogContent,
 {
-	templatePath: dojo.uri.dojoUri("src/widget/templates/Editor2/Dialog/createlink.html"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Editor2/Dialog/createlink.html"),
 
 	editableAttributes: ['href', 'target', 'class'],
 	loadContent: function(){

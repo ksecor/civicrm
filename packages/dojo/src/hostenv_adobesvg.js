@@ -508,3 +508,5 @@ if(!dojo.hostenv["library_script_uri_"]){
 	return 1;
 }
 */
+
+dojo.requireIf((djConfig["isDebug"] || djConfig["debugAtAllCosts"]), "dojo.debug");

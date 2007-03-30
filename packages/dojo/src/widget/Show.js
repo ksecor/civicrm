@@ -37,8 +37,8 @@ dojo.widget.defineWidget(
 	inNav: false,
 	debugPane: null,
 	noClick: false,
-	templatePath: dojo.uri.dojoUri("src/widget/templates/Show.html"),
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/Show.css"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Show.html"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/Show.css"),
 	fillInTemplate: function(args, frag){
 		if(args.debugPane){
 			var dp = this.debugPane = dojo.widget.byId(args.debugPane);
@@ -254,3 +254,4 @@ dojo.widget.defineWidget(
 		dojo.body().style.height = h + "px";
 	}
 });
+

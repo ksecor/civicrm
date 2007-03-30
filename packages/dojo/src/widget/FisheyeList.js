@@ -67,7 +67,7 @@ function(){
 },
 {
 	templateString: '<div class="dojoHtmlFisheyeListBar"></div>',
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/FisheyeList.css"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/FisheyeList.css"),
 
 	isContainer: true,
 	snarfChildDomOutput: true,
@@ -630,7 +630,7 @@ dojo.widget.defineWidget(
 	//	will be set to the id of the orginal div element
 	id: "",
 
-	_blankImgPath: dojo.uri.dojoUri("src/widget/templates/images/blank.gif"),
+	_blankImgPath: dojo.uri.moduleUri("dojo.widget", "templates/images/blank.gif"),
 
 	templateString:
 		'<div class="dojoHtmlFisheyeListItem">' +

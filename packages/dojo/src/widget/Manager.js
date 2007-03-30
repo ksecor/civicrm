@@ -76,6 +76,7 @@ dojo.widget.manager = new function(){
 	this.remove = function(widgetIndex){
 		if(dojo.lang.isNumber(widgetIndex)){
 			var tw = this.widgets[widgetIndex].widgetId;
+			delete this.topWidgets[tw];
 			delete this.widgetIds[tw];
 			this.widgets.splice(widgetIndex, 1);
 		}else{

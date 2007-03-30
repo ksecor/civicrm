@@ -92,6 +92,8 @@ dojo.validate.isCurrency = function(/*String*/value, /*Object?*/flags){
 	return re.test(value); // Boolean
 }
 
+dojo.validate._isInRangeCache = {};
+
 dojo.validate.isInRange = function(/*String*/value, /*Object?*/flags){
 //summary:
 //	Validates whether a string denoting an integer, 
@@ -102,6 +104,7 @@ dojo.validate.isInRange = function(/*String*/value, /*Object?*/flags){
 //    flags.max  A number, which the value must be less than or equal to for the validation to be true.
 //    flags.min  A number, which the value must be greater than or equal to for the validation to be true.
 //    flags.decimal  The character used for the decimal point.  Default is ".".
+
 
 	//stripping the separator allows NaN to perform as expected, if no separator, we assume ','
 	//once i18n support is ready for this, instead of assuming, we default to i18n's recommended value
@@ -116,6 +119,12 @@ dojo.validate.isInRange = function(/*String*/value, /*Object?*/flags){
 	var min = (typeof flags.min == "number") ? flags.min : -Infinity;
 	var dec = (typeof flags.decimal == "string") ? flags.decimal : ".";
 	
+	var cache = dojo.validate._isInRangeCache;
+	var cacheIdx = value+"max"+max+"min"+min+"dec"+dec;
+	if(typeof cache[cacheIdx] != "undefined"){
+		return cache[cacheIdx];
+	}
+
 	// splice out anything not part of a number
 	var pattern = "[^" + dec + "\\deE+-]";
 	value = value.replace(RegExp(pattern, "g"), "");
@@ -129,9 +138,9 @@ dojo.validate.isInRange = function(/*String*/value, /*Object?*/flags){
 	value = value.replace(RegExp(pattern, "g"), "$1.$2");
 
 	value = Number(value);
-	if ( value < min || value > max ) { return false; } // Boolean
+	if ( value < min || value > max ) { cache[cacheIdx] = false; return false; } // Boolean
 
-	return true; // Boolean
+	cache[cacheIdx] = true; return true; // Boolean
 }
 
 dojo.validate.isNumberFormat = function(/*String*/value, /*Object?*/flags){

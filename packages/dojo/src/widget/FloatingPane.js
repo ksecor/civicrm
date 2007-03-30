@@ -84,8 +84,8 @@ dojo.declare(
 		_max_taskBarConnectAttempts: 5,
 		_taskBarConnectAttempts: 0,
 
-		templatePath: dojo.uri.dojoUri("src/widget/templates/FloatingPane.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/FloatingPane.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/FloatingPane.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/FloatingPane.css"),
 
 		fillInFloatingPaneTemplate: function(args, frag){
 			// summary: this should be called by fillInTemplate() of the widget that I'm mixed into

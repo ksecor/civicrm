@@ -13,6 +13,7 @@ dojo.provide("dojo.widget.Editor2");
 dojo.require("dojo.io.*");
 dojo.require("dojo.widget.RichText");
 dojo.require("dojo.widget.Editor2Toolbar");
+dojo.require("dojo.uri.cache");
 
 dojo.widget.Editor2Manager = new dojo.widget.HandlerManager;
 dojo.lang.mixin(dojo.widget.Editor2Manager,
@@ -261,7 +262,7 @@ dojo.widget.defineWidget(
 		// summary:
 		//		Provides a Dialog which can be modal or normal for the Editor2.
 
-		templatePath: dojo.uri.dojoUri("src/widget/templates/Editor2/EditorDialog.html"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Editor2/EditorDialog.html"),
 
 		// modal: Boolean: Whether this is a modal dialog. True by default.
 		modal: true,
@@ -451,7 +452,7 @@ dojo.widget.defineWidget(
 
 		// toolbarTemplatePath: dojo.uri.Uri
 		//		to specify the template file for the toolbar
-		toolbarTemplatePath: dojo.uri.dojoUri("src/widget/templates/EditorToolbarOneline.html"),
+		toolbarTemplatePath: dojo.uri.cache.allow(dojo.uri.moduleUri("dojo.widget", "templates/EditorToolbarOneline.html")),
 
 		// toolbarTemplateCssPath: dojo.uri.Uri
 		//		to specify the css file for the toolbar
@@ -460,9 +461,6 @@ dojo.widget.defineWidget(
 		// toolbarPlaceHolder: String
 		//		element id to specify where to attach the toolbar
 		toolbarPlaceHolder: '',
-
-//		toolbarTemplatePath: dojo.uri.dojoUri("src/widget/templates/Editor2/EditorToolbarFCKStyle.html"),
-//		toolbarTemplateCssPath: dojo.uri.dojoUri("src/widget/templates/Editor2/FCKDefault/EditorToolbarFCKStyle.css"),
 
 		_inSourceMode: false,
 		_htmlEditNode: null,
@@ -505,9 +503,10 @@ dojo.widget.defineWidget(
 				}
 				if(!this.toolbarWidget){
 						var tbOpts = {shareGroup: this.toolbarGroup, parent: this};
-						tbOpts.templatePath = this.toolbarTemplatePath;
+						tbOpts.templateString = dojo.uri.cache.get(this.toolbarTemplatePath);
 						if(this.toolbarTemplateCssPath){
 							tbOpts.templateCssPath = this.toolbarTemplateCssPath;
+							tbOpts.templateCssString = dojo.uri.cache.get(this.toolbarTemplateCssPath);
 						}
 						if(this.toolbarPlaceHolder){
 							this.toolbarWidget = dojo.widget.createWidget("Editor2Toolbar", tbOpts, dojo.byId(this.toolbarPlaceHolder), "after");

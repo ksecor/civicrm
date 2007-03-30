@@ -25,8 +25,8 @@ dojo.widget.defineWidget(
 	{
 		dayWidth: 'wide',
 
-		templatePath: dojo.uri.dojoUri("src/widget/templates/MonthlyCalendar.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/MonthlyCalendar.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/MonthlyCalendar.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/MonthlyCalendar.css"),
 
 		initializer: function(){
 			this.iCalendars = [];

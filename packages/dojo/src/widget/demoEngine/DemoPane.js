@@ -15,8 +15,8 @@ dojo.require("dojo.widget.HtmlWidget");
 dojo.widget.defineWidget("my.widget.demoEngine.DemoPane", 
 	dojo.widget.HtmlWidget, 
 	{
-		templatePath: dojo.uri.dojoUri("src/widget/demoEngine/templates/DemoPane.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/demoEngine/templates/DemoPane.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "demoEngine/templates/DemoPane.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "demoEngine/templates/DemoPane.css"),
 		postCreate: function() {
 			dojo.html.addClass(this.domNode,this.domNodeClass);
 			dojo.debug("PostCreate");

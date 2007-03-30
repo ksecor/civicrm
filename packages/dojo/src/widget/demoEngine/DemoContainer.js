@@ -18,8 +18,8 @@ dojo.require("dojo.widget.TabContainer");
 dojo.widget.defineWidget("my.widget.demoEngine.DemoContainer", 
 	dojo.widget.HtmlWidget, 
 	{
-		templatePath: dojo.uri.dojoUri("src/widget/demoEngine/templates/DemoContainer.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/demoEngine/templates/DemoContainer.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "demoEngine/templates/DemoContainer.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "demoEngine/templates/DemoContainer.css"),
 		postCreate: function() {
 			dojo.html.addClass(this.domNode,this.domNodeClass);
 			dojo.html.addClass(this.tabNode, this.tabClass);

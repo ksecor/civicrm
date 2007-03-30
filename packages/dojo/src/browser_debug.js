@@ -8,10 +8,11 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+dojo.provide("dojo.browser_debug");
+
 dojo.hostenv.loadedUris.push("../src/bootstrap1.js");
 dojo.hostenv.loadedUris.push("../src/loader.js");
 dojo.hostenv.loadedUris.push("../src/hostenv_browser.js");
-dojo.hostenv.loadedUris.push("../src/bootstrap2.js");
 dojo.hostenv._loadedUrisListStart = dojo.hostenv.loadedUris.length;
 
 function removeComments(contents){

@@ -105,8 +105,8 @@ dojo.widget.defineWidget(
 		// duration of the animation
 		duration: 1000,
 
-		templatePath: dojo.uri.dojoUri("src/widget/templates/ProgressBar.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/ProgressBar.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/ProgressBar.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/ProgressBar.css"),
 		
 	
 		// attach points

@@ -57,7 +57,7 @@ dojo.widget.defineWidget(
 			minute:{ shadow:null, shift:{ dx:2, dy:3} },
 			second:{ shadow:null, shift:{ dx:4, dy:4} }
 		};
-		this.image = dojo.uri.dojoUri("src/widget/templates/images/clock.png");
+		this.image = dojo.uri.moduleUri("dojo.widget", "templates/images/clock.png");
 		this.surface=null;
 		this.labelNode=null;
 		this.topLabelNode=null;

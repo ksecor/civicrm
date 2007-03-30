@@ -59,8 +59,8 @@ dojo.widget.defineWidget(
 		htmlfloat: "none",
 		lastCheckedValue: null,
 	
-		templatePath: dojo.uri.dojoUri("src/widget/templates/ValidationTextbox.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/Validate.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/ValidationTextbox.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/Validate.css"),
 		
 		// new DOM nodes
 		invalidSpan: null,

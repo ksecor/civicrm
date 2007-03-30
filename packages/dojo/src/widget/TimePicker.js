@@ -90,8 +90,8 @@ dojo.widget.defineWidget(
 	},
 {
 	isContainer: false,
-	templatePath: dojo.uri.dojoUri("src/widget/templates/TimePicker.html"),
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/TimePicker.css"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/TimePicker.html"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/TimePicker.css"),
 
 	postMixInProperties: function(localProperties, frag) {
 		// summary: see dojo.widget.DomWidget

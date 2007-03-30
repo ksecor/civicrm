@@ -23,7 +23,14 @@ dojo.rpc.YahooService = function(appId){
 					"application ID. Using the default may cause problems during",
 					"deployment of your application");
 	}
-	this.connect(dojo.uri.dojoUri("src/rpc/yahoo.smd"));
+	
+	if(djConfig["useXDomain"] && !djConfig["yahooServiceSmdUrl"]){
+		dojo.debug("dojo.rpc.YahooService: When using cross-domain Dojo builds,"
+			+ " please save yahoo.smd to your domain and set djConfig.yahooServiceSmdUrl"
+			+ " to the path on your domain to yahoo.smd");
+	}
+
+	this.connect(djConfig["yahooServiceSmdUrl"] || dojo.uri.moduleUri("dojo.rpc", "yahoo.smd"));
 	this.strictArgChecks = false;
 }
 

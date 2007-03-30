@@ -173,7 +173,11 @@ if(dojo.render.vml.capable){
 		){
 			//	summary
 			//	Renders this axis to the given plot.
-
+			if(!this._rerender && this.nodes.main){
+				return this.nodes.main;
+			}
+			this._rerender = false;
+			
 			//	get the origin plot point.
 			var area = plotArea.getArea();
 			var stroke = 1;

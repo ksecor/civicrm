@@ -14,7 +14,7 @@ dojo.widget.defineWidget(
 	"dojo.widget.Editor2FindDialog",
 	dojo.widget.Editor2DialogContent,
 {
-	templatePath: dojo.uri.dojoUri("src/widget/templates/Editor2/Dialog/find.html"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Editor2/Dialog/find.html"),
 
 	find: function(){
 		var curInst = dojo.widget.Editor2Manager.getCurrentInstance();
@@ -39,7 +39,7 @@ dojo.widget.defineWidget(
 	"dojo.widget.Editor2ReplaceDialog",
 	dojo.widget.Editor2DialogContent,
 {
-	templatePath: dojo.uri.dojoUri("src/widget/templates/Editor2/Dialog/replace.html"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Editor2/Dialog/replace.html"),
 
 	replace: function(){
 		alert("not implemented yet");

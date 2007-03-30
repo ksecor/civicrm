@@ -32,8 +32,8 @@ dojo.widget.defineWidget(
 	//	name of associated floating pane
 	caption: 'Untitled',
 
-	templatePath: dojo.uri.dojoUri("src/widget/templates/TaskBarItemTemplate.html"),
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/TaskBar.css"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/TaskBarItemTemplate.html"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/TaskBar.css"),
 
 	fillInTemplate: function() {
 		if (this.iconSrc) {

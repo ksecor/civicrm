@@ -39,8 +39,8 @@ dojo.widget.defineWidget("dojo.widget.TabContainer", dojo.widget.PageContainer, 
 	closeButton: "none",
 
 	templateString: null,	// override setting in PageContainer
-	templatePath: dojo.uri.dojoUri("src/widget/templates/TabContainer.html"),
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/TabContainer.css"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/TabContainer.html"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/TabContainer.css"),
 
 	// selectedTab: String
 	//	initially selected tab (widgetId)
@@ -211,7 +211,7 @@ dojo.widget.defineWidget(
 		//	Tab for display in high-contrast mode (where background images don't show up).
 		//	This is an internal widget and shouldn't be instantiated directly.
 
-		imgPath: dojo.uri.dojoUri("src/widget/templates/images/tab_close.gif"),
+		imgPath: dojo.uri.moduleUri("dojo.widget", "templates/images/tab_close.gif"),
 		
 		templateString: "<div class='dojoTab' dojoAttachEvent='onClick;onKey'>"
 							+"<div dojoAttachPoint='innerDiv'>"

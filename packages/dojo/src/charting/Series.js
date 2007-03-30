@@ -49,40 +49,65 @@ dojo.extend(dojo.charting.Series, {
 		var start = 0;
 		var end = l;
 		
-		/*	Allow for ranges.  Can be done in one of two ways:
+		/*	Allow for ranges.  Can be done in one of three ways:
 		 *	1. { from, to } as 0-based indices
 		 *	2. { length } as num of data points to get; a negative
 		 *		value will start from the end of the data set.
+		 *	3. { between:{ low, high, field } } will search the data
+		 *		set for values of field between low and high, and
+		 *		return those.
 		 *	No kwArg object means the full data set will be evaluated
 		 *		and returned.
 		 */
 		if(kwArgs){
-			if(kwArgs.from){ 
-				start = Math.max(kwArgs.from,0);
-				if(kwArgs.to){ 
-					end = Math.min(kwArgs.to, end);
+			if(kwArgs.between){
+				//	a little ugly, but we will use this as a shortcut
+				//	and return the evaluation from here.
+				for(var i=0; i<l; i++){
+					var fld = this.dataSource.getField(a[i], kwArgs.between.field);
+					if(fld>=kwArgs.between.low && fld<=kwArgs.between.high){
+						var o = { src: a[i], series: this };
+						for(var p in this.bindings){
+							o[p] = this.dataSource.getField(a[i], this.bindings[p]);
+						}
+						ret.push(o);
+					}
 				}
 			}
-			else if(kwArgs.length){
-				if(kwArgs.length < 0){
-					//	length points from end
-					start = Math.max((end + length),0);
+			else if(kwArgs.from || kwArgs.length){
+				if(kwArgs.from){ 
+					start = Math.max(kwArgs.from,0);
+					if(kwArgs.to){ 
+						end = Math.min(kwArgs.to, end);
+					}
 				} else {
-					end = Math.min((start + length), end);
+					if(kwArgs.length < 0){
+						//	length points from end
+						start = Math.max((end + length),0);
+					} else {
+						end = Math.min((start + length), end);
+					}
+				}
+				for(var i=start; i<end; i++){
+					var o = { src: a[i], series: this };
+					for(var p in this.bindings){
+						o[p] = this.dataSource.getField(a[i], this.bindings[p]);
+					}
+					ret.push(o);
 				}
 			}
-		}
-
-		for(var i=start; i<end; i++){
-			var o = { src: a[i], series: this };
-			for(var p in this.bindings){
-				o[p] = this.dataSource.getField(a[i], this.bindings[p]);
+		} else {
+			for(var i=start; i<end; i++){
+				var o = { src: a[i], series: this };
+				for(var p in this.bindings){
+					o[p] = this.dataSource.getField(a[i], this.bindings[p]);
+				}
+				ret.push(o);
 			}
-			ret.push(o);
 		}
 
 		//	sort by the x axis, if available.
-		if(typeof(ret[0].x) != "undefined"){
+		if(ret.length>0 && typeof(ret[0].x) != "undefined"){
 			ret.sort(function(a,b){
 				if(a.x > b.x) return 1;
 				if(a.x < b.x) return -1;

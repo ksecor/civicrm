@@ -48,6 +48,9 @@ if(dojo.render.vml.capable){
 			//	calculate the width of each bar.
 			var space = 8;
 			var nPoints = data[0].length;
+			if(nPoints == 0){
+				return group;
+			}
 			var width = ((area.right-area.left)-(space*(nPoints-1)))/nPoints;	//	the width of each group.
 			var barWidth = Math.round(width/n);	//	the width of each bar, no spaces.
 			var yOrigin = plot.axisY.getCoord(plot.axisX.origin, plotarea, plot);
@@ -106,6 +109,9 @@ if(dojo.render.vml.capable){
 
 			var space = 6;
 			var nPoints = data[0].length;
+			if(nPoints == 0){
+				return group;
+			}
 			var h = ((area.bottom-area.top)-(space*(nPoints-1)))/nPoints;
 			var barH = h/n;
 			var xOrigin = plot.axisX.getCoord(0, plotarea, plot);
@@ -184,6 +190,9 @@ if(dojo.render.vml.capable){
 
 			var space = 2;
 			var nPoints = data[0].length;
+			if(nPoints == 0){
+				return group;
+			}
 			var h = ((area.bottom-area.top)-(space*(nPoints-1)))/nPoints;
 			var barH = h/n;
 			for(var i=0; i<nPoints; i++){
@@ -509,6 +518,9 @@ if(dojo.render.vml.capable){
 			//	Bindings: x/y
 			var area = plotarea.getArea();
 			var group = dojo.charting.Plotters._group(plotarea);
+			if(data.length==0){
+				return group;
+			}
 
 			var path=document.createElement("v:shape");
 			path.setAttribute("strokeweight", "2px");
@@ -575,6 +587,9 @@ if(dojo.render.vml.capable){
 			var tension = 3;
 			var area = plotarea.getArea();
 			var group = dojo.charting.Plotters._group(plotarea);
+			if(data.length==0){
+				return group;
+			}
 
 			var path=document.createElement("v:shape");
 			path.setAttribute("strokeweight", "2px");
@@ -649,6 +664,9 @@ if(dojo.render.vml.capable){
 			//	Bindings: x/y
 			var area = plotarea.getArea();
 			var group = dojo.charting.Plotters._group(plotarea);
+			if(data.length==0){
+				return group;
+			}
 
 			var path=document.createElement("v:shape");
 			path.setAttribute("strokeweight", "1px");
@@ -721,6 +739,9 @@ if(dojo.render.vml.capable){
 			var tension = 3;
 			var area = plotarea.getArea();
 			var group = dojo.charting.Plotters._group(plotarea);
+			if(data.length==0){
+				return group;
+			}
 
 			var path=document.createElement("v:shape");
 			path.setAttribute("strokeweight", "1px");

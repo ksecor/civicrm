@@ -26,13 +26,18 @@ dojo.widget.defineWidget(
 		//		Given node is displayed as-is (for example, an <h1 dojoType="InlineEditBox">
 		//		is displayed as an <h1>, but when you click on it, it turns into an
 		//		<input> or <textarea>, and the user can edit the value.
+		
+		// Available Callbacks:
+		//		onSave()  -- When the save button is pushed.
+		//		onCancel()  -- when the cancel button is pushed.
+		//		onChange()  -- when the value is actually changed.
 
 		// mutable objects need to be in constructor to give each instance its own copy
 		this.history = [];
 	},
 {
-	templatePath: dojo.uri.dojoUri("src/widget/templates/InlineEditBox.html"),
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/InlineEditBox.css"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/InlineEditBox.html"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/InlineEditBox.css"),
 
 	// mode: String
 	//		"text" is the default, and means that the node will convert it into a (single-line) <input>
@@ -77,12 +82,6 @@ dojo.widget.defineWidget(
 		}
 	},
 
-	onSave: function(newValue, oldValue, name){
-		// summary: Callback for when value is changed.
-	},
-	onUndo: function(value){
-		// summary: Callback for when editing is aborted (value reverts to pre-edit value).
-	},
 
 	postCreate: function(args, frag){
 		// put original node back in the document, and attach handlers
@@ -177,18 +176,26 @@ dojo.widget.defineWidget(
 		}
 		this._finishEdit(e);
 	},
-
-	cancelEdit: function(e){
-		// summary: Callback when user presses "Cancel" button
-		if(!this.editing){ return false; }
+	
+	_stopEditing: function(){
+		//summary: makes the edit box go away.
 		this.editing = false;
 		this.form.style.display="none";
 		this.editable.style.display = "";
 		return true;
 	},
 
+	cancelEdit: function(e){
+		// summary: Callback when user presses "Cancel" button
+		this._stopEditing();
+		this.onCancel();
+		return true;
+	},
+
 	_finishEdit: function(e){
-		if(!this.cancelEdit(e)){ return; }
+		//this line serves no purpose, and never just returns.
+		//if(!this._cancelEdit(e)){ return; }
+		this._stopEditing();
 		if(this.doFade) {
 			dojo.lfx.highlight(this.editable, dojo.gfx.color.hex2rgb("#ffc"), 700).play(300);
 		}
@@ -210,6 +217,7 @@ dojo.widget.defineWidget(
 
 	undo: function(){
 		// summary: Revert to previous value in history list.
+		//  This seems to have no use.. can we erase? --birlcathy
 		if(this.history.length > 0){
 			var curValue = this.value;
 			var value = this.history.pop();
@@ -218,6 +226,16 @@ dojo.widget.defineWidget(
 			this.onUndo(value);
 			this.onSave(value, curValue, this.name);
 		}
+	},
+
+	onChange: function(newValue,oldValue){
+		//Summary: User Callback for when a value has changed.
+	},
+	onSave: function(newValue, oldValue, name){
+		// summary: Callback for when value is changed.
+	},
+	onCancel: function(){
+	 //Summary: Boring callback for when user pushes the cancel button	
 	},
 
 	checkForValueChange: function(){
@@ -229,6 +247,7 @@ dojo.widget.defineWidget(
 			(dojo.string.trim(ee.value) != "")){
 			this.submitButton.disabled = false;
 		}
+		this.onChange(this.value,ee.value);
 	},
 	
 	disable: function(){

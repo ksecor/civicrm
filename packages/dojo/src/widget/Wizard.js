@@ -25,8 +25,8 @@ dojo.widget.defineWidget(
 	//		A set of panels that display sequentially, typically notating a step-by-step
 	//		procedure like an install
 	
-	templatePath: dojo.uri.dojoUri("src/widget/templates/Wizard.html"),
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/Wizard.css"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Wizard.html"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/Wizard.css"),
 
 	// selected: DomNode
 	//		Currently selected panel.  (Read-only)

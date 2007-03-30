@@ -255,3 +255,5 @@ function setTimeout(func, delay){
 	var thread=new java.lang.Thread(runnable);
 	thread.start();
 }
+
+dojo.requireIf((djConfig["isDebug"] || djConfig["debugAtAllCosts"]), "dojo.debug");

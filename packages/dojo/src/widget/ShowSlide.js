@@ -50,8 +50,8 @@ dojo.widget.defineWidget(
 	htmlTitle: null,
 	debug: false,
 	noClick: false,
-	templatePath: dojo.uri.dojoUri("src/widget/templates/ShowSlide.html"),
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/ShowSlide.css"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/ShowSlide.html"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/ShowSlide.css"),
 	postCreate: function(){
 		this.htmlTitle.innerHTML = this.title;
 

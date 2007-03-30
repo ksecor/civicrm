@@ -35,13 +35,13 @@ dojo.widget.defineWidget(
 	storedColor: "#0054aa",
 
 	//	widget props
-	templatePath: dojo.uri.dojoUri("src/widget/templates/HslColorPicker.svg"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/HslColorPicker.svg"),
 	fillInTemplate: function() {
 		this.height = "131px";
 		this.svgDoc = this.hueNode.ownerDocument;
 		this.leftGradientColorNode = this.hueNode.ownerDocument.getElementById("leftGradientColor");
 		this.rightGradientColorNode = this.hueNode.ownerDocument.getElementById("rightGradientColor");
-		this.hueNode.setAttributeNS(dojo.dom.xmlns.xlink, "href", dojo.uri.dojoUri("src/widget/templates/images/hue.png"));
+		this.hueNode.setAttributeNS(dojo.dom.xmlns.xlink, "href", dojo.uri.moduleUri("dojo.widget", "templates/images/hue.png"));
 		var hsl = dojo.gfx.color.hex2hsl(this.storedColor);
 		this.hue = hsl[0];
 		this.saturation = hsl[1];

@@ -14,7 +14,7 @@ dojo.widget.defineWidget(
 	"dojo.widget.Editor2InsertImageDialog",
 	dojo.widget.Editor2DialogContent,
 {
-	templatePath: dojo.uri.dojoUri("src/widget/templates/Editor2/Dialog/insertimage.html"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Editor2/Dialog/insertimage.html"),
 
 	editableAttributes: ['src', 'alt', 'width', 'height', 'hspace', 'vspace', 'border', 'align'],
 	loadContent: function(){

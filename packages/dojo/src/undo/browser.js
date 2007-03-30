@@ -13,7 +13,7 @@ dojo.require("dojo.io.common");
 
 try{
 	if((!djConfig["preventBackButtonFix"])&&(!dojo.hostenv.post_load_)){
-		document.write("<iframe style='border: 0px; width: 1px; height: 1px; position: absolute; bottom: 0px; right: 0px; visibility: visible;' name='djhistory' id='djhistory' src='"+(dojo.hostenv.getBaseScriptUri()+'iframe_history.html')+"'></iframe>");
+		document.write("<iframe style='border: 0px; width: 1px; height: 1px; position: absolute; bottom: 0px; right: 0px; visibility: visible;' name='djhistory' id='djhistory' src='" + (djConfig["dojoIframeHistoryUrl"] || dojo.hostenv.getBaseScriptUri()+'iframe_history.html') + "'></iframe>");
 	}
 }catch(e){/* squelch */}
 
@@ -106,6 +106,11 @@ dojo.undo.browser = {
 		var hash = null;
 		var url = null;
 		if(!this.historyIframe){
+			if(djConfig["useXDomain"] && !djConfig["dojoIframeHistoryUrl"]){
+				dojo.debug("dojo.undo.browser: When using cross-domain Dojo builds,"
+					+ " please save iframe_history.html to your domain and set djConfig.dojoIframeHistoryUrl"
+					+ " to the path on your domain to iframe_history.html");
+			}
 			this.historyIframe = window.frames["djhistory"];
 		}
 		if(!this.bookmarkAnchor){
@@ -314,7 +319,8 @@ dojo.undo.browser = {
 	
 	_loadIframeHistory: function(){
 		//summary: private method. Do not call this directly.
-		var url = dojo.hostenv.getBaseScriptUri()+"iframe_history.html?"+(new Date()).getTime();
+		var url = (djConfig["dojoIframeHistoryUrl"] || dojo.hostenv.getBaseScriptUri()+'iframe_history.html')
+			+ "?" + (new Date()).getTime();
 		this.moveForward = true;
 		dojo.io.setIFrameSrc(this.historyIframe, url, false);	
 		return url; //String

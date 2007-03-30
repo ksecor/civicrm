@@ -100,7 +100,7 @@ dojo.widget.defineWidget(
 	DndAcceptTypes: "",
 
     // will have cssRoot before it 
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/TreeV3.css"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/TreeV3.css"),
 
 	templateString: '<div style="${this.style}">\n</div>',
 

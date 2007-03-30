@@ -139,8 +139,8 @@ dojo.widget.defineWidget (
 		//	disables (enables) the value to change while you are dragging, or just after drag finishes
 		activeDrag: false,
 
-		templateCssPath: dojo.uri.dojoUri ("src/widget/templates/Slider.css"),
-		templatePath: dojo.uri.dojoUri ("src/widget/templates/Slider.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/Slider.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Slider.html"),
 
 		// This is set to true when a drag is started, so that it is not confused
 		// with a click
@@ -150,27 +150,27 @@ dojo.widget.defineWidget (
 
 		// bottomButtonSrc: String
 		//	down arrow graphic URL
-		bottomButtonSrc: dojo.uri.dojoUri("src/widget/templates/images/slider_down_arrow.png"),
+		bottomButtonSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/slider_down_arrow.png"),
 
 		// topButtonSrc: String
 		//	up arrow graphic URL
-		topButtonSrc: dojo.uri.dojoUri("src/widget/templates/images/slider_up_arrow.png"),
+		topButtonSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/slider_up_arrow.png"),
 
 		// leftButtonSrc: String
 		//	left arrow graphic URL
-		leftButtonSrc: dojo.uri.dojoUri("src/widget/templates/images/slider_left_arrow.png"),
+		leftButtonSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/slider_left_arrow.png"),
 
 		// rightButtonSrc: String
 		//	right arrow graphic URL
-		rightButtonSrc: dojo.uri.dojoUri("src/widget/templates/images/slider_right_arrow.png"),
+		rightButtonSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/slider_right_arrow.png"),
 
 		// backgroundSrc: String
 		//	slider background graphic URL
-		backgroundSrc: dojo.uri.dojoUri("src/widget/templates/images/blank.gif"),
+		backgroundSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/blank.gif"),
 
 		// progressBackgroundSrc: String
 		//	slider background graphic URL to overlay the normal background to show progress
-		progressBackgroundSrc: dojo.uri.dojoUri("src/widget/templates/images/blank.gif"),
+		progressBackgroundSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/blank.gif"),
 
 		// backgroundSize: String
 		//	sizing style attributes for the background image
@@ -194,7 +194,7 @@ dojo.widget.defineWidget (
 
 		// handleSrc: String
 		//	moveable slider graphic URL
-		handleSrc: dojo.uri.dojoUri("src/widget/templates/images/slider-button.png"),
+		handleSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/slider-button.png"),
 
 		// showButtons: Boolean
 		//	show (don't show) the arrow buttons
@@ -709,7 +709,7 @@ dojo.widget.defineWidget (
 		buttonStyle: "",
 
 		backgroundSize: "height:10px;width:200px;",
-		backgroundSrc: dojo.uri.dojoUri("src/widget/templates/images/slider-bg.gif"),
+		backgroundSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/slider-bg.gif"),
 
 		// flip: Boolean
 		//	sets flipX
@@ -793,7 +793,7 @@ dojo.widget.defineWidget (
 		buttonStyle: "",
 
 		backgroundSize: "width:10px;height:200px;",
-		backgroundSrc: dojo.uri.dojoUri("src/widget/templates/images/slider-bg-vert.gif"),
+		backgroundSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/slider-bg-vert.gif"),
 
 		// flip: Boolean
 		//	sets flipY

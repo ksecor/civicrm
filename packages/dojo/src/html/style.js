@@ -222,39 +222,43 @@ dojo.html.toSelectorCase = function(/* string */selector){
 	return selector.replace(/([A-Z])/g, "-$1" ).toLowerCase();	//	string
 }
 
-dojo.html.getComputedStyle = function(/* HTMLElement */node, /* string */cssSelector, /* integer? */inValue){
-	//	summary
-	//	Returns the computed style of cssSelector on node.
-	node = dojo.byId(node);
-	// cssSelector may actually be in camel case, so force selector version
-	var cssSelector = dojo.html.toSelectorCase(cssSelector);
-	var property = dojo.html.toCamelCase(cssSelector);
-	if(!node || !node.style){
-		return inValue;			
-	} else if (document.defaultView && dojo.html.isDescendantOf(node, node.ownerDocument)){ // W3, gecko, KHTML
-		try{
-			// mozilla segfaults when margin-* and node is removed from doc
-			// FIXME: need to figure out a if there is quicker workaround
-			var cs = document.defaultView.getComputedStyle(node, "");
-			if(cs){
-				return cs.getPropertyValue(cssSelector);	//	integer
-			} 
-		}catch(e){ // reports are that Safari can throw an exception above
-			if(node.style.getPropertyValue){ // W3
-				return node.style.getPropertyValue(cssSelector);	//	integer
-			} else {
-				return inValue;	//	integer
-			}
-		}
-	} else if(node.currentStyle){ // IE
-		return node.currentStyle[property];	//	integer
+if (dojo.render.html.ie) {
+	// IE branch
+	dojo.html.getComputedStyle = function(/*HTMLElement|String*/node, /*String*/property, /*String*/value) {
+		// summary
+		// Get the computed style value for style "property" on "node" (IE).
+		node = dojo.byId(node);  // FIXME: remove ability to access nodes by id for this time-critical function
+		if(!node || !node.style){return value;}
+		// FIXME: standardize on camel-case input to improve speed
+		return node.currentStyle[dojo.html.toCamelCase(property)]; // String
 	}
-	
-	if(node.style.getPropertyValue){ // W3
-		return node.style.getPropertyValue(cssSelector);	//	integer
-	}else{
-		return inValue;	//	integer
+	// SJM: getComputedStyle should be abandoned and replaced with the below function.
+	// All our supported browsers can return CSS2 compliant CssStyleDeclaration objects
+	// which can be queried directly for multiple styles.
+	dojo.html.getComputedStyles = function(/*HTMLElement*/node) {
+		// summary
+		// Get a style object containing computed styles for HTML Element node (IE).
+		return node.currentStyle; // CSSStyleDeclaration
 	}
+} else {
+	// non-IE branch
+	dojo.html.getComputedStyle = function(/*HTMLElement|String*/node, /*String*/property, /*Any*/value) {
+		// summary
+		// Get the computed style value for style "property" on "node" (non-IE).
+		node = dojo.byId(node);
+		if(!node || !node.style){return value;}
+		var s = document.defaultView.getComputedStyle(node, null);
+		// s may be null on Safari
+		return (s&&s[dojo.html.toCamelCase(property)])||''; // String
+	}	
+	// SJM: getComputedStyle should be abandoned and replaced with the below function.
+	// All our supported browsers can return CSS2 compliant CssStyleDeclaration objects
+	// which can be queried directly for multiple styles.
+	dojo.html.getComputedStyles = function(node) {
+		// summary
+		// Get a style object containing computed styles for HTML Element node (non-IE).
+		return document.defaultView.getComputedStyle(node, null); // CSSStyleDeclaration
+	}	
 }
 
 dojo.html.getStyleProperty = function(/* HTMLElement */node, /* string */cssSelector){
@@ -316,21 +320,57 @@ dojo.html.getUnitValue = function(/* HTMLElement */node, /* string */cssSelector
 }
 dojo.html.getUnitValue.bad = { value: NaN, units: '' };
 
-dojo.html.getPixelValue = function(/* HTMLElement */node, /* string */cssSelector, /* boolean? */autoIsZero){
-	//	summary
-	//	Get the value of passed selector in pixels.
-	var result = dojo.html.getUnitValue(node, cssSelector, autoIsZero);
-	// FIXME: there is serious debate as to whether or not this is the right solution
-	if(isNaN(result.value)){ 
-		return 0; //	integer 
-	}	
-	// FIXME: code exists for converting other units to px (see Dean Edward's IE7) 
-	// but there are cross-browser complexities
-	if((result.value)&&(result.units != 'px')){ 
-		return NaN;	//	integer 
+if (dojo.render.html.ie) {
+	// IE branch
+	dojo.html.toPixelValue = function(/* HTMLElement */element, /* String */styleValue){
+		// summary
+		//  Extract value in pixels from styleValue (IE version).
+		//  If a value cannot be extracted, zero is returned.
+		if(!styleValue){return 0;}
+		if(styleValue.slice(-2) == 'px'){return parseFloat(styleValue);}
+		var pixelValue = 0;
+		with(element){
+			var sLeft = style.left;
+			var rsLeft = runtimeStyle.left;
+			runtimeStyle.left = currentStyle.left;
+			try {
+				style.left = styleValue || 0;
+				pixelValue = style.pixelLeft;
+				style.left = sLeft;
+				runtimeStyle.left = rsLeft;
+			}catch(e){
+				// FIXME: it's possible for styleValue to be incompatible with
+				// style.left. In particular, border width values of 
+				// "thick", "medium", or "thin" will provoke an exception.
+			}
+		}
+		return pixelValue; // Number
 	}
-	return result.value;	//	integer
+} else {
+	// non-IE branch
+	dojo.html.toPixelValue = function(/* HTMLElement */element, /* String */styleValue){
+		// summary
+		//  Extract value in pixels from styleValue (non-IE version).
+		//  If a value cannot be extracted, zero is returned.
+		return (styleValue && (styleValue.slice(-2)=='px') ? parseFloat(styleValue) : 0); // Number
+	}
 }
+
+dojo.html.getPixelValue = function(/* HTMLElement */node, /* string */styleProperty, /* boolean? */autoIsZero){
+	// summary
+	//  Get a computed style value, in pixels.
+	// node: HTMLElement
+	//  Node to interrogate
+	// styleProperty: String
+	//  Style property to query, in either css-selector or camelCase (property) format.
+	// autoIsZero: Boolean
+	//  Deprecated. Any value that cannot be converted to pixels is returned as zero.
+	// 
+	//  summary
+	//  Get the value of passed selector in pixels.
+	//
+	return dojo.html.toPixelValue(node, dojo.html.getComputedStyle(node, styleProperty));
+} 
 
 dojo.html.setPositivePixelValue = function(/* HTMLElement */node, /* string */selector, /* integer */value){
 	//	summary

@@ -37,7 +37,7 @@ dojo.widget.defineWidget(
 	//		Whether pane is opened or closed.
 	open: true,
 
-	templatePath: dojo.uri.dojoUri("src/widget/templates/TitlePane.html"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/TitlePane.html"),
 
 	postCreate: function() {
 		if (this.label) {

@@ -24,7 +24,7 @@ dojo.widget.defineWidget(
 	 * can't unlisten
 	 */
 	
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/TreeDocIcon.css"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/TreeDocIcon.css"),
 
 	
 	listenTreeEvents: ["afterChangeTree","afterSetFolder","afterUnsetFolder"],

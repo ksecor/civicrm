@@ -45,16 +45,16 @@ dojo.declare(
 		//      < 1.0 means that each typematic event fires at an increasing faster rate
 		timeoutChangeRate: 0.90,
 
-		templatePath: dojo.uri.dojoUri("src/widget/templates/Spinner.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/Spinner.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Spinner.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/Spinner.css"),
 
 		// incrementSrc: String
 		//      up arrow graphic URL
-		incrementSrc: dojo.uri.dojoUri("src/widget/templates/images/spinnerIncrement.gif"),
+		incrementSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/spinnerIncrement.gif"),
 
 		// decrementSrc: String
 		//      down arrow graphic URL
-		decrementSrc: dojo.uri.dojoUri("src/widget/templates/images/spinnerDecrement.gif"),
+		decrementSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/spinnerDecrement.gif"),
 
 		// does the keyboard related stuff
 		_handleKeyEvents: function(/*Event*/ evt){

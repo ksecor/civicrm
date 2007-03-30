@@ -326,7 +326,7 @@ dojo.lfx.html.wipeIn = function(/*DOMNode[]*/ nodes, /*int?*/ duration, /*Functi
 			top="-9999px"; left="-9999px"; position="absolute";
 			display="";
 		}
-		var height = dojo.html.getBorderBox(node).height;
+		var nodeHeight = dojo.html.getBorderBox(node).height;
 		with(node.style){
 			top=origTop; left=origLeft; position=origPosition;
 			display="none";
@@ -335,7 +335,7 @@ dojo.lfx.html.wipeIn = function(/*DOMNode[]*/ nodes, /*int?*/ duration, /*Functi
 		var anim = dojo.lfx.propertyAnimation(node,
 			{	"height": {
 					start: 1, // 0 causes IE to display the whole panel
-					end: function(){ return height; } 
+					end: function(){ return nodeHeight; } 
 				}
 			}, 
 			duration, 

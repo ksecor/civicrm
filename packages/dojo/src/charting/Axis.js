@@ -21,12 +21,15 @@ dojo.charting.Axis = function(/* string? */label, /* string? */scale, /* array? 
 	this.showLabels = true;		//	show interval ticks.
 	this.showLines = false;		//	if you want lines over the range of the plot area
 	this.showTicks = false;		//	if you want tick marks on the axis.
-	this.range = { upper : 0, lower : 0 };	//	range of individual axis.
+	this.range = { upper:100, lower:0 };	//	range of individual axis.
 	this.origin = "min"; 			//	this can be any number, "min" or "max". min/max is translated on init.
+	this._origin = null;		//	this is the original origin, we preserve on init.
 
 	this.labels = labels || [];
 	this._labels = [];	//	what we really use to draw things.
 	this.nodes={ main: null, axis: null, label: null, labels: null, lines: null, ticks: null };
+
+	this._rerender = false;	//	hidden switch to force re-rendering.
 };
 dojo.charting.Axis.count = 0;
 
@@ -61,12 +64,16 @@ dojo.extend(dojo.charting.Axis, {
 		}
 	},
 	initializeOrigin: function(drawAgainst, plane){
+		if(this._origin == null){
+			this._origin = this.origin;	//	preserve the original.
+		}
+		
 		//	figure out the origin value.
-		if(isNaN(this.origin)){
-			if(this.origin.toLowerCase() == "max"){ 
+		if(isNaN(this._origin)){
+			if(this._origin.toLowerCase() == "max"){ 
 				this.origin = drawAgainst.range[(plane=="y")?"upper":"lower"]; 
 			}
-			else if (this.origin.toLowerCase() == "min"){ 
+			else if (this._origin.toLowerCase() == "min"){ 
 				this.origin = drawAgainst.range[(plane=="y")?"lower":"upper"]; 
 			}
 			else { this.origin=0; }
@@ -74,6 +81,7 @@ dojo.extend(dojo.charting.Axis, {
 	},
 	initializeLabels: function(){
 		//	Translate the labels if needed.
+		this._labels = [];	//	what we really use to draw things.
 		if(this.labels.length == 0){
 			this.showLabels = false;
 			this.showLines = false;

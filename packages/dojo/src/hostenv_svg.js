@@ -221,3 +221,5 @@ if (window.parseXML){
 		};
 	};
 }
+
+dojo.requireIf((djConfig["isDebug"] || djConfig["debugAtAllCosts"]), "dojo.debug");

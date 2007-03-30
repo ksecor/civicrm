@@ -40,7 +40,7 @@ dojo.widget.defineWidget(
 
 	isContainer: true,
 
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/SplitContainer.css"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/SplitContainer.css"),
 
 	// activeSizing: Boolean
 	//		If true, the children's size changes as you drag the bar;

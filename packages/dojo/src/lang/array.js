@@ -103,13 +103,11 @@ dojo.lang.mixin(dojo.lang, {
 		//		dojo.lang.reduce([1, 2, 3, 4], function(last, next){ return last+next});
 		//		returns 10
 		var reducedValue = initialValue;
-		if(arguments.length == 1){
-			dojo.debug("dojo.lang.reduce called with too few arguments!");
-			return false;
-		}else if(arguments.length == 2){
+		if(arguments.length == 2){
 			binary_func = initialValue;
-			reducedValue = arr.shift();
-		}else if(arguments.lenght == 3){
+			reducedValue = arr[0];
+			arr = arr.slice(1);
+		}else if(arguments.length == 3){
 			if(dojo.lang.isFunction(obj)){
 				binary_func = obj;
 				obj = null;
@@ -126,7 +124,7 @@ dojo.lang.mixin(dojo.lang, {
 			}
 		}
 
-		var ob = obj ? obj : dj_global;
+		var ob = obj || dj_global;
 		dojo.lang.map(arr, 
 			function(val){
 				reducedValue = binary_func.call(ob, reducedValue, val);

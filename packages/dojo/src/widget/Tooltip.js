@@ -45,7 +45,7 @@ dojo.widget.defineWidget(
 		//		(When user hovers over specified dom node, the tooltip will appear.)
 		connectId: "",
 
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/TooltipTemplate.css"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/TooltipTemplate.css"),
 
 		fillInTemplate: function(args, frag){
 			if(this.caption != ""){

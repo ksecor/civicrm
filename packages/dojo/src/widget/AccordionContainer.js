@@ -205,8 +205,8 @@ dojo.widget.defineWidget(
 	//	if true, this is the open pane
 	selected: false,
 
-	templatePath: dojo.uri.dojoUri("src/widget/templates/AccordionPane.html"),
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/AccordionPane.css"),
+	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/AccordionPane.html"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/AccordionPane.css"),
 
 	isContainer: true,
 

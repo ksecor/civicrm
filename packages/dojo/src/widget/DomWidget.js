@@ -26,6 +26,7 @@ dojo.widget._templateCache = {};
 dojo.widget.defaultStrings = {
 	// summary: a mapping of strings that are used in template variable replacement
 	dojoRoot: dojo.hostenv.getBaseScriptUri(),
+	dojoWidgetModuleUri: dojo.uri.moduleUri("dojo.widget"),
 	baseScriptUri: dojo.hostenv.getBaseScriptUri()
 };
 
@@ -64,27 +65,21 @@ dojo.widget.fillFromTemplateCache = function(obj, templatePath, templateString, 
 			ts = tmplts[wt];
 		}
 	}
+
 	if((!obj.templateString)&&(!avoidCache)){
 		obj.templateString = templateString || ts["string"];
 	}
+	if(obj.templateString){
+		obj.templateString = this._sanitizeTemplateString(obj.templateString);
+	}
+
 	if((!obj.templateNode)&&(!avoidCache)){
 		obj.templateNode = ts["node"];
 	}
 	if((!obj.templateNode)&&(!obj.templateString)&&(tpath)){
 		// fetch a text fragment and assign it to templateString
 		// NOTE: we rely on blocking IO here!
-		var tstring = dojo.hostenv.getText(tpath);
-		if(tstring){
-			// strip <?xml ...?> declarations so that external SVG and XML
-			// documents can be added to a document without worry
-			tstring = tstring.replace(/^\s*<\?xml(\s)+version=[\'\"](\d)*.(\d)*[\'\"](\s)*\?>/im, "");
-			var matches = tstring.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
-			if(matches){
-				tstring = matches[1];
-			}
-		}else{
-			tstring = "";
-		}
+		var tstring = this._sanitizeTemplateString(dojo.hostenv.getText(tpath));
 
 		obj.templateString = tstring;
 		if(!avoidCache){
@@ -95,6 +90,23 @@ dojo.widget.fillFromTemplateCache = function(obj, templatePath, templateString, 
 		ts.string = obj.templateString;
 	}
 }
+
+dojo.widget._sanitizeTemplateString = function(/*String*/tString){
+	//summary: Strips <?xml ...?> declarations so that external SVG and XML
+	//documents can be added to a document without worry. Also, if the string
+	//is an HTML document, only the part inside the body tag is returned.
+	if(tString){
+		tString = tString.replace(/^\s*<\?xml(\s)+version=[\'\"](\d)*.(\d)*[\'\"](\s)*\?>/im, "");
+		var matches = tString.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
+		if(matches){
+			tString = matches[1];
+		}
+	}else{
+		tString = "";
+	}
+	return tString; //String
+}
+
 dojo.widget._templateCache.dummyCount = 0;
 
 // Array: list of properties to search for node-to-property mappings

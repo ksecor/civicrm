@@ -447,7 +447,7 @@ dojo.declare("dojo.widget.Editor2ToolbarComboItem", dojo.widget.Editor2ToolbarDr
 dojo.declare("dojo.widget.Editor2ToolbarFormatBlockSelect", dojo.widget.Editor2ToolbarComboItem, {
 	// summary: dojo.widget.Editor2ToolbarFormatBlockSelect is an improved format block setting item
 
-	href: dojo.uri.dojoUri("src/widget/templates/Editor2/EditorToolbar_FormatBlock.html"),
+	href: dojo.uri.moduleUri("dojo.widget", "templates/Editor2/EditorToolbar_FormatBlock.html"),
 
 	setup: function(){
 		dojo.widget.Editor2ToolbarFormatBlockSelect.superclass.setup.call(this);
@@ -518,7 +518,7 @@ dojo.declare("dojo.widget.Editor2ToolbarFormatBlockSelect", dojo.widget.Editor2T
 dojo.declare("dojo.widget.Editor2ToolbarFontSizeSelect", dojo.widget.Editor2ToolbarComboItem,{
 	// summary: dojo.widget.Editor2ToolbarFontSizeSelect provides a dropdown list for setting fontsize
 
-	href: dojo.uri.dojoUri("src/widget/templates/Editor2/EditorToolbar_FontSize.html"),
+	href: dojo.uri.moduleUri("dojo.widget", "templates/Editor2/EditorToolbar_FontSize.html"),
 
 	setup: function(){
 		dojo.widget.Editor2ToolbarFormatBlockSelect.superclass.setup.call(this);
@@ -586,7 +586,7 @@ dojo.declare("dojo.widget.Editor2ToolbarFontSizeSelect", dojo.widget.Editor2Tool
 
 dojo.declare("dojo.widget.Editor2ToolbarFontNameSelect", dojo.widget.Editor2ToolbarFontSizeSelect, {
 	// summary: dojo.widget.Editor2ToolbarFontNameSelect provides a dropdown list for setting fontname
-	href: dojo.uri.dojoUri("src/widget/templates/Editor2/EditorToolbar_FontName.html")
+	href: dojo.uri.moduleUri("dojo.widget", "templates/Editor2/EditorToolbar_FontName.html")
 });
 
 dojo.widget.defineWidget(
@@ -603,8 +603,8 @@ dojo.widget.defineWidget(
 		// summary:
 		//		dojo.widget.Editor2Toolbar is the main widget for the toolbar associated with an Editor2
 
-		templatePath: dojo.uri.dojoUri("src/widget/templates/EditorToolbar.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/EditorToolbar.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/EditorToolbar.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/EditorToolbar.css"),
 
 		// ToolbarLatchedItemStyle: String: class name for latched toolbar button items
 		ToolbarLatchedItemStyle: "ToolbarButtonLatched",

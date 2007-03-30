@@ -33,8 +33,8 @@ dojo.widget.defineWidget(
 				imgWidth="400" imgHeight="300" />
 		*/
 
-		templatePath: dojo.uri.dojoUri("src/widget/templates/SlideShow.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/SlideShow.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/SlideShow.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/SlideShow.css"),
 
 		// imgUrls: String[]
 		//	List of images to use

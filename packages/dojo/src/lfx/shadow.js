@@ -16,7 +16,7 @@ dojo.require("dojo.uri.Uri");
 dojo.lfx.shadow = function(/* HTMLElement */node) {
 	//	summary
 	//	creates a shadow underneath node.
-	this.shadowPng = dojo.uri.dojoUri("src/html/images/shadow");
+	this.shadowPng = dojo.uri.moduleUri("dojo.html", "images/shadow");
 	this.shadowThickness = 8;
 	this.shadowOffset = 15;
 	this.init(node);

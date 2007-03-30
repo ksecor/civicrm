@@ -8,6 +8,8 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+dojo.provide("dojo.debug");
+
 dojo.debug = function(/*...*/){
 	// summary:
 	//		Produce a line of debug output. Does nothing unless
@@ -82,7 +84,7 @@ dojo.debugDeep = function(/*Object*/obj){
 	var idx = dojo.debugDeep.debugVars.length;
 	dojo.debugDeep.debugVars.push(obj);
 	// dojo.undo.browser back and forward breaks relpaths
-	var url = new dojo.uri.Uri(location, dojo.uri.dojoUri("src/debug/deep.html?var="+idx)).toString();
+	var url = (djConfig["dojoDebugDeepHtmlUrl"] || new dojo.uri.Uri(location, dojo.uri.moduleUri("dojo.debug", "deep.html")).toString()) + "?var="+idx;
 	var win = window.open(url, '_blank', 'width=600, height=400, resizable=yes, scrollbars=yes, status=yes');
 	try{
 		win.debugVar = obj;

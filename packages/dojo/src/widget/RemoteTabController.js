@@ -23,7 +23,7 @@ dojo.widget.defineWidget(
     "dojo.widget.RemoteTabController",
     dojo.widget.TabController,
 	{
-        templateCssPath: dojo.uri.dojoUri("src/widget/templates/RemoteTabControl.css"),
+        templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/RemoteTabControl.css"),
 		templateString: '<div dojoAttachPoint="domNode" wairole="tablist"></div>',
 
 		"class": "dojoRemoteTabController",

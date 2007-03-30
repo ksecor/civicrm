@@ -57,16 +57,16 @@ dojo.lang.declare("dojo.widget.Editor2Plugin.toggleTableBorderCommand", dojo.wid
 		if(this._showTableBorder){
 			this._showTableBorder = false;
 			if(dojo.render.html.moz){
-				this._editor.removeStyleSheet(dojo.uri.dojoUri("src/widget/templates/Editor2/showtableborder_gecko.css"));
+				this._editor.removeStyleSheet(dojo.uri.moduleUri("dojo.widget", "templates/Editor2/showtableborder_gecko.css"));
 			}else if(dojo.render.html.ie){
-				this._editor.removeStyleSheet(dojo.uri.dojoUri("src/widget/templates/Editor2/showtableborder_ie.css"));
+				this._editor.removeStyleSheet(dojo.uri.moduleUri("dojo.widget", "templates/Editor2/showtableborder_ie.css"));
 			}
 		}else{
 			this._showTableBorder = true;
 			if(dojo.render.html.moz){
-				this._editor.addStyleSheet(dojo.uri.dojoUri("src/widget/templates/Editor2/showtableborder_gecko.css"));
+				this._editor.addStyleSheet(dojo.uri.moduleUri("dojo.widget", "templates/Editor2/showtableborder_gecko.css"));
 			}else if(dojo.render.html.ie){
-				this._editor.addStyleSheet(dojo.uri.dojoUri("src/widget/templates/Editor2/showtableborder_ie.css"));
+				this._editor.addStyleSheet(dojo.uri.moduleUri("dojo.widget", "templates/Editor2/showtableborder_ie.css"));
 			}
 		}
 		

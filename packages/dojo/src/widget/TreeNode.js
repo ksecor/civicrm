@@ -49,8 +49,8 @@ dojo.widget.defineWidget("dojo.widget.TreeNode", dojo.widget.HtmlWidget, functio
 
 
 	childIconSrc: "",
-	childIconFolderSrc: dojo.uri.dojoUri("src/widget/templates/images/Tree/closed.gif"), // for under root parent item child icon,
-	childIconDocumentSrc: dojo.uri.dojoUri("src/widget/templates/images/Tree/document.gif"), // for under root parent item child icon,
+	childIconFolderSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/closed.gif"), // for under root parent item child icon,
+	childIconDocumentSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/document.gif"), // for under root parent item child icon,
 
 	childIcon: null,
 	isTreeNode: true,

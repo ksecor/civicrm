@@ -354,14 +354,14 @@ dojo.widget.defineWidget(
 
 		// buttonSrc: URI
 		//		URI for the down arrow icon to the right of the input box.
-		buttonSrc: dojo.uri.dojoUri("src/widget/templates/images/combo_box_arrow.png"),
+		buttonSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/combo_box_arrow.png"),
 
 		// dropdownToggle: String
 		//		Animation effect for showing/displaying drop down box
 		dropdownToggle: "fade",
 
-		templatePath: dojo.uri.dojoUri("src/widget/templates/ComboBox.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/ComboBox.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/ComboBox.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/ComboBox.css"),
 
 		setValue: function(/*String*/ value){
 			// summary: Sets the value of the combobox

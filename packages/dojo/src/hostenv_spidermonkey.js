@@ -76,4 +76,5 @@ dojo.hostenv.loadUri = function(uri){
 	return 1;
 }
 
+dojo.requireIf((djConfig["isDebug"] || djConfig["debugAtAllCosts"]), "dojo.debug");
 

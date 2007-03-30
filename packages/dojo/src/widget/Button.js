@@ -35,24 +35,24 @@ dojo.widget.defineWidget(
 		//	text to display in button
 		caption: "",
 		
-		templatePath: dojo.uri.dojoUri("src/widget/templates/ButtonTemplate.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/ButtonTemplate.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/ButtonTemplate.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/ButtonTemplate.css"),
 		
 		// inactiveImg: Url
 		//	prefix of filename holding images (left, center, right) for button in normal state
-		inactiveImg: "src/widget/templates/images/soriaButton-",
+		inactiveImg: "templates/images/soriaButton-",
 		
 		// activeImg: Url
 		//	prefix of filename holding images (left, center, right) for button when it's being hovered over
-		activeImg: "src/widget/templates/images/soriaActive-",
+		activeImg: "templates/images/soriaActive-",
 
 		// pressedImg: Url
 		//	prefix of filename holding images (left, center, right) for button between mouse-down and mouse-up
-		pressedImg: "src/widget/templates/images/soriaPressed-",
+		pressedImg: "templates/images/soriaPressed-",
 
 		// disabledImg: Url
 		//	prefix of filename holding images (left, center, right) for button when it's disabled (aka, grayed-out)
-		disabledImg: "src/widget/templates/images/soriaDisabled-",
+		disabledImg: "templates/images/soriaDisabled-",
 		
 		// widget2height: Number
 		//	shape of the button's end pieces;
@@ -120,7 +120,9 @@ dojo.widget.defineWidget(
 		onMouseOver: function(/*Event*/ e){
 			// summary: callback when user mouses-over the button
 			if( this.disabled ){ return; }
-			dojo.html.prependClass(this.buttonNode, "dojoButtonHover");
+			if (!dojo.html.hasClass(this.buttonNode, "dojoButtonHover")){
+				dojo.html.prependClass(this.buttonNode, "dojoButtonHover");
+			}
 			this._setImage(this.activeImg);
 		},
 	
@@ -201,9 +203,9 @@ dojo.widget.defineWidget(
 		},
 
 		_setImage: function(/*String*/ prefix){
-			this.leftImage.src=dojo.uri.dojoUri(prefix + "l.gif");
-			this.centerImage.src=dojo.uri.dojoUri(prefix + "c.gif");
-			this.rightImage.src=dojo.uri.dojoUri(prefix + "r.gif");
+			this.leftImage.src=dojo.uri.moduleUri("dojo.widget", prefix + "l.gif");
+			this.centerImage.src=dojo.uri.moduleUri("dojo.widget", prefix + "c.gif");
+			this.rightImage.src=dojo.uri.moduleUri("dojo.widget", prefix + "r.gif");
 		},
 		
 		_toggleMenu: function(/*String*/ menuId){
@@ -212,6 +214,8 @@ dojo.widget.defineWidget(
 			if ( menu.open && !menu.isShowingNow) {
 				var pos = dojo.html.getAbsolutePosition(this.domNode, false);
 				menu.open(pos.x, pos.y+this.height, this);
+				// disconnect onBlur when focus moves into menu
+				dojo.event.disconnect(this.domNode, "onblur", this, "onBlur");
 			} else if ( menu.close && menu.isShowingNow ){
 				menu.close();
 			} else {
@@ -252,11 +256,11 @@ dojo.widget.defineWidget(
 
 		// downArrow: Url
 		//	path of arrow image to display to the right of the button text
-		downArrow: "src/widget/templates/images/whiteDownArrow.gif",
+		downArrow: "templates/images/whiteDownArrow.gif",
 
 		// disabledDownArray: Url
 		//	path of arrow image to display to the right of the button text, when the button is disabled
-		disabledDownArrow: "src/widget/templates/images/whiteDownArrow.gif",
+		disabledDownArrow: "templates/images/whiteDownArrow.gif",
 	
 		fillInTemplate: function(){
 			dojo.widget.DropDownButton.superclass.fillInTemplate.apply(this, arguments);
@@ -269,7 +273,7 @@ dojo.widget.defineWidget(
 
 		_sizeMyselfHelper: function(){
 			// draw the arrow (todo: why is the arror in containerNode rather than outside it?)
-			this.arrow.src = dojo.uri.dojoUri(this.disabled ? this.disabledDownArrow : this.downArrow);
+			this.arrow.src = dojo.uri.moduleUri("dojo.widget", this.disabled ? this.disabledDownArrow : this.downArrow);
 			this.containerNode.appendChild(this.arrow);
 
 			dojo.widget.DropDownButton.superclass._sizeMyselfHelper.call(this);
@@ -298,7 +302,7 @@ dojo.widget.defineWidget(
 		//	widget id of the menu that this button should activate
 		menuId: "",
 	
-		templatePath: dojo.uri.dojoUri("src/widget/templates/ComboButtonTemplate.html"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/ComboButtonTemplate.html"),
 	
 		// splitWidth: Integer
 		//	# of pixels between left & right part of button
@@ -347,8 +351,8 @@ dojo.widget.defineWidget(
 		},
 	
 		_setImage: function(prefix){
-			this.leftImage.src=dojo.uri.dojoUri(prefix + "l.gif");
-			this.centerImage.src=dojo.uri.dojoUri(prefix + "c.gif");
+			this.leftImage.src=dojo.uri.moduleUri("dojo.widget", prefix + "l.gif");
+			this.centerImage.src=dojo.uri.moduleUri("dojo.widget", prefix + "c.gif");
 		},
 	
 		/*** functions on right part of button ***/
@@ -403,8 +407,8 @@ dojo.widget.defineWidget(
 		},
 	
 		_setImageR: function(prefix){
-			this.arrowBackgroundImage.src=dojo.uri.dojoUri(prefix + "c.gif");
-			this.rightImage.src=dojo.uri.dojoUri(prefix + "r.gif");
+			this.arrowBackgroundImage.src=dojo.uri.moduleUri("dojo.widget", prefix + "c.gif");
+			this.rightImage.src=dojo.uri.moduleUri("dojo.widget", prefix + "r.gif");
 		},
 
 		/*** keyboard functions ***/

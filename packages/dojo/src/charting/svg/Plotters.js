@@ -44,6 +44,9 @@ if(dojo.render.svg.capable){
 			//	calculate the width of each bar.
 			var space = 8;
 			var nPoints = data[0].length;
+			if(nPoints==0){ 
+				return group;
+			}
 			var width = ((area.right-area.left)-(space*(nPoints-1)))/nPoints;	//	the width of each group.
 			var barWidth = width/n;	//	the width of each bar, no spaces.
 			var yOrigin = plot.axisY.getCoord(plot.axisX.origin, plotarea, plot);
@@ -98,6 +101,9 @@ if(dojo.render.svg.capable){
 
 			var space = 6;
 			var nPoints = data[0].length;
+			if(nPoints==0){ 
+				return group;
+			}
 			var h = ((area.bottom-area.top)-(space*(nPoints-1)))/nPoints;
 			var barH = h/n;
 			var xOrigin = plot.axisX.getCoord(0, plotarea, plot);
@@ -151,6 +157,9 @@ if(dojo.render.svg.capable){
 
 			var space = 2;
 			var nPoints = data[0].length;
+			if(nPoints==0){ 
+				return group;
+			}
 			var h = ((area.bottom-area.top)-(space*(nPoints-1)))/nPoints;
 			var barH = h/n;
 			for(var i=0; i<nPoints; i++){
@@ -425,6 +434,10 @@ if(dojo.render.svg.capable){
 			//	Bindings: x/y
 			var area = plotarea.getArea();
 			var line = document.createElementNS(dojo.svg.xmlns.svg, "g");
+			if(data.length == 0){
+				return line;
+			}
+			
 			var path = document.createElementNS(dojo.svg.xmlns.svg, "path");
 			line.appendChild(path);
 
@@ -471,6 +484,9 @@ if(dojo.render.svg.capable){
 			var tension = 3;
 			var area = plotarea.getArea();
 			var line = document.createElementNS(dojo.svg.xmlns.svg, "g");
+			if(data.length == 0){
+				return line;
+			}
 			var path = document.createElementNS(dojo.svg.xmlns.svg, "path");
 			line.appendChild(path);
 
@@ -529,6 +545,9 @@ if(dojo.render.svg.capable){
 			//	Bindings: x/y
 			var area = plotarea.getArea();
 			var line = document.createElementNS(dojo.svg.xmlns.svg, "g");
+			if(data.length == 0){
+				return line;
+			}
 			var path = document.createElementNS(dojo.svg.xmlns.svg, "path");
 			line.appendChild(path);
 
@@ -582,6 +601,9 @@ if(dojo.render.svg.capable){
 			var tension = 3;
 			var area = plotarea.getArea();
 			var line = document.createElementNS(dojo.svg.xmlns.svg, "g");
+			if(data.length == 0){
+				return line;
+			}
 			var path = document.createElementNS(dojo.svg.xmlns.svg, "path");
 			line.appendChild(path);
 

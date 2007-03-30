@@ -11,7 +11,6 @@
 //Cross-domain package loader.
 
 //FIXME: How will xd loading work with debugAtAllCosts? Any bad interactions?
-//FIXME: widgets won't work fully (HTML/CSS) and also because of the requireIf() thing.
 
 dojo.hostenv.resetXd = function(){
 	//summary: Internal xd loader function. Resets the xd state.
@@ -21,20 +20,20 @@ dojo.hostenv.resetXd = function(){
 	//to evaluate packages in order. If there is a xdomain package followed by a xhr package, we can't load
 	//the xhr package until the one before it finishes loading. The text of the xhr package will be converted
 	//to match the format for a xd package and put in the xd load queue.
-	//You can force all packages to be treated as xd by setting the djConfig.forceXDomain.
-	this.isXDomain = djConfig.forceXDomain || false;
+	this.isXDomain = djConfig.useXDomain || false;
 
 	this.xdTimer = 0;
 	this.xdInFlight = {};
 	this.xdOrderedReqs = [];
 	this.xdDepMap = {};
 	this.xdContents = [];
+	this.xdDefList = [];
 }
 
 //Call reset immediately to set the state.
 dojo.hostenv.resetXd();
 
-dojo.hostenv.createXdPackage = function(/*String*/contents){
+dojo.hostenv.createXdPackage = function(/*String*/contents, /*String*/resourceName, /*String=*/resourcePath){
 	//summary: Internal xd loader function. Creates an xd module source given an
 	//non-xd module contents.
 
@@ -67,7 +66,9 @@ dojo.hostenv.createXdPackage = function(/*String*/contents){
 	//allowing multiple versions of dojo in a page.
 	output.push("\ndefinePackage: function(dojo){");
 	output.push(contents);
-	output.push("\n}});");
+	//Add isLocal property so we know if we have to do something different
+	//in debugAtAllCosts situations.
+	output.push("\n}, resourceName: '" + resourceName + "', resourcePath: '" + resourcePath + "'});");
 	
 	return output.join(""); //String
 }
@@ -117,13 +118,6 @@ dojo.hostenv.loadUri = function(/*String*/uri, /*Function?*/cb, /*boolean*/curre
 
 	//Add the module (package) to the list of modules.
 	if(this.isXDomain){
-		//Curious: is this array going to get whacked with multiple access since scripts
-		//load asynchronously and may be accessing the array at the same time?
-		//JS is single-threaded supposedly, so it should be ok. And we don't need
-		//a precise ordering.
-		this.xdOrderedReqs.push(module);
-
-		//Add to waiting packages.
 		//If this is a __package__.js file, then this must be
 		//a package.* request (since xdomain can only work with the first
 		//path in a package search list. However, .* module names are not
@@ -132,12 +126,17 @@ dojo.hostenv.loadUri = function(/*String*/uri, /*Function?*/cb, /*boolean*/curre
 			module += ".*";
 		}
 
-		this.xdInFlight[module] = true;
+		this.xdOrderedReqs.push(module);
 
-		//Increment inFlightCount
-		//This will stop the modulesLoaded from firing all the way.
-		this.inFlightCount++;
-				
+		//Add to waiting packages if it is an xdomain resource.
+		if(currentIsXDomain){
+			this.xdInFlight[module] = true;
+
+			//Increment inFlightCount
+			//This will stop the modulesLoaded from firing all the way.
+			this.inFlightCount++;
+		}
+
 		//Start timer
 		if(!this.xdTimer){
 			this.xdTimer = setInterval("dojo.hostenv.watchInFlightXDomain();", 100);
@@ -163,14 +162,24 @@ dojo.hostenv.loadUri = function(/*String*/uri, /*Function?*/cb, /*boolean*/curre
 		element.src = xdUri;
 		if(!this.headElement){
 			this.headElement = document.getElementsByTagName("head")[0];
+
+			//Head element may not exist, particularly in html
+			//html 4 or tag soup cases where the page does not
+			//have a head tag in it. Use html element, since that will exist.
+			//Seems to be an issue mostly with Opera 9 and to lesser extent Safari 2
+			if(!this.headElement){
+				this.headElement = document.getElementsByTagName("html")[0];
+			}
 		}
 		this.headElement.appendChild(element);
 	}else{
 		var contents = this.getText(uri, null, true);
 		if(contents == null){ return 0; /*boolean*/}
 		
-		if(this.isXDomain){
-			var pkg = this.createXdPackage(contents);
+		//If this is not xdomain, or if loading a i18n resource bundle, then send it down
+		//the normal eval/callback path.
+		if(this.isXDomain && uri.indexOf("/nls/") == -1){
+			var pkg = this.createXdPackage(contents, module, uri);
 			dj_eval(pkg);
 		}else{
 			if(cb){ contents = '('+contents+')'; }
@@ -233,7 +242,12 @@ dojo.hostenv.packageLoaded = function(/*Object*/pkg){
 		}
 
 		//Save off the package contents for definition later.
-		var contentIndex = this.xdContents.push({content: pkg.definePackage, isDefined: false}) - 1;
+		var contentIndex = this.xdContents.push({
+				content: pkg.definePackage,
+				resourceName: pkg["resourceName"],
+				resourcePath: pkg["resourcePath"],
+				isDefined: false
+			}) - 1;
 
 		//Add provide/requires to dependency map.
 		for(var i = 0; i < provideList.length; i++){
@@ -373,7 +387,7 @@ dojo.hostenv.unpackXdDependency = function(dep){
 	}
 
 	//The requireAfterIf or requireAfter needs to be evaluated after the current package is evaluated.
-	if(dep[0] == "requireAfterIf"){
+	if(dep[0] == "requireAfterIf" || dep[0] == "requireIf"){
 		newAfterDeps = newDeps;
 		newDeps = null;
 	}
@@ -396,51 +410,61 @@ dojo.hostenv.xdWalkReqs = function(){
 	}
 }
 
-dojo.hostenv.xdTraceReqs = function(/*Object*/reqs, /*Array*/reqChain){
-	//summary: Internal xd loader function. 
-	//Trace the requires to chain the correct order of required modules.
-	if(reqs && reqs.length > 0){
-		var nextReq;
-		for(var i = 0; i < reqs.length; i++){
-			nextReq = reqs[i].name;
-			if(nextReq && !reqChain[nextReq]){
-				//New req depedency. Follow it down.
-				reqChain.push(nextReq);
-				reqChain[nextReq] = true;
-				this.xdEvalReqs(reqChain);
-			}
-		}
-	}
-}
-
 dojo.hostenv.xdEvalReqs = function(/*Array*/reqChain){
 	//summary: Internal xd loader function. 
 	//Does a depth first, breadth second search and eval of required modules.
-	if(reqChain.length > 0){
+	while(reqChain.length > 0){
 		var req = reqChain[reqChain.length - 1];
 		var pkg = this.xdDepMap[req];
 		if(pkg){
 			//Trace down any requires for this package.
-			this.xdTraceReqs(pkg.requires, reqChain);
+			//START dojo.hostenv.xdTraceReqs() inlining for small Safari 2.0 call stack
+			var reqs = pkg.requires;
+			if(reqs && reqs.length > 0){
+				var nextReq;
+				for(var i = 0; i < reqs.length; i++){
+					nextReq = reqs[i].name;
+					if(nextReq && !reqChain[nextReq]){
+						//New req depedency. Follow it down.
+						reqChain.push(nextReq);
+						reqChain[nextReq] = true;
+						this.xdEvalReqs(reqChain);
+					}
+				}
+			}
+			//END dojo.hostenv.xdTraceReqs() inlining for small Safari 2.0 call stack
 
 			//Evaluate the package.
 			var contents = this.xdContents[pkg.contentIndex];
 			if(!contents.isDefined){
-				//Evaluate the package to bring it into being.
-				//Pass dojo in so that later, to support multiple versions of dojo
-				//in a page, we can pass which version of dojo to use.
-				contents.content(dojo);
+				var content = contents.content;
+				content["resourceName"] = contents["resourceName"];
+				content["resourcePath"] = contents["resourcePath"];
+				this.xdDefList.push(content);
 				contents.isDefined = true;
 			}
 			this.xdDepMap[req] = null;
 
-			//Trace down any requireAfters for this package..
-			this.xdTraceReqs(pkg.requiresAfter, reqChain);
+			//Trace down any requireAfters for this package.
+			//START dojo.hostenv.xdTraceReqs() inlining for small Safari 2.0 call stack
+			var reqs = pkg.requiresAfter;
+			if(reqs && reqs.length > 0){
+				var nextReq;
+				for(var i = 0; i < reqs.length; i++){
+					nextReq = reqs[i].name;
+					if(nextReq && !reqChain[nextReq]){
+						//New req depedency. Follow it down.
+						reqChain.push(nextReq);
+						reqChain[nextReq] = true;
+						this.xdEvalReqs(reqChain);
+					}
+				}
+			}
+			//END dojo.hostenv.xdTraceReqs() inlining for small Safari 2.0 call stack
 		}
 
 		//Done with that require. Remove it and go to the next one.
 		reqChain.pop();
-		this.xdEvalReqs(reqChain);
 	}
 }
 
@@ -457,7 +481,7 @@ dojo.hostenv.watchInFlightXDomain = function(){
 	//Monitors in-flight requests for xd module resources.
 
 	//Make sure we haven't waited timed out.
-	var waitInterval = (djConfig.xdWaitSeconds || 30) * 1000;
+	var waitInterval = (djConfig.xdWaitSeconds || 15) * 1000;
 
 	if(this.xdStartTime + waitInterval < (new Date()).getTime()){
 		this.clearXdInterval();
@@ -482,6 +506,22 @@ dojo.hostenv.watchInFlightXDomain = function(){
 	this.clearXdInterval();
 
 	this.xdWalkReqs();
+	
+	var defLength = this.xdDefList.length;
+	for(var i= 0; i < defLength; i++){
+		var content = dojo.hostenv.xdDefList[i];
+		if(djConfig["debugAtAllCosts"] && content["resourceName"]){
+			if(!this["xdDebugQueue"]){
+				this.xdDebugQueue = [];
+			}
+			this.xdDebugQueue.push({resourceName: content.resourceName, resourcePath: content.resourcePath});
+		}else{
+			//Evaluate the package to bring it into being.
+			//Pass dojo in so that later, to support multiple versions of dojo
+			//in a page, we can pass which version of dojo to use.			
+			content(dojo);
+		}
+	}
 
 	//Evaluate any packages that were not evaled before.
 	//This normally shouldn't happen with proper dojo.provide and dojo.require
@@ -499,6 +539,14 @@ dojo.hostenv.watchInFlightXDomain = function(){
 	//Clean up for the next round of xd loading.
 	this.resetXd();
 
+	if(this["xdDebugQueue"] && this.xdDebugQueue.length > 0){
+		this.xdDebugFileLoaded();
+	}else{
+		this.xdNotifyLoaded();
+	}
+}
+
+dojo.hostenv.xdNotifyLoaded = function(){
 	//Clear inflight count so we will finally do finish work.
 	this.inFlightCount = 0; 
 	this.callLoaded();

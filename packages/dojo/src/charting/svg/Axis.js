@@ -147,7 +147,13 @@ if(dojo.render.svg.capable){
 		){
 			//	summary
 			//	Renders this axis to the given plot.
-			
+
+			// check if we need to be re-rendered.
+			if(!this._rerender && this.nodes.main){
+				return this.nodes.main;
+			}
+			this._rerender = false;
+
 			//	get the origin plot point.
 			var area = plotArea.getArea();
 			var stroke = 1;

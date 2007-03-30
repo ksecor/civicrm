@@ -61,7 +61,7 @@ dojo.widget.Editor2Plugin.FindReplace ={
 			command = new dojo.widget.Editor2DialogCommand(editor, 'replace', 
 				{contentFile: "dojo.widget.Editor2Plugin.FindReplaceDialog", 
 				contentClass: "Editor2ReplaceDialog",
-				href: dojo.uri.dojoUri("src/widget/templates/Editor2/Dialog/replace.html"), 
+				href: dojo.uri.cache.allow(dojo.uri.moduleUri("dojo.widget", "templates/Editor2/Dialog/replace.html")), 
 				title: "Replace", width: "350px", height: "200px", modal: false});
 		}
 	

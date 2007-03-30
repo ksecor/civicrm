@@ -39,7 +39,7 @@ dojo.widget.defineWidget(
 		inputName: "",
 
 		// iconURL: dojo.uri.Uri: icon for the dropdown button
-		iconURL: dojo.uri.dojoUri("src/widget/templates/images/combo_box_arrow.png"),
+		iconURL: dojo.uri.moduleUri("dojo.widget", "templates/images/combo_box_arrow.png"),
 
 		// copyClass:
 		//		should we use the class properties on the source node instead

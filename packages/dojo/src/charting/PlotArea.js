@@ -147,10 +147,15 @@ dojo.extend(dojo.charting.PlotArea, {
 			|| !this.nodes.axes
 		){ this.initialize(); }
 
+		//	do any size fixes.
+		this.resize();
+
 		//	plot it.
 		for(var i=0; i<this.plots.length; i++){
 			var plot=this.plots[i];
-			this.nodes.plots.removeChild(plot.dataNode);
+			if(plot.dataNode){
+				this.nodes.plots.removeChild(plot.dataNode);
+			}
 			var target = this.initializePlot(plot);
 			switch(plot.renderType){
 				case dojo.charting.RenderPlotSeries.Grouped:	{

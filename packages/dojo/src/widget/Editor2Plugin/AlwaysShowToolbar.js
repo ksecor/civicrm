@@ -54,7 +54,7 @@ dojo.declare("dojo.widget.Editor2Plugin.AlwaysShowToolbar", null,
 			// dojo.debug("threshold:", this._scrollThreshold);
 			if((isIE)&&(db)&&(dh.getStyle(db, "background-image")=="none")){
 				with(db.style){
-					backgroundImage = "url(" + dojo.uri.dojoUri("src/widget/templates/images/blank.gif") + ")";
+					backgroundImage = "url(" + dojo.uri.moduleUri("dojo.widget", "templates/images/blank.gif") + ")";
 					backgroundAttachment = "fixed";
 				}
 			}

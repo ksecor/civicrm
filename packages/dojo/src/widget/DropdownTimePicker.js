@@ -45,7 +45,7 @@ dojo.widget.defineWidget(
 
 		// iconURL: URL
 		//	path of icon for button to display time picker widget
-		iconURL: dojo.uri.dojoUri("src/widget/templates/images/timeIcon.gif"),
+		iconURL: dojo.uri.moduleUri("dojo.widget", "templates/images/timeIcon.gif"),
 		
 		// formatLength: String
 		//	Type of formatting used for visual display, appropriate to locale (choice of long, short, medium or full)

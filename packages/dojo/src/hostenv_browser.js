@@ -317,7 +317,11 @@ if(typeof window != 'undefined'){
 	//	START DOMContentLoaded
 	// Mozilla and Opera 9 expose the event we could use
 	if(document.addEventListener){
-		if(dojo.render.html.opera || (dojo.render.html.moz && !djConfig.delayMozLoadingFix)){
+		// NOTE: 
+		//		due to a threading issue in Firefox 2.0, we can't enable
+		//		DOMContentLoaded on that platform. For more information, see:
+		//		http://trac.dojotoolkit.org/ticket/1704
+		if(dojo.render.html.opera || (dojo.render.html.moz && (djConfig["enableMozDomContentLoaded"] === true))){
 			document.addEventListener("DOMContentLoaded", dj_load_init, null);
 		}
 
@@ -536,3 +540,12 @@ if(typeof window != 'undefined'){
 	}
 
 } //if (typeof window != 'undefined')
+
+//Load debug code if necessary.
+dojo.requireIf((djConfig["isDebug"] || djConfig["debugAtAllCosts"]), "dojo.debug");
+
+//window.widget is for Dashboard detection
+//The full conditionals are spelled out to avoid issues during builds.
+//Builds may be looking for require/requireIf statements and processing them.
+dojo.requireIf(djConfig["debugAtAllCosts"] && !window.widget && !djConfig["useXDomain"], "dojo.browser_debug");
+dojo.requireIf(djConfig["debugAtAllCosts"] && !window.widget && djConfig["useXDomain"], "dojo.browser_debug_xd");

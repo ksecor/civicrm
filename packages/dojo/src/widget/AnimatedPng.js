@@ -52,7 +52,7 @@ dojo.widget.defineWidget(
 		//	time to display each frame
 		interval: 100,
 
-		_blankSrc: dojo.uri.dojoUri("src/widget/templates/images/blank.gif"),
+		_blankSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/blank.gif"),
 
 		templateString: '<img class="dojoAnimatedPng" />',
 

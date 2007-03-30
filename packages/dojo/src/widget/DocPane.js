@@ -81,8 +81,8 @@ dojo.widget.defineWidget(
 
 		// Fields and methods
 		_appends: [],
-		templatePath: dojo.uri.dojoUri("src/widget/templates/DocPane.html"),
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/DocPane.css"),
+		templatePath: dojo.uri.moduleUri("dojo.widget" , "templates/DocPane.html"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget" , "templates/DocPane.css"),
 		isContainer: true,
 		fillInTemplate: function(){
 			this.requires = dojo.html.removeNode(this.requires);

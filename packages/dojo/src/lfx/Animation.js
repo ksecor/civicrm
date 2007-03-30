@@ -47,15 +47,17 @@ dojo.lfx.Line = function(/*int*/ start, /*int*/ end){
 	}
 }
 
-dojo.lfx.easeDefault = function(/*Decimal?*/ n){
-	//	summary: Returns the point for point n on a sin wave.
-	if(dojo.render.html.khtml){
-		// the cool kids are obviously not using konqueror...
-		// found a very wierd bug in floats constants, 1.5 evals as 1
-		// seems somebody mixed up ints and floats in 3.5.4 ??
-		// FIXME: investigate more and post a KDE bug (Fredrik)
+if((dojo.render.html.khtml)&&(!dojo.render.html.safari)){
+	// the cool kids are obviously not using konqueror...
+	// found a very wierd bug in floats constants, 1.5 evals as 1
+	// seems somebody mixed up ints and floats in 3.5.4 ??
+	// FIXME: investigate more and post a KDE bug (Fredrik)
+	dojo.lfx.easeDefault = function(/*Decimal?*/ n){
+		//	summary: Returns the point for point n on a sin wave.
 		return (parseFloat("0.5")+((Math.sin( (n+parseFloat("1.5")) * Math.PI))/2));
-	}else{
+	}
+}else{
+	dojo.lfx.easeDefault = function(/*Decimal?*/ n){
 		return (0.5+((Math.sin( (n+1.5) * Math.PI))/2));
 	}
 }
@@ -88,7 +90,7 @@ dojo.lang.extend(dojo.lfx.IAnimation, {
 	duration: 1000,
 	easing: null,
 	repeatCount: 0,
-	rate: 25,
+	rate: 10,
 	
 	// events
 	handler: null,

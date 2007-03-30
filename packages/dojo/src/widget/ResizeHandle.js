@@ -27,7 +27,7 @@ dojo.widget.defineWidget(
 	//	id of the Widget OR DomNode that I will size
 	targetElmId: '',
 
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/ResizeHandle.css"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/ResizeHandle.css"),
 	templateString: '<div class="dojoHtmlResizeHandle"><div></div></div>',
 
 	postCreate: function(){

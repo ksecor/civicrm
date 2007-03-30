@@ -26,7 +26,7 @@ dojo.widget.defineWidget(
 		//		like "new email".
 
 		templateString: '<div dojoAttachPoint="clipNode"><div dojoAttachPoint="containerNode" dojoAttachEvent="onClick:onSelect"><div dojoAttachPoint="contentNode"></div></div></div>',
-		templateCssPath: dojo.uri.dojoUri("src/widget/templates/Toaster.css"),
+		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/Toaster.css"),
 		
 		// messageTopic: String
 		//		Name of topic; anything published to this topic will be displayed as a message.

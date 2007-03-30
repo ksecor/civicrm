@@ -22,7 +22,7 @@ dojo.widget.defineWidget(
 	/**
 	 * can't unlisten
 	 */
-	templateCssPath: dojo.uri.dojoUri( "src/widget/templates/TreeDisableWrap.css" ),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/TreeDisableWrap.css" ),
 		
 	listenTree: function(tree) {
 		

@@ -165,8 +165,15 @@
 		var resIndex = 0;
 
 		while((resData.length - resIndex) + urlLength > xipUrlLimit){
-			xipResponseParts.push(resData.substring(resIndex, resIndex + partLength));
-			resIndex += partLength;
+			var part = resData.substring(resIndex, resIndex + partLength);
+			//Safari will do some extra hex escaping unless we keep the original hex
+			//escaping complete.
+			var percentIndex = part.lastIndexOf("%");
+			if(percentIndex == part.length - 1 || percentIndex == part.length - 2){
+				part = part.substring(0, percentIndex);
+			}
+			xipResponseParts.push(part);
+			resIndex += part.length;
 		}
 		xipResponseParts.push(resData.substring(resIndex, resData.length));
 		

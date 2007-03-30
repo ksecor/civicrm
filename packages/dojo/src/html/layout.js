@@ -258,7 +258,7 @@ dojo.html.getBoxSizing = function(/* HTMLElement */node){
 	//	Returns which box model the passed element is working with
 	var h = dojo.render.html;
 	var bs = dojo.html.boxSizing;
-	if(((h.ie)||(h.opera)) && node.nodeName!="IMG"){ 
+	if(((h.ie)||(h.opera)) && node.nodeName.toLowerCase() != "img"){ 
 		var cm = document["compatMode"];
 		if((cm == "BackCompat")||(cm == "QuirksMode")){
 			return bs.BORDER_BOX; 	//	string
@@ -267,8 +267,13 @@ dojo.html.getBoxSizing = function(/* HTMLElement */node){
 		}
 	}else{
 		if(arguments.length == 0){ node = document.documentElement; }
-		var sizing = dojo.html.getStyle(node, "-moz-box-sizing");
-		if(!sizing){ sizing = dojo.html.getStyle(node, "box-sizing"); }
+		var sizing;
+		if(!h.ie){
+			sizing = dojo.html.getStyle(node, "-moz-box-sizing");
+			if(!sizing){ 
+				sizing = dojo.html.getStyle(node, "box-sizing");
+			}
+		}
 		return (sizing ? sizing : bs.CONTENT_BOX);	//	string
 	}
 }

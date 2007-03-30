@@ -200,9 +200,11 @@ cometd = new function(){
 		// send the message down for processing by the transport
 		this.currentTransport.deliver(message);
 
-		// dispatch the message to any locally subscribed listeners
-		var tname = (this.globalTopicChannels[message.channel]) ? message.channel : "/cometd"+message.channel;
-		dojo.event.topic.publish(tname, message);
+		if(message.data){
+			// dispatch the message to any locally subscribed listeners
+			var tname = (this.globalTopicChannels[message.channel]) ? message.channel : "/cometd"+message.channel;
+			dojo.event.topic.publish(tname, message);
+		}
 	}
 
 	this.disconnect = function(){
@@ -802,7 +804,8 @@ cometd.longPollTransport = new function(){
 				url: cometd.url||djConfig["cometdRoot"],
 				method: "post",
 				mimetype: "text/json",
-				content: { message: dojo.json.serialize([ message ]) }
+				content: { message: dojo.json.serialize([ message ]) },
+				load: dojo.lang.hitch(this, function(type, data, evt, args){ cometd.deliver(data); }) 
 			};
 			return dojo.io.bind(bindArgs);
 		}else{
@@ -879,7 +882,7 @@ cometd.callbackPollTransport = new function(){
 			transport: "ScriptSrcTransport",
 			jsonParamName: "jsonp",
 			load: dojo.lang.hitch(this, function(type, data, evt, args){
-				dojo.debug(dojo.json.serialize(data));
+				// dojo.debug(dojo.json.serialize(data));
 				cometd.deliver(data);
 				this.connected = false;
 				this.tunnelCollapse();
@@ -905,7 +908,8 @@ cometd.callbackPollTransport = new function(){
 				mimetype: "text/json",
 				transport: "ScriptSrcTransport",
 				jsonParamName: "jsonp",
-				content: { message: dojo.json.serialize([ message ]) }
+				content: { message: dojo.json.serialize([ message ]) },
+				load: dojo.lang.hitch(this, function(type, data, evt, args){ cometd.deliver(data); }),
 			};
 			return dojo.io.bind(bindArgs);
 		}else{

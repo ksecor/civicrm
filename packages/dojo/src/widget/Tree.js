@@ -78,7 +78,7 @@ dojo.widget.defineWidget("dojo.widget.Tree", dojo.widget.HtmlWidget, function() 
 
 	DNDAcceptTypes: "",
 
-	templateCssPath: dojo.uri.dojoUri("src/widget/templates/images/Tree/Tree.css"),
+	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/Tree.css"),
 
 	templateString: '<div class="dojoTree"></div>',
 
@@ -109,20 +109,20 @@ dojo.widget.defineWidget("dojo.widget.Tree", dojo.widget.HtmlWidget, function() 
 	// these icons control the grid and expando buttons for the whole tree
 	//
 
-	blankIconSrc: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_blank.gif"),
+	blankIconSrc: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_blank.gif"),
 
-	gridIconSrcT: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_grid_t.gif"), // for non-last child grid
-	gridIconSrcL: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_grid_l.gif"), // for last child grid
-	gridIconSrcV: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_grid_v.gif"), // vertical line
-	gridIconSrcP: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_grid_p.gif"), // for under parent item child icons
-	gridIconSrcC: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_grid_c.gif"), // for under child item child icons
-	gridIconSrcX: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_grid_x.gif"), // grid for sole root item
-	gridIconSrcY: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_grid_y.gif"), // grid for last rrot item
-	gridIconSrcZ: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_grid_z.gif"), // for under root parent item child icon
+	gridIconSrcT: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_grid_t.gif"), // for non-last child grid
+	gridIconSrcL: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_grid_l.gif"), // for last child grid
+	gridIconSrcV: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_grid_v.gif"), // vertical line
+	gridIconSrcP: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_grid_p.gif"), // for under parent item child icons
+	gridIconSrcC: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_grid_c.gif"), // for under child item child icons
+	gridIconSrcX: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_grid_x.gif"), // grid for sole root item
+	gridIconSrcY: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_grid_y.gif"), // grid for last rrot item
+	gridIconSrcZ: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_grid_z.gif"), // for under root parent item child icon
 
-	expandIconSrcPlus: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_expand_plus.gif"),
-	expandIconSrcMinus: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_expand_minus.gif"),
-	expandIconSrcLoading: dojo.uri.dojoUri("src/widget/templates/images/Tree/treenode_loading.gif"),
+	expandIconSrcPlus: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_expand_plus.gif"),
+	expandIconSrcMinus: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_expand_minus.gif"),
+	expandIconSrcLoading: dojo.uri.moduleUri("dojo.widget", "templates/images/Tree/treenode_loading.gif"),
 
 
 	iconWidth: 18,

@@ -21,19 +21,25 @@ dojo.require("dojo.uri.Uri");
 dojo.require("dojo.Deferred");
 
 // used to save content
-if(dojo.hostenv.post_load_){
-	(function(){
-		var savetextarea = dojo.doc().createElement('textarea');
-		savetextarea.id = "dojo.widget.RichText.savedContent";
-		savetextarea.style = "display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;";
-		dojo.body().appendChild(savetextarea);
-	})();
-}else{
-	//dojo.body() is not available before onLoad is fired
-	try {
-		dojo.doc().write('<textarea id="dojo.widget.RichText.savedContent" ' +
-			'style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>');
-	}catch(e){ }
+// but do not try doing document.write if we are using xd loading.
+// document.write will only work if RichText.js is included in the dojo.js
+// file. If it is included in dojo.js and you want to allow rich text saving
+// for back/forward actions, then set djConfig.allowXdRichTextSave = true.
+if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
+	if(dojo.hostenv.post_load_){
+		(function(){
+			var savetextarea = dojo.doc().createElement('textarea');
+			savetextarea.id = "dojo.widget.RichText.savedContent";
+			savetextarea.style = "display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;";
+			dojo.body().appendChild(savetextarea);
+		})();
+	}else{
+		//dojo.body() is not available before onLoad is fired
+		try {
+			dojo.doc().write('<textarea id="dojo.widget.RichText.savedContent" ' +
+				'style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;"></textarea>');
+		}catch(e){ }
+	}
 }
 
 dojo.widget.defineWidget(
@@ -209,7 +215,7 @@ dojo.widget.defineWidget(
 			if(	(this.domNode["nodeName"])&&
 				(this.domNode.nodeName.toLowerCase() == "textarea")){
 				this.textarea = this.domNode;
-				var html = dojo.string.trim(this.textarea.value);
+				var html = this._preFilterContent(this.textarea.value);
 				this.domNode = dojo.doc().createElement("div");
 				dojo.html.copyStyle(this.domNode, this.textarea);
 				var tmpFunc = dojo.lang.hitch(this, function(){
@@ -265,7 +271,7 @@ dojo.widget.defineWidget(
 			this._firstChildContributingMargin = this._getContributingMargin(this.domNode, "top");
 			this._lastChildContributingMargin = this._getContributingMargin(this.domNode, "bottom");
 
-			this.savedContent = this.domNode.innerHTML;
+			this.savedContent = html;
 			this.domNode.innerHTML = '';
 
 			this.editingArea = dojo.doc().createElement("div");
@@ -278,7 +284,7 @@ dojo.widget.defineWidget(
 				this.domNode.innerHTML = " <br>";
 			}
 
-			if(this.saveName != ""){
+			if(this.saveName != "" && (!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"])){
 				var saveTextarea = dojo.doc().getElementById("dojo.widget.RichText.savedContent");
 				if (saveTextarea.value != "") {
 					var datas = saveTextarea.value.split(this._SEPARATOR);
@@ -514,7 +520,13 @@ dojo.widget.defineWidget(
 				}
 			}
 			// opera likes this to be outside the with block
-			this.iframe.src = dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc().domain != currentDomain) ? ("#"+dojo.doc().domain) : "");
+			if(djConfig["useXDomain"] && !djConfig["dojoRichTextFrameUrl"]){
+				dojo.debug("dojo.widget.RichText: When using cross-domain Dojo builds,"
+					+ " please save src/widget/templates/richtextframe.html to your domain and set djConfig.dojoRichTextFrameUrl"
+					+ " to the path on your domain to richtextframe.html");
+			}
+			this.iframe.src = (djConfig["dojoRichTextFrameUrl"] || dojo.uri.moduleUri("dojo.widget", "templates/richtextframe.html")) 
+				+ ((dojo.doc().domain != currentDomain) ? ("#"+dojo.doc().domain) : "");
 			this.iframe.width = this.inheritWidth ? this._oldWidth : "100%";
 			if(this.height){
 				this.iframe.style.height = this.height;
@@ -658,6 +670,7 @@ dojo.widget.defineWidget(
 				for(var i=0;i<files.length;i++){
 					var url = files[i];
 					if(url){
+						//Use dojoUri, since we want paths relative to baseScriptUri.
 						this.addStyleSheet(dojo.uri.dojoUri(url));
 	 				}
 	 			}

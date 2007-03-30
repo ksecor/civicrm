@@ -18,7 +18,7 @@ dojo.a11y = {
 	// doAccessibleCheck: Boolean if true will perform check for need to create accessible widgets
 	// accessible: Boolean uninitialized when null (accessible check has not been performed)
 	//   if true generate accessible widgets
-	imgPath:dojo.uri.dojoUri("src/widget/templates/images"),
+	imgPath:dojo.uri.moduleUri("dojo.widget", "templates/images"),
 	doAccessibleCheck: true,
 	accessible: null,		
 

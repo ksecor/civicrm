@@ -46,7 +46,7 @@ dojo.widget.defineWidget(
 				<input dojoType="DropdownDatePicker">
 		*/
 
-		iconURL: dojo.uri.dojoUri("src/widget/templates/images/dateIcon.gif"),
+		iconURL: dojo.uri.moduleUri("dojo.widget", "templates/images/dateIcon.gif"),
 
 		// formatLength: String
 		// 	Type of formatting used for visual display, appropriate to locale (choice of long, short, medium or full)
@@ -58,8 +58,6 @@ dojo.widget.defineWidget(
 		//	Setting this overrides the default locale-specific settings as well as the formatLength
 		//	attribute.  See dojo.date.format for a reference which defines the formatting patterns.
 		displayFormat: "",
-
-		dateFormat: "", // deprecated, will be removed for 0.5
 
 		// saveFormat: String
 		//	Formatting scheme used when submitting the form element.  This formatting is used in a hidden
@@ -135,7 +133,8 @@ dojo.widget.defineWidget(
 			//build the args for DatePicker based on the public attributes of DropdownDatePicker
 			this.datePicker = dojo.widget.createWidget("DatePicker", dpArgs, this.containerNode, "child");
 			dojo.event.connect(this.datePicker, "onValueChanged", this, "_updateText");
-			
+			dojo.event.connect(this.inputNode, "onChange", this, "_updateText");
+
 			if(this.value){
 				this._updateText();
 			}
@@ -166,16 +165,10 @@ dojo.widget.defineWidget(
 	
 		_updateText: function(){
 			// summary: updates the <input> field according to the current value (ie, displays the formatted date)
-			if(this.dateFormat){
-				dojo.deprecated("dojo.widget.DropdownDatePicker",
-				"Must use displayFormat attribute instead of dateFormat.  See dojo.date.format for specification.", "0.5");
-				this.inputNode.value = dojo.date.strftime(this.datePicker.value, this.dateFormat, this.lang);
-			}else if(this.datePicker.value){
-				this.inputNode.value = dojo.date.format(this.datePicker.value,
-					{formatLength:this.formatLength, datePattern:this.displayFormat, selector:'dateOnly', locale:this.lang});
-			}else{
-				this.inputNode.value = "";
-			}
+			this.inputNode.value = this.datePicker.value ?
+				dojo.date.format(this.datePicker.value,
+					{formatLength:this.formatLength, datePattern:this.displayFormat, selector:'dateOnly', locale:this.lang}) :
+				"";
 
 			if(this.value < this.datePicker.startDate||this.value>this.datePicker.endDate){
 				this.inputNode.value = "";
@@ -191,21 +184,19 @@ dojo.widget.defineWidget(
 		
 		onInputChange: function(){
 			// summary: callback when user manually types a date into the <input> field
-			if(this.dateFormat){
-				dojo.deprecated("dojo.widget.DropdownDatePicker",
-				"Cannot parse user input.  Must use displayFormat attribute instead of dateFormat.  See dojo.date.format for specification.", "0.5");
-			}else{
-				var input = dojo.string.trim(this.inputNode.value);
-				if(input){
-					var inputDate = dojo.date.parse(input,
-							{formatLength:this.formatLength, datePattern:this.displayFormat, selector:'dateOnly', locale:this.lang});			
-					if(inputDate){
-						this.setDate(inputDate);
-					}
-				} else {
-					this.valueNode.value = input;
+			var input = dojo.string.trim(this.inputNode.value);
+			if(input){
+				var inputDate = dojo.date.parse(input,
+						{formatLength:this.formatLength, datePattern:this.displayFormat, selector:'dateOnly', locale:this.lang});			
+				// if inputDate is in a valid range, we call setDate
+				if(!this.datePicker._isDisabledDate(inputDate)){
+					this.setDate(inputDate);
 				}
+			} else {
+				if(input=="") { this.datePicker.setDate(""); }
+				this.valueNode.value = input;
 			}
+
 			// If the date entered didn't parse, reset to the old date.  KISS, for now.
 			//TODO: usability?  should we provide more feedback somehow? an error notice?
 			// seems redundant to do this if the parse failed, but at least until we have validation,
@@ -215,7 +206,7 @@ dojo.widget.defineWidget(
 
 		_syncValueNode: function(){
 			var date = this.datePicker.value;
-				var value = "";
+			var value = "";
 			switch(this.saveFormat.toLowerCase()){
 				case "rfc": case "iso": case "":
 					value = dojo.date.toRfc3339(date, 'dateOnly');

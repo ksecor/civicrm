@@ -28,7 +28,15 @@ dojo.io.createIFrame = function(/*String*/fname, /*String*/onloadstr, /*String?*
 	if(window.frames[fname]){ return window.frames[fname]; }
 	var r = dojo.render.html;
 	var cframe = null;
-	var turi = uri||dojo.uri.dojoUri("iframe_history.html?noInit=true");
+	var turi = uri;
+	if(!turi){
+		if(djConfig["useXDomain"] && !djConfig["dojoIframeHistoryUrl"]){
+			dojo.debug("dojo.io.createIFrame: When using cross-domain Dojo builds,"
+				+ " please save iframe_history.html to your domain and set djConfig.dojoIframeHistoryUrl"
+				+ " to the path on your domain to iframe_history.html");
+		}
+		turi = (djConfig["dojoIframeHistoryUrl"]||dojo.uri.moduleUri("dojo", "../iframe_history.html")) + "#noInit=true";
+	}
 	var ifrstr = ((r.ie)&&(dojo.render.os.win)) ? '<iframe name="'+fname+'" src="'+turi+'" onload="'+onloadstr+'">' : 'iframe';
 	cframe = document.createElement(ifrstr);
 	with(cframe){

@@ -328,7 +328,7 @@ dojo.widget.defineWidget(
 		//	Pops up a modal dialog window, blocking access to the screen and also graying out the screen
 		//	Dialog is extended from ContentPane so it supports all the same parameters (href, etc.)
 
-		templatePath: dojo.uri.dojoUri("src/widget/templates/Dialog.html"),
+		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Dialog.html"),
 
 		// blockDuration: Integer
 		//	number of seconds for which the user cannot dismiss the dialog
