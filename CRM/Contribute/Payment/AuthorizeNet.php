@@ -54,3 +54,4 @@ class CRM_Contribute_Payment_AuthorizeNet extends CRM_Core_Payment_AuthorizeNet 
 
 }
 
+?>
