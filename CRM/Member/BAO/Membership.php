@@ -880,14 +880,16 @@ civicrm_membership_status.is_current_member =1";
                 $form->set("renewal_mode", true );
                 if ( ! $currentMembership['is_current_member'] ) {
                     require_once 'CRM/Member/BAO/MembershipStatus.php';
-                    $dao =& new CRM_Member_DAO_Membership();
+                    $membership =& new CRM_Member_DAO_Membership();
                     $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id']);
                     $currentMembership['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
                     $currentMembership['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
                     $currentMembership['reminder_date'] = CRM_Utils_Date::customFormat($dates['reminder_date'],'%Y%m%d'); 
                     $currentMembership['source']     = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-                    $dao->copyValues($currentMembership);
-                    $membership =& $dao->save();
+
+                    $membership->copyValues($currentMembership);
+                    $membership->save();
+                    $membershipID = $membership->id;
 
                     //insert log here 
                     require_once 'CRM/Member/DAO/MembershipLog.php';
@@ -906,10 +908,9 @@ civicrm_membership_status.is_current_member =1";
                     
                 } else {
                     require_once 'CRM/Member/BAO/MembershipStatus.php';
-                    $dao = &new CRM_Member_DAO_Membership();
-                    $dao->id = $currentMembership['id'];
-                    $dao->find(true); 
-                    $membership =& $dao ;
+                    $membership = &new CRM_Member_DAO_Membership();
+                    $membership->id = $currentMembership['id'];
+                    $membership->find(true); 
 
                     //insert log here 
                     require_once 'CRM/Member/DAO/MembershipLog.php';
