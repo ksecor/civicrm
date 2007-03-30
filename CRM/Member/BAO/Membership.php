@@ -889,7 +889,6 @@ civicrm_membership_status.is_current_member =1";
 
                     $membership->copyValues($currentMembership);
                     $membership->save();
-                    $membershipID = $membership->id;
 
                     //insert log here 
                     require_once 'CRM/Member/DAO/MembershipLog.php';
