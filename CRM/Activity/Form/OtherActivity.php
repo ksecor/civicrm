@@ -132,8 +132,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
         
         // store the submitted values in an array
-        //$params = $this->controller->exportValues( $this->_name );
-        $params = $_POST;
+        $params = $this->controller->exportValues( $this->_name );
+        //$params = $_POST;
         $ids = array();
         
         // store the date with proper format

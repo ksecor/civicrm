@@ -32,47 +32,53 @@
  * 10. $confdir/default
  */
 function conf_init() {
-  static $conf = '';
+    static $conf = '';
 
-  if ($conf) {
+    if ($conf) {
+        return $conf;
+    }
+
+    /**
+     * We are within the civicrm module, the drupal root is 2 links
+     * above us, so use that
+     */
+    $currentDir = dirname( __FILE__ ) . '/';
+    if ( file_exists( $currentDir . 'settings_location.php' ) ) {
+        include $currentDir . 'settings_location.php';
+    }
+  
+    if ( defined( 'CIVICRM_CONFDIR' ) ) {
+        $confdir = CIVICRM_CONFDIR;
+    } else {
+        // make it relative to civicrm.config.php, else php makes it relative
+        // to the script that invokes it
+        // simple check to see if this is under sites/all or just modules
+        if ( strpos( $currentDir, 'sites/all/modules' ) !== false ) {
+            // seems like this is in drupal5 dir location
+            $confdir = $currentDir . '../../..';
+        } else {
+            $confdir = $currentDir . '../../sites';
+        }
+    }
+
+    $phpSelf  = array_key_exists( 'PHP_SELF' , $_SERVER ) ? $_SERVER['PHP_SELF' ] : '';
+    $httpHost = array_key_exists( 'HTTP_HOST', $_SERVER ) ? $_SERVER['HTTP_HOST'] : '';
+
+    $uri    = explode('/', $phpSelf );
+    $server = explode('.', implode('.', array_reverse(explode(':', rtrim($httpHost, '.')))));
+    for ($i = count($uri) - 1; $i > 0; $i--) {
+        for ($j = count($server); $j > 0; $j--) {
+            $dir = implode('.', array_slice($server, -$j)) . implode('.', array_slice($uri, 0, $i));
+            if (file_exists("$confdir/$dir/civicrm.settings.php")) {
+                $conf = "$confdir/$dir";
+                return $conf;
+            }
+        }
+    }
+
+    // FIXME: problem spot for Drupal 5.1 config dir layout
+    $conf = "$confdir/default";
     return $conf;
-  }
-
-  /**
-   * We are within the civicrm module, the drupal root is 2 links
-   * above us, so use that
-   */
-  $currentDir = dirname( __FILE__ ) . '/';
-  if ( file_exists( $currentDir . 'settings_location.php' ) ) {
-    include $currentDir . 'settings_location.php';
-  }
-  
-  if ( defined( 'CIVICRM_CONFDIR' ) ) {
-    $confdir = CIVICRM_CONFDIR;
-  } else {
-    // make it relative to civicrm.config.php, else php makes it relative
-    // to the script that invokes it
-    $confdir = $currentDir . '../../sites';
-  }
-  
-  $phpSelf  = array_key_exists( 'PHP_SELF' , $_SERVER ) ? $_SERVER['PHP_SELF' ] : '';
-  $httpHost = array_key_exists( 'HTTP_HOST', $_SERVER ) ? $_SERVER['HTTP_HOST'] : '';
-
-  $uri    = explode('/', $phpSelf );
-  $server = explode('.', implode('.', array_reverse(explode(':', rtrim($httpHost, '.')))));
-  for ($i = count($uri) - 1; $i > 0; $i--) {
-      for ($j = count($server); $j > 0; $j--) {
-          $dir = implode('.', array_slice($server, -$j)) . implode('.', array_slice($uri, 0, $i));
-          if (file_exists("$confdir/$dir/civicrm.settings.php")) {
-              $conf = "$confdir/$dir";
-              return $conf;
-          }
-      }
-  }
-
-  // FIXME: problem spot for Drupal 5.1 config dir layout
-  $conf = "$confdir/default";
-  return $conf;
 }
 
 include_once conf_init( ) . '/civicrm.settings.php';

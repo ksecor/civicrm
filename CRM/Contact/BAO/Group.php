@@ -245,29 +245,10 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @access public
      * @static
      */
-    public static function &create(&$params) {
+    public static function &create(&$params) 
+    {
         require_once 'CRM/Utils/Hook.php';
        
-        // add custom field values
-        if (CRM_Utils_Array::value('custom', $params)) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_group',
-                                  'entity_id'       => $params['id'],
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                require_once 'CRM/Core/BAO/CustomValue.php';
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
-        }
-
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Group', $params['id'], $params );
         } else {
@@ -290,6 +271,26 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
         $group->buildClause( );
         $group->save( );
+
+        // add custom field values
+        if (CRM_Utils_Array::value('custom', $params)) {
+            foreach ($params['custom'] as $customValue) {
+                $cvParams = array(
+                                  'entity_table'    => 'civicrm_group',
+                                  'entity_id'       => $group->id,
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
+                                  'file_id'         => $customValue['file_id'],
+                                  );
+                
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
+                require_once 'CRM/Core/BAO/CustomValue.php';
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+        }
 
         return $group;
     }

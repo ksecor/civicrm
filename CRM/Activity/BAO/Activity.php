@@ -149,6 +149,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     static function del ( $id , $activityType ) 
     {
+        //delete Custom Data, if any
+        require_once 'CRM/Core/BAO/CustomQuery.php';
+        $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
+
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        $cutomDAO = & new CRM_Core_DAO_CustomValue();
+        $cutomDAO->entity_id = $id;
+        $cutomDAO->entity_table = $entityTable;
+        $cutomDAO->find( );
+        while( $cutomDAO->fetch( )) {
+            $cutomDAO->delete();
+        }
+        
         eval ('$activity =& new CRM_Activity_DAO_' .$activityType. '( );');
         $activity->id = $id;
         $activity->delete();
@@ -196,17 +209,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     public static function createActivity( &$params, &$ids, $activityType = 'Meeting') 
     {
         $activity = self::add($params, $ids, $activityType);
-  
+
         // do the updates/inserts
         if ( $activityType == 1) {
             $activityType = 'Meeting';
-            $entityTable  = 'civicrm_meeting';
         } else if($activityType == 2) {
             $activityType = 'Phonecall';
-            $entityTable  = 'civicrm_phonecall';
         } else {
             $activityType = 'Activity';
-            $entityTable  = 'civicrm_activity';
         }
       
         // format custom data
@@ -229,11 +239,15 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         foreach ( $params as $key => $value ) {
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Activity', null, $activity->id);
+                                                             $value, $activityType, null, $activity->id);
             }
         }
 
         if ( !empty($customData) ) {
+            //get the entity table for the custom field
+            require_once "CRM/Core/BAO/CustomQuery.php";
+            $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
+
             // add custom field values
             foreach ($customData as $customValue) {
                 $cvParams = array(

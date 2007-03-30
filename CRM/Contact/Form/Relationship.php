@@ -141,7 +141,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         } else {
             $defaults['relationship_type_id'] = $this->_rtypeId;
         }
-        
 
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
@@ -204,8 +203,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $urlParams .= "&action=add";
         }
         
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/rel',
-                                      $urlParams ); 
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/rel', $urlParams, true, null, false ); 
         $this->assign("refreshURL",$url);
         
         $this->addElement('select',
@@ -214,7 +212,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                           array('' => ts('- select -')) +
                           CRM_Contact_BAO_Relationship::getContactRelationshipType( $this->_contactId,
                                                                                     $this->_rtype,
-                                                                                    $this->_relationshipId ),array('onchange' => "reload(true)"));
+                                                                                    $this->_relationshipId ),
+                          array('onChange' => "if (this.value) reload(true); else return false"));
         
         $this->addElement('text', 'name'      , ts('Find Target Contact') );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
@@ -333,7 +332,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $customData = array( );
         foreach ( $params as $key => $value ) {
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, $value, 'Relationship', null, $id);
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, $value, 'Relationship', null, $this->_relationshipId);
             }
         }
         

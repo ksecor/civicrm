@@ -97,6 +97,12 @@ class CRM_Core_BAO_CustomQuery {
      */ 
     protected $_fields;
 
+    /**
+     * This stores custom data group types and tables that it extends
+     *
+     * @var array    
+     * @static
+     */
     static $extendsMap = array(
                                'Contact'      => 'civicrm_contact',
                                'Individual'   => 'civicrm_contact',
@@ -105,6 +111,12 @@ class CRM_Core_BAO_CustomQuery {
                                'Contribution' => 'civicrm_contribution',
                                'Membership'   => 'civicrm_membership',
                                'Participant'  => 'civicrm_participant',
+                               'Group'        => 'civicrm_group',
+                               'Relationship' => 'civicrm_relationship',
+                               'Event'        => 'civicrm_event',
+                               'Activity'     => 'civicrm_activity',
+                               'Meeting'      => 'civicrm_meeting',
+                               'Phonecall'    => 'civicrm_phonecall'
                                );
 
     /**

@@ -215,7 +215,16 @@ class CRM_Utils_PDF_PDFtk {
      * @return binary output of cat operation or true;
      */
     public function cat($inputFiles,$outputFile = '-') {
-
+      
+      $hackedFileName = '';
+      //this is because the PEAR toolkit keeps screwing up the return to buffer        
+      // Using a tmp filename instead.
+      $config =& CRM_Core_Config::singleton();
+      if (!$outputFile || $outputFile == '-') {
+        $hackedFileName = tempnam($config->uploadDir,'ccrm_'); 
+        $outputFile = $hackedFileName;
+      }
+        
         $cmd = new System_Command();
         $pdftkCommand[] = PDFTK_BIN;
         foreach($inputFiles as $inputFile) {
@@ -224,9 +233,16 @@ class CRM_Utils_PDF_PDFtk {
         $pdftkCommand[] = "cat";
         $pdftkCommand[] = "output";
         $pdftkCommand[] = "$outputFile";
+        
         call_user_method_array("pushCommand",$cmd,$pdftkCommand);
         //CRM_Core_Error::debug('cat command',$cmd->systemCommand);
-        return $cmd->execute();
+        if ($hackedFileName) {
+          $cmd->execute();
+          return file_get_contents($hackedFileName);
+        }else {
+          return $cmd->execute();
+        }
+        
 
     }
 
@@ -277,6 +293,7 @@ class CRM_Utils_PDF_PDFtk {
             $fNode = $root->appendChild(new DOMElement('f'));
             $fNode->appendChild(new DOMAttr("href"));
             
+     
             return $xfdf->saveXML();
         
         }

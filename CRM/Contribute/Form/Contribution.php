@@ -132,13 +132,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                       $this, false, 'add' );
-        $contributionType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        $contributionType = CRM_Utils_Request::retrieve( 'subType', 'Positive', $this );
         $this->_contributionType = ( $contributionType != null) ? $contributionType : "Contribution";
         
         $this->assign( 'action'  , $this->_action   ); 
 
-        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', 
-                                                          $this );
+        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;

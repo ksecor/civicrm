@@ -84,7 +84,9 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
     {
         if ( ! self::$_gName ) {
             self::$_gName = CRM_Utils_Request::retrieve('group','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
-            self::$_gId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', self::$_gName, 'id', 'name');
+            if ( self::$_gName ) {
+                self::$_gId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', self::$_gName, 'id', 'name');
+            }
         }
         if (self::$_gName) {
             $this->set( 'gName', self::$_gName );
