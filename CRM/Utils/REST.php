@@ -26,16 +26,6 @@
 */
 
 /**
- *
- * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
- * $Id$
- *
- */
-
-
-
-/**
  * This class handles all REST client requests.
  *
  * @package CRM
