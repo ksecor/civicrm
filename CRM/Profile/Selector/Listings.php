@@ -1,4 +1,5 @@
 <?php
+
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
@@ -17,20 +18,18 @@
  | See the Affero General Public License for more details.            |
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
- | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
- | about the Affero General Public License or the licensing  of       |
- | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | http://www.civicrm.org/licensing/                                 |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org.  If you have questions about the       |
+ | Affero General Public License or the licensing  of CiviCRM,        |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
- *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
- * $Id: Selector.php 2609 2005-08-17 00:16:37Z lobo $
+ * $Id$
  *
  */
 
