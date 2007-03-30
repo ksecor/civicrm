@@ -37,6 +37,7 @@
 	{/if}
 </div>
 {else}
+    {if $showForm eq false}
     <div class="messages status">
     <dl>
 	{if $products ne null }
@@ -49,6 +50,7 @@
 	
 	{/if}
         </dl>
-    </div>  
+    </div>
+    {/if}
    
 {/if}

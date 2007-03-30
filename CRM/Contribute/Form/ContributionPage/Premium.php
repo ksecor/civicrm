@@ -74,7 +74,16 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
      */
     public function buildQuickForm()
     {
-        $this->assign('showForm',false);
+        
+        $session =& CRM_Core_Session::singleton();
+        $single = $session->get('singleForm');
+        
+        if ( $single ) {
+            $url = CRM_Utils_System::url( 'civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id );
+            $session->pushUserContext( $url );
+        }
+        
+        $showForm = false;
         
         $this->addElement('checkbox', 'premiums_active', ts('Premiums Section Enabled?'), null, array( 'onclick' => "premiumBlock(this);" ) );
         
@@ -92,9 +101,17 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
 
         $this->addElement('checkbox', 'premiums_display_min_contribution', ts('Display Minimum Contribution Amount?') );
        
-        $session =& CRM_Core_Session::singleton();
-        $single = $session->get('singleForm');
         if ( $single ) {
+            $showForm = true;
+            if ( $this->_id ) {
+                $daoPremium =& new CRM_Contribute_DAO_Premium( );
+                $daoPremium->entity_id    = $this->_id;
+                $daoPremium->entity_table = 'civicrm_contribution_page';
+                if ( $daoPremium->find( true ) ) {
+                    $showForm = false;
+                }
+            }
+            
             $this->addButtons(array(
                                     array ( 'type'      => 'next',
                                             'name'      => ts('Save'),
@@ -105,9 +122,10 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
                                     )
                               );
         } else {
-            $this->assign('showForm',true);
+            $showForm = true;
             parent::buildQuickForm( );
         }
+        $this->assign( 'showForm', $showForm );
         //$session->set('single', false );
     }
 
