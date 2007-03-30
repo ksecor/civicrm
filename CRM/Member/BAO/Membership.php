@@ -888,7 +888,6 @@ civicrm_membership_status.is_current_member =1";
                     $currentMembership['source']     = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
                     $dao->copyValues($currentMembership);
                     $membership =& $dao->save();
-                    $membershipID = $dao->id;
 
                     //insert log here 
                     require_once 'CRM/Member/DAO/MembershipLog.php';
