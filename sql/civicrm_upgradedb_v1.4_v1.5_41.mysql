@@ -500,12 +500,27 @@ CREATE TABLE civicrm_entity_file (
 -- *
 -- * fix preferred communication data
 -- *******************************************************/
-       
-      UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Phone', 1);
-      UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Email', 2);
-      UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Postal Mail', 3);
-      UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'SMS', 4);
-      UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Fax', 5);
+	SELECT @domain_id := id from civicrm_domain;
+    INSERT INTO 
+    `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
+    VALUES 
+    (@domain_id, 'preferred_communication_method', 'Preferred Communication Method'     , 0, 1);
+    SELECT @option_group_id_pcm := max(id) from civicrm_option_group where name = 'preferred_communication_method';
+
+    INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
+    VALUES
+    (@option_group_id_pcm, 'Phone', 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1),
+    (@option_group_id_pcm, 'Email', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1),
+    (@option_group_id_pcm, 'Postal Mail', 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1),
+    (@option_group_id_pcm, 'SMS', 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1),
+    (@option_group_id_pcm, 'Fax', 5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1);
+
+    UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Phone', 1);
+    UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Email', 2);
+    UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Post', 3);
+    UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'SMS', 4);
+    UPDATE civicrm_contact SET preferred_communication_method = REPLACE( preferred_communication_method, 'Fax', 5);
 
 -- /*******************************************************
 -- *
