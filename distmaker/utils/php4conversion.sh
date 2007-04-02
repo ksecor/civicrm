@@ -24,5 +24,6 @@ done
 # we first copy all the drupal files before we convert the civicrm module
 $DM_PHP $P/converter.php $DM_SOURCEDIR/drupal/civicrm.module > $DM_GENFILESDIR/drupal/civicrm.module
 $DM_PHP $P/converter.php $DM_SOURCEDIR/drupal/api.php > $DM_GENFILESDIR/drupal/api.php
+$DM_PHP $P/converter.php $DM_SOURCEDIR/bin/UpdateMembershipRecord.php.txt > $DM_GENFILESDIR/bin/UpdateMembershipRecord.php.txt
 
 echo;echo End of code conversion from php5 to php4....;echo;
