@@ -107,6 +107,7 @@ class CRM_Mailing_Event_BAO_Opened extends CRM_Mailing_Event_DAO_Opened {
             $query .= " GROUP BY $queue.id ";
         }
 
+        $dao->query($query);
         $dao->fetch();
         return $dao->opened;
     }
