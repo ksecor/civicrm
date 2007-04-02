@@ -125,28 +125,29 @@ class CRM_Contribute_BAO_ManagePremiums extends CRM_Contribute_DAO_Product
     }
     
     /**
-     * Function to delete contribution Types 
+     * Function to delete premium Types 
      * 
-     * @param int $contributionTypeId
+     * @param int $productID
      * @static
      */
     
-    static function del($premiumID) 
+    static function del($productID) 
     {
         //check dependencies
         require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
         $premiumsProduct =& new CRM_Contribute_DAO_PremiumsProduct( );
-        $premiumsProduct->premiums_id = $premiumID;
-        if ( $premiumsProduct->find(true) ) {
+        $premiumsProduct->product_id = $productID;
+        if ( $premiumsProduct->find( true ) ) {
             $session =& CRM_Core_Session::singleton();
-            CRM_Core_Session::setStatus( ts('This premium can not be deleted.') );
-            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/contribute/managePremiums', "reset=1&action=browse" ));
+            $message .= ts('This Premium is being linked to <a href="%1">Online Contribution page</a>. Please remove it in order to delete this Premium.', array(1 => CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1')));
+            CRM_Core_Session::setStatus($message);
+            return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin/contribute/managePremiums', 'reset=1&action=browse'));
         }
 
         //delete from contribution Type table
         require_once 'CRM/Contribute/DAO/Product.php';
         $premium =& new CRM_Contribute_DAO_Product( );
-        $premium->id = $premiumID;
+        $premium->id = $productID;
         $premium->delete();
     }
 
