@@ -540,7 +540,7 @@ class CRM_Core_DAO extends DB_DataObject {
      }
 
     /**
-     * Given a DAO name and its id, get the value of the field requested
+     * Given a DAO name and its id, set the value of the field requested
      *
      * @param string $daoName   the name of the DAO
      * @param int    $id        the id of the relevant object
@@ -695,7 +695,7 @@ class CRM_Core_DAO extends DB_DataObject {
                     }
                     $tr['%' . $key] = $item[0];
                 } else if ( $abort ) {
-                    CRM_Core_Error::fatal( "{$item[0]} if not of type {$item[1]}" );
+                    CRM_Core_Error::fatal( "{$item[0]} is not of type {$item[1]}" );
                 }
             }
         }

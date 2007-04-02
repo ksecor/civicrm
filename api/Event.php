@@ -89,17 +89,17 @@ function crm_create_event( $params )
 }
 
 /**
- * Get a Event.
+ * Get an Event.
  * 
- * This api is used for finding an existing Event.
+ * This api is used to retrieve all data for an existing Event.
  * Required parameters : id of event
  * 
  * @params  array $params  an associative array of title/value property values of civicrm_event
  * 
- * @return  If successful array of all found events for the contact; otherwise object of CRM_Core_Error.
+ * @return  If successful array of event data; otherwise object of CRM_Core_Error.
  * @access public
  */
-function crm_get_events( $params ) 
+function crm_get_event( $params ) 
 {
     _crm_initialize();
     if ( ! is_array($params) ) {
@@ -107,10 +107,10 @@ function crm_get_events( $params )
     }
     
     if ( ! isset($params['id'])) {
-        return _crm_error('Required parameters missing.');
+        return _crm_error('Required id (event ID) parameter is missing.');
     }
     
-    $events = array();
+    $event = array();
     
     require_once 'CRM/Event/BAO/Event.php';
     $eventBAO = new CRM_Event_BAO_Event();
@@ -122,10 +122,10 @@ function crm_get_events( $params )
     while ( $eventBAO->fetch( ) ) {
         $event = array( );
         _crm_object_to_array( clone($eventBAO), $event );
-        $events[$eventBAO->id] = $event;
+        $event[$eventBAO->id] = $event;
     }
     
-    return $events;
+    return $event;
 }
 
 /**

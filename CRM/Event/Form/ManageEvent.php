@@ -1,4 +1,5 @@
 <?php
+
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
@@ -16,16 +17,15 @@
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
  | See the Affero General Public License for more details.            |
  |                                                                    |
- | You should have received a copy of the Affero General Public 
+ | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact CiviCRM LLC       |
  | at info[AT]civicrm[DOT]org.  If you have questions about the       |
  | Affero General Public License or the licensing  of CiviCRM,        |
- | see the CiviCRM license FAQ at http://civicrm.org/licensing        |      |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
 
 /**
- *
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007

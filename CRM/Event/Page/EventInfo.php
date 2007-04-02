@@ -91,8 +91,8 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             CRM_Core_Session::setStatus( $eventFullMessage );
         } else {
             if ( $values['event']['is_online_registration'] ) {
-                $registerText = "Register Now";
-                if ( $registerText ) {
+                $registerText = ts('Register Now');
+                if ( $values['event']['registration_link_text'] ) {
                     $registerText = $values['event']['registration_link_text'];
                 }
                 

@@ -4,7 +4,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -26,9 +26,6 @@
 */
 
 /**
- *
- * Given an argument list, invoke the appropriate CRM function
- * Serves as a wrapper between the UserFrameWork and Core CRM
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007

@@ -36,7 +36,7 @@ class TestOfGetEvent extends UnitTestCase
     function testGetWrongEventEmptyParams()
     {
         $params = array();                        
-        $event = & crm_get_events($params);
+        $event = & crm_get_event($params);
         $this->assertIsA($event,'CRM_Core_Error');
     }
     
@@ -56,7 +56,7 @@ class TestOfGetEvent extends UnitTestCase
                         'is_active'                => '1' 
                         );
         
-        $event = & crm_get_events($params);
+        $event = & crm_get_event($params);
         $this->assertIsA($event,'CRM_Core_Error');
     }
 
@@ -68,7 +68,7 @@ class TestOfGetEvent extends UnitTestCase
                         'description' => 'Award ceremony and cultural events',
                         );
         
-        $event = & crm_get_events($params);
+        $event = & crm_get_event($params);
 
         $this->assertEqual($event[$id]['title'],'Annual Function');
         $this->assertEqual($event[$id]['description'],'Award ceremony and cultural events');

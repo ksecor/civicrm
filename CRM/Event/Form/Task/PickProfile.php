@@ -1,9 +1,10 @@
 <?php
+
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 1.7                                                |
  +--------------------------------------------------------------------+
- | copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -31,7 +32,6 @@
  * $Id$
  *
  */
-
 
 require_once 'CRM/Profile/Form.php';
 require_once 'CRM/Event/Form/Task.php';
