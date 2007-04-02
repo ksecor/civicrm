@@ -97,8 +97,11 @@ class CRM_Contact_Form_Individual {
         
         $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
         $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
-
-        $form->addElement('text', 'home_URL', ts('Website'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL') );
+        
+        $form->addElement('text', 'home_URL', ts('Website'), 
+                          array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'), 
+                                       array('onfocus'=>'populateURL();'))
+                          );
         $form->addRule('home_URL', ts('Enter a valid web location beginning with "http://" or "https://". EXAMPLE: http://www.mysite.org'), 'url');
  
         $form->addElement('text', 'current_employer', ts('Current Employer'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'current_employer') );

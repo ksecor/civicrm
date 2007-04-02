@@ -255,3 +255,14 @@
 
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
 {include file="CRM/common/showHide.tpl"}
+
+{literal}
+<script type="text/javascript">
+      function populateURL() {
+        if (!document.getElementById("home_URL").value) {
+            document.getElementById("home_URL").value = "http://";
+        }
+    }
+
+</script>
+{/literal}
