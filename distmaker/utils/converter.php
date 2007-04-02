@@ -578,7 +578,7 @@ class PHP_DownGrade {
     {
         global $sourceCheckoutDir;
         
-        $classNames = array('CRM_Core_SelectValues', 'CRM_Core_Custom_Field','CRM_Contact_Task','CRM_Core_BAO_CustomField','CRM_Core_DAO','CRM_Quest_BAO_Student');
+        $classNames = array('CRM_Core_SelectValues', 'CRM_Core_Custom_Field','CRM_Contact_Task','CRM_Core_BAO_CustomField','CRM_Core_DAO', 'CRM_Core_BAO_CustomQuery', 'CRM_Quest_BAO_Student');
         //To Replace SelectValues
          for($i=0; $i < count($this->tokens); $i++) {
              foreach($classNames as $string) {
