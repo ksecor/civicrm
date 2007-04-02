@@ -68,7 +68,8 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
             or substr_count($url, 'civicrm/extern/')
             or substr_count($url, 'civicrm/mailing/')
             ) {
-            $urlCache[$url] = $url;
+            // let's not cache these, so they don't get &qid= appended to them
+            return $url;
         } else {
         
             $config =& CRM_Core_Config::singleton( );
