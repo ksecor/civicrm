@@ -136,22 +136,6 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
     }
 
 
-   //  public static function &paymentInstrument($id = null)
-//     {
-//         if ( ! self::$paymentInstrument ) {
-//             CRM_Core_PseudoConstant::populate( self::$paymentInstrument,
-//                                                'CRM_Contribute_DAO_PaymentInstrument' );
-//         }
-//         if ($id) {
-//             if (array_key_exists($id, self::$paymentInstrument)) {
-//                 return self::$paymentInstrument[$id];
-//             } else {
-//                 return null;
-//             }
-//         }
-//         return self::$paymentInstrument;
-//     }
-
     /**
      * Get all the valid accepted credit cards
      *               
