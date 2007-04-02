@@ -190,16 +190,15 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         }
 
         if ($this->_action & CRM_Core_Action::ADD) {
-            $cf =& new CRM_Core_DAO();
-            $sql = "SELECT weight FROM civicrm_custom_field  WHERE custom_group_id = ". $this->_gid ." ORDER BY weight  DESC LIMIT 0, 1"; 
-            $cf->query($sql);
-            while( $cf->fetch( ) ) {
-                $defaults['weight'] = $cf->weight + 1;
-            }
-            
-            if ( empty($defaults['weight']) ) {
+            $sql = "SELECT MAX(weight) FROM civicrm_custom_field  WHERE custom_group_id = %1";
+            $params = array( 1 => array( $this->_gid, 'Positive' ) );
+            $defaults['weight'] = CRM_Core_DAO::singleValueQuery( $sql, $params );
+            if ( empty( $defaults['weight'] ) ) {
                 $defaults['weight'] = 1;
+            } else {
+                $defaults['weight']++;
             }
+
             $defaults['date_parts'] = array('d' => 1,'M' => 1,'Y' => 1); 
             $defaults['note_columns'] = 60;
             $defaults['note_rows']    = 4;
