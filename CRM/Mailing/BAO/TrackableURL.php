@@ -59,7 +59,7 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
         static $urlCache = array();
 
         if (array_key_exists($url, $urlCache)) {
-            return $urlCache[$url] . "&q=$queue_id";
+            return $urlCache[$url] . "&qid=$queue_id";
         }
 
         // hack for basic CRM-1014 and CRM-1151 compliance:
@@ -87,7 +87,7 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
             $urlCache[$url] = $redirect;
         }
 
-        return $urlCache[$url] . "&q=$queue_id";
+        return $urlCache[$url] . "&qid=$queue_id";
     }
 
     public static function scan_and_replace(&$msg, $mailing_id, $queue_id) {
