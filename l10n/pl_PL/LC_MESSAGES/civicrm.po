@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-29 09:54+0100\n"
-"PO-Revision-Date: 2006-04-18 08:35+0200\n"
-"Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
+"PO-Revision-Date: 2007-03-27 04:42-0800\n"
+"Last-Translator: Michal Mach <mover@artnet.org>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n%"
-"100<10 || n%100>=20) ? 1 : 2));\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2));\n"
+"X-Generator: Pootle 0.10\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Mailing/Selector/Event.php
@@ -26,7 +26,7 @@ msgstr "Kontakt"
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "ACL Role"
-msgstr ""
+msgstr "Rola ACL"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/Core/DAO/CustomGroup.php
 #: templates/CRM/Contact/Form/Task/AddToGroup.tpl
@@ -166,14 +166,12 @@ msgid "Description"
 msgstr "Opis"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
-#, fuzzy
 msgid " -select- "
 msgstr "-wybierz-"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Groups"
-msgstr "Grupy"
+msgstr "Wszystkie grupy"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/OptionGroup.php
@@ -612,13 +610,12 @@ msgstr "Rodzaj kontaktu B"
 #: CRM/Admin/Form/Setting/Address.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Invoke.php templates/CRM/Admin/Form/Setting/Address.tpl
 msgid "Address Formatting"
-msgstr ""
+msgstr "Formatowanie adresu"
 
 #: CRM/Admin/Form/Setting/Component.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Invoke.php
-#, fuzzy
 msgid "Components"
-msgstr "Komentarz"
+msgstr "Komponenty"
 
 #: CRM/Admin/Form/Setting/Localisation.php CRM/Mailing/Form/Group.php
 msgid "Add >>"
@@ -634,14 +631,12 @@ msgid "Payment Processor"
 msgstr "Procesor płatności"
 
 #: CRM/Admin/Form/Setting.php CRM/Admin/Page/Setting.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Global Settings"
-msgstr "Ustawienia grup"
+msgstr "Ustawienia globalne"
 
 #: CRM/Admin/Form/Setting/Smtp.php CRM/Admin/Page/Setting.php
-#, fuzzy
 msgid "SMTP Server"
-msgstr "Komunikatory"
+msgstr "Serwer poczty wychodzącej"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Manage"
@@ -676,39 +671,37 @@ msgstr "Edytuj %1"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "File System Paths"
-msgstr ""
+msgstr "Ścieżki systemu plików"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Site URLs"
-msgstr ""
+msgstr "Adresy URL systemu"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Mapy i koordynaty geograficzne"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Localisation"
 msgstr "Lokalizacja"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Date Formatting"
 msgstr "Format daty"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Różne"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Debugging"
-msgstr ""
+msgstr "Debugowanie"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -764,7 +757,7 @@ msgstr "Kategorie"
 #: CRM/Contact/BAO/Contact.php CRM/Core/BAO/CustomGroup.php
 #: CRM/Core/BAO/File.php
 msgid "Could not move custom file to custom upload directory"
-msgstr ""
+msgstr "Nie można przenieść pliku do odpowiedniego katalogu docelowego"
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
@@ -852,16 +845,15 @@ msgstr "Widoczność"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Warunek wyszukiwania"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Wybór daty"
+msgstr "Wybierz tablice"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Tablice warunku wyszukiwania"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -1036,9 +1028,8 @@ msgid "Add-on Code"
 msgstr "Kod dodatkowy"
 
 #: CRM/Contact/Form/Address.php CRM/Core/DAO/County.php CRM/Core/Form.php
-#, fuzzy
 msgid "County"
-msgstr "Kraj"
+msgstr "Gmina"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/StateCountry.php
@@ -1215,9 +1206,8 @@ msgstr "Rodzaj powiązania"
 
 #: CRM/Contact/Form/Relationship.php CRM/Member/Form/MembershipType.php
 #: CRM/Quest/Form/SchoolSearch.php
-#, fuzzy
 msgid "Search Again"
-msgstr "Szukaj"
+msgstr "Szukaj ponownie"
 
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search.php
 #: CRM/Contact/Form/Search/Simple.php CRM/Contact/Form/Task/AddToHousehold.php
@@ -1253,9 +1243,8 @@ msgid "Relationships"
 msgstr "Powiązania"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#, fuzzy
 msgid "Change Log"
-msgstr "Zakres"
+msgstr "Dziennik zmian"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Contribution.php CRM/Contact/Page/View/Tabbed.php
@@ -1267,14 +1256,12 @@ msgstr "Dotacje"
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 #: CRM/Member/Menu.php templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Memberships"
-msgstr "Poprzednie przynależności"
+msgstr "Członkowstwo"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Task"
-msgstr "Maska"
+msgstr "Zadanie"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search.php
 msgid "Find..."
@@ -1427,9 +1414,8 @@ msgid "Continue >>"
 msgstr "Dalej >>"
 
 #: CRM/Contact/Form/Task/Label.php CRM/Core/BAO/Mapping.php
-#, fuzzy
 msgid "Primary"
-msgstr "Prywatność"
+msgstr "Główna"
 
 #: CRM/Contact/Form/Task/Map.php CRM/Core/Invoke.php CRM/Core/SelectValues.php
 msgid "Search Results"
@@ -1437,15 +1423,13 @@ msgstr "Wyniki wyszukiwania"
 
 #: CRM/Contact/Form/Task/PickProfile.php
 #: CRM/Contribute/Form/Task/PickProfile.php
-#, fuzzy
 msgid "- select profile -"
-msgstr "- wybierz usługę -"
+msgstr "- wybierz profil -"
 
 #: CRM/Contact/Form/Task/PickProfile.php
 #: CRM/Contribute/Form/Task/PickProfile.php
-#, fuzzy
 msgid "Select Profile"
-msgstr "Wybierz pola"
+msgstr "Wybierz profil"
 
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Task.php
 msgid "Record Activity for Contacts"
@@ -1483,21 +1467,18 @@ msgstr "Wysłano email"
 
 #: CRM/Contact/Page/View/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/MembershipView.tpl
-#, fuzzy
 msgid "View Membership"
-msgstr "Nowa przynależność do grupy"
+msgstr "Zobacz członkowstwo"
 
 #: CRM/Contact/Page/View/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Membership.tpl
-#, fuzzy
 msgid "Edit Membership"
-msgstr "Poprzednie przynależności"
+msgstr "Edytuj członkowstwo"
 
 #: CRM/Contact/Page/View/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Membership.tpl
-#, fuzzy
 msgid "Delete Membership"
-msgstr "Poprzednie przynależności"
+msgstr "Usuń członkowstwo"
 
 #: CRM/Contact/Page/View/Note.php CRM/Profile/Page/Note.php
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -1661,9 +1642,8 @@ msgstr "Stan dotacji"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
 msgid "Goal Amount"
-msgstr "Suma kwot"
+msgstr "Kwota docelowa"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
@@ -1677,14 +1657,13 @@ msgstr "Email nadawcy pokwitowania"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
 msgid "Thermometer Title"
-msgstr "Tytuł profilu"
+msgstr "Tytuł Termometru"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Honor Block Title"
-msgstr ""
+msgstr "Tytuł bloku \"W imieniu\""
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Core/DAO/ActivityHistory.php
 #: CRM/Member/DAO/Membership.php
@@ -1753,9 +1732,8 @@ msgstr "Notatka"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Mailing/Form/Test.php
-#, fuzzy
 msgid "Test"
-msgstr "Tekst"
+msgstr "Test"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: CRM/Contribute/Form/Contribution/Main.php
@@ -2190,9 +2168,8 @@ msgstr "Walutowe"
 #: CRM/Core/SelectValues.php
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
-#, fuzzy
 msgid "File"
-msgstr "Wypełnij"
+msgstr "Plik"
 
 #: CRM/Core/BAO/CustomField.php CRM/Quest/Form/MatchApp/Guardian.php
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php
@@ -2384,9 +2361,8 @@ msgid "Import Activity History"
 msgstr "Importuj historię zdarzeń"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Search Builder"
-msgstr "Wyszukiwanie profili"
+msgstr "Budowanie wyszukiwania"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
@@ -2434,9 +2410,8 @@ msgid "Advanced Search"
 msgstr "Szukanie zaawansowane"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "New Contact"
-msgstr "Zobacz kontakt"
+msgstr "Nowy kontakt"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Custom Data Fields"
@@ -2467,9 +2442,8 @@ msgid "Group Members"
 msgstr "Członkowie grupy"
 
 #: CRM/Core/Page/File.php CRM/Custom/Form/DeleteFile.php
-#, fuzzy
 msgid "The attached file has been deleted."
-msgstr "Pole dodatkowe „%1” zostało usunięte."
+msgstr "Dołączony plik został usunięty."
 
 #: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
 #: CRM/Mailing/DAO/Component.php
@@ -2490,9 +2464,8 @@ msgid "CiviMail"
 msgstr "CiviMail"
 
 #: CRM/Core/SelectValues.php CRM/Member/Menu.php
-#, fuzzy
 msgid "CiviMember"
-msgstr "Członkowie"
+msgstr "CiviMember"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
@@ -2662,9 +2635,8 @@ msgid "Retry Mailing"
 msgstr "Ponów wysyłkę"
 
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
-#, fuzzy
 msgid "- none -"
-msgstr "- brak preferencji -"
+msgstr "- brak -"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Page/Browse.php
 msgid "Mailings"
@@ -2675,145 +2647,122 @@ msgid "Report"
 msgstr "Raport"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
-#, fuzzy
 msgid "Cancel Mailing"
-msgstr "Nazwij wysyłki"
+msgstr "Anuluj wysyłkę"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
-#, fuzzy
 msgid "Delete Mailing"
-msgstr "Usuń spotkanie"
+msgstr "Usuń wysyłkę"
 
 #: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
-#, fuzzy
 msgid "Membership Types"
-msgstr "Poprzednie przynależności"
+msgstr "Rodzaje członkowstwa"
 
 #: CRM/Member/DAO/MembershipLog.php CRM/Member/DAO/Membership.php
 #: CRM/Member/Import/Form/MapField.php CRM/Member/Invoke.php
 #: templates/CRM/Member/Form/Search/Common.tpl
-#, fuzzy
 msgid "Membership Status"
-msgstr "Poprzednie przynależności"
+msgstr "Stan członkowstwa"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/Task/Export.php CRM/Member/Import/Form/MapField.php
 #: templates/CRM/Member/Form/MembershipView.tpl
-#, fuzzy
 msgid "Membership Type"
-msgstr "Poprzednie przynależności"
+msgstr "Typ członkowstwa"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Form/Task/Export.php
 #: CRM/Member/Selector/Search.php templates/CRM/Member/Form/Task/Print.tpl
-#, fuzzy
 msgid "Member Since"
-msgstr "Opłaty członkowskie"
+msgstr "Członkowstwo od "
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "Start Event"
-msgstr "Data rozpoczęcia"
+msgstr "Zdarzenie początkowe"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjust Interval"
-msgstr ""
+msgstr "Interwał przesunięcia od daty początkowej"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "End Event"
-msgstr "Wydarzenie"
+msgstr "Zdarzenie końcowe"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjust Interval"
-msgstr ""
+msgstr "Interwał przesunięcia od daty końcowej"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#, fuzzy
 msgid "Current Membership?"
-msgstr "Aktualna przynależność do grup"
+msgstr "Aktualne członkowstwo?"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 #: templates/CRM/Member/Page/MembershipType.tpl
-#, fuzzy
 msgid "Minimum Fee"
-msgstr "Kwota minimalna"
+msgstr "Składka minimalna"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "Fixed Period Rollover Day"
 msgstr "Dzień rozpoczęcia stałego okresu"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Renewal Reminder Day"
-msgstr ""
+msgstr "Dzień przypomnienia odnowienia członkowstwa"
 
 #: CRM/Member/Form/Search.php CRM/Member/Page/DashBoard.php
 #: CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "Member"
-msgstr "Członkowie"
+msgstr "Członek"
 
 #: CRM/Member/Form/Task/Delete.php CRM/Member/Task.php
-#, fuzzy
 msgid "Delete Members"
-msgstr "Usuń spotkanie"
+msgstr "Usuń członków"
 
 #: CRM/Member/Form/Task/Export.php CRM/Member/Task.php
-#, fuzzy
 msgid "Export Members"
-msgstr "Członkowie"
+msgstr "Eksportuj członków"
 
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
-#, fuzzy
 msgid "Message Templates"
 msgstr "Szablon wysyłki?"
 
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
-#, fuzzy
 msgid "Import Members"
-msgstr "Członkowie"
+msgstr "Importuj członków"
 
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MembershipType.php
 #: CRM/Member/Page/MessageTemplates.php
-#, fuzzy
 msgid "Are you sure you want to disable this membership type?"
-msgstr "Na pewno wyłączyć ten rodzaj powiązania?"
+msgstr "Na pewno wyłączyć ten typ członkowstwa?"
 
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
 #: templates/CRM/Member/Form/MembershipStatus.tpl
-#, fuzzy
 msgid "Edit Membership Status"
-msgstr "Poprzednie przynależności"
+msgstr "Edytuj stan członkowstwa"
 
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
-#, fuzzy
 msgid "Disable Membership Status"
-msgstr "Poprzednie przynależności"
+msgstr "Wyłącz stan członkowstwa"
 
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
-#, fuzzy
 msgid "Enable Membership Status"
-msgstr "Poprzednie przynależności"
+msgstr "Włącz stan członkowstwa"
 
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
 #: templates/CRM/Member/Form/MembershipStatus.tpl
-#, fuzzy
 msgid "Delete Membership Status"
-msgstr "Poprzednie przynależności"
+msgstr "Usuń stan członkowstwa"
 
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
-#, fuzzy
 msgid "Owner Entity Table"
-msgstr "Tabela jednostek"
+msgstr "Tablica bytu rodzicielskiego"
 
 #: CRM/Quest/API.php CRM/Quest/Form/MatchApp/RecommendationV2.php
-#, fuzzy
 msgid "Not Started"
-msgstr "Stan"
+msgstr "Nie rozpoczęte"
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
 #, fuzzy
