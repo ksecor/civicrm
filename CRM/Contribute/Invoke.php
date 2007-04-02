@@ -149,9 +149,6 @@ class CRM_Contribute_Invoke {
             $controller =& new CRM_Contribute_Import_Controller(ts('Import Contributions'));
             return $controller->run();
         } else if ( $secondArg == 'add' ) {
-            $session =& CRM_Core_Session::singleton( );  
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'action=browse&reset=1' ) ); 
-
             require_once 'CRM/Contribute/Controller/ContributionPage.php'; 
             $controller =& new CRM_Contribute_Controller_ContributionPage( ); 
             return $controller->run( ); 
