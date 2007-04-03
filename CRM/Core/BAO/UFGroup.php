@@ -1413,6 +1413,13 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                                                           false, $required,
                                                           null, $title, $name );
 
+        } else if ( $fieldName === 'home_URL' ) {
+            $form->addElement('text', $name, $title,
+                              array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
+                                           array('onfocus' => "if (!this.value) this.value='http://'; else return false")
+                                           ));
+            
+            $form->addRule($name, ts('Enter a valid Website.'), 'url');
         } else if (substr($fieldName, 0, 6) === 'custom') {
             $customFieldID = CRM_Core_BAO_CustomField::getKeyID($fieldName);
             CRM_Core_BAO_CustomField::addQuickFormElement($form, $name, $customFieldID, $inactiveNeeded, $required, $search, $title);
