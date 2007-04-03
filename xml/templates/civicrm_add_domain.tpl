@@ -156,10 +156,10 @@ VALUES
    (@option_group_id_aclRole, '{ts}Administrator{/ts}',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_aclRole, '{ts}Authenticated{/ts}',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
 
-   (@option_group_id_acc, 'Visa',  1, 'Visa', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_acc, 'Visa'      ,  1, 'Visa'      , NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_acc, 'MasterCard',  2, 'MasterCard', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_acc, 'American Express',  3, 'American Express', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-   (@option_group_id_acc, 'Discover',  4, 'Discover', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_acc, 'Amex'      ,  3, 'Amex'      , NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_acc, 'Discover'  ,  4, 'Discover'  , NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
   (@option_group_id_pi, '{ts}Credit Card{/ts}',  1, 'Credit Card', NULL, 0, NULL, 1, NULL, 0, 0, 1),
   (@option_group_id_pi, '{ts}Debit Card{/ts}',  2, 'Debit Card', NULL, 0, NULL, 2, NULL, 0, 0, 1),

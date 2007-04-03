@@ -155,14 +155,17 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
 
         if ( $action & CRM_Core_Action::ADD ) {
             $session =& CRM_Core_Session::singleton( ); 
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'action=browse&reset=1' ) );
-
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute',
+                                                             'action=browse&reset=1' ) );
             require_once 'CRM/Contribute/Controller/ContributionPage.php';
             $controller =& new CRM_Contribute_Controller_ContributionPage( );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             CRM_Utils_System::setTitle( ts('New Online Contribution Page') );
             return $controller->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
+            $session =& CRM_Core_Session::singleton( ); 
+            $session->pushUserContext( CRM_Utils_System::url("civicrm/admin/contribute",
+                                                             "action=update&reset=1&id={$id}") );
             require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );

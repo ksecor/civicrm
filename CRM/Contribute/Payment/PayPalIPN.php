@@ -440,6 +440,7 @@ class CRM_Contribute_Payment_PayPalIPN {
                                                                                         
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values, $contribution->id );
 
+        CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );
         echo "Success: Database updated<p>";
     }
 

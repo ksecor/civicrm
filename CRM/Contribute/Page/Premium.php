@@ -120,10 +120,8 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
         $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                           $this, false, 0);
         
-        // what action to take ?
-        //if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $this->edit($action, $id) ;
-            //} 
+        $this->edit($action, $id, false, false) ;
+
         // finally browse the custom groups
         $this->browse();
         

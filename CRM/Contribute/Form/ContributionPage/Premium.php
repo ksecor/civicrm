@@ -39,8 +39,8 @@ require_once 'CRM/Contribute/PseudoConstant.php';
 /**
  * form to process actions on Premiums
  */
-class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_ContributionPage {
-    
+class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_ContributionPage 
+{
     /**
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
@@ -50,8 +50,6 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
      */
     function setDefaultValues()
     {
-        //parent::setDefaultValues();
-        
         $defaults = array();
         if ( isset($this->_id ) ) {
             $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
@@ -73,18 +71,7 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
      * @access public
      */
     public function buildQuickForm()
-    {
-        
-        $session =& CRM_Core_Session::singleton();
-        $single = $session->get('singleForm');
-        
-        if ( $single ) {
-            $url = CRM_Utils_System::url( 'civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id );
-            $session->pushUserContext( $url );
-        }
-        
-        $showForm = false;
-        
+    { 
         $this->addElement('checkbox', 'premiums_active', ts('Premiums Section Enabled?'), null, array( 'onclick' => "premiumBlock(this);" ) );
         
         $this->addElement('text', 'premiums_intro_title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_intro_title'));
@@ -100,9 +87,10 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
         $this->addRule('premiums_contact_phone',ts('Please enter a valid phone number.'),'phone');
 
         $this->addElement('checkbox', 'premiums_display_min_contribution', ts('Display Minimum Contribution Amount?') );
-       
-        if ( $single ) {
-            $showForm = true;
+     
+        $showForm = true;
+  
+        if ( $this->_single ) {
             if ( $this->_id ) {
                 $daoPremium =& new CRM_Contribute_DAO_Premium( );
                 $daoPremium->entity_id    = $this->_id;
@@ -111,22 +99,10 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
                     $showForm = false;
                 }
             }
-            
-            $this->addButtons(array(
-                                    array ( 'type'      => 'next',
-                                            'name'      => ts('Save'),
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                            'isDefault' => true   ),
-                                    array ( 'type'      => 'cancel',
-                                            'name'      => ts('Cancel') ),
-                                    )
-                              );
-        } else {
-            $showForm = true;
-            parent::buildQuickForm( );
         }
         $this->assign( 'showForm', $showForm );
-        //$session->set('single', false );
+        
+        parent::buildQuickForm( );
     }
 
     /**

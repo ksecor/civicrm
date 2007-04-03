@@ -365,16 +365,20 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         CRM_Core_BAO_Email::deleteLocation($locationId);
     }
 
-    static function primaryLocationValue( $entityID, $entityTable = 'civicrm_contact' ) {
+    static function primaryLocationValue( $entityID, $entityTable = 'civicrm_contact', $locationID = null ) {
         $sql = "
 SELECT count( civicrm_location.id )
   FROM civicrm_location
  WHERE entity_table = %1
    AND entity_id    = %2
    AND is_primary   = 1";
+        
+        if ( $locationID ) {
+            $sql .= " AND id != $locationID";
+        }
 
-        $sqlParams = array( 1 => array( $entityTable, 'String' ),
-                                2 => array( $entityID   , 'Integer' ) );
+        $sqlParams = array( 1 => array( $entityTable, 'String'  ),
+                            2 => array( $entityID   , 'Integer' ) );
         $count = CRM_Core_DAO::singleValueQuery( $sql, $sqlParams );
         return ( $count == 0 ) ? true : false;
     }

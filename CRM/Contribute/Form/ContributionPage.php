@@ -77,6 +77,11 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         // current contribution page id
         $this->_id     = $this->get( 'id' );
         $this->_single = $this->get( 'single' );
+
+        if ( !$this->_single ) {
+            $session =& CRM_Core_Session::singleton();
+            $this->_single = $session->get('singleForm');
+        }
  
         // setting title for html page
         if ( $this->_id ) {

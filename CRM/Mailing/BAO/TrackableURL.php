@@ -59,16 +59,17 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
         static $urlCache = array();
 
         if (array_key_exists($url, $urlCache)) {
-            return $urlCache[$url] . "&q=$queue_id";
+            return $urlCache[$url] . "&qid=$queue_id";
         }
 
         // hack for basic CRM-1014 and CRM-1151 compliance:
         // let's not replace possible image URLs and CiviMail ones
         if (preg_match('/\.(png|jpg|jpeg|gif)$/i', $url)
-            or substr_count($url, '/civicrm/extern/')
-            or substr_count($url, '/civicrm/mailing/')
+            or substr_count($url, 'civicrm/extern/')
+            or substr_count($url, 'civicrm/mailing/')
             ) {
-            $urlCache[$url] = $url;
+            // let's not cache these, so they don't get &qid= appended to them
+            return $url;
         } else {
         
             $config =& CRM_Core_Config::singleton( );
@@ -87,7 +88,7 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
             $urlCache[$url] = $redirect;
         }
 
-        return $urlCache[$url] . "&q=$queue_id";
+        return $urlCache[$url] . "&qid=$queue_id";
     }
 
     public static function scan_and_replace(&$msg, $mailing_id, $queue_id) {

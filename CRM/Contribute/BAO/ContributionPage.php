@@ -101,13 +101,13 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $receiptFrom = '"' . $values['receipt_from_name'] . '" <' . $values['receipt_from_email'] . '>';
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
-                                   $displayName,
-                                   $email,
-                                   $subject,
-                                   $message,
-                                   $values['cc_receipt'],
-                                   $values['bcc_receipt']
-                                   );
+                                  $displayName,
+                                  $email,
+                                  $subject,
+                                  $message,
+                                  CRM_Utils_Array::value( 'cc_receipt' , $values ),
+                                  CRM_Utils_Array::value( 'bcc_receipt', $values )
+                                  );
             
         }
     }
