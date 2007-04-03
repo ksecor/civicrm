@@ -284,7 +284,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $contactID = $session->get( 'userID' );
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
         $now = date( 'YmdHis' );
-        
         $fields = array( );
         foreach ( $this->_fields as $name => $dontCare ) {
             $fields[$name] = 1;
@@ -332,8 +331,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $processMembership = true;
             $this->assign( 'membership_assign' , true );
             $this->set('membershipID' , $this->_params['selectMembership']);
+            if( $this->_action & CRM_Core_Action::PREVIEW ) {
+                $membershipParams["is_test"] = 1;
+            }
         }
-
+   
         if ( $processMembership && $this->_contributeMode != 'notify' ) {
             self::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
             require_once "CRM/Member/BAO/Membership.php";

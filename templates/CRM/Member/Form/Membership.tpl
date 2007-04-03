@@ -13,7 +13,8 @@
       </div>
    {else}
     <dl>
- 	<dt>{$form.membership_type_id.label}</dt><dd class="html-adjust">{$form.membership_type_id.html}</dd>
+ 	<dt>{$form.membership_type_id.label}</dt><dd class="html-adjust">{$form.membership_type_id.html}
+    {if $member_is_test} {ts}(test){/ts}{/if}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership type for this membership.{/ts}</dd> 	
         <dt>{$form.source.label}</dt><dd class="html-adjust">&nbsp;{$form.source.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Source of this membership. This value is searchable.{/ts}</dd>

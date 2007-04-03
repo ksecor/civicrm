@@ -140,4 +140,12 @@
     <fieldName>owner_membership_id</fieldName>
     <add>1.7</add>
   </index>
+  <field>     
+      <name>is_test</name>  
+      <title>Test</title>
+      <uniqueName>member_is_test</uniqueName> 
+      <type>boolean</type>
+      <default>0</default>
+      <import>true</import>
+  </field>
 </table>

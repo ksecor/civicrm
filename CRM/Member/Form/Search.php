@@ -300,6 +300,13 @@ class CRM_Member_Form_Search extends CRM_Core_Form
         $this->_formValues = $this->controller->exportValues($this->_name);
              
         $this->fixFormValues( );
+
+        // we don't show test memberships in Contact Summary / User Dashboard
+        // in Search mode by default we hide test memberships
+        if ( ! CRM_Utils_Array::value( 'member_test',
+                                       $this->_formValues ) ) {
+            $this->_formValues["member_test"] = 0;
+        }
         
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
@@ -349,8 +356,6 @@ class CRM_Member_Form_Search extends CRM_Core_Form
         $controller->setEmbedded( true ); 
 
         $query   =& $selector->getQuery( );
-        //$summary =& $query->summaryContribution( );
-        //$this->set( 'summary', $summary );
         $controller->run(); 
     }
 
@@ -364,7 +369,6 @@ class CRM_Member_Form_Search extends CRM_Core_Form
         // if this search has been forced
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
-
 
         if ( ! $this->_force ) {
             return;

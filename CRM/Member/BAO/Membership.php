@@ -886,7 +886,7 @@ civicrm_membership_status.is_current_member =1";
                     $currentMembership['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
                     $currentMembership['reminder_date'] = CRM_Utils_Date::customFormat($dates['reminder_date'],'%Y%m%d'); 
                     $currentMembership['source']     = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-
+                    $currentMembership['is_test']    = $membershipParams['is_test'];
                     $membership->copyValues($currentMembership);
                     $membership->save();
 
@@ -939,6 +939,7 @@ civicrm_membership_status.is_current_member =1";
                 $memParams['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
                 $memParams['reminder_date'] = CRM_Utils_Date::customFormat($dates['reminder_date'],'%Y%m%d'); 
                 $memParams['source'  ]   = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+                $memParams['is_test']    = $membershipParams['is_test'];
                 $status =
                     CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( CRM_Utils_Date::customFormat($dates['start_date'],
                                                                                                              '%Y-%m-%d'),

@@ -79,6 +79,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                  'end_date',
                                  'source',
                                  'status_id',
+                                 'member_is_test'
                                  );
 
     /** 
@@ -298,6 +299,10 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
              //fix status display
              $row['status']   = $statusTypes[$row['status_id']];
              
+             if ( $row['member_is_test'] ) {
+                 $row['membership_type'] = $row['membership_type'] . " (test)";
+             }
+
              if ($this->_context == 'search') {
                  $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
              }

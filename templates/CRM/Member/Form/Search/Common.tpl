@@ -21,6 +21,7 @@
 
 <tr>
     <td class="label">{$form.member_source.label}</td><td>{$form.member_source.html}</td>
+    <td colspan="2">{$form.member_test.html}&nbsp;{$form.member_test.label}</td> 
 </tr>
 {*
 <dt>{$form.member_join_date.label}</dt><dd>{$form.member_join_date.html}</dd>
