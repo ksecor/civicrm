@@ -194,6 +194,8 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
     function setDefaultValues()
     {
         $defaults = array();
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks( );
 
         if ($this->_action == CRM_Core_Action::ADD) {
             $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( );
@@ -225,10 +227,37 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
                 }
                 $this-> assign('otherModuleString',$otherModuleString);
             }
+            
+            $showAdvanced = 0;
+            $advFields = array('group', 'collapse_display', 'post_URL', 'cancel_URL',
+                               'add_captcha', 'is_map', 'is_uf_link', 'is_edit_link',
+                               'is_update_dupe');
+            foreach($advFields as $key) {
+                if ( !empty($defaults[$key]) ) {
+                    $showAdvanced = 1;
+                    break;
+                }
+            }
+
+            if ( $showAdvanced ) {
+                $showHide->addShow( "id-advanced" );
+                $showHide->addHide( "id-advanced-show" );
+            } else {
+                $showHide->addShow( "id-advanced-show" );
+                $showHide->addHide( "id-advanced" );
+            }
+    
         } else {
             $defaults['is_active'     ] = 1;
             $defaults['is_map'        ] = 0;
             $defaults['is_update_dupe'] = 0;
+            $showHide->addShow( "id-advanced-show" );
+            $showHide->addHide( "id-advanced" );
+        }
+
+        // Don't assign showHide elements to template in DELETE mode (fields to be shown and hidden don't exist)
+        if ( !( $this->_action & CRM_Core_Action::DELETE )  ) {
+            $showHide->addToTemplate( );
         }
         return $defaults;
     }
