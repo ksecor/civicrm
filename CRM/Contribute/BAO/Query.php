@@ -128,8 +128,9 @@ class CRM_Contribute_BAO_Query
     }
 
     static function whereClauseSingle( &$values, &$query ) {
+ 
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
+       
         $fields = array( );
         $fields = self::getFields();
         
@@ -212,14 +213,30 @@ class CRM_Contribute_BAO_Query
             
             return;
         case 'contribution_status':
+            
+            foreach ($value as $k => $v) {
+                if ($v) {
+                    $val[$k] = $k;
+                }
+            } 
+            
+            $status = implode (',' ,$val);
+            
+            if (count($val) > 1) {
+                $op = 'IN';
+                $status = "({$status})";
+            }     
+
             require_once "CRM/Core/OptionGroup.php";
             $statusValues = CRM_Core_OptionGroup::values("contribution_status");
-            if ($value != "All") {
-                $query->_where[$grouping][] = "civicrm_contribution.contribution_status_id $op " .$value ;
-                $query->_qill[$grouping ][]  = ts( 'Contribution Status - "%1"', array ( 1 => $statusValues[$value]));
-                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-                return;
+            
+            $names = array( );
+            foreach ( $val as $id => $dontCare ) {
+                $names[] = $statusValues[$id];
             }
+            $query->_qill[$grouping][]  = ts('Contribution Status %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
+            $query->_where[$grouping][] = "civicrm_contribution.contribution_status_id {$op} {$status}";
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
             
         case 'contribution_source':
@@ -449,12 +466,9 @@ class CRM_Contribute_BAO_Query
         unset( $statusValues['5']);
 
         foreach ( $statusValues as $key => $val ) {
-            $status[] = $form->createElement( 'radio', null, null, $val , $key );    
+            $status[] =  $form->createElement('advcheckbox',$key, null, $val );
         }
         
-  
-        $status[] = $form->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
-
         $form->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
         
         // add null checkboxes for thank you and receipt
