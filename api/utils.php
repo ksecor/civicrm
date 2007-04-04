@@ -687,7 +687,7 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $mulValues as $v1 ) {
                     foreach( $custuomOption as $v2 ) {
-                        if ( strtolower($v2['label']) == strtolower(trim($v1)) ) {
+                        if (( strtolower($v2['label']) == strtolower(trim($v1)) )||( strtolower($v2['value']) == strtolower(trim($v1)) )) {
                             $newMulValues[] = $v2['value'];
                         }
                     }
@@ -697,7 +697,7 @@ function _crm_format_custom_params( &$params, &$values, $extends )
             } else if( $customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
-                    if ( strtolower($v2['label']) == strtolower(trim($value)) ) {
+                    if( ( strtolower($v2['label']) == strtolower(trim($value)) )||( strtolower($v2['value']) == strtolower(trim($value)))) {
                         $value = $v2['value'];
                         break;
                     }
@@ -1514,7 +1514,7 @@ function _crm_add_formatted_param(&$values, &$params) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $mulValues as $v1 ) {
                     foreach( $custuomOption as $v2 ) {
-                        if ( strtolower($v2['label']) == strtolower(trim($v1)) ) {
+                        if (( strtolower($v2['label']) == strtolower(trim($v1)))||(strtolower($v2['value']) == strtolower(trim($v1)))) {
                             $newMulValues[] = $v2['value'];
                         }
                     }
@@ -1523,7 +1523,7 @@ function _crm_add_formatted_param(&$values, &$params) {
             } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
-                    if ( strtolower($v2['label']) == strtolower(trim($value)) ) {
+                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||( strtolower($v2['value']) == strtolower(trim($value)) )) {
                         $value = $v2['value'];
                         break;
                     }
@@ -1594,7 +1594,7 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $mulValues as $v1 ) {
                     foreach( $custuomOption as $v2 ) {
-                        if ( strtolower($v2['label']) == strtolower(trim($v1)) ) {
+                        if (( strtolower($v2['label']) == strtolower(trim($v1)) )||( strtolower($v2['value']) == strtolower(trim($v1)) )) {
                             $newMulValues[] = $v2['value'];
                         }
                     }
@@ -1603,7 +1603,7 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
             } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
-                    if ( strtolower($v2['label']) == strtolower(trim($value)) ) {
+                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||( strtolower($v2['value']) == strtolower(trim($value)) )) {
                         $value = $v2['value'];
                         break;
                     }
@@ -1949,7 +1949,7 @@ function _crm_add_formatted_history_param(&$values, &$params) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $mulValues as $v1 ) {
                     foreach( $custuomOption as $v2 ) {
-                        if ( strtolower($v2['label']) == strtolower(trim($v1)) ) {
+                        if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||( strtolower($v2['value']) == strtolower(trim($v1)) )){
                             $newMulValues[] = $v2['value'];
                         }
                     }
@@ -1958,7 +1958,7 @@ function _crm_add_formatted_history_param(&$values, &$params) {
             } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
-                    if ( strtolower($v2['label']) == strtolower(trim($value)) ) {
+                    if (( strtolower($v2['label']) == strtolower(trim($value))) || ( strtolower($v2['value']) == strtolower(trim($value)) )) {
                         $value = $v2['value'];
                         break;
                     }

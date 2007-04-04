@@ -275,7 +275,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //checking error in custom data
         $params =& $this->getActiveFieldParams( );
         $params['contact_type'] =  $this->_contactType;
-       
         //date-format part ends
 
         $errorMessage = null;
@@ -317,7 +316,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
         $params =& $this->getActiveFieldParams( );
         $formatted = array('contact_type' => $this->_contactType);
-
+        
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateType");
@@ -750,6 +749,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
                         }
                     }
+                    
                     // check for values for custom fields for checkboxes and multiselect
                     if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select' ) {
                         $value = str_replace("|",",",$value);
@@ -758,7 +758,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         foreach( $mulValues as $v1 ) {
                             $flag = false; 
                             foreach( $customOption as $v2 ) {
-                                if ( strtolower(trim($v2['label'])) == strtolower(trim($v1)) ) {
+                                if (( strtolower(trim($v2['label'])) == strtolower(trim($v1)))||( strtolower(trim($v2['value'])) == strtolower(trim($v1)))) {
                                     $flag = true; 
                                 }
                             }
@@ -766,12 +766,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                 self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
                             }
                         }
-                    } else if ($customFields[$customFieldID][3] == 'Select' || 
+                    } else if ( $customFields[$customFieldID][3] == 'Select' || 
                                ( $customFields[$customFieldID][3] =='Radio' && $customFields[$customFieldID][2] !='Boolean' ) ) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
                         $flag = false;
                         foreach( $customOption as $v2 ) {
-                            if ( strtolower(trim($v2['label'])) == strtolower(trim($value)) ) {
+                            if (( strtolower(trim($v2['label'])) == strtolower(trim($value)) )||( strtolower(trim($v2['value'])) == strtolower(trim($value)) )) {
                                 $flag = true; 
                             }
                         }
