@@ -63,7 +63,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }     
         
         require_once 'CRM/Core/BAO/CustomGroup.php';    
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0, $eventType);        
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0, $eventType);       
+
     }
     
     /**
@@ -81,11 +82,15 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         if ( $etype ) {
             $defaults["event_type_id"] = $etype;
         }
+        if( !$defaults['start_date'] || !$defaults['end_date'] ) {
+            $min = (int ) ( date("i") / 15 ) * 15;
+            $defaults['start_date'] = $defaults['end_date'] = array( 'i' => $min);
+        }
 
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
-        
+
         return $defaults;
     }
     /** 
@@ -127,11 +132,12 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         $this->addElement('checkbox', 'is_public', ts('Public Event?') );
         $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
-        $this->add('date', 'start_date', ts('Start Date /Time'), CRM_Core_SelectValues::date('datetime'),true);
+         
+        $this->add('date', 'start_date', ts('Start Date /Time'), CRM_Core_SelectValues::date('datetime'),true, array('onchange' => 'defaultDate(this);'));  
         $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
         $this->add('date', 'end_date', ts('End Date / Time'), CRM_Core_SelectValues::date('datetime'),true);
         $this->addRule('end_date', ts('Please select a end valid date.'), 'qfDate');
-        
+     
         $this->add('text','max_participants', ts('Max Number of Participants'));
         $this->addRule('max_participants', ts(' is a numeric field') , 'numeric');
         $this->add('textarea','event_full_text', ts('Message if Event is Full'), array("rows"=>2,"cols"=>60));

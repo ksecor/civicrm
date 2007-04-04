@@ -57,5 +57,20 @@ function reload(refresh)
         window.location= post; 
     }
 }
+
+function defaultDate(data)
+{
+
+// if end date is not given then it is equal to start date 
+if( !document.getElementsByName("end_date[M]")[0].value) {
+    document.getElementsByName("end_date[M]")[0].value =  document.getElementsByName("start_date[M]")[0].value;
+    document.getElementsByName("end_date[d]")[0].value =  document.getElementsByName("start_date[d]")[0].value;
+    document.getElementsByName("end_date[Y]")[0].value =  document.getElementsByName("start_date[Y]")[0].value;
+    document.getElementsByName("end_date[h]")[0].value =  document.getElementsByName("start_date[h]")[0].value;
+    document.getElementsByName("end_date[i]")[0].value =  document.getElementsByName("start_date[i]")[0].value;
+    document.getElementsByName("end_date[A]")[0].value =  document.getElementsByName("start_date[A]")[0].value;
+ }
+}
+
 {/literal}
 </script>
