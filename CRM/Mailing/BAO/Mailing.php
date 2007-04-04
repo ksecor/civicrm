@@ -914,7 +914,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             COUNT(DISTINCT {$t['queue']}.id) as queue,
                             COUNT(DISTINCT {$t['delivered']}.id) as delivered,
                             COUNT(DISTINCT {$t['reply']}.id) as reply,
-                            COUNT(DISTINCT {$t['unsubscribe']}.id) as unsubscribe,
                             COUNT(DISTINCT {$t['forward']}.id) as forward,
                             COUNT(DISTINCT {$t['bounce']}.id) as bounce,
                             COUNT(DISTINCT {$t['urlopen']}.id) as url
@@ -925,9 +924,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ON      {$t['reply']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['forward']}
                     ON      {$t['forward']}.event_queue_id = {$t['queue']}.id
-            LEFT JOIN       {$t['unsubscribe']}
-                    ON      {$t['unsubscribe']}.event_queue_id = 
-                                {$t['queue']}.id
             LEFT JOIN       {$t['bounce']}
                     ON      {$t['bounce']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['delivered']}
@@ -954,6 +950,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $row['opened'] = CRM_Mailing_Event_BAO_Opened::getTotalCount( $mailing_id, $mailing->id, true );
             $report['event_totals']['opened'] += $row['opened'];
 
+            // compute unsub total seperately to discount duplicates
+            // CRM-1783
+            $row['unsubscribe'] = CRM_Mailing_Event_BAO_Unsubscribe::getTotalCount( $mailing_id, $mailing->id, true );
+            $report['event_totals']['unsubscribe'] += $row['unsubscribe'];
+
             foreach(array_keys(CRM_Mailing_BAO_Job::fields()) as $field) {
                 $row[$field] = $mailing->$field;
             }
@@ -963,7 +964,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     $mailing->queue;
                 $row['bounce_rate'] = (100.0 * $mailing->bounce ) /
                     $mailing->queue;
-                $row['unsubscribe_rate'] = (100.0 * $mailing->unsubscribe ) /
+                $row['unsubscribe_rate'] = (100.0 * $row['unsubscribe'] ) /
                     $mailing->queue;
             } else {
                 $row['delivered_rate'] = 0;
