@@ -1,3 +1,4 @@
+{* Profile forms when embedded in CMS account create (mode=1) or edit (mode=8) pages *}
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 {if ! empty( $fields )}
 {* wrap in crm-container div so crm styles are used *}
@@ -22,14 +23,17 @@
               <div class="messages help">{$groupHelpPost}</div>
            {/if}
 
-           {if $mode ne 8}
+           {if $mode eq 8}
+              </fieldset>
+           {else}
               </fieldset>
               </div>
            {/if}
         {/if}
 
-
-        {if $mode ne 8} 
+        {if $mode eq 8}
+            <fieldset>
+        {else} 
            {assign var="groupId" value="id_"|cat:$field.group_id}
            <div id="{$groupId}_show" class="section-hidden section-hidden-border">
               <a href="#" onclick="hide('{$groupId}_show'); show('{$groupId}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$field.groupTitle}{/ts}</label><br />
@@ -101,12 +105,14 @@
 	        <tr><td class="label">{$form.group[$addToGroupId].label}</td><td>{$form.group[$addToGroupId].html}</td></tr>
 	    {/if}
     </table>
-{if $field.groupHelpPost}
-    <div class="messages help">{$field.groupHelpPost}</div>
-{/if}
-    {if $mode ne 8}
-    </fieldset>
-    </div>
+    {if $field.groupHelpPost}
+        <div class="messages help">{$field.groupHelpPost}</div>
+    {/if}
+    {if $mode eq 8}
+        </fieldset>
+    {else}
+        </fieldset>
+        </div>
     {/if}
     {if $mode eq 8 || $mode eq 4 || $mode eq 1}
         {if $isCaptcha }
