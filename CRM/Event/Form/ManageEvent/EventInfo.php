@@ -229,6 +229,19 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         if (! empty($customData) ) {
             $params['custom'] = $customData;
         }
+
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Event' );
+
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                 '', 'Event', null, $this->_id);
+                }
+            }
+        }
         
         require_once 'CRM/Event/BAO/Event.php';
         $event =  CRM_Event_BAO_Event::create($params ,$ids);

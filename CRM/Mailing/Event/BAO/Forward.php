@@ -71,7 +71,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                             $email.id as email_id,
                             $contact.do_not_email as do_not_email,
                             $queueTable.id as queue_id
-                FROM        $email, $job as temp_job
+                FROM        ($email, $job as temp_job)
                 INNER JOIN  $location
                         ON  $email.location_id = $location.id
                 INNER JOIN  $contact
@@ -82,7 +82,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                 LEFT JOIN   $job
                         ON  $queueTable.job_id = $job.id
                         AND temp_job.mailing_id = $job.mailing_id
-                WHERE       temp_job.id = $job_id
+                WHERE       $queueTable.job_id = $job_id
                     AND     $email.email = '" .
                     CRM_Utils_Type::escape($forward_email, 'String') . "'");
 

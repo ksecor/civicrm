@@ -109,7 +109,11 @@ class CRM_Mailing_Event_BAO_Opened extends CRM_Mailing_Event_DAO_Opened {
 
         $dao->query($query);
         $dao->fetch();
-        return $dao->opened;
+        if ($is_distinct) {
+            return $dao->N;
+        } else {
+            return $dao->opened ? $dao->opened : 0;
+        }
     }
 
 

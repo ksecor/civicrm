@@ -61,6 +61,11 @@ function conf_init() {
         }
     }
 
+    if ( ! file_exists( $confdir ) ) {
+        echo "Could not find valid configuration dir, best guess: $confdir\n";
+        exit( );
+    }
+            
     $phpSelf  = array_key_exists( 'PHP_SELF' , $_SERVER ) ? $_SERVER['PHP_SELF' ] : '';
     $httpHost = array_key_exists( 'HTTP_HOST', $_SERVER ) ? $_SERVER['HTTP_HOST'] : '';
 

@@ -535,6 +535,19 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $params['custom'] = $customData;
         }
 
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution' );
+
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                 '', 'Contribution', null, $this->_id);
+                }
+            }
+        }
+
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
         
@@ -551,7 +564,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
       
         //process premium
-        if( $formValues['product_name'][0] ) {
+        if ( $formValues['product_name'][0] ) {
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
             $dao = & new CRM_Contribute_DAO_ContributionProduct();
             $dao->contribution_id = $contribution->id;
@@ -581,7 +594,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @access public 
      * @return None 
      */ 
-    
     function buildPremiumForm( &$form )
     {
         require_once 'CRM/Contribute/DAO/Product.php';

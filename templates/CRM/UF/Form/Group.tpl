@@ -29,15 +29,28 @@
         </td></tr></table></dd>
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which profiles are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
-    <dt>{$form.group.label}</dt><dd>{$form.group.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select a group if you are using this profile for search and listings, AND you want to limit the listings to members of a specific group.{/ts}</dd>
-    <dt>{$form.add_contact_to_group.label}</dt><dd>{$form.add_contact_to_group.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select a group if you are using this profile for adding new contacts, AND you want the new contacts to be automatically assigned to a group.{/ts}</dd>
     <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}&nbsp;</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of the form.{/ts}</dd>
     <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the end of the form.{/ts}</dd>
-    <dt>{$form.post_URL.label}</dt><dd>{$form.post_URL.html}</dd>  
+    <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
+    </dl>
+    
+    <div id="id-advanced-show" class="section-hidden section-hidden-border" style="clear: both;">
+        <a href="#" onclick="hide('id-advanced-show'); show('id-advanced'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Advanced Settings{/ts}</label><br />
+    </div>
+
+    <div id="id-advanced" class="section-shown">
+    <fieldset>
+    <legend><a href="#" onclick="hide('id-advanced'); show('id-advanced-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Advanced Settings{/ts}</legend>
+    <dl>
+    <dt>{$form.group.label}</dt><dd>{$form.group.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select a group if you are using this profile for search and listings, AND you want to limit the listings to members of a specific group.{/ts}</dd>
+    <dt>{$form.add_contact_to_group.label}</dt><dd>{$form.add_contact_to_group.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select a group if you are using this profile for adding new contacts, AND you want the new contacts to be automatically assigned to a group.{/ts}</dd>
+    <dt></dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the profile title to be displayed when the page is initially loaded (form fields are hidden until the user expands the form by clicking on the "plus" icon).{/ts}</dd>
+    <dt>{$form.post_URL.label}</dt><dd>{$form.post_URL.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL after they've submitted the form - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed with a generic status message - 'Your contact information has been saved.'{/ts}</dd>
     <dt>{$form.cancel_URL.label}</dt><dd>{$form.cancel_URL.html}</dd>  
     <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL if they click the Cancel button - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed.{/ts}</dd>
@@ -46,18 +59,14 @@
     <dt>&nbsp;</dt><dd class="description">{ts}<strong>Do not enable this feature for stand-alone profile forms. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.</strong>{/ts}</dd>
     <dt></dt><dd>{$form.is_map.html} {$form.is_map.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If enabled, a Map link is included on the profile listings rows and detail screens for any contacts whose records include sufficient location data for your mapping provider.{/ts}</dd>
-    <dt></dt><dd>{$form.is_update_dupe.html} {$form.is_update_dupe.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, the contact record is updated if a dupe match is found. Note that if there are multiple matches, the first match found is updated.{/ts}</dd>
-    <dt></dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the profile title to be displayed when the page is initially loaded (form fields are hidden until the user expands the form by clicking on the "plus" icon).{/ts}</dd>
     <dt></dt><dd>{$form.is_uf_link.html} {$form.is_uf_link.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to include a links in the listings to view contacts' Website Profiles (e.g. their 'My Account' page). This link will only be included for contacts who have a User Account on your website.{/ts}</dd>
     <dt></dt><dd>{$form.is_edit_link.html} {$form.is_edit_link.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to include a link in the listings to Edit profile fields. Only users with permission to edit the contact will see this link.{/ts}</dd>
-    <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
-        
-    
+    <dt></dt><dd>{$form.is_update_dupe.html} {$form.is_update_dupe.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, the contact record is updated if a dupe match is found. Note that if there are multiple matches, the first match found is updated.{/ts}</dd>
     </dl>
+    </div>
     {/if}
     <dl>
     {if $action ne 4}
@@ -79,4 +88,5 @@
     <a href="{crmURL p='civicrm/admin/uf/group/field' q="action=browse&reset=1&gid=$gid"}">&raquo;  {ts}View or Edit Fields for this Profile{/ts}</a>
     </div>
 {/if}
+{include file="CRM/common/showHide.tpl"}
 

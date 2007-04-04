@@ -217,6 +217,19 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             if (! empty($customData) ) {
                 $params['custom'] = $customData;
             }
+
+            //special case to handle if all checkboxes are unchecked
+            $customFields = CRM_Core_BAO_CustomField::getFields( 'Group' );
+            
+            if ( !empty($customFields) ) {
+                foreach ( $customFields as $k => $val ) {
+                    if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                     '', 'Group', null, $this->_id);
+                    }
+                }
+            }
             
             require_once 'CRM/Contact/BAO/Group.php';
             $group =& CRM_Contact_BAO_Group::create( $params );

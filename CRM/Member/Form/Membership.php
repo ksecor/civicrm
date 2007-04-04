@@ -291,6 +291,19 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $params['custom'] = $customData;
         }
         
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Membership' );
+
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                 '', 'Membership', null, $this->_id);
+                }
+            }
+        }
+
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         
         $relatedContacts = array( );
