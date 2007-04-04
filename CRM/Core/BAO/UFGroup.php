@@ -835,17 +835,8 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
      *
      */
     public static function del($id) 
-    { 
-        //check wheter this group contains  any profile fields
-        require_once 'CRM/Core/DAO/UFField.php';
-        $profileField = & new CRM_Core_DAO_UFField();
-        $profileField->uf_group_id = $id;
-        $profileField->find();
-        while($profileField->fetch()) {
-            return -1;
-        }
-        
-        //check wheter this group is used by any module(check uf join records)
+    {                
+        //check whether this group is used by any module(check uf join records)
         $sql = "SELECT id
                 FROM civicrm_uf_join
                 WHERE civicrm_uf_join.module 
@@ -856,6 +847,16 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         $dao->query( $sql );
         if ( $dao->fetch( ) ) { 
             return 0;
+        }
+        
+        //check whether this group contains  any profile fields
+        require_once 'CRM/Core/DAO/UFField.php';
+        require_once 'CRM/Core/BAO/UFField.php';
+        $profileField = & new CRM_Core_DAO_UFField();
+        $profileField->uf_group_id = $id;
+        $profileField->find();
+        while($profileField->fetch()) {
+            CRM_Core_BAO_UFField::del($profileField->id);            
         }
         
         //delete records from uf join table

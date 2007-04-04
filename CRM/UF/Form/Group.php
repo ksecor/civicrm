@@ -275,8 +275,6 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             $status = CRM_Core_BAO_UFGroup::del($this->_id);
             if ($status == 0) {
                 CRM_Core_Session::setStatus(ts('This profile cannot be deleted since it is used for other modules.', array(1 => $this->_title)));
-            } else if ($status == -1) {
-                CRM_Core_Session::setStatus(ts('You must delete all profile fields for "%1" prior to deleting the profile.', array(1 => $this->_title)));
             } else {
                 CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been deleted.', array(1 => $this->_title)));
             }            
