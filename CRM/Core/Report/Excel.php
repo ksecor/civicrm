@@ -123,7 +123,14 @@ class CRM_Core_Report_Excel {
     } // end of the 'getTableCsv()' function
 
     function writeCSVFile( $fileName, &$header, &$rows ) {
-    
+        self::dumpCSVHeader( $fileName );
+
+        self::makeCSVTable( $header, $rows, true );
+
+        
+    }
+
+    function dumpCSVHeader( $fileName ) {
         $now       = gmdate('D, d M Y H:i:s') . ' GMT';
         $mime_type = 'text/x-csv';
         $ext       = 'csv';
@@ -144,8 +151,7 @@ class CRM_Core_Report_Excel {
             header('Content-Disposition: attachment; filename="' . $fileName . '.' . $ext . '"');
             header('Pragma: no-cache');
         }
-    
-        self::makeCSVTable( $header, $rows, true );
+
     }
 
 }
