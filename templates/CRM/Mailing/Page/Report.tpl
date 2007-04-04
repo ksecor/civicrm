@@ -23,7 +23,7 @@
     {/if}
   </tr>
   {foreach from=$report.jobs item=job}
-  <tr class="{cycle value="odd-row,even-row"}">
+  <tr class="{cycle values="odd-row,even-row"}">
     <td>{$job.status}</td>
     <td>{$job.scheduled_date|date_format}</td>
     <td>{$job.start_date|date_format}</td>
