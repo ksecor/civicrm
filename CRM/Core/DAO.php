@@ -235,10 +235,12 @@ class CRM_Core_DAO extends DB_DataObject {
         $fields =& $this->fields();
 
         $table = array();
-        foreach ( $fields as $name => $value ) {
-            $table[$value['name']] = $value['type'];
-            if ( CRM_Utils_Array::value( 'required', $value ) ) {
-                $table[$value['name']] += self::DB_DAO_NOTNULL;
+        if ($fields) {
+            foreach ( $fields as $name => $value ) {
+                $table[$value['name']] = $value['type'];
+                if ( CRM_Utils_Array::value( 'required', $value ) ) {
+                    $table[$value['name']] += self::DB_DAO_NOTNULL;
+                }
             }
         }
 
