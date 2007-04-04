@@ -351,7 +351,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         if ($is_distinct) {
             return $dao->N;
         } else {
-            return $dao->opened ? $dao->opened : 0;
+            return $dao->unsubs ? $dao->unsubs : 0;
         }
     }
 
