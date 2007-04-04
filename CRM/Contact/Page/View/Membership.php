@@ -63,6 +63,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         require_once 'CRM/Member/DAO/Membership.php';
         $dao =& new CRM_Member_DAO_Membership();
         $dao->contact_id = $this->_contactId;
+        $dao->is_test = 0;
         //$dao->orderBy('name');
         $dao->find();
 
@@ -76,7 +77,8 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         //checks membership of contact itself
         while ($dao->fetch()) {
             $membership[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $membership[$dao->id]);            
+            CRM_Core_DAO::storeValues( $dao, $membership[$dao->id]); 
+            
             foreach ( $idList as $name => $file ) {
                 if ( $membership[$dao->id][$name .'_id'] ) {
                     $membership[$dao->id][$name] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_' . $file, 
@@ -100,7 +102,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                                                                                   'cid'=> $this->_contactId));
             }
         }
-        
+    
         $activeMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership );
         $inActiveMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership, 'inactive');
         $this->assign('activeMembers', $activeMembers);

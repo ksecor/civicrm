@@ -106,14 +106,14 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
                          'source'                 => ts('Source'),
                          'status_id'              => ts('Status')
                          );
-        
+
         foreach ( $returnProperties as $name => $dontCare ) {
             $properties[] = $name;
 
             if( CRM_Utils_Array::value( 'title', $query->_fields[$name] ) )  {
                 if ( CRM_Utils_Array::value( $name, $query->_fields ) ) { 
                     $header[$name] = $query->_fields[$name]['title'];
-                }   else { 
+                } else { 
                     $header[$name] = $name;
                 }
             }
@@ -136,7 +136,9 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
             $valid = false;
             
             foreach ( $properties as $property ) {
-                if ($property == 'status_id') {
+                if ($property == 'member_is_test') {
+                    $row[] = $result->$property ? "Yes" : "No";
+                } else if ($property == 'status_id') {
                     $row[] = $statusTypes[$result->$property];
                 } else {
                     $row[] = $result->$property;
