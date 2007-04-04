@@ -338,7 +338,20 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         if (! empty($customData) ) {
             $params['custom'] = $customData;
         }
-        
+
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Relationship' );
+
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                 '', 'Relationship', null, $this->_relationshipId);
+                }
+            }
+        }
+       
         list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
         $status = '';
         if ( $valid ) {

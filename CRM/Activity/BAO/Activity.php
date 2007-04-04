@@ -242,6 +242,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
         }
 
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
+
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') )&&
+                     ! CRM_Utils_Array::value( $k, $customData ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
+                                                                 '', $activityType, null, $activity->_id);
+                }
+            }
+        }
+
         if ( !empty($customData) ) {
             //get the entity table for the custom field
             require_once "CRM/Core/BAO/CustomQuery.php";
