@@ -124,7 +124,7 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @static
      */
 
-    public static function &paymentInstrument($id = null)
+    public static function &paymentInstrument( )
     {
         require_once 'CRM/Core/OptionGroup.php';
         $paymentInstrument = CRM_Core_OptionGroup::values('payment_instrument');
@@ -215,7 +215,7 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @return array - array reference of all contribution types if any
      * @static
      */
-    public static function &contributionStatus($id = null)
+    public static function &contributionStatus( )
     {
         self::$contributionStatus = array();
         if ( ! self::$contributionStatus ) {

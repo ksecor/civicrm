@@ -294,7 +294,18 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $this->_online ) {
             $element->freeze( );
         }
-
+        
+        /*
+        $statusOption = array();
+        $statusOption[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Completed'), 1 );
+        $statusOption[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Pending'), 2 );
+        $this->addGroup( $statusOption, 'contribution_status_id', ts('Status Option') );
+        */
+        
+        $this->add('select', 'contribution_status_id', ts('Contribution Status'),
+                   array( ''=> ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionStatus( ) );
         $element =& $this->add('select', 'payment_instrument_id', 
                                ts( 'Paid By' ), 
                                array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
@@ -457,6 +468,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $params['currency'  ] = $config->defaultCurrency;
 
         $fields = array( 'contribution_type_id',
+                         'contribution_status_id',
                          'payment_instrument_id',
                          'non_deductible_amount',
                          'total_amount',
