@@ -38,7 +38,7 @@
      	    </td>
 	    </tr>
 
-        <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>
+        <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}{if $event_is_test} {ts}(test){/ts}{/if}</td></tr>
         
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>

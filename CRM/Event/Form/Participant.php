@@ -210,7 +210,8 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         CRM_Core_BAO_CustomOption::retrieve( $eventPage, $params );
         
         $defaults[$this->_id]['amount'] = $params['id'];
-
+        $this->assign( 'event_is_test', $defaults[$this->_id]['event_is_test'] );
+               
         return $defaults[$this->_id];
     }
     
