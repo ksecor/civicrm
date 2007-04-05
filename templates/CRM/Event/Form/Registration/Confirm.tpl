@@ -58,6 +58,9 @@
     </div>
     {/if}
     
+    <div class="header-dark">
+        {ts}Registered Email{/ts}
+    </div>
     <div class="display-block">
         {$email}
     </div>

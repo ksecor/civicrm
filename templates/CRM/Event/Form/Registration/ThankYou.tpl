@@ -46,7 +46,7 @@
     {/if}
 
     <div class="header-dark">
-        {ts}Email{/ts}
+        {ts}Registered Email{/ts}
     </div>
     <div class="display-block">
         {$email}
