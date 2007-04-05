@@ -180,7 +180,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $start = CRM_Utils_Date::format( $values['start_date'] );
         $end   = CRM_Utils_Date::format( $values['end_date'  ] );
 
-        if ( $end <= $start ) {
+        if ( $end < $start ) {
             $errors['end_date'] = ts( 'End date should be after Start date' );
             return $errors;
         }

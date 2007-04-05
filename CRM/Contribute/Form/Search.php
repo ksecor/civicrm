@@ -224,7 +224,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
     { 
         if ( ! CRM_Utils_Array::value( 'contribution_status',
                                        $this->_defaults ) ) {
-            $this->_defaults['contribution_status'] = 1;
+            $this->_defaults['contribution_status'][1] = 1;
         }
         return $this->_defaults;
     } 
