@@ -368,10 +368,12 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $compArray['Student'] = 'Student';
         }
 
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-            require_once 'CRM/Contribute/BAO/Contribution.php';
-            $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
-            $compArray['Contribution'] = 'Contribution';
+        if ( $mappingType == 'Search Builder' ) {
+            if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+                require_once 'CRM/Contribute/BAO/Contribution.php';
+                $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
+                $compArray['Contribution'] = 'Contribution';
+            }
         }
 
         foreach ($fields as $key => $value) {
