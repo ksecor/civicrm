@@ -388,7 +388,7 @@ class CRM_Contact_BAO_Query {
 
         $this->addSpecialFields( );
 
-        // CRM_Core_Error::debug( 'f', $this->_fields );
+        //CRM_Core_Error::debug( 'f', $this->_fields );
         // CRM_Core_Error::debug( 'p', $this->_params );
         
         foreach ($this->_fields as $name => $field) {
@@ -471,6 +471,9 @@ class CRM_Contact_BAO_Query {
                     
                     $this->_tables['civicrm_group'        ] = 1;
                     // $this->_tables['civicrm_group_contact'] = 1;
+                } elseif ($name === 'notes') {
+                    $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_note.note)) AS notes";
+                    $this->_tables['civicrm_note'        ] = 1;
                 }
             } else if ( CRM_Utils_Array::value( 'is_search_range', $field ) ) {
                 // this is a custom field with range search enabled, so we better check for two/from values

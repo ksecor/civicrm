@@ -261,6 +261,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $this->_params['contributionTypeID'] = $contribution->contribution_type_id;
                 $this->_params['item_name'         ] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
                 $this->_params['receive_date'      ] = $now;
+
+                // save params here also since we dont come back
+                $this->set( 'params', $this->_params );
+                
                 if ($config->paymentProcessor == 'Google_Checkout') {
                     $payment->doCheckout( $this->_params );
                 }

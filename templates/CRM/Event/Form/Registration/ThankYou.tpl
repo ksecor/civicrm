@@ -43,14 +43,14 @@
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
     </div>
-    {else}
+    {/if}
+
     <div class="header-dark">
         {ts}Email{/ts}
     </div>
     <div class="display-block">
         {$email}
     </div>
-    {/if}
 
     {if $customPre}
          {foreach from=$customPre item=field key=cname}

@@ -50,7 +50,7 @@ class CRM_Contact_BAO_Export {
     function exportContacts( $selectAll, $ids, $params, $order = null, $fields = null, $moreReturnProperties = null ) {
         $headerRows       = array();
         $primary          = false;
-         $returnProperties = array( );
+        $returnProperties = array( );
 
          if ($fields) {
              //construct return properties 
@@ -108,11 +108,14 @@ class CRM_Contact_BAO_Export {
                 $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, null, true );         
             }
         }
-
+        
         list( $select, $from, $where ) = $query->query( );
+        
         $queryString = "$select $from $where";
         
-        if ( CRM_Utils_Array::value( 'tags', $returnProperties ) || CRM_Utils_Array::value( 'groups', $returnProperties ) ) { 
+        if ( CRM_Utils_Array::value( 'tags'  , $returnProperties ) || 
+             CRM_Utils_Array::value( 'groups', $returnProperties ) ||
+             CRM_Utils_Array::value( 'notes' , $returnProperties ) ) { 
             $queryString .= " GROUP BY contact_a.id";
         }
         

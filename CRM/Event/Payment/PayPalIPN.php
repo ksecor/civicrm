@@ -282,10 +282,10 @@ WHERE  v.option_group_id = g.id
         require_once 'CRM/Utils/Address.php';
         $template->assign( 'address', CRM_Utils_Address::format( $params ) );
         
-        //CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values );
         require_once "CRM/Event/BAO/EventPage.php";
-        CRM_Event_BAO_EventPage::sendMail( $contactID, $values['page'] );
-        
+        CRM_Event_BAO_EventPage::sendMail( $contactID, $values['page'], $participant->id );
+
+        CRM_Core_Error::debug_log_message( "Database updated and email sent" );
         echo "Success: Database updated<p>";
     }
 }

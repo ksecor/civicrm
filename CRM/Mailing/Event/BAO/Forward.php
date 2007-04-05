@@ -93,11 +93,14 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         if (isset($dao->queue_id) || $dao->do_not_email == 1) {
             /* We already sent this mailing to $forward_email, or we should
              * never email this contact.  Give up. */
-
             return false;
-        } elseif (empty($dao->contact_id)) {
+        }
+
+        require_once 'api/Search.php';
+        $contact_params = array('email' => $forward_email);
+        $count = crm_contact_search_count($contact_params);
+        if ($count == 0) {
             /* No contact found, we'll have to create a new one */
-            $contact_params = array('email' => $forward_email);
             $contact =& crm_create_contact($contact_params);
             if (is_a($contact, 'CRM_Core_Error')) {
                 return false;
@@ -109,8 +112,19 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             $contact_id = $contact->id;
             $email_id = $contact->location[1]->email[1]->id;
         } else {
-            $contact_id = $dao->contact_id;
-            $email_id = $dao->email_id;
+            $contact =& crm_get_contact($contact_params);
+            if (is_a($contact, 'CRM_Core_Error')) {
+                return false;
+            }
+            $contact_id = $contact->id;
+            foreach ($contact->location as $location) {
+                foreach($location->email as $email) {
+                    if ($email->email == $forward_email) {
+                        $email_id = $email->id;
+                        break 2;
+                    }
+                }
+            }
         }
 
         /* Create a new queue event */

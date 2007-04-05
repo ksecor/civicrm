@@ -84,8 +84,11 @@ class CRM_Contribute_BAO_Query
                                                      "title" => "Recurring Contributions ID",
                                                      "where" => "civicrm_contribution.contribution_recur_id"
                                                      );
+            $fields["contribution_note"]     = array("name"  => "contribution_note",
+                                                     "title" => "Contribution Note"
+                                                     );
             unset( $fields['contact_id']);
-            unset( $fields['note'] ); 
+            //unset( $fields['note'] ); 
             self::$_contributionFields = $fields;
         }
         return self::$_contributionFields;
@@ -116,6 +119,13 @@ class CRM_Contribute_BAO_Query
             $query->_whereTables['civicrm_contribution'] = 1;
             $query->_whereTables['civicrm_contribution_type'] = 1;
         }
+        
+        if ( CRM_Utils_Array::value( 'contribution_note', $query->_returnProperties ) ) {
+            $query->_select['contribution_note']  = "civicrm_note.note as contribution_note";
+            $query->_element['contribution_note'] = 1;
+            $query->_tables['contribution_note'] = 1;
+            $query->_whereTables['civicrm_note'] = 1;
+        }
     }
 
     static function where( &$query ) {
@@ -133,7 +143,6 @@ class CRM_Contribute_BAO_Query
        
         $fields = array( );
         $fields = self::getFields();
-        
         switch ( $name ) {
        
         case 'contribution_date':
@@ -359,7 +368,11 @@ class CRM_Contribute_BAO_Query
             $from .= " $side JOIN civicrm_option_group option_group_contrib_status ON (option_group_contrib_status.name = 'contribution_status')";
             $from .= " $side JOIN civicrm_option_value contrib_status ON (civicrm_contribution.contribution_status_id = contrib_status.value AND option_group_contrib_status.id = contrib_status.option_group_id ) ";
             break;
-
+            
+        case 'contribution_note':
+            $from .= " $side JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_contribution' AND
+                                                        civicrm_contribution.id = civicrm_note.entity_id )";
+            break;
         }
         return $from;
     }
@@ -400,6 +413,7 @@ class CRM_Contribute_BAO_Query
                                 'contrib_status'          => 1,
                                 'contribution_recur_id'   => 1, 
                                 'amount_level'            => 1,
+                                'contribution_note'       => 1,
                                 );
 
             // also get all the custom contribution properties

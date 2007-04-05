@@ -346,8 +346,13 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $query .= " GROUP BY $queue.id ";
         }
 
+        $dao->query($query);
         $dao->fetch();
-        return $dao->unsub;
+        if ($is_distinct) {
+            return $dao->N;
+        } else {
+            return $dao->unsubs ? $dao->unsubs : 0;
+        }
     }
 
 
