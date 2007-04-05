@@ -15,7 +15,7 @@
         {/if}
       </td>
   </tr>
-  {if $location.1}
+  {if $location.1.name || $location.1 address}
   <tr><td><label>{ts}Location{/ts}</label></td>
       <td>
         {if $location.1.name}{$location.1.name}<br />{/if}
