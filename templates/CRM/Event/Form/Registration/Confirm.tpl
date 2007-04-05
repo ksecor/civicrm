@@ -56,10 +56,11 @@
         <strong>{$name}</strong><br />
         {$address|nl2br}
     </div>
+    {/if}
+    
     <div class="display-block">
         {$email}
     </div>
-    {/if}
 
     {if $contributeMode eq 'direct'}
     <div class="header-dark">
