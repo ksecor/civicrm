@@ -27,14 +27,14 @@
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
         {/if}
     </div>
-    {else}
+    {/if}
+
     <div class="header-dark">
-        {ts}Email{/ts}
+        {ts}Registered Email{/ts}
     </div>
     <div class="display-block">
         {$email}
     </div>
-    {/if}
 
     {if $customPre}
          {foreach from=$customPre item=field key=cname}
@@ -56,11 +56,8 @@
         <strong>{$name}</strong><br />
         {$address|nl2br}
     </div>
-    <div class="display-block">
-        {$email}
-    </div>
     {/if}
-
+    
     {if $contributeMode eq 'direct'}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}

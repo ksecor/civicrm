@@ -15,6 +15,7 @@
         {/if}
       </td>
   </tr>
+  {if $location.1.name || $location.1.address}
   <tr><td><label>{ts}Location{/ts}</label></td>
       <td>
         {if $location.1.name}{$location.1.name}<br />{/if}
@@ -24,6 +25,7 @@
         {/if}
       </td>
   </tr>
+  {/if}
   {if $location.1.phone.1.phone || $location.1.email.1.email}
     <tr><td><label>{ts}Contact{/ts}</label></td>
         <td>

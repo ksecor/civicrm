@@ -1,7 +1,8 @@
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
-    <p>{ts 1="http://wiki.civicrm.org/confluence//x/fCM"}ACL&rsquo;s (Access Control Lists) allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong>
+    <p>{ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2=$docURLTitle}ACL&rsquo;s (Access Control Lists) allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong>
         (e.g. 'View' or 'Edit'), a <strong>set of Data</strong> that the operation can be performed on (e.g. a group of contacts),
-        and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1">ACL Administrator Guide</a> for more info. Note that a CiviCRM ACL Role is not related to the Drupal Role.{/ts}</p>
+        and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1" target="_blank" title="%2">Access Control Documentation</a> for more info. Note that a CiviCRM ACL Role is not related to the Drupal Role.{/ts}</p>
     <p>{ts}<strong>EXAMPLE:</strong> &quot;Team Leaders&quot; (<em>ACL Role</em>) can &quot;Edit&quot; (<em>Operation</em>) all contacts in the &quot;Active Volunteers Group&quot; (<em>Data</em>).{/ts}</p>
     {if $config->userFramework EQ 'Drupal'}
         <p>{ts 1=$ufAccessURL}Use <a href="%1">Drupal Access Control</a> to manage basic access to CiviCRM components and menu items. Use CiviCRM ACL&rsquo;s to control access to
