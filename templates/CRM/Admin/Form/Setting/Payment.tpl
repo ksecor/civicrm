@@ -1,8 +1,9 @@
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
 <p>{ts}If you want accept contributions or membership fees online you must select a Payment Processing Service, register for the applicable type of account with that processor, and configure
 CiviCRM with your account information.{/ts} {help id='processor-overview'}</p>
-<p>{ts 1="http://wiki.civicrm.org/confluence//x/ihk"}<strong>For security reasons, some of the required payment processor settings are stored in your CiviCRM settings file (civicrm.settings.php). You
-must input these values before your can process TEST or LIVE transactions. Refer to the <a href="%1" target="_blank" title="Payment Processor Configuration Guide. Opens in a new window.">Payment Processor Configuration Guide</a> for more information.</strong>{/ts}</p>
+<p>{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}<strong>For security reasons, some of the required payment processor settings are stored in your CiviCRM settings file (civicrm.settings.php). You
+must input these values before your can process TEST or LIVE transactions. Refer to the <a href="%1" target="_blank" title="%2">Payment Processor Configuration Guide</a> for more information.</strong>{/ts}</p>
 </div>
 <div class="form-item">
 <fieldset><legend>{ts}Online Payments{/ts}</legend>
