@@ -2,12 +2,12 @@
 <fieldset>
 <legend>{if $action eq 1}{ts}New Membership Type{/ts}{elseif $action eq 2}{ts}Edit Membership Type{/ts}{else}{ts}Delete Membership Type{/ts}{/if}</legend>
 <div class="form-item" id="membership_type_form">
-    {if $action eq 8}
-    
+    {if $action eq 8}   
     <div class="messages status">
     {ts}WARNING: Deleting this option will result in the loss of all membership records of this type.{/ts} {ts}This may mean the loss of a substantial amount of data, and the action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
     </div>
     <dl><dt>&nbsp;</dt><dd>{$form.buttons.html}</dd></dl>
+
     {else}
     <dl>
         <dt>{$form.name.label}</dt><dd class="html-adjust">{$form.name.html}</dd>
@@ -87,22 +87,35 @@
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select relationship type for this membership type. e.g. if relationship type is 'Household Member', and the direct member is a household, then all household members for that household are also considered to be members.{/ts}</dd>
         <dt>{$form.visibility.label}</dt><dd class="html-adjust">{$form.visibility.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</dd>
-	{if $noMsgTemplates}
-	<dt>{capture assign=msgTemplate}{crmURL p='civicrm/admin/member/messageTemplates' q="action=add&reset=1"}{/capture}</dt>
-	<dd class="html-adjust">{ts 1=$msgTemplate}If you like to send an automatic renewal reminder to members,  <a href="%1">click here</a> to create a reminder email template.{/ts}</dd>
-	{else}
+        <dt>{$form.weight.label}</dt><dd class="html-adjust">{$form.weight.html}</dd>
+        <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
+        </dl>
+        <div class="spacer"></div>
+        <fieldset><legend>{ts}Renewal Reminders{/ts}</legend>
+        {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
+        <div class="description">
+            {ts 1="http://wiki.civicrm.org/confluence//x/ui" 2=$docURLTitle}If you would like Membership Renewal Reminder emails sent to members automatically, you need to create a reminder message template and you need to
+                configure and periodically run a "cron" job on your server (<a href="%1" target="_blank" title="%2">more info...</a>).{/ts}
+        </div>
+        {if $noMsgTemplates}
+            {capture assign=msgTemplate}{crmURL p='civicrm/admin/member/messageTemplates' q="action=add&reset=1"}{/capture}
+            <div class="status message">
+                {ts 1=$msgTemplate}No message templates have been created yet. If you want renewal reminders to be sent, <a href="%1">click here</a> to create a reminder email template. Then return to this screen to assign the renewal reminder message, and set reminder date.{/ts}
+            </div>
+        {else}
+        <dl>
           <dt>{$form.renewal_msg_id.label}</dt><dd class="html-adjust">{$form.renewal_msg_id.html}</dd>
           <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select the renewal reminder message to be sent to the members of this membership type.{/ts}</dd>
           <dt>{$form.renewal_reminder_day.label}</dt><dd class="html-adjust">{$form.renewal_reminder_day.html}</dd>
           <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Send Reminder these many days prior to membership expiration.{/ts}</dd>
-	{/if}
-
-        <dt>{$form.weight.label}</dt><dd class="html-adjust">{$form.weight.html}</dd>
-        <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
+        </dl>
+        {/if}
+        </fieldset>
+        <dl>
         <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
        </dl>
     {/if}
-  <br clear="all" />
+  <div class="spacer"></div>
 </div>
 </fieldset>
 

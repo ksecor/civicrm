@@ -162,12 +162,12 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     {
         $errors = array( );
         if ( ! $values['start_date'] ) {
-            $errors['start_date'] = ts( 'Start date is a required field' );
+            $errors['start_date'] = ts( 'Start Date and Time are required fields' );
             return $errors;
         }
 
         if ( ! $values['end_date'] ) {
-            $errors['end_date'] = ts( 'Start date is a required field' );
+            $errors['end_date'] = ts( 'End Date and Time are required fields.' );
             return $errors;
         }
 
