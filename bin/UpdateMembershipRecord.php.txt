@@ -91,9 +91,9 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                                                                        $memType->renewal_msg_id,
                                                                        $from);
 
-                        //modify the the membership record, set remider date to NULL
+                        //Set membership reminder date to NULL since we've sent the reminder.
                         crm_update_contact_membership( array('id'             => $dao->membership_id,
-                                                             'reminder_date'  => NULL ) );
+                                                             'reminder_date'  => 'null' ) );
 
                                  
                         //insert the log record.
