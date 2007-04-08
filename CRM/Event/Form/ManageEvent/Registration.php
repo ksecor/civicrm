@@ -242,8 +242,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                     $errorMsg['confirm_from_email'] = ts("Please enter Confirmation Email FROM Email Address.");
                 }
             }
-        } else if ( $values['is_email_confirm'] ) {
-            $errorMsg['is_email_confirm'] = ts("Automated confirmation emails are only sent for online registrations. Please disable Email Confirmations or enable Online Registration."); 
         }
         
         if ( !empty($errorMsg) ) {
@@ -269,6 +267,11 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
 
         //format params
         $params['is_online_registration'] = CRM_Utils_Array::value('is_online_registration', $params, false);
+
+        // reset is_email confirm if not online reg
+        if ( ! $params['is_online_registration'] ) {
+            $params['is_email_confirm'] = false;
+        }
 
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add($params ,$ids);

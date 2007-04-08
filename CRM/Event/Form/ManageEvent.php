@@ -76,11 +76,8 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
     {
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, false);
 
-        if ( $this->_action & (CRM_Core_Action::ADD) ) {
-            $this->_id = $this->get( 'eId' );
-        } else {
-            $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-        }
+        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+
         $this->_single = $this->get( 'single' );
 
     }
