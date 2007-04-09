@@ -1,3 +1,4 @@
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <h2>{$title}</h2>                                
 <div class="messages status">
     <dl>
@@ -17,7 +18,8 @@
 </div>
 
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/8xk"}Use the links below to update features and content for this Online Contribution Page, as well as to run through the contribution process in <strong>test mode</strong>. Refer to the <a href="%1" target="_blank" title="CiviContribute Guide. Opens documentation in a new window.">CiviContribute Guide</a> for more information.{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/1Cs" 2=$docURLTitle}Use the links below to update features and content for this Online Contribution Page, as well as to run through the contribution process in <strong>test mode</strong>.
+    Refer to the <a href="%1" target="_blank" title="%2">CiviContribute Administration Documentation</a> for more information.{/ts}
 </div>
 <table class="report"> 
 <tr>

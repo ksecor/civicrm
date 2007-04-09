@@ -3,15 +3,16 @@
 {capture assign=icalPage}{crmURL p='civicrm/event/ical' q="reset=1&page=1"}{/capture}
 {capture assign=pastEventsURL}{crmURL q="action=browse&past=true&reset=1"}{/capture}
 {capture assign=currentEventsURL}{crmURL q="reset=1"}{/capture}
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 
 {if $action eq 1 or $action eq 2 }
    {include file="CRM/Event/Page/ManageEventEdit.tpl"}
 {/if}
 <div id="help">
   {if $past and $action ne 1 and $action ne 2} 
-    <p>{ts 1=$pastEventsURL}This page lists current (in-progress) and upcoming events. Click a column header to sort by that column. <a href="%1">Click here</a> to browse completed (past) events.{/ts}
+    <p>{ts 1=$pastEventsURL 2=$docURLTitle 3="http://wiki.civicrm.org/confluence//x/4Cs"}This page lists current (in-progress) and upcoming events. Click a column header to sort by that column. <a href="%1">Click here</a> to browse completed (past) events (<a href="%3" target="_blank" title="%2">read more...</a>).{/ts}
   {else}
-    <p>{ts 1=$currentEventsURL}This page lists completed (past) events. Click a column header to sort by that column. <a href="%1">Click here</a> to browse current (in-progress) and upcoming events.{/ts}
+    <p>{ts 1=$currentEventsURL 2=$docURLTitle 3="http://wiki.civicrm.org/confluence//x/4Cs"}This page lists completed (past) events. Click a column header to sort by that column. <a href="%1">Click here</a> to browse current (in-progress) and upcoming events (<a href="%3" target="_blank" title="%2">read more...</a>).{/ts}
   {/if}
 </div>
 {if $rows}
