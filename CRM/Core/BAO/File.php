@@ -74,7 +74,7 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
     }
 
     
-    public function filePostProcess($data ,$fileID ,$entityTable, $entityId ,$entitySubtype) {
+    public function filePostProcess($data ,$fileID ,$entityTable, $entityId ,$entitySubtype, $overwrite = true, $fileParams = null) {
         require_once 'CRM/Core/DAO/File.php';
         $config = & CRM_Core_Config::singleton();
         
@@ -90,8 +90,12 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
             break;
         }
         // to get id's 
-        $sql = "SELECT CF.id as fID ,CF.uri as uri, CEF.id as feID FROM civicrm_file as CF LEFT JOIN civicrm_entity_file as CEF ON (CEF.file_id = CF.id) WHERE ( CF.file_type_id =".$fileID." AND CEF.entity_table = '".$entityTable."' AND CEF.entity_id =".$entityId .")";
-        
+        if ($overwrite) {
+            $sql = "SELECT CF.id as fID ,CF.uri as uri, CEF.id as feID FROM civicrm_file as CF LEFT JOIN civicrm_entity_file as CEF ON (CEF.file_id = CF.id) WHERE ( CF.file_type_id =".$fileID." AND CEF.entity_table = '".$entityTable."' AND CEF.entity_id =".$entityId .")";
+        } else {
+            $sql = "SELECT id FROM civicrm_file WHERE 1=2";
+        }
+
         $dao = new CRM_Core_DAO();
         $dao->query($sql);
         $dao->fetch();
@@ -103,6 +107,9 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         if ( $dao->fID ) {
             $fileDAO->id = $dao->fID;
             unlink($directoryName .DIRECTORY_SEPARATOR.$dao->uri);
+        }
+        if ( !empty($fileParams) ) {
+            $fileDAO->copyValues($fileParams);
         }
         $fileDAO->uri               = $filename;
         $fileDAO->mime_type         = $mimeType;
