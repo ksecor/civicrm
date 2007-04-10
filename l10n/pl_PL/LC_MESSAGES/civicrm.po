@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-29 09:54+0100\n"
-"PO-Revision-Date: 2007-03-27 04:42-0800\n"
+"PO-Revision-Date: 2007-04-02 08:11-0700\n"
 "Last-Translator: Michal Mach <mover@artnet.org>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -593,9 +593,8 @@ msgid "Value"
 msgstr "Wartość"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Option Grouping Name"
-msgstr "Nazwa grupy"
+msgstr "Nazwa grupowania opcji"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -1087,9 +1086,8 @@ msgid "Email is not valid."
 msgstr "Email jest błędny."
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "New %1"
-msgstr "Podgląd %1"
+msgstr "Nowe: %1"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Criteria.php
 msgid "Privacy"
@@ -2765,9 +2763,8 @@ msgid "Not Started"
 msgstr "Nie rozpoczęte"
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
-#, fuzzy
 msgid "You do not have the necessary permission to view this Application."
-msgstr "Nie masz wystarczających uprawnień, by obejrzeć ten kontakt."
+msgstr "Nie masz wystarczających uprawnień, by obejrzeć tą aplikację."
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
 #, fuzzy
