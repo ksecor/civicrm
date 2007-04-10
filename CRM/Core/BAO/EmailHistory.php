@@ -46,6 +46,16 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
     static function &add( &$params ) {
         $email =& new CRM_Core_DAO_EmailHistory( );
         
+        //Replace Tokens Before Saving to the DB
+        $contactId  = array( 'contact_id' => $params['contact_id'] );
+        $contact =& crm_fetch_contact( $contactId );
+
+        $params['message'] = CRM_Utils_Token::replaceContactTokens( $params['message'],
+                                                                    $contact, false );
+
+        $params['subject'] = CRM_Utils_Token::replaceContactTokens( $params['subject'],
+                                                                    $contact, false );
+
         $email->subject    = CRM_Utils_Array::value( 'subject'   , $params );
         $email->message    = CRM_Utils_Array::value( 'message'   , $params );
         $email->contact_id = CRM_Utils_Array::value( 'contact_id', $params );
@@ -70,9 +80,6 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
      * @static
      */
     static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress, $userID = null ) {
-        CRM_Core_Error::debug( $subject, $contactIds );
-        CRM_Core_Error::debug( $message, $emailAddress );
-
         if ( $userID == null ) {
             $session =& CRM_Core_Session::singleton( );
             $userID  =  $session->get( 'userID' );
@@ -104,14 +111,15 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
                 $notSent[] = $contactId;
                 continue;
             }
-            $tokenMessage = CRM_Utils_Token::replaceContactTokens( $message,
-                                                                   $contact, false );
+            $tokenMessage = CRM_Utils_Token::replaceContactTokens( $message, $contact, false );
+            
+            $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject, $contact, false );
 
-            if ( self::sendMessage( $from, $userID, $contactId, $subject, $tokenMessage, $emailAddress, $email->id ) ) {
+            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenMessage, $emailAddress, $email->id ) ) {
                 $sent[] =  $contactId;
             } else {
                 $notSent[] = $contactId;
-            }
+            } 
         }
 
         return array( count($contactIds), $sent, $notSent );
