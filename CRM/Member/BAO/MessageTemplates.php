@@ -213,18 +213,22 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
             if ($html && ( $contact['preferred_mail_format'] == 'HTML' ||
                           $contact['preferred_mail_format'] == 'Both'))
                 {
+                    $html = CRM_Utils_Token::replaceContactTokens(
+                                                                  $html, $contact, false);
                     $message->setHTMLBody($html);
                     
                     unset( $html );
                 }
             $recipient = "\"{$contact['display_name']}\" <$email>";
-
+            
+            $messageSubject = CRM_Utils_Token::replaceContactTokens(
+                                                                  $messageTemplates->msg_subject, $contact, false);
             $headers = array(
                              'From'      => $from,
-                             'Subject'   => $messageTemplates->msg_subject,
+                             'Subject'   => $messageSubject,
                          );
             $headers['To'] = $recipient;
-
+            
             $mailMimeParams = array(
                                     'text_encoding' => '8bit',
                                     'html_encoding' => '8bit',
