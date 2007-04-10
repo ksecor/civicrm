@@ -15,9 +15,13 @@
             <dt>{ts}Modified Date{/ts}</dt><dd>{$modified_date|truncate:10:''|crmDate}&nbsp;</dd>   
         {/if}
         <dt>{ts}Status{/ts}</dt><dd>{$status}&nbsp;</dd>
-        {if $history neq 1}
+        {if $source}
             <dt>{ts}Event Source{/ts}</dt><dd>{$source}&nbsp;</dd>
-            <dt>{ts}Event Level{/ts}</dt><dd>{$event_level}&nbsp;</dd>
+        {/if}
+        {if $event_level}
+        <dt>{ts}Event Level{/ts}</dt><dd>{$event_level}&nbsp;</dd>
+        {/if}
+        {if $history neq 1}
 	    {foreach from=$note item="rec"}
 		    {if $rec }
 			<dt>{ts}Note:{/ts}</dt><dd>{$rec}</dd>	
