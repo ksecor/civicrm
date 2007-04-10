@@ -9,12 +9,13 @@ msgstr ""
 "Project-Id-Version: iso-codes 0.1.1\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-09-08 08:52+0200\n"
-"PO-Revision-Date: 2002-01-05 17:30+0000\n"
-"Last-Translator: Jacek Stolarczyk <jacek@mer.chemia.polsl.gliwice.pl>\n"
+"PO-Revision-Date: 2007-04-02 08:08-0700\n"
+"Last-Translator: Michal Mach <mover@artnet.org>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 #. name for AE-AZ
 msgid "Abu Zaby"
@@ -61,9 +62,8 @@ msgid "Balkh"
 msgstr ""
 
 #. name for AF-BAM
-#, fuzzy
 msgid "Bamian"
-msgstr "Tajwan"
+msgstr ""
 
 #. name for AF-FRA
 msgid "Farah"
@@ -146,19 +146,16 @@ msgid "Oruzgan"
 msgstr ""
 
 #. name for AF-PIA
-#, fuzzy
 msgid "Paktia"
-msgstr "Łotwa"
+msgstr ""
 
 #. name for AF-PKA
-#, fuzzy
 msgid "Paktika"
-msgstr "Łotwa"
+msgstr ""
 
 #. name for AF-PAR
-#, fuzzy
 msgid "Parwan"
-msgstr "Tajwan"
+msgstr ""
 
 #. name for AF-SAM
 msgid "Samangan"
