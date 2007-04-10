@@ -89,16 +89,15 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
         CRM_Core_DAO::transaction('BEGIN');
 	
-	// added for CRM-1631
- 	// delete all subscribed mails with the selected group id
-	require_once 'CRM/Mailing/Event/DAO/Subscribe.php';
-        $subscribe = & new CRM_Mailing_Event_DAO_Subscribe( );
-        $subscribe->group_id = $id;
-        $subscribe->delete();
+        // added for CRM-1631 and CRM-1794
+        // delete all subscribed mails with the selected group id
+        require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
+        $subscribe =& new CRM_Mailing_Event_BAO_Subscribe( );
+        $subscribe->deleteGroup($id);
 
         // delete all Subscription  records with the selected group id
-        $subHistory = & new CRM_Contact_DAO_SubscriptionHistory( );
-        $subHistory ->group_id = $id;
+        $subHistory =& new CRM_Contact_DAO_SubscriptionHistory( );
+        $subHistory->group_id = $id;
         $subHistory->delete();
 
         // delete all crm_group_contact records with the selected group id

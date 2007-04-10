@@ -256,6 +256,33 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
     }
 
     /**
+     * Delete subscription records for a group
+     * 
+     * @param int $groupId        ID of the group being deleted
+     * @return none
+     * @access public
+     * @static
+     */
+    public static function deleteGroup( $groupId ) {
+        $dao =& new CRM_Mailing_Event_DAO_Subscribe();
+        $dao->group_id = $groupId;
+        $dao->find();
+
+        require_once 'CRM/Mailing/Event/DAO/Confirm.php';
+        $object =& new CRM_Mailing_Event_DAO_Confirm();
+
+        while ($dao->fetch()) {
+            $object->reset();
+            $object->event_subscribe_id = $dao->id;
+            $object->delete();
+        }
+
+        $dao->reset();
+        $dao->group_id = $groupId;
+        $dao->delete();
+    }
+
+    /**
      * Get the domain object given a subscribe event
      * 
      * @param int $subscribe_id     ID of the subscribe event
