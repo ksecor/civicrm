@@ -82,7 +82,11 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         $filename = $path[count($path) - 1];
         
         // rename this file to go into the secure directory
-        $directoryName = $config->customFileUploadDir.$entitySubtype.DIRECTORY_SEPARATOR.$entityId;
+        if ($entitySubtype) {
+            $directoryName = $config->customFileUploadDir.$entitySubtype.DIRECTORY_SEPARATOR.$entityId;
+        } else {
+            $directoryName = $config->customFileUploadDir;
+        }
         require_once "CRM/Utils/File.php";
         CRM_Utils_File::createDir($directoryName);
         if ( ! rename( $data, $directoryName .DIRECTORY_SEPARATOR. $filename ) ) {
