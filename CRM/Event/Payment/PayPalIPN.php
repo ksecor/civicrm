@@ -33,9 +33,10 @@
  *
  */
 
-class CRM_Event_Payment_PayPalIPN {
-
-    static function retrieve( $name, $type, $location = 'POST', $abort = true ) {
+class CRM_Event_Payment_PayPalIPN 
+{
+    static function retrieve( $name, $type, $location = 'POST', $abort = true ) 
+    {
         static $store = null;
         $value = CRM_Utils_Request::retrieve( $name, $type, $store,
                                               false, null, $location );
@@ -47,7 +48,8 @@ class CRM_Event_Payment_PayPalIPN {
         return $value;
     }
     
-    static function main( ) {
+    static function main( ) 
+    {
         CRM_Core_Error::debug_var( 'GET' , $_GET , true, true );
         CRM_Core_Error::debug_var( 'POST', $_POST, true, true );
 
@@ -103,7 +105,8 @@ class CRM_Event_Payment_PayPalIPN {
         return self::single( $contactID, $contribution, $contributionType, $eventID );
     }
 
-    static function single( $contactID, &$contribution, &$contributionType, $eventID ) {
+    static function single( $contactID, &$contribution, &$contributionType, $eventID ) 
+    {
         $invoice = self::retrieve( 'invoice', 'String' , 'POST', true );
         if ( $contribution->invoice_id != $invoice ) {
             CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
@@ -190,7 +193,25 @@ class CRM_Event_Payment_PayPalIPN {
         
         $eventParams = array( 'event_id' => $eventID );
         require_once 'CRM/Event/BAO/EventPage.php';
-        CRM_Event_BAO_EventPage::retrieve( $eventParams, $values['page'] );
+        CRM_Event_BAO_EventPage::retrieve( $eventParams, $values['event_page'] );
+
+        //get location details
+        $locationParams = array( 'entity_id' => $eventID ,'entity_table' => 'civicrm_event' );
+        require_once 'CRM/Core/BAO/Location.php';
+        require_once 'CRM/Event/Form/ManageEvent/Location.php';
+        CRM_Core_BAO_Location::getValues($locationParams, $values, 
+                                         CRM_Core_DAO::$_nullArray, 
+                                         CRM_Event_Form_ManageEvent_Location::LOCATION_BLOCKS );
+
+        require_once 'CRM/Core/BAO/UFJoin.php';
+        $ufJoinParams = array( 'entity_table' => 'civicrm_event',
+                               'entity_id'    => $eventID,
+                               'weight'       => 1 );
+        
+        $values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+        
+        $ufJoinParams['weight'] = 2;
+        $values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
 
         $contribution->contribution_status_id  = 1;
         $contribution->source                  = ts( 'Online Event Registration:' ) . ' ' . $values['event']['title'];
@@ -199,7 +220,7 @@ class CRM_Event_Payment_PayPalIPN {
         $contribution->net_amount = self::retrieve( 'settle_amount', 'Money'  , 'POST', false );
         $contribution->trxn_id    = self::retrieve( 'txn_id'       , 'String' , 'POST', false );
 
-        if ( $values['page']['is_email_confirm'] ) {
+        if ( $values['event_page']['is_email_confirm'] ) {
             $contribution->receipt_date = $now;
         }
 
@@ -258,8 +279,15 @@ WHERE  v.option_group_id = g.id
                                    'is_test'       => $contribution->is_test
                                    );
         
-        $ids = array();
-        $participant = CRM_Event_BAO_Participant::add($participantParams, $ids);
+        $participant = CRM_Event_BAO_Participant::add($participantParams, CRM_Core_DAO::$_nullArray);
+
+        require_once 'CRM/Event/BAO/ParticipantPayment.php';
+        $paymentParams = array('participant_id'       => $participant->id,
+                               'payment_entity_id'    => $contribution->id,
+                               'payment_entity_table' => 'civicrm_contribution'
+                               );   
+
+        $paymentPartcipant = CRM_Event_BAO_ParticipantPayment::create($paymentParams, CRM_Core_DAO::$_nullArray);
 
         // also create an activity history record
         CRM_Event_BAO_Participant::setActivityHistory( $participant );
@@ -271,6 +299,7 @@ WHERE  v.option_group_id = g.id
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'title', $values['event']['title']);
         $template->assign( 'amount' , $amount );
+        $template->assign( 'amount_level' , $contribution->amount_level );
         $template->assign( 'trxn_id', $contribution->trxn_id );
         $template->assign( 'receive_date', 
                            CRM_Utils_Date::mysqlToIso( $contribution->receive_date ) );
@@ -279,13 +308,20 @@ WHERE  v.option_group_id = g.id
         $template->assign( 'receipt_text', $values['receipt_text'] );
         $template->assign( 'is_monetary', 1 );
 
+        $template->assign( 'event', $values['event'] );
+        $template->assign( 'eventPage', $values['event_page'] );
+        $template->assign( 'location', $values['location'] );
+        $template->assign( 'customPre', $values['custom_pre_id'] );
+        $template->assign( 'customPost', $values['custom_post_id'] );
+
         require_once 'CRM/Utils/Address.php';
         $template->assign( 'address', CRM_Utils_Address::format( $params ) );
-        
-        require_once "CRM/Event/BAO/EventPage.php";
-        CRM_Event_BAO_EventPage::sendMail( $contactID, $values['page'], $participant->id );
 
-        CRM_Core_Error::debug_log_message( "Database updated and email sent" );
+        require_once "CRM/Event/BAO/EventPage.php";
+        CRM_Event_BAO_EventPage::sendMail( $contactID, $values, $participant->id );
+
+        CRM_Core_Error::debug_log_message( "Database updated and email sent" );    
+
         echo "Success: Database updated<p>";
     }
 }

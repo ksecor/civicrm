@@ -128,8 +128,18 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
             }
         } else {
             if ( $deletedContacts ) {
-                $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/search',
-                                                                     'force=1' ) );
+                
+                $isAdvanced      = $session->get( 'isAdvanced' );
+                $isSearchBuilder = $session->get( 'isSearchBuilder' );
+                
+                if ( $isAdvanced == 1 ) {
+                    $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' ) );
+                } else if ( ( $isAdvanced == 2 ) && ( $isSearchBuilder == 1 ) ) {
+                    $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/search/builder', 'force=1' ) );
+                } else {
+                    $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' ) );
+                }
+                
                 $status = ts('Selected contact was deleted sucessfully.');
             } else {
                 $status = array(

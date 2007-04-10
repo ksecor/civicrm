@@ -1,10 +1,11 @@
 {* this template is used for adding/editing/deleting Message Templates *}
-{assign var=tokenDocLink value="http://wiki.civicrm.org/confluence//x/gCY"}
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
+{assign var="tokenDocLink" value="http://wiki.civicrm.org/confluence//x/gCY"}
 <div id="help">
-    {ts 1=$tokenDocLink}Use this form to add or edit re-usable message templates. Once you save a message template, you can use it when sending mail to
+    {ts 1=$tokenDocLink 2=$docURLTitle}Use this form to add or edit re-usable message templates. Once you save a message template, you can use it when sending mail to
     one or more contacts. If you are using the CiviMember component, you can also use a message template to send Membership Renewal Reminders.
     You may include tokens to represent fields (like a contact's "first name") in the message subject and body. These will be replaced with the actual value of the corresponding
-    field in the outgoing message (EXAMPLE: Dear{ldelim}contact.first_name{rdelim}). <a href="%1" target="_blank" title="Opens token documentation in a new window.">More info...</a>{/ts}
+    field in the outgoing message. EXAMPLE: Dear{ldelim}contact.first_name{rdelim} (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}
 </div>
 <div class="form-item" id="membership_status">
 <fieldset><legend>{if $action eq 1}{ts}New Message Template{/ts}{elseif $action eq 2}{ts}Edit Message Template{/ts}{else}{ts}Delete Message Template{/ts}{/if}</legend>
@@ -23,11 +24,11 @@
         <dt>{$form.msg_title.label}</dt><dd class="html-adjust">{$form.msg_title.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Descriptive title of message - used for template selection.{/ts}</dd>
         <dt>{$form.msg_subject.label}</dt><dd class="html-adjust">{$form.msg_subject.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts 1=$tokenDocLink}Subject for email message. Tokens may be included (<a href="%1" target="_blank" title="Opens token documentation in a new window.">token documentation</a>).{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts 1=$tokenDocLink 2=$docURLTitle}Subject for email message. Tokens may be included (<a href="%1" target="_blank" title="%2">token documentation</a>).{/ts}</dd>
         <dt>{$form.msg_text.label}</dt><dd class="html-adjust">{$form.msg_text.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts 1=$tokenDocLink}Text formatted message. Tokens may be included (<a href="%1" target="_blank" title="Opens token documentation in a new window.">token documentation</a>).{/ts}
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts 1=$tokenDocLink 2=$docURLTitle}Text formatted message. Tokens may be included (<a href="%1" target="_blank" title="%2">token documentation</a>).{/ts}
         <dt>{$form.msg_html.label}</dt><dd class="html-adjust">{$form.msg_html.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts 1=$tokenDocLink}HTML formatted message. Tokens may be included (<a href="%1" target="_blank" title="Opens token documentation in a new window.">token documentation</a>).{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts 1=$tokenDocLink 2=$docURLTitle}You may optionally create an HTML formatted version of this message. It will be sent to contacts whose Email Format preference is "HTML" or "Both". Tokens may be included (<a href="%1" target="_blank" title="%2">token documentation</a>).{/ts}</dd>
         <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this template enabled.{/ts}</dd>
         </dl> 

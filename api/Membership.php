@@ -429,7 +429,7 @@ function crm_update_contact_membership($params)
     $membershipBAO     =& new CRM_Member_BAO_Membership( );
     $membershipBAO->id = $params['id'];
     $membershipBAO->find(true);
-        
+
     $membershipBAO->copyValues($params);
     
     $datefields = array( 'start_date', 'end_date', 'join_date', 'reminder_date' );
@@ -437,6 +437,10 @@ function crm_update_contact_membership($params)
     //fix the dates 
     foreach ( $datefields as $value ) {
         $membershipBAO->$value  = CRM_Utils_Date::customFormat($membershipBAO->$value,'%Y%m%d');
+        // Handle resetting date to 'null' (which is converted to 00000 by customFormat)
+        if ( $membershipBAO->$value == '00000') {
+            $membershipBAO->$value = 'null';
+        }
         $params[$value] = $membershipBAO->$value;
     }
     

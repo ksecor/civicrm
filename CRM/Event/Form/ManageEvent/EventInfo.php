@@ -56,9 +56,11 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         if ( ! $eventType ) {
             if ( $this->_id ) {
-                $eventType = CRM_Core_DAO::getFieldValue("CRM_Event_DAO_Event", $this->_id,"event_type_id");
+                $eventType = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
+                                                          $this->_id,
+                                                          'event_type_id' );
             } else {
-                $eventType = "Event";
+                $eventType = 'Event';
             }
         }     
         
@@ -168,12 +170,12 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     {
         $errors = array( );
         if ( ! $values['start_date'] ) {
-            $errors['start_date'] = ts( 'Start date is a required field' );
+            $errors['start_date'] = ts( 'Start Date and Time are required fields' );
             return $errors;
         }
 
         if ( ! $values['end_date'] ) {
-            $errors['end_date'] = ts( 'Start date is a required field' );
+            $errors['end_date'] = ts( 'End Date and Time are required fields.' );
             return $errors;
         }
 
@@ -206,9 +208,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params['is_active' ] = CRM_Utils_Array::value('is_active', $params, false);
         $params['is_public' ] = CRM_Utils_Array::value('is_public', $params, false);
 
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['event_id'] = $this->_id;
-        }
+        $ids['event_id']      = $this->_id;
 
         // format custom data
         // get mime type of the uploaded file
@@ -239,7 +239,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Event' );
 
-        if ( !empty($customFields) ) {
+        if ( ! empty( $customFields ) ) {
             foreach ( $customFields as $k => $val ) {
                 if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
                      ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
@@ -252,8 +252,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Event/BAO/Event.php';
         $event =  CRM_Event_BAO_Event::create($params ,$ids);
         
-        $this->set( 'eId', $event->id );
-        
+        $this->set( 'id', $event->id );
 
     }//end of function
     

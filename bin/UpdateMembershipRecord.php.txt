@@ -116,22 +116,28 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                                                                        $memType->renewal_msg_id,
                                                                        $from);
 
-                        //modify the the membership record, set remider date to NULL
+                        //Set membership reminder date to NULL since we've sent the reminder.
                         crm_update_contact_membership( array('id'             => $dao->membership_id,
-                                                             'reminder_date'  => NULL ) );
+                                                             'reminder_date'  => 'null' ) );
 
                                  
                         //insert the log record.
-                        $membershipLog =& new CRM_Member_BAO_MembershipLog( );
-                        $membershipLog->membership_id = $memb->id;
-                        $membershipLog->status_id   = $memb->status_id;
-                        $membershipLog->start_date  = CRM_Utils_Date::customFormat($memb->start_date,'%Y%m%d');
-                        $membershipLog->end_date    = CRM_Utils_Date::customFormat($memb->end_date,'%Y%m%d');
-                        $membershipLog->modified_id = $dao->contact_id;
-                        $membershipLog->modified_date = date("Ymd");
-                        $membershipLog->renewal_reminder_date = date("Ymd");
-                        $membershipLog->save( );
-                        $membershipLog->free( );
+                        $memb = new CRM_Member_BAO_Membership( );
+                        $memb->id = $membership->id;
+                        if ( $memb->find( true ) ) {
+                            //insert the log record.
+                            $membershipLog =& new CRM_Member_BAO_MembershipLog( );
+                            $membershipLog->membership_id = $memb->id;
+                            $membershipLog->status_id   = $memb->status_id;
+                            $membershipLog->start_date  = CRM_Utils_Date::customFormat($memb->start_date,'%Y%m%d');
+                            $membershipLog->end_date    = CRM_Utils_Date::customFormat($memb->end_date,'%Y%m%d');
+                            $membershipLog->modified_id = $dao->contact_id;
+                            $membershipLog->modified_date = date("Ymd");
+                            $membershipLog->renewal_reminder_date = date("Ymd");
+                            $membershipLog->save( );
+                            $membershipLog->free( );
+                        }
+                        $memb->free( );
                     }
                 }
                 $memType->free( );
