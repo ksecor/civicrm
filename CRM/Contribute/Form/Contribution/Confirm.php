@@ -285,10 +285,16 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
         $now = date( 'YmdHis' );
         $fields = array( );
+        
+        // set email for primary location.
+        $fields["email-Primary"] = 1;
+        $params["email-Primary"] = $params["email-{$this->_bltID}"];
+        
+        // now set the values for the billing location.
         foreach ( $this->_fields as $name => $dontCare ) {
             $fields[$name] = 1;
         }
-
+        
         if ( ! array_key_exists( 'first_name', $fields ) ) {
             $nameFields = array( 'first_name', 'middle_name', 'last_name' );
             foreach ( $nameFields as $name ) {
@@ -298,15 +304,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 }
             }
         }
-
+        
         // also add location name to the array
         $params["location_name-{$this->_bltID}"] = 
             $params["billing_first_name"] . ' ' . $params["billing_middle_name"] . ' ' . $params["billing_last_name"];
         $fields["location_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
-        $fields["email-Primary"] = 1;
-        $params["email-Primary"] = $params["email-{$this->_bltID}"];
-
+        
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)

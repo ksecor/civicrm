@@ -55,7 +55,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
      * @var int
      * @access protected
      */
-    protected $_columnCount;
+    protected $_exportColumnCount;
 
     /**
      * loaded mapping ID
@@ -74,11 +74,12 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
      */
     public function preProcess() {
 
-        $this->_columnCount = $this->get('columnCount');
-        if (! $this->_columnCount ) {
-            $this->_columnCount = 10;
+        $this->_exportColumnCount = $this->get('exportColumnCount');
+        if (! $this->_exportColumnCount ) {
+            $this->_exportColumnCount = 10;
         } else {
-            $this->_columnCount = $this->_columnCount + 10;
+            CRM_core_error::debug('$this->_exportColumnCount', $this->_exportColumnCount);
+            $this->_exportColumnCount = $this->_exportColumnCount + 10;
         }
         
         $this->_mappingId =  $this->get('savedMapping');
@@ -87,7 +88,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
     public function buildQuickForm( ) {
 
         require_once "CRM/Core/BAO/Mapping.php";
-        CRM_Core_BAO_Mapping::buildMappingForm($this, 'Export', $this->_mappingId, $this->_columnCount, $blockCnt = 2);
+        CRM_Core_BAO_Mapping::buildMappingForm($this, 'Export', $this->_mappingId, $this->_exportColumnCount, $blockCnt = 2);
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -154,7 +155,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         $buttonName = $this->controller->getButtonName('done');
         $buttonName1 = $this->controller->getButtonName('next');
         if ( $buttonName == '_qf_Map_done') {
-            $this->set('columnCount',null);
+            $this->set('exportColumnCount',null);
             if (! $this->controller->exportValue( $this->_name, 'loadMapping' ) )  {
                 CRM_Utils_Array::value( 'savedMapping', $params );
                 $this->set('savedMapping', null);
@@ -165,7 +166,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
 
 
         if ( $this->controller->exportValue( $this->_name, 'addMore' ) )  {
-            $this->set( 'columnCount', $this->_columnCount );
+            $this->set( 'exportColumnCount', $this->_exportColumnCount );
             return;
         }
 

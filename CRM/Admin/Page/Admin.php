@@ -63,12 +63,6 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
         foreach ( $groups as $group ) {
             $adminPanel[$group] = array( );
             foreach ( $items as $item ) {
-                if ( $config->userFramework == 'Joomla' &&
-                     $item['path'] == 'civicrm/admin/access' ) {
-                    // access control not yet implemented for joomla
-                    continue;
-                }
-
                 if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
                     $value = array( 'title' => $item['title'],
                                     'id'    => strtr($item['title'], array('('=>'_', ')'=>'', ' '=>'',

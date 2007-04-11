@@ -50,19 +50,31 @@ class CRM_Event_Form_ActivityView extends CRM_Core_Form
     public function preProcess( ) 
     {
         $activityId = CRM_Utils_Request::retrieve( 'hid', 'Integer', CRM_Core_DAO::$_nullObject );
-
+        
         require_once 'CRM/Core/BAO/History.php';
-
+        
         $values = array( ); 
         $ids    = array( ); 
-        $params = array( 'id' => CRM_Utils_Request::retrieve( 'hid', 'Integer', CRM_Core_DAO::$_nullObject ) ); 
+        $params = array( 'id' => $activityId ); 
         
         CRM_Core_BAO_History::getValues( $params, $hValues );        
-       
+        
         list($values['event'], $skip, $values['role'], $values['status']) = explode(' - ',$hValues['activity']['data'][$activityId]['activity_summary']);
         $values['modified_date'] = $hValues['activity']['data'][$activityId]['activity_date'];
         $values['history']       = 1;
-
+        
+        if ( CRM_Utils_Request::retrieve( 'id', 'Integer', CRM_Core_DAO::$_nullObject ) ) {
+            $values['source'] = CRM_Core_DAO::getFieldValue( 
+                                'CRM_Event_DAO_Participant',
+                                CRM_Utils_Request::retrieve( 'id', 'Integer', CRM_Core_DAO::$_nullObject ),
+                                'source' );
+            
+            $values['event_level'] = CRM_Core_DAO::getFieldValue( 
+                                     'CRM_Event_DAO_Participant',
+                                     CRM_Utils_Request::retrieve( 'id', 'Integer', CRM_Core_DAO::$_nullObject ),
+                                     'event_level' );
+        }
+        
         $this->assign( $values ); 
     }
 

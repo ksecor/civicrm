@@ -60,6 +60,13 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
      * @static
      */
     public static function &subscribe($domain_id, $group_id, $email) {
+        // CRM-1797 - allow subscription only to public groups
+        $params = array('id' => (int) $group_id);
+        $defaults = array();
+        $bao = CRM_Contact_BAO_Group::retrieve($params, $defaults);
+        if (substr($bao->visibility, 0, 6) != 'Public') {
+            return null;
+        }
         /* First, find out if the contact already exists */        
         $params = array('email' => $email, 'domain_id' => $domain_id);
         require_once 'CRM/Core/BAO/UFGroup.php';
@@ -245,6 +252,33 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
 
         $dao->reset();
         $dao->contact_id = $contactId;
+        $dao->delete();
+    }
+
+    /**
+     * Delete subscription records for a group
+     * 
+     * @param int $groupId        ID of the group being deleted
+     * @return none
+     * @access public
+     * @static
+     */
+    public static function deleteGroup( $groupId ) {
+        $dao =& new CRM_Mailing_Event_DAO_Subscribe();
+        $dao->group_id = $groupId;
+        $dao->find();
+
+        require_once 'CRM/Mailing/Event/DAO/Confirm.php';
+        $object =& new CRM_Mailing_Event_DAO_Confirm();
+
+        while ($dao->fetch()) {
+            $object->reset();
+            $object->event_subscribe_id = $dao->id;
+            $object->delete();
+        }
+
+        $dao->reset();
+        $dao->group_id = $groupId;
         $dao->delete();
     }
 

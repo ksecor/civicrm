@@ -1988,6 +1988,7 @@ WHERE civicrm_contact.id IN $idString ";
 
         $locationType = array( );
         $count = 1;
+        
         if ( $contactID ) {
             $primaryLocationType = CRM_Contact_BAO_Contact::getPrimaryLocationType($contactID);
         } else {
@@ -1998,9 +1999,10 @@ WHERE civicrm_contact.id IN $idString ";
         
         $phoneLoc = 0;
         $phoneReset = array( );
+        
         foreach ($params as $key => $value) {
             list($fieldName, $locTypeId, $phoneTypeId) = CRM_Utils_System::explode('-', $key, 3);
-
+            
             if ($locTypeId == 'Primary') {
                 if ( $contactID ) {
                     $locTypeId = $primaryLocationType; 
@@ -2008,12 +2010,11 @@ WHERE civicrm_contact.id IN $idString ";
                     $locTypeId = $defaultLocationId;
                 }
             }
-            
-            if ( is_numeric($locTypeId) ) {
-                if (!in_array($locTypeId, $locationType) ) {
+            if ( is_numeric($locTypeId) ) { 
+                if ( ! in_array($locTypeId, $locationType) ) { 
                     $locationType[$count] = $locTypeId;
-                    $count++;
-                }           
+                    $count++; 
+                }
                 
                 require_once 'CRM/Utils/Array.php';
                 $loc = CRM_Utils_Array::key($locTypeId, $locationType);
@@ -2030,7 +2031,8 @@ WHERE civicrm_contact.id IN $idString ";
                         $data['location'][$loc]['is_primary'] = 1;
                     } 
                 } else {
-                    if ($loc == 1 ) {
+                    //if ( $loc == 1 ) {
+                    if  ( $locTypeId == $defaultLocationId ) {
                         $data['location'][$loc]['is_primary'] = 1;
                     }
                 }
@@ -2220,7 +2222,7 @@ WHERE civicrm_contact.id IN $idString ";
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
-      
+        
         if ($data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
             $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
             $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
