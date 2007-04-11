@@ -16,7 +16,10 @@
     <dt>{$form.operation.label}</dt><dd>{$form.operation.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}What type of operation (action) is being permitted?{/ts}</dd>
     <dt>{$form.object_type.label}</dt><dd>{$form.object_type.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data this ACL operates on. Warning: you need to know that "access all custom data" and "profile listings and forms" override and disable specific ACL settings for custom fields groups and profiles respectively. You need to disable them in order to get an access control effect with above ACL settings!{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data this ACL operates on.{/ts}</dd>
+    {if $config->userFramework EQ 'Drupal'}
+        <dt>&nbsp;</dt><dd class="description">{ts}IMPORTANT: The Drupal permissions for "access all custom data" and "profile listings and forms" override and disable specific ACL settings for custom field groups and profiles respectively. Do not enable those Drupal permissions for a Drupal role if you want to use CiviCRM ACL's to control access.{/ts}</dd>
+    {/if}
   </dl>
   <div id="id-group-acl">
     <dl>
@@ -38,7 +41,7 @@
   </div>
   <dl>
     <dt>{$form.entity_id.label}</dt><dd>{$form.entity_id.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select a Role to assign (grant) this permission to.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select a Role to assign (grant) this permission to. Select the special role "Anyone" if you want to grant this permission to ALL users. "Anyone" includes anonymous (i.e. not logged in) users.{/ts}</dd>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter a descriptive name for this permission (e.g. "Edit Advisory Board Contacts").{/ts}</dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
