@@ -143,18 +143,13 @@ class CRM_Utils_VersionCheck
         $local  = explode('.', $this->localVersion);
         $latest = explode('.', $this->latestVersion);
 
-        // return early if the arrays do not match, accounting for four-part beta version numbers
-        if (count($local) != 3 or count($latest) != 3 or count($local) != 4 or count($latest) != 4) {
-            return $this->latestVersion;
-        }
-
         // compare by version part; this allows us to use trunk.$rev
         // for trunk versions ('trunk' is greater than '1')
         // we only do major / minor version comparison, so stick to 2
         for ($i = 0; $i < 2; $i++) {
             if ($local[$i] > $latest[$i]) {
                 return null;
-            } elseif ($local[$i] < $latest[$i]) {
+            } elseif ($local[$i] < $latest[$i] and preg_match('/^\d+\.\d+\.\d+$/', $this->latestVersion)) {
                 return $this->latestVersion;
             }
         }
