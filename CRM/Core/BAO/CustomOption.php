@@ -331,7 +331,6 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         // now extract the amount 
         $values['value'] = array( ); 
         $values['label'] = array( ); 
-        $values['id'   ] = array( ); 
         $index  = 1; 
          
         while ( $dao->fetch( ) ) { 

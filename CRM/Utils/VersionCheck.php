@@ -143,8 +143,8 @@ class CRM_Utils_VersionCheck
         $local  = explode('.', $this->localVersion);
         $latest = explode('.', $this->latestVersion);
 
-        // return early if the array do not match
-        if ( count( $local ) != 3 || count( $latest ) != 3 ) {
+        // return early if the arrays do not match, accounting for four-part beta version numbers
+        if (count($local) != 3 or count($latest) != 3 or count($local) != 4 or count($latest) != 4) {
             return $this->latestVersion;
         }
 
