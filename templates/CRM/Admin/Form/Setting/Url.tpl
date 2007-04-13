@@ -8,7 +8,7 @@
 
         <dl>
             <dt>{$form.userFrameworkResourceURL.label}</dt><dd>{$form.userFrameworkResourceURL.html|crmReplace:class:'huge'}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}URL of the location where the civicrm module or component has been installed.{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}Absolute or relative URL of the location where the civicrm module or component has been installed.{/ts}</dd>
             <dt>&nbsp;</dt><dd class="description">
             <table class="form-layout">
             <tr><td>
