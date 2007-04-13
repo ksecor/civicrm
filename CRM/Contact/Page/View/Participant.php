@@ -62,8 +62,8 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
      * @access public 
      */ 
     function view( ) 
-    {
-        if ( CRM_Utils_Request::retrieve( 'history', 'Boolean', CRM_Core_DAO::$_nullObject ) ) {
+    {    
+        if ( CRM_Utils_Request::retrieve( 'history', 'Boolean', $this ) ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ActivityView',  
                                                            'View Participant Details',  
                                                            $this->_action ); 
@@ -148,7 +148,7 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
             break;
             
         case 'participant':
-            if ( CRM_Utils_Request::retrieve( 'history', 'Boolean', CRM_Core_DAO::$_nullObject ) ) {
+            if ( CRM_Utils_Request::retrieve( 'history', 'Boolean', $this ) ) {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                               "reset=1&force=1&selectedChild=activity&cid={$this->_contactId}&history=1&aid={$activityId}" );     
             } else {

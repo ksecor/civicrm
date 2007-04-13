@@ -67,7 +67,7 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
         
         // Get Note
         $noteValue = CRM_Core_BAO_Note::getNote( $values[$this->get( 'id' )]['id'], 'civicrm_participant' );
-        $values['note'] =  array_values($noteValue);
+        $values[$this->get( 'id' )]['note'] =  array_values($noteValue);
         
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $this->get( 'id' ),0,$values[$this->get( 'id' )]['role_id'] );
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );

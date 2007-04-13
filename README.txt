@@ -9,46 +9,37 @@ README file for CiviCRM
 *************************
 Who
 *************************
-CiviCRM is a constituent relationship management system designed to meet
-the needs of grassroots groups. It is an open source project coordinated
-by CiviCRM LLC. The project website is
-http://civicrm.org/
+CiviCRM is a constituent relationship management system designed to
+meet the needs of grassroots groups. It is an open source project
+coordinated by CiviCRM LLC. The project website is http://civicrm.org/
 
 
 *************************
 What
 *************************
 CiviCRM is released as a module that runs within the Drupal and Joomla
-content management systems. It can be downloaded from
-http://civicrm.org/
+content management systems. It can be downloaded from http://civicrm.org/
 
 
 *************************
 Documentation
 *************************
-Documentation, as well as the project bug tracker and mailing lists, can
-be found at http://civicrm.org/ Just click on the appropriate link.
+Documentation, as well as the project bug tracker and mailing lists,
+can be found at http://civicrm.org/ Just click on the appropriate link.
+Our main documentation site is the wiki at http://wiki.civicrm.org/
+- particularily http://wiki.civicrm.org/confluence/display/CRMDOC/Home
+
 
 *************************
-Directory Structure
+Installation
 *************************
-CRM  - most of CiviCRM php code is here
-PEAR - copies of PEAR packages that we have modified
-api  - CiviCRM api implementation
-bin  - a few useful scripts to perform various tasks
-css  - css files
-distmaker - the distribution scripts
-extern - a few small php files that are invoked directly via a url (used in CiviMail)
-i    - images
-js   - javascript
-l10n - language packs
-joomla - joomla specific files
-drupal - drupal specific files
-packages - all 3rd party php libraries are stored here
-sql - sql code
-templates - smarty templates for civicrm
-test - unit test
-tools - other 3rd party tools (amavisd, procmail scripts)
-xml - CiviCRM xml config files
+The main installation documentation is available at
+http://wiki.civicrm.org/confluence/display/CRMDOC/Install
 
-test
+
+*************************
+Developers
+*************************
+Developers are highly encouraged to join the civicrm-dev mailing list
+at http://lists.civicrm.org/ and check out the CiviCRM source from
+http://svn.civicrm.org/
