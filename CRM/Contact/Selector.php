@@ -519,7 +519,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                     $row[$key] = $paramsNew[$key]; 
-                } else if ( $tmfFields && array_key_exists($property, $tmfFields )){ 
+                } else if ( isset( $tmfFields ) && $tmfFields && array_key_exists($property, $tmfFields )){ 
                     if ( substr($property, -3) == '_id') {
                         $key = substr($property, 0, -3);
                         $paramsNew = array($key => $result->$property );
