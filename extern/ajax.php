@@ -24,6 +24,12 @@ function invoke( ) {
     case 'search':
         return search( $config );
 
+    case 'state':
+        return state( $config );
+
+    case 'country':
+        return country( $config );
+
     case 'status':
         return status( $config );
 
@@ -147,6 +153,57 @@ LIMIT 6";
                              $dao->id );
         $count++;
     }
+    require_once 'Services/JSON.php';
+    $json =& new Services_JSON( );
+    echo $json->encode( $elements );
+}
+
+function state( &$config ) {
+    require_once 'CRM/Utils/Type.php';
+    $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+
+    $query = "
+SELECT name
+  FROM civicrm_state_province
+ WHERE name LIKE '$name%'
+ORDER BY name";
+
+    $nullArray = array( );
+    $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+
+    $count = 0;
+    $elements = array( );
+    while ( $dao->fetch( ) && $count < 5 ) {
+        $elements[] = array( $dao->name, $dao->name );
+        $count++;
+    }
+
+    require_once 'Services/JSON.php';
+    $json =& new Services_JSON( );
+    echo $json->encode( $elements );
+}
+
+function country( &$config ) {
+    require_once 'CRM/Utils/Type.php';
+    $name     = strtolower( CRM_Utils_Type::escape( $_GET['node'], 'String'  ) );
+
+    $query = "
+SELECT civicrm_country.name name
+  FROM civicrm_state_province, civicrm_country
+ WHERE civicrm_country.id = civicrm_state_province.country_id 
+   AND civicrm_state_province.name LIKE '$name%'
+ORDER BY name";
+
+    $nullArray = array( );
+    $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+
+    $count = 0;
+    $elements = array( );
+    while ( $dao->fetch( ) && $count < 5 ) {
+        $elements[] = array( $dao->name, $dao->name );
+        $count++;
+    }
+
     require_once 'Services/JSON.php';
     $json =& new Services_JSON( );
     echo $json->encode( $elements );

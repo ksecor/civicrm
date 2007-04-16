@@ -16,7 +16,7 @@
         </tr>
 
 </table>
-
+<br/><br/>
 {if $rows}
 <table>
 <tr><th>Contact ID</th><th>Sort Name</th></tr>
@@ -25,4 +25,89 @@
 {/foreach}
 </table>
 {/if}
+
+{literal}
+
+<script type="text/javascript">
+
+dojo.require("dojo.widget.Select");
+dojo.require("dojo.io.*");
+
+var active_levels = Array();
+
+function checkParamChildren(value) {
+    checkChildren(this, 'wizCardDefGroupId', value, checkParamChildren);
+}
+
+function checkChildren(obj, element, value, src_func) {
+    if (!active_levels[element]) {
+        active_levels[element] = Array();
+    }        
+    
+    // first we delete existing elements
+    str_arr = obj.widgetId.split('_');
+
+    if (str_arr[1]) {
+        element_id =  str_arr.pop();
+        removeChildren(element, element_id);
+        active_levels[element] = element_id;
+    }
+    else {
+        active_levels[element][value] = Array();
+        removeChildren(element, 0);
+        active_levels[element] = 0;
+    }        
+
+    var res = {/literal}'{$config->resourceBase}'{literal};
+    
+    var bindArgs = {
+        url: res + '/extern/ajax.php?q=civicrm/country&s=getParameters',
+        method: 'GET',
+        type: "text/json",
+        load: function(type, data)
+        {          
+            eval("var decoded_data = "+data);            
+            if(data.length > 2) {
+                tmp = active_levels[element];
+                tmp++;
+                active_levels[element] = tmp;
+                
+                node = active_levels[element];
+                
+                container = document.createElement('span');
+                container.setAttribute('id',element+'_container_'+node);
+                dojo.byId(element+'_children').appendChild(container);
+                    
+                dojo.widget.createWidget("Select", {value: 'this should never be seen - it is replaced!', dataUrl: res + '/extern/ajax.php?q=civicrm/country&s=getParameters&node='+value, id: element +'_'+node, style: 'width: 300px', onValueChanged: src_func}, dojo.byId (element+'_container_'+node));
+            }
+        }            
+    };            
+            
+    bindArgs.content = { node: value };
+                        
+    // Get all preparations
+    dojo.io.bind(bindArgs);        
+}
+
+function removeChildren(element, value) {
+    for (var i=active_levels[element]; i>value; i--) {
+        if (dojo.widget.byId(element+'_'+i)) {
+            dojo.widget.byId(element+'_'+i).selectedResult = '';
+            dojo.widget.byId(element+'_'+i).setAllValues('','');
+            dojo.widget.byId(element+'_'+i).dataProvider.searchUrl = null;
+            dojo.widget.byId(element+'_'+i).destroy();
+        }
+    }
+}
+</script>
+{/literal}
+
+<div id="select_root">
+ {$form.state.label}{$form.state.html}{help id='state_province'}
+</div>
+
+ 
+<div id="wizCardDefGroupId_children"></div>    
+
+
 

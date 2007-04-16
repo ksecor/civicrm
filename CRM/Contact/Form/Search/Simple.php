@@ -52,6 +52,7 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
         
         $this->assign( 'dojoIncludes',
                        "dojo.require('dojo.widget.Select');dojo.require('dojo.widget.ComboBox');dojo.require('dojo.widget.Tooltip');" );
+
         $attributes = array( 'dojoType'     => 'ComboBox',
                              'mode'         => 'remote',
                              'dataUrl'      => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/search&d={$domainID}&s=%{searchString}",
@@ -70,6 +71,16 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
         // select for country
         $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( );
         $this->addElement('select', 'country', ts('Country'), $country, $attributes );
+
+
+        //state - country widget
+        $attributes = array( 'dojoType'       => 'Select',
+                             'style'          => 'width: 300px;',
+                             'dataUrl'        => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/state&s=a&node=root",
+                             'onValueChanged' => 'checkParamChildren',
+                             'id'             => 'wizCardDefGroupId' );
+
+        $this->addElement('select', 'state', ts('State'), null, $attributes );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'refresh',
