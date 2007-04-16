@@ -52,7 +52,8 @@ class CRM_Core_Block {
         SHORTCUTS  =  2,
         SEARCH     =  4,
         ADD        =  8,
-        CONTRIBUTE = 16;
+        CONTRIBUTE = 16,
+        GCC        = 32;
     
     /**
      * template file names for the above blocks
@@ -93,6 +94,10 @@ class CRM_Core_Block {
                                        self::CONTRIBUTE  => array( 'template' => 'Contribute.tpl',
                                                                    'info'     => ts( 'CiviContribute Progress Meter' ),
                                                                    'subject'  => ts( 'CiviContribute Progress Meter' ),
+                                                                   'active'   => true ),
+                                       self::GCC         => array( 'template' => 'Gcc.tpl',
+                                                                   'info'     => ts('GCC Shortcuts'),
+                                                                   'subject'  => ts('GCC Shortcuts'),
                                                                    'active'   => true ),
                                        );
         }
@@ -199,6 +204,8 @@ class CRM_Core_Block {
     private function setTemplateValues( $id ) {
         if ( $id == self::SHORTCUTS ) {
             self::setTemplateShortcutValues( );
+        } else if ( $id == self::GCC ) {
+            self::setTemplateGccValues( );
         } else if ( $id == self::ADD ) {
             require_once 'CRM/Core/BAO/LocationType.php';
             $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
@@ -293,6 +300,75 @@ class CRM_Core_Block {
         self::setProperty( self::SHORTCUTS, 'templateValues', array( 'shortCuts' => $values ) );
     }
 
+    /**
+     * create the list of GCC shortcuts for the application and format is as a block
+     *
+     * @return void
+     * @access private
+     */
+    private function setTemplateGccValues( ) {
+        static $shortCuts = array( );
+
+        if (!($shortCuts)) {
+            $session =& CRM_Core_Session::singleton( );
+            $uid = $session->get('userID'); 
+            $ufID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFMatch', $uid, 'uf_id', 'contact_id' );
+            
+            $role = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $uid, 'contact_sub_type', 'id' );
+            $role = strtolower( $role );
+
+            $shortCuts = array();
+            if ($role == 'csr' || $role == 'admin') {
+                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
+                                      'query' => 'reset=1',
+                                      'title' => ts('New Application')
+                                      );
+                self::$_properties[self::GCC]['subject'] = ($role == 'csr') ? 'Customer Service Rep' : 'GCC Admin';
+            }
+            if ($role == 'csr' || $role == 'admin' || $role == 'retrofit') {
+                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
+                                      'query' => 'reset=1',
+                                      'title' => ts('Find Household')
+                                      );                
+                self::$_properties[self::GCC]['subject'] = 
+                    ($role == 'retrofit') ? 'Retrofit Manager' : self::$_properties[self::GCC]['subject'];
+            }
+            if ($role == 'auditor' || $role == 'admin') {
+                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
+                                      'query' => 'reset=1',
+                                      'title' => ts('Import FAT')
+                                      );                
+                self::$_properties[self::GCC]['subject'] = 
+                    ($role == 'auditor') ? 'Auditor' : self::$_properties[self::GCC]['subject'];
+            }
+            if ($role == 'admin') {
+                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
+                                      'query' => 'reset=1',
+                                      'title' => ts('Summary Report')
+                                      );                
+            }
+
+            $shortCuts[] = array( 'path'  => "user/$ufID",
+                                  'title' => ts('My Account') );
+            $shortCuts[] = array( 'path'  => 'logout',
+                                  'title' => ts('Log out') );
+
+            if ( empty( $shortCuts ) ) {
+                return null;
+            }
+        }
+        
+        $values = array( );
+        
+        foreach ( $shortCuts as $short ) {
+            $value = array( );
+            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['query'] );
+            $value['title'] = $short['title'];
+            $values[] = $value;
+        }
+        self::setProperty( self::GCC, 'templateValues', array( 'shortCuts' => $values ) );
+    }
+    
     /**
      * create the list of mail urls for the application and format is as a block
      *
