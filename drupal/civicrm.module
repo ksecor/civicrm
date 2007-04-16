@@ -200,8 +200,8 @@ function civicrm_menu($may_cache)
 }
 
 /**
- * Initialize CivicRM. Call this function from other modules too if 
- * they use the CivicRM API.
+ * Initialize CiviCRM. Call this function from other modules too if 
+ * they use the CiviCRM API.
  *
  * @param boolean $requireAPI should we also load the civicrm api functions
  *
