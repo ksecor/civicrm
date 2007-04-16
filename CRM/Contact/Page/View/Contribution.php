@@ -201,8 +201,16 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
         
         switch ( $context ) {
         case 'basic':
+            $honorId = CRM_Utils_Request::retrieve( 'honorId', 'Positive', $form, false );
+            
+            if ($honorId) {
+                $cid = $honorId;
+            } else {
+                $cid = $this->_contactId;
+            }
+            
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          'reset=1&cid=' . $this->_contactId );
+                                          'reset=1&force=1&selectedChild=activity&cid=' . $cid . '&history=1&aid={$activityId}' );
             break;
             
         case 'user':
@@ -215,7 +223,6 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
             break;
             
         case 'contribution':
-            
             $honorId = CRM_Utils_Request::retrieve( 'honorId', 'Positive', $form, false );
             
             if ($honorId) {
@@ -227,7 +234,7 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                           "reset=1&force=1&cid={$cid}&selectedChild=contribute" );
             break;
-
+            
         case 'search':
             $url = CRM_Utils_System::url( 'civicrm/contribute/search', 'force=1&reset=1' );
             break;

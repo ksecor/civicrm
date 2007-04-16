@@ -177,7 +177,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         switch ( $context ) {
         case 'basic':
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          'reset=1&cid=' . $this->_contactId );
+                                          'reset=1&force=1&selectedChild=activity&cid=' . $this->_contactId . '&history=1&aid={$activityId}' );
             break;
 
         case 'dashboard':

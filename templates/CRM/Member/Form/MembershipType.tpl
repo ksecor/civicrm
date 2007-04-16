@@ -84,7 +84,7 @@
 	   </dl></div>
        <dl>	
         <dt>{$form.relationship_type_id.label}</dt><dd class="html-adjust">{$form.relationship_type_id.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select relationship type for this membership type. e.g. if relationship type is 'Household Member', and the direct member is a household, then all household members for that household are also considered to be members.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select relationship type for this membership type. EXAMPLE: Select 'Household Member is' for memberships where the  <strong>direct member is a Household</strong> and you want all <strong>Household Members</strong> to be automatically granted memberships.{/ts}</dd>
         <dt>{$form.visibility.label}</dt><dd class="html-adjust">{$form.visibility.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</dd>
         <dt>{$form.weight.label}</dt><dd class="html-adjust">{$form.weight.html}</dd>
