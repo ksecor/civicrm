@@ -66,9 +66,9 @@
 
       {counter start=0 skip=1 print=false}
       {foreach from=$rows item=row}
-        {if $history eq 1}  	
+        {if $history eq 1}  
            <tr class="{cycle values="odd-row,even-row"}">
-             <td>{$row.activity_type}</td>
+             <td>{$row.activity_type}{if $row.is_test}&nbsp;{ts}(test){/ts}{/if}</td>
              <td>{$row.activity_summary|mb_truncate:33:"...":true}</td>
              <td>{$row.activity_date|crmDate}</td>
              <td>{$row.action}</td>

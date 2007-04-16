@@ -221,7 +221,6 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         require_once "CRM/Event/BAO/Event.php";
         $event = CRM_Event_BAO_Event::getEvents(true,$participant->event_id);
         $date = date( 'YmdHis' );
-
         require_once "CRM/Event/PseudoConstant.php";
         $roles  = CRM_Event_PseudoConstant::participantRole( );
         $status = CRM_Event_PseudoConstant::participantStatus( );
@@ -234,8 +233,8 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                                  'callback'         => 'CRM_Event_BAO_Participant::showActivityDetails',
                                  'activity_id'      => $participant->id,
                                  'activity_summary' => $activitySummary,
-                                 'activity_date'    => $date
-                                 
+                                 'activity_date'    => $date,
+                                 'is_test'          => $participant->is_test
                                  );
 
         require_once "api/History.php";

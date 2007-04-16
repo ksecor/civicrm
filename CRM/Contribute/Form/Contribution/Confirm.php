@@ -584,7 +584,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( $this->_values['is_email_receipt'] ) {
             $receiptDate = $now ;
         }
-        
+       
         // check contribution Type
         // first create the contribution record
         $contribParams = array(
@@ -629,7 +629,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $ids = array( );
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
- 
         // process the custom data that is submitted or that came via the url
         //format custom data
         $customData = array( );
@@ -656,12 +655,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_BAO_CustomValue::create($cvParams);
             }
         }
-
         // return if pending
         if ( $pending ) {
             return $contribution;
         }
-
+ 
         // next create the transaction record
         if ( $this->_values['is_monetary'] ) {
             $trxnParams = array(
@@ -691,6 +689,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         'activity_id'      => $contribution->id, 
                         'activity_summary' => CRM_Utils_Money::format($params['amount']). ' - ' . $this->_values['title'] . ' (online)',
                         'activity_date'    => $now,
+                        'is_test'          => $contribution->is_test
                         );
 
         require_once 'api/History.php';

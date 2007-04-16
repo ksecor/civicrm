@@ -131,4 +131,11 @@
        <key>id</key>
        <add>1.1</add>
   </foreignKey>
+  <field>     
+      <name>is_test</name>  
+      <title>Test</title>
+      <type>boolean</type>
+      <default>0</default>
+      <import>true</import>
+  </field>
 </table>
