@@ -86,9 +86,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
 
             foreach ($names as $name) {
-                $this->_defaults["billing_" . $name] = $this->_defaults[$name];
+                if ( isset( $this->_defaults[$name] ) ) {
+                    $this->_defaults["billing_" . $name] = $this->_defaults[$name];
+                }
             }
-
+            
             //set custom field defaults
             require_once "CRM/Core/BAO/CustomField.php";
             foreach ($fields as $name => $field ) {
