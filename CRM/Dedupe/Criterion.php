@@ -32,6 +32,8 @@
  *
  */
 
+require_once 'CRM/Utils/Type.php';
+
 class CRM_Dedupe_Criterion
 {
     /**
@@ -111,11 +113,11 @@ class CRM_Dedupe_Criterion
     {
         // create the WHERE condition
         if ($this->_length == -1) {
-            $condition = "= '$match'";
+            $condition = "= '" . CRM_Utils_Type::escape($match, 'String') . "'";
         } else {
             $substr = function_exists('mb_substr') ? 'mb_substr' : 'substr';
             $match = $substr($match, 0, $this->_length);
-            $condition = "LIKE '$match%'";
+            $condition = "LIKE '" . CRM_Utils_Type::escape($match, 'String') . "%'";
         }
 
         // build and return the query

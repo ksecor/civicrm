@@ -60,7 +60,6 @@ class CRM_Dedupe_Finder
                 $weights[$dao->contact_id] += $weight;
             }
         }
-        CRM_Core_Error::debug('$weights', $weights);
 
         $cids = array();
         foreach ($weights as $cid => $weight) {
