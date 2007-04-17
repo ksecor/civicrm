@@ -194,7 +194,7 @@ class CRM_Event_BAO_Query
         switch ( $name ) {
         
         case 'civicrm_participant':
-            $from = " INNER JOIN civicrm_participant ON civicrm_participant.contact_id = contact_a.id ";
+            $from = " LEFT JOIN civicrm_participant ON civicrm_participant.contact_id = contact_a.id ";
             break;
     
         case 'civicrm_event':
