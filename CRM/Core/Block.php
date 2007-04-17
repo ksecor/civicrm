@@ -320,13 +320,13 @@ class CRM_Core_Block {
             $shortCuts = array();
             if ($role == 'csr' || $role == 'admin') {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
-                                      'query' => 'reset=1',
+                                      'query' => 'action=add&reset=1',
                                       'title' => ts('New Application')
                                       );
                 self::$_properties[self::GCC]['subject'] = ($role == 'csr') ? 'Customer Service Rep' : 'GCC Admin';
             }
             if ($role == 'csr' || $role == 'admin' || $role == 'retrofit') {
-                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
+                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application/search',
                                       'query' => 'reset=1',
                                       'title' => ts('Find Household')
                                       );                
