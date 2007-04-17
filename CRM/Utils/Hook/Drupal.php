@@ -54,10 +54,12 @@ class CRM_Utils_Hook_Drupal {
      */ 
     static function pre( $op, $objectName, $id, &$params ) {
         // copied from user_module_invoke
-        foreach ( module_list() as $module) { 
-            $function = $module . '_civicrm_pre';
-            if ( function_exists( $function ) ) {
-                $function( $op, $objectName, $id, $params );
+        if (function_exists('module_list')) {
+            foreach ( module_list() as $module) { 
+                $function = $module . '_civicrm_pre';
+                if ( function_exists( $function ) ) {
+                    $function( $op, $objectName, $id, $params );
+                }
             }
         }
     }
