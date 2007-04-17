@@ -1611,7 +1611,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                                     }
                                 }
                                 if ( $fieldName == 'country' ) {
-                                    if (!$value['country_id']) {
+                                    if ( ! isset($value['country_id']) || ! $value['country_id'] ) {
                                         $config =& CRM_Core_Config::singleton();
                                         if ( $config->defaultContactCountry ) {
                                             $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();

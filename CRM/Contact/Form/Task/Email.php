@@ -81,6 +81,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         //Get Message Text 
         require_once 'CRM/Member/BAO/MessageTemplates.php';
         $messageText  = array( );
+        $messageSubject  = array( );
         $temp =& new CRM_Member_BAO_MessageTemplates( );
         $temp->is_active= 1;
         $temp->find();
@@ -145,10 +146,10 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                 }
                 // not sure why we have separate $validMails and $toArray and
                 // why we assign $toArray and not $validMails below... [Shot]
-                if ( ! empty( $toEmail ) and ! $doNotEmail ) {
+                if ( ! empty( $toEmail ) and ! $toDoNotEmail ) {
                     $validMails[] = "\"$toDisplayName\" <$toEmail>";
                 }
-                if ($doNotEmail) {
+                if ($toDoNotEmail) {
                     $suppressedEmails++;
                 } else {
                     $toArray[] = "\"$toDisplayName\" <$toEmail>";
