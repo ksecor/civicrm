@@ -65,6 +65,8 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to include a link in the listings to Edit profile fields. Only users with permission to edit the contact will see this link.{/ts}</dd>
     <dt></dt><dd>{$form.is_update_dupe.html} {$form.is_update_dupe.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If enabled, the contact record is updated if a dupe match is found. Note that if there are multiple matches, the first match found is updated.{/ts}</dd>
+    <dt></dt><dd>{$form.is_cms_user.html} {$form.is_cms_user.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, Create a Drupal User from a Profile.{/ts}</dd>
     </dl>
     </div>
     {/if}

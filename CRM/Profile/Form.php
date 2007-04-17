@@ -159,7 +159,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                false, null,
                                                                true );
         }
-
+ 
         if (! is_array($this->_fields)) {
             $session =& CRM_Core_Session::singleton( );
             CRM_Core_Session::setStatus(ts('This feature is not currently available.'));
@@ -350,7 +350,16 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'showBlocks', $showBlocks ); 
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
-        
+
+        $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_cms_user' );
+
+        if ( $cmsUser ) {
+            $extra = array('onclick' => "return showHideByValue('create_account', '', 'details','block','radio',false )");
+            $this->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra); 
+            $this->add('text', 'name', ts('User Name'));
+            $this->add('password', 'pass', ts('Password'));
+            $this->add('password', 'confirm_pass', ts('Confirm Password'));
+        }   
         $this->assign( 'groupId', $this->_gid ); 
 
         // if view mode pls freeze it with the done button.
@@ -586,6 +595,17 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
                                                                    $this->_id, $this->_addToGroupID,
                                                                    $this->_gid, $this->_ctype );
+
+        if ( $this->_mode == self::MODE_CREATE ) {
+            if ( $params['create_account'] ) {
+                $values = array( 
+                                'name' => $params['name'],
+                                'pass' => $params['pass'],
+                                'mail' => $params['mail'],
+                                );
+                drupal_execute( 'user_register', $values );
+            }
+        }
     }
 }
 

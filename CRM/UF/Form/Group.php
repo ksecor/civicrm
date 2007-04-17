@@ -167,6 +167,9 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // should we display a link to the website profile
         $this->addElement('checkbox', 'is_uf_link', ts('Include Website Profile Link in Search Results?'));
 
+        // want to create cms user
+        $this->addElement('checkbox', 'is_cms_user', ts('Create CMS User?'));
+
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
