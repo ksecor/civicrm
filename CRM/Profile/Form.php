@@ -171,7 +171,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             CRM_Core_BAO_UFGroup::setRegisterDefaults(  $this->_fields, $defaults );
             $this->setDefaults( $defaults );    
         }
-        
+        $session =& CRM_Core_Session::singleton( );
+        $this->_cId = $session->get( 'userID' );
+
         $this->setDefaultsValues();
     }
     
@@ -309,8 +311,18 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( $field['add_captcha'] ) {
                 $addCaptcha[$field['group_id']] = $field['add_captcha'];
             }
+
+            if ( $this->_mode == self::MODE_CREATE ) {
+                list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($this->_cId);
+                if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
+                    $cms = true;
+                    $this->_mail = 'email-Primary';
+                    if ( !$this->_mail ) {
+                        $this->_mail = 'email-' . $primaryLocationType;
+                    }
+                }
+            }
         }
-        
         $setCaptcha = false;
 
         // do this only for CiviCRM created forms
@@ -350,10 +362,10 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'showBlocks', $showBlocks ); 
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
-
-        $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_cms_user' );
-
-        if ( $cmsUser ) {
+        if ( $this->_gid ) {
+            $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_cms_user' );
+        }
+        if ( $cmsUser && $cms ) {
             $extra = array('onclick' => "return showHideByValue('create_account', '', 'details','block','radio',false )");
             $this->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra); 
             $this->add('text', 'name', ts('User Name'));
@@ -573,7 +585,27 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
+       
+        if ( $this->_mode == self::MODE_CREATE ) {
+            if ( $params['create_account'] ) {
+                $mail = $this->_mail; 
+                $values = array( 
+                                'name' => $params['name'],
+                                'pass' => array('pass1' => $params['pass'],
+                                                'pass2' => $params['confirm_pass']),
+                                'mail' => $mail,
+                                );
 
+                drupal_execute( 'user_register', $values );
+                $error = form_get_errors();
+                if ( $error ) {
+                    $session =& CRM_Core_Session::singleton();
+                    $session->setStatus( ts('Your profile is not saved and Account is not created.') );
+                    $url = CRM_Utils_System::url('civicrm/profile/create', 'reset=1&gid=' . $this->_gid );
+                    CRM_Utils_System::redirect($url);
+                }
+            }
+        }
         //for custom data of type file
         if ( !empty($_FILES) ) {
             foreach ( $_FILES as $key => $value) {
@@ -596,16 +628,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                    $this->_id, $this->_addToGroupID,
                                                                    $this->_gid, $this->_ctype );
 
-        if ( $this->_mode == self::MODE_CREATE ) {
-            if ( $params['create_account'] ) {
-                $values = array( 
-                                'name' => $params['name'],
-                                'pass' => $params['pass'],
-                                'mail' => $params['mail'],
-                                );
-                drupal_execute( 'user_register', $values );
-            }
-        }
+        
     }
 }
 
