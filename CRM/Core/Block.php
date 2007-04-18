@@ -333,13 +333,19 @@ class CRM_Core_Block {
                 self::$_properties[self::GCC]['subject'] = 
                     ($role == 'retrofit') ? 'Retrofit Manager' : self::$_properties[self::GCC]['subject'];
             }
+            if ($role == 'csr' || $role == 'admin' || $role == 'retrofit' || $role == 'auditor') {
+                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
+                                      'query' => 'reset=1',
+                                      'title' => ts('List Applications')
+                                      );                
+                self::$_properties[self::GCC]['subject'] = 
+                    ($role == 'auditor') ? 'Auditor' : self::$_properties[self::GCC]['subject'];
+            }
             if ($role == 'auditor' || $role == 'admin') {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
                                       'query' => 'reset=1',
                                       'title' => ts('Import FAT')
                                       );                
-                self::$_properties[self::GCC]['subject'] = 
-                    ($role == 'auditor') ? 'Auditor' : self::$_properties[self::GCC]['subject'];
             }
             if ($role == 'admin') {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
