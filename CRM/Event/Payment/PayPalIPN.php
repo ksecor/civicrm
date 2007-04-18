@@ -143,9 +143,12 @@ class CRM_Event_Payment_PayPalIPN
         
         if ( ! empty( $params ) ) {
             // update contact record
-            $idParams = array( 'id' => $contactID, 'contact_id' => $contactID );
+            $idParams = array( 'id'      => $contactID,
+                               'contact' => $contactID );
+            $ids = $defaults = array( );
             require_once "CRM/Contact/BAO/Contact.php";
-            $contact = CRM_Contact_BAO_Contact::createFlat($params, $idParams );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+            $contact = CRM_Contact_BAO_Contact::createFlat( $params, $ids );
         }
         
         // lets keep this the same
@@ -320,8 +323,7 @@ WHERE  v.option_group_id = g.id
         require_once "CRM/Event/BAO/EventPage.php";
         CRM_Event_BAO_EventPage::sendMail( $contactID, $values, $participant->id );
 
-        CRM_Core_Error::debug_log_message( "Database updated and email sent" );    
-
+        CRM_Core_Error::debug_log_message( "Sucess: Database updated and email sent" );    
         echo "Success: Database updated<p>";
     }
 }
