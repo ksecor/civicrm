@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2005-01-03 18:33+0100\n"
-"Last-Translator: Luk Claes <luk.claes@ugent.be>\n"
+"PO-Revision-Date: 2007-01-31 10:27+0100\n"
+"Last-Translator: Freek de Kruijf <f.de.kruijf@hetnet.nl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -737,11 +737,9 @@ msgstr "Zimbabwe"
 msgid "Åland Islands"
 msgstr "Åland-eilanden"
 
-#, fuzzy
 msgid "Serbia"
-msgstr "Azerbeidzjan"
+msgstr "Servië"
 
 # name for SCG
-#, fuzzy
 msgid "Montenegro"
-msgstr "Servië en Montenegro"
+msgstr "Montenegro"
