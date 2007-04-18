@@ -12,21 +12,21 @@ ed list of amounts. For fixed amounts, you can enter a label for each 'level' of
 <div class="form-item">
     <fieldset><legend>{ts}Contribution Amounts{/ts}</legend>
     <table class="form-layout-compressed">  
-    <tr><th scope="row" class="label">{$form.amount_block_is_active.label}</th>
-        <td>{$form.amount_block_is_active.html}<br />
+        <tr><th scope="row" class="label">{$form.is_monetary.label}</th>
+            <td>{$form.is_monetary.html}<br />
+            <span class="description">{ts}Uncheck this box if you are using this contribution page for free membership signup ONLY, or to solicit in-kind / non-monetary donations such as furniture, equipment.. etc.{/ts}</span></td></tr>
+        <tr><th scope="row" class="label">{$form.amount_block_is_active.label}</th>
+            <td>{$form.amount_block_is_active.html}<br />
             <span class="description">{ts}Uncheck this box if you are using this contribution page for membership signup and renewal only - and you do NOT want users to select or enter any additional contribution amounts.{/ts}</span></td></tr>
     </table>
     <table class="form-layout-compressed" >
      <tr id="amountFields"><td>   
         <table class="form-layout-compressed">
-        <tr><th scope="row" class="label">{$form.is_monetary.label}</th>
-            <td>{$form.is_monetary.html}<br />
-            <span class="description">{ts}Uncheck this box if you are using this contribution page to solicit in-kind / non-monetary donations such as furniture, equipment.. etc.{/ts}</span></td></tr>
-{if $form.is_recur}
-    <tr><th scope="row" class="label">{$form.is_recur.label}</th>
-        <td>{$form.is_recur.html}<br />
-            <span class="description">{ts}Check this box if you want to give users the option to make recurring contributions. (This feature requires that you use &quot;PayPal Website Standard&quot; as your payment processor.){/ts}</td></tr>
-{/if}    
+    {if $form.is_recur}
+        <tr><th scope="row" class="label">{$form.is_recur.label}</th>
+            <td>{$form.is_recur.html}<br />
+                <span class="description">{ts}Check this box if you want to give users the option to make recurring contributions. (This feature requires that you use &quot;PayPal Website Standard&quot; as your payment processor.){/ts}</td></tr>
+    {/if}    
 
     <tr><th scope="row" class="label">{$form.is_allow_other_amount.label}</th>
         <td>{$form.is_allow_other_amount.html}<br />
