@@ -107,7 +107,7 @@ function civicrm_help($section)
       return $output;
      case 'admin/modules#description':
          // This description is shown in the listing at admin/modules.
-         return t('Constituent Relationship Management (CRM - v1.7). Allows sites to manage contacts, relationships and groups, and track contact activities.');
+         return t('Constituent Relationship Management (CiviCRM %1). Allows sites to manage contacts, relationships and groups, and track contact activities.', array('%1' => '1.7'));
     }
 }
 
@@ -509,10 +509,10 @@ function civicrm_view_data($user )
         $contactURL = null;
         if ( CRM_Contact_BAO_Contact::permissionedContact( $userID ) ) {
             $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid=$userID" );
-            $contactURL = '<a href="' .$url. '">&raquo; ' .ts("View Contact Record") . '</a>';
+            $contactURL = '<a href="' .$url. '">&raquo; ' .t("View Contact Record") . '</a>';
             if ( CRM_Core_Permission::check( 'access Contact Dashboard' ) ) {
                 $url = CRM_Utils_System::url( 'civicrm/user', "reset=1&id=$userID" );
-                $contactURL .= '<br/><a href="' .$url. '">&raquo; ' .ts("View Contact Dashboard") . '</a>';
+                $contactURL .= '<br/><a href="' .$url. '">&raquo; ' .t("View Contact Dashboard") . '</a>';
             }
         }
 

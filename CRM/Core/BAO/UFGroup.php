@@ -226,7 +226,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                $visibility = null , $searchable = null,
                                $showAll= false, $restrict = null,
                                $skipPermission = false,
-                               $ctype = 'Individual' ) 
+                               $ctype = null ) 
     {
         if ( $restrict ) {
             $query  = "

@@ -328,22 +328,17 @@ function writeHeader($file)
 {
     $output = array();
     $output[] = '# CiviCRM POT file';
-    $output[] = '# Copyright (C) 2005 CiviCRM LLC (c) 2004-2007';
+    $output[] = '# Copyright CiviCRM LLC (c) 2004-2007';
     $output[] = '# This file is distributed under the same license as the CiviCRM package.';
-    $output[] = '# Piotr Szotkowski <shot@caltha.pl>, 2005';
-    //$output[] = '# --VERSIONS--';
-    $output[] = '# ';
     $output[] = '# ';
     $output[] = 'msgid ""';
     $output[] = 'msgstr ""';
     $output[] = '"Project-Id-Version: CiviCRM 1.7\n"';
-    $output[] = '"Report-Msgid-Bugs-To: \n"';
     $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
     $output[] = '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"';
     $output[] = '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"';
-    $output[] = '"Language-Team: none\n"';
     $output[] = '"MIME-Version: 1.0\n"';
-    $output[] = '"Content-Type: text/plain; charset=CHARSET\n"';
+    $output[] = '"Content-Type: text/plain; charset=utf-8\n"';
     $output[] = '"Content-Transfer-Encoding: 8bit\n"';
     $output[] = '"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"';
     $output[] = '';
