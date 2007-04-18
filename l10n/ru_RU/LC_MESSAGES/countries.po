@@ -1,0 +1,1046 @@
+# CiviCRM countries POT file
+# Copyright CiviCRM LLC (c) 2004-2007
+# This file is distributed under the same license as the CiviCRM package.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: CiviCRM 1.7\n"
+"POT-Creation-Date: 2007-04-18 07:35+0200\n"
+"PO-Revision-Date: 2002-01-05 17:40+0000\n"
+"Last-Translator: Gregory Mokhin <mok@kde.ru>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# AF
+msgid "Afghanistan"
+msgstr ""
+
+# AL
+msgid "Albania"
+msgstr ""
+
+# DZ
+# fuzzy
+msgid "Algeria"
+msgstr "Болгария"
+
+# AS
+# fuzzy
+msgid "American Samoa"
+msgstr "Северная Америка"
+
+# AD
+msgid "Andorra"
+msgstr ""
+
+# AO
+msgid "Angola"
+msgstr ""
+
+# AI
+msgid "Anguilla"
+msgstr ""
+
+# AQ
+msgid "Antarctica"
+msgstr ""
+
+# AG
+msgid "Antigua and Barbuda"
+msgstr "Антигуа и Барбадос"
+
+# AR
+msgid "Argentina"
+msgstr "Аргентина"
+
+# AM
+# fuzzy
+msgid "Armenia"
+msgstr "Аргентина"
+
+# AW
+msgid "Aruba"
+msgstr ""
+
+# AU
+msgid "Australia"
+msgstr "Австралия"
+
+# AT
+msgid "Austria"
+msgstr "Австрия"
+
+# AZ
+msgid "Azerbaijan"
+msgstr "Азербайджан"
+
+# BH
+# fuzzy
+msgid "Bahrain"
+msgstr "Бразилия"
+
+# BD
+# fuzzy
+msgid "Bangladesh"
+msgstr "Английский"
+
+# BB
+msgid "Barbados"
+msgstr "Барбадос"
+
+# BY
+# fuzzy
+msgid "Belarus"
+msgstr "Перу"
+
+# BE
+msgid "Belgium"
+msgstr "Бельгия"
+
+# BZ
+# fuzzy
+msgid "Belize"
+msgstr "Бельгия"
+
+# BJ
+msgid "Benin"
+msgstr ""
+
+# BM
+msgid "Bermuda"
+msgstr ""
+
+# BT
+msgid "Bhutan"
+msgstr ""
+
+# BO
+msgid "Bolivia"
+msgstr "Боливия"
+
+# BA
+msgid "Bosnia and Herzegovina"
+msgstr ""
+
+# BW
+msgid "Botswana"
+msgstr ""
+
+# BV
+msgid "Bouvet Island"
+msgstr ""
+
+# BR
+msgid "Brazil"
+msgstr "Бразилия"
+
+# IO
+msgid "British Indian Ocean Territory"
+msgstr ""
+
+# VG
+msgid "Virgin Islands, British"
+msgstr ""
+
+# BN
+msgid "Brunei Darussalam"
+msgstr ""
+
+# BG
+msgid "Bulgaria"
+msgstr "Болгария"
+
+# BF
+msgid "Burkina Faso"
+msgstr ""
+
+# MM
+# fuzzy
+msgid "Myanmar"
+msgstr "Панама"
+
+# BI
+msgid "Burundi"
+msgstr ""
+
+# KH
+# fuzzy
+msgid "Cambodia"
+msgstr "Колумбия"
+
+# CM
+msgid "Cameroon"
+msgstr ""
+
+# CA
+msgid "Canada"
+msgstr "Канада"
+
+# CV
+msgid "Cape Verde"
+msgstr ""
+
+# KY
+msgid "Cayman Islands"
+msgstr ""
+
+# CF
+# fuzzy
+msgid "Central African Republic"
+msgstr "Доминиканская республика"
+
+# TD
+# fuzzy
+msgid "Chad"
+msgstr "Китай"
+
+# CL
+msgid "Chile"
+msgstr "Чили"
+
+# CN
+msgid "China"
+msgstr "Китай"
+
+# CX
+msgid "Christmas Island"
+msgstr ""
+
+# CC
+msgid "Cocos (Keeling) Islands"
+msgstr ""
+
+# CO
+# fuzzy
+msgid "Colombia"
+msgstr "Колумбия"
+
+# KM
+msgid "Comoros"
+msgstr ""
+
+msgid "Congo, The Democratic Republic of the"
+msgstr ""
+
+# CG
+msgid "Congo"
+msgstr ""
+
+# CK
+msgid "Cook Islands"
+msgstr ""
+
+# CR
+msgid "Costa Rica"
+msgstr ""
+
+msgid "Côte d'Ivoire"
+msgstr ""
+
+# HR
+msgid "Croatia"
+msgstr "Хорватия"
+
+# CU
+# fuzzy
+msgid "Cuba"
+msgstr "Колумбия"
+
+# CY
+msgid "Cyprus"
+msgstr ""
+
+# CZ
+# fuzzy
+msgid "Czech Republic"
+msgstr "Доминиканская республика"
+
+# DK
+msgid "Denmark"
+msgstr "Дания"
+
+# DJ
+msgid "Djibouti"
+msgstr ""
+
+# DM
+# fuzzy
+msgid "Dominica"
+msgstr "Румыния"
+
+# DO
+msgid "Dominican Republic"
+msgstr "Доминиканская республика"
+
+msgid "Timor-Leste"
+msgstr ""
+
+# EC
+# fuzzy
+msgid "Ecuador"
+msgstr "Эквадор"
+
+# EG
+# fuzzy
+msgid "Egypt"
+msgstr "Энергосбережение"
+
+# SV
+msgid "El Salvador"
+msgstr "Сальвадор"
+
+# GQ
+msgid "Equatorial Guinea"
+msgstr ""
+
+# ER
+msgid "Eritrea"
+msgstr ""
+
+# EE
+msgid "Estonia"
+msgstr "Эстония"
+
+# ET
+# fuzzy
+msgid "Ethiopia"
+msgstr "Эстония"
+
+# FK
+msgid "Falkland Islands (Malvinas)"
+msgstr ""
+
+# FO
+# fuzzy
+msgid "Faroe Islands"
+msgstr "Ирландия"
+
+# FJ
+msgid "Fiji"
+msgstr ""
+
+# FI
+msgid "Finland"
+msgstr "Финляндия"
+
+# FR
+msgid "France"
+msgstr "Франция"
+
+# GF
+msgid "French Guiana"
+msgstr ""
+
+# PF
+msgid "French Polynesia"
+msgstr ""
+
+msgid "French Southern Territories"
+msgstr ""
+
+# GA
+msgid "Gabon"
+msgstr ""
+
+# GE
+# fuzzy
+msgid "Georgia"
+msgstr "Сербия"
+
+# DE
+msgid "Germany"
+msgstr "Германия"
+
+# GH
+# fuzzy
+msgid "Ghana"
+msgstr "Китай"
+
+# GI
+msgid "Gibraltar"
+msgstr ""
+
+# GR
+msgid "Greece"
+msgstr "Греция"
+
+# GL
+# fuzzy
+msgid "Greenland"
+msgstr "Гренада"
+
+# GD
+msgid "Grenada"
+msgstr "Гренада"
+
+# GP
+msgid "Guadeloupe"
+msgstr ""
+
+# GU
+# fuzzy
+msgid "Guam"
+msgstr "Гватемала"
+
+# GT
+msgid "Guatemala"
+msgstr "Гватемала"
+
+# GN
+msgid "Guinea"
+msgstr ""
+
+# GW
+msgid "Guinea-Bissau"
+msgstr ""
+
+# GY
+msgid "Guyana"
+msgstr ""
+
+# HT
+msgid "Haiti"
+msgstr ""
+
+msgid "Heard Island and McDonald Islands"
+msgstr ""
+
+# VA
+msgid "Holy See (Vatican City State)"
+msgstr ""
+
+# HN
+msgid "Honduras"
+msgstr "Гондурас"
+
+# HK
+msgid "Hong Kong"
+msgstr ""
+
+# HU
+msgid "Hungary"
+msgstr "Венгрия"
+
+# IS
+msgid "Iceland"
+msgstr "Исландия"
+
+# IN
+# fuzzy
+msgid "India"
+msgstr "Пиктограммы"
+
+# ID
+# fuzzy
+msgid "Indonesia"
+msgstr "Пиктограммы"
+
+# KR
+# fuzzy
+#, fuzzy
+msgid "Iran, Islamic Republic of"
+msgstr "Доминиканская республика"
+
+# IQ
+# fuzzy
+msgid "Iraq"
+msgstr "Израиль"
+
+# IE
+msgid "Ireland"
+msgstr "Ирландия"
+
+# IL
+msgid "Israel"
+msgstr "Израиль"
+
+# IT
+msgid "Italy"
+msgstr "Италия"
+
+# JM
+# fuzzy
+msgid "Jamaica"
+msgstr "Ямайка"
+
+# JP
+msgid "Japan"
+msgstr "Япония"
+
+# JO
+# fuzzy
+msgid "Jordan"
+msgstr "Корейский"
+
+# KZ
+msgid "Kazakhstan"
+msgstr "Казахстан"
+
+# KE
+msgid "Kenya"
+msgstr ""
+
+# KI
+msgid "Kiribati"
+msgstr ""
+
+# KP
+msgid "Korea, Democratic People's Republic of"
+msgstr ""
+
+# KR
+# fuzzy
+msgid "Korea, Republic of"
+msgstr "Доминиканская республика"
+
+# KW
+msgid "Kuwait"
+msgstr ""
+
+# KG
+msgid "Kyrgyzstan"
+msgstr "Киргизия"
+
+msgid "Lao People's Democratic Republic"
+msgstr ""
+
+# LV
+msgid "Latvia"
+msgstr "Латвия"
+
+# LB
+msgid "Lebanon"
+msgstr ""
+
+# LS
+msgid "Lesotho"
+msgstr ""
+
+# LR
+# fuzzy
+msgid "Liberia"
+msgstr "Сербия"
+
+msgid "Libyan Arab Jamahiriya"
+msgstr ""
+
+# LI
+msgid "Liechtenstein"
+msgstr ""
+
+# LT
+msgid "Lithuania"
+msgstr "Литва"
+
+# LU
+msgid "Luxembourg"
+msgstr "Люксембург"
+
+# MO
+# fuzzy
+msgid "Macao"
+msgstr "Мальта"
+
+# KR
+# fuzzy
+#, fuzzy
+msgid "Macedonia, Republic of"
+msgstr "Доминиканская республика"
+
+# MG
+msgid "Madagascar"
+msgstr ""
+
+# MW
+# fuzzy
+msgid "Malawi"
+msgstr "Мальта"
+
+# MY
+# fuzzy
+msgid "Malaysia"
+msgstr "Мальта"
+
+# MV
+# fuzzy
+msgid "Maldives"
+msgstr "Мальта"
+
+# ML
+# fuzzy
+msgid "Mali"
+msgstr "Мальта"
+
+# MT
+msgid "Malta"
+msgstr "Мальта"
+
+# MH
+msgid "Marshall Islands"
+msgstr ""
+
+# MQ
+msgid "Martinique"
+msgstr ""
+
+# MR
+# fuzzy
+msgid "Mauritania"
+msgstr "Литва"
+
+# MU
+# fuzzy
+msgid "Mauritius"
+msgstr "Литва"
+
+# YT
+msgid "Mayotte"
+msgstr ""
+
+# MX
+msgid "Mexico"
+msgstr "Мексика"
+
+msgid "Micronesia, Federated States of"
+msgstr ""
+
+# KR
+# fuzzy
+#, fuzzy
+msgid "Moldova, Republic of"
+msgstr "Доминиканская республика"
+
+# MC
+msgid "Monaco"
+msgstr ""
+
+# MN
+msgid "Mongolia"
+msgstr ""
+
+# MS
+msgid "Montserrat"
+msgstr ""
+
+# MA
+msgid "Morocco"
+msgstr ""
+
+# MZ
+msgid "Mozambique"
+msgstr ""
+
+# NA
+msgid "Namibia"
+msgstr ""
+
+# NR
+msgid "Nauru"
+msgstr ""
+
+# NP
+msgid "Nepal"
+msgstr ""
+
+# AN
+# fuzzy
+msgid "Netherlands Antilles"
+msgstr "Нидерланды"
+
+# NL
+msgid "Netherlands"
+msgstr "Нидерланды"
+
+# NC
+# fuzzy
+msgid "New Caledonia"
+msgstr "Македония"
+
+# NZ
+msgid "New Zealand"
+msgstr "Новая Зеландия"
+
+# NI
+# fuzzy
+msgid "Nicaragua"
+msgstr "Парагвай"
+
+# NE
+msgid "Niger"
+msgstr ""
+
+# NG
+# fuzzy
+msgid "Nigeria"
+msgstr "Сербия"
+
+# NU
+msgid "Niue"
+msgstr ""
+
+# NF
+msgid "Norfolk Island"
+msgstr ""
+
+# MP
+msgid "Northern Mariana Islands"
+msgstr ""
+
+# NO
+msgid "Norway"
+msgstr "Норвегия"
+
+# OM
+msgid "Oman"
+msgstr ""
+
+# PK
+msgid "Pakistan"
+msgstr ""
+
+# PW
+# fuzzy
+msgid "Palau"
+msgstr "Парагвай"
+
+msgid "Palestinian Territory, Occupied"
+msgstr ""
+
+# PA
+msgid "Panama"
+msgstr "Панама"
+
+# PG
+msgid "Papua New Guinea"
+msgstr ""
+
+# PY
+msgid "Paraguay"
+msgstr "Парагвай"
+
+# PE
+msgid "Peru"
+msgstr "Перу"
+
+# PH
+msgid "Philippines"
+msgstr ""
+
+# PN
+msgid "Pitcairn"
+msgstr ""
+
+# PL
+msgid "Poland"
+msgstr "Польша"
+
+# PT
+msgid "Portugal"
+msgstr "Португалия"
+
+# PR
+msgid "Puerto Rico"
+msgstr ""
+
+# QA
+# fuzzy
+msgid "Qatar"
+msgstr "Мальта"
+
+# RO
+msgid "Romania"
+msgstr "Румыния"
+
+# RU
+msgid "Russian Federation"
+msgstr "Российская Федерация"
+
+# RW
+# fuzzy
+msgid "Rwanda"
+msgstr "Канада"
+
+# RE
+msgid "Reunion"
+msgstr ""
+
+# SH
+msgid "Saint Helena"
+msgstr ""
+
+# KN
+# fuzzy
+#, fuzzy
+msgid "Saint Kitts and Nevis"
+msgstr "о. Св. Кристофа и Невиса"
+
+# LC
+# fuzzy
+#, fuzzy
+msgid "Saint Lucia"
+msgstr "о. Св. Люсии"
+
+msgid "Saint Pierre and Miquelon"
+msgstr ""
+
+# VC
+# fuzzy
+#, fuzzy
+msgid "Saint Vincent and the Grenadines"
+msgstr "Сент-Винсент и Гренадины"
+
+# WS
+msgid "Samoa"
+msgstr ""
+
+# SM
+msgid "San Marino"
+msgstr ""
+
+# SA
+msgid "Saudi Arabia"
+msgstr ""
+
+# SN
+msgid "Senegal"
+msgstr ""
+
+# SC
+msgid "Seychelles"
+msgstr ""
+
+# SL
+msgid "Sierra Leone"
+msgstr ""
+
+# SG
+msgid "Singapore"
+msgstr ""
+
+# SK
+# fuzzy
+msgid "Slovakia"
+msgstr "Словацкий"
+
+# SI
+msgid "Slovenia"
+msgstr "Словения"
+
+# SB
+msgid "Solomon Islands"
+msgstr ""
+
+# SO
+# fuzzy
+msgid "Somalia"
+msgstr "Румыния"
+
+# ZA
+msgid "South Africa"
+msgstr "Южная Африка"
+
+# GS
+msgid "South Georgia and the South Sandwich Islands"
+msgstr ""
+
+# ES
+msgid "Spain"
+msgstr "Испания"
+
+# LK
+msgid "Sri Lanka"
+msgstr ""
+
+# SD
+# fuzzy
+msgid "Sudan"
+msgstr "Звук"
+
+# SR
+msgid "Suriname"
+msgstr ""
+
+# SJ
+msgid "Svalbard and Jan Mayen"
+msgstr ""
+
+# SZ
+# fuzzy
+msgid "Swaziland"
+msgstr "Таиланд"
+
+# SE
+msgid "Sweden"
+msgstr "Швеция"
+
+# CH
+msgid "Switzerland"
+msgstr "Швейцария"
+
+# CF
+# fuzzy
+#, fuzzy
+msgid "Syrian Arab Republic"
+msgstr "Доминиканская республика"
+
+# ST
+msgid "Sao Tome and Principe"
+msgstr ""
+
+# TW
+msgid "Taiwan"
+msgstr "Тайвань"
+
+# TJ
+# fuzzy
+msgid "Tajikistan"
+msgstr "Тайвань"
+
+# KR
+# fuzzy
+#, fuzzy
+msgid "Tanzania, United Republic of"
+msgstr "Доминиканская республика"
+
+# TH
+msgid "Thailand"
+msgstr "Таиланд"
+
+# BS
+# fuzzy
+msgid "Bahamas"
+msgstr "Панама"
+
+# GM
+# fuzzy
+msgid "Gambia"
+msgstr "Ямайка"
+
+# TG
+msgid "Togo"
+msgstr ""
+
+# TK
+msgid "Tokelau"
+msgstr ""
+
+# TO
+msgid "Tonga"
+msgstr ""
+
+# TT
+msgid "Trinidad and Tobago"
+msgstr "Тринидад и Тобаго"
+
+# TN
+# fuzzy
+msgid "Tunisia"
+msgstr "Россия"
+
+# TR
+msgid "Turkey"
+msgstr "Турция"
+
+# TM
+msgid "Turkmenistan"
+msgstr ""
+
+msgid "Turks and Caicos Islands"
+msgstr ""
+
+# TV
+msgid "Tuvalu"
+msgstr ""
+
+# UG
+# fuzzy
+msgid "Uganda"
+msgstr "Канада"
+
+# UA
+msgid "Ukraine"
+msgstr "Украина"
+
+# AE
+msgid "United Arab Emirates"
+msgstr ""
+
+msgid "United Kingdom"
+msgstr ""
+
+# UM
+# fuzzy
+msgid "United States Minor Outlying Islands"
+msgstr "США"
+
+# US
+# fuzzy
+msgid "United States"
+msgstr "США"
+
+# UY
+msgid "Uruguay"
+msgstr "Уругвай"
+
+# UZ
+msgid "Uzbekistan"
+msgstr ""
+
+# VU
+msgid "Vanuatu"
+msgstr ""
+
+# VE
+msgid "Venezuela"
+msgstr "Венесуэла"
+
+# VN
+# fuzzy
+#, fuzzy
+msgid "Viet Nam"
+msgstr "Вьетнамский"
+
+# VI
+# fuzzy
+msgid "Virgin Islands, U.S."
+msgstr "Финляндия"
+
+# WF
+msgid "Wallis and Futuna"
+msgstr ""
+
+# EH
+msgid "Western Sahara"
+msgstr ""
+
+# YE
+msgid "Yemen"
+msgstr ""
+
+msgid "Serbia and Montenegro"
+msgstr ""
+
+# ZM
+# fuzzy
+msgid "Zambia"
+msgstr "Ямайка"
+
+# ZW
+msgid "Zimbabwe"
+msgstr ""
+
+# FO
+# fuzzy
+#, fuzzy
+msgid "Åland Islands"
+msgstr "Ирландия"
+
+# SY
+# fuzzy
+#, fuzzy
+msgid "Serbia"
+msgstr "Сербия"
+
+msgid "Montenegro"
+msgstr ""

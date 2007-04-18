@@ -1,22 +1,16 @@
-# Drupal-CiviCRM Canadian French file
-# copyright CiviCRM LLC (c) 2004-2006
+# CiviCRM Drupal POT file
+# Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# Piotr Szotkowski <shot@caltha.pl>, 2005
-# 
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.6\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-29 13:48+0100\n"
+"Project-Id-Version: CiviCRM 1.7\n"
+"POT-Creation-Date: 2007-04-18 08:26+0200\n"
 "PO-Revision-Date: 2007-02-01 07:22-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
-"Language-Team: none\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-"X-Generator: Pootle 0.10\n"
 
 msgid "add contacts"
 msgstr "Ajouter un contact"
@@ -27,21 +21,32 @@ msgstr "Voir tous les contacts"
 msgid "edit all contacts"
 msgstr "Modifier tous les contacts"
 
+#, fuzzy
+msgid "import contacts"
+msgstr "Modifier tous les contacts"
+
 msgid "edit groups"
 msgstr "Éditer les groupes"
 
 msgid "administer CiviCRM"
 msgstr "Administrer CiviCRM"
 
+msgid "access uploaded files"
+msgstr ""
+
+msgid "profile listings and forms"
+msgstr ""
+
+msgid "access all custom data"
+msgstr ""
+
 msgid "access CiviCRM"
 msgstr "Accéder à CiviCRM"
 
-msgid "edit contacts in %1"
-msgstr "Éditer les contacts dans %1"
+msgid "access Contact Dashboard"
+msgstr ""
 
-msgid "view contacts in %1"
-msgstr "Voir les contacts dans %1"
-
+#: drupal/civicrm.module
 msgid ""
 "The CiviCRM module stores information on the universe of people associated "
 "with a community and on their interactions such as emails, donations, "
@@ -51,8 +56,20 @@ msgid ""
 "these activities in a single database, creating efficiencies and new "
 "opportunities for communities to better communicate and benefit from "
 "relationships with their community members."
-msgstr "Le module CiviCRM gère des informations à propos de l'univers de personnes associées avec une communauté et sur leurs intéractions, telles que les échanges par courriel, les dons, les pétitions, les événements, etc. Le module peut servir de système de gestion de contacts indépendant ou il peut être intégré avec un outil d'envoi de courriels, un outil de gestion de bénévoles ou pétitions, ou encore pour aider un individu à trouver un événement qui pourrait l'intéresser. CiviCRM permet aux organisations de gérer toutes ces activités dans une seule base de données, permettant ainsi aux communautés d'explorer de nouvelles possibilités et d'être plus efficaces, de mieux communiquer et de bénéficier  des relations avec leurs membres."
+msgstr ""
+"Le module CiviCRM gère des informations à propos de l'univers de personnes "
+"associées avec une communauté et sur leurs intéractions, telles que les "
+"échanges par courriel, les dons, les pétitions, les événements, etc. Le "
+"module peut servir de système de gestion de contacts indépendant ou il peut "
+"être intégré avec un outil d'envoi de courriels, un outil de gestion de "
+"bénévoles ou pétitions, ou encore pour aider un individu à trouver un "
+"événement qui pourrait l'intéresser. CiviCRM permet aux organisations de "
+"gérer toutes ces activités dans une seule base de données, permettant ainsi "
+"aux communautés d'explorer de nouvelles possibilités et d'être plus "
+"efficaces, de mieux communiquer et de bénéficier  des relations avec leurs "
+"membres."
 
+#: drupal/civicrm.module
 msgid ""
 "The CiviCRM module allows you to create contacts, or import them from other "
 "sources. You can record relationships between contacts, such as indicating "
@@ -69,82 +86,149 @@ msgid ""
 "a way to allow community members ('users') to update their own information, "
 "as well as share some of that information with others. Finally, you can "
 "configure custom activity types such as volunteering or attending events."
-msgstr "Le module CiviCRM vous permet de créer des contacts, ou de les importer de d'autres sources. Vous pouvez enregistrer les relations entre les contacts, par exemple, pour indiquer qu'ils habitent dans le même ménage. Il y a deux types de groupes de contacts. Vous pouvez créer des groupes statiques qui ont une liste définie de contacts. Vous pouvez aussi créer des groupes dynamiques (intelligents) calculés selon des critères que des contacts peuvent avoir en commun. Par exemple, si vous pouvez créer un groupe pour tous les contacts qui habitent en Abitibi ET qui ont été volontaires au moins une fois pour une organisation depuis un an. The module CiviCRM permet aussi d'étiqueter les contacts ou groupes pour catégoriser de façon moins formelle. Vous pouvez facilement configurer CiviCRM pour qu'il enregistre des informations à propos des membres ou organisations de votre communauté en utilisant des champs personalisés. Par exemple, vous pouvez créer un ensemble de champs pour noter les préférences et habiletés de vos bénévoles. Les profils CiviCRM permettent à vos membres ('utilisateurs') de mettre à jour leur profil, ainsi que de partager une partie de cette information avec les autres. Enfin, vous pouvez configurer des types d'activités personalisés, tels que des actions bénévoles ou des événements."
+msgstr ""
+"Le module CiviCRM vous permet de créer des contacts, ou de les importer de "
+"d'autres sources. Vous pouvez enregistrer les relations entre les contacts, "
+"par exemple, pour indiquer qu'ils habitent dans le même ménage. Il y a deux "
+"types de groupes de contacts. Vous pouvez créer des groupes statiques qui "
+"ont une liste définie de contacts. Vous pouvez aussi créer des groupes "
+"dynamiques (intelligents) calculés selon des critères que des contacts "
+"peuvent avoir en commun. Par exemple, si vous pouvez créer un groupe pour "
+"tous les contacts qui habitent en Abitibi ET qui ont été volontaires au "
+"moins une fois pour une organisation depuis un an. The module CiviCRM permet "
+"aussi d'étiqueter les contacts ou groupes pour catégoriser de façon moins "
+"formelle. Vous pouvez facilement configurer CiviCRM pour qu'il enregistre "
+"des informations à propos des membres ou organisations de votre communauté "
+"en utilisant des champs personalisés. Par exemple, vous pouvez créer un "
+"ensemble de champs pour noter les préférences et habiletés de vos bénévoles. "
+"Les profils CiviCRM permettent à vos membres ('utilisateurs') de mettre à "
+"jour leur profil, ainsi que de partager une partie de cette information avec "
+"les autres. Enfin, vous pouvez configurer des types d'activités "
+"personalisés, tels que des actions bénévoles ou des événements."
 
+#: drupal/civicrm.module
 msgid "You can:"
 msgstr "Vous pouvez:"
 
+#: drupal/civicrm.module
 msgid "read the <a href=\"%1\">CiviCRM Administrator Guide</a>."
 msgstr "lire le <a href=\"%1\">Guide de l'administrateur CiviCRM</a>."
 
+#: drupal/civicrm.module
 msgid "enable CiviCRM blocks at <a href=\"%1\">administer &gt;&gt; blocks</a>."
-msgstr "activer des blocs CiviCRM dans la section <a href=\"%1\">administration &gt;&gt; blocs</a>."
+msgstr ""
+"activer des blocs CiviCRM dans la section <a href=\"%1\">administration &gt;"
+"&gt; blocs</a>."
 
+#: drupal/civicrm.module
 msgid ""
 "read <a href=\"%1\">CiviCRM access permissions</a> and set access "
 "permissions at <a href=\"%2\">administer &gt;&gt; access control</a>."
-msgstr "lire les <a href=\"%1\">permissions d'accès CiviCRM</a> et modifier les permissions d'accès dans <a href=\"%2\">Administrer &gt;&gt; contrôle d'accès</a>."
+msgstr ""
+"lire les <a href=\"%1\">permissions d'accès CiviCRM</a> et modifier les "
+"permissions d'accès dans <a href=\"%2\">Administrer &gt;&gt; contrôle "
+"d'accès</a>."
 
+#: drupal/civicrm.module
 msgid ""
 "find contacts by name, email address, group membership and or tagging at <a "
 "href=\"%1\">find contacts</a>."
-msgstr "<a href=\"%1\">rechercher des contacts</a> par nom, par adresse de courriel, par leur adhésion à un groupe ou par une étiquette."
+msgstr ""
+"<a href=\"%1\">rechercher des contacts</a> par nom, par adresse de courriel, "
+"par leur adhésion à un groupe ou par une étiquette."
 
+#: drupal/civicrm.module
 msgid ""
 "do complex searches based on tags, group membership, location, activities "
 "and custom fields at <a href=\"%1\">advanced search</a>."
-msgstr "rechercher selon des critères combinés sur des étiquettes, adhésions, adresse, activités et champs personalisés avec la <a href=\"%1\">recherche avancée</a>."
+msgstr ""
+"rechercher selon des critères combinés sur des étiquettes, adhésions, "
+"adresse, activités et champs personalisés avec la <a href=\"%1\">recherche "
+"avancée</a>."
 
+#: drupal/civicrm.module
 msgid "create or manage groups at <a href=\"%1\">manage groups</a>."
 msgstr "créer ou gérer des <a href=\"%1\">groupes</a>."
 
+#: drupal/civicrm.module
 msgid ""
 "import contacts from other sources at <a href=\"%1\">import contacts</a>."
 msgstr "<a href=\"%1\">importer des contacts</a> à partir de d'autres sources."
 
+#: drupal/civicrm.module
 msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at <a "
 "href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
-msgstr "créer ou gérer des <a href=\"%1\">étiquettes</a> (i.e. organisateur, fondation, environnement, ...)."
+msgstr ""
+"créer ou gérer des <a href=\"%1\">étiquettes</a> (i.e. organisateur, "
+"fondation, environnement, ...)."
 
+#: drupal/civicrm.module
 msgid ""
 "create or administer relationship types (e.g. household member, board "
 "member, spouse...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
 "relationship types</a>."
-msgstr "créer ou gérer des <a href=\"%1\">types de relations</a> (i.e. membre d'un ménage, membre d'un comité, conjoint(e) de, ...)."
+msgstr ""
+"créer ou gérer des <a href=\"%1\">types de relations</a> (i.e. membre d'un "
+"ménage, membre d'un comité, conjoint(e) de, ...)."
 
+#: drupal/civicrm.module
 msgid ""
 "create or administer location types (e.g. home, work, school...) <a href=\"%1"
 "\">civicrm &gt;&gt; admin &gt;&gt; location types</a>."
-msgstr "créer ou gérer des <a href=\"%1\">types de domiciles</a> (i.e. résidence, travail, école, ...)."
+msgstr ""
+"créer ou gérer des <a href=\"%1\">types de domiciles</a> (i.e. résidence, "
+"travail, école, ...)."
 
+#: drupal/civicrm.module
 msgid ""
 "create or administer activity types (e.g. house meeting, intake "
 "interview...) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; activity "
 "types</a>."
-msgstr "créer ou gérer des <a href=\"%1\">types d'activités</a> (i.e. réunion à domicile, entrevue, ...)."
+msgstr ""
+"créer ou gérer des <a href=\"%1\">types d'activités</a> (i.e. réunion à "
+"domicile, entrevue, ...)."
 
+#: drupal/civicrm.module
 msgid ""
 "create or administer custom data fields (e.g. volunteer skills, emergency "
 "contact info...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; custom data</"
 "a>."
-msgstr "créer ou gérer des <a href=\"%1\">champs personalisés</a> (i.e. compétences du bénévole, informations en cas d'urgence, ...)."
+msgstr ""
+"créer ou gérer des <a href=\"%1\">champs personalisés</a> (i.e. compétences "
+"du bénévole, informations en cas d'urgence, ...)."
 
+#: drupal/civicrm.module
 msgid ""
 "create or administer civicrm profile (i.e. what contact data is collected "
 "during user registration) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
 "civicrm profile</a>."
-msgstr "créer ou gérer les <a href=\"%1\">profils civicrm</a> (i.e. quelles informations sont requises lors de l'enregistrement d'un nouvel utilisateur)."
+msgstr ""
+"créer ou gérer les <a href=\"%1\">profils civicrm</a> (i.e. quelles "
+"informations sont requises lors de l'enregistrement d'un nouvel utilisateur)."
 
+#: drupal/civicrm.module
 msgid ""
 "For more information please read the configuration and customization "
 "handbook <a href=\"%1\">CiviCRM page</a>."
-msgstr "Pour plus d'information, veuillez consulter le <a href=\"%1\">guide de la configuration et personalisation</a> de CiviCRM."
+msgstr ""
+"Pour plus d'information, veuillez consulter le <a href=\"%1\">guide de la "
+"configuration et personalisation</a> de CiviCRM."
 
+#: drupal/civicrm.module
+#, fuzzy
 msgid ""
-"Constituent Relationship Management (CRM). Allows sites to manage contacts, "
-"relationships and groups, and track contact activities."
-msgstr "Gestion des relations avec la clientèle (CRM, de l'anglais «Constituent Relationship Management»). Permet à votre site de gérer les contacts, relations et groupes, ainsi que de suivre leurs activités."
+"Constituent Relationship Management (CiviCRM %1). Allows sites to manage "
+"contacts, relationships and groups, and track contact activities."
+msgstr ""
+"Gestion des relations avec la clientèle (CRM, de l'anglais «Constituent "
+"Relationship Management»). Permet à votre site de gérer les contacts, "
+"relations et groupes, ainsi que de suivre leurs activités."
 
-#~ msgid "access CiviCRM Profile Listings"
-#~ msgstr "Acceder a CiviCRM"
+#: drupal/civicrm.module
+msgid "View Contact Record"
+msgstr ""
+
+#: drupal/civicrm.module
+msgid "View Contact Dashboard"
+msgstr ""

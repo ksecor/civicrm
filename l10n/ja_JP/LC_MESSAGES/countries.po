@@ -1,2109 +1,1045 @@
-# Japanese translations of ISO 3166 country names 
-# Copyright (C) 2002,2003 Free Software Foundation, Inc.
-# Alastair McKinstry <mckinstry@computer.org>, 2002
-# Translations from KDE:
-# Taiki Komoda <kom@kde.gr.jp>
+# CiviCRM countries POT file
+# Copyright CiviCRM LLC (c) 2004-2007
+# This file is distributed under the same license as the CiviCRM package.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: iso-codes 0.18\n"
-"Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
-"POT-Creation-Date: 2005-03-07 08:29-0500\n"
+"Project-Id-Version: CiviCRM 1.7\n"
+"POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2006-12-19 08:26-0800\n"
 "Last-Translator: Terushige Kohama <teru0928@mctv.ne.jp>\n"
-"Language-Team: Japanese <Kdeveloper@kde.gr.jp\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.10\n"
 
 # AF
-#. name for AFG
 msgid "Afghanistan"
 msgstr "アフガニスタン"
 
-#. official_name for AFG
-msgid "The Transitional Islamic State of Afghanistan"
-msgstr "アフガニスタン・イスラム共和国"
-
-# FO
-# fuzzy
-#. name for ALA
-msgid "Åland Islands"
-msgstr "オーランド諸島"
-
 # AL
-#. name for ALB
 msgid "Albania"
 msgstr "アルバニア"
 
-#. official_name for ALB
-msgid "Republic of Albania"
-msgstr "アルバニア共和国"
-
 # DZ
 # fuzzy
-#. name for DZA
 msgid "Algeria"
 msgstr "ブルガリア"
 
-#. official_name for DZA
-msgid "People's Democratic Republic of Algeria"
-msgstr "アルジェリア民主人民共和国"
-
 # AS
 # fuzzy
-#. name for ASM
 msgid "American Samoa"
 msgstr "アメリカ、北"
 
 # AD
-#. name for AND
 msgid "Andorra"
 msgstr "アンドラ"
 
-#. official_name for AND
-msgid "Principality of Andorra"
-msgstr "アンドラ公国"
-
 # AO
-#. name for AGO
 msgid "Angola"
 msgstr "アンゴラ"
 
-# KR
-# fuzzy
-#. official_name for AGO
-msgid "Republic of Angola"
-msgstr "アンゴラ共和国"
-
 # AI
-#. name for AIA
 msgid "Anguilla"
 msgstr "アンギラ"
 
 # AQ
-#. name for ATA
 msgid "Antarctica"
 msgstr "南極"
 
 # AG
-#. name for ATG
 msgid "Antigua and Barbuda"
 msgstr "アンティグアバーブーダ"
 
 # AR
-#. name for ARG
 msgid "Argentina"
 msgstr "アルゼンチン"
 
-# DO
-#. official_name for ARG
-msgid "Argentine Republic"
-msgstr "アルゼンチン共和国"
-
 # AM
 # fuzzy
-#. name for ARM
 msgid "Armenia"
 msgstr "アルメニア"
 
-#. official_name for ARM
-msgid "Republic of Armenia"
-msgstr "アルメニア共和国"
-
 # AW
-#. name for ABW
 msgid "Aruba"
 msgstr "アルバ"
 
 # AU
-#. name for AUS
 msgid "Australia"
 msgstr "オーストラリア"
 
 # AT
-#. name for AUT
 msgid "Austria"
 msgstr "オーストリア"
 
-#. official_name for AUT
-msgid "Republic of Austria"
-msgstr "オーストリア共和国"
-
 # AZ
-#. name for AZE
 msgid "Azerbaijan"
 msgstr "アゼルバイジャン"
 
-# AZ
-#. official_name for AZE
-msgid "Republic of Azerbaijan"
-msgstr "アゼルバイジャン共和国"
-
-# BS
-# fuzzy
-#. name for BHS
-msgid "Bahamas"
-msgstr "バハマ"
-
-#. official_name for BHS
-msgid "Commonwealth of the Bahamas"
-msgstr "バハマ国"
-
 # BH
 # fuzzy
-#. name for BHR
 msgid "Bahrain"
 msgstr "バーレーン"
 
-# BH
-# fuzzy
-#. official_name for BHR
-msgid "State of Bahrain"
-msgstr "バーレーン王国"
-
 # BD
 # fuzzy
-#. name for BGD
 msgid "Bangladesh"
 msgstr "バングラデシュ"
 
-#. official_name for BGD
-msgid "People's Republic of Bangladesh"
-msgstr "バングラデシュ人民共和国"
-
 # BB
-#. name for BRB
 msgid "Barbados"
 msgstr "バルバドス"
 
 # BY
 # fuzzy
-#. name for BLR
 msgid "Belarus"
 msgstr "ベラルーシ"
 
-#. official_name for BLR
-msgid "Republic of Belarus"
-msgstr "ベラルーシ共和国"
-
 # BE
-#. name for BEL
 msgid "Belgium"
 msgstr "ベルギー"
 
-#. official_name for BEL
-msgid "Kingdom of Belgium"
-msgstr "ベルギー王国"
-
 # BZ
 # fuzzy
-#. name for BLZ
 msgid "Belize"
 msgstr "ベリーズ"
 
 # BJ
-#. name for BEN
 msgid "Benin"
 msgstr "ベナン"
 
-# KR
-# fuzzy
-#. official_name for BEN
-msgid "Republic of Benin"
-msgstr "ベナン共和国"
-
 # BM
-#. name for BMU
 msgid "Bermuda"
 msgstr "バミューダ"
 
 # BT
-#. name for BTN
 msgid "Bhutan"
 msgstr "ブータン"
 
-#. official_name for BTN
-msgid "Kingdom of Bhutan"
-msgstr "ブータン王国"
-
 # BO
-#. name for BOL
 msgid "Bolivia"
 msgstr "ボリビア"
 
-#. official_name for BOL
-msgid "Republic of Bolivia"
-msgstr "ボリビア共和国"
-
 # BA
-#. name for BIH
 msgid "Bosnia and Herzegovina"
 msgstr "ボスニア・ヘルツェゴビナ"
 
-#. official_name for BIH
-msgid "Republic of Bosnia and Herzegovina"
-msgstr "ボスニア・ヘルツェゴビナ共和国"
-
 # BW
-#. name for BWA
 msgid "Botswana"
 msgstr "ボツワナ"
 
-#. official_name for BWA
-msgid "Republic of Botswana"
-msgstr "ボツワナ共和国"
-
 # BV
-#. name for BVT
 msgid "Bouvet Island"
 msgstr "ブーベ島"
 
 # BR
-#. name for BRA
 msgid "Brazil"
 msgstr "ブラジル"
 
-#. official_name for BRA
-msgid "Federative Republic of Brazil"
-msgstr "ブラジル連邦共和国"
-
 # IO
-#. name for IOT
 msgid "British Indian Ocean Territory"
 msgstr "イギリス領インド洋地域"
 
+# VG
+msgid "Virgin Islands, British"
+msgstr ""
+
 # BN
-#. name for BRN
 msgid "Brunei Darussalam"
 msgstr "ブルネイ・ダルサラーム国"
 
 # BG
-#. name for BGR
 msgid "Bulgaria"
 msgstr "ブルガリア"
 
-#. official_name for BGR
-msgid "Republic of Bulgaria"
-msgstr "ブルガリア共和国"
-
 # BF
-#. name for BFA
 msgid "Burkina Faso"
 msgstr "ブルキナファソ"
 
+# MM
+# fuzzy
+msgid "Myanmar"
+msgstr "ミャンマー"
+
 # BI
-#. name for BDI
 msgid "Burundi"
 msgstr "ブルンジ"
 
-#. official_name for BDI
-msgid "Republic of Burundi"
-msgstr "ブルンジ共和国"
-
 # KH
 # fuzzy
-#. name for KHM
 msgid "Cambodia"
 msgstr "カンボジア"
 
-#. official_name for KHM
-msgid "Kingdom of Cambodia"
-msgstr "カンボジア王国"
-
 # CM
-#. name for CMR
 msgid "Cameroon"
 msgstr "カメルーン"
 
-#. official_name for CMR
-msgid "Republic of Cameroon"
-msgstr "カメルーン共和国"
-
 # CA
-#. name for CAN
 msgid "Canada"
 msgstr "カナダ"
 
 # CV
-#. name for CPV
 msgid "Cape Verde"
 msgstr "カーボヴェルデ"
 
-#. official_name for CPV
-msgid "Republic of Cape Verde"
-msgstr "カーボヴェルデ共和国"
-
 # KY
-#. name for CYM
 msgid "Cayman Islands"
 msgstr "ケイマン諸島"
 
 # CF
 # fuzzy
-#. name for CAF
 msgid "Central African Republic"
 msgstr "中央アフリカ共和国"
 
 # TD
 # fuzzy
-#. name for TCD
 msgid "Chad"
 msgstr "チャド"
 
-# KR
-# fuzzy
-#. official_name for TCD
-msgid "Republic of Chad"
-msgstr "チャド共和国"
-
 # CL
-#. name for CHL
 msgid "Chile"
 msgstr "チリ"
 
-# KR
-# fuzzy
-#. official_name for CHL
-msgid "Republic of Chile"
-msgstr "チリ共和国"
-
 # CN
-#. name for CHN
 msgid "China"
 msgstr "中国"
 
-# KR
-# fuzzy
-#. official_name for CHN
-msgid "People's Republic of China"
-msgstr "中華人民共和国"
-
 # CX
-#. name for CXR
 msgid "Christmas Island"
 msgstr "クリスマス諸島"
 
 # CC
-#. name for CCK
 msgid "Cocos (Keeling) Islands"
 msgstr "ココス島"
 
 # CO
 # fuzzy
-#. name for COL
 msgid "Colombia"
 msgstr "コロンビア"
 
-#. official_name for COL
-msgid "Republic of Colombia"
-msgstr "コロンビア共和国"
-
 # KM
-#. name for COM
 msgid "Comoros"
 msgstr "コモロ"
 
-#. official_name for COM
-msgid "Union of the Comoros"
-msgstr "コモロ連合"
-
-# CG
-#. name for COG
-msgid "Congo"
-msgstr "コンゴ"
-
-#. official_name for COG
-msgid "Republic of the Congo"
-msgstr "コンゴ共和国"
-
-#. name for ZAR
 msgid "Congo, The Democratic Republic of the"
 msgstr "コンゴ民主共和国"
 
+# CG
+msgid "Congo"
+msgstr "コンゴ"
+
 # CK
-#. name for COK
 msgid "Cook Islands"
 msgstr "クック諸島"
 
 # CR
-#. name for CRI
 msgid "Costa Rica"
 msgstr "コスタリカ"
 
-#. official_name for CRI
-msgid "Republic of Costa Rica"
-msgstr "コスタリカ共和国"
-
-#. name for CIV
 msgid "Côte d'Ivoire"
 msgstr "コートジボワール"
 
-#. official_name for CIV
-msgid "Republic of Cote d'Ivoire"
-msgstr "コートジボワール共和国"
-
 # HR
-#. name for HRV
 msgid "Croatia"
 msgstr "クロアチア"
 
-#. official_name for HRV
-msgid "Republic of Croatia"
-msgstr "クロアチア共和国"
-
 # CU
 # fuzzy
-#. name for CUB
 msgid "Cuba"
 msgstr "キューバ"
 
-# KR
-# fuzzy
-#. official_name for CUB
-msgid "Republic of Cuba"
-msgstr "キューバ共和国"
-
 # CY
-#. name for CYP
 msgid "Cyprus"
 msgstr "キプロス"
 
-# KR
-# fuzzy
-#. official_name for CYP
-msgid "Republic of Cyprus"
-msgstr "キプロス共和国"
-
 # CZ
 # fuzzy
-#. name for CZE
 msgid "Czech Republic"
 msgstr "チェコ共和国"
 
 # DK
-#. name for DNK
 msgid "Denmark"
 msgstr "デンマーク"
 
-#. official_name for DNK
-msgid "Kingdom of Denmark"
-msgstr "デンマーク王国"
-
 # DJ
-#. name for DJI
 msgid "Djibouti"
 msgstr "ジブチ"
 
-#. official_name for DJI
-msgid "Republic of Djibouti"
-msgstr "ジブチ共和国 "
-
 # DM
 # fuzzy
-#. name for DMA
 msgid "Dominica"
 msgstr "ルドミニカ"
 
-#. official_name for DMA
-msgid "Commonwealth of Dominica"
-msgstr "ドミニカ国"
-
 # DO
-#. name for DOM
 msgid "Dominican Republic"
 msgstr "ドミニカ共和国"
 
-#. name for TLS
 msgid "Timor-Leste"
 msgstr "東ティモール"
 
-#. official_name for TLS
-msgid "Democratic Republic of Timor-Leste"
-msgstr "東ティモール民主共和国"
-
 # EC
 # fuzzy
-#. name for ECU
 msgid "Ecuador"
 msgstr "エクアドル"
 
-#. official_name for ECU
-msgid "Republic of Ecuador"
-msgstr "エクアドル共和国"
-
 # EG
 # fuzzy
-#. name for EGY
 msgid "Egypt"
 msgstr "エジプト"
 
-# KR
-# fuzzy
-#. official_name for EGY
-msgid "Arab Republic of Egypt"
-msgstr "エジプト・アラブ共和国"
-
 # SV
-#. name for SLV
 msgid "El Salvador"
 msgstr "エルサルバドル"
 
-# SV
-#. official_name for SLV
-msgid "Republic of El Salvador"
-msgstr "エルサルバドル共和国"
-
 # GQ
-#. name for GNQ
 msgid "Equatorial Guinea"
 msgstr "赤道ギニア"
 
-#. official_name for GNQ
-msgid "Republic of Equatorial Guinea"
-msgstr "赤道ギニア共和国"
-
 # ER
-#. name for ERI
 msgid "Eritrea"
 msgstr "エリトリア"
 
 # EE
-#. name for EST
 msgid "Estonia"
 msgstr "エストニア"
 
-#. official_name for EST
-msgid "Republic of Estonia"
-msgstr "エストニア共和国"
-
 # ET
 # fuzzy
-#. name for ETH
 msgid "Ethiopia"
 msgstr "エチオピア"
 
-#. official_name for ETH
-msgid "Federal Democratic Republic of Ethiopia"
-msgstr "エチオピア連邦民主共和国"
-
 # FK
-#. name for FLK
 msgid "Falkland Islands (Malvinas)"
 msgstr "フォークランド諸島"
 
 # FO
 # fuzzy
-#. name for FRO
 msgid "Faroe Islands"
 msgstr "フェロー諸島"
 
 # FJ
-#. name for FJI
 msgid "Fiji"
 msgstr "フィジー"
 
-#. official_name for FJI
-msgid "Republic of the Fiji Islands"
-msgstr "フィジー諸島共和国"
-
 # FI
-#. name for FIN
 msgid "Finland"
 msgstr "フィンランド"
 
-#. official_name for FIN
-msgid "Republic of Finland"
-msgstr "フィンランド共和国"
-
 # FR
-#. name for FRA
 msgid "France"
 msgstr "フランス"
 
-# CZ
-# fuzzy
-#. official_name for FRA
-msgid "French Republic"
-msgstr "フランス共和国"
-
 # GF
-#. name for GUF
 msgid "French Guiana"
 msgstr "フランス領ギアナ"
 
 # PF
-#. name for PYF
 msgid "French Polynesia"
 msgstr "フランス領ポリネシア"
 
-#. name for ATF
 msgid "French Southern Territories"
 msgstr "フランス領南方・南極地域"
 
 # GA
-#. name for GAB
 msgid "Gabon"
 msgstr "ガボン"
 
-# CZ
-# fuzzy
-#. official_name for GAB
-msgid "Gabonese Republic"
-msgstr "ガボン共和国"
-
-# GM
-# fuzzy
-#. name for GMB
-msgid "Gambia"
-msgstr "ガンビア"
-
-#. official_name for GMB
-msgid "Republic of the Gambia"
-msgstr "ガンビア共和国"
-
 # GE
 # fuzzy
-#. name for GEO
 msgid "Georgia"
 msgstr "グルジア"
 
 # DE
-#. name for DEU
 msgid "Germany"
 msgstr "ドイツ"
 
-# KR
-# fuzzy
-#. official_name for DEU
-msgid "Federal Republic of Germany"
-msgstr "ドイツ連邦共和国"
-
 # GH
 # fuzzy
-#. name for GHA
 msgid "Ghana"
 msgstr "ガーナ"
 
-# KR
-# fuzzy
-#. official_name for GHA
-msgid "Republic of Ghana"
-msgstr "ガーナ共和国"
-
 # GI
-#. name for GIB
 msgid "Gibraltar"
 msgstr "ジブラルタル"
 
 # GR
-#. name for GRC
 msgid "Greece"
 msgstr "ギリシャ"
 
-# CZ
-# fuzzy
-#. official_name for GRC
-msgid "Hellenic Republic"
-msgstr "ギリシャ共和国"
-
 # GL
 # fuzzy
-#. name for GRL
 msgid "Greenland"
 msgstr "グリーンランド"
 
 # GD
-#. name for GRD
 msgid "Grenada"
 msgstr "グレナダ"
 
 # GP
-#. name for GLP
 msgid "Guadeloupe"
 msgstr "グアドループ"
 
 # GU
 # fuzzy
-#. name for GUM
 msgid "Guam"
 msgstr "グアム"
 
 # GT
-#. name for GTM
 msgid "Guatemala"
 msgstr "グアテマラ"
 
-# GT
-#. official_name for GTM
-msgid "Republic of Guatemala"
-msgstr "グアテマラ共和国"
-
 # GN
-#. name for GIN
 msgid "Guinea"
 msgstr "ギニア"
 
-# KR
-# fuzzy
-#. official_name for GIN
-msgid "Republic of Guinea"
-msgstr "ギニア共和国"
-
 # GW
-#. name for GNB
 msgid "Guinea-Bissau"
 msgstr "ギニアビサウ"
 
-#. official_name for GNB
-msgid "Republic of Guinea-Bissau"
-msgstr "ギニアビサウ共和国"
-
 # GY
-#. name for GUY
 msgid "Guyana"
 msgstr "ガイアナ"
 
-# KR
-# fuzzy
-#. official_name for GUY
-msgid "Republic of Guyana"
-msgstr "ガイアナ協同共和国"
-
 # HT
-#. name for HTI
 msgid "Haiti"
 msgstr "ハイチ"
 
-# KR
-# fuzzy
-#. official_name for HTI
-msgid "Republic of Haiti"
-msgstr "ハイチ共和国"
-
-#. name for HMD
 msgid "Heard Island and McDonald Islands"
 msgstr "ハード島とマクドナルド諸島"
 
 # VA
-#. name for VAT
 msgid "Holy See (Vatican City State)"
 msgstr "バチカン市国"
 
 # HN
-#. name for HND
 msgid "Honduras"
 msgstr "ホンデュラス"
 
-#. official_name for HND
-msgid "Republic of Honduras"
-msgstr "ホンデュラス共和国"
-
 # HK
-#. name for HKG
 msgid "Hong Kong"
 msgstr "香港"
 
-#. official_name for HKG
-msgid "Hong Kong Special Administrative Region of China"
-msgstr "中国香港特別行政区"
-
 # HU
-#. name for HUN
 msgid "Hungary"
 msgstr "ハンガリー"
 
-#. official_name for HUN
-msgid "Republic of Hungary"
-msgstr "ハンガリー共和国"
-
 # IS
-#. name for ISL
 msgid "Iceland"
 msgstr "アイスランド"
 
-#. official_name for ISL
-msgid "Republic of Iceland"
-msgstr "アイスランド共和国"
-
 # IN
 # fuzzy
-#. name for IND
 msgid "India"
 msgstr "インド"
 
-# KR
-# fuzzy
-#. official_name for IND
-msgid "Republic of India"
-msgstr "インド共和国"
-
 # ID
 # fuzzy
-#. name for IDN
 msgid "Indonesia"
 msgstr "インドネシア"
 
-# ID
-# fuzzy
-#. official_name for IDN
-msgid "Republic of Indonesia"
-msgstr "インドネシア共和国"
-
 # KR
 # fuzzy
-#. name for IRN
 msgid "Iran, Islamic Republic of"
 msgstr "イラン"
 
-# KR
-# fuzzy
-#. official_name for IRN
-msgid "Islamic Republic of Iran"
-msgstr "イラン・イスラム共和国"
-
 # IQ
 # fuzzy
-#. name for IRQ
 msgid "Iraq"
 msgstr "イラク"
 
-# KR
-# fuzzy
-#. official_name for IRQ
-msgid "Republic of Iraq"
-msgstr "イラク共和国"
-
 # IE
-#. name for IRL
 msgid "Ireland"
 msgstr "アイルランド"
 
 # IL
-#. name for ISR
 msgid "Israel"
 msgstr "イスラエル"
 
-#. official_name for ISR
-msgid "State of Israel"
-msgstr "イスラエル国"
-
 # IT
-#. name for ITA
 msgid "Italy"
 msgstr "イタリア"
 
-# CF
-# fuzzy
-#. official_name for ITA
-msgid "Italian Republic"
-msgstr "イタリア共和国"
-
 # JM
 # fuzzy
-#. name for JAM
 msgid "Jamaica"
 msgstr "ジャマイカ"
 
 # JP
-#. name for JPN
 msgid "Japan"
 msgstr "日本"
 
 # JO
 # fuzzy
-#. name for JOR
 msgid "Jordan"
 msgstr "ヨルダン"
 
-#. official_name for JOR
-msgid "Hashemite Kingdom of Jordan"
-msgstr "ヨルダン・ハシミテ王国"
-
 # KZ
 # fuzzy
-#. name for KAZ
 msgid "Kazakhstan"
 msgstr "カザフスタン"
 
-# KZ
-# fuzzy
-#. official_name for KAZ
-msgid "Republic of Kazakhstan"
-msgstr "カザフスタン共和国"
-
 # KE
-#. name for KEN
 msgid "Kenya"
 msgstr "ケニア"
 
-# KR
-# fuzzy
-#. official_name for KEN
-msgid "Republic of Kenya"
-msgstr "ケニア共和国"
-
 # KI
-#. name for KIR
 msgid "Kiribati"
 msgstr "キリバス"
 
-#. official_name for KIR
-msgid "Republic of Kiribati"
-msgstr "キリバス共和国"
-
 # KP
-#. name for PRK
 msgid "Korea, Democratic People's Republic of"
 msgstr "北朝鮮"
 
-#. official_name for PRK
-msgid "Democratic People's Republic of Korea"
-msgstr "朝鮮民主主義人民共和国"
-
 # KR
 # fuzzy
-#. name for KOR
 msgid "Korea, Republic of"
 msgstr "大韓民国"
 
 # KW
-#. name for KWT
 msgid "Kuwait"
 msgstr "クウェート"
 
-#. official_name for KWT
-msgid "State of Kuwait"
-msgstr "クウェート国"
-
 # KG
-#. name for KGZ
 msgid "Kyrgyzstan"
 msgstr "キルギス"
 
-# CZ
-# fuzzy
-#. official_name for KGZ
-msgid "Kyrgyz Republic"
-msgstr "キルギス共和国"
-
-#. name for LAO
 msgid "Lao People's Democratic Republic"
 msgstr "ラオス人民民主共和国"
 
 # LV
-#. name for LVA
 msgid "Latvia"
 msgstr "ラトビア"
 
-# KR
-# fuzzy
-#. official_name for LVA
-msgid "Republic of Latvia"
-msgstr "ラトビア共和国"
-
 # LB
-#. name for LBN
 msgid "Lebanon"
 msgstr "レバノン"
 
-# CZ
-# fuzzy
-#. official_name for LBN
-msgid "Lebanese Republic"
-msgstr "レバノン共和国"
-
 # LS
-#. name for LSO
 msgid "Lesotho"
 msgstr "レソト"
 
-#. official_name for LSO
-msgid "Kingdom of Lesotho"
-msgstr "レソト王国 "
-
 # LR
 # fuzzy
-#. name for LBR
 msgid "Liberia"
 msgstr "リベリア"
 
-#. official_name for LBR
-msgid "Republic of Liberia"
-msgstr "リベリア共和国"
-
-#. name for LBY
 msgid "Libyan Arab Jamahiriya"
 msgstr "リビア"
 
-#. official_name for LBY
-msgid "Socialist People's Libyan Arab Jamahiriya"
-msgstr "リビア・アラブ社会主義人民ジャマーヒリーヤ国"
-
 # LI
-#. name for LIE
 msgid "Liechtenstein"
 msgstr "リヒテンシュタイン"
 
-#. official_name for LIE
-msgid "Principality of Liechtenstein"
-msgstr "リヒテンシュタイン公国"
-
 # LT
-#. name for LTU
 msgid "Lithuania"
 msgstr "リトアニア"
 
-# LT
-#. official_name for LTU
-msgid "Republic of Lithuania"
-msgstr "リトアニア共和国"
-
 # LU
-#. name for LUX
 msgid "Luxembourg"
 msgstr "ルクセンブルグ"
 
-#. official_name for LUX
-msgid "Grand Duchy of Luxembourg"
-msgstr "ルクセンブルク大公国"
-
 # MO
 # fuzzy
-#. name for MAC
 msgid "Macao"
 msgstr "マカオ"
 
-#. official_name for MAC
-msgid "Macao Special Administrative Region of China"
-msgstr "中国マカオ特別行政区"
-
 # KR
 # fuzzy
-#. name for MKD
 msgid "Macedonia, Republic of"
 msgstr "マケドニア共和国"
 
-#. official_name for MKD
-msgid "The Former Yugoslav Republic of Macedonia"
-msgstr "マケドニア旧ユーゴスラビア共和国"
-
 # MG
-#. name for MDG
 msgid "Madagascar"
 msgstr "マダガスカル"
 
-#. official_name for MDG
-msgid "Republic of Madagascar"
-msgstr "マダガスカル共和国"
-
 # MW
 # fuzzy
-#. name for MWI
 msgid "Malawi"
 msgstr "マラウイ"
 
-# KR
-# fuzzy
-#. official_name for MWI
-msgid "Republic of Malawi"
-msgstr "マラウイ共和国"
-
 # MY
 # fuzzy
-#. name for MYS
 msgid "Malaysia"
 msgstr "マレーシア"
 
 # MV
 # fuzzy
-#. name for MDV
 msgid "Maldives"
 msgstr "モルディブ"
 
-#. official_name for MDV
-msgid "Republic of Maldives"
-msgstr "モルディブ共和国"
-
 # ML
 # fuzzy
-#. name for MLI
 msgid "Mali"
 msgstr "マリ"
 
-# KR
-# fuzzy
-#. official_name for MLI
-msgid "Republic of Mali"
-msgstr "マリ共和国"
-
 # MT
-#. name for MLT
 msgid "Malta"
 msgstr "マルタ"
 
-# KR
-# fuzzy
-#. official_name for MLT
-msgid "Republic of Malta"
-msgstr "マルタ共和国"
-
 # MH
-#. name for MHL
 msgid "Marshall Islands"
 msgstr "マーシャル諸島"
 
-#. official_name for MHL
-msgid "Republic of the Marshall Islands"
-msgstr "マーシャル諸島共和国"
-
 # MQ
-#. name for MTQ
 msgid "Martinique"
 msgstr "マルティニーク"
 
 # MR
 # fuzzy
-#. name for MRT
 msgid "Mauritania"
 msgstr "モーリタニア"
 
-#. official_name for MRT
-msgid "Islamic Republic of Mauritania"
-msgstr "モーリタニア・イスラム共和国"
-
 # MU
 # fuzzy
-#. name for MUS
 msgid "Mauritius"
 msgstr "モーリシャス"
 
-# MU
-# fuzzy
-#. official_name for MUS
-msgid "Republic of Mauritius"
-msgstr "モーリシャス共和国"
-
 # YT
-#. name for MYT
 msgid "Mayotte"
 msgstr "マヨット島"
 
 # MX
-#. name for MEX
 msgid "Mexico"
 msgstr "メキシコ"
 
-# US
-# fuzzy
-#. official_name for MEX
-msgid "United Mexican States"
-msgstr "メキシコ合衆国"
-
-#. name for FSM
 msgid "Micronesia, Federated States of"
 msgstr "ミクロネシア"
 
-#. official_name for FSM
-msgid "Federated States of Micronesia"
-msgstr "ミクロネシア連邦"
-
 # KR
 # fuzzy
-#. name for MDA
 msgid "Moldova, Republic of"
 msgstr "モルドバ"
 
-#. official_name for MDA
-msgid "Republic of Moldova"
-msgstr "モルドバ共和国"
-
 # MC
-#. name for MCO
 msgid "Monaco"
 msgstr "モナコ"
 
-#. official_name for MCO
-msgid "Principality of Monaco"
-msgstr "モナコ公国 "
-
 # MN
-#. name for MNG
 msgid "Mongolia"
 msgstr "モンゴリア"
 
 # MS
-#. name for MSR
 msgid "Montserrat"
 msgstr "モントセラト"
 
 # MA
-#. name for MAR
 msgid "Morocco"
 msgstr "モロッコ"
 
-#. official_name for MAR
-msgid "Kingdom of Morocco"
-msgstr "モロッコ王国"
-
 # MZ
-#. name for MOZ
 msgid "Mozambique"
 msgstr "モザンビーク"
 
-#. official_name for MOZ
-msgid "Republic of Mozambique"
-msgstr "モザンビーク共和国"
-
-# MM
-# fuzzy
-#. name for MMR
-msgid "Myanmar"
-msgstr "ミャンマー"
-
-# MM
-# fuzzy
-#. official_name for MMR
-msgid "Union of Myanmar"
-msgstr "ミャンマー連邦"
-
 # NA
-#. name for NAM
 msgid "Namibia"
 msgstr "ナミビア"
 
-#. official_name for NAM
-msgid "Republic of Namibia"
-msgstr "ナミビア共和国"
-
 # NR
-#. name for NRU
 msgid "Nauru"
 msgstr "ナウル"
 
-# KR
-# fuzzy
-#. official_name for NRU
-msgid "Republic of Nauru"
-msgstr "ナウル共和国"
-
 # NP
-#. name for NPL
 msgid "Nepal"
 msgstr "ネパール"
 
-#. official_name for NPL
-msgid "Kingdom of Nepal"
-msgstr "ネパール王国"
-
-# NL
-#. name for NLD
-msgid "Netherlands"
-msgstr "オランダ"
-
-#. official_name for NLD
-msgid "Kingdom of the Netherlands"
-msgstr "オランダ王国"
-
 # AN
 # fuzzy
-#. name for ANT
 msgid "Netherlands Antilles"
 msgstr "オランダ領アンティル"
 
+# NL
+msgid "Netherlands"
+msgstr "オランダ"
+
 # NC
 # fuzzy
-#. name for NCL
 msgid "New Caledonia"
 msgstr "ニューカレドニア"
 
 # NZ
-#. name for NZL
 msgid "New Zealand"
 msgstr "ニュージーランド"
 
 # NI
 # fuzzy
-#. name for NIC
 msgid "Nicaragua"
 msgstr "ニカラグア"
 
-# NI
-# fuzzy
-#. official_name for NIC
-msgid "Republic of Nicaragua"
-msgstr "ニカラグア共和国"
-
 # NE
-#. name for NER
 msgid "Niger"
 msgstr "ニジェール"
 
-#. official_name for NER
-msgid "Republic of the Niger"
-msgstr "ニジェール共和国"
-
 # NG
 # fuzzy
-#. name for NGA
 msgid "Nigeria"
 msgstr "ナイジェリア"
 
-# KR
-# fuzzy
-#. official_name for NGA
-msgid "Federal Republic of Nigeria"
-msgstr "ナイジェリア連邦共和国"
-
 # NU
-#. name for NIU
 msgid "Niue"
 msgstr "ニウエ"
 
-# KR
-# fuzzy
-#. official_name for NIU
-msgid "Republic of Niue"
-msgstr "ニウエ共和国"
-
 # NF
-#. name for NFK
 msgid "Norfolk Island"
 msgstr "ノーフォーク島"
 
 # MP
-#. name for MNP
 msgid "Northern Mariana Islands"
 msgstr "北マリアナ諸島"
 
-#. official_name for MNP
-msgid "Commonwealth of the Northern Mariana Islands"
-msgstr "北マリアナ連邦"
-
 # NO
-#. name for NOR
 msgid "Norway"
 msgstr "ノルウェー"
 
-#. official_name for NOR
-msgid "Kingdom of Norway"
-msgstr ""
-
 # OM
-#. name for OMN
 msgid "Oman"
 msgstr ""
 
-#. official_name for OMN
-msgid "Sultanate of Oman"
-msgstr ""
-
 # PK
-#. name for PAK
 msgid "Pakistan"
-msgstr ""
-
-#. official_name for PAK
-msgid "Islamic Republic of Pakistan"
 msgstr ""
 
 # PW
 # fuzzy
-#. name for PLW
 msgid "Palau"
 msgstr "パラグアイ"
 
-# KR
-# fuzzy
-#. official_name for PLW
-#, fuzzy
-msgid "Republic of Palau"
-msgstr "ドミニカ共和国"
-
-#. name for PSE
 msgid "Palestinian Territory, Occupied"
 msgstr ""
 
-#. official_name for PSE
-msgid "Occupied Palestinian Territory"
-msgstr ""
-
 # PA
-#. name for PAN
 msgid "Panama"
 msgstr "パナマ"
 
-# KR
-# fuzzy
-#. official_name for PAN
-#, fuzzy
-msgid "Republic of Panama"
-msgstr "ドミニカ共和国"
-
 # PG
-#. name for PNG
 msgid "Papua New Guinea"
 msgstr ""
 
 # PY
-#. name for PRY
 msgid "Paraguay"
 msgstr "パラグアイ"
 
-#. official_name for PRY
-msgid "Republic of Paraguay"
-msgstr ""
-
 # PE
-#. name for PER
 msgid "Peru"
 msgstr "ペルー"
 
-# KR
-# fuzzy
-#. official_name for PER
-#, fuzzy
-msgid "Republic of Peru"
-msgstr "ドミニカ共和国"
-
 # PH
-#. name for PHL
 msgid "Philippines"
 msgstr ""
 
-#. official_name for PHL
-msgid "Republic of the Philippines"
-msgstr ""
-
 # PN
-#. name for PCN
 msgid "Pitcairn"
 msgstr ""
 
 # PL
-#. name for POL
 msgid "Poland"
 msgstr "ポーランド"
 
-# KR
-# fuzzy
-#. official_name for POL
-#, fuzzy
-msgid "Republic of Poland"
-msgstr "ドミニカ共和国"
-
 # PT
-#. name for PRT
 msgid "Portugal"
 msgstr "ポルトガル"
 
-# KR
-# fuzzy
-#. official_name for PRT
-#, fuzzy
-msgid "Portuguese Republic"
-msgstr "ドミニカ共和国"
-
 # PR
-#. name for PRI
 msgid "Puerto Rico"
 msgstr ""
 
 # QA
 # fuzzy
-#. name for QAT
 msgid "Qatar"
 msgstr "マルタ"
 
-#. official_name for QAT
-msgid "State of Qatar"
-msgstr ""
-
-# RE
-#. name for REU
-msgid "Reunion"
-msgstr ""
-
 # RO
-#. name for ROU
 msgid "Romania"
 msgstr "ルーマニア"
 
 # RU
-#. name for RUS
 msgid "Russian Federation"
 msgstr ""
 
 # RW
 # fuzzy
-#. name for RWA
 msgid "Rwanda"
 msgstr "カナダ"
 
-# CZ
-# fuzzy
-#. official_name for RWA
-#, fuzzy
-msgid "Rwandese Republic"
-msgstr "ドミニカ共和国"
+# RE
+msgid "Reunion"
+msgstr ""
 
 # SH
-#. name for SHN
 msgid "Saint Helena"
 msgstr ""
 
 # KN
 # fuzzy
-#. name for KNA
 #, fuzzy
 msgid "Saint Kitts and Nevis"
 msgstr "セントキッツネヴィス"
 
 # LC
 # fuzzy
-#. name for LCA
 #, fuzzy
 msgid "Saint Lucia"
 msgstr "セントルキア"
 
-#. name for SPM
 msgid "Saint Pierre and Miquelon"
 msgstr ""
 
 # VC
 # fuzzy
-#. name for VCT
 #, fuzzy
 msgid "Saint Vincent and the Grenadines"
 msgstr "セントヴィンセントグレナディン"
 
 # WS
-#. name for WSM
 msgid "Samoa"
 msgstr ""
 
-#. official_name for WSM
-msgid "Independent State of Samoa"
-msgstr ""
-
 # SM
-#. name for SMR
 msgid "San Marino"
 msgstr ""
 
-#. official_name for SMR
-msgid "Republic of San Marino"
-msgstr ""
-
-# ST
-#. name for STP
-msgid "Sao Tome and Principe"
-msgstr ""
-
-#. official_name for STP
-msgid "Democratic Republic of Sao Tome and Principe"
-msgstr ""
-
 # SA
-#. name for SAU
 msgid "Saudi Arabia"
 msgstr ""
 
-#. official_name for SAU
-msgid "Kingdom of Saudi Arabia"
-msgstr ""
-
 # SN
-#. name for SEN
 msgid "Senegal"
 msgstr ""
 
-#. official_name for SEN
-msgid "Republic of Senegal"
-msgstr ""
-
 # SC
-#. name for SYC
 msgid "Seychelles"
 msgstr ""
 
-#. official_name for SYC
-msgid "Republic of Seychelles"
-msgstr ""
-
 # SL
-#. name for SLE
 msgid "Sierra Leone"
 msgstr ""
 
-#. official_name for SLE
-msgid "Republic of Sierra Leone"
-msgstr ""
-
 # SG
-#. name for SGP
 msgid "Singapore"
-msgstr ""
-
-#. official_name for SGP
-msgid "Republic of Singapore"
 msgstr ""
 
 # SK
 # fuzzy
-#. name for SVK
 msgid "Slovakia"
 msgstr "スロバキア語"
 
-# KR
-# fuzzy
-#. official_name for SVK
-#, fuzzy
-msgid "Slovak Republic"
-msgstr "ドミニカ共和国"
-
 # SI
-#. name for SVN
 msgid "Slovenia"
 msgstr "スロベニア"
 
-#. official_name for SVN
-msgid "Republic of Slovenia"
-msgstr ""
-
 # SB
-#. name for SLB
 msgid "Solomon Islands"
 msgstr ""
 
 # SO
 # fuzzy
-#. name for SOM
 msgid "Somalia"
 msgstr "ルーマニア"
 
-# DO
-#. official_name for SOM
-#, fuzzy
-msgid "Somali Republic"
-msgstr "ドミニカ共和国"
-
 # ZA
-#. name for ZAF
 msgid "South Africa"
 msgstr "南アフリカ"
 
-# ZA
-#. official_name for ZAF
-#, fuzzy
-msgid "Republic of South Africa"
-msgstr "南アフリカ"
-
 # GS
-#. name for SGS
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
 # ES
-#. name for ESP
 msgid "Spain"
 msgstr "スペイン"
 
-#. official_name for ESP
-msgid "Kingdom of Spain"
-msgstr ""
-
 # LK
-#. name for LKA
 msgid "Sri Lanka"
-msgstr ""
-
-#. official_name for LKA
-msgid "Democratic Socialist Republic of Sri Lanka"
 msgstr ""
 
 # SD
 # fuzzy
-#. name for SDN
 msgid "Sudan"
 msgstr "サウンド"
 
-#. official_name for SDN
-msgid "Republic of the Sudan"
-msgstr ""
-
 # SR
-#. name for SUR
 msgid "Suriname"
 msgstr ""
 
-#. official_name for SUR
-msgid "Republic of Suriname"
-msgstr ""
-
 # SJ
-#. name for SJM
 msgid "Svalbard and Jan Mayen"
 msgstr ""
 
 # SZ
 # fuzzy
-#. name for SWZ
 msgid "Swaziland"
 msgstr "タイ"
 
-# SZ
-# fuzzy
-#. official_name for SWZ
-#, fuzzy
-msgid "Kingdom of Swaziland"
-msgstr "タイ"
-
 # SE
-#. name for SWE
 msgid "Sweden"
 msgstr "スウェーデン"
 
-#. official_name for SWE
-msgid "Kingdom of Sweden"
-msgstr ""
-
 # CH
-#. name for CHE
 msgid "Switzerland"
 msgstr "スイス"
 
-#. official_name for CHE
-msgid "Swiss Confederation"
-msgstr ""
-
 # CF
 # fuzzy
-#. name for SYR
 #, fuzzy
 msgid "Syrian Arab Republic"
 msgstr "ドミニカ共和国"
 
-#. name for TWN
-msgid "Taiwan, Province of China"
+# ST
+msgid "Sao Tome and Principe"
 msgstr ""
 
 # TW
-#. common_name for TWN
 msgid "Taiwan"
 msgstr "台湾"
 
 # TJ
 # fuzzy
-#. name for TJK
 msgid "Tajikistan"
-msgstr "台湾"
-
-# TJ
-# fuzzy
-#. official_name for TJK
-#, fuzzy
-msgid "Republic of Tajikistan"
 msgstr "台湾"
 
 # KR
 # fuzzy
-#. name for TZA
 #, fuzzy
 msgid "Tanzania, United Republic of"
 msgstr "ドミニカ共和国"
 
-#. official_name for TZA
-msgid "United Republic of Tanzania"
-msgstr ""
-
 # TH
-#. name for THA
 msgid "Thailand"
 msgstr "タイ"
 
-#. official_name for THA
-msgid "Kingdom of Thailand"
-msgstr ""
+# BS
+# fuzzy
+msgid "Bahamas"
+msgstr "バハマ"
+
+# GM
+# fuzzy
+msgid "Gambia"
+msgstr "ガンビア"
 
 # TG
-#. name for TGO
 msgid "Togo"
 msgstr ""
 
-# CZ
-# fuzzy
-#. official_name for TGO
-#, fuzzy
-msgid "Togolese Republic"
-msgstr "ドミニカ共和国"
-
 # TK
-#. name for TKL
 msgid "Tokelau"
 msgstr ""
 
 # TO
-#. name for TON
 msgid "Tonga"
 msgstr ""
 
-#. official_name for TON
-msgid "Kingdom of Tonga"
-msgstr ""
-
 # TT
-#. name for TTO
 msgid "Trinidad and Tobago"
-msgstr "トリニダードトバコ"
-
-# TT
-#. official_name for TTO
-#, fuzzy
-msgid "Republic of Trinidad and Tobago"
 msgstr "トリニダードトバコ"
 
 # TN
 # fuzzy
-#. name for TUN
 msgid "Tunisia"
 msgstr "ロシア"
 
-#. official_name for TUN
-msgid "Republic of Tunisia"
-msgstr ""
-
 # TR
-#. name for TUR
 msgid "Turkey"
 msgstr "トルコ"
 
-# KR
-# fuzzy
-#. official_name for TUR
-#, fuzzy
-msgid "Republic of Turkey"
-msgstr "ドミニカ共和国"
-
 # TM
-#. name for TKM
 msgid "Turkmenistan"
 msgstr ""
 
-#. name for TCA
 msgid "Turks and Caicos Islands"
 msgstr ""
 
 # TV
-#. name for TUV
 msgid "Tuvalu"
 msgstr ""
 
 # UG
 # fuzzy
-#. name for UGA
 msgid "Uganda"
 msgstr "カナダ"
 
-# KR
-# fuzzy
-#. official_name for UGA
-#, fuzzy
-msgid "Republic of Uganda"
-msgstr "ドミニカ共和国"
-
 # UA
-#. name for UKR
 msgid "Ukraine"
 msgstr "ウクライナ"
 
 # AE
-#. name for ARE
 msgid "United Arab Emirates"
 msgstr ""
 
-#. name for GBR
 msgid "United Kingdom"
 msgstr ""
 
-#. official_name for GBR
-msgid "United Kingdom of Great Britain and Northern Ireland"
-msgstr ""
-
-# US
-# fuzzy
-#. name for USA
-msgid "United States"
-msgstr "アメリカ"
-
-# US
-# fuzzy
-#. official_name for USA
-#, fuzzy
-msgid "United States of America"
-msgstr "アメリカ"
-
 # UM
 # fuzzy
-#. name for UMI
 msgid "United States Minor Outlying Islands"
 msgstr "アメリカ"
 
+# US
+# fuzzy
+msgid "United States"
+msgstr "アメリカ"
+
 # UY
-#. name for URY
 msgid "Uruguay"
 msgstr "ウルグアイ"
 
-#. official_name for URY
-msgid "Eastern Republic of Uruguay"
-msgstr ""
-
 # UZ
-#. name for UZB
 msgid "Uzbekistan"
 msgstr ""
 
-#. official_name for UZB
-msgid "Republic of Uzbekistan"
-msgstr ""
-
 # VU
-#. name for VUT
 msgid "Vanuatu"
 msgstr ""
 
-#. official_name for VUT
-msgid "Republic of Vanuatu"
-msgstr ""
-
 # VE
-#. name for VEN
 msgid "Venezuela"
 msgstr "ベネズェラ"
 
-# KR
-# fuzzy
-#. official_name for VEN
-#, fuzzy
-msgid "Bolivarian Republic of Venezuela"
-msgstr "ドミニカ共和国"
-
 # VN
 # fuzzy
-#. name for VNM
 #, fuzzy
 msgid "Viet Nam"
 msgstr "ベトナム語"
 
-#. official_name for VNM
-msgid "Socialist Republic of Viet Nam"
-msgstr ""
-
-# VG
-#. name for VGB
-msgid "Virgin Islands, British"
-msgstr ""
-
 # VI
 # fuzzy
-#. official_name for VGB
-#, fuzzy
-msgid "British Virgin Islands"
-msgstr "フィンランド"
-
-# VI
-# fuzzy
-#. name for VIR
 msgid "Virgin Islands, U.S."
 msgstr "フィンランド"
 
-# VI
-# fuzzy
-#. official_name for VIR
-#, fuzzy
-msgid "Virgin Islands of the United States"
-msgstr "フィンランド"
-
 # WF
-#. name for WLF
 msgid "Wallis and Futuna"
 msgstr ""
 
 # EH
-#. name for ESH
 msgid "Western Sahara"
 msgstr ""
 
 # YE
-#. name for YEM
 msgid "Yemen"
 msgstr ""
 
-# KR
-# fuzzy
-#. official_name for YEM
-#, fuzzy
-msgid "Republic of Yemen"
-msgstr "ドミニカ共和国"
-
-# ZM
-# fuzzy
-#. name for ZMB
-msgid "Zambia"
-msgstr "ジャマイカ"
-
-# KR
-# fuzzy
-#. official_name for ZMB
-#, fuzzy
-msgid "Republic of Zambia"
-msgstr "ドミニカ共和国"
-
-# ZW
-#. name for ZWE
-msgid "Zimbabwe"
-msgstr ""
-
-#. official_name for ZWE
-msgid "Republic of Zimbabwe"
-msgstr ""
-
-#. name for SCG
 msgid "Serbia and Montenegro"
 msgstr ""
 
-# DE
-#, fuzzy
-#~ msgid "Guernsey"
-#~ msgstr "ドイツ"
+# ZM
+# fuzzy
+msgid "Zambia"
+msgstr "ジャマイカ"
+
+# ZW
+msgid "Zimbabwe"
+msgstr ""
+
+# FO
+# fuzzy
+msgid "Åland Islands"
+msgstr "オーランド諸島"
 
 # SY
 # fuzzy
 #, fuzzy
-#~ msgid "Serbia"
-#~ msgstr "セルビア"
+msgid "Serbia"
+msgstr "セルビア"
 
-# KR
-# fuzzy
+# MS
 #, fuzzy
-#~ msgid "Republic of Serbia"
-#~ msgstr "ドミニカ共和国"
-
-# FM
-# fuzzy
-#~ msgid "Micronesia"
-#~ msgstr "マケドニア語"
-
-# GB
-# fuzzy
-#~ msgid "Britain (UK)"
-#~ msgstr "ブラジル"
-
-# IR
-# fuzzy
-#~ msgid "Iran"
-#~ msgstr "イスラエル"
-
-# MK
-#~ msgid "Macedonia"
-#~ msgstr "マケドニア語"
+msgid "Montenegro"
+msgstr "モントセラト"
