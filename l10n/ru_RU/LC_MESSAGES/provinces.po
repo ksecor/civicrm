@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-04-18 07:35+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2006-09-02 15:35+0300\n"
+"Last-Translator: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -8500,271 +8500,271 @@ msgid "Vrancea"
 msgstr ""
 
 msgid "Adygeya, Respublika"
-msgstr ""
+msgstr "Республика Адыгея"
 
 msgid "Altay, Respublika"
-msgstr ""
+msgstr "Республика Алтай"
 
 msgid "Bashkortostan, Respublika"
-msgstr ""
+msgstr "Республика Башкортостан"
 
 msgid "Buryatiya, Respublika"
-msgstr ""
+msgstr "Республика Бурятия"
 
 msgid "Chechenskaya Respublika"
-msgstr ""
+msgstr "Чеченская Республика"
 
 msgid "Chuvashskaya Respublika"
-msgstr ""
+msgstr "Чувашская Республика"
 
 msgid "Dagestan, Respublika"
-msgstr ""
+msgstr "Республика Дагестан"
 
 msgid "Ingushskaya Respublika"
-msgstr ""
+msgstr "Ингушская Республика"
 
 msgid "Kabardino-Balkarskaya"
-msgstr ""
+msgstr "Кабардино-Балкарская"
 
 msgid "Kalmykiya, Respublika"
-msgstr ""
+msgstr "Республика Калмыкия"
 
 msgid "Karachayevo-Cherkesskaya Respublika"
-msgstr ""
+msgstr "Карачаево-Черкесская Республика"
 
 msgid "Kareliya, Respublika"
-msgstr ""
+msgstr "Республика Карелия"
 
 msgid "Khakasiya, Respublika"
-msgstr ""
+msgstr "Республика Хакассия"
 
 msgid "Komi, Respublika"
-msgstr ""
+msgstr "Республика Коми"
 
 msgid "Mariy El, Respublika"
-msgstr ""
+msgstr "Республика Мари Эл"
 
 msgid "Mordoviya, Respublika"
-msgstr ""
+msgstr "Республика Мордовия"
 
 msgid "Sakha, Respublika [Yakutiya]"
-msgstr ""
+msgstr "Республика Саха [Якутия]"
 
 msgid "Severnaya Osetiya, Respublika"
-msgstr ""
+msgstr "Республика Северная Осетия"
 
 msgid "Tatarstan, Respublika"
-msgstr ""
+msgstr "Республика Татарстан"
 
 msgid "Tyva, Respublika [Tuva]"
-msgstr ""
+msgstr "Республика Тыва [Тува]"
 
 msgid "Udmurtskaya Respublika"
-msgstr ""
+msgstr "Республика Удмуртия"
 
 msgid "Altayskiy kray"
-msgstr ""
+msgstr "Алтайский край"
 
 msgid "Khabarovskiy kray"
-msgstr ""
+msgstr "Хабаровский край"
 
 msgid "Krasnodarskiy kray"
-msgstr ""
+msgstr "Краснодарский край"
 
 msgid "Krasnoyarskiy kray"
-msgstr ""
+msgstr "Красноярский край"
 
 msgid "Primorskiy kray"
-msgstr ""
+msgstr "Приморский край"
 
 msgid "Stavropol'skiy kray"
-msgstr ""
+msgstr "Ставропольский край"
 
 msgid "Amurskaya oblast'"
-msgstr ""
+msgstr "Амурская область"
 
 msgid "Arkhangel'skaya oblast'"
-msgstr ""
+msgstr "Архангельская область"
 
 msgid "Astrakhanskaya oblast'"
-msgstr ""
+msgstr "Астраханская область"
 
 msgid "Belgorodskaya oblast'"
-msgstr ""
+msgstr "Белгородская область"
 
 msgid "Bryanskaya oblast'"
-msgstr ""
+msgstr "Брянская область"
 
 msgid "Chelyabinskaya oblast'"
-msgstr ""
+msgstr "Челябинская область"
 
 msgid "Chitinskaya oblast'"
-msgstr ""
+msgstr "Читинская область"
 
 msgid "Irkutskaya oblast'"
-msgstr ""
+msgstr "Иркутская область"
 
 msgid "Ivanovskaya oblast'"
-msgstr ""
+msgstr "Ивановская область"
 
 msgid "Kaliningradskaya oblast'"
-msgstr ""
+msgstr "Калининградская область"
 
 msgid "Kaluzhskaya oblast'"
-msgstr ""
+msgstr "Калужская область"
 
 msgid "Kamchatskaya oblast'"
-msgstr ""
+msgstr "Камчатская область"
 
 msgid "Kemerovskaya oblast'"
-msgstr ""
+msgstr "Кемеровская область"
 
 msgid "Kirovskaya oblast'"
-msgstr ""
+msgstr "Кировская область"
 
 msgid "Kostromskaya oblast'"
-msgstr ""
+msgstr "Костромская область"
 
 msgid "Kurganskaya oblast'"
-msgstr ""
+msgstr "Курганская область"
 
 msgid "Kurskaya oblast'"
-msgstr ""
+msgstr "Курская область"
 
 msgid "Leningradskaya oblast'"
-msgstr ""
+msgstr "Ленинградская область"
 
 msgid "Lipetskaya oblast'"
-msgstr ""
+msgstr "Липесткая область"
 
 msgid "Magadanskaya oblast'"
-msgstr ""
+msgstr "Магаданская область"
 
 msgid "Moskovskaya oblast'"
-msgstr ""
+msgstr "Московская область"
 
 msgid "Murmanskaya oblast'"
-msgstr ""
+msgstr "Мурманская область"
 
 msgid "Nizhegorodskaya oblast'"
-msgstr ""
+msgstr "Нижегородская область"
 
 msgid "Novgorodskaya oblast'"
-msgstr ""
+msgstr "Новгородская область"
 
 msgid "Novosibirskaya oblast'"
-msgstr ""
+msgstr "Новосибирская область"
 
 msgid "Omskaya oblast'"
-msgstr ""
+msgstr "Омская область"
 
 msgid "Orenburgskaya oblast'"
-msgstr ""
+msgstr "Оренбургская область"
 
 msgid "Orlovskaya oblast'"
-msgstr ""
+msgstr "Орловская область"
 
 msgid "Penzenskaya oblast'"
-msgstr ""
+msgstr "Пензеская область"
 
 msgid "Permskaya oblast'"
-msgstr ""
+msgstr "Пермская область"
 
 msgid "Pskovskaya oblast'"
-msgstr ""
+msgstr "Псковская область"
 
 msgid "Rostovskaya oblast'"
-msgstr ""
+msgstr "Ростовская область"
 
 msgid "Ryazanskaya oblast'"
-msgstr ""
+msgstr "Рязанская область"
 
 msgid "Sakhalinskaya oblast'"
-msgstr ""
+msgstr "Сахалинская область"
 
 msgid "Samarskaya oblast'"
-msgstr ""
+msgstr "Самарская область"
 
 msgid "Saratovskaya oblast'"
-msgstr ""
+msgstr "Саратовская область"
 
 msgid "Smolenskaya oblast'"
-msgstr ""
+msgstr "Смоленская область"
 
 msgid "Sverdlovskaya oblast'"
-msgstr ""
+msgstr "Свердловская область"
 
 msgid "Tambovskaya oblast'"
-msgstr ""
+msgstr "Тамбовская область"
 
 msgid "Tomskaya oblast'"
-msgstr ""
+msgstr "Томская область"
 
 msgid "Tul'skaya oblast'"
-msgstr ""
+msgstr "Тульская область"
 
 msgid "Tverskaya oblast'"
-msgstr ""
+msgstr "Тверская область"
 
 msgid "Tyumenskaya oblast'"
-msgstr ""
+msgstr "Тюменская область"
 
 msgid "Ul'yanovskaya oblast'"
-msgstr ""
+msgstr "Ульяновская область"
 
 msgid "Vladimirskaya oblast'"
-msgstr ""
+msgstr "Владимирская область"
 
 msgid "Volgogradskaya oblast'"
-msgstr ""
+msgstr "Волгоградская область"
 
 msgid "Vologodskaya oblast'"
-msgstr ""
+msgstr "Вологодская область"
 
 msgid "Voronezhskaya oblast'"
-msgstr ""
+msgstr "Воронежская область"
 
 msgid "Yaroslavskaya oblast'"
-msgstr ""
+msgstr "Ярославская область"
 
 msgid "Moskva"
-msgstr ""
+msgstr "Москва"
 
 msgid "Sankt-Peterburg"
-msgstr ""
+msgstr "Санкт-Петербург"
 
 msgid "Yevreyskaya avtonomnaya oblast'"
-msgstr ""
+msgstr "Еврейская автономная область"
 
 msgid "Aginskiy Buryatskiy avtonomnyy"
-msgstr ""
+msgstr "Агинский-Бурятский автономный край"
 
 msgid "Chukotskiy avtonomnyy okrug"
-msgstr ""
+msgstr "Чукотский автономный округ"
 
 msgid "Evenkiyskiy avtonomnyy okrug"
-msgstr ""
+msgstr "Эвенский автономный округ"
 
 msgid "Khanty-Mansiyskiy avtonomnyy okrug"
-msgstr ""
+msgstr "Ханты-Мансийский автономный округ"
 
 msgid "Komi-Permyatskiy avtonomnyy okrug"
-msgstr ""
+msgstr "Коми-Пермятский автономный округ"
 
 msgid "Koryakskiy avtonomnyy okrug"
-msgstr ""
+msgstr "Корякский автономный округ"
 
 msgid "Nenetskiy avtonomnyy okrug"
-msgstr ""
+msgstr "Ненетский автономный округ"
 
 msgid "Taymyrskiy (Dolgano-Nenetskiy)"
-msgstr ""
+msgstr "Таймырский (Долгано-Ненетский)"
 
 msgid "Ust'-Ordynskiy Buryatskiy"
-msgstr ""
+msgstr "Усть-Ордынский Бурятский"
 
 msgid "Yamalo-Nenetskiy avtonomnyy okrug"
-msgstr ""
+msgstr "Ямало-Ненетский автономный округ"
 
 msgid "Butare"
 msgstr ""
