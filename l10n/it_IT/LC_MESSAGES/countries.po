@@ -1,21 +1,16 @@
-# Italian Translations of ISO-3166 names.
-# Copyright (C) 2001,2003 Free Software Foundation, Inc.
-# Andrea Scialpi <solopec@tiscalinet.it>, 2001.
-#   (translations from drakfw)
-# Alastair McKinstry <mckinstry@computer.org>, 2001.
+# CiviCRM countries POT file
+# Copyright CiviCRM LLC (c) 2004-2007
+# This file is distributed under the same license as the CiviCRM package.
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: iso-codes 0.18\n"
-"Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
+"Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2007-02-06 16:45-0800\n"
 "Last-Translator: Daniele Pedercini <dpedercini@libero.it>\n"
-"Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8 bit\n"
-"X-Generator: Pootle 0.10\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 # AF
 msgid "Afghanistan"

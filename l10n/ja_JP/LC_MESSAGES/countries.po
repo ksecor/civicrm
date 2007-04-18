@@ -1,20 +1,16 @@
-# Japanese translations of ISO 3166 country names 
-# Copyright (C) 2002,2003 Free Software Foundation, Inc.
-# Alastair McKinstry <mckinstry@computer.org>, 2002
-# Translations from KDE:
-# Taiki Komoda <kom@kde.gr.jp>
+# CiviCRM countries POT file
+# Copyright CiviCRM LLC (c) 2004-2007
+# This file is distributed under the same license as the CiviCRM package.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: iso-codes 0.18\n"
-"Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
+"Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2006-12-19 08:26-0800\n"
 "Last-Translator: Terushige Kohama <teru0928@mctv.ne.jp>\n"
-"Language-Team: Japanese <Kdeveloper@kde.gr.jp\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.10\n"
 
 # AF
 msgid "Afghanistan"

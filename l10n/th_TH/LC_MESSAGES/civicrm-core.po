@@ -1,21 +1,17 @@
-# CiviCRM Thai file
-# copyright CiviCRM LLC (c) 2004-2006
+# CiviCRM core POT file
+# Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# Piotr Szotkowski <shot@caltha.pl>, 2005
-# 
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.6\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2006-11-19 07:18-0800\n"
 "Last-Translator: Akarawuth Tamrareang <akarawuth@joomlacorner.com>\n"
-"Language-Team: none\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.10\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -856,8 +852,6 @@ msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Duplicate Contact button below."
 msgstr[0] "พบที่ติดต่อที่เหมือนกัน คุณสามารถแก้ไขได้ที่นี่:%1"
-msgstr[1] ""
-msgstr[2] ""
 
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
@@ -3083,7 +3077,6 @@ msgstr ""
 msgid "%count new relationship record created."
 msgid_plural "%count new relationship records created."
 msgstr[0] ""
-msgstr[1] ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
@@ -3091,7 +3084,6 @@ msgid ""
 msgid_plural ""
 "%count relationship records not created due to invalid target contact type."
 msgstr[0] ""
-msgstr[1] ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
@@ -3099,7 +3091,6 @@ msgid ""
 msgid_plural ""
 "%count relationship records not created - duplicate of existing relationship."
 msgstr[0] ""
-msgstr[1] ""
 
 #: CRM/Contact/Form/Relationship.php
 #, fuzzy
@@ -3904,19 +3895,16 @@ msgstr ""
 msgid "Checked one user record."
 msgid_plural "Checked %count user records."
 msgstr[0] ""
-msgstr[1] ""
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Found one matching contact record."
 msgid_plural "Found %count matching contact records."
 msgstr[0] ""
-msgstr[1] ""
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Created one new contact record."
 msgid_plural "Created %count new contact records."
 msgstr[0] ""
-msgstr[1] ""
 
 #: CRM/Core/BAO/EmailHistory.php
 msgid "From: %1; Subject: %2"
@@ -8005,13 +7993,11 @@ msgstr "เลือกกลุ่ม"
 msgid "Found %count group member"
 msgid_plural "Found %count group members"
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Found %count contact"
 msgid_plural "Found %count contacts"
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "selected records only"
@@ -8021,7 +8007,6 @@ msgstr ""
 msgid "the found record"
 msgid_plural "all %count records"
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Search/table.tpl
 msgid "Include contacts where"
@@ -8103,7 +8088,6 @@ msgid_plural ""
 "Email will NOT be sent to %count contacts - communication preferences "
 "specify DO NOT EMAIL."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -8115,7 +8099,6 @@ msgstr ""
 msgid "Email will NOT be sent to %count contact."
 msgid_plural "Email will NOT be sent to %count contacts."
 msgstr[0] "อีีเมล์ได้ส่งไปถึงที่อยู่:%1"
-msgstr[1] "อีีเมล์ได้ส่งไปถึงที่อยู่:%1"
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
@@ -8167,7 +8150,6 @@ msgstr ""
 msgid "One record selected for export."
 msgid_plural "%count records selected for export."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 msgid "Select a Different Mapping"
@@ -9220,7 +9202,6 @@ msgstr ""
 msgid "This group currently has one member in it."
 msgid_plural "This group currently has %count members in it."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid ""
@@ -9458,7 +9439,6 @@ msgid_plural ""
 "CiviCRM has detected mismatched activity history IDs. These records have not "
 "been Updated."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid ""
@@ -9475,7 +9455,6 @@ msgid_plural ""
 "CiviCRM has detected invalid data and/or formatting errors in %count "
 "records. These records have not been imported."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -9494,7 +9473,6 @@ msgid_plural ""
 "this data file or relative to existing activity history records. These "
 "records have not been imported."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid ""
@@ -9511,7 +9489,6 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "activity history records."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid ""
@@ -9671,7 +9648,6 @@ msgid_plural ""
 "CiviCRM has detected mismatched contact IDs. These records have not been "
 "updated."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -9689,7 +9665,6 @@ msgid_plural ""
 "this data file or relative to existing contact records. These records have "
 "not been imported."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -9712,7 +9687,6 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contact records."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -9747,19 +9721,16 @@ msgstr ""
 msgid "One contact added to this new group."
 msgid_plural "%count contacts added to this new group."
 msgstr[0] "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
-msgstr[1] "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "One contact added to this existing group."
 msgid_plural "%count contacts added to this existing group."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "One contact NOT added (already in this group)."
 msgid_plural "%count contacts NOT added (already in this group)."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
@@ -9771,14 +9742,12 @@ msgstr "นำเข้าที่ติดต่อ"
 msgid "One contact is tagged with this tag."
 msgid_plural "%count contacts are tagged with this tag."
 msgstr[0] "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
-msgstr[1] "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
 
 #: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
 msgid "One contact NOT tagged (already tagged to this tag)."
 msgid_plural "%count contacts NOT tagged (already tagged to this tag)."
 msgstr[0] "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
-msgstr[1] "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""

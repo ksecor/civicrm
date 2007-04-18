@@ -1,20 +1,17 @@
-# CiviCRM Khmer file
-# copyright CiviCRM LLC (c) 2004-2006
+# CiviCRM modules POT file
+# Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# Piotr Szotkowski <shot@caltha.pl>, 2005
-# 
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.6\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
-"Language-Team: none\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #, fuzzy
@@ -4067,7 +4064,6 @@ msgstr ""
 msgid "Found %count contribution."
 msgid_plural "Found %count contributions."
 msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-msgstr[1] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: templates/CRM/Contribute/Form/Search.tpl
 msgid ""
@@ -4107,7 +4103,6 @@ msgstr ""
 msgid "One contribution record selected for export."
 msgid_plural "%count contribution records selected for export."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Contribute/Form/Task/Export.tpl
 msgid ""
@@ -4139,7 +4134,6 @@ msgid_plural ""
 "CiviCRM has detected mismatched contribution IDs. These records have not "
 "been Updated."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -4157,7 +4151,6 @@ msgid_plural ""
 "this data file or relative to existing contribution records. These records "
 "have not been imported."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -4167,7 +4160,6 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contribution records."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Rows with mismatched contribution IDs... (NOT updated)."
@@ -4879,7 +4871,6 @@ msgstr ""
 msgid "Found %count participant."
 msgid_plural "Found %count participants."
 msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-msgstr[1] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: templates/CRM/Event/Form/Search.tpl
 msgid ""
@@ -4920,7 +4911,6 @@ msgstr ""
 msgid "One participant record selected for export."
 msgid_plural "%count participant records selected for export."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Event/Form/Task/Export.tpl
 msgid ""
@@ -4956,7 +4946,6 @@ msgid_plural ""
 "CiviCRM has detected mismatched participant IDs. These records have not been "
 "Updated."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 msgid ""
@@ -4974,7 +4963,6 @@ msgid_plural ""
 "this data file or relative to existing participant records. These records "
 "have not been imported."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 msgid ""
@@ -4984,7 +4972,6 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "participant records."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 msgid "Rows with mismatched participant IDs... (NOT updated)."
@@ -5757,7 +5744,6 @@ msgstr ""
 msgid "Found %count member."
 msgid_plural "Found %count members."
 msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-msgstr[1] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: templates/CRM/Member/Form/Search.tpl
 msgid ""
@@ -5791,7 +5777,6 @@ msgstr ""
 msgid "One membership record selected for export."
 msgid_plural "%count membership records selected for export."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Member/Form/Task/Export.tpl
 msgid ""
@@ -5823,7 +5808,6 @@ msgid_plural ""
 "CiviCRM has detected mismatched membership IDs. These records have not been "
 "Updated."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid ""
@@ -5841,7 +5825,6 @@ msgid_plural ""
 "this data file or relative to existing membership records. These records "
 "have not been imported."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid ""
@@ -5851,7 +5834,6 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "membership records."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid "Rows with mismatched membership IDs... (NOT updated)."
@@ -7379,7 +7361,6 @@ msgstr ""
 #~ msgid "Found one matching contact record."
 #~ msgid_plural "Found %count matching contact records."
 #~ msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-#~ msgstr[1] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #, fuzzy
 #~ msgid "Selected Mapping has been Deleted Successfuly."
@@ -8392,7 +8373,6 @@ msgstr ""
 #~ msgid "Email will NOT be sent to %count contact."
 #~ msgid_plural "Email will NOT be sent to %count contacts."
 #~ msgstr[0] "អ៊ីម៉ែល​បាន​ផ្ញើ​ទៅ​ព័ត៌មាន​ទំនាក់ទំនង ៖ %1"
-#~ msgstr[1] "អ៊ីម៉ែល​បាន​ផ្ញើ​ទៅ​ព័ត៌មាន​ទំនាក់ទំនង ៖ %1"
 
 #, fuzzy
 #~ msgid "Label Contact(s)"
@@ -8510,7 +8490,6 @@ msgstr ""
 #~ msgid "One contact added to this new group."
 #~ msgid_plural "%count contacts added to this new group."
 #~ msgstr[0] "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ ។"
-#~ msgstr[1] "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ ។"
 
 #, fuzzy
 #~ msgid "Tagged imported contacts"
@@ -8520,13 +8499,11 @@ msgstr ""
 #~ msgid "One contact is tagged with this tag."
 #~ msgid_plural "%count contacts are tagged with this tag."
 #~ msgstr[0] "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ ។"
-#~ msgstr[1] "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ ។"
 
 #, fuzzy
 #~ msgid "One contact NOT tagged (already tagged to this tag)."
 #~ msgid_plural "%count contacts NOT tagged (already tagged to this tag)."
 #~ msgstr[0] "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ ។"
-#~ msgstr[1] "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ ។"
 
 #, fuzzy
 #~ msgid "Please enter the phrase as displayed in the image"

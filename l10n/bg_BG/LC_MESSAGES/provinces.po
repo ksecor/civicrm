@@ -1,20 +1,16 @@
-# Bulgarian translations of ISO 3166 province names 
-# Copyright (C) 2001 Free Software Foundation, Inc.
-# Georgi Georgiev <assenov_g@operamail.com>, 2001. 
-#    (translations from drakfw)
-# Alastair McKinstry <mckinstry@computer.org>, 2001.
-#
+# CiviCRM provinces POT file
+# Copyright CiviCRM LLC (c) 2004-2007
+# This file is distributed under the same license as the CiviCRM package.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: iso-codes 0.1.1\n"
-"Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
+"Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2001-09-14 15:07-0200\n"
 "Last-Translator: Georgi Georgiev <assenov_g@operamail.com>\n"
-"Language-Team: BULGARIAN <bg@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8-bit\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 msgid "Alabama"
 msgstr "Алабама"
