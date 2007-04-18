@@ -176,35 +176,3 @@ msgstr ""
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
 msgstr ""
-
-#, fuzzy
-#~ msgid "edit contacts in %1"
-#~ msgstr "កែសម្រួល​ព័ត៌មាន​ទាក់ទង​ទាំងអស់"
-
-#, fuzzy
-#~ msgid "view contacts in %1"
-#~ msgstr "មើល​ព័ត៌មាន​ទាក់ទង​ទាំងអស់"
-
-#, fuzzy
-#~ msgid "find contacts"
-#~ msgstr "បន្ថែម​ព័ត៌មាន​ទាក់ទង"
-
-#, fuzzy
-#~ msgid "manage groups"
-#~ msgstr "កែសម្រួល​ក្រុម"
-
-#, fuzzy
-#~ msgid "access CiviCRM Profile Listings"
-#~ msgstr "អ្នក​គ្រប់គ្រង CiviCRM"
-
-#, fuzzy
-#~ msgid "edit %group"
-#~ msgstr "កែសម្រួល​ក្រុម"
-
-#, fuzzy
-#~ msgid "view %group"
-#~ msgstr "កែសម្រួល​ក្រុម"
-
-#, fuzzy
-#~ msgid "edit "
-#~ msgstr "កែសម្រួល​ក្រុម"

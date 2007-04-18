@@ -201,9 +201,3 @@ msgstr ""
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
 msgstr ""
-
-#~ msgid "edit contacts in %1"
-#~ msgstr "modifica contatti in %1"
-
-#~ msgid "view contacts in %1"
-#~ msgstr "mostra contatti in %1"

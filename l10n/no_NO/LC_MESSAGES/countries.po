@@ -738,6 +738,3 @@ msgstr "Aserbadjan"
 
 msgid "Montenegro"
 msgstr ""
-
-#~ msgid "Kingdom of Belgium"
-#~ msgstr "Kongedømmet Belgia"
