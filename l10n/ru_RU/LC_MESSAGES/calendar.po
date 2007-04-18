@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:33+0200\n"
 "PO-Revision-Date: 2007-04-18 07:33+0200\n"
-"Last-Translator: Automatically generated\n"
+"Last-Translator: Sly Golovanov <sly@golovanov.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: js/lang/calendar-lang.php
 msgid "About the calendar"
-msgstr ""
+msgstr "О календаре..."
 
 #: js/lang/calendar-lang.php
 msgid "For latest version visit: %1"
@@ -26,92 +26,92 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "Date selection:"
-msgstr ""
+msgstr "Как выбрать дату:"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\xab, \\xbb buttons to select year,"
-msgstr ""
+msgstr "- При помощи кнопок \\xab, \\xbb можно выбрать год"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\u2039, \\u203a buttons to select month,"
-msgstr ""
+msgstr "- При помощи кнопок \\u2039, \\u203a можно выбрать месяц"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr ""
+msgstr "- Подержите эти кнопки нажатыми, чтобы появилось меню быстрого выбора."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
-msgstr ""
+msgstr "Как выбрать время:"
 
 #: js/lang/calendar-lang.php
 msgid "- click on any of the time parts to increase it"
-msgstr ""
+msgstr "- При клике на часах или минутах они увеличиваются"
 
 #: js/lang/calendar-lang.php
 msgid "- or Shift-click to decrease it"
-msgstr ""
+msgstr "- при клике с нажатой клавишей Shift они уменьшаются"
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
-msgstr ""
+msgstr "- если нажать и двигать мышкой влево/вправо, они будут меняться быстрее."
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"
-msgstr ""
+msgstr "удерживать для меню"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. year"
-msgstr ""
+msgstr "На год назад"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. month"
-msgstr ""
+msgstr "На месяц назад"
 
 #: js/lang/calendar-lang.php
 msgid "Go Today"
-msgstr ""
+msgstr "Сегодня"
 
 #: js/lang/calendar-lang.php
 msgid "Next month"
-msgstr ""
+msgstr "На месяц вперед"
 
 #: js/lang/calendar-lang.php
 msgid "Next year"
-msgstr ""
+msgstr "На год вперед"
 
 #: js/lang/calendar-lang.php
 msgid "Select date"
-msgstr ""
+msgstr "Выберите дату"
 
 #: js/lang/calendar-lang.php
 msgid "Drag to move"
-msgstr ""
+msgstr "Перетаскивайте мышкой"
 
 #: js/lang/calendar-lang.php
 msgid "today"
-msgstr ""
+msgstr "сегодня"
 
 #: js/lang/calendar-lang.php
 msgid "Display %s first"
-msgstr ""
+msgstr "Первый день недели будет %s"
 
 #: js/lang/calendar-lang.php
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #: js/lang/calendar-lang.php
 msgid "Today"
-msgstr ""
+msgstr "Сегодня"
 
 #: js/lang/calendar-lang.php
 msgid "(Shift-)Click or drag to change value"
-msgstr ""
+msgstr "(Shift-)клик или нажать и двигать"
 
 #: js/lang/calendar-lang.php
 msgid "wk"
-msgstr ""
+msgstr "нед"
 
 #: js/lang/calendar-lang.php
 msgid "Time:"
-msgstr ""
+msgstr "Время:"
