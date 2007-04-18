@@ -573,7 +573,7 @@ msgstr "Физическое лицо"
 #: CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
-msgstr "Холдинг"
+msgstr ""
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -687,7 +687,7 @@ msgstr "Общедоступные страницы пользователя и 
 
 #: CRM/Contact/DAO/Household.php CRM/Contact/Form/Household.php
 msgid "Household Name"
-msgstr "Название холдинга"
+msgstr ""
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "First Name"
@@ -3236,22 +3236,20 @@ msgid "Total Contact(s) already in group: %1"
 msgstr "Всего контактов уже в группе: %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
-#, fuzzy
 msgid "Add Members to Household"
-msgstr "Добавить членов в холдинг"
+msgstr ""
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Find Target Household"
-msgstr "Найти холдинг"
+msgstr ""
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
-#, fuzzy
 msgid "Add to Household"
-msgstr "Добавить в холдинг"
+msgstr ""
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Added Contact(s) to Household"
-msgstr "Добавленные в холдинг контакты"
+msgstr ""
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
 #, fuzzy
@@ -3700,7 +3698,7 @@ msgstr "Отправить SMS Контактам"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Household"
-msgstr "Добавить Контакты в холдинг"
+msgstr ""
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Organization"
@@ -3968,7 +3966,7 @@ msgstr "Новая Организация"
 
 #: CRM/Core/Block.php
 msgid "New Household"
-msgstr "Новый холдинг"
+msgstr ""
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
@@ -4907,7 +4905,7 @@ msgstr "Физические лица"
 
 #: CRM/Core/SelectValues.php
 msgid "Households"
-msgstr "Холдинги"
+msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Organizations"
@@ -7876,8 +7874,6 @@ msgid ""
 "add a <a href=\"%1\">New Individual</a>, <a href=\"%2\">Organization</a> or "
 "<a href=\"%3\">Household</a>"
 msgstr ""
-"добавить <a href=\"%1\">Нового сотрудникаl</a>, <a href=\"%2\">Организацию</"
-"a> or <a href=\"%3\">Холдинг</a>"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid "make sure you have enough privileges in the access control system"
@@ -8011,7 +8007,7 @@ msgstr "Добавить членов в группу"
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 msgid "Choose Relationship Type and Target Household"
-msgstr "Выберите тип связи и требуемый холдинг"
+msgstr ""
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -10373,34 +10369,28 @@ msgid "Volunteer relationship."
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Head of Household for"
-msgstr "Разметка для Поля %1"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Head of Household is"
-msgstr "является числовым полем"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Head of household."
-msgstr "Имя домохозяйки"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Household Member of"
-msgstr "Имя домохозяйки"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Household Member is"
-msgstr "является числовым полем"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Household membership."
-msgstr "Имя домохозяйки"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Non-profit"

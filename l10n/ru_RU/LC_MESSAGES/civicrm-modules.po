@@ -4190,8 +4190,6 @@ msgid ""
 "Select 'Organization' or 'Household' if each record in your file represents "
 "a contact of that type."
 msgstr ""
-"Выберите 'Организация' или 'Холдинг' если каждая запись в вашем файле "
-"содержит контакт соответсвующего типа."
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
