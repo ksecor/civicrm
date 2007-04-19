@@ -22,8 +22,8 @@
           <tr class="columnheader">
             <th field="Name" dataType="String">{ts}Name{/ts}</th>
             <th field="SKU" dataType="String">{ts}SKU{/ts}</th>
-            <th field="Market Value" dataType="Number">{ts}Market Value{/ts}</th>
-            <th field="Min Contribution" dataType="Number">{ts}Min Contribution{/ts}</th>
+            <th field="Market Value" dataType="Money" align="right">{ts}Market Value{/ts}</th>
+            <th field="Min Contribution" dataType="Money" align="right">{ts}Min Contribution{/ts}</th>
             <th field="Active" dataType="String">{ts}Active?{/ts}</th>
             <th dataType="html"></th>
           </tr>

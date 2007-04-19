@@ -18,7 +18,7 @@
             <th field="Membership" dataType="String">{ts}Membership{/ts}</th>
             <th field="Period" dataType="String">{ts}Period{/ts}</th>
             <th field="Fixed Start">{ts}Fixed Start{/ts}</th>
-            <th field="Minimum Fee" dataType="Number">{ts}Minimum Fee{/ts}</th>
+            <th field="Minimum Fee" dataType="Money" align="right">{ts}Minimum Fee{/ts}</th>
             <th field="Duration" dataType="String">{ts}Duration{/ts}</th>
             <th field="Visibility" dataType="String">{ts}Visibility{/ts}</th>
 	    <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
