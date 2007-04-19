@@ -328,31 +328,17 @@ class CRM_Core_Block {
             if ($role == 'csr' || $role == 'admin') {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
                                       'query' => 'action=add&reset=1',
-                                      'title' => ts('New Application')
+                                      'title' => ts('New Participant')
                                       );
                 self::$_properties[self::GCC]['subject'] = ($role == 'csr') ? 'Customer Service Rep' : 'GCC Admin';
             }
-            if ($role == 'csr' || $role == 'admin' || $role == 'retrofit') {
+            if ($role == 'csr' || $role == 'admin' || $role == 'retrofit' || $role == 'auditor') {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/application/search',
                                       'query' => 'reset=1',
-                                      'title' => ts('Find Household')
+                                      'title' => ts('List Participants')
                                       );                
                 self::$_properties[self::GCC]['subject'] = 
-                    ($role == 'retrofit') ? 'Retrofit Manager' : self::$_properties[self::GCC]['subject'];
-            }
-            if ($role == 'csr' || $role == 'admin' || $role == 'retrofit' || $role == 'auditor') {
-                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
-                                      'query' => 'reset=1',
-                                      'title' => ts('List Applications')
-                                      );                
-                self::$_properties[self::GCC]['subject'] = 
-                    ($role == 'auditor') ? 'Auditor' : self::$_properties[self::GCC]['subject'];
-            }
-            if ($role == 'auditor' || $role == 'admin') {
-                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
-                                      'query' => 'reset=1',
-                                      'title' => ts('Import FAT')
-                                      );                
+                    ($role == 'retrofit') ? 'Retrofit Manager' : (($role == 'auditor') ? 'Auditor' : self::$_properties[self::GCC]['subject']);
             }
             if ($role == 'admin') {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
