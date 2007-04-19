@@ -113,7 +113,7 @@ msgid "Bolivia"
 msgstr "Bolivia"
 
 # BA
-# fuzzy
+#, fuzzy
 msgid "Bosnia and Herzegovina"
 msgstr "Bosnia Erzegovina"
 
@@ -122,7 +122,7 @@ msgid "Botswana"
 msgstr "Botswana"
 
 # BV
-# fuzzy
+#, fuzzy
 msgid "Bouvet Island"
 msgstr "Isole Bouvet"
 
@@ -135,7 +135,7 @@ msgid "British Indian Ocean Territory"
 msgstr ""
 
 # VG
-# fuzzy
+#, fuzzy
 msgid "Virgin Islands, British"
 msgstr "Isole Vergini Britanniche"
 
@@ -152,7 +152,7 @@ msgid "Burkina Faso"
 msgstr "Burkina Faso"
 
 # MM
-# fuzzy
+#, fuzzy
 msgid "Myanmar"
 msgstr "Guyana"
 
@@ -173,7 +173,7 @@ msgid "Canada"
 msgstr "Canada"
 
 # CV
-# fuzzy
+#, fuzzy
 msgid "Cape Verde"
 msgstr "Isole di CapoVerde"
 
@@ -202,12 +202,12 @@ msgid "Christmas Island"
 msgstr "Isola di Natale"
 
 # CC
-# fuzzy
+#, fuzzy
 msgid "Cocos (Keeling) Islands"
 msgstr "Isole Cocos Keeling"
 
 # CO
-# fuzzy
+#, fuzzy
 msgid "Colombia"
 msgstr "Colombia"
 
@@ -227,7 +227,7 @@ msgid "Cook Islands"
 msgstr "Isole Cook"
 
 # CR
-# fuzzy
+#, fuzzy
 msgid "Costa Rica"
 msgstr "Costa Rica"
 
@@ -282,7 +282,7 @@ msgid "El Salvador"
 msgstr "El Salvador"
 
 # GQ
-# fuzzy
+#, fuzzy
 msgid "Equatorial Guinea"
 msgstr "Guinea Equatoriale"
 
@@ -299,12 +299,12 @@ msgid "Ethiopia"
 msgstr "Etiopia"
 
 # FK
-# fuzzy
+#, fuzzy
 msgid "Falkland Islands (Malvinas)"
 msgstr "Isole Falkland"
 
 # FO
-# fuzzy
+#, fuzzy
 msgid "Faroe Islands"
 msgstr "Isole Faeroe"
 
@@ -321,7 +321,7 @@ msgid "France"
 msgstr "Francia"
 
 # GF
-# fuzzy
+#, fuzzy
 msgid "French Guiana"
 msgstr "Guyana Francese"
 
@@ -381,7 +381,7 @@ msgid "Guinea"
 msgstr "Guinea"
 
 # GW
-# fuzzy
+#, fuzzy
 msgid "Guinea-Bissau"
 msgstr "Guinea Bissau"
 
@@ -425,7 +425,7 @@ msgid "Indonesia"
 msgstr "Indonesia"
 
 # KR
-# fuzzy
+#, fuzzy
 msgid "Iran, Islamic Republic of"
 msgstr "Iran, Repubblica Islamica"
 
@@ -446,7 +446,7 @@ msgid "Italy"
 msgstr "Italia"
 
 # JM
-# fuzzy
+#, fuzzy
 msgid "Jamaica"
 msgstr "Giamaica"
 
@@ -459,7 +459,7 @@ msgid "Jordan"
 msgstr "Giordania"
 
 # KZ
-# fuzzy
+#, fuzzy
 msgid "Kazakhstan"
 msgstr "Kazakistan"
 
@@ -476,7 +476,7 @@ msgid "Korea, Democratic People's Republic of"
 msgstr "Corea, Repubblica Democratica"
 
 # KR
-# fuzzy
+#, fuzzy
 msgid "Korea, Republic of"
 msgstr "Repubblica di Corea"
 
@@ -485,7 +485,7 @@ msgid "Kuwait"
 msgstr "Kuwait"
 
 # KG
-# fuzzy
+#, fuzzy
 msgid "Kyrgyzstan"
 msgstr "Kirghizistan"
 
@@ -493,7 +493,7 @@ msgid "Lao People's Democratic Republic"
 msgstr ""
 
 # LV
-# fuzzy
+#, fuzzy
 msgid "Latvia"
 msgstr "Latvia"
 
@@ -525,12 +525,12 @@ msgid "Luxembourg"
 msgstr "Lussemburgo"
 
 # MO
-# fuzzy
+#, fuzzy
 msgid "Macao"
 msgstr "Malta"
 
 # KR
-# fuzzy
+#, fuzzy
 #, fuzzy
 msgid "Macedonia, Republic of"
 msgstr "Repubblica Ceca"
@@ -548,7 +548,7 @@ msgid "Malaysia"
 msgstr "Malesia"
 
 # MV
-# fuzzy
+#, fuzzy
 msgid "Maldives"
 msgstr "M"
 
@@ -561,7 +561,7 @@ msgid "Malta"
 msgstr "Malta"
 
 # MH
-# fuzzy
+#, fuzzy
 msgid "Marshall Islands"
 msgstr "Isole Falkland"
 
@@ -578,7 +578,7 @@ msgid "Mauritius"
 msgstr ""
 
 # YT
-# fuzzy
+#, fuzzy
 msgid "Mayotte"
 msgstr "Maggio"
 
@@ -590,7 +590,7 @@ msgid "Micronesia, Federated States of"
 msgstr ""
 
 # KR
-# fuzzy
+#, fuzzy
 #, fuzzy
 msgid "Moldova, Republic of"
 msgstr "Repubblica Ceca"
@@ -600,7 +600,7 @@ msgid "Monaco"
 msgstr "Monaco"
 
 # MN
-# fuzzy
+#, fuzzy
 msgid "Mongolia"
 msgstr "Angola"
 
@@ -649,7 +649,7 @@ msgid "Nicaragua"
 msgstr "Nicaragua"
 
 # NE
-# fuzzy
+#, fuzzy
 msgid "Niger"
 msgstr "Nigeria"
 
@@ -662,12 +662,12 @@ msgid "Niue"
 msgstr ""
 
 # NF
-# fuzzy
+#, fuzzy
 msgid "Norfolk Island"
 msgstr "Isole Cook"
 
 # MP
-# fuzzy
+#, fuzzy
 msgid "Northern Mariana Islands"
 msgstr "Isole Vergini Britanniche"
 
@@ -684,7 +684,7 @@ msgid "Pakistan"
 msgstr "Pakistan"
 
 # PW
-# fuzzy
+#, fuzzy
 msgid "Palau"
 msgstr "Paraguay"
 
@@ -712,7 +712,7 @@ msgid "Philippines"
 msgstr "Filippine"
 
 # PN
-# fuzzy
+#, fuzzy
 msgid "Pitcairn"
 msgstr "Pakistan"
 
@@ -741,12 +741,12 @@ msgid "Russian Federation"
 msgstr ""
 
 # RW
-# fuzzy
+#, fuzzy
 msgid "Rwanda"
 msgstr "Canada"
 
 # RE
-# fuzzy
+#, fuzzy
 msgid "Reunion"
 msgstr "Benin"
 
@@ -767,7 +767,7 @@ msgid "Saint Vincent and the Grenadines"
 msgstr ""
 
 # WS
-# fuzzy
+#, fuzzy
 msgid "Samoa"
 msgstr "Cambogia"
 
@@ -776,7 +776,7 @@ msgid "San Marino"
 msgstr "San Marino"
 
 # SA
-# fuzzy
+#, fuzzy
 msgid "Saudi Arabia"
 msgstr "Arabia Saudita"
 
@@ -801,22 +801,22 @@ msgid "Slovakia"
 msgstr "Slovacchia"
 
 # SI
-# fuzzy
+#, fuzzy
 msgid "Slovenia"
 msgstr "Slovacchia"
 
 # SB
-# fuzzy
+#, fuzzy
 msgid "Solomon Islands"
 msgstr "Isole Cook"
 
 # SO
-# fuzzy
+#, fuzzy
 msgid "Somalia"
 msgstr "Romania"
 
 # ZA
-# fuzzy
+#, fuzzy
 msgid "South Africa"
 msgstr "Sud_Africa"
 
@@ -833,7 +833,7 @@ msgid "Sri Lanka"
 msgstr "Sri Lanka"
 
 # SD
-# fuzzy
+#, fuzzy
 msgid "Sudan"
 msgstr "Spagna"
 
@@ -846,7 +846,7 @@ msgid "Svalbard and Jan Mayen"
 msgstr ""
 
 # SZ
-# fuzzy
+#, fuzzy
 msgid "Swaziland"
 msgstr "Tailandia"
 
@@ -872,12 +872,12 @@ msgid "Taiwan"
 msgstr "Taiwan"
 
 # TJ
-# fuzzy
+#, fuzzy
 msgid "Tajikistan"
 msgstr "Pakistan"
 
 # KR
-# fuzzy
+#, fuzzy
 #, fuzzy
 msgid "Tanzania, United Republic of"
 msgstr "Repubblica Ceca"
@@ -895,7 +895,7 @@ msgid "Gambia"
 msgstr "Gambia"
 
 # TG
-# fuzzy
+#, fuzzy
 msgid "Togo"
 msgstr "Togo"
 
@@ -904,7 +904,7 @@ msgid "Tokelau"
 msgstr ""
 
 # TO
-# fuzzy
+#, fuzzy
 msgid "Tonga"
 msgstr "Congo"
 
@@ -921,12 +921,12 @@ msgid "Turkey"
 msgstr "Turchia"
 
 # TM
-# fuzzy
+#, fuzzy
 msgid "Turkmenistan"
 msgstr "Tunisia"
 
 # TC
-# fuzzy
+#, fuzzy
 #, fuzzy
 msgid "Turks and Caicos Islands"
 msgstr "Isole Falkland"
@@ -936,7 +936,7 @@ msgid "Tuvalu"
 msgstr ""
 
 # UG
-# fuzzy
+#, fuzzy
 msgid "Uganda"
 msgstr "Canada"
 
@@ -956,7 +956,7 @@ msgid "United States Minor Outlying Islands"
 msgstr ""
 
 # US
-# fuzzy
+#, fuzzy
 msgid "United States"
 msgstr "Stati Uniti"
 
@@ -965,7 +965,7 @@ msgid "Uruguay"
 msgstr "Uruguay"
 
 # UZ
-# fuzzy
+#, fuzzy
 msgid "Uzbekistan"
 msgstr "Pakistan"
 
@@ -978,18 +978,18 @@ msgid "Venezuela"
 msgstr "Venezuela"
 
 # VN
-# fuzzy
+#, fuzzy
 #, fuzzy
 msgid "Viet Nam"
 msgstr "Vietnam"
 
 # VI
-# fuzzy
+#, fuzzy
 msgid "Virgin Islands, U.S."
 msgstr "Isole Vergini Britanniche"
 
 # WF
-# fuzzy
+#, fuzzy
 msgid "Wallis and Futuna"
 msgstr "Isole Falkland"
 
@@ -1005,7 +1005,7 @@ msgid "Serbia and Montenegro"
 msgstr ""
 
 # ZM
-# fuzzy
+#, fuzzy
 msgid "Zambia"
 msgstr "Gambia"
 
@@ -1019,7 +1019,7 @@ msgid "Åland Islands"
 msgstr "Isole Cayman"
 
 # SY
-# fuzzy
+#, fuzzy
 #, fuzzy
 msgid "Serbia"
 msgstr "Suriname"
