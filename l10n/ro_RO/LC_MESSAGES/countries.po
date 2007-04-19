@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2006-11-15 10:22-0800\n"
 "Last-Translator: Claudiu Cristea <clau.cristea@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Afghanistan"
@@ -84,9 +84,8 @@ msgstr ""
 msgid "Bhutan"
 msgstr ""
 
-#, fuzzy
 msgid "Bolivia"
-msgstr "Table"
+msgstr ""
 
 msgid "Bosnia and Herzegovina"
 msgstr ""
@@ -97,9 +96,8 @@ msgstr ""
 msgid "Bouvet Island"
 msgstr ""
 
-#, fuzzy
 msgid "Brazil"
-msgstr "Panglică"
+msgstr ""
 
 msgid "British Indian Ocean Territory"
 msgstr ""
@@ -110,30 +108,26 @@ msgstr ""
 msgid "Brunei Darussalam"
 msgstr ""
 
-#, fuzzy
 msgid "Bulgaria"
-msgstr "Julia"
+msgstr ""
 
 msgid "Burkina Faso"
 msgstr ""
 
-#, fuzzy
 msgid "Myanmar"
-msgstr "Plan"
+msgstr ""
 
 msgid "Burundi"
 msgstr ""
 
-#, fuzzy
 msgid "Cambodia"
-msgstr "Coolmail"
+msgstr ""
 
 msgid "Cameroon"
 msgstr ""
 
-#, fuzzy
 msgid "Canada"
-msgstr "Cărţi"
+msgstr ""
 
 msgid "Cape Verde"
 msgstr ""
@@ -141,21 +135,17 @@ msgstr ""
 msgid "Cayman Islands"
 msgstr ""
 
-#, fuzzy
 msgid "Central African Republic"
-msgstr "Ajutor Debian"
+msgstr ""
 
-#, fuzzy
 msgid "Chad"
-msgstr "XChat"
+msgstr ""
 
-#, fuzzy
 msgid "Chile"
-msgstr "Pine"
+msgstr ""
 
-#, fuzzy
 msgid "China"
-msgstr "XChat"
+msgstr ""
 
 msgid "Christmas Island"
 msgstr ""
@@ -163,9 +153,8 @@ msgstr ""
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#, fuzzy
 msgid "Colombia"
-msgstr "Coolmail"
+msgstr ""
 
 msgid "Comoros"
 msgstr ""
@@ -185,50 +174,41 @@ msgstr ""
 msgid "Côte d'Ivoire"
 msgstr ""
 
-#, fuzzy
 msgid "Croatia"
-msgstr "Cristal"
+msgstr ""
 
-#, fuzzy
 msgid "Cuba"
-msgstr "Coolmail"
+msgstr ""
 
 msgid "Cyprus"
 msgstr ""
 
-#, fuzzy
 msgid "Czech Republic"
-msgstr "Ajutor Debian"
+msgstr ""
 
-#, fuzzy
 msgid "Denmark"
-msgstr "Arena"
+msgstr ""
 
 msgid "Djibouti"
 msgstr ""
 
-#, fuzzy
 msgid "Dominica"
-msgstr "Sonar"
+msgstr ""
 
-#, fuzzy
 msgid "Dominican Republic"
-msgstr "Ajutor Debian"
+msgstr ""
 
 msgid "Timor-Leste"
 msgstr ""
 
-#, fuzzy
 msgid "Ecuador"
-msgstr "Emulatoare"
+msgstr ""
 
-#, fuzzy
 msgid "Egypt"
-msgstr "Energie"
+msgstr ""
 
-#, fuzzy
 msgid "El Salvador"
-msgstr "Emulatoare"
+msgstr ""
 
 msgid "Equatorial Guinea"
 msgstr ""
@@ -236,31 +216,26 @@ msgstr ""
 msgid "Eritrea"
 msgstr ""
 
-#, fuzzy
 msgid "Estonia"
-msgstr "Sonar"
+msgstr ""
 
-#, fuzzy
 msgid "Ethiopia"
-msgstr "Sonar"
+msgstr ""
 
 msgid "Falkland Islands (Malvinas)"
 msgstr ""
 
-#, fuzzy
 msgid "Faroe Islands"
-msgstr "Plan"
+msgstr ""
 
 msgid "Fiji"
 msgstr ""
 
-#, fuzzy
 msgid "Finland"
-msgstr "Plan"
+msgstr ""
 
-#, fuzzy
 msgid "France"
-msgstr "Ciudat"
+msgstr ""
 
 msgid "French Guiana"
 msgstr ""
@@ -274,43 +249,35 @@ msgstr ""
 msgid "Gabon"
 msgstr ""
 
-#, fuzzy
 msgid "Georgia"
-msgstr "Debian"
+msgstr ""
 
-#, fuzzy
 msgid "Germany"
-msgstr "Gravitaţie"
+msgstr ""
 
-#, fuzzy
 msgid "Ghana"
-msgstr "XChat"
+msgstr ""
 
 msgid "Gibraltar"
 msgstr ""
 
-#, fuzzy
 msgid "Greece"
-msgstr "Freeciv"
+msgstr ""
 
-#, fuzzy
 msgid "Greenland"
-msgstr "Arena"
+msgstr ""
 
-#, fuzzy
 msgid "Grenada"
-msgstr "Arena"
+msgstr ""
 
 msgid "Guadeloupe"
 msgstr ""
 
-#, fuzzy
 msgid "Guam"
-msgstr "Galaxie"
+msgstr ""
 
-#, fuzzy
 msgid "Guatemala"
-msgstr "Galaxie"
+msgstr ""
 
 msgid "Guinea"
 msgstr ""
@@ -330,64 +297,50 @@ msgstr ""
 msgid "Holy See (Vatican City State)"
 msgstr ""
 
-#, fuzzy
 msgid "Honduras"
-msgstr "Module"
+msgstr ""
 
 msgid "Hong Kong"
 msgstr ""
 
-#, fuzzy
 msgid "Hungary"
-msgstr "Sonar"
+msgstr ""
 
-#, fuzzy
 msgid "Iceland"
-msgstr "Plan"
+msgstr ""
 
-#, fuzzy
 msgid "India"
-msgstr "Iconiţe"
+msgstr ""
 
-#, fuzzy
 msgid "Indonesia"
-msgstr "Iconiţe"
+msgstr ""
 
-#, fuzzy
 msgid "Iran, Islamic Republic of"
-msgstr "Ajutor Debian"
+msgstr ""
 
-#, fuzzy
 msgid "Iraq"
-msgstr "Coral"
+msgstr ""
 
-#, fuzzy
 msgid "Ireland"
-msgstr "Plan"
+msgstr ""
 
-#, fuzzy
 msgid "Israel"
-msgstr "Coral"
+msgstr ""
 
-#, fuzzy
 msgid "Italy"
-msgstr "Galaxie"
+msgstr ""
 
-#, fuzzy
 msgid "Jamaica"
-msgstr "Emacs"
+msgstr ""
 
-#, fuzzy
 msgid "Japan"
-msgstr "Plan"
+msgstr ""
 
-#, fuzzy
 msgid "Jordan"
-msgstr "Forte"
+msgstr ""
 
-#, fuzzy
 msgid "Kazakhstan"
-msgstr "Triunghi"
+msgstr ""
 
 msgid "Kenya"
 msgstr ""
@@ -398,9 +351,8 @@ msgstr ""
 msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
-#, fuzzy
 msgid "Korea, Republic of"
-msgstr "Ajutor Debian"
+msgstr ""
 
 msgid "Kuwait"
 msgstr ""
@@ -411,9 +363,8 @@ msgstr ""
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#, fuzzy
 msgid "Latvia"
-msgstr "Matematică"
+msgstr ""
 
 msgid "Lebanon"
 msgstr ""
@@ -421,9 +372,8 @@ msgstr ""
 msgid "Lesotho"
 msgstr ""
 
-#, fuzzy
 msgid "Liberia"
-msgstr "Debian"
+msgstr ""
 
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
@@ -431,44 +381,35 @@ msgstr ""
 msgid "Liechtenstein"
 msgstr ""
 
-#, fuzzy
 msgid "Lithuania"
-msgstr "Fulger"
+msgstr ""
 
-#, fuzzy
 msgid "Luxembourg"
-msgstr "Memorie"
+msgstr ""
 
-#, fuzzy
 msgid "Macao"
-msgstr "Matematică"
+msgstr ""
 
-#, fuzzy
 msgid "Macedonia, Republic of"
-msgstr "Ajutor Debian"
+msgstr ""
 
 msgid "Madagascar"
 msgstr ""
 
-#, fuzzy
 msgid "Malawi"
-msgstr "Matematică"
+msgstr ""
 
-#, fuzzy
 msgid "Malaysia"
-msgstr "Matematică"
+msgstr ""
 
-#, fuzzy
 msgid "Maldives"
-msgstr "Matematică"
+msgstr ""
 
-#, fuzzy
 msgid "Mali"
-msgstr "Matematică"
+msgstr ""
 
-#, fuzzy
 msgid "Malta"
-msgstr "Matematică"
+msgstr ""
 
 msgid "Marshall Islands"
 msgstr ""
@@ -476,27 +417,23 @@ msgstr ""
 msgid "Martinique"
 msgstr ""
 
-#, fuzzy
 msgid "Mauritania"
-msgstr "Fulger"
+msgstr ""
 
-#, fuzzy
 msgid "Mauritius"
-msgstr "Fulger"
+msgstr ""
 
 msgid "Mayotte"
 msgstr ""
 
-#, fuzzy
 msgid "Mexico"
-msgstr "Memorie"
+msgstr ""
 
 msgid "Micronesia, Federated States of"
 msgstr ""
 
-#, fuzzy
 msgid "Moldova, Republic of"
-msgstr "Ajutor Debian"
+msgstr ""
 
 msgid "Monaco"
 msgstr ""
@@ -522,32 +459,26 @@ msgstr ""
 msgid "Nepal"
 msgstr ""
 
-#, fuzzy
 msgid "Netherlands Antilles"
-msgstr "Ethereal"
+msgstr ""
 
-#, fuzzy
 msgid "Netherlands"
-msgstr "Ethereal"
+msgstr ""
 
-#, fuzzy
 msgid "New Caledonia"
-msgstr "Mozilla"
+msgstr ""
 
-#, fuzzy
 msgid "New Zealand"
-msgstr "Plan"
+msgstr ""
 
-#, fuzzy
 msgid "Nicaragua"
-msgstr "Gri pal"
+msgstr ""
 
 msgid "Niger"
 msgstr ""
 
-#, fuzzy
 msgid "Nigeria"
-msgstr "Debian"
+msgstr ""
 
 msgid "Niue"
 msgstr ""
@@ -558,9 +489,8 @@ msgstr ""
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#, fuzzy
 msgid "Norway"
-msgstr "Coral"
+msgstr ""
 
 msgid "Oman"
 msgstr ""
@@ -568,27 +498,23 @@ msgstr ""
 msgid "Pakistan"
 msgstr ""
 
-#, fuzzy
 msgid "Palau"
-msgstr "Gri pal"
+msgstr ""
 
 msgid "Palestinian Territory, Occupied"
 msgstr ""
 
-#, fuzzy
 msgid "Panama"
-msgstr "Plan"
+msgstr ""
 
 msgid "Papua New Guinea"
 msgstr ""
 
-#, fuzzy
 msgid "Paraguay"
-msgstr "Gri pal"
+msgstr ""
 
-#, fuzzy
 msgid "Peru"
-msgstr "Pine"
+msgstr ""
 
 msgid "Philippines"
 msgstr ""
@@ -596,20 +522,17 @@ msgstr ""
 msgid "Pitcairn"
 msgstr ""
 
-#, fuzzy
 msgid "Poland"
-msgstr "Plan"
+msgstr ""
 
-#, fuzzy
 msgid "Portugal"
-msgstr "Coral"
+msgstr ""
 
 msgid "Puerto Rico"
 msgstr ""
 
-#, fuzzy
 msgid "Qatar"
-msgstr "Matematică"
+msgstr ""
 
 msgid "Romania"
 msgstr "România"
@@ -629,9 +552,8 @@ msgstr "Sfânta Elena"
 msgid "Saint Kitts and Nevis"
 msgstr ""
 
-#, fuzzy
 msgid "Saint Lucia"
-msgstr "Qt Linguist"
+msgstr ""
 
 msgid "Saint Pierre and Miquelon"
 msgstr ""
@@ -660,38 +582,32 @@ msgstr ""
 msgid "Singapore"
 msgstr ""
 
-#, fuzzy
 msgid "Slovakia"
-msgstr "Sonar"
+msgstr ""
 
-#, fuzzy
 msgid "Slovenia"
-msgstr "Sonar"
+msgstr ""
 
 msgid "Solomon Islands"
 msgstr ""
 
-#, fuzzy
 msgid "Somalia"
-msgstr "Sonar"
+msgstr ""
 
-#, fuzzy
 msgid "South Africa"
-msgstr "Aventuri"
+msgstr ""
 
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
-#, fuzzy
 msgid "Spain"
-msgstr "Salvează"
+msgstr ""
 
 msgid "Sri Lanka"
 msgstr ""
 
-#, fuzzy
 msgid "Sudan"
-msgstr "Sunet"
+msgstr ""
 
 msgid "Suriname"
 msgstr ""
@@ -699,47 +615,38 @@ msgstr ""
 msgid "Svalbard and Jan Mayen"
 msgstr ""
 
-#, fuzzy
 msgid "Swaziland"
-msgstr "Plan"
+msgstr ""
 
-#, fuzzy
 msgid "Sweden"
-msgstr "Ecran"
+msgstr ""
 
-#, fuzzy
 msgid "Switzerland"
-msgstr "Vîrtej"
+msgstr ""
 
-#, fuzzy
 msgid "Syrian Arab Republic"
-msgstr "Ajutor Debian"
+msgstr ""
 
 msgid "Sao Tome and Principe"
 msgstr ""
 
-#, fuzzy
 msgid "Taiwan"
-msgstr "Triunghi"
+msgstr ""
 
-#, fuzzy
 msgid "Tajikistan"
-msgstr "Triunghi"
+msgstr ""
 
-#, fuzzy
 msgid "Tanzania, United Republic of"
-msgstr "Ajutor Debian"
+msgstr ""
 
-#, fuzzy
 msgid "Thailand"
-msgstr "Plan"
+msgstr ""
 
 msgid "Bahamas"
 msgstr "Bahamas"
 
-#, fuzzy
 msgid "Gambia"
-msgstr "Emacs"
+msgstr ""
 
 msgid "Togo"
 msgstr ""
@@ -753,13 +660,11 @@ msgstr ""
 msgid "Trinidad and Tobago"
 msgstr ""
 
-#, fuzzy
 msgid "Tunisia"
-msgstr "Julia"
+msgstr ""
 
-#, fuzzy
 msgid "Turkey"
-msgstr "Tux"
+msgstr ""
 
 msgid "Turkmenistan"
 msgstr ""
@@ -770,13 +675,11 @@ msgstr ""
 msgid "Tuvalu"
 msgstr ""
 
-#, fuzzy
 msgid "Uganda"
-msgstr "Cărţi"
+msgstr ""
 
-#, fuzzy
 msgid "Ukraine"
-msgstr "Pine"
+msgstr ""
 
 msgid "United Arab Emirates"
 msgstr ""
@@ -790,9 +693,8 @@ msgstr ""
 msgid "United States"
 msgstr ""
 
-#, fuzzy
 msgid "Uruguay"
-msgstr "Energie"
+msgstr ""
 
 msgid "Uzbekistan"
 msgstr ""
@@ -800,17 +702,14 @@ msgstr ""
 msgid "Vanuatu"
 msgstr ""
 
-#, fuzzy
 msgid "Venezuela"
-msgstr "Arena"
+msgstr ""
 
-#, fuzzy
 msgid "Viet Nam"
-msgstr "Viţă-de-vie"
+msgstr ""
 
-#, fuzzy
 msgid "Virgin Islands, U.S."
-msgstr "Plan"
+msgstr ""
 
 msgid "Wallis and Futuna"
 msgstr ""
@@ -824,9 +723,8 @@ msgstr ""
 msgid "Serbia and Montenegro"
 msgstr "Serbia şi Muntenegru"
 
-#, fuzzy
 msgid "Zambia"
-msgstr "Emacs"
+msgstr ""
 
 msgid "Zimbabwe"
 msgstr ""
@@ -834,10 +732,8 @@ msgstr ""
 msgid "Åland Islands"
 msgstr "Insulele Åland"
 
-#, fuzzy
 msgid "Serbia"
-msgstr "Debian"
+msgstr ""
 
-#, fuzzy
 msgid "Montenegro"
-msgstr "Serbia şi Muntenegru"
+msgstr ""

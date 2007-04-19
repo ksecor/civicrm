@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2006-12-02 02:13-0800\n"
 "Last-Translator: Ørjan Sandland <orjan@reodor-racing.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Afghanistan"
@@ -732,9 +732,8 @@ msgstr ""
 msgid "Åland Islands"
 msgstr ""
 
-#, fuzzy
 msgid "Serbia"
-msgstr "Aserbadjan"
+msgstr ""
 
 msgid "Montenegro"
 msgstr ""

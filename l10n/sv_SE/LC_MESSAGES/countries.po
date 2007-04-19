@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2006-09-28 14:35-0700\n"
 "Last-Translator: Jerker Lundin <jerker@lundinonline.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 # AF
@@ -950,12 +950,8 @@ msgstr "Zimbabwe"
 msgid "Åland Islands"
 msgstr "Åland"
 
-# SY
-#, fuzzy
 msgid "Serbia"
-msgstr "Syrien"
+msgstr ""
 
-# name for SCG
-#, fuzzy
 msgid "Montenegro"
-msgstr "Serbien och Montenegro"
+msgstr ""

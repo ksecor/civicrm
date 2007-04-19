@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2007-03-01 06:25-0800\n"
 "Last-Translator: Atilla Gökhan Uz <atilla.uz@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Alabama"
@@ -3645,9 +3645,8 @@ msgstr "Aberdeenshire"
 msgid "Angus"
 msgstr "Angus"
 
-#, fuzzy
 msgid "Co Antrim"
-msgstr "County Antrim"
+msgstr ""
 
 msgid "Ards"
 msgstr "Ards"
@@ -3655,9 +3654,8 @@ msgstr "Ards"
 msgid "Argyll and Bute"
 msgstr "Argyll and Bute"
 
-#, fuzzy
 msgid "Co Armagh"
-msgstr "County Armagh"
+msgstr ""
 
 msgid "Ballymena"
 msgstr "Ballymena"
@@ -3722,9 +3720,8 @@ msgstr "Bridgend"
 msgid "Brighton and Hove"
 msgstr "Brighton and Hove"
 
-#, fuzzy
 msgid "Bristol"
-msgstr "Oristano"
+msgstr ""
 
 msgid "Bromley"
 msgstr "Bromley"
@@ -3819,9 +3816,8 @@ msgstr "Doncaster"
 msgid "Dorset"
 msgstr "Dorset"
 
-#, fuzzy
 msgid "Co Down"
-msgstr "County Down"
+msgstr ""
 
 msgid "Dudley"
 msgstr "Dudley"
@@ -3835,9 +3831,8 @@ msgstr "Dundee City"
 msgid "Dungannon"
 msgstr "Dungannon"
 
-#, fuzzy
 msgid "Co Durham"
-msgstr "County Durham"
+msgstr ""
 
 msgid "Ealing"
 msgstr "Ealing"
@@ -3875,9 +3870,8 @@ msgstr "Essex"
 msgid "Falkirk"
 msgstr "Falkirk"
 
-#, fuzzy
 msgid "Co Fermanagh"
-msgstr "Fermanagh"
+msgstr ""
 
 msgid "Fife"
 msgstr "Fife"
@@ -3888,9 +3882,8 @@ msgstr "Flintshire"
 msgid "Gateshead"
 msgstr "Gateshead"
 
-#, fuzzy
 msgid "Glasgow"
-msgstr "Glasgow City"
+msgstr ""
 
 msgid "Gloucestershire"
 msgstr "Gloucestershire"
@@ -3928,9 +3921,8 @@ msgstr "Hartlepool"
 msgid "Havering"
 msgstr "Havering"
 
-#, fuzzy
 msgid "Herefordshire"
-msgstr "Hertfordshire"
+msgstr ""
 
 msgid "Hertfordshire"
 msgstr "Hertfordshire"
@@ -3968,9 +3960,8 @@ msgstr "Kensington and Chelsea"
 msgid "Kent"
 msgstr "Kent"
 
-#, fuzzy
 msgid "Kingston upon Hull"
-msgstr "Kingston upon Hull, City of"
+msgstr ""
 
 msgid "Kingston upon Thames"
 msgstr "Kingston upon Thames"
@@ -4155,9 +4146,8 @@ msgstr "Cleveland"
 msgid "Renfrewshire"
 msgstr "Renfrewshire"
 
-#, fuzzy
 msgid "Rhondda Cynon Taff"
-msgstr "Rhondda, Cynon, Taff"
+msgstr ""
 
 msgid "Richmond upon Thames"
 msgstr "Richmond upon Thames"
@@ -4180,9 +4170,8 @@ msgstr "Salford"
 msgid "Sandwell"
 msgstr "Sandwell"
 
-#, fuzzy
 msgid "Scottish Borders"
-msgstr "Scottish Borders, The"
+msgstr ""
 
 msgid "Sefton"
 msgstr "Sefton"
@@ -4283,9 +4272,8 @@ msgstr "Tower Hamlets"
 msgid "Trafford"
 msgstr "Trafford"
 
-#, fuzzy
 msgid "Vale of Glamorgan"
-msgstr "Vale of Glamorgan, The"
+msgstr ""
 
 msgid "Bro Morgannwg"
 msgstr "Bro Morgannwg"
@@ -11364,9 +11352,8 @@ msgstr "Orta Finlandiya"
 msgid "Kymenlaakso"
 msgstr "Kymenlaakso"
 
-#, fuzzy
 msgid "Lapland"
-msgstr "Lappia"
+msgstr ""
 
 msgid "Tampere Region"
 msgstr "Tampere"
@@ -11389,9 +11376,8 @@ msgstr "Päijät-Häme"
 msgid "Satakunta"
 msgstr "Satakunta"
 
-#, fuzzy
 msgid "Uusimaa"
-msgstr "Uusimaa"
+msgstr ""
 
 msgid "South-West Finland"
 msgstr "Güneydoğu Finlandiya"
@@ -11399,59 +11385,47 @@ msgstr "Güneydoğu Finlandiya"
 msgid "Åland"
 msgstr "Åland"
 
-#, fuzzy
 msgid "North West"
-msgstr "North-West"
+msgstr ""
 
-#, fuzzy
 msgid "Tyne and Wear"
-msgstr "Tyne & Wear"
+msgstr ""
 
 msgid "Isle of Man"
 msgstr "Adam Adası"
 
-#, fuzzy
 msgid "Greater Manchester"
-msgstr "Manchester"
+msgstr ""
 
-#, fuzzy
 msgid "Co Tyrone"
-msgstr "County Tyrone"
+msgstr ""
 
-#, fuzzy
 msgid "West Yorkshire"
-msgstr "Batı Berkshire"
+msgstr ""
 
-#, fuzzy
 msgid "South Yorkshire"
-msgstr "Kuzey Yorkshire"
+msgstr ""
 
-#, fuzzy
 msgid "Merseyside"
-msgstr "Jersey"
+msgstr ""
 
 msgid "Berkshire"
 msgstr "Berkshire"
 
-#, fuzzy
 msgid "West Midlands"
-msgstr "Midlands"
+msgstr ""
 
-#, fuzzy
 msgid "Inverness"
-msgstr "Rivercess"
+msgstr ""
 
-#, fuzzy
 msgid "Avon"
-msgstr "Aveyron"
+msgstr ""
 
 msgid "Middlesex"
 msgstr "Middlesex"
 
-#, fuzzy
 msgid "West Glamorgan"
-msgstr "Westmoreland"
+msgstr ""
 
-#, fuzzy
 msgid "London"
-msgstr "Rondonia"
+msgstr ""

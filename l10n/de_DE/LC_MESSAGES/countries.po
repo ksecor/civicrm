@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2006-03-07 21:19+0100\n"
 "Last-Translator: Christian Stimming <stimming@tuhh.de>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 # AF
@@ -951,9 +951,8 @@ msgstr "Westsahara"
 msgid "Yemen"
 msgstr "Yemen"
 
-#, fuzzy
 msgid "Serbia and Montenegro"
-msgstr "Republik Kongo"
+msgstr ""
 
 # ZM
 msgid "Zambia"
@@ -967,11 +966,8 @@ msgstr "Simbabwe"
 msgid "Åland Islands"
 msgstr "Åland Inseln"
 
-# AZ
-#, fuzzy
 msgid "Serbia"
-msgstr "Aserbaidschan"
+msgstr ""
 
-#, fuzzy
 msgid "Montenegro"
-msgstr "Serbien und Montenegro"
+msgstr ""

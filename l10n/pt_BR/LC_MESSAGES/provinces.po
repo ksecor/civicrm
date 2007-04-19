@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2006-04-15 22:00-0300\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Alabama"
@@ -3645,9 +3645,8 @@ msgstr ""
 msgid "Angus"
 msgstr ""
 
-#, fuzzy
 msgid "Co Antrim"
-msgstr "County Antrim"
+msgstr ""
 
 msgid "Ards"
 msgstr ""
@@ -3655,9 +3654,8 @@ msgstr ""
 msgid "Argyll and Bute"
 msgstr ""
 
-#, fuzzy
 msgid "Co Armagh"
-msgstr "County Fermanagh"
+msgstr ""
 
 msgid "Ballymena"
 msgstr ""
@@ -3722,9 +3720,8 @@ msgstr ""
 msgid "Brighton and Hove"
 msgstr ""
 
-#, fuzzy
 msgid "Bristol"
-msgstr "Braila"
+msgstr ""
 
 msgid "Bromley"
 msgstr ""
@@ -3819,9 +3816,8 @@ msgstr ""
 msgid "Dorset"
 msgstr ""
 
-#, fuzzy
 msgid "Co Down"
-msgstr "County Down"
+msgstr ""
 
 msgid "Dudley"
 msgstr ""
@@ -3874,9 +3870,8 @@ msgstr ""
 msgid "Falkirk"
 msgstr ""
 
-#, fuzzy
 msgid "Co Fermanagh"
-msgstr "Fermanagh"
+msgstr ""
 
 msgid "Fife"
 msgstr ""
@@ -3887,9 +3882,8 @@ msgstr ""
 msgid "Gateshead"
 msgstr ""
 
-#, fuzzy
 msgid "Glasgow"
-msgstr "Glarus"
+msgstr ""
 
 msgid "Gloucestershire"
 msgstr ""
@@ -3927,9 +3921,8 @@ msgstr ""
 msgid "Havering"
 msgstr ""
 
-#, fuzzy
 msgid "Herefordshire"
-msgstr "Berkshire"
+msgstr ""
 
 msgid "Hertfordshire"
 msgstr ""
@@ -4072,9 +4065,8 @@ msgstr ""
 msgid "Norfolk"
 msgstr ""
 
-#, fuzzy
 msgid "North Ayrshire"
-msgstr "North Ayrahire"
+msgstr ""
 
 msgid "North Down"
 msgstr "North Down"
@@ -4151,9 +4143,8 @@ msgstr ""
 msgid "Cleveland"
 msgstr "Cleveland"
 
-#, fuzzy
 msgid "Renfrewshire"
-msgstr "Berkshire"
+msgstr ""
 
 msgid "Rhondda Cynon Taff"
 msgstr ""
@@ -4179,9 +4170,8 @@ msgstr "Salford"
 msgid "Sandwell"
 msgstr ""
 
-#, fuzzy
 msgid "Scottish Borders"
-msgstr "Borders"
+msgstr ""
 
 msgid "Sefton"
 msgstr ""
@@ -4201,9 +4191,8 @@ msgstr ""
 msgid "Solihull"
 msgstr ""
 
-#, fuzzy
 msgid "Somerset"
-msgstr "Somersetshire"
+msgstr ""
 
 msgid "South Ayrshire"
 msgstr "South Ayrshire"
@@ -11363,9 +11352,8 @@ msgstr "Central Finland"
 msgid "Kymenlaakso"
 msgstr ""
 
-#, fuzzy
 msgid "Lapland"
-msgstr "Lapônia"
+msgstr ""
 
 msgid "Tampere Region"
 msgstr ""
@@ -11388,9 +11376,8 @@ msgstr ""
 msgid "Satakunta"
 msgstr "Satakunta"
 
-#, fuzzy
 msgid "Uusimaa"
-msgstr "Uusimaa "
+msgstr ""
 
 msgid "South-West Finland"
 msgstr "South-West Finland"
@@ -11398,9 +11385,8 @@ msgstr "South-West Finland"
 msgid "Åland"
 msgstr "Åland"
 
-#, fuzzy
 msgid "North West"
-msgstr "North Somerset"
+msgstr ""
 
 msgid "Tyne and Wear"
 msgstr ""
@@ -11408,46 +11394,38 @@ msgstr ""
 msgid "Isle of Man"
 msgstr ""
 
-#, fuzzy
 msgid "Greater Manchester"
-msgstr "GreveNmacher"
+msgstr ""
 
 msgid "Co Tyrone"
 msgstr ""
 
-#, fuzzy
 msgid "West Yorkshire"
-msgstr "Yorkshire"
+msgstr ""
 
-#, fuzzy
 msgid "South Yorkshire"
-msgstr "North Yorkshire"
+msgstr ""
 
-#, fuzzy
 msgid "Merseyside"
-msgstr "Merida"
+msgstr ""
 
 msgid "Berkshire"
 msgstr "Berkshire"
 
-#, fuzzy
 msgid "West Midlands"
-msgstr "Midlands"
+msgstr ""
 
 msgid "Inverness"
 msgstr ""
 
-#, fuzzy
 msgid "Avon"
-msgstr "Artvin"
+msgstr ""
 
 msgid "Middlesex"
 msgstr ""
 
-#, fuzzy
 msgid "West Glamorgan"
-msgstr "Westmoreland"
+msgstr ""
 
-#, fuzzy
 msgid "London"
-msgstr "Rondônia"
+msgstr ""

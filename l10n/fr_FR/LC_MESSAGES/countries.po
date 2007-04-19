@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2004-10-18 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 # AF
@@ -972,12 +972,8 @@ msgstr "Zimbabwe"
 msgid "Åland Islands"
 msgstr "Îles Åland"
 
-# AZ
-#, fuzzy
 msgid "Serbia"
-msgstr "Azerbaïdjan"
+msgstr ""
 
-# name for SCG
-#, fuzzy
 msgid "Montenegro"
-msgstr "Serbie et Monténégro"
+msgstr ""

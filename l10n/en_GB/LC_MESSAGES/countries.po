@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2005-03-07 08:29-0500\n"
 "Last-Translator: Automatically generated\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Afghanistan"
@@ -732,10 +732,8 @@ msgstr "Zimbabwe"
 msgid "Åland Islands"
 msgstr "Åland Islands"
 
-#, fuzzy
 msgid "Serbia"
-msgstr "Azerbaijan"
+msgstr ""
 
-#, fuzzy
 msgid "Montenegro"
-msgstr "Serbia and Montenegro"
+msgstr ""

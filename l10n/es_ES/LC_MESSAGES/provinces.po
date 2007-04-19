@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2006-05-27 18:17+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Alabama"
@@ -18,20 +18,17 @@ msgstr "Alabama"
 msgid "Alaska"
 msgstr "Alaska"
 
-#, fuzzy
 msgid "Arizona"
-msgstr "Arizona"
+msgstr ""
 
 msgid "Arkansas"
 msgstr "Arkansas"
 
-#, fuzzy
 msgid "California"
-msgstr "California"
+msgstr ""
 
-#, fuzzy
 msgid "Colorado"
-msgstr "Colorado"
+msgstr ""
 
 msgid "Connecticut"
 msgstr "Connecticut"
@@ -186,17 +183,14 @@ msgstr "Virgin Islands"
 msgid "United States Minor Outlying Islands"
 msgstr "Islas Circundantes Menores de los Estados Unidos"
 
-#, fuzzy
 msgid "Armed Forces Europe"
-msgstr "Armed Forces(AE)"
+msgstr ""
 
-#, fuzzy
 msgid "Armed Forces Americas"
-msgstr "Armed Forces(AA)"
+msgstr ""
 
-#, fuzzy
 msgid "Armed Forces Pacific"
-msgstr "Armed Forces(AP)"
+msgstr ""
 
 msgid "Alberta"
 msgstr "Alberta"
@@ -210,13 +204,11 @@ msgstr "Manitoba"
 msgid "New Brunswick"
 msgstr "New Brunswick"
 
-#, fuzzy
 msgid "Newfoundland and Labrador"
-msgstr "Newfoundland"
+msgstr ""
 
-#, fuzzy
 msgid "Northwest Territories"
-msgstr "Northwest Territory"
+msgstr ""
 
 msgid "Nova Scotia"
 msgstr "Nova Scotia"
@@ -257,21 +249,17 @@ msgstr ""
 msgid "Bihar"
 msgstr ""
 
-#, fuzzy
 msgid "Chhattisgarh"
-msgstr "Canadá"
+msgstr ""
 
-#, fuzzy
 msgid "Goa"
-msgstr "Georgia"
+msgstr ""
 
-#, fuzzy
 msgid "Gujarat"
-msgstr "Guyana"
+msgstr ""
 
-#, fuzzy
 msgid "Haryana"
-msgstr "Maryland"
+msgstr ""
 
 msgid "Himachal Pradesh"
 msgstr ""
@@ -291,16 +279,14 @@ msgstr ""
 msgid "Manipur"
 msgstr ""
 
-#, fuzzy
 msgid "Meghalaya"
-msgstr "Malasia"
+msgstr ""
 
 msgid "Mizoram"
 msgstr ""
 
-#, fuzzy
 msgid "Nagaland"
-msgstr "Nueva Zelanda"
+msgstr ""
 
 msgid "Orissa"
 msgstr ""
@@ -308,23 +294,20 @@ msgstr ""
 msgid "Punjab"
 msgstr ""
 
-#, fuzzy
 msgid "Rajasthan"
-msgstr "Tajikistán"
+msgstr ""
 
 msgid "Sikkim"
 msgstr ""
 
-#, fuzzy
 msgid "Tamil Nadu"
-msgstr "Tailandia"
+msgstr ""
 
 msgid "Tripura"
 msgstr ""
 
-#, fuzzy
 msgid "Uttaranchal"
-msgstr "Mauritania"
+msgstr ""
 
 msgid "Uttar Pradesh"
 msgstr ""
@@ -332,9 +315,8 @@ msgstr ""
 msgid "West Bengal"
 msgstr ""
 
-#, fuzzy
 msgid "Andaman and Nicobar Islands"
-msgstr "Islas Heard e Islas McDonald"
+msgstr ""
 
 msgid "Dadra and Nagar Haveli"
 msgstr ""
@@ -342,9 +324,8 @@ msgstr ""
 msgid "Daman and Diu"
 msgstr ""
 
-#, fuzzy
 msgid "Delhi"
-msgstr "Helix"
+msgstr ""
 
 msgid "Lakshadweep"
 msgstr ""
@@ -403,9 +384,8 @@ msgstr ""
 msgid "Abu Zaby"
 msgstr ""
 
-#, fuzzy
 msgid "'Ajman"
-msgstr "Omán"
+msgstr ""
 
 msgid "Al Fujayrah"
 msgstr ""
@@ -413,9 +393,8 @@ msgstr ""
 msgid "Ash Shariqah"
 msgstr ""
 
-#, fuzzy
 msgid "Dubayy"
-msgstr "Cuba"
+msgstr ""
 
 msgid "Ra's al Khaymah"
 msgstr ""
@@ -426,23 +405,20 @@ msgstr ""
 msgid "Umm al Qaywayn"
 msgstr ""
 
-#, fuzzy
 msgid "Badakhshan"
-msgstr "Kazajstán"
+msgstr ""
 
 msgid "Badghis"
 msgstr ""
 
-#, fuzzy
 msgid "Baghlan"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Balkh"
 msgstr ""
 
-#, fuzzy
 msgid "Bamian"
-msgstr "Zambia"
+msgstr ""
 
 msgid "Farah"
 msgstr ""
@@ -450,43 +426,35 @@ msgstr ""
 msgid "Faryab"
 msgstr ""
 
-#, fuzzy
 msgid "Ghazni"
-msgstr "Ghana"
+msgstr ""
 
 msgid "Ghowr"
 msgstr ""
 
-#, fuzzy
 msgid "Helmand"
-msgstr "Islandia"
+msgstr ""
 
-#, fuzzy
 msgid "Herat"
-msgstr "Haití"
+msgstr ""
 
-#, fuzzy
 msgid "Jowzjan"
-msgstr "Jordania"
+msgstr ""
 
-#, fuzzy
 msgid "Kabul"
-msgstr "KMali"
+msgstr ""
 
 msgid "Kandahar"
 msgstr ""
 
-#, fuzzy
 msgid "Kapisa"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Khowst"
-msgstr "Estonia"
+msgstr ""
 
-#, fuzzy
 msgid "Konar"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Kondoz"
 msgstr ""
@@ -494,40 +462,32 @@ msgstr ""
 msgid "Laghman"
 msgstr ""
 
-#, fuzzy
 msgid "Lowgar"
-msgstr "Iowa"
+msgstr ""
 
 msgid "Nangrahar"
 msgstr ""
 
-#, fuzzy
 msgid "Nimruz"
-msgstr "Niue"
+msgstr ""
 
-#, fuzzy
 msgid "Nurestan"
-msgstr "Lesoto"
+msgstr ""
 
-#, fuzzy
 msgid "Oruzgan"
-msgstr "Oregon"
+msgstr ""
 
-#, fuzzy
 msgid "Paktia"
-msgstr "Pakistán"
+msgstr ""
 
-#, fuzzy
 msgid "Paktika"
-msgstr "Pakistán"
+msgstr ""
 
-#, fuzzy
 msgid "Parwan"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Samangan"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Sar-e Pol"
 msgstr ""
@@ -538,67 +498,53 @@ msgstr ""
 msgid "Wardak"
 msgstr ""
 
-#, fuzzy
 msgid "Zabol"
-msgstr "Gabón"
+msgstr ""
 
-#, fuzzy
 msgid "Berat"
-msgstr "Haití"
+msgstr ""
 
-#, fuzzy
 msgid "Bulqizë"
-msgstr "Belice"
+msgstr ""
 
-#, fuzzy
 msgid "Delvinë"
-msgstr "Helix"
+msgstr ""
 
 msgid "Devoll"
 msgstr ""
 
-#, fuzzy
 msgid "Dibër"
-msgstr "Liberia"
+msgstr ""
 
-#, fuzzy
 msgid "Durrsës"
-msgstr "Turquía"
+msgstr ""
 
-#, fuzzy
 msgid "Elbasan"
-msgstr "Malasia"
+msgstr ""
 
-#, fuzzy
 msgid "Fier"
-msgstr "Níger"
+msgstr ""
 
-#, fuzzy
 msgid "Gramsh"
-msgstr "Ghana"
+msgstr ""
 
-#, fuzzy
 msgid "Gjirokastër"
-msgstr "Gibraltar"
+msgstr ""
 
 msgid "Has"
 msgstr ""
 
-#, fuzzy
 msgid "Kavajë"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Kolonjë"
-msgstr "Camerún"
+msgstr ""
 
-#, fuzzy
 msgid "Korcë"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Krujë"
-msgstr "Kenia"
+msgstr ""
 
 msgid "Kuçovë"
 msgstr ""
@@ -606,21 +552,17 @@ msgstr ""
 msgid "Kukës"
 msgstr ""
 
-#, fuzzy
 msgid "Kurbin"
-msgstr "Kiribati"
+msgstr ""
 
-#, fuzzy
 msgid "Lezhë"
-msgstr "Níger"
+msgstr ""
 
-#, fuzzy
 msgid "Librazhd"
-msgstr "Liberia"
+msgstr ""
 
-#, fuzzy
 msgid "Lushnjë"
-msgstr "Ninguno"
+msgstr ""
 
 msgid "Malësi e Madhe"
 msgstr ""
@@ -628,33 +570,26 @@ msgstr ""
 msgid "Mallakastër"
 msgstr ""
 
-#, fuzzy
 msgid "Mat"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Mirditë"
-msgstr "Maryland"
+msgstr ""
 
-#, fuzzy
 msgid "Peqin"
-msgstr "Yemen"
+msgstr ""
 
-#, fuzzy
 msgid "Përmet"
-msgstr "Vermont"
+msgstr ""
 
-#, fuzzy
 msgid "Pogradec"
-msgstr "Noruega"
+msgstr ""
 
-#, fuzzy
 msgid "Pukë"
-msgstr "Cuba"
+msgstr ""
 
-#, fuzzy
 msgid "Sarandë"
-msgstr "Maryland"
+msgstr ""
 
 msgid "Skrapar"
 msgstr ""
@@ -662,32 +597,26 @@ msgstr ""
 msgid "Shkodër"
 msgstr ""
 
-#, fuzzy
 msgid "Tepelenë"
-msgstr "Suecia"
+msgstr ""
 
-#, fuzzy
 msgid "Tiranë"
-msgstr "Tonga"
+msgstr ""
 
-#, fuzzy
 msgid "Tropojë"
-msgstr "Comores"
+msgstr ""
 
-#, fuzzy
 msgid "Vlorë"
-msgstr "Florida"
+msgstr ""
 
-#, fuzzy
 msgid "Erevan"
-msgstr "Eritrea"
+msgstr ""
 
 msgid "Aragacotn"
 msgstr ""
 
-#, fuzzy
 msgid "Ararat"
-msgstr "Andorra"
+msgstr ""
 
 msgid "Armavir"
 msgstr ""
@@ -698,9 +627,8 @@ msgstr ""
 msgid "Kotayk'"
 msgstr ""
 
-#, fuzzy
 msgid "Lory"
-msgstr "Noruega"
+msgstr ""
 
 msgid "Sirak"
 msgstr ""
@@ -708,28 +636,23 @@ msgstr ""
 msgid "Syunik'"
 msgstr ""
 
-#, fuzzy
 msgid "Tavus"
-msgstr "Texas"
+msgstr ""
 
 msgid "Vayoc Jor"
 msgstr ""
 
-#, fuzzy
 msgid "Bengo"
-msgstr "Congo"
+msgstr ""
 
-#, fuzzy
 msgid "Benguela"
-msgstr "Venezuela"
+msgstr ""
 
-#, fuzzy
 msgid "Bie"
-msgstr "Belice"
+msgstr ""
 
-#, fuzzy
 msgid "Cabinda"
-msgstr "Canadá"
+msgstr ""
 
 msgid "Cuando-Cubango"
 msgstr ""
@@ -743,17 +666,14 @@ msgstr ""
 msgid "Cunene"
 msgstr ""
 
-#, fuzzy
 msgid "Huambo"
-msgstr "Guam"
+msgstr ""
 
-#, fuzzy
 msgid "Huila"
-msgstr "Anguilla"
+msgstr ""
 
-#, fuzzy
 msgid "Luanda"
-msgstr "Louisiana"
+msgstr ""
 
 msgid "Lunda Norte"
 msgstr ""
@@ -761,21 +681,17 @@ msgstr ""
 msgid "Lunda Sul"
 msgstr ""
 
-#, fuzzy
 msgid "Malange"
-msgstr "Maryland"
+msgstr ""
 
-#, fuzzy
 msgid "Moxico"
-msgstr "México"
+msgstr ""
 
-#, fuzzy
 msgid "Namibe"
-msgstr "Namibia"
+msgstr ""
 
-#, fuzzy
 msgid "Uige"
-msgstr "Níger"
+msgstr ""
 
 msgid "Zaire"
 msgstr "Zaire"
@@ -786,24 +702,20 @@ msgstr ""
 msgid "Buenos Aires"
 msgstr ""
 
-#, fuzzy
 msgid "Catamarca"
-msgstr "Jamaica"
+msgstr ""
 
-#, fuzzy
 msgid "Cordoba"
-msgstr "Colorado"
+msgstr ""
 
 msgid "Corrientes"
 msgstr ""
 
-#, fuzzy
 msgid "Chaco"
-msgstr "Chad"
+msgstr ""
 
-#, fuzzy
 msgid "Chubut"
-msgstr "Cuba"
+msgstr ""
 
 msgid "Entre Rios"
 msgstr ""
@@ -817,13 +729,11 @@ msgstr ""
 msgid "La Pampa"
 msgstr ""
 
-#, fuzzy
 msgid "Mendoza"
-msgstr "Macedonia"
+msgstr ""
 
-#, fuzzy
 msgid "Misiones"
-msgstr "Micronesia"
+msgstr ""
 
 msgid "Neuquen"
 msgstr ""
@@ -831,24 +741,20 @@ msgstr ""
 msgid "Rio Negro"
 msgstr ""
 
-#, fuzzy
 msgid "Salta"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "San Juan"
-msgstr "San Marino"
+msgstr ""
 
-#, fuzzy
 msgid "San Luis"
-msgstr "Santa Lucía"
+msgstr ""
 
 msgid "Santa Cruz"
 msgstr ""
 
-#, fuzzy
 msgid "Santa Fe"
-msgstr "Santa Helena"
+msgstr ""
 
 msgid "Santiago del Estero"
 msgstr ""
@@ -859,9 +765,8 @@ msgstr ""
 msgid "Tucuman"
 msgstr ""
 
-#, fuzzy
 msgid "Burgenland"
-msgstr "Isla Green"
+msgstr ""
 
 msgid "Kärnten"
 msgstr ""
@@ -893,32 +798,26 @@ msgstr ""
 msgid "Australian Capital Territory"
 msgstr ""
 
-#, fuzzy
 msgid "Northern Territory"
-msgstr "Northwest Territory"
+msgstr ""
 
 msgid "New South Wales"
 msgstr ""
 
-#, fuzzy
 msgid "Queensland"
-msgstr "Isla Green"
+msgstr ""
 
-#, fuzzy
 msgid "South Australia"
-msgstr "Australia"
+msgstr ""
 
-#, fuzzy
 msgid "Tasmania"
-msgstr "Rumanía"
+msgstr ""
 
-#, fuzzy
 msgid "Victoria"
-msgstr "Virginia"
+msgstr ""
 
-#, fuzzy
 msgid "Western Australia"
-msgstr "Australia"
+msgstr ""
 
 msgid "Naxcivan"
 msgstr ""
@@ -926,13 +825,11 @@ msgstr ""
 msgid "Ali Bayramli"
 msgstr ""
 
-#, fuzzy
 msgid "Baki"
-msgstr "Brasil"
+msgstr ""
 
-#, fuzzy
 msgid "Ganca"
-msgstr "Ghana"
+msgstr ""
 
 msgid "Lankaran"
 msgstr ""
@@ -943,16 +840,14 @@ msgstr ""
 msgid "Naftalan"
 msgstr ""
 
-#, fuzzy
 msgid "Saki"
-msgstr "España"
+msgstr ""
 
 msgid "Sumqayit"
 msgstr ""
 
-#, fuzzy
 msgid "Susa"
-msgstr "Sudán"
+msgstr ""
 
 msgid "Xankandi"
 msgstr ""
@@ -969,32 +864,26 @@ msgstr ""
 msgid "Agdam"
 msgstr ""
 
-#, fuzzy
 msgid "Agdas"
-msgstr "Angola"
+msgstr ""
 
-#, fuzzy
 msgid "Agstafa"
-msgstr "Australia"
+msgstr ""
 
 msgid "Agsu"
 msgstr ""
 
-#, fuzzy
 msgid "Astara"
-msgstr "Austria"
+msgstr ""
 
-#, fuzzy
 msgid "Babak"
-msgstr "Barbados"
+msgstr ""
 
-#, fuzzy
 msgid "Balakan"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Barda"
-msgstr "Bermuda"
+msgstr ""
 
 msgid "Beylagan"
 msgstr ""
@@ -1008,13 +897,11 @@ msgstr ""
 msgid "Calilabad"
 msgstr ""
 
-#, fuzzy
 msgid "Culfa"
-msgstr "Cuba"
+msgstr ""
 
-#, fuzzy
 msgid "Daskasan"
-msgstr "Pakistán"
+msgstr ""
 
 msgid "Davaci"
 msgstr ""
@@ -1022,13 +909,11 @@ msgstr ""
 msgid "Fuzuli"
 msgstr ""
 
-#, fuzzy
 msgid "Gadabay"
-msgstr "Gambia"
+msgstr ""
 
-#, fuzzy
 msgid "Goranboy"
-msgstr "Alemania"
+msgstr ""
 
 msgid "Goycay"
 msgstr ""
@@ -1048,61 +933,50 @@ msgstr ""
 msgid "Kurdamir"
 msgstr ""
 
-#, fuzzy
 msgid "Lacin"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Lerik"
-msgstr "Liberia"
+msgstr ""
 
-#, fuzzy
 msgid "Masalli"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Neftcala"
-msgstr "Netscape"
+msgstr ""
 
 msgid "Oguz"
 msgstr ""
 
-#, fuzzy
 msgid "Ordubad"
-msgstr "Aruba"
+msgstr ""
 
-#, fuzzy
 msgid "Qabala"
-msgstr "Alabama"
+msgstr ""
 
 msgid "Qax"
 msgstr ""
 
-#, fuzzy
 msgid "Qazax"
-msgstr "Qatar"
+msgstr ""
 
 msgid "Qobustan"
 msgstr ""
 
-#, fuzzy
 msgid "Quba"
-msgstr "Cuba"
+msgstr ""
 
 msgid "Qubadli"
 msgstr ""
 
-#, fuzzy
 msgid "Qusar"
-msgstr "Qatar"
+msgstr ""
 
-#, fuzzy
 msgid "Saatli"
-msgstr "Somalia"
+msgstr ""
 
-#, fuzzy
 msgid "Sabirabad"
-msgstr "Arabia Saudí"
+msgstr ""
 
 msgid "Sadarak"
 msgstr ""
@@ -1110,32 +984,26 @@ msgstr ""
 msgid "Sahbuz"
 msgstr ""
 
-#, fuzzy
 msgid "Salyan"
-msgstr "Swazilandia"
+msgstr ""
 
-#, fuzzy
 msgid "Samaxi"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Samkir"
 msgstr ""
 
-#, fuzzy
 msgid "Samux"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Sarur"
-msgstr "Nauru"
+msgstr ""
 
-#, fuzzy
 msgid "Siyazan"
-msgstr "Swazilandia"
+msgstr ""
 
-#, fuzzy
 msgid "Tartar"
-msgstr "Qatar"
+msgstr ""
 
 msgid "Tovuz"
 msgstr ""
@@ -1146,16 +1014,14 @@ msgstr ""
 msgid "Xacmaz"
 msgstr ""
 
-#, fuzzy
 msgid "Xanlar"
-msgstr "Myanmar"
+msgstr ""
 
 msgid "Xizi"
 msgstr ""
 
-#, fuzzy
 msgid "Xocali"
-msgstr "Somalia"
+msgstr ""
 
 msgid "Xocavand"
 msgstr ""
@@ -1163,9 +1029,8 @@ msgstr ""
 msgid "Yardimli"
 msgstr ""
 
-#, fuzzy
 msgid "Zangilan"
-msgstr "Anguilla"
+msgstr ""
 
 msgid "Zaqatala"
 msgstr ""
@@ -1173,36 +1038,29 @@ msgstr ""
 msgid "Zardab"
 msgstr ""
 
-#, fuzzy
 msgid "Federacija Bosna i Hercegovina"
-msgstr "Bosnia Herzegovina"
+msgstr ""
 
 msgid "Republika Srpska"
 msgstr ""
 
-#, fuzzy
 msgid "Bagerhat zila"
-msgstr "Brasil"
+msgstr ""
 
-#, fuzzy
 msgid "Bandarban zila"
-msgstr "Brasil"
+msgstr ""
 
-#, fuzzy
 msgid "Barguna zila"
-msgstr "Brasil"
+msgstr ""
 
-#, fuzzy
 msgid "Barisal zila"
-msgstr "Brasil"
+msgstr ""
 
-#, fuzzy
 msgid "Bhola zila"
-msgstr "Brasil"
+msgstr ""
 
-#, fuzzy
 msgid "Bogra zila"
-msgstr "Brasil"
+msgstr ""
 
 msgid "Brahmanbaria zila"
 msgstr ""
@@ -1249,9 +1107,8 @@ msgstr ""
 msgid "Jaipurhat zila"
 msgstr ""
 
-#, fuzzy
 msgid "Jamalpur zila"
-msgstr "Jamaica"
+msgstr ""
 
 msgid "Jessore zila"
 msgstr ""
@@ -1286,9 +1143,8 @@ msgstr ""
 msgid "Madaripur zila"
 msgstr ""
 
-#, fuzzy
 msgid "Magura zila"
-msgstr "Mauritania"
+msgstr ""
 
 msgid "Manikganj zila"
 msgstr ""
@@ -1332,9 +1188,8 @@ msgstr ""
 msgid "Noakhali zila"
 msgstr ""
 
-#, fuzzy
 msgid "Pabna zila"
-msgstr "Panamá"
+msgstr ""
 
 msgid "Panchagarh zila"
 msgstr ""
@@ -1354,9 +1209,8 @@ msgstr ""
 msgid "Rangamati zila"
 msgstr ""
 
-#, fuzzy
 msgid "Rangpur zila"
-msgstr "Anguilla"
+msgstr ""
 
 msgid "Satkhira zila"
 msgstr ""
@@ -1367,20 +1221,17 @@ msgstr ""
 msgid "Sherpur zila"
 msgstr ""
 
-#, fuzzy
 msgid "Sirajganj zila"
-msgstr "Mauritania"
+msgstr ""
 
-#, fuzzy
 msgid "Sunamganj zila"
-msgstr "Brasil"
+msgstr ""
 
 msgid "Sylhet zila"
 msgstr ""
 
-#, fuzzy
 msgid "Tangail zila"
-msgstr "Anguilla"
+msgstr ""
 
 msgid "Thakurgaon zila"
 msgstr ""
@@ -1391,24 +1242,20 @@ msgstr ""
 msgid "Brabant Wallon"
 msgstr ""
 
-#, fuzzy
 msgid "Hainaut"
-msgstr "Haití"
+msgstr ""
 
-#, fuzzy
 msgid "Liege"
-msgstr "Níger"
+msgstr ""
 
-#, fuzzy
 msgid "Limburg"
-msgstr "Luxemburgo"
+msgstr ""
 
 msgid "Luxembourg"
 msgstr "Luxemburgo"
 
-#, fuzzy
 msgid "Namur"
-msgstr "Nauru"
+msgstr ""
 
 msgid "Oost-Vlaanderen"
 msgstr ""
@@ -1419,24 +1266,20 @@ msgstr ""
 msgid "West-Vlaanderen"
 msgstr ""
 
-#, fuzzy
 msgid "Bale"
-msgstr "Brasil"
+msgstr ""
 
-#, fuzzy
 msgid "Bam"
-msgstr "Bahamas"
+msgstr ""
 
-#, fuzzy
 msgid "Banwa"
-msgstr "Botswana"
+msgstr ""
 
 msgid "Bazega"
 msgstr ""
 
-#, fuzzy
 msgid "Bougouriba"
-msgstr "Bulgaria"
+msgstr ""
 
 msgid "Boulgou"
 msgstr ""
@@ -1444,27 +1287,23 @@ msgstr ""
 msgid "Boulkiemde"
 msgstr ""
 
-#, fuzzy
 msgid "Comoe"
-msgstr "Comores"
+msgstr ""
 
 msgid "Ganzourgou"
 msgstr ""
 
-#, fuzzy
 msgid "Gnagna"
-msgstr "Ghana"
+msgstr ""
 
-#, fuzzy
 msgid "Gourma"
-msgstr "Georgia"
+msgstr ""
 
 msgid "Houet"
 msgstr ""
 
-#, fuzzy
 msgid "Ioba"
-msgstr "Iowa"
+msgstr ""
 
 msgid "Kadiogo"
 msgstr ""
@@ -1475,9 +1314,8 @@ msgstr ""
 msgid "Komondjari"
 msgstr ""
 
-#, fuzzy
 msgid "Kompienga"
-msgstr "Wyoming"
+msgstr ""
 
 msgid "Kossi"
 msgstr ""
@@ -1485,16 +1323,14 @@ msgstr ""
 msgid "Koulpulogo"
 msgstr ""
 
-#, fuzzy
 msgid "Kouritenga"
-msgstr "Mauritania"
+msgstr ""
 
 msgid "Kourweogo"
 msgstr ""
 
-#, fuzzy
 msgid "Leraba"
-msgstr "Líbano"
+msgstr ""
 
 msgid "Loroum"
 msgstr ""
@@ -1502,9 +1338,8 @@ msgstr ""
 msgid "Mouhoun"
 msgstr ""
 
-#, fuzzy
 msgid "Nahouri"
-msgstr "Nauru"
+msgstr ""
 
 msgid "Namentenga"
 msgstr ""
@@ -1515,31 +1350,26 @@ msgstr ""
 msgid "Noumbiel"
 msgstr ""
 
-#, fuzzy
 msgid "Oubritenga"
-msgstr "Mauritania"
+msgstr ""
 
-#, fuzzy
 msgid "Oudalan"
-msgstr "Sudán"
+msgstr ""
 
 msgid "Passore"
 msgstr ""
 
-#, fuzzy
 msgid "Poni"
-msgstr "Teléfono:"
+msgstr ""
 
 msgid "Sanguie"
 msgstr ""
 
-#, fuzzy
 msgid "Sanmatenga"
-msgstr "Santa Helena"
+msgstr ""
 
-#, fuzzy
 msgid "Seno"
-msgstr "Suecia"
+msgstr ""
 
 msgid "Siasili"
 msgstr ""
@@ -1550,13 +1380,11 @@ msgstr ""
 msgid "Sourou"
 msgstr ""
 
-#, fuzzy
 msgid "Tapoa"
-msgstr "Tonga"
+msgstr ""
 
-#, fuzzy
 msgid "Tui"
-msgstr "Tunicia"
+msgstr ""
 
 msgid "Yagha"
 msgstr ""
@@ -1564,9 +1392,8 @@ msgstr ""
 msgid "Yatenga"
 msgstr ""
 
-#, fuzzy
 msgid "Ziro"
-msgstr "Zaire"
+msgstr ""
 
 msgid "Zondoma"
 msgstr ""
@@ -1580,24 +1407,20 @@ msgstr ""
 msgid "Burgas"
 msgstr ""
 
-#, fuzzy
 msgid "Dobric"
-msgstr "Georgia"
+msgstr ""
 
-#, fuzzy
 msgid "Gabrovo"
-msgstr "Gabón"
+msgstr ""
 
 msgid "Haskovo"
 msgstr ""
 
-#, fuzzy
 msgid "Jambol"
-msgstr "Gabón"
+msgstr ""
 
-#, fuzzy
 msgid "Kardzali"
-msgstr "Kansas"
+msgstr ""
 
 msgid "Kjstendil"
 msgstr ""
@@ -1608,72 +1431,59 @@ msgstr ""
 msgid "Pazardzik"
 msgstr ""
 
-#, fuzzy
 msgid "Pernik"
-msgstr "Liberia"
+msgstr ""
 
-#, fuzzy
 msgid "Pleven"
-msgstr "Yemen"
+msgstr ""
 
 msgid "Plovdiv"
 msgstr ""
 
-#, fuzzy
 msgid "Razgrad"
-msgstr "Ghana"
+msgstr ""
 
 msgid "Ruse"
 msgstr ""
 
-#, fuzzy
 msgid "Silistra"
-msgstr "Eritrea"
+msgstr ""
 
-#, fuzzy
 msgid "Sliven"
-msgstr "Senegal"
+msgstr ""
 
-#, fuzzy
 msgid "Smoljan"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Sofija"
-msgstr "Somalia"
+msgstr ""
 
-#, fuzzy
 msgid "Stara Zagora"
-msgstr "Paraguay"
+msgstr ""
 
-#, fuzzy
 msgid "Sumen"
-msgstr "Suecia"
+msgstr ""
 
 msgid "Targoviste"
 msgstr ""
 
-#, fuzzy
 msgid "Varna"
-msgstr "Vanuatu"
+msgstr ""
 
 msgid "Veliko Tarnovo"
 msgstr ""
 
-#, fuzzy
 msgid "Vidin"
-msgstr "Virginia"
+msgstr ""
 
-#, fuzzy
 msgid "Vraca"
-msgstr "Francia"
+msgstr ""
 
 msgid "Al Hadd"
 msgstr ""
 
-#, fuzzy
 msgid "Al Manamah"
-msgstr "Alabama"
+msgstr ""
 
 msgid "Al Mintaqah al Gharbiyah"
 msgstr ""
@@ -1696,28 +1506,23 @@ msgstr ""
 msgid "Madluat Jamad"
 msgstr ""
 
-#, fuzzy
 msgid "Madluat Isa"
-msgstr "Malasia"
+msgstr ""
 
 msgid "Mintaqat Juzur tawar"
 msgstr ""
 
-#, fuzzy
 msgid "Sitrah"
-msgstr "Eritrea"
+msgstr ""
 
-#, fuzzy
 msgid "Bubanza"
-msgstr "Botswana"
+msgstr ""
 
-#, fuzzy
 msgid "Bujumbura"
-msgstr "Cuba"
+msgstr ""
 
-#, fuzzy
 msgid "Bururi"
-msgstr "Burundi"
+msgstr ""
 
 msgid "Cankuzo"
 msgstr ""
@@ -1725,63 +1530,50 @@ msgstr ""
 msgid "Cibitoke"
 msgstr ""
 
-#, fuzzy
 msgid "Gitega"
-msgstr "Guinea"
+msgstr ""
 
-#, fuzzy
 msgid "Karuzi"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Kayanza"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Makamba"
-msgstr "Madagascar"
+msgstr ""
 
-#, fuzzy
 msgid "Muramvya"
-msgstr "Bermuda"
+msgstr ""
 
-#, fuzzy
 msgid "Mwaro"
-msgstr "Montana"
+msgstr ""
 
 msgid "Ngozi"
 msgstr ""
 
-#, fuzzy
 msgid "Rutana"
-msgstr "Bután"
+msgstr ""
 
 msgid "Ruyigi"
 msgstr ""
 
-#, fuzzy
 msgid "Alibori"
-msgstr "Argelia"
+msgstr ""
 
-#, fuzzy
 msgid "Atakora"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Atlantique"
-msgstr "Martinica"
+msgstr ""
 
-#, fuzzy
 msgid "Borgou"
-msgstr "Togo"
+msgstr ""
 
-#, fuzzy
 msgid "Collines"
-msgstr "Ukrania"
+msgstr ""
 
-#, fuzzy
 msgid "Donga"
-msgstr "Senegal"
+msgstr ""
 
 msgid "Kouffo"
 msgstr ""
@@ -1789,36 +1581,29 @@ msgstr ""
 msgid "Littoral"
 msgstr ""
 
-#, fuzzy
 msgid "Mono"
-msgstr "Mónaco"
+msgstr ""
 
-#, fuzzy
 msgid "Oueme"
-msgstr "Yemen"
+msgstr ""
 
-#, fuzzy
 msgid "Plateau"
-msgstr "Palau"
+msgstr ""
 
 msgid "Zou"
 msgstr ""
 
-#, fuzzy
 msgid "Belait"
-msgstr "Belice"
+msgstr ""
 
-#, fuzzy
 msgid "Brunei-Muara"
-msgstr "Brunei Darussalam"
+msgstr ""
 
-#, fuzzy
 msgid "Temburong"
-msgstr "Luxemburgo"
+msgstr ""
 
-#, fuzzy
 msgid "Tutong"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Cochabamba"
 msgstr ""
@@ -1826,9 +1611,8 @@ msgstr ""
 msgid "Chuquisaca"
 msgstr ""
 
-#, fuzzy
 msgid "El Beni"
-msgstr "Benín"
+msgstr ""
 
 msgid "La Paz"
 msgstr ""
@@ -1836,9 +1620,8 @@ msgstr ""
 msgid "Oruro"
 msgstr ""
 
-#, fuzzy
 msgid "Pando"
-msgstr "Polonia"
+msgstr ""
 
 msgid "Potosi"
 msgstr ""
@@ -1849,21 +1632,17 @@ msgstr ""
 msgid "Acre"
 msgstr ""
 
-#, fuzzy
 msgid "Alagoas"
-msgstr "Angola"
+msgstr ""
 
-#, fuzzy
 msgid "Amazonas"
-msgstr "Arizona"
+msgstr ""
 
-#, fuzzy
 msgid "Amapa"
-msgstr "Japón"
+msgstr ""
 
-#, fuzzy
 msgid "Baia"
-msgstr "Bulgaria"
+msgstr ""
 
 msgid "Ceara"
 msgstr ""
@@ -1877,13 +1656,11 @@ msgstr ""
 msgid "Fernando de Noronha"
 msgstr ""
 
-#, fuzzy
 msgid "Goias"
-msgstr "Georgia"
+msgstr ""
 
-#, fuzzy
 msgid "Maranhao"
-msgstr "Mauritania"
+msgstr ""
 
 msgid "Minas Gerais"
 msgstr ""
@@ -1894,24 +1671,20 @@ msgstr ""
 msgid "Mato Grosso"
 msgstr ""
 
-#, fuzzy
 msgid "Para"
-msgstr "Paraguay"
+msgstr ""
 
-#, fuzzy
 msgid "Paraiba"
-msgstr "Paraguay"
+msgstr ""
 
 msgid "Pernambuco"
 msgstr ""
 
-#, fuzzy
 msgid "Piaui"
-msgstr "Pitcairn"
+msgstr ""
 
-#, fuzzy
 msgid "Parana"
-msgstr "Paraguay"
+msgstr ""
 
 msgid "Rio de Janeiro"
 msgstr ""
@@ -1919,20 +1692,17 @@ msgstr ""
 msgid "Rio Grande do Norte"
 msgstr ""
 
-#, fuzzy
 msgid "Rondonia"
-msgstr "Indonesia"
+msgstr ""
 
-#, fuzzy
 msgid "Roraima"
-msgstr "Rumanía"
+msgstr ""
 
 msgid "Rio Grande do Sul"
 msgstr ""
 
-#, fuzzy
 msgid "Santa Catarina"
-msgstr "San Marino"
+msgstr ""
 
 msgid "Sergipe"
 msgstr ""
@@ -1943,16 +1713,14 @@ msgstr ""
 msgid "Tocatins"
 msgstr ""
 
-#, fuzzy
 msgid "Acklins and Crooked Islands"
-msgstr "Islas Turks y Caicos"
+msgstr ""
 
 msgid "Bimini"
 msgstr ""
 
-#, fuzzy
 msgid "Cat Island"
-msgstr "Islas Caimán"
+msgstr ""
 
 msgid "Exuma"
 msgstr ""
@@ -1969,41 +1737,35 @@ msgstr ""
 msgid "Green Turtle Cay"
 msgstr ""
 
-#, fuzzy
 msgid "Harbour Island"
-msgstr "Islas Feroe"
+msgstr ""
 
 msgid "High Rock"
 msgstr ""
 
-#, fuzzy
 msgid "Inagua"
-msgstr "Indiana"
+msgstr ""
 
 msgid "Kemps Bay"
 msgstr ""
 
-#, fuzzy
 msgid "Long Island"
-msgstr "Rhode Island"
+msgstr ""
 
 msgid "Marsh Harbour"
 msgstr ""
 
-#, fuzzy
 msgid "Mayaguana"
-msgstr "Mauritania"
+msgstr ""
 
-#, fuzzy
 msgid "New Providence"
-msgstr "Estado/Provincia:"
+msgstr ""
 
 msgid "Nicholls Town and Berry Islands"
 msgstr ""
 
-#, fuzzy
 msgid "Ragged Island"
-msgstr "Rhode Island"
+msgstr ""
 
 msgid "Rock Sound"
 msgstr ""
@@ -2014,20 +1776,17 @@ msgstr ""
 msgid "San Salvador and Rum Cay"
 msgstr ""
 
-#, fuzzy
 msgid "Bumthang"
-msgstr "Bután"
+msgstr ""
 
 msgid "Chhukha"
 msgstr ""
 
-#, fuzzy
 msgid "Dagana"
-msgstr "Uganda"
+msgstr ""
 
-#, fuzzy
 msgid "Gasa"
-msgstr "Ghana"
+msgstr ""
 
 msgid "Ha"
 msgstr ""
@@ -2035,9 +1794,8 @@ msgstr ""
 msgid "Lhuentse"
 msgstr ""
 
-#, fuzzy
 msgid "Monggar"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Paro"
 msgstr ""
@@ -2045,9 +1803,8 @@ msgstr ""
 msgid "Pemagatshel"
 msgstr ""
 
-#, fuzzy
 msgid "Punakha"
-msgstr "Panamá"
+msgstr ""
 
 msgid "Samdrup Jongkha"
 msgstr ""
@@ -2055,23 +1812,20 @@ msgstr ""
 msgid "Samtee"
 msgstr ""
 
-#, fuzzy
 msgid "Sarpang"
-msgstr "España"
+msgstr ""
 
 msgid "Thimphu"
 msgstr ""
 
-#, fuzzy
 msgid "Trashigang"
-msgstr "Washington"
+msgstr ""
 
 msgid "Trashi Yangtse"
 msgstr ""
 
-#, fuzzy
 msgid "Trongsa"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Tsirang"
 msgstr ""
@@ -2085,9 +1839,8 @@ msgstr ""
 msgid "Central"
 msgstr ""
 
-#, fuzzy
 msgid "Ghanzi"
-msgstr "Ghana"
+msgstr ""
 
 msgid "Kgalagadi"
 msgstr ""
@@ -2095,28 +1848,23 @@ msgstr ""
 msgid "Kgatleng"
 msgstr ""
 
-#, fuzzy
 msgid "Kweneng"
-msgstr "Suecia"
+msgstr ""
 
-#, fuzzy
 msgid "Ngamiland"
-msgstr "Tailandia"
+msgstr ""
 
-#, fuzzy
 msgid "North-East"
-msgstr "North Dakota"
+msgstr ""
 
 msgid "North-West"
 msgstr ""
 
-#, fuzzy
 msgid "South-East"
-msgstr "South Dakota"
+msgstr ""
 
-#, fuzzy
 msgid "Southern"
-msgstr "South Carolina"
+msgstr ""
 
 msgid "Brèsckaja voblasc'"
 msgstr ""
@@ -2151,27 +1899,23 @@ msgstr ""
 msgid "Stann Creek"
 msgstr ""
 
-#, fuzzy
 msgid "Toledo"
-msgstr "Moldavia"
+msgstr ""
 
-#, fuzzy
 msgid "Kinshasa"
-msgstr "Kansas"
+msgstr ""
 
 msgid "Bandundu"
 msgstr ""
 
-#, fuzzy
 msgid "Bas-Congo"
-msgstr "Congo"
+msgstr ""
 
 msgid "Equateur"
 msgstr ""
 
-#, fuzzy
 msgid "Haut-Congo"
-msgstr "Congo"
+msgstr ""
 
 msgid "Kasai-Occidental"
 msgstr ""
@@ -2179,20 +1923,17 @@ msgstr ""
 msgid "Kasai-Oriental"
 msgstr ""
 
-#, fuzzy
 msgid "Katanga"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Maniema"
-msgstr "Myanmar"
+msgstr ""
 
 msgid "Nord-Kivu"
 msgstr ""
 
-#, fuzzy
 msgid "Orientale"
-msgstr "Oregon"
+msgstr ""
 
 msgid "Sud-Kivu"
 msgstr ""
@@ -2203,9 +1944,8 @@ msgstr ""
 msgid "Bamingui-Bangoran"
 msgstr ""
 
-#, fuzzy
 msgid "Basse-Kotto"
-msgstr "Congo"
+msgstr ""
 
 msgid "Haute-Kotto"
 msgstr ""
@@ -2237,9 +1977,8 @@ msgstr ""
 msgid "Ouaka"
 msgstr ""
 
-#, fuzzy
 msgid "Ouham"
-msgstr "Guam"
+msgstr ""
 
 msgid "Ouham-Pende"
 msgstr ""
@@ -2250,9 +1989,8 @@ msgstr ""
 msgid "Vakaga"
 msgstr ""
 
-#, fuzzy
 msgid "Brazzaville"
-msgstr "Brasil"
+msgstr ""
 
 msgid "Bouenza"
 msgstr ""
@@ -2263,32 +2001,26 @@ msgstr ""
 msgid "Cuvette-Ouest"
 msgstr ""
 
-#, fuzzy
 msgid "Kouilou"
-msgstr "Cuba"
+msgstr ""
 
 msgid "Lekoumou"
 msgstr ""
 
-#, fuzzy
 msgid "Likouala"
-msgstr "Polonia"
+msgstr ""
 
-#, fuzzy
 msgid "Niari"
-msgstr "San Marino"
+msgstr ""
 
-#, fuzzy
 msgid "Plateaux"
-msgstr "Palau"
+msgstr ""
 
-#, fuzzy
 msgid "Pool"
-msgstr "Polonia"
+msgstr ""
 
-#, fuzzy
 msgid "Sangha"
-msgstr "Senegal"
+msgstr ""
 
 msgid "Aargau"
 msgstr ""
@@ -2299,9 +2031,8 @@ msgstr ""
 msgid "Appenzell Ausserrhoden"
 msgstr ""
 
-#, fuzzy
 msgid "Bern"
-msgstr "Benín"
+msgstr ""
 
 msgid "Basel-Landschaft"
 msgstr ""
@@ -2312,20 +2043,17 @@ msgstr ""
 msgid "Fribourg"
 msgstr ""
 
-#, fuzzy
 msgid "Geneva"
-msgstr "Grecia"
+msgstr ""
 
-#, fuzzy
 msgid "Glarus"
-msgstr "Bielorrusia"
+msgstr ""
 
 msgid "Graubunden"
 msgstr ""
 
-#, fuzzy
 msgid "Jura"
-msgstr "Jordania"
+msgstr ""
 
 msgid "Luzern"
 msgstr ""
@@ -2339,9 +2067,8 @@ msgstr ""
 msgid "Obwalden"
 msgstr ""
 
-#, fuzzy
 msgid "Sankt Gallen"
-msgstr "Santa Helena"
+msgstr ""
 
 msgid "Schaffhausen"
 msgstr ""
@@ -2352,23 +2079,20 @@ msgstr ""
 msgid "Schwyz"
 msgstr ""
 
-#, fuzzy
 msgid "Thurgau"
-msgstr "Tuvalu"
+msgstr ""
 
 msgid "Ticino"
 msgstr ""
 
-#, fuzzy
 msgid "Uri"
-msgstr "Ukrania"
+msgstr ""
 
 msgid "Vaud"
 msgstr ""
 
-#, fuzzy
 msgid "Valais"
-msgstr "Malawi"
+msgstr ""
 
 msgid "Zug"
 msgstr ""
@@ -2376,13 +2100,11 @@ msgstr ""
 msgid "Zurich"
 msgstr ""
 
-#, fuzzy
 msgid "18 Montagnes"
-msgstr "Montana"
+msgstr ""
 
-#, fuzzy
 msgid "Agnebi"
-msgstr "Argelia"
+msgstr ""
 
 msgid "Bas-Sassandra"
 msgstr ""
@@ -2399,9 +2121,8 @@ msgstr ""
 msgid "Lagunes"
 msgstr ""
 
-#, fuzzy
 msgid "Marahoue"
-msgstr "Macao"
+msgstr ""
 
 msgid "Moyen-Comoe"
 msgstr ""
@@ -2412,9 +2133,8 @@ msgstr ""
 msgid "Savanes"
 msgstr ""
 
-#, fuzzy
 msgid "Sud-Bandama"
-msgstr "Sudán"
+msgstr ""
 
 msgid "Sud-Comoe"
 msgstr ""
@@ -2431,17 +2151,14 @@ msgstr ""
 msgid "Aisen del General Carlos Ibanez del Campo"
 msgstr ""
 
-#, fuzzy
 msgid "Antofagasta"
-msgstr "Afganistán"
+msgstr ""
 
-#, fuzzy
 msgid "Araucania"
-msgstr "Mauritania"
+msgstr ""
 
-#, fuzzy
 msgid "Atacama"
-msgstr "Alabama"
+msgstr ""
 
 msgid "Bio-Bio"
 msgstr ""
@@ -2455,13 +2172,11 @@ msgstr ""
 msgid "Los Lagos"
 msgstr ""
 
-#, fuzzy
 msgid "Magallanes"
-msgstr "Islas Marshall"
+msgstr ""
 
-#, fuzzy
 msgid "Maule"
-msgstr "Mali"
+msgstr ""
 
 msgid "Region Metropolitana de Santiago"
 msgstr ""
@@ -2472,9 +2187,8 @@ msgstr ""
 msgid "Valparaiso"
 msgstr ""
 
-#, fuzzy
 msgid "Adamaoua"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Centre"
 msgstr ""
@@ -2491,38 +2205,32 @@ msgstr ""
 msgid "South"
 msgstr ""
 
-#, fuzzy
 msgid "South-West"
-msgstr "South Dakota"
+msgstr ""
 
 msgid "West"
 msgstr ""
 
-#, fuzzy
 msgid "Beijing"
-msgstr "Benín"
+msgstr ""
 
 msgid "Chongqing"
 msgstr ""
 
-#, fuzzy
 msgid "Shanghai"
-msgstr "Ghana"
+msgstr ""
 
 msgid "Tianjin"
 msgstr ""
 
-#, fuzzy
 msgid "Anhui"
-msgstr "Anguilla"
+msgstr ""
 
-#, fuzzy
 msgid "Fujian"
-msgstr "Finlandia"
+msgstr ""
 
-#, fuzzy
 msgid "Gansu"
-msgstr "Ghana"
+msgstr ""
 
 msgid "Guangdong"
 msgstr ""
@@ -2530,28 +2238,23 @@ msgstr ""
 msgid "Gulzhou"
 msgstr ""
 
-#, fuzzy
 msgid "Hainan"
-msgstr "Finlandia"
+msgstr ""
 
-#, fuzzy
 msgid "Hebei"
-msgstr "Helix"
+msgstr ""
 
 msgid "Heilongjiang"
 msgstr ""
 
-#, fuzzy
 msgid "Henan"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Hubei"
-msgstr "Helix"
+msgstr ""
 
-#, fuzzy
 msgid "Hunan"
-msgstr "Hungría"
+msgstr ""
 
 msgid "Jiangsu"
 msgstr ""
@@ -2577,13 +2280,11 @@ msgstr ""
 msgid "Shanxi"
 msgstr ""
 
-#, fuzzy
 msgid "Sichuan"
-msgstr "Michigan"
+msgstr ""
 
-#, fuzzy
 msgid "Taiwan"
-msgstr "Tailandia"
+msgstr ""
 
 msgid "Yunnan"
 msgstr ""
@@ -2591,9 +2292,8 @@ msgstr ""
 msgid "Zhejiang"
 msgstr ""
 
-#, fuzzy
 msgid "Guangxi"
-msgstr "Guyana"
+msgstr ""
 
 msgid "Neia Mongol (mn)"
 msgstr ""
@@ -2613,32 +2313,26 @@ msgstr "Macao"
 msgid "Distrito Capital de Bogotá"
 msgstr ""
 
-#, fuzzy
 msgid "Amazonea"
-msgstr "Arizona"
+msgstr ""
 
 msgid "Antioquia"
 msgstr ""
 
-#, fuzzy
 msgid "Arauca"
-msgstr "Aruba"
+msgstr ""
 
-#, fuzzy
 msgid "Atlántico"
-msgstr "Antártica"
+msgstr ""
 
-#, fuzzy
 msgid "Bolívar"
-msgstr "Bolivia"
+msgstr ""
 
-#, fuzzy
 msgid "Boyacá"
-msgstr "Mónaco"
+msgstr ""
 
-#, fuzzy
 msgid "Caldea"
-msgstr "Canadá"
+msgstr ""
 
 msgid "Caquetá"
 msgstr ""
@@ -2646,31 +2340,26 @@ msgstr ""
 msgid "Casanare"
 msgstr ""
 
-#, fuzzy
 msgid "Cauca"
-msgstr "Cuba"
+msgstr ""
 
 msgid "Cesar"
 msgstr ""
 
-#, fuzzy
 msgid "Córdoba"
-msgstr "Colorado"
+msgstr ""
 
 msgid "Cundinamarca"
 msgstr ""
 
-#, fuzzy
 msgid "Chocó"
-msgstr "Congo"
+msgstr ""
 
-#, fuzzy
 msgid "Guainía"
-msgstr "Guinea"
+msgstr ""
 
-#, fuzzy
 msgid "Guaviare"
-msgstr "Zaire"
+msgstr ""
 
 msgid "La Guajira"
 msgstr ""
@@ -2678,13 +2367,11 @@ msgstr ""
 msgid "Magdalena"
 msgstr ""
 
-#, fuzzy
 msgid "Meta"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Nariño"
-msgstr "San Marino"
+msgstr ""
 
 msgid "Norte de Santander"
 msgstr ""
@@ -2704,13 +2391,11 @@ msgstr ""
 msgid "Santander"
 msgstr ""
 
-#, fuzzy
 msgid "Sucre"
-msgstr "Surinam"
+msgstr ""
 
-#, fuzzy
 msgid "Tolima"
-msgstr "Bolivia"
+msgstr ""
 
 msgid "Valle del Cauca"
 msgstr ""
@@ -2727,9 +2412,8 @@ msgstr ""
 msgid "Cartago"
 msgstr ""
 
-#, fuzzy
 msgid "Guanacaste"
-msgstr "Guyana"
+msgstr ""
 
 msgid "Heredia"
 msgstr ""
@@ -2755,17 +2439,14 @@ msgstr ""
 msgid "Ciudad de La Habana"
 msgstr ""
 
-#, fuzzy
 msgid "Granma"
-msgstr "Ghana"
+msgstr ""
 
-#, fuzzy
 msgid "Guantanamo"
-msgstr "Guatemala"
+msgstr ""
 
-#, fuzzy
 msgid "Holquin"
-msgstr "Evolution"
+msgstr ""
 
 msgid "La Habana"
 msgstr ""
@@ -2773,9 +2454,8 @@ msgstr ""
 msgid "Las Tunas"
 msgstr ""
 
-#, fuzzy
 msgid "Matanzas"
-msgstr "Montana"
+msgstr ""
 
 msgid "Pinar del Rio"
 msgstr ""
@@ -2798,13 +2478,11 @@ msgstr ""
 msgid "Ciego de Avila"
 msgstr ""
 
-#, fuzzy
 msgid "Camagoey"
-msgstr "Comores"
+msgstr ""
 
-#, fuzzy
 msgid "Holgun"
-msgstr "Evolution"
+msgstr ""
 
 msgid "Sancti Spritus"
 msgstr ""
@@ -2821,35 +2499,29 @@ msgstr ""
 msgid "Calheta de Sao Miguel"
 msgstr ""
 
-#, fuzzy
 msgid "Fogo"
-msgstr "Togo"
+msgstr ""
 
-#, fuzzy
 msgid "Maio"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Mosteiros"
-msgstr "Montserrat"
+msgstr ""
 
-#, fuzzy
 msgid "Paul"
-msgstr "Palau"
+msgstr ""
 
 msgid "Porto Novo"
 msgstr ""
 
-#, fuzzy
 msgid "Praia"
-msgstr "Croacia"
+msgstr ""
 
 msgid "Ribeira Grande"
 msgstr ""
 
-#, fuzzy
 msgid "Sal"
-msgstr "Somalia"
+msgstr ""
 
 msgid "Sao Domingos"
 msgstr ""
@@ -2869,20 +2541,17 @@ msgstr ""
 msgid "Ammochostos Magusa"
 msgstr ""
 
-#, fuzzy
 msgid "Keryneia"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Larnaka"
-msgstr "Sri Lanka"
+msgstr ""
 
 msgid "Lefkosia"
 msgstr ""
 
-#, fuzzy
 msgid "Lemesos"
-msgstr "Temas"
+msgstr ""
 
 msgid "Pafos"
 msgstr ""
@@ -2893,13 +2562,11 @@ msgstr ""
 msgid "Jihomoravský kraj"
 msgstr ""
 
-#, fuzzy
 msgid "Karlovarský kraj"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Královéhradecký kraj"
-msgstr "Alaska"
+msgstr ""
 
 msgid "Liberecký kraj"
 msgstr ""
@@ -2925,24 +2592,20 @@ msgstr ""
 msgid "Ústecký kraj"
 msgstr ""
 
-#, fuzzy
 msgid "Vysočina"
-msgstr "Letonia"
+msgstr ""
 
-#, fuzzy
 msgid "Zlínský kraj"
-msgstr "Alaska"
+msgstr ""
 
 msgid "Baden-Wuerttemberg"
 msgstr ""
 
-#, fuzzy
 msgid "Bayern"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Bremen"
-msgstr "Yemen"
+msgstr ""
 
 msgid "Hamburg"
 msgstr ""
@@ -2959,16 +2622,14 @@ msgstr ""
 msgid "Rheinland-Pfalz"
 msgstr ""
 
-#, fuzzy
 msgid "Saarland"
-msgstr "Maryland"
+msgstr ""
 
 msgid "Schleswig-Holstein"
 msgstr ""
 
-#, fuzzy
 msgid "Berlin"
-msgstr "Benín"
+msgstr ""
 
 msgid "Brandenburg"
 msgstr ""
@@ -2976,9 +2637,8 @@ msgstr ""
 msgid "Mecklenburg-Vorpommern"
 msgstr ""
 
-#, fuzzy
 msgid "Sachsen"
-msgstr "Saskatchewan"
+msgstr ""
 
 msgid "Sachsen-Anhalt"
 msgstr ""
@@ -3007,9 +2667,8 @@ msgstr ""
 msgid "Copenhagen municipality"
 msgstr ""
 
-#, fuzzy
 msgid "Copenhagen"
-msgstr "Empresa:"
+msgstr ""
 
 msgid "Frederiksborg"
 msgstr ""
@@ -3017,24 +2676,20 @@ msgstr ""
 msgid "Roskilde"
 msgstr ""
 
-#, fuzzy
 msgid "Western Zealand"
-msgstr "Sahara Oeste"
+msgstr ""
 
 msgid "Storstrøm"
 msgstr ""
 
-#, fuzzy
 msgid "Bornholm"
-msgstr "Congo"
+msgstr ""
 
-#, fuzzy
 msgid "Funen"
-msgstr "Reunión"
+msgstr ""
 
-#, fuzzy
 msgid "Southern Jutland"
-msgstr "Northern Marianas"
+msgstr ""
 
 msgid "Ribe"
 msgstr ""
@@ -3045,34 +2700,29 @@ msgstr ""
 msgid "Ringkøbing"
 msgstr ""
 
-#, fuzzy
 msgid "Aarhus"
-msgstr "Aruba"
+msgstr ""
 
 msgid "Viborg"
 msgstr ""
 
-#, fuzzy
 msgid "Northern Jutland"
-msgstr "Holanda"
+msgstr ""
 
 msgid "Distrito Nacional (Santo Domingo)"
 msgstr ""
 
-#, fuzzy
 msgid "Azua"
-msgstr "Aruba"
+msgstr ""
 
 msgid "Bahoruco"
 msgstr ""
 
-#, fuzzy
 msgid "Barahona"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Dajabón"
-msgstr "Gabón"
+msgstr ""
 
 msgid "Duarte"
 msgstr ""
@@ -3086,20 +2736,17 @@ msgstr ""
 msgid "Hato Mayor"
 msgstr ""
 
-#, fuzzy
 msgid "Independencia"
-msgstr "Indonesia"
+msgstr ""
 
-#, fuzzy
 msgid "La Altagracia"
-msgstr "Antártica"
+msgstr ""
 
 msgid "La Estrelleta [Elias Pina]"
 msgstr ""
 
-#, fuzzy
 msgid "La Romana"
-msgstr "Rumanía"
+msgstr ""
 
 msgid "La Vega"
 msgstr ""
@@ -3110,47 +2757,38 @@ msgstr ""
 msgid "Monseñor Nouel"
 msgstr ""
 
-#, fuzzy
 msgid "Monte Cristi"
-msgstr "Montserrat"
+msgstr ""
 
-#, fuzzy
 msgid "Monte Plata"
-msgstr "Montana"
+msgstr ""
 
 msgid "Pedernales"
 msgstr ""
 
-#, fuzzy
 msgid "Peravia"
-msgstr "Letonia"
+msgstr ""
 
-#, fuzzy
 msgid "Puerto Plata"
-msgstr "Puerto Rico"
+msgstr ""
 
-#, fuzzy
 msgid "Salcedo"
-msgstr "Macedonia"
+msgstr ""
 
-#, fuzzy
 msgid "Samaná"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "San Cristóbal"
-msgstr "Manitoba"
+msgstr ""
 
-#, fuzzy
 msgid "San Pedro de Macorís"
-msgstr "San Marino"
+msgstr ""
 
 msgid "Sánchez Ramírez"
 msgstr ""
 
-#, fuzzy
 msgid "Santiago"
-msgstr "Santa Lucía"
+msgstr ""
 
 msgid "Santiago Rodríguez"
 msgstr ""
@@ -3158,9 +2796,8 @@ msgstr ""
 msgid "Valverde"
 msgstr ""
 
-#, fuzzy
 msgid "Adrar"
-msgstr "Andorra"
+msgstr ""
 
 msgid "Ain Defla"
 msgstr ""
@@ -3168,21 +2805,17 @@ msgstr ""
 msgid "Ain Tmouchent"
 msgstr ""
 
-#, fuzzy
 msgid "Alger"
-msgstr "Argelia"
+msgstr ""
 
-#, fuzzy
 msgid "Annaba"
-msgstr "Alabama"
+msgstr ""
 
-#, fuzzy
 msgid "Batna"
-msgstr "Botswana"
+msgstr ""
 
-#, fuzzy
 msgid "Bechar"
-msgstr "Bielorrusia"
+msgstr ""
 
 msgid "Bejaia"
 msgstr ""
@@ -3190,23 +2823,20 @@ msgstr ""
 msgid "Biskra"
 msgstr ""
 
-#, fuzzy
 msgid "Blida"
-msgstr "Florida"
+msgstr ""
 
 msgid "Bordj Bou Arreridj"
 msgstr ""
 
-#, fuzzy
 msgid "Bouira"
-msgstr "Bolivia"
+msgstr ""
 
 msgid "Boumerdes"
 msgstr ""
 
-#, fuzzy
 msgid "Chlef"
-msgstr "Chile"
+msgstr ""
 
 msgid "Constantine"
 msgstr ""
@@ -3214,9 +2844,8 @@ msgstr ""
 msgid "Djelfa"
 msgstr ""
 
-#, fuzzy
 msgid "El Bayadh"
-msgstr "El Salvador"
+msgstr ""
 
 msgid "El Oued"
 msgstr ""
@@ -3224,17 +2853,14 @@ msgstr ""
 msgid "El Tarf"
 msgstr ""
 
-#, fuzzy
 msgid "Ghardaia"
-msgstr "Ghana"
+msgstr ""
 
-#, fuzzy
 msgid "Guelma"
-msgstr "Guinea"
+msgstr ""
 
-#, fuzzy
 msgid "Illizi"
-msgstr "Illinois"
+msgstr ""
 
 msgid "Jijel"
 msgstr ""
@@ -3245,31 +2871,26 @@ msgstr ""
 msgid "Laghouat"
 msgstr ""
 
-#, fuzzy
 msgid "Mascara"
-msgstr "Madagascar"
+msgstr ""
 
 msgid "Medea"
 msgstr ""
 
-#, fuzzy
 msgid "Mila"
-msgstr "Mozilla"
+msgstr ""
 
 msgid "Mostaganem"
 msgstr ""
 
-#, fuzzy
 msgid "Msila"
-msgstr "Mozilla"
+msgstr ""
 
-#, fuzzy
 msgid "Naama"
-msgstr "Panamá"
+msgstr ""
 
-#, fuzzy
 msgid "Oran"
-msgstr "Omán"
+msgstr ""
 
 msgid "Ouargla"
 msgstr ""
@@ -3277,13 +2898,11 @@ msgstr ""
 msgid "Oum el Bouaghi"
 msgstr ""
 
-#, fuzzy
 msgid "Relizane"
-msgstr "Belice"
+msgstr ""
 
-#, fuzzy
 msgid "Saida"
-msgstr "Somalia"
+msgstr ""
 
 msgid "Setif"
 msgstr ""
@@ -3294,16 +2913,14 @@ msgstr ""
 msgid "Skikda"
 msgstr ""
 
-#, fuzzy
 msgid "Souk Ahras"
-msgstr "Sudáfrica"
+msgstr ""
 
 msgid "Tamanghasset"
 msgstr ""
 
-#, fuzzy
 msgid "Tebessa"
-msgstr "Tennessee"
+msgstr ""
 
 msgid "Tiaret"
 msgstr ""
@@ -3320,21 +2937,17 @@ msgstr ""
 msgid "Tizi Ouzou"
 msgstr ""
 
-#, fuzzy
 msgid "Tlemcen"
-msgstr "Yemen"
+msgstr ""
 
-#, fuzzy
 msgid "Azuay"
-msgstr "Aruba"
+msgstr ""
 
-#, fuzzy
 msgid "Bolivar"
-msgstr "Bolivia"
+msgstr ""
 
-#, fuzzy
 msgid "Canar"
-msgstr "Canadá"
+msgstr ""
 
 msgid "Carchi"
 msgstr ""
@@ -3354,9 +2967,8 @@ msgstr ""
 msgid "Galapagos"
 msgstr ""
 
-#, fuzzy
 msgid "Guayas"
-msgstr "Guyana"
+msgstr ""
 
 msgid "Imbabura"
 msgstr ""
@@ -3367,9 +2979,8 @@ msgstr ""
 msgid "Los Rios"
 msgstr ""
 
-#, fuzzy
 msgid "Manabi"
-msgstr "Malawi"
+msgstr ""
 
 msgid "Morona-Santiago"
 msgstr ""
@@ -3377,13 +2988,11 @@ msgstr ""
 msgid "Napo"
 msgstr ""
 
-#, fuzzy
 msgid "Orellana"
-msgstr "Oregon"
+msgstr ""
 
-#, fuzzy
 msgid "Pastaza"
-msgstr "Pakistán"
+msgstr ""
 
 msgid "Pichincha"
 msgstr ""
@@ -3421,17 +3030,14 @@ msgstr ""
 msgid "Polvamea"
 msgstr ""
 
-#, fuzzy
 msgid "Parnumsa"
-msgstr "Panamá"
+msgstr ""
 
-#, fuzzy
 msgid "Raplamsa"
-msgstr "Malasia"
+msgstr ""
 
-#, fuzzy
 msgid "Saaremsa"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Tartumsa"
 msgstr ""
@@ -3490,9 +3096,8 @@ msgstr ""
 msgid "As Suways"
 msgstr ""
 
-#, fuzzy
 msgid "Aswan"
-msgstr "Botswana"
+msgstr ""
 
 msgid "Asyut"
 msgstr ""
@@ -3515,17 +3120,14 @@ msgstr ""
 msgid "Matruh"
 msgstr ""
 
-#, fuzzy
 msgid "Qina"
-msgstr "China"
+msgstr ""
 
-#, fuzzy
 msgid "Shamal Sina'"
-msgstr "Somalia"
+msgstr ""
 
-#, fuzzy
 msgid "Suhaj"
-msgstr "Sudán"
+msgstr ""
 
 msgid "Anseba"
 msgstr ""
@@ -3695,9 +3297,8 @@ msgstr "Ceuta"
 msgid "Melilla"
 msgstr "Melilla"
 
-#, fuzzy
 msgid "Addis Ababa"
-msgstr "Arabia Saudí"
+msgstr ""
 
 msgid "Dire Dawa"
 msgstr ""
@@ -3705,75 +3306,62 @@ msgstr ""
 msgid "Afar"
 msgstr ""
 
-#, fuzzy
 msgid "Amara"
-msgstr "Japón"
+msgstr ""
 
 msgid "Benshangul-Gumaz"
 msgstr ""
 
-#, fuzzy
 msgid "Gambela Peoples"
-msgstr "Zambia"
+msgstr ""
 
 msgid "Harari People"
 msgstr ""
 
-#, fuzzy
 msgid "Oromia"
-msgstr "Armenia"
+msgstr ""
 
-#, fuzzy
 msgid "Somali"
-msgstr "Somalia"
+msgstr ""
 
 msgid "Southern Nations, Nationalities and Peoples"
 msgstr ""
 
-#, fuzzy
 msgid "Tigrai"
-msgstr "Nigeria"
+msgstr ""
 
 msgid "Eastern"
 msgstr ""
 
-#, fuzzy
 msgid "Northern"
-msgstr "Northern Marianas"
+msgstr ""
 
-#, fuzzy
 msgid "Western"
-msgstr "Sahara Oeste"
+msgstr ""
 
-#, fuzzy
 msgid "Rotuma"
-msgstr "Rumanía"
+msgstr ""
 
 msgid "Chuuk"
 msgstr ""
 
-#, fuzzy
 msgid "Kosrae"
-msgstr "Israel"
+msgstr ""
 
-#, fuzzy
 msgid "Pohnpei"
-msgstr "Teléfono:"
+msgstr ""
 
 msgid "Yap"
 msgstr ""
 
-#, fuzzy
 msgid "Ain"
-msgstr "Arizona"
+msgstr ""
 
-#, fuzzy
 msgid "Aisne"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Allier"
-msgstr "Argelia"
+msgstr ""
 
 msgid "Alpes-de-Haute-Provence"
 msgstr ""
@@ -3781,20 +3369,17 @@ msgstr ""
 msgid "Alpes-Maritimes"
 msgstr ""
 
-#, fuzzy
 msgid "Ardèche"
-msgstr "Grecia"
+msgstr ""
 
 msgid "Ardennes"
 msgstr ""
 
-#, fuzzy
 msgid "Ariège"
-msgstr "Argentina"
+msgstr ""
 
-#, fuzzy
 msgid "Aube"
-msgstr "Aruba"
+msgstr ""
 
 msgid "Aude"
 msgstr ""
@@ -3802,20 +3387,17 @@ msgstr ""
 msgid "Aveyron"
 msgstr ""
 
-#, fuzzy
 msgid "Bas-Rhin"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Bouches-du-Rhône"
 msgstr ""
 
-#, fuzzy
 msgid "Calvados"
-msgstr "El Salvador"
+msgstr ""
 
-#, fuzzy
 msgid "Cantal"
-msgstr "Canadá"
+msgstr ""
 
 msgid "Charente"
 msgstr ""
@@ -3823,9 +3405,8 @@ msgstr ""
 msgid "Charente-Maritime"
 msgstr ""
 
-#, fuzzy
 msgid "Cher"
-msgstr "Chile"
+msgstr ""
 
 msgid "Corrèze"
 msgstr ""
@@ -3833,17 +3414,14 @@ msgstr ""
 msgid "Corse-du-Sud"
 msgstr ""
 
-#, fuzzy
 msgid "Côte-d'Or"
-msgstr "Costa de Marfil"
+msgstr ""
 
-#, fuzzy
 msgid "Côtes-d'Armor"
-msgstr "Costa de Marfil"
+msgstr ""
 
-#, fuzzy
 msgid "Creuse"
-msgstr "Chipre"
+msgstr ""
 
 msgid "Deux-Sèvres"
 msgstr ""
@@ -3860,9 +3438,8 @@ msgstr ""
 msgid "Essonne"
 msgstr ""
 
-#, fuzzy
 msgid "Eure"
-msgstr "Turquía"
+msgstr ""
 
 msgid "Eure-et-Loir"
 msgstr ""
@@ -3876,9 +3453,8 @@ msgstr ""
 msgid "Gers"
 msgstr ""
 
-#, fuzzy
 msgid "Gironde"
-msgstr "Guinea"
+msgstr ""
 
 msgid "Haut-Rhin"
 msgstr ""
@@ -3910,13 +3486,11 @@ msgstr ""
 msgid "Hauts-de-Seine"
 msgstr ""
 
-#, fuzzy
 msgid "Hérault"
-msgstr "Haití"
+msgstr ""
 
-#, fuzzy
 msgid "Indre"
-msgstr "India"
+msgstr ""
 
 msgid "Ille-et-Vilaine"
 msgstr ""
@@ -3924,20 +3498,17 @@ msgstr ""
 msgid "Indre-et-Loire"
 msgstr ""
 
-#, fuzzy
 msgid "Isère"
-msgstr "Israel"
+msgstr ""
 
-#, fuzzy
 msgid "Landes"
-msgstr "Bangladesh"
+msgstr ""
 
 msgid "Loir-et-Cher"
 msgstr ""
 
-#, fuzzy
 msgid "Loire"
-msgstr "Zaire"
+msgstr ""
 
 msgid "Loire-Atlantique"
 msgstr ""
@@ -3945,31 +3516,26 @@ msgstr ""
 msgid "Loiret"
 msgstr ""
 
-#, fuzzy
 msgid "Lot"
-msgstr "Lesoto"
+msgstr ""
 
 msgid "Lot-et-Garonne"
 msgstr ""
 
-#, fuzzy
 msgid "Lozère"
-msgstr "Zaire"
+msgstr ""
 
 msgid "Maine-et-Loire"
 msgstr ""
 
-#, fuzzy
 msgid "Manche"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Marne"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Mayenne"
-msgstr "Maine"
+msgstr ""
 
 msgid "Meurthe-et-Moselle"
 msgstr ""
@@ -3977,31 +3543,26 @@ msgstr ""
 msgid "Meuse"
 msgstr ""
 
-#, fuzzy
 msgid "Morbihan"
-msgstr "Michigan"
+msgstr ""
 
 msgid "Moselle"
 msgstr ""
 
-#, fuzzy
 msgid "Nièvre"
-msgstr "Níger"
+msgstr ""
 
-#, fuzzy
 msgid "Nord"
-msgstr "Noruega"
+msgstr ""
 
 msgid "Oise"
 msgstr ""
 
-#, fuzzy
 msgid "Orne"
-msgstr "Oregon"
+msgstr ""
 
-#, fuzzy
 msgid "Paris"
-msgstr "Pakistán"
+msgstr ""
 
 msgid "Pas-de-Calais"
 msgstr ""
@@ -4009,21 +3570,17 @@ msgstr ""
 msgid "Puy-de-Dôme"
 msgstr ""
 
-#, fuzzy
 msgid "Pyrénées-Atlantiques"
-msgstr "Martinica"
+msgstr ""
 
-#, fuzzy
 msgid "Pyrénées-Orientales"
-msgstr "Oregon"
+msgstr ""
 
-#, fuzzy
 msgid "Rhône"
-msgstr "Teléfono:"
+msgstr ""
 
-#, fuzzy
 msgid "Saône-et-Loire"
-msgstr "Santa Lucía"
+msgstr ""
 
 msgid "Sarthe"
 msgstr ""
@@ -4052,9 +3609,8 @@ msgstr ""
 msgid "Val d'Oise"
 msgstr ""
 
-#, fuzzy
 msgid "Territoire de Belfort"
-msgstr "Trust Territories"
+msgstr ""
 
 msgid "Val-de-Marne"
 msgstr ""
@@ -4065,9 +3621,8 @@ msgstr ""
 msgid "Vaucluse"
 msgstr ""
 
-#, fuzzy
 msgid "Vendée"
-msgstr "Venezuela"
+msgstr ""
 
 msgid "Vienne"
 msgstr ""
@@ -4075,9 +3630,8 @@ msgstr ""
 msgid "Vosges"
 msgstr ""
 
-#, fuzzy
 msgid "Yonne"
-msgstr "Ninguno"
+msgstr ""
 
 msgid "Yvelines"
 msgstr ""
@@ -4088,13 +3642,11 @@ msgstr ""
 msgid "Aberdeenshire"
 msgstr ""
 
-#, fuzzy
 msgid "Angus"
-msgstr "Anguilla"
+msgstr ""
 
-#, fuzzy
 msgid "Co Antrim"
-msgstr "Antártica"
+msgstr ""
 
 msgid "Ards"
 msgstr ""
@@ -4102,9 +3654,8 @@ msgstr ""
 msgid "Argyll and Bute"
 msgstr ""
 
-#, fuzzy
 msgid "Co Armagh"
-msgstr "Armenia"
+msgstr ""
 
 msgid "Ballymena"
 msgstr ""
@@ -4118,9 +3669,8 @@ msgstr ""
 msgid "Barking and Dagenham"
 msgstr ""
 
-#, fuzzy
 msgid "Barnet"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Barnsley"
 msgstr ""
@@ -4131,17 +3681,14 @@ msgstr ""
 msgid "Bedfordshire"
 msgstr ""
 
-#, fuzzy
 msgid "Belfast"
-msgstr "Belice"
+msgstr ""
 
-#, fuzzy
 msgid "Bexley"
-msgstr "Belice"
+msgstr ""
 
-#, fuzzy
 msgid "Birmingham"
-msgstr "Wyoming"
+msgstr ""
 
 msgid "Blackburn with Darwen"
 msgstr ""
@@ -4152,9 +3699,8 @@ msgstr ""
 msgid "Blaenau Gwent"
 msgstr ""
 
-#, fuzzy
 msgid "Bolton"
-msgstr "Evolution"
+msgstr ""
 
 msgid "Bournemouth"
 msgstr ""
@@ -4162,13 +3708,11 @@ msgstr ""
 msgid "Bracknell Forest"
 msgstr ""
 
-#, fuzzy
 msgid "Bradford"
-msgstr "Barbados"
+msgstr ""
 
-#, fuzzy
 msgid "Brent"
-msgstr "Benín"
+msgstr ""
 
 msgid "Bridgend"
 msgstr ""
@@ -4176,9 +3720,8 @@ msgstr ""
 msgid "Brighton and Hove"
 msgstr ""
 
-#, fuzzy
 msgid "Bristol"
-msgstr "Pakistán"
+msgstr ""
 
 msgid "Bromley"
 msgstr ""
@@ -4186,27 +3729,23 @@ msgstr ""
 msgid "Buckinghamshire"
 msgstr ""
 
-#, fuzzy
 msgid "Bury"
-msgstr "Turquía"
+msgstr ""
 
 msgid "Caerphilly"
 msgstr ""
 
-#, fuzzy
 msgid "Calderdale"
-msgstr "Cabo Verde"
+msgstr ""
 
 msgid "Cambridgeshire"
 msgstr ""
 
-#, fuzzy
 msgid "Camden"
-msgstr "Camerún"
+msgstr ""
 
-#, fuzzy
 msgid "Cardiff"
-msgstr "Chad"
+msgstr ""
 
 msgid "Carmarthenshire"
 msgstr ""
@@ -4220,24 +3759,20 @@ msgstr ""
 msgid "Castlereagh"
 msgstr ""
 
-#, fuzzy
 msgid "Ceredigion"
-msgstr "Oregon"
+msgstr ""
 
-#, fuzzy
 msgid "Cheshire"
-msgstr "Chile"
+msgstr ""
 
 msgid "Clackmannanshire"
 msgstr ""
 
-#, fuzzy
 msgid "Coleraine"
-msgstr "Ukrania"
+msgstr ""
 
-#, fuzzy
 msgid "Conwy"
-msgstr "Empresa:"
+msgstr ""
 
 msgid "Cookstown"
 msgstr ""
@@ -4245,38 +3780,32 @@ msgstr ""
 msgid "Cornwall"
 msgstr ""
 
-#, fuzzy
 msgid "Coventry"
-msgstr "Empresa:"
+msgstr ""
 
 msgid "Cralgavon"
 msgstr ""
 
-#, fuzzy
 msgid "Croydon"
-msgstr "Camerún"
+msgstr ""
 
-#, fuzzy
 msgid "Cumbria"
-msgstr "Cuba"
+msgstr ""
 
-#, fuzzy
 msgid "Darlington"
-msgstr "Washington"
+msgstr ""
 
 msgid "Denbighshire"
 msgstr ""
 
-#, fuzzy
 msgid "Derby"
-msgstr "Kenia"
+msgstr ""
 
 msgid "Derbyshire"
 msgstr ""
 
-#, fuzzy
 msgid "Derry"
-msgstr "Kenia"
+msgstr ""
 
 msgid "Devon"
 msgstr ""
@@ -4287,9 +3816,8 @@ msgstr ""
 msgid "Dorset"
 msgstr ""
 
-#, fuzzy
 msgid "Co Down"
-msgstr "North Dakota"
+msgstr ""
 
 msgid "Dudley"
 msgstr ""
@@ -4303,24 +3831,20 @@ msgstr ""
 msgid "Dungannon"
 msgstr ""
 
-#, fuzzy
 msgid "Co Durham"
-msgstr "Guam"
+msgstr ""
 
-#, fuzzy
 msgid "Ealing"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "East Ayrshire"
-msgstr "Timor Oriental"
+msgstr ""
 
 msgid "East Dunbartonshire"
 msgstr ""
 
-#, fuzzy
 msgid "East Lothian"
-msgstr "Estonia"
+msgstr ""
 
 msgid "East Renfrewshire"
 msgstr ""
@@ -4346,9 +3870,8 @@ msgstr ""
 msgid "Falkirk"
 msgstr ""
 
-#, fuzzy
 msgid "Co Fermanagh"
-msgstr "Alemania"
+msgstr ""
 
 msgid "Fife"
 msgstr ""
@@ -4359,20 +3882,17 @@ msgstr ""
 msgid "Gateshead"
 msgstr ""
 
-#, fuzzy
 msgid "Glasgow"
-msgstr "Bielorrusia"
+msgstr ""
 
 msgid "Gloucestershire"
 msgstr ""
 
-#, fuzzy
 msgid "Greenwich"
-msgstr "Grecia"
+msgstr ""
 
-#, fuzzy
 msgid "Guernsey"
-msgstr "Alemania"
+msgstr ""
 
 msgid "Gwynedd"
 msgstr ""
@@ -4386,13 +3906,11 @@ msgstr ""
 msgid "Hammersmith and Fulham"
 msgstr ""
 
-#, fuzzy
 msgid "Hampshire"
-msgstr "New Hampshire"
+msgstr ""
 
-#, fuzzy
 msgid "Haringey"
-msgstr "Maine"
+msgstr ""
 
 msgid "Harrow"
 msgstr ""
@@ -4403,16 +3921,14 @@ msgstr ""
 msgid "Havering"
 msgstr ""
 
-#, fuzzy
 msgid "Herefordshire"
-msgstr "Chile"
+msgstr ""
 
 msgid "Hertfordshire"
 msgstr ""
 
-#, fuzzy
 msgid "Highland"
-msgstr "Finlandia"
+msgstr ""
 
 msgid "Hillingdon"
 msgstr ""
@@ -4432,24 +3948,20 @@ msgstr ""
 msgid "Isles of Scilly"
 msgstr ""
 
-#, fuzzy
 msgid "Islington"
-msgstr "Washington"
+msgstr ""
 
-#, fuzzy
 msgid "Jersey"
-msgstr "New Jersey"
+msgstr ""
 
 msgid "Kensington and Chelsea"
 msgstr ""
 
-#, fuzzy
 msgid "Kent"
-msgstr "Kentucky"
+msgstr ""
 
-#, fuzzy
 msgid "Kingston upon Hull"
-msgstr "Washington"
+msgstr ""
 
 msgid "Kingston upon Thames"
 msgstr ""
@@ -4466,17 +3978,14 @@ msgstr ""
 msgid "Lancashire"
 msgstr ""
 
-#, fuzzy
 msgid "Larne"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Leeds"
-msgstr "Temas"
+msgstr ""
 
-#, fuzzy
 msgid "Leicester"
-msgstr "Liechtenstein"
+msgstr ""
 
 msgid "Leicestershire"
 msgstr ""
@@ -4514,16 +4023,14 @@ msgstr ""
 msgid "Merthyr Tydfil"
 msgstr ""
 
-#, fuzzy
 msgid "Merton"
-msgstr "Vermont"
+msgstr ""
 
 msgid "Middlesbrough"
 msgstr ""
 
-#, fuzzy
 msgid "Midlothian"
-msgstr "Michigan"
+msgstr ""
 
 msgid "Milton Keynes"
 msgstr ""
@@ -4531,9 +4038,8 @@ msgstr ""
 msgid "Monmouthshire"
 msgstr ""
 
-#, fuzzy
 msgid "Moray"
-msgstr "Noruega"
+msgstr ""
 
 msgid "Moyle"
 msgstr ""
@@ -4547,9 +4053,8 @@ msgstr ""
 msgid "Newham"
 msgstr ""
 
-#, fuzzy
 msgid "Newport"
-msgstr "New York"
+msgstr ""
 
 msgid "Newry and Mourne"
 msgstr ""
@@ -4557,17 +4062,14 @@ msgstr ""
 msgid "Newtownabbey"
 msgstr ""
 
-#, fuzzy
 msgid "Norfolk"
-msgstr "Isla Norfolk"
+msgstr ""
 
-#, fuzzy
 msgid "North Ayrshire"
-msgstr "Sudáfrica"
+msgstr ""
 
-#, fuzzy
 msgid "North Down"
-msgstr "North Dakota"
+msgstr ""
 
 msgid "North East Lincolnshire"
 msgstr ""
@@ -4578,9 +4080,8 @@ msgstr ""
 msgid "North Lincolnshire"
 msgstr ""
 
-#, fuzzy
 msgid "North Somerset"
-msgstr "North Dakota"
+msgstr ""
 
 msgid "North Tyneside"
 msgstr ""
@@ -4588,17 +4089,14 @@ msgstr ""
 msgid "North Yorkshire"
 msgstr ""
 
-#, fuzzy
 msgid "Northamptonshire"
-msgstr "New Hampshire"
+msgstr ""
 
-#, fuzzy
 msgid "Northumberland"
-msgstr "North Carolina"
+msgstr ""
 
-#, fuzzy
 msgid "Nottingham"
-msgstr "Wyoming"
+msgstr ""
 
 msgid "Nottinghamshire"
 msgstr ""
@@ -4606,13 +4104,11 @@ msgstr ""
 msgid "Oldham"
 msgstr ""
 
-#, fuzzy
 msgid "Omagh"
-msgstr "Omán"
+msgstr ""
 
-#, fuzzy
 msgid "Orkney Islands"
-msgstr "Islas Feroe"
+msgstr ""
 
 msgid "Oxfordshire"
 msgstr ""
@@ -4626,16 +4122,14 @@ msgstr ""
 msgid "Peterborough"
 msgstr ""
 
-#, fuzzy
 msgid "Plymouth"
-msgstr "Lesoto"
+msgstr ""
 
 msgid "Poole"
 msgstr ""
 
-#, fuzzy
 msgid "Portsmouth"
-msgstr "Portugal"
+msgstr ""
 
 msgid "Powys"
 msgstr ""
@@ -4646,13 +4140,11 @@ msgstr ""
 msgid "Redbridge"
 msgstr ""
 
-#, fuzzy
 msgid "Cleveland"
-msgstr "Polonia"
+msgstr ""
 
-#, fuzzy
 msgid "Renfrewshire"
-msgstr "Chile"
+msgstr ""
 
 msgid "Rhondda Cynon Taff"
 msgstr ""
@@ -4666,24 +4158,20 @@ msgstr ""
 msgid "Rotherham"
 msgstr ""
 
-#, fuzzy
 msgid "Rutland"
-msgstr "Bután"
+msgstr ""
 
-#, fuzzy
 msgid "St. Helens"
-msgstr "Santa Helena"
+msgstr ""
 
-#, fuzzy
 msgid "Salford"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Sandwell"
 msgstr ""
 
-#, fuzzy
 msgid "Scottish Borders"
-msgstr "Kenia"
+msgstr ""
 
 msgid "Sefton"
 msgstr ""
@@ -4691,9 +4179,8 @@ msgstr ""
 msgid "Sheffield"
 msgstr ""
 
-#, fuzzy
 msgid "Shetland Islands"
-msgstr "Islas Salomón"
+msgstr ""
 
 msgid "Shropshire"
 msgstr ""
@@ -4704,13 +4191,11 @@ msgstr ""
 msgid "Solihull"
 msgstr ""
 
-#, fuzzy
 msgid "Somerset"
-msgstr "Israel"
+msgstr ""
 
-#, fuzzy
 msgid "South Ayrshire"
-msgstr "Sudáfrica"
+msgstr ""
 
 msgid "South Gloucestershire"
 msgstr ""
@@ -4721,16 +4206,14 @@ msgstr ""
 msgid "South Tyneside"
 msgstr ""
 
-#, fuzzy
 msgid "Southampton"
-msgstr "Polonia"
+msgstr ""
 
 msgid "Southend-on-Sea"
 msgstr ""
 
-#, fuzzy
 msgid "Southwark"
-msgstr "South Dakota"
+msgstr ""
 
 msgid "Staffordshire"
 msgstr ""
@@ -4753,24 +4236,20 @@ msgstr ""
 msgid "Suffolk"
 msgstr ""
 
-#, fuzzy
 msgid "Sunderland"
-msgstr "Polonia"
+msgstr ""
 
-#, fuzzy
 msgid "Surrey"
-msgstr "Turquía"
+msgstr ""
 
 msgid "Sutton"
 msgstr ""
 
-#, fuzzy
 msgid "Swansea"
-msgstr "Senegal"
+msgstr ""
 
-#, fuzzy
 msgid "Swindon"
-msgstr "Swazilandia"
+msgstr ""
 
 msgid "Tameside"
 msgstr ""
@@ -4781,13 +4260,11 @@ msgstr ""
 msgid "Thurrock"
 msgstr ""
 
-#, fuzzy
 msgid "Torbay"
-msgstr "Noruega"
+msgstr ""
 
-#, fuzzy
 msgid "Torfasn"
-msgstr "Jordania"
+msgstr ""
 
 msgid "Tower Hamlets"
 msgstr ""
@@ -4801,9 +4278,8 @@ msgstr ""
 msgid "Bro Morgannwg"
 msgstr ""
 
-#, fuzzy
 msgid "Wakefield"
-msgstr "Islas Feroe"
+msgstr ""
 
 msgid "Walsall"
 msgstr ""
@@ -4814,9 +4290,8 @@ msgstr ""
 msgid "Wandsworth"
 msgstr ""
 
-#, fuzzy
 msgid "Warrington"
-msgstr "Washington"
+msgstr ""
 
 msgid "Warwickshire"
 msgstr ""
@@ -4833,13 +4308,11 @@ msgstr ""
 msgid "West Sussex"
 msgstr ""
 
-#, fuzzy
 msgid "Westminster"
-msgstr "Sahara Oeste"
+msgstr ""
 
-#, fuzzy
 msgid "Wigan"
-msgstr "Michigan"
+msgstr ""
 
 msgid "Wiltshire"
 msgstr ""
@@ -4850,9 +4323,8 @@ msgstr ""
 msgid "Wirral"
 msgstr ""
 
-#, fuzzy
 msgid "Wokingham"
-msgstr "Wyoming"
+msgstr ""
 
 msgid "Wolverhampton"
 msgstr ""
@@ -4863,9 +4335,8 @@ msgstr ""
 msgid "Wrexham"
 msgstr ""
 
-#, fuzzy
 msgid "York"
-msgstr "New York"
+msgstr ""
 
 msgid "Ashanti"
 msgstr ""
@@ -4882,9 +4353,8 @@ msgstr ""
 msgid "Upper West"
 msgstr ""
 
-#, fuzzy
 msgid "Volta"
-msgstr "Malta"
+msgstr ""
 
 msgid "Banjul"
 msgstr ""
@@ -4892,20 +4362,17 @@ msgstr ""
 msgid "Lower River"
 msgstr ""
 
-#, fuzzy
 msgid "MacCarthy Island"
-msgstr "Islas Marshall"
+msgstr ""
 
-#, fuzzy
 msgid "North Bank"
-msgstr "North Dakota"
+msgstr ""
 
 msgid "Upper River"
 msgstr ""
 
-#, fuzzy
 msgid "Beyla"
-msgstr "Bielorrusia"
+msgstr ""
 
 msgid "Boffa"
 msgstr ""
@@ -4919,9 +4386,8 @@ msgstr ""
 msgid "Dabola"
 msgstr ""
 
-#, fuzzy
 msgid "Dalaba"
-msgstr "Alabama"
+msgstr ""
 
 msgid "Dinguiraye"
 msgstr ""
@@ -4929,45 +4395,38 @@ msgstr ""
 msgid "Dubreka"
 msgstr ""
 
-#, fuzzy
 msgid "Faranah"
-msgstr "Francia"
+msgstr ""
 
 msgid "Forecariah"
 msgstr ""
 
-#, fuzzy
 msgid "Fria"
-msgstr "Florida"
+msgstr ""
 
-#, fuzzy
 msgid "Gaoual"
-msgstr "Guam"
+msgstr ""
 
 msgid "Guekedou"
 msgstr ""
 
-#, fuzzy
 msgid "Kankan"
-msgstr "Kansas"
+msgstr ""
 
 msgid "Kerouane"
 msgstr ""
 
-#, fuzzy
 msgid "Kindia"
-msgstr "India"
+msgstr ""
 
 msgid "Kissidougou"
 msgstr ""
 
-#, fuzzy
 msgid "Koubia"
-msgstr "Cuba"
+msgstr ""
 
-#, fuzzy
 msgid "Koundara"
-msgstr "Honduras"
+msgstr ""
 
 msgid "Kouroussa"
 msgstr ""
@@ -4978,31 +4437,26 @@ msgstr ""
 msgid "Lelouma"
 msgstr ""
 
-#, fuzzy
 msgid "Lola"
-msgstr "Polonia"
+msgstr ""
 
-#, fuzzy
 msgid "Macenta"
-msgstr "Macedonia"
+msgstr ""
 
 msgid "Mali"
 msgstr "Mali"
 
-#, fuzzy
 msgid "Mamou"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Mandiana"
-msgstr "Indiana"
+msgstr ""
 
 msgid "Nzerekore"
 msgstr ""
 
-#, fuzzy
 msgid "Pita"
-msgstr "Pitcairn"
+msgstr ""
 
 msgid "Siguiri"
 msgstr ""
@@ -5010,9 +4464,8 @@ msgstr ""
 msgid "Telimele"
 msgstr ""
 
-#, fuzzy
 msgid "Tougue"
-msgstr "Togo"
+msgstr ""
 
 msgid "Yomou"
 msgstr ""
@@ -5044,24 +4497,20 @@ msgstr ""
 msgid "Wele-Nzas"
 msgstr ""
 
-#, fuzzy
 msgid "Achaa"
-msgstr "Albania"
+msgstr ""
 
 msgid "Aitolia-Akarnania"
 msgstr ""
 
-#, fuzzy
 msgid "Argolis"
-msgstr "Angola"
+msgstr ""
 
-#, fuzzy
 msgid "Arkadia"
-msgstr "Arkansas"
+msgstr ""
 
-#, fuzzy
 msgid "Arta"
-msgstr "Alberta"
+msgstr ""
 
 msgid "Attiki"
 msgstr ""
@@ -5069,58 +4518,47 @@ msgstr ""
 msgid "Chalkidiki"
 msgstr ""
 
-#, fuzzy
 msgid "Chania"
-msgstr "China"
+msgstr ""
 
-#, fuzzy
 msgid "Chios"
-msgstr "Ohio"
+msgstr ""
 
 msgid "Dodekanisos"
 msgstr ""
 
-#, fuzzy
 msgid "Drama"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Evros"
 msgstr ""
 
-#, fuzzy
 msgid "Evrytania"
-msgstr "Mauritania"
+msgstr ""
 
-#, fuzzy
 msgid "Evvoia"
-msgstr "Estonia"
+msgstr ""
 
-#, fuzzy
 msgid "Florina"
-msgstr "Florida"
+msgstr ""
 
 msgid "Fokis"
 msgstr ""
 
-#, fuzzy
 msgid "Fthiotis"
-msgstr "Etiopía"
+msgstr ""
 
-#, fuzzy
 msgid "Grevena"
-msgstr "Isla Green"
+msgstr ""
 
-#, fuzzy
 msgid "Ileia"
-msgstr "Argelia"
+msgstr ""
 
-#, fuzzy
 msgid "Imathia"
-msgstr "Letonia"
+msgstr ""
 
-#, fuzzy
 msgid "Ioannina"
-msgstr "Indiana"
+msgstr ""
 
 msgid "Irakleion"
 msgstr ""
@@ -5128,20 +4566,17 @@ msgstr ""
 msgid "Karditsa"
 msgstr ""
 
-#, fuzzy
 msgid "Kastoria"
-msgstr "Estonia"
+msgstr ""
 
 msgid "Kavalla"
 msgstr ""
 
-#, fuzzy
 msgid "Kefallinia"
-msgstr "California"
+msgstr ""
 
-#, fuzzy
 msgid "Kerkyra"
-msgstr "Kenia"
+msgstr ""
 
 msgid "Kilkis"
 msgstr ""
@@ -5149,56 +4584,47 @@ msgstr ""
 msgid "Korinthia"
 msgstr ""
 
-#, fuzzy
 msgid "Kozani"
-msgstr "Rumanía"
+msgstr ""
 
 msgid "Kyklades"
 msgstr ""
 
-#, fuzzy
 msgid "Lakonia"
-msgstr "Lituania"
+msgstr ""
 
-#, fuzzy
 msgid "Larisa"
-msgstr "Letonia"
+msgstr ""
 
-#, fuzzy
 msgid "Lasithion"
-msgstr "Washington"
+msgstr ""
 
 msgid "Lefkas"
 msgstr ""
 
-#, fuzzy
 msgid "Lesvos"
-msgstr "Lesoto"
+msgstr ""
 
-#, fuzzy
 msgid "Magnisia"
-msgstr "Tunicia"
+msgstr ""
 
 msgid "Messinia"
 msgstr ""
 
-#, fuzzy
 msgid "Pella"
-msgstr "Palau"
+msgstr ""
 
 msgid "Preveza"
 msgstr ""
 
-#, fuzzy
 msgid "Rethymnon"
-msgstr "Reunión"
+msgstr ""
 
 msgid "Rodopi"
 msgstr ""
 
-#, fuzzy
 msgid "Samos"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Serrai"
 msgstr ""
@@ -5251,17 +4677,14 @@ msgstr ""
 msgid "Izabal"
 msgstr ""
 
-#, fuzzy
 msgid "Jalapa"
-msgstr "Japón"
+msgstr ""
 
-#, fuzzy
 msgid "Jutiapa"
-msgstr "Japón"
+msgstr ""
 
-#, fuzzy
 msgid "Peten"
-msgstr "Yemen"
+msgstr ""
 
 msgid "Quetzaltenango"
 msgstr ""
@@ -5275,9 +4698,8 @@ msgstr ""
 msgid "Sacatepequez"
 msgstr ""
 
-#, fuzzy
 msgid "San Marcos"
-msgstr "San Marino"
+msgstr ""
 
 msgid "Santa Rosa"
 msgstr ""
@@ -5294,43 +4716,35 @@ msgstr ""
 msgid "Zacapa"
 msgstr ""
 
-#, fuzzy
 msgid "Bissau"
-msgstr "Guinea-Bissau"
+msgstr ""
 
-#, fuzzy
 msgid "Bafata"
-msgstr "Bahamas"
+msgstr ""
 
 msgid "Biombo"
 msgstr ""
 
-#, fuzzy
 msgid "Bolama"
-msgstr "Bahamas"
+msgstr ""
 
 msgid "Cacheu"
 msgstr ""
 
-#, fuzzy
 msgid "Gabu"
-msgstr "Gabón"
+msgstr ""
 
-#, fuzzy
 msgid "Oio"
-msgstr "Ohio"
+msgstr ""
 
-#, fuzzy
 msgid "Quloara"
-msgstr "Bulgaria"
+msgstr ""
 
-#, fuzzy
 msgid "Tombali S"
-msgstr "Somalia"
+msgstr ""
 
-#, fuzzy
 msgid "Barima-Waini"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Cuyuni-Mazaruni"
 msgstr ""
@@ -5359,24 +4773,20 @@ msgstr ""
 msgid "Upper Takutu-Upper Essequibo"
 msgstr ""
 
-#, fuzzy
 msgid "Atlantida"
-msgstr "Albania"
+msgstr ""
 
-#, fuzzy
 msgid "Colon"
-msgstr "Camerún"
+msgstr ""
 
 msgid "Comayagua"
 msgstr ""
 
-#, fuzzy
 msgid "Copan"
-msgstr "Empresa:"
+msgstr ""
 
-#, fuzzy
 msgid "Cortes"
-msgstr "Comores"
+msgstr ""
 
 msgid "Choluteca"
 msgstr ""
@@ -5390,9 +4800,8 @@ msgstr ""
 msgid "Gracias a Dios"
 msgstr ""
 
-#, fuzzy
 msgid "Intibuca"
-msgstr "India"
+msgstr ""
 
 msgid "Islas de la Bahia"
 msgstr ""
@@ -5403,9 +4812,8 @@ msgstr ""
 msgid "Ocotepeque"
 msgstr ""
 
-#, fuzzy
 msgid "Olancho"
-msgstr "Oklahoma"
+msgstr ""
 
 msgid "Santa Barbara"
 msgstr ""
@@ -5470,9 +4878,8 @@ msgstr ""
 msgid "VuRovarako-srijemska zupanija"
 msgstr ""
 
-#, fuzzy
 msgid "Zadaraka"
-msgstr "Sri Lanka"
+msgstr ""
 
 msgid "Zagrebacka zupanija"
 msgstr ""
@@ -5489,9 +4896,8 @@ msgstr ""
 msgid "Ouest"
 msgstr ""
 
-#, fuzzy
 msgid "Sud"
-msgstr "Sudán"
+msgstr ""
 
 msgid "Sud-Est"
 msgstr ""
@@ -5502,9 +4908,8 @@ msgstr ""
 msgid "Bács-Kiskun"
 msgstr ""
 
-#, fuzzy
 msgid "Baranya"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Békés"
 msgstr ""
@@ -5512,9 +4917,8 @@ msgstr ""
 msgid "Borsod-Abaúj-Zemplén"
 msgstr ""
 
-#, fuzzy
 msgid "Csongrád"
-msgstr "Colorado"
+msgstr ""
 
 msgid "Fejér"
 msgstr ""
@@ -5534,9 +4938,8 @@ msgstr ""
 msgid "Komárom-Esztergom"
 msgstr ""
 
-#, fuzzy
 msgid "Nográd"
-msgstr "Noruega"
+msgstr ""
 
 msgid "Pest"
 msgstr ""
@@ -5547,9 +4950,8 @@ msgstr ""
 msgid "Szabolcs-Szatmár-Bereg"
 msgstr ""
 
-#, fuzzy
 msgid "Tolna"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Vas"
 msgstr ""
@@ -5557,9 +4959,8 @@ msgstr ""
 msgid "Veszprém"
 msgstr ""
 
-#, fuzzy
 msgid "Zala"
-msgstr "Palau"
+msgstr ""
 
 msgid "Békéscsaba"
 msgstr ""
@@ -5570,9 +4971,8 @@ msgstr ""
 msgid "Dunaújváros"
 msgstr ""
 
-#, fuzzy
 msgid "Eger"
-msgstr "Níger"
+msgstr ""
 
 msgid "Győr"
 msgstr ""
@@ -5589,9 +4989,8 @@ msgstr ""
 msgid "Miskolc"
 msgstr ""
 
-#, fuzzy
 msgid "Nagykanizsa"
-msgstr "Tunicia"
+msgstr ""
 
 msgid "Nyiregyháza"
 msgstr ""
@@ -5605,9 +5004,8 @@ msgstr ""
 msgid "Sopron"
 msgstr ""
 
-#, fuzzy
 msgid "Szeged"
-msgstr "Suecia"
+msgstr ""
 
 msgid "Székesfehérvár"
 msgstr ""
@@ -5627,30 +5025,26 @@ msgstr ""
 msgid "Zalaegerszeg"
 msgstr ""
 
-#, fuzzy
 msgid "Bali"
-msgstr "Mali"
+msgstr ""
 
 msgid "Bangka Belitung"
 msgstr ""
 
-#, fuzzy
 msgid "Banten"
-msgstr "Botswana"
+msgstr ""
 
 msgid "Bengkulu"
 msgstr ""
 
-#, fuzzy
 msgid "Gorontalo"
-msgstr "Marruecos"
+msgstr ""
 
 msgid "Irian Jaya"
 msgstr ""
 
-#, fuzzy
 msgid "Jambi"
-msgstr "Gambia"
+msgstr ""
 
 msgid "Jawa Barat"
 msgstr ""
@@ -5658,9 +5052,8 @@ msgstr ""
 msgid "Jawa Tengah"
 msgstr ""
 
-#, fuzzy
 msgid "Jawa Timur"
-msgstr "Timor Oriental"
+msgstr ""
 
 msgid "Kalimantan Barat"
 msgstr ""
@@ -5677,13 +5070,11 @@ msgstr ""
 msgid "Lampung"
 msgstr ""
 
-#, fuzzy
 msgid "Maluku"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Maluku Utara"
-msgstr "Malta"
+msgstr ""
 
 msgid "Nusa Tenggara Barat"
 msgstr ""
@@ -5691,9 +5082,8 @@ msgstr ""
 msgid "Nusa Tenggara Timur"
 msgstr ""
 
-#, fuzzy
 msgid "Papua"
-msgstr "Palau"
+msgstr ""
 
 msgid "Riau"
 msgstr ""
@@ -5731,13 +5121,11 @@ msgstr ""
 msgid "Cork"
 msgstr ""
 
-#, fuzzy
 msgid "Clare"
-msgstr "Delaware"
+msgstr ""
 
-#, fuzzy
 msgid "Cavan"
-msgstr "Japón"
+msgstr ""
 
 msgid "Carlow"
 msgstr ""
@@ -5745,9 +5133,8 @@ msgstr ""
 msgid "Dublin"
 msgstr ""
 
-#, fuzzy
 msgid "Donegal"
-msgstr "Senegal"
+msgstr ""
 
 msgid "Galway"
 msgstr ""
@@ -5755,25 +5142,20 @@ msgstr ""
 msgid "Kildare"
 msgstr ""
 
-#, fuzzy
 msgid "Kilkenny"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Kerry"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Longford"
-msgstr "Congo"
+msgstr ""
 
-#, fuzzy
 msgid "Louth"
-msgstr "Lesoto"
+msgstr ""
 
-#, fuzzy
 msgid "Limerick"
-msgstr "Liberia"
+msgstr ""
 
 msgid "Leitrim"
 msgstr ""
@@ -5781,17 +5163,14 @@ msgstr ""
 msgid "Laois"
 msgstr ""
 
-#, fuzzy
 msgid "Meath"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Monaghan"
-msgstr "Montana"
+msgstr ""
 
-#, fuzzy
 msgid "Mayo"
-msgstr "Mayotte"
+msgstr ""
 
 msgid "Offaly"
 msgstr ""
@@ -5808,9 +5187,8 @@ msgstr ""
 msgid "Waterford"
 msgstr ""
 
-#, fuzzy
 msgid "Westmeath"
-msgstr "Sahara Oeste"
+msgstr ""
 
 msgid "Wicklow"
 msgstr ""
@@ -5851,9 +5229,8 @@ msgstr ""
 msgid "An Najef"
 msgstr ""
 
-#, fuzzy
 msgid "Arbil"
-msgstr "Aruba"
+msgstr ""
 
 msgid "As Sulaymaniyah"
 msgstr ""
@@ -5861,9 +5238,8 @@ msgstr ""
 msgid "At Ta'mim"
 msgstr ""
 
-#, fuzzy
 msgid "Babil"
-msgstr "Brasil"
+msgstr ""
 
 msgid "Baghdad"
 msgstr ""
@@ -5880,9 +5256,8 @@ msgstr ""
 msgid "Karbala'"
 msgstr ""
 
-#, fuzzy
 msgid "Maysan"
-msgstr "Malasia"
+msgstr ""
 
 msgid "Ninawa"
 msgstr ""
@@ -5890,13 +5265,11 @@ msgstr ""
 msgid "Salah ad Din"
 msgstr ""
 
-#, fuzzy
 msgid "Wasit"
-msgstr "Washington"
+msgstr ""
 
-#, fuzzy
 msgid "Ardabil"
-msgstr "Aruba"
+msgstr ""
 
 msgid "Azarbayjan-e Gharbi"
 msgstr ""
@@ -5904,104 +5277,83 @@ msgstr ""
 msgid "Azarbayjan-e Sharqi"
 msgstr ""
 
-#, fuzzy
 msgid "Bushehr"
-msgstr "Benín"
+msgstr ""
 
 msgid "Chahar Mahall va Bakhtiari"
 msgstr ""
 
-#, fuzzy
 msgid "Esfahan"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Fars"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Gilan"
-msgstr "Finlandia"
+msgstr ""
 
-#, fuzzy
 msgid "Golestan"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Hamadan"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Hormozgan"
-msgstr "Oregon"
+msgstr ""
 
-#, fuzzy
 msgid "Iiam"
-msgstr "Argelia"
+msgstr ""
 
-#, fuzzy
 msgid "Kerman"
-msgstr "Alemania"
+msgstr ""
 
-#, fuzzy
 msgid "Kermanshah"
-msgstr "Alemania"
+msgstr ""
 
-#, fuzzy
 msgid "Khorasan"
-msgstr "Panamá"
+msgstr ""
 
-#, fuzzy
 msgid "Khuzestan"
-msgstr "Kirguizistán"
+msgstr ""
 
 msgid "Kohjiluyeh va Buyer Ahmad"
 msgstr ""
 
-#, fuzzy
 msgid "Kordestan"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Lorestan"
-msgstr "Lesoto"
+msgstr ""
 
-#, fuzzy
 msgid "Markazi"
-msgstr "Maryland"
+msgstr ""
 
-#, fuzzy
 msgid "Mazandaran"
-msgstr "Malasia"
+msgstr ""
 
-#, fuzzy
 msgid "Qazvin"
-msgstr "Maine"
+msgstr ""
 
 msgid "Qom"
 msgstr ""
 
-#, fuzzy
 msgid "Semnan"
-msgstr "Kenia"
+msgstr ""
 
 msgid "Sistan va Baluchestan"
 msgstr ""
 
-#, fuzzy
 msgid "Tehran"
-msgstr "Benín"
+msgstr ""
 
 msgid "Yazd"
 msgstr ""
 
-#, fuzzy
 msgid "Zanjan"
-msgstr "Anguilla"
+msgstr ""
 
-#, fuzzy
 msgid "Austurland"
-msgstr "Australia"
+msgstr ""
 
 msgid "Hofuoborgarsvaeoi utan Reykjavikur"
 msgstr ""
@@ -6015,55 +5367,44 @@ msgstr ""
 msgid "Reykjavik"
 msgstr ""
 
-#, fuzzy
 msgid "Suourland"
-msgstr "Polonia"
+msgstr ""
 
-#, fuzzy
 msgid "Suournes"
-msgstr "Surinam"
+msgstr ""
 
 msgid "Vestfirolr"
 msgstr ""
 
-#, fuzzy
 msgid "Vesturland"
-msgstr "Holanda"
+msgstr ""
 
-#, fuzzy
 msgid "Agrigento"
-msgstr "Argentina"
+msgstr ""
 
-#, fuzzy
 msgid "Alessandria"
-msgstr "Argelia"
+msgstr ""
 
-#, fuzzy
 msgid "Ancona"
-msgstr "Angola"
+msgstr ""
 
-#, fuzzy
 msgid "Aosta"
-msgstr "Austria"
+msgstr ""
 
-#, fuzzy
 msgid "Arezzo"
-msgstr "Arizona"
+msgstr ""
 
 msgid "Ascoli Piceno"
 msgstr ""
 
-#, fuzzy
 msgid "Asti"
-msgstr "Austria"
+msgstr ""
 
-#, fuzzy
 msgid "Avellino"
-msgstr "Illinois"
+msgstr ""
 
-#, fuzzy
 msgid "Bari"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Belluno"
 msgstr ""
@@ -6074,27 +5415,23 @@ msgstr ""
 msgid "Bergamo"
 msgstr ""
 
-#, fuzzy
 msgid "Biella"
-msgstr "Bielorrusia"
+msgstr ""
 
 msgid "Bologna"
 msgstr ""
 
-#, fuzzy
 msgid "Bolzano"
-msgstr "Polonia"
+msgstr ""
 
 msgid "Brescia"
 msgstr ""
 
-#, fuzzy
 msgid "Brindisi"
-msgstr "Burundi"
+msgstr ""
 
-#, fuzzy
 msgid "Cagliari"
-msgstr "California"
+msgstr ""
 
 msgid "Caltanissetta"
 msgstr ""
@@ -6105,36 +5442,29 @@ msgstr ""
 msgid "Caserta"
 msgstr ""
 
-#, fuzzy
 msgid "Catania"
-msgstr "Croacia"
+msgstr ""
 
 msgid "Catanzaro"
 msgstr ""
 
-#, fuzzy
 msgid "Chieti"
-msgstr "Chile"
+msgstr ""
 
-#, fuzzy
 msgid "Como"
-msgstr "Comores"
+msgstr ""
 
-#, fuzzy
 msgid "Cosenza"
-msgstr "Cerrar"
+msgstr ""
 
-#, fuzzy
 msgid "Cremona"
-msgstr "Oregon"
+msgstr ""
 
-#, fuzzy
 msgid "Crotone"
-msgstr "Camerún"
+msgstr ""
 
-#, fuzzy
 msgid "Cuneo"
-msgstr "Congo"
+msgstr ""
 
 msgid "Enna"
 msgstr ""
@@ -6142,28 +5472,23 @@ msgstr ""
 msgid "Ferrara"
 msgstr ""
 
-#, fuzzy
 msgid "Firenze"
-msgstr "Francia"
+msgstr ""
 
-#, fuzzy
 msgid "Foggia"
-msgstr "Georgia"
+msgstr ""
 
-#, fuzzy
 msgid "Forli"
-msgstr "Florida"
+msgstr ""
 
 msgid "Frosinone"
 msgstr ""
 
-#, fuzzy
 msgid "Genova"
-msgstr "Georgia"
+msgstr ""
 
-#, fuzzy
 msgid "Gorizia"
-msgstr "Georgia"
+msgstr ""
 
 msgid "Grosseto"
 msgstr ""
@@ -6171,20 +5496,17 @@ msgstr ""
 msgid "Imperia"
 msgstr ""
 
-#, fuzzy
 msgid "Isernia"
-msgstr "India"
+msgstr ""
 
-#, fuzzy
 msgid "L'Aquila"
-msgstr "Anguilla"
+msgstr ""
 
 msgid "La Spezia"
 msgstr ""
 
-#, fuzzy
 msgid "Latina"
-msgstr "Letonia"
+msgstr ""
 
 msgid "Lecce"
 msgstr ""
@@ -6195,73 +5517,59 @@ msgstr ""
 msgid "Livorno"
 msgstr ""
 
-#, fuzzy
 msgid "Lodi"
-msgstr "Usuario:"
+msgstr ""
 
 msgid "Lucca"
 msgstr ""
 
-#, fuzzy
 msgid "Macerata"
-msgstr "Macao"
+msgstr ""
 
-#, fuzzy
 msgid "Mantova"
-msgstr "Manitoba"
+msgstr ""
 
 msgid "Massa-Carrara"
 msgstr ""
 
-#, fuzzy
 msgid "Matera"
-msgstr "Malta"
+msgstr ""
 
 msgid "Messina"
 msgstr ""
 
-#, fuzzy
 msgid "Milano"
-msgstr "Finlandia"
+msgstr ""
 
-#, fuzzy
 msgid "Modena"
-msgstr "Mónaco"
+msgstr ""
 
-#, fuzzy
 msgid "Napoli"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Novara"
-msgstr "Nevada"
+msgstr ""
 
-#, fuzzy
 msgid "Nuoro"
-msgstr "Nauru"
+msgstr ""
 
-#, fuzzy
 msgid "Oristano"
-msgstr "Pakistán"
+msgstr ""
 
-#, fuzzy
 msgid "Padova"
-msgstr "Moldavia"
+msgstr ""
 
 msgid "Palermo"
 msgstr ""
 
-#, fuzzy
 msgid "Parma"
-msgstr "Panamá"
+msgstr ""
 
-#, fuzzy
 msgid "Pavia"
-msgstr "Letonia"
+msgstr ""
 
-#, fuzzy
 msgid "Perugia"
-msgstr "Perú"
+msgstr ""
 
 msgid "Pesaro e Urbino"
 msgstr ""
@@ -6272,13 +5580,11 @@ msgstr ""
 msgid "Piacenza"
 msgstr ""
 
-#, fuzzy
 msgid "Pisa"
-msgstr "Pakistán"
+msgstr ""
 
-#, fuzzy
 msgid "Pistoia"
-msgstr "Estonia"
+msgstr ""
 
 msgid "Pordenone"
 msgstr ""
@@ -6292,9 +5598,8 @@ msgstr ""
 msgid "Ragusa"
 msgstr ""
 
-#, fuzzy
 msgid "Ravenna"
-msgstr "Ruanda"
+msgstr ""
 
 msgid "Reggio Calabria"
 msgstr ""
@@ -6302,21 +5607,17 @@ msgstr ""
 msgid "Reggio Emilia"
 msgstr ""
 
-#, fuzzy
 msgid "Rieti"
-msgstr "Haití"
+msgstr ""
 
-#, fuzzy
 msgid "Rimini"
-msgstr "Rumanía"
+msgstr ""
 
-#, fuzzy
 msgid "Roma"
-msgstr "Rumanía"
+msgstr ""
 
-#, fuzzy
 msgid "Rovigo"
-msgstr "Togo"
+msgstr ""
 
 msgid "Salerno"
 msgstr ""
@@ -6324,13 +5625,11 @@ msgstr ""
 msgid "Sassari"
 msgstr ""
 
-#, fuzzy
 msgid "Savona"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Siena"
-msgstr "Senegal"
+msgstr ""
 
 msgid "Siracusa"
 msgstr ""
@@ -6341,21 +5640,17 @@ msgstr ""
 msgid "Taranto"
 msgstr ""
 
-#, fuzzy
 msgid "Teramo"
-msgstr "Vermont"
+msgstr ""
 
-#, fuzzy
 msgid "Terni"
-msgstr "Benín"
+msgstr ""
 
-#, fuzzy
 msgid "Torino"
-msgstr "Togo"
+msgstr ""
 
-#, fuzzy
 msgid "Trapani"
-msgstr "Japón"
+msgstr ""
 
 msgid "Trento"
 msgstr ""
@@ -6366,16 +5661,14 @@ msgstr ""
 msgid "Trieste"
 msgstr ""
 
-#, fuzzy
 msgid "Udine"
-msgstr "Ukrania"
+msgstr ""
 
 msgid "Varese"
 msgstr ""
 
-#, fuzzy
 msgid "Venezia"
-msgstr "Venezuela"
+msgstr ""
 
 msgid "Verbano-Cusio-Ossola"
 msgstr ""
@@ -6383,39 +5676,32 @@ msgstr ""
 msgid "Vercelli"
 msgstr ""
 
-#, fuzzy
 msgid "Verona"
-msgstr "Vermont"
+msgstr ""
 
 msgid "Vibo Valentia"
 msgstr ""
 
-#, fuzzy
 msgid "Vicenza"
-msgstr "Venezuela"
+msgstr ""
 
 msgid "Viterbo"
 msgstr ""
 
-#, fuzzy
 msgid "Aichi"
-msgstr "Michigan"
+msgstr ""
 
-#, fuzzy
 msgid "Akita"
-msgstr "Pakistán"
+msgstr ""
 
-#, fuzzy
 msgid "Aomori"
-msgstr "Comores"
+msgstr ""
 
-#, fuzzy
 msgid "Chiba"
-msgstr "China"
+msgstr ""
 
-#, fuzzy
 msgid "Ehime"
-msgstr "Chile"
+msgstr ""
 
 msgid "Fukui"
 msgstr ""
@@ -6429,20 +5715,17 @@ msgstr ""
 msgid "Gifu"
 msgstr ""
 
-#, fuzzy
 msgid "Gunma"
-msgstr "Guinea"
+msgstr ""
 
-#, fuzzy
 msgid "Hiroshima"
-msgstr "Micronesia"
+msgstr ""
 
 msgid "Hokkaido"
 msgstr ""
 
-#, fuzzy
 msgid "Hyogo"
-msgstr "Togo"
+msgstr ""
 
 msgid "Ibaraki"
 msgstr ""
@@ -6450,9 +5733,8 @@ msgstr ""
 msgid "Ishikawa"
 msgstr ""
 
-#, fuzzy
 msgid "Iwate"
-msgstr "Iowa"
+msgstr ""
 
 msgid "Kagawa"
 msgstr ""
@@ -6472,13 +5754,11 @@ msgstr ""
 msgid "Kyoto"
 msgstr ""
 
-#, fuzzy
 msgid "Mie"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Miyagi"
-msgstr "Mali"
+msgstr ""
 
 msgid "Miyazaki"
 msgstr ""
@@ -6489,9 +5769,8 @@ msgstr ""
 msgid "Nagasaki"
 msgstr ""
 
-#, fuzzy
 msgid "Nara"
-msgstr "Nauru"
+msgstr ""
 
 msgid "Niigata"
 msgstr ""
@@ -6499,9 +5778,8 @@ msgstr ""
 msgid "Oita"
 msgstr ""
 
-#, fuzzy
 msgid "Okayama"
-msgstr "Oklahoma"
+msgstr ""
 
 msgid "Okinawa"
 msgstr ""
@@ -6509,17 +5787,14 @@ msgstr ""
 msgid "Osaka"
 msgstr ""
 
-#, fuzzy
 msgid "Saga"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Saitama"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Shiga"
-msgstr "Michigan"
+msgstr ""
 
 msgid "Shimane"
 msgstr ""
@@ -6530,20 +5805,17 @@ msgstr ""
 msgid "Tochigi"
 msgstr ""
 
-#, fuzzy
 msgid "Tokushima"
-msgstr "Tunicia"
+msgstr ""
 
-#, fuzzy
 msgid "Tokyo"
-msgstr "Togo"
+msgstr ""
 
 msgid "Tottori"
 msgstr ""
 
-#, fuzzy
 msgid "Toyama"
-msgstr "Myanmar"
+msgstr ""
 
 msgid "Wakayama"
 msgstr ""
@@ -6563,55 +5835,44 @@ msgstr ""
 msgid "Hanover"
 msgstr ""
 
-#, fuzzy
 msgid "Kingston"
-msgstr "Washington"
+msgstr ""
 
-#, fuzzy
 msgid "Portland"
-msgstr "Polonia"
+msgstr ""
 
 msgid "Saint Andrew"
 msgstr ""
 
-#, fuzzy
 msgid "Saint Ann"
-msgstr "Santa Helena"
+msgstr ""
 
-#, fuzzy
 msgid "Saint Catherine"
-msgstr "San Marino"
+msgstr ""
 
-#, fuzzy
 msgid "Saint Elizabeth"
-msgstr "Santa Lucía"
+msgstr ""
 
-#, fuzzy
 msgid "Saint James"
-msgstr "Santa Lucía"
+msgstr ""
 
-#, fuzzy
 msgid "Saint Mary"
-msgstr "San Marino"
+msgstr ""
 
-#, fuzzy
 msgid "Saint Thomea"
-msgstr "Santa Helena"
+msgstr ""
 
-#, fuzzy
 msgid "Trelawny"
-msgstr "Irlanda"
+msgstr ""
 
-#, fuzzy
 msgid "Westmoreland"
-msgstr "Irlanda"
+msgstr ""
 
 msgid "Ajln"
 msgstr ""
 
-#, fuzzy
 msgid "Al 'Aqaba"
-msgstr "Alabama"
+msgstr ""
 
 msgid "Al Balqa'"
 msgstr ""
@@ -6622,16 +5883,14 @@ msgstr ""
 msgid "Al Mafraq"
 msgstr ""
 
-#, fuzzy
 msgid "Amman"
-msgstr "Omán"
+msgstr ""
 
 msgid "At Tafilah"
 msgstr ""
 
-#, fuzzy
 msgid "Az Zarga"
-msgstr "Paraguay"
+msgstr ""
 
 msgid "Irbid"
 msgstr ""
@@ -6639,20 +5898,17 @@ msgstr ""
 msgid "Jarash"
 msgstr ""
 
-#, fuzzy
 msgid "Ma'an"
-msgstr "Maryland"
+msgstr ""
 
-#, fuzzy
 msgid "Madaba"
-msgstr "Madagascar"
+msgstr ""
 
 msgid "Nairobi Municipality"
 msgstr ""
 
-#, fuzzy
 msgid "Coast"
-msgstr "Croacia"
+msgstr ""
 
 msgid "North-Eastern Kaskazini Mashariki"
 msgstr ""
@@ -6660,17 +5916,14 @@ msgstr ""
 msgid "Rift Valley"
 msgstr ""
 
-#, fuzzy
 msgid "Western Magharibi"
-msgstr "Sahara Oeste"
+msgstr ""
 
-#, fuzzy
 msgid "Bishkek"
-msgstr "Belice"
+msgstr ""
 
-#, fuzzy
 msgid "Batken"
-msgstr "Botswana"
+msgstr ""
 
 msgid "Chu"
 msgstr ""
@@ -6678,27 +5931,23 @@ msgstr ""
 msgid "Jalal-Abad"
 msgstr ""
 
-#, fuzzy
 msgid "Naryn"
-msgstr "Maryland"
+msgstr ""
 
 msgid "Osh"
 msgstr ""
 
-#, fuzzy
 msgid "Talas"
-msgstr "Malasia"
+msgstr ""
 
 msgid "Ysyk-Kol"
 msgstr ""
 
-#, fuzzy
 msgid "Krong Kaeb"
-msgstr "Tonga"
+msgstr ""
 
-#, fuzzy
 msgid "Krong Pailin"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Xrong Preah Sihanouk"
 msgstr ""
@@ -6706,9 +5955,8 @@ msgstr ""
 msgid "Phnom Penh"
 msgstr ""
 
-#, fuzzy
 msgid "Baat Dambang"
-msgstr "Bután"
+msgstr ""
 
 msgid "Banteay Mean Chey"
 msgstr ""
@@ -6725,32 +5973,26 @@ msgstr ""
 msgid "Kampong Thum"
 msgstr ""
 
-#, fuzzy
 msgid "Kampot"
-msgstr "Guatemala"
+msgstr ""
 
-#, fuzzy
 msgid "Kandaal"
-msgstr "Canadá"
+msgstr ""
 
-#, fuzzy
 msgid "Kach Kong"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Krachoh"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Mondol Kiri"
-msgstr "Mongolia"
+msgstr ""
 
 msgid "Otdar Mean Chey"
 msgstr ""
 
-#, fuzzy
 msgid "Pousaat"
-msgstr "Louisiana"
+msgstr ""
 
 msgid "Preah Vihear"
 msgstr ""
@@ -6767,24 +6009,20 @@ msgstr ""
 msgid "Stueng Traeng"
 msgstr ""
 
-#, fuzzy
 msgid "Svaay Rieng"
-msgstr "España"
+msgstr ""
 
 msgid "Taakaev"
 msgstr ""
 
-#, fuzzy
 msgid "Gilbert Islands"
-msgstr "Virgin Islands"
+msgstr ""
 
-#, fuzzy
 msgid "Line Islands"
-msgstr "Virgin Islands"
+msgstr ""
 
-#, fuzzy
 msgid "Phoenix Islands"
-msgstr "Rhode Island"
+msgstr ""
 
 msgid "Anjouan Ndzouani"
 msgstr ""
@@ -6891,21 +6129,17 @@ msgstr ""
 msgid "Al Jahrah"
 msgstr ""
 
-#, fuzzy
 msgid "Al Kuwayt"
-msgstr "Kuwait"
+msgstr ""
 
-#, fuzzy
 msgid "Hawalli"
-msgstr "Hawaii"
+msgstr ""
 
-#, fuzzy
 msgid "Almaty"
-msgstr "Alabama"
+msgstr ""
 
-#, fuzzy
 msgid "Astana"
-msgstr "Austria"
+msgstr ""
 
 msgid "Almaty oblysy"
 msgstr ""
@@ -6919,9 +6153,8 @@ msgstr ""
 msgid "Atyrau oblyfiy"
 msgstr ""
 
-#, fuzzy
 msgid "Batys Quzaqstan oblysy"
-msgstr "Kazajstán"
+msgstr ""
 
 msgid "Mangghystau oblysy"
 msgstr ""
@@ -6941,9 +6174,8 @@ msgstr ""
 msgid "Qyzylorda oblysy"
 msgstr ""
 
-#, fuzzy
 msgid "Shyghys Quzaqstan oblysy"
-msgstr "Kazajstán"
+msgstr ""
 
 msgid "Soltustik Quzaqstan oblysy"
 msgstr ""
@@ -6954,24 +6186,20 @@ msgstr ""
 msgid "Vientiane"
 msgstr ""
 
-#, fuzzy
 msgid "Attapu"
-msgstr "Aruba"
+msgstr ""
 
 msgid "Bokeo"
 msgstr ""
 
-#, fuzzy
 msgid "Bolikhamxai"
-msgstr "Bahamas"
+msgstr ""
 
-#, fuzzy
 msgid "Champasak"
-msgstr "Bahamas"
+msgstr ""
 
-#, fuzzy
 msgid "Houaphan"
-msgstr "Japón"
+msgstr ""
 
 msgid "Khammouan"
 msgstr ""
@@ -6979,21 +6207,17 @@ msgstr ""
 msgid "Louang Namtha"
 msgstr ""
 
-#, fuzzy
 msgid "Louangphabang"
-msgstr "Japón"
+msgstr ""
 
-#, fuzzy
 msgid "Oudomxai"
-msgstr "Sudán"
+msgstr ""
 
-#, fuzzy
 msgid "Phongsali"
-msgstr "Tonga"
+msgstr ""
 
-#, fuzzy
 msgid "Salavan"
-msgstr "Swazilandia"
+msgstr ""
 
 msgid "Savannakhet"
 msgstr ""
@@ -7004,9 +6228,8 @@ msgstr ""
 msgid "Xiasomboun"
 msgstr ""
 
-#, fuzzy
 msgid "Xekong"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Xiangkhoang"
 msgstr ""
@@ -7041,16 +6264,14 @@ msgstr ""
 msgid "Batticaloa"
 msgstr ""
 
-#, fuzzy
 msgid "Colombo"
-msgstr "Colombia"
+msgstr ""
 
 msgid "Galle"
 msgstr ""
 
-#, fuzzy
 msgid "Gampaha"
-msgstr "Guatemala"
+msgstr ""
 
 msgid "Hambantota"
 msgstr ""
@@ -7058,13 +6279,11 @@ msgstr ""
 msgid "Jaffna"
 msgstr ""
 
-#, fuzzy
 msgid "Kalutara"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Kandy"
-msgstr "Kenia"
+msgstr ""
 
 msgid "Kegalla"
 msgstr ""
@@ -7075,25 +6294,20 @@ msgstr ""
 msgid "Kurunegala"
 msgstr ""
 
-#, fuzzy
 msgid "Mannar"
-msgstr "Myanmar"
+msgstr ""
 
-#, fuzzy
 msgid "Matale"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Matara"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Monaragala"
-msgstr "Mongolia"
+msgstr ""
 
-#, fuzzy
 msgid "Mullaittivu"
-msgstr "Mauricio"
+msgstr ""
 
 msgid "Nuwara Eliya"
 msgstr ""
@@ -7101,9 +6315,8 @@ msgstr ""
 msgid "Polonnaruwa"
 msgstr ""
 
-#, fuzzy
 msgid "Puttalum"
-msgstr "Palau"
+msgstr ""
 
 msgid "Ratnapura"
 msgstr ""
@@ -7117,9 +6330,8 @@ msgstr ""
 msgid "Bomi"
 msgstr ""
 
-#, fuzzy
 msgid "Bong"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Grand Basaa"
 msgstr ""
@@ -7136,42 +6348,35 @@ msgstr ""
 msgid "Lofa"
 msgstr ""
 
-#, fuzzy
 msgid "Margibi"
-msgstr "Mauricio"
+msgstr ""
 
-#, fuzzy
 msgid "Montserrado"
-msgstr "Montserrat"
+msgstr ""
 
-#, fuzzy
 msgid "Nimba"
-msgstr "Namibia"
+msgstr ""
 
 msgid "Rivercess"
 msgstr ""
 
-#, fuzzy
 msgid "Sinoe"
-msgstr "Singapur"
+msgstr ""
 
-#, fuzzy
 msgid "Berea"
-msgstr "Bermuda"
+msgstr ""
 
 msgid "Butha-Buthe"
 msgstr ""
 
-#, fuzzy
 msgid "Leribe"
-msgstr "Liberia"
+msgstr ""
 
 msgid "Mafeteng"
 msgstr ""
 
-#, fuzzy
 msgid "Maseru"
-msgstr "Perú"
+msgstr ""
 
 msgid "Mohale's Hoek"
 msgstr ""
@@ -7221,9 +6426,8 @@ msgstr ""
 msgid "Diekirch"
 msgstr ""
 
-#, fuzzy
 msgid "GreveNmacher"
-msgstr "Grecia"
+msgstr ""
 
 msgid "Aizkraukles Apripkis"
 msgstr ""
@@ -7309,9 +6513,8 @@ msgstr ""
 msgid "Jelgava"
 msgstr ""
 
-#, fuzzy
 msgid "Jurmala"
-msgstr "Australia"
+msgstr ""
 
 msgid "Liepaja"
 msgstr ""
@@ -7319,9 +6522,8 @@ msgstr ""
 msgid "Rezekne"
 msgstr ""
 
-#, fuzzy
 msgid "Riga"
-msgstr "Michigan"
+msgstr ""
 
 msgid "Ventspils"
 msgstr ""
@@ -7329,9 +6531,8 @@ msgstr ""
 msgid "Ajdābiyā"
 msgstr ""
 
-#, fuzzy
 msgid "Al Buţnān"
-msgstr "Bután"
+msgstr ""
 
 msgid "Al Hizām al Akhdar"
 msgstr ""
@@ -7339,35 +6540,29 @@ msgstr ""
 msgid "Al Jabal al Akhdar"
 msgstr ""
 
-#, fuzzy
 msgid "Al Jifārah"
-msgstr "Alaska"
+msgstr ""
 
 msgid "Al Jufrah"
 msgstr ""
 
-#, fuzzy
 msgid "Al Kufrah"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Al Marj"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Al Marqab"
-msgstr "Alaska"
+msgstr ""
 
 msgid "Al Qaţrūn"
 msgstr ""
 
-#, fuzzy
 msgid "Al Qubbah"
-msgstr "Cuba"
+msgstr ""
 
-#, fuzzy
 msgid "Al Wāhah"
-msgstr "Alaska"
+msgstr ""
 
 msgid "An Nuqaţ al Khams"
 msgstr ""
@@ -7378,23 +6573,20 @@ msgstr ""
 msgid "Az Zāwiyah"
 msgstr ""
 
-#, fuzzy
 msgid "Banghāzī"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Banī Walīd"
 msgstr ""
 
-#, fuzzy
 msgid "Darnah"
-msgstr "Francia"
+msgstr ""
 
 msgid "Ghadāmis"
 msgstr ""
 
-#, fuzzy
 msgid "Gharyān"
-msgstr "Maryland"
+msgstr ""
 
 msgid "Ghāt"
 msgstr ""
@@ -7402,13 +6594,11 @@ msgstr ""
 msgid "Jaghbūb"
 msgstr ""
 
-#, fuzzy
 msgid "Mişrātah"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Mizdah"
-msgstr "Argelia"
+msgstr ""
 
 msgid "Murzuq"
 msgstr ""
@@ -7416,16 +6606,14 @@ msgstr ""
 msgid "Nālūt"
 msgstr ""
 
-#, fuzzy
 msgid "Sabhā"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Şabrātah Şurmān"
 msgstr ""
 
-#, fuzzy
 msgid "Surt"
-msgstr "Surinam"
+msgstr ""
 
 msgid "Tājūrā' wa an Nawāhī al Arbāh"
 msgstr ""
@@ -7460,9 +6648,8 @@ msgstr ""
 msgid "Assa-Zag"
 msgstr ""
 
-#, fuzzy
 msgid "Azilal"
-msgstr "Mozilla"
+msgstr ""
 
 msgid "Beni Mellal"
 msgstr ""
@@ -7470,13 +6657,11 @@ msgstr ""
 msgid "Ben Sllmane"
 msgstr ""
 
-#, fuzzy
 msgid "Berkane"
-msgstr "Francia"
+msgstr ""
 
-#, fuzzy
 msgid "Boujdour"
-msgstr "Burundi"
+msgstr ""
 
 msgid "Boulemane"
 msgstr ""
@@ -7499,45 +6684,38 @@ msgstr ""
 msgid "Errachidia"
 msgstr ""
 
-#, fuzzy
 msgid "Essaouira"
-msgstr "Estonia"
+msgstr ""
 
-#, fuzzy
 msgid "Es Smara"
-msgstr "Sahara Oeste"
+msgstr ""
 
 msgid "Fès"
 msgstr ""
 
-#, fuzzy
 msgid "Figuig"
-msgstr "Fidji"
+msgstr ""
 
 msgid "Guelmim"
 msgstr ""
 
-#, fuzzy
 msgid "Ifrane"
-msgstr "Israel"
+msgstr ""
 
-#, fuzzy
 msgid "Jerada"
-msgstr "Jordania"
+msgstr ""
 
 msgid "Kelaat Sraghna"
 msgstr ""
 
-#, fuzzy
 msgid "Kénitra"
-msgstr "Kenia"
+msgstr ""
 
 msgid "Khemisaet"
 msgstr ""
 
-#, fuzzy
 msgid "Khenifra"
-msgstr "Kenia"
+msgstr ""
 
 msgid "Khouribga"
 msgstr ""
@@ -7545,20 +6723,17 @@ msgstr ""
 msgid "Laâyoune (EH)"
 msgstr ""
 
-#, fuzzy
 msgid "Larache"
-msgstr "Francia"
+msgstr ""
 
 msgid "Marrakech"
 msgstr ""
 
-#, fuzzy
 msgid "Meknsès"
-msgstr "Mis noticias"
+msgstr ""
 
-#, fuzzy
 msgid "Nador"
-msgstr "Ecuador"
+msgstr ""
 
 msgid "Ouarzazate"
 msgstr ""
@@ -7566,20 +6741,17 @@ msgstr ""
 msgid "Oued ed Dahab (EH)"
 msgstr ""
 
-#, fuzzy
 msgid "Oujda"
-msgstr "Sudán"
+msgstr ""
 
 msgid "Rabat-Salé"
 msgstr ""
 
-#, fuzzy
 msgid "Safi"
-msgstr "España"
+msgstr ""
 
-#, fuzzy
 msgid "Sefrou"
-msgstr "Perú"
+msgstr ""
 
 msgid "Settat"
 msgstr ""
@@ -7593,16 +6765,14 @@ msgstr ""
 msgid "Tan-Tan"
 msgstr ""
 
-#, fuzzy
 msgid "Taounate"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Taroudannt"
 msgstr ""
 
-#, fuzzy
 msgid "Tata"
-msgstr "Qatar"
+msgstr ""
 
 msgid "Taza"
 msgstr ""
@@ -7616,54 +6786,44 @@ msgstr ""
 msgid "Gagauzia, Unitate Teritoriala Autonoma"
 msgstr ""
 
-#, fuzzy
 msgid "Chisinau"
-msgstr "China"
+msgstr ""
 
 msgid "Stinga Nistrului, unitatea teritoriala din"
 msgstr ""
 
-#, fuzzy
 msgid "Balti"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Cahul"
-msgstr "Chile"
+msgstr ""
 
-#, fuzzy
 msgid "Edinet"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Lapusna"
-msgstr "Louisiana"
+msgstr ""
 
-#, fuzzy
 msgid "Orhei"
-msgstr "Ohio"
+msgstr ""
 
-#, fuzzy
 msgid "Soroca"
-msgstr "Marruecos"
+msgstr ""
 
 msgid "Taraclia"
 msgstr ""
 
-#, fuzzy
 msgid "Tighina [Bender]"
-msgstr "Virginia"
+msgstr ""
 
 msgid "Ungheni"
 msgstr ""
 
-#, fuzzy
 msgid "Antananarivo"
-msgstr "Ontario"
+msgstr ""
 
-#, fuzzy
 msgid "Antsiranana"
-msgstr "Argentina"
+msgstr ""
 
 msgid "Fianarantsoa"
 msgstr ""
@@ -7671,9 +6831,8 @@ msgstr ""
 msgid "Mahajanga"
 msgstr ""
 
-#, fuzzy
 msgid "Toamasina"
-msgstr "Jamaica"
+msgstr ""
 
 msgid "Toliara"
 msgstr ""
@@ -7684,28 +6843,23 @@ msgstr ""
 msgid "Ailuk"
 msgstr ""
 
-#, fuzzy
 msgid "Arno"
-msgstr "Angola"
+msgstr ""
 
-#, fuzzy
 msgid "Aur"
-msgstr "Austria"
+msgstr ""
 
-#, fuzzy
 msgid "Ebon"
-msgstr "Gabón"
+msgstr ""
 
 msgid "Eniwetok"
 msgstr ""
 
-#, fuzzy
 msgid "Jaluit"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Kili"
-msgstr "KMali"
+msgstr ""
 
 msgid "Kwajalein"
 msgstr ""
@@ -7713,9 +6867,8 @@ msgstr ""
 msgid "Lae"
 msgstr ""
 
-#, fuzzy
 msgid "Lib"
-msgstr "Liberia"
+msgstr ""
 
 msgid "Likiep"
 msgstr ""
@@ -7723,27 +6876,23 @@ msgstr ""
 msgid "Majuro"
 msgstr ""
 
-#, fuzzy
 msgid "Maloelap"
-msgstr "Malta"
+msgstr ""
 
 msgid "Mejit"
 msgstr ""
 
-#, fuzzy
 msgid "Mili"
-msgstr "Mali"
+msgstr ""
 
 msgid "Namorik"
 msgstr ""
 
-#, fuzzy
 msgid "Namu"
-msgstr "Nauru"
+msgstr ""
 
-#, fuzzy
 msgid "Rongelap"
-msgstr "Mongolia"
+msgstr ""
 
 msgid "Ujae"
 msgstr ""
@@ -7754,27 +6903,23 @@ msgstr ""
 msgid "Utirik"
 msgstr ""
 
-#, fuzzy
 msgid "Wotho"
-msgstr "Lesoto"
+msgstr ""
 
 msgid "Wotje"
 msgstr ""
 
-#, fuzzy
 msgid "Bamako"
-msgstr "Bahamas"
+msgstr ""
 
-#, fuzzy
 msgid "Gao"
-msgstr "Gabón"
+msgstr ""
 
 msgid "Kayes"
 msgstr ""
 
-#, fuzzy
 msgid "Kidal"
-msgstr "KMali"
+msgstr ""
 
 msgid "Xoulikoro"
 msgstr ""
@@ -7800,55 +6945,44 @@ msgstr ""
 msgid "Magway"
 msgstr ""
 
-#, fuzzy
 msgid "Mandalay"
-msgstr "Malasia"
+msgstr ""
 
-#, fuzzy
 msgid "Sagaing"
-msgstr "España"
+msgstr ""
 
 msgid "Tanintharyi"
 msgstr ""
 
-#, fuzzy
 msgid "Yangon"
-msgstr "Washington"
+msgstr ""
 
-#, fuzzy
 msgid "Chin"
-msgstr "China"
+msgstr ""
 
-#, fuzzy
 msgid "Kachin"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Kayah"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Kayin"
-msgstr "KMali"
+msgstr ""
 
-#, fuzzy
 msgid "Mon"
-msgstr "Mónaco"
+msgstr ""
 
-#, fuzzy
 msgid "Rakhine"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Shan"
-msgstr "Sudán"
+msgstr ""
 
 msgid "Ulanbaatar"
 msgstr ""
 
-#, fuzzy
 msgid "Arhangay"
-msgstr "Paraguay"
+msgstr ""
 
 msgid "Bayanhongor"
 msgstr ""
@@ -7856,9 +6990,8 @@ msgstr ""
 msgid "Bayan-Olgiy"
 msgstr ""
 
-#, fuzzy
 msgid "Bulgan"
-msgstr "Bulgaria"
+msgstr ""
 
 msgid "Darhan uul"
 msgstr ""
@@ -7893,20 +7026,17 @@ msgstr ""
 msgid "Omnogovi"
 msgstr ""
 
-#, fuzzy
 msgid "Orhon"
-msgstr "Oregon"
+msgstr ""
 
 msgid "Ovorhangay"
 msgstr ""
 
-#, fuzzy
 msgid "Selenge"
-msgstr "Suecia"
+msgstr ""
 
-#, fuzzy
 msgid "Shbaatar"
-msgstr "Qatar"
+msgstr ""
 
 msgid "Tov"
 msgstr ""
@@ -7917,20 +7047,17 @@ msgstr ""
 msgid "Nouakchott"
 msgstr ""
 
-#, fuzzy
 msgid "Assaba"
-msgstr "Alabama"
+msgstr ""
 
-#, fuzzy
 msgid "Brakna"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Dakhlet Nouadhibou"
 msgstr ""
 
-#, fuzzy
 msgid "Gorgol"
-msgstr "Georgia"
+msgstr ""
 
 msgid "Guidimaka"
 msgstr ""
@@ -7977,9 +7104,8 @@ msgstr ""
 msgid "Grand Port"
 msgstr ""
 
-#, fuzzy
 msgid "Moka"
-msgstr "Mónaco"
+msgstr ""
 
 msgid "Pamplemousses"
 msgstr ""
@@ -7993,34 +7119,29 @@ msgstr ""
 msgid "Savanne"
 msgstr ""
 
-#, fuzzy
 msgid "Agalega Islands"
-msgstr "Islas Feroe"
+msgstr ""
 
 msgid "Cargados Carajos Shoals"
 msgstr ""
 
-#, fuzzy
 msgid "Rodrigues Island"
-msgstr "Rhode Island"
+msgstr ""
 
-#, fuzzy
 msgid "Male"
-msgstr "Mali"
+msgstr ""
 
 msgid "Alif"
 msgstr ""
 
-#, fuzzy
 msgid "Baa"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Dhaalu"
 msgstr ""
 
-#, fuzzy
 msgid "Faafu"
-msgstr "Palau"
+msgstr ""
 
 msgid "Gaaf Alif"
 msgstr ""
@@ -8037,117 +7158,95 @@ msgstr ""
 msgid "Haa Dhaalu"
 msgstr ""
 
-#, fuzzy
 msgid "Kaafu"
-msgstr "Palau"
+msgstr ""
 
-#, fuzzy
 msgid "Laamu"
-msgstr "Palau"
+msgstr ""
 
-#, fuzzy
 msgid "Lhaviyani"
-msgstr "Letonia"
+msgstr ""
 
 msgid "Meemu"
 msgstr ""
 
-#, fuzzy
 msgid "Noonu"
-msgstr "Ninguno"
+msgstr ""
 
-#, fuzzy
 msgid "Raa"
-msgstr "Ruanda"
+msgstr ""
 
-#, fuzzy
 msgid "Seenu"
-msgstr "Suecia"
+msgstr ""
 
 msgid "Shaviyani"
 msgstr ""
 
-#, fuzzy
 msgid "Thaa"
-msgstr "Tailandia"
+msgstr ""
 
-#, fuzzy
 msgid "Vaavu"
-msgstr "Vanuatu"
+msgstr ""
 
-#, fuzzy
 msgid "Balaka"
-msgstr "Alaska"
+msgstr ""
 
 msgid "Blantyre"
 msgstr ""
 
-#, fuzzy
 msgid "Chikwawa"
-msgstr "China"
+msgstr ""
 
 msgid "Chiradzulu"
 msgstr ""
 
-#, fuzzy
 msgid "Chitipa"
-msgstr "China"
+msgstr ""
 
 msgid "Dedza"
 msgstr ""
 
-#, fuzzy
 msgid "Dowa"
-msgstr "Iowa"
+msgstr ""
 
-#, fuzzy
 msgid "Karonga"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Kasungu"
 msgstr ""
 
-#, fuzzy
 msgid "Likoma Island"
-msgstr "Rhode Island"
+msgstr ""
 
 msgid "Lilongwe"
 msgstr ""
 
-#, fuzzy
 msgid "Machinga"
-msgstr "Michigan"
+msgstr ""
 
-#, fuzzy
 msgid "Mangochi"
-msgstr "Mongolia"
+msgstr ""
 
-#, fuzzy
 msgid "Mchinji"
-msgstr "Michigan"
+msgstr ""
 
-#, fuzzy
 msgid "Mulanje"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Mwanza"
-msgstr "Ruanda"
+msgstr ""
 
-#, fuzzy
 msgid "Mzimba"
-msgstr "Mozilla"
+msgstr ""
 
 msgid "Nkhata Bay"
 msgstr ""
 
-#, fuzzy
 msgid "Nkhotakota"
-msgstr "North Dakota"
+msgstr ""
 
-#, fuzzy
 msgid "Nsanje"
-msgstr "Ninguno"
+msgstr ""
 
 msgid "Ntcheu"
 msgstr ""
@@ -8155,50 +7254,41 @@ msgstr ""
 msgid "Ntchisi"
 msgstr ""
 
-#, fuzzy
 msgid "Phalomba"
-msgstr "Colombia"
+msgstr ""
 
 msgid "Rumphi"
 msgstr ""
 
-#, fuzzy
 msgid "Salima"
-msgstr "Somalia"
+msgstr ""
 
-#, fuzzy
 msgid "Thyolo"
-msgstr "Togo"
+msgstr ""
 
-#, fuzzy
 msgid "Zomba"
-msgstr "Zambia"
+msgstr ""
 
 msgid "Aguascalientes"
 msgstr ""
 
-#, fuzzy
 msgid "Baja California"
-msgstr "California"
+msgstr ""
 
-#, fuzzy
 msgid "Baja California Sur"
-msgstr "California"
+msgstr ""
 
 msgid "Campeche"
 msgstr ""
 
-#, fuzzy
 msgid "Coahu ila"
-msgstr "Costa Rica"
+msgstr ""
 
-#, fuzzy
 msgid "Col ima"
-msgstr "Colombia"
+msgstr ""
 
-#, fuzzy
 msgid "Chiapas"
-msgstr "China"
+msgstr ""
 
 msgid "Chihushua"
 msgstr ""
@@ -8206,9 +7296,8 @@ msgstr ""
 msgid "Durango"
 msgstr ""
 
-#, fuzzy
 msgid "Guanajuato"
-msgstr "Guyana"
+msgstr ""
 
 msgid "Guerrero"
 msgstr ""
@@ -8222,13 +7311,11 @@ msgstr ""
 msgid "Mexico"
 msgstr "México"
 
-#, fuzzy
 msgid "Michoacin"
-msgstr "Michigan"
+msgstr ""
 
-#, fuzzy
 msgid "Morelos"
-msgstr "Moldavia"
+msgstr ""
 
 msgid "Nayarit"
 msgstr ""
@@ -8236,13 +7323,11 @@ msgstr ""
 msgid "Nuevo Leon"
 msgstr ""
 
-#, fuzzy
 msgid "Oaxaca"
-msgstr "Jamaica"
+msgstr ""
 
-#, fuzzy
 msgid "Puebla"
-msgstr "Cuba"
+msgstr ""
 
 msgid "Queretaro"
 msgstr ""
@@ -8253,13 +7338,11 @@ msgstr ""
 msgid "San Luis Potosi"
 msgstr ""
 
-#, fuzzy
 msgid "Sinaloa"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Sonora"
-msgstr "Andorra"
+msgstr ""
 
 msgid "Tabasco"
 msgstr ""
@@ -8273,9 +7356,8 @@ msgstr ""
 msgid "Veracruz"
 msgstr ""
 
-#, fuzzy
 msgid "Yucatan"
-msgstr "Bután"
+msgstr ""
 
 msgid "Zacatecas"
 msgstr ""
@@ -8292,39 +7374,32 @@ msgstr ""
 msgid "Johor"
 msgstr ""
 
-#, fuzzy
 msgid "Kedah"
-msgstr "Idaho"
+msgstr ""
 
-#, fuzzy
 msgid "Kelantan"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Melaka"
-msgstr "Alaska"
+msgstr ""
 
 msgid "Negeri Sembilan"
 msgstr ""
 
-#, fuzzy
 msgid "Pahang"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Perak"
-msgstr "Perú"
+msgstr ""
 
-#, fuzzy
 msgid "Perlis"
-msgstr "Perú"
+msgstr ""
 
 msgid "Pulau Pinang"
 msgstr ""
 
-#, fuzzy
 msgid "Sabah"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Sarawak"
 msgstr ""
@@ -8338,53 +7413,44 @@ msgstr ""
 msgid "Maputo"
 msgstr ""
 
-#, fuzzy
 msgid "Cabo Delgado"
-msgstr "Colorado"
+msgstr ""
 
-#, fuzzy
 msgid "Gaza"
-msgstr "Ghana"
+msgstr ""
 
 msgid "Inhambane"
 msgstr ""
 
-#, fuzzy
 msgid "Manica"
-msgstr "Macao"
+msgstr ""
 
 msgid "Numpula"
 msgstr ""
 
-#, fuzzy
 msgid "Niaaea"
-msgstr "Nicaragua"
+msgstr ""
 
-#, fuzzy
 msgid "Sofala"
-msgstr "Somalia"
+msgstr ""
 
-#, fuzzy
 msgid "Tete"
-msgstr "Temas"
+msgstr ""
 
-#, fuzzy
 msgid "Zambezia"
-msgstr "Zambia"
+msgstr ""
 
 msgid "Caprivi"
 msgstr ""
 
-#, fuzzy
 msgid "Erongo"
-msgstr "Congo"
+msgstr ""
 
 msgid "Hardap"
 msgstr ""
 
-#, fuzzy
 msgid "Karas"
-msgstr "Kansas"
+msgstr ""
 
 msgid "Khomae"
 msgstr ""
@@ -8404,20 +7470,17 @@ msgstr ""
 msgid "Omusati"
 msgstr ""
 
-#, fuzzy
 msgid "Oshana"
-msgstr "Ghana"
+msgstr ""
 
-#, fuzzy
 msgid "Oshikoto"
-msgstr "Ohio"
+msgstr ""
 
 msgid "Otjozondjupa"
 msgstr ""
 
-#, fuzzy
 msgid "Niamey"
-msgstr "Niue"
+msgstr ""
 
 msgid "Agadez"
 msgstr ""
@@ -8428,16 +7491,14 @@ msgstr ""
 msgid "Dosso"
 msgstr ""
 
-#, fuzzy
 msgid "Maradi"
-msgstr "Maryland"
+msgstr ""
 
 msgid "Tahoua"
 msgstr ""
 
-#, fuzzy
 msgid "Tillaberi"
-msgstr "Liberia"
+msgstr ""
 
 msgid "Zinder"
 msgstr ""
@@ -8445,9 +7506,8 @@ msgstr ""
 msgid "Abuja Capital Territory"
 msgstr ""
 
-#, fuzzy
 msgid "Abia"
-msgstr "Albania"
+msgstr ""
 
 msgid "Adamawa"
 msgstr ""
@@ -8455,43 +7515,35 @@ msgstr ""
 msgid "Akwa Ibom"
 msgstr ""
 
-#, fuzzy
 msgid "Anambra"
-msgstr "Gambia"
+msgstr ""
 
-#, fuzzy
 msgid "Bauchi"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Bayelsa"
 msgstr ""
 
-#, fuzzy
 msgid "Benue"
-msgstr "Benín"
+msgstr ""
 
-#, fuzzy
 msgid "Borno"
-msgstr "Congo"
+msgstr ""
 
 msgid "Cross River"
 msgstr ""
 
-#, fuzzy
 msgid "Delta"
-msgstr "Delaware"
+msgstr ""
 
-#, fuzzy
 msgid "Ebonyi"
-msgstr "Estonia"
+msgstr ""
 
-#, fuzzy
 msgid "Edo"
-msgstr "Ecuador"
+msgstr ""
 
-#, fuzzy
 msgid "Ekiti"
-msgstr "Haití"
+msgstr ""
 
 msgid "Enugu"
 msgstr ""
@@ -8505,24 +7557,20 @@ msgstr ""
 msgid "Jigawa"
 msgstr ""
 
-#, fuzzy
 msgid "Kaduna"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Kano"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Katsina"
-msgstr "Letonia"
+msgstr ""
 
 msgid "Kebbi"
 msgstr ""
 
-#, fuzzy
 msgid "Kogi"
-msgstr "Usuario:"
+msgstr ""
 
 msgid "Kwara"
 msgstr ""
@@ -8536,9 +7584,8 @@ msgstr ""
 msgid "Niger"
 msgstr "Níger"
 
-#, fuzzy
 msgid "Ogun"
-msgstr "Oregon"
+msgstr ""
 
 msgid "Ondo"
 msgstr ""
@@ -8561,54 +7608,44 @@ msgstr ""
 msgid "Yobe"
 msgstr ""
 
-#, fuzzy
 msgid "Zamfara"
-msgstr "Zambia"
+msgstr ""
 
-#, fuzzy
 msgid "Boaco"
-msgstr "Mónaco"
+msgstr ""
 
 msgid "Carazo"
 msgstr ""
 
-#, fuzzy
 msgid "Chinandega"
-msgstr "China"
+msgstr ""
 
 msgid "Chontales"
 msgstr ""
 
-#, fuzzy
 msgid "Esteli"
-msgstr "Estonia"
+msgstr ""
 
 msgid "Jinotega"
 msgstr ""
 
-#, fuzzy
 msgid "Leon"
-msgstr "Líbano"
+msgstr ""
 
-#, fuzzy
 msgid "Madriz"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Managua"
-msgstr "Paraguay"
+msgstr ""
 
-#, fuzzy
 msgid "Masaya"
-msgstr "Malasia"
+msgstr ""
 
-#, fuzzy
 msgid "Matagalpa"
-msgstr "Madagascar"
+msgstr ""
 
-#, fuzzy
 msgid "Nueva Segovia"
-msgstr "Nova Scotia"
+msgstr ""
 
 msgid "Rio San Juan"
 msgstr ""
@@ -8616,28 +7653,23 @@ msgstr ""
 msgid "Rivas"
 msgstr ""
 
-#, fuzzy
 msgid "Atlantico Norte"
-msgstr "Antártica"
+msgstr ""
 
-#, fuzzy
 msgid "Atlantico Sur"
-msgstr "Antártica"
+msgstr ""
 
 msgid "Drente"
 msgstr ""
 
-#, fuzzy
 msgid "Flevoland"
-msgstr "Polonia"
+msgstr ""
 
-#, fuzzy
 msgid "Friesland"
-msgstr "Finlandia"
+msgstr ""
 
-#, fuzzy
 msgid "Gelderland"
-msgstr "Isla Green"
+msgstr ""
 
 msgid "Groningen"
 msgstr ""
@@ -8645,9 +7677,8 @@ msgstr ""
 msgid "Noord-Brabant"
 msgstr ""
 
-#, fuzzy
 msgid "Noord-Holland"
-msgstr "Isla Norfolk"
+msgstr ""
 
 msgid "Overijssel"
 msgstr ""
@@ -8655,13 +7686,11 @@ msgstr ""
 msgid "Utrecht"
 msgstr ""
 
-#, fuzzy
 msgid "Zuid-Holland"
-msgstr "Isla Norfolk"
+msgstr ""
 
-#, fuzzy
 msgid "Zeeland"
-msgstr "Isla Green"
+msgstr ""
 
 msgid "Akershus"
 msgstr ""
@@ -8669,42 +7698,35 @@ msgstr ""
 msgid "Aust-Agder"
 msgstr ""
 
-#, fuzzy
 msgid "Buskerud"
-msgstr "Burundi"
+msgstr ""
 
-#, fuzzy
 msgid "Finumark"
-msgstr "Dinamarca"
+msgstr ""
 
-#, fuzzy
 msgid "Hedmark"
-msgstr "Dinamarca"
+msgstr ""
 
-#, fuzzy
 msgid "Hordaland"
-msgstr "Polonia"
+msgstr ""
 
 msgid "Mire og Romsdal"
 msgstr ""
 
-#, fuzzy
 msgid "Nordland"
-msgstr "Jordania"
+msgstr ""
 
 msgid "Nord-Trindelag"
 msgstr ""
 
-#, fuzzy
 msgid "Oppland"
-msgstr "Polonia"
+msgstr ""
 
 msgid "Oslo"
 msgstr ""
 
-#, fuzzy
 msgid "Rogaland"
-msgstr "Polonia"
+msgstr ""
 
 msgid "Sogn og Fjordane"
 msgstr ""
@@ -8712,9 +7734,8 @@ msgstr ""
 msgid "Sir-Trindelag"
 msgstr ""
 
-#, fuzzy
 msgid "Telemark"
-msgstr "Dinamarca"
+msgstr ""
 
 msgid "Troms"
 msgstr ""
@@ -8728,16 +7749,14 @@ msgstr ""
 msgid "Ostfold"
 msgstr ""
 
-#, fuzzy
 msgid "Jan Mayen"
-msgstr "San Marino"
+msgstr ""
 
 msgid "Svalbard"
 msgstr ""
 
-#, fuzzy
 msgid "Auckland"
-msgstr "Islandia"
+msgstr ""
 
 msgid "Bay of Plenty"
 msgstr ""
@@ -8745,9 +7764,8 @@ msgstr ""
 msgid "Canterbury"
 msgstr ""
 
-#, fuzzy
 msgid "Gisborne"
-msgstr "Gabón"
+msgstr ""
 
 msgid "Hawkes Bay"
 msgstr ""
@@ -8758,36 +7776,29 @@ msgstr ""
 msgid "Marlborough"
 msgstr ""
 
-#, fuzzy
 msgid "Nelson"
-msgstr "Ninguno"
+msgstr ""
 
-#, fuzzy
 msgid "Northland"
-msgstr "Holanda"
+msgstr ""
 
-#, fuzzy
 msgid "Otago"
-msgstr "Ontario"
+msgstr ""
 
-#, fuzzy
 msgid "Southland"
-msgstr "Polonia"
+msgstr ""
 
 msgid "Taranaki"
 msgstr ""
 
-#, fuzzy
 msgid "Tasman"
-msgstr "Tajikistán"
+msgstr ""
 
-#, fuzzy
 msgid "waikato"
-msgstr "Kuwait"
+msgstr ""
 
-#, fuzzy
 msgid "Wellington"
-msgstr "Washington"
+msgstr ""
 
 msgid "West Coast"
 msgstr ""
@@ -8798,13 +7809,11 @@ msgstr ""
 msgid "Al Batinah"
 msgstr ""
 
-#, fuzzy
 msgid "Al Janblyah"
-msgstr "Alabama"
+msgstr ""
 
-#, fuzzy
 msgid "Al Wusta"
-msgstr "Austria"
+msgstr ""
 
 msgid "Ash Sharqlyah"
 msgstr ""
@@ -8821,16 +7830,14 @@ msgstr ""
 msgid "Bocas del Toro"
 msgstr ""
 
-#, fuzzy
 msgid "Cocle"
-msgstr "Cerrar"
+msgstr ""
 
 msgid "Chiriqui"
 msgstr ""
 
-#, fuzzy
 msgid "Darien"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Herrera"
 msgstr ""
@@ -8841,38 +7848,32 @@ msgstr ""
 msgid "Panama"
 msgstr "Panamá"
 
-#, fuzzy
 msgid "Veraguas"
-msgstr "Paraguay"
+msgstr ""
 
 msgid "Comarca de San Blas"
 msgstr ""
 
-#, fuzzy
 msgid "El Callao"
-msgstr "El Salvador"
+msgstr ""
 
 msgid "Ancash"
 msgstr ""
 
-#, fuzzy
 msgid "Apurimac"
-msgstr "Austria"
+msgstr ""
 
-#, fuzzy
 msgid "Arequipa"
-msgstr "Armenia"
+msgstr ""
 
 msgid "Ayacucho"
 msgstr ""
 
-#, fuzzy
 msgid "Cajamarca"
-msgstr "Jamaica"
+msgstr ""
 
-#, fuzzy
 msgid "Cuzco"
-msgstr "Surinam"
+msgstr ""
 
 msgid "Huancavelica"
 msgstr ""
@@ -8880,29 +7881,23 @@ msgstr ""
 msgid "Huanuco"
 msgstr ""
 
-#, fuzzy
 msgid "Ica"
-msgstr "Islandia"
+msgstr ""
 
-#, fuzzy
 msgid "Junin"
-msgstr "Reunión"
+msgstr ""
 
-#, fuzzy
 msgid "La Libertad"
-msgstr "Liberia"
+msgstr ""
 
-#, fuzzy
 msgid "Lambayeque"
-msgstr "Mozambique"
+msgstr ""
 
-#, fuzzy
 msgid "Lima"
-msgstr "Letonia"
+msgstr ""
 
-#, fuzzy
 msgid "Loreto"
-msgstr "Lesoto"
+msgstr ""
 
 msgid "Madre de Dios"
 msgstr ""
@@ -8919,17 +7914,14 @@ msgstr ""
 msgid "Puno"
 msgstr ""
 
-#, fuzzy
 msgid "San Martin"
-msgstr "San Marino"
+msgstr ""
 
-#, fuzzy
 msgid "Tacna"
-msgstr "Tonga"
+msgstr ""
 
-#, fuzzy
 msgid "Tumbes"
-msgstr "Temas"
+msgstr ""
 
 msgid "Ucayali"
 msgstr ""
@@ -8946,58 +7938,47 @@ msgstr ""
 msgid "East New Britain"
 msgstr ""
 
-#, fuzzy
 msgid "East Sepik"
-msgstr "Timor Oriental"
+msgstr ""
 
-#, fuzzy
 msgid "Enga"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Gulf"
 msgstr ""
 
-#, fuzzy
 msgid "Madang"
-msgstr "Madagascar"
+msgstr ""
 
-#, fuzzy
 msgid "Manus"
-msgstr "Maine"
+msgstr ""
 
 msgid "Milne Bay"
 msgstr ""
 
-#, fuzzy
 msgid "Morobe"
-msgstr "Marruecos"
+msgstr ""
 
-#, fuzzy
 msgid "New Ireland"
-msgstr "Nueva Zelanda"
+msgstr ""
 
-#, fuzzy
 msgid "North Solomons"
-msgstr "North Carolina"
+msgstr ""
 
-#, fuzzy
 msgid "Santaun"
-msgstr "Sudán"
+msgstr ""
 
-#, fuzzy
 msgid "Southern Highlands"
-msgstr "Northern Marianas"
+msgstr ""
 
-#, fuzzy
 msgid "Western Highlands"
-msgstr "Sahara Oeste"
+msgstr ""
 
 msgid "West New Britain"
 msgstr ""
 
-#, fuzzy
 msgid "Abra"
-msgstr "Alberta"
+msgstr ""
 
 msgid "Agusan del Norte"
 msgstr ""
@@ -9005,62 +7986,50 @@ msgstr ""
 msgid "Agusan del Sur"
 msgstr ""
 
-#, fuzzy
 msgid "Aklan"
-msgstr "Albania"
+msgstr ""
 
-#, fuzzy
 msgid "Albay"
-msgstr "Alberta"
+msgstr ""
 
 msgid "Antique"
 msgstr ""
 
-#, fuzzy
 msgid "Apayao"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Aurora"
-msgstr "Andorra"
+msgstr ""
 
-#, fuzzy
 msgid "Basilan"
-msgstr "Tailandia"
+msgstr ""
 
-#, fuzzy
 msgid "Batasn"
-msgstr "Bután"
+msgstr ""
 
-#, fuzzy
 msgid "Batanes"
-msgstr "Bután"
+msgstr ""
 
-#, fuzzy
 msgid "Batangas"
-msgstr "Bangladesh"
+msgstr ""
 
 msgid "Benguet"
 msgstr ""
 
-#, fuzzy
 msgid "Biliran"
-msgstr "Tailandia"
+msgstr ""
 
 msgid "Bohol"
 msgstr ""
 
-#, fuzzy
 msgid "Bukidnon"
-msgstr "Burkina Faso"
+msgstr ""
 
-#, fuzzy
 msgid "Bulacan"
-msgstr "Bulgaria"
+msgstr ""
 
-#, fuzzy
 msgid "Cagayan"
-msgstr "Canadá"
+msgstr ""
 
 msgid "Camarines Norte"
 msgstr ""
@@ -9095,13 +8064,11 @@ msgstr ""
 msgid "Davao Oriental"
 msgstr ""
 
-#, fuzzy
 msgid "Eastern Samar"
-msgstr "Sahara Oeste"
+msgstr ""
 
-#, fuzzy
 msgid "Guimaras"
-msgstr "Guyana"
+msgstr ""
 
 msgid "Ifugao"
 msgstr ""
@@ -9115,9 +8082,8 @@ msgstr ""
 msgid "Iloilo"
 msgstr ""
 
-#, fuzzy
 msgid "Isabela"
-msgstr "Israel"
+msgstr ""
 
 msgid "Kalinga-Apayso"
 msgstr ""
@@ -9131,20 +8097,17 @@ msgstr ""
 msgid "Lanao del Sur"
 msgstr ""
 
-#, fuzzy
 msgid "La Union"
-msgstr "Líbano"
+msgstr ""
 
 msgid "Leyte"
 msgstr ""
 
-#, fuzzy
 msgid "Maguindanao"
-msgstr "Mauritania"
+msgstr ""
 
-#, fuzzy
 msgid "Marinduque"
-msgstr "Martinica"
+msgstr ""
 
 msgid "Masbate"
 msgstr ""
@@ -9155,16 +8118,14 @@ msgstr ""
 msgid "Mindoro Oriental"
 msgstr ""
 
-#, fuzzy
 msgid "Misamis Occidental"
-msgstr "Cliente de correo:"
+msgstr ""
 
 msgid "Misamis Oriental"
 msgstr ""
 
-#, fuzzy
 msgid "Mountain Province"
-msgstr "Estado/Provincia:"
+msgstr ""
 
 msgid "Negroe Occidental"
 msgstr ""
@@ -9172,32 +8133,26 @@ msgstr ""
 msgid "Negros Oriental"
 msgstr ""
 
-#, fuzzy
 msgid "North Cotabato"
-msgstr "North Dakota"
+msgstr ""
 
-#, fuzzy
 msgid "Northern Samar"
-msgstr "Northern Marianas"
+msgstr ""
 
-#, fuzzy
 msgid "Nueva Ecija"
-msgstr "Nova Scotia"
+msgstr ""
 
 msgid "Nueva Vizcaya"
 msgstr ""
 
-#, fuzzy
 msgid "Palawan"
-msgstr "Palau"
+msgstr ""
 
-#, fuzzy
 msgid "Pampanga"
-msgstr "Paraguay"
+msgstr ""
 
-#, fuzzy
 msgid "Pangasinan"
-msgstr "Panamá"
+msgstr ""
 
 msgid "Quezon"
 msgstr ""
@@ -9211,9 +8166,8 @@ msgstr ""
 msgid "Romblon"
 msgstr ""
 
-#, fuzzy
 msgid "Sarangani"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Siquijor"
 msgstr ""
@@ -9221,9 +8175,8 @@ msgstr ""
 msgid "Sorsogon"
 msgstr ""
 
-#, fuzzy
 msgid "South Cotabato"
-msgstr "South Dakota"
+msgstr ""
 
 msgid "Southern Leyte"
 msgstr ""
@@ -9231,9 +8184,8 @@ msgstr ""
 msgid "Sultan Kudarat"
 msgstr ""
 
-#, fuzzy
 msgid "Sulu"
-msgstr "Tuvalu"
+msgstr ""
 
 msgid "Surigao del Norte"
 msgstr ""
@@ -9247,13 +8199,11 @@ msgstr ""
 msgid "Tawi-Tawi"
 msgstr ""
 
-#, fuzzy
 msgid "Western Samar"
-msgstr "Sahara Oeste"
+msgstr ""
 
-#, fuzzy
 msgid "Zambales"
-msgstr "Zambia"
+msgstr ""
 
 msgid "Zamboanga del Norte"
 msgstr ""
@@ -9270,9 +8220,8 @@ msgstr ""
 msgid "Baluchistan (en)"
 msgstr ""
 
-#, fuzzy
 msgid "North-West Frontier"
-msgstr "Northwest Territory"
+msgstr ""
 
 msgid "Sind (en)"
 msgstr ""
@@ -9283,9 +8232,8 @@ msgstr ""
 msgid "Azad Rashmir"
 msgstr ""
 
-#, fuzzy
 msgid "Northern Areas"
-msgstr "Northern Marianas"
+msgstr ""
 
 msgid "Aveiro"
 msgstr ""
@@ -9293,9 +8241,8 @@ msgstr ""
 msgid "Beja"
 msgstr ""
 
-#, fuzzy
 msgid "Braga"
-msgstr "Paraguay"
+msgstr ""
 
 msgid "Braganca"
 msgstr ""
@@ -9303,40 +8250,32 @@ msgstr ""
 msgid "Castelo Branco"
 msgstr ""
 
-#, fuzzy
 msgid "Colmbra"
-msgstr "Colombia"
+msgstr ""
 
-#, fuzzy
 msgid "Ovora"
-msgstr "Omán"
+msgstr ""
 
 msgid "Faro"
 msgstr ""
 
-#, fuzzy
 msgid "Guarda"
-msgstr "Guyana"
+msgstr ""
 
-#, fuzzy
 msgid "Leiria"
-msgstr "Liberia"
+msgstr ""
 
-#, fuzzy
 msgid "Lisboa"
-msgstr "Liberia"
+msgstr ""
 
-#, fuzzy
 msgid "Portalegre"
-msgstr "Portugal"
+msgstr ""
 
-#, fuzzy
 msgid "Porto"
-msgstr "Portugal"
+msgstr ""
 
-#, fuzzy
 msgid "Santarem"
-msgstr "Qatar"
+msgstr ""
 
 msgid "Setubal"
 msgstr ""
@@ -9356,20 +8295,17 @@ msgstr ""
 msgid "Regiao Autonoma da Madeira"
 msgstr ""
 
-#, fuzzy
 msgid "Asuncion"
-msgstr "Reunión"
+msgstr ""
 
-#, fuzzy
 msgid "Alto Paraguay"
-msgstr "Paraguay"
+msgstr ""
 
 msgid "Alto Parana"
 msgstr ""
 
-#, fuzzy
 msgid "Amambay"
-msgstr "Gambia"
+msgstr ""
 
 msgid "Boqueron"
 msgstr ""
@@ -9377,9 +8313,8 @@ msgstr ""
 msgid "Caeguazu"
 msgstr ""
 
-#, fuzzy
 msgid "Caazapl"
-msgstr "Canadá"
+msgstr ""
 
 msgid "Canindeyu"
 msgstr ""
@@ -9390,30 +8325,26 @@ msgstr ""
 msgid "Cordillera"
 msgstr ""
 
-#, fuzzy
 msgid "Guaira"
-msgstr "Guyana"
+msgstr ""
 
 msgid "Itapua"
 msgstr ""
 
-#, fuzzy
 msgid "Miaiones"
-msgstr "Maine"
+msgstr ""
 
 msgid "Neembucu"
 msgstr ""
 
-#, fuzzy
 msgid "Paraguari"
-msgstr "Paraguay"
+msgstr ""
 
 msgid "Presidente Hayes"
 msgstr ""
 
-#, fuzzy
 msgid "San Pedro"
-msgstr "San Marino"
+msgstr ""
 
 msgid "Ad Dawhah"
 msgstr ""
@@ -9427,9 +8358,8 @@ msgstr ""
 msgid "Al Khawr"
 msgstr ""
 
-#, fuzzy
 msgid "Al Wakrah"
-msgstr "Alaska"
+msgstr ""
 
 msgid "Ar Rayyan"
 msgstr ""
@@ -9446,21 +8376,17 @@ msgstr ""
 msgid "Bucuresti"
 msgstr ""
 
-#, fuzzy
 msgid "Alba"
-msgstr "Albania"
+msgstr ""
 
-#, fuzzy
 msgid "Arad"
-msgstr "Aruba"
+msgstr ""
 
-#, fuzzy
 msgid "Arges"
-msgstr "Argentina"
+msgstr ""
 
-#, fuzzy
 msgid "Bacau"
-msgstr "Macao"
+msgstr ""
 
 msgid "Bihor"
 msgstr ""
@@ -9468,16 +8394,14 @@ msgstr ""
 msgid "Bistrita-Nasaud"
 msgstr ""
 
-#, fuzzy
 msgid "Boto'ani"
-msgstr "Botswana"
+msgstr ""
 
 msgid "Bra'ov"
 msgstr ""
 
-#, fuzzy
 msgid "Braila"
-msgstr "Brasil"
+msgstr ""
 
 msgid "Buzau"
 msgstr ""
@@ -9491,24 +8415,20 @@ msgstr ""
 msgid "Cluj"
 msgstr ""
 
-#, fuzzy
 msgid "Constant'a"
-msgstr "Montana"
+msgstr ""
 
-#, fuzzy
 msgid "Covasna"
-msgstr "Canadá"
+msgstr ""
 
-#, fuzzy
 msgid "Dambovit'a"
-msgstr "Camboya"
+msgstr ""
 
 msgid "Dolj"
 msgstr ""
 
-#, fuzzy
 msgid "Galat'i"
-msgstr "Malawi"
+msgstr ""
 
 msgid "Giurgiu"
 msgstr ""
@@ -9516,13 +8436,11 @@ msgstr ""
 msgid "Gorj"
 msgstr ""
 
-#, fuzzy
 msgid "Harghita"
-msgstr "Haití"
+msgstr ""
 
-#, fuzzy
 msgid "Hunedoara"
-msgstr "Andorra"
+msgstr ""
 
 msgid "Ialomit'a"
 msgstr ""
@@ -9530,9 +8448,8 @@ msgstr ""
 msgid "Ias'i"
 msgstr ""
 
-#, fuzzy
 msgid "Ilfov"
-msgstr "Eslovenia"
+msgstr ""
 
 msgid "Maramures"
 msgstr ""
@@ -9543,9 +8460,8 @@ msgstr ""
 msgid "Mures"
 msgstr ""
 
-#, fuzzy
 msgid "Neamt"
-msgstr "Nepal"
+msgstr ""
 
 msgid "Olt"
 msgstr ""
@@ -9553,13 +8469,11 @@ msgstr ""
 msgid "Prahova"
 msgstr ""
 
-#, fuzzy
 msgid "Satu Mare"
-msgstr "San Marino"
+msgstr ""
 
-#, fuzzy
 msgid "Sa laj"
-msgstr "Somalia"
+msgstr ""
 
 msgid "Sibiu"
 msgstr ""
@@ -9567,9 +8481,8 @@ msgstr ""
 msgid "Suceava"
 msgstr ""
 
-#, fuzzy
 msgid "Teleorman"
-msgstr "Alemania"
+msgstr ""
 
 msgid "Timis"
 msgstr ""
@@ -9577,16 +8490,14 @@ msgstr ""
 msgid "Tulcea"
 msgstr ""
 
-#, fuzzy
 msgid "Vaslui"
-msgstr "Mali"
+msgstr ""
 
 msgid "Valcea"
 msgstr ""
 
-#, fuzzy
 msgid "Vrancea"
-msgstr "Francia"
+msgstr ""
 
 msgid "Adygeya, Respublika"
 msgstr ""
@@ -9600,9 +8511,8 @@ msgstr ""
 msgid "Buryatiya, Respublika"
 msgstr ""
 
-#, fuzzy
 msgid "Chechenskaya Respublika"
-msgstr "República Checa"
+msgstr ""
 
 msgid "Chuvashskaya Respublika"
 msgstr ""
@@ -9622,23 +8532,20 @@ msgstr ""
 msgid "Karachayevo-Cherkesskaya Respublika"
 msgstr ""
 
-#, fuzzy
 msgid "Kareliya, Respublika"
-msgstr "Korea, República de"
+msgstr ""
 
 msgid "Khakasiya, Respublika"
 msgstr ""
 
-#, fuzzy
 msgid "Komi, Respublika"
-msgstr "República Dominicana"
+msgstr ""
 
 msgid "Mariy El, Respublika"
 msgstr ""
 
-#, fuzzy
 msgid "Mordoviya, Respublika"
-msgstr "Korea, República de"
+msgstr ""
 
 msgid "Sakha, Respublika [Yakutiya]"
 msgstr ""
@@ -9646,9 +8553,8 @@ msgstr ""
 msgid "Severnaya Osetiya, Respublika"
 msgstr ""
 
-#, fuzzy
 msgid "Tatarstan, Respublika"
-msgstr "Taiwan, República de China"
+msgstr ""
 
 msgid "Tyva, Respublika [Tuva]"
 msgstr ""
@@ -9656,9 +8562,8 @@ msgstr ""
 msgid "Udmurtskaya Respublika"
 msgstr ""
 
-#, fuzzy
 msgid "Altayskiy kray"
-msgstr "Alaska"
+msgstr ""
 
 msgid "Khabarovskiy kray"
 msgstr ""
@@ -9822,9 +8727,8 @@ msgstr ""
 msgid "Yaroslavskaya oblast'"
 msgstr ""
 
-#, fuzzy
 msgid "Moskva"
-msgstr "Moldavia"
+msgstr ""
 
 msgid "Sankt-Peterburg"
 msgstr ""
@@ -9862,13 +8766,11 @@ msgstr ""
 msgid "Yamalo-Nenetskiy avtonomnyy okrug"
 msgstr ""
 
-#, fuzzy
 msgid "Butare"
-msgstr "Bután"
+msgstr ""
 
-#, fuzzy
 msgid "Byumba"
-msgstr "Cuba"
+msgstr ""
 
 msgid "Cyangugu"
 msgstr ""
@@ -9885,9 +8787,8 @@ msgstr ""
 msgid "Kibungo"
 msgstr ""
 
-#, fuzzy
 msgid "Kibuye"
-msgstr "Niue"
+msgstr ""
 
 msgid "Kigali-Rural Kigali y' Icyaro"
 msgstr ""
@@ -9895,9 +8796,8 @@ msgstr ""
 msgid "Kigali-Ville Kigali Ngari"
 msgstr ""
 
-#, fuzzy
 msgid "Mutara"
-msgstr "Mauritania"
+msgstr ""
 
 msgid "Ruhengeri"
 msgstr ""
@@ -9911,9 +8811,8 @@ msgstr ""
 msgid "Al Jawf"
 msgstr ""
 
-#, fuzzy
 msgid "Al Madinah"
-msgstr "Alabama"
+msgstr ""
 
 msgid "Al Qasim"
 msgstr ""
@@ -9924,20 +8823,17 @@ msgstr ""
 msgid "Asir"
 msgstr ""
 
-#, fuzzy
 msgid "Ha'il"
-msgstr "KMali"
+msgstr ""
 
-#, fuzzy
 msgid "Jlzan"
-msgstr "Japón"
+msgstr ""
 
 msgid "Makkah"
 msgstr ""
 
-#, fuzzy
 msgid "Najran"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Tabuk"
 msgstr ""
@@ -9945,25 +8841,20 @@ msgstr ""
 msgid "Capital Territory (Honiara)"
 msgstr ""
 
-#, fuzzy
 msgid "Guadalcanal"
-msgstr "Guatemala"
+msgstr ""
 
-#, fuzzy
 msgid "Isabel"
-msgstr "Israel"
+msgstr ""
 
-#, fuzzy
 msgid "Makira"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Malaita"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Temotu"
-msgstr "Vermont"
+msgstr ""
 
 msgid "A'ali an Nil"
 msgstr ""
@@ -10022,9 +8913,8 @@ msgstr ""
 msgid "Jnqall"
 msgstr ""
 
-#, fuzzy
 msgid "Kassala"
-msgstr "Kansas"
+msgstr ""
 
 msgid "Shamal Batr al Ghazal"
 msgstr ""
@@ -10038,9 +8928,8 @@ msgstr ""
 msgid "Sharq al Istiwa'iyah"
 msgstr ""
 
-#, fuzzy
 msgid "Sinnar"
-msgstr "Singapur"
+msgstr ""
 
 msgid "Warab"
 msgstr ""
@@ -10075,9 +8964,8 @@ msgstr ""
 msgid "Norrbottena lan"
 msgstr ""
 
-#, fuzzy
 msgid "Skane lan"
-msgstr "San Marino"
+msgstr ""
 
 msgid "Stockholms lan"
 msgstr ""
@@ -10103,9 +8991,8 @@ msgstr ""
 msgid "Vastra Gotalands lan"
 msgstr ""
 
-#, fuzzy
 msgid "Orebro lan"
-msgstr "Oregon"
+msgstr ""
 
 msgid "Ostergotlands lan"
 msgstr ""
@@ -10113,9 +9000,8 @@ msgstr ""
 msgid "Saint Helena"
 msgstr "Santa Helena"
 
-#, fuzzy
 msgid "Ascension"
-msgstr "Wisconsin"
+msgstr ""
 
 msgid "Tristan da Cunha"
 msgstr ""
@@ -10123,72 +9009,56 @@ msgstr ""
 msgid "Ajdovscina"
 msgstr ""
 
-#, fuzzy
 msgid "Beltinci"
-msgstr "Benín"
+msgstr ""
 
-#, fuzzy
 msgid "Benedikt"
-msgstr "Benín"
+msgstr ""
 
-#, fuzzy
 msgid "Bistrica ob Sotli"
-msgstr "District of Columbia"
+msgstr ""
 
-#, fuzzy
 msgid "Bled"
-msgstr "Brasil"
+msgstr ""
 
-#, fuzzy
 msgid "Bloke"
-msgstr "Brasil"
+msgstr ""
 
-#, fuzzy
 msgid "Bohinj"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Borovnica"
-msgstr "Marruecos"
+msgstr ""
 
-#, fuzzy
 msgid "Bovec"
-msgstr "Mónaco"
+msgstr ""
 
-#, fuzzy
 msgid "Braslovce"
-msgstr "Brasil"
+msgstr ""
 
-#, fuzzy
 msgid "Brda"
-msgstr "Bermuda"
+msgstr ""
 
-#, fuzzy
 msgid "Brezovica"
-msgstr "Bolivia"
+msgstr ""
 
-#, fuzzy
 msgid "Brezica"
-msgstr "Bermuda"
+msgstr ""
 
-#, fuzzy
 msgid "Cankova"
-msgstr "Manitoba"
+msgstr ""
 
-#, fuzzy
 msgid "Celje"
-msgstr "Chile"
+msgstr ""
 
 msgid "Cerklje na Gorenjskem"
 msgstr ""
 
-#, fuzzy
 msgid "Cerknica"
-msgstr "Cuba"
+msgstr ""
 
-#, fuzzy
 msgid "Cerkno"
-msgstr "Francia"
+msgstr ""
 
 msgid "Cerkvenjak"
 msgstr ""
@@ -10199,27 +9069,23 @@ msgstr ""
 msgid "Crna na Koroskem"
 msgstr ""
 
-#, fuzzy
 msgid "Crnomelj"
-msgstr "Comores"
+msgstr ""
 
-#, fuzzy
 msgid "Destrnik"
-msgstr "Sahara Oeste"
+msgstr ""
 
 msgid "Divaca"
 msgstr ""
 
-#, fuzzy
 msgid "Dobje"
-msgstr "Cerrar"
+msgstr ""
 
 msgid "Dobrepolje"
 msgstr ""
 
-#, fuzzy
 msgid "Dobrna"
-msgstr "Florida"
+msgstr ""
 
 msgid "Dobrova-Polhov Gradec"
 msgstr ""
@@ -10233,17 +9099,14 @@ msgstr ""
 msgid "Dolenjske Toplice"
 msgstr ""
 
-#, fuzzy
 msgid "Domzale"
-msgstr "Somalia"
+msgstr ""
 
-#, fuzzy
 msgid "Dornava"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Dravograd"
-msgstr "Noruega"
+msgstr ""
 
 msgid "Duplek"
 msgstr ""
@@ -10251,53 +9114,44 @@ msgstr ""
 msgid "Gorenja vas-Poljane"
 msgstr ""
 
-#, fuzzy
 msgid "Gorsnica"
-msgstr "Georgia"
+msgstr ""
 
-#, fuzzy
 msgid "Gornja Radgona"
-msgstr "Ghana"
+msgstr ""
 
-#, fuzzy
 msgid "Gornji Grad"
-msgstr "Granada"
+msgstr ""
 
 msgid "Gornji Petrovci"
 msgstr ""
 
-#, fuzzy
 msgid "Grad"
-msgstr "Aruba"
+msgstr ""
 
 msgid "Grosuplje"
 msgstr ""
 
-#, fuzzy
 msgid "Hajdina"
-msgstr "Finlandia"
+msgstr ""
 
-#, fuzzy
 msgid "Hoce-Slivnica"
-msgstr "Bolivia"
+msgstr ""
 
-#, fuzzy
 msgid "Hodos"
-msgstr "Honduras"
+msgstr ""
 
 msgid "Jorjul"
 msgstr ""
 
-#, fuzzy
 msgid "Hrastnik"
-msgstr "Haití"
+msgstr ""
 
 msgid "Hrpelje-Kozina"
 msgstr ""
 
-#, fuzzy
 msgid "Idrija"
-msgstr "India"
+msgstr ""
 
 msgid "Ig"
 msgstr ""
@@ -10308,66 +9162,53 @@ msgstr ""
 msgid "Ivancna Gorica"
 msgstr ""
 
-#, fuzzy
 msgid "Izola"
-msgstr "Iowa"
+msgstr ""
 
-#, fuzzy
 msgid "Jesenice"
-msgstr "Benín"
+msgstr ""
 
 msgid "Jezersko"
 msgstr ""
 
-#, fuzzy
 msgid "Jursinci"
-msgstr "Benín"
+msgstr ""
 
-#, fuzzy
 msgid "Kamnik"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Kanal"
-msgstr "Canadá"
+msgstr ""
 
 msgid "Kidricevo"
 msgstr ""
 
-#, fuzzy
 msgid "Kobarid"
-msgstr "Tonga"
+msgstr ""
 
-#, fuzzy
 msgid "Kobilje"
-msgstr "Cuba"
+msgstr ""
 
 msgid "Jovevje"
 msgstr ""
 
-#, fuzzy
 msgid "Komen"
-msgstr "Wyoming"
+msgstr ""
 
-#, fuzzy
 msgid "Komenda"
-msgstr "Wyoming"
+msgstr ""
 
-#, fuzzy
 msgid "Koper"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Kostel"
-msgstr "Estonia"
+msgstr ""
 
-#, fuzzy
 msgid "Kozje"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Kranj"
-msgstr "Panamá"
+msgstr ""
 
 msgid "Kranjska Gora"
 msgstr ""
@@ -10375,48 +9216,38 @@ msgstr ""
 msgid "Krizevci"
 msgstr ""
 
-#, fuzzy
 msgid "Krsko"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Kungota"
-msgstr "Angola"
+msgstr ""
 
-#, fuzzy
 msgid "Kuzma"
-msgstr "Kuwait"
+msgstr ""
 
-#, fuzzy
 msgid "Lasko"
-msgstr "Lituania"
+msgstr ""
 
-#, fuzzy
 msgid "Lenart"
-msgstr "Dinamarca"
+msgstr ""
 
-#, fuzzy
 msgid "Lendava"
-msgstr "Letonia"
+msgstr ""
 
-#, fuzzy
 msgid "Litija"
-msgstr "Liberia"
+msgstr ""
 
-#, fuzzy
 msgid "Ljubljana"
-msgstr "Louisiana"
+msgstr ""
 
-#, fuzzy
 msgid "Ljubno"
-msgstr "Líbano"
+msgstr ""
 
 msgid "Ljutomer"
 msgstr ""
 
-#, fuzzy
 msgid "Logatec"
-msgstr "Portugal"
+msgstr ""
 
 msgid "Loska dolina"
 msgstr ""
@@ -10427,41 +9258,32 @@ msgstr ""
 msgid "Lovrenc na Pohorju"
 msgstr ""
 
-#, fuzzy
 msgid "Luce"
-msgstr "Surinam"
+msgstr ""
 
-#, fuzzy
 msgid "Lukovica"
-msgstr "Lituania"
+msgstr ""
 
-#, fuzzy
 msgid "Majsperk"
-msgstr "Perú"
+msgstr ""
 
-#, fuzzy
 msgid "Maribor"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Markovci"
-msgstr "Mongolia"
+msgstr ""
 
-#, fuzzy
 msgid "Medvode"
-msgstr "Mónaco"
+msgstr ""
 
-#, fuzzy
 msgid "Menges"
-msgstr "Mis noticias"
+msgstr ""
 
-#, fuzzy
 msgid "Metlika"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Mezica"
-msgstr "Argelia"
+msgstr ""
 
 msgid "Miklavz na Dravskern polju"
 msgstr ""
@@ -10469,68 +9291,56 @@ msgstr ""
 msgid "Miren-Kostanjevica"
 msgstr ""
 
-#, fuzzy
 msgid "Mirna Pec"
-msgstr "Maryland"
+msgstr ""
 
-#, fuzzy
 msgid "Mislinja"
-msgstr "Sri Lanka"
+msgstr ""
 
-#, fuzzy
 msgid "Moravce"
-msgstr "Noruega"
+msgstr ""
 
 msgid "Moravske Toplice"
 msgstr ""
 
-#, fuzzy
 msgid "Mozirje"
-msgstr "Zaire"
+msgstr ""
 
 msgid "Murska Sobota"
 msgstr ""
 
-#, fuzzy
 msgid "Muta"
-msgstr "Mauritania"
+msgstr ""
 
-#, fuzzy
 msgid "Naklo"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Nazarje"
-msgstr "Ninguno"
+msgstr ""
 
-#, fuzzy
 msgid "Nova Gorica"
-msgstr "Nova Scotia"
+msgstr ""
 
 msgid "Nova mesto"
 msgstr ""
 
-#, fuzzy
 msgid "Sveta Ana"
-msgstr "Santa Helena"
+msgstr ""
 
 msgid "Sveti Andraz v Slovenskih goricah"
 msgstr ""
 
-#, fuzzy
 msgid "Sveti Jurij"
-msgstr "Santa Lucía"
+msgstr ""
 
-#, fuzzy
 msgid "Salovci"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Sempeter-Vrtojba"
 msgstr ""
 
-#, fuzzy
 msgid "Sencur"
-msgstr "Suecia"
+msgstr ""
 
 msgid "Sentilj"
 msgstr ""
@@ -10541,16 +9351,14 @@ msgstr ""
 msgid "Sentjur pri Celju"
 msgstr ""
 
-#, fuzzy
 msgid "Skocjan"
-msgstr "Somalia"
+msgstr ""
 
 msgid "Skofja Loka"
 msgstr ""
 
-#, fuzzy
 msgid "Skoftjica"
-msgstr "Somalia"
+msgstr ""
 
 msgid "Smarje pri Jelsah"
 msgstr ""
@@ -10561,51 +9369,41 @@ msgstr ""
 msgid "Smartno pri Litiji"
 msgstr ""
 
-#, fuzzy
 msgid "Sostanj"
-msgstr "Austria"
+msgstr ""
 
-#, fuzzy
 msgid "Store"
-msgstr "South Dakota"
+msgstr ""
 
-#, fuzzy
 msgid "Tabor"
-msgstr "Gabón"
+msgstr ""
 
-#, fuzzy
 msgid "Tisina"
-msgstr "Tunicia"
+msgstr ""
 
-#, fuzzy
 msgid "Tolmin"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Trbovje"
 msgstr ""
 
-#, fuzzy
 msgid "Trebnje"
-msgstr "Oregon"
+msgstr ""
 
 msgid "Trnovska vas"
 msgstr ""
 
-#, fuzzy
 msgid "Trzic"
-msgstr "Benín"
+msgstr ""
 
-#, fuzzy
 msgid "Trzin"
-msgstr "Togo"
+msgstr ""
 
-#, fuzzy
 msgid "Turnisce"
-msgstr "Tunicia"
+msgstr ""
 
-#, fuzzy
 msgid "Velenje"
-msgstr "Suecia"
+msgstr ""
 
 msgid "Velika Polana"
 msgstr ""
@@ -10616,63 +9414,50 @@ msgstr ""
 msgid "Verzej"
 msgstr ""
 
-#, fuzzy
 msgid "Videm"
-msgstr "Vietnam"
+msgstr ""
 
-#, fuzzy
 msgid "Vipava"
-msgstr "España"
+msgstr ""
 
-#, fuzzy
 msgid "Vitanje"
-msgstr "Ninguno"
+msgstr ""
 
-#, fuzzy
 msgid "Vojnik"
-msgstr "Teléfono:"
+msgstr ""
 
-#, fuzzy
 msgid "Vransko"
-msgstr "Vanuatu"
+msgstr ""
 
-#, fuzzy
 msgid "Vrhnika"
-msgstr "Virginia"
+msgstr ""
 
-#, fuzzy
 msgid "Vuzenica"
-msgstr "Cuba"
+msgstr ""
 
 msgid "Zagorje ob Savi"
 msgstr ""
 
-#, fuzzy
 msgid "Zavrc"
-msgstr "Zaire"
+msgstr ""
 
-#, fuzzy
 msgid "Zrece"
-msgstr "Grecia"
+msgstr ""
 
-#, fuzzy
 msgid "Zalec"
-msgstr "Mali"
+msgstr ""
 
 msgid "Zelezniki"
 msgstr ""
 
-#, fuzzy
 msgid "Zetale"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Ziri"
-msgstr "Zaire"
+msgstr ""
 
-#, fuzzy
 msgid "Zirovnica"
-msgstr "Zaire"
+msgstr ""
 
 msgid "Zuzemberk"
 msgstr ""
@@ -10686,32 +9471,26 @@ msgstr ""
 msgid "Košický kraj"
 msgstr ""
 
-#, fuzzy
 msgid "Nitriansky kraj"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Prešovský kraj"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Trenčiansky kraj"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Trnavský kraj"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Žilinský kraj"
-msgstr "Alaska"
+msgstr ""
 
 msgid "Western Area (Freetown)"
 msgstr ""
 
-#, fuzzy
 msgid "Dakar"
-msgstr "Delaware"
+msgstr ""
 
 msgid "Diourbel"
 msgstr ""
@@ -10722,29 +9501,23 @@ msgstr ""
 msgid "Kaolack"
 msgstr ""
 
-#, fuzzy
 msgid "Kolda"
-msgstr "Moldavia"
+msgstr ""
 
-#, fuzzy
 msgid "Louga"
-msgstr "Portugal"
+msgstr ""
 
-#, fuzzy
 msgid "Matam"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Saint-Louis"
-msgstr "Santa Lucía"
+msgstr ""
 
-#, fuzzy
 msgid "Tambacounda"
-msgstr "Camboya"
+msgstr ""
 
-#, fuzzy
 msgid "Thies"
-msgstr "Temas"
+msgstr ""
 
 msgid "Ziguinchor"
 msgstr ""
@@ -10782,9 +9555,8 @@ msgstr ""
 msgid "Nugaal"
 msgstr ""
 
-#, fuzzy
 msgid "Saneag"
-msgstr "Senegal"
+msgstr ""
 
 msgid "Shabeellaha Dhexe"
 msgstr ""
@@ -10810,29 +9582,23 @@ msgstr ""
 msgid "Coronie"
 msgstr ""
 
-#, fuzzy
 msgid "Marowijne"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Nickerie"
-msgstr "Nigeria"
+msgstr ""
 
-#, fuzzy
 msgid "Paramaribo"
-msgstr "Panamá"
+msgstr ""
 
-#, fuzzy
 msgid "Saramacca"
-msgstr "Jamaica"
+msgstr ""
 
-#, fuzzy
 msgid "Sipaliwini"
-msgstr "España"
+msgstr ""
 
-#, fuzzy
 msgid "Wanica"
-msgstr "Albania"
+msgstr ""
 
 msgid "Principe"
 msgstr ""
@@ -10843,9 +9609,8 @@ msgstr ""
 msgid "Ahuachapan"
 msgstr ""
 
-#, fuzzy
 msgid "Cabanas"
-msgstr "Canadá"
+msgstr ""
 
 msgid "Cuscatlan"
 msgstr ""
@@ -10853,21 +9618,17 @@ msgstr ""
 msgid "Chalatenango"
 msgstr ""
 
-#, fuzzy
 msgid "Morazan"
-msgstr "Jordania"
+msgstr ""
 
-#, fuzzy
 msgid "San Miguel"
-msgstr "San Marino"
+msgstr ""
 
-#, fuzzy
 msgid "San Salvador"
-msgstr "El Salvador"
+msgstr ""
 
-#, fuzzy
 msgid "Santa Ana"
-msgstr "Santa Helena"
+msgstr ""
 
 msgid "San Vicente"
 msgstr ""
@@ -10878,9 +9639,8 @@ msgstr ""
 msgid "Usulutan"
 msgstr ""
 
-#, fuzzy
 msgid "Al Hasakah"
-msgstr "Alaska"
+msgstr ""
 
 msgid "Al Ladhiqiyah"
 msgstr ""
@@ -10903,27 +9663,23 @@ msgstr ""
 msgid "Dimashq"
 msgstr ""
 
-#, fuzzy
 msgid "Halab"
-msgstr "Palau"
+msgstr ""
 
-#, fuzzy
 msgid "Hamah"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Jim'"
 msgstr ""
 
-#, fuzzy
 msgid "Idlib"
-msgstr "India"
+msgstr ""
 
 msgid "Rif Dimashq"
 msgstr ""
 
-#, fuzzy
 msgid "Tarts"
-msgstr "Texas"
+msgstr ""
 
 msgid "Hhohho"
 msgstr ""
@@ -10931,20 +9687,17 @@ msgstr ""
 msgid "Lubombo"
 msgstr ""
 
-#, fuzzy
 msgid "Manzini"
-msgstr "Maine"
+msgstr ""
 
 msgid "Shiselweni"
 msgstr ""
 
-#, fuzzy
 msgid "Batha"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Biltine"
-msgstr "Belice"
+msgstr ""
 
 msgid "Borkou-Ennedi-Tibesti"
 msgstr ""
@@ -10952,13 +9705,11 @@ msgstr ""
 msgid "Chari-Baguirmi"
 msgstr ""
 
-#, fuzzy
 msgid "Guera"
-msgstr "Guinea"
+msgstr ""
 
-#, fuzzy
 msgid "Kanem"
-msgstr "Maine"
+msgstr ""
 
 msgid "Lac"
 msgstr ""
@@ -10978,16 +9729,14 @@ msgstr ""
 msgid "Ouaddai"
 msgstr ""
 
-#, fuzzy
 msgid "Salamat"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Tandjile"
 msgstr ""
 
-#, fuzzy
 msgid "Kara"
-msgstr "Kansas"
+msgstr ""
 
 msgid "Maritime (Region)"
 msgstr ""
@@ -11004,20 +9753,17 @@ msgstr ""
 msgid "Amnat Charoen"
 msgstr ""
 
-#, fuzzy
 msgid "Ang Thong"
-msgstr "Hong Kong"
+msgstr ""
 
-#, fuzzy
 msgid "Buri Ram"
-msgstr "Bulgaria"
+msgstr ""
 
 msgid "Chachoengsao"
 msgstr ""
 
-#, fuzzy
 msgid "Chai Nat"
-msgstr "China"
+msgstr ""
 
 msgid "Chaiyaphum"
 msgstr ""
@@ -11025,13 +9771,11 @@ msgstr ""
 msgid "Chanthaburi"
 msgstr ""
 
-#, fuzzy
 msgid "Chiang Mai"
-msgstr "China"
+msgstr ""
 
-#, fuzzy
 msgid "Chiang Rai"
-msgstr "China"
+msgstr ""
 
 msgid "Chon Buri"
 msgstr ""
@@ -11039,9 +9783,8 @@ msgstr ""
 msgid "Chumphon"
 msgstr ""
 
-#, fuzzy
 msgid "Kalasin"
-msgstr "Malasia"
+msgstr ""
 
 msgid "Kamphasng Phet"
 msgstr ""
@@ -11052,34 +9795,29 @@ msgstr ""
 msgid "Khon Kaen"
 msgstr ""
 
-#, fuzzy
 msgid "Krabi"
-msgstr "Kiribati"
+msgstr ""
 
-#, fuzzy
 msgid "Lampang"
-msgstr "Japón"
+msgstr ""
 
 msgid "Lamphun"
 msgstr ""
 
-#, fuzzy
 msgid "Loei"
-msgstr "Usuario:"
+msgstr ""
 
 msgid "Lop Buri"
 msgstr ""
 
-#, fuzzy
 msgid "Mae Hong Son"
-msgstr "Hong Kong"
+msgstr ""
 
 msgid "Maha Sarakham"
 msgstr ""
 
-#, fuzzy
 msgid "Mukdahan"
-msgstr "Sudán"
+msgstr ""
 
 msgid "Nakhon Nayok"
 msgstr ""
@@ -11117,13 +9855,11 @@ msgstr ""
 msgid "Pathum Thani"
 msgstr ""
 
-#, fuzzy
 msgid "Pattani"
-msgstr "Pakistán"
+msgstr ""
 
-#, fuzzy
 msgid "Phangnga"
-msgstr "Ghana"
+msgstr ""
 
 msgid "Phatthalung"
 msgstr ""
@@ -11158,16 +9894,14 @@ msgstr ""
 msgid "Prachuap Khiri Khan"
 msgstr ""
 
-#, fuzzy
 msgid "Ranong"
-msgstr "Líbano"
+msgstr ""
 
 msgid "Ratchaburi"
 msgstr ""
 
-#, fuzzy
 msgid "Rayong"
-msgstr "Wyoming"
+msgstr ""
 
 msgid "Roi Et"
 msgstr ""
@@ -11187,24 +9921,20 @@ msgstr ""
 msgid "Samut Songkhram"
 msgstr ""
 
-#, fuzzy
 msgid "Saraburi"
-msgstr "Arabia Saudí"
+msgstr ""
 
-#, fuzzy
 msgid "Satun"
-msgstr "Sudán"
+msgstr ""
 
-#, fuzzy
 msgid "Sing Buri"
-msgstr "Santa Lucía"
+msgstr ""
 
 msgid "Si Sa Ket"
 msgstr ""
 
-#, fuzzy
 msgid "Songkhla"
-msgstr "Mongolia"
+msgstr ""
 
 msgid "Sukhothai"
 msgstr ""
@@ -11215,16 +9945,14 @@ msgstr ""
 msgid "Surat Thani"
 msgstr ""
 
-#, fuzzy
 msgid "Surin"
-msgstr "Surinam"
+msgstr ""
 
 msgid "Tak"
 msgstr ""
 
-#, fuzzy
 msgid "Trang"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Trat"
 msgstr ""
@@ -11241,17 +9969,14 @@ msgstr ""
 msgid "Uttaradit"
 msgstr ""
 
-#, fuzzy
 msgid "Yala"
-msgstr "Palau"
+msgstr ""
 
-#, fuzzy
 msgid "Yasothon"
-msgstr "Lesoto"
+msgstr ""
 
-#, fuzzy
 msgid "Sughd"
-msgstr "Sudán"
+msgstr ""
 
 msgid "Khatlon"
 msgstr ""
@@ -11262,39 +9987,32 @@ msgstr ""
 msgid "Ahal"
 msgstr ""
 
-#, fuzzy
 msgid "Balkan"
-msgstr "Bahrein"
+msgstr ""
 
 msgid "Dasoguz"
 msgstr ""
 
-#, fuzzy
 msgid "Lebap"
-msgstr "Líbano"
+msgstr ""
 
-#, fuzzy
 msgid "Mary"
-msgstr "Maryland"
+msgstr ""
 
 msgid "Béja"
 msgstr ""
 
-#, fuzzy
 msgid "Ben Arous"
-msgstr "Bielorrusia"
+msgstr ""
 
-#, fuzzy
 msgid "Bizerte"
-msgstr "Belice"
+msgstr ""
 
-#, fuzzy
 msgid "Gabès"
-msgstr "Gabón"
+msgstr ""
 
-#, fuzzy
 msgid "Gafsa"
-msgstr "Ghana"
+msgstr ""
 
 msgid "Jendouba"
 msgstr ""
@@ -11308,28 +10026,23 @@ msgstr ""
 msgid "Kebili"
 msgstr ""
 
-#, fuzzy
 msgid "L'Ariana"
-msgstr "Arizona"
+msgstr ""
 
 msgid "Le Ref"
 msgstr ""
 
-#, fuzzy
 msgid "Mahdia"
-msgstr "Macedonia"
+msgstr ""
 
-#, fuzzy
 msgid "La Manouba"
-msgstr "Manitoba"
+msgstr ""
 
-#, fuzzy
 msgid "Medenine"
-msgstr "Benín"
+msgstr ""
 
-#, fuzzy
 msgid "Moneatir"
-msgstr "Montserrat"
+msgstr ""
 
 msgid "Naboul"
 msgstr ""
@@ -11340,9 +10053,8 @@ msgstr ""
 msgid "Sidi Bouxid"
 msgstr ""
 
-#, fuzzy
 msgid "Siliana"
-msgstr "Sri Lanka"
+msgstr ""
 
 msgid "Sousse"
 msgstr ""
@@ -11350,20 +10062,17 @@ msgstr ""
 msgid "Tataouine"
 msgstr ""
 
-#, fuzzy
 msgid "Tozeur"
-msgstr "Tokelau"
+msgstr ""
 
-#, fuzzy
 msgid "Tunis"
-msgstr "Tunicia"
+msgstr ""
 
 msgid "Zaghouan"
 msgstr ""
 
-#, fuzzy
 msgid "Adana"
-msgstr "Indiana"
+msgstr ""
 
 msgid "Ad yaman"
 msgstr ""
@@ -11377,40 +10086,32 @@ msgstr ""
 msgid "Aksaray"
 msgstr ""
 
-#, fuzzy
 msgid "Amasya"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Ankara"
-msgstr "Antártica"
+msgstr ""
 
-#, fuzzy
 msgid "Antalya"
-msgstr "Italy"
+msgstr ""
 
-#, fuzzy
 msgid "Ardahan"
-msgstr "Jordania"
+msgstr ""
 
-#, fuzzy
 msgid "Artvin"
-msgstr "Argentina"
+msgstr ""
 
-#, fuzzy
 msgid "Aydin"
-msgstr "Arizona"
+msgstr ""
 
 msgid "Bal kesir"
 msgstr ""
 
-#, fuzzy
 msgid "Bartin"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Batman"
-msgstr "Bután"
+msgstr ""
 
 msgid "Bayburt"
 msgstr ""
@@ -11418,9 +10119,8 @@ msgstr ""
 msgid "Bilecik"
 msgstr ""
 
-#, fuzzy
 msgid "Bingol"
-msgstr "Angola"
+msgstr ""
 
 msgid "Bitlis"
 msgstr ""
@@ -11428,21 +10128,17 @@ msgstr ""
 msgid "Bolu"
 msgstr ""
 
-#, fuzzy
 msgid "Burdur"
-msgstr "Burundi"
+msgstr ""
 
-#, fuzzy
 msgid "Bursa"
-msgstr "Bulgaria"
+msgstr ""
 
-#, fuzzy
 msgid "Canakkale"
-msgstr "Canadá"
+msgstr ""
 
-#, fuzzy
 msgid "Cankir"
-msgstr "Canadá"
+msgstr ""
 
 msgid "Corum"
 msgstr ""
@@ -11453,17 +10149,14 @@ msgstr ""
 msgid "Diyarbakir"
 msgstr ""
 
-#, fuzzy
 msgid "Duzce"
-msgstr "Surinam"
+msgstr ""
 
-#, fuzzy
 msgid "Edirne"
-msgstr "Eritrea"
+msgstr ""
 
-#, fuzzy
 msgid "Elazig"
-msgstr "Mali"
+msgstr ""
 
 msgid "Erzincan"
 msgstr ""
@@ -11480,54 +10173,44 @@ msgstr ""
 msgid "Giresun"
 msgstr ""
 
-#, fuzzy
 msgid "Gms'hane"
-msgstr "Ghana"
+msgstr ""
 
-#, fuzzy
 msgid "Hakkari"
-msgstr "Hawaii"
+msgstr ""
 
-#, fuzzy
 msgid "Hatay"
-msgstr "Qatar"
+msgstr ""
 
 msgid "Igidir"
 msgstr ""
 
-#, fuzzy
 msgid "Isparta"
-msgstr "Israel"
+msgstr ""
 
-#, fuzzy
 msgid "Icel"
-msgstr "Islandia"
+msgstr ""
 
-#, fuzzy
 msgid "Istanbul"
-msgstr "Italy"
+msgstr ""
 
 msgid "Izmir"
 msgstr ""
 
-#, fuzzy
 msgid "Kahramanmaras"
-msgstr "Bahamas"
+msgstr ""
 
 msgid "Karabk"
 msgstr ""
 
-#, fuzzy
 msgid "Karaman"
-msgstr "Panamá"
+msgstr ""
 
-#, fuzzy
 msgid "Kars"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Kastamonu"
-msgstr "Kazajstán"
+msgstr ""
 
 msgid "Kayseri"
 msgstr ""
@@ -11541,36 +10224,29 @@ msgstr ""
 msgid "Kirs'ehir"
 msgstr ""
 
-#, fuzzy
 msgid "Kilis"
-msgstr "KMali"
+msgstr ""
 
 msgid "Kocaeli"
 msgstr ""
 
-#, fuzzy
 msgid "Konya"
-msgstr "Kenia"
+msgstr ""
 
-#, fuzzy
 msgid "Ktahya"
-msgstr "Utah"
+msgstr ""
 
-#, fuzzy
 msgid "Malatya"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Manisa"
-msgstr "Manitoba"
+msgstr ""
 
-#, fuzzy
 msgid "Mardin"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Mugila"
-msgstr "Mozilla"
+msgstr ""
 
 msgid "Mus"
 msgstr ""
@@ -11578,20 +10254,17 @@ msgstr ""
 msgid "Nevs'ehir"
 msgstr ""
 
-#, fuzzy
 msgid "Nigide"
-msgstr "Níger"
+msgstr ""
 
 msgid "Ordu"
 msgstr ""
 
-#, fuzzy
 msgid "Osmaniye"
-msgstr "Omán"
+msgstr ""
 
-#, fuzzy
 msgid "Rize"
-msgstr "Belice"
+msgstr ""
 
 msgid "Sakarya"
 msgstr ""
@@ -11602,16 +10275,14 @@ msgstr ""
 msgid "Siirt"
 msgstr ""
 
-#, fuzzy
 msgid "Sinop"
-msgstr "España"
+msgstr ""
 
 msgid "Sivas"
 msgstr ""
 
-#, fuzzy
 msgid "S'anliurfa"
-msgstr "Somalia"
+msgstr ""
 
 msgid "S'rnak"
 msgstr ""
@@ -11619,13 +10290,11 @@ msgstr ""
 msgid "Tekirdag"
 msgstr ""
 
-#, fuzzy
 msgid "Tokat"
-msgstr "Tokelau"
+msgstr ""
 
-#, fuzzy
 msgid "Trabzon"
-msgstr "Gabón"
+msgstr ""
 
 msgid "Tunceli"
 msgstr ""
@@ -11633,13 +10302,11 @@ msgstr ""
 msgid "Us'ak"
 msgstr ""
 
-#, fuzzy
 msgid "Van"
-msgstr "Vanuatu"
+msgstr ""
 
-#, fuzzy
 msgid "Yalova"
-msgstr "Moldavia"
+msgstr ""
 
 msgid "Yozgat"
 msgstr ""
@@ -11671,20 +10338,17 @@ msgstr ""
 msgid "San Juan-Laventille"
 msgstr ""
 
-#, fuzzy
 msgid "Siparia"
-msgstr "España"
+msgstr ""
 
 msgid "Tunapuna-Piarco"
 msgstr ""
 
-#, fuzzy
 msgid "Western Tobago"
-msgstr "Sahara Oeste"
+msgstr ""
 
-#, fuzzy
 msgid "Arima"
-msgstr "Arizona"
+msgstr ""
 
 msgid "Chaguanas"
 msgstr ""
@@ -11695,68 +10359,53 @@ msgstr ""
 msgid "Port of Spain"
 msgstr "Puerto de España"
 
-#, fuzzy
 msgid "San Fernando"
-msgstr "San Marino"
+msgstr ""
 
-#, fuzzy
 msgid "Aileu"
-msgstr "Aruba"
+msgstr ""
 
-#, fuzzy
 msgid "Ainaro"
-msgstr "Antártica"
+msgstr ""
 
-#, fuzzy
 msgid "Bacucau"
-msgstr "Macao"
+msgstr ""
 
-#, fuzzy
 msgid "Bobonaro"
-msgstr "Tonga"
+msgstr ""
 
-#, fuzzy
 msgid "Cova Lima"
-msgstr "Colombia"
+msgstr ""
 
-#, fuzzy
 msgid "Dili"
-msgstr "KMali"
+msgstr ""
 
-#, fuzzy
 msgid "Ermera"
-msgstr "Eritrea"
+msgstr ""
 
-#, fuzzy
 msgid "Laulem"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Liquica"
-msgstr "Anguilla"
+msgstr ""
 
-#, fuzzy
 msgid "Manatuto"
-msgstr "Paraguay"
+msgstr ""
 
-#, fuzzy
 msgid "Manafahi"
-msgstr "Malawi"
+msgstr ""
 
-#, fuzzy
 msgid "Oecussi"
-msgstr "Austria"
+msgstr ""
 
 msgid "Viqueque"
 msgstr ""
 
-#, fuzzy
 msgid "Changhua"
-msgstr "China"
+msgstr ""
 
-#, fuzzy
 msgid "Chiayi"
-msgstr "China"
+msgstr ""
 
 msgid "Hsinchu"
 msgstr ""
@@ -11764,24 +10413,20 @@ msgstr ""
 msgid "Hualien"
 msgstr ""
 
-#, fuzzy
 msgid "Ilan"
-msgstr "Islandia"
+msgstr ""
 
 msgid "Kaohsiung"
 msgstr ""
 
-#, fuzzy
 msgid "Miaoli"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Nantou"
-msgstr "Vanuatu"
+msgstr ""
 
-#, fuzzy
 msgid "Penghu"
-msgstr "Perú"
+msgstr ""
 
 msgid "Pingtung"
 msgstr ""
@@ -11789,9 +10434,8 @@ msgstr ""
 msgid "Taichung"
 msgstr ""
 
-#, fuzzy
 msgid "Tainan"
-msgstr "Tailandia"
+msgstr ""
 
 msgid "Taipei"
 msgstr ""
@@ -11802,31 +10446,26 @@ msgstr ""
 msgid "Taoyuan"
 msgstr ""
 
-#, fuzzy
 msgid "Yunlin"
-msgstr "Reunión"
+msgstr ""
 
 msgid "Keelung"
 msgstr ""
 
-#, fuzzy
 msgid "Arusha"
-msgstr "Aruba"
+msgstr ""
 
 msgid "Dar-es-Salaam"
 msgstr ""
 
-#, fuzzy
 msgid "Dodoma"
-msgstr "Moldavia"
+msgstr ""
 
-#, fuzzy
 msgid "Iringa"
-msgstr "Arizona"
+msgstr ""
 
-#, fuzzy
 msgid "Kagera"
-msgstr "Argelia"
+msgstr ""
 
 msgid "Kaskazini Pemba"
 msgstr ""
@@ -11846,32 +10485,26 @@ msgstr ""
 msgid "Kusini Unguja"
 msgstr ""
 
-#, fuzzy
 msgid "Lindi"
-msgstr "India"
+msgstr ""
 
-#, fuzzy
 msgid "Manyara"
-msgstr "Myanmar"
+msgstr ""
 
-#, fuzzy
 msgid "Mara"
-msgstr "Maryland"
+msgstr ""
 
-#, fuzzy
 msgid "Mbeya"
-msgstr "Kenia"
+msgstr ""
 
 msgid "Mjini Magharibi"
 msgstr ""
 
-#, fuzzy
 msgid "Morogoro"
-msgstr "Marruecos"
+msgstr ""
 
-#, fuzzy
 msgid "Mtwara"
-msgstr "Montana"
+msgstr ""
 
 msgid "Pwani"
 msgstr ""
@@ -11885,16 +10518,14 @@ msgstr ""
 msgid "Shinyanga"
 msgstr ""
 
-#, fuzzy
 msgid "Singida"
-msgstr "Singapur"
+msgstr ""
 
 msgid "Tabora"
 msgstr ""
 
-#, fuzzy
 msgid "Tanga"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Cherkas'ka Oblast'"
 msgstr ""
@@ -11977,46 +10608,38 @@ msgstr ""
 msgid "Sevastopol"
 msgstr ""
 
-#, fuzzy
 msgid "Adjumani"
-msgstr "Omán"
+msgstr ""
 
 msgid "Apac"
 msgstr ""
 
-#, fuzzy
 msgid "Arua"
-msgstr "Aruba"
+msgstr ""
 
-#, fuzzy
 msgid "Bugiri"
-msgstr "Bulgaria"
+msgstr ""
 
 msgid "Bundibugyo"
 msgstr ""
 
-#, fuzzy
 msgid "Bushenyi"
-msgstr "Benín"
+msgstr ""
 
-#, fuzzy
 msgid "Busia"
-msgstr "Bulgaria"
+msgstr ""
 
-#, fuzzy
 msgid "Gulu"
-msgstr "Tuvalu"
+msgstr ""
 
 msgid "Hoima"
 msgstr ""
 
-#, fuzzy
 msgid "Iganga"
-msgstr "Uganda"
+msgstr ""
 
-#, fuzzy
 msgid "Jinja"
-msgstr "China"
+msgstr ""
 
 msgid "Kabale"
 msgstr ""
@@ -12024,47 +10647,38 @@ msgstr ""
 msgid "Kabarole"
 msgstr ""
 
-#, fuzzy
 msgid "Kaberamaido"
-msgstr "Panamá"
+msgstr ""
 
 msgid "Kalangala"
 msgstr ""
 
-#, fuzzy
 msgid "Kampala"
-msgstr "Guatemala"
+msgstr ""
 
-#, fuzzy
 msgid "Kamuli"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Kamwenge"
-msgstr "Suecia"
+msgstr ""
 
-#, fuzzy
 msgid "Kanungu"
-msgstr "Kansas"
+msgstr ""
 
 msgid "Kapchorwa"
 msgstr ""
 
-#, fuzzy
 msgid "Kasese"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Katakwi"
-msgstr "Malawi"
+msgstr ""
 
-#, fuzzy
 msgid "Kayunga"
-msgstr "Kansas"
+msgstr ""
 
-#, fuzzy
 msgid "Kibaale"
-msgstr "Mali"
+msgstr ""
 
 msgid "Kiboga"
 msgstr ""
@@ -12078,46 +10692,38 @@ msgstr ""
 msgid "Kotido"
 msgstr ""
 
-#, fuzzy
 msgid "Kumi"
-msgstr "Kuwait"
+msgstr ""
 
 msgid "Kyenjojo"
 msgstr ""
 
-#, fuzzy
 msgid "Lira"
-msgstr "Liberia"
+msgstr ""
 
 msgid "Luwero"
 msgstr ""
 
-#, fuzzy
 msgid "Masaka"
-msgstr "Alaska"
+msgstr ""
 
-#, fuzzy
 msgid "Masindi"
-msgstr "Maine"
+msgstr ""
 
-#, fuzzy
 msgid "Mayuge"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Mbale"
-msgstr "Mali"
+msgstr ""
 
 msgid "Mbarara"
 msgstr ""
 
-#, fuzzy
 msgid "Moroto"
-msgstr "Marruecos"
+msgstr ""
 
-#, fuzzy
 msgid "Moyo"
-msgstr "Mónaco"
+msgstr ""
 
 msgid "Mpigi"
 msgstr ""
@@ -12125,16 +10731,14 @@ msgstr ""
 msgid "Mubende"
 msgstr ""
 
-#, fuzzy
 msgid "Mukono"
-msgstr "Mónaco"
+msgstr ""
 
 msgid "Nakapiripirit"
 msgstr ""
 
-#, fuzzy
 msgid "Nakasongola"
-msgstr "Mongolia"
+msgstr ""
 
 msgid "Nebbi"
 msgstr ""
@@ -12142,13 +10746,11 @@ msgstr ""
 msgid "Ntungamo"
 msgstr ""
 
-#, fuzzy
 msgid "Pader"
-msgstr "Paraguay"
+msgstr ""
 
-#, fuzzy
 msgid "Pallisa"
-msgstr "Palau"
+msgstr ""
 
 msgid "Rakai"
 msgstr ""
@@ -12159,37 +10761,29 @@ msgstr ""
 msgid "Sembabule"
 msgstr ""
 
-#, fuzzy
 msgid "Sironko"
-msgstr "España"
+msgstr ""
 
-#, fuzzy
 msgid "Soroti"
-msgstr "Croacia"
+msgstr ""
 
-#, fuzzy
 msgid "Tororo"
-msgstr "Comores"
+msgstr ""
 
-#, fuzzy
 msgid "Wakiso"
-msgstr "Mali"
+msgstr ""
 
-#, fuzzy
 msgid "Yumbe"
-msgstr "Temas"
+msgstr ""
 
-#, fuzzy
 msgid "Baker Island"
-msgstr "Islas Feroe"
+msgstr ""
 
-#, fuzzy
 msgid "Howland Island"
-msgstr "Rhode Island"
+msgstr ""
 
-#, fuzzy
 msgid "Jarvis Island"
-msgstr "Islas Feroe"
+msgstr ""
 
 msgid "Johnston Atoll"
 msgstr ""
@@ -12197,24 +10791,20 @@ msgstr ""
 msgid "Kingman Reef"
 msgstr ""
 
-#, fuzzy
 msgid "Midway Islands"
-msgstr "Islas Caimán"
+msgstr ""
 
-#, fuzzy
 msgid "Navassa Island"
-msgstr "Islas Marshall"
+msgstr ""
 
 msgid "Palmyra Atoll"
 msgstr ""
 
-#, fuzzy
 msgid "Wake Ialand"
-msgstr "Islas Feroe"
+msgstr ""
 
-#, fuzzy
 msgid "Artigsa"
-msgstr "Argentina"
+msgstr ""
 
 msgid "Canelones"
 msgstr ""
@@ -12222,45 +10812,38 @@ msgstr ""
 msgid "Cerro Largo"
 msgstr ""
 
-#, fuzzy
 msgid "Colonia"
-msgstr "Colombia"
+msgstr ""
 
 msgid "Durazno"
 msgstr ""
 
-#, fuzzy
 msgid "Flores"
-msgstr "Florida"
+msgstr ""
 
 msgid "Lavalleja"
 msgstr ""
 
-#, fuzzy
 msgid "Maldonado"
-msgstr "Mónaco"
+msgstr ""
 
 msgid "Montevideo"
 msgstr ""
 
-#, fuzzy
 msgid "Paysandu"
-msgstr "Pakistán"
+msgstr ""
 
-#, fuzzy
 msgid "Rivera"
-msgstr "Liberia"
+msgstr ""
 
 msgid "Rocha"
 msgstr ""
 
-#, fuzzy
 msgid "Salto"
-msgstr "Samoa"
+msgstr ""
 
-#, fuzzy
 msgid "Soriano"
-msgstr "Sri Lanka"
+msgstr ""
 
 msgid "Tacuarembo"
 msgstr ""
@@ -12271,20 +10854,17 @@ msgstr ""
 msgid "Toshkent (city)"
 msgstr ""
 
-#, fuzzy
 msgid "Qoraqalpogiston Respublikasi"
-msgstr "Taiwan, República de China"
+msgstr ""
 
 msgid "Andijon"
 msgstr ""
 
-#, fuzzy
 msgid "Buxoro"
-msgstr "Nauru"
+msgstr ""
 
-#, fuzzy
 msgid "Farg'ona"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Jizzax"
 msgstr ""
@@ -12295,9 +10875,8 @@ msgstr ""
 msgid "Namangan"
 msgstr ""
 
-#, fuzzy
 msgid "Navoiy"
-msgstr "Mali"
+msgstr ""
 
 msgid "Qashqadaryo"
 msgstr ""
@@ -12314,9 +10893,8 @@ msgstr ""
 msgid "Toshkent"
 msgstr ""
 
-#, fuzzy
 msgid "Xorazm"
-msgstr "Rumanía"
+msgstr ""
 
 msgid "Diatrito Federal"
 msgstr ""
@@ -12327,17 +10905,14 @@ msgstr ""
 msgid "Apure"
 msgstr ""
 
-#, fuzzy
 msgid "Aragua"
-msgstr "Aruba"
+msgstr ""
 
-#, fuzzy
 msgid "Barinas"
-msgstr "Bahrein"
+msgstr ""
 
-#, fuzzy
 msgid "Carabobo"
-msgstr "Camerún"
+msgstr ""
 
 msgid "Cojedes"
 msgstr ""
@@ -12348,28 +10923,23 @@ msgstr ""
 msgid "Guarico"
 msgstr ""
 
-#, fuzzy
 msgid "Lara"
-msgstr "Letonia"
+msgstr ""
 
-#, fuzzy
 msgid "Merida"
-msgstr "Argelia"
+msgstr ""
 
-#, fuzzy
 msgid "Miranda"
-msgstr "Maryland"
+msgstr ""
 
-#, fuzzy
 msgid "Monagas"
-msgstr "Montana"
+msgstr ""
 
 msgid "Nueva Esparta"
 msgstr ""
 
-#, fuzzy
 msgid "Portuguesa"
-msgstr "Portugal"
+msgstr ""
 
 msgid "Tachira"
 msgstr ""
@@ -12377,17 +10947,14 @@ msgstr ""
 msgid "Trujillo"
 msgstr ""
 
-#, fuzzy
 msgid "Vargas"
-msgstr "Vanuatu"
+msgstr ""
 
-#, fuzzy
 msgid "Yaracuy"
-msgstr "Paraguay"
+msgstr ""
 
-#, fuzzy
 msgid "Zulia"
-msgstr "Bulgaria"
+msgstr ""
 
 msgid "Delta Amacuro"
 msgstr ""
@@ -12425,9 +10992,8 @@ msgstr ""
 msgid "Binh Phuoc"
 msgstr ""
 
-#, fuzzy
 msgid "Binh Thuan"
-msgstr "Bután"
+msgstr ""
 
 msgid "Ca Mau"
 msgstr ""
@@ -12435,16 +11001,14 @@ msgstr ""
 msgid "Can Tho"
 msgstr ""
 
-#, fuzzy
 msgid "Cao Bang"
-msgstr "Congo"
+msgstr ""
 
 msgid "Da Nang, thanh pho"
 msgstr ""
 
-#, fuzzy
 msgid "Dong Nai"
-msgstr "Tonga"
+msgstr ""
 
 msgid "Dong Thap"
 msgstr ""
@@ -12455,9 +11019,8 @@ msgstr ""
 msgid "Ha Giang"
 msgstr ""
 
-#, fuzzy
 msgid "Ha Nam"
-msgstr "Apellido:"
+msgstr ""
 
 msgid "Ha Noi, thu do"
 msgstr ""
@@ -12486,9 +11049,8 @@ msgstr ""
 msgid "Khanh Hoa"
 msgstr ""
 
-#, fuzzy
 msgid "Kien Giang"
-msgstr "Guayana Francesa"
+msgstr ""
 
 msgid "Kon Tum"
 msgstr ""
@@ -12499,16 +11061,14 @@ msgstr ""
 msgid "Lam Dong"
 msgstr ""
 
-#, fuzzy
 msgid "Lang Son"
-msgstr "Líbano"
+msgstr ""
 
 msgid "Lao Cai"
 msgstr ""
 
-#, fuzzy
 msgid "Long An"
-msgstr "Hong Kong"
+msgstr ""
 
 msgid "Nam Dinh"
 msgstr ""
@@ -12564,9 +11124,8 @@ msgstr ""
 msgid "Thua Thien-Hue"
 msgstr ""
 
-#, fuzzy
 msgid "Tien Giang"
-msgstr "Guayana Francesa"
+msgstr ""
 
 msgid "Tra Vinh"
 msgstr ""
@@ -12583,53 +11142,44 @@ msgstr ""
 msgid "Yen Bai"
 msgstr ""
 
-#, fuzzy
 msgid "Malampa"
-msgstr "Malta"
+msgstr ""
 
-#, fuzzy
 msgid "Penama"
-msgstr "Panamá"
+msgstr ""
 
-#, fuzzy
 msgid "Sanma"
-msgstr "Samoa"
+msgstr ""
 
 msgid "Shefa"
 msgstr ""
 
-#, fuzzy
 msgid "Tafea"
-msgstr "Texas"
+msgstr ""
 
-#, fuzzy
 msgid "Torba"
-msgstr "Tonga"
+msgstr ""
 
-#, fuzzy
 msgid "A'ana"
-msgstr "Albania"
+msgstr ""
 
 msgid "Aiga-i-le-Tai"
 msgstr ""
 
-#, fuzzy
 msgid "Atua"
-msgstr "Aruba"
+msgstr ""
 
 msgid "Fa'aaaleleaga"
 msgstr ""
 
-#, fuzzy
 msgid "Gaga'emauga"
-msgstr "Guatemala"
+msgstr ""
 
 msgid "Gagaifomauga"
 msgstr ""
 
-#, fuzzy
 msgid "Palauli"
-msgstr "Palau"
+msgstr ""
 
 msgid "Satupa'itea"
 msgstr ""
@@ -12646,9 +11196,8 @@ msgstr ""
 msgid "Crna Gora"
 msgstr ""
 
-#, fuzzy
 msgid "Srbija"
-msgstr "Azerbayán"
+msgstr ""
 
 msgid "Kosovo-Metohija"
 msgstr ""
@@ -12656,13 +11205,11 @@ msgstr ""
 msgid "Vojvodina"
 msgstr ""
 
-#, fuzzy
 msgid "Abyan"
-msgstr "Albania"
+msgstr ""
 
-#, fuzzy
 msgid "Adan"
-msgstr "Sudán"
+msgstr ""
 
 msgid "Ad Dali"
 msgstr ""
@@ -12679,13 +11226,11 @@ msgstr ""
 msgid "Al Mahwit"
 msgstr ""
 
-#, fuzzy
 msgid "Amran"
-msgstr "Omán"
+msgstr ""
 
-#, fuzzy
 msgid "Dhamar"
-msgstr "Bahamas"
+msgstr ""
 
 msgid "Hadramawt"
 msgstr ""
@@ -12699,9 +11244,8 @@ msgstr ""
 msgid "Lahij"
 msgstr ""
 
-#, fuzzy
 msgid "Ma'rib"
-msgstr "Mali"
+msgstr ""
 
 msgid "Sa'dah"
 msgstr ""
@@ -12718,9 +11262,8 @@ msgstr ""
 msgid "Eastern Cape"
 msgstr ""
 
-#, fuzzy
 msgid "Free State"
-msgstr "Estados Unidos"
+msgstr ""
 
 msgid "Gauteng"
 msgstr ""
@@ -12731,16 +11274,14 @@ msgstr ""
 msgid "Mpumalanga"
 msgstr ""
 
-#, fuzzy
 msgid "Northern Cape"
-msgstr "Northern Marianas"
+msgstr ""
 
 msgid "Limpopo"
 msgstr ""
 
-#, fuzzy
 msgid "Western Cape"
-msgstr "Sahara Oeste"
+msgstr ""
 
 msgid "Copperbelt"
 msgstr ""
@@ -12748,39 +11289,32 @@ msgstr ""
 msgid "Luapula"
 msgstr ""
 
-#, fuzzy
 msgid "Lusaka"
-msgstr "Louisiana"
+msgstr ""
 
-#, fuzzy
 msgid "North-Western"
-msgstr "Northwest Territory"
+msgstr ""
 
-#, fuzzy
 msgid "Bulawayo"
-msgstr "Bulgaria"
+msgstr ""
 
 msgid "Harare"
 msgstr ""
 
-#, fuzzy
 msgid "Manicaland"
-msgstr "Maryland"
+msgstr ""
 
 msgid "Mashonaland Central"
 msgstr ""
 
-#, fuzzy
 msgid "Mashonaland East"
-msgstr "Islas Marshall"
+msgstr ""
 
-#, fuzzy
 msgid "Mashonaland West"
-msgstr "Islas Marshall"
+msgstr ""
 
-#, fuzzy
 msgid "Masvingo"
-msgstr "Washington"
+msgstr ""
 
 msgid "Matabeleland North"
 msgstr ""
@@ -12788,17 +11322,14 @@ msgstr ""
 msgid "Matabeleland South"
 msgstr ""
 
-#, fuzzy
 msgid "Midlands"
-msgstr "Finlandia"
+msgstr ""
 
-#, fuzzy
 msgid "South Karelia"
-msgstr "South Carolina"
+msgstr ""
 
-#, fuzzy
 msgid "South Ostrobothnia"
-msgstr "Australia"
+msgstr ""
 
 msgid "Etelä-Savo"
 msgstr ""
@@ -12809,23 +11340,20 @@ msgstr ""
 msgid "Itä-Uusimaa"
 msgstr ""
 
-#, fuzzy
 msgid "Kainuu"
-msgstr "Kansas"
+msgstr ""
 
 msgid "Central Ostrobothnia"
 msgstr ""
 
-#, fuzzy
 msgid "Central Finland"
-msgstr "Canadá"
+msgstr ""
 
 msgid "Kymenlaakso"
 msgstr ""
 
-#, fuzzy
 msgid "Lapland"
-msgstr "Japón"
+msgstr ""
 
 msgid "Tampere Region"
 msgstr ""
@@ -12833,39 +11361,32 @@ msgstr ""
 msgid "Ostrobothnia"
 msgstr ""
 
-#, fuzzy
 msgid "North Karelia"
-msgstr "North Carolina"
+msgstr ""
 
 msgid "Nothern Ostrobothnia"
 msgstr ""
 
-#, fuzzy
 msgid "Northern Savo"
-msgstr "Northern Marianas"
+msgstr ""
 
 msgid "Päijät-Häme"
 msgstr ""
 
-#, fuzzy
 msgid "Satakunta"
-msgstr "Sudán"
+msgstr ""
 
-#, fuzzy
 msgid "Uusimaa"
-msgstr "Guyana"
+msgstr ""
 
-#, fuzzy
 msgid "South-West Finland"
-msgstr "South Dakota"
+msgstr ""
 
-#, fuzzy
 msgid "Åland"
-msgstr "Islandia"
+msgstr ""
 
-#, fuzzy
 msgid "North West"
-msgstr "Northwest Territory"
+msgstr ""
 
 msgid "Tyne and Wear"
 msgstr ""
@@ -12873,48 +11394,38 @@ msgstr ""
 msgid "Isle of Man"
 msgstr ""
 
-#, fuzzy
 msgid "Greater Manchester"
-msgstr "Grecia"
+msgstr ""
 
-#, fuzzy
 msgid "Co Tyrone"
-msgstr "Estado/Provincia:"
+msgstr ""
 
-#, fuzzy
 msgid "West Yorkshire"
-msgstr "New York"
+msgstr ""
 
-#, fuzzy
 msgid "South Yorkshire"
-msgstr "Sudáfrica"
+msgstr ""
 
-#, fuzzy
 msgid "Merseyside"
-msgstr "New Jersey"
+msgstr ""
 
-#, fuzzy
 msgid "Berkshire"
-msgstr "Chile"
+msgstr ""
 
-#, fuzzy
 msgid "West Midlands"
-msgstr "Finlandia"
+msgstr ""
 
 msgid "Inverness"
 msgstr ""
 
-#, fuzzy
 msgid "Avon"
-msgstr "Angola"
+msgstr ""
 
 msgid "Middlesex"
 msgstr ""
 
-#, fuzzy
 msgid "West Glamorgan"
-msgstr "Irlanda"
+msgstr ""
 
-#, fuzzy
 msgid "London"
-msgstr "Indonesia"
+msgstr ""

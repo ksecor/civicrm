@@ -9,30 +9,26 @@ msgstr ""
 "PO-Revision-Date: 2002-01-05 18:50+0000\n"
 "Last-Translator: Kenduest Lee <kenduest@i18n.linux.org.tw>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#, fuzzy
 msgid "Alabama"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Alaska"
 msgstr ""
 
-#, fuzzy
 msgid "Arizona"
-msgstr "阿根廷"
+msgstr ""
 
 msgid "Arkansas"
 msgstr ""
 
-#, fuzzy
 msgid "California"
-msgstr "斯洛文尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Colorado"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Connecticut"
 msgstr ""
@@ -40,31 +36,26 @@ msgstr ""
 msgid "Delaware"
 msgstr ""
 
-#, fuzzy
 msgid "Florida"
-msgstr "朝鮮語"
+msgstr ""
 
-#, fuzzy
 msgid "Georgia"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Hawaii"
 msgstr ""
 
-#, fuzzy
 msgid "Idaho"
-msgstr "印尼語"
+msgstr ""
 
 msgid "Illinois"
 msgstr ""
 
-#, fuzzy
 msgid "Indiana"
-msgstr "印尼語"
+msgstr ""
 
-#, fuzzy
 msgid "Iowa"
-msgstr "挪威"
+msgstr ""
 
 msgid "Kansas"
 msgstr ""
@@ -75,13 +66,11 @@ msgstr ""
 msgid "Louisiana"
 msgstr ""
 
-#, fuzzy
 msgid "Maine"
-msgstr "烏克蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Maryland"
-msgstr "愛爾蘭"
+msgstr ""
 
 msgid "Massachusetts"
 msgstr ""
@@ -104,9 +93,8 @@ msgstr ""
 msgid "Nebraska"
 msgstr ""
 
-#, fuzzy
 msgid "Nevada"
-msgstr "格林納達"
+msgstr ""
 
 msgid "New Hampshire"
 msgstr ""
@@ -114,20 +102,17 @@ msgstr ""
 msgid "New Jersey"
 msgstr ""
 
-#, fuzzy
 msgid "New Mexico"
-msgstr "墨西哥"
+msgstr ""
 
 msgid "New York"
 msgstr ""
 
-#, fuzzy
 msgid "North Carolina"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "North Dakota"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "Ohio"
 msgstr ""
@@ -144,13 +129,11 @@ msgstr ""
 msgid "Rhode Island"
 msgstr ""
 
-#, fuzzy
 msgid "South Carolina"
-msgstr "南非"
+msgstr ""
 
-#, fuzzy
 msgid "South Dakota"
-msgstr "南朝鮮"
+msgstr ""
 
 msgid "Tennessee"
 msgstr ""
@@ -182,13 +165,11 @@ msgstr ""
 msgid "District of Columbia"
 msgstr ""
 
-#, fuzzy
 msgid "American Samoa"
-msgstr "美洲，北部"
+msgstr ""
 
-#, fuzzy
 msgid "Guam"
-msgstr "瓜地馬拉"
+msgstr ""
 
 msgid "Northern Mariana Islands"
 msgstr ""
@@ -199,9 +180,8 @@ msgstr ""
 msgid "Virgin Islands"
 msgstr ""
 
-#, fuzzy
 msgid "United States Minor Outlying Islands"
-msgstr "美利堅合眾國"
+msgstr ""
 
 msgid "Armed Forces Europe"
 msgstr ""
@@ -215,20 +195,17 @@ msgstr ""
 msgid "Alberta"
 msgstr ""
 
-#, fuzzy
 msgid "British Columbia"
-msgstr "哥倫比亞"
+msgstr ""
 
-#, fuzzy
 msgid "Manitoba"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "New Brunswick"
 msgstr ""
 
-#, fuzzy
 msgid "Newfoundland and Labrador"
-msgstr "新西蘭"
+msgstr ""
 
 msgid "Northwest Territories"
 msgstr ""
@@ -272,9 +249,8 @@ msgstr ""
 msgid "Bihar"
 msgstr ""
 
-#, fuzzy
 msgid "Chhattisgarh"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Goa"
 msgstr ""
@@ -309,9 +285,8 @@ msgstr ""
 msgid "Mizoram"
 msgstr ""
 
-#, fuzzy
 msgid "Nagaland"
-msgstr "新西蘭"
+msgstr ""
 
 msgid "Orissa"
 msgstr ""
@@ -325,9 +300,8 @@ msgstr ""
 msgid "Sikkim"
 msgstr ""
 
-#, fuzzy
 msgid "Tamil Nadu"
-msgstr "泰國"
+msgstr ""
 
 msgid "Tripura"
 msgstr ""
@@ -443,9 +417,8 @@ msgstr ""
 msgid "Balkh"
 msgstr ""
 
-#, fuzzy
 msgid "Bamian"
-msgstr "台灣"
+msgstr ""
 
 msgid "Farah"
 msgstr ""
@@ -459,16 +432,14 @@ msgstr ""
 msgid "Ghowr"
 msgstr ""
 
-#, fuzzy
 msgid "Helmand"
-msgstr "愛爾蘭"
+msgstr ""
 
 msgid "Herat"
 msgstr ""
 
-#, fuzzy
 msgid "Jowzjan"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Kabul"
 msgstr ""
@@ -479,9 +450,8 @@ msgstr ""
 msgid "Kapisa"
 msgstr ""
 
-#, fuzzy
 msgid "Khowst"
-msgstr "愛沙尼亞"
+msgstr ""
 
 msgid "Konar"
 msgstr ""
@@ -501,24 +471,20 @@ msgstr ""
 msgid "Nimruz"
 msgstr ""
 
-#, fuzzy
 msgid "Nurestan"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Oruzgan"
 msgstr ""
 
-#, fuzzy
 msgid "Paktia"
-msgstr "拉脫維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Paktika"
-msgstr "拉脫維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Parwan"
-msgstr "台灣"
+msgstr ""
 
 msgid "Samangan"
 msgstr ""
@@ -535,40 +501,32 @@ msgstr ""
 msgid "Zabol"
 msgstr ""
 
-#, fuzzy
 msgid "Berat"
-msgstr "比利時"
+msgstr ""
 
-#, fuzzy
 msgid "Bulqizë"
-msgstr "比利時"
+msgstr ""
 
-#, fuzzy
 msgid "Delvinë"
-msgstr "比利時"
+msgstr ""
 
-#, fuzzy
 msgid "Devoll"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Dibër"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Durrsës"
-msgstr "土耳其"
+msgstr ""
 
-#, fuzzy
 msgid "Elbasan"
-msgstr "台灣"
+msgstr ""
 
 msgid "Fier"
 msgstr ""
 
-#, fuzzy
 msgid "Gramsh"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Gjirokastër"
 msgstr ""
@@ -582,13 +540,11 @@ msgstr ""
 msgid "Kolonjë"
 msgstr ""
 
-#, fuzzy
 msgid "Korcë"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "Krujë"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "Kuçovë"
 msgstr ""
@@ -596,16 +552,14 @@ msgstr ""
 msgid "Kukës"
 msgstr ""
 
-#, fuzzy
 msgid "Kurbin"
-msgstr "音效"
+msgstr ""
 
 msgid "Lezhë"
 msgstr ""
 
-#, fuzzy
 msgid "Librazhd"
-msgstr "拉脫維亞"
+msgstr ""
 
 msgid "Lushnjë"
 msgstr ""
@@ -616,9 +570,8 @@ msgstr ""
 msgid "Mallakastër"
 msgstr ""
 
-#, fuzzy
 msgid "Mat"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Mirditë"
 msgstr ""
@@ -626,21 +579,17 @@ msgstr ""
 msgid "Peqin"
 msgstr ""
 
-#, fuzzy
 msgid "Përmet"
-msgstr "秘魯"
+msgstr ""
 
-#, fuzzy
 msgid "Pogradec"
-msgstr "挪威"
+msgstr ""
 
-#, fuzzy
 msgid "Pukë"
-msgstr "土耳其"
+msgstr ""
 
-#, fuzzy
 msgid "Sarandë"
-msgstr "愛爾蘭"
+msgstr ""
 
 msgid "Skrapar"
 msgstr ""
@@ -648,24 +597,20 @@ msgstr ""
 msgid "Shkodër"
 msgstr ""
 
-#, fuzzy
 msgid "Tepelenë"
-msgstr "瑞典"
+msgstr ""
 
-#, fuzzy
 msgid "Tiranë"
-msgstr "台灣"
+msgstr ""
 
 msgid "Tropojë"
 msgstr ""
 
-#, fuzzy
 msgid "Vlorë"
-msgstr "智利"
+msgstr ""
 
-#, fuzzy
 msgid "Erevan"
-msgstr "愛爾蘭"
+msgstr ""
 
 msgid "Aragacotn"
 msgstr ""
@@ -682,9 +627,8 @@ msgstr ""
 msgid "Kotayk'"
 msgstr ""
 
-#, fuzzy
 msgid "Lory"
-msgstr "挪威"
+msgstr ""
 
 msgid "Sirak"
 msgstr ""
@@ -701,16 +645,14 @@ msgstr ""
 msgid "Bengo"
 msgstr ""
 
-#, fuzzy
 msgid "Benguela"
-msgstr "委內瑞拉"
+msgstr ""
 
 msgid "Bie"
 msgstr ""
 
-#, fuzzy
 msgid "Cabinda"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Cuando-Cubango"
 msgstr ""
@@ -730,9 +672,8 @@ msgstr ""
 msgid "Huila"
 msgstr ""
 
-#, fuzzy
 msgid "Luanda"
-msgstr "立陶宛語"
+msgstr ""
 
 msgid "Lunda Norte"
 msgstr ""
@@ -740,13 +681,11 @@ msgstr ""
 msgid "Lunda Sul"
 msgstr ""
 
-#, fuzzy
 msgid "Malange"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Moxico"
-msgstr "墨西哥"
+msgstr ""
 
 msgid "Namibe"
 msgstr ""
@@ -763,20 +702,17 @@ msgstr ""
 msgid "Buenos Aires"
 msgstr ""
 
-#, fuzzy
 msgid "Catamarca"
-msgstr "牙買加"
+msgstr ""
 
-#, fuzzy
 msgid "Cordoba"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Corrientes"
 msgstr ""
 
-#, fuzzy
 msgid "Chaco"
-msgstr "中國"
+msgstr ""
 
 msgid "Chubut"
 msgstr ""
@@ -793,9 +729,8 @@ msgstr ""
 msgid "La Pampa"
 msgstr ""
 
-#, fuzzy
 msgid "Mendoza"
-msgstr "馬其頓"
+msgstr ""
 
 msgid "Misiones"
 msgstr ""
@@ -806,13 +741,11 @@ msgstr ""
 msgid "Rio Negro"
 msgstr ""
 
-#, fuzzy
 msgid "Salta"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "San Juan"
-msgstr "音效"
+msgstr ""
 
 msgid "San Luis"
 msgstr ""
@@ -832,9 +765,8 @@ msgstr ""
 msgid "Tucuman"
 msgstr ""
 
-#, fuzzy
 msgid "Burgenland"
-msgstr "愛爾蘭"
+msgstr ""
 
 msgid "Kärnten"
 msgstr ""
@@ -875,20 +807,17 @@ msgstr ""
 msgid "Queensland"
 msgstr ""
 
-#, fuzzy
 msgid "South Australia"
-msgstr "澳大利亞"
+msgstr ""
 
-#, fuzzy
 msgid "Tasmania"
-msgstr "羅馬尼亞"
+msgstr ""
 
 msgid "Victoria"
 msgstr ""
 
-#, fuzzy
 msgid "Western Australia"
-msgstr "澳大利亞"
+msgstr ""
 
 msgid "Naxcivan"
 msgstr ""
@@ -896,9 +825,8 @@ msgstr ""
 msgid "Ali Bayramli"
 msgstr ""
 
-#, fuzzy
 msgid "Baki"
-msgstr "巴西"
+msgstr ""
 
 msgid "Ganca"
 msgstr ""
@@ -912,16 +840,14 @@ msgstr ""
 msgid "Naftalan"
 msgstr ""
 
-#, fuzzy
 msgid "Saki"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Sumqayit"
 msgstr ""
 
-#, fuzzy
 msgid "Susa"
-msgstr "音效"
+msgstr ""
 
 msgid "Xankandi"
 msgstr ""
@@ -938,31 +864,26 @@ msgstr ""
 msgid "Agdam"
 msgstr ""
 
-#, fuzzy
 msgid "Agdas"
-msgstr "音效"
+msgstr ""
 
-#, fuzzy
 msgid "Agstafa"
-msgstr "澳大利亞"
+msgstr ""
 
 msgid "Agsu"
 msgstr ""
 
-#, fuzzy
 msgid "Astara"
-msgstr "奧地利"
+msgstr ""
 
-#, fuzzy
 msgid "Babak"
-msgstr "巴巴多斯"
+msgstr ""
 
 msgid "Balakan"
 msgstr ""
 
-#, fuzzy
 msgid "Barda"
-msgstr "巴巴多斯"
+msgstr ""
 
 msgid "Beylagan"
 msgstr ""
@@ -991,9 +912,8 @@ msgstr ""
 msgid "Gadabay"
 msgstr ""
 
-#, fuzzy
 msgid "Goranboy"
-msgstr "德國"
+msgstr ""
 
 msgid "Goycay"
 msgstr ""
@@ -1013,9 +933,8 @@ msgstr ""
 msgid "Kurdamir"
 msgstr ""
 
-#, fuzzy
 msgid "Lacin"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Lerik"
 msgstr ""
@@ -1068,9 +987,8 @@ msgstr ""
 msgid "Salyan"
 msgstr ""
 
-#, fuzzy
 msgid "Samaxi"
-msgstr "牙買加"
+msgstr ""
 
 msgid "Samkir"
 msgstr ""
@@ -1111,9 +1029,8 @@ msgstr ""
 msgid "Yardimli"
 msgstr ""
 
-#, fuzzy
 msgid "Zangilan"
-msgstr "泰國"
+msgstr ""
 
 msgid "Zaqatala"
 msgstr ""
@@ -1127,29 +1044,23 @@ msgstr ""
 msgid "Republika Srpska"
 msgstr ""
 
-#, fuzzy
 msgid "Bagerhat zila"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Bandarban zila"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Barguna zila"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Barisal zila"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Bhola zila"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Bogra zila"
-msgstr "巴西"
+msgstr ""
 
 msgid "Brahmanbaria zila"
 msgstr ""
@@ -1196,9 +1107,8 @@ msgstr ""
 msgid "Jaipurhat zila"
 msgstr ""
 
-#, fuzzy
 msgid "Jamalpur zila"
-msgstr "牙買加"
+msgstr ""
 
 msgid "Jessore zila"
 msgstr ""
@@ -1278,9 +1188,8 @@ msgstr ""
 msgid "Noakhali zila"
 msgstr ""
 
-#, fuzzy
 msgid "Pabna zila"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Panchagarh zila"
 msgstr ""
@@ -1312,13 +1221,11 @@ msgstr ""
 msgid "Sherpur zila"
 msgstr ""
 
-#, fuzzy
 msgid "Sirajganj zila"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Sunamganj zila"
-msgstr "巴西"
+msgstr ""
 
 msgid "Sylhet zila"
 msgstr ""
@@ -1341,9 +1248,8 @@ msgstr ""
 msgid "Liege"
 msgstr ""
 
-#, fuzzy
 msgid "Limburg"
-msgstr "盧森堡"
+msgstr ""
 
 msgid "Luxembourg"
 msgstr "盧森堡"
@@ -1360,9 +1266,8 @@ msgstr ""
 msgid "West-Vlaanderen"
 msgstr ""
 
-#, fuzzy
 msgid "Bale"
-msgstr "巴西"
+msgstr ""
 
 msgid "Bam"
 msgstr ""
@@ -1373,9 +1278,8 @@ msgstr ""
 msgid "Bazega"
 msgstr ""
 
-#, fuzzy
 msgid "Bougouriba"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Boulgou"
 msgstr ""
@@ -1389,13 +1293,11 @@ msgstr ""
 msgid "Ganzourgou"
 msgstr ""
 
-#, fuzzy
 msgid "Gnagna"
-msgstr "格林納達"
+msgstr ""
 
-#, fuzzy
 msgid "Gourma"
-msgstr "德國"
+msgstr ""
 
 msgid "Houet"
 msgstr ""
@@ -1427,9 +1329,8 @@ msgstr ""
 msgid "Kourweogo"
 msgstr ""
 
-#, fuzzy
 msgid "Leraba"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Loroum"
 msgstr ""
@@ -1446,23 +1347,20 @@ msgstr ""
 msgid "Nayala"
 msgstr ""
 
-#, fuzzy
 msgid "Noumbiel"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Oubritenga"
 msgstr ""
 
-#, fuzzy
 msgid "Oudalan"
-msgstr "音效"
+msgstr ""
 
 msgid "Passore"
 msgstr ""
 
-#, fuzzy
 msgid "Poni"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Sanguie"
 msgstr ""
@@ -1470,9 +1368,8 @@ msgstr ""
 msgid "Sanmatenga"
 msgstr ""
 
-#, fuzzy
 msgid "Seno"
-msgstr "瑞典"
+msgstr ""
 
 msgid "Siasili"
 msgstr ""
@@ -1483,9 +1380,8 @@ msgstr ""
 msgid "Sourou"
 msgstr ""
 
-#, fuzzy
 msgid "Tapoa"
-msgstr "日本"
+msgstr ""
 
 msgid "Tui"
 msgstr ""
@@ -1520,13 +1416,11 @@ msgstr ""
 msgid "Haskovo"
 msgstr ""
 
-#, fuzzy
 msgid "Jambol"
-msgstr "牙買加"
+msgstr ""
 
-#, fuzzy
 msgid "Kardzali"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Kjstendil"
 msgstr ""
@@ -1537,47 +1431,38 @@ msgstr ""
 msgid "Pazardzik"
 msgstr ""
 
-#, fuzzy
 msgid "Pernik"
-msgstr "秘魯"
+msgstr ""
 
-#, fuzzy
 msgid "Pleven"
-msgstr "格林納達"
+msgstr ""
 
 msgid "Plovdiv"
 msgstr ""
 
-#, fuzzy
 msgid "Razgrad"
-msgstr "挪威"
+msgstr ""
 
-#, fuzzy
 msgid "Ruse"
-msgstr "俄羅斯"
+msgstr ""
 
-#, fuzzy
 msgid "Silistra"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Sliven"
-msgstr "越南"
+msgstr ""
 
-#, fuzzy
 msgid "Smoljan"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Sofija"
 msgstr ""
 
-#, fuzzy
 msgid "Stara Zagora"
-msgstr "巴拉圭"
+msgstr ""
 
-#, fuzzy
 msgid "Sumen"
-msgstr "瑞典"
+msgstr ""
 
 msgid "Targoviste"
 msgstr ""
@@ -1588,20 +1473,17 @@ msgstr ""
 msgid "Veliko Tarnovo"
 msgstr ""
 
-#, fuzzy
 msgid "Vidin"
-msgstr "印尼語"
+msgstr ""
 
-#, fuzzy
 msgid "Vraca"
-msgstr "法國"
+msgstr ""
 
 msgid "Al Hadd"
 msgstr ""
 
-#, fuzzy
 msgid "Al Manamah"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Al Mintaqah al Gharbiyah"
 msgstr ""
@@ -1624,9 +1506,8 @@ msgstr ""
 msgid "Madluat Jamad"
 msgstr ""
 
-#, fuzzy
 msgid "Madluat Isa"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Mintaqat Juzur tawar"
 msgstr ""
@@ -1634,17 +1515,14 @@ msgstr ""
 msgid "Sitrah"
 msgstr ""
 
-#, fuzzy
 msgid "Bubanza"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Bujumbura"
-msgstr "哥倫比亞"
+msgstr ""
 
-#, fuzzy
 msgid "Bururi"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Cankuzo"
 msgstr ""
@@ -1652,36 +1530,29 @@ msgstr ""
 msgid "Cibitoke"
 msgstr ""
 
-#, fuzzy
 msgid "Gitega"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Karuzi"
-msgstr "保加利亞"
+msgstr ""
 
-#, fuzzy
 msgid "Kayanza"
-msgstr "西班牙"
+msgstr ""
 
-#, fuzzy
 msgid "Makamba"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Muramvya"
-msgstr "保加利亞"
+msgstr ""
 
-#, fuzzy
 msgid "Mwaro"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Ngozi"
 msgstr ""
 
-#, fuzzy
 msgid "Rutana"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Ruyigi"
 msgstr ""
@@ -1698,13 +1569,11 @@ msgstr ""
 msgid "Borgou"
 msgstr ""
 
-#, fuzzy
 msgid "Collines"
-msgstr "烏克蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Donga"
-msgstr "挪威"
+msgstr ""
 
 msgid "Kouffo"
 msgstr ""
@@ -1724,16 +1593,14 @@ msgstr ""
 msgid "Zou"
 msgstr ""
 
-#, fuzzy
 msgid "Belait"
-msgstr "比利時"
+msgstr ""
 
 msgid "Brunei-Muara"
 msgstr ""
 
-#, fuzzy
 msgid "Temburong"
-msgstr "盧森堡"
+msgstr ""
 
 msgid "Tutong"
 msgstr ""
@@ -1753,16 +1620,14 @@ msgstr ""
 msgid "Oruro"
 msgstr ""
 
-#, fuzzy
 msgid "Pando"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Potosi"
 msgstr ""
 
-#, fuzzy
 msgid "Tarija"
-msgstr "台灣"
+msgstr ""
 
 msgid "Acre"
 msgstr ""
@@ -1773,13 +1638,11 @@ msgstr ""
 msgid "Amazonas"
 msgstr ""
 
-#, fuzzy
 msgid "Amapa"
-msgstr "日本"
+msgstr ""
 
-#, fuzzy
 msgid "Baia"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Ceara"
 msgstr ""
@@ -1808,13 +1671,11 @@ msgstr ""
 msgid "Mato Grosso"
 msgstr ""
 
-#, fuzzy
 msgid "Para"
-msgstr "巴拉圭"
+msgstr ""
 
-#, fuzzy
 msgid "Paraiba"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Pernambuco"
 msgstr ""
@@ -1822,9 +1683,8 @@ msgstr ""
 msgid "Piaui"
 msgstr ""
 
-#, fuzzy
 msgid "Parana"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Rio de Janeiro"
 msgstr ""
@@ -1832,13 +1692,11 @@ msgstr ""
 msgid "Rio Grande do Norte"
 msgstr ""
 
-#, fuzzy
 msgid "Rondonia"
-msgstr "羅馬尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Roraima"
-msgstr "羅馬尼亞"
+msgstr ""
 
 msgid "Rio Grande do Sul"
 msgstr ""
@@ -1846,9 +1704,8 @@ msgstr ""
 msgid "Santa Catarina"
 msgstr ""
 
-#, fuzzy
 msgid "Sergipe"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Sao Paulo"
 msgstr ""
@@ -1946,9 +1803,8 @@ msgstr ""
 msgid "Pemagatshel"
 msgstr ""
 
-#, fuzzy
 msgid "Punakha"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Samdrup Jongkha"
 msgstr ""
@@ -1956,16 +1812,14 @@ msgstr ""
 msgid "Samtee"
 msgstr ""
 
-#, fuzzy
 msgid "Sarpang"
-msgstr "日本"
+msgstr ""
 
 msgid "Thimphu"
 msgstr ""
 
-#, fuzzy
 msgid "Trashigang"
-msgstr "台灣"
+msgstr ""
 
 msgid "Trashi Yangtse"
 msgstr ""
@@ -1973,9 +1827,8 @@ msgstr ""
 msgid "Trongsa"
 msgstr ""
 
-#, fuzzy
 msgid "Tsirang"
-msgstr "台灣"
+msgstr ""
 
 msgid "Wangdue Phodrang"
 msgstr ""
@@ -1983,9 +1836,8 @@ msgstr ""
 msgid "Zhemgang"
 msgstr ""
 
-#, fuzzy
 msgid "Central"
-msgstr "歐洲，中部"
+msgstr ""
 
 msgid "Ghanzi"
 msgstr ""
@@ -1996,13 +1848,11 @@ msgstr ""
 msgid "Kgatleng"
 msgstr ""
 
-#, fuzzy
 msgid "Kweneng"
-msgstr "瑞典"
+msgstr ""
 
-#, fuzzy
 msgid "Ngamiland"
-msgstr "泰國"
+msgstr ""
 
 msgid "North-East"
 msgstr ""
@@ -2013,9 +1863,8 @@ msgstr ""
 msgid "South-East"
 msgstr ""
 
-#, fuzzy
 msgid "Southern"
-msgstr "歐洲，南部"
+msgstr ""
 
 msgid "Brèsckaja voblasc'"
 msgstr ""
@@ -2035,9 +1884,8 @@ msgstr ""
 msgid "Vicebskaja voblasc'"
 msgstr ""
 
-#, fuzzy
 msgid "Belize"
-msgstr "比利時"
+msgstr ""
 
 msgid "Cayo"
 msgstr ""
@@ -2063,9 +1911,8 @@ msgstr ""
 msgid "Bas-Congo"
 msgstr ""
 
-#, fuzzy
 msgid "Equateur"
-msgstr "厄瓜多爾"
+msgstr ""
 
 msgid "Haut-Congo"
 msgstr ""
@@ -2079,16 +1926,14 @@ msgstr ""
 msgid "Katanga"
 msgstr ""
 
-#, fuzzy
 msgid "Maniema"
-msgstr "馬其頓"
+msgstr ""
 
 msgid "Nord-Kivu"
 msgstr ""
 
-#, fuzzy
 msgid "Orientale"
-msgstr "越南"
+msgstr ""
 
 msgid "Sud-Kivu"
 msgstr ""
@@ -2144,9 +1989,8 @@ msgstr ""
 msgid "Vakaga"
 msgstr ""
 
-#, fuzzy
 msgid "Brazzaville"
-msgstr "巴西"
+msgstr ""
 
 msgid "Bouenza"
 msgstr ""
@@ -2157,27 +2001,23 @@ msgstr ""
 msgid "Cuvette-Ouest"
 msgstr ""
 
-#, fuzzy
 msgid "Kouilou"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Lekoumou"
 msgstr ""
 
-#, fuzzy
 msgid "Likouala"
-msgstr "波蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Niari"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Plateaux"
 msgstr ""
 
-#, fuzzy
 msgid "Pool"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Sangha"
 msgstr ""
@@ -2203,20 +2043,17 @@ msgstr ""
 msgid "Fribourg"
 msgstr ""
 
-#, fuzzy
 msgid "Geneva"
-msgstr "希臘"
+msgstr ""
 
-#, fuzzy
 msgid "Glarus"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Graubunden"
 msgstr ""
 
-#, fuzzy
 msgid "Jura"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Luzern"
 msgstr ""
@@ -2248,9 +2085,8 @@ msgstr ""
 msgid "Ticino"
 msgstr ""
 
-#, fuzzy
 msgid "Uri"
-msgstr "烏克蘭"
+msgstr ""
 
 msgid "Vaud"
 msgstr ""
@@ -2297,9 +2133,8 @@ msgstr ""
 msgid "Savanes"
 msgstr ""
 
-#, fuzzy
 msgid "Sud-Bandama"
-msgstr "音效"
+msgstr ""
 
 msgid "Sud-Comoe"
 msgstr ""
@@ -2322,16 +2157,14 @@ msgstr ""
 msgid "Araucania"
 msgstr ""
 
-#, fuzzy
 msgid "Atacama"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Bio-Bio"
 msgstr ""
 
-#, fuzzy
 msgid "Coquimbo"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Libertador General Bernardo O'Higgins"
 msgstr ""
@@ -2339,13 +2172,11 @@ msgstr ""
 msgid "Los Lagos"
 msgstr ""
 
-#, fuzzy
 msgid "Magallanes"
-msgstr "英語"
+msgstr ""
 
-#, fuzzy
 msgid "Maule"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Region Metropolitana de Santiago"
 msgstr ""
@@ -2365,21 +2196,17 @@ msgstr ""
 msgid "East"
 msgstr ""
 
-#, fuzzy
 msgid "Far North"
-msgstr "美洲，北部"
+msgstr ""
 
-#, fuzzy
 msgid "North"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "South"
-msgstr "南朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "South-West"
-msgstr "南朝鮮"
+msgstr ""
 
 msgid "West"
 msgstr ""
@@ -2393,16 +2220,14 @@ msgstr ""
 msgid "Shanghai"
 msgstr ""
 
-#, fuzzy
 msgid "Tianjin"
-msgstr "台灣"
+msgstr ""
 
 msgid "Anhui"
 msgstr ""
 
-#, fuzzy
 msgid "Fujian"
-msgstr "芬蘭"
+msgstr ""
 
 msgid "Gansu"
 msgstr ""
@@ -2413,9 +2238,8 @@ msgstr ""
 msgid "Gulzhou"
 msgstr ""
 
-#, fuzzy
 msgid "Hainan"
-msgstr "台灣"
+msgstr ""
 
 msgid "Hebei"
 msgstr ""
@@ -2429,9 +2253,8 @@ msgstr ""
 msgid "Hubei"
 msgstr ""
 
-#, fuzzy
 msgid "Hunan"
-msgstr "匈牙利"
+msgstr ""
 
 msgid "Jiangsu"
 msgstr ""
@@ -2457,9 +2280,8 @@ msgstr ""
 msgid "Shanxi"
 msgstr ""
 
-#, fuzzy
 msgid "Sichuan"
-msgstr "音效"
+msgstr ""
 
 msgid "Taiwan"
 msgstr "台灣"
@@ -2485,9 +2307,8 @@ msgstr ""
 msgid "Hong Kong"
 msgstr ""
 
-#, fuzzy
 msgid "Macau"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Distrito Capital de Bogotá"
 msgstr ""
@@ -2504,16 +2325,14 @@ msgstr ""
 msgid "Atlántico"
 msgstr ""
 
-#, fuzzy
 msgid "Bolívar"
-msgstr "波利維亞"
+msgstr ""
 
 msgid "Boyacá"
 msgstr ""
 
-#, fuzzy
 msgid "Caldea"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Caquetá"
 msgstr ""
@@ -2527,9 +2346,8 @@ msgstr ""
 msgid "Cesar"
 msgstr ""
 
-#, fuzzy
 msgid "Córdoba"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Cundinamarca"
 msgstr ""
@@ -2537,9 +2355,8 @@ msgstr ""
 msgid "Chocó"
 msgstr ""
 
-#, fuzzy
 msgid "Guainía"
-msgstr "立陶宛語"
+msgstr ""
 
 msgid "Guaviare"
 msgstr ""
@@ -2550,13 +2367,11 @@ msgstr ""
 msgid "Magdalena"
 msgstr ""
 
-#, fuzzy
 msgid "Meta"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Nariño"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Norte de Santander"
 msgstr ""
@@ -2579,9 +2394,8 @@ msgstr ""
 msgid "Sucre"
 msgstr ""
 
-#, fuzzy
 msgid "Tolima"
-msgstr "波利維亞"
+msgstr ""
 
 msgid "Valle del Cauca"
 msgstr ""
@@ -2601,9 +2415,8 @@ msgstr ""
 msgid "Guanacaste"
 msgstr ""
 
-#, fuzzy
 msgid "Heredia"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Limon"
 msgstr ""
@@ -2626,13 +2439,11 @@ msgstr ""
 msgid "Ciudad de La Habana"
 msgstr ""
 
-#, fuzzy
 msgid "Granma"
-msgstr "巴拿馬"
+msgstr ""
 
-#, fuzzy
 msgid "Guantanamo"
-msgstr "瓜地馬拉"
+msgstr ""
 
 msgid "Holquin"
 msgstr ""
@@ -2643,9 +2454,8 @@ msgstr ""
 msgid "Las Tunas"
 msgstr ""
 
-#, fuzzy
 msgid "Matanzas"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Pinar del Rio"
 msgstr ""
@@ -2692,9 +2502,8 @@ msgstr ""
 msgid "Fogo"
 msgstr ""
 
-#, fuzzy
 msgid "Maio"
-msgstr "墨西哥"
+msgstr ""
 
 msgid "Mosteiros"
 msgstr ""
@@ -2705,9 +2514,8 @@ msgstr ""
 msgid "Porto Novo"
 msgstr ""
 
-#, fuzzy
 msgid "Praia"
-msgstr "克羅地亞"
+msgstr ""
 
 msgid "Ribeira Grande"
 msgstr ""
@@ -2736,9 +2544,8 @@ msgstr ""
 msgid "Keryneia"
 msgstr ""
 
-#, fuzzy
 msgid "Larnaka"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Lefkosia"
 msgstr ""
@@ -2785,9 +2592,8 @@ msgstr ""
 msgid "Ústecký kraj"
 msgstr ""
 
-#, fuzzy
 msgid "Vysočina"
-msgstr "拉脫維亞"
+msgstr ""
 
 msgid "Zlínský kraj"
 msgstr ""
@@ -2816,16 +2622,14 @@ msgstr ""
 msgid "Rheinland-Pfalz"
 msgstr ""
 
-#, fuzzy
 msgid "Saarland"
-msgstr "愛爾蘭"
+msgstr ""
 
 msgid "Schleswig-Holstein"
 msgstr ""
 
-#, fuzzy
 msgid "Berlin"
-msgstr "比利時"
+msgstr ""
 
 msgid "Brandenburg"
 msgstr ""
@@ -2863,9 +2667,8 @@ msgstr ""
 msgid "Copenhagen municipality"
 msgstr ""
 
-#, fuzzy
 msgid "Copenhagen"
-msgstr "日本"
+msgstr ""
 
 msgid "Frederiksborg"
 msgstr ""
@@ -2873,9 +2676,8 @@ msgstr ""
 msgid "Roskilde"
 msgstr ""
 
-#, fuzzy
 msgid "Western Zealand"
-msgstr "荷蘭"
+msgstr ""
 
 msgid "Storstrøm"
 msgstr ""
@@ -2883,13 +2685,11 @@ msgstr ""
 msgid "Bornholm"
 msgstr ""
 
-#, fuzzy
 msgid "Funen"
-msgstr "匈牙利"
+msgstr ""
 
-#, fuzzy
 msgid "Southern Jutland"
-msgstr "荷蘭"
+msgstr ""
 
 msgid "Ribe"
 msgstr ""
@@ -2900,16 +2700,14 @@ msgstr ""
 msgid "Ringkøbing"
 msgstr ""
 
-#, fuzzy
 msgid "Aarhus"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Viborg"
 msgstr ""
 
-#, fuzzy
 msgid "Northern Jutland"
-msgstr "荷蘭"
+msgstr ""
 
 msgid "Distrito Nacional (Santo Domingo)"
 msgstr ""
@@ -2920,9 +2718,8 @@ msgstr ""
 msgid "Bahoruco"
 msgstr ""
 
-#, fuzzy
 msgid "Barahona"
-msgstr "巴巴多斯"
+msgstr ""
 
 msgid "Dajabón"
 msgstr ""
@@ -2948,9 +2745,8 @@ msgstr ""
 msgid "La Estrelleta [Elias Pina]"
 msgstr ""
 
-#, fuzzy
 msgid "La Romana"
-msgstr "羅馬尼亞"
+msgstr ""
 
 msgid "La Vega"
 msgstr ""
@@ -2970,20 +2766,17 @@ msgstr ""
 msgid "Pedernales"
 msgstr ""
 
-#, fuzzy
 msgid "Peravia"
-msgstr "拉脫維亞"
+msgstr ""
 
 msgid "Puerto Plata"
 msgstr ""
 
-#, fuzzy
 msgid "Salcedo"
-msgstr "馬其頓"
+msgstr ""
 
-#, fuzzy
 msgid "Samaná"
-msgstr "牙買加"
+msgstr ""
 
 msgid "San Cristóbal"
 msgstr ""
@@ -3018,13 +2811,11 @@ msgstr ""
 msgid "Annaba"
 msgstr ""
 
-#, fuzzy
 msgid "Batna"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Bechar"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Bejaia"
 msgstr ""
@@ -3032,23 +2823,20 @@ msgstr ""
 msgid "Biskra"
 msgstr ""
 
-#, fuzzy
 msgid "Blida"
-msgstr "波利維亞"
+msgstr ""
 
 msgid "Bordj Bou Arreridj"
 msgstr ""
 
-#, fuzzy
 msgid "Bouira"
-msgstr "波利維亞"
+msgstr ""
 
 msgid "Boumerdes"
 msgstr ""
 
-#, fuzzy
 msgid "Chlef"
-msgstr "智利"
+msgstr ""
 
 msgid "Constantine"
 msgstr ""
@@ -3056,9 +2844,8 @@ msgstr ""
 msgid "Djelfa"
 msgstr ""
 
-#, fuzzy
 msgid "El Bayadh"
-msgstr "薩爾瓦多"
+msgstr ""
 
 msgid "El Oued"
 msgstr ""
@@ -3069,9 +2856,8 @@ msgstr ""
 msgid "Ghardaia"
 msgstr ""
 
-#, fuzzy
 msgid "Guelma"
-msgstr "瓜地馬拉"
+msgstr ""
 
 msgid "Illizi"
 msgstr ""
@@ -3091,24 +2877,20 @@ msgstr ""
 msgid "Medea"
 msgstr ""
 
-#, fuzzy
 msgid "Mila"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Mostaganem"
 msgstr ""
 
-#, fuzzy
 msgid "Msila"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Naama"
-msgstr "巴拿馬"
+msgstr ""
 
-#, fuzzy
 msgid "Oran"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Ouargla"
 msgstr ""
@@ -3119,9 +2901,8 @@ msgstr ""
 msgid "Relizane"
 msgstr ""
 
-#, fuzzy
 msgid "Saida"
-msgstr "音效"
+msgstr ""
 
 msgid "Setif"
 msgstr ""
@@ -3132,9 +2913,8 @@ msgstr ""
 msgid "Skikda"
 msgstr ""
 
-#, fuzzy
 msgid "Souk Ahras"
-msgstr "南非"
+msgstr ""
 
 msgid "Tamanghasset"
 msgstr ""
@@ -3163,17 +2943,14 @@ msgstr ""
 msgid "Azuay"
 msgstr ""
 
-#, fuzzy
 msgid "Bolivar"
-msgstr "波利維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Canar"
-msgstr "加拿大"
+msgstr ""
 
-#, fuzzy
 msgid "Carchi"
-msgstr "捷克"
+msgstr ""
 
 msgid "Cotopaxi"
 msgstr ""
@@ -3211,13 +2988,11 @@ msgstr ""
 msgid "Napo"
 msgstr ""
 
-#, fuzzy
 msgid "Orellana"
-msgstr "朝鮮語"
+msgstr ""
 
-#, fuzzy
 msgid "Pastaza"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Pichincha"
 msgstr ""
@@ -3255,9 +3030,8 @@ msgstr ""
 msgid "Polvamea"
 msgstr ""
 
-#, fuzzy
 msgid "Parnumsa"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Raplamsa"
 msgstr ""
@@ -3346,16 +3120,14 @@ msgstr ""
 msgid "Matruh"
 msgstr ""
 
-#, fuzzy
 msgid "Qina"
-msgstr "中國"
+msgstr ""
 
 msgid "Shamal Sina'"
 msgstr ""
 
-#, fuzzy
 msgid "Suhaj"
-msgstr "音效"
+msgstr ""
 
 msgid "Anseba"
 msgstr ""
@@ -3384,28 +3156,23 @@ msgstr ""
 msgid "Alicante"
 msgstr ""
 
-#, fuzzy
 msgid "Almería"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Asturias"
-msgstr "奧地利"
+msgstr ""
 
-#, fuzzy
 msgid "Ávila"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Badajoz"
 msgstr ""
 
-#, fuzzy
 msgid "Baleares"
-msgstr "秘魯"
+msgstr ""
 
-#, fuzzy
 msgid "Barcelona"
-msgstr "馬其頓"
+msgstr ""
 
 msgid "Burgos"
 msgstr ""
@@ -3416,9 +3183,8 @@ msgstr ""
 msgid "Cádiz"
 msgstr ""
 
-#, fuzzy
 msgid "Cantabria"
-msgstr "克羅地亞"
+msgstr ""
 
 msgid "Castellón"
 msgstr ""
@@ -3426,20 +3192,17 @@ msgstr ""
 msgid "Ciudad Real"
 msgstr ""
 
-#, fuzzy
 msgid "Cuenca"
-msgstr "捷克"
+msgstr ""
 
 msgid "Girona [Gerona]"
 msgstr ""
 
-#, fuzzy
 msgid "Granada"
-msgstr "格林納達"
+msgstr ""
 
-#, fuzzy
 msgid "Guadalajara"
-msgstr "瓜地馬拉"
+msgstr ""
 
 msgid "Guipúzcoa"
 msgstr ""
@@ -3450,13 +3213,11 @@ msgstr ""
 msgid "Huesca"
 msgstr ""
 
-#, fuzzy
 msgid "Jaén"
-msgstr "日本"
+msgstr ""
 
-#, fuzzy
 msgid "La Coruña"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "La Rioja"
 msgstr ""
@@ -3476,57 +3237,47 @@ msgstr ""
 msgid "Madrid"
 msgstr ""
 
-#, fuzzy
 msgid "Málaga"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Murcia"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Navarra"
 msgstr ""
 
-#, fuzzy
 msgid "Ourense"
-msgstr "法國"
+msgstr ""
 
-#, fuzzy
 msgid "Palencia"
-msgstr "斯洛文尼亞"
+msgstr ""
 
 msgid "Pontevedra"
 msgstr ""
 
-#, fuzzy
 msgid "Salamanca"
-msgstr "牙買加"
+msgstr ""
 
 msgid "Santa Cruz de Tenerife"
 msgstr ""
 
-#, fuzzy
 msgid "Segovia"
-msgstr "斯洛文尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Sevilla"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Soria"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Tarragona"
 msgstr ""
 
-#, fuzzy
 msgid "Teruel"
-msgstr "秘魯"
+msgstr ""
 
-#, fuzzy
 msgid "Valencia"
-msgstr "斯洛文尼亞"
+msgstr ""
 
 msgid "Valladolid"
 msgstr ""
@@ -3537,9 +3288,8 @@ msgstr ""
 msgid "Zamora"
 msgstr ""
 
-#, fuzzy
 msgid "Zaragoza"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Ceuta"
 msgstr ""
@@ -3556,9 +3306,8 @@ msgstr ""
 msgid "Afar"
 msgstr ""
 
-#, fuzzy
 msgid "Amara"
-msgstr "日本"
+msgstr ""
 
 msgid "Benshangul-Gumaz"
 msgstr ""
@@ -3569,43 +3318,35 @@ msgstr ""
 msgid "Harari People"
 msgstr ""
 
-#, fuzzy
 msgid "Oromia"
-msgstr "克羅地亞"
+msgstr ""
 
-#, fuzzy
 msgid "Somali"
-msgstr "羅馬尼亞"
+msgstr ""
 
 msgid "Southern Nations, Nationalities and Peoples"
 msgstr ""
 
-#, fuzzy
 msgid "Tigrai"
-msgstr "台灣"
+msgstr ""
 
-#, fuzzy
 msgid "Eastern"
-msgstr "歐洲，東部"
+msgstr ""
 
-#, fuzzy
 msgid "Northern"
-msgstr "歐洲，北部"
+msgstr ""
 
-#, fuzzy
 msgid "Western"
-msgstr "歐洲，西部"
+msgstr ""
 
-#, fuzzy
 msgid "Rotuma"
-msgstr "羅馬尼亞"
+msgstr ""
 
 msgid "Chuuk"
 msgstr ""
 
-#, fuzzy
 msgid "Kosrae"
-msgstr "以色列"
+msgstr ""
 
 msgid "Pohnpei"
 msgstr ""
@@ -3628,16 +3369,14 @@ msgstr ""
 msgid "Alpes-Maritimes"
 msgstr ""
 
-#, fuzzy
 msgid "Ardèche"
-msgstr "希臘"
+msgstr ""
 
 msgid "Ardennes"
 msgstr ""
 
-#, fuzzy
 msgid "Ariège"
-msgstr "阿根廷"
+msgstr ""
 
 msgid "Aube"
 msgstr ""
@@ -3654,13 +3393,11 @@ msgstr ""
 msgid "Bouches-du-Rhône"
 msgstr ""
 
-#, fuzzy
 msgid "Calvados"
-msgstr "薩爾瓦多"
+msgstr ""
 
-#, fuzzy
 msgid "Cantal"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Charente"
 msgstr ""
@@ -3668,9 +3405,8 @@ msgstr ""
 msgid "Charente-Maritime"
 msgstr ""
 
-#, fuzzy
 msgid "Cher"
-msgstr "智利"
+msgstr ""
 
 msgid "Corrèze"
 msgstr ""
@@ -3702,9 +3438,8 @@ msgstr ""
 msgid "Essonne"
 msgstr ""
 
-#, fuzzy
 msgid "Eure"
-msgstr "土耳其"
+msgstr ""
 
 msgid "Eure-et-Loir"
 msgstr ""
@@ -3754,9 +3489,8 @@ msgstr ""
 msgid "Hérault"
 msgstr ""
 
-#, fuzzy
 msgid "Indre"
-msgstr "印尼語"
+msgstr ""
 
 msgid "Ille-et-Vilaine"
 msgstr ""
@@ -3764,13 +3498,11 @@ msgstr ""
 msgid "Indre-et-Loire"
 msgstr ""
 
-#, fuzzy
 msgid "Isère"
-msgstr "以色列"
+msgstr ""
 
-#, fuzzy
 msgid "Landes"
-msgstr "英語"
+msgstr ""
 
 msgid "Loir-et-Cher"
 msgstr ""
@@ -3796,16 +3528,14 @@ msgstr ""
 msgid "Maine-et-Loire"
 msgstr ""
 
-#, fuzzy
 msgid "Manche"
-msgstr "法國"
+msgstr ""
 
 msgid "Marne"
 msgstr ""
 
-#, fuzzy
 msgid "Mayenne"
-msgstr "烏克蘭"
+msgstr ""
 
 msgid "Meurthe-et-Moselle"
 msgstr ""
@@ -3822,16 +3552,14 @@ msgstr ""
 msgid "Nièvre"
 msgstr ""
 
-#, fuzzy
 msgid "Nord"
-msgstr "挪威"
+msgstr ""
 
 msgid "Oise"
 msgstr ""
 
-#, fuzzy
 msgid "Orne"
-msgstr "法國"
+msgstr ""
 
 msgid "Paris"
 msgstr ""
@@ -3845,9 +3573,8 @@ msgstr ""
 msgid "Pyrénées-Atlantiques"
 msgstr ""
 
-#, fuzzy
 msgid "Pyrénées-Orientales"
-msgstr "越南"
+msgstr ""
 
 msgid "Rhône"
 msgstr ""
@@ -3873,9 +3600,8 @@ msgstr ""
 msgid "Somme"
 msgstr ""
 
-#, fuzzy
 msgid "Tarn"
-msgstr "台灣"
+msgstr ""
 
 msgid "Tarn-et-Garonne"
 msgstr ""
@@ -3895,13 +3621,11 @@ msgstr ""
 msgid "Vaucluse"
 msgstr ""
 
-#, fuzzy
 msgid "Vendée"
-msgstr "委內瑞拉"
+msgstr ""
 
-#, fuzzy
 msgid "Vienne"
-msgstr "越南"
+msgstr ""
 
 msgid "Vosges"
 msgstr ""
@@ -3921,9 +3645,8 @@ msgstr ""
 msgid "Angus"
 msgstr ""
 
-#, fuzzy
 msgid "Co Antrim"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Ards"
 msgstr ""
@@ -3931,9 +3654,8 @@ msgstr ""
 msgid "Argyll and Bute"
 msgstr ""
 
-#, fuzzy
 msgid "Co Armagh"
-msgstr "德國"
+msgstr ""
 
 msgid "Ballymena"
 msgstr ""
@@ -3959,16 +3681,14 @@ msgstr ""
 msgid "Bedfordshire"
 msgstr ""
 
-#, fuzzy
 msgid "Belfast"
-msgstr "比利時"
+msgstr ""
 
 msgid "Bexley"
 msgstr ""
 
-#, fuzzy
 msgid "Birmingham"
-msgstr "以色列"
+msgstr ""
 
 msgid "Blackburn with Darwen"
 msgstr ""
@@ -3988,9 +3708,8 @@ msgstr ""
 msgid "Bracknell Forest"
 msgstr ""
 
-#, fuzzy
 msgid "Bradford"
-msgstr "巴巴多斯"
+msgstr ""
 
 msgid "Brent"
 msgstr ""
@@ -4001,9 +3720,8 @@ msgstr ""
 msgid "Brighton and Hove"
 msgstr ""
 
-#, fuzzy
 msgid "Bristol"
-msgstr "巴西"
+msgstr ""
 
 msgid "Bromley"
 msgstr ""
@@ -4011,9 +3729,8 @@ msgstr ""
 msgid "Buckinghamshire"
 msgstr ""
 
-#, fuzzy
 msgid "Bury"
-msgstr "土耳其"
+msgstr ""
 
 msgid "Caerphilly"
 msgstr ""
@@ -4027,9 +3744,8 @@ msgstr ""
 msgid "Camden"
 msgstr ""
 
-#, fuzzy
 msgid "Cardiff"
-msgstr "捷克"
+msgstr ""
 
 msgid "Carmarthenshire"
 msgstr ""
@@ -4046,16 +3762,14 @@ msgstr ""
 msgid "Ceredigion"
 msgstr ""
 
-#, fuzzy
 msgid "Cheshire"
-msgstr "智利"
+msgstr ""
 
 msgid "Clackmannanshire"
 msgstr ""
 
-#, fuzzy
 msgid "Coleraine"
-msgstr "烏克蘭"
+msgstr ""
 
 msgid "Conwy"
 msgstr ""
@@ -4066,9 +3780,8 @@ msgstr ""
 msgid "Cornwall"
 msgstr ""
 
-#, fuzzy
 msgid "Coventry"
-msgstr "歐洲，中部"
+msgstr ""
 
 msgid "Cralgavon"
 msgstr ""
@@ -4076,9 +3789,8 @@ msgstr ""
 msgid "Croydon"
 msgstr ""
 
-#, fuzzy
 msgid "Cumbria"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Darlington"
 msgstr ""
@@ -4104,9 +3816,8 @@ msgstr ""
 msgid "Dorset"
 msgstr ""
 
-#, fuzzy
 msgid "Co Down"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "Dudley"
 msgstr ""
@@ -4132,9 +3843,8 @@ msgstr ""
 msgid "East Dunbartonshire"
 msgstr ""
 
-#, fuzzy
 msgid "East Lothian"
-msgstr "愛沙尼亞"
+msgstr ""
 
 msgid "East Renfrewshire"
 msgstr ""
@@ -4160,9 +3870,8 @@ msgstr ""
 msgid "Falkirk"
 msgstr ""
 
-#, fuzzy
 msgid "Co Fermanagh"
-msgstr "德國"
+msgstr ""
 
 msgid "Fife"
 msgstr ""
@@ -4173,20 +3882,17 @@ msgstr ""
 msgid "Gateshead"
 msgstr ""
 
-#, fuzzy
 msgid "Glasgow"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Gloucestershire"
 msgstr ""
 
-#, fuzzy
 msgid "Greenwich"
-msgstr "希臘"
+msgstr ""
 
-#, fuzzy
 msgid "Guernsey"
-msgstr "德國"
+msgstr ""
 
 msgid "Gwynedd"
 msgstr ""
@@ -4215,16 +3921,14 @@ msgstr ""
 msgid "Havering"
 msgstr ""
 
-#, fuzzy
 msgid "Herefordshire"
-msgstr "智利"
+msgstr ""
 
 msgid "Hertfordshire"
 msgstr ""
 
-#, fuzzy
 msgid "Highland"
-msgstr "芬蘭"
+msgstr ""
 
 msgid "Hillingdon"
 msgstr ""
@@ -4280,9 +3984,8 @@ msgstr ""
 msgid "Leeds"
 msgstr ""
 
-#, fuzzy
 msgid "Leicester"
-msgstr "歐洲，西部"
+msgstr ""
 
 msgid "Leicestershire"
 msgstr ""
@@ -4335,9 +4038,8 @@ msgstr ""
 msgid "Monmouthshire"
 msgstr ""
 
-#, fuzzy
 msgid "Moray"
-msgstr "挪威"
+msgstr ""
 
 msgid "Moyle"
 msgstr ""
@@ -4363,13 +4065,11 @@ msgstr ""
 msgid "Norfolk"
 msgstr ""
 
-#, fuzzy
 msgid "North Ayrshire"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "North Down"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "North East Lincolnshire"
 msgstr ""
@@ -4377,27 +4077,23 @@ msgstr ""
 msgid "North Lanarkshire"
 msgstr ""
 
-#, fuzzy
 msgid "North Lincolnshire"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "North Somerset"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "North Tyneside"
 msgstr ""
 
-#, fuzzy
 msgid "North Yorkshire"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "Northamptonshire"
 msgstr ""
 
-#, fuzzy
 msgid "Northumberland"
-msgstr "荷蘭"
+msgstr ""
 
 msgid "Nottingham"
 msgstr ""
@@ -4426,16 +4122,14 @@ msgstr ""
 msgid "Peterborough"
 msgstr ""
 
-#, fuzzy
 msgid "Plymouth"
-msgstr "南朝鮮"
+msgstr ""
 
 msgid "Poole"
 msgstr ""
 
-#, fuzzy
 msgid "Portsmouth"
-msgstr "葡萄牙"
+msgstr ""
 
 msgid "Powys"
 msgstr ""
@@ -4446,13 +4140,11 @@ msgstr ""
 msgid "Redbridge"
 msgstr ""
 
-#, fuzzy
 msgid "Cleveland"
-msgstr "波蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Renfrewshire"
-msgstr "智利"
+msgstr ""
 
 msgid "Rhondda Cynon Taff"
 msgstr ""
@@ -4466,23 +4158,20 @@ msgstr ""
 msgid "Rotherham"
 msgstr ""
 
-#, fuzzy
 msgid "Rutland"
-msgstr "波蘭"
+msgstr ""
 
 msgid "St. Helens"
 msgstr ""
 
-#, fuzzy
 msgid "Salford"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Sandwell"
 msgstr ""
 
-#, fuzzy
 msgid "Scottish Borders"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "Sefton"
 msgstr ""
@@ -4502,13 +4191,11 @@ msgstr ""
 msgid "Solihull"
 msgstr ""
 
-#, fuzzy
 msgid "Somerset"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "South Ayrshire"
-msgstr "南非"
+msgstr ""
 
 msgid "South Gloucestershire"
 msgstr ""
@@ -4519,17 +4206,14 @@ msgstr ""
 msgid "South Tyneside"
 msgstr ""
 
-#, fuzzy
 msgid "Southampton"
-msgstr "波蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Southend-on-Sea"
-msgstr "南朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "Southwark"
-msgstr "南朝鮮"
+msgstr ""
 
 msgid "Staffordshire"
 msgstr ""
@@ -4552,24 +4236,20 @@ msgstr ""
 msgid "Suffolk"
 msgstr ""
 
-#, fuzzy
 msgid "Sunderland"
-msgstr "波蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Surrey"
-msgstr "土耳其"
+msgstr ""
 
 msgid "Sutton"
 msgstr ""
 
-#, fuzzy
 msgid "Swansea"
-msgstr "巴拿馬"
+msgstr ""
 
-#, fuzzy
 msgid "Swindon"
-msgstr "瑞典"
+msgstr ""
 
 msgid "Tameside"
 msgstr ""
@@ -4580,13 +4260,11 @@ msgstr ""
 msgid "Thurrock"
 msgstr ""
 
-#, fuzzy
 msgid "Torbay"
-msgstr "挪威"
+msgstr ""
 
-#, fuzzy
 msgid "Torfasn"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Tower Hamlets"
 msgstr ""
@@ -4600,9 +4278,8 @@ msgstr ""
 msgid "Bro Morgannwg"
 msgstr ""
 
-#, fuzzy
 msgid "Wakefield"
-msgstr "新西蘭"
+msgstr ""
 
 msgid "Walsall"
 msgstr ""
@@ -4631,9 +4308,8 @@ msgstr ""
 msgid "West Sussex"
 msgstr ""
 
-#, fuzzy
 msgid "Westminster"
-msgstr "歐洲，西部"
+msgstr ""
 
 msgid "Wigan"
 msgstr ""
@@ -4677,9 +4353,8 @@ msgstr ""
 msgid "Upper West"
 msgstr ""
 
-#, fuzzy
 msgid "Volta"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Banjul"
 msgstr ""
@@ -4690,16 +4365,14 @@ msgstr ""
 msgid "MacCarthy Island"
 msgstr ""
 
-#, fuzzy
 msgid "North Bank"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "Upper River"
 msgstr ""
 
-#, fuzzy
 msgid "Beyla"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Boffa"
 msgstr ""
@@ -4722,16 +4395,14 @@ msgstr ""
 msgid "Dubreka"
 msgstr ""
 
-#, fuzzy
 msgid "Faranah"
-msgstr "法國"
+msgstr ""
 
 msgid "Forecariah"
 msgstr ""
 
-#, fuzzy
 msgid "Fria"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Gaoual"
 msgstr ""
@@ -4745,20 +4416,17 @@ msgstr ""
 msgid "Kerouane"
 msgstr ""
 
-#, fuzzy
 msgid "Kindia"
-msgstr "印尼語"
+msgstr ""
 
 msgid "Kissidougou"
 msgstr ""
 
-#, fuzzy
 msgid "Koubia"
-msgstr "哥倫比亞"
+msgstr ""
 
-#, fuzzy
 msgid "Koundara"
-msgstr "洪都拉斯"
+msgstr ""
 
 msgid "Kouroussa"
 msgstr ""
@@ -4769,24 +4437,20 @@ msgstr ""
 msgid "Lelouma"
 msgstr ""
 
-#, fuzzy
 msgid "Lola"
-msgstr "波蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Macenta"
-msgstr "馬其頓"
+msgstr ""
 
-#, fuzzy
 msgid "Mali"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Mamou"
 msgstr ""
 
-#, fuzzy
 msgid "Mandiana"
-msgstr "印尼語"
+msgstr ""
 
 msgid "Nzerekore"
 msgstr ""
@@ -4833,9 +4497,8 @@ msgstr ""
 msgid "Wele-Nzas"
 msgstr ""
 
-#, fuzzy
 msgid "Achaa"
-msgstr "捷克"
+msgstr ""
 
 msgid "Aitolia-Akarnania"
 msgstr ""
@@ -4843,13 +4506,11 @@ msgstr ""
 msgid "Argolis"
 msgstr ""
 
-#, fuzzy
 msgid "Arkadia"
-msgstr "澳大利亞"
+msgstr ""
 
-#, fuzzy
 msgid "Arta"
-msgstr "阿根廷"
+msgstr ""
 
 msgid "Attiki"
 msgstr ""
@@ -4857,13 +4518,11 @@ msgstr ""
 msgid "Chalkidiki"
 msgstr ""
 
-#, fuzzy
 msgid "Chania"
-msgstr "中國"
+msgstr ""
 
-#, fuzzy
 msgid "Chios"
-msgstr "中國"
+msgstr ""
 
 msgid "Dodekanisos"
 msgstr ""
@@ -4874,13 +4533,11 @@ msgstr ""
 msgid "Evros"
 msgstr ""
 
-#, fuzzy
 msgid "Evrytania"
-msgstr "愛沙尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Evvoia"
-msgstr "愛沙尼亞"
+msgstr ""
 
 msgid "Florina"
 msgstr ""
@@ -4891,21 +4548,17 @@ msgstr ""
 msgid "Fthiotis"
 msgstr ""
 
-#, fuzzy
 msgid "Grevena"
-msgstr "格林納達"
+msgstr ""
 
-#, fuzzy
 msgid "Ileia"
-msgstr "斯洛文尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Imathia"
-msgstr "拉脫維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Ioannina"
-msgstr "羅馬尼亞"
+msgstr ""
 
 msgid "Irakleion"
 msgstr ""
@@ -4913,9 +4566,8 @@ msgstr ""
 msgid "Karditsa"
 msgstr ""
 
-#, fuzzy
 msgid "Kastoria"
-msgstr "愛沙尼亞"
+msgstr ""
 
 msgid "Kavalla"
 msgstr ""
@@ -4932,20 +4584,17 @@ msgstr ""
 msgid "Korinthia"
 msgstr ""
 
-#, fuzzy
 msgid "Kozani"
-msgstr "羅馬尼亞"
+msgstr ""
 
 msgid "Kyklades"
 msgstr ""
 
-#, fuzzy
 msgid "Lakonia"
-msgstr "立陶宛語"
+msgstr ""
 
-#, fuzzy
 msgid "Larisa"
-msgstr "拉脫維亞"
+msgstr ""
 
 msgid "Lasithion"
 msgstr ""
@@ -4977,9 +4626,8 @@ msgstr ""
 msgid "Samos"
 msgstr ""
 
-#, fuzzy
 msgid "Serrai"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Thesprotia"
 msgstr ""
@@ -5029,13 +4677,11 @@ msgstr ""
 msgid "Izabal"
 msgstr ""
 
-#, fuzzy
 msgid "Jalapa"
-msgstr "日本"
+msgstr ""
 
-#, fuzzy
 msgid "Jutiapa"
-msgstr "日本"
+msgstr ""
 
 msgid "Peten"
 msgstr ""
@@ -5079,9 +4725,8 @@ msgstr ""
 msgid "Biombo"
 msgstr ""
 
-#, fuzzy
 msgid "Bolama"
-msgstr "波利維亞"
+msgstr ""
 
 msgid "Cacheu"
 msgstr ""
@@ -5092,9 +4737,8 @@ msgstr ""
 msgid "Oio"
 msgstr ""
 
-#, fuzzy
 msgid "Quloara"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Tombali S"
 msgstr ""
@@ -5138,9 +4782,8 @@ msgstr ""
 msgid "Comayagua"
 msgstr ""
 
-#, fuzzy
 msgid "Copan"
-msgstr "日本"
+msgstr ""
 
 msgid "Cortes"
 msgstr ""
@@ -5157,9 +4800,8 @@ msgstr ""
 msgid "Gracias a Dios"
 msgstr ""
 
-#, fuzzy
 msgid "Intibuca"
-msgstr "印尼語"
+msgstr ""
 
 msgid "Islas de la Bahia"
 msgstr ""
@@ -5236,9 +4878,8 @@ msgstr ""
 msgid "VuRovarako-srijemska zupanija"
 msgstr ""
 
-#, fuzzy
 msgid "Zadaraka"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Zagrebacka zupanija"
 msgstr ""
@@ -5255,9 +4896,8 @@ msgstr ""
 msgid "Ouest"
 msgstr ""
 
-#, fuzzy
 msgid "Sud"
-msgstr "音效"
+msgstr ""
 
 msgid "Sud-Est"
 msgstr ""
@@ -5298,9 +4938,8 @@ msgstr ""
 msgid "Komárom-Esztergom"
 msgstr ""
 
-#, fuzzy
 msgid "Nográd"
-msgstr "挪威"
+msgstr ""
 
 msgid "Pest"
 msgstr ""
@@ -5320,9 +4959,8 @@ msgstr ""
 msgid "Veszprém"
 msgstr ""
 
-#, fuzzy
 msgid "Zala"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Békéscsaba"
 msgstr ""
@@ -5366,9 +5004,8 @@ msgstr ""
 msgid "Sopron"
 msgstr ""
 
-#, fuzzy
 msgid "Szeged"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Székesfehérvár"
 msgstr ""
@@ -5388,16 +5025,14 @@ msgstr ""
 msgid "Zalaegerszeg"
 msgstr ""
 
-#, fuzzy
 msgid "Bali"
-msgstr "巴西"
+msgstr ""
 
 msgid "Bangka Belitung"
 msgstr ""
 
-#, fuzzy
 msgid "Banten"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Bengkulu"
 msgstr ""
@@ -5408,9 +5043,8 @@ msgstr ""
 msgid "Irian Jaya"
 msgstr ""
 
-#, fuzzy
 msgid "Jambi"
-msgstr "牙買加"
+msgstr ""
 
 msgid "Jawa Barat"
 msgstr ""
@@ -5439,9 +5073,8 @@ msgstr ""
 msgid "Maluku"
 msgstr ""
 
-#, fuzzy
 msgid "Maluku Utara"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Nusa Tenggara Barat"
 msgstr ""
@@ -5449,13 +5082,11 @@ msgstr ""
 msgid "Nusa Tenggara Timur"
 msgstr ""
 
-#, fuzzy
 msgid "Papua"
-msgstr "巴拉圭"
+msgstr ""
 
-#, fuzzy
 msgid "Riau"
-msgstr "俄羅斯"
+msgstr ""
 
 msgid "Sulawesi Selatan"
 msgstr ""
@@ -5490,13 +5121,11 @@ msgstr ""
 msgid "Cork"
 msgstr ""
 
-#, fuzzy
 msgid "Clare"
-msgstr "智利"
+msgstr ""
 
-#, fuzzy
 msgid "Cavan"
-msgstr "日本"
+msgstr ""
 
 msgid "Carlow"
 msgstr ""
@@ -5534,9 +5163,8 @@ msgstr ""
 msgid "Laois"
 msgstr ""
 
-#, fuzzy
 msgid "Meath"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Monaghan"
 msgstr ""
@@ -5610,9 +5238,8 @@ msgstr ""
 msgid "At Ta'mim"
 msgstr ""
 
-#, fuzzy
 msgid "Babil"
-msgstr "巴西"
+msgstr ""
 
 msgid "Baghdad"
 msgstr ""
@@ -5641,9 +5268,8 @@ msgstr ""
 msgid "Wasit"
 msgstr ""
 
-#, fuzzy
 msgid "Ardabil"
-msgstr "巴西"
+msgstr ""
 
 msgid "Azarbayjan-e Gharbi"
 msgstr ""
@@ -5651,9 +5277,8 @@ msgstr ""
 msgid "Azarbayjan-e Sharqi"
 msgstr ""
 
-#, fuzzy
 msgid "Bushehr"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Chahar Mahall va Bakhtiari"
 msgstr ""
@@ -5661,41 +5286,32 @@ msgstr ""
 msgid "Esfahan"
 msgstr ""
 
-#, fuzzy
 msgid "Fars"
-msgstr "巴巴多斯"
+msgstr ""
 
-#, fuzzy
 msgid "Gilan"
-msgstr "芬蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Golestan"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Hamadan"
-msgstr "加拿大"
+msgstr ""
 
-#, fuzzy
 msgid "Hormozgan"
-msgstr "朝鮮語"
+msgstr ""
 
-#, fuzzy
 msgid "Iiam"
-msgstr "斯洛文尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Kerman"
-msgstr "德國"
+msgstr ""
 
-#, fuzzy
 msgid "Kermanshah"
-msgstr "德國"
+msgstr ""
 
-#, fuzzy
 msgid "Khorasan"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Khuzestan"
 msgstr ""
@@ -5703,50 +5319,41 @@ msgstr ""
 msgid "Kohjiluyeh va Buyer Ahmad"
 msgstr ""
 
-#, fuzzy
 msgid "Kordestan"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "Lorestan"
-msgstr "波蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Markazi"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Mazandaran"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Qazvin"
-msgstr "中國"
+msgstr ""
 
 msgid "Qom"
 msgstr ""
 
-#, fuzzy
 msgid "Semnan"
-msgstr "越南"
+msgstr ""
 
 msgid "Sistan va Baluchestan"
 msgstr ""
 
-#, fuzzy
 msgid "Tehran"
-msgstr "德國"
+msgstr ""
 
 msgid "Yazd"
 msgstr ""
 
-#, fuzzy
 msgid "Zanjan"
-msgstr "泰國"
+msgstr ""
 
-#, fuzzy
 msgid "Austurland"
-msgstr "澳大利亞"
+msgstr ""
 
 msgid "Hofuoborgarsvaeoi utan Reykjavikur"
 msgstr ""
@@ -5760,9 +5367,8 @@ msgstr ""
 msgid "Reykjavik"
 msgstr ""
 
-#, fuzzy
 msgid "Suourland"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Suournes"
 msgstr ""
@@ -5770,13 +5376,11 @@ msgstr ""
 msgid "Vestfirolr"
 msgstr ""
 
-#, fuzzy
 msgid "Vesturland"
-msgstr "荷蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Agrigento"
-msgstr "阿根廷"
+msgstr ""
 
 msgid "Alessandria"
 msgstr ""
@@ -5784,9 +5388,8 @@ msgstr ""
 msgid "Ancona"
 msgstr ""
 
-#, fuzzy
 msgid "Aosta"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Arezzo"
 msgstr ""
@@ -5794,16 +5397,14 @@ msgstr ""
 msgid "Ascoli Piceno"
 msgstr ""
 
-#, fuzzy
 msgid "Asti"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Avellino"
 msgstr ""
 
-#, fuzzy
 msgid "Bari"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Belluno"
 msgstr ""
@@ -5814,16 +5415,14 @@ msgstr ""
 msgid "Bergamo"
 msgstr ""
 
-#, fuzzy
 msgid "Biella"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Bologna"
 msgstr ""
 
-#, fuzzy
 msgid "Bolzano"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Brescia"
 msgstr ""
@@ -5843,16 +5442,14 @@ msgstr ""
 msgid "Caserta"
 msgstr ""
 
-#, fuzzy
 msgid "Catania"
-msgstr "克羅地亞"
+msgstr ""
 
 msgid "Catanzaro"
 msgstr ""
 
-#, fuzzy
 msgid "Chieti"
-msgstr "智利"
+msgstr ""
 
 msgid "Como"
 msgstr ""
@@ -5875,9 +5472,8 @@ msgstr ""
 msgid "Ferrara"
 msgstr ""
 
-#, fuzzy
 msgid "Firenze"
-msgstr "法國"
+msgstr ""
 
 msgid "Foggia"
 msgstr ""
@@ -5888,9 +5484,8 @@ msgstr ""
 msgid "Frosinone"
 msgstr ""
 
-#, fuzzy
 msgid "Genova"
-msgstr "格林納達"
+msgstr ""
 
 msgid "Gorizia"
 msgstr ""
@@ -5898,13 +5493,11 @@ msgstr ""
 msgid "Grosseto"
 msgstr ""
 
-#, fuzzy
 msgid "Imperia"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Isernia"
-msgstr "印尼語"
+msgstr ""
 
 msgid "L'Aquila"
 msgstr ""
@@ -5912,9 +5505,8 @@ msgstr ""
 msgid "La Spezia"
 msgstr ""
 
-#, fuzzy
 msgid "Latina"
-msgstr "拉脫維亞"
+msgstr ""
 
 msgid "Lecce"
 msgstr ""
@@ -5931,28 +5523,23 @@ msgstr ""
 msgid "Lucca"
 msgstr ""
 
-#, fuzzy
 msgid "Macerata"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Mantova"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Massa-Carrara"
 msgstr ""
 
-#, fuzzy
 msgid "Matera"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Messina"
-msgstr "俄羅斯"
+msgstr ""
 
-#, fuzzy
 msgid "Milano"
-msgstr "芬蘭"
+msgstr ""
 
 msgid "Modena"
 msgstr ""
@@ -5960,9 +5547,8 @@ msgstr ""
 msgid "Napoli"
 msgstr ""
 
-#, fuzzy
 msgid "Novara"
-msgstr "挪威"
+msgstr ""
 
 msgid "Nuoro"
 msgstr ""
@@ -5976,17 +5562,14 @@ msgstr ""
 msgid "Palermo"
 msgstr ""
 
-#, fuzzy
 msgid "Parma"
-msgstr "巴拿馬"
+msgstr ""
 
-#, fuzzy
 msgid "Pavia"
-msgstr "拉脫維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Perugia"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Pesaro e Urbino"
 msgstr ""
@@ -6000,9 +5583,8 @@ msgstr ""
 msgid "Pisa"
 msgstr ""
 
-#, fuzzy
 msgid "Pistoia"
-msgstr "愛沙尼亞"
+msgstr ""
 
 msgid "Pordenone"
 msgstr ""
@@ -6013,9 +5595,8 @@ msgstr ""
 msgid "Prato"
 msgstr ""
 
-#, fuzzy
 msgid "Ragusa"
-msgstr "俄羅斯"
+msgstr ""
 
 msgid "Ravenna"
 msgstr ""
@@ -6029,13 +5610,11 @@ msgstr ""
 msgid "Rieti"
 msgstr ""
 
-#, fuzzy
 msgid "Rimini"
-msgstr "羅馬尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Roma"
-msgstr "羅馬尼亞"
+msgstr ""
 
 msgid "Rovigo"
 msgstr ""
@@ -6049,9 +5628,8 @@ msgstr ""
 msgid "Savona"
 msgstr ""
 
-#, fuzzy
 msgid "Siena"
-msgstr "越南"
+msgstr ""
 
 msgid "Siracusa"
 msgstr ""
@@ -6059,9 +5637,8 @@ msgstr ""
 msgid "Sondrio"
 msgstr ""
 
-#, fuzzy
 msgid "Taranto"
-msgstr "台灣"
+msgstr ""
 
 msgid "Teramo"
 msgstr ""
@@ -6072,9 +5649,8 @@ msgstr ""
 msgid "Torino"
 msgstr ""
 
-#, fuzzy
 msgid "Trapani"
-msgstr "日本"
+msgstr ""
 
 msgid "Trento"
 msgstr ""
@@ -6085,16 +5661,14 @@ msgstr ""
 msgid "Trieste"
 msgstr ""
 
-#, fuzzy
 msgid "Udine"
-msgstr "烏克蘭"
+msgstr ""
 
 msgid "Varese"
 msgstr ""
 
-#, fuzzy
 msgid "Venezia"
-msgstr "委內瑞拉"
+msgstr ""
 
 msgid "Verbano-Cusio-Ossola"
 msgstr ""
@@ -6102,16 +5676,14 @@ msgstr ""
 msgid "Vercelli"
 msgstr ""
 
-#, fuzzy
 msgid "Verona"
-msgstr "越南"
+msgstr ""
 
 msgid "Vibo Valentia"
 msgstr ""
 
-#, fuzzy
 msgid "Vicenza"
-msgstr "越南"
+msgstr ""
 
 msgid "Viterbo"
 msgstr ""
@@ -6125,13 +5697,11 @@ msgstr ""
 msgid "Aomori"
 msgstr ""
 
-#, fuzzy
 msgid "Chiba"
-msgstr "中國"
+msgstr ""
 
-#, fuzzy
 msgid "Ehime"
-msgstr "智利"
+msgstr ""
 
 msgid "Fukui"
 msgstr ""
@@ -6199,9 +5769,8 @@ msgstr ""
 msgid "Nagasaki"
 msgstr ""
 
-#, fuzzy
 msgid "Nara"
-msgstr "挪威"
+msgstr ""
 
 msgid "Niigata"
 msgstr ""
@@ -6209,9 +5778,8 @@ msgstr ""
 msgid "Oita"
 msgstr ""
 
-#, fuzzy
 msgid "Okayama"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Okinawa"
 msgstr ""
@@ -6222,13 +5790,11 @@ msgstr ""
 msgid "Saga"
 msgstr ""
 
-#, fuzzy
 msgid "Saitama"
-msgstr "巴拿馬"
+msgstr ""
 
-#, fuzzy
 msgid "Shiga"
-msgstr "中國"
+msgstr ""
 
 msgid "Shimane"
 msgstr ""
@@ -6272,9 +5838,8 @@ msgstr ""
 msgid "Kingston"
 msgstr ""
 
-#, fuzzy
 msgid "Portland"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Saint Andrew"
 msgstr ""
@@ -6297,13 +5862,11 @@ msgstr ""
 msgid "Saint Thomea"
 msgstr ""
 
-#, fuzzy
 msgid "Trelawny"
-msgstr "愛爾蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Westmoreland"
-msgstr "愛爾蘭"
+msgstr ""
 
 msgid "Ajln"
 msgstr ""
@@ -6320,16 +5883,14 @@ msgstr ""
 msgid "Al Mafraq"
 msgstr ""
 
-#, fuzzy
 msgid "Amman"
-msgstr "音效"
+msgstr ""
 
 msgid "At Tafilah"
 msgstr ""
 
-#, fuzzy
 msgid "Az Zarga"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Irbid"
 msgstr ""
@@ -6337,9 +5898,8 @@ msgstr ""
 msgid "Jarash"
 msgstr ""
 
-#, fuzzy
 msgid "Ma'an"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Madaba"
 msgstr ""
@@ -6347,9 +5907,8 @@ msgstr ""
 msgid "Nairobi Municipality"
 msgstr ""
 
-#, fuzzy
 msgid "Coast"
-msgstr "克羅地亞"
+msgstr ""
 
 msgid "North-Eastern Kaskazini Mashariki"
 msgstr ""
@@ -6363,9 +5922,8 @@ msgstr ""
 msgid "Bishkek"
 msgstr ""
 
-#, fuzzy
 msgid "Batken"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Chu"
 msgstr ""
@@ -6379,9 +5937,8 @@ msgstr ""
 msgid "Osh"
 msgstr ""
 
-#, fuzzy
 msgid "Talas"
-msgstr "泰國"
+msgstr ""
 
 msgid "Ysyk-Kol"
 msgstr ""
@@ -6398,9 +5955,8 @@ msgstr ""
 msgid "Phnom Penh"
 msgstr ""
 
-#, fuzzy
 msgid "Baat Dambang"
-msgstr "英語"
+msgstr ""
 
 msgid "Banteay Mean Chey"
 msgstr ""
@@ -6417,13 +5973,11 @@ msgstr ""
 msgid "Kampong Thum"
 msgstr ""
 
-#, fuzzy
 msgid "Kampot"
-msgstr "瓜地馬拉"
+msgstr ""
 
-#, fuzzy
 msgid "Kandaal"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Kach Kong"
 msgstr ""
@@ -6455,9 +6009,8 @@ msgstr ""
 msgid "Stueng Traeng"
 msgstr ""
 
-#, fuzzy
 msgid "Svaay Rieng"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Taakaev"
 msgstr ""
@@ -6465,9 +6018,8 @@ msgstr ""
 msgid "Gilbert Islands"
 msgstr ""
 
-#, fuzzy
 msgid "Line Islands"
-msgstr "芬蘭"
+msgstr ""
 
 msgid "Phoenix Islands"
 msgstr ""
@@ -6586,9 +6138,8 @@ msgstr ""
 msgid "Almaty"
 msgstr ""
 
-#, fuzzy
 msgid "Astana"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Almaty oblysy"
 msgstr ""
@@ -6632,28 +6183,23 @@ msgstr ""
 msgid "Zhambyl oblysy Zhambylskaya oblast'"
 msgstr ""
 
-#, fuzzy
 msgid "Vientiane"
-msgstr "越南"
+msgstr ""
 
-#, fuzzy
 msgid "Attapu"
-msgstr "阿根廷"
+msgstr ""
 
 msgid "Bokeo"
 msgstr ""
 
-#, fuzzy
 msgid "Bolikhamxai"
-msgstr "波利維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Champasak"
-msgstr "中國"
+msgstr ""
 
-#, fuzzy
 msgid "Houaphan"
-msgstr "日本"
+msgstr ""
 
 msgid "Khammouan"
 msgstr ""
@@ -6661,21 +6207,17 @@ msgstr ""
 msgid "Louang Namtha"
 msgstr ""
 
-#, fuzzy
 msgid "Louangphabang"
-msgstr "日本"
+msgstr ""
 
-#, fuzzy
 msgid "Oudomxai"
-msgstr "音效"
+msgstr ""
 
-#, fuzzy
 msgid "Phongsali"
-msgstr "波蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Salavan"
-msgstr "牙買加"
+msgstr ""
 
 msgid "Savannakhet"
 msgstr ""
@@ -6722,16 +6264,14 @@ msgstr ""
 msgid "Batticaloa"
 msgstr ""
 
-#, fuzzy
 msgid "Colombo"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Galle"
 msgstr ""
 
-#, fuzzy
 msgid "Gampaha"
-msgstr "瓜地馬拉"
+msgstr ""
 
 msgid "Hambantota"
 msgstr ""
@@ -6739,9 +6279,8 @@ msgstr ""
 msgid "Jaffna"
 msgstr ""
 
-#, fuzzy
 msgid "Kalutara"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Kandy"
 msgstr ""
@@ -6758,13 +6297,11 @@ msgstr ""
 msgid "Mannar"
 msgstr ""
 
-#, fuzzy
 msgid "Matale"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Matara"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Monaragala"
 msgstr ""
@@ -6823,9 +6360,8 @@ msgstr ""
 msgid "Rivercess"
 msgstr ""
 
-#, fuzzy
 msgid "Sinoe"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Berea"
 msgstr ""
@@ -6839,9 +6375,8 @@ msgstr ""
 msgid "Mafeteng"
 msgstr ""
 
-#, fuzzy
 msgid "Maseru"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Mohale's Hoek"
 msgstr ""
@@ -6891,9 +6426,8 @@ msgstr ""
 msgid "Diekirch"
 msgstr ""
 
-#, fuzzy
 msgid "GreveNmacher"
-msgstr "希臘"
+msgstr ""
 
 msgid "Aizkraukles Apripkis"
 msgstr ""
@@ -6979,9 +6513,8 @@ msgstr ""
 msgid "Jelgava"
 msgstr ""
 
-#, fuzzy
 msgid "Jurmala"
-msgstr "澳大利亞"
+msgstr ""
 
 msgid "Liepaja"
 msgstr ""
@@ -6989,9 +6522,8 @@ msgstr ""
 msgid "Rezekne"
 msgstr ""
 
-#, fuzzy
 msgid "Riga"
-msgstr "俄羅斯"
+msgstr ""
 
 msgid "Ventspils"
 msgstr ""
@@ -7020,9 +6552,8 @@ msgstr ""
 msgid "Al Marj"
 msgstr ""
 
-#, fuzzy
 msgid "Al Marqab"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Al Qaţrūn"
 msgstr ""
@@ -7048,9 +6579,8 @@ msgstr ""
 msgid "Banī Walīd"
 msgstr ""
 
-#, fuzzy
 msgid "Darnah"
-msgstr "法國"
+msgstr ""
 
 msgid "Ghadāmis"
 msgstr ""
@@ -7064,13 +6594,11 @@ msgstr ""
 msgid "Jaghbūb"
 msgstr ""
 
-#, fuzzy
 msgid "Mişrātah"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Mizdah"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Murzuq"
 msgstr ""
@@ -7084,9 +6612,8 @@ msgstr ""
 msgid "Şabrātah Şurmān"
 msgstr ""
 
-#, fuzzy
 msgid "Surt"
-msgstr "音效"
+msgstr ""
 
 msgid "Tājūrā' wa an Nawāhī al Arbāh"
 msgstr ""
@@ -7130,13 +6657,11 @@ msgstr ""
 msgid "Ben Sllmane"
 msgstr ""
 
-#, fuzzy
 msgid "Berkane"
-msgstr "法國"
+msgstr ""
 
-#, fuzzy
 msgid "Boujdour"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Boulemane"
 msgstr ""
@@ -7159,13 +6684,11 @@ msgstr ""
 msgid "Errachidia"
 msgstr ""
 
-#, fuzzy
 msgid "Essaouira"
-msgstr "愛沙尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Es Smara"
-msgstr "日本"
+msgstr ""
 
 msgid "Fès"
 msgstr ""
@@ -7176,13 +6699,11 @@ msgstr ""
 msgid "Guelmim"
 msgstr ""
 
-#, fuzzy
 msgid "Ifrane"
-msgstr "以色列"
+msgstr ""
 
-#, fuzzy
 msgid "Jerada"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Kelaat Sraghna"
 msgstr ""
@@ -7202,9 +6723,8 @@ msgstr ""
 msgid "Laâyoune (EH)"
 msgstr ""
 
-#, fuzzy
 msgid "Larache"
-msgstr "法國"
+msgstr ""
 
 msgid "Marrakech"
 msgstr ""
@@ -7212,9 +6732,8 @@ msgstr ""
 msgid "Meknsès"
 msgstr ""
 
-#, fuzzy
 msgid "Nador"
-msgstr "厄瓜多爾"
+msgstr ""
 
 msgid "Ouarzazate"
 msgstr ""
@@ -7222,20 +6741,17 @@ msgstr ""
 msgid "Oued ed Dahab (EH)"
 msgstr ""
 
-#, fuzzy
 msgid "Oujda"
-msgstr "音效"
+msgstr ""
 
 msgid "Rabat-Salé"
 msgstr ""
 
-#, fuzzy
 msgid "Safi"
-msgstr "西班牙"
+msgstr ""
 
-#, fuzzy
 msgid "Sefrou"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Settat"
 msgstr ""
@@ -7246,9 +6762,8 @@ msgstr ""
 msgid "Tanger"
 msgstr ""
 
-#, fuzzy
 msgid "Tan-Tan"
-msgstr "台灣"
+msgstr ""
 
 msgid "Taounate"
 msgstr ""
@@ -7256,17 +6771,14 @@ msgstr ""
 msgid "Taroudannt"
 msgstr ""
 
-#, fuzzy
 msgid "Tata"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Taza"
-msgstr "台灣"
+msgstr ""
 
-#, fuzzy
 msgid "Tétouan"
-msgstr "台灣"
+msgstr ""
 
 msgid "Tiznit"
 msgstr ""
@@ -7274,28 +6786,23 @@ msgstr ""
 msgid "Gagauzia, Unitate Teritoriala Autonoma"
 msgstr ""
 
-#, fuzzy
 msgid "Chisinau"
-msgstr "中國"
+msgstr ""
 
 msgid "Stinga Nistrului, unitatea teritoriala din"
 msgstr ""
 
-#, fuzzy
 msgid "Balti"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Cahul"
-msgstr "智利"
+msgstr ""
 
-#, fuzzy
 msgid "Edinet"
-msgstr "烏克蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Lapusna"
-msgstr "立陶宛語"
+msgstr ""
 
 msgid "Orhei"
 msgstr ""
@@ -7306,9 +6813,8 @@ msgstr ""
 msgid "Taraclia"
 msgstr ""
 
-#, fuzzy
 msgid "Tighina [Bender]"
-msgstr "中國"
+msgstr ""
 
 msgid "Ungheni"
 msgstr ""
@@ -7316,9 +6822,8 @@ msgstr ""
 msgid "Antananarivo"
 msgstr ""
 
-#, fuzzy
 msgid "Antsiranana"
-msgstr "阿根廷"
+msgstr ""
 
 msgid "Fianarantsoa"
 msgstr ""
@@ -7326,9 +6831,8 @@ msgstr ""
 msgid "Mahajanga"
 msgstr ""
 
-#, fuzzy
 msgid "Toamasina"
-msgstr "牙買加"
+msgstr ""
 
 msgid "Toliara"
 msgstr ""
@@ -7342,9 +6846,8 @@ msgstr ""
 msgid "Arno"
 msgstr ""
 
-#, fuzzy
 msgid "Aur"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Ebon"
 msgstr ""
@@ -7373,9 +6876,8 @@ msgstr ""
 msgid "Majuro"
 msgstr ""
 
-#, fuzzy
 msgid "Maloelap"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Mejit"
 msgstr ""
@@ -7443,13 +6945,11 @@ msgstr ""
 msgid "Magway"
 msgstr ""
 
-#, fuzzy
 msgid "Mandalay"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Sagaing"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Tanintharyi"
 msgstr ""
@@ -7457,9 +6957,8 @@ msgstr ""
 msgid "Yangon"
 msgstr ""
 
-#, fuzzy
 msgid "Chin"
-msgstr "中國"
+msgstr ""
 
 msgid "Kachin"
 msgstr ""
@@ -7467,9 +6966,8 @@ msgstr ""
 msgid "Kayah"
 msgstr ""
 
-#, fuzzy
 msgid "Kayin"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Mon"
 msgstr ""
@@ -7477,16 +6975,14 @@ msgstr ""
 msgid "Rakhine"
 msgstr ""
 
-#, fuzzy
 msgid "Shan"
-msgstr "音效"
+msgstr ""
 
 msgid "Ulanbaatar"
 msgstr ""
 
-#, fuzzy
 msgid "Arhangay"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Bayanhongor"
 msgstr ""
@@ -7494,9 +6990,8 @@ msgstr ""
 msgid "Bayan-Olgiy"
 msgstr ""
 
-#, fuzzy
 msgid "Bulgan"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Darhan uul"
 msgstr ""
@@ -7537,9 +7032,8 @@ msgstr ""
 msgid "Ovorhangay"
 msgstr ""
 
-#, fuzzy
 msgid "Selenge"
-msgstr "瑞典"
+msgstr ""
 
 msgid "Shbaatar"
 msgstr ""
@@ -7577,9 +7071,8 @@ msgstr ""
 msgid "Inchiri"
 msgstr ""
 
-#, fuzzy
 msgid "Tagant"
-msgstr "台灣"
+msgstr ""
 
 msgid "Tiris Zemmour"
 msgstr ""
@@ -7635,9 +7128,8 @@ msgstr ""
 msgid "Rodrigues Island"
 msgstr ""
 
-#, fuzzy
 msgid "Male"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Alif"
 msgstr ""
@@ -7672,9 +7164,8 @@ msgstr ""
 msgid "Laamu"
 msgstr ""
 
-#, fuzzy
 msgid "Lhaviyani"
-msgstr "拉脫維亞"
+msgstr ""
 
 msgid "Meemu"
 msgstr ""
@@ -7682,48 +7173,41 @@ msgstr ""
 msgid "Noonu"
 msgstr ""
 
-#, fuzzy
 msgid "Raa"
-msgstr "羅馬尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Seenu"
-msgstr "瑞典"
+msgstr ""
 
 msgid "Shaviyani"
 msgstr ""
 
-#, fuzzy
 msgid "Thaa"
-msgstr "泰國"
+msgstr ""
 
 msgid "Vaavu"
 msgstr ""
 
-#, fuzzy
 msgid "Balaka"
-msgstr "巴巴多斯"
+msgstr ""
 
 msgid "Blantyre"
 msgstr ""
 
-#, fuzzy
 msgid "Chikwawa"
-msgstr "中國"
+msgstr ""
 
 msgid "Chiradzulu"
 msgstr ""
 
-#, fuzzy
 msgid "Chitipa"
-msgstr "中國"
+msgstr ""
 
 msgid "Dedza"
 msgstr ""
 
-#, fuzzy
 msgid "Dowa"
-msgstr "挪威"
+msgstr ""
 
 msgid "Karonga"
 msgstr ""
@@ -7731,16 +7215,14 @@ msgstr ""
 msgid "Kasungu"
 msgstr ""
 
-#, fuzzy
 msgid "Likoma Island"
-msgstr "芬蘭"
+msgstr ""
 
 msgid "Lilongwe"
 msgstr ""
 
-#, fuzzy
 msgid "Machinga"
-msgstr "中國"
+msgstr ""
 
 msgid "Mangochi"
 msgstr ""
@@ -7772,9 +7254,8 @@ msgstr ""
 msgid "Ntchisi"
 msgstr ""
 
-#, fuzzy
 msgid "Phalomba"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Rumphi"
 msgstr ""
@@ -7785,9 +7266,8 @@ msgstr ""
 msgid "Thyolo"
 msgstr ""
 
-#, fuzzy
 msgid "Zomba"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Aguascalientes"
 msgstr ""
@@ -7801,17 +7281,14 @@ msgstr ""
 msgid "Campeche"
 msgstr ""
 
-#, fuzzy
 msgid "Coahu ila"
-msgstr "克羅地亞"
+msgstr ""
 
-#, fuzzy
 msgid "Col ima"
-msgstr "哥倫比亞"
+msgstr ""
 
-#, fuzzy
 msgid "Chiapas"
-msgstr "中國"
+msgstr ""
 
 msgid "Chihushua"
 msgstr ""
@@ -7837,9 +7314,8 @@ msgstr "墨西哥"
 msgid "Michoacin"
 msgstr ""
 
-#, fuzzy
 msgid "Morelos"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Nayarit"
 msgstr ""
@@ -7847,9 +7323,8 @@ msgstr ""
 msgid "Nuevo Leon"
 msgstr ""
 
-#, fuzzy
 msgid "Oaxaca"
-msgstr "牙買加"
+msgstr ""
 
 msgid "Puebla"
 msgstr ""
@@ -7914,13 +7389,11 @@ msgstr ""
 msgid "Pahang"
 msgstr ""
 
-#, fuzzy
 msgid "Perak"
-msgstr "秘魯"
+msgstr ""
 
-#, fuzzy
 msgid "Perlis"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Pulau Pinang"
 msgstr ""
@@ -7949,9 +7422,8 @@ msgstr ""
 msgid "Inhambane"
 msgstr ""
 
-#, fuzzy
 msgid "Manica"
-msgstr "馬其頓"
+msgstr ""
 
 msgid "Numpula"
 msgstr ""
@@ -7977,9 +7449,8 @@ msgstr ""
 msgid "Hardap"
 msgstr ""
 
-#, fuzzy
 msgid "Karas"
-msgstr "巴巴多斯"
+msgstr ""
 
 msgid "Khomae"
 msgstr ""
@@ -8035,9 +7506,8 @@ msgstr ""
 msgid "Abuja Capital Territory"
 msgstr ""
 
-#, fuzzy
 msgid "Abia"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Adamawa"
 msgstr ""
@@ -8045,9 +7515,8 @@ msgstr ""
 msgid "Akwa Ibom"
 msgstr ""
 
-#, fuzzy
 msgid "Anambra"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Bauchi"
 msgstr ""
@@ -8064,17 +7533,14 @@ msgstr ""
 msgid "Cross River"
 msgstr ""
 
-#, fuzzy
 msgid "Delta"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Ebonyi"
-msgstr "愛沙尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Edo"
-msgstr "厄瓜多爾"
+msgstr ""
 
 msgid "Ekiti"
 msgstr ""
@@ -8097,9 +7563,8 @@ msgstr ""
 msgid "Kano"
 msgstr ""
 
-#, fuzzy
 msgid "Katsina"
-msgstr "拉脫維亞"
+msgstr ""
 
 msgid "Kebbi"
 msgstr ""
@@ -8152,16 +7617,14 @@ msgstr ""
 msgid "Carazo"
 msgstr ""
 
-#, fuzzy
 msgid "Chinandega"
-msgstr "中國"
+msgstr ""
 
 msgid "Chontales"
 msgstr ""
 
-#, fuzzy
 msgid "Esteli"
-msgstr "愛沙尼亞"
+msgstr ""
 
 msgid "Jinotega"
 msgstr ""
@@ -8172,9 +7635,8 @@ msgstr ""
 msgid "Madriz"
 msgstr ""
 
-#, fuzzy
 msgid "Managua"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Masaya"
 msgstr ""
@@ -8200,17 +7662,14 @@ msgstr ""
 msgid "Drente"
 msgstr ""
 
-#, fuzzy
 msgid "Flevoland"
-msgstr "波蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Friesland"
-msgstr "芬蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Gelderland"
-msgstr "荷蘭"
+msgstr ""
 
 msgid "Groningen"
 msgstr ""
@@ -8218,9 +7677,8 @@ msgstr ""
 msgid "Noord-Brabant"
 msgstr ""
 
-#, fuzzy
 msgid "Noord-Holland"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Overijssel"
 msgstr ""
@@ -8228,13 +7686,11 @@ msgstr ""
 msgid "Utrecht"
 msgstr ""
 
-#, fuzzy
 msgid "Zuid-Holland"
-msgstr "芬蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Zeeland"
-msgstr "愛爾蘭"
+msgstr ""
 
 msgid "Akershus"
 msgstr ""
@@ -8245,38 +7701,32 @@ msgstr ""
 msgid "Buskerud"
 msgstr ""
 
-#, fuzzy
 msgid "Finumark"
-msgstr "丹麥"
+msgstr ""
 
-#, fuzzy
 msgid "Hedmark"
-msgstr "丹麥"
+msgstr ""
 
-#, fuzzy
 msgid "Hordaland"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Mire og Romsdal"
 msgstr ""
 
-#, fuzzy
 msgid "Nordland"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Nord-Trindelag"
 msgstr ""
 
-#, fuzzy
 msgid "Oppland"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Oslo"
 msgstr ""
 
-#, fuzzy
 msgid "Rogaland"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Sogn og Fjordane"
 msgstr ""
@@ -8284,9 +7734,8 @@ msgstr ""
 msgid "Sir-Trindelag"
 msgstr ""
 
-#, fuzzy
 msgid "Telemark"
-msgstr "丹麥"
+msgstr ""
 
 msgid "Troms"
 msgstr ""
@@ -8306,9 +7755,8 @@ msgstr ""
 msgid "Svalbard"
 msgstr ""
 
-#, fuzzy
 msgid "Auckland"
-msgstr "冰島"
+msgstr ""
 
 msgid "Bay of Plenty"
 msgstr ""
@@ -8331,23 +7779,20 @@ msgstr ""
 msgid "Nelson"
 msgstr ""
 
-#, fuzzy
 msgid "Northland"
-msgstr "荷蘭"
+msgstr ""
 
 msgid "Otago"
 msgstr ""
 
-#, fuzzy
 msgid "Southland"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Taranaki"
 msgstr ""
 
-#, fuzzy
 msgid "Tasman"
-msgstr "台灣"
+msgstr ""
 
 msgid "waikato"
 msgstr ""
@@ -8364,13 +7809,11 @@ msgstr ""
 msgid "Al Batinah"
 msgstr ""
 
-#, fuzzy
 msgid "Al Janblyah"
-msgstr "巴拿馬"
+msgstr ""
 
-#, fuzzy
 msgid "Al Wusta"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Ash Sharqlyah"
 msgstr ""
@@ -8387,16 +7830,14 @@ msgstr ""
 msgid "Bocas del Toro"
 msgstr ""
 
-#, fuzzy
 msgid "Cocle"
-msgstr "智利"
+msgstr ""
 
 msgid "Chiriqui"
 msgstr ""
 
-#, fuzzy
 msgid "Darien"
-msgstr "加勒比"
+msgstr ""
 
 msgid "Herrera"
 msgstr ""
@@ -8407,23 +7848,20 @@ msgstr ""
 msgid "Panama"
 msgstr "巴拿馬"
 
-#, fuzzy
 msgid "Veraguas"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Comarca de San Blas"
 msgstr ""
 
-#, fuzzy
 msgid "El Callao"
-msgstr "薩爾瓦多"
+msgstr ""
 
 msgid "Ancash"
 msgstr ""
 
-#, fuzzy
 msgid "Apurimac"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Arequipa"
 msgstr ""
@@ -8431,13 +7869,11 @@ msgstr ""
 msgid "Ayacucho"
 msgstr ""
 
-#, fuzzy
 msgid "Cajamarca"
-msgstr "牙買加"
+msgstr ""
 
-#, fuzzy
 msgid "Cuzco"
-msgstr "中國"
+msgstr ""
 
 msgid "Huancavelica"
 msgstr ""
@@ -8445,9 +7881,8 @@ msgstr ""
 msgid "Huanuco"
 msgstr ""
 
-#, fuzzy
 msgid "Ica"
-msgstr "冰島"
+msgstr ""
 
 msgid "Junin"
 msgstr ""
@@ -8458,9 +7893,8 @@ msgstr ""
 msgid "Lambayeque"
 msgstr ""
 
-#, fuzzy
 msgid "Lima"
-msgstr "拉脫維亞"
+msgstr ""
 
 msgid "Loreto"
 msgstr ""
@@ -8525,24 +7959,20 @@ msgstr ""
 msgid "Morobe"
 msgstr ""
 
-#, fuzzy
 msgid "New Ireland"
-msgstr "新西蘭"
+msgstr ""
 
 msgid "North Solomons"
 msgstr ""
 
-#, fuzzy
 msgid "Santaun"
-msgstr "音效"
+msgstr ""
 
-#, fuzzy
 msgid "Southern Highlands"
-msgstr "荷蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Western Highlands"
-msgstr "荷蘭"
+msgstr ""
 
 msgid "West New Britain"
 msgstr ""
@@ -8565,17 +7995,14 @@ msgstr ""
 msgid "Antique"
 msgstr ""
 
-#, fuzzy
 msgid "Apayao"
-msgstr "意大利"
+msgstr ""
 
-#, fuzzy
 msgid "Aurora"
-msgstr "奧地利"
+msgstr ""
 
-#, fuzzy
 msgid "Basilan"
-msgstr "泰國"
+msgstr ""
 
 msgid "Batasn"
 msgstr ""
@@ -8583,16 +8010,14 @@ msgstr ""
 msgid "Batanes"
 msgstr ""
 
-#, fuzzy
 msgid "Batangas"
-msgstr "英語"
+msgstr ""
 
 msgid "Benguet"
 msgstr ""
 
-#, fuzzy
 msgid "Biliran"
-msgstr "泰國"
+msgstr ""
 
 msgid "Bohol"
 msgstr ""
@@ -8600,13 +8025,11 @@ msgstr ""
 msgid "Bukidnon"
 msgstr ""
 
-#, fuzzy
 msgid "Bulacan"
-msgstr "保加利亞"
+msgstr ""
 
-#, fuzzy
 msgid "Cagayan"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Camarines Norte"
 msgstr ""
@@ -8644,9 +8067,8 @@ msgstr ""
 msgid "Eastern Samar"
 msgstr ""
 
-#, fuzzy
 msgid "Guimaras"
-msgstr "格林納達"
+msgstr ""
 
 msgid "Ifugao"
 msgstr ""
@@ -8660,9 +8082,8 @@ msgstr ""
 msgid "Iloilo"
 msgstr ""
 
-#, fuzzy
 msgid "Isabela"
-msgstr "以色列"
+msgstr ""
 
 msgid "Kalinga-Apayso"
 msgstr ""
@@ -8712,9 +8133,8 @@ msgstr ""
 msgid "Negros Oriental"
 msgstr ""
 
-#, fuzzy
 msgid "North Cotabato"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "Northern Samar"
 msgstr ""
@@ -8725,17 +8145,14 @@ msgstr ""
 msgid "Nueva Vizcaya"
 msgstr ""
 
-#, fuzzy
 msgid "Palawan"
-msgstr "巴拿馬"
+msgstr ""
 
-#, fuzzy
 msgid "Pampanga"
-msgstr "巴拉圭"
+msgstr ""
 
-#, fuzzy
 msgid "Pangasinan"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Quezon"
 msgstr ""
@@ -8749,9 +8166,8 @@ msgstr ""
 msgid "Romblon"
 msgstr ""
 
-#, fuzzy
 msgid "Sarangani"
-msgstr "日本"
+msgstr ""
 
 msgid "Siquijor"
 msgstr ""
@@ -8759,9 +8175,8 @@ msgstr ""
 msgid "Sorsogon"
 msgstr ""
 
-#, fuzzy
 msgid "South Cotabato"
-msgstr "南朝鮮"
+msgstr ""
 
 msgid "Southern Leyte"
 msgstr ""
@@ -8772,9 +8187,8 @@ msgstr ""
 msgid "Sulu"
 msgstr ""
 
-#, fuzzy
 msgid "Surigao del Norte"
-msgstr "歐洲，北部"
+msgstr ""
 
 msgid "Surigao del Sur"
 msgstr ""
@@ -8827,9 +8241,8 @@ msgstr ""
 msgid "Beja"
 msgstr ""
 
-#, fuzzy
 msgid "Braga"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Braganca"
 msgstr ""
@@ -8837,42 +8250,35 @@ msgstr ""
 msgid "Castelo Branco"
 msgstr ""
 
-#, fuzzy
 msgid "Colmbra"
-msgstr "哥倫比亞"
+msgstr ""
 
-#, fuzzy
 msgid "Ovora"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Faro"
 msgstr ""
 
-#, fuzzy
 msgid "Guarda"
-msgstr "格林納達"
+msgstr ""
 
-#, fuzzy
 msgid "Leiria"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Lisboa"
 msgstr ""
 
-#, fuzzy
 msgid "Portalegre"
-msgstr "葡萄牙"
+msgstr ""
 
-#, fuzzy
 msgid "Porto"
-msgstr "葡萄牙"
+msgstr ""
 
 msgid "Santarem"
 msgstr ""
 
-#, fuzzy
 msgid "Setubal"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Viana do Castelo"
 msgstr ""
@@ -8892,9 +8298,8 @@ msgstr ""
 msgid "Asuncion"
 msgstr ""
 
-#, fuzzy
 msgid "Alto Paraguay"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Alto Parana"
 msgstr ""
@@ -8908,9 +8313,8 @@ msgstr ""
 msgid "Caeguazu"
 msgstr ""
 
-#, fuzzy
 msgid "Caazapl"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Canindeyu"
 msgstr ""
@@ -8933,9 +8337,8 @@ msgstr ""
 msgid "Neembucu"
 msgstr ""
 
-#, fuzzy
 msgid "Paraguari"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Presidente Hayes"
 msgstr ""
@@ -8979,9 +8382,8 @@ msgstr ""
 msgid "Arad"
 msgstr ""
 
-#, fuzzy
 msgid "Arges"
-msgstr "阿根廷"
+msgstr ""
 
 msgid "Bacau"
 msgstr ""
@@ -8998,9 +8400,8 @@ msgstr ""
 msgid "Bra'ov"
 msgstr ""
 
-#, fuzzy
 msgid "Braila"
-msgstr "巴西"
+msgstr ""
 
 msgid "Buzau"
 msgstr ""
@@ -9017,9 +8418,8 @@ msgstr ""
 msgid "Constant'a"
 msgstr ""
 
-#, fuzzy
 msgid "Covasna"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Dambovit'a"
 msgstr ""
@@ -9039,9 +8439,8 @@ msgstr ""
 msgid "Harghita"
 msgstr ""
 
-#, fuzzy
 msgid "Hunedoara"
-msgstr "匈牙利"
+msgstr ""
 
 msgid "Ialomit'a"
 msgstr ""
@@ -9049,9 +8448,8 @@ msgstr ""
 msgid "Ias'i"
 msgstr ""
 
-#, fuzzy
 msgid "Ilfov"
-msgstr "斯洛文尼亞"
+msgstr ""
 
 msgid "Maramures"
 msgstr ""
@@ -9083,9 +8481,8 @@ msgstr ""
 msgid "Suceava"
 msgstr ""
 
-#, fuzzy
 msgid "Teleorman"
-msgstr "德國"
+msgstr ""
 
 msgid "Timis"
 msgstr ""
@@ -9099,9 +8496,8 @@ msgstr ""
 msgid "Valcea"
 msgstr ""
 
-#, fuzzy
 msgid "Vrancea"
-msgstr "法國"
+msgstr ""
 
 msgid "Adygeya, Respublika"
 msgstr ""
@@ -9142,9 +8538,8 @@ msgstr ""
 msgid "Khakasiya, Respublika"
 msgstr ""
 
-#, fuzzy
 msgid "Komi, Respublika"
-msgstr "多米尼加共和國"
+msgstr ""
 
 msgid "Mariy El, Respublika"
 msgstr ""
@@ -9401,9 +8796,8 @@ msgstr ""
 msgid "Kigali-Ville Kigali Ngari"
 msgstr ""
 
-#, fuzzy
 msgid "Mutara"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Ruhengeri"
 msgstr ""
@@ -9417,9 +8811,8 @@ msgstr ""
 msgid "Al Jawf"
 msgstr ""
 
-#, fuzzy
 msgid "Al Madinah"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Al Qasim"
 msgstr ""
@@ -9433,9 +8826,8 @@ msgstr ""
 msgid "Ha'il"
 msgstr ""
 
-#, fuzzy
 msgid "Jlzan"
-msgstr "日本"
+msgstr ""
 
 msgid "Makkah"
 msgstr ""
@@ -9449,20 +8841,17 @@ msgstr ""
 msgid "Capital Territory (Honiara)"
 msgstr ""
 
-#, fuzzy
 msgid "Guadalcanal"
-msgstr "瓜地馬拉"
+msgstr ""
 
-#, fuzzy
 msgid "Isabel"
-msgstr "以色列"
+msgstr ""
 
 msgid "Makira"
 msgstr ""
 
-#, fuzzy
 msgid "Malaita"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Temotu"
 msgstr ""
@@ -9620,9 +9009,8 @@ msgstr ""
 msgid "Ajdovscina"
 msgstr ""
 
-#, fuzzy
 msgid "Beltinci"
-msgstr "比利時"
+msgstr ""
 
 msgid "Benedikt"
 msgstr ""
@@ -9630,59 +9018,47 @@ msgstr ""
 msgid "Bistrica ob Sotli"
 msgstr ""
 
-#, fuzzy
 msgid "Bled"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Bloke"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Bohinj"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Borovnica"
-msgstr "波利維亞"
+msgstr ""
 
 msgid "Bovec"
 msgstr ""
 
-#, fuzzy
 msgid "Braslovce"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Brda"
-msgstr "巴巴多斯"
+msgstr ""
 
-#, fuzzy
 msgid "Brezovica"
-msgstr "波利維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Brezica"
-msgstr "巴西"
+msgstr ""
 
-#, fuzzy
 msgid "Cankova"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Celje"
-msgstr "智利"
+msgstr ""
 
 msgid "Cerklje na Gorenjskem"
 msgstr ""
 
-#, fuzzy
 msgid "Cerknica"
-msgstr "捷克"
+msgstr ""
 
-#, fuzzy
 msgid "Cerkno"
-msgstr "法國"
+msgstr ""
 
 msgid "Cerkvenjak"
 msgstr ""
@@ -9696,23 +9072,20 @@ msgstr ""
 msgid "Crnomelj"
 msgstr ""
 
-#, fuzzy
 msgid "Destrnik"
-msgstr "歐洲，西部"
+msgstr ""
 
 msgid "Divaca"
 msgstr ""
 
-#, fuzzy
 msgid "Dobje"
-msgstr "智利"
+msgstr ""
 
 msgid "Dobrepolje"
 msgstr ""
 
-#, fuzzy
 msgid "Dobrna"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Dobrova-Polhov Gradec"
 msgstr ""
@@ -9726,16 +9099,14 @@ msgstr ""
 msgid "Dolenjske Toplice"
 msgstr ""
 
-#, fuzzy
 msgid "Domzale"
-msgstr "羅馬尼亞"
+msgstr ""
 
 msgid "Dornava"
 msgstr ""
 
-#, fuzzy
 msgid "Dravograd"
-msgstr "挪威"
+msgstr ""
 
 msgid "Duplek"
 msgstr ""
@@ -9743,39 +9114,32 @@ msgstr ""
 msgid "Gorenja vas-Poljane"
 msgstr ""
 
-#, fuzzy
 msgid "Gorsnica"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Gornja Radgona"
-msgstr "格林納達"
+msgstr ""
 
-#, fuzzy
 msgid "Gornji Grad"
-msgstr "格林納達"
+msgstr ""
 
 msgid "Gornji Petrovci"
 msgstr ""
 
-#, fuzzy
 msgid "Grad"
-msgstr "格林納達"
+msgstr ""
 
 msgid "Grosuplje"
 msgstr ""
 
-#, fuzzy
 msgid "Hajdina"
-msgstr "台灣"
+msgstr ""
 
-#, fuzzy
 msgid "Hoce-Slivnica"
-msgstr "波利維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Hodos"
-msgstr "洪都拉斯"
+msgstr ""
 
 msgid "Jorjul"
 msgstr ""
@@ -9786,9 +9150,8 @@ msgstr ""
 msgid "Hrpelje-Kozina"
 msgstr ""
 
-#, fuzzy
 msgid "Idrija"
-msgstr "印尼語"
+msgstr ""
 
 msgid "Ig"
 msgstr ""
@@ -9799,9 +9162,8 @@ msgstr ""
 msgid "Ivancna Gorica"
 msgstr ""
 
-#, fuzzy
 msgid "Izola"
-msgstr "挪威"
+msgstr ""
 
 msgid "Jesenice"
 msgstr ""
@@ -9809,55 +9171,44 @@ msgstr ""
 msgid "Jezersko"
 msgstr ""
 
-#, fuzzy
 msgid "Jursinci"
-msgstr "音效"
+msgstr ""
 
-#, fuzzy
 msgid "Kamnik"
-msgstr "羅馬尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Kanal"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Kidricevo"
 msgstr ""
 
-#, fuzzy
 msgid "Kobarid"
-msgstr "哥倫比亞"
+msgstr ""
 
-#, fuzzy
 msgid "Kobilje"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Jovevje"
 msgstr ""
 
-#, fuzzy
 msgid "Komen"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "Komenda"
-msgstr "洪都拉斯"
+msgstr ""
 
-#, fuzzy
 msgid "Koper"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "Kostel"
-msgstr "愛沙尼亞"
+msgstr ""
 
-#, fuzzy
 msgid "Kozje"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "Kranj"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Kranjska Gora"
 msgstr ""
@@ -9865,36 +9216,29 @@ msgstr ""
 msgid "Krizevci"
 msgstr ""
 
-#, fuzzy
 msgid "Krsko"
-msgstr "巴巴多斯"
+msgstr ""
 
 msgid "Kungota"
 msgstr ""
 
-#, fuzzy
 msgid "Kuzma"
-msgstr "保加利亞"
+msgstr ""
 
-#, fuzzy
 msgid "Lasko"
-msgstr "立陶宛語"
+msgstr ""
 
-#, fuzzy
 msgid "Lenart"
-msgstr "丹麥"
+msgstr ""
 
-#, fuzzy
 msgid "Lendava"
-msgstr "拉脫維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Litija"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Ljubljana"
-msgstr "立陶宛語"
+msgstr ""
 
 msgid "Ljubno"
 msgstr ""
@@ -9902,9 +9246,8 @@ msgstr ""
 msgid "Ljutomer"
 msgstr ""
 
-#, fuzzy
 msgid "Logatec"
-msgstr "葡萄牙"
+msgstr ""
 
 msgid "Loska dolina"
 msgstr ""
@@ -9918,17 +9261,14 @@ msgstr ""
 msgid "Luce"
 msgstr ""
 
-#, fuzzy
 msgid "Lukovica"
-msgstr "立陶宛語"
+msgstr ""
 
-#, fuzzy
 msgid "Majsperk"
-msgstr "秘魯"
+msgstr ""
 
-#, fuzzy
 msgid "Maribor"
-msgstr "墨西哥"
+msgstr ""
 
 msgid "Markovci"
 msgstr ""
@@ -9936,17 +9276,14 @@ msgstr ""
 msgid "Medvode"
 msgstr ""
 
-#, fuzzy
 msgid "Menges"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Metlika"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Mezica"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Miklavz na Dravskern polju"
 msgstr ""
@@ -9954,17 +9291,14 @@ msgstr ""
 msgid "Miren-Kostanjevica"
 msgstr ""
 
-#, fuzzy
 msgid "Mirna Pec"
-msgstr "加拿大"
+msgstr ""
 
-#, fuzzy
 msgid "Mislinja"
-msgstr "俄羅斯"
+msgstr ""
 
-#, fuzzy
 msgid "Moravce"
-msgstr "挪威"
+msgstr ""
 
 msgid "Moravske Toplice"
 msgstr ""
@@ -9975,20 +9309,17 @@ msgstr ""
 msgid "Murska Sobota"
 msgstr ""
 
-#, fuzzy
 msgid "Muta"
-msgstr "奧地利"
+msgstr ""
 
-#, fuzzy
 msgid "Naklo"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Nazarje"
 msgstr ""
 
-#, fuzzy
 msgid "Nova Gorica"
-msgstr "挪威"
+msgstr ""
 
 msgid "Nova mesto"
 msgstr ""
@@ -10002,16 +9333,14 @@ msgstr ""
 msgid "Sveti Jurij"
 msgstr ""
 
-#, fuzzy
 msgid "Salovci"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Sempeter-Vrtojba"
 msgstr ""
 
-#, fuzzy
 msgid "Sencur"
-msgstr "瑞典"
+msgstr ""
 
 msgid "Sentilj"
 msgstr ""
@@ -10040,25 +9369,20 @@ msgstr ""
 msgid "Smartno pri Litiji"
 msgstr ""
 
-#, fuzzy
 msgid "Sostanj"
-msgstr "奧地利"
+msgstr ""
 
-#, fuzzy
 msgid "Store"
-msgstr "南朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "Tabor"
-msgstr "台灣"
+msgstr ""
 
-#, fuzzy
 msgid "Tisina"
-msgstr "俄羅斯"
+msgstr ""
 
-#, fuzzy
 msgid "Tolmin"
-msgstr "牙買加"
+msgstr ""
 
 msgid "Trbovje"
 msgstr ""
@@ -10072,17 +9396,14 @@ msgstr ""
 msgid "Trzic"
 msgstr ""
 
-#, fuzzy
 msgid "Trzin"
-msgstr "台灣"
+msgstr ""
 
-#, fuzzy
 msgid "Turnisce"
-msgstr "俄羅斯"
+msgstr ""
 
-#, fuzzy
 msgid "Velenje"
-msgstr "瑞典"
+msgstr ""
 
 msgid "Velika Polana"
 msgstr ""
@@ -10093,32 +9414,26 @@ msgstr ""
 msgid "Verzej"
 msgstr ""
 
-#, fuzzy
 msgid "Videm"
-msgstr "越南"
+msgstr ""
 
-#, fuzzy
 msgid "Vipava"
-msgstr "西班牙"
+msgstr ""
 
-#, fuzzy
 msgid "Vitanje"
-msgstr "越南"
+msgstr ""
 
-#, fuzzy
 msgid "Vojnik"
-msgstr "波蘭"
+msgstr ""
 
 msgid "Vransko"
 msgstr ""
 
-#, fuzzy
 msgid "Vrhnika"
-msgstr "中國"
+msgstr ""
 
-#, fuzzy
 msgid "Vuzenica"
-msgstr "捷克"
+msgstr ""
 
 msgid "Zagorje ob Savi"
 msgstr ""
@@ -10126,24 +9441,20 @@ msgstr ""
 msgid "Zavrc"
 msgstr ""
 
-#, fuzzy
 msgid "Zrece"
-msgstr "希臘"
+msgstr ""
 
-#, fuzzy
 msgid "Zalec"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Zelezniki"
 msgstr ""
 
-#, fuzzy
 msgid "Zetale"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Ziri"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Zirovnica"
 msgstr ""
@@ -10193,13 +9504,11 @@ msgstr ""
 msgid "Kolda"
 msgstr ""
 
-#, fuzzy
 msgid "Louga"
-msgstr "葡萄牙"
+msgstr ""
 
-#, fuzzy
 msgid "Matam"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Saint-Louis"
 msgstr ""
@@ -10207,9 +9516,8 @@ msgstr ""
 msgid "Tambacounda"
 msgstr ""
 
-#, fuzzy
 msgid "Thies"
-msgstr "智利"
+msgstr ""
 
 msgid "Ziguinchor"
 msgstr ""
@@ -10280,21 +9588,17 @@ msgstr ""
 msgid "Nickerie"
 msgstr ""
 
-#, fuzzy
 msgid "Paramaribo"
-msgstr "巴拿馬"
+msgstr ""
 
-#, fuzzy
 msgid "Saramacca"
-msgstr "牙買加"
+msgstr ""
 
-#, fuzzy
 msgid "Sipaliwini"
-msgstr "西班牙"
+msgstr ""
 
-#, fuzzy
 msgid "Wanica"
-msgstr "牙買加"
+msgstr ""
 
 msgid "Principe"
 msgstr ""
@@ -10305,9 +9609,8 @@ msgstr ""
 msgid "Ahuachapan"
 msgstr ""
 
-#, fuzzy
 msgid "Cabanas"
-msgstr "加勒比"
+msgstr ""
 
 msgid "Cuscatlan"
 msgstr ""
@@ -10315,16 +9618,14 @@ msgstr ""
 msgid "Chalatenango"
 msgstr ""
 
-#, fuzzy
 msgid "Morazan"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "San Miguel"
 msgstr ""
 
-#, fuzzy
 msgid "San Salvador"
-msgstr "薩爾瓦多"
+msgstr ""
 
 msgid "Santa Ana"
 msgstr ""
@@ -10362,9 +9663,8 @@ msgstr ""
 msgid "Dimashq"
 msgstr ""
 
-#, fuzzy
 msgid "Halab"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Hamah"
 msgstr ""
@@ -10372,9 +9672,8 @@ msgstr ""
 msgid "Jim'"
 msgstr ""
 
-#, fuzzy
 msgid "Idlib"
-msgstr "印尼語"
+msgstr ""
 
 msgid "Rif Dimashq"
 msgstr ""
@@ -10394,9 +9693,8 @@ msgstr ""
 msgid "Shiselweni"
 msgstr ""
 
-#, fuzzy
 msgid "Batha"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Biltine"
 msgstr ""
@@ -10407,9 +9705,8 @@ msgstr ""
 msgid "Chari-Baguirmi"
 msgstr ""
 
-#, fuzzy
 msgid "Guera"
-msgstr "德國"
+msgstr ""
 
 msgid "Kanem"
 msgstr ""
@@ -10432,9 +9729,8 @@ msgstr ""
 msgid "Ouaddai"
 msgstr ""
 
-#, fuzzy
 msgid "Salamat"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Tandjile"
 msgstr ""
@@ -10460,16 +9756,14 @@ msgstr ""
 msgid "Ang Thong"
 msgstr ""
 
-#, fuzzy
 msgid "Buri Ram"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Chachoengsao"
 msgstr ""
 
-#, fuzzy
 msgid "Chai Nat"
-msgstr "中國"
+msgstr ""
 
 msgid "Chaiyaphum"
 msgstr ""
@@ -10477,13 +9771,11 @@ msgstr ""
 msgid "Chanthaburi"
 msgstr ""
 
-#, fuzzy
 msgid "Chiang Mai"
-msgstr "中國"
+msgstr ""
 
-#, fuzzy
 msgid "Chiang Rai"
-msgstr "中國"
+msgstr ""
 
 msgid "Chon Buri"
 msgstr ""
@@ -10506,9 +9798,8 @@ msgstr ""
 msgid "Krabi"
 msgstr ""
 
-#, fuzzy
 msgid "Lampang"
-msgstr "日本"
+msgstr ""
 
 msgid "Lamphun"
 msgstr ""
@@ -10525,9 +9816,8 @@ msgstr ""
 msgid "Maha Sarakham"
 msgstr ""
 
-#, fuzzy
 msgid "Mukdahan"
-msgstr "音效"
+msgstr ""
 
 msgid "Nakhon Nayok"
 msgstr ""
@@ -10634,9 +9924,8 @@ msgstr ""
 msgid "Saraburi"
 msgstr ""
 
-#, fuzzy
 msgid "Satun"
-msgstr "音效"
+msgstr ""
 
 msgid "Sing Buri"
 msgstr ""
@@ -10656,9 +9945,8 @@ msgstr ""
 msgid "Surat Thani"
 msgstr ""
 
-#, fuzzy
 msgid "Surin"
-msgstr "音效"
+msgstr ""
 
 msgid "Tak"
 msgstr ""
@@ -10681,16 +9969,14 @@ msgstr ""
 msgid "Uttaradit"
 msgstr ""
 
-#, fuzzy
 msgid "Yala"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Yasothon"
 msgstr ""
 
-#, fuzzy
 msgid "Sughd"
-msgstr "音效"
+msgstr ""
 
 msgid "Khatlon"
 msgstr ""
@@ -10716,9 +10002,8 @@ msgstr ""
 msgid "Béja"
 msgstr ""
 
-#, fuzzy
 msgid "Ben Arous"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Bizerte"
 msgstr ""
@@ -10747,13 +10032,11 @@ msgstr ""
 msgid "Le Ref"
 msgstr ""
 
-#, fuzzy
 msgid "Mahdia"
-msgstr "馬其頓"
+msgstr ""
 
-#, fuzzy
 msgid "La Manouba"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Medenine"
 msgstr ""
@@ -10788,9 +10071,8 @@ msgstr ""
 msgid "Zaghouan"
 msgstr ""
 
-#, fuzzy
 msgid "Adana"
-msgstr "音效"
+msgstr ""
 
 msgid "Ad yaman"
 msgstr ""
@@ -10810,28 +10092,23 @@ msgstr ""
 msgid "Ankara"
 msgstr ""
 
-#, fuzzy
 msgid "Antalya"
-msgstr "意大利"
+msgstr ""
 
-#, fuzzy
 msgid "Ardahan"
-msgstr "朝鮮語"
+msgstr ""
 
-#, fuzzy
 msgid "Artvin"
-msgstr "阿根廷"
+msgstr ""
 
-#, fuzzy
 msgid "Aydin"
-msgstr "音效"
+msgstr ""
 
 msgid "Bal kesir"
 msgstr ""
 
-#, fuzzy
 msgid "Bartin"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Batman"
 msgstr ""
@@ -10854,21 +10131,17 @@ msgstr ""
 msgid "Burdur"
 msgstr ""
 
-#, fuzzy
 msgid "Bursa"
-msgstr "保加利亞"
+msgstr ""
 
-#, fuzzy
 msgid "Canakkale"
-msgstr "加拿大"
+msgstr ""
 
-#, fuzzy
 msgid "Cankir"
-msgstr "加拿大"
+msgstr ""
 
-#, fuzzy
 msgid "Corum"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Denizli"
 msgstr ""
@@ -10906,24 +10179,20 @@ msgstr ""
 msgid "Hakkari"
 msgstr ""
 
-#, fuzzy
 msgid "Hatay"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Igidir"
 msgstr ""
 
-#, fuzzy
 msgid "Isparta"
-msgstr "以色列"
+msgstr ""
 
-#, fuzzy
 msgid "Icel"
-msgstr "冰島"
+msgstr ""
 
-#, fuzzy
 msgid "Istanbul"
-msgstr "意大利"
+msgstr ""
 
 msgid "Izmir"
 msgstr ""
@@ -10934,9 +10203,8 @@ msgstr ""
 msgid "Karabk"
 msgstr ""
 
-#, fuzzy
 msgid "Karaman"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Kars"
 msgstr ""
@@ -10968,20 +10236,17 @@ msgstr ""
 msgid "Ktahya"
 msgstr ""
 
-#, fuzzy
 msgid "Malatya"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Manisa"
-msgstr "馬其頓"
+msgstr ""
 
 msgid "Mardin"
 msgstr ""
 
-#, fuzzy
 msgid "Mugila"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Mus"
 msgstr ""
@@ -10989,9 +10254,8 @@ msgstr ""
 msgid "Nevs'ehir"
 msgstr ""
 
-#, fuzzy
 msgid "Nigide"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Ordu"
 msgstr ""
@@ -11011,9 +10275,8 @@ msgstr ""
 msgid "Siirt"
 msgstr ""
 
-#, fuzzy
 msgid "Sinop"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Sivas"
 msgstr ""
@@ -11075,9 +10338,8 @@ msgstr ""
 msgid "San Juan-Laventille"
 msgstr ""
 
-#, fuzzy
 msgid "Siparia"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Tunapuna-Piarco"
 msgstr ""
@@ -11085,9 +10347,8 @@ msgstr ""
 msgid "Western Tobago"
 msgstr ""
 
-#, fuzzy
 msgid "Arima"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Chaguanas"
 msgstr ""
@@ -11101,62 +10362,50 @@ msgstr ""
 msgid "San Fernando"
 msgstr ""
 
-#, fuzzy
 msgid "Aileu"
-msgstr "智利"
+msgstr ""
 
-#, fuzzy
 msgid "Ainaro"
-msgstr "中國"
+msgstr ""
 
-#, fuzzy
 msgid "Bacucau"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Bobonaro"
 msgstr ""
 
-#, fuzzy
 msgid "Cova Lima"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Dili"
 msgstr ""
 
-#, fuzzy
 msgid "Ermera"
-msgstr "愛爾蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Laulem"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Liquica"
-msgstr "立陶宛語"
+msgstr ""
 
-#, fuzzy
 msgid "Manatuto"
-msgstr "巴拉圭"
+msgstr ""
 
-#, fuzzy
 msgid "Manafahi"
-msgstr "巴拉圭"
+msgstr ""
 
-#, fuzzy
 msgid "Oecussi"
-msgstr "俄羅斯"
+msgstr ""
 
 msgid "Viqueque"
 msgstr ""
 
-#, fuzzy
 msgid "Changhua"
-msgstr "中國"
+msgstr ""
 
-#, fuzzy
 msgid "Chiayi"
-msgstr "中國"
+msgstr ""
 
 msgid "Hsinchu"
 msgstr ""
@@ -11164,9 +10413,8 @@ msgstr ""
 msgid "Hualien"
 msgstr ""
 
-#, fuzzy
 msgid "Ilan"
-msgstr "愛爾蘭"
+msgstr ""
 
 msgid "Kaohsiung"
 msgstr ""
@@ -11177,9 +10425,8 @@ msgstr ""
 msgid "Nantou"
 msgstr ""
 
-#, fuzzy
 msgid "Penghu"
-msgstr "秘魯"
+msgstr ""
 
 msgid "Pingtung"
 msgstr ""
@@ -11187,20 +10434,17 @@ msgstr ""
 msgid "Taichung"
 msgstr ""
 
-#, fuzzy
 msgid "Tainan"
-msgstr "台灣"
+msgstr ""
 
 msgid "Taipei"
 msgstr ""
 
-#, fuzzy
 msgid "Taitung"
-msgstr "台灣"
+msgstr ""
 
-#, fuzzy
 msgid "Taoyuan"
-msgstr "台灣"
+msgstr ""
 
 msgid "Yunlin"
 msgstr ""
@@ -11208,9 +10452,8 @@ msgstr ""
 msgid "Keelung"
 msgstr ""
 
-#, fuzzy
 msgid "Arusha"
-msgstr "奧地利"
+msgstr ""
 
 msgid "Dar-es-Salaam"
 msgstr ""
@@ -11218,9 +10461,8 @@ msgstr ""
 msgid "Dodoma"
 msgstr ""
 
-#, fuzzy
 msgid "Iringa"
-msgstr "以色列"
+msgstr ""
 
 msgid "Kagera"
 msgstr ""
@@ -11243,17 +10485,14 @@ msgstr ""
 msgid "Kusini Unguja"
 msgstr ""
 
-#, fuzzy
 msgid "Lindi"
-msgstr "印尼語"
+msgstr ""
 
-#, fuzzy
 msgid "Manyara"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Mara"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Mbeya"
 msgstr ""
@@ -11369,9 +10608,8 @@ msgstr ""
 msgid "Sevastopol"
 msgstr ""
 
-#, fuzzy
 msgid "Adjumani"
-msgstr "音效"
+msgstr ""
 
 msgid "Apac"
 msgstr ""
@@ -11379,9 +10617,8 @@ msgstr ""
 msgid "Arua"
 msgstr ""
 
-#, fuzzy
 msgid "Bugiri"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Bundibugyo"
 msgstr ""
@@ -11389,9 +10626,8 @@ msgstr ""
 msgid "Bushenyi"
 msgstr ""
 
-#, fuzzy
 msgid "Busia"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Gulu"
 msgstr ""
@@ -11402,9 +10638,8 @@ msgstr ""
 msgid "Iganga"
 msgstr ""
 
-#, fuzzy
 msgid "Jinja"
-msgstr "中國"
+msgstr ""
 
 msgid "Kabale"
 msgstr ""
@@ -11412,23 +10647,20 @@ msgstr ""
 msgid "Kabarole"
 msgstr ""
 
-#, fuzzy
 msgid "Kaberamaido"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Kalangala"
 msgstr ""
 
-#, fuzzy
 msgid "Kampala"
-msgstr "瓜地馬拉"
+msgstr ""
 
 msgid "Kamuli"
 msgstr ""
 
-#, fuzzy
 msgid "Kamwenge"
-msgstr "瑞典"
+msgstr ""
 
 msgid "Kanungu"
 msgstr ""
@@ -11439,17 +10671,14 @@ msgstr ""
 msgid "Kasese"
 msgstr ""
 
-#, fuzzy
 msgid "Katakwi"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Kayunga"
-msgstr "西班牙"
+msgstr ""
 
-#, fuzzy
 msgid "Kibaale"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Kiboga"
 msgstr ""
@@ -11469,9 +10698,8 @@ msgstr ""
 msgid "Kyenjojo"
 msgstr ""
 
-#, fuzzy
 msgid "Lira"
-msgstr "拉脫維亞"
+msgstr ""
 
 msgid "Luwero"
 msgstr ""
@@ -11482,13 +10710,11 @@ msgstr ""
 msgid "Masindi"
 msgstr ""
 
-#, fuzzy
 msgid "Mayuge"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Mbale"
-msgstr "馬耳他"
+msgstr ""
 
 msgid "Mbarara"
 msgstr ""
@@ -11520,9 +10746,8 @@ msgstr ""
 msgid "Ntungamo"
 msgstr ""
 
-#, fuzzy
 msgid "Pader"
-msgstr "巴拉圭"
+msgstr ""
 
 msgid "Pallisa"
 msgstr ""
@@ -11533,28 +10758,23 @@ msgstr ""
 msgid "Rukungiri"
 msgstr ""
 
-#, fuzzy
 msgid "Sembabule"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Sironko"
-msgstr "西班牙"
+msgstr ""
 
-#, fuzzy
 msgid "Soroti"
-msgstr "克羅地亞"
+msgstr ""
 
 msgid "Tororo"
 msgstr ""
 
-#, fuzzy
 msgid "Wakiso"
-msgstr "墨西哥"
+msgstr ""
 
-#, fuzzy
 msgid "Yumbe"
-msgstr "哥倫比亞"
+msgstr ""
 
 msgid "Baker Island"
 msgstr ""
@@ -11580,13 +10800,11 @@ msgstr ""
 msgid "Palmyra Atoll"
 msgstr ""
 
-#, fuzzy
 msgid "Wake Ialand"
-msgstr "新西蘭"
+msgstr ""
 
-#, fuzzy
 msgid "Artigsa"
-msgstr "阿根廷"
+msgstr ""
 
 msgid "Canelones"
 msgstr ""
@@ -11594,9 +10812,8 @@ msgstr ""
 msgid "Cerro Largo"
 msgstr ""
 
-#, fuzzy
 msgid "Colonia"
-msgstr "斯洛文尼亞"
+msgstr ""
 
 msgid "Durazno"
 msgstr ""
@@ -11607,9 +10824,8 @@ msgstr ""
 msgid "Lavalleja"
 msgstr ""
 
-#, fuzzy
 msgid "Maldonado"
-msgstr "馬其頓"
+msgstr ""
 
 msgid "Montevideo"
 msgstr ""
@@ -11623,13 +10839,11 @@ msgstr ""
 msgid "Rocha"
 msgstr ""
 
-#, fuzzy
 msgid "Salto"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Soriano"
-msgstr "朝鮮語"
+msgstr ""
 
 msgid "Tacuarembo"
 msgstr ""
@@ -11646,13 +10860,11 @@ msgstr ""
 msgid "Andijon"
 msgstr ""
 
-#, fuzzy
 msgid "Buxoro"
-msgstr "土耳其"
+msgstr ""
 
-#, fuzzy
 msgid "Farg'ona"
-msgstr "法國"
+msgstr ""
 
 msgid "Jizzax"
 msgstr ""
@@ -11681,9 +10893,8 @@ msgstr ""
 msgid "Toshkent"
 msgstr ""
 
-#, fuzzy
 msgid "Xorazm"
-msgstr "羅馬尼亞"
+msgstr ""
 
 msgid "Diatrito Federal"
 msgstr ""
@@ -11694,13 +10905,11 @@ msgstr ""
 msgid "Apure"
 msgstr ""
 
-#, fuzzy
 msgid "Aragua"
-msgstr "巴拉圭"
+msgstr ""
 
-#, fuzzy
 msgid "Barinas"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Carabobo"
 msgstr ""
@@ -11714,17 +10923,14 @@ msgstr ""
 msgid "Guarico"
 msgstr ""
 
-#, fuzzy
 msgid "Lara"
-msgstr "拉脫維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Merida"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Miranda"
-msgstr "加拿大"
+msgstr ""
 
 msgid "Monagas"
 msgstr ""
@@ -11732,28 +10938,23 @@ msgstr ""
 msgid "Nueva Esparta"
 msgstr ""
 
-#, fuzzy
 msgid "Portuguesa"
-msgstr "葡萄牙"
+msgstr ""
 
-#, fuzzy
 msgid "Tachira"
-msgstr "台灣"
+msgstr ""
 
 msgid "Trujillo"
 msgstr ""
 
-#, fuzzy
 msgid "Vargas"
-msgstr "巴巴多斯"
+msgstr ""
 
-#, fuzzy
 msgid "Yaracuy"
-msgstr "巴拉圭"
+msgstr ""
 
-#, fuzzy
 msgid "Zulia"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Delta Amacuro"
 msgstr ""
@@ -11941,17 +11142,14 @@ msgstr ""
 msgid "Yen Bai"
 msgstr ""
 
-#, fuzzy
 msgid "Malampa"
-msgstr "馬耳他"
+msgstr ""
 
-#, fuzzy
 msgid "Penama"
-msgstr "巴拿馬"
+msgstr ""
 
-#, fuzzy
 msgid "Sanma"
-msgstr "巴拿馬"
+msgstr ""
 
 msgid "Shefa"
 msgstr ""
@@ -11974,9 +11172,8 @@ msgstr ""
 msgid "Fa'aaaleleaga"
 msgstr ""
 
-#, fuzzy
 msgid "Gaga'emauga"
-msgstr "瓜地馬拉"
+msgstr ""
 
 msgid "Gagaifomauga"
 msgstr ""
@@ -11999,9 +11196,8 @@ msgstr ""
 msgid "Crna Gora"
 msgstr ""
 
-#, fuzzy
 msgid "Srbija"
-msgstr "塞爾維亞"
+msgstr ""
 
 msgid "Kosovo-Metohija"
 msgstr ""
@@ -12012,9 +11208,8 @@ msgstr ""
 msgid "Abyan"
 msgstr ""
 
-#, fuzzy
 msgid "Adan"
-msgstr "音效"
+msgstr ""
 
 msgid "Ad Dali"
 msgstr ""
@@ -12031,13 +11226,11 @@ msgstr ""
 msgid "Al Mahwit"
 msgstr ""
 
-#, fuzzy
 msgid "Amran"
-msgstr "音效"
+msgstr ""
 
-#, fuzzy
 msgid "Dhamar"
-msgstr "丹麥"
+msgstr ""
 
 msgid "Hadramawt"
 msgstr ""
@@ -12102,16 +11295,14 @@ msgstr ""
 msgid "North-Western"
 msgstr ""
 
-#, fuzzy
 msgid "Bulawayo"
-msgstr "保加利亞"
+msgstr ""
 
 msgid "Harare"
 msgstr ""
 
-#, fuzzy
 msgid "Manicaland"
-msgstr "泰國"
+msgstr ""
 
 msgid "Mashonaland Central"
 msgstr ""
@@ -12131,17 +11322,14 @@ msgstr ""
 msgid "Matabeleland South"
 msgstr ""
 
-#, fuzzy
 msgid "Midlands"
-msgstr "芬蘭"
+msgstr ""
 
-#, fuzzy
 msgid "South Karelia"
-msgstr "南非"
+msgstr ""
 
-#, fuzzy
 msgid "South Ostrobothnia"
-msgstr "澳大利亞"
+msgstr ""
 
 msgid "Etelä-Savo"
 msgstr ""
@@ -12152,23 +11340,20 @@ msgstr ""
 msgid "Itä-Uusimaa"
 msgstr ""
 
-#, fuzzy
 msgid "Kainuu"
-msgstr "西班牙"
+msgstr ""
 
 msgid "Central Ostrobothnia"
 msgstr ""
 
-#, fuzzy
 msgid "Central Finland"
-msgstr "歐洲，中部"
+msgstr ""
 
 msgid "Kymenlaakso"
 msgstr ""
 
-#, fuzzy
 msgid "Lapland"
-msgstr "日本"
+msgstr ""
 
 msgid "Tampere Region"
 msgstr ""
@@ -12176,39 +11361,32 @@ msgstr ""
 msgid "Ostrobothnia"
 msgstr ""
 
-#, fuzzy
 msgid "North Karelia"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "Nothern Ostrobothnia"
 msgstr ""
 
-#, fuzzy
 msgid "Northern Savo"
-msgstr "歐洲，北部"
+msgstr ""
 
 msgid "Päijät-Häme"
 msgstr ""
 
-#, fuzzy
 msgid "Satakunta"
-msgstr "音效"
+msgstr ""
 
-#, fuzzy
 msgid "Uusimaa"
-msgstr "格林納達"
+msgstr ""
 
-#, fuzzy
 msgid "South-West Finland"
-msgstr "南朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "Åland"
-msgstr "愛爾蘭"
+msgstr ""
 
-#, fuzzy
 msgid "North West"
-msgstr "北朝鮮"
+msgstr ""
 
 msgid "Tyne and Wear"
 msgstr ""
@@ -12216,47 +11394,38 @@ msgstr ""
 msgid "Isle of Man"
 msgstr ""
 
-#, fuzzy
 msgid "Greater Manchester"
-msgstr "希臘"
+msgstr ""
 
 msgid "Co Tyrone"
 msgstr ""
 
-#, fuzzy
 msgid "West Yorkshire"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "South Yorkshire"
-msgstr "北朝鮮"
+msgstr ""
 
-#, fuzzy
 msgid "Merseyside"
-msgstr "塞爾維亞"
+msgstr ""
 
-#, fuzzy
 msgid "Berkshire"
-msgstr "智利"
+msgstr ""
 
-#, fuzzy
 msgid "West Midlands"
-msgstr "芬蘭"
+msgstr ""
 
 msgid "Inverness"
 msgstr ""
 
-#, fuzzy
 msgid "Avon"
-msgstr "阿根廷"
+msgstr ""
 
 msgid "Middlesex"
 msgstr ""
 
-#, fuzzy
 msgid "West Glamorgan"
-msgstr "愛爾蘭"
+msgstr ""
 
-#, fuzzy
 msgid "London"
-msgstr "羅馬尼亞"
+msgstr ""

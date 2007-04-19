@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2002-01-05 17:40+0000\n"
 "Last-Translator: Gregory Mokhin <mok@kde.ru>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 # AF
@@ -20,15 +20,11 @@ msgstr ""
 msgid "Albania"
 msgstr ""
 
-# DZ
-# fuzzy
 msgid "Algeria"
-msgstr "Болгария"
+msgstr ""
 
-# AS
-# fuzzy
 msgid "American Samoa"
-msgstr "Северная Америка"
+msgstr ""
 
 # AD
 msgid "Andorra"
@@ -54,10 +50,8 @@ msgstr "Антигуа и Барбадос"
 msgid "Argentina"
 msgstr "Аргентина"
 
-# AM
-# fuzzy
 msgid "Armenia"
-msgstr "Аргентина"
+msgstr ""
 
 # AW
 msgid "Aruba"
@@ -75,33 +69,25 @@ msgstr "Австрия"
 msgid "Azerbaijan"
 msgstr "Азербайджан"
 
-# BH
-# fuzzy
 msgid "Bahrain"
-msgstr "Бразилия"
+msgstr ""
 
-# BD
-# fuzzy
 msgid "Bangladesh"
-msgstr "Английский"
+msgstr ""
 
 # BB
 msgid "Barbados"
 msgstr "Барбадос"
 
-# BY
-# fuzzy
 msgid "Belarus"
-msgstr "Перу"
+msgstr ""
 
 # BE
 msgid "Belgium"
 msgstr "Бельгия"
 
-# BZ
-# fuzzy
 msgid "Belize"
-msgstr "Бельгия"
+msgstr ""
 
 # BJ
 msgid "Benin"
@@ -155,19 +141,15 @@ msgstr "Болгария"
 msgid "Burkina Faso"
 msgstr ""
 
-# MM
-# fuzzy
 msgid "Myanmar"
-msgstr "Панама"
+msgstr ""
 
 # BI
 msgid "Burundi"
 msgstr ""
 
-# KH
-# fuzzy
 msgid "Cambodia"
-msgstr "Колумбия"
+msgstr ""
 
 # CM
 msgid "Cameroon"
@@ -185,15 +167,11 @@ msgstr ""
 msgid "Cayman Islands"
 msgstr ""
 
-# CF
-# fuzzy
 msgid "Central African Republic"
-msgstr "Доминиканская республика"
+msgstr ""
 
-# TD
-# fuzzy
 msgid "Chad"
-msgstr "Китай"
+msgstr ""
 
 # CL
 msgid "Chile"
@@ -211,10 +189,8 @@ msgstr ""
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-# CO
-# fuzzy
 msgid "Colombia"
-msgstr "Колумбия"
+msgstr ""
 
 # KM
 msgid "Comoros"
@@ -242,19 +218,15 @@ msgstr ""
 msgid "Croatia"
 msgstr "Хорватия"
 
-# CU
-# fuzzy
 msgid "Cuba"
-msgstr "Колумбия"
+msgstr ""
 
 # CY
 msgid "Cyprus"
 msgstr ""
 
-# CZ
-# fuzzy
 msgid "Czech Republic"
-msgstr "Доминиканская республика"
+msgstr ""
 
 # DK
 msgid "Denmark"
@@ -264,10 +236,8 @@ msgstr "Дания"
 msgid "Djibouti"
 msgstr ""
 
-# DM
-# fuzzy
 msgid "Dominica"
-msgstr "Румыния"
+msgstr ""
 
 # DO
 msgid "Dominican Republic"
@@ -276,15 +246,11 @@ msgstr "Доминиканская республика"
 msgid "Timor-Leste"
 msgstr ""
 
-# EC
-# fuzzy
 msgid "Ecuador"
-msgstr "Эквадор"
+msgstr ""
 
-# EG
-# fuzzy
 msgid "Egypt"
-msgstr "Энергосбережение"
+msgstr ""
 
 # SV
 msgid "El Salvador"
@@ -302,19 +268,15 @@ msgstr ""
 msgid "Estonia"
 msgstr "Эстония"
 
-# ET
-# fuzzy
 msgid "Ethiopia"
-msgstr "Эстония"
+msgstr ""
 
 # FK
 msgid "Falkland Islands (Malvinas)"
 msgstr ""
 
-# FO
-# fuzzy
 msgid "Faroe Islands"
-msgstr "Ирландия"
+msgstr ""
 
 # FJ
 msgid "Fiji"
@@ -343,19 +305,15 @@ msgstr ""
 msgid "Gabon"
 msgstr ""
 
-# GE
-# fuzzy
 msgid "Georgia"
-msgstr "Сербия"
+msgstr ""
 
 # DE
 msgid "Germany"
 msgstr "Германия"
 
-# GH
-# fuzzy
 msgid "Ghana"
-msgstr "Китай"
+msgstr ""
 
 # GI
 msgid "Gibraltar"
@@ -365,10 +323,8 @@ msgstr ""
 msgid "Greece"
 msgstr "Греция"
 
-# GL
-# fuzzy
 msgid "Greenland"
-msgstr "Гренада"
+msgstr ""
 
 # GD
 msgid "Grenada"
@@ -378,10 +334,8 @@ msgstr "Гренада"
 msgid "Guadeloupe"
 msgstr ""
 
-# GU
-# fuzzy
 msgid "Guam"
-msgstr "Гватемала"
+msgstr ""
 
 # GT
 msgid "Guatemala"
@@ -426,26 +380,17 @@ msgstr "Венгрия"
 msgid "Iceland"
 msgstr "Исландия"
 
-# IN
-# fuzzy
 msgid "India"
-msgstr "Пиктограммы"
+msgstr ""
 
-# ID
-# fuzzy
 msgid "Indonesia"
-msgstr "Пиктограммы"
+msgstr ""
 
-# KR
-# fuzzy
-#, fuzzy
 msgid "Iran, Islamic Republic of"
-msgstr "Доминиканская республика"
+msgstr ""
 
-# IQ
-# fuzzy
 msgid "Iraq"
-msgstr "Израиль"
+msgstr ""
 
 # IE
 msgid "Ireland"
@@ -459,19 +404,15 @@ msgstr "Израиль"
 msgid "Italy"
 msgstr "Италия"
 
-# JM
-# fuzzy
 msgid "Jamaica"
-msgstr "Ямайка"
+msgstr ""
 
 # JP
 msgid "Japan"
 msgstr "Япония"
 
-# JO
-# fuzzy
 msgid "Jordan"
-msgstr "Корейский"
+msgstr ""
 
 # KZ
 msgid "Kazakhstan"
@@ -489,10 +430,8 @@ msgstr ""
 msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
-# KR
-# fuzzy
 msgid "Korea, Republic of"
-msgstr "Доминиканская республика"
+msgstr ""
 
 # KW
 msgid "Kuwait"
@@ -517,10 +456,8 @@ msgstr ""
 msgid "Lesotho"
 msgstr ""
 
-# LR
-# fuzzy
 msgid "Liberia"
-msgstr "Сербия"
+msgstr ""
 
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
@@ -537,40 +474,27 @@ msgstr "Литва"
 msgid "Luxembourg"
 msgstr "Люксембург"
 
-# MO
-# fuzzy
 msgid "Macao"
-msgstr "Мальта"
+msgstr ""
 
-# KR
-# fuzzy
-#, fuzzy
 msgid "Macedonia, Republic of"
-msgstr "Доминиканская республика"
+msgstr ""
 
 # MG
 msgid "Madagascar"
 msgstr ""
 
-# MW
-# fuzzy
 msgid "Malawi"
-msgstr "Мальта"
+msgstr ""
 
-# MY
-# fuzzy
 msgid "Malaysia"
-msgstr "Мальта"
+msgstr ""
 
-# MV
-# fuzzy
 msgid "Maldives"
-msgstr "Мальта"
+msgstr ""
 
-# ML
-# fuzzy
 msgid "Mali"
-msgstr "Мальта"
+msgstr ""
 
 # MT
 msgid "Malta"
@@ -584,15 +508,11 @@ msgstr ""
 msgid "Martinique"
 msgstr ""
 
-# MR
-# fuzzy
 msgid "Mauritania"
-msgstr "Литва"
+msgstr ""
 
-# MU
-# fuzzy
 msgid "Mauritius"
-msgstr "Литва"
+msgstr ""
 
 # YT
 msgid "Mayotte"
@@ -605,11 +525,8 @@ msgstr "Мексика"
 msgid "Micronesia, Federated States of"
 msgstr ""
 
-# KR
-# fuzzy
-#, fuzzy
 msgid "Moldova, Republic of"
-msgstr "Доминиканская республика"
+msgstr ""
 
 # MC
 msgid "Monaco"
@@ -643,37 +560,29 @@ msgstr ""
 msgid "Nepal"
 msgstr ""
 
-# AN
-# fuzzy
 msgid "Netherlands Antilles"
-msgstr "Нидерланды"
+msgstr ""
 
 # NL
 msgid "Netherlands"
 msgstr "Нидерланды"
 
-# NC
-# fuzzy
 msgid "New Caledonia"
-msgstr "Македония"
+msgstr ""
 
 # NZ
 msgid "New Zealand"
 msgstr "Новая Зеландия"
 
-# NI
-# fuzzy
 msgid "Nicaragua"
-msgstr "Парагвай"
+msgstr ""
 
 # NE
 msgid "Niger"
 msgstr ""
 
-# NG
-# fuzzy
 msgid "Nigeria"
-msgstr "Сербия"
+msgstr ""
 
 # NU
 msgid "Niue"
@@ -699,10 +608,8 @@ msgstr ""
 msgid "Pakistan"
 msgstr ""
 
-# PW
-# fuzzy
 msgid "Palau"
-msgstr "Парагвай"
+msgstr ""
 
 msgid "Palestinian Territory, Occupied"
 msgstr ""
@@ -743,10 +650,8 @@ msgstr "Португалия"
 msgid "Puerto Rico"
 msgstr ""
 
-# QA
-# fuzzy
 msgid "Qatar"
-msgstr "Мальта"
+msgstr ""
 
 # RO
 msgid "Romania"
@@ -756,10 +661,8 @@ msgstr "Румыния"
 msgid "Russian Federation"
 msgstr "Российская Федерация"
 
-# RW
-# fuzzy
 msgid "Rwanda"
-msgstr "Канада"
+msgstr ""
 
 # RE
 msgid "Reunion"
@@ -769,26 +672,17 @@ msgstr ""
 msgid "Saint Helena"
 msgstr ""
 
-# KN
-# fuzzy
-#, fuzzy
 msgid "Saint Kitts and Nevis"
-msgstr "о. Св. Кристофа и Невиса"
+msgstr ""
 
-# LC
-# fuzzy
-#, fuzzy
 msgid "Saint Lucia"
-msgstr "о. Св. Люсии"
+msgstr ""
 
 msgid "Saint Pierre and Miquelon"
 msgstr ""
 
-# VC
-# fuzzy
-#, fuzzy
 msgid "Saint Vincent and the Grenadines"
-msgstr "Сент-Винсент и Гренадины"
+msgstr ""
 
 # WS
 msgid "Samoa"
@@ -818,10 +712,8 @@ msgstr ""
 msgid "Singapore"
 msgstr ""
 
-# SK
-# fuzzy
 msgid "Slovakia"
-msgstr "Словацкий"
+msgstr ""
 
 # SI
 msgid "Slovenia"
@@ -831,10 +723,8 @@ msgstr "Словения"
 msgid "Solomon Islands"
 msgstr ""
 
-# SO
-# fuzzy
 msgid "Somalia"
-msgstr "Румыния"
+msgstr ""
 
 # ZA
 msgid "South Africa"
@@ -852,10 +742,8 @@ msgstr "Испания"
 msgid "Sri Lanka"
 msgstr ""
 
-# SD
-# fuzzy
 msgid "Sudan"
-msgstr "Звук"
+msgstr ""
 
 # SR
 msgid "Suriname"
@@ -865,10 +753,8 @@ msgstr ""
 msgid "Svalbard and Jan Mayen"
 msgstr ""
 
-# SZ
-# fuzzy
 msgid "Swaziland"
-msgstr "Таиланд"
+msgstr ""
 
 # SE
 msgid "Sweden"
@@ -878,11 +764,8 @@ msgstr "Швеция"
 msgid "Switzerland"
 msgstr "Швейцария"
 
-# CF
-# fuzzy
-#, fuzzy
 msgid "Syrian Arab Republic"
-msgstr "Доминиканская республика"
+msgstr ""
 
 # ST
 msgid "Sao Tome and Principe"
@@ -892,30 +775,21 @@ msgstr ""
 msgid "Taiwan"
 msgstr "Тайвань"
 
-# TJ
-# fuzzy
 msgid "Tajikistan"
-msgstr "Тайвань"
+msgstr ""
 
-# KR
-# fuzzy
-#, fuzzy
 msgid "Tanzania, United Republic of"
-msgstr "Доминиканская республика"
+msgstr ""
 
 # TH
 msgid "Thailand"
 msgstr "Таиланд"
 
-# BS
-# fuzzy
 msgid "Bahamas"
-msgstr "Панама"
+msgstr ""
 
-# GM
-# fuzzy
 msgid "Gambia"
-msgstr "Ямайка"
+msgstr ""
 
 # TG
 msgid "Togo"
@@ -933,10 +807,8 @@ msgstr ""
 msgid "Trinidad and Tobago"
 msgstr "Тринидад и Тобаго"
 
-# TN
-# fuzzy
 msgid "Tunisia"
-msgstr "Россия"
+msgstr ""
 
 # TR
 msgid "Turkey"
@@ -953,10 +825,8 @@ msgstr ""
 msgid "Tuvalu"
 msgstr ""
 
-# UG
-# fuzzy
 msgid "Uganda"
-msgstr "Канада"
+msgstr ""
 
 # UA
 msgid "Ukraine"
@@ -969,15 +839,11 @@ msgstr ""
 msgid "United Kingdom"
 msgstr ""
 
-# UM
-# fuzzy
 msgid "United States Minor Outlying Islands"
-msgstr "США"
+msgstr ""
 
-# US
-# fuzzy
 msgid "United States"
-msgstr "США"
+msgstr ""
 
 # UY
 msgid "Uruguay"
@@ -995,16 +861,11 @@ msgstr ""
 msgid "Venezuela"
 msgstr "Венесуэла"
 
-# VN
-# fuzzy
-#, fuzzy
 msgid "Viet Nam"
-msgstr "Вьетнамский"
+msgstr ""
 
-# VI
-# fuzzy
 msgid "Virgin Islands, U.S."
-msgstr "Финляндия"
+msgstr ""
 
 # WF
 msgid "Wallis and Futuna"
@@ -1021,26 +882,18 @@ msgstr ""
 msgid "Serbia and Montenegro"
 msgstr ""
 
-# ZM
-# fuzzy
 msgid "Zambia"
-msgstr "Ямайка"
+msgstr ""
 
 # ZW
 msgid "Zimbabwe"
 msgstr ""
 
-# FO
-# fuzzy
-#, fuzzy
 msgid "Åland Islands"
-msgstr "Ирландия"
+msgstr ""
 
-# SY
-# fuzzy
-#, fuzzy
 msgid "Serbia"
-msgstr "Сербия"
+msgstr ""
 
 msgid "Montenegro"
 msgstr ""

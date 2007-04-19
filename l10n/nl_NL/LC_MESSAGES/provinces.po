@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2007-03-27 00:48+0200\n"
 "Last-Translator: Freek de Kruijf <f.de.kruijf@hetnet.nl>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Alabama"
@@ -3647,9 +3647,8 @@ msgstr "Aberdeenshire"
 msgid "Angus"
 msgstr "Angus"
 
-#, fuzzy
 msgid "Co Antrim"
-msgstr "Graafschap Antrim"
+msgstr ""
 
 msgid "Ards"
 msgstr "Ards"
@@ -3657,9 +3656,8 @@ msgstr "Ards"
 msgid "Argyll and Bute"
 msgstr "Argyll en Bute"
 
-#, fuzzy
 msgid "Co Armagh"
-msgstr "Graafschap Armagh"
+msgstr ""
 
 msgid "Ballymena"
 msgstr "Ballymena"
@@ -3724,9 +3722,8 @@ msgstr "Bridgend"
 msgid "Brighton and Hove"
 msgstr "Brighton en Hove"
 
-#, fuzzy
 msgid "Bristol"
-msgstr "Oristano"
+msgstr ""
 
 msgid "Bromley"
 msgstr "Bromley"
@@ -3821,9 +3818,8 @@ msgstr "Doncaster"
 msgid "Dorset"
 msgstr "Dorset"
 
-#, fuzzy
 msgid "Co Down"
-msgstr "Graafschap Down"
+msgstr ""
 
 msgid "Dudley"
 msgstr "Dudley"
@@ -3837,9 +3833,8 @@ msgstr "Dundee-Stad"
 msgid "Dungannon"
 msgstr "Dungannon"
 
-#, fuzzy
 msgid "Co Durham"
-msgstr "Graafschap Durham"
+msgstr ""
 
 msgid "Ealing"
 msgstr "Ealing"
@@ -3877,9 +3872,8 @@ msgstr "Essex"
 msgid "Falkirk"
 msgstr "Falkirk"
 
-#, fuzzy
 msgid "Co Fermanagh"
-msgstr "Fermanagh"
+msgstr ""
 
 msgid "Fife"
 msgstr "Fife"
@@ -3890,9 +3884,8 @@ msgstr "Flintshire"
 msgid "Gateshead"
 msgstr "Gateshead"
 
-#, fuzzy
 msgid "Glasgow"
-msgstr "Glasgow-Stad"
+msgstr ""
 
 msgid "Gloucestershire"
 msgstr "Gloucestershire"
@@ -3930,9 +3923,8 @@ msgstr "Hartlepool"
 msgid "Havering"
 msgstr "Havering"
 
-#, fuzzy
 msgid "Herefordshire"
-msgstr "Hertfordshire"
+msgstr ""
 
 msgid "Hertfordshire"
 msgstr "Hertfordshire"
@@ -3970,9 +3962,8 @@ msgstr "Kensington en Chelsea"
 msgid "Kent"
 msgstr "Kent"
 
-#, fuzzy
 msgid "Kingston upon Hull"
-msgstr "Kingston a/d Hull-Stad"
+msgstr ""
 
 msgid "Kingston upon Thames"
 msgstr "Kingston a/d Thames"
@@ -4076,9 +4067,8 @@ msgstr "Newtownabbey"
 msgid "Norfolk"
 msgstr "Norfolk"
 
-#, fuzzy
 msgid "North Ayrshire"
-msgstr "Noord-Ayrahire"
+msgstr ""
 
 msgid "North Down"
 msgstr "North Down"
@@ -4155,13 +4145,11 @@ msgstr "Redbridge"
 msgid "Cleveland"
 msgstr "Cleveland"
 
-#, fuzzy
 msgid "Renfrewshire"
-msgstr "Renfrewshlre"
+msgstr ""
 
-#, fuzzy
 msgid "Rhondda Cynon Taff"
-msgstr "Rhondda, Cynon, Taff"
+msgstr ""
 
 msgid "Richmond upon Thames"
 msgstr "Richmond a/d Thames"
@@ -4184,9 +4172,8 @@ msgstr "Salford"
 msgid "Sandwell"
 msgstr "Sandwell"
 
-#, fuzzy
 msgid "Scottish Borders"
-msgstr "Schotse Grenzen, De"
+msgstr ""
 
 msgid "Sefton"
 msgstr "Sefton"
@@ -4287,9 +4274,8 @@ msgstr "Tower Hamlets"
 msgid "Trafford"
 msgstr "Trafford"
 
-#, fuzzy
 msgid "Vale of Glamorgan"
-msgstr "Vale of Glamorgan"
+msgstr ""
 
 msgid "Bro Morgannwg"
 msgstr "Bro Morgannwg"
@@ -5979,9 +5965,8 @@ msgstr "Provincie Batdambang [Battambang, Baat Dambang]"
 msgid "Banteay Mean Chey"
 msgstr "Provincie Banteay Mean Cheay"
 
-#, fuzzy
 msgid "Rampong Chaam"
-msgstr "Provincie Kampong Cham"
+msgstr ""
 
 msgid "Kampong Chhnang"
 msgstr "Provincie Kampong Chhnang"
@@ -7333,9 +7318,8 @@ msgstr "Mexico"
 msgid "Michoacin"
 msgstr "Michoacin"
 
-#, fuzzy
 msgid "Morelos"
-msgstr "Moreloa"
+msgstr ""
 
 msgid "Nayarit"
 msgstr "Nayarit"
@@ -9806,9 +9790,8 @@ msgstr "Chumphon"
 msgid "Kalasin"
 msgstr "Kalasin"
 
-#, fuzzy
 msgid "Kamphasng Phet"
-msgstr "Kamphaeng Phet"
+msgstr ""
 
 msgid "Kanchanaburi"
 msgstr "Kanchanaburi"
@@ -9906,9 +9889,8 @@ msgstr "Phrae"
 msgid "Phra Nakhon Si Ayutthaya"
 msgstr "Phra Nakhon Si Ayutthaya"
 
-#, fuzzy
 msgid "Phaket"
-msgstr "Phuket"
+msgstr ""
 
 msgid "Prachin Buri"
 msgstr "Prachin Buri"
@@ -10874,9 +10856,8 @@ msgstr "Tacuarembo"
 msgid "Treinta y Tres"
 msgstr "Treinta y Tres"
 
-#, fuzzy
 msgid "Toshkent (city)"
-msgstr "Tasjkent "
+msgstr ""
 
 msgid "Qoraqalpogiston Respublikasi"
 msgstr "Republiek Ķoraķalpogiston"
@@ -11376,9 +11357,8 @@ msgstr "Midden Finland"
 msgid "Kymenlaakso"
 msgstr "Kymenlaakso"
 
-#, fuzzy
 msgid "Lapland"
-msgstr "Bovenland"
+msgstr ""
 
 msgid "Tampere Region"
 msgstr "Regio Tampere"
@@ -11401,9 +11381,8 @@ msgstr "Päijät-Häme"
 msgid "Satakunta"
 msgstr "Satakunta"
 
-#, fuzzy
 msgid "Uusimaa"
-msgstr "Fukusima"
+msgstr ""
 
 msgid "South-West Finland"
 msgstr "Zuid-West Finland"
@@ -11411,59 +11390,47 @@ msgstr "Zuid-West Finland"
 msgid "Åland"
 msgstr "Åland"
 
-#, fuzzy
 msgid "North West"
-msgstr "Noord-West"
+msgstr ""
 
-#, fuzzy
 msgid "Tyne and Wear"
-msgstr "Tyne en Wear"
+msgstr ""
 
 msgid "Isle of Man"
 msgstr "Man-eiland"
 
-#, fuzzy
 msgid "Greater Manchester"
-msgstr "Manchester"
+msgstr ""
 
-#, fuzzy
 msgid "Co Tyrone"
-msgstr "Graafschap Tyrone"
+msgstr ""
 
-#, fuzzy
 msgid "West Yorkshire"
-msgstr "Westberkshire"
+msgstr ""
 
-#, fuzzy
 msgid "South Yorkshire"
-msgstr "North Yorkshire"
+msgstr ""
 
-#, fuzzy
 msgid "Merseyside"
-msgstr "Jersey"
+msgstr ""
 
 msgid "Berkshire"
 msgstr "Berkshire"
 
-#, fuzzy
 msgid "West Midlands"
-msgstr "Midlands"
+msgstr ""
 
-#, fuzzy
 msgid "Inverness"
-msgstr "Graafschap Cess-rivier"
+msgstr ""
 
-#, fuzzy
 msgid "Avon"
-msgstr "Aveyron"
+msgstr ""
 
 msgid "Middlesex"
 msgstr "Middlesex"
 
-#, fuzzy
 msgid "West Glamorgan"
-msgstr "Westmoreland"
+msgstr ""
 
-#, fuzzy
 msgid "London"
-msgstr "Rondonia"
+msgstr ""

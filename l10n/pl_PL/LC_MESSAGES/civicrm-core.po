@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-04-02 08:11-0700\n"
+"PO-Revision-Date: 2007-04-18 12:01-0700\n"
 "Last-Translator: Michal Mach <mover@artnet.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n%"
-"100<10 || n%100>=20) ? 1 : 2));\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2));\n"
+"X-Generator: Pootle 0.10\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -141,14 +141,12 @@ msgid "All Groups"
 msgstr "Wszystkie grupy"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Custom Groups"
-msgstr "Grupa dodatkowa"
+msgstr "Wszystkie grupy dodatkowe"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Profiles"
-msgstr "Profil"
+msgstr "Wszystkie profile"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -535,7 +533,6 @@ msgstr "Mapy i koordynaty geograficzne"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Localization"
 msgstr "Lokalizacja"
 
@@ -923,9 +920,8 @@ msgstr "Członkowstwo"
 #: CRM/Contact/Page/View/Tabbed.php
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Events"
-msgstr "Wydarzenie"
+msgstr "Wydarzenia"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
 msgid "Task"
@@ -1066,9 +1062,8 @@ msgid "We could not find a contact id."
 msgstr "Nie udało się znaleźć id kontaktu."
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Core/Menu.php
-#, fuzzy
 msgid "CiviCRM Home"
-msgstr "Menu CiviCRM"
+msgstr "CiviCRM - Start"
 
 #: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
 msgid "Email Sent"
@@ -1261,7 +1256,7 @@ msgstr "Nie udało się znaleźć Twojego zalogowanego user ID"
 msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
-msgstr ""
+msgstr "Ten profil nie jest skonfigurowany dla żądanej akcji. Skontaktuj się z administratorem systemu, jeżeli potrzebujesz pomocy."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1281,9 +1276,8 @@ msgid "CiviContribute"
 msgstr "CiviContribute"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "CiviEvent"
-msgstr "Wydarzenie"
+msgstr "CiviEvent"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviMember"
@@ -1424,9 +1418,8 @@ msgid "Domain Information Page"
 msgstr "Informacje o domenie"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Map Event Location"
-msgstr "Usuń rodzaj lokalizacji"
+msgstr "Pokaż lokalizację wydarzenia na mapie"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
@@ -1475,7 +1468,7 @@ msgstr "Dołączony plik został usunięty."
 msgid ""
 "%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; "
 "Payment Processor."
-msgstr ""
+msgstr "%1 nie jest ustawiony w Zarządzanie CiviCRM-em &raquo; Procesor płatności."
 
 #: CRM/Core/Payment/AuthorizeNet.php CRM/Core/Payment/Google.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
@@ -1649,19 +1642,16 @@ msgid "Owner Entity Table"
 msgstr "Tablica bytu rodzicielskiego"
 
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Contact Group"
-msgstr "Grupy kontaktu"
+msgstr "Grupa kontaktów"
 
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Administer"
-msgstr "Zarządzanie CiviCRM-em"
+msgstr "Zarządzaj"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "Nazwisko"
+msgstr "Nazwa ACL"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
@@ -1688,136 +1678,116 @@ msgid "Revoke"
 msgstr "Cofnij"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A group of contacts"
-msgstr "Znaleziono jeden kontakt"
+msgstr "Grupa kontaktów"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A profile"
 msgstr "Profil"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A set of custom data fields"
-msgstr "Pola danych dodatkowych"
+msgstr "Zestaw pól danych dodatkowych"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Type of Data"
-msgstr "Dane w postaci notatki"
+msgstr "Rodzaj danych"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Role"
-msgstr "Reguła"
+msgstr "Rola"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid " -select role- "
-msgstr "- wybierz -"
+msgstr "- wybierz rolę -"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Everyone"
-msgstr "Spróbuj ponownie"
+msgstr "Wszyscy"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please assign this permission to a Role."
-msgstr ""
+msgstr "Przypisz to uprawnienie do roli."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Group (or ALL Groups)."
-msgstr "Wybierz grupę, do wysyłki."
+msgstr "Wybierz grupę (lub Wszystkie grupy)."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Profile (or ALL Profiles)."
-msgstr "Wybierz grupę, do wysyłki."
+msgstr "Wybierz profil (lub Wszystkie profile)."
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a set of Custom Data (or ALL Custom Data)."
-msgstr ""
+msgstr "Wybierz zestaw danych dodatkowych (lub Wszystkie dane dodatkowe)."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Selected ACL has been deleted."
-msgstr "Wybrany rodzaj płci został usunięty."
+msgstr "Wybrany ACL został usunięty."
 
 #: CRM/ACL/Form/EntityRole.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr ""
+msgstr "Przypisany do"
 
 #: CRM/ACL/Form/EntityRole.php
-#, fuzzy
 msgid "Selected Entity Role has been deleted."
-msgstr "Wybrany rodzaj zdarzenia został usunięty."
+msgstr "Wybrane powiązanie roli z grupą zostało usunięte."
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Are you sure you want to disable this ACL?"
-msgstr "Na pewno wyłączyć tę grupę?"
+msgstr "Na pewno wyłączyć ten ACL?"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Edit ACL"
-msgstr "Edytuj"
+msgstr "Edytuj ACL"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Disable ACL"
-msgstr "Wyłącz"
+msgstr "Wyłącz ACL"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Enable ACL"
-msgstr "Włącz"
+msgstr "Włącz ACL"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Delete ACL"
-msgstr "Usuń"
+msgstr "Usuń ACL"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Any Role"
-msgstr "Rola ACL"
+msgstr "Dowolna rola"
 
 #: CRM/ACL/Page/EntityRole.php
-#, fuzzy
 msgid "Are you sure you want to disable this ACL Role Assignment?"
-msgstr "Na pewno wyłączyć ten składnik?"
+msgstr "Na pewno wyłączyć to przypisanie roli?"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Edit ACL Role Assignment"
-msgstr ""
+msgstr "Edytuj przypisanie roli"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Disable ACL Role Assignment"
-msgstr ""
+msgstr "Wyłącz przypisanie roli"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Enable ACL Role Assignment"
-msgstr ""
+msgstr "Włącz przypisanie roli"
 
 #: CRM/ACL/Page/EntityRole.php templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Delete ACL Role Assignment"
-msgstr ""
+msgstr "Usuń przypisanie roli"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Assign Users to Roles"
-msgstr ""
+msgstr "Przypisz użytkowników do ról"
 
 #: CRM/Activity/BAO/Activity.php
-#, fuzzy
 msgid "\"%1\" has been logged to Activity History."
-msgstr "Spotkanie „%1” zostało zapisane w historii zdarzeń."
+msgstr "„%1” zostało zapisane w historii zdarzeń."
 
 #: CRM/Activity/BAO/Activity.php
-#, fuzzy
 msgid "\"%1\" has been saved."
-msgstr "Spotkanie „%1” zostało zapisane."
+msgstr "„%1” zostało zapisane."
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "- select activity type -"
@@ -1853,7 +1823,7 @@ msgstr "Zasada dopasowywania powtórzeń została zapisana."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Name can only consist of alpha-numeric characters"
-msgstr ""
+msgstr "Imię może jedynie zawierać znaki alfanumeryczne."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "vCard Name"
@@ -1872,9 +1842,8 @@ msgid "The location type \"%1\" has been saved."
 msgstr "Rodzaj lokalizacji „%1” został zapisany."
 
 #: CRM/Admin/Form/OptionGroup.php
-#, fuzzy
 msgid "Selected option group has been deleted."
-msgstr "Wybrany rodzaj lokalizacji został usunięty."
+msgstr "Wybrana grupa opcji została usunięta."
 
 #: CRM/Admin/Form/OptionGroup.php
 #, fuzzy
