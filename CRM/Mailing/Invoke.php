@@ -79,17 +79,22 @@ class CRM_Mailing_Invoke {
             $session->pushUserContext(
                 CRM_Utils_System::url('civicrm/mailing/browse'));
             CRM_Utils_System::appendBreadCrumb(
-                '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
-            );
+                                               '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
+                                               );
             CRM_Utils_System::appendBreadCrumb(
-                '<a href="' . CRM_Utils_System::url('civicrm/mailing/report') . '">' . ts('Report') . '</a>'
-            );
+                                               '<a href="' . CRM_Utils_System::url('civicrm/mailing/report') . '">' . ts('Report') . '</a>'
+                                               );
             $wrapper =& new CRM_Utils_Wrapper();
             return $wrapper->run( 'CRM_Mailing_Form_Retry', 
-                                    ts('Retry Mailing'), null);
+                                  ts('Retry Mailing'), null);
         }
-
+        
         if ( $secondArg == 'component' ) {
+            require_once 'CRM/Mailing/Page/Component.php';
+            $view =& new CRM_Mailing_Page_Component( );
+            return $view->run( );
+        }
+        if ( $secondArg == 'mailcomp' ) {
             require_once 'CRM/Mailing/Page/Component.php';
             $view =& new CRM_Mailing_Page_Component( );
             return $view->run( );
@@ -117,7 +122,7 @@ class CRM_Mailing_Invoke {
             }
             return $view->run();
         }
-
+        
         if ( $secondArg == 'send' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
@@ -125,7 +130,7 @@ class CRM_Mailing_Invoke {
             $controller =& new CRM_Mailing_Controller_Send( ts( 'Send Mailing' ) );
             return $controller->run( );
         }
-
+        
         if ( $secondArg == 'queue' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
@@ -133,18 +138,18 @@ class CRM_Mailing_Invoke {
             CRM_Mailing_BAO_Job::runJobs();
             CRM_Core_Session::setStatus( ts('The mailing queue has been processed.') );
         }
-
+        
         if ($secondArg == 'preview') {
             require_once 'CRM/Mailing/Page/Preview.php';
             $view =& new CRM_Mailing_Page_Preview();
             return $view->run();
         }
-
+        
         require_once 'CRM/Mailing/Page/Browse.php';
         $view =& new CRM_Mailing_Page_Browse( );
         return $view->run( );
     }
-
+    
     static function admin( &$args ) {
         return;
     }

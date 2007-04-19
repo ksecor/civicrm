@@ -136,7 +136,7 @@ class CRM_Event_Menu {
                                  'path'    => 'civicrm/event/search',
                                  'query'   => 'reset=1',
                                  'title'   => ts( 'Find Participants' ),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviEvent'), 
+                                 'access'  => CRM_Core_Permission::check( 'access CiviEvent' ), 
                                  'type'    => CRM_Core_Menu::CALLBACK,  
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                                  'weight'  => 810,  
@@ -146,11 +146,22 @@ class CRM_Event_Menu {
                                  'path'    => 'civicrm/event/import', 
                                  'query'   => 'reset=1',
                                  'title'   => ts( 'Import Participants' ),
-                                 'access' => CRM_Core_Permission::check('administer CiviCRM') &&
-                                 CRM_Core_Permission::check('access CiviEvent'),
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                              CRM_Core_Permission::check( 'access CiviEvent' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,  
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                                  'weight'  => 820,  
+                                 ),
+
+                             array(
+                                 'path'    => 'civicrm/event/manage', 
+                                 'query'   => 'reset=1',
+                                 'title'   => ts( 'Manage Events' ),
+                                 'access'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
+                                              CRM_Core_Permission::check( 'access CiviEvent' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,  
+                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                                 'weight'  => 830,  
                                  )
                            );
             break;

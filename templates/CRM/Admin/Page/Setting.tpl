@@ -54,11 +54,6 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/mail' q='reset=1'}" id="idMailing">&raquo; {ts}CiviMail Configuration{/ts}</a></td>
-    <td>{ts}Settings for the optional CiviMail component (spool period, batch throttling, etc.).{/ts}</td>
-</tr>
-
-<tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/debug' q='reset=1'}" id="idDebug">&raquo; {ts}Debugging{/ts}</a></td>
     <td>{ts}Enable debugging features including display of template variables and backtracing.{/ts}</td>
 </tr>

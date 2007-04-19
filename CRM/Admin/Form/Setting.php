@@ -268,7 +268,7 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         if ( ! isset( $defaults['individualNameFormat'] ) ) {
             $defaults['individualNameFormat']= '{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}';
         }
-
+        
         if ( ! isset( $defaults['mailingLabelFormat'] ) ) {
             $defaults['mailingLabelFormat']= '{contact_name}
 {street_address}
@@ -277,23 +277,23 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 {city}{, }{state_province}{ }{postal_code}
 {country}';
         }
-
-    }
-
-  
+    }        
+    
     /**
      * Function to actually build the form
      *
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) 
+    public function buildQuickForm( $check = false ) 
     {
         // set breadcrumb to append to 2nd layer pages
-        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
-        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Global Settings') . '</a>';
-        CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-
+        if ( !$check ) {
+            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
+            $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Global Settings') . '</a>';
+            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+        }
+        
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),
@@ -303,7 +303,6 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
                                  )
                            );
     }
-
     
     /**
      * Function to process the form

@@ -156,6 +156,10 @@ class CRM_Contribute_Invoke {
             require_once 'CRM/Contribute/Page/Contribution.php';
             $page =& new CRM_Contribute_Page_Contribution( );
             return $page->run( );
+        } else if ( $secondArg == 'manage' ) {
+            require_once 'CRM/Contribute/Page/ContributionPage.php';
+            $page =& new CRM_Contribute_Page_ContributionPage( );
+            return $page->run( );
         } else {
             require_once 'CRM/Contribute/Page/DashBoard.php';
             $view =& new CRM_Contribute_Page_DashBoard( ts('DashBoard') );

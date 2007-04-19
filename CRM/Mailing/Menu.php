@@ -52,18 +52,38 @@ class CRM_Mailing_Menu {
 
     static function &main( $task ) {
         $items = array( );
-        if ( $task == 'mailing' ) {
+        switch ( $task ) {
+        case 'admin':
             $items = array(
                            array(
-                                 'path'    => 'civicrm/mailing/component',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts('Mailing Header / Footer'),
+                                 'path'    => 'civicrm/admin/mail',
+                                 'title'   => ts('Mailer Settings '),
+                                 'query'  => 'reset=1',
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 610,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
+                                 'adminGroup' => 'CiviMail',
+                                 'icon'    => 'admin/07.png',
+                                 'weight'  => 400
                                  ),
-
+                           array(
+                                 'path'    => 'civicrm/admin/component',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts('Header/ Footer/ Automated Messages'),
+                                 'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,  
+                                 'adminGroup' => 'CiviMail',
+                                 'icon'    => 'admin/Profile.png',
+                                 'weight'  => 410,
+                                 ),
+                           
+                           );
+            break;
+                      
+        case 'mailing':
+            $items = array(
+                           
                            array(
                                  'path'    => 'civicrm/mailing/send',
                                  'query'   => 'reset=1',
@@ -71,9 +91,9 @@ class CRM_Mailing_Menu {
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 620,
+                                 'weight'  => 610,
                                  ),
-                      
+                           
                            array(
                                  'path'    => 'civicrm/mailing/browse',
                                  'query'   => 'reset=1',
@@ -81,13 +101,24 @@ class CRM_Mailing_Menu {
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK, 
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 630, 
+                                 'weight'  => 620, 
+                                 ),
+                           array(
+                                 'path'    => 'civicrm/mailing/component',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts('Mailing Header / Footer'),
+                                 'access'  => CRM_Core_Permission::check( 'administer CiviCRM' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                                 'weight'  => 630,
                                  ),
                            );
+            
+            break;
         }
         return $items;
     }
-
+    
 }
 
 ?>

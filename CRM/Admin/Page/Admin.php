@@ -59,6 +59,10 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             $groups[] = 'CiviEvent';
         }
 
+         if ( in_array("CiviMail", $config->enableComponents) ) {
+            $groups[] = 'CiviMail';
+        }
+
         $adminPanel = array( );
         foreach ( $groups as $group ) {
             $adminPanel[$group] = array( );

@@ -129,6 +129,10 @@ class CRM_Event_Invoke
             $controller =& new CRM_Event_Import_Controller(ts('Import Participants'));
             $session->pushUserContext( CRM_Utils_System::url("civicrm/event", "reset=1" ) );
             return $controller->run();
+        } elseif( $secondArg == 'manage' ){
+            require_once 'CRM/Event/Page/ManageEvent.php';
+            $page =& new CRM_Event_Page_ManageEvent( );
+            return $page->run( );
         } else {
             require_once 'CRM/Event/Page/DashBoard.php';
             $view =& new CRM_Event_Page_DashBoard( ts('CiviEvent DashBoard') );

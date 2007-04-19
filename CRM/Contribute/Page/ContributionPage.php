@@ -210,7 +210,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
 
             // finally browse the contribution pages
             $this->browse();
-            CRM_Utils_System::setTitle( ts('Configure Online Contribution Pages') );
+            CRM_Utils_System::setTitle( ts('Manage Contribution Pages') );
         }
        
         return parent::run();

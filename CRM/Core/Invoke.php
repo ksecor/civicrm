@@ -494,7 +494,7 @@ class CRM_Core_Invoke
         if ( ! CRM_Core_Permission::check('administer CiviCRM') ) {
             CRM_Core_Error::fatal( 'You do not have access to this page' );
         }
-
+       
         $view = null;
         switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
             
@@ -591,13 +591,20 @@ class CRM_Core_Invoke
             $url  = CRM_Utils_System::url( 'civicrm/admin/optionGroup' );
             $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Options') . '</a>';
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-            
             break;
 
         case 'setting':
             return self::setting( $args );
-
+         
+        case 'component':
+            require_once 'CRM/Mailing/Page/Component.php';
+            $view =& new CRM_Mailing_Page_Component( );
+            break;
             
+        case 'mail':
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Mail', ts('CiviMail Settings'), null); 
+          
         default:
             require_once 'CRM/Core/Component.php';
             if ( CRM_Core_Component::invoke( $args, 'admin' ) ) {
@@ -940,9 +947,6 @@ class CRM_Core_Invoke
             break;
         case 'debug' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Debugging', ts('Debugging'), null); 
-            break;
-        case 'mail' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Mail', ts('CiviMail Settings'), null); 
             break;
         default : 
             require_once 'CRM/Admin/Page/Setting.php';

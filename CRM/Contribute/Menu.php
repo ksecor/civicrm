@@ -71,7 +71,7 @@ class CRM_Contribute_Menu {
             $items = array(
                            array(
                                  'path'    => 'civicrm/admin/contribute',
-                                 'title'   => ts('Configure Online Contribution Pages'),
+                                 'title'   => ts('Manage Contribution Pages'),
                                  'query'   => 'reset=1',
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
@@ -167,11 +167,21 @@ class CRM_Contribute_Menu {
                                  'path'    => 'civicrm/contribute/import', 
                                  'query'   => 'reset=1',
                                  'title'   => ts( 'Import Contributions' ), 
-                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 'access'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
                                               CRM_Core_Permission::check( 'access CiviContribute' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,  
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                                  'weight'  => 520,  
+                                 ),
+                            array( 
+                                 'path'    => 'civicrm/contribute/manage', 
+                                 'query'   => 'reset=1',
+                                 'title'   => ts( 'Manage Contribution Pages' ), 
+                                 'access'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
+                                              CRM_Core_Permission::check( 'access CiviContribute' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,  
+                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                                 'weight'  => 530,  
                                  ),
                            );
             break;
