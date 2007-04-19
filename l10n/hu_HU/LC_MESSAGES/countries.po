@@ -720,9 +720,8 @@ msgstr "Nyugat-Szahara"
 msgid "Yemen"
 msgstr "Jemen"
 
-#, fuzzy
 msgid "Serbia and Montenegro"
-msgstr "Kongói Köztársaság"
+msgstr ""
 
 msgid "Zambia"
 msgstr "Zambia"
@@ -733,10 +732,8 @@ msgstr "Zimbabwe"
 msgid "Åland Islands"
 msgstr "Åland-szigetek"
 
-#, fuzzy
 msgid "Serbia"
-msgstr "Azerbajdzsán"
+msgstr ""
 
-#, fuzzy
 msgid "Montenegro"
-msgstr "Szerbia és Montenegró"
+msgstr ""

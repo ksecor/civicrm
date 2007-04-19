@@ -11352,9 +11352,8 @@ msgstr ""
 msgid "Kymenlaakso"
 msgstr ""
 
-#, fuzzy
 msgid "Lapland"
-msgstr "Luanda"
+msgstr ""
 
 msgid "Tampere Region"
 msgstr ""
@@ -11386,9 +11385,8 @@ msgstr ""
 msgid "Åland"
 msgstr ""
 
-#, fuzzy
 msgid "North West"
-msgstr "New South Wales"
+msgstr ""
 
 msgid "Tyne and Wear"
 msgstr ""
@@ -11429,6 +11427,5 @@ msgstr ""
 msgid "West Glamorgan"
 msgstr ""
 
-#, fuzzy
 msgid "London"
-msgstr "Kundus"
+msgstr ""

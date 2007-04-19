@@ -972,12 +972,8 @@ msgstr "Zimbabwe"
 msgid "Åland Islands"
 msgstr "Îles Åland"
 
-# AZ
-#, fuzzy
 msgid "Serbia"
-msgstr "Azerbaïdjan"
+msgstr ""
 
-# name for SCG
-#, fuzzy
 msgid "Montenegro"
-msgstr "Serbie et Monténégro"
+msgstr ""

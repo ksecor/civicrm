@@ -950,12 +950,8 @@ msgstr "Zimbabwe"
 msgid "Åland Islands"
 msgstr "Åland"
 
-# SY
-#, fuzzy
 msgid "Serbia"
-msgstr "Syrien"
+msgstr ""
 
-# name for SCG
-#, fuzzy
 msgid "Montenegro"
-msgstr "Serbien och Montenegro"
+msgstr ""

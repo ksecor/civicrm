@@ -951,9 +951,8 @@ msgstr "Westsahara"
 msgid "Yemen"
 msgstr "Yemen"
 
-#, fuzzy
 msgid "Serbia and Montenegro"
-msgstr "Republik Kongo"
+msgstr ""
 
 # ZM
 msgid "Zambia"
@@ -967,11 +966,8 @@ msgstr "Simbabwe"
 msgid "Åland Islands"
 msgstr "Åland Inseln"
 
-# AZ
-#, fuzzy
 msgid "Serbia"
-msgstr "Aserbaidschan"
+msgstr ""
 
-#, fuzzy
 msgid "Montenegro"
-msgstr "Serbien und Montenegro"
+msgstr ""

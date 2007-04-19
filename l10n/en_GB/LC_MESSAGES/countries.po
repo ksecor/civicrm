@@ -732,10 +732,8 @@ msgstr "Zimbabwe"
 msgid "Åland Islands"
 msgstr "Åland Islands"
 
-#, fuzzy
 msgid "Serbia"
-msgstr "Azerbaijan"
+msgstr ""
 
-#, fuzzy
 msgid "Montenegro"
-msgstr "Serbia and Montenegro"
+msgstr ""
