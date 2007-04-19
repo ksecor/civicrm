@@ -62,7 +62,7 @@ function search( &$config ) {
     $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
 
     $query = "
-SELECT sort_name
+SELECT sort_name, id
   FROM civicrm_contact
  WHERE domain_id = $domainID
    AND sort_name LIKE '$name%'
@@ -75,7 +75,7 @@ LIMIT 6";
     $count = 0;
     $elements = array( );
     while ( $dao->fetch( ) && $count < 5 ) {
-        $elements[] = array( $dao->sort_name, $dao->sort_name );
+        $elements[] = array( $dao->sort_name, $dao->id );
         $count++;
     }
 
