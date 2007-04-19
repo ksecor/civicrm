@@ -94,12 +94,16 @@ class CRM_Core_Block {
                                        self::CONTRIBUTE  => array( 'template' => 'Contribute.tpl',
                                                                    'info'     => ts( 'CiviContribute Progress Meter' ),
                                                                    'subject'  => ts( 'CiviContribute Progress Meter' ),
-                                                                   'active'   => true ),
-                                       self::GCC         => array( 'template' => 'Gcc.tpl',
-                                                                   'info'     => ts('GCC Shortcuts'),
-                                                                   'subject'  => ts('GCC Shortcuts'),
-                                                                   'active'   => true ),
+                                                                   'active'   => true )
                                        );
+            if ( CRM_Core_Permission::access( 'Gcc' ) ) {
+                self::$_properties += array( 
+                                            self::GCC         => array( 'template' => 'Gcc.tpl',
+                                                                        'info'     => ts('GCC Shortcuts'),
+                                                                        'subject'  => ts('GCC Shortcuts'),
+                                                                        'active'   => true ),
+                                            );
+            }
         }
     }
 
@@ -312,6 +316,9 @@ class CRM_Core_Block {
         if (!($shortCuts)) {
             $session =& CRM_Core_Session::singleton( );
             $uid = $session->get('userID'); 
+            if ( ! $uid ) {
+                return;
+            }
             $ufID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFMatch', $uid, 'uf_id', 'contact_id' );
             
             $role = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $uid, 'contact_sub_type', 'id' );
