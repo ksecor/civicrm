@@ -35,6 +35,11 @@
 {/strip}
 
 {include file="CRM/common/pager.tpl" location="bottom"}
+
+<div class="action-link">
+    <a href="{crmURL p='civicrm/mailing/send' q='reset=1'}">&raquo; {ts}New Mailing{/ts}</a>
+</div>
+
 {else}
 <div class="messages status">
     <dl>
