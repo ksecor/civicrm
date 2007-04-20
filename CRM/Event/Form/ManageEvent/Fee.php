@@ -67,10 +67,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      * @return None
      */
     function setDefaultValues( )
-    {
+    {  
         $defaults = parent::setDefaultValues( );
         $eventId = $this->_id;
-        
+
         $params = array( 'event_id' => $eventId );
         CRM_Event_BAO_EventPage::retrieve( $params, $defaults );
         $eventPageId = $defaults['id'];
@@ -115,6 +115,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $this->add('select', 'contribution_type_id',ts( 'Contribution Type' ),
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
         
+        $this->add('text','fee_label',ts('Fee Label'));
+        
         $default = array( );
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
             // label 
@@ -157,7 +159,12 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         if ( $values['is_monetary'] ) {
             //check if contribution type is selected
             if ( !$values['contribution_type_id'] ) {
-                $errorMsg['contribution_type_id'] = "Please select contribution type.";;
+                $errorMsg['contribution_type_id'] = "Please select contribution type.";
+            }
+            
+            //check for the event fee label (mandatory)
+            if ( !$values['fee_label'] ) {
+                $errorMsg['fee_label'] = "Please enter the fee label for the paid event.";
             }
             
             //check fee label and amount

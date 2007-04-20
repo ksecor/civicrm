@@ -18,6 +18,9 @@
 {$location.1.address.display}
 {if $location.1.phone.1.phone || $location.1.email.1.email}
 
+{if $event.is_monetary}
+{ts}Fee Label:{/ts} {$event.fee_label}
+{/if}
 {ts}Event Contacts:{/ts}
 {foreach from=$location.1.phone item=phone}
 {if $phone.phone}{if $phone.phone_type}

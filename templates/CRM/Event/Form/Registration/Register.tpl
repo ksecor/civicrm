@@ -10,11 +10,14 @@
 {/if}
 
  <table class="form-layout-compressed">
+    {if $paidEvent} 
+        <tr><td><label>{ts}Fee Label{/ts}</label></td><td>{$event.fee_label}</td></tr>   
+    {/if}
     <tr><td class="label nowrap">{$form.amount.label}</td><td>{$form.amount.html}</td></tr>
 	{assign var=n value=email-$bltID}
     <tr><td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
  </table>
-
+  
  {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
 
 {if $paidEvent}   

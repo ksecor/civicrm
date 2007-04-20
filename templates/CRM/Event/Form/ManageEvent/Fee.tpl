@@ -8,7 +8,9 @@
     	<dt>{$form.is_monetary.label}</dt><dd>{$form.is_monetary.html}</dd>
 	<div id="contributionType">
     	<dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
+    	<dt>{$form.fee_label.label}</dt><dd>{$form.fee_label.html}</dd>
 	</div>
+    
     <div id="map-field">
     <p>{ts}Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}</p>
     <table id="map-field-table">
