@@ -82,26 +82,32 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         $filename = $path[count($path) - 1];
         
         // rename this file to go into the secure directory
-        if ($entitySubtype) {
-            $directoryName = $config->customFileUploadDir.$entitySubtype.DIRECTORY_SEPARATOR.$entityId;
+        if ( $entitySubtype ) {
+            $directoryName = $config->customFileUploadDir . $entitySubtype .DIRECTORY_SEPARATOR . $entityId;
         } else {
             $directoryName = $config->customFileUploadDir;
         }
+
         require_once "CRM/Utils/File.php";
         CRM_Utils_File::createDir($directoryName);
-        if ( ! rename( $data, $directoryName .DIRECTORY_SEPARATOR. $filename ) ) {
+
+        if ( ! rename( $data, $directoryName . DIRECTORY_SEPARATOR . $filename ) ) {
             CRM_Core_Error::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
             break;
         }
+
         // to get id's 
         if ($overwrite) {
-            $sql = "SELECT CF.id as fID ,CF.uri as uri, CEF.id as feID FROM civicrm_file as CF LEFT JOIN civicrm_entity_file as CEF ON (CEF.file_id = CF.id) WHERE ( CF.file_type_id =".$fileID." AND CEF.entity_table = '".$entityTable."' AND CEF.entity_id =".$entityId .")";
+            $sql = "
+SELECT    CF.id as fID, CF.uri as uri, CEF.id as feID
+FROM      civicrm_file AS CF
+LEFT JOIN civicrm_entity_file AS CEF ON ( CEF.file_id = CF.id )
+WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND CEF.entity_id = $entityId )";
         } else {
-            $sql = "SELECT id FROM civicrm_file WHERE 1=2";
+            $sql = "SELECT id FROM civicrm_file WHERE 0";
         }
 
-        $dao = new CRM_Core_DAO();
-        $dao->query($sql);
+        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
         $dao->fetch();
        
         $mimeType = $_FILES['uploadFile']['type'];

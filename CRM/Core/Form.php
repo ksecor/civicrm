@@ -711,7 +711,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addElement( 'text', $name . '_other', $label, $attributes[$name . '_other'] );
     }
 
-    function buildAddressBlock( $locationId, $title, $phone, $alternatePhone  = null, $addressRequired = null, $phoneRequired = null, $altPhoneRequired = null ,$locationName = null ) {
+    function buildAddressBlock( $locationId, $title, $phone,
+                                $alternatePhone  = null, $addressRequired = null,
+                                $phoneRequired = null, $altPhoneRequired = null,
+                                $locationName = null ) {
         if ( ! $locationName ) {
             $locationName = "location";
         }
@@ -746,7 +749,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         if( $addressRequired ){
             $this->addRule("{$locationName}[$locationId][address][postal_code]" , ts("Please enter the Zip/Postal Code for %1." , array( 1 => $title)),'required');
         }
-        $this->addRule( "{$locationName}[$locationId][address][postal_code]", ts("Zip/Postal Code not valid for %1.", array( 1 => $title)), 'positiveInteger' );
         
         $location[$locationId]['address']['postal_code_suffix']            =
             $this->addElement('text', "{$locationName}[$locationId][address][postal_code_suffix]", ts('Add-on Code'),
