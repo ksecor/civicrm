@@ -233,6 +233,21 @@ function crm_create_entity_file(&$fileID, &$entityID, $entity_table = 'civicrm_c
 }
 
 /**
+ * Attach a file to a given entity
+ *
+ * @param string   $name          filename
+ * @param object   $entityID      id of the supported entity.
+ * @param string   $entity_table   
+ *
+ * @access public
+ */
+function crm_add_file_by_entity( $name, $entityID, $entityTable = 'civicrm_contact', $params ) {
+    require_once 'CRM/Core/BAO/File.php';
+
+    CRM_Core_BAO_File::filePostProcess( $name, null, $entityTable, $entityID, null, false, $params );
+}
+
+/**
  * Returns all files assigned to a single entity instance.
  *
  * @param object $entityID         id of the supported entity.

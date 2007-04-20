@@ -74,7 +74,11 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
     }
 
     
-    public function filePostProcess($data ,$fileID ,$entityTable, $entityId ,$entitySubtype, $overwrite = true, $fileParams = null) {
+    public function filePostProcess($data, $fileID, 
+                                    $entityTable, $entityId,
+                                    $entitySubtype, $overwrite = true,
+                                    $fileParams = null) {
+
         require_once 'CRM/Core/DAO/File.php';
         $config = & CRM_Core_Config::singleton();
         
@@ -89,10 +93,10 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         }
 
         require_once "CRM/Utils/File.php";
-        CRM_Utils_File::createDir($directoryName);
+        CRM_Utils_File::createDir( $directoryName );
 
         if ( ! rename( $data, $directoryName . DIRECTORY_SEPARATOR . $filename ) ) {
-            CRM_Core_Error::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
+            CRM_Core_Error::fatal( ts( 'Could not move custom file to custom upload directory' ) );
             break;
         }
 
@@ -116,11 +120,13 @@ WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND C
         $fileDAO =& new CRM_Core_DAO_File();
         if ( $dao->fID ) {
             $fileDAO->id = $dao->fID;
-            unlink($directoryName .DIRECTORY_SEPARATOR.$dao->uri);
+            unlink( $directoryName . DIRECTORY_SEPARATOR . $dao->uri );
         }
-        if ( !empty($fileParams) ) {
+
+        if ( ! empty( $fileParams ) ) {
             $fileDAO->copyValues($fileParams);
         }
+
         $fileDAO->uri               = $filename;
         $fileDAO->mime_type         = $mimeType;
         $fileDAO->file_type_id      = $fileID;
