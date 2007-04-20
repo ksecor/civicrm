@@ -116,9 +116,9 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             $urlParams .= "&action=add";
         }
 
-        $url = CRM_Utils_System::url( 'civicrm/admin/event',
+        $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
                                       $urlParams, true, null, false );
-      
+     
         $this->assign("refreshURL",$url);
         $this->add('text','title',ts('Event Title'), $attributes['event_title'], true);
 
@@ -153,7 +153,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         } else {
             CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }
-
+        
         parent::buildQuickForm();
     }
 

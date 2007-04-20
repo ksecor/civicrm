@@ -25,7 +25,7 @@
   {else}
     <dl>
     <dt>{$form.product_id.label}</dt><dd>{$form.product_id.html}</dd>
-    {capture assign=mngPremURL}{crmURL p='civicrm/admin/contribute/managePremiums' q='reset=1&action=browse'}{/capture}
+    {capture assign=mngPremURL}{crmURL q='reset=1&action=browse'}{/capture}
     <dt>&nbsp;</dt><dd class="description">{ts 1=$mngPremURL}Pick a premium to include on this Contribution Page. Use <a href="%1">Manage Premiums</a> to create or enable additional premium choices for your site.{/ts}</dd>
     <dt>{$form.sort_position.label}</dt><dd>{$form.sort_position.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order that premiums are displayed on the Contribution Page.{/ts}</dd>

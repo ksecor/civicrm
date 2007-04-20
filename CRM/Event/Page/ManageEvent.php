@@ -64,7 +64,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Configure'),
-                                                                          'url'   => 'civicrm/admin/event',
+                                                                          'url'   => CRM_Utils_System::currentPath( ),
                                                                           'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                           'title' => ts('Configure Event') 
                                                                           ),
@@ -82,28 +82,27 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/event',
+                                                                          'url'   => CRM_Utils_System::currentPath( ),
                                                                           'qs'    => 'action=disable&id=%%id%%',
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           'title' => ts('Disable Event') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/event',
+                                                                          'url'   => CRM_Utils_System::currentPath( ),
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable Event') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),
-                                                                          'url'   => 'civicrm/admin/event',
+                                                                          'url'   => CRM_Utils_System::currentPath( ),
                                                                           'qs'    => 'action=delete&id=%%id%%',
                                                                           'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           'title' => ts('Delete Event') 
                                                                           ),
                                         CRM_Core_Action::COPY     => array(
                                                                            'name'  => ts('Copy Event'),
-                                                                           'url'   => 'civicrm/admin/event',
-                                                                           'qs'    => 'reset=1&action=copy&id=%%id%%',
+                                                                           'url'   => CRM_Utils_System::currentPath( ),                                                                                                'qs'    => 'reset=1&action=copy&id=%%id%%',
                                                                            'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
                                                                            'title' => ts('Copy Event') 
                                                                           )
@@ -137,7 +136,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                           $this, false, 0);
         
         // set breadcrumb to append to 2nd layer pages
-        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/event', 'reset=1' );
+        $breadCrumbPath = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' );
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Manage Events') . '</a>';
 
         // what action to take ?
@@ -145,7 +144,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $session =& CRM_Core_Session::singleton( ); 
             
             $title = "New Event Wizard";
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1' ) );
+            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' ) );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             CRM_Utils_System::setTitle( $title );
             
@@ -166,7 +165,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             CRM_Event_BAO_Event::setIsActive($id ,1); 
         } else if ($action & CRM_Core_Action::DELETE ) {
             $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/event', 'reset=1&action=browse' ) );
+            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=browse' ) );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ManageEvent_Delete',
                                                            'Delete Event',
                                                            $action );

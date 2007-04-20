@@ -121,7 +121,7 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $session =& CRM_Core_Session::singleton();
-            $url = CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium'); 
+            $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=update&id='.$this->_id.'&subPage=Premium'); 
             $session->pushUserContext( $url );
             if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                             CRM_Core_DAO::$_nullObject, '', '', 'GET') ) {
@@ -161,7 +161,7 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         }
         
         $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium'); 
+        $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=update&id='.$this->_id.'&subPage=Premium'); 
         $session->pushUserContext( $url );
 
         $this->add('select', 'product_id', ts('Select the Product') . ' ', $this->_products ,true);
@@ -171,7 +171,7 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         $this->addRule('sort_position',ts('Please enter integer value for weight') , 'integer');
         $session =& CRM_Core_Session::singleton();
         $single = $session->get('singleForm');
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'action=update&reset=1&id=' . $this->_id .'&subPage=Premium') );
+        $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'action=update&reset=1&id=' . $this->_id .'&subPage=Premium') );
       
         if ( $single ) {
             $this->addButtons(array(
@@ -203,7 +203,7 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         
         if($this->_action & CRM_Core_Action::PREVIEW) {
             $session =& CRM_Core_Session::singleton();
-            $url = CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium');
+            $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=update&id='.$this->_id.'&subPage=Premium');
             $single = $session->get('singleForm');
             CRM_Utils_System::redirect($url);
             return;
@@ -211,7 +211,7 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         
         if($this->_action & CRM_Core_Action::DELETE) {
             $session =& CRM_Core_Session::singleton();
-            $url = CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium');
+            $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=update&id='.$this->_id.'&subPage=Premium');
             require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
             $dao =& new CRM_Contribute_DAO_PremiumsProduct();
             $dao->id = $this->_pid;
@@ -220,7 +220,7 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             CRM_Utils_System::redirect($url);
         } else { 
             $session =& CRM_Core_Session::singleton();
-            $url = CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium');
+            $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=update&id='.$this->_id.'&subPage=Premium');
             if ( $this->_pid ) {
                 $params['id'] =  $this->_pid;
             }

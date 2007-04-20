@@ -74,7 +74,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Configure'),
-                                                                          'url'   => 'civicrm/admin/contribute',
+                                                                          'url'   => CRM_Utils_System::currentPath( ),
                                                                           'qs'    => 'reset=1&action=update&id=%%id%%',
                                                                           'title' => ts('Configure') 
                                                                           ),
@@ -92,28 +92,27 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/contribute',
+                                                                          'url'   => CRM_Utils_System::currentPath( ),
                                                                           'qs'    => 'action=disable&id=%%id%%',
                                                                           'title' => ts('Disable'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/contribute',
+                                                                          'url'   => CRM_Utils_System::currentPath( ),
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable'),
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),
-                                                                          'url'   => 'civicrm/admin/contribute',
+                                                                          'url'   => CRM_Utils_System::currentPath( ),
                                                                           'qs'    => 'action=delete&reset=1&id=%%id%%',
                                                                           'title' => ts('Delete Custom Field'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::COPY     => array(
                                                                            'name'  => ts('Copy Contribution Page'),
-                                                                           'url'   => 'civicrm/admin/contribute',
-                                                                           'qs'    => 'action=copy&gid=%%id%%',
+                                                                           'url'   => CRM_Utils_System::currentPath( ),                                                                                                'qs'    => 'action=copy&gid=%%id%%',
                                                                            'title' => ts('Make a Copy of CiviCRM Contribution Page'),
                                                                            'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
                                                                            ),
@@ -148,23 +147,23 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                           $this, false, 0);
 
         // set breadcrumb to append to 2nd layer pages
-        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/contribute', 'reset=1' );
-        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Configure Online Contribution Pages') . '</a>';
+        $breadCrumbPath = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' );
+        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Manage Contribution Page') . '</a>';
     
         // what action to take ?
 
         if ( $action & CRM_Core_Action::ADD ) {
             $session =& CRM_Core_Session::singleton( ); 
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute',
+            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
                                                              'action=browse&reset=1' ) );
             require_once 'CRM/Contribute/Controller/ContributionPage.php';
             $controller =& new CRM_Contribute_Controller_ContributionPage( );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-            CRM_Utils_System::setTitle( ts('New Online Contribution Page') );
+            CRM_Utils_System::setTitle( ts('Manage Contribution Page') );
             return $controller->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
             $session =& CRM_Core_Session::singleton( ); 
-            $session->pushUserContext( CRM_Utils_System::url("civicrm/admin/contribute",
+            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
                                                              "action=update&reset=1&id={$id}") );
             require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
@@ -189,7 +188,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                 return $page->run( );
             } else {
                 $session =& CRM_Core_Session::singleton();
-                $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=browse' ) );
+                $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=browse' ) );
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_ContributionPage_Delete',
                                                                'Delete Contribution Page',
                                                                $mode );
@@ -231,7 +230,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         CRM_Contribute_BAO_ContributionPage::copy( $gid );
 
-        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/contribute', 'reset=1' ) );
+        CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' ) );
     }
 
     /**

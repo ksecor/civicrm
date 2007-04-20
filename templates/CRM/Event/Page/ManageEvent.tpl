@@ -1,4 +1,4 @@
-{capture assign=newEventURL}{crmURL p='civicrm/admin/event' q="action=add&reset=1"}{/capture}
+{capture assign=newEventURL}{crmURL q="action=add&reset=1"}{/capture}
 {capture assign=icalURL}{crmURL p='civicrm/event/ical' q="reset=1"}{/capture}
 {capture assign=icalPage}{crmURL p='civicrm/event/ical' q="reset=1&page=1"}{/capture}
 {capture assign=pastEventsURL}{crmURL q="action=browse&past=true&reset=1"}{/capture}

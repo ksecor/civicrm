@@ -1,5 +1,5 @@
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-{capture assign=newPageURL}{crmURL p='civicrm/admin/contribute' q='action=add&reset=1'}{/capture}
+{capture assign=newPageURL}{crmURL q='action=add&reset=1'}{/capture}
 <div id="help">
     <p>{ts 1="http://wiki.civicrm.org/confluence//x/1Cs" 2=$docURLTitle}CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc. (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}</p>
     

@@ -72,19 +72,19 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/contribute',
+                                                                    'url'   => CRM_Utils_System::currentPath( ),
                                                                     'qs'    => 'action=update&id=%%id%%&pid=%%pid%%&reset=1&subPage=AddProductToPage',
                                                                     'title' => ts('Edit Premium') 
                                                                    ),
                                   CRM_Core_Action::PREVIEW => array(
                                                                     'name'  => ts('Preview'),
-                                                                    'url'   => 'civicrm/admin/contribute',
+                                                                    'url'   =>  CRM_Utils_System::currentPath( ),
                                                                     'qs'    => 'action=preview&id=%%id%%&pid=%%pid%%&subPage=AddProductToPage',
                                                                     'title' => ts('Preview Premium') 
                                                                    ),
                                   CRM_Core_Action::DELETE => array(
                                                                     'name'  => ts('Remove'),
-                                                                    'url'   => 'civicrm/admin/contribute',
+                                                                    'url'   =>  CRM_Utils_System::currentPath( ),
                                                                     'qs'    => 'action=delete&id=%%id%%&pid=%%pid%%&subPage=AddProductToPage',                    
                                                                     'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',
                                                                    
@@ -212,7 +212,7 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/admin/contribute';
+        return  CRM_Utils_System::currentPath( );
     }
 
 }

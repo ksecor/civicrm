@@ -70,24 +70,24 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
 
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this component?');
-
+         
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/mailing/component',
+                                                                    'url'   => CRM_Utils_System::currentPath( ),
                                                                     'qs'    => 'action=update&id=%%id%%',
                                                                     'title' => ts('Edit Mailing Component') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/mailing/component',
+                                                                    'url'   => CRM_Utils_System::currentPath( ),
                                                                     'qs'    => 'action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                     'title' => ts('Disable Mailing Component') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/mailing/component',
+                                                                    'url'   => CRM_Utils_System::currentPath( ),
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Enable Mailing Component') 
                                                                    )
@@ -123,7 +123,7 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/mailing/component';
+        return CRM_Utils_System::currentPath( ) ;
     }
 
 }
