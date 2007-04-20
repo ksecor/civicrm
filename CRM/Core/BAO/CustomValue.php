@@ -331,6 +331,9 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
         while ($customValue->fetch()) {
             $value = array( );
             _crm_object_to_array( $customValue, $value );
+            // this is the last time we have access to the BAO object,
+            // so add the value to the result array (CRM-1840)
+            $value['value'] = $customValue->getValue();
             $values[] = $value;
         }
         $customValue->free( );

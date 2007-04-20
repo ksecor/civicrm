@@ -275,8 +275,8 @@ class CRM_Utils_Token {
             
             if ($cfID = CRM_Core_BAO_CustomField::getKeyID($token)) {
                 foreach ($cv as $customValue) {
-                    if ($customValue->custom_field_id == $cfID) {
-                        $value = $customValue->getValue();
+                    if ($customValue['custom_field_id'] == $cfID) {
+                        $value = CRM_Core_BAO_CustomOption::getOptionLabel($cfID, $customValue['value']);
                         break;
                     }
                 }
