@@ -244,17 +244,22 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @param  string name of debug section
      * @param  mixed  reference to variables that we need a trace of
      * @param  bool   should we log or return the output
+     * @param  bool   whether to generate a HTML-escaped output
      *
      * @return string the generated output
      * @access public
      * @static
      */
-    static function debug( $name, $variable, $log = true ) {
+    static function debug( $name, $variable, $log = true, $html = true ) {
         $error =& self::singleton( );
 
-        $out = htmlspecialchars(print_r($variable, true));
-
-        $out = "<p>$name</p><p><pre>$out</pre></p><p></p>";
+        $out = print_r( $variable, true );
+        if ($html) {
+            $out = htmlspecialchars( $out );
+            $out = "<p>$name</p><p><pre>$out</pre></p><p></p>";
+        } else {
+            $out = "$name:\n$out\n";
+        }
         if ( $log ) {
             echo $out;
         }
