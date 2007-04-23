@@ -54,10 +54,9 @@ class CRM_Contribute_Controller_Contribution extends CRM_Core_Controller {
      * class constructor
      */
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
-        require_once 'CRM/Contribute/StateMachine/Contribution.php';
-
         parent::__construct( $title, $modal );
 
+        require_once 'CRM/Contribute/StateMachine/Contribution.php';
         $this->_stateMachine =& new CRM_Contribute_StateMachine_Contribution( $this, $action );
 
         // create and instantiate the pages
