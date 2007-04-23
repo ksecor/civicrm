@@ -106,12 +106,13 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * @param string $contact_type Which class of contact is being created.
  *            Valid values = 'Individual', 'Household', 'Organization'.
  *                            '
+ * @param boolean dupeCheck    should we do dupe checking
  *
  * @return CRM_Contact|CRM_Error Newly created Contact object
  *
  * @access public
  */
-function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
+function &crm_create_contact( &$params, $contact_type = 'Individual', $dupeCheck = true ) {
     _crm_initialize( );
 
     // return error if we do not get any params
@@ -119,7 +120,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
         return _crm_error( "Input Parameters empty" );
     }
 
-    $error = _crm_check_params( $params, $contact_type );
+    $error = _crm_check_params( $params, $contact_type, $dupeCheck );
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
