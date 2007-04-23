@@ -373,7 +373,7 @@ class CRM_Utils_Rule
 
     // allow between 4-6 digits as postal code since india needs 6 and US needs 5 (or 
     // if u disregard the first 0, 4 (thanx excel!)
-    // piotr: we need to figure out how to localize such rules
+    // FIXME: we need to figure out how to localize such rules
     static function postalCode($value) 
     {
         if ( preg_match('/^\d{4,6}(-\d{4})?$/', $value) ) {

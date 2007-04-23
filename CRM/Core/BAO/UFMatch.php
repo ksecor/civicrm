@@ -195,7 +195,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 }
                 
                 require_once 'api/Contact.php';
-                $contact =& crm_create_contact( $params, $ctype );
+                $contact =& crm_create_contact( $params, $ctype, false );
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::debug( 'error', $contact );
                     exit(1);

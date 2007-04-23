@@ -162,10 +162,12 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         $dao->entity_id    = $fieldId;
         $dao->entity_table = $entityTable;
         $dao->value = $value;
+        $label = $value;
         if ( $dao->find( true ) ) {
-            return $dao->label;
+            $label = $dao->label;
         }
-        return $value;
+        $dao->free();
+        return $label;
     }
 
 

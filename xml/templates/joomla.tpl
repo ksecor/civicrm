@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
   <name>CiviCRM</name>
-  <creationDate>05/15/2007</creationDate>
+  <creationDate>04/22/2007</creationDate>
   <copyright>(C) CiviCRM LLC</copyright>
   <author>CiviCRM LLC</author>
   <authorEmail>info@civicrm.org</authorEmail>
@@ -14,7 +14,6 @@
   </files>
   <params>
     <param name="task" type="list" default="civicrm/profile" label="Choose CiviCRM task">
-       <option value="civicrm/dashboard">CiviCRM Home</option>
        <option value="civicrm/user">Contact Dashboard</option>
        <option value="civicrm/profile">Profile Search and Listings</option>
        <option value="civicrm/profile/create">Profile Create</option>

@@ -1,5 +1,8 @@
 <?php
 
+// escape early if called directly
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+
 global $mosConfig_absolute_path;
 
 // $mosConfig_absolute_path = "/tmp/mos";

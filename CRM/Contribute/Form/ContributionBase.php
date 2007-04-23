@@ -108,7 +108,16 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
     {  
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
-        //$session->debug( 1 );
+
+        // check if this is a paypal auto return and redirect accordingly
+        if ( $config->paymentProcessor == "PayPal_Standard" &&
+             isset( $_GET['payment_date'] )                 &&
+             isset( $_GET['merchant_return_link'] )         &&
+             CRM_Utils_Array::value( 'payment_status', $_GET ) == 'Completed' ) {
+            $url = CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                          "_qf_ThankYou_display=1&qfKey={$this->controller->_key}" );
+            CRM_Utils_System::redirect( $url );
+        }
 
         // current contribution page id 
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive',
