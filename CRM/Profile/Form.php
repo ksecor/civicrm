@@ -579,9 +579,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
         
-        CRM_Core_Error::debug( 'f', $_FILES );
-        CRM_Core_Error::debug( 'p', $params );
-        exit( );
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );
