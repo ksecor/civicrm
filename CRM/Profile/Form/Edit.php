@@ -172,10 +172,8 @@ SELECT module
         
         //get the value from session, this is set if there is any file
         //upload field
-        
-        $session =& CRM_Core_Session::singleton( );
-        $uploadNames = $session->get('uploadNames');
-        
+        $uploadNames = $this->get('uploadNames');
+          
         if ( !empty($uploadNames) ) {
             $buttonName = 'upload'; 
         } else {

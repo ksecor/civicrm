@@ -564,6 +564,8 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
+        CRM_Core_Error::debug( 'p', $params );
+        CRM_Core_Error::debug( 'p', $_POST );
 
         //for custom data of type file
         if ( !empty($_FILES) ) {
@@ -578,7 +580,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $params[$key] = $files;
             }
         }
-
+        
+        CRM_Core_Error::debug( 'f', $_FILES );
+        CRM_Core_Error::debug( 'p', $params );
+        exit( );
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );
