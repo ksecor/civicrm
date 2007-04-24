@@ -61,11 +61,20 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
             if ( $fileDAO->find( true ) ) {
                 $config =& CRM_Core_Config::singleton( );
                 if ( $quest ) {
-                   $path =
-                       $config->customFileUploadDir .
-                       'Student' . DIRECTORY_SEPARATOR .
-                       $entityID . DIRECTORY_SEPARATOR .
-                       $fileDAO->uri;
+                    if ($quest == '1') {
+                        // to make quest part work as before
+                        $path =
+                            $config->customFileUploadDir .
+                            'Student' . DIRECTORY_SEPARATOR .
+                            $entityID . DIRECTORY_SEPARATOR .
+                            $fileDAO->uri;
+                    } else {
+                        $path = 
+                            $config->customFileUploadDir .
+                            $quest . DIRECTORY_SEPARATOR .
+                            $entityID . DIRECTORY_SEPARATOR .
+                            $fileDAO->uri;
+                    }
                 } else {
                     $path = $config->customFileUploadDir . $fileDAO->uri;
                 }

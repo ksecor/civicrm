@@ -44,7 +44,7 @@ class CRM_Core_Page_File extends CRM_Core_Page {
 
         $eid         = CRM_Utils_Request::retrieve( 'eid'   , 'Positive', $this, true );
         $id          = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true );
-        $quest       = CRM_Utils_Request::retrieve( 'quest' , 'Positive', $this );
+        $quest       = CRM_Utils_Request::retrieve( 'quest' , 'String',   $this );
         $action      = CRM_Utils_Request::retrieve( 'action', 'String',   $this );
 
         require_once 'CRM/Core/BAO/File.php';
