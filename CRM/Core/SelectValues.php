@@ -596,6 +596,7 @@ class CRM_Core_SelectValues
                                'AuthNet_AIM'      => ts('Authorize.Net - AIM'),
                                'Google_Checkout'  => ts('Google Checkout'),
                                'Moneris'          => ts('Moneris'),
+                               'Dummy'            => ts('Test Payment Processor'),
                                );
         }
         return $processor;

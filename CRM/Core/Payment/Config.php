@@ -199,8 +199,13 @@ class CRM_Core_Payment_Config {
                 $config->paymentType = 'AIM';
                 $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_FORM;
                 break;
-           }
 
+            case 'Dummy':
+                $config->paymentFile = 'Payment_Dummy';
+                $config->paymentBillingMode = CRM_Core_Payment::BILLING_MODE_FORM;
+                break;
+                
+           }
         }
 
         if ( $oldMode ) {
