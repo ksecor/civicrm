@@ -47,7 +47,7 @@ function selectPremium(optionField) {
         <table id="premiums-listings" class="no-border">
         {foreach from=$products item=row}
         <tr {if $context EQ "makeContribution"}class="odd-row" {/if}valign="top"> 
-            {if $showRadio }
+            {if $showRadioPremium }
                 {assign var="pid" value=$row.id}
                 <td>{$form.selectProduct.$pid.html}</td>
             {/if}
@@ -80,7 +80,7 @@ function selectPremium(optionField) {
             </td>
         </tr>
         {/foreach}
-        {if $showRadio AND !$preview }
+        {if $showRadioPremium AND !$preview }
             <tr class="odd-row"><td colspan="4">{$form.selectProduct.no_thanks.html}</td></tr> 
         {/if}          
         </table>
