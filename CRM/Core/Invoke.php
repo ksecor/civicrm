@@ -356,6 +356,11 @@ class CRM_Core_Invoke
         if ( $args[2] == 'search' ) {
             return self::search( $args );
         }
+
+        if ( $args[2] == 'merge' ) {
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Merge', ts('Merge Contact'),  null );
+        }
         
         return CRM_Utils_System::redirect( );
     }
