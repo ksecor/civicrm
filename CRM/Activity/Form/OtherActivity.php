@@ -56,11 +56,12 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
      * @return None
      * @access public
      */
-
     function preProcess( ) 
     {
+        $this->_activityType = CRM_Utils_Request::retrieve( 'activity_id', 'Positive',$this );
+
         if ( ! isset($_POST['activity_type_id']) ) {
-            $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+            $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive',$this );
         } else {
             $this->_activityType = $_POST['activity_type_id'];
         }
@@ -71,6 +72,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         parent::preProcess();
         
     }
+
     public function buildQuickForm( ) 
     {
         parent::buildQuickForm( );

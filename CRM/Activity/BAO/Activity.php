@@ -343,7 +343,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } else if ($history->activity_type == 'Phone Call') {
             $activityTypeId = 2;
         } else {
-            $activityTypeId = 5;
+            $activityTypes = array( );
+            $activityTypes = CRM_Core_PseudoConstant::activityType();
+            $activityTypeId = array_search( $history->activity_type, $activityTypes );
         }
 
         if ( $contactId ) {
