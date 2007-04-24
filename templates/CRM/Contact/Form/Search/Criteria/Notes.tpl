@@ -3,10 +3,10 @@
     <table class="form-layout">
         <tr>
             <td class="label">
-                {$form.notes.label}
+                {$form.note.label}
             </td>
             <td>
-                {$form.notes.html}
+                {$form.note.html}
             </td>
         </tr>
     </table>

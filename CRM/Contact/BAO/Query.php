@@ -462,16 +462,14 @@ class CRM_Contact_BAO_Query {
                             $this->_element[$name]             = 1;
                         }   
                     }
-                } elseif ($name === 'tags') {
+                } else if ($name === 'tags') {
                     $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_tag.name)) AS tags";
                     $this->_tables['civicrm_tag'       ] = 1;
                     $this->_tables['civicrm_entity_tag'] = 1;
-                } elseif ($name === 'groups') {
+                } else if ($name === 'groups') {
                     $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_group.name)) AS groups";
-                    
                     $this->_tables['civicrm_group'        ] = 1;
-                    // $this->_tables['civicrm_group_contact'] = 1;
-                } elseif ($name === 'notes') {
+                } else if ($name === 'notes') {
                     $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_note.note)) AS notes";
                     $this->_tables['civicrm_note'        ] = 1;
                 }
@@ -903,7 +901,7 @@ class CRM_Contact_BAO_Query {
             $this->tag( $values );
             return;
 
-        case 'notes':
+        case 'note':
             $this->notes( $values );
             return;
 
@@ -2561,6 +2559,7 @@ class CRM_Contact_BAO_Query {
             return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
+        //crm_core_error::debug('$query', $query);
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         if ( $groupContacts ) {
             $ids = array( );
