@@ -96,7 +96,7 @@
       <type>varchar</type>     
       <length>255</length>  
       <import>true</import>
-      <comment>Populate with the label (text) associated with a fee level for paid events with multiple levels. Note that we store the label value rather than an FK as the label stored in custom_option may change, but we dont want that to change the label in place at time of this registration.</comment>
+      <comment>Populate with the label (text) associated with a fee level for paid events with multiple levels. Note that we store the label value and not the key</comment>
       <add>1.7</add>     
   </field> 
   <field>     
