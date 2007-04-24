@@ -260,7 +260,8 @@ SELECT module
     function getTemplateFileName() {
         if ( $this->_gid ) {
             $templateFile = "CRM/Profile/Form/{$this->_gid}/Edit.tpl";
-            if ( CRM_Core_Form::$_template->template_exists( $templateFile ) ) {
+            $template =& CRM_Core_Form::getTemplate( );
+            if ( $template->template_exists( $templateFile ) ) {
                 return $templateFile;
             }
         }
