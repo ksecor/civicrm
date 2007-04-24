@@ -35,7 +35,7 @@
 
 require_once 'CRM/Core/Form.php';
 
-class CRM_Contact_Form_Merge  extends CRM_Core_Form
+class CRM_Contact_Form_Merge extends CRM_Core_Form
 {
     function preProcess()
     {
@@ -47,14 +47,25 @@ class CRM_Contact_Form_Merge  extends CRM_Core_Form
         $main  = crm_get_contact(array('contact_id' => $cid));
         $other = crm_get_contact(array('contact_id' => $oid));
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);
-        $this->assign('main_name',  $main->display_name);
-        $this->assign('other_name', $other->display_name);
-        $this->assign('diffs', $diffs);
+        $this->assign('main_name',    $main->display_name);
+        $this->assign('other_name',   $other->display_name);
+        $this->assign('contact_type', $main->contact_type);
+        $this->assign('diffs',        $diffs);
 
-        foreach ($diffs['contact'] as $field) {
-            $group['main']  = HTML_QuickForm::createElement('radio', null, null, $main->$field, 'main');
+        foreach (array('Contact', $main->contact_type) as $ct) {
+            require_once "CRM/Contact/DAO/$ct.php";
+            eval("\$fieldNames['$ct'] =& CRM_Contact_DAO_$ct::fields();");
+        }
+
+        foreach ($diffs['Contact'] as $field) {
+            $group['main']  = HTML_QuickForm::createElement('radio', null, null, $main->$field,  'main');
             $group['other'] = HTML_QuickForm::createElement('radio', null, null, $other->$field, 'other');
-            $this->addGroup($group, $field, $field);
+            $this->addGroup($group, $field, $fieldNames['Contact'][$field]['title']);
+        }
+        foreach ($diffs[$main->contact_type] as $field) {
+            $group['main']  = HTML_QuickForm::createElement('radio', null, null, $main->contact_type_object->$field, 'main');
+            $group['other'] = HTML_QuickForm::createElement('radio', null, null, $other->contact_type_object->$field, 'other');
+            $this->addGroup($group, $field, $fieldNames[$main->contact_type][$field]['title']);
         }
     }
     

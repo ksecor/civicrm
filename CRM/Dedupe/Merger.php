@@ -36,12 +36,12 @@ class CRM_Dedupe_Merger
 {
     // FIXME: this should be auto-generated from the schema
     static $validFields = array(
-        'household'    => array('household_name'),
-        'organization' => array('organization_name', 'legal_name', 'sic_code'),
-        'individual'   => array('first_name', 'middle_name', 'last_name',
+        'Household'    => array('household_name'),
+        'Organization' => array('organization_name', 'legal_name', 'sic_code'),
+        'Individual'   => array('first_name', 'middle_name', 'last_name',
             'prefix_id', 'suffix_id', 'greeting_type', 'custom_greeting',
             'job_title', 'gender_id', 'birth_date', 'is_deceased', 'deceased_date'),
-        'contact'      => array('do_not_email', 'do_not_phone', 'do_not_mail',
+        'Contact'      => array('do_not_email', 'do_not_phone', 'do_not_mail',
             'legal_identifier', 'external_identifier', 'home_URL', 'image_URL',
             'preferred_communication_method', 'preferred_mail_format',
             'do_not_trade', 'is_opt_out', 'source'),
@@ -116,12 +116,12 @@ class CRM_Dedupe_Merger
         if ($main->contact_type != $other->contact_type) {
             return false;
         }
-        $cType = strtolower($main->contact_type);
+        $cType = $main->contact_type;
 
         $diffs = array();
-        foreach (self::$validFields['contact'] as $validField) {
+        foreach (self::$validFields['Contact'] as $validField) {
             if ($main->$validField != $other->$validField) {
-                $diffs['contact'][] = $validField;
+                $diffs['Contact'][] = $validField;
             }
         }
         foreach (self::$validFields[$cType] as $validField) {
