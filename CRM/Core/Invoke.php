@@ -177,7 +177,6 @@ class CRM_Core_Invoke
         }
         
         if ( $args[2] == 'domain' ) {
-            $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/domain', 'action=view' ) );
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Domain', ts('Domain Information Page'), null);
@@ -185,7 +184,6 @@ class CRM_Core_Invoke
         
         if ( $args[2] == 'email' ) {
             // set the userContext stack
-            $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
 
             $wrapper =& new CRM_Utils_Wrapper( );
@@ -274,8 +272,6 @@ class CRM_Core_Invoke
                 $show = CRM_Utils_Request::retrieve('show', 'Boolean',
                                                     CRM_Core_DAO::$_nullObject );
 
-                $session =& CRM_Core_Session::singleton();
-                
                 if(!$show) {
                     if ($activityId)  {
                         $session->set('activityId', $activityId);
@@ -402,7 +398,6 @@ class CRM_Core_Invoke
             $url   = 'civicrm/contact/search/builder';
         } else if ( $thirdArg == 'simple' ) {
             // set the userContext stack
-            $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/simple' ) );
 
             $wrapper =& new CRM_Utils_Wrapper( );
