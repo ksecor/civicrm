@@ -120,6 +120,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( ! $this->_values ) {
             // get all the values from the dao object
             $this->_values = array( );
+
             //retrieve event information
             $params = array( 'id' => $this->_id );
             $ids = array();
@@ -127,12 +128,26 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             require_once 'CRM/Event/BAO/Participant.php';
             $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_id );
             if ( $eventFull ) {
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $this->_id ) );
+                CRM_Utils_System::fatal( $eventFull );
             }
             
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
-            
+
+            $now = time( );
+
+            $startDate = CRM_Utils_Date::unixTime( $this->_values['event']['registration_start_date'] );
+            if ( $startDate &&
+                 $startDate >= $now ) {
+                CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
+            }
+
+            $endDate = CRM_Utils_Date::unixTime( $this->_values['event']['registration_end_date'] );
+            if ( $endDate &&
+                 $endDate < $now ) {
+                CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
+            }
+
             //retrieve custom information
             $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
                                                         $this->_id,
@@ -383,4 +398,5 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     }
 
 }
+
 ?>

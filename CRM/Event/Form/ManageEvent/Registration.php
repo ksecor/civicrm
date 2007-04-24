@@ -72,6 +72,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $eventId = $this->_id;
 
         $defaults = parent::setDefaultValues( );
+
         $this->setShowHide( $defaults );
         if ( isset( $eventId ) ) {
             $params = array( 'event_id' => $eventId );
@@ -136,10 +137,26 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     { 
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?'),null,array('onclick' =>"return showHideByValue('is_online_registration','','registrationLink|registration','block','radio',false);")); 
+        $this->addElement('checkbox', 'is_online_registration',
+                          ts('Allow Online Registration?'),
+                          null,
+                          array('onclick' =>
+                                "return showHideByValue('is_online_registration','','registrationLink|registration','block','radio',false);")); 
         
         $this->add('text','registration_link_text',ts('Registration Link Text'));
-        
+
+        $this->add( 'date',
+                    'registration_start_date',
+                    ts( 'Registration Start Date'  ),
+                    CRM_Core_SelectValues::date('datetime') );
+        $this->addRule('registration_start_date', ts('Please select a valid start date.'), 'qfDate');
+
+        $this->add( 'date',
+                    'registration_end_date',
+                    ts( 'Registration End Date'  ),
+                    CRM_Core_SelectValues::date('datetime') );
+        $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
+
         self::buildRegistrationBlock( $this );
         self::buildConfirmationBlock( $this );
         self::buildMailBlock( $this );
@@ -272,6 +289,9 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         if ( ! $params['is_online_registration'] ) {
             $params['is_email_confirm'] = false;
         }
+
+        $params['registration_start_date'] = CRM_Utils_Date::format( $params['registration_start_date'] );
+        $params['registration_end_date'] = CRM_Utils_Date::format( $params['registration_end_date'] );
 
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add($params ,$ids);

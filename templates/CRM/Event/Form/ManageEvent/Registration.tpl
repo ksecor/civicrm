@@ -16,6 +16,18 @@ Paid events require that you have configured a <a href="%1" target="_blank" titl
             <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. "Register Now!").{/ts}</dd>
         </dl>
     </div>
+    <dl>
+        <dt>{$form.registration_start_date.label}</dt><dd>{$form.registration_start_date.html}<br/>
+          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
+          {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1}
+        </dd>
+    </dl>
+    <dl>
+        <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}<br/>
+          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
+          {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_1}
+        </dd>
+    </dl>
     <div id="registration" class="form-item">
         {*Registration Block*}
         <div id="registration_screen_show" class="section-hidden section-hidden-border">

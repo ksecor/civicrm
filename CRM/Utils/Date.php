@@ -143,11 +143,11 @@ class CRM_Utils_Date {
      */     
     static function &unformat( $date, $separator = '-' ) {
         $value = array( );
-        $value['Y'] = $value['M'] = $value['d'] = null;
-
         if ( empty( $date ) ) {
             return $value;
         }
+
+        $value['Y'] = $value['M'] = $value['d'] = null;
 
         if ( $separator != '' ) {
             list( $year, $mon, $day ) = explode( $separator, $date, 3 );
@@ -165,8 +165,6 @@ class CRM_Utils_Date {
             }
         }
         
-        $value = array( );
-
         if ( is_numeric( $year ) && $year > 0 ) {
             $value['Y'] = $year;
         }
@@ -282,6 +280,23 @@ class CRM_Utils_Date {
             }
         }
         return $fullMonthNames;
+    }
+
+    static function unixTime( $string ) {
+        if ( empty( $string ) ) {
+            return 0;
+        }
+        $v = self::unformat( $string );
+
+        if ( empty( $v ) ) {
+            return 0;
+        }
+
+        if ( $v['A'] == 'PM' ) {
+            $v['h'] += 12;
+        }
+
+        return mktime( $v['h'], $v['i'], 59, $v['M'], $v['d'], $v['Y'] );
     }
 
     /**

@@ -43,7 +43,8 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
 
     function path( $fileID,
                    $entityID,
-                   $entityTable = null, $quest = false  ) {
+                   $entityTable = null,
+                   $quest = false  ) {
         require_once 'CRM/Core/DAO/EntityFile.php'; 
         
         $entityFileDAO =& new CRM_Core_DAO_EntityFile();
@@ -59,14 +60,20 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
             $fileDAO->id = $fileID;
             if ( $fileDAO->find( true ) ) {
                 $config =& CRM_Core_Config::singleton( );
-                if ($quest) {
-                   $path =  $config->customFileUploadDir."Student".DIRECTORY_SEPARATOR.$entityID.DIRECTORY_SEPARATOR. $fileDAO->uri;
-                }else {
+                if ( $quest ) {
+                   $path =
+                       $config->customFileUploadDir .
+                       'Student' . DIRECTORY_SEPARATOR .
+                       $entityID . DIRECTORY_SEPARATOR .
+                       $fileDAO->uri;
+                } else {
                     $path = $config->customFileUploadDir . $fileDAO->uri;
                 }
+
                 if ( file_exists( $path ) && is_readable( $path ) ) {
                     return array( $path, $fileDAO->mime_type );
                 }
+
             }
         }
 

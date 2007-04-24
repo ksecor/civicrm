@@ -108,6 +108,18 @@
       <comment>Text for link to Event Registration form which is displayed on Event Information screen when is_online_registration is true.</comment>
       <add>1.7</add>     
   </field>   
+  <field>
+      <name>registration_start_date</name>
+      <type>datetime</type>
+      <comment>Date and time that online registration starts.</comment>
+      <add>1.8</add>
+  </field>
+  <field>
+      <name>registration_end_date</name>
+      <type>datetime</type>
+      <comment>Date and time that online registration ends.</comment>
+      <add>1.8</add>
+  </field>
   <field> 
       <name>max_participants</name> 
       <type>int unsigned</type> 
