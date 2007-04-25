@@ -175,15 +175,16 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         // if there are label / values, create custom options for them
         $labels  = CRM_Utils_Array::value( 'label'  , $params );
         $values  = CRM_Utils_Array::value( 'value'  , $params );
+
         $default = CRM_Utils_Array::value( 'default', $params ); 
         $params['amount_block_is_active']  = CRM_Utils_Array::value( 'amount_block_is_active', $params ,false);
         $params['is_monetary']  = CRM_Utils_Array::value( 'is_monetary', $params ,false);
         $params['is_recur']  = CRM_Utils_Array::value( 'is_recur', $params ,false);
-        if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values ) ) {
+        if ( ! CRM_Utils_System::isNull( $values ) ) {
             for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
-                if ( ! empty( $labels[$i] ) && !empty( $values[$i] ) ) {
+                if ( ! empty( $values[$i] ) ) {
                     $dao =& new CRM_Core_DAO_CustomOption( );
-                    $dao->label        = trim( $labels[$i] );
+                    $dao->label        = trim( CRM_Utils_Array::value( $i, $labels ) );
                     $dao->value        = CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) );
                     $dao->entity_table = 'civicrm_contribution_page';
                     $dao->entity_id    = $this->_id;
