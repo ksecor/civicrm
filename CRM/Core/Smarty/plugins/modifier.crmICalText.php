@@ -32,48 +32,21 @@
  * $Id$
  *
  */
- 
-require_once 'CRM/Core/Page.php';
 
 /**
- * ICalendar class
+ * Format the given text in an ical suitable format
  *
+ * @param string $str
+ *
+ * @return string  formatted text
+ * @access public
  */
-class CRM_Event_Page_ICalendar extends CRM_Core_Page
+
+require_once 'CRM/Utils/ICalendar.php';
+
+function smarty_modifier_crmICalText( $str )
 {
-    /**
-     * Heart of the iCalendar data assignment process. The runner gets all the meta
-     * data for the event and calls the  method to output the iCalendar
-     * to the user.
-     *
-     * @return void
-     */
-    function run( )
-    {
-        $type     = CRM_Utils_Request::retrieve('type' , 'Positive', $this, false, 0);
-        $start    = CRM_Utils_Request::retrieve('start', 'Positive', $this, false, 0);
-        $iCalPage = CRM_Utils_Request::retrieve('page' , 'Positive', $this, false, 0);
-        $gDate    = CRM_Utils_Request::retrieve('gData', 'Positive', $this, false, 0);
-
-        require_once "CRM/Event/BAO/Event.php";
-        $info = CRM_Event_BAO_Event::getCompleteInfo( $start, $type );
-        $this->assign( 'events', $info );
-
-        $template =& CRM_Core_Smarty::singleton( );
-        if ( $gData ) {
-            $format = $template->fetch( 'CRM/Core/Calendar/ICal.tpl' );
-        } else {
-            $format = $template->fetch( 'CRM/Core/Calendar/GData.tpl' );
-        }
-
-        if( $iCalPage == 1) {
-            echo "<pre>$format</pre>";
-            exit();
-        }
-
-        CRM_Utils_ICalendar::send( 'civicrm_ical.ics', 'attachment', 'utf-8', $format );
-        exit( );
-    }
+    return CRM_Utils_ICalendar::formatText( $str );
 }
 
 ?>

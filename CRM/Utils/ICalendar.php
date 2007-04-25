@@ -42,61 +42,24 @@
  */
 class CRM_Utils_ICalendar 
 {
-
-   /**
-    * Turn an array of events into a valid iCalendar file
-    *
-    * @param $events
-    *   An array of associative arrays where
-    *      'summary'       => Title of event (Text)
-    *      'description'   => Description of event (Text)
-    *      'start_date'    => Start date of all-day event in YYYYMMDD format (Required, if no start)
-    *      'end_date'      => End date of all-day event in YYYYMMDD format (Optional)
-    *      'location'      => Location of event (Text)
-    *      'url'           => URL to provide link for Event Info page
-    *      'contact_email' => email of event organiser
-    *
-    * @return  Text of a iCalendar file
-    */
-    function iCalendar( &$events ) 
+    /**
+     * Escape text elements for safe ICalendar use
+     *
+     * @param $text Text to escape
+     *
+     * @return  Escaped text
+     *
+     */
+    static function formatText( $text ) 
     {
-        $content = "BEGIN:VCALENDAR\nVERSION:2.0\n";
-        $content .= "PRODID:-//CiviCRM//NONSGML CiviEvent iCal//EN\n";
-        
-        foreach ( $events as $uid => $event ) {
-            $content .= "BEGIN:VEVENT\n";
-            $content .= "SUMMARY:" . self::escapeText( $event['summary'] ) . "\n";
-
-            if ( $event['description'] ) {
-                $content .= "DESCRIPTION:" . self::escapeText( $event['description'] )  . "\n";
-            }
-
-            if ( $event['event_type'] ) {
-                $content .= "CATEGORIES:" . self::escapeText( $event['event_type'] )  . "\n";
-            }
-            
-            if ( $event['start_date'] && $event['end_date'] ) {
-                $content .= "DTSTART;VALUE=DATE:" . gmdate("Ymd\THis\Z", strtotime($event['start_date'])) . "\n";
-                $content .= "DTEND;VALUE=DATE:" . gmdate("Ymd\THis\Z", strtotime($event['end_date'])) . "\n";
-            }
-            
-            if ( $event['location'] ) {
-                $content .= "LOCATION:" . self::escapeText( $event['location'] ) . "\n";
-            }
-
-            if ( $event['contact_email'] ) {
-                $content .= "ORGANIZER:MAILTO:" . self::escapeText( $event['contact_email'] ) . "\n";
-            }
-            
-            if ( $event['url'] ) {
-                $content .= "URL:" . $event['url'] . "\n";
-            }
-             
-            $content .= "END:VEVENT\n";
-        }
-        $content .= "END:VCALENDAR\n";
-      
-        return $content;
+        $text = strip_tags($text);
+        $text = str_replace("\"", "DQUOTE", $text);
+        $text = str_replace("\\", "\\\\", $text);
+        $text = str_replace(",", "\,", $text);
+        $text = str_replace(":", "\":\"", $text);
+        $text = str_replace(";", "\;", $text);
+        $text = str_replace("\n", "\n ", $text);
+        return $text;
     }
 
     /**
@@ -107,16 +70,15 @@ class CRM_Utils_ICalendar
      * @return  Escaped text
      *
      */
-    function escapeText( $text ) 
+    static function formatDate( $date, $gdata = false )
     {
-        $text = strip_tags($text);
-        $text = str_replace("\"", "DQUOTE", $text);
-        $text = str_replace("\\", "\\\\", $text);
-        $text = str_replace(",", "\,", $text);
-        $text = str_replace(":", "\":\"", $text);
-        $text = str_replace(";", "\;", $text);
-        $text = str_replace("\n", "\n ", $text);
-        return $text;
+        if ( $gdata ) {
+            return gmdate( "Y-m-d\TH:i:s.000\Z",
+                           strtotime( $date ) );
+        } else {
+            return gmdate( "Ymd\THis\Z",
+                           strtotime( $date ) );
+        }
     }
 
     /**
