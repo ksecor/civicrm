@@ -152,7 +152,8 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
         $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus(), true); 
 
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        $this->assign(CRM_Core_Action::ADD, true);
+        
+        $this->assign('recordActivity', true);
 
         $this->addDefaultButtons( ts('Record Activity for Contacts') );
     }
