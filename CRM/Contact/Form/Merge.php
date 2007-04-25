@@ -39,6 +39,12 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 {
     var $_defaults = array();
 
+    var $_cid         = null;
+    var $_contactType = null;
+
+    // an ugly hack to be able to cleanly address the radios in Smarty
+    var $_col = 'column';
+
     function preProcess()
     {
         require_once 'api/Contact.php';
@@ -53,6 +59,9 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->assign('main_name',    $main->display_name);
         $this->assign('other_name',   $other->display_name);
 
+        $this->_cid         = $cid;
+        $this->_contactType = $main->contact_type;
+
         foreach (array('Contact', $main->contact_type) as $ct) {
             require_once "CRM/Contact/DAO/$ct.php";
             eval("\$fieldNames['$ct'] =& CRM_Contact_DAO_$ct::fields();");
@@ -60,16 +69,16 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         foreach ($diffs[$main->contact_type] as $field) {
             $rows[]  = $field;
-            $this->_defaults["{$field}[column]"] = $main->contact_type_object->$field;
-            $group['main']  = HTML_QuickForm::createElement('radio', 'column', null, $main->contact_type_object->$field,  $main->contact_type_object->$field);
-            $group['other'] = HTML_QuickForm::createElement('radio', 'column', null, $other->contact_type_object->$field, $other->contact_type_object->$field);
+            $this->_defaults[$field] = $main->contact_type_object->$field;
+            $group['main']  = HTML_QuickForm::createElement('radio', $this->_col, null, $main->contact_type_object->$field,  $main->contact_type_object->$field);
+            $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $other->contact_type_object->$field, $other->contact_type_object->$field);
             $this->addGroup($group, $field, $fieldNames[$main->contact_type][$field]['title']);
         }
         foreach ($diffs['Contact'] as $field) {
             $rows[]  = $field;
-            $this->_defaults["{$field}[column]"] = $main->$field;
-            $group['main']  = HTML_QuickForm::createElement('radio', 'column', null, $main->$field,  $main->$field);
-            $group['other'] = HTML_QuickForm::createElement('radio', 'column', null, $other->$field, $other->$field);
+            $this->_defaults[$field] = $main->$field;
+            $group['main']  = HTML_QuickForm::createElement('radio', $this->_col, null, $main->$field,  $main->$field);
+            $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $other->$field, $other->$field);
             $this->addGroup($group, $field, $fieldNames['Contact'][$field]['title']);
         }
         foreach (array('main', 'other') as $moniker) {
@@ -83,11 +92,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         }
         foreach ($diffs['custom'] as $id) {
             $rows[] = "custom_$id";
-            $this->_defaults["custom_{$id}[column]"] = $customValues['main'][$id];
-            $group['main']  = HTML_QuickForm::createElement('radio', 'column', null, $customLabels['main'][$id],  $customValues['main'][$id]);
-            $group['other'] = HTML_QuickForm::createElement('radio', 'column', null, $customLabels['other'][$id], $customValues['other'][$id]);
+            $this->_defaults["custom_$id"] = $customValues['main'][$id];
+            $group['main']  = HTML_QuickForm::createElement('radio', $this->_col, null, $customLabels['main'][$id],  $customValues['main'][$id]);
+            $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $customLabels['other'][$id], $customValues['other'][$id]);
             $this->addGroup($group, "custom_$id", CRM_Core_BAO_CustomField::getTitle($id));
         }
+        // make defaults compatible with the ugly _col hack
+        foreach ($this->_defaults as $key => $value) $this->_defaults["{$key}[{$this->_col}]"] = $value;
         $this->assign('rows', $rows);
     }
     
@@ -110,6 +121,16 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
     public function postProcess()
     {
+        $formValues = $this->exportValues();
+
+        // get submitted contact values, unhack them and clear
+        $validFields = array_merge(CRM_Dedupe_Merger::$validFields['Contact'], CRM_Dedupe_Merger::$validFields[$this->_contactType]);
+        foreach ($formValues as $key => $value) {
+            if (in_array($key, $validFields) and array_key_exists($this->_col, $value)) {
+                $submitted[$key] = $value[$this->_col];
+            }
+        }
+        crm_update_contact_formatted($this->_cid, $submitted);
     }
 }
 
