@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="civicrm" id="4">
+            <text-property name="displayName">civicrm</text-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
+            <property name="odaUser">civicrm</property>
+            <encrypted-property name="odaPassword">Y2l2aWNybTEyMzQ1</encrypted-property>
+            <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <text-property name="displayName">Data Set</text-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">contact_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">birth_date</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">gender</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">display_name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">street_name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">street_number</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">supplemental_address_1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">city</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">state_province_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">country_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">postal_code</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">geo_code_1</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">geo_code_2</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">countryName</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">stateName</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">email</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">id_6</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">id_19</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">contact_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">birth_date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">gender</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">display_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">id_6</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">street_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">street_number</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">supplemental_address_1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">city</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">state_province_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">country_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">postal_code</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">geo_code_1</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">geo_code_2</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">countryName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">stateName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">email</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">id_19</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">civicrm</property>
+            <property name="queryText">SELECT distinct(i.id),i.contact_id,i.birth_date,i.gender_id as gender,contact.display_name,contact.id,
+addr.street_name,addr.street_number,addr.supplemental_address_1,
+addr.city,addr.state_province_id,addr.country_id,addr.postal_code,
+addr.geo_code_1,addr.geo_code_2,country.name as countryName,state.name as stateName,
+e.email,loc.id
+FROM ((((((civicrm_individual as i
+LEFT JOIN civicrm_contact as contact ON i.contact_id=contact.id AND contact.contact_type="Individual")
+LEFT JOIN civicrm_location as loc ON contact.id=loc.entity_id)
+LEFT JOIN civicrm_address as addr ON loc.id=addr.location_id)
+LEFT JOIN civicrm_state_province as state ON addr.state_province_id=state.id)
+LEFT JOIN civicrm_country as country ON addr.country_id=country.id)
+LEFT JOIN civicrm_email as e ON loc.id=e.location_id)</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="6">
+            <property name="backgroundColor">#E8F2FF</property>
+            <property name="color">#131B6D</property>
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">display_name</property>
+                    <expression name="expression">dataSetRow["display_name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">email</property>
+                    <expression name="expression">dataSetRow["email"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">gender</property>
+                    <expression name="expression">dataSetRow["gender"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">birth_date</property>
+                    <expression name="expression">dataSetRow["birth_date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">street_name</property>
+                    <expression name="expression">dataSetRow["street_name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">street_number</property>
+                    <expression name="expression">dataSetRow["street_number"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">supplemental_address_1</property>
+                    <expression name="expression">dataSetRow["supplemental_address_1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">city</property>
+                    <expression name="expression">dataSetRow["city"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">state</property>
+                    <expression name="expression">dataSetRow["state"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">country</property>
+                    <expression name="expression">dataSetRow["country"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">postal_code</property>
+                    <expression name="expression">dataSetRow["postal_code"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">geo_code_1</property>
+                    <expression name="expression">dataSetRow["geo_code_1"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">geo_code_2</property>
+                    <expression name="expression">dataSetRow["geo_code_2"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <column id="25"/>
+            <column id="64"/>
+            <column id="93"/>
+            <column id="98"/>
+            <column id="88"/>
+            <column id="44"/>
+            <column id="27"/>
+            <column id="28"/>
+            <column id="29"/>
+            <column id="52"/>
+            <column id="82"/>
+            <column id="70"/>
+            <column id="76"/>
+            <header>
+                <row id="30">
+                    <property name="backgroundColor">#318AD9</property>
+                    <property name="fontSize">larger</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="color">#131B6D</property>
+                    <cell id="31">
+                        <property name="colSpan">13</property>
+                        <property name="rowSpan">1</property>
+                        <text id="36">
+                            <property name="fontWeight">bold</property>
+                            <property name="color">#E6E6FA</property>
+                            <property name="textAlign">center</property>
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[Individual Contact Details Report]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+                <row id="7">
+                    <property name="backgroundColor">#B3D1FF</property>
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="fontSize">small</property>
+                    <property name="color">#131B6D</property>
+                    <cell id="8">
+                        <text id="37">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Contact Name]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="61">
+                        <text id="59">
+                            <property name="marginLeft">5pt</property>
+                            <property name="marginRight">0pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Email]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="90">
+                        <text id="99">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Gender]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="95">
+                        <text id="100">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Birth Date]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="85">
+                        <text id="65">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Street Name]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="41">
+                        <text id="45">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Street No]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="10">
+                        <text id="39">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Supplementry Address]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="11">
+                        <text id="46">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[City]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="12">
+                        <text id="47">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[State]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="49">
+                        <text id="53">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Country]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="79">
+                        <text id="83">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Postal Code]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="67">
+                        <text id="71">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[GeoCode1]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="73">
+                        <text id="77">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[GeoCode2]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="13">
+                    <property name="fontSize">x-small</property>
+                    <property name="color">#333E8A</property>
+                    <cell id="14">
+                        <data id="101">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">display_name</property>
+                        </data>
+                    </cell>
+                    <cell id="62">
+                        <data id="102">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">email</property>
+                        </data>
+                    </cell>
+                    <cell id="91">
+                        <data id="103">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">gender</property>
+                        </data>
+                    </cell>
+                    <cell id="96">
+                        <data id="104">
+                            <property name="marginLeft">5pt</property>
+                            <structure name="dateTimeFormat">
+                                <property name="category">Short Date</property>
+                                <property name="pattern">Short Date</property>
+                            </structure>
+                            <property name="resultSetColumn">birth_date</property>
+                        </data>
+                    </cell>
+                    <cell id="86">
+                        <data id="105">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">street_name</property>
+                        </data>
+                    </cell>
+                    <cell id="42">
+                        <data id="106">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">street_number</property>
+                        </data>
+                    </cell>
+                    <cell id="16">
+                        <data id="107">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">supplemental_address_1</property>
+                        </data>
+                    </cell>
+                    <cell id="17">
+                        <data id="108">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">city</property>
+                        </data>
+                    </cell>
+                    <cell id="18">
+                        <data id="109">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">state</property>
+                        </data>
+                    </cell>
+                    <cell id="50">
+                        <data id="110">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">country</property>
+                        </data>
+                    </cell>
+                    <cell id="80">
+                        <data id="111">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">postal_code</property>
+                        </data>
+                    </cell>
+                    <cell id="68">
+                        <data id="113">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">geo_code_1</property>
+                        </data>
+                    </cell>
+                    <cell id="74">
+                        <data id="115">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">geo_code_2</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="19">
+                    <cell id="20">
+                        <property name="colSpan">13</property>
+                        <property name="rowSpan">1</property>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

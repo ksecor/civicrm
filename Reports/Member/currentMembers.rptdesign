@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <parameters>
+        <parameter-group name="yearGrp" id="123">
+            <text-property name="displayName">Year Group</text-property>
+            <parameters>
+                <scalar-parameter name="startDate" id="124">
+                    <property name="valueType">static</property>
+                    <property name="dataType">string</property>
+                    <text-property name="promptText">Enter Start Date</text-property>
+                    <property name="controlType">text-box</property>
+                    <property name="defaultValue">2000</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="endDate" id="125">
+                    <property name="valueType">static</property>
+                    <property name="dataType">string</property>
+                    <text-property name="promptText">Enter End Date</text-property>
+                    <property name="controlType">text-box</property>
+                    <property name="defaultValue">2007</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="civicrm" id="4">
+            <text-property name="displayName">civicrm</text-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
+            <property name="odaUser">civicrm</property>
+            <encrypted-property name="odaPassword">Y2l2aWNybTEyMzQ1</encrypted-property>
+            <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="currentMember" id="5"
+ >
+            <text-property name="displayName">currentMember</text-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">startDate</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">params["startDate"]</expression>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                </structure>
+                <structure>
+                    <property name="name">endDate</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">2</property>
+                    <expression name="defaultValue">params["endDate"]</expression>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">join_date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">start_date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">end_date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">source</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">type</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">status</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">display_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">civicrm</property>
+            <property name="queryText">SELECT mem.id,mem.join_date,mem.start_date,
+mem.end_date,mem.source,memType.name as type,
+memStatus.name as status,contact.display_name
+FROM civicrm_membership as mem
+LEFT JOIN (civicrm_contact as contact,civicrm_membership_type as memType, civicrm_membership_status as memStatus)
+ON (memType.id=mem.membership_type_id 
+AND memStatus.id=mem.status_id
+AND mem.contact_id=contact.id
+)
+WHERE mem.start_date >= ?
+AND mem.end_date &lt;= ?</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="96">
+            <property name="height">0.333in</property>
+            <property name="width">100%</property>
+            <column id="9"/>
+            <row id="10">
+                <property name="height">0.333in</property>
+                <property name="backgroundColor">#318AD9</property>
+                <property name="verticalAlign">text-bottom</property>
+                <cell id="97">
+                    <property name="verticalAlign">top</property>
+                    <label id="12">
+                        <property name="fontFamily">sans-serif</property>
+                        <property name="fontSize">larger</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="color">#E6E6FA</property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">Membership Details</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="116">
+                <property name="height">0.2in</property>
+                <property name="backgroundColor">#318AD9</property>
+                <property name="verticalAlign">text-bottom</property>
+                <cell id="117">
+                    <property name="verticalAlign">top</property>
+                    <text id="118">
+                        <property name="fontFamily">sans-serif</property>
+                        <property name="fontSize">smaller</property>
+                        <property name="color">#E6E6FA</property>
+                        <property name="textAlign">center</property>
+                        <property name="contentType">plain</property>
+                        <text-property name="content"><![CDATA[(based on Membership start date)]]></text-property>
+                    </text>
+                </cell>
+            </row>
+        </grid>
+        <table id="119">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">smaller</property>
+            <property name="width">100%</property>
+            <property name="dataSet">currentMember</property>
+            <list-property name="paramBindings">
+                <structure>
+                    <property name="paramName">startDate</property>
+                    <expression name="expression">params["startDate"]</expression>
+                </structure>
+                <structure>
+                    <property name="paramName">endDate</property>
+                    <expression name="expression">params["endDate"]</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">id</property>
+                    <expression name="expression">dataSetRow["id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">join_date</property>
+                    <expression name="expression">dataSetRow["join_date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">start_date</property>
+                    <expression name="expression">dataSetRow["start_date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">end_date</property>
+                    <expression name="expression">dataSetRow["end_date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">source</property>
+                    <expression name="expression">dataSetRow["source"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">type</property>
+                    <expression name="expression">dataSetRow["type"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">status</property>
+                    <expression name="expression">dataSetRow["status"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">display_name</property>
+                    <expression name="expression">dataSetRow["display_name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="25"/>
+            <column id="26"/>
+            <column id="36"/>
+            <column id="27"/>
+            <column id="28"/>
+            <column id="29"/>
+            <header>
+                <row id="7">
+                    <property name="backgroundColor">#B3D1FF</property>
+                    <property name="color">#131B6D</property>
+                    <cell id="8">
+                        <text id="30">
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Member Name]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="120">
+                        <text id="31">
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Join Date]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="33">
+                        <text id="37">
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Start Date]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="121">
+                        <text id="32">
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[End Date]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="11">
+                        <text id="38">
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Source]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="122">
+                        <text id="39">
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Membership Type]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="13">
+                    <property name="height">0.301in</property>
+                    <property name="backgroundColor">#E8F2FF</property>
+                    <property name="fontSize">x-small</property>
+                    <property name="color">#131B6D</property>
+                    <cell id="14">
+                        <data id="40">
+                            <property name="resultSetColumn">display_name</property>
+                        </data>
+                    </cell>
+                    <cell id="15">
+                        <data id="41">
+                            <property name="resultSetColumn">join_date</property>
+                        </data>
+                    </cell>
+                    <cell id="34">
+                        <data id="42">
+                            <property name="resultSetColumn">start_date</property>
+                        </data>
+                    </cell>
+                    <cell id="16">
+                        <data id="43">
+                            <property name="resultSetColumn">end_date</property>
+                        </data>
+                    </cell>
+                    <cell id="17">
+                        <data id="44">
+                            <property name="resultSetColumn">source</property>
+                        </data>
+                    </cell>
+                    <cell id="18">
+                        <data id="45">
+                            <property name="resultSetColumn">type</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="19">
+                    <property name="height">0.1in</property>
+                    <property name="backgroundColor">#318AD9</property>
+                    <cell id="20"/>
+                    <cell id="21"/>
+                    <cell id="35"/>
+                    <cell id="22"/>
+                    <cell id="23"/>
+                    <cell id="24"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
