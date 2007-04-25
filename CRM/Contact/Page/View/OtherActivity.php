@@ -56,10 +56,11 @@ class CRM_Contact_Page_View_OtherActivity extends CRM_Contact_Page_View
         $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         // set the userContext stack
         
-        if ( $context == 'activity' ) {
-            $url = CRM_Utils_System::url('civicrm/contact/view',
-                                         "show=1&action=browse&reset=1&history={$history}&cid={$this->_contactId}&selectedChild=activity" );        } else {
+        if ( $context == 'Home' ) {
             $url = CRM_Utils_System::url('civicrm', 'reset=1' );
+        } else {
+            $url = CRM_Utils_System::url('civicrm/contact/view',
+                                         "show=1&action=browse&reset=1&history={$history}&cid={$this->_contactId}&selectedChild=activity" );        
         }
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext( $url );
