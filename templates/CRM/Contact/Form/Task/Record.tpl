@@ -20,7 +20,24 @@
 <dt>&nbsp;</dt><dd class="description">{ts}Activity will be moved to Activity History when status is 'Completed'.{/ts}</dd>
 <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
 <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
+ <dt></dt><dd class="description">
+{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+ </dd>
 <dt></dt><dd>{$form.buttons.html}</dd>
 </dl>
 </fieldset>
 </div>
+
+<script type="text/javascript" >
+{literal}
+
+    function reload(refresh) {
+        var activityType = document.getElementById("activity_type_id");
+        var url = {/literal}"{$refreshURL}"{literal}
+        var post = url + "&subType=" + activityType.value;
+        if( refresh ) {
+            window.location= post; 
+        }
+    }
+{/literal}
+ </script>
