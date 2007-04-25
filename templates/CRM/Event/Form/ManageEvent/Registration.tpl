@@ -6,10 +6,13 @@ then complete the fields on this form. You can offer online registration for bot
 Paid events require that you have configured a <a href="%1" target="_blank" title="Opens documentation in a new window">Payment Processor</a> for your site.{/ts}
 </div>
 <div class="form-item">
-    <dl>
-        <dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable online registration for this event.{/ts}</dd>
-    </dl>
+   <div id="register">
+     <dl>
+       <dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
+       <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable online registration for this event.{/ts}</dd>
+     </dl>
+   </div>
+   <div id="register_show">
     <div id="registrationLink">
         <dl>
             <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
@@ -115,6 +118,7 @@ Paid events require that you have configured a <a href="%1" target="_blank" titl
         </fieldset>
         </div>
     </div>
+   </div>
 </div> {* End of form-item div *}
 </fieldset>
     <dl>
@@ -128,8 +132,8 @@ Paid events require that you have configured a <a href="%1" target="_blank" titl
 {include file="CRM/common/showHide.tpl"}
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_online_registration"
-trigger_value       =""
-target_element_id   ="registrationLink|registration" 
+trigger_value       ="" 
+target_element_id   ="register_show" 
 target_element_type ="block"
 field_type          ="radio"
 invert              = 0

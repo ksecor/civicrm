@@ -806,6 +806,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     public function getCompleteTitle( ) {
         return $this->getRootTitle( ) . $this->getTitle( );
     }
+
+    static function &getTemplate( ) {
+        return self::$_template;
+    }
     
 }
 

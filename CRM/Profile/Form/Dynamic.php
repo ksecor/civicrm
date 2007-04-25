@@ -131,7 +131,8 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
     function getTemplateFileName() {
         if ( $this->_gid ) {
             $templateFile = "CRM/Profile/Form/{$this->_gid}/Dynamic.tpl";
-            if ( CRM_Core_Form::$_template->template_exists( $templateFile ) ) {
+            $template =& CRM_Core_Form::getTemplate( );
+            if ( $template->template_exists( $templateFile ) ) {
                 return $templateFile;
             }
         }

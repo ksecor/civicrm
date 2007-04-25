@@ -166,7 +166,7 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
                   
             }
             if ( count($products) ) {
-                $form->assign( 'showRadio',$formItems );
+                $form->assign( 'showRadioPremium',$formItems );
                 if ( $formItems ) {
                     $radio[''] = $form->createElement('radio',null,null,'&nbsp ' . ts('No thank you'),'no_thanks', null);
                     $form->addGroup($radio,'selectProduct',null);

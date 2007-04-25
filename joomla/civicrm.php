@@ -86,7 +86,8 @@ function civicrm_check_permission( $args ) {
     // an event registration page is also valid
     if ( in_array( 'CiviEvent', $config->enableComponents ) &&
          CRM_Utils_Array::value( 1, $args ) == 'event' &&
-         CRM_Utils_Array::value( 2, $args ) == 'register' ) {
+         ( ( CRM_Utils_Array::value( 2, $args ) == 'register' ) || 
+           ( CRM_Utils_Array::value( 2, $args ) == 'info' ) ) ) {
         return true;
     }
     

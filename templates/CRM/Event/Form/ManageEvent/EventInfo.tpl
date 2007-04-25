@@ -17,8 +17,8 @@
         </dd>
         <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd>
         <dt></dt>
-        <dd>{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
-            {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=3 doTime=1 trigger=trigger_event_1}</dd>
+        <dd>{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2}
+            {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=3 doTime=1 trigger=trigger_event_2}</dd>
         <dt>{$form.max_participants.label}</dt><dd>{$form.max_participants.html|crmReplace:class:four}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached.{/ts}</dd>
         <dt>{$form.event_full_text.label}</dt><dd>{$form.event_full_text.html}</dd>

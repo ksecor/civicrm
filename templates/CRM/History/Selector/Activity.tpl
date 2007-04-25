@@ -77,7 +77,7 @@
            <tr class="{cycle values="odd-row,even-row"}">
              <td>{$row.activity_type}</td>
              <td>
-               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`"}">{$row.subject|mb_truncate:33:"...":true}</a>
+               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}">{$row.subject|mb_truncate:33:"...":true}</a>
              </td>
              <td>
              {if $contactId  NEQ $row.sourceID} 
@@ -113,7 +113,7 @@
     {* Showing Open Activities - give link for History toggle *}
     <div id="activityHx_show" class="section-hidden section-hidden-border">
         {if $totalCountActivity}
-            <a href="{crmURL p='civicrm/contact/view' q="show=1&action=browse&history=1&selectedChild=activity&cid=$contactId"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Activity History{/ts}</label> ({$totalCountActivity})
+            <a href="{crmURL p='civicrm/contact/view' q="show=1&action=browse&history=1&selectedChild=activity&cid=`$contactId`"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Activity History{/ts}</label> ({$totalCountActivity})
         {else}
             <dl><dt>{ts}Activity History{/ts}</dt><dd>{ts}No activity history for this contact.{/ts}</dd></dl>
         {/if}
