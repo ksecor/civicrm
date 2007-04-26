@@ -49,6 +49,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     {
         require_once 'api/Contact.php';
         require_once 'api/Search.php';
+        require_once 'CRM/Core/OptionGroup.php';
+        require_once 'CRM/Core/OptionValue.php';
         require_once 'CRM/Dedupe/Merger.php';
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
@@ -62,25 +64,56 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->_cid         = $cid;
         $this->_contactType = $main->contact_type;
 
-        foreach (array('Contact', $main->contact_type) as $ct) {
-            require_once "CRM/Contact/DAO/$ct.php";
-            eval("\$fieldNames['$ct'] =& CRM_Contact_DAO_$ct::fields();");
+        // FIXME: there must be a better way
+        $names = array('preferred_communication_method' => array('newName'   => 'preferred_communication_method_display',
+                                                                 'groupName' => 'preferred_communication_method'),
+                       'gender_id'                      => array('newName'   => 'gender_id_display',
+                                                                 'groupName' => 'gender'),
+                       'prefix_id'                      => array('newName'   => 'prefix_id_display',
+                                                                 'groupName' => 'individual_prefix'),
+                       'suffix_id'                      => array('newName'   => 'suffix_id_display',
+                                                                 'groupName' => 'individual_suffix'),
+        );
+        foreach (array('main', 'other') as $moniker) {
+            $specialValues[$moniker] = array('preferred_communication_method' => $$moniker->preferred_communication_method,
+                                             'gender_id'                      => $$moniker->contact_type_object->gender_id,
+                                             'prefix_id'                      => $$moniker->contact_type_object->prefix_id,
+                                             'suffix_id'                      => $$moniker->contact_type_object->suffix_id);
+            CRM_Core_OptionGroup::lookupValues($specialValues[$moniker], $names);
         }
 
-        foreach ($diffs[$main->contact_type] as $field) {
-            $rows[]  = $field;
-            $this->_defaults[$field] = $main->contact_type_object->$field;
-            $group['main']  = HTML_QuickForm::createElement('radio', $this->_col, null, $main->contact_type_object->$field,  $main->contact_type_object->$field);
-            $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $other->contact_type_object->$field, $other->contact_type_object->$field);
-            $this->addGroup($group, $field, $fieldNames[$main->contact_type][$field]['title']);
+        foreach (array($main->contact_type, 'Contact') as $ct) {
+            require_once "CRM/Contact/DAO/$ct.php";
+            eval("\$fields =& CRM_Contact_DAO_$ct::fields();");
+            if ($ct == 'Contact') {
+                // FIXME: civcrm_contact.source is not being given title, 
+                // because it has a <uniqueName>contact_source</uniqueName>
+                // - bug in fields() to return uniqueName instead of name?
+                $fields['source']['title'] = $fields['contact_source']['title'];
+            } else {
+                // FIXME: there must be a better way
+                $ovFields = CRM_Core_OptionValue::getFields();
+                $fields['gender_id']['title'] = $ovFields['gender']['title'];
+                $fields['prefix_id']['title'] = $ovFields['individual_prefix']['title'];
+                $fields['suffix_id']['title'] = $ovFields['individual_suffix']['title'];
+            }
+
+            foreach ($diffs[$ct] as $field) {
+                $rows[] = $field;
+                foreach (array('main', 'other') as $moniker) {
+                    $value = isset($$moniker->$field) ? $$moniker->$field : $$moniker->contact_type_object->$field;
+                    $label = isset($specialValues[$moniker][$field]) ? $specialValues[$moniker]["{$field}_display"] : $value;
+                    if ($fields[$field]['type'] == CRM_Utils_Type::T_BOOLEAN) {
+                        if ($label === '0') $label = ts('No');
+                        if ($label === '1') $label = ts('Yes');
+                    }
+                    $group[$moniker] = HTML_QuickForm::createElement('radio', $this->_col, null, $label, $value);
+                    if ($moniker == 'main') $this->_defaults[$field] = $value;
+                }
+                $this->addGroup($group, $field, $fields[$field]['title']);
+            }
         }
-        foreach ($diffs['Contact'] as $field) {
-            $rows[]  = $field;
-            $this->_defaults[$field] = $main->$field;
-            $group['main']  = HTML_QuickForm::createElement('radio', $this->_col, null, $main->$field,  $main->$field);
-            $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $other->$field, $other->$field);
-            $this->addGroup($group, $field, $fieldNames['Contact'][$field]['title']);
-        }
+
         foreach (array('main', 'other') as $moniker) {
             $contact =& $$moniker;
             foreach ($contact->custom_values as $cv) {
