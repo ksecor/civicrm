@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-04-02 08:11-0700\n"
-"Last-Translator: Michal Mach <mover@artnet.org>\n"
+"POT-Creation-Date: 2007-04-26 09:59+0200\n"
+"PO-Revision-Date: 2007-04-26 09:59+0200\n"
+"Last-Translator: Piotr Szotkowski <shot@civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5248,7 +5248,7 @@ msgstr[2] "%count wpisów wybranych do eksportu."
 #, fuzzy
 msgid ""
 "Click <strong>Export Participants</strong> to download a comma-separated "
-"values (CSV) file of contribution data. Each row will also include "
+"values (CSV) file of participant data. Each row will also include "
 "participant contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
@@ -5663,6 +5663,10 @@ msgstr "Usuń"
 #, fuzzy
 msgid "cancel"
 msgstr "Anuluj"
+
+#: templates/CRM/Mailing/Page/Browse.tpl
+msgid "New Mailing"
+msgstr "Nowa wysyłka"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."

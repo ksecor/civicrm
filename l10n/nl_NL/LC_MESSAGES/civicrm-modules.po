@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
+"POT-Creation-Date: 2007-04-26 09:59+0200\n"
 "PO-Revision-Date: 2006-03-12 14:45+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "MIME-Version: 1.0\n"
@@ -5263,7 +5263,7 @@ msgstr[1] "Meervoudig%count gegevens geselecteerd voor export."
 #, fuzzy
 msgid ""
 "Click <strong>Export Participants</strong> to download a comma-separated "
-"values (CSV) file of contribution data. Each row will also include "
+"values (CSV) file of participant data. Each row will also include "
 "participant contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
@@ -5674,6 +5674,11 @@ msgstr "Verwijder"
 #, fuzzy
 msgid "cancel"
 msgstr "Annuleer"
+
+#: templates/CRM/Mailing/Page/Browse.tpl
+#, fuzzy
+msgid "New Mailing"
+msgstr "Mailings"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."
