@@ -128,8 +128,8 @@ class CRM_Utils_PDF_PDFtk {
 
         //CRM_Core_Error::debug('$cmd->systemCommand',$cmd->systemCommand);
 
-        try {
-            $res = $cmd->execute();
+        try {          
+            $res = $cmd->execute();            
             if (!$outputFile) { 
                return $res;
             }
@@ -308,6 +308,7 @@ class CRM_Utils_PDF_PDFtk {
             $form_fields = CRM_Utils_PDF_PDFtk::dump_data_fields($templateFile);            
             
             $fields = array();
+            
             $ret = preg_match_all("/FieldName: (.*)\.(.*)(\[[0-9]\])\n/",$form_fields,$fields);        
             
             $dataFields = array_keys($array);
@@ -347,7 +348,13 @@ class CRM_Utils_PDF_PDFtk {
         $pdftkCommand[] = "dump_data_fields";
         call_user_method_array("pushCommand",$cmd,$pdftkCommand);
         //CRM_Core_Error::debug('$parts',$cmd->systemCommand);
+                
+        try {
         $form_fields = $cmd->execute();
+        } catch (Exception $e) {
+          CRM_Core_Error::debug('$e',$e);
+          die();
+        }
         return $form_fields;
         
     }

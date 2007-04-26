@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
+"POT-Creation-Date: 2007-04-26 09:59+0200\n"
 "PO-Revision-Date: 2007-01-04 06:03-0800\n"
 "Last-Translator: Yves-Louis BOUMIER <yveslouis@agence22.eu>\n"
 "MIME-Version: 1.0\n"
@@ -4827,7 +4827,7 @@ msgstr[1] ""
 #: templates/CRM/Event/Form/Task/Export.tpl
 msgid ""
 "Click <strong>Export Participants</strong> to download a comma-separated "
-"values (CSV) file of contribution data. Each row will also include "
+"values (CSV) file of participant data. Each row will also include "
 "participant contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
@@ -5166,6 +5166,11 @@ msgstr "Effacer"
 #, fuzzy
 msgid "cancel"
 msgstr "Annuler"
+
+#: templates/CRM/Mailing/Page/Browse.tpl
+#, fuzzy
+msgid "New Mailing"
+msgstr "Sujet"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."

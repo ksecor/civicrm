@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
+"POT-Creation-Date: 2007-04-26 09:59+0200\n"
 "PO-Revision-Date: 2007-02-20 18:00+0300\n"
 "Last-Translator: ds <solomnikov@cbtc.ru>\n"
 "MIME-Version: 1.0\n"
@@ -4943,7 +4943,7 @@ msgstr[2] "Не выбрано записей для печати."
 #: templates/CRM/Event/Form/Task/Export.tpl
 msgid ""
 "Click <strong>Export Participants</strong> to download a comma-separated "
-"values (CSV) file of contribution data. Each row will also include "
+"values (CSV) file of participant data. Each row will also include "
 "participant contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
@@ -5315,6 +5315,11 @@ msgstr "Удалить"
 #, fuzzy
 msgid "cancel"
 msgstr "Отмена"
+
+#: templates/CRM/Mailing/Page/Browse.tpl
+#, fuzzy
+msgid "New Mailing"
+msgstr "Почтовые отправления"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."

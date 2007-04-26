@@ -195,20 +195,15 @@ function &crm_get_contribution( $params, $returnProperties = null ) {
         $params['contribution_id'] = $contributionIds[0]["contribution_id"];
     }
 
-    $params['id'] = $params['contribution_id']; 
-    $ids          = array( ); 
+    
+    $newParams = array( 'id' => $params['contribution_id'] );
+    $ids       = array( ); 
  
-    $contribution =& CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids ); 
- 
+    $contribution =& CRM_Contribute_BAO_Contribution::getValues( $newParams, $defaults, $ids ); 
+
     if ( $contribution == null || is_a($contribution, 'CRM_Core_Error') || ! $contribution->id ) { 
         return _crm_error( 'Did not find contribution object for ' . $params['contribution_id'] ); 
     } 
- 
-   //  unset($params['id']); 
-     
-//     $contribution->contribution_type_object = CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
-    
-//     $contribution->custom_values =& CRM_Core_BAO_CustomValue::getContributionValues($contribution->id); 
  
     return $contribution; 
 }

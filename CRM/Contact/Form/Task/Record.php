@@ -64,12 +64,62 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
     protected $_activityType;
 
     /**
+     * Function to build the form
+     *
+     * @return None
+     * @access public
+     */
+
+    function preProcess( ) {
+
+        if ( ! isset($_POST['activity_type_id']) ) {
+            $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        }  else {
+            $this->_activityType = $_POST['activity_type_id'];
+        }
+        
+        if ( $subType ) {
+            $this->_activityType = $subType;
+        } 
+        require_once'CRM/Core/BAO/CustomGroup.php';
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_id, 0,$this->_activityType);
+
+        parent::preProcess();
+    }
+
+    /**
+     * This function sets the default values for the form. For edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+        $defaults = array( );
+        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        if ( $subType ) {
+            $defaults["activity_type_id"] = $subType;
+        }
+       
+        if( isset($this->_groupTree) ) {
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+        }
+        return $defaults;
+        
+    }
+    /**
      * Build the form
      *
      * @access public
      * @return void
      */
     function buildQuickForm( ) {
+       
+        $urlParams = '_qf_Record_display=true&qfKey=6992f19490a5565333dc843ed6438ed2';
+        $url = CRM_Utils_System::url( 'civicrm/contact/search/basic',
+                                      $urlParams );
+        $this->assign("refreshURL",$url); 
         $session =& CRM_Core_Session::singleton( ); 
         $this->_userID  =  $session->get( 'userID' ); 
         list( $this->_displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_userID ); 
@@ -85,7 +135,7 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
         unset( $this->_activityType[8] );
         $this->add('select', 'activity_type_id', ts('Activity Type'),
                    $this->_activityType,
-                   true);
+                   true, array('onchange' => "reload(true)"));
 
         $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), true ); 
  
@@ -100,6 +150,10 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
         $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) ); 
          
         $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus(), true); 
+
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        
+        $this->assign('recordActivity', true);
 
         $this->addDefaultButtons( ts('Record Activity for Contacts') );
     }
@@ -135,29 +189,15 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
             
         list( $total, $added, $notAdded ) = array( count( $this->_contactIds ), 0, 0 );
 
+
         require_once 'CRM/Activity/BAO/Activity.php';
 
         foreach ( $this->_contactIds as $contactId ) {
             $params['target_entity_id'] = $contactId; 
             $activity = null;
             $activityType = $params['activity_type_id'];
-          //   switch ( $params['activity_type_id'] ) {
-//             case 6:
-//                 $activityType = 'Meeting';
-//                 break;
-
-//             case 7:
-//                 $activityType = 'Phonecall';
-//                 break;
-
-//             default:
-//                 //if ( $params['activity_tpe_id'] > 3 ) {
-//                 $activityType = 'Activity';
-//                 //}
-//                 break;
-//            }
-
-            $activity = CRM_Activity_BAO_Activity::add( $params, $ids, $activityType );
+            
+            $activity  = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] ,true );
             
             if ( $activity ) {
                 $added++;
@@ -179,6 +219,7 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
                         'Total Selected Contact(s): '  . $total,
                         'Recorded for Contact(s): '  . $added
                         );
+
         CRM_Core_Session::setStatus( $status );
     }//end of function
 

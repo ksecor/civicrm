@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
+"POT-Creation-Date: 2007-04-26 09:59+0200\n"
 "PO-Revision-Date: 2007-03-12 08:15-0800\n"
 "Last-Translator: Atilla Gökhan Uz <atilla.uz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -4871,7 +4871,7 @@ msgstr[1] "There are no records selected for Print."
 #: templates/CRM/Event/Form/Task/Export.tpl
 msgid ""
 "Click <strong>Export Participants</strong> to download a comma-separated "
-"values (CSV) file of contribution data. Each row will also include "
+"values (CSV) file of participant data. Each row will also include "
 "participant contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
@@ -5245,6 +5245,11 @@ msgstr "sil"
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "cancel"
 msgstr "iptal et"
+
+#: templates/CRM/Mailing/Page/Browse.tpl
+#, fuzzy
+msgid "New Mailing"
+msgstr " Postalama"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."

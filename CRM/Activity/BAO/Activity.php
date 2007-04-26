@@ -201,11 +201,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @param array  $params       associated array of the submitted values
      * @param array  $ids          array of ids
      * @param string $activityType activity Type
-     *
+     * @param boolean $record   true if it is Record Activity 
      * @access public
      * @return
      */
-    public static function createActivity( &$params, &$ids, $activityType = 'Meeting') 
+    public static function createActivity( &$params, &$ids, $activityType = 'Meeting', $record = false ) 
     {
         $activity = self::add($params, $ids, $activityType);
 
@@ -214,6 +214,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $activityType = 'Meeting';
         } else if($activityType == 2) {
             $activityType = 'Phonecall';
+        } else if($activityType == 3) {
+            $activityType = 'Email';
+        } else if($activityType == 4) {
+            $activityType = 'SMS';
         } else {
             $activityType = 'Activity';
         }
@@ -277,7 +281,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                 CRM_Core_BAO_CustomValue::create($cvParams);
             }
         }
-        
+
+        if ( $record ) {
+            return $activity;
+        }
+
         if ( $activityType == 'Phonecall' ) {
             $title = 'Phone Call';
         } else if ( $activityType == 'Activity' ) {
@@ -315,6 +323,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } else {
             CRM_Core_Session::setStatus("$title " . ts('"%1" has been saved.', array(1 => $activity->subject)));
         }
+        
     }
 
     /**

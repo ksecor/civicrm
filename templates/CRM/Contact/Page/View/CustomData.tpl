@@ -1,5 +1,5 @@
 {* template for custom data *}
-{if $action eq 1 or $action eq 2}
+{if $action eq 1 or $action eq 2 or $recordActivity}
         {include file="CRM/Contact/Form/CustomData.tpl" mainEdit=$mainEditForm}
     {/if}
 

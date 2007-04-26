@@ -264,8 +264,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $this->add( $field['htmlType'],
                             $field['name'],
                             $field['title'],
-                            $field['attributes'],
-                            $field['is_required'] );
+                            $field['attributes'] );
             }
 
             $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
@@ -413,6 +412,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                  CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
                  CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
                 return $errors;
+            }
+        }
+
+        foreach ( $self->_fields as $name => $fld ) {
+            if ( $fld['is_required'] &&
+                 CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
+                $errors[$name] = ts( '%1 is a required field.', array( 1 => $fld['title'] ) );
             }
         }
 

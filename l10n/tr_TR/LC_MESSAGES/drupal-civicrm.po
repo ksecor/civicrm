@@ -6,11 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 08:26+0200\n"
-"PO-Revision-Date: 2007-03-02 08:31-0800\n"
+"PO-Revision-Date: 2007-04-19 07:34-0700\n"
 "Last-Translator: Atilla Gökhan Uz <atilla.uz@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 msgid "add contacts"
 msgstr "irtibatları ekle"
@@ -21,9 +22,8 @@ msgstr "tüm irtibatları görüntüle"
 msgid "edit all contacts"
 msgstr "tüm irtibatları düzenle"
 
-#, fuzzy
 msgid "import contacts"
-msgstr "edit all contacts"
+msgstr "irtibatları karşıdan al"
 
 msgid "edit groups"
 msgstr "öbekleri düzenle"
@@ -32,19 +32,19 @@ msgid "administer CiviCRM"
 msgstr "CiviCRM yönetim"
 
 msgid "access uploaded files"
-msgstr ""
+msgstr "yüklenen dosyaları aç"
 
 msgid "profile listings and forms"
-msgstr ""
+msgstr "profil listeleri ve formları"
 
 msgid "access all custom data"
-msgstr ""
+msgstr "tüm özel verilere eriş"
 
 msgid "access CiviCRM"
 msgstr "CiviCRM'e eriş"
 
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "İrtibat Panosuna eriş"
 
 #: drupal/civicrm.module
 msgid ""
@@ -214,18 +214,15 @@ msgstr ""
 "<a href=\"%1\">CiviCRM sayfası</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "Constituent Relationship Management (CiviCRM %1). Allows sites to manage "
 "contacts, relationships and groups, and track contact activities."
-msgstr ""
-"Üye İlişkleri Yönetimi (ÜİY). İrtibatları, ilişkileri ve öbekleri yönetmeyi, "
-"ayrıca üye etkinliklerin takibini sağlar."
+msgstr "Üye İlişkleri Yönetimi (ÜİY). İrtibatları, ilişkileri ve öbekleri yönetmeyi, ayrıca üye etkinliklerin takibini sağlar."
 
 #: drupal/civicrm.module
 msgid "View Contact Record"
-msgstr ""
+msgstr "İrtibat Kaydını Görüntüle"
 
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
-msgstr ""
+msgstr "İrtibat Panosunu Görüntüle"

@@ -338,7 +338,7 @@ function writeHeader($file)
     $output[] = '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"';
     $output[] = '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"';
     $output[] = '"MIME-Version: 1.0\n"';
-    $output[] = '"Content-Type: text/plain; charset=utf-8\n"';
+    $output[] = '"Content-Type: text/plain; charset=UTF-8\n"';
     $output[] = '"Content-Transfer-Encoding: 8bit\n"';
     $output[] = '"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"';
     $output[] = '';
