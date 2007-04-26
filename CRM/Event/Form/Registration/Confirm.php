@@ -239,7 +239,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $fields = array( );
 
         $this->fixLocationFields( $params, $fields );
-        
+
         $contactID =& $this->updateContactFields( $contactID, $params, $fields );
         
         // required only if paid event
@@ -479,7 +479,7 @@ WHERE  v.option_group_id = g.id
      */
     public function fixLocationFields( &$params, &$fields ) 
     {
-        if( ! empty($this->_field) ) {
+        if( ! empty($this->_fields) ) {
             foreach ( $this->_fields as $name => $dontCare ) {
                 $fields[$name] = 1;
             }
