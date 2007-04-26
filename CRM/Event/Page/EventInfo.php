@@ -71,9 +71,15 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
         }          
 
+        // get the eventPageID
+        $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+                                                    $id,
+                                                    'id',
+                                                    'event_id' );
+
         //retrieve custom information
         require_once 'CRM/Core/BAO/CustomOption.php'; 
-        CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $id, $values['custom'] );
+        CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageID, $values['custom'] );
      
         $params = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
