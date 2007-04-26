@@ -6,7 +6,7 @@
 <table class="form-layout-compressed"> 
          <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
          <tr><td class="label">{$form.event_type_id.label}</td><td>{$form.event_type_id.html}</td></tr>
-         <tr><td>&nbsp</td><td class="description">{ts}After selecting an Event Type, this page will display any custom event fields for that        type.{/ts}</td></tr>
+         <tr><td>&nbsp</td><td class="description">{ts}After selecting an Event Type, this page will display any custom event fields for that type.{/ts}</td></tr>
          <tr><td class="label">{$form.title.label}</td><td>{$form.title.html}</td></tr>
          <tr><td class="label">{$form.summary.label}</td><td>{$form.summary.html}</td></tr>
          <tr><td class="label">{$form.description.label}</td><td>{$form.description.html}</td></tr>
@@ -17,7 +17,7 @@
          <tr><td>&nbsp;</td><td>{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2}
          {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=3 doTime=1 trigger=trigger_event_2}</td></tr>
          <tr><td class="label">{$form.max_participants.label}</td><td>{$form.max_participants.html|crmReplace:class:four}</td></tr> 
-         <tr><td>&nbsp;</td><td class="description">{ts}Optionally set a maximum number of participants for this event. The registration lin          k is hidden, and the text below is displayed when the maximum number of registrations is reached.{/ts}</td></tr>
+         <tr><td>&nbsp;</td><td class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached.{/ts}</td></tr>
          <tr><td class="label">{$form.event_full_text.label}</td><td>{$form.event_full_text.html}</td></tr>
          <tr><td>&nbsp;</td><td class="description">{ts}Text displayed on the Event Information page when the maximum number of registrations is reached. If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}</td></tr>
          <tr><td>&nbsp;</td><td>{$form.is_map.html} {$form.is_map.label}</td></tr>
