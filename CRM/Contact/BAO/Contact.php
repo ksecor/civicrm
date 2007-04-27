@@ -340,7 +340,7 @@ ORDER BY
             if ( is_array($prefComm) && !empty($prefComm) ) {
                 $prefComm =
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-                    implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)) .
+                    implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_values($prefComm)) .
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                 $contact->preferred_communication_method = $prefComm;
             } else {
@@ -553,7 +553,7 @@ ORDER BY
         if (!$params['contact_type'] ) {
             return;
         }
-
+        
         if ( $invokeHooks ) {
             require_once 'CRM/Utils/Hook.php';
             if ( CRM_Utils_Array::value( 'contact', $ids ) ) {

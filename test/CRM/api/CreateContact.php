@@ -160,7 +160,8 @@ class TestOfCreateContactAPI extends UnitTestCase
                         'im_provider'   => 'AIM',
                         'phone'         => '999999',
                         'phone_type'    => 'Phone',
-                        'email'         => 'man7@yahoo.com'
+                        'email'         => 'man7@yahoo.com',
+                        'preferred_communication_method' => array(2,3,4)
                         );
         $contact =& crm_create_contact($params, 'Individual');
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');

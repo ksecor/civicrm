@@ -25,7 +25,9 @@ class TestOfUpdateContactAPI extends UnitTestCase
                         'im_provider'   => 'AIM',
                         'phone'         => '123456', 
                         'phone_type'    => 'Phone', 
-                        'email'         => 'manish@yahoo.com'
+                        'email'         => 'manish@yahoo.com',
+                        'preferred_communication_method' => array(2,3,4),
+                        'do_not_trade'  => 1
                         );
         $contact =& crm_create_contact($params, 'Individual');
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
@@ -72,7 +74,9 @@ class TestOfUpdateContactAPI extends UnitTestCase
                         'im_provider'   => 'Yahoo',
                         'phone'         => '999999', 
                         'phone_type'    => 'Mobile', 
-                        'email'         => 'manish@gmail.com'
+                        'email'         => 'manish@gmail.com',
+                        'preferred_communication_method' => array(1,3,5),
+                        'do_not_trade'  => 1
                         );
         $contact = $this->_individual;
         $contact = crm_update_contact($contact, $params);
@@ -82,7 +86,7 @@ class TestOfUpdateContactAPI extends UnitTestCase
         $this->assertEqual($contact->location[1]->phone[2]->phone, '999999');
         $this->assertEqual($contact->location[1]->email[1]->email, 'manish@gmail.com');
     }
-
+    
 //     function testUpdateContactIndividual() 
 //     {
 //         $params = array('contact_id'    => $this->_individual->id,
