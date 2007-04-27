@@ -11,7 +11,7 @@
                {else} 
                 {ts}Click the <strong>Continue</strong> button to go to PayPal, where you will select your payment method and complete the contribution.{/ts}
                {/if} 
-            {elseif ! $is_monetary}
+            {elseif ! $is_monetary or $amount LE 0.0}
                 {ts}To complete this transaction, click the <strong>Continue</strong> button below.{/ts}
             {else}
                 {ts}To complete your contribution, click the <strong>Make Contribution</strong> button below.{/ts}
@@ -80,7 +80,7 @@
     </div>
     {/if}
 
-    {if $contributeMode eq 'direct'}
+    {if $contributeMode eq 'direct' and $is_monetary and $amount GT 0}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>
@@ -105,7 +105,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
   
-    {if $contributeMode NEQ 'notify' and $is_monetary} {* In 'notify mode, contributor is taken to processor payment forms next *}
+    {if $contributeMode NEQ 'notify' and $is_monetary and $amount GT 0} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
         {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
@@ -113,7 +113,7 @@
     </div>
     {/if}
     
-    {if $config->paymentProcessor EQ 'Google_Checkout' and $is_monetary}
+    {if $config->paymentProcessor EQ 'Google_Checkout' and $is_monetary and $amount GT 0}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
          <table class="form-layout-compressed">
           <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>

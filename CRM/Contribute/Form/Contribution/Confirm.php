@@ -40,6 +40,7 @@ require_once 'CRM/Contribute/Form/ContributionBase.php';
  */
 class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_ContributionBase 
 {
+
     /**
      * Function to set variables up before form is built
      *
@@ -68,11 +69,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 self::mapParams( $this->_bltID, $expressParams, $this->_params, false );
 
                 // fix state and country id if present
-                if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
+                if ( ! empty( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
                     $this->_params["state_province-{$this->_bltID}"] =
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
                 }
-                if ( isset( $this->_params['country_id'] ) ) {
+                if ( ! empty( $this->_params['country_id'] ) ) {
                     $this->_params["country-{$this->_bltID}"]        =
                         CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
                 }
@@ -103,11 +104,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         } else {
             $this->_params = $this->controller->exportValues( 'Main' );
 
-            if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
+            if ( !empty( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
                 $this->_params["state_province-{$this->_bltID}"] =
                     CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
             }
-            if ( isset( $this->_params["country_id-{$this->_bltID}"] ) ) {
+            if ( ! empty( $this->_params["country_id-{$this->_bltID}"] ) ) {
                 $this->_params["country-{$this->_bltID}"]        =
                     CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
             }
@@ -140,7 +141,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     {
         $this->assignToTemplate( );
         require_once 'CRM/Contribute/BAO/Premium.php';
-        $amount = $this->get( 'amount' );
         
         $params = $this->_params;
         $honor_block_is_active = $this->get( 'honor_block_is_active');
@@ -193,7 +193,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                     )
                               );
         } else {
-            if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
+            if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] || $this->_amount <= 0.0 ) {
                 $contribButton = ts('Continue >>');
             } else {
                 $contribButton = ts('Make Contribution');
@@ -310,7 +310,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $params["billing_first_name"] . ' ' . $params["billing_middle_name"] . ' ' . $params["billing_last_name"];
         $fields["location_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
-        
+
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)
@@ -367,13 +367,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['contributionPageID']               = $this->_values['id'];
             
             
-            if ( $this->_values['is_monetary'] ) {
+            if ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
                 require_once 'CRM/Core/Payment.php';
                 $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' );
             }
             
             if ( $this->_contributeMode == 'express' ) {
-                if ( $this->_values['is_monetary'] ) {
+                if ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
                     $result =& $payment->doExpressCheckout( $paymentParams );
                 }
             } else if ( $this->_contributeMode == 'notify' ) {
@@ -403,7 +403,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 // commit the transaction before we xfer
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
-                if ( $this->_values['is_monetary'] ) {
+                if ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
                     if ($config->paymentProcessor == 'Google_Checkout') {
                         $payment->doCheckout( $this->_params );
                     }
@@ -411,7 +411,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $this->_params['qfKey'] = $this->controller->_key;
                     $result =& $payment->doTransferCheckout( $this->_params );
                 }
-            } elseif ( $this->_values['is_monetary'] ) {
+            } elseif ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
                 $result =& $payment->doDirectPayment( $paymentParams );
             }
             

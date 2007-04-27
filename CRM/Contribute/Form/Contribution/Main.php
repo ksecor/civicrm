@@ -136,7 +136,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         if ( $this->_values['is_monetary'] ) {
             $this->buildCreditCard( );
-
         }
 
         if ( $this->_values['amount_block_is_active'] ) {
@@ -325,7 +324,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      * @static 
      */ 
     static function formRule( &$fields, &$files, &$self ) { 
-        //$config =& CRM_Core_Config::singleton( );print_r($config);
         $errors = array( ); 
 
         $amount = self::computeAmount( $fields, $self );
@@ -415,6 +413,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
+        // if the user has chosen a free membership or the amount is less than zero
+        // i.e. we skip calling the payment processor and hence dont need credit card
+        // info
+        if ( (float ) $amount <= 0.0 ) {
+            return $errors;
+        }
+
         foreach ( $self->_fields as $name => $fld ) {
             if ( $fld['is_required'] &&
                  CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
@@ -495,7 +500,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         $this->set( 'amount', $params['amount'] ); 
-        
+
         // generate and set an invoiceID for this transaction
         $invoiceID = $this->get( 'invoiceID' );
         if ( ! $invoiceID ) {
@@ -503,12 +508,14 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         $this->set( 'invoiceID', $invoiceID );
 
-        // not required if is_monetary=FALSE 
-        if ( $this->_values['is_monetary'] ) {
+        // not required if is_monetary=FALSE or amount is less than 0
+        if ( $this->_values['is_monetary'] ||(float ) $params['amount'] <= 0.0 ) {
             
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' ); 
+
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
+
             if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
                     //get the button name  
                     $buttonName = $this->controller->getButtonName( );  
@@ -531,7 +538,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                         $this->set( 'token', $token ); 
                         
                         if ( $this->_mode == 'test' ) {
-                        $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl. "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                            $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl. "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                         } else {
                             $paymentURL = "https://" . $config->paymentPayPalExpressUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                         }

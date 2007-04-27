@@ -98,6 +98,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */
     protected $_bltID;
 
+    /**
+     * Cache the amount to make things easier
+     *
+     * @var float
+     * @protected
+     */
+    protected $_amount;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -194,7 +202,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
 
         // make sure we have a valid payment class, else abort
-        if ( $this->_values['is_monetary'] && ! $config->paymentFile ) {
+        if ( $this->_values['is_monetary'] &&
+             ! $config->paymentFile ) {
             CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
         }
 
@@ -205,16 +214,15 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
              ! $membership['is_active'] ) {
             CRM_Core_Error::fatal( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
         }
+
         if ( $this->_values['amount_block_is_active'] ) {
             $this->set('amount_block_is_active',$this->_values['amount_block_is_active' ]);
         }
+
         if ( !empty($membership) && $membership["is_separate_payment"] && $config->paymentProcessor == "PayPal_Standard" ) {
-            CRM_Core_Error::fatal( ts( 'This contribution page is configured to support separate contribution
-and membership payments. The PayPal Website Payments Standard plugin
-does not currently support multiple simultaneous payments. Please
-contact the site administrator and notify them of this error' ) );
+            CRM_Core_Error::fatal( ts( 'This contribution page is configured to support separate contribution and membership payments. The PayPal Website Payments Standard plugin does not currently support multiple simultaneous payments. Please contact the site administrator and notify them of this error' ) );
         }
-        
+
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode ); 
 
@@ -234,6 +242,7 @@ contact the site administrator and notify them of this error' ) );
 
         $this->_defaults = array( );
 
+        $this->_amount   = $this->get( 'amount' );
     }
 
     static function cancelSubscriptionURL( &$config, $mode ) {
@@ -311,7 +320,7 @@ contact the site administrator and notify them of this error' ) );
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
 
-        if ( $this->_contributeMode == 'direct' ) {
+        if ( $this->_contributeMode == 'direct' && $this->_amount > 0.0 ) {
             $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
             $date = CRM_Utils_Date::mysqlToIso( $date );
             $this->assign( 'credit_card_exp_date', $date );

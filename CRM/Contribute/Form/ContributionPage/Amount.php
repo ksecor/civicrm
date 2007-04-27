@@ -182,7 +182,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $params['is_recur']  = CRM_Utils_Array::value( 'is_recur', $params ,false);
         if ( ! CRM_Utils_System::isNull( $values ) ) {
             for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
-                if ( ! empty( $values[$i] ) ) {
+                if ( isset( $values[$i] ) &&
+                     ( strlen( trim( $values[$i] ) ) > 0 ) ) {
                     $dao =& new CRM_Core_DAO_CustomOption( );
                     $dao->label        = trim( CRM_Utils_Array::value( $i, $labels ) );
                     $dao->value        = CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) );

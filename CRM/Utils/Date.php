@@ -52,30 +52,47 @@ class CRM_Utils_Date {
         if ( is_numeric($date) && ( strlen($date) == 8 ) ) {
             return $date;
         }
-        
-        if ( ! is_array( $date ) || CRM_Utils_System::isNull( $date ) ) {
-            return null;
+
+        $invalidDate = 0;
+        if ( ! is_array( $date ) ||
+             CRM_Utils_System::isNull( $date ) ||
+             empty( $date['Y'] ) ) {
+            return $invalidDate;
         }
 
+        $date['Y'] = (int ) $date['Y'];
+        if ( $date['Y'] < 1000 || $date['Y'] > 2999 ) {
+            return $invalidDate;
+        }
+
+            
         if ( CRM_Utils_Array::value( 'M', $date ) ) {
             $date['M'] = (int ) $date['M'];
-            $date['M'] = ($date['M'] < 10) ? '0' . $date['M'] : $date['M'];
+            if ( $date['M'] < 1 || $date['M'] > 12 ) {
+                return $invalidDate;
+            }
         } else {
-            $date['M'] = '01';
+            $date['M'] = 1;
         }
 
         if ( CRM_Utils_Array::value( 'd', $date ) ) {
             $date['d'] = (int ) $date['d'];
-            $date['d'] = ($date['d'] < 10) ? '0' . $date['d'] : $date['d'];
         } else {
-            $date['d'] = '01';
+            $date['d'] = 1;
         }
 
+        if ( ! checkdate( $date['M'], $date['d'], $date['Y'] ) ) {
+            return $invalidDate;
+        }
+
+        $date['M'] = sprintf( '%02d', $date['M'] );
+        $date['d'] = sprintf( '%02d', $date['d'] );
+
         $time = '';
-        if (CRM_Utils_Array::value( 'H', $date ) != null 
-        ||  CRM_Utils_Array::value( 'h', $date ) != null
-        ||  CRM_Utils_Array::value( 'i', $date ) != null
-        ||  CRM_Utils_Array::value( 's', $date ) != null) {
+        if (CRM_Utils_Array::value( 'H', $date ) != null ||
+            CRM_Utils_Array::value( 'h', $date ) != null ||
+            CRM_Utils_Array::value( 'i', $date ) != null ||
+            CRM_Utils_Array::value( 's', $date ) != null) {
             // we have time too.. 
             if (CRM_Utils_Array::value( 'h', $date )) {
                 if ($date['A'] == 'PM') {
@@ -83,53 +100,50 @@ class CRM_Utils_Date {
                         $date['h'] = $date['h'] + 12;
                     }
                 }
-                if (CRM_Utils_Array::value( 'A', $date ) == 'AM' && CRM_Utils_Array::value( 'h', $date ) == 12) {
+                if ( CRM_Utils_Array::value( 'A', $date ) == 'AM' &&
+                     CRM_Utils_Array::value( 'h', $date ) == 12 ) {
                     $date['h'] = '00';
                 }
                 
                 $date['h'] = (int ) $date['h'];
-                $date['h'] = ($date['h'] < 10) ? '0' . $date['h'] : $date['h'];
             } else {
-                $date['h'] = '00';
+                $date['h'] = 0;
             }
 
             // in 24-hour format the hour is under the 'H' key
             if (CRM_Utils_Array::value('H', $date)) {
                 $date['H'] = (int) $date['H'];
-                $date['H'] = $date['H'] < 10 ? '0' . $date['H'] : $date['H'];
             } else {
-                $date['H'] = '00';
+                $date['H'] = 0;
             }
 
             if (CRM_Utils_Array::value( 'i', $date )) {
                 $date['i'] = (int ) $date['i'];
-                $date['i'] = ($date['i'] < 10) ? '0' . $date['i'] : $date['i'];
             } else {
-                $date['i'] = '00';
+                $date['i'] = 0;
             }
-            if ($date['h'] == '00' and $date['H'] != '00') {
+
+            if ($date['h'] == 0 && $date['H'] != 0) {
                 $date['h'] = $date['H'];
             }
 
             if (CRM_Utils_Array::value( 's', $date )) {
                 $date['s'] = (int ) $date['s'];
-                $date['s'] = ($date['s'] < 10) ? '0' . $date['s'] : $date['s'];
             } else {
-                $date['s'] = '00';
+                $date['s'] = 0;
             }
-            $time = '';
+
+            $date['h'] = sprintf( '%02d', $date['h'] );
+            $date['i'] = sprintf( '%02d', $date['i'] );
+            $date['s'] = sprintf( '%02d', $date['s'] );
+
             if ( $separator ) {
                 $time = '&nbsp;';
             }
-            $time = $time . $date['h'] . $separator . $date['i'] . $separator . $date['s'];
+            $time .= $date['h'] . $separator . $date['i'] . $separator . $date['s'];
         }
 
-        if ( $date['d'] ) {
-            return $date['Y'] . $separator . $date['M'] . $separator . $date['d'] . $time;
-        } else {
-            // if we dont have a day, time is not relevant
-            return $date['Y'] . $separator . $date['M'];
-        }
+        return $date['Y'] . $separator . $date['M'] . $separator . $date['d'] . $time;
     }
 
     /**
