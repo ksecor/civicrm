@@ -999,8 +999,7 @@ function Output($name='',$dest='')
 	//Normalize parameters
 	if(is_bool($dest))
 		$dest=$dest ? 'D' : 'F';
-    //  echo "$dest";
-	$dest=strtoupper($dest);
+   	$dest=strtoupper($dest);
 	if($dest=='')
 	{
 		if($name=='')
@@ -1017,16 +1016,14 @@ function Output($name='',$dest='')
 			//Send to standard output
 			if(ob_get_contents())
               
-				$this->Error('Some data has already beeeeeeeeeeeeeeeeeen output, can\'t send PDF file');
+				$this->Error('Some data has already been output, can\'t send PDF file');
          
 			if(php_sapi_name()!='cli')
-			{
-                //	echo"We send to a browse";
-               
+			{                    
 				header('Content-Type: application/pdf');
-                //echo"We send to a browse";
+                //We send to a browse
 				if(headers_sent()){
-                    $this->Error('Some data has already been output to browserfffdfdfdf, can\'t send PDF file');
+                    $this->Error('Some data has already been output to browser, can\'t send PDF file');
                     header('Content-Length: '.strlen($this->buffer));
                     header('Content-disposition: inline; filename="'.$name.'"');
                 }
@@ -1042,8 +1039,7 @@ function Output($name='',$dest='')
 			else
 				header('Content-Type: application/octet-stream');
 			if(headers_sent())
-                //echo" fdfdff"  ;
-				$this->Error('Some data has already been output to browser, can\'t send PDF file');
+                $this->Error('Some data has already been output to browser, can\'t send PDF file');
 			header('Content-Length: '.strlen($this->buffer));
 			header('Content-disposition: attachment; filename="'.$name.'"');
 			echo $this->buffer;
@@ -1146,7 +1142,7 @@ function _putpages()
 	}
 	//Pages root
 	$this->offsets[1]=strlen($this->buffer);
-	$this->_out('1 0 obj');
+	$this->_out'1 0 obj');
 	$this->_out('<</Type /Pages');
 	$kids='/Kids [';
 	for($i=0;$i<$nb;$i++)
