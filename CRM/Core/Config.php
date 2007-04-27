@@ -249,6 +249,11 @@ class CRM_Core_Config
      */
     public $dateformatQfDatetime = '%b %d %Y, %I : %M %P';
 
+    public $fiscalYearStart = array(
+                                    'M' => 01,
+                                    'd' => 01
+                                    );
+
     /**
      * String format for monetary values
      * @var string

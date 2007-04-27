@@ -16,6 +16,9 @@
       <dt>{$form.dateformatQfDatetime.label}</dt><dd>{$form.dateformatQfDatetime.html}</dd>
     </dl>
 </fieldset>
+<fieldset>
+<dt>{$form.fiscalYearStart.label}</dt><dd>{$form.fiscalYearStart.html}</dd>
+</fieldset>
      <dl>
       <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>

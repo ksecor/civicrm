@@ -44,7 +44,7 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/date' q='reset=1'}" id="idDates">&raquo; {ts}Date Formatting{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/date' q='reset=1'}" id="idDates">&raquo; {ts}Date{/ts}</a></td>
     <td>{ts}Format date input and display.{/ts}</td>
 </tr>
 

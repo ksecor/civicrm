@@ -54,7 +54,7 @@ class CRM_Admin_Page_Setting extends CRM_Core_Page {
                        'payment'      => ts( 'Online Payment'       ),
                        'localization' => ts( 'Localization'         ),
                        'address'      => ts( 'Address Formatting'   ),
-                       'date'         => ts( 'Date Formatting'      ),
+                       'date'         => ts( 'Date'      ),
                        'misc'         => ts( 'Miscellaneous'        ),
                        'debug'        => ts( 'Debugging'            ),
                        );

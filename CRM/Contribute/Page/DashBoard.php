@@ -59,20 +59,34 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
         $status = array( 'Valid', 'Cancelled' );
         
         $startDate = null;
-        $yearDate  = date('Y') . '0101000000';
+        $config =& CRM_Core_Config::singleton( );
+        $yearDate = $config->fiscalYearStart;
+        $year  = array('Y' => date('Y'));
+        $yearDate = array_merge($year,$yearDate);
+        $yearDate = CRM_Utils_Date::format( $yearDate );
+  
         $monthDate = date('Ym') . '01000000';
 
+        $prefixes = array( 'start', 'month', 'year'  );
+        $status   = array( 'Valid', 'Cancelled' );
+       
+        $yearNow = $yearDate + 10000;
+        $yearNow .= '000000';
+        $yearDate  = $yearDate  . '000000';
+        
         // we are specific since we want all information till this second
         $now       = date( 'YmdHis' );
-
-        $prefixes = array( 'start', 'year', 'month' );
-        $status   = array( 'Valid', 'Cancelled' );
-
+       
         require_once 'CRM/Contribute/BAO/Contribution.php';
         foreach ( $prefixes as $prefix ) {
             $aName = $prefix . 'ToDate';
             $dName = $prefix . 'Date';
+            
+            if ( $prefix == 'year') {
+                $now  = $yearNow;
+            }
             foreach ( $status as $s ) {
+
                 ${$aName}[$s]        = CRM_Contribute_BAO_Contribution::getTotalAmountAndCount( $s, $$dName, $now );
                 ${$aName}[$s]['url'] = CRM_Utils_System::url( 'civicrm/contribute/search',
                                                               "reset=1&force=1&status=1&start={$$dName}&end=$now&test=0");

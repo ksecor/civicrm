@@ -188,6 +188,12 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         if ( ! isset( $defaults['enableSSL'] ) ) {
             $defaults['enableSSL'] = 0;
         }
+        if ( empty( $defaults['fiscalYearStart']) ) {
+            $defaults['fiscalYearStart'] = array(
+                                                 'M' => 01,
+                                                 'd' => 01
+                                                 );
+        }
 
         if ( ! isset( $defaults['paymentExpressButton'] ) ) {
             $defaults['paymentExpressButton'] = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif';
@@ -277,7 +283,7 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 {city}{, }{state_province}{ }{postal_code}
 {country}';
         }
-    }        
+}        
     
     /**
      * Function to actually build the form
