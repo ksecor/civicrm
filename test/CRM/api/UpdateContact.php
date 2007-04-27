@@ -26,7 +26,12 @@ class TestOfUpdateContactAPI extends UnitTestCase
                         'phone'         => '123456', 
                         'phone_type'    => 'Phone', 
                         'email'         => 'manish@yahoo.com',
-                        'preferred_communication_method' => array(2,3,4),
+                        'preferred_communication_method' => array(
+                                                                  '2' => 1,
+                                                                  '3' => 1,
+                                                                  '4' => 1,
+                                                                  '5' => 1,
+                                                                  ),
                         'do_not_trade'  => 1
                         );
         $contact =& crm_create_contact($params, 'Individual');
@@ -34,7 +39,7 @@ class TestOfUpdateContactAPI extends UnitTestCase
         $this->assertEqual($contact->contact_type, 'Individual');
         $this->_individual = $contact;
     }
-
+    
 //     function testCreateIndividual()
 //     {
 //         $params = array('first_name'    => 'manish',
@@ -75,7 +80,11 @@ class TestOfUpdateContactAPI extends UnitTestCase
                         'phone'         => '999999', 
                         'phone_type'    => 'Mobile', 
                         'email'         => 'manish@gmail.com',
-                        'preferred_communication_method' => array(1,3,5),
+                        'preferred_communication_method' => array(
+                                                                  '1' => 1,
+                                                                  '3' => 1,
+                                                                  '5' => 1,
+                                                                  ),
                         'do_not_trade'  => 1
                         );
         $contact = $this->_individual;

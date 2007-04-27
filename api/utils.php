@@ -895,7 +895,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
     $prefComm = $values['preferred_communication_method'];
 
     if ( is_array($prefComm) && !empty($prefComm) ) {
-        $prefComm = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_values($prefComm)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+        $prefComm = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
         
         $values['preferred_communication_method'] = $prefComm;
     } else {
