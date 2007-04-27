@@ -994,11 +994,12 @@ function Output($name='',$dest='')
 {
 	//Output PDF to some destination
 	//Finish document if necessary
-	if($this->state<3)
+  	if($this->state<3)
 		$this->Close();
 	//Normalize parameters
 	if(is_bool($dest))
 		$dest=$dest ? 'D' : 'F';
+    //  echo "$dest";
 	$dest=strtoupper($dest);
 	if($dest=='')
 	{
@@ -1015,15 +1016,20 @@ function Output($name='',$dest='')
 		case 'I':
 			//Send to standard output
 			if(ob_get_contents())
-				$this->Error('Some data has already been output, can\'t send PDF file');
+              
+				$this->Error('Some data has already beeeeeeeeeeeeeeeeeen output, can\'t send PDF file');
+         
 			if(php_sapi_name()!='cli')
 			{
-				//We send to a browser
+                //	echo"We send to a browse";
+               
 				header('Content-Type: application/pdf');
-				if(headers_sent())
-					$this->Error('Some data has already been output to browser, can\'t send PDF file');
-				header('Content-Length: '.strlen($this->buffer));
-				header('Content-disposition: inline; filename="'.$name.'"');
+                //echo"We send to a browse";
+				if(headers_sent()){
+                    $this->Error('Some data has already been output to browserfffdfdfdf, can\'t send PDF file');
+                    header('Content-Length: '.strlen($this->buffer));
+                    header('Content-disposition: inline; filename="'.$name.'"');
+                }
 			}
 			echo $this->buffer;
 			break;
@@ -1036,6 +1042,7 @@ function Output($name='',$dest='')
 			else
 				header('Content-Type: application/octet-stream');
 			if(headers_sent())
+                //echo" fdfdff"  ;
 				$this->Error('Some data has already been output to browser, can\'t send PDF file');
 			header('Content-Length: '.strlen($this->buffer));
 			header('Content-disposition: attachment; filename="'.$name.'"');
