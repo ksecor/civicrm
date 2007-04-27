@@ -314,7 +314,7 @@ ORDER BY
     static function add(&$params, &$ids) 
     {
         $contact =& new CRM_Contact_BAO_Contact();
-
+        
         if ( empty($params) ) {
             return;
         }
@@ -340,7 +340,7 @@ ORDER BY
             if ( is_array($prefComm) && !empty($prefComm) ) {
                 $prefComm =
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-                    implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_values($prefComm)) .
+                    implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)) .
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                 $contact->preferred_communication_method = $prefComm;
             } else {
