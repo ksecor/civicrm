@@ -29,7 +29,7 @@
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
- * $Id: $
+ * $Id$
  *
  */
 
