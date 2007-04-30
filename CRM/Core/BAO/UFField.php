@@ -180,57 +180,13 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->is_searchable   = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
 
         // fix for CRM-316
-        if ( isset( $ids['uf_field'] ) ) {
-            $uf =& new CRM_Core_DAO_UFField();
-            $uf->id = $ids['uf_field'];
-            $uf->find();
-
-            if ( $uf->fetch() && $uf->weight != CRM_Utils_Array::value( 'weight', $params, false ) ) {
-                $searchWeight =& new CRM_Core_DAO_UFField();
-                $searchWeight->uf_group_id = $ids['uf_group'];
-                $searchWeight->weight = CRM_Utils_Array::value( 'weight', $params, false );
-                
-                if ( $searchWeight->find() ) {                   
-                    $query = "SELECT id FROM civicrm_uf_field WHERE weight >= %1 AND uf_group_id = %2";
-                    $p = array( 1 => array( $searchWeight->weight, 'Integer' ),
-                                2 => array( $ids['uf_group']     , 'Integer' ) );
-                    $tempDAO =& CRM_Core_DAO::executeQuery($query, $p);
-                    $fieldIds = array();
-                    while($tempDAO->fetch()) {
-                        $fieldIds[] = $tempDAO->id; 
-                    }
-                    if ( !empty($fieldIds) ) {
-                        $sql = "UPDATE civicrm_uf_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
-                        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-                    }
-                }
-            }                
-            $ufField->weight = CRM_Utils_Array::value( 'weight', $params, false );
-        } else {
-            $uf =& new CRM_Core_DAO_UFField();
-            $uf->uf_group_id = $ids['uf_group'];
-            $uf->weight = CRM_Utils_Array::value( 'weight', $params, false );
-            
-            if ( $uf->find() ) {
-                $query = "SELECT id FROM civicrm_uf_field WHERE weight >= %1 AND uf_group_id = %2";
-                $p = array( 1 => array( $params['weight'], 'Integer' ),
-                            2 => array( $ids['uf_group'] , 'Integer' ) );
-                $tempDAO =& CRM_Core_DAO::executeQuery($query, $p);
-
-                $fieldIds = array();                
-                while($tempDAO->fetch()) {
-                    $fieldIds[] = $tempDAO->id;                
-                }                
-
-                if ( !empty($fieldIds) ) {
-                    $sql = "UPDATE civicrm_uf_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
-                    CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ); 
-                }
-            }
-
-            $ufField->weight = CRM_Utils_Array::value( 'weight', $params, false );
+        if ($params['field_id']) {
+            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $params['field_id'], 'weight', 'id' );
         }
-
+        $fieldValues = array('uf_group_id' => $params['group_id']);
+        $ufField->weight = 
+            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_UFField', $oldWeight, $params['weight'], $fieldValues);
+        
         // need the FKEY - uf group id
         $ufField->uf_group_id = CRM_Utils_Array::value('uf_group', $ids , false );
         $ufField->id          = CRM_Utils_Array::value('uf_field', $ids , false ); 

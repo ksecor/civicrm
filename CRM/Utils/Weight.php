@@ -83,28 +83,28 @@ class CRM_Utils_Weight {
      * @return integer the value of the new weight.  may be different from the
      * requested weight if greater than the max weight
      */
-    static function addWeight( $daoName, $weight, $fieldValues, $weightField = 'weight' )
-    {
-        $weight = (int ) $weight;
-        if ( $weight < 1 ) {
-            $weight = 1;
-        }
+//     static function addWeight( $daoName, $weight, $fieldValues, $weightField = 'weight' )
+//     {
+//         $weight = (int ) $weight;
+//         if ( $weight < 1 ) {
+//             $weight = 1;
+//         }
 
-        // get current max
-        $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
-        $maxWeight++;
+//         // get current max
+//         $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
+//         $maxWeight++;
 
-        if ( $weight >= $maxWeight ) {
-            // no adjustement to database necessary
-            return $maxWeight;
-        }
+//         if ( $weight >= $maxWeight ) {
+//             // no adjustement to database necessary
+//             return $maxWeight;
+//         }
 
-        $additionalWhere = "$weightField >= $weight";
-        $update = "$weightField = $weightField + 1";
-        CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+//         $additionalWhere = "$weightField >= $weight";
+//         $update = "$weightField = $weightField + 1";
+//         CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
 
-        return $weight;
-    }
+//         return $weight;
+//     }
 
     /**
      * Remove a row from the specified weight, and shift all rows below it up
@@ -116,24 +116,61 @@ class CRM_Utils_Weight {
      * defaults to 'weight'
      * @return bool 
      */
-    static function delWeight($daoName, $weight, $fieldValues, $weightField = 'weight') 
+//     static function delWeight($daoName, $weight, $fieldValues, $weightField = 'weight') 
+//     {
+//         // fieldValues may not be empty.  This would cause a few problems.
+//         if ( empty( $fieldValues ) ) {
+//             return false;
+//         }
+
+//         $weight = (int)$weight;
+//         if ( $weight < 1 ) {
+//             return false;
+//         }
+
+//         // verify weight is not in use
+//         $fromField = 'COUNT(*) AS weight_exists';
+//         $additionalWhere = "$weightField = $weight";
+//         $weightDAO = CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $fromField, $additionalWhere );
+//         $weightDAO->fetch();
+//         if ( $weightDAO->weight_exists ) {
+//             return false;
+//         }
+
+//         // fill the gap
+//         $additionalWhere = "$weightField > $weight";
+//         $update = "$weightField = $weightField - 1";
+//         CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+
+//         return true;
+//     }
+
+    /**
+     * Remove a row from the specified weight, and shift all rows below it up
+     *
+     * @param string $daoName short name of the DAO
+     * $param integer $weight the weight to be removed
+     * @param array $fieldValues field => value to be used in the WHERE
+     * @param string $weightField field which contains the weight value,
+     * defaults to 'weight'
+     * @return bool 
+     */
+    static function delWeight($daoName, $fieldID, $fieldValues, $weightField = 'weight') 
     {
         // fieldValues may not be empty.  This would cause a few problems.
         if ( empty( $fieldValues ) ) {
             return false;
         }
 
-        $weight = (int)$weight;
-        if ( $weight < 1 ) {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object   =& new ' . $daoName . '( );' );
+        $object->id = $fieldID;
+        if ( !$object->find( true ) ) {
             return false;
-        }
+        }        
 
-        // verify weight is not in use
-        $fromField = 'COUNT(*) AS weight_exists';
-        $additionalWhere = "$weightField = $weight";
-        $weightDAO = CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $fromField, $additionalWhere );
-        $weightDAO->fetch();
-        if ( $weightDAO->weight_exists ) {
+        $weight = (int)$object->weight;
+        if ( $weight < 1 ) {
             return false;
         }
 
@@ -156,58 +193,121 @@ class CRM_Utils_Weight {
      * defaults to 'weight'
      * @return bool 
      */
-    static function moveWeight($daoName, $fieldId, $oldWeight, $newWeight, $fieldValues, $weightField = 'weight')
+//     static function moveWeight($daoName, $fieldId, $oldWeight, $newWeight, $fieldValues, $weightField = 'weight')
+//     {
+//         $oldWeight = (int ) $oldWeight;
+//         $newWeight = (int ) $newWeight;
+
+//         $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
+
+//         // make sure the new weight is within the correct range
+//         if ( $newWeight > $maxWeight ) {
+//             $newWeight = $maxWeight;
+//         } elseif ( $newWeight < 1 ) {
+//             $newWeight = 1;
+//         }
+
+//         // if they're the same, nothing to do
+//         if ( $oldWeight == $newWeight ) {
+//             return $newWeight;
+//         }
+
+//         // create a gap at the necessary position, if needed
+//         if ( $newWeight < $maxWeight ) {
+//             if ( $newWeight > $oldWeight ) {
+//                 // account for subsequent shifts down
+//                 $newWeight++;
+//             }
+//             $additionalWhere = "$weightField >= $newWeight";
+//             $update = "$weightField = $weightField + 1";
+//             CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+//         }
+
+//         // move the row
+//         if ( $oldWeight > $newWeight ) {
+//             // don't move the target row
+//             $oldWeight++;
+//         }
+//         $additionalWhere = "$weightField = $oldWeight";
+//         $update = "$weightField = $newWeight";
+//         CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+
+//         // close the gap
+//         $additionalWhere = "$weightField > $oldWeight";
+//         $update = "$weightField = $weightField - 1";
+//         CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+        
+//         // get the new weight value
+//         $fieldValues = array( 'id' => $fieldId );
+//         $weightDAO =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $weightField );
+//         $weightDAO->fetch();
+
+//         return $weightDAO->weight;
+//     }
+        
+    /**
+     * Updates the weight fields of other rows according to the new and old weight paased in. 
+     * And returns the new weight be used.
+     *
+     * @param string $daoName short name of the DAO
+     * @param integer $oldWeight
+     * @param integer $newWeight 
+     * @param array $fieldValues field => value to be used in the WHERE
+     * @param string $weightField field which contains the weight value,
+     * defaults to 'weight'
+     * @return bool 
+     */
+    static function updateOtherWeights($daoName, $oldWeight, $newWeight, $fieldValues, $weightField = 'weight')
     {
         $oldWeight = (int ) $oldWeight;
         $newWeight = (int ) $newWeight;
+        
+        if (!$newWeight) {
+            return;
+        }
 
         $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
 
-        // make sure the new weight is within the correct range
-        if ( $newWeight > $maxWeight ) {
+        if ( $newWeight >= $maxWeight ) {
             $newWeight = $maxWeight;
         } elseif ( $newWeight < 1 ) {
             $newWeight = 1;
         }
-
+        
         // if they're the same, nothing to do
         if ( $oldWeight == $newWeight ) {
             return $newWeight;
         }
 
-        // create a gap at the necessary position, if needed
-        if ( $newWeight < $maxWeight ) {
-            if ( $newWeight > $oldWeight ) {
-                // account for subsequent shifts down
-                $newWeight++;
-            }
+        if (!$oldWeight) {
             $additionalWhere = "$weightField >= $newWeight";
-            $update = "$weightField = $weightField + 1";
+            $update = "$weightField = ($weightField + 1)";
             CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+            return $newWeight;
+        } else {
+            if ( $newWeight > $oldWeight ) {
+                if (($newWeight-$oldWeight) == 1) {
+                    $additionalWhere = "$weightField = $newWeight";
+                    $update = "$weightField = ($weightField - 1)";
+                    CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+                    return $newWeight;
+                } else {
+                    $additionalWhere = "$weightField > $oldWeight AND $weightField < $newWeight";
+                    $update = "$weightField = ($weightField - 1)";
+                    CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+                    return ($newWeight - 1);
+                }
+            } elseif ($newWeight < $oldWeight) {
+                $additionalWhere = "$weightField >= $newWeight AND $weightField < $oldWeight";
+                $update = "$weightField = ($weightField + 1)";
+                CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+                return $newWeight;
+            }
         }
 
-        // move the row
-        if ( $oldWeight > $newWeight ) {
-            // don't move the target row
-            $oldWeight++;
-        }
-        $additionalWhere = "$weightField = $oldWeight";
-        $update = "$weightField = $newWeight";
-        CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
-
-        // close the gap
-        $additionalWhere = "$weightField > $oldWeight";
-        $update = "$weightField = $weightField - 1";
-        CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
-        
-        // get the new weight value
-        $fieldValues = array( 'id' => $fieldId );
-        $weightDAO =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $weightField );
-        $weightDAO->fetch();
-
-        return $weightDAO->weight;
+        return $newWeight;
     }
-        
+
     /**
      * return the highest weight + 1
      *
@@ -219,11 +319,11 @@ class CRM_Utils_Weight {
      */
     static function getMax($daoName, $fieldValues, $weightField = 'weight')
     {
-        $selectField = "COUNT(*) AS max_weight";
+        $selectField = "MAX($weightField) AS max_weight";
         $weightDAO =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $selectField );
         $weightDAO->fetch();
         if ( $weightDAO->max_weight ) {
-            return $weightDAO->max_weight;
+            return $weightDAO->max_weight + 1;
         } else {
             return 1;
         }
@@ -248,9 +348,9 @@ class CRM_Utils_Weight {
     {
         require_once 'CRM/Utils/Type.php';
 
-        require_once "CRM/Core/DAO/$daoName.php";
-        $className = "CRM_Core_DAO_$daoName";
-        $dao =& new $className;
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+
+        $dao =& new $daoName;
         $table = $dao->getTablename();
         $fields =& $dao->fields();
         $fieldlist = array_keys($fields);

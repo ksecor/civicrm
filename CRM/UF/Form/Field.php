@@ -191,16 +191,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         }
         
         if ($this->_action & CRM_Core_Action::ADD) {
-            $uf =& new CRM_Core_DAO();
-            $sql = "SELECT weight FROM civicrm_uf_field  WHERE uf_group_id = ". $this->_gid ." ORDER BY weight  DESC LIMIT 0, 1"; 
-            $uf->query($sql);
-            while( $uf->fetch( ) ) {
-                $defaults['weight'] = $uf->weight + 1;
-            }
-            
-            if ( empty($defaults['weight']) ) {
-                $defaults['weight'] = 1;
-            }
+            $fieldValues = array('uf_group_id' => $this->_gid);
+            $defaults['weight'] = CRM_Utils_Weight::getMax('CRM_Core_DAO_UFField', $fieldValues);
         }
         
         // lets trim all the whitespace
@@ -434,6 +426,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form
     public function postProcess()
     {
         if ($this->_action & CRM_Core_Action::DELETE) {
+            $fieldValues = array('uf_group_id' => $this->_gid);
+            $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_UFField', $this->_id, $fieldValues);
+            
             CRM_Core_BAO_UFField::del($this->_id);
             CRM_Core_Session::setStatus(ts('Selected Profile Field has been deleted.'));
             return;
@@ -446,7 +441,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['uf_field'] = $this->_id;
         }
-        
+
         $ids['uf_group'] = $this->_gid;
         
         //check for duplicate fields

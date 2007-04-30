@@ -156,13 +156,12 @@ class CRM_Core_OptionValue {
             }
         } else {
             $optionGroupID = $optionGroup->id;
-            if ( !$params['weight'] && !$optionValueID ) {
-                $query = "SELECT max( `weight` ) as weight FROM `civicrm_option_value` where option_group_id=" . $optionGroupID;
-                $dao =& new CRM_Core_DAO( );
-                $dao->query( $query );
-                $dao->fetch();
-                $params['weight'] = ($dao->weight + 1);
+            if ($optionValueID) {
+                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $optionValueID, 'weight', 'id' );
             }
+            $fieldValues = array('option_group_id' => $optionGroupID);
+            $params['weight'] = 
+                CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_OptionValue', $oldWeight, $params['weight'], $fieldValues);
         }
         $params['option_group_id'] = $optionGroupID;
 

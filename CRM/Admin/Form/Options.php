@@ -92,16 +92,8 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         $defaults = parent::setDefaultValues( );
         
         if (! isset($defaults['weight']) || ! $defaults['weight']) {
-            if ($this->_gid) {
-                $query = "SELECT max( `weight` ) as weight FROM `civicrm_option_value` where option_group_id=" . $this->_gid;
-                $dao =& new CRM_Core_DAO( );
-                $dao->query( $query );
-                if ($dao->fetch()) {
-                    $defaults['weight'] = ($dao->weight + 1);
-                }
-            } else {
-                $defaults['weight'] = 1;
-            }
+            $fieldValues = array('option_group_id' => $this->_gid);
+            $defaults['weight'] = CRM_Utils_Weight::getMax('CRM_Core_DAO_OptionValue', $fieldValues);
         }
         return $defaults;
     }
@@ -142,6 +134,9 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
     public function postProcess() 
     {
         if($this->_action & CRM_Core_Action::DELETE) {
+            $fieldValues = array('option_group_id' => $this->_gid);
+            $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_OptionValue', $this->_id, $fieldValues);
+
             if(CRM_Core_BAO_OptionValue::del($this->_id)) {
                 CRM_Core_Session::setStatus( ts('Selected %1 type has been deleted.', array(1 => $this->_GName)) );
             } else {
