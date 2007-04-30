@@ -67,6 +67,15 @@ class CRM_Event_Menu {
                               'crmType' => CRM_Core_Menu::CALLBACK,
                               'weight'  => 0, 
                               ),
+                       array( 
+                              'path'    => 'civicrm/event/ical', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( 'Event Listings' ), 
+                              'access'  => CRM_Core_Permission::check( 'register for events'), 
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
                        );
         return $items;
     }
