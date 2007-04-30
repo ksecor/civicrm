@@ -111,7 +111,7 @@ class CRM_Event_Invoke
         }
         
         if ( ! CRM_Core_Permission::check('access CiviEvent') ) {
-            CRM_Core_Error::fatal( 'You do not have access to this page.' );
+            CRM_Core_Error::fatal( ts('You do not have access to this page.') );
         }
 
         if ($secondArg == 'search') {
@@ -123,7 +123,7 @@ class CRM_Event_Invoke
             return $controller->run();
         } elseif ($secondArg == 'import') {
             if ( ! CRM_Core_Permission::check('administer CiviCRM') ) {
-                CRM_Core_Error::fatal( 'You do not have access to this page' );
+                CRM_Core_Error::fatal( ts('You do not have access to this page') );
             }
             require_once 'CRM/Event/Import/Controller.php';
             $controller =& new CRM_Event_Import_Controller(ts('Import Participants'));
