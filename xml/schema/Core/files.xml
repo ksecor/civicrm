@@ -20,6 +20,7 @@
 <xi:include href="LocationType.xml"     parse="xml" />
 <xi:include href="Mapping.xml"          parse="xml" />
 <xi:include href="MappingField.xml"     parse="xml" />
+<xi:include href="MessageTemplate.xml"  parse="xml" />
 <xi:include href="Note.xml"             parse="xml" />
 <xi:include href="Phone.xml"            parse="xml" />
 <xi:include href="StateProvince.xml"    parse="xml" />

@@ -8,5 +8,4 @@
 <xi:include href="MembershipPayment.xml"       parse="xml" />
 <xi:include href="MembershipBlock.xml"         parse="xml" />
 <xi:include href="MembershipLog.xml"           parse="xml" />
-<xi:include href="MessageTemplate.xml"           parse="xml" />
 </tables>

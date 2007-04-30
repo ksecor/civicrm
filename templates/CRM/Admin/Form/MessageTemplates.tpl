@@ -7,7 +7,7 @@
     You may include tokens to represent fields (like a contact's "first name") in the message subject and body. These will be replaced with the actual value of the corresponding
     field in the outgoing message. EXAMPLE: Dear{ldelim}contact.first_name{rdelim} (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}
 </div>
-<div class="form-item" id="membership_status">
+<div class="form-item" id="message_templates">
 <fieldset><legend>{if $action eq 1}{ts}New Message Template{/ts}{elseif $action eq 2}{ts}Edit Message Template{/ts}{else}{ts}Delete Message Template{/ts}{/if}</legend>
   
    {if $action eq 8}

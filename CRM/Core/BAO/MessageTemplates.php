@@ -34,10 +34,10 @@
  */
 
 require_once 'Mail/mime.php';
-require_once 'CRM/Member/DAO/MessageTemplates.php';
+require_once 'CRM/Core/DAO/MessageTemplates.php';
 
 
-class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates 
+class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates 
 {
 
     /**
@@ -64,17 +64,17 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Member_BAO_MessageTemplates object
+     * @return object CRM_Core_BAO_MessageTemplates object
      * @access public
      * @static
      */
     static function retrieve( &$params, &$defaults ) 
     {
-        $membershipStatus =& new CRM_Member_DAO_MessageTemplates( );
-        $membershipStatus->copyValues( $params );
-        if ( $membershipStatus->find( true ) ) {
-            CRM_Core_DAO::storeValues( $membershipStatus, $defaults );
-            return $membershipStatus;
+        $messageTemplates =& new CRM_Core_DAO_MessageTemplates( );
+        $messageTemplates->copyValues( $params );
+        if ( $messageTemplates->find( true ) ) {
+            CRM_Core_DAO::storeValues( $messageTemplates, $defaults );
+            return $messageTemplates;
         }
         return null;
     }
@@ -90,7 +90,7 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
      */
     static function setIsActive( $id, $is_active ) 
     {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MessageTemplates', $id, 'is_active', $is_active );
+        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_MessageTemplates', $id, 'is_active', $is_active );
     }
 
     /**
@@ -107,7 +107,7 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
     {
         $params['is_active']            =  CRM_Utils_Array::value( 'is_active', $params, false );
         // action is taken depending upon the mode
-        $messageTemplates               =& new CRM_Member_DAO_MessageTemplates( );
+        $messageTemplates               =& new CRM_Core_DAO_MessageTemplates( );
         $messageTemplates->domain_id    = CRM_Core_Config::domainID( );
         $messageTemplates->copyValues( $params );
         
@@ -125,19 +125,10 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
      * @return object
      */
     static function del( $messageTemplatesID ) {
-        
-        require_once 'CRM/Member/DAO/MembershipType.php';
-        $membershipDAO=& new CRM_Member_DAO_MembershipType();
-        $membershipDAO->renewal_msg_id = $messageTemplatesID;
-        if ($membershipDAO->find(true)) {
-            $session =& CRM_Core_Session::singleton();
-            CRM_Core_Session::setStatus( ts('Selected message template can not be deleted.') );
-        } else {
-            $messageTemplates =& new CRM_Member_DAO_MessageTemplates( );
-            $messageTemplates->id = $messageTemplatesID;
-            $messageTemplates->delete();
-            CRM_Core_Session::setStatus( ts('Selected message templates has been deleted.') );
-        }
+        $messageTemplates =& new CRM_Core_DAO_MessageTemplates( );
+        $messageTemplates->id = $messageTemplatesID;
+        $messageTemplates->delete();
+        CRM_Core_Session::setStatus( ts('Selected message templates has been deleted.') );
     }
     
     /**
@@ -149,7 +140,8 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
      */
     static function getMessageTemplates() {
         $msgTpls =array();
-        $messageTemplates =& new CRM_Member_DAO_MessageTemplates( );
+
+        $messageTemplates =& new CRM_Core_DAO_MessageTemplates( );
         $messageTemplates->is_active = 1;
         $messageTemplates->find();
         while ( $messageTemplates->fetch() ) {
@@ -163,7 +155,7 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
         require_once "CRM/Utils/String.php";
         require_once "CRM/Utils/Token.php";
 
-        $messageTemplates =& new CRM_Member_DAO_MessageTemplates( );
+        $messageTemplates =& new CRM_Core_DAO_MessageTemplates( );
         $messageTemplates->id = $messageTemplateID;
 
         $domain = CRM_Core_BAO_Domain::getDomainByID( $domainID );

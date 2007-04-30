@@ -554,6 +554,11 @@ class CRM_Core_Invoke
             require_once 'CRM/Admin/Page/Mapping.php';
             $view =& new CRM_Admin_Page_Mapping(ts('View Mapping'));
             break;
+
+        case 'messageTemplates':
+            require_once 'CRM/Admin/Page/MessageTemplates.php';
+            $view =& new CRM_Admin_Page_MessageTemplates(ts('Message Templates'));
+            break;
             
         case 'options':
             require_once 'CRM/Admin/Page/Options.php';

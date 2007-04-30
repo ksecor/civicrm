@@ -33,13 +33,14 @@
  *
  */
 
-require_once 'CRM/Member/Form.php';
+require_once 'CRM/Admin/Form.php';
 
 /**
- * This class generates form components for Membership Type
+ * This class generates form components for Message templates
+ * used by memberhsip email and send email
  * 
  */
-class CRM_Member_Form_MessageTemplates extends CRM_Member_Form
+class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
 {
 
     /**
@@ -70,10 +71,10 @@ class CRM_Member_Form_MessageTemplates extends CRM_Member_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'msg_title', ts('Message Title'), CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MessageTemplates', 'msg_title' ),true );
+        $this->add('text', 'msg_title', ts('Message Title'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MessageTemplates', 'msg_title' ),true );
         
         $this->add('text', 'msg_subject', ts('Message Subject'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MessageTemplates', 'msg_subject' ) );
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MessageTemplates', 'msg_subject' ) );
         $this->add('textarea', 'msg_text', ts('Text Message'), 
                    "cols=50 rows=6" );
         $this->add('textarea', 'msg_html', ts('HTML Message'), "cols=50 rows=6"
@@ -93,9 +94,9 @@ class CRM_Member_Form_MessageTemplates extends CRM_Member_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/Member/BAO/MessageTemplates.php';
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
         if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Member_BAO_MessageTemplates::del($this->_id);
+            CRM_Core_BAO_MessageTemplates::del($this->_id);
         } else { 
             $params = $ids = array( );
             // store the submitted values in an array
@@ -105,7 +106,7 @@ class CRM_Member_Form_MessageTemplates extends CRM_Member_Form
                 $ids['messageTemplate'] = $this->_id;
             }
 
-            $messageTemplate = CRM_Member_BAO_MessageTemplates::add($params, $ids);
+            $messageTemplate = CRM_Core_BAO_MessageTemplates::add($params, $ids);
             CRM_Core_Session::setStatus( ts('The Message Template "%1" has been saved.', array( 1 => $messageTemplate->msg_title )) );
         }
     }

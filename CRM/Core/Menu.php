@@ -627,15 +627,26 @@ class CRM_Core_Menu {
                            ),
                       
                      array(
-                           'path'    => 'civicrm/admin/mapping',
-                           'title'   => ts('Import/Export Mappings'),
-                           'query'  => 'reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
+                           'path'       => 'civicrm/admin/mapping',
+                           'title'      => ts('Import/Export Mappings'),
+                           'query'      => 'reset=1',
+                           'type'       => self::CALLBACK,
+                           'crmType'    => self::LOCAL_TASK,
                            'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/import_export_map.png',
-                           'weight'  => 290
+                           'icon'       => 'admin/import_export_map.png',
+                           'weight'     => 290
                            ),
+                     
+                     array(
+                           'path'       => 'civicrm/admin/messageTemplates',
+                           'title'      => ts('Message Templates'),
+                           'query'      => 'reset=1',
+                           'type'       => self::CALLBACK,
+                           'crmType'    => self::LOCAL_TASK,
+                           'adminGroup' => ts('Configure'),
+                           'icon'       => 'admin/template.png',
+                           'weight'     => 295
+                                 ),
 
                      array(
                            'path'    => 'civicrm/contact/domain',

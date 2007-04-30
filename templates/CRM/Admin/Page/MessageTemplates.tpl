@@ -1,7 +1,7 @@
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-{capture assign=crmURL}{crmURL p='civicrm/admin/member/messageTemplates' q="action=add&reset=1"}{/capture}
+{capture assign=crmURL}{crmURL p='civicrm/admin/messageTemplates' q="action=add&reset=1"}{/capture}
 {if $action eq 1 or $action eq 2 or $action eq 8}
-   {include file="CRM/Member/Form/MessageTemplates.tpl"}
+   {include file="CRM/Admin/Form/MessageTemplates.tpl"}
 {else}
     <div id="help">
     {ts 1="http://wiki.civicrm.org/confluence//x/gCY" 2=$docURLTitle}Message templates allow you to save and re-use messages with layouts. You can use them when sending email to

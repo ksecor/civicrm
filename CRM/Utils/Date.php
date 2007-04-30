@@ -42,18 +42,19 @@ class CRM_Utils_Date {
      * format a date by padding it with leading '0'.
      *
      * @param array  $date ('Y', 'M', 'd')
-     * @param string $separator the seperator to use when formatting the date
+     * @param string $separator   the seperator to use when formatting the date
+     * @param string $invalidDate what to return if the date is invalid
+     *
      * @return string - formatted string for date
      *
      * @static
      */
-    static function format( $date, $separator = '' )
+    static function format( $date, $separator = '', $invalidDate = 0 )
     {
         if ( is_numeric($date) && ( strlen($date) == 8 ) ) {
             return $date;
         }
 
-        $invalidDate = 0;
         if ( ! is_array( $date ) ||
              CRM_Utils_System::isNull( $date ) ||
              empty( $date['Y'] ) ) {

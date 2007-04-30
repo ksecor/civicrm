@@ -38,7 +38,7 @@ require_once 'CRM/Core/Page/Basic.php';
 /**
  * Page for displaying list of membership types
  */
-class CRM_Member_Page_MessageTemplates extends CRM_Core_Page_Basic 
+class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic 
 {
     /**
      * The action links that we need to display for the browse screen
@@ -55,7 +55,7 @@ class CRM_Member_Page_MessageTemplates extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Member_BAO_MessageTemplates';
+        return 'CRM_Core_BAO_MessageTemplates';
     }
 
     /**
@@ -72,28 +72,28 @@ class CRM_Member_Page_MessageTemplates extends CRM_Core_Page_Basic
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/member/messageTemplates',
+                                                                    'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
-                                                                    'title' => ts('Edit Membership Status') 
+                                                                    'title' => ts('Edit Message Templates') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/member/messageTemplates',
+                                                                    'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                    'title' => ts('Disable Membership Status') 
+                                                                    'title' => ts('Disable Message Templates') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/member/messageTemplates',
+                                                                    'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=enable&id=%%id%%',
-                                                                    'title' => ts('Enable Membership Status') 
+                                                                    'title' => ts('Enable Message Templates') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/member/messageTemplates',
+                                                                    'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete Membership Status') 
+                                                                    'title' => ts('Delete Message Templates') 
                                                                    )
                                  );
         }
@@ -147,8 +147,8 @@ class CRM_Member_Page_MessageTemplates extends CRM_Core_Page_Basic
     {
         // get all custom groups sorted by weight
         $messageTemplate = array();
-        require_once 'CRM/Member/DAO/MessageTemplates.php';
-        $dao =& new CRM_Member_DAO_MessageTemplates();
+        require_once 'CRM/Core/DAO/MessageTemplates.php';
+        $dao =& new CRM_Core_DAO_MessageTemplates();
         $dao->find();
 
         while ($dao->fetch()) {
@@ -181,7 +181,7 @@ class CRM_Member_Page_MessageTemplates extends CRM_Core_Page_Basic
      */
     function editForm() 
     {
-        return 'CRM_Member_Form_MessageTemplates';
+        return 'CRM_Admin_Form_MessageTemplates';
     }
     
     /**
@@ -201,7 +201,7 @@ class CRM_Member_Page_MessageTemplates extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/admin/member/messageTemplates';
+        return 'civicrm/admin/messageTemplates';
     }
 }
 

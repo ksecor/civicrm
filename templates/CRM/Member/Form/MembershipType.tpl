@@ -98,7 +98,7 @@
                 configure and periodically run a "cron" job on your server (<a href="%1" target="_blank" title="%2">more info...</a>).{/ts}
         </div>
         {if $noMsgTemplates}
-            {capture assign=msgTemplate}{crmURL p='civicrm/admin/member/messageTemplates' q="action=add&reset=1"}{/capture}
+            {capture assign=msgTemplate}{crmURL p='civicrm/admin/messageTemplates' q="action=add&reset=1"}{/capture}
             <div class="status message">
                 {ts 1=$msgTemplate}No message templates have been created yet. If you want renewal reminders to be sent, <a href="%1">click here</a> to create a reminder email template. Then return to this screen to assign the renewal reminder message, and set reminder date.{/ts}
             </div>
