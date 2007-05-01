@@ -505,8 +505,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $query .= " ORDER BY " . implode( ',', $order );
         }
         
-        if ( $offset != null && $row_count != null ) {
-            $query .= " LIMIT $offset, $row_count";
+        if ( !is_null($offset) && !is_null($row_count) ) {
+            $query .= " LIMIT $offset, $row_count";        
         }
         
         //CRM_Core_Error::debug( 'q', $query );

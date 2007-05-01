@@ -217,14 +217,15 @@ function crm_add_group_contacts(&$group, &$contacts, $status = 'Added', $method 
     return null;
 }
 
+
 /**
- * Returns array of contacts who are members of the specified group.
+ * Returns array of contacts who are members of the specified group. NOTE: If supplying row_count, offset must be set to 0, not null
  *
  * @param CRM_Contact $group                A valid group object (passed by reference)
  * @param array       $returnProperties     Which properties should be included in the returned Contact object(s). If NULL, the default set of contact properties will be included. group_contact properties (such as 'status', 'in_date', etc.) are included automatically.Note:Do not inclue Id releted properties. 
  * @param text        $status               A valid status value ('Added', 'Pending', 'Removed').
  * @param text        $sort                 Associative array of one or more "property_name"=>"sort direction" pairs which will control order of Contact objects returned.
- * @param Int         $offset               Starting row index.
+ * @param Int         $offset               Starting row index. Use integer, not null.
  * @param Int         $row_count            Maximum number of rows to returns.
  *
  *
