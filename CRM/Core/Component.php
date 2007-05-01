@@ -332,14 +332,14 @@ class CRM_Core_Component
             self::$_contactSubTypes = array( );
             
             //Generalize this at some point
-            self::$_contactSubTypes =
-                array(
-                      'Student' =>
-                      array( 'View' => 
-                             array( 'file'  => 'CRM/Quest/Page/View/Student.php',
-                                    'class' => 'CRM_Quest_Page_View_Student' ),
-                             )
-                      );
+            //self::$_contactSubTypes =
+            //    array(
+            //         'Student' =>
+            //          array( 'View' => 
+            //                 array( 'file'  => 'CRM/Quest/Page/View/Student.php',
+            //                        'class' => 'CRM_Quest_Page_View_Student' ),
+            //                 )
+            //          );
         }
         return self::$_contactSubTypes;
     }
