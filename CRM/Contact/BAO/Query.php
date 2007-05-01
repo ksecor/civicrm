@@ -1674,9 +1674,9 @@ class CRM_Contact_BAO_Query {
         $context = $session->get('context', 'CRM_Contact_Controller_Search');
 
         //fix for CRM-1513
-//         if ( isset($group->saved_search_id) && $context == "smog" ) {
-//             return;
-//         }
+        // if ( isset($group->saved_search_id) && $context == "smog" ) {
+        //   return;
+        // }
 
         $gcTable = "`civicrm_group_contact-" .implode( ',', array_keys($value) ) ."`";
         $this->_tables[$gcTable] = $this->_whereTables[$gcTable] = " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";

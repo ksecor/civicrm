@@ -89,8 +89,10 @@ class CRM_Contact_BAO_Export {
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
-        
+
+
         $session =& CRM_Core_Session::singleton( );
+
         if ( $selectAll ) {
             if ($primary) {
                 $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
@@ -110,9 +112,17 @@ class CRM_Contact_BAO_Export {
         }
         
         list( $select, $from, $where ) = $query->query( );
-        
+
+        if ( CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
+            if ( empty( $where ) ) {
+                $where = "civicrm_group_contact.status = 'Added'";
+            } else {
+                $where = "$where AND ( civicrm_group_contact.status = 'Added' )";
+            }
+        }
+
         $queryString = "$select $from $where";
-        
+
         if ( CRM_Utils_Array::value( 'tags'  , $returnProperties ) || 
              CRM_Utils_Array::value( 'groups', $returnProperties ) ||
              CRM_Utils_Array::value( 'notes' , $returnProperties ) ) { 
