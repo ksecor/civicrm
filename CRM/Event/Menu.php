@@ -127,6 +127,20 @@ class CRM_Event_Menu {
                                  'icon'    => 'admin/parti_role.png',
                                  'weight'  => 385
                                  ),
+
+                           array(
+                                 'path'    => 'civicrm/admin/price',
+                                 'title'   => ts('Price Sets'),
+                                 'query'   => 'reset=1',
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check( 'access CiviEvent' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
+                                 'adminGroup' => 'CiviEvent',
+                                 'icon'    => 'admin/price_sets.png',
+                                 'weight'  => 386
+                                 ),
+                                  
                            );
             break;
 

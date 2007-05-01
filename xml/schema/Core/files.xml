@@ -37,4 +37,8 @@
 <xi:include href="File.xml"             parse="xml" />
 <xi:include href="EntityFile.xml"       parse="xml" />
 <xi:include href="Currency.xml"         parse="xml" />
+<xi:include href="PriceField.xml"       parse="xml" />
+<xi:include href="PriceSet.xml"         parse="xml" />
+<xi:include href="PriceSetEntity.xml"   parse="xml" />
+<xi:include href="LineItem.xml"         parse="xml" />
 </tables>

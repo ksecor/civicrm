@@ -598,6 +598,31 @@ class CRM_Core_Invoke
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             break;
 
+        case 'price':
+            if ( CRM_Utils_Array::value( 3, $args ) == 'field' ) {
+                $url = CRM_Utils_System::url( 'civicrm/admin/price' );
+                $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Price Sets') . '</a>';
+                CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+                if ( CRM_Utils_Array::value ( 4, $args ) == 'option' ) {
+                    // price field options
+                    require_once 'CRM/Price/Page/Option.php';
+                    $view =& new CRM_Price_Page_Option(ts('Price Field'));
+                    $url = CRM_Utils_System::url( 'civicrm/admin/price/field' );
+                    $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Price Field') . '</a>';
+                    CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+                } else {
+                    // price fields
+                    require_once 'CRM/Price/Page/Field.php';
+                    $view =& new CRM_Price_Page_Field(ts('Price Field'));
+                }
+            } else {
+                // price set
+                require_once 'CRM/Price/Page/Set.php';
+                $view =& new CRM_Price_Page_Set(ts('Price Set'));
+            }
+            break;
+            
+
         case 'setting':
             return self::setting( $args );
          

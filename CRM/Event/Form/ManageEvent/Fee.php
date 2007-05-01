@@ -76,8 +76,14 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $eventPageId = $defaults['id'];
         
         if ( isset( $eventPageId ) ) {
-            require_once 'CRM/Core/BAO/CustomOption.php'; 
-            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageId, $defaults );
+            require_once 'CRM/Core/BAO/PriceSet.php';
+            $price_set_id = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageId );
+            if ( $price_set_id ) {
+                $defaults['price_set_id'] = $price_set_id;
+            } else {
+                require_once 'CRM/Core/BAO/CustomOption.php'; 
+                CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageId, $defaults );
+            }
         }
         $defaults['id'] = $eventPageId;
 
@@ -109,7 +115,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */
     public function buildQuickForm( ) 
     {
-        $this->addYesNo('is_monetary', ts('Paid Event'),null, null,array('onclick' =>"return showHideByValue('is_monetary','','contributionType|map-field','block','radio',false);"));
+        $this->addYesNo('is_monetary', ts('Paid Event'),null, null,array('onclick' =>"return showHideByValue('is_monetary','','contributionType|priceSet|map-field','block','radio',false);"));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id',ts( 'Contribution Type' ),
@@ -176,7 +182,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 }
             }
 
-            if ( !$check ) {
+            if ( !$check && !$values['price_set_id'] ) {
                 if ( !$values['label'][1] ) {
                     $errorMsg['label[1]'] = "Please enter Fee Label.";
                 }
@@ -207,14 +213,18 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $params = $this->exportValues( );
         $params['event_id'] = $ids['event_id'] = $this->_id;
 
+        require_once 'CRM/Core/BAO/PriceSet.php';
         // delete all the prior label values in the custom options table
+        // and delete a price set if one exists
         if ( $this->_action & CRM_Core_Action::UPDATE ){
             $eventPageId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $this->_id, 'id', 'event_id' );
-            $dao =& new CRM_Core_DAO_CustomOption( );
-            $dao->entity_table = 'civicrm_event_page'; 
-            $dao->entity_id    = $eventPageId; 
-            if($dao->find( )){
-                $dao->delete( );
+            if ( ! CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event_page', $eventPageId ) ) {
+                $dao =& new CRM_Core_DAO_CustomOption( );
+                $dao->entity_table = 'civicrm_event_page'; 
+                $dao->entity_id    = $eventPageId; 
+                if($dao->find( )){
+                    $dao->delete( );
+                }
             }
         } else {
             //add record in event page 
@@ -223,24 +233,28 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         }
 
         if ( $params['is_monetary'] ) {
-            // if there are label / values, create custom options for them
-            $labels  = CRM_Utils_Array::value( 'label'  , $params );
-            $values  = CRM_Utils_Array::value( 'value'  , $params );
-            $default = CRM_Utils_Array::value( 'default', $params ); 
+            if ( $params['price_set_id'] ) {
+                CRM_Core_BAO_PriceSet::addTo( 'civicrm_event_page', $eventPageId, $params['price_set_id'] );
+            } else {
+                // if there are label / values, create custom options for them
+                $labels  = CRM_Utils_Array::value( 'label'  , $params );
+                $values  = CRM_Utils_Array::value( 'value'  , $params );
+                $default = CRM_Utils_Array::value( 'default', $params ); 
 
-            if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values )) {
-                for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
-                    if ( ! empty( $labels[$i] ) && ! CRM_Utils_System::isNull( $values[$i] ) ) {
-                        $dao =& new CRM_Core_DAO_CustomOption( );
-                        $dao->label        = trim( $labels[$i] );
-                        $dao->value        = CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) );
-                        $dao->entity_table = 'civicrm_event_page';
-                        $dao->entity_id    = $eventPageId;
-                        $dao->weight       = $i;
-                        $dao->is_active    = 1;
-                        $dao->save( );
-                        if ( $default == $i ) {
-                            $params['default_fee_id'] = $dao->id;
+                if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values )) {
+                    for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
+                        if ( ! empty( $labels[$i] ) && ! CRM_Utils_System::isNull( $values[$i] ) ) {
+                            $dao =& new CRM_Core_DAO_CustomOption( );
+                            $dao->label        = trim( $labels[$i] );
+                            $dao->value        = CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) );
+                            $dao->entity_table = 'civicrm_event_page';
+                            $dao->entity_id    = $eventPageId;
+                            $dao->weight       = $i;
+                            $dao->is_active    = 1;
+                            $dao->save( );
+                            if ( $default == $i ) {
+                                $params['default_fee_id'] = $dao->id;
+                            }
                         }
                     }
                 }

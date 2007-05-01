@@ -210,7 +210,6 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                                         $this, 
                                                         CRM_Core_Selector_Controller::TRANSFER,
                                                         $prefix);
-        
         $controller->setEmbedded( true ); 
         $controller->moveFromSessionToTemplate(); 
         
@@ -236,6 +235,8 @@ class CRM_Event_Form_Search extends CRM_Core_Form
          */ 
         $rows = $this->get( 'rows' ); 
         if ( is_array( $rows ) ) {
+            $lineItems = array( );
+            //require_once 'CRM/Event/BAO/Participant.php';
             if ($this->_context == 'search') {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
                 foreach ($rows as $row) { 
@@ -244,8 +245,13 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                        array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                        ); 
                 }
+                // add line item details if applicable
+                $participant_id = $row['participant_id'];
+                $lineItems[$participant_id] = CRM_Event_BAO_Participant::getLineItems( $participant_id );
             }
-            
+
+            $this->assign( 'lineItems', $lineItems );
+
             $total = $cancel = 0;
             $this->assign( "{$this->_prefix}single", $this->_single );
             

@@ -118,6 +118,8 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
             }
         }
 
+        // add price set if applicable
+
         $result = $query->searchQuery( 0, 0, null,
                                        false, false,
                                        false, false,
@@ -125,7 +127,6 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
                                        $this->_eventClause );
         
         $properties = array_keys( $header );
-        
         require_once 'CRM/Event/PseudoConstant.php';
         $statusTypes  = CRM_Event_PseudoConstant::participantStatus( );
         $roleTypes    = CRM_Event_PseudoConstant::participantRole( );
@@ -154,8 +155,8 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
             }
         }
 
-        require_once 'CRM/Core/Report/Excel.php'; 
-        CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $header, $rows ); 
+        //require_once 'CRM/Core/Report/Excel.php'; 
+        //CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $header, $rows ); 
         exit( );
     }
     

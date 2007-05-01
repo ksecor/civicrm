@@ -59,6 +59,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
     function preProcess( ) {
         parent::preProcess( );
 
+        // lineItem isn't set until Register postProcess
+        $this->_lineItem = $this->get( 'lineItem' );
+
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_contributeMode == 'express' ) {
             // rfp == redirect from paypal
@@ -168,6 +171,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+
+        $this->assign( 'lineItem', $this->_lineItem );
 
         if ($config->paymentProcessor == 'Google_Checkout') {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
@@ -442,7 +447,18 @@ WHERE  v.option_group_id = g.id
         
         $ids = array( );
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-       
+
+        // store line items
+        if ( $this->_lineItem ) {
+            require_once 'CRM/Core/BAO/LineItem.php';
+            foreach ( $this->_lineItem as $line ) {
+                $unused = array();
+                $line['entity_table'] = 'civicrm_contribution';
+                $line['entity_id'] = $contribution->id;
+                CRM_Core_BAO_LineItem::create( $line, $unused );
+            }
+        }
+
         // return if pending
         if ( $pending ) {
             CRM_Core_DAO::transaction( 'COMMIT' );

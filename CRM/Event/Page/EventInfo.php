@@ -77,10 +77,14 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                                                     'id',
                                                     'event_id' );
 
-        //retrieve custom information
-        require_once 'CRM/Core/BAO/CustomOption.php'; 
-        CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageID, $values['custom'] );
-     
+        // do not bother with price information if price fields are used
+        require_once 'CRM/Core/BAO/PriceSet.php';
+        if ( ! CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageId ) ) {
+            //retrieve custom information
+            require_once 'CRM/Core/BAO/CustomOption.php'; 
+            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageId, $values['custom'] );
+        }
+
         $params = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
         CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);

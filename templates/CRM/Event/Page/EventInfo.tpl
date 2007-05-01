@@ -54,7 +54,7 @@
         </tr>
       {/if}
       
-      {if $event.is_monetary eq 1} 
+      {if $event.is_monetary eq 1 && $custom.value} 
       <tr><td style="vertical-align:top;"><label>{ts}Fee(s){/ts}</label></td>
         <td>
         <table class="form-layout-compressed">

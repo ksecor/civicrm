@@ -22,7 +22,25 @@
         {ts}Registration Fee{/ts}
     </div>
     <div class="display-block">
-        {if $amount}
+        {if $lineItem}
+        <table>
+            <tr>
+                <th>{ts}Item{/ts}</th>
+                <th>{ts}Qty{/ts}</th>
+                <th>{ts}Unit Price{/ts}</th>
+                <th>{ts}Total Price{/ts}</th>
+            </tr>
+            {foreach from=$lineItem item=line}
+            <tr>
+                <td>{$line.label}</td>
+                <td>{$line.qty}</td>
+                <td>{$line.unit_price}</td>
+                <td>{$line.line_total}</td>
+            </tr>
+            {/foreach}
+        </table>
+        {ts}Total{/ts}: {$amount}
+        {elseif $amount}
             {ts}Amount :{/ts} 
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
         {/if}

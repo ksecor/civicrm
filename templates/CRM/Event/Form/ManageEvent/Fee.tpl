@@ -10,6 +10,10 @@
     	<dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
     	<dt>{$form.fee_label.label}</dt><dd>{$form.fee_label.html}</dd>
 	</div>
+
+  <div id="priceSet">
+      <dt>{$form.price_set_id.label}</dt><dd>{$form.price_set_id.html}</dd>
+  </div>
     
     <div id="map-field">
     <p>{ts}Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}</p>
@@ -30,8 +34,16 @@
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_monetary"
 trigger_value       =""
-target_element_id   ="contributionType|map-field" 
+target_element_id   ="contributionType|priceSet|map-field" 
 target_element_type ="block"
 field_type          ="radio"
+invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+trigger_field_id    ="price_set_id"
+trigger_value       =""
+target_element_id   ="map-field" 
+target_element_type ="block"
+field_type          ="select"
 invert              = 0
 }

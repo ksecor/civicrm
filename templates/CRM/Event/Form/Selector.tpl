@@ -40,7 +40,17 @@
        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td> 
     {/if}
     <td>{$row.event_title}</td>
+    {assign var="participant_id" value=$row.participant_id}
+    {if $lineItems.$participant_id}
+    <td>
+        {foreach from=$lineItems.$participant_id item=line name=lineItemsIter}
+        {$line.label}: {$line.qty}
+        {if ! $smarty.foreach.lineItemsIter.last}<br>{/if}
+        {/foreach}
+    </td>
+    {else}
     <td>{$row.event_level}</td>
+    {/if}
     <td>{$row.start_date|truncate:10:''|crmDate}
         {if $row.end_date && $row.end_date|date_format:"%Y%m%d" NEQ $row.start_date|date_format:"%Y%m%d"}
             <br/>- {$row.end_date|truncate:10:''|crmDate}

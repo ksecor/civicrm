@@ -19,7 +19,35 @@
             <dt>{ts}Event Source{/ts}</dt><dd>{$source}&nbsp;</dd>
         {/if}
         {if $event_level}
+            {if $line_items}
+                {assign var="total_price" value=0}
+        <dt>{ts}Event Fees{/ts}</dt>
+        <dd>
+            <table>
+                <tr>
+                    <th>{ts}Item{/ts}</th>
+                    <th>{ts}Qty{/ts}</th>
+                    <th>{ts}Unit Price{/ts}</th>
+                    <th>{ts}Total{/ts}</th>
+                </tr>
+                {foreach from=$line_items item=line}
+                    {assign var="total_price" value=`$total_price+$line.line_total`}
+                <tr>
+                    <td>{$line.label}</td>
+                    <td>{$line.qty}</td>
+                    <td>{$line.unit_price}</td>
+                    <td>{$line.line_total}</td>
+                </tr>
+                {/foreach}
+                <tr>
+                    <td colspan="3"><strong>{ts}Total{/ts}</strong>:</td>
+                    <td><strong>{$total_price|string_format:"$%.2f"}</strong></td>
+                </tr>
+            </table>
+        </dd>
+            {else}
         <dt>{ts}Event Level{/ts}</dt><dd>{$event_level}&nbsp;</dd>
+            {/if}
         {/if}
         {if $history neq 1}
 	    {foreach from=$note item="rec"}
