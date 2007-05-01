@@ -254,16 +254,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                                     $defaults, 
                                                     CRM_Contact_Form_GroupTag::ALL );
         }
-        
-        // use most recently posted values if any to display show hide blocks
-        //$params = $this->controller->exportValues( $this->_name );
-        
-        $params = $_POST;  //fix for CRM-907
 
-        if ( ! empty( $params ) ) {
-            $this->setShowHide( $params, true );
+        if ( ! empty( $_POST ) ) {
+            $this->setShowHide( $_POST, true );
         } else {
-            $this->setShowHide( $defaults, false );
+            if ( $this->_action & CRM_Core_Action::ADD ) {
+                $this->setShowHide( $defaults, false );
+            } else {
+                $this->setShowHide( $defaults, true );
+            }
         }
 
         // do we need inactive options ?
@@ -339,6 +338,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->_showHide->addShow( 'id_demographics' );
             $this->_showHide->addHide( 'id_demographics_show' );
         }
+
         if ( $force ) {
             $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
             $config =& CRM_Core_Config::singleton( );
