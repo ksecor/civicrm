@@ -104,7 +104,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                 'entity_table' => 'civicrm_price_field',
                 'entity_id' => $this->_fid
             );
-            $defaults['weight'] = CRM_Utils_Weight::getMax('CustomOption', $fieldValues);
+            $defaults['weight'] = CRM_Utils_Weight::getMax('CRM_Core_DAO_CustomOption', $fieldValues);
             $defaults['is_active'] = 1;
         }
         

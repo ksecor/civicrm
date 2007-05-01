@@ -139,7 +139,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         if ($this->_action & CRM_Core_Action::ADD) {
             require_once 'CRM/Utils/Weight.php';
             $fieldValues = array('price_set_id' => $this->_gid);
-            $defaults['weight'] = CRM_Utils_Weight::getMax('PriceField', $fieldValues) + 1;
+            $defaults['weight'] = CRM_Utils_Weight::getMax('CRM_Core_DAO_PriceField', $fieldValues);
             $defaults['is_display_amounts'] = 1;
         }
 
@@ -435,12 +435,12 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             $pf->find();
             
             if ( $pf->fetch() && $pf->weight != $params['weight'] ) {
-                $params['weight'] = CRM_Utils_Weight::moveWeight( 'PriceField', $pf->id, $pf->weight, $params['weight'], $fieldValues );
+                $params['weight'] = CRM_Utils_Weight::moveWeight( 'CRM_Core_DAO_PriceField', $pf->id, $pf->weight, $params['weight'], $fieldValues );
             }                
                         
         } else {
 
-            $params['weight'] = CRM_Utils_Weight::addWeight( 'PriceField', $params['weight'], $fieldValues );
+            $params['weight'] = CRM_Utils_Weight::addWeight( 'CRM_Core_DAO_PriceField', $params['weight'], $fieldValues );
 
         }
 

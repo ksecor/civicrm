@@ -122,7 +122,13 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
         
         $this->add('text','fee_label',ts('Fee Label'));
-        
+
+        require_once 'CRM/Core/BAO/PriceSet.php';
+        $this->add('select', 'price_set_id', ts( 'Price Set' ),
+            array( '' => ts( '-none' )) + CRM_Core_BAO_PriceSet::getAssoc( ),
+            null, array('onchange' => "return showHideByValue('price_set_id', '', 'map-field', 'block', 'select', false);")
+        );
+
         $default = array( );
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
             // label 
