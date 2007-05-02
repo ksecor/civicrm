@@ -349,13 +349,9 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         if ( $field->find( ) ) {
             $field->fetch( );
             $price_set_id = $field->price_set_id;
-            $weight = $field->weight;
-            $deleteStatus = $field->delete( );
-            if ( $deleteStatus ) {
-                $fieldValues = array( 'price_set_id' => $price_set_id );
-                CRM_Utils_Weight::delWeight( 'PriceField', $weight, $fieldValues );
-            }
-            return $deleteStatus;
+            $fieldValues = array( 'price_set_id' => $price_set_id );
+            CRM_Utils_Weight::delWeight( 'CRM_Core_DAO_PriceField', $field->id, $fieldValues );
+            return $field->delete( );
         }
         
         return null;
