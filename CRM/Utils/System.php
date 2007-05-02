@@ -194,6 +194,10 @@ class CRM_Utils_System {
         // add force=1 to force a recompute
         $qs['force'] = 1;
         foreach ($qs as $name => $value) {
+            if ( $name == 'snippet' ) {
+                continue;
+            }
+
             if ( $name != 'reset' || $includeReset ) {
                 $querystring[] = $name . '=' . $value;
             }
