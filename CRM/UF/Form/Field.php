@@ -192,7 +192,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         if ($this->_action & CRM_Core_Action::ADD) {
             $fieldValues = array('uf_group_id' => $this->_gid);
-            $defaults['weight'] = CRM_Utils_Weight::getMax('CRM_Core_DAO_UFField', $fieldValues);
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_UFField', $fieldValues);
         }
         
         // lets trim all the whitespace

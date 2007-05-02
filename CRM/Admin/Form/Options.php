@@ -93,7 +93,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         
         if (! isset($defaults['weight']) || ! $defaults['weight']) {
             $fieldValues = array('option_group_id' => $this->_gid);
-            $defaults['weight'] = CRM_Utils_Weight::getMax('CRM_Core_DAO_OptionValue', $fieldValues);
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
         }
         return $defaults;
     }
