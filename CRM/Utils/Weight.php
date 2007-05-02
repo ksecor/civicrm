@@ -32,7 +32,7 @@ class CRM_Utils_Weight {
     /**
      * Adjust the weights so that it starts at 1, with no gaps
      *
-     * @param string $daoName short name of the DAO
+     * @param string $daoName full name of the DAO
      * @param array $fieldValues field => value to be used in the WHERE
      * @param string $keyField field unique identifier for the table,
      * defaults to 'id'
@@ -40,42 +40,42 @@ class CRM_Utils_Weight {
      * defaults to 'weight'
      * @return bool
      */
-    static function adjustWeight( $daoName,
-                                  $fieldValues,
-                                  $keyField = 'id',
-                                  $weightField = 'weight' )
-    {
-        CRM_Core_Error::fatal( "This currently does not work as expected.  Please do not try to use it." );
-
-        $weightDAO =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $keyField, null, $weightField );
-        
-        $idlist = array( );
-        while ( $weightDAO->fetch() ) {
-            $idlist[] = $weightDAO->$keyField;
-        }
-
-        if ( empty( $idlist ) ) {
-            return false;
-        }
-
-        $params = array();
-
-        // transaction to insulate the weight variable
-        CRM_Core_DAO::transaction( 'BEGIN' );
-        CRM_Core_DAO::executeQuery( 'SET @weight=0', $params );
-
-        $where  = "$keyField IN (" . implode( ',', $idlist ) . ")";
-        $update = "$weightField = (@weight:=@weight+1)";
-        CRM_Utils_Weight::query( 'UPDATE', $daoName, array(), $update, $where );
-
-        CRM_Core_DAO::transaction( 'COMMIT' );
-        return true;
-    }
+//    static function adjustWeight( $daoName,
+//                                  $fieldValues,
+//                                  $keyField = 'id',
+//                                  $weightField = 'weight' )
+//    {
+//        CRM_Core_Error::fatal( "This currently does not work as expected.  Please do not try to use it." );
+//
+//        $weightDAO =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $keyField, null, $weightField );
+//        
+//        $idlist = array( );
+//        while ( $weightDAO->fetch() ) {
+//            $idlist[] = $weightDAO->$keyField;
+//        }
+//
+//        if ( empty( $idlist ) ) {
+//            return false;
+//        }
+//
+//        $params = array();
+//
+//        // transaction to insulate the weight variable
+//        CRM_Core_DAO::transaction( 'BEGIN' );
+//        CRM_Core_DAO::executeQuery( 'SET @weight=0', $params );
+//
+//        $where  = "$keyField IN (" . implode( ',', $idlist ) . ")";
+//        $update = "$weightField = (@weight:=@weight+1)";
+//        CRM_Utils_Weight::query( 'UPDATE', $daoName, array(), $update, $where );
+//
+//        CRM_Core_DAO::transaction( 'COMMIT' );
+//        return true;
+//    }
 
     /**
      * Create a gap for a new row to be inserted at the specified weight
      *
-     * @param string $daoName short name of the DAO
+     * @param string $daoName full name of the DAO
      * $param integer $weight the desired weight
      * @param array $fieldValues field => value to be used in the WHERE
      * @param string $weightField field which contains the weight value,
@@ -83,33 +83,32 @@ class CRM_Utils_Weight {
      * @return integer the value of the new weight.  may be different from the
      * requested weight if greater than the max weight
      */
-//     static function addWeight( $daoName, $weight, $fieldValues, $weightField = 'weight' )
-//     {
-//         $weight = (int ) $weight;
-//         if ( $weight < 1 ) {
-//             $weight = 1;
-//         }
+     static function addWeight( $daoName, $weight, $fieldValues, $weightField = 'weight' )
+     {
+         $weight = (int ) $weight;
+         if ( $weight < 1 ) {
+             $weight = 1;
+         }
 
-//         // get current max
-//         $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
-//         $maxWeight++;
+         // get current max
+         $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
 
-//         if ( $weight >= $maxWeight ) {
-//             // no adjustement to database necessary
-//             return $maxWeight;
-//         }
+         if ( $weight >= $maxWeight ) {
+             // no adjustement to database necessary
+             return $maxWeight;
+         }
 
-//         $additionalWhere = "$weightField >= $weight";
-//         $update = "$weightField = $weightField + 1";
-//         CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+         $additionalWhere = "$weightField >= $weight";
+         $update = "$weightField = $weightField + 1";
+         CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
 
-//         return $weight;
-//     }
+         return $weight;
+     }
 
     /**
      * Remove a row from the specified weight, and shift all rows below it up
      *
-     * @param string $daoName short name of the DAO
+     * @param string $daoName full name of the DAO
      * $param integer $weight the weight to be removed
      * @param array $fieldValues field => value to be used in the WHERE
      * @param string $weightField field which contains the weight value,
@@ -148,7 +147,7 @@ class CRM_Utils_Weight {
     /**
      * Remove a row from the specified weight, and shift all rows below it up
      *
-     * @param string $daoName short name of the DAO
+     * @param string $daoName full name of the DAO
      * $param integer $weight the weight to be removed
      * @param array $fieldValues field => value to be used in the WHERE
      * @param string $weightField field which contains the weight value,
@@ -249,7 +248,7 @@ class CRM_Utils_Weight {
      * Updates the weight fields of other rows according to the new and old weight paased in. 
      * And returns the new weight be used.
      *
-     * @param string $daoName short name of the DAO
+     * @param string $daoName full name of the DAO
      * @param integer $oldWeight
      * @param integer $newWeight 
      * @param array $fieldValues field => value to be used in the WHERE
@@ -311,7 +310,7 @@ class CRM_Utils_Weight {
     /**
      * return the highest weight + 1
      *
-     * @param string $daoName short name of the DAO
+     * @param string $daoName full name of the DAO
      * @param array $fieldValues field => value to be used in the WHERE
      * @param string $weightField field which contains the weight value,
      * defaults to 'weight'
@@ -333,7 +332,7 @@ class CRM_Utils_Weight {
      * Execute a weight-related query
      *
      * @param string $queryType SELECT, UPDATE, DELETE
-     * @param string $daoName short name of the DAO
+     * @param string $daoName full name of the DAO
      * @param array $fieldValues field => value to be used in the WHERE
      * @param string $queryData data to be used, dependent on the query type
      * @param string $orderBy optional ORDER BY field

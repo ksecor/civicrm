@@ -435,7 +435,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             $pf->find();
             
             if ( $pf->fetch() && $pf->weight != $params['weight'] ) {
-                $params['weight'] = CRM_Utils_Weight::moveWeight( 'CRM_Core_DAO_PriceField', $pf->id, $pf->weight, $params['weight'], $fieldValues );
+                $params['weight'] = CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_PriceField', $pf->weight, $params['weight'], $fieldValues );
             }                
                         
         } else {
