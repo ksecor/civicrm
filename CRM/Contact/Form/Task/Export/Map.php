@@ -78,7 +78,6 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         if (! $this->_exportColumnCount ) {
             $this->_exportColumnCount = 10;
         } else {
-            CRM_core_error::debug('$this->_exportColumnCount', $this->_exportColumnCount);
             $this->_exportColumnCount = $this->_exportColumnCount + 10;
         }
         
