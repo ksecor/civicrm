@@ -87,6 +87,7 @@ div.spacer, .spacer {
 }
 
 #crm-container div.form-item {
+border-top-style: none;
   margin: 0px;
   padding: 3px 0px 3px 0px;
   clear: both;
@@ -180,7 +181,6 @@ div.spacer, .spacer {
 
 #crm-container table.form-layout, #crm-container table.control-panel, #crm-container table.no-border {
   margin: 0em;
-  /* width: auto; */
   width: 98%;	
   border-collapse: collapse;
   border: 0px none;
@@ -191,6 +191,10 @@ div.spacer, .spacer {
   width: auto;
   border-collapse: collapse;
   border: 0px none;
+}
+
+#crm-container table.form-layout tbody, #crm-container table.form-layout-compressed tbody {
+    border-top: none
 }
 
 #crm-container .form-layout td {
