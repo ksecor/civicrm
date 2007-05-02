@@ -313,7 +313,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
 
             if ( $this->_mode == self::MODE_CREATE ) {
-                list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($this->_cId);
+                if ( $this->_cId ) {
+                    list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($this->_cId);
+                }
                 if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
                     $cms = true;
                     $this->_mail = 'email-Primary';
@@ -593,9 +595,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                                 'name' => $params['name'],
                                 'pass' => array('pass1' => $params['pass'],
                                                 'pass2' => $params['confirm_pass']),
-                                'mail' => $mail,
+                                'mail' => $params[$mail],
                                 );
-
                 drupal_execute( 'user_register', $values );
                 $error = form_get_errors();
                 if ( $error ) {
