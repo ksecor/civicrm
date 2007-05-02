@@ -225,17 +225,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $defaults = array();
     
         if ($this->_action == CRM_Core_Action::ADD) {
-            $defGroup =& new CRM_Core_DAO_CustomGroup();
-            $defGroup->domain_id = CRM_Core_Config::domainID( );
-            $defGroup->orderBy('weight DESC');
-            $defGroup->find( );
-            
-            if ( $defGroup->fetch() ) {
-                $defaults['weight'] = $defGroup->weight + 1;
-            } else {
-                $defaults['weight'] = 1;
-            }
-            
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomGroup');
         }
 
         if (isset($this->_id)) {
@@ -288,6 +278,12 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $group->style            = $params['style'];
         $group->collapse_display = CRM_Utils_Array::value('collapse_display', $params, false);
 
+
+        if ($this->_id) {
+            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $this->_id, 'weight', 'id' );
+        }
+        $params['weight'] = 
+            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomGroup', $oldWeight, $params['weight']);
         // fix for CRM-316
         if ($this->_action & CRM_Core_Action::UPDATE) {
 

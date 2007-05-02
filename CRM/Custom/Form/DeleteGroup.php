@@ -102,14 +102,13 @@ class CRM_Custom_Form_DeleteGroup extends CRM_Core_Form {
         $group->id = $this->_id;
         $group->find();
         $group->fetch();
-        
+        $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_CustomGroup', $this->_id);
         if (CRM_Core_BAO_CustomGroup::deleteGroup( $this->_id)) {
             CRM_Core_Session::setStatus( ts('The Group "%1" has been deleted.', array(1 => $group->title)) );        
         } else {
             CRM_Core_Session::setStatus( ts('The Group "%1" has not been deleted! You must Delete all custom fields in this group prior to deleting the group', array(1 => $group->title)) );        
         }
-            
-    }
+   }
 }
 
 ?>

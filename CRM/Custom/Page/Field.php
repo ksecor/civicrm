@@ -200,13 +200,12 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      * editing would involved modifying existing fields + adding data to new fields.
      *
      * @param string  $action    the action to be invoked
-
      * @return void
      * @access public
      */
     function edit($action)
     {
-        // create a simple controller for editing custom data
+        // create a simple controller for editing custom dataCRM/Custom/Page/Field.php
         $controller =& new CRM_Core_Controller_Simple('CRM_Custom_Form_Field', ts('Custom Field'), $action);
 
         // set the userContext stack
@@ -217,6 +216,13 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
+        if ($this->_id) {
+            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $this->_id, 'weight', 'id' );
+        }
+        $fieldValues = array('custom_group_id' => $this->_gid);
+        $params['weight'] = 
+            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomField', $oldWeight, $params['weight'], $fieldValues);
+
     }
     
     /**
@@ -254,6 +260,8 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             $controller->setEmbedded( true );
             $controller->process( );
             $controller->run( );
+            $fieldValues = array('custom_group_id' => $this->_gid);
+            $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_CustomField', $id, $fieldValues);
         }
 
         if ($this->_gid) {

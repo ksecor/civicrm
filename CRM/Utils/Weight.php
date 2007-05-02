@@ -39,7 +39,7 @@ class CRM_Utils_Weight {
      * defaults to 'weight'
      * @return bool 
      */
-    static function delWeight($daoName, $fieldID, $fieldValues, $weightField = 'weight') 
+    static function delWeight($daoName, $fieldID, $fieldValues = null, $weightField = 'weight') 
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object   =& new ' . $daoName . '( );' );
@@ -74,7 +74,7 @@ class CRM_Utils_Weight {
      * defaults to 'weight'
      * @return bool 
      */
-    static function updateOtherWeights($daoName, $oldWeight, $newWeight, $fieldValues, $weightField = 'weight')
+    static function updateOtherWeights($daoName, $oldWeight, $newWeight, $fieldValues = null, $weightField = 'weight')
     {
         $oldWeight = (int ) $oldWeight;
         $newWeight = (int ) $newWeight;
@@ -127,7 +127,7 @@ class CRM_Utils_Weight {
      * defaults to 'weight'
      * @return integer
      */
-    static function getMax($daoName, $fieldValues, $weightField = 'weight')
+    static function getMax($daoName, $fieldValues = null, $weightField = 'weight')
     {
         $selectField = "MAX($weightField) AS max_weight";
         $weightDAO =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $selectField );
@@ -148,7 +148,7 @@ class CRM_Utils_Weight {
      * defaults to 'weight'
      * @return integer
      */
-    static function getDefaultWeight($daoName, $fieldValues, $weightField = 'weight')
+    static function getDefaultWeight($daoName, $fieldValues = null, $weightField = 'weight')
     {
         $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
         if ($maxWeight != 1) {
@@ -169,7 +169,7 @@ class CRM_Utils_Weight {
      */
     static function &query( $queryType,
                             $daoName,
-                            $fieldValues,
+                            $fieldValues = null,
                             $queryData,
                             $additionalWhere = null,
                             $orderBy = null )
