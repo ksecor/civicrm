@@ -546,6 +546,7 @@ WHERE civicrm_event.is_active = 1
         while ( $dao->fetch( ) ) {
         
             $info                  = array( );
+            $info['event_id'     ] = $dao->event_id;
             $info['summary'      ] = $dao->summary;
             $info['description'  ] = $dao->description;
             $info['start_date'   ] = $dao->start;

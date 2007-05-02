@@ -62,10 +62,13 @@ class CRM_Utils_ICalendar
     {
         $content = "BEGIN:VCALENDAR\nVERSION:2.0\n";
         $content .= "PRODID:-//CiviCRM//NONSGML CiviEvent iCal//EN\n";
-        
         foreach ( $events as $uid => $event ) {
             $content .= "BEGIN:VEVENT\n";
             $content .= "SUMMARY:" . self::escapeText( $event['summary'] ) . "\n";
+
+            // create a unique identifier for the event
+            $config =& CRM_Core_Config::singleton( );
+            $content .= "UID:CiviCRM_EventID_" . $event['event_id'] . "@" . $config->userFrameworkBaseURL . "\n";
 
             if ( $event['description'] ) {
                 $content .= "DESCRIPTION:" . self::escapeText( $event['description'] )  . "\n";
