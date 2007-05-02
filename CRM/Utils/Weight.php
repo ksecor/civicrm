@@ -265,7 +265,8 @@ class CRM_Utils_Weight {
             return;
         }
 
-        $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
+        // max weight is the highest current weight
+        $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField) - 1;
 
         if ( $newWeight >= $maxWeight ) {
             $newWeight = $maxWeight;
@@ -291,10 +292,10 @@ class CRM_Utils_Weight {
                     CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
                     return $newWeight;
                 } else {
-                    $additionalWhere = "$weightField > $oldWeight AND $weightField < $newWeight";
+                    $additionalWhere = "$weightField > $oldWeight AND $weightField <= $newWeight";
                     $update = "$weightField = ($weightField - 1)";
                     CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
-                    return ($newWeight - 1);
+                    return $newWeight;
                 }
             } elseif ($newWeight < $oldWeight) {
                 $additionalWhere = "$weightField >= $newWeight AND $weightField < $oldWeight";
