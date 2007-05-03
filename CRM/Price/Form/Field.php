@@ -427,22 +427,13 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         $priceField->html_type     = $params['html_type'];
         
         require_once 'CRM/Utils/Weight.php';
-        $fieldValues = array( 'price_set_id' => $this->_gid );
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-
-            $pf =& new CRM_Core_DAO_PriceField();
-            $pf->id = $this->_id;
-            $pf->find();
-            
-            if ( $pf->fetch() && $pf->weight != $params['weight'] ) {
-                $params['weight'] = CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_PriceField', $pf->weight, $params['weight'], $fieldValues );
-            }                
-                        
-        } else {
-
-            //$params['weight'] = CRM_Utils_Weight::addWeight( 'CRM_Core_DAO_PriceField', $params['weight'], $fieldValues );
-            $params['weight'] = CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_PriceField', null, $params['weight'], $fieldValues );
-
+        if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+            $fieldValues = array( 'price_set_id' => $this->_gid );
+            if ( $this->_id ) {
+                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', $this->_id, 'weight', 'id' );
+            }
+            $params['weight'] = 
+                CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_PriceField', $oldWeight, $params['weight'], $fieldValues );
         }
 
         $priceField->weight            = $params['weight'];             

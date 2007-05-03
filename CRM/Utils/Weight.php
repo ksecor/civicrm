@@ -150,11 +150,14 @@ class CRM_Utils_Weight {
      */
     static function getDefaultWeight($daoName, $fieldValues = null, $weightField = 'weight')
     {
-        $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
-        if ($maxWeight != 1) {
-            return $maxWeight+1;
+        $selectField = "MAX($weightField) AS max_weight";
+        $weightDAO =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $selectField );
+        $weightDAO->fetch();
+        if ( $weightDAO->max_weight ) {
+            return $weightDAO->max_weight + 1;
+        } else {
+            return 1;
         }
-        return $maxWeight;
     }
 
     /**
