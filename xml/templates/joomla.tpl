@@ -21,9 +21,9 @@
        <option value="civicrm/contribute/transact">Online Contribution</option>
        <option value="civicrm/event/register">Online Event Registration</option>
     </param>
-    <param name="id"    type="text" size="5" default="1" label="Contribution or Event id" />
-    <param name="gid"   type="text" size="5" default="1" label="Profile id" />
-    <param name="reset" type="text" size="5" default="1" label="Reset" />
+    <param name="id"    type="text" size="5" label="Contribution or Event id" description="The ID number of your Contribution or Event as defined when the Contribution or Event was created. Leave blank if not relevant"/>
+    <param name="gid"   type="text" size="5" label="Profile id" description="The ID of your Profile as defined when the profile was created. Leave blank if not relevant"/>
+    <param name="reset" type="text" size="5" default="1" label="Reset" description="Keep this set to 1. This is needed for the form to work properly." />
   </params>
   <install>
     <queries>

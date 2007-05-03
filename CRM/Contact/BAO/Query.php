@@ -2309,6 +2309,8 @@ class CRM_Contact_BAO_Query {
 
         self::$_relType = $rel[1];
         if ( $name ) { 
+            require_once 'CRM/Contact/BAO/RelationshipType.php';
+
             $params = array( 'id' => $rel[0] );
             $rTypeValues = array( );
 
