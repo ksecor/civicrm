@@ -331,19 +331,21 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      * @access public
      * @static
      */
-    static function deleteContact( $contactId, $entityTable = 'civicrm_contact' ) {
+    static function deleteContact( $contactId, $entityTable = 'civicrm_contact', $locationTypeId = null ) {
         $location =& new CRM_Core_DAO_Location( );
         $location->entity_id = $contactId;
         require_once 'CRM/Contact/DAO/Contact.php';
         $location->entity_table = $entityTable;
+        if($locationTypeId) {
+            $location->location_type_id = $locationTypeId;
+        }
         $location->find( );
         while ( $location->fetch( ) ) {
             self::deleteLocationBlocks( $location->id );
             $location->delete( );
         }
-
     }
-
+    
     /**
      * Delete the object records that are associated with this location
      *

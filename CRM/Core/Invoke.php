@@ -317,7 +317,12 @@ class CRM_Core_Invoke
 
             case 'delete':
                 $wrapper =& new CRM_Utils_Wrapper( ); 
-                return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
+                if ($args[4] == 'location') {
+                    return $wrapper->run( 'CRM_Contact_Form_DeleteLocation', ts( 'Delete Location' ), 
+                                          CRM_Core_Action::DELETE, true );
+                } else {
+                    return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
+                }
 
             default:
                 $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject ); 

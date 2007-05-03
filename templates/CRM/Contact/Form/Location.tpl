@@ -4,7 +4,7 @@
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 {* @var $locationCount contains the max number of locations to be displayed, assigned in the Location.php file*}
 {* @var $index contains the current index of the location section *}
-
+ 
  {section name = locationLoop start = 1 loop = $locationCount}
  {assign var=index value=$smarty.section.locationLoop.index}
 
@@ -24,7 +24,16 @@
         {$form.location.$index.is_primary.html}
 
         &nbsp; &nbsp; {$form.location.$index.name.label}
-        {$form.location.$index.name.html|crmReplace:class:big}
+        {$form.location.$index.name.html|crmReplace:class:big} 
+        {if $locationExists}
+            {foreach from=$locationExists item=ltypeid}   
+               {if $ltypeid == $form.location.$index.location_type_id.value[0]}
+                    {capture assign=deleteLocation}{crmURL p='civicrm/contact/view/delete/location' q="reset=1&action=delete&ltypeid=$ltypeid&cid=$contactId"}{/capture}
+                    &nbsp; &nbsp; {ts 1=$deleteLocation} <a href="%1">Delete</a>{/ts}
+               {/if} 
+            {/foreach}
+        {/if}
+        
     </div>
 
     {* Display the phone block(s) *}

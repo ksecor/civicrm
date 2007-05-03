@@ -125,12 +125,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @return void
      * @access public
      */
-    function preProcess( ) {
-
+    function preProcess( ) 
+    {
+        
         // reset action from the session
         $this->_action              = CRM_Utils_Request::retrieve('action', 'String', 
                                                                   $this, false, 'add' );
-
+        
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
 
@@ -158,6 +159,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // else get it from the REQUEST
             $ids = $this->get('ids');
             $this->_contactId = CRM_Utils_Array::value( 'contact', $ids );
+          
             if ( ! $this->_contactId ) {
                 $this->_contactId   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
             }
@@ -192,7 +194,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      * @return None
      */
-    function setDefaultValues( ) {
+    function setDefaultValues( ) 
+    {
         $defaults = array( );
         $params   = array( );
 
@@ -236,13 +239,19 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 }
                 $defaults['location'][1]['is_primary'] = true;
             }
-        } else {
+        } else { 
             // this is update mode
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $ids = array();
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
             $this->set( 'ids', $ids );
+            
+            $locationExists = array();
+            foreach( $contact->location as $loc) {
+                $locationExists[] = $loc->location_type_id;
+            }
+            $this->assign( 'locationExists' , $locationExists );
 
             $this->assign( 'contactId' , $this->_contactId );
             // also set contact_type, since this is used in showHide routines 
@@ -297,7 +306,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      *
      * @return void
      */
-    function setShowHide( &$defaults, $force ) {
+    function setShowHide( &$defaults, $force ) 
+    {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
                                                          '') ;
         if ( $this->_contactType == 'Individual' ) {
@@ -369,7 +379,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
         require_once 'CRM/Contact/Form/Location.php';
 
         // assign a few constants used by all display elements
