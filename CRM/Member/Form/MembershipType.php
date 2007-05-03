@@ -141,8 +141,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'weight' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
-        require_once "CRM/Member/BAO/MessageTemplates.php";
-        $msgTemplates = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
+        require_once "CRM/Core/BAO/MessageTemplates.php";
+        $msgTemplates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
 
         if ( ! empty( $msgTemplates ) ) {
             $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), array('' => ts('- select -')) + $msgTemplates );
@@ -221,7 +221,6 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_rollover_day'] ) ){
                 $errors['fixed_period_rollover_day'] = "Please enter valid 'Fixed Period Rollover Day' ";
             }
-            
         }
         
         if ( !$params['_qf_MembershipType_refresh'] ) {
