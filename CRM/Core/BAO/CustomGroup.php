@@ -359,6 +359,9 @@ ORDER BY civicrm_custom_group.weight,
                     }
                     
                     break; 
+                case 'Link':
+                    $customValue['data'] =  "<a href=$crmDAO->civicrm_custom_value_char_data>".$crmDAO->civicrm_custom_value_char_data . '</a>';
+                    break;
                 }
                 
                 if ( ! empty( $customValue ) ) {
@@ -519,7 +522,9 @@ ORDER BY civicrm_custom_group.weight,
                         $entityFileDAO->save();
                         
                         break;
-                        
+                    case 'Link':
+                        $customValueDAO->char_data = $data;
+                        break;                                    
                     }
 
                     // insert/update of custom value

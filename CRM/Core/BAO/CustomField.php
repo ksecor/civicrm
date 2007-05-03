@@ -83,6 +83,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 'StateProvince' => ts('State/Province'),
                 'Country'       => ts('Country'),
                 'File'          => ts('File'),
+                'Link'          => ts('Link')
             );
         }
         return self::$_dataType;
@@ -511,6 +512,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $qf->addRule($elementName, ts('%1 must be in proper money format. (decimal point/comma/space is allowed).', array(1 => $label)), 'money');
             }
             break;
+        case 'Link':
+            $element =& $qf->add('text', $elementName, $label,CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField',$elementName),
+                                 (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
+            $qf->addRule( $elementName, ts('Enter a valid Website.'),'url');
+                    
+            break;
         }
     }
     
@@ -665,12 +672,18 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 }
             }
             break;
+        case 'Link':
+            if (empty( $value )){
+                $display='';
+            } else {
+                $display = $value;
+            }  
+                
         }
-
-        // CRM_Core_Error::debug( "$display, $value, $id", $options );
+        
         return $display;
     }
-
+    
     /**
      * Given a custom field value, its id and the set of options
      * find the default value for this field
@@ -747,6 +760,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $cv->custom_field_id = $customFieldId;
             $cv->entity_table    = 'civicrm_contact';
             $cv->entity_id       = $contactId;
+            
             if ( $cv->find( true ) ) {
                 switch ($customField->data_type) {
                 case 'File':
@@ -780,6 +794,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 case 'Date':
                     $value = $cv->date_data;
                     break;
+                case 'Link':
+                    $value = $cv->char_data;
                 }
             }
 

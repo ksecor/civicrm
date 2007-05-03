@@ -84,7 +84,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             array('Radio' => 'Radio'),
             array('StateProvince' => 'Select State/Province'),
             array('Country' => 'Select Country'),
-            array('File' => 'File')
+            array('File' => 'File'),
+            array('Link' => 'Link')
     );
     
     private static $_dataToLabels = null;
@@ -126,6 +127,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 array('StateProvince' => ts('Select State/Province')),
                 array('Country' => ts('Select Country')),
                 array('File' => ts('Select File')),
+                array('Link' => ts ('Link'))
             );
         }
 
@@ -149,6 +151,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $params = array('id' => $this->_id);
             $this->assign('id',$this->_id);
             CRM_Core_BAO_CustomField::retrieve($params, $defaults);
+        
             $this->_gid = $defaults['custom_group_id'];
 	   
             if ( $defaults['data_type'] == 'StateProvince' ) {
@@ -171,7 +174,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             
             if (CRM_Utils_Array::value('data_type', $defaults)) {
                 $defaults['data_type'] = array('0' => array_search($defaults['data_type'], self::$_dataTypeKeys), '1' => $defaults['html_type']);
-            }
+              }
             
             $date_parts = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$defaults['date_parts']);
             $temp_date_parts = array();
@@ -365,13 +368,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         if ( $default ) {
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             switch ( $dataType ) {
-           
+                
             case 'Int':
                 if ( ! CRM_Utils_Rule::integer( $default ) ) {
                     $errors['default_value'] = ts( 'Please enter a valid integer as default value.' );
                 }
                 break;
-
+                
             case 'Float':
                 //   case 'Money':
                 if ( ! CRM_Utils_Rule::numeric( $default ) ) {
@@ -383,20 +386,20 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $errors['default_value'] = ts( 'Please enter a valid number value.' );
                 }
                 break;
-                    
+                
             case 'Date':
                 if ( ! CRM_Utils_Rule::date( $default ) ) {
                     $errors['default_value'] = ts ( 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.' );
                 }
                 break;
-
+                
             case 'Boolean':
                 if ( ! CRM_Utils_Rule::integer( $default ) &&
                      ( $default != '1' || $default != '0' ) ) {
                     $errors['default_value'] = ts( 'Please enter 1 or 0 as default value.' );
                 }
                 break;
-
+                
             case 'Country':
                 if( !empty($default) ) {
                     $fieldCountry = addslashes( $fields['default_value'] );
@@ -416,16 +419,16 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     }
                 }
                 break;
+                
             }
-        }
-        
+        } 
 
         /** Check the option values entered
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.
          */
         if (CRM_Core_Action::ADD) {
-
+            
             $_flagOption = $_rowError = 0;
             $_showHide =& new CRM_Core_ShowHideBlocks('','');
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
@@ -434,15 +437,15 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             if( !empty($fields['option_value']) ) {
                 $countValue = count($fields['option_value']);
                 $uniqueCount = count(array_unique($fields['option_value']));
-
+                
                 if ( $countValue > $uniqueCount) {
-
+                    
                     $start=1;
                     while ($start < self::NUM_OPTION) { 
                         $nextIndex = $start + 1;
-
+                        
                         while ($nextIndex <= self::NUM_OPTION) {
-
+                            
                             if ( $fields['option_value'][$start] == $fields['option_value'][$nextIndex] && !empty($fields['option_value'][$nextIndex]) ) {
 
                                 $errors['option_value['.$start.']']     = ts( 'Duplicate Option values' );
@@ -460,17 +463,17 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             if( !empty($fields['option_label']) ) {
                 $countValue = count($fields['option_label']);
                 $uniqueCount = count(array_unique($fields['option_label']));
-
+                
                 if ( $countValue > $uniqueCount) {
-
+                    
                     $start=1;
                     while ($start < self::NUM_OPTION) { 
                         $nextIndex = $start + 1;
-
+                        
                         while ($nextIndex <= self::NUM_OPTION) {
-
+                            
                             if ( $fields['option_label'][$start] == $fields['option_label'][$nextIndex] && !empty($fields['option_label'][$nextIndex]) ) {
-
+                                
                                 $errors['option_label['.$start.']']     =  ts( 'Duplicate Option label' );
                                 $errors['option_label['.$nextIndex.']'] = ts( 'Duplicate Option label' );
                                 $_flagOption = 1;
@@ -576,11 +579,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 }
                 $_showHide->addToTemplate();
             }
-        }
-        
+        }      
         return empty($errors) ? true : $errors;
     }
-
+    
     /**
      * Process the form
      * 

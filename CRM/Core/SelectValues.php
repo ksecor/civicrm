@@ -56,7 +56,7 @@ class CRM_Core_SelectValues
         return $greeting;
     }
     
-    /**
+    /**CRM/Core/SelectValues.php
      * different types of phones
      * @static
      */
@@ -221,7 +221,8 @@ class CRM_Core_SelectValues
                 'Text'    => ts('Memo'),
                 'Date'    => ts('Date'),
                 'File'    => ts('File'),
-                'Boolean' => ts('Yes/No')
+                'Boolean' => ts('Yes/No'),
+                'Link'    => ts('Link')
             );
         }
         return $customDataType;
@@ -246,7 +247,7 @@ class CRM_Core_SelectValues
                 'File'                    => ts('File'),
                 'Select State / Province' => ts('State / Province selector'),
                 'Select Country'          => ts('Country selector')
-            );
+                );
         }
         return $customHtmlType;
     }

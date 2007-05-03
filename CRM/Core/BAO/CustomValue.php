@@ -87,11 +87,11 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
                          array_change_key_case( array_flip( CRM_Core_PseudoConstant::countryIsoCode() ), CASE_LOWER ) )
                 || array_key_exists(strtolower($value),
                             array_change_key_case( array_flip( CRM_Core_PseudoConstant::country() ), CASE_LOWER ) );
+        case 'Link':
+            return CRM_Utils_Rule::string($value);
         }
         return false;
     }
-    
-    
     
     /**
      * Create a new CustomValue record
@@ -193,10 +193,12 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
         case 'Date':
             $customValue->date_data = $params['value'];
             break;
-            
-        }
-        $customValue->save();
         
+        case 'Link':
+            $customValue->char_data = $params['value'];
+            break;
+        }
+        $customValue->save();       
         return $customValue;
     }
     
@@ -228,6 +230,8 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
             return 'memo_data';
         case 'Date':
             return 'date_data';
+        case 'Link':
+            return 'char_data';            
         default:
             return null;
         }
@@ -364,7 +368,6 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
         $cf =& new CRM_Core_BAO_CustomField();
         $cf->id = $cfId;
         $cf->find(true);
-
         if ($cf->data_type == 'StateProvince') {
             $states =& CRM_Core_PseudoConstant::stateProvince();
             if (CRM_Utils_Rule::integer($value)) {
