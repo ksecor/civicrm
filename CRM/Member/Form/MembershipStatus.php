@@ -55,11 +55,7 @@ class CRM_Member_Form_MembershipStatus extends CRM_Member_Form
 
         //finding default weight to be put 
         if ( ! $defaults['weight'] ) {
-            $query = "SELECT max( `weight` ) as weight FROM `civicrm_membership_status`";
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
-            $dao->fetch();
-            $defaults['weight'] = ($dao->weight + 1);
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Member_DAO_MembershipStatus');
         }
         return $defaults;
     }
@@ -112,6 +108,7 @@ class CRM_Member_Form_MembershipStatus extends CRM_Member_Form
     {
         require_once 'CRM/Member/BAO/MembershipStatus.php';
         if($this->_action & CRM_Core_Action::DELETE) {
+            $wt = CRM_Utils_Weight::delWeight('CRM_Member_DAO_MembershipStatus', $this->_id);
             CRM_Member_BAO_MembershipStatus::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected membership status has been deleted.') );
         } else { 
@@ -122,7 +119,12 @@ class CRM_Member_Form_MembershipStatus extends CRM_Member_Form
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $ids['membershipStatus'] = $this->_id;
             }
-
+            if ($this->_id) {
+                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus', $this->_id, 'weight', 'id' );
+            }
+            $params['weight'] = 
+                CRM_Utils_Weight::updateOtherWeights('CRM_Member_DAO_MembershipStatus', $oldWeight, $params['weight']);
+            
             $membershipStatus = CRM_Member_BAO_MembershipStatus::add($params, $ids);
             CRM_Core_Session::setStatus( ts('The membership status "%1" has been saved.', array( 1 => $membershipStatus->name )) );
         }

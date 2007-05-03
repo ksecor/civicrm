@@ -111,20 +111,8 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         require_once 'CRM/Core/DAO.php';
 
         if ($this->_action & CRM_Core_Action::ADD) {
-            $cf =& new CRM_Core_DAO();
-            $sql = "SELECT max(weight) as weight
-                    FROM civicrm_custom_option
-                    WHERE entity_table='civicrm_custom_field' AND entity_id=".$this->_fid."
-                    ORDER BY weight"; 
-            $cf->query($sql);
-            while( $cf->fetch( ) ) {
-                $defaults['weight'] = $cf->weight + 1;
-            }
-            
-            if ( empty($defaults['weight']) ) {
-                $defaults['weight'] = 1;
-
-            }
+            $fieldValues = array('entity_id' => $this->_fid);
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomOption', $fieldValues);
         }
         
         return $defaults;
@@ -337,11 +325,19 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         $customOption->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
        
         if ($this->_action == CRM_Core_Action::DELETE) {
+            $fieldValues = array('entity_id' => $this->_fid);
+            $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_CustomOption', $this->_id, $fieldValues);
             CRM_Core_BAO_CustomOption::del($this->_id);
             CRM_Core_Session::setStatus(ts('Your multiple choice option has been deleted', array(1 => $customOption->label)));
             return;
         }
-        
+        if ($this->_id) {
+            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomOption', $this->_id, 'weight', 'id' );
+        }
+        $fieldValues = array('entity_id' => $this->_fid);
+        $params['weight'] = 
+            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomOption', $oldWeight, $params['weight'], $fieldValues);
+                
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $customOption->id = $this->_id;
             CRM_Core_BAO_CustomOption::updateCustomValues($params);

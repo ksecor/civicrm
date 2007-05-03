@@ -59,11 +59,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         
         //finding default weight to be put 
         if ( ! $defaults['weight'] ) {
-            $query = "SELECT max( `weight` ) as weight FROM `civicrm_membership_type`";
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
-            $dao->fetch();
-            $defaults['weight'] = ($dao->weight + 1);
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Member_DAO_MembershipType');
         }
         //setting default relationshipType
         if ( $defaults['relationship_type_id'] ) {
@@ -283,6 +279,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
     {
         require_once 'CRM/Member/BAO/MembershipType.php';
         if($this->_action & CRM_Core_Action::DELETE) {
+            $wt = CRM_Utils_Weight::delWeight('CRM_Member_DAO_MembershipType', $this->_id);
             CRM_Member_BAO_MembershipType::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected membership type has been deleted.') );
         } else { 
@@ -319,6 +316,12 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 }
             }
             $ids['memberOfContact'] = $params['contact_check'];
+            if ($this->_id) {
+                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'weight', 'id' );
+            }
+            $params['weight'] = 
+                CRM_Utils_Weight::updateOtherWeights('CRM_Member_DAO_MembershipType', $oldWeight, $params['weight']);
+            
             $membershipType = CRM_Member_BAO_MembershipType::add($params, $ids);
             CRM_Core_Session::setStatus( ts('The membership type "%1" has been saved.', array( 1 => $membershipType->name )) );
         }
