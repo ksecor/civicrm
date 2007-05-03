@@ -79,15 +79,14 @@ class CRM_Utils_Weight {
         $oldWeight = (int ) $oldWeight;
         $newWeight = (int ) $newWeight;
         
-        if (!$newWeight) {
-            return;
-        }
-
         // max weight is the highest current weight
         $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
-
+        
         if ( $newWeight > $maxWeight ) {
-            $newWeight = $maxWeight + 1;
+            $newWeight = $maxWeight;
+            if (!$oldWeight) {
+                return $newWeight+1; 
+            }
         } elseif ( $newWeight < 1 ) {
             $newWeight = 1;
         }
@@ -98,7 +97,7 @@ class CRM_Utils_Weight {
         }
         
         // if oldWeight not present, indicates new weight is to be added. So create a gap for a new row to be inserted. 
-        if (!$oldWeight) {
+        if ( !$oldWeight ) {
             $additionalWhere = "$weightField >= $newWeight";
             $update = "$weightField = ($weightField + 1)";
             CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
@@ -114,10 +113,8 @@ class CRM_Utils_Weight {
             CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
             return $newWeight;
         }
-
-        return $newWeight;
     }
-
+    
     /**
      * return the highest weight + 1
      *
