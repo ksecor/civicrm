@@ -617,9 +617,6 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             return;
         }
 
-        //CRM_Core_Error::debug( 'd', $details );
-        //CRM_Core_Error::debug( 'f', $fields );
-
         $config =& CRM_Core_Config::singleton( );
         
         require_once 'CRM/Core/PseudoConstant.php'; 
@@ -675,7 +672,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                     $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $cid );
                     $allTags    =& CRM_Core_PseudoConstant::tag();
                     $title = array( );
-                    foreach ( $entityTags as $tagId ) {
+                    foreach ( $entityTags as $tagId ) { 
                         $title[] = $allTags[$tagId];
                     }
                     $values[$index] = implode( ', ', $title );
@@ -746,7 +743,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                                 $values[$index] = $details->$name;
                             }
                         }
-                    }
+                    } 
                 }
             } else if ( strpos( $name, '-' ) !== false ) {
                 list( $fieldName, $id, $type ) = explode( '-', $name );
@@ -803,6 +800,8 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                 if ( !isset( $params[$index] ) ) {
                     continue;
                 }
+                $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
+                
                 
                 if ( !$customFieldName ) { 
                     $fieldName = $field['name'];
@@ -810,16 +809,38 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                     $fieldName = $customFieldName;
                 }
                 
-                $url = CRM_Utils_System::url( 'civicrm/profile',
+                if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
+                    $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
+                    if($htmlType == 'Link') {
+                        $url =  $params[$index] ;
+                    } else{
+                         $url = CRM_Utils_System::url( 'civicrm/profilel',
                                               'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                               urlencode( $fieldName ) .
                                               '=' .
                                               urlencode( $params[$index] ) );
+                    }
+                }
+                
+       
+               
                 if ( ! empty( $values[$index] ) && $searchable ) {
                     $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
                 }
             }
+            if ( $field['visibility'] == "User and User Admin Only"|| $field['visibility'] == "Public User Pages" ) {
+ 
+                $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
+                 if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
+                    $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
+                    if($htmlType == 'Link') {
+                          $values[$index] = '<a href="' . $values[$index] . '">' . $values[$index] . '</a>';
+                     }
+                 }
+            }
+                   
         }
+        
     }
     
      /**
@@ -1001,7 +1022,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, $whereTables, true );
     }
     
-    /**
+    /**CRM/UF/Form/Field.php
      * Function to make uf join entries for an uf group
      *
      * @param array $params       (reference) an assoc array of name/value pairs

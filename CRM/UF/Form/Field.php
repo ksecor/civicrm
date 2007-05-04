@@ -253,10 +253,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 $hasLocationTypes[$key][$key1]    = CRM_Utils_Array::value( 'hasLocationType', $value1 );
 
                 // hide the 'is searchable' field for 'File' custom data
-                if ( ( isset( $value1['data_type']    ) &&
-                       isset( $value1['html_type']    ) &&
-                       $value1['data_type'] == 'File' ) &&
-                     ( $value1['html_type'] == 'File' ) ) {
+                if ( isset( $value1['data_type']    ) && 
+                     isset( $value1['html_type'] ) && 
+                     (($value1['data_type'] == 'File' && $value1['html_type'] == 'File' ) 
+                      || ($value1['data_type'] == 'Link' && $value1['html_type'] == 'Link' ))
+                     ) {
                     if ( ! in_array( $value1['title'], $noSearchable ) ) {
                         $noSearchable[] = $value1['title'];
                     }
