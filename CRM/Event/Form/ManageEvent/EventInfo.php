@@ -63,7 +63,12 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                 $eventType = 'Event';
             }
         }     
-        
+        $showLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+                                                     $id,
+                                                     'show_location',
+                                                     'event_id' );
+        $this->assign( 'showLocation',$showLocation );
+
         require_once 'CRM/Core/BAO/CustomGroup.php';    
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0, $eventType);       
 

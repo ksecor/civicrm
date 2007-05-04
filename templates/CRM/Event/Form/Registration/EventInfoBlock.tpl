@@ -15,6 +15,8 @@
         {/if}
       </td>
   </tr>
+
+{if $showLocation}
   {if $location.1.name || $location.1.address}
   <tr><td><label>{ts}Location{/ts}</label></td>
       <td>
@@ -45,6 +47,7 @@
         </td>
     </tr>
   {/if}
+{/if}
  {if $event.is_monetary}
     <tr><td><label>{ts}Fee Label{/ts}</label></td>
          <td>{$event.fee_label}</td>

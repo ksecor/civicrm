@@ -135,7 +135,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $this->_params['payment_action'] = 'Sale';
             }
         }
-        
+        $showLocation = $this->_values['event_page']['show_location'];
+        $this->assign( 'showLocation',$showLocation );
+
         if ( $this->_values['event']['is_monetary'] ) {
             $this->_params['invoiceID'] = $this->get( 'invoiceID' );
         }
