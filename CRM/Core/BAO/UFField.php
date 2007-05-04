@@ -342,10 +342,19 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         
         while ( $ufField->fetch() ) {
             if ($ufField->field_type == 'Individual') {
+                if( ! isset($fields['Individual'])) {
+                    $fields['Individual'] = 0;
+                }
                 $fields['Individual'] += 1;
             } else if ($ufField->field_type == 'Contribution') {
+                if( ! isset($fields['Contribution'])) {
+                    $fields['Contribution'] = 0;
+                }
                 $fields['Contribution'] += 1;
             } else {
+                if( ! isset($fields['Other'])) {
+                    $fields['Other'] = 0;
+                }
                 $fields['Other'] +=1;
             }
         }
@@ -355,7 +364,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             return true;
         }
         
-        if ( ($fields['Individual'] && $fields['Other']) || $fields['Contribution'] && $fields['Other'] ) {
+        if ( (isset($fields['Individual']) && isset($fields['Other'])) || isset($fields['Contribution']) && isset($fields['Other']) ) {
             return true;
         }
         return false;

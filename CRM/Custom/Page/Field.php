@@ -219,12 +219,13 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
-        if ($this->_id) {
+        $oldWeight = 0;
+        if ( isset($this->_id) ) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $this->_id, 'weight', 'id' );
         }
         $fieldValues = array('custom_group_id' => $this->_gid);
         $params['weight'] = 
-            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomField', $oldWeight, $params['weight'], $fieldValues);
+            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomField', $oldWeight, CRM_Utils_Array::value('weight',$params), $fieldValues);
 
     }
     
@@ -256,7 +257,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             
             $session = & CRM_Core_Session::singleton();
             $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field', 'reset=1&action=browse&gid=' . $this->_gid));
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Custom_Form_DeleteField',"Delete Custom Field", $mode );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Custom_Form_DeleteField',"Delete Custom Field", '' );
             $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                               $this, false, 0);
             $controller->set('id', $id);

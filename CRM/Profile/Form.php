@@ -184,7 +184,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @access public 
      * @return void 
      */ 
-    function &setDefaultsValues( ) 
+    function setDefaultsValues( ) 
     {
         $defaults = array( );        
         if ( $this->_id ) {
@@ -252,7 +252,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->assign( 'mode'        , $this->_mode     );
         $this->assign( 'action'      , $this->_action   );
         $this->assign( 'fields'      , $this->_fields   );
-        $this->assign( 'fieldset'    , $this->_fieldset ); 
+        $this->assign( 'fieldset'    , (isset($this->_fieldset)) ? $this->_fieldset : "" ); 
         
         // do we need inactive options ?
         if ($this->_action & CRM_Core_Action::VIEW ) {
@@ -353,7 +353,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         if ( $this->_mode != self::MODE_SEARCH ) {
-            if ($addToGroupId) {
+            if ( isset($addToGroupId) ) {
                 $this->add('hidden', "group[$addToGroupId]", 1 );
                 $this->assign( 'addToGroupId' , $addToGroupId );
                 $this->_addToGroupID = $addToGroupId;

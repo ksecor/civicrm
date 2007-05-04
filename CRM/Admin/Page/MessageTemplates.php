@@ -158,7 +158,7 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
             $action = array_sum(array_keys($this->links()));
 
             // update enable/disable links depending on if it is is_reserved or is_active
-            if ($dao->is_reserved) {
+            if ( isset($dao->is_reserved) ) {
                 continue;
             } else {
                 if ($dao->is_active) {
