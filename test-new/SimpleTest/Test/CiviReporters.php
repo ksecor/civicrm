@@ -18,6 +18,17 @@ class CiviTextReporter extends TextReporter {
         $this->TextReporter();
     }
 
+    function paintCaseStart($test_name) {
+        // echo "STARTING CASE: $test_name \n";
+        parent::paintCaseStart($test_name);
+    }
+
+
+    function paintMethodStart($test_name) {
+        // echo "STARTING METHOD: $test_name \n";
+        parent::paintMethodStart($test_name);
+    }
+
     function paintPass($message) {
         parent::paintPass($message);
         
