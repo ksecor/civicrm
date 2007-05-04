@@ -143,13 +143,17 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         }
         
         $session = & CRM_Core_Session::singleton();
+        $id = $session->get('userID');
+        if ( !$id ) {
+            $id = $params['contact_id'];
+        } 
                 
         // Log the information on successful add/edit of Event
         require_once 'CRM/Core/BAO/Log.php';
         $logParams = array(
                         'entity_table'  => 'civicrm_event',
                         'entity_id'     => $event->id,
-                        'modified_id'   => $session->get('userID'),
+                        'modified_id'   => $id,
                         'modified_date' => date('Ymd')
                         );
         
