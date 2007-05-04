@@ -2023,7 +2023,7 @@ WHERE civicrm_contact.id IN $idString ";
                 require_once 'CRM/Utils/Array.php';
                 $loc = CRM_Utils_Array::key($locTypeId, $locationType);
                 
-                if ( is_array($data['location']) && !array_key_exists($loc, $data['location']) ) {
+                if ( isset($data['location']) && is_array($data['location']) && !array_key_exists($loc, $data['location']) ) {
                     $phoneLoc = 0;
                 }
                                 

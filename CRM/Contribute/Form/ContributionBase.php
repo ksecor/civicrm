@@ -287,14 +287,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                        'credit_card_type', 'trxn_id', 'amount_level' );
  
         $config =& CRM_Core_Config::singleton( );
-        if ( $this->_values['is_recur'] && 
+        if ( isset($this->_values['is_recur']) && 
              $config->enableRecurContribution ) {
             $this->assign( 'is_recur_enabled', 1 );
             $vars = array_merge( $vars, array( 'is_recur', 'frequency_interval', 'frequency_unit',
                                                'installments' ) );
         }
 
-        if( $this->_params['amount_other'] || $this->_params['selectMembership'] ) {
+        if( isset($this->_params['amount_other']) || isset($this->_params['selectMembership']) ) {
             $this->_params['amount_level'] = '';
         }
        

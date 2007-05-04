@@ -510,7 +510,7 @@ UPDATE civicrm_membership_type
                         if ($selectedMembershipID  != null ) {
                             if ( $memType->id == $selectedMembershipID ) {
                                 CRM_Core_DAO::storeValues($memType,$mem);
-                                $this->assign( 'minimum_fee', $mem['minimum_fee'] );
+                                $this->assign( 'minimum_fee', CRM_Utils_Array::value('minimum_fee',$mem) );
                                 $this->assign( 'membership_name', $mem['name'] );
                                 if ( !$thankPage && $cid ) {
                                     $membership = &new CRM_Member_DAO_Membership();
@@ -783,7 +783,7 @@ civicrm_membership_status.is_current_member =1";
         $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeID );
         $form->assign( 'membership_name', $membershipDetails['name'] );
         
-        $minimumFee = $membershipDetails['minimum_fee'];
+        $minimumFee = CRM_Utils_Array::value('minimum_fee',$membershipDetails);
         $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $form->_id );
         $contributionType =& new CRM_Contribute_DAO_ContributionType( );
         if ( $form->_values['amount_block_is_active']) {
