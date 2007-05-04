@@ -66,8 +66,8 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         if ( $this->_id ) {
             $params = array( 'id' => $this->_id );
             CRM_Contribute_BAO_ManagePremiums::retrieve( $params , $tempDefaults );
-            $imageUrl  = $tempDefaults['image'];
-            if( $tempDefaults['image'] &&  $tempDefaults['thumbnail']) {
+            $imageUrl  = (isset($tempDefaults['image'])) ? $tempDefaults['image'] : "";
+            if( isset($tempDefaults['image']) &&  isset($tempDefaults['thumbnail'])) {
                 $defaults ['imageUrl']     = $tempDefaults['image'];
                 $defaults ['thumbnailUrl'] = $tempDefaults['thumbnail'];
                 $defaults ['imageOption' ] = 'thumbnail'; 
@@ -76,11 +76,11 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             } else {
                 $defaults ['imageOption' ] = 'noImage';
             }
-            if ($tempDefaults['thumbnail'] && $tempDefaults['image']) {
+            if ( isset($tempDefaults['thumbnail']) && isset($tempDefaults['image']) ) {
                 $this->assign('thumbURL',$tempDefaults['thumbnail']);
                 $this->assign('imageURL',$tempDefaults['image']);
             }
-            if ( $tempDefaults['period_type'] ) {
+            if ( isset ($tempDefaults['period_type'] )  ) {
                 $this->assign("showSubscriptions" , true );
             }
             
@@ -199,16 +199,16 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
      * @static
      */
     public function formRule(&$params, &$files) {
-
-        if ( $params['imageOption'] == 'thumbnail' ) {
-            if ( ! $params['imageUrl']) {
-                $errors ['imageUrl']= "Image URL is Reqiured ";
-            }
-            if ( ! $params['thumbnailUrl']) {
-                $errors ['thumbnailUrl']= "Thumbnail URL is Reqiured ";
+        if ( isset ( $params['imageOption'] ) ) {
+            if ( $params['imageOption'] == 'thumbnail' ) {
+                if ( ! $params['imageUrl']) {
+                    $errors ['imageUrl']= "Image URL is Reqiured ";
+                }
+                if ( ! $params['thumbnailUrl']) {
+                    $errors ['thumbnailUrl']= "Thumbnail URL is Reqiured ";
+                }
             }
         }
-
         
         $fileLocation  = $files['uploadFile']['tmp_name'];
         if( $fileLocation != "") {
@@ -219,8 +219,8 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             }
         }
        
-        if ( ! $params['period_type'] ) {
-            if ( $params['fixed_period_start_day'] || $params['duration_unit'] || $parmas['duration_interval'] ||
+        if ( ! isset($params['period_type']) || ! $params['period_type'] ) {
+            if ( isset($params['fixed_period_start_day']) || $params['duration_unit'] || $parmas['duration_interval'] ||
                  $params['frequency_unit'] || $params['frequency_interval'] ) {
                 $errors ['period_type']= "Please Enter the Period Type";
             }

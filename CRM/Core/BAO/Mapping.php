@@ -379,10 +379,11 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 $mapperFields[$key][$key1] = $value1['title'];
-                $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
+                if ( isset($hasLocationTypes[$key][$key1] )) {
+                    $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
+                }
             }
         }
-        
         $mapperKeys      = array_keys( $mapperFields );
         
         $locationTypes  =& CRM_Core_PseudoConstant::locationType();
@@ -427,7 +428,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             if($k) {
                 foreach ($mapperFields[$k]  as $key=>$value) {
                     
-                    if ($hasLocationTypes[$k][$key]) {
+                    if (isset ( $hasLocationTypes[$k][$key] ) ) {
                         
                         $sel3[$k][$key] = $locationTypes;
                     } else {
@@ -516,7 +517,9 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         if ( !empty($formValues['mapper'][$x]) ) {
                             foreach ( $formValues['mapper'][$x] as $value) {
                                 for ( $k = 1; $k < 4; $k++ ) {
-                                    if (!$formValues['mapper'][$x][$i][$k]) {
+
+                                    if ( ! isset ($formValues['mapper'][$x][$i][$k] ) ||( ! $formValues['mapper'][$x][$i][$k] ) ) {
+                                        
                                         $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
                                     } else {
                                         $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = '';\n"; 
@@ -664,12 +667,12 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $locationTypes  =& CRM_Core_PseudoConstant::locationType();
         foreach ($params['mapper'] as $key => $value) {
             foreach ($value as $k => $v) {
-                if ( $v[1] ) {
+                if ( isset ($v[1] ) ) {
                     if ( $v[1] == 'groups' || $v[1] == 'tags' ) {
                         continue;
                     }
-
-                    if ( is_numeric($v[2]) ) {
+                    
+                    if ( isset($v[2]) &&  is_numeric($v[2])  ) {
                         if ( ! array_key_exists( 'location', $fields ) ) {
                             $fields['location'] = array( );
                         }

@@ -93,7 +93,7 @@ class CRM_Member_Invoke {
 
         if ($secondArg == 'search') {
             require_once 'CRM/Member/Controller/Search.php';
-            $controller =& new CRM_Member_Controller_Search($title, $mode); 
+            $controller =& new CRM_Member_Controller_Search( );
             $url = 'civicrm/member/search';
             $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
             $controller->set( 'context', 'search' );

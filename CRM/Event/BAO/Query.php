@@ -211,7 +211,7 @@ class CRM_Event_BAO_Query
      * @access public
      */
     function qill( ) {
-        return $this->_qill;
+        return (isset($this->_qill)) ? $this->_qill : "";
     }
    
     static function defaultReturnProperties( $mode ) 

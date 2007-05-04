@@ -208,10 +208,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if($this->_noteId) {
             $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
         }
-        if ( $defaults['is_test']){
+        if ( isset (  $defaults['is_test'] ) ){
             $this->assign( "is_test" , true);
         }
-        if ($defaults["honor_contact_id"]) {
+        if (isset ( $defaults["honor_contact_id"] ) ) {
             $honorDefault = array();
             $this->_honorID = $defaults["honor_contact_id"];
             $idParams = array( 'id' => $defaults["honor_contact_id"], 'contact_id' => $defaults["honor_contact_id"] );
@@ -347,7 +347,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $this->_online ) {
             $element->freeze( );
         }
-
+        
         $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
                                 $attributes['total_amount'], true );
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
@@ -380,9 +380,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $this->_online ) {
             $element->freeze( );
         }
-
-        $element =& $this->add( 'text', 'source', ts('Source'),
-                                $attributes['source'] );
+        $element =& $this->add( 'text', 'source', ts('Source'),(isset($attributes['source'])) ? $attributes['source'] : ""  ); 
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -636,7 +634,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $formName = 'document.forms.' . $form->_name;
         
         for ( $k = 1; $k < 2; $k++ ) {
-            if (!$defaults['product_name'][$k]) {
+            if ( ! isset ($defaults['product_name'][$k] )|| (! $defaults['product_name'][$k] ) )  {
                 $js .= "{$formName}['product_name[$k]'].style.display = 'none';\n"; 
             }
         }

@@ -1084,7 +1084,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             if (!$displayName) { 
                 $ufJoin[$dao->id] = $dao->module;
             } else {
-                if ( $UFGroupType[$dao->module] ) {
+                if ( isset ( $UFGroupType[$dao->module] ) ) {
                     if (!$status) { //skip the default modules
                         $ufJoin[$dao->id] = $UFGroupType[$dao->module];
                     }

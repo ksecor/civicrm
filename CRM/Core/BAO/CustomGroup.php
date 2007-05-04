@@ -1251,7 +1251,9 @@ ORDER BY civicrm_custom_group.weight,
                             if ($field['data_type'] == "Float") {
                                 $form[$elementName]['html'] = (float)$field['customValue']['data'];
                             } else {
-                                $form[$elementName]['html'] = $field['customValue']['data'];
+                                if ( isset ($field['customValue']['data'] ) ) {
+                                    $form[$elementName]['html'] = $field['customValue']['data'];
+                                }
                             }
                         }
                     }

@@ -199,8 +199,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                                    )
                                   );
         }
-        
-        if ( !self::$_links['all'] ) {
+        if ( !isset(self::$_links['all']) || !self::$_links['all'] ) {       
             $extraLinks = array(
                                 CRM_Core_Action::UPDATE => array(
                                                                  'name'     => ts('Edit'),

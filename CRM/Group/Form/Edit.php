@@ -86,8 +86,8 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 $params   = array( 'id' => $this->_id );
                 CRM_Contact_BAO_Group::retrieve( $params, $defaults );
                 $groupValues = array( 'id'              => $this->_id,
-                                      'title'           => $defaults['title'],
-                                      'saved_search_id' => $defaults['saved_search_id']);
+                                      'title'           => $defaults['title'],                                     
+                                      'saved_search_id' => (isset($defaults['saved_search_id'])) ? $defaults['saved_search_id'] : "");
                 $this->assign_by_ref( 'group', $groupValues );
                 CRM_Utils_System::setTitle( ts('Group Settings: %1', array( 1 => $defaults['title'])));
             }

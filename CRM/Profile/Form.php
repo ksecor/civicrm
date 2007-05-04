@@ -223,8 +223,9 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-
-        $this->assign( 'customFiles', $customFiles ); 
+        if ( isset( $customFiles ) ) {
+            $this->assign( 'customFiles', $customFiles ); 
+        }
         $this->setDefaults( $defaults );
     } 
     

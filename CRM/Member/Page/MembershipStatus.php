@@ -160,7 +160,7 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
             $action = array_sum(array_keys($this->links()));
 
             // update enable/disable links depending on if it is is_reserved or is_active
-            if ($dao->is_reserved) {
+            if (isset ( $dao->is_reserved ) ) {
                 continue;
             } else {
                 if ($dao->is_active) {
@@ -173,7 +173,8 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
             $membershipStatus[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                               array('id' => $dao->id));
             $membershipStatus[$dao->id]['start_event'] = str_replace("_", " ", $membershipStatus[$dao->id]['start_event']);
-            $membershipStatus[$dao->id]['end_event']   = str_replace("_", " ", $membershipStatus[$dao->id]['end_event']);
+            if (isset ($membershipStatus[$dao->id]['end_event'] ) )
+                $membershipStatus[$dao->id]['end_event']   = str_replace("_", " ", $membershipStatus[$dao->id]['end_event']);
         }
         $this->assign('rows', $membershipStatus);
     }

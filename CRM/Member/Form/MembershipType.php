@@ -58,18 +58,18 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $defaults =& parent::setDefaultValues( );
         
         //finding default weight to be put 
-        if ( ! $defaults['weight'] ) {
+        if ( !isset  ( $defaults['weight'] ) ||( ! $defaults['weight'] ) ) {
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Member_DAO_MembershipType');
         }
         //setting default relationshipType
-        if ( $defaults['relationship_type_id'] ) {
+        if ( isset ( $defaults['relationship_type_id'] ) ) {
             //$defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_a_b';
             $defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_'.$defaults['relationship_direction'];
         }
         //setting default fixed_period_start_day & fixed_period_rollover_day
         $periods = array('fixed_period_start_day',  'fixed_period_rollover_day');
         foreach ( $periods as $per ) {
-            if ($defaults[$per]) {
+            if (isset ( $defaults[$per] ) ) {
                 $dat = $defaults[$per];
                 $dat = ( $dat < 999) ? '0'.$dat : $dat; 
                 $defaults[$per] = array();

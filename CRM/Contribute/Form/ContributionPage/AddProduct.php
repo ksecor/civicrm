@@ -90,7 +90,7 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             $defaults['product_id']    = $dao->product_id;
             $defaults['sort_position'] = $dao->sort_position;
         }
-        if( ! $defaults['sort_position']) {
+        if(! isset ($defaults['sort_position']) || !( $defaults['sort_position'])) {
             $pageID    = CRM_Utils_Request::retrieve('id', 'Positive',
                                                      $this, false, 0);
             require_once 'CRM/Contribute/DAO/Premium.php';

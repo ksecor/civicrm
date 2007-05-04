@@ -77,19 +77,21 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $this->_columnCount = $this->get('columnCount');
         
         for ( $i = 1; $i < $this->_blockCount; $i++ ){
-            if ( !$this->_columnCount[$i] ) {
-                $this->_columnCount[$i] = 1;
-            }
+                    if ( (! isset ($_columnCount[$i] ) ) || (! $this->_columnCount[$i]) )  {
+                        $this->_columnCount[$i] = 1;
+                    }
         }
-
+        
         $this->_loadedMappingId =  $this->get('savedMapping');
     }
     
     public function buildQuickForm( ) {
         //get the saved search mapping id
-        if ( $this->_ssID ) {
-            $mappingId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' );
-        }
+        $mappingId = null;
+            if ( $this->_ssID ) {
+                $mappingId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' );
+            }
+
         CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $mappingId, $this->_columnCount, $this->_blockCount);
         
         $this->buildQuickFormCommon();

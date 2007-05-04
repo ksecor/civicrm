@@ -169,8 +169,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 // form is inactive, die a fatal death
                 CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
             }
-
-            $session->set( 'pastContributionThermometer', $this->_values['is_thermometer'] );
+            if(isset( $this->_values['is_thermometer'] ) )
+                $session->set( 'pastContributionThermometer', $this->_values['is_thermometer'] );
 
             // also check for billing informatin
             // get the billing location type

@@ -114,9 +114,11 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // title
         $this->add('text', 'title', ts('Profile Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'title'), true);
         
-        if( !( $this->_action & CRM_Core_Action::UPDATE ) ) {
-            $this->addRule( 'title', ts('Profile Title is already exist in Database.'), 'objectExists', 
-                            array( 'CRM_Core_DAO_UFGroup', $ufgroupId, 'title' ) );
+        if ( isset ($ufgroupId ) ){
+            if( !( $this->_action & CRM_Core_Action::UPDATE ) ) {
+                $this->addRule( 'title', ts('Profile Title is already exist in Database.'), 'objectExists', 
+                                array( 'CRM_Core_DAO_UFGroup', $ufgroupId, 'title' ) );
+            }
         }
         //add checkboxes
         $uf_group_type = array();

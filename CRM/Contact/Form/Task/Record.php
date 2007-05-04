@@ -78,12 +78,12 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
             $this->_activityType = $_POST['activity_type_id'];
         }
         
-        if ( $subType ) {
+        if ( isset ($subType ) ) {
             $this->_activityType = $subType;
         } 
         require_once'CRM/Core/BAO/CustomGroup.php';
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_id, 0,$this->_activityType);
-
+        $this->_id = 0;
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity",$this->_id, 0,$this->_activityType);
         parent::preProcess();
     }
 
@@ -103,7 +103,7 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
         }
        
         if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults );
         }
         return $defaults;
         

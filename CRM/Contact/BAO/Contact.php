@@ -2395,6 +2395,9 @@ WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
     {
         foreach ($contactIds as $id) {
             $contactType = self::getContactType($id);
+            if( ! isset($contacts[$contactType])) {
+                $contacts[$contactType] = 0;
+            }
             $contacts[$contactType] += 1;
         }
         

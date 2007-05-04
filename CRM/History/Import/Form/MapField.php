@@ -293,17 +293,18 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
                         
                         $mappingHeader = array_keys($this->_mapperFields, $mappingName[$i]);
                         
-                        if ( ! $locationId ) {
+                        if ( ! isset($locationId) || ! $locationId ) {
                             $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
                         }
 
-                        if ( ! $phoneType ) {
+                        if ( ! isset($phoneType) || ! $phoneType )
                             $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
-                        }
+                    }
                         
                         $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
-                        
-                        $defaults["mapper[$i]"] = array( $mappingHeader[0], $locationId, $phoneType );
+                        $defaults["mapper[$i]"] = array( $mappingHeader[0], 
+                                                         (isset($locationId)) ? $locationId : "", 
+                                                         (isset($phoneType)) ? $phoneType : "" );        
                         $jsSet = true;
                     } else {
                         $defaults["mapper[$i]"] = array();
@@ -350,10 +351,11 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
         $this->assign('initHideBoxes', $js);
 
         //set warning if mismatch in more than 
-        if ( ($this->_columnCount != count($mappingName)) ) {
-            $warning++;            
+        if (isset($mappingName) ) {
+            if ( ($this->_columnCount != count($mappingName)) ) {
+                $warning++;            
+            }
         }
-
         if ( $warning != 0 && $this->get('savedMapping') ) {
             $session =& CRM_Core_Session::singleton( );
             $session->setStatus( ts( 'The data columns in this import file appear to be different from the saved mapping. Please verify that you have selected the correct saved mapping before continuing.' ) );

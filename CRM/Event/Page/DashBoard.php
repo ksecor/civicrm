@@ -57,6 +57,7 @@ class CRM_Event_Page_DashBoard extends CRM_Core_Page
         $eventMap = false;
 
         if ( ! empty( $eventSummary ) &&
+             isset($eventSummary['events']) &&
              is_array( $eventSummary['events'] ) ) {
             foreach ( $eventSummary['events'] as $e ) {
                 if ( isset( $e['isMap'] ) ) {

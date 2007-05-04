@@ -139,10 +139,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         if ( $this->_values['event']['is_monetary'] ) {
             $this->_params['invoiceID'] = $this->get( 'invoiceID' );
         }
-        CRM_Utils_System::setTitle($this->_values['event_page']['confirm_title']);
+        if ( isset ($this->_values['event_page']['confirm_title'] ) ) 
+            CRM_Utils_System::setTitle($this->_values['event_page']['confirm_title']);
         $this->set( 'params', $this->_params );
     }
-    
     /**
      * overwrite action, since we are only showing elements in frozen mode
      * no help display needed
@@ -189,8 +189,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             
         } else {
             $contribButton = ts('Make Contribution');
-            if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
-                $contribButton = ts('Continue >>');
+            if ( isset ($this->_values['is_monetary'] )  ) {
+                if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
+                    $contribButton = ts('Continue >>');
+                }
             }
             $this->addButtons(array(
                                     array ( 'type'      => 'next',

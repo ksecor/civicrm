@@ -304,7 +304,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $values = array();
                 foreach ($relatedFields as $name => $field ) {
                     $values[$name] = $field['title'];
-                    if ($hasLocationTypes[$name]) {
+                    if (isset ( $hasLocationTypes[$name] ) ) {
                         $sel3[$key][$name] = $this->_location_types;
                     } else {
                         $sel3[$name] = null;

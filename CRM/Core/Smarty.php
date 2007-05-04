@@ -128,7 +128,9 @@ class CRM_Core_Smarty extends Smarty {
         // hack for now, we need to execute this at the end to allow the modules to
         // add new menu items etc, this CANNOT go in the smarty constructor
         $config  =& CRM_Core_Config::singleton ();
-        CRM_Core_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
+        if( isset($_GET[$config->userFrameworkURLVar]) ) {
+            CRM_Core_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
+        }
 
         return parent::fetch( $resource_name, $cache_id, $compile_id, $display );
     }

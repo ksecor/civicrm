@@ -154,13 +154,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
             $now = time( );
 
-            $startDate = CRM_Utils_Date::unixTime( $this->_values['event']['registration_start_date'] );
+            $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value('registration_start_date',$this->_values['event']) );
             if ( $startDate &&
                  $startDate >= $now ) {
                 CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
             }
 
-            $endDate = CRM_Utils_Date::unixTime( $this->_values['event']['registration_end_date'] );
+            $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value('registration_end_date',$this->_values['event']) );
             if ( $endDate &&
                  $endDate < $now ) {
                 CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
@@ -350,14 +350,21 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     function assignToTemplate( ) 
     {
-        $name = $this->_params['billing_first_name'];
+        if ( CRM_Utils_Array::value( 'billing_first_name', $this->_params ) ) {
+            $name = $this->_params['billing_first_name'];
+        }
+        
         if ( CRM_Utils_Array::value( 'billing_middle_name', $this->_params ) ) {
             $name .= " {$this->_params['billing_middle_name']}";
         }
-        $name .= " {$this->_params['billing_last_name']}";
-        $this->assign( 'name', $name );
-        $this->set( 'name', $name );
 
+        if ( CRM_Utils_Array::value( 'billing_last_name', $this->_params ) ) {
+            $name .= " {$this->_params['billing_last_name']}";
+            
+            $this->assign( 'name', $name );
+            $this->set( 'name', $name );
+        }       
+        
         $vars = array( 'amount', 'currencyID', 'credit_card_type', 
                        'trxn_id', 'amount_level', 'receive_date' );
         
@@ -380,7 +387,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $addressFields = array();
         foreach ($addressParts as $part) {
             list( $n, $id ) = explode( '-', $part );
-            $addressFields[$n] = $this->_params[$part];
+            if ( isset ( $this->_params[$part] ) ) {
+                $addressFields[$n] = $this->_params[$part];
+            }
         }
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
@@ -396,9 +405,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->assign( 'email', $this->controller->exportValue( 'Register', "email-{$this->_bltID}" ) );
 
         // assign is_email_confirm to templates
-        $this->assign( 'is_email_confirm', $this->_values['event_page']['is_email_confirm'] );
+        if ( isset ($this->_values['event_page']['is_email_confirm'] ) ) {
+            $this->assign( 'is_email_confirm', $this->_values['event_page']['is_email_confirm'] );
+        }
     }
-
     /**  
      * Function to add the custom fields
      *  

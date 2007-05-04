@@ -237,13 +237,13 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $defaults['style'] = 'Inline';
         }
 
-        
-        $extends = $defaults['extends'];
-        unset($defaults['extends']);
-        $defaults['extends'][0] = $extends;
-        $defaults['extends'][1] = CRM_Utils_Array::value( 'extends_entity_column_value',
-                                                          $defaults );
-
+        if ( isset ($defaults['extends'] ) ){     
+            $extends = $defaults['extends'];
+            unset($defaults['extends']);
+            $defaults['extends'][0] = $extends;
+            $defaults['extends'][1] = CRM_Utils_Array::value( 'extends_entity_column_value',
+                                                              $defaults );
+        }
         
         return $defaults;
     }

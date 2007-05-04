@@ -227,24 +227,24 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                                                                     ),
                                   );
         }
-        
-        if ( ! self::$_links['all'] ) {
-            $extraLinks = array(
-                                CRM_Core_Action::UPDATE  => array(
-                                                                  'name'  => ts('Edit'),
-                                                                  'url'   => 'civicrm/contact/view/membership',
-                                                                  'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
-                                                                  'title' => ts('Edit Membership')
+        if ( isset( $_links['all'] ) )
+            if ( ! self::$_links['all'] ) {
+                $extraLinks = array(
+                                    CRM_Core_Action::UPDATE  => array(
+                                                                      'name'  => ts('Edit'),
+                                                                      'url'   => 'civicrm/contact/view/membership',
+                                                                      'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
+                                                                      'title' => ts('Edit Membership')
                                                                   ),
-                                CRM_Core_Action::DELETE  => array(
-                                                                  'name'  => ts('Delete'),
+                                    CRM_Core_Action::DELETE  => array(
+                                                                      'name'  => ts('Delete'),
                                                                   'url'   => 'civicrm/contact/view/membership',
-                                                                  'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
-                                                                  'title' => ts('Delete Membership')
-                                                                  )
-                                );
-            self::$_links['all'] = self::$_links['view'] + $extraLinks;
-        }
+                                                                      'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
+                                                                      'title' => ts('Delete Membership')
+                                                                      )
+                                    );
+                self::$_links['all'] = self::$_links['view'] + $extraLinks;
+            }
         
         return self::$_links[$status];
     }
@@ -258,7 +258,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
     {
         return 'CRM_Member_BAO_Membership';
     }
-
+    
 }
 
 ?>

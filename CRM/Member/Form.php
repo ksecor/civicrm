@@ -71,14 +71,15 @@ class CRM_Member_Form extends CRM_Core_Form
         $defaults = array( );
         $params   = array( );
 
-        if ( isset( $this->_id ) ) {
+        if ( isset ( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->_BAOName) . ".php");
-            eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
         }
-
-        $this->assign( 'membershipStatus', $defaults['status'] );
-
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->_BAOName) . ".php");
+        eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
+        
+        if ( isset ($defaults['status'] ) ) {
+            $this->assign( 'membershipStatus', $defaults['status'] );
+        }
         // its ok if there is no element called is_active
         $defaults['is_active'] = 1;
         

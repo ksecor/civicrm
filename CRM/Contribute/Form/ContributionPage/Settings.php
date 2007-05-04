@@ -119,7 +119,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
     public function formRule(&$params)
     {
         $errors = array( );
-        if ( ! $params['goal_amount'] && $params['is_thermometer'] ) {
+        if ( ! $params['goal_amount'] && isset($params['is_thermometer']) ) {
             $errors['goal_amount'] = ts('You must enter a contribution page Goal Amount if you want to track progress by enabling the Progress Thermometer block.');
         }
         
