@@ -11,6 +11,18 @@ if ( !defined( 'TEST' ) ) {
     define( 'TEST', __FILE__ );
 }
 
+
+
+
+class IssueTests extends CiviGroupTest {
+    
+    function IssueTests() {
+        $this->GroupTest( 'Tests for individual issues' );
+        $this->addTestDirectory( CIVICRM_TEST_DIR . 'SimpleTest/issues' );        
+    }
+}
+
+
 class ApiV2Tests extends CiviGroupTest {
     
     function ApiV2Tests() {
@@ -221,12 +233,14 @@ if ( TEST == __FILE__ ) {
     require_once 'CRM/Core/Config.php';
     $test =& new ApiTests( );
     $test2 =& new ApiV2Tests( );
+    $test3 =& new IssueTests( );
 
     $config =& CRM_Core_Config::singleton();
 
     if (SimpleReporter::inCli()) {
         $test->run(new CiviTextReporter());
         $test2->run(new CiviTextReporter());
+        $test3->run(new CiviTextReporter());        
         exit();
     }
     $test->run(new CiviHtmlReporter());

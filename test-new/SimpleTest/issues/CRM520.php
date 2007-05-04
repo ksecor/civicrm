@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfCreateContactAPI extends UnitTestCase 
+class TestOfCRM520 extends UnitTestCase 
 {
     function setUp() 
     {

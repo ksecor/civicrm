@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfCreateContactAPI extends UnitTestCase 
+class TestOfCRM514 extends UnitTestCase 
 {
     static $_email = 'username+siteithinkmightspamme_1@gmail.com';
 
