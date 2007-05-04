@@ -185,6 +185,10 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         }
         
         $session = & CRM_Core_Session::singleton();
+        $id = $session->get('userID');
+        if ( !$id ) {
+            $id = $params['contact_id'];
+        }
         
         // add custom field values
         if (CRM_Utils_Array::value('custom', $params)) {
@@ -211,7 +215,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                                 'entity_table'  => 'civicrm_participant',
                                 'note'          => $params['note'],
                                 'entity_id'     => $participant->id,
-                                'contact_id'    => $session->get('userID'),
+                                'contact_id'    => $id,
                                 'modified_date' => date('Ymd')
                                 );
             
@@ -225,7 +229,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                         'entity_table'  => 'civicrm_participant',
                         'entity_id'     => $participant->id,
                         'data'          => CRM_Event_PseudoConstant::participantStatus($participant->status_id),
-                        'modified_id'   => $session->get('userID'),
+                        'modified_id'   => $id,
                         'modified_date' => date('Ymd')
                         );
         

@@ -71,6 +71,7 @@ class CRM_Event_BAO_ParticipantPayment extends CRM_Event_DAO_ParticipantPayment
         }
         
         while ( $participantPayment->fetch() ) {
+            require_once 'CRM/Event/BAO/Participant.php';
             CRM_Event_BAO_Participant::deleteParticipantSubobjects( $participantPayment->payment_entity_id );
             $participantPayment->delete( ); 
         }

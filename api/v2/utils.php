@@ -67,4 +67,30 @@ function civicrm_error( $params ) {
              $params['is_error'] ) ? true : false;
 }
 
+
+/**
+ * Converts an object to an array 
+ *
+ * @param  object   $dao           (reference )object to convert
+ * @param  array    $dao           (reference )array
+ * @return array
+ * @static void
+ * @access public
+ */
+function _civicrm_object_to_array( &$dao, &$values )
+{
+    $tmpFields = $dao->fields();
+    $fields = array();
+    //rebuild $fields array to fix unique name of the fields
+    foreach( $tmpFields as $key => $val ) {
+        $fields[$val["name"]]  = $val;
+    }
+    
+    foreach( $fields as $key => $value ) {
+        if (array_key_exists($key, $dao)) {
+            $values[$key] = $dao->$key;
+        }
+    }
+}
+
 ?>
