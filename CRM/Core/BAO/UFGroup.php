@@ -1047,7 +1047,10 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         }
 
         //update the weight for remaining group
-        CRM_Core_BAO_UFGroup::updateWeight($params['weight'], $ufGroupId);
+        $query = "UPDATE civicrm_uf_join SET weight = %1
+                       WHERE  uf_group_id = $ufGroupId";
+        $p =array( 1 => array( $params['weight'], 'Integer' ) ); 
+        CRM_Core_DAO::executeQuery($query, $p);
     }
 
     /**
@@ -1204,78 +1207,6 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         return $ufGroups;
     }
     
-    /**
-     * Function to update the weight for a UFGroup
-     * 
-     * @param int $weight      weight for a UFGroup
-     * @param int $ufGroupId   uf Group Id
-     * 
-     * @return void
-     * @access public
-     * @static
-     */
-    static function updateWeight($weight, $ufGroupId) 
-    {
-        //get the current uf group records in uf join table
-        require_once 'CRM/Core/DAO/UFJoin.php';
-        $ufJoin =& new CRM_Core_DAO_UFJoin();
-        $ufJoin->uf_group_id = $ufGroupId;
-
-        $ufJoinRecords = array();
-        $ufJoin->find();
-        while ($ufJoin->fetch()) {
-            $ufJoinRecords[] = $ufJoin->id;
-            $oldWeight       = $ufJoin->weight;
-        }
-        
-        $check = 0;
-        if ( $weight != $oldWeight )  {
-            $check++;
-            // get the groups whose weight is less than new/updated group
-            $query = "SELECT id
-                      FROM civicrm_uf_join
-                      WHERE (module = 'User Registration' OR module='User Account' OR module='Profile')
-                        AND weight = %1";
-            $p =array( 1 => array( $weight, 'Integer' ) );
-
-            $daoObj =& CRM_Core_DAO::executeQuery($query, $p);
-            while ($daoObj->fetch()) {
-                $check = 0;
-            }
-        }
-
-        if ( !$check ) {
-            // get the groups whose weight is less than new/updated group
-            $dao =& new CRM_Core_DAO();
-            $query = "SELECT id
-                      FROM civicrm_uf_join
-                      WHERE (module = 'User Registration' OR module='User Account' OR module='Profile')
-                        AND weight >= %1";
-            $p =array( 1 => array( $weight, 'Integer' ) );
-
-            $dao =& CRM_Core_DAO::executeQuery($query, $p); 
-            
-            $fieldIds = array();                
-            while ($dao->fetch()) {
-                $fieldIds[] = $dao->id;                
-            }                
-            
-            //update the record with weight + 1
-            if ( !empty($fieldIds) ) {
-                $sql = "UPDATE civicrm_uf_join SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
-                CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-            }
-        }
-        
-        //set the weight for the current uf group
-        if ( !empty($ufJoinRecords) ) {
-            $query = "UPDATE civicrm_uf_join SET weight = %1
-                       WHERE id IN ( ".implode(",", $ufJoinRecords)." ) ";
-            $p =array( 1 => array( $weight, 'Integer' ) ); 
-            CRM_Core_DAO::executeQuery($query, $p);
-        }
-    }
-
     /**
      * Function to filter ufgroups based on logged in user contact type
      *

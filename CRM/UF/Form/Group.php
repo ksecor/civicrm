@@ -203,7 +203,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $showHide =& new CRM_Core_ShowHideBlocks( );
 
         if ($this->_action == CRM_Core_Action::ADD) {
-            $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( );
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_UFJoin');
         }
         
         if ( isset($this->_id ) ) {
@@ -276,6 +276,9 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
     public function postProcess()
     {
         if( $this->_action & CRM_Core_Action::DELETE ) {
+            $ufJoinID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFJoin', $this->_id, 'id', 'uf_group_id' );
+            $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_UFJoin', $ufJoinID);
+            
             $status = 0;
             $status = CRM_Core_BAO_UFGroup::del($this->_id);
             if ($status == 0) {
@@ -292,6 +295,12 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
             $ids['ufgroup'] = $this->_id;
         }
+        
+        if ( $this->_id ) {
+            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFJoin', $this->_id, 'weight', 'uf_group_id' );
+        }
+        $params['weight'] = 
+            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_UFJoin', $oldWeight, $params['weight']);
         
         // create uf group
         $ufGroup = CRM_Core_BAO_UFGroup::add($params, $ids);

@@ -603,62 +603,15 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
         
         // fix for CRM-316
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-
-            $cf =& new CRM_Core_DAO_CustomField();
-            $cf->id = $this->_id;
-            $cf->find();
-
+        if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+            $fieldValues = array( 'custom_group_id' => $this->_gid );
+            if ( $this->_id ) {
+                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $this->_id, 'weight', 'id' );
+            }
+            $params['weight'] = 
+                CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_CustomField', $oldWeight, $params['weight'], $fieldValues );
             
-            if ( $cf->fetch() && $cf->weight != $params['weight'] ) {
-                    
-                $searchWeight =& new CRM_Core_DAO_CustomField();
-                $searchWeight->custom_group_id = $this->_gid;
-                $searchWeight->weight = $params['weight'];
-                
-                if ( $searchWeight->find() ) {
-                    $tempDAO =& new CRM_Core_DAO();
-                    $query = "SELECT id FROM civicrm_custom_field WHERE weight >= ". $searchWeight->weight ." AND custom_group_id = ".$this->_gid;
-                    $tempDAO->query($query);
-
-                    $fieldIds = array();
-                    while($tempDAO->fetch()) {
-                        $fieldIds[] = $tempDAO->id; 
-                    }
-                    
-                    if ( !empty($fieldIds) ) {
-                        $cfDAO =& new CRM_Core_DAO();
-                        $updateSql = "UPDATE civicrm_custom_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
-                        $cfDAO->query($updateSql);                    
-                    }
-                }
-            }                
-                        
             $customField->weight  = $params['weight'];
-            
-        } else {
-            $cf =& new CRM_Core_DAO_CustomField();
-            $cf->custom_group_id = $this->_gid;
-            $cf->weight = $params['weight'];
-            
-            if ( $cf->find() ) {
-                $tempDAO =& new CRM_Core_DAO();
-                $query = "SELECT id FROM civicrm_custom_field WHERE weight >= ". $cf->weight ." AND custom_group_id = ".$this->_gid;
-                $tempDAO->query($query);
-                
-                $fieldIds = array();                
-                while($tempDAO->fetch()) {
-                    $fieldIds[] = $tempDAO->id;                
-                }
-                
-                if ( !empty($fieldIds) ) {
-                    $cfDAO =& new CRM_Core_DAO();
-                    $updateSql = "UPDATE civicrm_custom_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
-                    $cfDAO->query($updateSql);
-                }
-            }          
-
-            $customField->weight         = $params['weight'];             
         }
 
         //$customField->default_value = $params['default_value'];
