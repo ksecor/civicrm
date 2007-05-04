@@ -4,63 +4,14 @@ require_once '../../civicrm.config.php';
 require_once 'SimpleTest/unit_tester.php';
 require_once 'SimpleTest/reporter.php';
 
+require_once 'Test/CiviGroupTest.php';
+require_once 'Test/CiviReporters.php';
+
 if ( !defined( 'TEST' ) ) {
     define( 'TEST', __FILE__ );
 }
 
-class VerboseHtmlReporter extends HtmlReporter {
-    
-    function VerboseHtmlReporter() {
-        $this->HtmlReporter();
-    }
-
-    function paintPass($message) {
-        // TBD
-    }
-}
-
-class VerboseTextReporter extends TextReporter {
-
-    function VerboseTextReporter() {
-        $this->TextReporter();
-    }
-
-    function paintPass($message) {
-        parent::paintPass($message);
-        
-        $out = "Assertion passed: ";
-        $currentTest = $this->getTestList();
-        // removing test suite name, not needed
-        array_shift( $currentTest );
-        // get filename from testcase path
-        $out .= array_pop( explode( '/', $currentTest[0] ) );
-        // get test method name
-        $out .= '->' . array_pop( $currentTest );
-
-        print "$out\n";
-    }
-}                                                                                
-
-
-abstract class CRMUnitTests extends GroupTest {
-
-
-    // collects test files from given dir
-    function addTestDirectory( $dir ) {
-
-        $files = scandir( $dir );
-        
-        foreach ( $files as $file ) {
-            // shouldn't be directory or backup file...
-            if ( !is_dir($file) && $file[strlen($file)-1] !== '~' ) { 
-                 $this->addTestFile( "$dir/$file" );
-            }        
-        }
-
-    }
-}
-
-class ApiV2Tests extends CRMUnitTests {
+class ApiV2Tests extends CiviGroupTest {
     
     function ApiV2Tests() {
         $this->GroupTest( 'Unit Tests for API v2' );
@@ -69,7 +20,7 @@ class ApiV2Tests extends CRMUnitTests {
 }
 
 
-class ApiTests extends CRMUnitTests {
+class ApiTests extends CiviGroupTest {
     
     function ApiTests() {
         $this->GroupTest( 'Unit Tests for API' );
@@ -274,11 +225,11 @@ if ( TEST == __FILE__ ) {
     $config =& CRM_Core_Config::singleton();
 
     if (SimpleReporter::inCli()) {
-        $test->run(new VerboseTextReporter());
-        $test2->run(new VerboseTextReporter());
+        $test->run(new CiviTextReporter());
+        $test2->run(new CiviTextReporter());
         exit();
     }
-    $test->run(new VerboseHtmlReporter());
+    $test->run(new CiviHtmlReporter());
 }
 
 ?>
