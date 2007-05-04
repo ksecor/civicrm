@@ -47,6 +47,34 @@ require_once 'api/v2/utils.php';
  */
 function &civicrm_contribute_add( &$params ) {
     _civicrm_initialize( );
+
+    if ( empty( $params ) ) {
+        return civicrm_create_error( ts( 'No input parameters present' ) );
+    }
+
+    if ( ! is_array( $params ) ) {
+        return civicrm_create_error( ts( 'Input parameters is not an array' ) );
+    }
+
+    $error = _civicrm_contribute_check_params( $params );
+    if ( civicrm_error( $error ) ) {
+        return $error;
+    }
+
+    $values  = array( );
+   
+    $error = _civicrm_contribute_format_params( $params, $values );
+    if ( civicrm_error( $error ) ) {
+        return $error;
+    }
+
+    $values["contact_id"] = $params["contact_id"];
+    $values["source"]     = $params["source"];
+    
+    $ids     = array( );
+    $contribution = CRM_Contribute_BAO_Contribution::create( $values, $ids );
+    
+    return $contribution;
 }
 
 /**
@@ -154,6 +182,158 @@ function &civicrm_contribution_search( &$params ) {
                                                                    $offset,
                                                                    $rowCount );
     return $contacts;
+}
+
+/**
+ * This function ensures that we have the right input contribution parameters
+ *
+ * We also need to make sure we run all the form rules on the params list
+ * to ensure that the params are valid
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contribution.
+ *
+ * @return bool|CRM_Utils_Error
+ * @access public
+ */
+function _civicrm_contribute_check_params( &$params ) {
+    static $required = array( 'contact_id', 'total_amount', 'contribution_type_id' );
+    
+    // cannot create a contribution with empty params
+    if ( empty( $params ) ) {
+        return civicrm_create_error( 'Input Parameters empty' );
+    }
+
+    $valid = true;
+    $error = '';
+    foreach ( $required as $field ) {
+        if ( ! CRM_Utils_Array::value( $field, $params ) ) {
+            $valid = false;
+            $error .= $field;
+            break;
+        }
+    }
+    
+    if ( ! $valid ) {
+        return civicrm_create_error( "Required fields not found for contribution $error" );
+    }
+    
+    return true;
+}
+
+/**
+ * take the input parameter list as specified in the data model and 
+ * convert it into the same format that we use in QF and BAO object
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param array  $values       The reformatted properties that we can use internally
+ *                            '
+ * @return array|CRM_Error
+ * @access public
+ */
+function _civicrm_contribute_format_params( &$params, &$values, $create=false ) {
+    // copy all the contribution fields as is
+   
+    $fields =& CRM_Contribute_DAO_Contribution::fields( );
+
+    static $domainID = null;
+    if (!$domainID) {
+        $config =& CRM_Core_Config::singleton();
+        $domainID = $config->domainID();
+    }
+    
+    //_crm_store_values( $fields, $params, $values );
+    foreach ($fields as $name => $field) {
+        // ignore all ids for now
+        if ( $name === 'id' || substr( $name, -1, 3 ) === '_id' ) {
+            continue;
+        }
+        
+        if ( array_key_exists( $name, $params ) ) {
+            $values[$name] = $params[$name];
+        }
+    }
+
+    foreach ($params as $key => $value) {
+        // ignore empty values or empty arrays etc
+        if ( CRM_Utils_System::isNull( $value ) ) {
+            continue;
+        }
+
+        switch ($key) {
+
+        case 'contribution_contact_id':
+            if (!CRM_Utils_Rule::integer($value)) {
+                return civicrm_create_error("contact_id not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            if (!$svq) {
+                return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
+            }
+            
+            $values['contact_id'] = $values['contribution_contact_id'];
+            unset ($values['contribution_contact_id']);
+            break;
+
+        case 'receive_date':
+        case 'cancel_date':
+        case 'receipt_date':
+        case 'thankyou_date':
+            if (!CRM_Utils_Rule::date($value)) {
+                return civicrm_create_error("$key not a valid date: $value");
+            }
+            break;
+
+        case 'non_deductible_amount':
+        case 'total_amount':
+        case 'fee_amount':
+        case 'net_amount':
+            if (!CRM_Utils_Rule::money($value)) {
+                return civicrm_create_error("$key not a valid amount: $value");
+            }
+            break;
+        case 'currency':
+            if (!CRM_Utils_Rule::currencyCode($value)) {
+                return civicrm_create_error("currency not a valid code: $value");
+            }
+            break;
+        case 'contribution_type':            
+            $values['contribution_type_id'] = CRM_Utils_Array::key( ucfirst( $value ),
+                                                                    CRM_Contribute_PseudoConstant::contributionType( )
+                                                                    );
+            break;
+        case 'payment_instrument': 
+            require_once 'CRM/Core/OptionGroup.php';
+            $values['payment_instrument_id'] = CRM_Core_OptionGroup::getValue( 'payment_instrument', $value );
+            break;
+        default:
+            break;
+        }
+    }
+
+    if ( array_key_exists( 'note', $params ) ) {
+        $values['note'] = $params['note'];
+    }
+
+    _civicrm_custom_format_params( $params, $values, 'Contribution' );
+    
+    if ( $create ) {
+        // CRM_Contribute_BAO_Contribution::add() handles contribution_source
+        // So, if $values contains contribution_source, convert it to source
+        $changes = array( 'contribution_source' => 'source' );
+        
+        foreach ($changes as $orgVal => $changeVal) {
+            if ( isset($values[$orgVal]) ) {
+                $values[$changeVal] = $values[$orgVal];
+                unset($values[$orgVal]);
+            }
+        }
+    }
+    
+    return null;
 }
 
 ?>
