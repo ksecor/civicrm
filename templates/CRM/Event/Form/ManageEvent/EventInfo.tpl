@@ -3,8 +3,7 @@
 {capture assign=mapURL}{crmURL p='civicrm/admin/setting/mapping' q="reset=1"}{/capture}
 
 <fieldset><legend>{ts}Event Information{/ts}</legend>
-<table class="form-layout-compressed"> 
-         <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<table class="form-layout-compressed">
          <tr><td class="label">{$form.event_type_id.label}</td><td>{$form.event_type_id.html}</td></tr>
          <tr><td>&nbsp</td><td class="description">{ts}After selecting an Event Type, this page will display any custom event fields for that type.{/ts}</td></tr>
          <tr><td class="label">{$form.title.label}</td><td>{$form.title.html}</td></tr>
@@ -31,22 +30,19 @@
          <strong>{crmURL p='civicrm/event/info' q="reset=1&id=`$id`"}</strong></td></tr>
         {/if}
         </tr>
-        <div class="spacer"></div>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 	    {if $action eq 4}
-        {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+            {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
         {else}
-        {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+            {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
         {/if}
-         <tr>
-        <td>&nbsp;</td><td>{$form.buttons.html}</td></tr>
-        
-        </table>
-        </fieldset>     
+        <tr><td>&nbsp;</td><td>{$form.buttons.html}</td></tr>        
+</table>
+</fieldset>     
 
-        <script type="text/javascript">
-        {literal}
-        function reload(refresh)
-        {
+<script type="text/javascript">
+{literal}
+    function reload(refresh) {
         var eventId = document.getElementById("event_type_id");
         var url = "{/literal}{$refreshURL}{literal}"
         var post = url + "&etype=" + eventId.value;
@@ -54,21 +50,17 @@
         window.location= post; 
         }
     }
-}
 
-function defaultDate(data)
-{
-
-// if end date is not given then it is equal to start date 
-if( !document.getElementsByName("end_date[M]")[0].value) {
-    document.getElementsByName("end_date[M]")[0].value =  document.getElementsByName("start_date[M]")[0].value;
-    document.getElementsByName("end_date[d]")[0].value =  document.getElementsByName("start_date[d]")[0].value;
-    document.getElementsByName("end_date[Y]")[0].value =  document.getElementsByName("start_date[Y]")[0].value;
-    document.getElementsByName("end_date[h]")[0].value =  document.getElementsByName("start_date[h]")[0].value;
-    document.getElementsByName("end_date[i]")[0].value =  document.getElementsByName("start_date[i]")[0].value;
-    document.getElementsByName("end_date[A]")[0].value =  document.getElementsByName("start_date[A]")[0].value;
- }
-}
-
+    function defaultDate(data) {
+        // if end date is not given then it is equal to start date 
+        if( !document.getElementsByName("end_date[M]")[0].value) {
+            document.getElementsByName("end_date[M]")[0].value =  document.getElementsByName("start_date[M]")[0].value;
+            document.getElementsByName("end_date[d]")[0].value =  document.getElementsByName("start_date[d]")[0].value;
+            document.getElementsByName("end_date[Y]")[0].value =  document.getElementsByName("start_date[Y]")[0].value;
+            document.getElementsByName("end_date[h]")[0].value =  document.getElementsByName("start_date[h]")[0].value;
+            document.getElementsByName("end_date[i]")[0].value =  document.getElementsByName("start_date[i]")[0].value;
+            document.getElementsByName("end_date[A]")[0].value =  document.getElementsByName("start_date[A]")[0].value;
+        }
+    }
 {/literal}
 </script>

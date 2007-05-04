@@ -104,8 +104,18 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             $defaults['is_monetary'] = 1;
         }
 
-        return $defaults;
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+        if ( !$defaults['is_monetary'] ) {
+            $this->_showHide->addHide( 'event-fees' );
         }
+        if ( $defaults['price_set_id'] ) {
+            $this->_showHide->addHide( 'map-field' );
+        }
+        $this->_showHide->addToTemplate( );
+        
+        return $defaults;
+    }
     
     /**
      * Function to build the form
@@ -115,7 +125,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */
     public function buildQuickForm( ) 
     {
-        $this->addYesNo('is_monetary', ts('Paid Event'),null, null,array('onclick' =>"return showHideByValue('is_monetary','','contributionType|priceSet|map-field','block','radio',false);"));
+        $this->addYesNo('is_monetary', ts('Paid Event'),null, null,array('onclick' =>"return showHideByValue('is_monetary','0','event-fees','block','radio',false);"));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id',ts( 'Contribution Type' ),
@@ -125,7 +135,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
 
         require_once 'CRM/Core/BAO/PriceSet.php';
         $this->add('select', 'price_set_id', ts( 'Price Set' ),
-            array( '' => ts( '-none' )) + CRM_Core_BAO_PriceSet::getAssoc( ),
+            array( '' => ts( '- none -' )) + CRM_Core_BAO_PriceSet::getAssoc( ),
             null, array('onchange' => "return showHideByValue('price_set_id', '', 'map-field', 'block', 'select', false);")
         );
 
