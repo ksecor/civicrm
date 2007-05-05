@@ -102,6 +102,10 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
             $task   = 'CRM_Contribute_Form_Task_Export';
             break;
 
+        case CRM_Contribute_Task::EMAIL_CONTACTS:
+            $task   = 'CRM_Contribute_Form_Task_Email';
+            break;
+
         case CRM_Contribute_Task::BATCH_CONTRIBUTIONS:
             $task   = array( 'CRM_Contribute_Form_Task_PickProfile',
                              'CRM_Contribute_Form_Task_Batch' );

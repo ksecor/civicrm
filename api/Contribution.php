@@ -285,13 +285,13 @@ function crm_delete_contribution( &$contribution ) {
  */ 
 function crm_get_contributions() {
     $query = 'SELECT * FROM civicrm_contribution';
-    $dao =  $dao =& new CRM_Core_DAO( );
+    $dao =& new CRM_Core_DAO( );
     $dao->query( $query );
-    $Contributions = array();
+    $contributions = array();
     while ( $dao->fetch( ) ) {
-        $Contributions[$dao->id]= $dao->id;
+        $ontributions[$dao->id] = $dao->id;
     }
-    return $Contributions;
+    return $contributions;
 }
 
 ?>

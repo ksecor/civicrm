@@ -64,6 +64,13 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
     protected $_contributionIds;
 
     /**
+     * The array that holds all the contact ids
+     *
+     * @var array
+     */
+    public $_contactIds;
+
+    /**
      * build all the data structures needed to build the form
      *
      * @param
@@ -103,6 +110,15 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
             $this->assign( 'totalSelectedContributions', $this->get( 'rowCount' ) );
         }
         $this->_contributionIds = $ids;
+    }
+
+    /**
+     * Given the component id, compute the contact id
+     * since its used for things like send email
+     */
+    public function setContactIDs( ) {
+        $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_contributionIds
+                                                                        'civicrm_contribution' );
     }
 
     /**

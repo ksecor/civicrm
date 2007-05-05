@@ -56,6 +56,13 @@ class CRM_Member_Form_Task extends CRM_Core_Form
     protected $_memberClause = null;
 
     /**
+     * The array that holds all the contact ids
+     *
+     * @var array
+     */
+    public $_contactIds;
+
+    /**
      * The array that holds all the member ids
      *
      * @var array
@@ -103,6 +110,15 @@ class CRM_Member_Form_Task extends CRM_Core_Form
             $this->assign( 'totalSelectedMembers', $this->get( 'rowCount' ) );
         }
         $this->_memberIds = $ids;
+    }
+
+    /**
+     * Given the component id, compute the contact id
+     * since its used for things like send email
+     */
+    public function setContactIDs( ) {
+        $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_memberIds,
+                                                                        'civicrm_membership' );
     }
 
     /**

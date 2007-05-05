@@ -40,10 +40,11 @@
  */
 class CRM_Contribute_Task {
     const
-        DELETE_CONTRIBUTIONS                     =     1,
-        PRINT_CONTRIBUTIONS                      =     2,
-        EXPORT_CONTRIBUTIONS                     =     3,
-        BATCH_CONTRIBUTIONS                      =     4;
+        DELETE_CONTRIBUTIONS =  1,
+        PRINT_CONTRIBUTIONS  =  2,
+        EXPORT_CONTRIBUTIONS =  3,
+        BATCH_CONTRIBUTIONS  =  4,
+        EMAIL_CONTACTS       =  5;
 
     /**
      * the task array
@@ -73,9 +74,10 @@ class CRM_Contribute_Task {
     {
         if (!(self::$_tasks)) {
             self::$_tasks = array(
-                                  3     => ts( 'Export Contributions'                   ),
-                                  1     => ts( 'Delete Contributions'                   ),
-                                  4     => ts( 'Batch Update Contributions Via Profile' )
+                                  3 => ts( 'Export Contributions'   ),
+                                  1 => ts( 'Delete Contributions'   ),
+                                  5 => ts( 'Send Email to Contacts' ),
+                                  4 => ts( 'Batch Update Contributions Via Profile' )
                                   );
         }
         asort(self::$_tasks);

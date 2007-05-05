@@ -54,7 +54,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
      *
      * @var array
      */
-    protected $_contactIds;
+    public $_contactIds;
 
     /**
      * build all the data structures needed to build the form
@@ -93,6 +93,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
                                                        $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
             }
 
+            require_once 'CRM/Contact/Selector.php';
             $selector  =& new CRM_Contact_Selector( );
             $sortOrder =& $selector->getSortOrder( $this->_action );
             $sort      =& new CRM_Utils_Sort( $sortOrder, $sortID );

@@ -838,6 +838,33 @@ class CRM_Core_DAO extends DB_DataObject {
         }
         return $newObject;
     }
+
+    /**
+     * Given the component id, compute the contact id
+     * since its used for things like send email
+     */
+    public function &getContactIDsFromComponent( &$componentIDs, $tableName ) {
+        $contactIDs = array( );
+
+        if ( empty( $componentIDs ) ) {
+            return $contactIDs;
+        }
+
+        $IDs = implode( ',', $componentIDs );
+        $query = "
+SELECT contact_id
+  FROM $tableName
+ WHERE id IN ( $IDs )
+";
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $contactIDs[] = $dao->contact_id;
+        }
+        return $contactIDs;
+    }
+
+    
 }
 
 ?>

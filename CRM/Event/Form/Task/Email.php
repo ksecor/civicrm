@@ -33,54 +33,81 @@
  *
  */
 
+require_once 'CRM/Event/Form/Task.php';
+require_once 'CRM/Contact/Form/Task/EmailCommon.php';
+
 /**
- * class to represent the actions that can be performed on a group of
- * contacts (CiviMember)
- * used by the search forms
- *
+ * This class provides the functionality to email a group of
+ * contacts. 
  */
-class CRM_Member_Task {
-    const
-        DELETE_MEMBERS       =  1,
-        PRINT_MEMBERS        =  2,
-        EXPORT_MEMBERS       =  3,
-        EMAIL_CONTACTS       =  4;
+class CRM_Event_Form_Task_Email extends CRM_Event_Form_Task {
 
     /**
-     * the task array
+     * Are we operating in "single mode", i.e. sending email to one
+     * specific contact?
+     *
+     * @var boolean
+     */
+    public $_single = false;
+
+    /**
+     * Are we operating in "single mode", i.e. sending email to one
+     * specific contact?
+     *
+     * @var boolean
+     */
+    public $_noEmails = false;
+
+    /**
+     * all the existing templates in the system
      *
      * @var array
-     * @static
      */
-    static $_tasks = null;
+    public $_templates = null;
 
     /**
-     * the optional task array
+     * build all the data structures needed to build the form
      *
-     * @var array
-     * @static
-     */
-    static $_optionalTasks = null;
-
-    /**
-     * These tasks are the core set of tasks that the user can perform
-     * on a contact / group of contacts
-     *
-     * @return array the set of tasks for a group of contacts
-     * @static
+     * @return void
      * @access public
      */
-    static function &tasks()
-    {
-        if (!(self::$_tasks)) {
-            self::$_tasks = array(
-                                  3  => ts( 'Export Members' ),
-                                  1  => ts( 'Delete Members' ),
-                                  4  => ts( 'Send Email to Contacts' ),
-                                  );
+    
+    function preProcess( ) {
+        CRM_Contact_Form_Task_EmailCommon::preProcess( $this );
+
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                            $this, false );
+
+        if ( $cid ) {
+            CRM_Contact_Form_Task_EmailCommon::preProcessSingle( $this, $cid );
+        } else {
+            parent::preProcess( );
+
+            // we have all the contribution ids, so now we get the contact ids
+            parent::setContactIDs( );
         }
-        asort(self::$_tasks); 
-        return self::$_tasks;
+        $this->assign( 'single', $this->_single );
+    }
+    
+    /**
+     * Build the form
+     *
+     * @access public
+     * @return void
+     */
+    public function buildQuickForm()
+    {
+        CRM_Contact_Form_Task_EmailCommon::buildQuickForm( $this );
+    }
+
+    /**
+     * process the form after the input has been submitted and validated
+     *
+     * @access public
+     * @return None
+     */
+    public function postProcess() {
+        CRM_Contact_Form_Task_EmailCommon::postProcess( $this );
     }
 
 }

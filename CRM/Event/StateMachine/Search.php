@@ -119,6 +119,10 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
             $task   = 'CRM_Event_Form_Task_Cancel';
             break;
 
+        case CRM_Event_Task::EMAIL_CONTACTS:
+            $task   = 'CRM_Event_Form_Task_Email';
+            break;
+
         case CRM_Event_Task::SAVE_SEARCH:
             $task   = 'CRM_Event_Form_Task_SaveSearch';
             $result = true;
