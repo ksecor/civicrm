@@ -219,7 +219,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             }
         }
         
-        if ( !$params['_qf_MembershipType_refresh'] ) {
+        if ( !isset($params['_qf_MembershipType_refresh']) || !$params['_qf_MembershipType_refresh'] ) {
             if ( !$params['name'] ) {
                 $errors['name'] = "Please enter a membership type name.";
             }
@@ -227,7 +227,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             if ( ($params['minimum_fee'] > 0 ) && !$params['contribution_type_id'] ) {
                 $errors['contribution_type_id'] = "Please enter the contribution type.";
             }
-            if ( !$params['contact_check'] && $params['action']!= CRM_Core_Action::UPDATE ) {
+            if ( !CRM_Utils_Array::value('contact_check',$params) && $params['action']!= CRM_Core_Action::UPDATE ) {
                 $errors['member_org'] = "Please select the membership organization";
             }
             /*

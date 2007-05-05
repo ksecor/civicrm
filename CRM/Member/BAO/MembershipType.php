@@ -191,7 +191,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                             );
         foreach ( $membershipType as $id => $details ) {
             foreach ( $periodDays as $pDay) {
-                if ($details[$pDay]) {
+                if ( CRM_Utils_Array::value($pDay, $details) ) {
                     $month = substr( $details[$pDay], 0, strlen($details[$pDay])-2);
                     $day   = substr( $details[$pDay],-2);    
                     $monthMap = array(

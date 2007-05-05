@@ -411,7 +411,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
 
                 if( is_array($fieldsArray) ) {
                     foreach ( $fieldsArray as $value) {
-                        $tmpConatctField[trim($value)] = $contactFields[trim($value)];
+                        $tmpConatctField[trim($value)] = CRM_Utils_Array::value(trim($value),$contactFields);
                         if (!$status) {
                             $title = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
                         } else {

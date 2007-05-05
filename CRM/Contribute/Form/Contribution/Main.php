@@ -363,7 +363,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
-        if( $fields['selectMembership'] && $fields['selectMembership'] != 'no_thanks') {
+        if( CRM_Utils_Array::value('selectMembership',$fields) && $fields['selectMembership'] != 'no_thanks') {
             require_once 'CRM/Member/BAO/Membership.php';
             require_once 'CRM/Member/BAO/MembershipType.php';
             $memBlock       = CRM_Member_BAO_Membership::getMembershipBlock( $self->_id );
@@ -383,7 +383,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $errors['_qf_default'] = $error;
             }
 
-            if ( $fields['amount'] == 'amount_other_radio' ) {
+            if ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' ) {
                 if ( $self->_values['min_amount'] > 0 ) {
                     $min = $self->_values['min_amount'];
                     if ( $fields['amount_other'] < $min ) {
@@ -451,15 +451,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $params['amount_other'] = CRM_Utils_Rule::cleanMoney( $params['amount_other'] );
         }
         
-        if ( $params['amount'] == 'amount_other_radio' || ! empty( $params['amount_other'] ) ) {
+        if ( CRM_Utils_Array::value('amount',$params) == 'amount_other_radio' || ! empty( $params['amount_other'] ) ) {
             $amount = $params['amount_other'];
         } else {
             if ( !empty($form->_values['value']) ) {
                 $params['amount_level'] =
-                    $form->_values['label'][array_search( $params['amount'],
+                    $form->_values['label'][array_search( CRM_Utils_Array::value('amount',$params),
                                                           $form->_values['amount_id'])];
                 $amount = 
-                    $form->_values['value'][array_search( $params['amount'],
+                    $form->_values['value'][array_search( CRM_Utils_Array::value('amount',$params),
                                                           $form->_values['amount_id'])];
             }
         }

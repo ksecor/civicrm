@@ -205,7 +205,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         $location->find( true );
         $values = array( );
         if ( !empty($location->name) || !empty($location->location_name)  ) {
-            $values[$lid]['location'] = array( $location->name, $location->location_name );
+            $values[$lid]['location'] = array( $location->name, (isset($location->location_name)) ? $location->location_name : "" );
         }
         
         //get the phone values

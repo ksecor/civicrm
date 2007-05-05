@@ -428,7 +428,7 @@ ORDER BY
 
             if ( CRM_Utils_Array::value( 'location', $params ) ) {
                 foreach ($params['location'] as $locBlock) {
-                    if (! $locBlock['is_primary']) {
+                    if (! isset($locBlock['is_primary']) || ! ($locBlock['is_primary']) ) {
                         continue;
                     }
                     $email = $locBlock['email'][1]['email'];

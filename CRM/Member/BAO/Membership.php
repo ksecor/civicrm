@@ -654,7 +654,7 @@ UPDATE civicrm_membership_type
             $tmpConatctField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
-                    $tmpConatctField[trim($value)] = $contactFields[trim($value)];
+                    $tmpConatctField[trim($value)] = CRM_Utils_Array::value(trim($value),$contactFields);
                     if (!$status) {
                         $title = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
                     } else {

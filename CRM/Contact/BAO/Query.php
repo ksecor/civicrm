@@ -641,7 +641,10 @@ class CRM_Contact_BAO_Query {
                 // check if there is a value, if so also add to where Clause
                 $addWhere = false;
                 if ( $this->_params ) {
-                    $nm = $elementName . "-$locationTypeId";
+                    $nm = $elementName;
+                    if ( isset( $locationTypeId ) ) {
+                        $nm.= "-$locationTypeId";
+                    }
                     if ( !is_numeric($elementType) ) {
                         $nm .= "$elementType";
                     }

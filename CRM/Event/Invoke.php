@@ -116,7 +116,7 @@ class CRM_Event_Invoke
 
         if ($secondArg == 'search') {
             require_once 'CRM/Event/Controller/Search.php';
-            $controller =& new CRM_Event_Controller_Search($title, $mode); 
+            $controller =& new CRM_Event_Controller_Search(); 
             $url = 'civicrm/event/search';
             $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
             $controller->set( 'context', 'search' );
