@@ -67,6 +67,48 @@ function civicrm_error( $params ) {
              $params['is_error'] ) ? true : false;
 }
 
+function _civicrm_store_values( &$fields, &$params, &$values ) {
+    $valueFound = false;
+    
+    foreach ($fields as $name => $field) {
+        // ignore all ids for now
+        if ( $name === 'id' || substr( $name, -1, 3 ) === '_id' ) {
+            continue;
+        }
+        
+        if ( array_key_exists( $name, $params ) ) {
+            $values[$name] = $params[$name];
+            $valueFound = true;
+        }
+    }
+    return $valueFound;
+}
+
+/**
+ * Converts an object to an array 
+ *
+ * @param  object   $dao           (reference )object to convert
+ * @param  array    $dao           (reference )array
+ * @return array
+ * @static void
+ * @access public
+ */
+function _civicrm_object_to_array( &$dao, &$values )
+{
+    $tmpFields = $dao->fields();
+    $fields = array();
+    //rebuild $fields array to fix unique name of the fields
+    foreach( $tmpFields as $key => $val ) {
+        $fields[$val["name"]]  = $val;
+    }
+    
+    foreach( $fields as $key => $value ) {
+        if (array_key_exists($key, $dao)) {
+            $values[$key] = $dao->$key;
+        }
+    }
+}
+
 function _civicrm_custom_format_params( &$params, &$values, $extends )
 {
     $values['custom'] = array();
@@ -125,31 +167,6 @@ function _civicrm_custom_format_params( &$params, &$values, $extends )
                                                       'type'    => $customFields[$customFieldID][2],
                                                       'custom_field_id' => $customFieldID,
                                                       );
-        }
-    }
-}
-
-/**
- * Converts an object to an array 
- *
- * @param  object   $dao           (reference )object to convert
- * @param  array    $dao           (reference )array
- * @return array
- * @static void
- * @access public
- */
-function _civicrm_object_to_array( &$dao, &$values )
-{
-    $tmpFields = $dao->fields();
-    $fields = array();
-    //rebuild $fields array to fix unique name of the fields
-    foreach( $tmpFields as $key => $val ) {
-        $fields[$val["name"]]  = $val;
-    }
-    
-    foreach( $fields as $key => $value ) {
-        if (array_key_exists($key, $dao)) {
-            $values[$key] = $dao->$key;
         }
     }
 }

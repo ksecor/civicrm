@@ -73,8 +73,10 @@ function &civicrm_contribute_add( &$params ) {
     
     $ids     = array( );
     $contribution = CRM_Contribute_BAO_Contribution::create( $values, $ids );
+
+    _civicrm_object_to_array($contribution, $contribute);
     
-    return $contribution;
+    return $contribute;
 }
 
 /**
@@ -243,17 +245,7 @@ function _civicrm_contribute_format_params( &$params, &$values, $create=false ) 
         $domainID = $config->domainID();
     }
     
-    //_crm_store_values( $fields, $params, $values );
-    foreach ($fields as $name => $field) {
-        // ignore all ids for now
-        if ( $name === 'id' || substr( $name, -1, 3 ) === '_id' ) {
-            continue;
-        }
-        
-        if ( array_key_exists( $name, $params ) ) {
-            $values[$name] = $params[$name];
-        }
-    }
+    _civicrm_store_values( $fields, $params, $values );
 
     foreach ($params as $key => $value) {
         // ignore empty values or empty arrays etc
