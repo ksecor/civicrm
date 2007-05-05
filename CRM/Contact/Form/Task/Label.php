@@ -181,6 +181,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         $pdf->SetFont('DejaVu Sans');
         
         //build contact string that needs to be printed
+        $val = null;
         foreach ($contactRows as $row => $value) {
             foreach ($value as $k => $v) {
                 $val .= "$v\n";

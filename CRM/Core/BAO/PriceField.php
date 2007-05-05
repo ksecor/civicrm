@@ -222,7 +222,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             if ($field->is_display_amounts) {
                 $customOption = CRM_Core_BAO_PriceField::getOptions( $field->id, $inactiveNeeded );
                 $label .= '&nbsp;-&nbsp;';
-                $label .= CRM_Utils_Money::format( $customOption[1]['value'] );
+                $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('value',$customOption[1]) );
             }
             $qf->add(
                 'text', $elementName, $label, 'size="4"',

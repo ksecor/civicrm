@@ -123,7 +123,7 @@ class CRM_Utils_PDF_Label extends UFPDF {
        //         $this->countX = $posX;
        //         $this->countY = $posY;
        
-       if($format == $averyLabels['name']){
+       if($format == CRM_Utils_Array::value('name',$averyLabels) ){
            if ($averyLabels['lMargin'] > 1) $averyLabels['lMargin']--; else $averyLabels['lMargin']=0;
            if ($averyLabels['tMargin'] > 1) $averyLabels['tMargin']--; else $averyLabels['tMargin']=0;
            if ($averyLabels['lMargin'] >=  $this->xNumber) $averyLabels['lMargin'] =  $this->xNumber-1;

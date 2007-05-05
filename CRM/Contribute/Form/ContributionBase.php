@@ -181,7 +181,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             }
             $this->set   ( 'bltID', $this->_bltID );
 
-            if ( ($config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM) && $this->_values['is_monetary'] ) {
+            if ( ($config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM) && CRM_Utils_Array::value('is_monetary',$this->_values) ) {
                 $this->setCreditCardFields( );
             }
 
@@ -202,7 +202,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
 
         // make sure we have a valid payment class, else abort
-        if ( $this->_values['is_monetary'] &&
+        if ( CRM_Utils_Array::value('is_monetary',$this->_values) &&
              ! $config->paymentFile ) {
             CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
         }

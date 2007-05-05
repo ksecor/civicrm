@@ -64,7 +64,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             }
         }     
         $showLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
-                                                     $id,
+                                                     (isset($id)) ? $id : "",
                                                      'show_location',
                                                      'event_id' );
         $this->assign( 'showLocation',$showLocation );

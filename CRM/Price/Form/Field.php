@@ -317,7 +317,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 $_flagOption = 0;
                 $_rowError = 0;
 
-                $showBlocks = 'optionField_'.$i;
+                $showBlocks = 'optionField_'.$idx;
 
                 // both value and label are empty
                 if ( empty( $fields['option_value'][$idx] ) && empty( $fields['option_label'] ) ) {

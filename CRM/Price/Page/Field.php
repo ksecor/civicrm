@@ -147,7 +147,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                 );
                 $optionValues = array();
                 CRM_Core_BAO_CustomOption::retrieve( $optionParams, $optionValues );
-                $priceField[$priceFieldBAO->id]['price'] = $optionValues['value'];
+                $priceField[$priceFieldBAO->id]['price'] = CRM_Utils_Array::value('value',$optionValues);
             }
             $action = array_sum(array_keys($this->actionLinks()));
             if ($priceFieldBAO->is_active) {
@@ -224,7 +224,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
             
             $session = & CRM_Core_Session::singleton();
             $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=browse&gid=' . $this->_gid));
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteField',"Delete Price Field", $mode );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteField',"Delete Price Field",'' );
             $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                               $this, false, 0);
             $controller->set('id', $id);
