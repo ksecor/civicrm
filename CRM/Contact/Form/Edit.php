@@ -510,6 +510,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $params['custom'] = $customData;
         }
 
+        // this is a chekbox, so mark false if we dont get a POST value
+        $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
+
         $config  =& CRM_Core_Config::singleton( );
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks, true, false );
@@ -632,6 +635,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $form->addGroup($commPreff, 'preferred_communication_method', ts('Method'));
 
         $form->add('select', 'preferred_mail_format', ts('Mail Format'), CRM_Core_SelectValues::pmf());
+
+        $form->add('checkbox', 'is_opt_out', ts( 'User Opt Out' ) );
     }
 
 

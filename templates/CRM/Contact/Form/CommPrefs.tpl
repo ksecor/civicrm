@@ -47,6 +47,15 @@
             </div>
         </td>
     </tr>
+    <tr>
+        <td>{$form.is_opt_out.label}</td>
+        <td>
+            {$form.is_opt_out.html}
+            <div class="description font-italic">
+                {ts}This option indicates if the user has INTENTIONALLY opted out of email. Please set or reset with care.{/ts}
+            </div>
+        </td>
+    </tr>
     </table>
 </fieldset>
 </div>
