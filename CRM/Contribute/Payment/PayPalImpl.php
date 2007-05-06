@@ -80,8 +80,10 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
         
         $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&module=contribute&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}";
         
-        if ( $params['selectMembership'] &&  $params['selectMembership'] != 'no_thanks' ) {
-            $notifyURL .= "&membershipTypeID={$params['selectMembership']}";
+        $selectMembership = CRM_Utils_Array::value( 'selectMembership', $params );
+        if ( $selectMembership &&
+             $selectMembership != 'no_thanks' ) {
+            $notifyURL .= "&membershipTypeID=$selectMembership";
         }
 
         $returnURL = CRM_Utils_System::url( 'civicrm/contribute/transact',

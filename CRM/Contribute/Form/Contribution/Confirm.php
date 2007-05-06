@@ -306,8 +306,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         
         // also add location name to the array
-        $params["location_name-{$this->_bltID}"] = 
-            $params["billing_first_name"] . ' ' . $params["billing_middle_name"] . ' ' . $params["billing_last_name"];
+        $params["location_name-{$this->_bltID}"] =
+            CRM_Utils_Array::value( 'billing_first_name' , $params ) . ' ' .
+            CRM_Utils_Array::value( 'billing_middle_name', $params ) . ' ' .
+            CRM_Utils_Array::value( 'billing_last_name'  , $params );
+        $params["location_name-{$this->_bltID}"] = trim( $params["location_name-{$this->_bltID}"] );
         $fields["location_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
 
@@ -331,7 +334,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         // store the fact that this is a membership and membership type is selected
         $processMembership = false;
-        if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks' ) {
+        if ( CRM_Utils_Array::value( 'selectMembership', $membershipParams ) &&
+             $membershipParams['selectMembership'] != 'no_thanks' ) {
             $processMembership = true;
             $this->assign( 'membership_assign' , true );
             $this->set('membershipID' , $this->_params['selectMembership']);
@@ -391,7 +395,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['contributionTypeID'] = $contributionType->id;
                 $this->_params['item_name'         ] = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
                 $this->_params['receive_date']       = $now;
-
                 if ( $this->_values['is_recur'] &&
                      $contribution->contribution_recur_id ) {
                     $this->_params['contributionRecurID'] = $contribution->contribution_recur_id;
@@ -457,12 +460,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     public function postProcessPremium( $premiumParams, $contribution )
     {
         // assigning Premium information to receipt tpl
-        if ( $premiumParams['selectProduct'] && $premiumParams['selectProduct'] != 'no_thanks') {
+        $selectProduct = CRM_Utils_Array::value( 'selectProduct', $premiumParams );
+        if ( $selectProduct &&
+             $selectProduct != 'no_thanks' ) {
             $startDate = $endDate = "";
             $this->assign('selectPremium',  true );
             require_once 'CRM/Contribute/DAO/Product.php';
             $productDAO =& new CRM_Contribute_DAO_Product();
-            $productDAO->id = $premiumParams['selectProduct'];
+            $productDAO->id = $selectProduct;
             $productDAO->find(true);
             $this->assign('product_name',  $productDAO->name );
             $this->assign('price', $productDAO->price);
@@ -564,10 +569,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $config =& CRM_Core_Config::singleton( );
         $nonDeductibleAmount = $params['amount'];
         if ( $contributionType->is_deductible && $deductibleMode ) {
-            if ( $this->_params['selectProduct'] != 'no_thanks' ) {
+            $selectProduct = CRM_Utils_Array::value( 'selectProduct', $premiumParams );
+            if ( $selectProduct &&
+                 $selectProduct != 'no_thanks' ) {
                 require_once 'CRM/Contribute/DAO/Product.php';
                 $productDAO =& new CRM_Contribute_DAO_Product();
-                $productDAO->id = $premiumParams['selectProduct'];
+                $productDAO->id = $selectProduct;
                 $productDAO->find(true);
                 if( $params['amount'] < $productDAO->price ){
                     $nonDeductibleAmount = $params['amount'];
@@ -628,7 +635,19 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         $ids = array( );
+        if ( isset( $contribParams['invoice_id'] ) ) {
+            $contribID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution',
+                                                      $contribParams['invoice_id'],
+                                                      'id',
+                                                      'invoice_id' );
+            if ( isset( $contribID ) ) {
+                $ids['contribution'] = $contribID;
+                $contribParams['id'] = $contribID;
+            }
+        }
+             
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
+
         // process the custom data that is submitted or that came via the url
         //format custom data
         $customData = array( );

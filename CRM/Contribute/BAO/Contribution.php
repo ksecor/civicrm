@@ -595,23 +595,23 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
      * @access public
      * static
      */
-    static function checkDuplicate( $params, &$duplicates ) 
+    static function checkDuplicate( $input, &$duplicates ) 
     {
-        $id         = CRM_Utils_Array::value( 'id'        , $params );
-        $trxn_id    = CRM_Utils_Array::value( 'trxn_id'   , $params );
-        $invoice_id = CRM_Utils_Array::value( 'invoice_id', $params );
+        $id         = CRM_Utils_Array::value( 'id'        , $input );
+        $trxn_id    = CRM_Utils_Array::value( 'trxn_id'   , $input );
+        $invoice_id = CRM_Utils_Array::value( 'invoice_id', $input );
 
         $clause = array( );
-        $params = array( );
+        $input = array( );
 
         if ( $trxn_id ) {
             $clause[]  = "trxn_id = %1";
-            $params[1] = array( $trxn_id, 'String' );
+            $input[1]  = array( $trxn_id, 'String' );
         }
 
         if ( $invoice_id ) {
             $clause[]  = "invoice_id = %2";
-            $params[2] = array( $invoice_id, 'String' );
+            $input[2]  = array( $invoice_id, 'String' );
         }
 
         if ( empty( $clause ) ) {
@@ -620,12 +620,12 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
 
         $clause = implode( ' OR ', $clause );
         if ( $id ) {
-            $clause = "( $clause ) AND id != %3";
-            $params[3] = array( $id, 'Integer' );
+            $clause   = "( $clause ) AND id != %3";
+            $input[3] = array( $id, 'Integer' );
         }
 
         $query = "SELECT id FROM civicrm_contribution WHERE $clause";
-        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $input );
         $result = false;
         while ( $dao->fetch( ) ) {
             $duplicates[] = $dao->id;

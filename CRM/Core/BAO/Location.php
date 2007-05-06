@@ -121,11 +121,12 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             $location->email[$i] = CRM_Core_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
             $location->im   [$i] = CRM_Core_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIM    );
         }
-        
+
         if ( isset( $ids['location'] ) ) {
             foreach ( $ids['location'] as $lValues ) {
                 // check if location is empty
-                if ( self::isLocationEmpty( $lValues['id'] ) ) {
+                if ( isset( $lValues['id'] ) &&
+                     self::isLocationEmpty( $lValues['id'] ) ) {
                     $locationDAO =& new CRM_Core_DAO_Location( );
                     $locationDAO->id = $lValues['id'];
                     $locationDAO->find( );
