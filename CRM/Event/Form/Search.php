@@ -244,10 +244,11 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                        null, null, 
                                        array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                        ); 
+
+                    // add line item details if applicable
+                    $participant_id = $row['participant_id'];
+                    $lineItems[$participant_id] = CRM_Event_BAO_Participant::getLineItems( $participant_id );
                 }
-                // add line item details if applicable
-                $participant_id = $row['participant_id'];
-                $lineItems[$participant_id] = CRM_Event_BAO_Participant::getLineItems( $participant_id );
             }
 
             $this->assign( 'lineItems', $lineItems );
