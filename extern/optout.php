@@ -41,10 +41,18 @@ class extern_optout extends CRM_Core_Page
 {
     function run() {
         $config =& CRM_Core_Config::singleton();
-        
-        $job_id   = $_GET['jid'];
-        $queue_id = $_GET['qid'];
-        $hash     = $_GET['h'];
+
+        require_once 'CRM/Utils/Array.php';
+        $job_id   = CRM_Utils_Array::value( 'jid', $_GET );
+        $queue_id = CRM_Utils_Array::value( 'qid', $_GET );
+        $hash     = CRM_Utils_Array::value( 'h'  , $_GET );
+
+        if ( ! $job_id   ||
+             ! $queue_id ||
+             ! $hash ) {
+            echo "Missing input parameters\n";
+            exit( );
+        }
         
         require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
         CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_domain($job_id, $queue_id, $hash);
