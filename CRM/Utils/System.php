@@ -496,6 +496,35 @@ class CRM_Utils_System {
         return $config->userFrameworkBaseURL;
     }
 
+    static function authenticateScript( $abort = true ) {
+        // auth to make sure the user has a login/password to do a shell
+        // operation
+        // later on we'll link this to acl's
+        $name = trim( CRM_Utils_Array::value( 'name', $_REQUEST ) );
+        $pass = trim( CRM_Utils_Array::value( 'pass', $_REQUEST ) );
+
+        if ( ! $name ) { // its ok to have an empty password
+            if ( $abort ) {
+                echo "ERROR: You need to send a valid user name and password to execute this file\n";
+                exit( 0 );
+            } else {
+                return false;
+            }
+        }
+
+        $result = CRM_Utils_System::authenticate( $name, $pass );
+        if ( ! $result ) {
+            if ( $abort ) {
+                echo "ERROR: Invalid username and/or password\n";
+                exit( 0 );
+            } else {
+                return false;
+            }
+        }
+
+        return $result;
+    }
+
     /** 
      * Authenticate the user against the uf db 
      * 

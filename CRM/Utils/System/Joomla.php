@@ -202,7 +202,7 @@ class CRM_Utils_System_Joomla {
         }                                                      
 
         $password  = md5( $password );
-        $name      = strtolower( $name );
+        $name      = $dbJoomla->escapeSimple( strtolower( $name ) );
         $sql = 'SELECT u.* FROM ' . $config->userFrameworkUsersTableName .
             " u WHERE LOWER(u.username) = '$name' AND u.password = '$password'";
         $query = $dbJoomla->query( $sql );

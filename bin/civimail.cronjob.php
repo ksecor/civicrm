@@ -46,11 +46,14 @@ function run( ) {
     require_once 'CRM/Core/Config.php'; 
     
     $config =& CRM_Core_Config::singleton(); 
-    
-    $config->userFramework          = 'Soap'; 
-    $config->userFrameworkClass     = 'CRM_Utils_System_Soap'; 
-    $config->userHookClass          = 'CRM_Utils_Hook_Soap';
-    
+
+    // this does not return on failure
+    require_once 'CRM/Utils/System.php';
+    CRM_Utils_System::authenticateScript( true );
+
+    $config->userFramework      = 'Soap'; 
+    $config->userFrameworkClass = 'CRM_Utils_System_Soap'; 
+    $config->userHookClass      = 'CRM_Utils_Hook_Soap';
 
     // how to create a universal lock file name?
     // generally this should be in /var/lock but this is unwritable on Openwall

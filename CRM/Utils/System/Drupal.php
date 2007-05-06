@@ -200,7 +200,7 @@ class CRM_Utils_System_Drupal {
         }                                                      
 
         $password  = md5( $password );
-        $name      = strtolower( $name );
+        $name      = $dbDrupal->escapeSimple( strtolower( $name ) );
         $sql = 'SELECT u.* FROM ' . $config->userFrameworkUsersTableName .
             " u WHERE LOWER(u.name) = '$name' AND u.pass = '$password'";
         $query = $dbDrupal->query( $sql );
@@ -214,7 +214,7 @@ class CRM_Utils_System_Drupal {
             if ( ! $contactID ) {
                 return false;
             }
-            return array( $contactID, $row['uid'], mt_rand() ); //$_COOKIE['PHPSESSID'] );
+            return array( $contactID, $row['uid'], mt_rand() );
         }
         return false;
     }
