@@ -74,10 +74,10 @@ if ( TEST == __FILE__ ) {
         $test4->run(new CiviTextReporter());                
         exit();
     }
-    $test->run(new CiviHtmlReporter());
+//    $test->run(new CiviHtmlReporter());
     $test2->run(new CiviHtmlReporter());    
-    $test3->run(new CiviHtmlReporter());    
-    $test4->run(new CiviHtmlReporter());
+//    $test3->run(new CiviHtmlReporter());    
+//    $test4->run(new CiviHtmlReporter());
 }
 
 ?>

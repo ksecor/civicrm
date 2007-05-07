@@ -1,0 +1,27 @@
+
+.testcase {
+    width: 95%;
+    border: 1px solid grey;
+    padding: 10px;
+    font-size: 9pt;
+    margin: 10px;
+    background-color: lightgrey;
+}
+
+.testmethod {
+    border: 1px solid grey;
+    padding: 4px;
+}
+
+.passed-assertion, .failed-assertion {
+    border: 1px solid grey;
+    padding: 4px;
+}
+
+.passed-assertion {
+    display: none;
+}
+
+.failed-assertion {
+    color: red;
+}

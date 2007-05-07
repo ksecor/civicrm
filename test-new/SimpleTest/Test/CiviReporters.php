@@ -7,38 +7,45 @@ class CiviHtmlReporter extends HtmlReporter {
         $this->HtmlReporter();
     }
 
+    function _getCss() {
+        $file = CIVICRM_TEST_DIR . "SimpleTest/Test/test.css";
+        $handle = fopen($file, "r");
+        $contents = fread($handle, filesize($file));
+        fclose($handle);
+        return $contents;
+    }
 
     function paintCaseStart($test_name) {
-        echo "<p style=\"case\"><b>CASE:</b> $test_name <br/>";
+        echo "<div class=\"testcase\"><b>CASE:</b> $test_name <br/>\n";
         parent::paintCaseStart($test_name);
     }
         
     function paintCaseEnd($test_name) {
-        echo "</p>";
+        echo "</div>";
         parent::paintCaseEnd($test_name);
     }    
 
     function paintMethodStart($test_name) {
-        echo "<i>Method</i>: $test_name<br/>";
+        echo "<div class=\"testmethod\"><i>Method</i>: $test_name<br/>\n";
         parent::paintMethodStart($test_name);
     }
     
     function paintMethodEnd($test_name) {
-        echo "<br/>";
+        echo "</div>\n";
         parent::paintMethodEnd($test_name);
     }
     
     function paintPass($message) {
-        echo "<br/><code>";
+        echo "<div class=\"passed-assertion\">";
         echo "$message";
         parent::paintPass($message);
-        echo "</code>";        
+        echo "</div>\n";        
     }
         
     function paintFail($message) {
-        echo "<br/><code>";
+        echo "<div class=\"failed-assertion\">";
         parent::paintFail($message);
-        echo "</code>";
+        echo "</div>\n";
     }    
 
 
