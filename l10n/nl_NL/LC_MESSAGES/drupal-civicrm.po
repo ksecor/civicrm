@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-18 08:26+0200\n"
+"POT-Creation-Date: 2007-05-07 11:19+0200\n"
 "PO-Revision-Date: 2006-02-01 12:46+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "MIME-Version: 1.0\n"
@@ -104,101 +104,116 @@ msgid "You can:"
 msgstr "U kunt:"
 
 #: drupal/civicrm.module
-msgid "read the <a href=\"%1\">CiviCRM Administrator Guide</a>."
+#, fuzzy
+msgid "read the <a href=\"!1\">CiviCRM Administrator Guide</a>."
 msgstr "lees de <a href=\"%1\">CiviCRM Administrator Guide</a>."
 
 #: drupal/civicrm.module
-msgid "enable CiviCRM blocks at <a href=\"%1\">administer &gt;&gt; blocks</a>."
+#, fuzzy
+msgid ""
+"enable CiviCRM blocks at <a href=\"!1\">Administer &raquo; Site Building "
+"&raquo; Blocks</a>."
 msgstr ""
 "Maak een CiviCRM blok bij <a href=\"%1\">administer &gt;&gt; blocks</a>."
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid ""
-"read <a href=\"%1\">CiviCRM access permissions</a> and set access "
-"permissions at <a href=\"%2\">administer &gt;&gt; access control</a>."
+"read about <a href=\"!1\">CiviCRM access permissions</a> and set access "
+"permissions at <a href=\"!2\">Administer CiviCRM &raquo; Access Control</a>."
 msgstr ""
 "lees <a href=\"%1\">CiviCRM access permissions</a> en wijzig de "
 "toegangspermissies bij <a href=\"%2\">administer &gt;&gt; access control</a>."
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid ""
 "find contacts by name, email address, group membership and or tagging at <a "
-"href=\"%1\">find contacts</a>."
+"href=\"!1\">Find Contacts</a>."
 msgstr ""
 "Vind contacten op naam, emailadres, groep lidnummer en/of markering bij "
 "<ahref=\"%1\">find contacts</a>."
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid ""
 "do complex searches based on tags, group membership, location, activities "
-"and custom fields at <a href=\"%1\">advanced search</a>."
+"and custom fields at <a href=\"!1\">Advanced Search</a>."
 msgstr ""
 "Voer een complexe zoekactie uit, gebaseerd op markering, groepsleden, "
 "locatie, activiteiten en specifieke velden bij <a href=\"%1\">advanced "
 "search</a>."
 
 #: drupal/civicrm.module
-msgid "create or manage groups at <a href=\"%1\">manage groups</a>."
+#, fuzzy
+msgid "create or manage groups at <a href=\"!1\">Manage Groups</a>."
 msgstr "Maak of wijzig groepen bij <a href=\"%1\">manage groups</a>.\t"
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid ""
-"import contacts from other sources at <a href=\"%1\">import contacts</a>."
+"import contacts from other sources at <a href=\"!1\">Import Contacts</a>."
 msgstr ""
 "Importeer contacten uit andere bronnen bij  <a href=\"%1\">import contacts</"
 "a>."
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at <a "
-"href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
+"href=\"!1\">CiviCRM &raquo; Administer &raquo; Tags</a>."
 msgstr ""
 "Maak of wijzig een markering (bv. organisator, stichting, omgeving)bij "
 "<ahref=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid ""
 "create or administer relationship types (e.g. household member, board "
-"member, spouse...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
-"relationship types</a>."
+"member, spouse...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; "
+"Relationship Types</a>."
 msgstr ""
 "Maak of wijzig een relatie tussen contacten (bv. zelfde huishouden, "
 "bstuurslid, echtgenoot, etc)<a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt;"
 "relationship types</a>."
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid ""
-"create or administer location types (e.g. home, work, school...) <a href=\"%1"
-"\">civicrm &gt;&gt; admin &gt;&gt; location types</a>."
+"create or administer location types (e.g. home, work, school...) <a href=\"!1"
+"\">CiviCRM &raquo; Administer &raquo; Location Types</a>."
 msgstr ""
 "Maak of wijzig een locatie type (bv thuis, werk, school, etc) <a href=\"%1"
 "\">civicrm &gt;&gt; admin &gt;&gt; location types</a>."
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid ""
 "create or administer activity types (e.g. house meeting, intake "
-"interview...) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; activity "
-"types</a>."
+"interview...) at <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Activity "
+"Types</a>."
 msgstr ""
 "Maak of wijzig een Activiteit Type (bv. huiselijke bijeenkomst, "
 "intakeinterview, etc) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
 "activitytypes</a>."
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid ""
 "create or administer custom data fields (e.g. volunteer skills, emergency "
-"contact info...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; custom data</"
-"a>."
+"contact info...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Custom "
+"Data</a>."
 msgstr ""
 "Maak of wijzig specifieke gegevensvelden (bv vakkennis, vaarigheden, "
 "noodcontactnummer, informatie, etc) <a href=\"%1\">civicrm &gt;&gt; admin "
 "&gt;&gt; custom data</a>."
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid ""
-"create or administer civicrm profile (i.e. what contact data is collected "
-"during user registration) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
-"civicrm profile</a>."
+"create or administer CiviCRM profiles (i.e. what contact data is collected "
+"during user registration and included in My Account) at <a href=\"!1"
+"\">CiviCRM &raquo; Administer &raquo; CiviCRM Profiles</a>."
 msgstr ""
 "Maak of wijzig een CiviCRM profiel (bv. welke gegevens gevraagd zullen "
 "worden tijdens registratie) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt;"
@@ -206,20 +221,19 @@ msgstr ""
 
 #: drupal/civicrm.module
 msgid ""
-"For more information please read the configuration and customization "
-"handbook <a href=\"%1\">CiviCRM page</a>."
+"For more information please refer to the <a href=\"!1\">CiviCRM web-site</a> "
+"which includes project information, documentation and support resources and "
+"more."
 msgstr ""
-"Meer informatie is te vinden in het configuratiehandboek, waarin ook "
-"specifieke aanpassingen behandeld worden<a href=\"%1\">CiviCRM page</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
-"Constituent Relationship Management (CiviCRM %1). Allows sites to manage "
-"contacts, relationships and groups, and track contact activities."
+"Constituent Relationship Management (CiviCRM !1). Allows sites to manage "
+"contacts, relationships and groups, and track contact activities, "
+"contributions, memberships and events. For more information please refer to "
+"the <a href=\"!2\">CiviCRM web-site</a> which includes project information, "
+"documentation and support resources and more."
 msgstr ""
-"Constituent Relationship Management (CRM). Stelt websites in staat, om "
-"activiteiten met betrekking tot contacten, relaties en groepen te beheren"
 
 #: drupal/civicrm.module
 msgid "View Contact Record"
@@ -228,3 +242,18 @@ msgstr ""
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
 msgstr ""
+
+#~ msgid ""
+#~ "For more information please read the configuration and customization "
+#~ "handbook <a href=\"%1\">CiviCRM page</a>."
+#~ msgstr ""
+#~ "Meer informatie is te vinden in het configuratiehandboek, waarin ook "
+#~ "specifieke aanpassingen behandeld worden<a href=\"%1\">CiviCRM page</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "Constituent Relationship Management (CiviCRM %1). Allows sites to manage "
+#~ "contacts, relationships and groups, and track contact activities."
+#~ msgstr ""
+#~ "Constituent Relationship Management (CRM). Stelt websites in staat, om "
+#~ "activiteiten met betrekking tot contacten, relaties en groepen te beheren"
