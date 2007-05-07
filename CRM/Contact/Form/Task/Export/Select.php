@@ -106,14 +106,17 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
         //export option
         $exportoptions = array();        
         $exportOptions[] = HTML_QuickForm::createElement('radio',
-                                                         null, null, ts('Export PRIMARY contact fields'), CRM_Contact_Form_Task_Export_Select::EXPORT_ALL);
+                                                         null, null,
+                                                         ts('Export PRIMARY contact fields'),
+                                                         CRM_Contact_Form_Task_Export_Select::EXPORT_ALL);
         $exportOptions[] = HTML_QuickForm::createElement('radio',
-                                                         null, null, ts('Select fields for export'), CRM_Contact_Form_Task_Export_Select::EXPORT_SELECTED);
+                                                         null, null,
+                                                         ts('Select fields for export'),
+                                                         CRM_Contact_Form_Task_Export_Select::EXPORT_SELECTED);
 
         $this->addGroup($exportOptions, 'exportOption', ts('Export Type'), '<br/>');
 
         $this->setDefaults(array('exportOption' => CRM_Contact_Form_Task_Export_Select::EXPORT_ALL ));
-
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',

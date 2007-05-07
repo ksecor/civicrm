@@ -57,7 +57,10 @@ class CRM_Contact_BAO_Export {
              $locationTypes =& CRM_Core_PseudoConstant::locationType();
 
              foreach ( $fields as $key => $value) {
-                 list($contactType, $fieldName, $locTypeId, $phoneTypeId) =  $value;
+                 $contactType = CRM_Utils_Array::value( 0, $value );
+                 $fieldName   = CRM_Utils_Array::value( 1, $value );
+                 $locTypeId   = CRM_Utils_Array::value( 2, $value );
+                 $phoneTypeId = CRM_Utils_Array::value( 3, $value );
 
                  if (is_numeric($locTypeId)) {
                      if ($phoneTypeId) {
@@ -114,10 +117,11 @@ class CRM_Contact_BAO_Export {
         list( $select, $from, $where ) = $query->query( );
 
         if ( CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
+            $groupClause = " ( civicrm_group_contact.status = 'Added' OR civicrm_group_contact.status is NULL ) ";
             if ( empty( $where ) ) {
-                $where = "civicrm_group_contact.status = 'Added'";
+                $where = $groupClause;
             } else {
-                $where = "$where AND ( civicrm_group_contact.status = 'Added' )";
+                $where = "$where AND $groupClause";
             }
         }
 
@@ -230,7 +234,7 @@ class CRM_Contact_BAO_Export {
             }
             $header = true;
         }
-        
+
         require_once 'CRM/Core/Report/Excel.php';
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $headerRows, $contactDetails );
                 
