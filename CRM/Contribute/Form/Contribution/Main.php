@@ -446,6 +446,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
     public function computeAmount( &$params, &$form ) {
 
+        $amount = null;
+
         // first clean up the other amount field if present
         if ( isset( $params['amount_other'] ) ) {
             $params['amount_other'] = CRM_Utils_Rule::cleanMoney( $params['amount_other'] );
@@ -454,13 +456,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( CRM_Utils_Array::value('amount',$params) == 'amount_other_radio' || ! empty( $params['amount_other'] ) ) {
             $amount = $params['amount_other'];
         } else {
-            if ( !empty($form->_values['value']) ) {
+            $amountID = array_search( CRM_Utils_Array::value('amount',$params),
+                                     $form->_values['amount_id'] );
+
+            if ( ! empty( $form->_values['value'] ) &&
+                 $amountID ) {
                 $params['amount_level'] =
-                    $form->_values['label'][array_search( CRM_Utils_Array::value('amount',$params),
-                                                          $form->_values['amount_id'])];
+                    $form->_values['label'][$amountID];
                 $amount = 
-                    $form->_values['value'][array_search( CRM_Utils_Array::value('amount',$params),
-                                                          $form->_values['amount_id'])];
+                    $form->_values['value'][$amountID];
             }
         }
         return $amount;
