@@ -12,7 +12,8 @@
      <p>{ts}CiviCRM is pre-configured with standard options for individual contact name suffixes (e.g. Jr., Sr., II etc.). You can use this page to customize these options and add new ones as needed for your installation.{/ts}</p>
   {elseif $gName eq "activity_type"}
      <p>{ts}Activities are 'interactions with contacts' which you want to record and track. CiviCRM has several reserved (e.g. 'built-in') activity types (meetings, phone calls, emails sent). Create additional 'activity types' here if you need to record other types of activities. For example, you might want to include 'New Client Intake', or 'Site Audit', etc. ...as types of trackable activities.{/ts}</p>
-     <p>{ts}Subject, location, date/time and description fields are provided for all activity types. You can add custom fields for tracking additional information about activities <a href="{crmURL p='civicrm/admin/custom/group' q='reset=1'}">here</a>.{/ts}</p>
+     {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group' q='reset=1'}{/capture}
+     <p>{ts 1=$crmURL}Subject, location, date/time and description fields are provided for all activity types. You can add custom fields for tracking additional information about activities <a href="%1">here</a>.{/ts}</p>
      <p>{ts 1="http://wiki.civicrm.org/confluence//x/Eh" 2=$docURLTitle}Scheduled and Completed Activities are searchable by type and/or activity date using 'Advanced Search'. Other applications may record activities for CiviCRM contacts using our APIs. For more information, refer to the online <a href="%1" target="_blank" title="%2">API Documentation</a>.{/ts}</p>
   {elseif $gName eq "payment_instrument"}
      <p>{ts}You may choose to record the Payment Instrument used for each Contribution. The common payment methods are installed by default and can not be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here.{/ts}</p>
@@ -22,11 +23,8 @@
   {elseif $gName eq "acl_role"}
     {capture assign=aclURL}{crmURL p='civicrm/acl' q='reset=1'}{/capture}
     {capture assign=erURL}{crmURL p='civicrm/acl/entityrole' q='reset=1'}{/capture}
-    <p>{ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2=$docURLTitle}ACL&rsquo;s allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong>
-        (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts),
-        and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1" target="_blank" title="%2">Access Control Documentation</a> for more info.{/ts}</p>
-    <p>{ts 1=$aclURL 2=$erURL}You can add or modify your ACL Roles below. You can create ACL&rsquo;s and grant permission to roles <a href="%1">here</a>...
-        and you can assign role(s) to CiviCRM contacts who are users of your site <a href="%2">here</a>.{/ts}</p>
+    <p>{ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2=$docURLTitle}ACL's allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts), and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1" target="_blank" title="%2">Access Control Documentation</a> for more info.{/ts}</p>
+    <p>{ts 1=$aclURL 2=$erURL}You can add or modify your ACL Roles below. You can create ACL&rsquo;s and grant permission to roles <a href="%1">here</a>... and you can assign role(s) to CiviCRM contacts who are users of your site <a href="%2">here</a>.{/ts}</p>
   {else}
         <p>{ts}The existing option choices for {$GName} group are listed below. You can add, edit or delete them from this screen.{/ts}</p>
   {/if}

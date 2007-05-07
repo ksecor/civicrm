@@ -3,11 +3,8 @@
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 
 <div id="help">
-    <p>{ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2=$docURLTitle}ACL&rsquo;s allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong>
-        (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts),
-        and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1" target="_blank" title="%2">Access Control Documentation</a> for more info.{/ts}</p>
-    <p>{ts 1=$aclURL 2=$rolesURL}An ACL Role represents a collection ACL&rsquo;s (permissions). You can assign roles to groups of CiviCRM contacts who are users of your site below.
-        You can add or modify ACL&rsquo;s <a href="%1">here</a>. You can create additional ACL Roles <a href="%2">here</a>.{/ts}</p>
+    <p>{ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2=$docURLTitle}ACL's allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts), and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1" target="_blank" title="%2">Access Control Documentation</a> for more info.{/ts}</p>
+    <p>{ts 1=$aclURL 2=$rolesURL}An ACL Role represents a collection ACL&rsquo;s (permissions). You can assign roles to groups of CiviCRM contacts who are users of your site below. You can add or modify ACL's <a href="%1">here</a>. You can create additional ACL Roles <a href="%2">here</a>.{/ts}</p>
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}

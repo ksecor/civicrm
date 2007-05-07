@@ -46,12 +46,9 @@ function clearAmountOther() {
     {if $form.is_recur}  
         <tr>
            <td>&nbsp;</td><td><strong>{$form.is_recur.html} {ts}every{/ts} &nbsp; {$form.frequency_interval.html} &nbsp; {$form.frequency_unit.html} &nbsp; {ts}for{/ts} &nbsp; {$form.installments.html} &nbsp; {$form.installments.label}</strong><br />
-                           <p><span class="description">{ts}Your recurring contribution will be processed automatically for the number of
-                           installments you specify. You can leave the number of installments blank if you want to make an open-ended commitment.
-                           In either case, you can choose to cancel at any time.{/ts}
+                           <p><span class="description">{ts}Your recurring contribution will be processed automatically for the number of installments you specify. You can leave the number of installments blank if you want to make an open-ended commitment. In either case, you can choose to cancel at any time.{/ts}
                            {if $is_email_receipt}
-                                {ts}You will receive an email receipt for each recurring contribution. The receipts will
-                                include a link you can use if you decide to modify or cancel your future contributions.{/ts}
+                                {ts}You will receive an email receipt for each recurring contribution. The receipts will include a link you can use if you decide to modify or cancel your future contributions.{/ts}
                            {/if}
                            </p>
            </td>
@@ -66,8 +63,8 @@ function clearAmountOther() {
     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="makeContribution"}
 
     {if $honor_block_is_active}
-    <fieldset><legend>{ts}{$honor_block_title}{/ts}</legend>
-        {ts}{$honor_block_text}{/ts}
+    <fieldset><legend>{$honor_block_title}</legend>
+        {$honor_block_text}
       <table class="form-layout-compressed">
       <tr><td>{$form.honor_prefix_id.label}</td><td>{$form.honor_prefix_id.html}</td></tr>
 	  <tr><td>{$form.honor_first_name.label}</td><td>{$form.honor_first_name.html}</td></tr>
