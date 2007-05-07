@@ -42,11 +42,10 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
 {
     function run ( ) {
         require_once 'CRM/Core/Menu.php';
+        $groups =& CRM_Core_Menu::menuGroups( );
         $items =& CRM_Core_Menu::items( );
 
         $config =& CRM_Core_Config::singleton( );
-
-        $groups     = array( ts('Manage'), ts('Configure'), ts('Setup') );
         if ( in_array("CiviContribute", $config->enableComponents) ) {
             $groups[] = 'CiviContribute';
         }
@@ -63,9 +62,16 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             $groups[] = 'CiviMail';
         }
 
-        $adminPanel = array( );
-        foreach ( $groups as $group ) {
-            $adminPanel[$group] = array( );
+       $adminPanel = array( );
+       require_once 'CRM/Core/ShowHideBlocks.php';
+       $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+       CRM_Core_Error::debug('groups',$groups);
+       foreach ( $groups as $group ) {
+           // Hide (compress) all panel groups by default. We'll remember last state of each when we save user prefs later.
+           $this->_showHide->addShow( "id_{$group}_show" );
+           $this->_showHide->addHide( "id_{$group}" );
+           CRM_Core_ShowHideBlocks::links($this, $group, '' , '');
+           $adminPanel[$group] = array( );
             foreach ( $items as $item ) {
                 if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
                     $value = array( 'title' => $item['title'],
@@ -83,12 +89,16 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             ksort( $adminPanel[$group] );
         }
 
+        if ( $this->_contactType == 'Individual' ) {
+        }
+        
         require_once 'CRM/Utils/VersionCheck.php';
         $versionCheck =& CRM_Utils_VersionCheck::singleton();
         $this->assign('newVersion',   $versionCheck->newerVersion());
         $this->assign('localVersion', $versionCheck->localVersion);
 
         $this->assign('adminPanel', $adminPanel);
+        $this->_showHide->addToTemplate( );
         return parent::run( );
     }
 }

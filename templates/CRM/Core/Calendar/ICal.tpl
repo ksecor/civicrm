@@ -3,6 +3,7 @@ VERSION:2.0
 PRODID:-//CiviCRM//NONSGML CiviEvent iCal//EN
 {foreach from=$events key=uid item=event}
 BEGIN:VEVENT
+UID:{$event.uid}
 SUMMARY:{$event.summary|crmICalText}
 {if $event.description}
 DESCRIPTION:{$event.description|crmICalText}

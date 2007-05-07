@@ -15,7 +15,13 @@
 {/if}
 {strip}
 {foreach from=$adminPanel key=groupName item=group}
-    <fieldset><legend>{$groupName}</legend>
+ {assign var="sLink" value=$groupName.show}
+ <div id = "id_{$groupName}_show" class="section-hidden section-hidden-border label">
+    {$sLink} {$groupName}
+ </div>
+ 
+ <div id="id_{$groupName}">
+    <fieldset><legend>{$groupName.hide}{$groupName}</legend>
         <table class="control-panel">
         {assign var=i value=1}
                 
@@ -45,5 +51,9 @@
         {/if}
         </table>
     </fieldset>
+  </div>
 {/foreach}
 {/strip}
+
+{* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
+{include file="CRM/common/showHide.tpl"}

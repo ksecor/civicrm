@@ -520,6 +520,7 @@ SELECT
   civicrm_event.end_date as end,
   civicrm_event.description as description,
   civicrm_option_value.label as event_type,
+  civicrm_location.name as location_name,
   civicrm_address.street_address as street_address,
   civicrm_address.city as city,
   civicrm_address.postal_code as postal_code,
@@ -546,11 +547,13 @@ WHERE civicrm_event.is_active = 1
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
         $all = array( );
+        $config =& CRM_Core_Config::singleton( );
 
         while ( $dao->fetch( ) ) {
         
             $info                  = array( );
             $info['event_id'     ] = $dao->event_id;
+            $info['uid'          ] = "CiviCRM_EventID_" . $dao->event_id . "@" . $config->userFrameworkBaseURL;
             $info['summary'      ] = $dao->summary;
             $info['description'  ] = $dao->description;
             $info['start_date'   ] = $dao->start;
@@ -559,11 +562,12 @@ WHERE civicrm_event.is_active = 1
             $info['event_type'   ] = $dao->event_type;
   
             $address = '';
-
             CRM_Utils_String::append( $address, ', ',
-                                      array( $dao->street_address, $dao->city) );
+                                      array( $dao->location_name) );
             CRM_Utils_String::append( $address, ', ',
-                                      array(   $dao->state, $dao->postal_code ) );
+                                      array( $dao->street_address) );
+            CRM_Utils_String::append( $address, ', ',
+                                      array( $dao->city, $dao->state, $dao->postal_code ) );
             CRM_Utils_String::append( $address, ', ',
                                       array( $dao->country ) );
             $info['location'     ] = $address;

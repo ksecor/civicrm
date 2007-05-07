@@ -44,7 +44,8 @@ class CRM_Event_Page_ICalendar extends CRM_Core_Page
     /**
      * Heart of the iCalendar data assignment process. The runner gets all the meta
      * data for the event and calls the  method to output the iCalendar
-     * to the user.
+     * to the user. If gData param is passed on the URL, outputs gData XML format.
+     * Else outputs iCalendar format per IETF RFC2445.
      *
      * @return void
      */
@@ -61,9 +62,9 @@ class CRM_Event_Page_ICalendar extends CRM_Core_Page
 
         $template =& CRM_Core_Smarty::singleton( );
         if ( empty( $gData ) ) {
-            $format = $template->fetch( 'CRM/Core/Calendar/ICal.tpl' );
-        } else {
             $format = $template->fetch( 'CRM/Core/Calendar/GData.tpl' );
+        } else {
+            $format = $template->fetch( 'CRM/Core/Calendar/ICal.tpl' );
         }
 
         if( $iCalPage == 1) {
