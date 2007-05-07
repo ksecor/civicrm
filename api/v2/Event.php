@@ -113,27 +113,23 @@ function civicrm_event_search( $params )
     if ( ! is_array($params) ) {
         return civicrm_create_error('Params is not an array.');
     }
-    
     if ( ! isset($params['id'])) {
         return civicrm_create_error('Required id (event ID) parameter is missing.');
     }
-    
-    $event = array();
-    
-    require_once 'CRM/Event/DAO/Event.php';
-    $eventBAO = new CRM_Event_DAO_Event();
-    
-    $eventBAO->copyValues( $params );
-    
-    $eventBAO->find( );
-    
-    while ( $eventBAO->fetch( ) ) {
-        $event = array( );
-        _civicrm_object_to_array( clone($eventBAO), $event );
-        $event[$eventBAO->id] = $event;
+    $query = "SELECT * FROM civicrm_event WHERE ";
+    $count =0;
+    foreach ( $params as $key => $value ) {
+        $count++;
+        if ( $count != 1) {       
+            $query .= " AND ";
+        }
+        $query .= $key ." = '" . $value . "'" ;
     }
-    
-    return $event;
+    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+    if ( $dao->fetch( ) ) {
+        return $dao;
+    }
+    return null;
 }
 
 /**
