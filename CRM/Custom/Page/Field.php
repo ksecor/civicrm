@@ -219,13 +219,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
-        $oldWeight = 0;
-        if ( isset($this->_id) ) {
-            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $this->_id, 'weight', 'id' );
-        }
-        $fieldValues = array('custom_group_id' => $this->_gid);
-        $params['weight'] = 
-            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomField', $oldWeight, CRM_Utils_Array::value('weight',$params), $fieldValues);
 
     }
     
