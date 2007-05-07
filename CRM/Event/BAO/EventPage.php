@@ -129,7 +129,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             $template->assign( 'email', $email );
             $template->assign( 'confirm_email_text', $values['event_page']['confirm_email_text'] );
             
-            $showLocation = $values['event_page']['show_location'];
+            $showLocation = CRM_Utils_Array::value('show_location',$this->_values['event_page']);
             $template->assign( 'showLocation', $showLocation );
 
             $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );

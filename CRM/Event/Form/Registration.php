@@ -179,11 +179,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $this->_priceSetId = $priceSetId;
                 $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
                 require_once 'CRM/Core/BAO/PriceField.php';
-                foreach ( array_keys($priceSet[$priceSetId]['fields']) as $fieldId ) {
-                    $priceSet[$priceSetId]['fields'][$fieldId]['options'] = CRM_Core_BAO_PriceField::getOptions($fieldId, false);
-                }
-                $this->_priceSet = $priceSet[$priceSetId];
-                $this->_values['custom'] = $priceSet[$priceSetId];
+                if ( isset($priceSet[$priceSetId]['fields']) ) {
+                    foreach ( array_keys($priceSet[$priceSetId]['fields']) as $fieldId ) {
+                        $priceSet[$priceSetId]['fields'][$fieldId]['options'] = CRM_Core_BAO_PriceField::getOptions($fieldId, false);
+                          }
+                     }
+                $this->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
+                $this->_values['custom'] = CRM_Utils_Array::value($priceSetId,$priceSet);
                 $this->set('priceSetId', $this->_priceSetId);
                 $this->set('priceSet', $this->_priceSet);
             } else {
@@ -252,7 +254,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->assign('eventPage', $this->_values['event_page']);
         $this->assign('location',$this->_values['location']);
         $this->assign( 'bltID', $this->_bltID );
-        $showLocation = $this->_values['event_page']['show_location'];
+        $showLocation = CRM_Utils_Array::value('show_location',$this->_values['event_page'])  ;
         $this->assign( 'showLocation',$showLocation );
     }
 
