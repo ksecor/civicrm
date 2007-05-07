@@ -42,13 +42,6 @@ require_once 'CRM/Contact/BAO/Contact.php';
 class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
    
     /**
-     * The array that holds all the contact ids
-     *
-     * @var array
-     */
-    protected $_contactIds;
-
-    /**
      * various Contact types
      */
     const
