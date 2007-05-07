@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfCreateEvent extends UnitTestCase 
+class TestOfCreateEventAPIV2 extends UnitTestCase 
 {
     protected $_event    = array();
     protected $_event1   = array();
@@ -21,7 +21,7 @@ class TestOfCreateEvent extends UnitTestCase
         $params = array();        
 
         $event = & civicrm_event_create($params);
-        $this->assertEqual( $contact['is_error'], 1 );
+        $this->assertEqual( $event['is_error'], 1 );
     }
     
     function testCreateWrongEventWithoutTitle()
@@ -44,8 +44,8 @@ class TestOfCreateEvent extends UnitTestCase
                         'is_active'                => '1' 
                         );
         
-        $event = & crm_create_event($params);
-        $this->assertEqual( $contact['is_error'], 1 );
+        $event = & civicrm_event_create($params);
+        $this->assertEqual( $event['is_error'], 1 );
     
     }
 
@@ -63,8 +63,8 @@ class TestOfCreateEvent extends UnitTestCase
                         'is_active'                => '1' 
                         );
 
-        $event = & crm_create_event($params);
-        $this->assertEqual( $contact['is_error'], 1 );
+        $event = & civicrm_event_create($params);
+        $this->assertEqual( $event['is_error'], 1 );
     
     }
 
@@ -80,8 +80,8 @@ class TestOfCreateEvent extends UnitTestCase
                         'is_active'                => '1' 
                         );
 
-        $event = & crm_create_event($params);
-        $this->assertEqual( $contact['is_error'], 1 );
+        $event = & civicrm_event_create($params);
+        $this->assertEqual( $event['is_error'], 1 );
         
     }
 
@@ -105,8 +105,8 @@ class TestOfCreateEvent extends UnitTestCase
                         'is_active'                => '1' 
                         );
         
-        $event = & crm_create_event($params);               
-    
+        $event = & civicrm_event_create($params);  
+
     }
     
     function testCreateEventWithoutEndDate()
@@ -129,7 +129,7 @@ class TestOfCreateEvent extends UnitTestCase
                         'is_active'                => '1' 
                         );
 	
-        $event = & crm_create_event($params);
+        $event = & civicrm_event_create($params);
         $this->assertNotNull( $event['event_id'] );               
 
         $this->_event2 = $event;
@@ -157,7 +157,7 @@ class TestOfCreateEvent extends UnitTestCase
                         'is_active'                => '1' 
                         );
 	
-        $event = & crm_create_event($params);  
+        $event = & civicrm_event_create($params);  
         $this->assertNotNull( $event['event_id'] );                
 
         $this->_event = $event;
@@ -166,9 +166,9 @@ class TestOfCreateEvent extends UnitTestCase
     function testDeleteEvent()
     {
        
-        $val = &crm_delete_event($this->_event['event_id']);
+        $val = &civicrm_event_delete($this->_event['event_id']);
         $this->assertEqual( $val['is_error'], 0 );    
-        $val1 = &crm_delete_event($this->_event1['event_id']);
+        $val1 = &civicrm_event_delete($this->_event1['event_id']);
         $this->assertEqual( $val['is_error'], 0 );    
         
     }

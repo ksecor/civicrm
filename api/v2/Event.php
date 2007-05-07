@@ -84,8 +84,16 @@ function civicrm_event_create( $params )
     
     $event = array();
     _civicrm_object_to_array($eventBAO, $event);
+
+    if ( is_a( $event, 'CRM_Core_Error' ) ) {
+        return civicrm_create_error( "Event is not created" );
+    } else {
+        $values = array( );
+        $values['event_id'] = $event['id'];
+        $values['is_error']   = 0;
+    }
+    return $values;
     
-    return $event;
 }
 
 /**
@@ -162,7 +170,7 @@ function &civicrm_event_update( $params ) {
     }
     
     $event = array();
-    _civicrm_object_to_array( $eventBAO, $event );
+    _civicrm_object_to_array( $eventDAO, $event );
     return $event;
 }
 
@@ -181,6 +189,7 @@ function &civicrm_event_delete( $eventID ) {
         return civicrm_create_error( 'Invalid value for eventID' );
     }
     require_once 'CRM/Event/BAO/Event.php';
-    return CRM_Event_BAO_Event::del($eventID);
+    $eventDelete = CRM_Event_BAO_Event::del($eventID);
+    return $eventDelete ? null : civicrm_create_error('Error while deleting participant');
 }
 ?>

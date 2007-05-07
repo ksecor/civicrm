@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfCreateParticipant extends UnitTestCase 
+class TestOfCreateParticipantAPIV2 extends UnitTestCase 
 {
     protected $_participant;
             
@@ -18,9 +18,9 @@ class TestOfCreateParticipant extends UnitTestCase
     {
         $params = array();   
         $params['contact_id'] = 35;
-        $participant = & civicrm_participant_create($params);
+        $this->_participant = & civicrm_participant_create($params);
 
-        $this->assertEqual( $participant['is_error'], 1 );
+        $this->assertEqual( $this->_participant['is_error'], 1 );
     }
     
     function testCreateErrorParticipantWithoutEventId()
@@ -64,9 +64,8 @@ class TestOfCreateParticipant extends UnitTestCase
                         );
        
         $this->_participant = & civicrm_participant_create($params);
-
-        $this->assertEqual( $participant['is_error'], 0 );
-        $this->assertNotNull( $participant['participant_id'] );
+        $this->assertEqual( $this->_participant['is_error'], 0 );
+        $this->assertNotNull( $this->_participant['participant_id'] );
      }     
 
     function testDeleteParticipant()
