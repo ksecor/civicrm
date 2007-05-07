@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
+"POT-Creation-Date: 2007-05-07 06:41+0200\n"
 "PO-Revision-Date: 2007-04-20 04:17-0700\n"
 "Last-Translator: Daniele Pedercini <dpedercini@libero.it>\n"
 "MIME-Version: 1.0\n"
@@ -1250,7 +1250,9 @@ msgstr "Non è stato possibile individuare il tuo user ID"
 msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
-msgstr "Questo profilo non è configurato per l'azione richiesta. Contattare l'amministratore del sito se hai bisogno di assistenza."
+msgstr ""
+"Questo profilo non è configurato per l'azione richiesta. Contattare "
+"l'amministratore del sito se hai bisogno di assistenza."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1715,7 +1717,9 @@ msgstr "Prego selezionare un Profilo (o TUTTI i Profili)."
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a set of Custom Data (or ALL Custom Data)."
-msgstr "Prego selezionare un set di Campi Personalizzati (o TUTTI i Campi Personalizzati)."
+msgstr ""
+"Prego selezionare un set di Campi Personalizzati (o TUTTI i Campi "
+"Personalizzati)."
 
 #: CRM/ACL/Form/ACL.php
 msgid "Selected ACL has been deleted."
@@ -2203,7 +2207,9 @@ msgstr "Sei sicuro di voler disabilitare questo tipo di località?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact locations."
-msgstr "Gli utenti non possono più selezionare questo valore quando aggiungono o modificano le località di contatto."
+msgstr ""
+"Gli utenti non possono più selezionare questo valore quando aggiungono o "
+"modificano le località di contatto."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
@@ -2225,7 +2231,9 @@ msgstr "Cancella Tipo Località"
 msgid ""
 "Are you sure you want to delete this mapping? This operation can not be "
 "undone"
-msgstr "Vuoi davvero rimuovere questa mappatura? L'operazione non può più essere recuperata"
+msgstr ""
+"Vuoi davvero rimuovere questa mappatura? L'operazione non può più essere "
+"recuperata"
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
 msgid "Edit Mapping"
@@ -2274,7 +2282,9 @@ msgstr "Vuoi davvero disabilitare questo %1??"
 #: CRM/Admin/Page/Options.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing %1."
-msgstr "Gli utenti non possono più selezionare questo valore quando aggiungono o modificano %1."
+msgstr ""
+"Gli utenti non possono più selezionare questo valore quando aggiungono o "
+"modificano %1."
 
 #: CRM/Admin/Page/Options.php
 msgid "Disable %1"
@@ -2320,7 +2330,9 @@ msgstr "Sei sicuro di voler disabilitare questo tipo di relazione?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "relationships between contacts."
-msgstr "Gli utenti non possono più selezionare questo valore quando aggiungono o modificano le relazioni tra i contatti."
+msgstr ""
+"Gli utenti non possono più selezionare questo valore quando aggiungono o "
+"modificano le relazioni tra i contatti."
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
@@ -6073,22 +6085,19 @@ msgstr ""
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid ""
-"ACL&rsquo;s allow you control access to CiviCRM data. An ACL consists of an "
-"<strong>Operation</strong>\n"
-"        (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the "
-"operation can be performed on (e.g. a group of contacts, a profile or a set "
-"of custom fields),\n"
-"        and a <strong>Role</strong> that has permission to do this "
-"operation. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access "
-"Control Documentation</a> for more info."
+"ACL's allow you control access to CiviCRM data. An ACL consists of an "
+"<strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</"
+"strong> that the operation can be performed on (e.g. a group of contacts, a "
+"profile or a set of custom fields), and a <strong>Role</strong> that has "
+"permission to do this operation. Refer to the <a href=\"%1\" target=\"_blank"
+"\" title=\"%2\">Access Control Documentation</a> for more info."
 msgstr ""
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid ""
-"You can add or modify your ACL&rsquo;s below. You can create additional ACL "
-"Roles <a href=\"%2\">here</a>...\n"
-"        and you can assign Roles to CiviCRM contacts who are users of your "
-"site <a href=\"%1\">here</a>."
+"You can add or modify your ACL's below. You can create additional ACL Roles "
+"<a href=\"%2\">here</a>... and you can assign Roles to CiviCRM contacts who "
+"are users of your site <a href=\"%1\">here</a>."
 msgstr ""
 
 #: templates/CRM/ACL/Page/ACL.tpl
@@ -6102,22 +6111,20 @@ msgstr ""
 
 #: templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/Options.tpl
 msgid ""
-"ACL&rsquo;s allow you control access to CiviCRM data. An ACL consists of an "
-"<strong>Operation</strong>\n"
-"        (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the "
-"operation can be performed on (e.g. a group of contacts),\n"
-"        and a <strong>Role</strong> that has permission to do this "
-"operation. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access "
-"Control Documentation</a> for more info."
+"ACL's allow you control access to CiviCRM data. An ACL consists of an "
+"<strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</"
+"strong> that the operation can be performed on (e.g. a group of contacts), "
+"and a <strong>Role</strong> that has permission to do this operation. Refer "
+"to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access Control "
+"Documentation</a> for more info."
 msgstr ""
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid ""
 "An ACL Role represents a collection ACL&rsquo;s (permissions). You can "
-"assign roles to groups of CiviCRM contacts who are users of your site "
-"below.\n"
-"        You can add or modify ACL&rsquo;s <a href=\"%1\">here</a>. You can "
-"create additional ACL Roles <a href=\"%2\">here</a>."
+"assign roles to groups of CiviCRM contacts who are users of your site below. "
+"You can add or modify ACL's <a href=\"%1\">here</a>. You can create "
+"additional ACL Roles <a href=\"%2\">here</a>."
 msgstr ""
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
@@ -6405,12 +6412,10 @@ msgstr "Organizzazione"
 #: templates/CRM/Admin/Form/Setting/Address.tpl
 msgid ""
 "CiviCRM includes an optional plugin for interfacing the the United States "
-"Postal Services (USPS) Address Standardization web service.\n"
-"            You must register to use the USPS service at <a href=\"http://"
-"www.usps.com/webtools/address.htm\">http://www.usps.com/webtools/address."
-"htm</a>.\n"
-"            If you are approved, they will provide you with a User ID and "
-"the URL for the service."
+"Postal Services (USPS) Address Standardization web service. You must "
+"register to use the USPS service at <a href=\"http://www.usps.com/webtools/"
+"address.htm\">http://www.usps.com/webtools/address.htm</a>. If you are "
+"approved, they will provide you with a User ID and the URL for the service."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Address.tpl
@@ -7065,6 +7070,13 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
+"Subject, location, date/time and description fields are provided for all "
+"activity types. You can add custom fields for tracking additional "
+"information about activities <a href=\"%1\">here</a>."
+msgstr ""
+
+#: templates/CRM/Admin/Page/Options.tpl
+msgid ""
 "Scheduled and Completed Activities are searchable by type and/or activity "
 "date using 'Advanced Search'. Other applications may record activities for "
 "CiviCRM contacts using our APIs. For more information, refer to the online "
@@ -7097,9 +7109,8 @@ msgstr ""
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
 "You can add or modify your ACL Roles below. You can create ACL&rsquo;s and "
-"grant permission to roles <a href=\"%1\">here</a>...\n"
-"        and you can assign role(s) to CiviCRM contacts who are users of your "
-"site <a href=\"%2\">here</a>."
+"grant permission to roles <a href=\"%1\">here</a>... and you can assign role"
+"(s) to CiviCRM contacts who are users of your site <a href=\"%2\">here</a>."
 msgstr ""
 
 #: templates/CRM/Admin/Page/Options.tpl

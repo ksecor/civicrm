@@ -5,13 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-02-14 04:08-0800\n"
-"Last-Translator: Jerker Lundin <jerker@lundinonline.com>\n"
+"POT-Creation-Date: 2007-05-07 06:41+0200\n"
+"PO-Revision-Date: 2007-05-03 03:27-0700\n"
+"Last-Translator: Stefan Ekman <stekman@malmo.johnbauer.nu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"X-Generator: Pootle 0.10\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -155,7 +156,7 @@ msgstr "Egen data"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/OptionGroup.php
@@ -202,7 +203,7 @@ msgstr "Åtkomstskydd"
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
-msgstr ""
+msgstr "Allmän grupp"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Project/DAO/TaskStatus.php
@@ -477,7 +478,7 @@ msgstr "-välj-"
 #: CRM/Admin/Form/Setting/Payment.php CRM/Contact/Form/Task/Email.php
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send Email"
-msgstr ""
+msgstr "Skicka E-post"
 
 #: CRM/Admin/Form/Setting.php CRM/Admin/Page/Setting.php CRM/Core/Menu.php
 msgid "Global Settings"
@@ -727,7 +728,7 @@ msgstr "Datum"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Edit.php
 msgid "Method"
-msgstr ""
+msgstr "Metod"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/SelectValues.php
 msgid "Admin"
@@ -920,7 +921,7 @@ msgstr "Medlemsskap"
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php
 msgid "Events"
-msgstr ""
+msgstr "Händelser"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
 msgid "Task"
@@ -1063,7 +1064,7 @@ msgstr "Kontaktens ID hittades inte"
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Core/Menu.php
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM Hem"
 
 #: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
 msgid "Email Sent"
@@ -1072,7 +1073,7 @@ msgstr "E-post skickad"
 #: CRM/Contact/Page/View/GroupContact.php
 #: CRM/Contact/Page/View/UserDashBoard/GroupContact.php
 msgid "Contact's Groups"
-msgstr ""
+msgstr "Kontaktens grupper"
 
 #: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
 msgid "SMS Sent"
@@ -1118,14 +1119,14 @@ msgstr "Telefonkontakt"
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
 #: CRM/History/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event"
-msgstr ""
+msgstr "Händelse"
 
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 msgid "CiviCRM Activity History"
@@ -1257,6 +1258,8 @@ msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
 msgstr ""
+"Denna profil är ännu inte konfigurerad för önskad begäran. Kontaka "
+"webbplatsens administrator om du behöver hjälp."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1277,7 +1280,7 @@ msgstr "CiviBidrag"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviEvent"
-msgstr ""
+msgstr "CiviHändelser"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviMember"
@@ -5966,22 +5969,19 @@ msgstr ""
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid ""
-"ACL&rsquo;s allow you control access to CiviCRM data. An ACL consists of an "
-"<strong>Operation</strong>\n"
-"        (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the "
-"operation can be performed on (e.g. a group of contacts, a profile or a set "
-"of custom fields),\n"
-"        and a <strong>Role</strong> that has permission to do this "
-"operation. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access "
-"Control Documentation</a> for more info."
+"ACL's allow you control access to CiviCRM data. An ACL consists of an "
+"<strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</"
+"strong> that the operation can be performed on (e.g. a group of contacts, a "
+"profile or a set of custom fields), and a <strong>Role</strong> that has "
+"permission to do this operation. Refer to the <a href=\"%1\" target=\"_blank"
+"\" title=\"%2\">Access Control Documentation</a> for more info."
 msgstr ""
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid ""
-"You can add or modify your ACL&rsquo;s below. You can create additional ACL "
-"Roles <a href=\"%2\">here</a>...\n"
-"        and you can assign Roles to CiviCRM contacts who are users of your "
-"site <a href=\"%1\">here</a>."
+"You can add or modify your ACL's below. You can create additional ACL Roles "
+"<a href=\"%2\">here</a>... and you can assign Roles to CiviCRM contacts who "
+"are users of your site <a href=\"%1\">here</a>."
 msgstr ""
 
 #: templates/CRM/ACL/Page/ACL.tpl
@@ -5994,22 +5994,20 @@ msgstr ""
 
 #: templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/Options.tpl
 msgid ""
-"ACL&rsquo;s allow you control access to CiviCRM data. An ACL consists of an "
-"<strong>Operation</strong>\n"
-"        (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the "
-"operation can be performed on (e.g. a group of contacts),\n"
-"        and a <strong>Role</strong> that has permission to do this "
-"operation. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access "
-"Control Documentation</a> for more info."
+"ACL's allow you control access to CiviCRM data. An ACL consists of an "
+"<strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</"
+"strong> that the operation can be performed on (e.g. a group of contacts), "
+"and a <strong>Role</strong> that has permission to do this operation. Refer "
+"to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access Control "
+"Documentation</a> for more info."
 msgstr ""
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid ""
 "An ACL Role represents a collection ACL&rsquo;s (permissions). You can "
-"assign roles to groups of CiviCRM contacts who are users of your site "
-"below.\n"
-"        You can add or modify ACL&rsquo;s <a href=\"%1\">here</a>. You can "
-"create additional ACL Roles <a href=\"%2\">here</a>."
+"assign roles to groups of CiviCRM contacts who are users of your site below. "
+"You can add or modify ACL's <a href=\"%1\">here</a>. You can create "
+"additional ACL Roles <a href=\"%2\">here</a>."
 msgstr ""
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
@@ -6294,12 +6292,10 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Address.tpl
 msgid ""
 "CiviCRM includes an optional plugin for interfacing the the United States "
-"Postal Services (USPS) Address Standardization web service.\n"
-"            You must register to use the USPS service at <a href=\"http://"
-"www.usps.com/webtools/address.htm\">http://www.usps.com/webtools/address."
-"htm</a>.\n"
-"            If you are approved, they will provide you with a User ID and "
-"the URL for the service."
+"Postal Services (USPS) Address Standardization web service. You must "
+"register to use the USPS service at <a href=\"http://www.usps.com/webtools/"
+"address.htm\">http://www.usps.com/webtools/address.htm</a>. If you are "
+"approved, they will provide you with a User ID and the URL for the service."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Address.tpl
@@ -6951,6 +6947,13 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
+"Subject, location, date/time and description fields are provided for all "
+"activity types. You can add custom fields for tracking additional "
+"information about activities <a href=\"%1\">here</a>."
+msgstr ""
+
+#: templates/CRM/Admin/Page/Options.tpl
+msgid ""
 "Scheduled and Completed Activities are searchable by type and/or activity "
 "date using 'Advanced Search'. Other applications may record activities for "
 "CiviCRM contacts using our APIs. For more information, refer to the online "
@@ -6983,9 +6986,8 @@ msgstr ""
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
 "You can add or modify your ACL Roles below. You can create ACL&rsquo;s and "
-"grant permission to roles <a href=\"%1\">here</a>...\n"
-"        and you can assign role(s) to CiviCRM contacts who are users of your "
-"site <a href=\"%2\">here</a>."
+"grant permission to roles <a href=\"%1\">here</a>... and you can assign role"
+"(s) to CiviCRM contacts who are users of your site <a href=\"%2\">here</a>."
 msgstr ""
 
 #: templates/CRM/Admin/Page/Options.tpl
