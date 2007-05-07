@@ -45,7 +45,7 @@ require_once 'api/v2/utils.php';
  * @static void
  * @access public
  */
-function &civicrm_contribute_add( &$params ) {
+function &civicrm_contribution_add( &$params ) {
     _civicrm_initialize( );
 
     if ( empty( $params ) ) {
@@ -63,6 +63,7 @@ function &civicrm_contribute_add( &$params ) {
 
     $values  = array( );
    
+    require_once 'CRM/Contribute/BAO/Contribution.php';
     $error = _civicrm_contribute_format_params( $params, $values );
     if ( civicrm_error( $error ) ) {
         return $error;
@@ -73,10 +74,13 @@ function &civicrm_contribute_add( &$params ) {
     
     $ids     = array( );
     $contribution = CRM_Contribute_BAO_Contribution::create( $values, $ids );
+    if ( is_a( $contribution, 'CRM_Core_Error' ) ) {
+        return civicrm_create_error( ts( $contribution->_errors[0]['message'] ) );
+    }
 
-    _civicrm_object_to_array($contribution, $contribute);
+    _civicrm_object_to_array($contribution, $contributeArray);
     
-    return $contribute;
+    return $contributeArray;
 }
 
 /**
@@ -97,7 +101,7 @@ function &civicrm_contribution_get( &$params ) {
     if ( empty( $params ) ) {
         return civicrm_create_error( ts( 'No input parameters present' ) );
     }
-
+    
     if ( ! is_array( $params ) ) {
         return civicrm_create_error( ts( 'Input parameters is not an array' ) );
     }
@@ -220,7 +224,7 @@ function _civicrm_contribute_check_params( &$params ) {
         return civicrm_create_error( "Required fields not found for contribution $error" );
     }
     
-    return true;
+    return array();
 }
 
 /**
@@ -325,7 +329,7 @@ function _civicrm_contribute_format_params( &$params, &$values, $create=false ) 
         }
     }
     
-    return null;
+    return array();
 }
 
 ?>
