@@ -7,11 +7,11 @@
 
         if (html_type_name == "Text") {
             document.getElementById("price").style.display="block";
-            document.getElementById("is_enter_qty").style.display="none";
+            //document.getElementById("is_enter_qty").style.display="none";
             document.getElementById("showoption").style.display="none";
         } else {
             document.getElementById("price").style.display="none";
-            document.getElementById("is_enter_qty").style.display="block";
+            //document.getElementById("is_enter_qty").style.display="block";
             document.getElementById("showoption").style.display="block";
         }
 
@@ -123,7 +123,7 @@
 </script>
 
 {* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}
-{if $action eq 2 AND ($form.data_type.value.1.0 eq 'CheckBox' OR $form.data_type.value.1.0 eq 'Radio' OR $form.data_type.value.1.0 eq 'Select' OR $form.data_type.value.1.0 eq 'Multi-Select') }
+{if $action eq 2 AND ($form.data_type.value.1.0 eq 'CheckBox' OR $form.data_type.value.1.0 eq 'Radio' OR $form.data_type.value.1.0 eq 'Select') }
     <div class="action-link">
         <a href="{crmURL p="civicrm/admin/event/field/option" q="reset=1&action=browse&fid=`$id`"}">&raquo; {ts}View / Edit Multiple Choice Options{/ts}</a>
     </div>
