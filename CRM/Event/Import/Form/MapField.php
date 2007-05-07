@@ -132,30 +132,31 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         
         foreach ($patterns as $key => $re) {
             if (empty($re)) continue;
-
-//             if ($this->_fieldUsed[$key])
-//                 continue;
-
+            
+            //             if ($this->_fieldUsed[$key])
+            //                 continue;
+            
             /* Take a vote over the preview data set */
             $hits = 0;
             for ($i = 0; $i < $n; $i++) {
-                if (preg_match($re, $this->_dataValues[$i][$index])) {
-                    $hits++;
+                if ( isset($this->_dataValues[$i][$index])) {
+                    if (preg_match($re, $this->_dataValues[$i][$index])) {
+                        $hits++;
+                    }
                 }
             }
-
             if ($hits > $bestHits) {
                 $bestHits = $hits;
                 $best = $key;
             }
         }
-    
+        
         if ($best != '') {
             $this->_fieldUsed[$best] = true;
         }
         return $best;
     }
-
+    
     /**
      * Function to set variables up before form is built
      *
