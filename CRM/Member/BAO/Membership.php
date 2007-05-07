@@ -451,14 +451,15 @@ UPDATE civicrm_membership_type
         $actives = array();
         if ( $status == 'active' ) {
             foreach ($memberships as $f => $v) {
-                if ($v['active']) {
+                if ( CRM_Utils_Array::value( 'active', $v ) ) {
                     $actives[$f] = $v;
                 }
             }
             return $actives;
         } elseif ( $status == 'inactive' ) {
             foreach ($memberships as $f => $v) {
-                if ( !$v['active'] ) {
+                if ( isset( $v['active'] ) &&
+                     ! $v['active'] ) {
                     $actives[$f] = $v;
                 }
             }
