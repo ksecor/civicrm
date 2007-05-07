@@ -53,8 +53,6 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $this->_params = $this->get( 'params' );
        
         CRM_Utils_System::setTitle($this->_values['event_page']['thankyou_title']);
-        $showLocation = $this->_values['event_page']['show_location'];
-        $this->assign( 'showLocation',$showLocation );
     }
 
     /**

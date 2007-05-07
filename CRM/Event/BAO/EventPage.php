@@ -112,6 +112,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
      * @access public
      */
     static function sendMail( $contactID, &$values, $participantId ) {
+
         if ( $values['event_page']['is_email_confirm'] ) {
             $template =& CRM_Core_Smarty::singleton( );
             require_once 'CRM/Contact/BAO/Contact.php';
@@ -119,7 +120,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             // get the billing location type
             $locationTypes =& CRM_Core_PseudoConstant::locationType( );
             $bltID = array_search( ts('Billing'),  $locationTypes );
-            
+
             list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID, $bltID );
             self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId );
             self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId );
@@ -127,6 +128,9 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             // set confirm_text and contact email address for display in the template here
             $template->assign( 'email', $email );
             $template->assign( 'confirm_email_text', $values['event_page']['confirm_email_text'] );
+            
+            $showLocation = $values['event_page']['show_location'];
+            $template->assign( 'showLocation', $showLocation );
 
             $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
