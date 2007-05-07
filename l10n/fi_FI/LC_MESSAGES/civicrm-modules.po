@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-26 09:59+0200\n"
+"POT-Creation-Date: 2007-05-07 06:42+0200\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "MIME-Version: 1.0\n"
@@ -2069,6 +2069,11 @@ msgstr "Käyttäjän rekisteröityminen"
 
 #: CRM/Event/Menu.php
 #, fuzzy
+msgid "Event Listings"
+msgstr "poista sijaintipaikan tyyppi."
+
+#: CRM/Event/Menu.php
+#, fuzzy
 msgid "Event Types"
 msgstr "Komponeetin tyyppi"
 
@@ -3148,19 +3153,16 @@ msgstr "tai"
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
 "Your recurring contribution will be processed automatically for the number "
-"of\n"
-"                           installments you specify. You can leave the "
-"number of installments blank if you want to make an open-ended commitment.\n"
-"                           In either case, you can choose to cancel at any "
-"time."
+"of installments you specify. You can leave the number of installments blank "
+"if you want to make an open-ended commitment. In either case, you can choose "
+"to cancel at any time."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
 "You will receive an email receipt for each recurring contribution. The "
-"receipts will\n"
-"                                include a link you can use if you decide to "
-"modify or cancel your future contributions."
+"receipts will include a link you can use if you decide to modify or cancel "
+"your future contributions."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl

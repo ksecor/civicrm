@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-26 09:59+0200\n"
+"POT-Creation-Date: 2007-05-07 06:42+0200\n"
 "PO-Revision-Date: 2007-04-28 12:11-0700\n"
 "Last-Translator: john hodgins <john@lrw.ca>\n"
 "MIME-Version: 1.0\n"
@@ -2056,6 +2056,11 @@ msgstr "Enregistrement rapide"
 
 #: CRM/Event/Menu.php
 #, fuzzy
+msgid "Event Listings"
+msgstr "Supprimer l'option de sexe"
+
+#: CRM/Event/Menu.php
+#, fuzzy
 msgid "Event Types"
 msgstr "Types d'activités"
 
@@ -3158,21 +3163,23 @@ msgid "for"
 msgstr "pour"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#, fuzzy
 msgid ""
 "Your recurring contribution will be processed automatically for the number "
-"of\n"
-"                           installments you specify. You can leave the "
-"number of installments blank if you want to make an open-ended commitment.\n"
-"                           In either case, you can choose to cancel at any "
-"time."
-msgstr "Votre contribution récurrente sera encaissée automatiquement pour le nombre spécifié de versements. Vous pouvez omettre le nombre de versements si vous désirez vous engager pour une durée indéterminée. Dans tous les cas, vous pouvez mettre fin à votre engagement en tout temps."
+"of installments you specify. You can leave the number of installments blank "
+"if you want to make an open-ended commitment. In either case, you can choose "
+"to cancel at any time."
+msgstr ""
+"Votre contribution récurrente sera encaissée automatiquement pour le nombre "
+"spécifié de versements. Vous pouvez omettre le nombre de versements si vous "
+"désirez vous engager pour une durée indéterminée. Dans tous les cas, vous "
+"pouvez mettre fin à votre engagement en tout temps."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
 "You will receive an email receipt for each recurring contribution. The "
-"receipts will\n"
-"                                include a link you can use if you decide to "
-"modify or cancel your future contributions."
+"receipts will include a link you can use if you decide to modify or cancel "
+"your future contributions."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-26 09:59+0200\n"
+"POT-Creation-Date: 2007-05-07 06:42+0200\n"
 "PO-Revision-Date: 2007-01-25 21:12-0200\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "MIME-Version: 1.0\n"
@@ -1965,6 +1965,11 @@ msgstr "Registro de Usuário"
 
 #: CRM/Event/Menu.php
 #, fuzzy
+msgid "Event Listings"
+msgstr "Selecionar Localidade"
+
+#: CRM/Event/Menu.php
+#, fuzzy
 msgid "Event Types"
 msgstr "Tipo de Componente"
 
@@ -2982,13 +2987,12 @@ msgid "for"
 msgstr "para"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#, fuzzy
 msgid ""
 "Your recurring contribution will be processed automatically for the number "
-"of\n"
-"                           installments you specify. You can leave the "
-"number of installments blank if you want to make an open-ended commitment.\n"
-"                           In either case, you can choose to cancel at any "
-"time."
+"of installments you specify. You can leave the number of installments blank "
+"if you want to make an open-ended commitment. In either case, you can choose "
+"to cancel at any time."
 msgstr ""
 "Sua contribuição recorrente será processada automaticamente pelo número de "
 "parcelas que especificar. Você pode deixar em branco o número de parcelas se "
@@ -2996,16 +3000,15 @@ msgstr ""
 "qualquer tempo."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#, fuzzy
 msgid ""
 "You will receive an email receipt for each recurring contribution. The "
-"receipts will\n"
-"                                include a link you can use if you decide to "
-"modify or cancel your future contributions."
+"receipts will include a link you can use if you decide to modify or cancel "
+"your future contributions."
 msgstr ""
-"Você receberá um recibo por email para cada contribuição recorrente. Os "
-"recibos eipts will\n"
-"                                include a link you can use if you decide to "
-"modify or cancel your future contributions."
+"Você receberá um recibo via email para cada contribuição recorrente. Os "
+"recib os também incluirão um link para quando você decidir modificar ou "
+"cancelar suas futuras contribuições."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
@@ -6479,3 +6482,14 @@ msgid ""
 msgstr ""
 "Não há Modelos de Mensagem informados. Você pode <a href=\"%1\">adicionar "
 "um</a>."
+
+#~ msgid ""
+#~ "You will receive an email receipt for each recurring contribution. The "
+#~ "receipts will\n"
+#~ "                                include a link you can use if you decide "
+#~ "to modify or cancel your future contributions."
+#~ msgstr ""
+#~ "Você receberá um recibo por email para cada contribuição recorrente. Os "
+#~ "recibos eipts will\n"
+#~ "                                include a link you can use if you decide "
+#~ "to modify or cancel your future contributions."
