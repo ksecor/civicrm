@@ -55,8 +55,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);
-        $main  = crm_get_contact(array('contact_id' => $cid));
-        $other = crm_get_contact(array('contact_id' => $oid));
+        $main  =& crm_get_contact(array('contact_id' => $cid));
+        $other =& crm_get_contact(array('contact_id' => $oid));
         $this->assign('contact_type', $main->contact_type);
         $this->assign('main_name',    $main->display_name);
         $this->assign('other_name',   $other->display_name);
@@ -163,7 +163,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $submitted[$key] = $value[$this->_col];
             }
         }
-        crm_update_contact_formatted($this->_cid, $submitted);
+        // FIXME: source vs. contact_source workaround
+        if (isset($submitted['source'])) {
+            $submitted['contact_source'] = $submitted['source'];
+            unset($submitted['source']);
+        }
+        $main =& crm_get_contact(array('contact_id' => $this->_cid));
+        crm_update_contact($main, $submitted);
     }
 }
 
