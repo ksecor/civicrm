@@ -75,6 +75,9 @@ if ( TEST == __FILE__ ) {
         exit();
     }
     $test->run(new CiviHtmlReporter());
+    $test2->run(new CiviHtmlReporter());    
+    $test3->run(new CiviHtmlReporter());    
+    $test4->run(new CiviHtmlReporter());
 }
 
 ?>

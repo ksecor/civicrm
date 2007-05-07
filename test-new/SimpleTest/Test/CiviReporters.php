@@ -3,13 +3,45 @@ require_once 'SimpleTest/reporter.php';
 
 class CiviHtmlReporter extends HtmlReporter {
     
-    function VerboseHtmlReporter() {
+    function CiviHtmlReporter() {
         $this->HtmlReporter();
     }
 
-    function paintPass($message) {
-        // TBD
+
+    function paintCaseStart($test_name) {
+        echo "<p style=\"case\"><b>CASE:</b> $test_name <br/>";
+        parent::paintCaseStart($test_name);
     }
+        
+    function paintCaseEnd($test_name) {
+        echo "</p>";
+        parent::paintCaseEnd($test_name);
+    }    
+
+    function paintMethodStart($test_name) {
+        echo "<i>Method</i>: $test_name<br/>";
+        parent::paintMethodStart($test_name);
+    }
+    
+    function paintMethodEnd($test_name) {
+        echo "<br/>";
+        parent::paintMethodEnd($test_name);
+    }
+    
+    function paintPass($message) {
+        echo "<br/><code>";
+        echo "$message";
+        parent::paintPass($message);
+        echo "</code>";        
+    }
+        
+    function paintFail($message) {
+        echo "<br/><code>";
+        parent::paintFail($message);
+        echo "</code>";
+    }    
+
+
 }
 
 class CiviTextReporter extends TextReporter {
@@ -60,8 +92,9 @@ class CiviTextReporter extends TextReporter {
     }
         
     function paintFail($message) {
-        echo "\n\n FAILED!\n" . $this->_line('~') . "\n$message\n" . $this->_line('~');
-        parent::paintPass($message);
+        echo "\n\n FAILED!\n" . $this->_line('~');
+        parent::paintFail($message);
+        echo $this->_line('~');
     }    
 
 }
