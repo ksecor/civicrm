@@ -429,7 +429,6 @@ class TestOfFetchContactAPI extends UnitTestCase
     {
         $contact = $this->_individual;
         $val =& crm_delete_contact(& $contact,102);
-        $val = '1';
         $this->assertNull($val);
     }
     
