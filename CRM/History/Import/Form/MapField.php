@@ -297,9 +297,9 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
                             $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
                         }
 
-                        if ( ! isset($phoneType) || ! $phoneType )
+                        if ( ! isset($phoneType) || ! $phoneType ) {
                             $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
-                    }
+                        }
                         
                         $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
                         $defaults["mapper[$i]"] = array( $mappingHeader[0], 
@@ -317,12 +317,13 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
                 } else {
                     // this load section to help mapping if we ran out of saved columns when doing Load Mapping
                     $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_".$i."_');\n";
-                    
-                    if ($hasHeaders) {
-                        $defaults["mapper[$i]"] = array( $this->defaultFromHeader($this->_columnHeaders[$i],$headerPatterns) );
+
+                    if ( $hasHeaders ) {
+                        $defaults["mapper[$i]"] = array( $this->defaultFromHeader( $this->_columnHeaders[$i],
+                                                                                   $headerPatterns ) );
                     } else {
-                        $defaults["mapper[$i]"] = array( $this->defaultFromData($dataPatterns, $i) );
-                    }                    
+                        $defaults["mapper[$i]"] = array( $this->defaultFromData( $dataPatterns, $i ) );
+                    }
                 } //end of load mapping
             } else {
                 $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_".$i."_');\n";

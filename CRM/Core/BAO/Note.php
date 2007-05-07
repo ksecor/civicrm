@@ -91,7 +91,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
     {
         $dataExists = self::dataExists( $params );
         if ( ! $dataExists ) {
-            return null;
+            return CRM_Core_DAO::$_nullObject;
         }
 
         $note =& new CRM_Core_BAO_Note( );

@@ -117,7 +117,7 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
      * since its used for things like send email
      */
     public function setContactIDs( ) {
-        $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_contributionIds
+        $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_contributionIds,
                                                                         'civicrm_contribution' );
     }
 

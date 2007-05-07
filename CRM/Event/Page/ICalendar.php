@@ -53,14 +53,14 @@ class CRM_Event_Page_ICalendar extends CRM_Core_Page
         $type     = CRM_Utils_Request::retrieve('type' , 'Positive', $this, false, 0);
         $start    = CRM_Utils_Request::retrieve('start', 'Positive', $this, false, 0);
         $iCalPage = CRM_Utils_Request::retrieve('page' , 'Positive', $this, false, 0);
-        $gDate    = CRM_Utils_Request::retrieve('gData', 'Positive', $this, false, 0);
+        $gData    = CRM_Utils_Request::retrieve('gData', 'Positive', $this, false, 0);
 
         require_once "CRM/Event/BAO/Event.php";
         $info = CRM_Event_BAO_Event::getCompleteInfo( $start, $type );
         $this->assign( 'events', $info );
 
         $template =& CRM_Core_Smarty::singleton( );
-        if ( isset($gData) ) {
+        if ( empty( $gData ) ) {
             $format = $template->fetch( 'CRM/Core/Calendar/ICal.tpl' );
         } else {
             $format = $template->fetch( 'CRM/Core/Calendar/GData.tpl' );

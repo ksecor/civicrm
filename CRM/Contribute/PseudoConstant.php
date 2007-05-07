@@ -91,7 +91,8 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
                                                'CRM_Contribute_DAO_ContributionType' );
         }
         if ($id) {
-            return CRM_Utils_Array::value( $id, self::$contributionType );
+            $result = CRM_Utils_Array::value( $id, self::$contributionType );
+            return $result;
         }
         return self::$contributionType;
     }
