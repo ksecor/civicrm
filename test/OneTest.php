@@ -13,7 +13,7 @@ class OneTest extends GroupTest {
     function OneTest( ) {
         $this->GroupTest( 'Unit Tests for CRM' );
 
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/' . trim( $_GET['q'] ) . '.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'SimpleTest/CRM/api/' . trim( $_GET['q'] ) . '.php' );
     }
 
 }

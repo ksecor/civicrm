@@ -1142,7 +1142,7 @@ function _putpages()
 	}
 	//Pages root
 	$this->offsets[1]=strlen($this->buffer);
-	$this->_out'1 0 obj');
+	$this->_out('1 0 obj');
 	$this->_out('<</Type /Pages');
 	$kids='/Kids [';
 	for($i=0;$i<$nb;$i++)
