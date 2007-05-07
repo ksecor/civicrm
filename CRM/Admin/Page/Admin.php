@@ -65,13 +65,14 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
        $adminPanel = array( );
        require_once 'CRM/Core/ShowHideBlocks.php';
        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-       CRM_Core_Error::debug('groups',$groups);
        foreach ( $groups as $group ) {
            // Hide (compress) all panel groups by default. We'll remember last state of each when we save user prefs later.
            $this->_showHide->addShow( "id_{$group}_show" );
            $this->_showHide->addHide( "id_{$group}" );
-           CRM_Core_ShowHideBlocks::links($this, $group, '' , '');
            $adminPanel[$group] = array( );
+           $v = CRM_Core_ShowHideBlocks::links($this, $group, '' , '', false);
+           $adminPanel[$group]['show'] = $v['show'];
+           $adminPanel[$group]['hide'] = $v['hide'];
             foreach ( $items as $item ) {
                 if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
                     $value = array( 'title' => $item['title'],

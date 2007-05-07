@@ -15,17 +15,18 @@
 {/if}
 {strip}
 {foreach from=$adminPanel key=groupName item=group}
- {assign var="sLink" value=$groupName.show}
+ {assign var="sLink" value=$group.show}
  <div id = "id_{$groupName}_show" class="section-hidden section-hidden-border label">
     {$sLink} {$groupName}
  </div>
  
  <div id="id_{$groupName}">
-    <fieldset><legend>{$groupName.hide}{$groupName}</legend>
+    <fieldset><legend>{$group.hide}{$groupName}</legend>
         <table class="control-panel">
         {assign var=i value=1}
                 
-        {foreach from=$group item=panelItem  name=groupLoop}
+        {foreach from=$group item=panelItem  key=panelName name=groupLoop}
+          {if $panelName != 'show' AND $panelName != 'hide' }
             {if $i eq 1 OR ($i % $itemsPerRow eq 1)}
                 <tr>
             {/if}
@@ -39,6 +40,7 @@
             {if $smarty.foreach.groupLoop.last eq false}
                 {assign var="i" value="`$i+1`"}
             {/if}
+          {/if}
         {/foreach}
         
         {* See if we need to fill out and close last row in group. NOTE: do not separate operands from operator with spaces else modulus op will not work.*}
