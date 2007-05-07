@@ -85,7 +85,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         if ( ! $this->_rtypeId ) {
             $params = $this->controller->exportValues( $this->_name );
-            if ( $params['relationship_type_id']) {
+            if ( isset($params['relationship_type_id']) ) {
                 $this->_rtypeId = $params['relationship_type_id'];
             } else {
                 $relationship =& new CRM_Contact_DAO_Relationship( );

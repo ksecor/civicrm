@@ -427,7 +427,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     static function formRule( &$fields, &$files, $self ) {  
         $errors = array( ); 
       
-        if ($fields["contribution_honor"]) {
+        if (isset($fields["contribution_honor"])) {
             if ( !((  CRM_Utils_Array::value( 'honor_firstname', $fields ) && 
                       CRM_Utils_Array::value( 'honor_lastname' , $fields )) ||
                       CRM_Utils_Array::value( 'honor_email' , $fields ) )) {

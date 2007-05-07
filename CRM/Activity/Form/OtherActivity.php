@@ -66,7 +66,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
             $this->_activityType = $_POST['activity_type_id'];
         }
         
-        if ( $subType ) {
+        if ( isset($subType) ) {
             $this->_activityType = $subType;
         } 
         parent::preProcess();

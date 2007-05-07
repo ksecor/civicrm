@@ -103,7 +103,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
         $defaults["membership_type_id"] =  $this->_memType;
-        $this->assign( "member_is_test", $defaults['member_is_test'] );
+        $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
         return $defaults;
     }
 
