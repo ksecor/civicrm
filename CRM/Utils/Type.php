@@ -97,7 +97,7 @@ class CRM_Utils_Type
         case 16384: $string = 'Mediumblob'    ; break;    
         }
         
-        return $string;
+        return (isset($string)) ? $string : "";
 
     }
 

@@ -599,13 +599,13 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     }
                     $contactType = $v[0];
                 }
-                if ( $v[1] ) {
+                if ( CRM_Utils_Array::value('1',$v) ) {
                     $fldName = $v[1];
-                    if ( $v[2] ) {
+                    if ( CRM_Utils_Array::value('2',$v ) ) {
                         $fldName .= "-{$v[2]}";
                     }
                     
-                    if ( $v[3] ) {
+                    if ( CRM_Utils_Array::value('3',$v) ) {
                         $fldName .= "-{$v[3]}";
                     }
                     

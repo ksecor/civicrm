@@ -1532,7 +1532,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                             }
 
                             if (is_numeric($locTypeId)) {//fixed for CRM-665
-                                if ($locTypeId == $value['location_type_id'] ) {
+                                if ($locTypeId == CRM_Utils_Array::value('location_type_id',$value) ) {
                                     if (CRM_Utils_Array::value($fieldName, $value )) {
                                         //to handle stateprovince and country
                                         if ( $fieldName == 'state_province' ) {

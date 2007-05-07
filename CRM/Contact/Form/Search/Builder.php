@@ -119,7 +119,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      */
     static function formRule( &$values ) {
         //CRM_Core_Error::debug('s', $values);
-        if ( $values['addMore'] || $values['addBlock']) {
+        if ( CRM_Utils_Array::value('addMore',$values) || CRM_Utils_Array::value('addBlock',$values) ) {
             return true;
         }
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -182,7 +182,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
                             $fldName = substr($v[0], 13 );
                         }
                         
-                        $fldType = $fields[$fldName]['type'];
+                        $fldType = CRM_Utils_Array::value('type',$fields[$fldName]);
                         $type  = CRM_Utils_Type::typeToString( $fldType );
                     }
                     
@@ -229,20 +229,21 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $params = $this->controller->exportValues( $this->_name );
         
         if (!empty($params)) {
-            if ( $params['addBlock'] )  { 
+            if ( CRM_Utils_Array::value('addBlock',$params) )  { 
                 $this->_blockCount = $this->_blockCount + 1;
                 $this->set( 'blockCount', $this->_blockCount );
                 return;
             }
             
             for ($x = 1; $x <= $this->_blockCount; $x++ ) {
-                if ( $params['addMore'][$x] )  {
+                if ( CRM_Utils_Array::value($x,$params['addMore']) ) {
                     $this->_columnCount[$x] = $this->_columnCount[$x] + 1;
                     $this->set( 'columnCount', $this->_columnCount );
                     return;
                 }
             }
             
+            $checkEmpty = null;
             foreach ($params['mapper'] as $key => $value) {
                 foreach ($value as $k => $v) {
                     if ($v[0]) {
@@ -264,7 +265,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
             $this->_formValues = $this->controller->exportValues($this->_name);
 
             // set the group if group is submitted
-            if ($this->_formValues['uf_group_id']) {
+            if ( CRM_Utils_Array::value('uf_group_id',$this->_formValues) ) {
                 $this->set( 'id', $this->_formValues['uf_group_id'] ); 
             } else {
                 $this->set( 'id', '' ); 
