@@ -122,7 +122,7 @@ class CRM_Utils_Request {
             $store->set( $name, $value );
         }
 
-        return $value;
+        return (isset($value)) ? $value : "";
     }
 
 }

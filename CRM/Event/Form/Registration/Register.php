@@ -154,7 +154,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     public function buildAmount( $required = true ) {
         $elements = array( );
-        if ( $this->_priceSetId ) {
+        if ( isset($this->_priceSetId) ) {
             $this->add( 'hidden', 'priceSetId', $this->_priceSetId );
             $this->assign( 'priceSet', $this->_priceSet );
             require_once 'CRM/Core/BAO/PriceField.php';

@@ -1006,7 +1006,6 @@ WHERE mp.payment_entity_table ='civicrm_contribute'
         }
         
         return (isset($contributionPageId)) ? $contributionPageId : "";
-        //return $contributionPageId;
     }
 
     /**

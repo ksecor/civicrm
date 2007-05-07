@@ -53,7 +53,7 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
         return 'CRM_Mailing_BAO_Mailing';
     }
 
-    function &links() {
+    function links() {
         return array();
     }
 
