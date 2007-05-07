@@ -941,20 +941,28 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $row = array();
             foreach(array(  'queue', 'delivered', 'url', 'forward',
                             'reply', 'unsubscribe', 'bounce') as $field) {
-                $row[$field] = $mailing->$field;
-                $report['event_totals'][$field] += $mailing->$field;
+                if (isset( $row[$field])){
+                    $row[$field] = $mailing->$field;
+                }
+                if (isset($report['event_totals'][$field])) {
+                    $report['event_totals'][$field] += $mailing->$field;
+                }
             }
             
             // compute open total seperately to discount duplicates
             // CRM-1258
             $row['opened'] = CRM_Mailing_Event_BAO_Opened::getTotalCount( $mailing_id, $mailing->id, true );
-            $report['event_totals']['opened'] += $row['opened'];
-
+            if ( isset($report['event_totals']['opened']) ) {
+                $report['event_totals']['opened'] += $row['opened'];
+            }
+            
             // compute unsub total seperately to discount duplicates
             // CRM-1783
             $row['unsubscribe'] = CRM_Mailing_Event_BAO_Unsubscribe::getTotalCount( $mailing_id, $mailing->id, true );
-            $report['event_totals']['unsubscribe'] += $row['unsubscribe'];
-
+            if (isset($report['event_totals']['unsubscribe'])) {
+                $report['event_totals']['unsubscribe'] += $row['unsubscribe'];
+            }
+            
             foreach(array_keys(CRM_Mailing_BAO_Job::fields()) as $field) {
                 $row[$field] = $mailing->$field;
             }
@@ -1013,7 +1021,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $report['jobs'][] = $row;
         }
 
-        if ($report['event_totals']['queue']) {
+        if (CRM_Utils_Array::value('queue',$report['event_totals'] )) {
             $report['event_totals']['delivered_rate'] = (100.0 * $report['event_totals']['delivered']) / $report['event_totals']['queue'];
             $report['event_totals']['bounce_rate'] = (100.0 * $report['event_totals']['bounce']) / $report['event_totals']['queue'];
             $report['event_totals']['unsubscribe_rate'] = (100.0 * $report['event_totals']['unsubscribe']) / $report['event_totals']['queue'];

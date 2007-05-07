@@ -165,7 +165,7 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
             $defaults[$this->_id]["role_id"] = $rId;
         }
 
-        if ( $this->_eId ) {
+        if ( isset($this->_eId) ) {
             $defaults[$this->_id]["event_id"] = $this->_eId;
         }
         
@@ -206,11 +206,11 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
         
         require_once "CRM/Core/BAO/CustomOption.php";
         $eventPage = array( 'entity_table' => 'civicrm_event_page',
-                            'label'        => $defaults[$this->_id]['event_level']);
+                            'label'        => CRM_Utils_Array::value('event_level',$defaults[$this->_id]) );
         CRM_Core_BAO_CustomOption::retrieve( $eventPage, $params );
         
         $defaults[$this->_id]['amount'] = $params['id'];
-        $this->assign( 'event_is_test', $defaults[$this->_id]['event_is_test'] );
+        $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_id]) );
                
         return $defaults[$this->_id];
     }
@@ -288,9 +288,10 @@ class CRM_Event_Form_Participant extends CRM_Core_Form
                     array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantStatus( ),true );
         
         $this->add( 'text', 'source', ts('Event Source') );
-        
+        if (isset($this->_eId)) {
         $params = array( 'id' => $this->_eId );
         CRM_Event_BAO_Event::retrieve( $params, $this->_event );
+        }
         
         if ( $this->_event['is_monetary'] ) {
             

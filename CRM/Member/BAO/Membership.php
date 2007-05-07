@@ -1005,7 +1005,8 @@ WHERE mp.payment_entity_table ='civicrm_contribute'
             $contributionPageId = $dao->pageId;
         }
         
-        return $contributionPageId;
+        return (isset($contributionPageId)) ? $contributionPageId : "";
+        //return $contributionPageId;
     }
 
     /**

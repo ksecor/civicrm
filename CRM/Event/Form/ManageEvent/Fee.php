@@ -109,7 +109,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         if ( !$defaults['is_monetary'] ) {
             $this->_showHide->addHide( 'event-fees' );
         }
-        if ( $defaults['price_set_id'] ) {
+        if ( isset($defaults['price_set_id']) ) {
             $this->_showHide->addHide( 'map-field' );
         }
         $this->_showHide->addToTemplate( );

@@ -60,7 +60,7 @@ class CRM_Event_Page_ICalendar extends CRM_Core_Page
         $this->assign( 'events', $info );
 
         $template =& CRM_Core_Smarty::singleton( );
-        if ( $gData ) {
+        if ( isset($gData) ) {
             $format = $template->fetch( 'CRM/Core/Calendar/ICal.tpl' );
         } else {
             $format = $template->fetch( 'CRM/Core/Calendar/GData.tpl' );

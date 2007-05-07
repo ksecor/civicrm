@@ -78,9 +78,9 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      *                          date is properly set.
      * @static
      */
-    public static function &formRule(&$params) 
+    public static function formRule(&$params) 
     {
-        if ($params['now']) {
+        if ( isset($params['now']) ) {
             return true;
         }
         if (! CRM_Utils_Rule::qfDate($params['start_date'])) {

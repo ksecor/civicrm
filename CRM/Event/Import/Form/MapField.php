@@ -211,9 +211,9 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             
             $mappingName        = $mappingName[1];
             $mappingContactType = $mappingContactType[1];
-            $mappingLocation    = $mappingLocation[1];
-            $mappingPhoneType   = $mappingPhoneType[1];
-            $mappingRelation    = $mappingRelation[1];
+            $mappingLocation    = CRM_Utils_Array::value('1',$mappingLocation);
+            $mappingPhoneType   = CRM_Utils_Array::value('1',$mappingPhoneType);
+            $mappingRelation    = CRM_Utils_Array::value('1',$mappingRelation);
             
             //mapping is to be loaded from database
             
