@@ -412,9 +412,11 @@ class CRM_Contact_BAO_Query {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) { 
                      
-                        //skip quest fields
                         if (substr( $tableName, 0, 6  ) == 'quest_' ) {
-                            continue;
+                            $this->_select['ethnicity_id_1']          = 'ethnicity_id_1';
+                            $this->_select['gpa_weighted_calc']       = 'gpa_weighted_calc'; 
+                            $this->_select['SAT_composite']           = 'SAT_composite';
+                            $this->_select['household_income_total']  = 'household_income_total';
                         }
 
                         if ( CRM_Utils_Array::value( $tableName, self::$_dependencies ) ) {
