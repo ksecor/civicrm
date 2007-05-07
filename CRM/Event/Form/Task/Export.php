@@ -155,8 +155,8 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
             }
         }
 
-        //require_once 'CRM/Core/Report/Excel.php'; 
-        //CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $header, $rows ); 
+        require_once 'CRM/Core/Report/Excel.php'; 
+        CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $header, $rows ); 
         exit( );
     }
     
