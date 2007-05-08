@@ -43,6 +43,7 @@
 require_once 'api/v2/utils.php';
 
 require_once 'CRM/Activity/BAO/Activity.php';
+require_once 'CRM/Core/DAO/OptionGroup.php';
 
 /**
  * Create a new Activity.
@@ -68,7 +69,7 @@ require_once 'CRM/Activity/BAO/Activity.php';
  * 
  */
  
-function &civicrm_create_activity( &$params) {
+function &civicrm_activity_create( &$params) {
     _civicrm_initialize( );
 
     // return error if we do not get any params
@@ -76,16 +77,19 @@ function &civicrm_create_activity( &$params) {
         return civicrm_create_error( ts( 'Input Parameters empty' ) );
     }
 
-    if ( empty( $params['activity_type_id'] ) ) {
+    if ( empty( $params['activity_name'] ) ) {
         return civicrm_create_error( ts ( 'Missing Activity Name' ) );
     }   
 
     $ids = array();
+
+    // Check for Activityy name
+    _civicrm_activity_check_name( $params['activity_name'] );
     
     //check the type of activity
-    if ($params['activity_type_id'] == 1 ) {
+    if ($params['activity_name'] == 'Meeting' ) {
         $activityType = 'Meeting';
-    } elseif ( $params['activity_type_id'] == 2 ) {
+    } elseif ( $params['activity_name'] == 'Phonecall' ) {
         $activityType = 'Phonecall';
     } else {
         $activityType = 'Activity';
@@ -110,7 +114,7 @@ function &civicrm_create_activity( &$params) {
  * @access public
  *
  */
-function &civicrm_get_contact_activities($contactID)
+function &civicrm_activities_get_contact($contactID)
 {
     _civicrm_initialize( );
     
@@ -121,9 +125,9 @@ function &civicrm_get_contact_activities($contactID)
     $activity = array( );
 
     // get all the activities of a contact with $contactID
-    $activity['meeting'  ]  =& _civicrm_get_activities( $contactID, 'CRM_Activity_DAO_Meeting'   );
-    $activity['phonecall']  =& _civicrm_get_activities( $contactID, 'CRM_Activity_DAO_Phonecall' );
-    $activity['activity' ]  =& _civicrm_get_activities( $contactID, 'CRM_Activity_DAO_Activity'  );
+    $activity['meeting'  ]  =& _civicrm_activities_get( $contactID, 'CRM_Activity_DAO_Meeting'   );
+    $activity['phonecall']  =& _civicrm_activities_get( $contactID, 'CRM_Activity_DAO_Phonecall' );
+    $activity['activity' ]  =& _civicrm_activities_get( $contactID, 'CRM_Activity_DAO_Activity'  );
     
     return $activity;
 }
@@ -143,7 +147,7 @@ function &civicrm_get_contact_activities($contactID)
  * @access public
  *
  */
-function &civicrm_update_activity( &$params ) {
+function &civicrm_activity_update( &$params ) {
     if ( ! is_array( $params ) ) {
         return civicrm_create_error( ts( 'Params is not an array' ) );
     }
@@ -152,17 +156,18 @@ function &civicrm_update_activity( &$params ) {
         return civicrm_create_error( ts( 'Required parameter "id" missing' ) );
     }
 
-    if ( empty( $params['activity_type_id'] ) )  {
+    if ( empty( $params['activity_name'] ) )  {
         return civicrm_create_error( ts( 'Missing Activity Name' ) );
     }   
     
+     _civicrm_activity_check_name( $params['activity_name'] );
   
-    if ($params['activity_type_id']== 1 ) {
-        $activity = _civicrm_update_activity( $params, 'CRM_Activity_DAO_Meeting'   );
-    } elseif ( $params['activity_type_id'] == 2 ) {
-        $activity = _civicrm_update_activity( $params, 'CRM_Activity_DAO_Phonecall' );
+    if ($params['activity_name']== 'Meeting' ) {
+        $activity = _civicrm_activity_update( $params, 'CRM_Activity_DAO_Meeting'   );
+    } elseif ( $params['activity_name'] == 'Phonecall'  ) {
+        $activity = _civicrm_activity_update( $params, 'CRM_Activity_DAO_Phonecall' );
     } else {
-        $activity = _civicrm_update_activity($params, 'CRM_Activity_DAO_Activity');
+        $activity = _civicrm_activity_update($params, 'CRM_Activity_DAO_Activity');
     }
     
     return $activity;
@@ -177,21 +182,22 @@ function &civicrm_update_activity( &$params ) {
  * @access public
  *
  */
-function &civicrm_delete_activity( &$params ) {
+function &civicrm_activity_delete( &$params ) {
     _civicrm_initialize( );
     
     if ( ! isset( $params['id'] )) {
-        return _civicrm_error( ts( 'Required parameter "id" not found' ) );
+        return civicrm_create_error( ts( 'Required parameter "id" not found' ) );
     }
-    if ( empty( $params['activity_type_id'] ) ) {
-        return _civicrm_error( ts( 'Missing Activity Name' ) );
+    if ( empty( $params['activity_name'] ) ) {
+        return civicrm_create_error( ts( 'Missing Activity Name' ) );
     }   
     
-
+    _civicrm_activity_check_name( $params['activity_name'] );
+    
     //check the type of activity
-    if ( $params['activity_type_id'] == 1 ) {
+    if ( $params['activity_name'] == 'Meeting'  ) {
         $activityType = 'Meeting';
-    } elseif ( $params['activity_type_id'] == 2 ) {
+    } elseif ( $params['activity_name'] == 'Phonecall' ) {
         $activityType = 'Phonecall';
     } else {
         $activityType = 'Activity';
@@ -210,7 +216,7 @@ function &civicrm_delete_activity( &$params ) {
  * @access public
  *
  */
-function _civicrm_update_activity($params, $daoName) {
+function _civicrm_activity_update($params, $daoName) {
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
     $dao =& new $daoName();
     $dao->id = $params['id'];
@@ -234,7 +240,7 @@ function _civicrm_update_activity($params, $daoName) {
  * @access public
  *
  */
-function &_civicrm_get_activities( $contactID, $daoName ) {
+function &_civicrm_activities_get( $contactID, $daoName ) {
 
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
     eval('$dao =& new $daoName( );');
@@ -251,13 +257,22 @@ function &_civicrm_get_activities( $contactID, $daoName ) {
     return $activities;
 }
 
-/*function _crm_check_activity_name($activityName, $daoName) {
-    require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-    $dao       =& new $daoName( );
-    $dao->name = $activityName;
+function _civicrm_activity_check_name( $activityName ) {
     
+    require_once 'CRM/Core/DAO/OptionGroup.php';
+    $grpdao =& new CRM_Core_DAO_OptionGroup( );
+    $grpdao->name = 'activity_type';
+    $grpdao->find(true);
+ 
+        
+    require_once 'CRM/Core/DAO/OptionValue.php';
+    $dao       =& new CRM_Core_DAO_OptionValue( );
+    $dao->label = $activityName;
+    $dao->option_group_id = $grpdao->id;
+  
     if (! $dao->find( true ) ) {
-        return _crm_error( "Invalid Activity Name" );
+        
+        return civicrm_create_error( ts( "Invalid Activity Name" ) );
     }
     return true;
-    }*/
+}

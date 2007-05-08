@@ -19,11 +19,12 @@ class TestOfActivityAPI extends UnitTestCase {
                         'details' => '++++++++++',
                         'Status' => 'Scheduled',
                         'parent_id' => 1, 
-                        //          'activity_name' =>'Meeting',
+                        'activity_name' =>'Meeting',
                         );
-        $activity=& civicrm_create_activity($params);
+        $activity=& civicrm_activity_create($params);
         $this->assertEqual( $activity['source_contact_id'], 101 );
-        
+        $this->assertEqual( $activity['subject'], 'hello' );
+       
         
     }
     function testUpdateActivity()
@@ -41,10 +42,13 @@ class TestOfActivityAPI extends UnitTestCase {
                         'details' => '++++++++++',
                         'Status' => 'Scheduled',
                         'parent_id' => 1,
-                        // 'activity_name'=> "Meeting",
+                        'activity_name'=> 'Meeting',
                          );
-        $activity=& civicrm_update_activity($params);
+        $activity=& civicrm_activity_update($params);
         $this->assertEqual( $activity['source_contact_id'], 101 );
+        $this->assertEqual( $activity['subject'],'Meeting at 8 pm' );
+      
+
         
     }
     function testDeleteActivity()
@@ -62,13 +66,13 @@ class TestOfActivityAPI extends UnitTestCase {
                         'details' => '++++++++++',
                         'Status' => 'Scheduled',
                         'parent_id' => 1, 
-                        //   'activity_name'=> "Meeting",
+                        'activity_name'=> "Meeting",
                         );
-        $activity=& civicrm_create_activity($params);
+        $activity=& civicrm_activity_create($params);
         $params = array('id' => 10,
-                        'activity_type_id' => 1,
+                        'activity_name' => 'Meeting',
                         );
-        $activity=& civicrm_delete_activity($params);
+        $activity=& civicrm_activity_delete($params);
     
       
     }
@@ -87,14 +91,14 @@ class TestOfActivityAPI extends UnitTestCase {
                         'location' => 'Pensulvania',
                         'details' => '++++++++++',
                         'Status' => 'Scheduled',
-                        'parent_id' => 1    
-                        //   'activity_name'=> 'Meeting',
+                        'parent_id' => 1 ,   
+                        'activity_name'=> 'Meeting',
                          );
      
-        $activity=& civicrm_create_activity($params);
+        $activity=& civicrm_activity_create($params);
         
         $contact = 80;
-        $activity=& civicrm_get_contact_activities($contact);
+        $activity=& civicrm_activities_get_contact($contact);
      
     }
 }
