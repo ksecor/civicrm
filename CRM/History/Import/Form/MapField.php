@@ -346,7 +346,7 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
                 }
             }
          
-            $sel->setOptions(array($sel1, $sel2, $sel3, $sel4));
+            $sel->setOptions(array($sel1, $sel2, (isset($sel3)) ? $sel3 : "", (isset($sel4)) ? $sel4 : ""));
         }
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);

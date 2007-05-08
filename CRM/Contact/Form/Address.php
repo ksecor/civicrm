@@ -110,9 +110,9 @@ class CRM_Contact_Form_Address
                  ! CRM_Utils_Array::value( 'address', $fields['location'][$i] ) ) {
                 continue;
             }
-
-            $stateProvinceId = $fields['location'][$i]['address']['state_province_id'];
-            $countryId       = $fields['location'][$i]['address']['country_id'];
+            
+            $stateProvinceId = CRM_Utils_Array::value( 'state_province_id',$fields['location'][$i]['address'] );
+            $countryId       = CRM_Utils_Array::value( 'country_id',$fields['location'][$i]['address'] );
             $countyId        = CRM_Utils_Array::value( 'county_id', $fields['location'][$i]['address'] );
 
             if ($stateProvinceId && $countryId) {

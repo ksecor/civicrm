@@ -946,7 +946,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
             
                 foreach($params['location'] as $locIdx => $loc) {
                     foreach (array('email', 'phone', 'im') as $key) {
-                        if (is_array($loc[$key])) {
+                        if ( isset($loc[$key]) && is_array($loc[$key]) ) {
                             foreach ($loc[$key] as $keyIdx => $value) {
                                 if ( ! empty( $value[$key] ) && ! $params[$key] ) {
                                     $params[$key] = $value[$key];

@@ -208,7 +208,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
                 $this->add('text', 'amount_other', ts( 'Other Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();') );
             } else {
-                $this->add('text', 'amount_other', ts( 'Contribution Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();'),true );               
+                $this->add('text', 'amount_other', ts( 'Contribution Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();'),true );             
             }
             $this->assign( 'is_allow_other_amount', true );
 
@@ -457,7 +457,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $amount = $params['amount_other'];
         } else {
             $amountID = array_search( CRM_Utils_Array::value('amount',$params),
-                                     $form->_values['amount_id'] );
+                                      CRM_Utils_Array::value('amount_id',$form->_values) );
 
             if ( ! empty( $form->_values['value'] ) &&
                  $amountID ) {

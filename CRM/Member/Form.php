@@ -73,9 +73,10 @@ class CRM_Member_Form extends CRM_Core_Form
 
         if ( isset ( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->_BAOName) . ".php");
+            eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
         }
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->_BAOName) . ".php");
-        eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
+        
         
         if ( isset ($defaults['status'] ) ) {
             $this->assign( 'membershipStatus', $defaults['status'] );

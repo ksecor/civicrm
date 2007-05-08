@@ -99,7 +99,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             ksort( $adminPanel[$group] );
         }
 
-        if ( $this->_contactType == 'Individual' ) {
+       if ( isset($this->_contactType) && $this->_contactType == 'Individual' ) {
         }
         
         require_once 'CRM/Utils/VersionCheck.php';

@@ -162,7 +162,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
             }    
             
             //give error if default is selected for an unchecked membership type
-            if ( $params['membership_type_default'] && !$params['membership_type'][$params['membership_type_default']] ) {
+            if ( isset($params['membership_type_default']) && !$params['membership_type'][$params['membership_type_default']] ) {
                 $errors['membership_type_default'] = 'Can\'t set default option for an unchecked membership type.';
             }
         }
