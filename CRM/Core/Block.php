@@ -273,6 +273,12 @@ class CRM_Core_Block {
                                            'query' => 'ct=Household&reset=1',
                                            'title' => ts('New Household') ),
                                     );
+                if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                    $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/quest/search',
+                                                                      'query' => 'reset=1',
+                                                                      'title' => ts('Quest Search') ))); 
+                }
+     
             }
 
             if ( CRM_Core_Permission::check('edit groups')) {
@@ -294,7 +300,6 @@ class CRM_Core_Block {
         }
 
         $values = array( );
-
         foreach ( $shortCuts as $short ) {
             $value = array( );
             $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['query'] );

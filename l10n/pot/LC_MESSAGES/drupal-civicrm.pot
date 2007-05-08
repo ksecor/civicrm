@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-04-18 08:26+0200\n"
+"POT-Creation-Date: 2007-05-07 11:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -58,63 +58,63 @@ msgid "You can:"
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "read the <a href=\"%1\">CiviCRM Administrator Guide</a>."
+msgid "read the <a href=\"!1\">CiviCRM Administrator Guide</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "enable CiviCRM blocks at <a href=\"%1\">administer &gt;&gt; blocks</a>."
+msgid "enable CiviCRM blocks at <a href=\"!1\">Administer &raquo; Site Building &raquo; Blocks</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "read <a href=\"%1\">CiviCRM access permissions</a> and set access permissions at <a href=\"%2\">administer &gt;&gt; access control</a>."
+msgid "read about <a href=\"!1\">CiviCRM access permissions</a> and set access permissions at <a href=\"!2\">Administer CiviCRM &raquo; Access Control</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "find contacts by name, email address, group membership and or tagging at <a href=\"%1\">find contacts</a>."
+msgid "find contacts by name, email address, group membership and or tagging at <a href=\"!1\">Find Contacts</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "do complex searches based on tags, group membership, location, activities and custom fields at <a href=\"%1\">advanced search</a>."
+msgid "do complex searches based on tags, group membership, location, activities and custom fields at <a href=\"!1\">Advanced Search</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "create or manage groups at <a href=\"%1\">manage groups</a>."
+msgid "create or manage groups at <a href=\"!1\">Manage Groups</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "import contacts from other sources at <a href=\"%1\">import contacts</a>."
+msgid "import contacts from other sources at <a href=\"!1\">Import Contacts</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "create or administer tags (e.g. organizer, foundation, environment...) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
+msgid "create or administer tags (e.g. organizer, foundation, environment...) at <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Tags</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "create or administer relationship types (e.g. household member, board member, spouse...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; relationship types</a>."
+msgid "create or administer relationship types (e.g. household member, board member, spouse...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Relationship Types</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "create or administer location types (e.g. home, work, school...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; location types</a>."
+msgid "create or administer location types (e.g. home, work, school...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Location Types</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "create or administer activity types (e.g. house meeting, intake interview...) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; activity types</a>."
+msgid "create or administer activity types (e.g. house meeting, intake interview...) at <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Activity Types</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "create or administer custom data fields (e.g. volunteer skills, emergency contact info...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; custom data</a>."
+msgid "create or administer custom data fields (e.g. volunteer skills, emergency contact info...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Custom Data</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "create or administer civicrm profile (i.e. what contact data is collected during user registration) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; civicrm profile</a>."
+msgid "create or administer CiviCRM profiles (i.e. what contact data is collected during user registration and included in My Account) at <a href=\"!1\">CiviCRM &raquo; Administer &raquo; CiviCRM Profiles</a>."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "For more information please read the configuration and customization handbook <a href=\"%1\">CiviCRM page</a>."
+msgid "For more information please refer to the <a href=\"!1\">CiviCRM web-site</a> which includes project information, documentation and support resources and more."
 msgstr ""
 
 #: drupal/civicrm.module
-msgid "Constituent Relationship Management (CiviCRM %1). Allows sites to manage contacts, relationships and groups, and track contact activities."
+msgid "Constituent Relationship Management (CiviCRM !1). Allows sites to manage contacts, relationships and groups, and track contact activities, contributions, memberships and events. For more information please refer to the <a href=\"!2\">CiviCRM web-site</a> which includes project information, documentation and support resources and more."
 msgstr ""
 
 #: drupal/civicrm.module
