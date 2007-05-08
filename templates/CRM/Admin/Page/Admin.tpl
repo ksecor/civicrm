@@ -15,9 +15,8 @@
 {/if}
 {strip}
 {foreach from=$adminPanel key=groupName item=group}
- {assign var="sLink" value=$group.show}
  <div id = "id_{$groupName}_show" class="section-hidden section-hidden-border label">
-    {$sLink} {$groupName}
+    <dl><dt>{$group.show} {$groupName}</dt><dd class="description">{$groupDesc.$groupName}</dd></dl>
  </div>
  
  <div id="id_{$groupName}">

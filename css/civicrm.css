@@ -193,7 +193,7 @@ border-top-style: none;
   border: 0px none;
 }
 
-#crm-container table.form-layout tbody, #crm-container table.form-layout-compressed tbody {
+#crm-container tbody{
     border-top: none
 }
 

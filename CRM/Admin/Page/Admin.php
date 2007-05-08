@@ -42,24 +42,33 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
 {
     function run ( ) {
         require_once 'CRM/Core/Menu.php';
-        $groups =& CRM_Core_Menu::menuGroups( );
         $items =& CRM_Core_Menu::items( );
+        $groups = array( ts('Manage'), ts('Configure'), ts('Setup') );
+        // Create array to hold descriptive text for collapsed view of control panel
+        $groupDesc = array ( 'Manage'    => ts('Access Control, Backup Data, and Synchronize Users to Contacts'),
+                        'Configure' => ts('Activity Types, Profiles, Custom Data, Duplicate Matching, Relationship Types, Tags and other site-configurable option lists.'),
+                        'Setup'     => ts('Global Settings, Gender Options, Instant Messenger Services, Mobile Phone Providers, Individual Name Prefixes and Suffixes, Preferred Communication Options'),
+                        );
 
         $config =& CRM_Core_Config::singleton( );
         if ( in_array("CiviContribute", $config->enableComponents) ) {
             $groups[] = 'CiviContribute';
+            $groupDesc['CiviContribute']  = ts('Manage Online Contribution Pages, Premiums, Contribution Types, Payment Instruments, and Accepted Credit Cards');
         }
         
         if ( in_array("CiviMember", $config->enableComponents) ) {
             $groups[] = 'CiviMember';
+            $groupDesc['CiviMember'] = ts('Manage Membership Types and Membership Status Rules');
         }
 
         if ( in_array("CiviEvent", $config->enableComponents) ) {
             $groups[] = 'CiviEvent';
+            $groupDesc['CiviEvent'] = ts('Manage Events, Event Types, Participant Statuses, Participant Roles and Price Sets');
         }
 
          if ( in_array("CiviMail", $config->enableComponents) ) {
             $groups[] = 'CiviMail';
+            $groupDesc['CiviMail'] = ts('Manage Mailer Settings and Mailing Headers, Footers and Automated Replies');
         }
 
        $adminPanel = array( );
@@ -99,6 +108,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
         $this->assign('localVersion', $versionCheck->localVersion);
 
         $this->assign('adminPanel', $adminPanel);
+        $this->assign('groupDesc', $groupDesc);
         $this->_showHide->addToTemplate( );
         return parent::run( );
     }

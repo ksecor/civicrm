@@ -55,14 +55,6 @@ class CRM_Core_Menu {
     static $_permissionedItems = null;
 
     /**
-     * the list of menu groupings
-     * 
-     * @var array
-     * @static
-     */
-    static $_menuGroups = null;
-    
-    /**
      * the list of root local tasks
      *
      * @var array
@@ -93,7 +85,7 @@ class CRM_Core_Menu {
      * the same code in both drupal and joomla
      */
     const
-    CALLBACK           =    4,
+        CALLBACK           =    4,
         NORMAL_ITEM        =   22,
         LOCAL_TASK         =  128,
         DEFAULT_LOCAL_TASK =  640,
@@ -525,27 +517,7 @@ class CRM_Core_Menu {
         return $maxWeight;
     }
 
-    /**
-     * This function returns a menuGroup array for the admin control panel. It can be extended if
-     * we need grouping for other menus.
-     *
-     * @static
-     * @access public
-     */
-    static function &menuGroups( ) {
-        if ( ! self::$_menuGroups ) {
-            $config =& CRM_Core_Config::singleton( );            
-            $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
-            
-            switch ( $args[1] ) {
-                case 'admin':
-                    self::$_menuGroups = array( ts('Manage'), ts('Configure'), ts('Setup') );
-                    break;
-            }
-        }
-        return self::$_menuGroups;
-    }
-    
+   
     static function &adminItems( ) {
         // helper variable for nicer formatting
         $drupalSyncExtra = ts('Synchronize Users to Contacts:') . ' ' . ts('CiviCRM will check each user record for a contact record. A new contact record will be created for each user where one does not already exist.') . '\n\n' . ts('Do you want to continue?');
