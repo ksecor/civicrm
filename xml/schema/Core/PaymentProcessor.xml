@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>PaymentProcessor</class>
+  <name>civicrm_payment_processor</name>
+  <add>1.1</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Payment Processor ID</comment>
+       <add>1.8</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this location type.</comment>
+       <add>1.8</add>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+       <add>1.8</add>
+  </foreignKey>
+  <field>
+       <name>name</name>
+       <title>Payment Processor</title>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Payment Processor Name.</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>description</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Payment Processor Description.</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this processor active?</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+        <name>is_default</name>
+        <type>boolean</type>
+        <comment>Is this processor the default?</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+        <name>is_test</name>
+        <type>boolean</type>
+        <comment>Is this processor for a test site?</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>user_name</name>
+       <title>User Name</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>password</name>
+       <title>Password</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>key</name>
+       <title>Key</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>url_site</name>
+       <title>Site URL</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>url_button</name>
+       <title>Button URL</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>subject</name>
+       <title>Subject</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+</table>

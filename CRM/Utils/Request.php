@@ -98,7 +98,6 @@ class CRM_Utils_Request {
         if ( isset( $value ) &&
              ( CRM_Utils_Type::validate( $value, $type, $abort ) === null ) ) {
             $value = null;
-            unset( $value );
         }
         
         if ( ! isset( $value ) && $store ) {

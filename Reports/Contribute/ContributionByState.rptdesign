@@ -24,7 +24,12 @@
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="CiviCRM" id="4"
- extends="civicrm.CiviCRM"/>
+ extends="civicrm.CiviCRM">
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
+            <property name="odaUser">civicrm</property>
+            <encrypted-property name="odaPassword">TXQhRXZlcmVzdA==</encrypted-property>
+        </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Contribution By State" id="5"
