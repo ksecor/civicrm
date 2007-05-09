@@ -41,8 +41,8 @@ class CRM_Dedupe_Merger
         'Individual'   => array('first_name', 'middle_name', 'last_name',
             'prefix_id', 'suffix_id', 'greeting_type', 'custom_greeting',
             'job_title', 'gender_id', 'birth_date', 'is_deceased', 'deceased_date'),
-        'Contact'      => array('do_not_email', 'do_not_phone', 'do_not_mail',
-            'legal_identifier', 'home_URL', 'image_URL',
+        'Contact'      => array('nick_name', 'do_not_email', 'do_not_phone',
+            'do_not_mail', 'legal_identifier', 'home_URL', 'image_URL',
             'preferred_communication_method', 'preferred_mail_format',
             'do_not_trade', 'is_opt_out', 'source'),
     );

@@ -1,6 +1,6 @@
 <div class='spacer'></div>
 <table>
-  <tr><th></th><th>{$main_name}</th><th>{$other_name}</th></tr>
+  <tr><th></th><th><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$main_cid"}">{$main_name}</a></th><th><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$other_cid"}">{$other_name}</a></th></tr>
   {foreach from=$rows item=field}
     <tr>
       <th>{$form.$field.label}</th>

@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'api/Location.php';
 
 class CRM_Contact_Form_Merge extends CRM_Core_Form
 {
@@ -60,6 +61,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->assign('contact_type', $main->contact_type);
         $this->assign('main_name',    $main->display_name);
         $this->assign('other_name',   $other->display_name);
+        $this->assign('main_cid',     $main->contact_id);
+        $this->assign('other_cid',    $other->contact_id);
 
         $this->_cid         = $cid;
         $this->_contactType = $main->contact_type;
@@ -135,9 +138,33 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $customLabels['other'][$id], $customValues['other'][$id]);
             $this->addGroup($group, "custom_$id", CRM_Core_BAO_CustomField::getTitle($id));
         }
+
+        foreach (CRM_Core_PseudoConstant::locationType() as $locTypeId => $locTypeName) {
+            foreach (array('main', 'other') as $moniker) {
+                $locations[$locTypeName][$moniker] = crm_get_locations($$moniker, array($locTypeName));
+                if (empty($locations[$locTypeName][$moniker])) {
+                    $locValue[$moniker] = 0;
+                    $locLabel[$moniker] = ts('[DELETE]');
+                } else {
+                    $locValue[$moniker] = $locations[$locTypeName][$moniker][0]->id;
+                    $locLabel[$moniker] = $locations[$locTypeName][$moniker][0]->name . '<br />'
+                                        . $locations[$locTypeName][$moniker][0]->email[1]->email . '<br />'
+                                        . nl2br($locations[$locTypeName][$moniker][0]->address->display);
+                }
+            }
+            if (!empty($locations[$locTypeName]['main']) or !empty($locations[$locTypeName]['other'])) {
+                $rows[] = "location_$locTypeId";
+                $this->_defaults["location_$locTypeId"] = $locValue['main'];
+                $group['main']  = HTML_QuickForm::createElement('radio', $this->_col, null, $locLabel['main'],  $locValue['main']);
+                $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $locLabel['other'], $locValue['other']);
+                $this->addGroup($group, "location_$locTypeId", ts('Location: %1', array(1 => $locTypeName)));
+            }
+        }
+
+        $this->assign('rows', $rows);
+
         // make defaults compatible with the ugly _col hack
         foreach ($this->_defaults as $key => $value) $this->_defaults["{$key}[{$this->_col}]"] = $value;
-        $this->assign('rows', $rows);
     }
     
     function setDefaultValues()
@@ -166,6 +193,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         foreach ($formValues as $key => $value) {
             if ((in_array($key, $validFields) and array_key_exists($this->_col, $value)) or substr($key, 0, 7) == 'custom_') {
                 $submitted[$key] = $value[$this->_col];
+            } elseif (substr($key, 0, 9) == 'location_') {
+                $locations[substr($key, 9)] = $value[$this->_col];
             }
         }
         // FIXME: source vs. contact_source workaround
@@ -180,9 +209,36 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $pcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pcm);
             $pcm = array_flip($pcm);
         }
+
+        $main =& crm_get_contact(array('contact_id' => $this->_cid));
+
         if (isset($submitted)) {
-            $main =& crm_get_contact(array('contact_id' => $this->_cid));
             crm_update_contact($main, $submitted);
+        }
+
+        // FIXME: the simplest approach to locations
+        $locTypes =& CRM_Core_PseudoConstant::locationType();
+        foreach ($locations as $locTypeId => $locId) {
+            $mainLocation = crm_get_locations($main, array($locTypes[$locTypeId]));
+            // if we stay with the same location, skip it
+            if ($locId == $mainLocation[0]->id) {
+                continue;
+            }
+            // delete the old location
+            crm_delete_location($main, $mainLocation[0]->id);
+            // if the new one is 0, we're done
+            if ($locId == 0) {
+                continue;
+            }
+            // otherwise, move the new one to the
+            // main contact (preserving primariness)
+            require_once 'CRM/Core/DAO/Location.php';
+            $locDAO =& new CRM_Core_DAO_Location();
+            $locDAO->id = $locId;
+            $locDAO->fetch();
+            $locDAO->entity_id = $this->_cid;
+            $locDAO->is_primary = $mainLocation[0]->is_primary;
+            $locDAO->save();
         }
     }
 }
