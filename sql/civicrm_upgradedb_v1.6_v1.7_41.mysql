@@ -264,11 +264,24 @@ CREATE TABLE civicrm_currency (
 -- *
 -- *******************************************************/
 
-	  UPDATE civicrm_activity_history SET callback = 'CRM_Activity_BAO_Activity::showActivityDetails' WHERE callback IN ('CRM_Activity_Form_Meeting::showMeetingDetails', 'CRM_Activity_Form_OtherActivity::showOtherActivityDetails', 'CRM_Activity_Form_Phonecall::showCallDetails');
-	  UPDATE civicrm_activity_history SET activity_type = 'Meeting' WHERE activity_type IN ('Treffen', 'Cita', 'Tapaaminen', 'Réunion', 'Reunion', 'Találkozó', 'Riunione', 'Bijeenkomst', 'Spotkanie', 'Reunião', 'Întâlnire', 'Möte(n)', 'ลบกิจกรรม');
-	  UPDATE civicrm_activity_history SET activity_type = 'Phone Call' WHERE activity_type IN ('Telefonanruf', 'Llamada telefónica', 'Puhelu', 'Appel', 'Appel téléphonique', 'Telefonhívás', 'Telefonata', 'Telefoonoproep', 'Telefonsamtale', 'Rozmowa', 'Telefonema', 'Apel telefon', 'Telefonkontakt', 'ลบที่ติดต่อ');
-	  UPDATE civicrm_activity_history SET activity_type = 'Email' WHERE activity_type IN ('Sähköposti', 'Courriel', 'Epost', 'E-post', 'อีเมล์');
-	  UPDATE civicrm_activity_history SET activity_type = 'Event' WHERE activity_type IN ('Evenement', 'Wydarzenie', 'Evento');
+  UPDATE civicrm_activity_history SET callback = 'CRM_Activity_BAO_Activity::showActivityDetails' WHERE callback IN ('CRM_Activity_Form_Meeting::showMeetingDetails', 'CRM_Activity_Form_OtherActivity::showOtherActivityDetails', 'CRM_Activity_Form_Phonecall::showCallDetails');
+
+  UPDATE civicrm_activity_history SET activity_type = 'Meeting'    WHERE activity_type IN ('Treffen', 'Cita', 'Tapaaminen', 'Reunion', 'Riunione', 'Bijeenkomst', 'Spotkanie');
+  UPDATE civicrm_activity_history SET activity_type = 'Meeting'    WHERE activity_type LIKE 'R%union';
+  UPDATE civicrm_activity_history SET activity_type = 'Meeting'    WHERE activity_type LIKE 'Tal%lkoz%';
+  UPDATE civicrm_activity_history SET activity_type = 'Meeting'    WHERE activity_type LIKE 'Reuni%o';
+  UPDATE civicrm_activity_history SET activity_type = 'Meeting'    WHERE activity_type LIKE '%nt%lnire';
+  UPDATE civicrm_activity_history SET activity_type = 'Meeting'    WHERE activity_type LIKE 'M%te(n)';
+
+  UPDATE civicrm_activity_history SET activity_type = 'Phone Call' WHERE activity_type IN ('Telefonanruf', 'Puhelu', 'Appel', 'Telefonata', 'Telefoonoproep', 'Telefonsamtale', 'Rozmowa', 'Telefonema', 'Apel telefon', 'Telefonkontakt');
+  UPDATE civicrm_activity_history SET activity_type = 'Phone Call' WHERE activity_type LIKE 'Llamada telef%nica';
+  UPDATE civicrm_activity_history SET activity_type = 'Phone Call' WHERE activity_type LIKE 'Appel t%l%phonique';
+  UPDATE civicrm_activity_history SET activity_type = 'Phone Call' WHERE activity_type LIKE 'Telefonh%v%s';
+
+  UPDATE civicrm_activity_history SET activity_type = 'Email'      WHERE activity_type IN ('Courriel', 'Epost', 'E-post');
+  UPDATE civicrm_activity_history SET activity_type = 'Email'      WHERE activity_type LIKE 'S%hk%posti';
+
+  UPDATE civicrm_activity_history SET activity_type = 'Event'      WHERE activity_type IN ('Evenement', 'Wydarzenie', 'Evento');
 
 
 -- /*******************************************************
