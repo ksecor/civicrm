@@ -111,10 +111,12 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         require_once 'CRM/Core/DAO.php';
 
         if ($this->_action & CRM_Core_Action::ADD) {
-            $fieldValues = array('entity_id' => $this->_fid);
+            $fieldValues = array('entity_id'    => $this->_fid,
+                                 'entity_table' => 'civicrm_custom_field'
+                                 );
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomOption', $fieldValues);
         }
-        
+
         return $defaults;
     }
     
@@ -331,18 +333,20 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             CRM_Core_Session::setStatus(ts('Your multiple choice option has been deleted', array(1 => $customOption->label)));
             return;
         }
-        if ($this->_id) {
-            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomOption', $this->_id, 'weight', 'id' );
-        }
-        $fieldValues = array('entity_id' => $this->_fid);
-        $params['weight'] = 
-            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomOption', $oldWeight, $params['weight'], $fieldValues);
-                
+
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $customOption->id = $this->_id;
             CRM_Core_BAO_CustomOption::updateCustomValues($params);
         }
-
+        if ($this->_id) {
+            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomOption', $this->_id, 'weight', 'id' );
+        }
+        $fieldValues = array('entity_id' => $this->_fid,
+                             'entity_table' => 'civicrm_custom_field'
+                             );
+        $customOption->weight = 
+            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomOption', $oldWeight, $params['weight'], $fieldValues);
+        
         // need the FKEY - custom field id
         //$customOption->custom_field_id = $this->_fid;
         $customOption->entity_id    = $this->_fid;
@@ -392,7 +396,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                 $customField->save(); 
             }
         }
-	
+
         $customOption->save();
         
         
