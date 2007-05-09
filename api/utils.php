@@ -899,7 +899,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         
         $values['preferred_communication_method'] = $prefComm;
     } else {
-        $values['preferred_communication_method'] = '';
+        unset($values['preferred_communication_method']);
     }
 
     _crm_update_object( $contact, $values );
