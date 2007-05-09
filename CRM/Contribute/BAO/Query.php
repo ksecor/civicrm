@@ -248,6 +248,13 @@ class CRM_Contribute_BAO_Query
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
             
+        case 'contribution_status_id':
+            $query->_where[$grouping][] = "civicrm_contribution.contribution_status_id $op $value";
+            $query->_qill[$grouping][]  = "Contribution Status ID $op \"$value\"";
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            
+            return;
+
         case 'contribution_source':
             $value = strtolower( addslashes( $value ) );
             if ( $wildcard ) {
@@ -296,6 +303,10 @@ class CRM_Contribute_BAO_Query
             $fldName = substr($name, 13 );
             $whereTable = $fields[$fldName];
             $value = trim($value);
+
+            //contribution fields (decimal fields) which don't require a quote in where clause.
+            $noQuotes = array('non_deductible_amount', 'fee_amount', 'net_amount', 'invoice_id');
+            
             //date fields
             $dateFields = array ( 'receive_date', 'cancel_date', 'receipt_date', 'thankyou_date', 'fulfilled_date' ) ;
             if ( in_array($fldName, $dateFields) ) {
@@ -313,7 +324,11 @@ class CRM_Contribute_BAO_Query
                         $value = "%$value%"; 
                         $op    = 'LIKE';
                     }
-                    $query->_where[$grouping][] = "LOWER( $whereTable[where] ) $op '$value'";
+                    if ( in_array($fldName, $noQuotes) ) {
+                        $query->_where[$grouping][] = "LOWER( $whereTable[where] ) $op $value";
+                    } else {
+                        $query->_where[$grouping][] = "LOWER( $whereTable[where] ) $op '$value'";
+                    }
                 }
             }
 
