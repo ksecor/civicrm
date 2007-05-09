@@ -143,36 +143,41 @@ class CRM_Utils_ICalendar
 
     /**
      *
-     * Send the ICalendar as a downloadable file.
+     * Send the ICalendar to the browser with the specified content type
+     * - 'text/calendar' : used for downloaded ics file
+     * - 'text/plain'    : used for iCal formatted feed
+     * - 'text/xml'      : used for gData or rss formatted feeds
      *
      * @access public
      * 
-     * @param string $filename The file name to give the ICalendar
+     * @param string $content_type 
+     * 
+     * @param string $filename The file name (for downloads)
      *
-     * @param string $disposition How the file should be sent, either
-     * 'inline' or 'attachment'.
+     * @param string $disposition How the file should be sent ('attachment' for downloads)
      * 
      * @param string $charset The character set to use, defaults to
      * 'us-ascii'.
      *
-     * @param string $format The contents of the file
-     * to be published
+     * @param string $calendar The calendar data to be published.
      * 
      * @return void
      * 
      */ 
-    function send( $fileName, $disposition = 'attachment', $charset = 'us-ascii', $format )
+    function send( $calendar, $content_type = 'text/calendar', $charset = 'us-ascii', $fileName, $disposition  )
     {
-        header(
-               'Content-Type: text/calendar;' .
-               'Content-Language: en_US;' . 
-               'profile="ICalendar"; ' .
-               'charset=' . $charset
-               );
-   
-        header('Content-Length: ' . strlen($format));
-        header("Content-Disposition: $disposition; filename=\"$fileName\"");
-        echo $format;
+        header( "Content-Type: $content_type;" . 
+                'Content-Language: en_US;' . 
+                'profile="ICalendar"; ' .
+                'charset=' . $charset
+                );
+        
+        if ( $content_type == 'text/calendar') {
+            header('Content-Length: ' . strlen($calendar));
+            header("Content-Disposition: $disposition; filename=\"$fileName\"");
+        }
+        
+        echo $calendar;
     }
 }
 

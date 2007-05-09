@@ -45,7 +45,8 @@ class CRM_Event_Page_ICalendar extends CRM_Core_Page
      * Heart of the iCalendar data assignment process. The runner gets all the meta
      * data for the event and calls the  method to output the iCalendar
      * to the user. If gData param is passed on the URL, outputs gData XML format.
-     * Else outputs iCalendar format per IETF RFC2445.
+     * Else outputs iCalendar format per IETF RFC2445. Page param true means send
+     * to browser as inline content. Else, we send .ics file as attachment.
      *
      * @return void
      */
@@ -60,19 +61,24 @@ class CRM_Event_Page_ICalendar extends CRM_Core_Page
         $info = CRM_Event_BAO_Event::getCompleteInfo( $start, $type );
         $this->assign( 'events', $info );
 
+        // Send data to the correct template for formatting (iCal vs. gData)
         $template =& CRM_Core_Smarty::singleton( );
         if ( empty( $gData ) ) {
-            $format = $template->fetch( 'CRM/Core/Calendar/ICal.tpl' );
+            $calendar = $template->fetch( 'CRM/Core/Calendar/ICal.tpl' );
         } else {
-            $format = $template->fetch( 'CRM/Core/Calendar/GData.tpl' );
+            $calendar = $template->fetch( 'CRM/Core/Calendar/GData.tpl' );
         }
 
+        // Push output for feed or download
         if( $iCalPage == 1) {
-            echo "<pre>$format</pre>";
-            exit();
+            if ( empty ( $gData ) ) {
+                CRM_Utils_ICalendar::send( $calendar, 'text/plain', 'utf-8' );
+            } else {
+                CRM_Utils_ICalendar::send( $calendar, 'text/xml', 'utf-8' );
+            }
+        } else {
+            CRM_Utils_ICalendar::send( $calendar, 'text/calendar', 'utf-8', 'civicrm_ical.ics', 'attachment' );
         }
-
-        CRM_Utils_ICalendar::send( 'civicrm_ical.ics', 'attachment', 'utf-8', $format );
         exit( );
     }
 }
