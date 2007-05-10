@@ -83,7 +83,7 @@ class CRM_Member_Form_MembershipStatus extends CRM_Member_Form
         $this->add('select', 'start_event_adjust_unit', ts('Start Event Adjustment'), CRM_Core_SelectValues::unitList( ) );
         $this->add('text', 'start_event_adjust_interval', ts('Start Event Adjust Interval'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipStatus', 'start_event_adjust_interval' ) );
-        $this->add('select', 'end_event', ts('End Event'), CRM_Core_SelectValues::eventDate( ),true );
+        $this->add('select', 'end_event', ts('End Event'), CRM_Core_SelectValues::eventDate( ), false );
         $this->add('select', 'end_event_adjust_unit', ts('End Event Adjustment'), CRM_Core_SelectValues::unitList( ) );
         $this->add('text', 'end_event_adjust_interval', ts('End Event Adjust Interval'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipStatus', 'end_event_adjust_interval' ) );
