@@ -337,7 +337,7 @@ class CRM_Core_Block {
                                       );
                 self::$_properties[self::GCC]['subject'] = ($role == 'csr') ? 'Customer Service Rep' : 'GCC Admin';
             }
-            if ($role == 'csr' || $role == 'admin' || $role == 'retrofit' || $role == 'auditor') {
+            if ($role == 'csr' || $role == 'admin'  || $role == 'superadmin' || $role == 'retrofit' || $role == 'auditor') {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/application/search',
                                       'query' => 'reset=1',
                                       'title' => ts('List Participants')
@@ -345,11 +345,12 @@ class CRM_Core_Block {
                 self::$_properties[self::GCC]['subject'] = 
                     ($role == 'retrofit') ? 'Retrofit Manager' : (($role == 'auditor') ? 'Auditor' : self::$_properties[self::GCC]['subject']);
             }
-            if ($role == 'admin') {
+            if ($role == 'admin' || $role == 'superadmin') {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
                                       'query' => 'reset=1',
                                       'title' => ts('Summary Report')
                                       );                
+                self::$_properties[self::GCC]['subject'] = ($role == 'superadmin') ? "Super Admin" : self::$_properties[self::GCC]['subject'];
             }
 
             $shortCuts[] = array( 'path'  => "user/$ufID",
