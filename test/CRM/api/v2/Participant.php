@@ -68,6 +68,15 @@ class TestOfCreateParticipantAPIV2 extends UnitTestCase
         $this->assertNotNull( $this->_participant['participant_id'] );
      }     
 
+    function testGetParticipantsByEventId()
+    {
+        $params = array('event_id' => $this->_participant2['event_id']);
+        $participant = & civicrm_participant_get($params);
+        foreach ( $participant as $id => $value ) {
+            $this->assertEqual($value['event_id'],$this->_participant2['event_id']);               
+        }
+    }
+
     function testDeleteParticipant()
     {
         $delete = & civicrm_participant_delete($this->_participant['participant_id']);

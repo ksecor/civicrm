@@ -107,29 +107,78 @@ function civicrm_event_create( $params )
  * @return  If successful array of event data; otherwise object of CRM_Core_Error.
  * @access public
  */
-function civicrm_event_search( $params ) 
+function civicrm_event_get( $params ) 
 {
     _civicrm_initialize();
     if ( ! is_array($params) ) {
         return civicrm_create_error('Params is not an array.');
     }
-    if ( ! isset($params['id'])) {
+    if ( ! isset($params['event_id'])) {
         return civicrm_create_error('Required id (event ID) parameter is missing.');
     }
-    $query = "SELECT * FROM civicrm_event WHERE ";
-    $count =0;
-    foreach ( $params as $key => $value ) {
-        $count++;
-        if ( $count != 1) {       
-            $query .= " AND ";
+    $event  =& civicrm_event_search( $params );
+    if ( civicrm_error( $event ) ) {
+        return $event;
+    }
+
+    $event = array_values( $event );
+    return $event[0];
+
+}
+/**
+ * Get Event record.
+ * 
+ *
+ * @params  array  $params     an associative array of name/value property values of civicrm_event
+ *
+ * @return  Array of all found event property values.
+ * @access public
+ */  
+
+function civicrm_event_search( $params ) {
+
+    $inputParams      = array( );
+    $returnProperties = array( );
+    $otherVars = array( 'sort', 'offset', 'rowCount' );
+    
+    $sort     = null;
+    $offset   = 0;
+    $rowCount = 25;
+    foreach ( $params as $n => $v ) {
+        if ( substr( $n, 0, 7 ) == 'return.' ) {
+            $returnProperties[ substr( $n, 7 ) ] = 1;
+        } elseif ( array_key_exists( $n, $otherVars ) ) {
+            $$n = $v;
+        } else {
+            $inputParams[$n] = $v;
         }
-        $query .= $key ." = '" . $value . "'" ;
     }
-    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-    if ( $dao->fetch( ) ) {
-        return $dao;
+    require_once 'CRM/Contact/BAO/Query.php';
+    require_once 'CRM/Event/BAO/Query.php';  
+    if ( empty( $returnProperties ) ) {
+        $returnProperties = CRM_Event_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_EVENT );
     }
-    return null;
+
+    $newParams =& CRM_Contact_BAO_Query::convertFormValues( $params);
+
+    $query =& new CRM_Contact_BAO_Query( $newParams, $returnProperties, null );
+    list( $select, $from, $where ) = $query->query( );
+    
+    $sql = "$select $from $where"; 
+
+    if ( ! empty( $sort ) ) {
+        $sql .= " ORDER BY $sort ";
+    }
+    $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+    
+    $contacts = array( );
+    while ( $dao->fetch( ) ) {
+        $contacts[$dao->contact_id] = $query->store( $dao );
+    }
+    $dao->free( );
+    
+    return $contacts;
+
 }
 
 /**

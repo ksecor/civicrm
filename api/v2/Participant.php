@@ -90,8 +90,46 @@ function civicrm_participant_create($params)
     return $values;
 }
 
+
 /**
- * Get conatct participant record.
+ * Retrieve a specific event, given a set of input params
+ * If more than one event exists, return an error, unless
+ * the client has requested to return the first found contact
+ *
+ * @param  array   $params           (reference ) input parameters
+ *
+ * @return array (reference )        array of properties, if error an array with an error id and error message
+ * @static void
+ * @access public
+ */
+function &civicrm_participant_get( &$params ) {
+    _civicrm_initialize( );
+
+    $values = array( );
+    if ( empty( $params ) ) {
+        return civicrm_create_error( ts( 'No input parameters present' ) );
+    }
+    
+    if ( ! is_array( $params ) ) {
+        return civicrm_create_error( ts( 'Input parameters is not an array' ) );
+    }
+
+    $participant  =& civicrm_participant_search( $params );
+    if ( civicrm_error( $participant ) ) {
+        return $participant;
+    }
+
+    if ( count( $participant ) != 1 &&
+         ! $params['returnFirst'] ) {
+        return civicrm_create_error( ts( '%1 participants matching input params', array( 1 => count( $participant ) ) ) );
+    }
+
+    $participant = array_values( $participant );
+    return $participant[0];
+}
+
+/**
+ * Get contact participant record.
  * 
  * This api is used for finding an existing participant record.
  *
@@ -100,28 +138,51 @@ function civicrm_participant_create($params)
  * @return  Array of all found participant property values.
  * @access public
  */  
-function civicrm_participant_search( $params )
-{
-    _civicrm_initialize();
-     if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Params is not an array' );
-    }
-    
-     if ( !isset($params['event_id']) && !isset($params['contact_id'])) {
-        return civicrm_create_error( 'Required parameter missing' );
-    }
-       
-    // get the participants for the given contact ID
-    require_once 'CRM/Event/BAO/Participant.php';
-    $participant = $params;
-    $participantValues = $ids = array();
-    CRM_Event_BAO_Participant::getValues($participant, $participantValues, $ids);   
-    if ( empty( $participantValues ) ) {
-        return civicrm_create_error('No participants for this contact.');
-    }
-    return $participantValues;
-}
 
+function civicrm_participant_search( $params ) {
+
+    $inputParams      = array( );
+    $returnProperties = array( );
+    $otherVars = array( 'sort', 'offset', 'rowCount' );
+    
+    $sort     = null;
+    $offset   = 0;
+    $rowCount = 25;
+    foreach ( $params as $n => $v ) {
+        if ( substr( $n, 0, 7 ) == 'return.' ) {
+            $returnProperties[ substr( $n, 7 ) ] = $v;
+        } elseif ( array_key_exists( $n, $otherVars ) ) {
+            $$n = $v;
+        } else {
+            $inputParams[$n] = $v;
+        }
+    }
+    require_once 'CRM/Contact/BAO/Query.php';
+    require_once 'CRM/Event/BAO/Query.php';  
+    if ( empty( $returnProperties ) ) {
+        $returnProperties = CRM_Event_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_EVENT );
+    }
+
+    $newParams =& CRM_Contact_BAO_Query::convertFormValues( $params);
+    $query =& new CRM_Contact_BAO_Query( $newParams, $returnProperties, null );
+    list( $select, $from, $where ) = $query->query( );
+    
+    $sql = "$select $from $where";  
+
+    if ( ! empty( $sort ) ) {
+        $sql .= " ORDER BY $sort ";
+    }
+    $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+    
+    $contacts = array( );
+    while ( $dao->fetch( ) ) {
+        $contacts[$dao->contact_id] = $query->store( $dao );
+    }
+    $dao->free( );
+    
+    return $contacts;
+
+}
 
 /**
  * Update an existing contact participant
