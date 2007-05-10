@@ -6,24 +6,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-04-18 07:35+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2001-11-23 22:24+0100\n"
+"Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language-Team: none\n"
 
 msgid "Alabama"
-msgstr ""
+msgstr "Alabama"
 
 msgid "Alaska"
-msgstr ""
+msgstr "Alaska"
 
 msgid "Arizona"
 msgstr ""
 
 msgid "Arkansas"
-msgstr ""
+msgstr "Arkansas"
 
 msgid "California"
 msgstr ""
@@ -32,157 +31,157 @@ msgid "Colorado"
 msgstr ""
 
 msgid "Connecticut"
-msgstr ""
+msgstr "Connecticut"
 
 msgid "Delaware"
-msgstr ""
+msgstr "Delaware"
 
 msgid "Florida"
-msgstr ""
+msgstr "Florida"
 
 msgid "Georgia"
-msgstr ""
+msgstr "Georgien"
 
 msgid "Hawaii"
-msgstr ""
+msgstr "Hawaii"
 
 msgid "Idaho"
-msgstr ""
+msgstr "Idaho"
 
 msgid "Illinois"
-msgstr ""
+msgstr "Illinois"
 
 msgid "Indiana"
-msgstr ""
+msgstr "Indiana"
 
 msgid "Iowa"
-msgstr ""
+msgstr "Iowa"
 
 msgid "Kansas"
-msgstr ""
+msgstr "Kansas"
 
 msgid "Kentucky"
-msgstr ""
+msgstr "Kentucky"
 
 msgid "Louisiana"
-msgstr ""
+msgstr "Louisiana"
 
 msgid "Maine"
-msgstr ""
+msgstr "Maine"
 
 msgid "Maryland"
-msgstr ""
+msgstr "Maryland"
 
 msgid "Massachusetts"
-msgstr ""
+msgstr "Massachusetts"
 
 msgid "Michigan"
-msgstr ""
+msgstr "Michigan"
 
 msgid "Minnesota"
-msgstr ""
+msgstr "Minnesota"
 
 msgid "Mississippi"
-msgstr ""
+msgstr "Mississippi"
 
 msgid "Missouri"
-msgstr ""
+msgstr "Missouri"
 
 msgid "Montana"
-msgstr ""
+msgstr "Montana"
 
 msgid "Nebraska"
-msgstr ""
+msgstr "Nebraska"
 
 msgid "Nevada"
-msgstr ""
+msgstr "Nevada"
 
 msgid "New Hampshire"
-msgstr ""
+msgstr "New Hampshire"
 
 msgid "New Jersey"
-msgstr ""
+msgstr "New Jersey"
 
 msgid "New Mexico"
-msgstr ""
+msgstr "New Mexico"
 
 msgid "New York"
-msgstr ""
+msgstr "New York"
 
 msgid "North Carolina"
-msgstr ""
+msgstr "North Carolina"
 
 msgid "North Dakota"
-msgstr ""
+msgstr "North Dakota"
 
 msgid "Ohio"
-msgstr ""
+msgstr "Ohio"
 
 msgid "Oklahoma"
-msgstr ""
+msgstr "Oklahoma"
 
 msgid "Oregon"
-msgstr ""
+msgstr "Oregon"
 
 msgid "Pennsylvania"
-msgstr ""
+msgstr "Pennsylvania"
 
 msgid "Rhode Island"
-msgstr ""
+msgstr "Rhode Island"
 
 msgid "South Carolina"
-msgstr ""
+msgstr "South Carolina"
 
 msgid "South Dakota"
-msgstr ""
+msgstr "South Dakota"
 
 msgid "Tennessee"
-msgstr ""
+msgstr "Tennessee"
 
 msgid "Texas"
-msgstr ""
+msgstr "Texas"
 
 msgid "Utah"
-msgstr ""
+msgstr "Utah"
 
 msgid "Vermont"
-msgstr ""
+msgstr "Vermont"
 
 msgid "Virginia"
-msgstr ""
+msgstr "Virginia"
 
 msgid "Washington"
-msgstr ""
+msgstr "Washington"
 
 msgid "West Virginia"
-msgstr ""
+msgstr "West Virginia"
 
 msgid "Wisconsin"
-msgstr ""
+msgstr "Wisconsin"
 
 msgid "Wyoming"
-msgstr ""
+msgstr "Wyoming"
 
 msgid "District of Columbia"
-msgstr ""
+msgstr "District of Columbia"
 
 msgid "American Samoa"
-msgstr ""
+msgstr "Amerikansk Samoa"
 
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Nordmarianerne"
 
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Rico"
 
 msgid "Virgin Islands"
-msgstr ""
+msgstr "Jomfruøerne"
 
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Fjerne, mindre øer, USA"
 
 msgid "Armed Forces Europe"
 msgstr ""
@@ -194,16 +193,16 @@ msgid "Armed Forces Pacific"
 msgstr ""
 
 msgid "Alberta"
-msgstr ""
+msgstr "Alberta"
 
 msgid "British Columbia"
-msgstr ""
+msgstr "British Columbia"
 
 msgid "Manitoba"
-msgstr ""
+msgstr "Manitoba"
 
 msgid "New Brunswick"
-msgstr ""
+msgstr "New Brunswick"
 
 msgid "Newfoundland and Labrador"
 msgstr ""
@@ -212,25 +211,25 @@ msgid "Northwest Territories"
 msgstr ""
 
 msgid "Nova Scotia"
-msgstr ""
+msgstr "Nova Scotia"
 
 msgid "Nunavut"
 msgstr ""
 
 msgid "Ontario"
-msgstr ""
+msgstr "Ontario"
 
 msgid "Prince Edward Island"
-msgstr ""
+msgstr "Prince Edward Island"
 
 msgid "Quebec"
-msgstr ""
+msgstr "Québec"
 
 msgid "Saskatchewan"
-msgstr ""
+msgstr "Saskatchewan"
 
 msgid "Yukon Territory"
-msgstr ""
+msgstr "Yukon territorierne"
 
 msgid "Maharashtra"
 msgstr ""
@@ -695,7 +694,7 @@ msgid "Uige"
 msgstr ""
 
 msgid "Zaire"
-msgstr ""
+msgstr "Zaire"
 
 msgid "Capital federal"
 msgstr ""
@@ -1253,7 +1252,7 @@ msgid "Limburg"
 msgstr ""
 
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luxemburg"
 
 msgid "Namur"
 msgstr ""
@@ -1886,7 +1885,7 @@ msgid "Vicebskaja voblasc'"
 msgstr ""
 
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
 msgid "Cayo"
 msgstr ""
@@ -2306,10 +2305,10 @@ msgid "Xizang"
 msgstr ""
 
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 msgid "Macau"
-msgstr ""
+msgstr "Macao"
 
 msgid "Distrito Capital de Bogotá"
 msgstr ""
@@ -2654,7 +2653,7 @@ msgid "Dikhil"
 msgstr ""
 
 msgid "Djibouti"
-msgstr ""
+msgstr "Djibouti"
 
 msgid "Obock"
 msgstr ""
@@ -4445,7 +4444,7 @@ msgid "Macenta"
 msgstr ""
 
 msgid "Mali"
-msgstr ""
+msgstr "Mali"
 
 msgid "Mamou"
 msgstr ""
@@ -4670,7 +4669,7 @@ msgid "Escuintla"
 msgstr ""
 
 msgid "Guatemala"
-msgstr ""
+msgstr "Guatemala"
 
 msgid "Huehuetenango"
 msgstr ""
@@ -7310,7 +7309,7 @@ msgid "Jalisco"
 msgstr ""
 
 msgid "Mexico"
-msgstr ""
+msgstr "Mexico"
 
 msgid "Michoacin"
 msgstr ""
@@ -7583,7 +7582,7 @@ msgid "Nassarawa"
 msgstr ""
 
 msgid "Niger"
-msgstr ""
+msgstr "Niger"
 
 msgid "Ogun"
 msgstr ""
@@ -7847,7 +7846,7 @@ msgid "Loa Santoa"
 msgstr ""
 
 msgid "Panama"
-msgstr ""
+msgstr "Panama"
 
 msgid "Veraguas"
 msgstr ""
@@ -8999,7 +8998,7 @@ msgid "Ostergotlands lan"
 msgstr ""
 
 msgid "Saint Helena"
-msgstr ""
+msgstr "Sankt Helena"
 
 msgid "Ascension"
 msgstr ""
