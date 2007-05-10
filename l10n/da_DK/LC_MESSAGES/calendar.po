@@ -5,114 +5,113 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2005-10-13 17:52+0200\n"
-"PO-Revision-Date: 2007-05-07 20:11-0700\n"
-"Last-Translator: ycs <yuccmember@gmail.com>\n"
+"POT-Creation-Date: 2007-04-18 07:33+0200\n"
+"PO-Revision-Date: 2007-04-18 07:33+0200\n"
+"Last-Translator: Michael Thingmand Henriksen, <michael (a) thingmand dot dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.10\n"
 
 #: js/lang/calendar-lang.php
 msgid "About the calendar"
-msgstr "幫助"
+msgstr "Om Kalenderen"
 
 #: js/lang/calendar-lang.php
 msgid "For latest version visit: %1"
-msgstr "檢查是否有最新版本: %1"
+msgstr "For den seneste version besøg: %1"
 
 #: js/lang/calendar-lang.php
 msgid "Distributed under GNU LGPL. See %1 for details."
-msgstr "基於 GNU/LGPL 授權，詳細說明請查看 %1 "
+msgstr "Distribueret under GNU LGPL. Se %1 for detajler."
 
 #: js/lang/calendar-lang.php
 msgid "Date selection:"
-msgstr "選擇日期:"
+msgstr "Valg af dato:"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\xab, \\xbb buttons to select year,"
-msgstr "- 使用 \\\\xab, \\\\xbb 按鈕來選年份"
+msgstr "- Brug \\xab, \\xbb knapperne for at vælge år"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\u2039, \\u203a buttons to select month,"
-msgstr "- 使用 \\\\u2039, \\\\u203a  按鈕來選月份"
+msgstr "- Brug \\u2039, \\u203a apperne for at vælge måned"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr "- 按著滑鼠左鍵可以快速選擇年份或月份"
+msgstr "- Hold knappen på musen nede på knapperne ovenfor for hurtigere valg."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
-msgstr "選擇時間:"
+msgstr "Valg af tid:"
 
 #: js/lang/calendar-lang.php
 msgid "- click on any of the time parts to increase it"
-msgstr "- 點擊小時或分鐘來增加數值(+1)"
+msgstr "- Klik på en vilkårlig del for større værdi"
 
 #: js/lang/calendar-lang.php
 msgid "- or Shift-click to decrease it"
-msgstr "- 按著 Shift 鍵來點擊點擊小時或分鐘來減少數值(-1)"
+msgstr "- eller Shift-klik for for mindre værdi"
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
-msgstr "- 點擊及拖動來快速選擇"
+msgstr "- eller klik og træk for hurtigere valg."
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"
-msgstr "按著出選單"
+msgstr "hold for menu"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. year"
-msgstr "上一年"
+msgstr "Ét år tilbage"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. month"
-msgstr "上一月"
+msgstr "Én måned tilbage"
 
 #: js/lang/calendar-lang.php
 msgid "Go Today"
-msgstr "今天"
+msgstr "Gå til i dag"
 
 #: js/lang/calendar-lang.php
 msgid "Next month"
-msgstr "下一月"
+msgstr "Én måned frem"
 
 #: js/lang/calendar-lang.php
 msgid "Next year"
-msgstr "下一年"
+msgstr "Ét år frem"
 
 #: js/lang/calendar-lang.php
 msgid "Select date"
-msgstr "選擇日期"
+msgstr "Vælg dag"
 
 #: js/lang/calendar-lang.php
 msgid "Drag to move"
-msgstr "拖動"
+msgstr "Træk vinduet"
 
 #: js/lang/calendar-lang.php
 msgid "today"
-msgstr "今天"
+msgstr "i dag"
 
 #: js/lang/calendar-lang.php
 msgid "Display %s first"
-msgstr "最左邊顯示 %s"
+msgstr "Vis %s først"
 
 #: js/lang/calendar-lang.php
 msgid "Close"
-msgstr "關閉"
+msgstr "Luk"
 
 #: js/lang/calendar-lang.php
 msgid "Today"
-msgstr "今天"
+msgstr "I dag"
 
 #: js/lang/calendar-lang.php
 msgid "(Shift-)Click or drag to change value"
-msgstr "(Shift-)點擊或拖動以改變數值"
+msgstr "(Shift-)klik eller træk for at ændre værdi"
 
 #: js/lang/calendar-lang.php
 msgid "wk"
-msgstr "周"
+msgstr "Uge"
 
 #: js/lang/calendar-lang.php
 msgid "Time:"
-msgstr "時間:"
+msgstr "Tid:"

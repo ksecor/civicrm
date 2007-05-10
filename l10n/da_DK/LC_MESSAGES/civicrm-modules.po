@@ -6,13 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-07 06:42+0200\n"
-"PO-Revision-Date: 2007-05-08 01:19-0700\n"
-"Last-Translator: ycs <yuccmember@gmail.com>\n"
+"PO-Revision-Date: 2007-05-07 06:42+0200\n"
+"Last-Translator: Automatically generated\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 0.10\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 msgid "Contribution Source"
@@ -110,7 +109,7 @@ msgstr ""
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Event/DAO/Participant.php
 #: CRM/Mailing/Form/Test.php
 msgid "Test"
-msgstr "測試"
+msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -3699,6 +3698,7 @@ msgstr ""
 msgid "Found %count contribution."
 msgid_plural "Found %count contributions."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Contribute/Form/Search.tpl
 msgid ""
@@ -3738,6 +3738,7 @@ msgstr ""
 msgid "One contribution record selected for export."
 msgid_plural "%count contribution records selected for export."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Contribute/Form/Task/Export.tpl
 msgid ""
@@ -3768,6 +3769,7 @@ msgid_plural ""
 "CiviCRM has detected mismatched contribution IDs. These records have not "
 "been Updated."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -3785,6 +3787,7 @@ msgid_plural ""
 "this data file or relative to existing contribution records. These records "
 "have not been imported."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -3794,6 +3797,7 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contribution records."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Rows with mismatched contribution IDs... (NOT updated)."
@@ -4477,6 +4481,7 @@ msgstr ""
 msgid "Found %count participant."
 msgid_plural "Found %count participants."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Event/Form/Search.tpl
 msgid ""
@@ -4517,6 +4522,7 @@ msgstr ""
 msgid "One participant record selected for export."
 msgid_plural "%count participant records selected for export."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Event/Form/Task/Export.tpl
 msgid ""
@@ -4551,6 +4557,7 @@ msgid_plural ""
 "CiviCRM has detected mismatched participant IDs. These records have not been "
 "Updated."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 msgid ""
@@ -4568,6 +4575,7 @@ msgid_plural ""
 "this data file or relative to existing participant records. These records "
 "have not been imported."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 msgid ""
@@ -4577,6 +4585,7 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "participant records."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 msgid "Rows with mismatched participant IDs... (NOT updated)."
@@ -5328,6 +5337,7 @@ msgstr ""
 msgid "Found %count member."
 msgid_plural "Found %count members."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Member/Form/Search.tpl
 msgid ""
@@ -5361,6 +5371,7 @@ msgstr ""
 msgid "One membership record selected for export."
 msgid_plural "%count membership records selected for export."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Member/Form/Task/Export.tpl
 msgid ""
@@ -5390,6 +5401,7 @@ msgid_plural ""
 "CiviCRM has detected mismatched membership IDs. These records have not been "
 "Updated."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid ""
@@ -5407,6 +5419,7 @@ msgid_plural ""
 "this data file or relative to existing membership records. These records "
 "have not been imported."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid ""
@@ -5416,6 +5429,7 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "membership records."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid "Rows with mismatched membership IDs... (NOT updated)."
