@@ -164,7 +164,7 @@ class CRM_Utils_ICalendar
      * @return void
      * 
      */ 
-    function send( $calendar, $content_type = 'text/calendar', $charset = 'us-ascii', $fileName, $disposition  )
+    function send( $calendar, $content_type = 'text/calendar', $charset = 'us-ascii', $fileName = null, $disposition = null )
     {
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton();
