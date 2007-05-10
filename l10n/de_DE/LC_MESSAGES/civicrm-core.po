@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-07 06:41+0200\n"
-"PO-Revision-Date: 2007-04-20 14:08-0700\n"
-"Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
+"PO-Revision-Date: 2007-05-08 23:17-0700\n"
+"Last-Translator: Thorsten <stxal@tcnet.ch>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -395,9 +395,8 @@ msgstr "Dieser Name ist bereits in der Datenbank vorhanden."
 
 #: CRM/Admin/Form/Mapping.php CRM/Core/DAO/Mapping.php
 #: templates/CRM/Admin/Page/Mapping.tpl
-#, fuzzy
 msgid "Mapping Type"
-msgstr "Option bearbeiten"
+msgstr "Zuordnungs Art"
 
 #: CRM/Admin/Form/Options.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/CustomOption.php CRM/Core/DAO/UFField.php
@@ -441,9 +440,8 @@ msgid "Value"
 msgstr "Wert"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Option Grouping Name"
-msgstr "Gruppenname"
+msgstr "Option Gruppierungs Name"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -531,7 +529,7 @@ msgstr "Website URL"
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Zuordnung und Laenderspezifisches"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -651,7 +649,7 @@ msgstr "Sichtbarkeit"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Wo Zusatz"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Select Tables"
@@ -659,7 +657,7 @@ msgstr "Tabelle wählen"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Wo Feld"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -1215,7 +1213,7 @@ msgstr "Nein"
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomGroup.php
 #: CRM/Core/BAO/File.php
 msgid "Could not move custom file to custom upload directory"
-msgstr ""
+msgstr "Konnte die Datei nicht in das Verzeichnis Hochladen"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
@@ -1255,7 +1253,7 @@ msgstr "Wir können Ihre Benutzernummer nicht finden."
 msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
-msgstr ""
+msgstr "Dieses Profil ist nicht für den angeforderten Vorgang konfiguriert. Kontaktieren Sie den Seiten Administrator für weitere Informationen."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1375,7 +1373,7 @@ msgstr "Aktivitätshistorie importieren"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
-msgstr ""
+msgstr "Such Generator"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
@@ -1413,14 +1411,12 @@ msgid "Search Results"
 msgstr "Suchergebnisse"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
-#, fuzzy
 msgid "Domain Information Page"
-msgstr "Kontakte zu Organisation hinzufügen"
+msgstr "Domänen Informations Seite"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Map Event Location"
-msgstr "Standortsart löschen"
+msgstr "Ort des Ereignises Zuordnen"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
@@ -1469,7 +1465,7 @@ msgstr "Die angehängte Datei wurde gelöscht."
 msgid ""
 "%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; "
 "Payment Processor."
-msgstr ""
+msgstr "%1 ist nicht eingerichtet um CiviCRM &raquo; Global Settings &raquo; Finanz Modul zu Verwalten"
 
 #: CRM/Core/Payment/AuthorizeNet.php CRM/Core/Payment/Google.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
@@ -1490,9 +1486,8 @@ msgid "Field Label"
 msgstr "Feldname"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid value for this field."
-msgstr "Bitte geben Sie einen gültigen Namen für das Feld ein."
+msgstr "Bitte geben Sie einen gültigen Wert für das Feld ein."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php CRM/UF/Form/Field.php
@@ -1644,31 +1639,28 @@ msgid "Reason"
 msgstr "Grund"
 
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
-#, fuzzy
 msgid "Owner Entity Table"
 msgstr "Datentabelle"
 
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Contact Group"
-msgstr "Gruppen des Kontakts"
+msgstr "Kontakt Gruppe"
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Administer"
 msgstr "CiviCRM administrieren"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
 msgstr "Nachname"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "verweigern"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Object Table"
-msgstr ""
+msgstr "Objekt Feld"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
@@ -1708,42 +1700,36 @@ msgid "Type of Data"
 msgstr "Datentyp"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Role"
-msgstr "Modul"
+msgstr "Regel"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid " -select role- "
-msgstr "- auswählen -"
+msgstr "- wähle Regel -"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Everyone"
-msgstr "Relay"
+msgstr "Jeder"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please assign this permission to a Role."
 msgstr ""
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Group (or ALL Groups)."
-msgstr "Bitte wählen Sie die Gruppe aus."
+msgstr "Bitte wählen Sie die Gruppe aus. (oder ALLE Gruppen)."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Profile (or ALL Profiles)."
-msgstr "Bitte wählen Sie die Gruppe aus."
+msgstr "Bitte wählen Sie ein Profil aus. (oder ALLE Profile)."
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a set of Custom Data (or ALL Custom Data)."
 msgstr ""
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Selected ACL has been deleted."
-msgstr "Ausgewähltes Geschlecht wurde gelöscht."
+msgstr "Ausgewählte Zugriffsrechteliste (AccessControlList) wurde gelöscht."
 
 #: CRM/ACL/Form/EntityRole.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
@@ -1760,34 +1746,28 @@ msgid "Are you sure you want to disable this ACL?"
 msgstr "Sind Sie sicher, dass Sie diese Komponente deaktivieren möchten?"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Edit ACL"
-msgstr "Bearbeiten"
+msgstr "Bearbeite Zugriffsrechteliste (AccessControlList)"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Disable ACL"
-msgstr "Deaktivieren"
+msgstr "Deaktiviere Zugriffsrechteliste (AccessControlList)"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Enable ACL"
-msgstr "Aktivieren"
+msgstr "Aktiviere Zugriffsrechteliste (AccessControlList)"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Delete ACL"
-msgstr "Löschen"
+msgstr "Lösche Zugriffsrechteliste (AccessControlList)"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Any Role"
-msgstr "Modul"
+msgstr "jede Regel"
 
 #: CRM/ACL/Page/EntityRole.php
-#, fuzzy
 msgid "Are you sure you want to disable this ACL Role Assignment?"
-msgstr "Sind Sie sicher, dass Sie diese Komponente deaktivieren möchten?"
+msgstr "Sind Sie sicher, dass Sie diese Zugriffsrechtelisten Mitgliedschaft (Member of AccessControlList) deaktivieren möchten?"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Edit ACL Role Assignment"
@@ -10826,34 +10806,28 @@ msgid "Transgender"
 msgstr "Transgender"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Mrs"
 msgstr "Frau"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Ms"
 msgstr "Frau"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Mr"
 msgstr "Herr"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Dr"
 msgstr "Dr."
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Jr"
-msgstr "Jr."
+msgstr "Jun."
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Sr"
-msgstr "Sr."
+msgstr "Sen."
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -10866,9 +10840,8 @@ msgid "Authenticated"
 msgstr "eine andere Emailadresse"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Credit Card"
-msgstr "Coord Type"
+msgstr "Kredit-Karte"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -10892,18 +10865,16 @@ msgid "Cancelled"
 msgstr "Storniert"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Failed"
-msgstr "Füllen"
+msgstr "Fehler"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Progress"
-msgstr ""
+msgstr "in Arbeit"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Registered"
-msgstr "Reseviert?"
+msgstr "Registriert"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -10929,9 +10900,8 @@ msgid "Speaker"
 msgstr "Suche"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Conference"
-msgstr "Konfigurieren"
+msgstr "Konferenz"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Exhibition"
@@ -10966,9 +10936,8 @@ msgid "Grace"
 msgstr "Gradient"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Expired"
-msgstr "Exportieren"
+msgstr "Abgelaufen"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
@@ -10984,25 +10953,23 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to destintation mail server"
-msgstr ""
+msgstr "Nicht möglich den Ziel-Mailserver zu erreichen"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User account is no longer active"
-msgstr ""
+msgstr "Benutzer-Account ist nicht mehr aktiv"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Email address is not valid"
 msgstr "Die Emailadresse ist nicht gültig."
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Mail routing error"
-msgstr "Mailing Kopfzeile"
+msgstr "Mail Routing Fehler"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User inbox is full"
-msgstr ""
+msgstr "Benutzer Mail-Eingang ist voll"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to reach destination mail server"

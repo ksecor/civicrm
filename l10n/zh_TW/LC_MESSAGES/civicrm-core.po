@@ -6,22 +6,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-07 06:41+0200\n"
-"PO-Revision-Date: 2005-09-06 12:47+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2007-05-08 01:20-0700\n"
+"Last-Translator: ycs <yuccmember@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 0.10\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
 msgid "Contact"
-msgstr ""
+msgstr "聯絡人"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_add_domain.tpl
 msgid "ACL Role"
-msgstr ""
+msgstr "存取角色"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/ACL/Form/ACL.php
 #: CRM/ACL/Page/ACL.php CRM/Core/DAO/CustomGroup.php
@@ -31,7 +32,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Group"
-msgstr ""
+msgstr "群組"
 
 #: CRM/ACL/BAO/ACL.php CRM/Core/Block.php CRM/Core/DAO/Mapping.php
 #: CRM/Core/Menu.php
