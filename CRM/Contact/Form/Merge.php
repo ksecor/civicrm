@@ -41,6 +41,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     var $_defaults = array();
 
     var $_cid         = null;
+    var $_oid         = null;
     var $_contactType = null;
 
     // an ugly hack to be able to cleanly address the radios in Smarty
@@ -65,6 +66,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->assign('other_cid',    $other->contact_id);
 
         $this->_cid         = $cid;
+        $this->_oid         = $oid;
         $this->_contactType = $main->contact_type;
 
         // FIXME: there must be a better way
@@ -121,6 +123,30 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             }
         }
 
+        // handle locations
+        foreach (CRM_Core_PseudoConstant::locationType() as $locTypeId => $locTypeName) {
+            foreach (array('main', 'other') as $moniker) {
+                $locations[$locTypeName][$moniker] = crm_get_locations($$moniker, array($locTypeName));
+                if (empty($locations[$locTypeName][$moniker])) {
+                    $locValue[$moniker] = 0;
+                    $locLabel[$moniker] = '[' . ts('EMPTY') . ']';
+                } else {
+                    $locValue[$moniker] = $locations[$locTypeName][$moniker][0]->id;
+                    $locLabel[$moniker] = $locations[$locTypeName][$moniker][0]->name . '<br />'
+                                        . $locations[$locTypeName][$moniker][0]->email[1]->email . '<br />'
+                                        . nl2br($locations[$locTypeName][$moniker][0]->address->display);
+                }
+            }
+            if (!empty($locations[$locTypeName]['main']) or !empty($locations[$locTypeName]['other'])) {
+                $rows[] = "location_$locTypeId";
+                $this->_defaults["location_$locTypeId"] = $locValue['main'];
+                $group['main']  = HTML_QuickForm::createElement('radio', $this->_col, null, $locLabel['main'],  $locValue['main']);
+                $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $locLabel['other'], $locValue['other']);
+                $this->addGroup($group, "location_$locTypeId", ts('Location: %1', array(1 => $locTypeName)));
+            }
+        }
+
+        // handle custom fields
         if (!isset($diffs['custom'])) $diffs['custom'] = array();
         foreach (array('main', 'other') as $moniker) {
             $contact =& $$moniker;
@@ -139,29 +165,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $this->addGroup($group, "custom_$id", CRM_Core_BAO_CustomField::getTitle($id));
         }
 
-        foreach (CRM_Core_PseudoConstant::locationType() as $locTypeId => $locTypeName) {
-            foreach (array('main', 'other') as $moniker) {
-                $locations[$locTypeName][$moniker] = crm_get_locations($$moniker, array($locTypeName));
-                if (empty($locations[$locTypeName][$moniker])) {
-                    $locValue[$moniker] = 0;
-                    $locLabel[$moniker] = ts('[DELETE]');
-                } else {
-                    $locValue[$moniker] = $locations[$locTypeName][$moniker][0]->id;
-                    $locLabel[$moniker] = $locations[$locTypeName][$moniker][0]->name . '<br />'
-                                        . $locations[$locTypeName][$moniker][0]->email[1]->email . '<br />'
-                                        . nl2br($locations[$locTypeName][$moniker][0]->address->display);
-                }
-            }
-            if (!empty($locations[$locTypeName]['main']) or !empty($locations[$locTypeName]['other'])) {
-                $rows[] = "location_$locTypeId";
-                $this->_defaults["location_$locTypeId"] = $locValue['main'];
-                $group['main']  = HTML_QuickForm::createElement('radio', $this->_col, null, $locLabel['main'],  $locValue['main']);
-                $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $locLabel['other'], $locValue['other']);
-                $this->addGroup($group, "location_$locTypeId", ts('Location: %1', array(1 => $locTypeName)));
-            }
-        }
-
         $this->assign('rows', $rows);
+
+        // add the 'move belongings?' and 'delete other?' checkboxes
+        $this->addElement('checkbox', 'moveBelongings', ts("Move the right-side contact's notes, relationships, etc.?"), null);
+        $this->addElement('checkbox', 'deleteOther',    ts("Delete the right-side contact after merging?"),              null);
 
         // make defaults compatible with the ugly _col hack
         foreach ($this->_defaults as $key => $value) $this->_defaults["{$key}[{$this->_col}]"] = $value;
@@ -221,17 +229,18 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         foreach ($locations as $locTypeId => $locId) {
             $mainLocation = crm_get_locations($main, array($locTypes[$locTypeId]));
             // if we stay with the same location, skip it
-            if ($locId == $mainLocation[0]->id) {
+            // otherwise, delete the old location
+            if (isset($mainLocation[0]) and $locId == $mainLocation[0]->id) {
                 continue;
+            } elseif (isset($mainLocation[0])) {
+                crm_delete_location($main, $mainLocation[0]->id);
             }
-            // delete the old location
-            crm_delete_location($main, $mainLocation[0]->id);
             // if the new one is 0, we're done
             if ($locId == 0) {
                 continue;
             }
             // otherwise, move the new one to the
-            // main contact (preserving primariness)
+            // main contact (preserving its primariness)
             require_once 'CRM/Core/DAO/Location.php';
             $locDAO =& new CRM_Core_DAO_Location();
             $locDAO->id = $locId;
@@ -239,6 +248,15 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $locDAO->entity_id = $this->_cid;
             $locDAO->is_primary = $mainLocation[0]->is_primary;
             $locDAO->save();
+        }
+
+        // handle the 'move belongings' and 'delete other' checkboxes
+        if ($formValues['moveBelongings']) {
+            CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid);
+        }
+        if ($formValues['deleteOther']) {
+            $other =& crm_get_contact(array('contact_id' => $this->_oid));
+            crm_delete_contact($other);
         }
     }
 }

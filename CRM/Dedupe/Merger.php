@@ -51,7 +51,7 @@ class CRM_Dedupe_Merger
      * Based on the provided two contact_ids and a set of tables, move the 
      * belongings of the other contact to the main one.
      */
-    function moveContactBelongings($mainId, $otherId, $delete = false, $tables = array())
+    function moveContactBelongings($mainId, $otherId, $tables = false)
     {
         // FIXME: this should be generated dynamically from the schema's 
         // foreign keys referencing civicrm_contact(id)
@@ -100,8 +100,11 @@ class CRM_Dedupe_Merger
         $dao =& new CRM_Core_DAO();
         $dao->transaction('BEGIN');
         foreach ($sqls as $sql) {
+            CRM_Core_Error::debug('$sql', $sql);
             $dao->query($sql);
+            $dao->fetch();
         }
+            exit;
         $dao->transaction('COMMIT');
     }
 

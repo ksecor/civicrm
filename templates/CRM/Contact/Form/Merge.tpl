@@ -11,5 +11,9 @@
   {/foreach}
 </table>
 <div class='form-item'>
+  <p>{$form.moveBelongings.html} {$form.moveBelongings.label}</p>
+  <p>{$form.deleteOther.html} {$form.deleteOther.label}</p>
+</div>
+<div class='form-item'>
   <p>{$form.buttons.html}</p>
 </div>
