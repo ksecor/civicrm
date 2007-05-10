@@ -157,12 +157,4 @@
       <comment>Footer message.</comment>
       <add>1.7</add>     
   </field> 
-  <field> 
-      <name>show_location</name> 
-      <type>boolean</type> 
-      <title>show location</title>
-      <default>1</default>                
-      <comment>If true, show event location.</comment> 
-      <add>1.7</add> 
-  </field> 
 </table>

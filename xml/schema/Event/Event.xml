@@ -171,5 +171,13 @@
       <headerPattern>/^fee|(f(ee\s)?label)$/i</headerPattern>
       <length>255</length>  
       <add>1.8</add>     
+  </field> 
+  <field> 
+      <name>is_show_location</name> 
+      <type>boolean</type> 
+      <title>show location</title>
+      <default>1</default>                
+      <comment>If true, show event location.</comment> 
+      <add>1.7</add> 
   </field>   
 </table>

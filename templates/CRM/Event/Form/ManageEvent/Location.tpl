@@ -15,7 +15,7 @@
        <span class="fields">
         {$form.location.1.name.html|crmReplace:class:big}
        </span>
-      </div>
+    </div>
     <div class="spacer"></div>
     {* Display the address block *}
     {include file="CRM/Contact/Form/Address.tpl"} 
@@ -27,10 +27,10 @@
     {include file="CRM/Contact/Form/Phone.tpl"} 
     <div class="form-item">
        <span class="labels">
-         {$form.show_location.label}
+         {$form.is_show_location.label}
        </span>
        <span class="fields">
-         {$form.show_location.html}
+         {$form.is_show_location.html}
        </span>
     </div>
 </fieldset>

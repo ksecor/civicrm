@@ -88,13 +88,13 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $defaults, $ids, self::LOCATION_BLOCKS);
             $this->_locationIds = $ids;
-            $showLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+            $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                          $eventId,
-                                                         'show_location',
-                                                         'event_id' );
+                                                         'is_show_location',
+                                                         'id' );
             
         }
-         $defaults['show_location'] = $showLocation;
+         $defaults['is_show_location'] = $isShowLocation;
         if ( ! empty( $params ) ) {
             $this->setShowHide( $params, true );
         } else {
@@ -145,7 +145,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         //blocks to be displayed
         $locationCompoments = array('Phone', 'Email');
         CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS ,$locationCompoments);
-        $this->addElement('advcheckbox', 'show_location', ts('Show Location?') );
+        $this->addElement('advcheckbox', 'is_show_location', ts('Show Location?') );
         $this->assign( 'index' , 1 );
         $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
     
@@ -168,16 +168,17 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $eventId = $this->_id;
         
         $params['entity_id'] = $eventId; 
-        $params['event_id']  = $eventId;
         //set the location type to default location type
         require_once 'CRM/Core/BAO/LocationType.php';
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
         $params['location'][1]['location_type_id'] = $defaultLocationType->id;
-        require_once 'CRM/Event/BAO/EventPage.php';
-        CRM_Event_BAO_EventPage::add($params);
 
         require_once 'CRM/Core/BAO/Location.php';
         CRM_Core_BAO_Location::add($params, $ids, self::LOCATION_BLOCKS);
+
+        $ids['event_id']  = $eventId;
+        require_once 'CRM/Event/BAO/Event.php';
+        CRM_Event_BAO_Event::add($params, $ids);
         
     }//end of function
 

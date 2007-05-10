@@ -16,18 +16,20 @@
       </td>
   </tr>
 
-{if $showLocation}
-  {if $location.1.name || $location.1.address}
-  <tr><td><label>{ts}Location{/ts}</label></td>
-      <td>
-        {if $location.1.name}{$location.1.name}<br />{/if}
-        {$location.1.address.display|nl2br}
-        {if ( $event.is_map && $config->mapAPIKey && ( is_numeric($location.1.address.geo_code_1)  || ( $config->mapGeoCoding && $location.1.address.city AND $location.1.address.state_province ) ) ) }
-            <br/><a href="{crmURL p='civicrm/contact/map/event' q="reset=1&eid=`$event.id`"}" title="{ts}Map this Address{/ts}">{ts}Map this Location{/ts}</a>
-        {/if}
-      </td>
-  </tr>
-  {/if}
+  {if $isShowLocation}
+    {if $location.1.name || $location.1.address}
+      <tr><td><label>{ts}Location{/ts}</label></td>
+          <td>
+            {if $location.1.name}{$location.1.name}<br />{/if}
+              {$location.1.address.display|nl2br}
+            {if ( $event.is_map && $config->mapAPIKey && ( is_numeric($location.1.address.geo_code_1)  || ( $config->mapGeoCoding && $location.1.address.city AND $location.1.address.state_province ) ) ) }
+              <br/><a href="{crmURL p='civicrm/contact/map/event' q="reset=1&eid=`$event.id`"}" title="{ts}Map this Address{/ts}">{ts}Map this Location{/ts}</a>
+            {/if}
+          </td>
+      </tr>
+    {/if}
+  {/if}{*End of isShowLocation condition*}
+  
   {if $location.1.phone.1.phone || $location.1.email.1.email}
     <tr><td><label>{ts}Contact{/ts}</label></td>
         <td>
@@ -47,10 +49,10 @@
         </td>
     </tr>
   {/if}
-{/if}
- {if $event.is_monetary}
+
+  {if $event.is_monetary}
     <tr><td><label>{ts}Fee Label{/ts}</label></td>
          <td>{$event.fee_label}</td>
     </tr>  
- {/if}
+  {/if}
 </table>

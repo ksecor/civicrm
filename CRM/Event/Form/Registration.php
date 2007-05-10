@@ -254,8 +254,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->assign('eventPage', $this->_values['event_page']);
         $this->assign('location',$this->_values['location']);
         $this->assign( 'bltID', $this->_bltID );
-        $showLocation = CRM_Utils_Array::value('show_location',$this->_values['event_page'])  ;
-        $this->assign( 'showLocation',$showLocation );
+        $isShowLocation = CRM_Utils_Array::value('is_show_location',$this->_values['event'])  ;
+        $this->assign( 'isShowLocation',$isShowLocation );
     }
 
     /** 

@@ -76,11 +76,11 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                                                     $id,
                                                     'id',
                                                     'event_id' );
-       $showLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+       $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                      $id,
-                                                     'show_location',
-                                                     'event_id' );
-        $this->assign( 'showLocation',$showLocation );
+                                                     'is_show_location',
+                                                     'id' );
+        $this->assign( 'isShowLocation',$isShowLocation );
 
 
         // do not bother with price information if price fields are used
