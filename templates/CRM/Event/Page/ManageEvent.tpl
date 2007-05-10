@@ -1,6 +1,7 @@
 {capture assign=newEventURL}{crmURL q="action=add&reset=1"}{/capture}
-{capture assign=icalURL}{crmURL p='civicrm/event/ical' q="reset=1"}{/capture}
-{capture assign=icalPage}{crmURL p='civicrm/event/ical' q="reset=1&page=1"}{/capture}
+{capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1"}{/capture}
+{capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1"}{/capture}
+{capture assign=rssFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&rss=1"}{/capture}
 {capture assign=pastEventsURL}{crmURL q="action=browse&past=true&reset=1"}{/capture}
 {capture assign=currentEventsURL}{crmURL q="reset=1"}{/capture}
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
@@ -20,7 +21,7 @@
 <p></p>
     <div class="form-item" id=event_status_id>
         {strip}
-        {ts 1=$newEventURL 2=$icalPage 3=$icalURL} <a href="%1" id="newManageEvent">&raquo; New Event</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="%2">&raquo; Browse iCalendar Listing</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="%3">&raquo; Download iCalendar File</a>{/ts} &nbsp; {help id='icalendar'}   
+        {ts 1=$newEventURL 2=$icalFile 3=$icalFeed 4="iCalendar Feed" 5=$rssFeed 6="RSS 2.0 Feed"} <a href="%1" id="newManageEvent">&raquo; New Event</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="%2">&raquo; Download iCalendar File</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="%3" title="%4"><img src="{$config->resourceBase}i/ical_feed.gif" alt="%4"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="%5" title="%6"><img src="{$config->resourceBase}i/rss2.png" alt="%6"></a>{/ts} &nbsp; {help id='icalendar'}   
         <br />
         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
         <thead>

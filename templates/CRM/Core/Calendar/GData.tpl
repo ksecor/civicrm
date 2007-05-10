@@ -1,3 +1,9 @@
+<feed xmlns='http://www.w3.org/2005/Atom'
+    xmlns:gd='http://schemas.google.com/g/2005'>
+  <id>{crmURL p='civicrm/admin/event' q="reset=1&page=1&gData=1"}</id>
+  <title type='text'>{ts}CiviEvent Public Calendar{/ts}</title>
+  <subtitle type='text'>{ts}Listing of current and upcoming public events.{/ts}</subtitle>
+  <generator>CiviCRM</generator>
 {foreach from=$events key=uid item=event}
 <entry xmlns='http://www.w3.org/2005/Atom'
     xmlns:gd='http://schemas.google.com/g/2005'>
@@ -7,10 +13,9 @@
 {if $event.description}
   <content type='text'>{$event.description}</content>
 {/if}
-{if $display_name}
+{if $event.contact_email}
   <author>
-    <name>{$display_name}</name>
-    <email>{$email}</email>
+    <email>{$event.contact_email}</email>
   </author>
 {/if}
   <gd:transparency
@@ -19,7 +24,7 @@
   <gd:eventStatus
     value='http://schemas.google.com/g/2005#event.confirmed'>
   </gd:eventStatus>
-{if $event.location}
+{if $event.is_show_location EQ 1 && $event.location}
   <gd:where valueString='{$event.location}'></gd:where>
 {/if}
 {if $event.start_date}
@@ -28,3 +33,4 @@
 {/if}
 </entry>
 {/foreach}
+</feed>

@@ -519,11 +519,15 @@ SELECT
   civicrm_event.start_date as start,
   civicrm_event.end_date as end,
   civicrm_event.description as description,
+  civicrm_event.is_show_location as is_show_location,
   civicrm_option_value.label as event_type,
   civicrm_location.name as location_name,
   civicrm_address.street_address as street_address,
+  civicrm_address.supplemental_address_1 as supplemental_address_1,
+  civicrm_address.supplemental_address_2 as supplemental_address_2,
   civicrm_address.city as city,
   civicrm_address.postal_code as postal_code,
+  civicrm_address.postal_code_suffix as postal_code_suffix,
   civicrm_state_province.abbreviation as state,
   civicrm_country.name as country,
   civicrm_location_type.name as location_type
@@ -551,25 +555,37 @@ WHERE civicrm_event.is_active = 1
 
         while ( $dao->fetch( ) ) {
         
-            $info                  = array( );
-            $info['event_id'     ] = $dao->event_id;
-            $info['uid'          ] = "CiviCRM_EventID_" . $dao->event_id . "@" . $config->userFrameworkBaseURL;
-            $info['summary'      ] = $dao->summary;
-            $info['description'  ] = $dao->description;
-            $info['start_date'   ] = $dao->start;
-            $info['end_date'     ] = $dao->end;
-            $info['contact_email'] = $dao->email;
-            $info['event_type'   ] = $dao->event_type;
+            $info                     = array( );
+            $info['event_id'     ]    = $dao->event_id;
+            $info['uid'          ]    = "CiviCRM_EventID_" . $dao->event_id . "@" . $config->userFrameworkBaseURL;
+            $info['summary'      ]    = $dao->summary;
+            $info['description'  ]    = $dao->description;
+            $info['start_date'   ]    = $dao->start;
+            $info['end_date'     ]    = $dao->end;
+            $info['contact_email']    = $dao->email;
+            $info['event_type'   ]    = $dao->event_type;
+            $info['is_show_location'] = $dao->is_show_location;
+  
   
             $address = '';
+            require_once 'CRM/Utils/String.php';
             CRM_Utils_String::append( $address, ', ',
                                       array( $dao->location_name) );
+            $addrFields = array(
+                            'street_address'         => $dao->street_address,
+                            'supplemental_address_1' => $dao->supplemental_address_1,
+                            'supplemental_address_2' => $dao->supplemental_address_2,
+                            'city'                   => $dao->city,
+                            'state_province'         => $dao->state,
+                            'postal_code'            => $dao->postal_code,
+                            'postal_code_suffix'     => $dao->postal_code_suffix,
+                            'country'                => $dao->country,
+                            'county'                 => null
+                            );           
+            
+            require_once 'CRM/Utils/Address.php';
             CRM_Utils_String::append( $address, ', ',
-                                      array( $dao->street_address) );
-            CRM_Utils_String::append( $address, ', ',
-                                      array( $dao->city, $dao->state, $dao->postal_code ) );
-            CRM_Utils_String::append( $address, ', ',
-                                      array( $dao->country ) );
+                                      CRM_Utils_Address::format($addrFields) );
             $info['location'     ] = $address;
             $info['url'          ] = CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $dao->event_id, true, null, false );
            

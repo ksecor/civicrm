@@ -56,6 +56,7 @@ class CRM_Event_Page_ICalendar extends CRM_Core_Page
         $start    = CRM_Utils_Request::retrieve('start', 'Positive', $this, false, 0);
         $iCalPage = CRM_Utils_Request::retrieve('page' , 'Positive', $this, false, 0);
         $gData    = CRM_Utils_Request::retrieve('gData', 'Positive', $this, false, 0);
+        $rss      = CRM_Utils_Request::retrieve('rss'  , 'Positive', $this, false, 0);
 
         require_once "CRM/Event/BAO/Event.php";
         $info = CRM_Event_BAO_Event::getCompleteInfo( $start, $type );
@@ -63,15 +64,23 @@ class CRM_Event_Page_ICalendar extends CRM_Core_Page
 
         // Send data to the correct template for formatting (iCal vs. gData)
         $template =& CRM_Core_Smarty::singleton( );
-        if ( empty( $gData ) ) {
+        if ( empty ( $gData ) && empty ( $rss ) ) {
             $calendar = $template->fetch( 'CRM/Core/Calendar/ICal.tpl' );
         } else {
-            $calendar = $template->fetch( 'CRM/Core/Calendar/GData.tpl' );
+            if ( $rss ) {
+                $config =& CRM_Core_Config::singleton( );
+                // rss 2.0 requires lower case dash delimited locale
+                $this->assign( 'rssLang', str_replace( '_', '-', strtolower($config->lcMessages) ) );
+                $calendar = $template->fetch( 'CRM/Core/Calendar/Rss.tpl' );
+            } else {
+                $calendar = $template->fetch( 'CRM/Core/Calendar/GData.tpl' );
+            }
         }
 
         // Push output for feed or download
+        require_once "CRM/Utils/ICalendar.php";
         if( $iCalPage == 1) {
-            if ( empty ( $gData ) ) {
+            if ( empty ( $gData ) && empty ( $rss ) ) {
                 CRM_Utils_ICalendar::send( $calendar, 'text/plain', 'utf-8' );
             } else {
                 CRM_Utils_ICalendar::send( $calendar, 'text/xml', 'utf-8' );

@@ -15,7 +15,7 @@ CATEGORIES:{$event.event_type|crmICalText}
 DTSTART;VALUE=DATE:{$event.start_date|crmICalDate}
 DTEND;VALUE=DATE:{$event.end_date|crmICalDate}
 {/if}
-{if $event.location}
+{if $event.is_show_location EQ 1 && $event.location}
 LOCATION:{$event.location|crmICalText}
 {/if}
 {if $event.contact_email}

@@ -1,18 +1,20 @@
 {htxt id='icalendar'}
 {capture assign=icalPage}{crmURL p='civicrm/event/ical' q="reset=1&page=1"}{/capture}
+{capture assign=rssFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&rss=1"}{/capture}
 {capture assign=icalPageExample}{crmURL p='civicrm/event/ical' q="reset=1&page=1&type=3&start=20070101"}{/capture}
-{ts 1=$icalPage 2=$icalPageExample}
-<p>iCalendar is a standard format for representing information about calendaring and scheduling. CiviEvent allows
+{ts 1=$icalPage 2=$icalPageExample 3=$rssFeed}
+<p><strong>ICalendar Downloads and Feeds</strong><br />
+iCalendar is a standard format for representing information about calendaring and scheduling. CiviEvent allows
 you to output your current and upcoming "public" events in the iCalendar format - so this information can be shared with
 other iCalendar-enabled applications.</p>
 
 <p>Depending on how you want to use the iCalendar data - you can:
 <ul>
 <li>Download an iCalendar file (with a *.ics extension) to your local computer</li>
-<li>Access the data using an HTTP GET request from a specific URL. (This is the "Browse Calendar Listing" link on the Manage Events page.)</li>
+<li>Access the data using an HTTP GET request from a specific URL. (This is the "ICAL" icon on the Manage Events page.)</li>
 </ul>
 
-The iCalendar URL for CiviEvent on this site: 
+The iCalendar Feed URL for CiviEvent on this site: 
 <pre>
 %1 
 </pre>
@@ -28,6 +30,16 @@ EXAMPLE: Given the default event types, this URL will retrieve all events with s
 <pre>
 %2
 </pre>
+</p>
+<p><strong>RSS 2.0 Feeds</strong><br />
+CiviEvent also creates an RSS 2.0 formatted feed which can be subscribed to people using RSS readers and can be displayed in most modern browsers.
+
+The RSS Feed URL for CiviEvent on this site:
+<pre>
+%3
+</pre>
+</p>
+<p>You can also use the additional parameters shown above to filter the events included in the RSS feed.
 </p>
 {/ts}
 {/htxt}

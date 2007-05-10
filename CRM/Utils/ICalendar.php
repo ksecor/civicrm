@@ -123,11 +123,11 @@ class CRM_Utils_ICalendar
     }
 
     /**
-     * Escape text elements for safe ICalendar use
+     * Escape date elements for safe ICalendar use
      *
-     * @param $text Text to escape
+     * @param $date Date to escape
      *
-     * @return  Escaped text
+     * @return  Escaped date
      *
      */
     static function formatDate( $date, $gdata = false )
