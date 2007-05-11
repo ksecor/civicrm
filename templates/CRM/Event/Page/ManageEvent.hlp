@@ -3,43 +3,33 @@
 {capture assign=rssFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&rss=1"}{/capture}
 {capture assign=icalPageExample}{crmURL p='civicrm/event/ical' q="reset=1&page=1&type=3&start=20070101"}{/capture}
 {ts 1=$icalPage 2=$icalPageExample 3=$rssFeed}
-<p><strong>ICalendar Downloads and Feeds</strong><br />
-iCalendar is a standard format for representing information about calendaring and scheduling. CiviEvent allows
-you to output your current and upcoming "public" events in the iCalendar format - so this information can be shared with
-other iCalendar-enabled applications.</p>
+<p><strong>{ts}ICalendar Downloads and Feeds{/ts}</strong><br />
+{ts}iCalendar is a standard format for representing information about calendaring and scheduling. CiviEvent allows you to output your current and upcoming "public" events in the iCalendar format - so this information can be shared with other iCalendar-enabled applications.{/ts}</p>
 
-<p>Depending on how you want to use the iCalendar data - you can:
+<p>{ts}Depending on how you want to use the iCalendar data - you can:{/ts}</p>
 <ul>
-<li>Download an iCalendar file (with a *.ics extension) to your local computer</li>
-<li>Access the data using an HTTP GET request from a specific URL. (This is the "ICAL" icon on the Manage Events page.)</li>
+<li>{ts}Download an iCalendar file (with a *.ics extension) to your local computer{/ts}.</li>
+<li>{ts}Access the data using an HTTP GET request from a specific URL. (This is the "ICAL" icon on the Manage Events page.){/ts}</li>
 </ul>
 
-The iCalendar Feed URL for CiviEvent on this site: 
+<p>{ts}The iCalendar Feed URL for CiviEvent on this site:{/ts}</p>
 <pre>
-%1 
+{$icalPage}
 </pre>
-</p>
-<p>By default, both methods get all events whose starting date is greater than or equal to the current date.
-However, you can modify this by passing additional parameters in the URL:
+<p>{ts}By default, both methods get all events whose starting date is greater than or equal to the current date. However, you can modify this by passing additional parameters in the URL:{/ts}</p>
 <ul>
-<li>start=YYYYMMDD - Specify a different starting date range for the events to be listed</li>
-<li>type=N - Specify a particular Event Type using the event_type_id value. (You can find these values
-by browsing the listing at Administer CiviCRM &raquo; Event Types.)
+<li>{ts}start=YYYYMMDD - Specify a different starting date range for the events to be listed.{/ts}</li>
+<li>{ts}type=N - Specify a particular Event Type using the event_type_id value. (You can find these values by browsing the listing at Administer CiviCRM &raquo; Event Types.){/ts}</li>
 </ul>
-EXAMPLE: Given the default event types, this URL will retrieve all events with start dates on or after January 1, 2007 whose event type is "Fundraiser":
+<p>{ts}EXAMPLE: Given the default event types, this URL will retrieve all events with start dates on or after January 1, {/ts}2007 whose event type is "Fundraiser":</p>
 <pre>
-%2
+{$icalPageExample}
 </pre>
 </p>
-<p><strong>RSS 2.0 Feeds</strong><br />
-CiviEvent also creates an RSS 2.0 formatted feed which can be subscribed to people using RSS readers and can be displayed in most modern browsers.
-
-The RSS Feed URL for CiviEvent on this site:
+<p><strong>{ts}RSS 2.0 Feeds{/ts}</strong><br />
+{ts}CiviEvent also creates an RSS 2.0 formatted feed which can be subscribed to people using RSS readers and can be displayed in most modern browsers. The RSS Feed URL for CiviEvent on this site:{/ts}</p>
 <pre>
-%3
+{$rssFeed}
 </pre>
-</p>
-<p>You can also use the additional parameters shown above to filter the events included in the RSS feed.
-</p>
-{/ts}
+<p>{ts}You can also use the additional parameters shown above to filter the events included in the RSS feed.{/ts}</p>
 {/htxt}

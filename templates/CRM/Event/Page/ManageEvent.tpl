@@ -21,7 +21,7 @@
 <p></p>
     <div class="form-item" id=event_status_id>
         {strip}
-        {ts 1=$newEventURL 2=$icalFile 3=$icalFeed 4="iCalendar Feed" 5=$rssFeed 6="RSS 2.0 Feed"} <a href="%1" id="newManageEvent">&raquo; New Event</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="%2">&raquo; Download iCalendar File</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="%3" title="%4"><img src="{$config->resourceBase}i/ical_feed.gif" alt="%4"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="%5" title="%6"><img src="{$config->resourceBase}i/rss2.png" alt="%6"></a>{/ts} &nbsp; {help id='icalendar'}   
+        <a href="{$newEventURL}" id="newManageEvent">&raquo; {ts}New Event{/ts}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{$icalFile}">&raquo; {ts}Download iCalendar File{/ts}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$icalFeed}" title="{ts}iCalendar Feed{/ts}"><img src="{$config->resourceBase}i/ical_feed.gif" alt="{ts}iCalendar Feed{/ts}"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$rssFeed}" title="{ts}RSS 2.0 Feed{/ts}"><img src="{$config->resourceBase}i/rss2.png" alt="{ts}RSS 2.0 Feed{/ts}"></a> &nbsp; {help id='icalendar'}   
         <br />
         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
         <thead>
