@@ -115,6 +115,13 @@ function &civicrm_participant_get( &$params ) {
     }
 
     $participant  =& civicrm_participant_search( $params );
+
+
+    if ( count( $participant ) != 1 &&
+         ! $participant['returnFirst'] ) {
+        return civicrm_create_error( ts( '%1 participant matching input params', array( 1 => count( $participant ) ) ) );
+    }
+
     if ( civicrm_error( $participant ) ) {
         return $participant;
     }
@@ -124,7 +131,8 @@ function &civicrm_participant_get( &$params ) {
         return civicrm_create_error( ts( '%1 participants matching input params', array( 1 => count( $participant ) ) ) );
     }
 
-    $participant = array_values( $participant );
+    $participant = array_values( $participant )
+;
     return $participant[0];
 }
 
@@ -174,13 +182,13 @@ function civicrm_participant_search( $params ) {
     }
     $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
     
-    $contacts = array( );
+    $participant = array( );
     while ( $dao->fetch( ) ) {
-        $contacts[$dao->contact_id] = $query->store( $dao );
+        $participant[$dao->participant_id] = $query->store( $dao );
     }
     $dao->free( );
     
-    return $contacts;
+    return $participant;
 
 }
 

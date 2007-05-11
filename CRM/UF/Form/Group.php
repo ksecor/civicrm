@@ -170,7 +170,12 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->addElement('checkbox', 'is_uf_link', ts('Include Website Profile Link in Search Results?'));
 
         // want to create cms user
-        $this->addElement('checkbox', 'is_cms_user', ts('Create CMS User?'));
+        $session =& CRM_Core_Session::singleton( );
+        $cmsId = false;
+        if ( $this->_cId = $session->get( 'userID' ) ){
+            $this->_cmsId = true;
+        }
+        $this->add('checkbox', 'is_cms_user', ts('Create CMS User?'), null, false, array('onclick' => "cms($this->_cmsId)"));
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',

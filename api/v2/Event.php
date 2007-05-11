@@ -53,7 +53,7 @@ require_once 'api/v2/utils.php';
  * @return array of newly created event property values.
  * @access public
  */
-function civicrm_event_create( $params ) 
+function civicrm_event_create( &$params ) 
 {
     _civicrm_initialize();
     if ( ! is_array($params) ) {
@@ -107,7 +107,7 @@ function civicrm_event_create( $params )
  * @return  If successful array of event data; otherwise object of CRM_Core_Error.
  * @access public
  */
-function civicrm_event_get( $params ) 
+function civicrm_event_get( &$params ) 
 {
     _civicrm_initialize();
     if ( ! is_array($params) ) {
@@ -117,6 +117,12 @@ function civicrm_event_get( $params )
         return civicrm_create_error('Required id (event ID) parameter is missing.');
     }
     $event  =& civicrm_event_search( $params );
+    
+    if ( count( $event ) != 1 &&
+         ! $event['returnFirst'] ) {
+        return civicrm_create_error( ts( '%1 event matching input params', array( 1 => count( $event ) ) ) );
+    }
+
     if ( civicrm_error( $event ) ) {
         return $event;
     }
@@ -135,7 +141,7 @@ function civicrm_event_get( $params )
  * @access public
  */  
 
-function civicrm_event_search( $params ) {
+function civicrm_event_search(&$params ) {
 
     $inputParams      = array( );
     $returnProperties = array( );
@@ -171,13 +177,13 @@ function civicrm_event_search( $params ) {
     }
     $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
     
-    $contacts = array( );
+    $event = array( );
     while ( $dao->fetch( ) ) {
-        $contacts[$dao->contact_id] = $query->store( $dao );
+        $event[$dao->event_id] = $query->store( $dao );
     }
     $dao->free( );
     
-    return $contacts;
+    return $event;
 
 }
 
@@ -192,7 +198,7 @@ function civicrm_event_search( $params ) {
  * @return array of updated event property values
  * @access public
  */
-function &civicrm_event_update( $params ) {
+function &civicrm_event_update( &$params ) {
     if ( !is_array( $params ) ) {
         return civicrm_create_error( 'Params is not an array' );
     }
@@ -229,7 +235,7 @@ function &civicrm_event_update( $params ) {
  * @return null if successfull, object of CRM_Core_Error otherwise
  * @access public
  */
-function &civicrm_event_delete( $eventID ) {
+function &civicrm_event_delete( &$eventID ) {
     if ( ! $eventID ) {
         return civicrm_create_error( 'Invalid value for eventID' );
     }

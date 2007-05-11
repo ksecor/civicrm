@@ -314,8 +314,10 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
 
             if ( $this->_mode == self::MODE_CREATE ) {
+                $cmsCid = false;
                 if ( $this->_cId ) {
                     list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($this->_cId);
+                    $cmsCid = true; 
                 }
                 if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
                     $cms = true;
@@ -368,7 +370,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( $this->_gid ) {
             $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_cms_user' );
         }
-        if ( $cmsUser && $cms ) {
+        if ( $cmsUser && $cms && !$cmsCid ) {
             $extra = array('onclick' => "return showHideByValue('create_account', '', 'details','block','radio',false )");
             $this->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra); 
             $this->add('text', 'name', ts('User Name'));
@@ -598,6 +600,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                 'pass2' => $params['confirm_pass']),
                                 'mail' => $params[$mail],
                                 );
+
                 drupal_execute( 'user_register', $values );
                 $error = form_get_errors();
                 if ( $error ) {
