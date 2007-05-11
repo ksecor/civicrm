@@ -4,6 +4,8 @@ require_once '../../../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
 
+
+
 class APImethod {
 
     public $name = null;
@@ -115,38 +117,43 @@ class APIAnalyser {
 
 }
 
+require_once 'Smarty/Smarty.class.php';
+
+
 class APITestGenerator {
 
     private $_analyser = null;
     private $_targetDir = null;
+    private $_smarty = null;
+    private $_templatePath = null;
 
-    public function __construct( $analyser) {
+    public function __construct( $analyser ) {
         $this->_analyser = $analyser;
-        $this->_targetDir = '/tmp';
+        $this->_smarty = new Smarty();
+        $this->_smarty->compile_dir = '/tmp/templates_c/';
     }
 
     private function _getTestcaseName( $method ) {
-                $testcaseName = '';
+        $testcaseName = '';
+        // private methods get different prefix
+        // leading underscore will disappear on
+        // explode a few lines below
+        if( $method->isPrivate ) {
+            $testcaseName .= "testPrivate";
+        } else {
+            $testcaseName .= "testPublic";
+        }
 
-                // private methods get different prefix
-                // leading underscore will disappear on
-                // explode a few lines below
-                if( $method->isPrivate ) {
-                    $testcaseName .= "testPrivate";
-                } else {
-                    $testcaseName .= "testPublic";
-                }
+        // uppercase words in function name
+        $n = explode( '_', $method->name);
+        foreach( $n as $key => $namePart ) {
+        $n[$key] = ucwords( $namePart);
+        }
 
-                // uppercase words in function name
-                $n = explode( '_', $method->name);
-                foreach( $n as $key => $namePart ) {
-                    $n[$key] = ucwords( $namePart);
-                }
+        // merge
+        $testcaseName .= implode( $n );
 
-                // merge
-                $testcaseName .= implode( $n );
-
-                return $testcaseName;
+        return $testcaseName;
     }
     
     
@@ -159,7 +166,7 @@ class APITestGenerator {
             if( ( $handle = fopen( $fullpath, "x" ) ) === FALSE ) {
                 trigger_error("Cannot open file for writing: $fullpath ", E_USER_ERROR );
             } else {
-                fwrite( $handle, $this->_getTestcaseTemplate( $testcaseName ) );
+                fwrite( $handle, $this->_getTestcaseFromTemplate( $testcaseName ) );
                 fclose( $handle );
                 return TRUE;
             }
@@ -168,8 +175,9 @@ class APITestGenerator {
     }
 
 
-    private function _getTestcaseTemplate( $testcaseName ) {
-        return "TBD - doing $testcaseName";
+    private function _getTestcaseFromTemplate( $testcaseName ) {
+        $this->_smarty->assign( 'testcaseName', $testcaseName );
+        return $this->_smarty->fetch( $this->_templatePath );;
     }
 
     public function setTargetDir( $dir ) {
@@ -182,6 +190,14 @@ class APITestGenerator {
 
     public function getTargetDir() {
         return $this->_targetDir;
+    }
+
+    public function setTemplatePath( $fullpath ) {
+        $this->_templatePath = $fullpath;
+    }
+
+    public function getTemplatePath() {
+        return $this->_templatePath;
     }
 
     public function buildTests() {
@@ -200,6 +216,7 @@ class APITestGenerator {
 $a = new APIAnalyser( '/home/mover/Work/CiviCRM/trunk/api/v2' );
 $t = new APITestGenerator( $a );
 $t->setTargetDir('/tmp/tests/');
+$t->setTemplatePath('/home/mover/Work/CiviCRM/trunk/test-new/SimpleTest/Test/TestcaseTemplate.tpl');
 $t->buildTests();
 
 
