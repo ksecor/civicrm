@@ -374,7 +374,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 foreach ($customOption as $v) {
                     $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $field->attributes);
                 }
-                $qf->addGroup($choice, $elementName, $label);
+                $separator = null;
+                if ( (int ) $field->options_per_line == 1 ) {
+                    $separator = '<br />';
+                }
+                $qf->addGroup($choice, $elementName, $label, $separator);
             } else {
                 $choice[] = $qf->createElement('radio', null, '', ts('Yes'), '1', $field->attributes);
                 $choice[] = $qf->createElement('radio', null, '', ts('No') , '0' , $field->attributes);

@@ -370,6 +370,13 @@ class CRM_Core_Invoke {
 
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Search_Simple', ts('Simple Search'),  null );
+        } else if ( $thirdArg == 'zandigo' ) {
+            // set the userContext stack
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/zandigo' ) );
+
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Search_Zandigo', ts('Zandigo Search'),  null );
         } else if ( $thirdArg == 'map' ) {
             // set the userContext stack
             //$session =& CRM_Core_Session::singleton();
