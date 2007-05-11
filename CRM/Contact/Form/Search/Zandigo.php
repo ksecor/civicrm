@@ -49,7 +49,7 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
         $this->assign( 'rows'    , $rows );
 
         $this->_customFields = array( 
-                                     89 => array( 'name' => 'Member Type'       ,
+                                     89 => array( 'name' => 'People'            ,
                                                   'loc'  => 'top'               ),
                                      90 => array( 'name' => 'Organization Type' ,
                                                   'loc'  => 'top'               ),
@@ -114,7 +114,7 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
                                                            "custom_$key",
                                                            $key,
                                                            false,
-                                                           false, false, null );
+                                                           false, false, $field['name'] );
         }
         $this->assign( 'customFields', $this->_customFields );
         $this->addButtons( array(
