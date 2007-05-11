@@ -10,48 +10,39 @@ class APImethod {
     public $isPrivate = null;
     public $isByReference = null;
     
-    
-    // FIXME: remove reference mark from names
     function __construct( $rawName ) {
-        $this->name = $rawName;
-        $this->isPrivate = ( ( strpos($rawName, '_') === false ) ? 0 : 1 );
+
         $this->isByReference = ( ( strpos($rawName, '&') === false ) ? 0 : 1 );
+        // trimming whitespace should have happend in _getAPIMethodsFromFile
+        // but I'm not a big fan of regexps and didn't know how to do it
+        $rawName = trim( $rawName );
+        $this->name = ltrim( $rawName, "&" );
+        // after reference marker is trimmed, we can check if underscore
+        // is the first character
+        $this->isPrivate = ( ( $this->name[0] !== '_' ) ? 0 : 1 );
+    }
+    
+    public function __toString() {
+        return 'CiviCRM API Method: ' . $this->name . ' (' . 
+        ( ($this->isPrivate ) ? 'private' : 'public' ) . ', ' . 
+        ( ($this->isByReference ) ? 'by reference' : 'direct' ) . ")\n";
     }
     
 }
 
+class APIGroup {
 
-class APIAnalyser {
-
-    private $_apiStructure = array();
+    public $name = null;
+    public $methods = array();
     
-    private $_rawAPIStructure = array();
-    
-    private $_apiFiles = array();
-
-    // FIXME: make this more generic at some stage    
-    private $_apiDir = '/home/mover/Work/CiviCRM/trunk/api/v2';
-    
-    function __construct() {
-        $this->_setAPIFiles();
-        foreach( $this->_apiFiles as $key => $file ) {
-            $this->_rawAPIStructure[$file] = $this->_getAPIMethodsFromFile( $this->_apiDir . DIRECTORY_SEPARATOR . $file );
-        }
-        $this->_prepareAPIStructure();
-    }
-
-    private function _isAPIFile( $name ) { 
-        return ( strtoupper( $name[0] ) === $name[0] && $name[0] !== '.');
-    }
-
-    private function _setAPIFiles() {
-        foreach ( scandir( $this->_apiDir ) as $key => $file ) {
-            if ( $this->_isAPIFile( $file ) ) {
-                $this->_apiFiles[] = $file;
-            }
+    function __construct( $fullpath ) {
+        $n = pathinfo( $fullpath );
+        $this->name =  rtrim($n['basename'], '.php');
+        foreach( $this->_getAPIMethodsFromFile( $fullpath ) as $dontCate => $method ) {
+            $this->methods[] = new APIMethod( $method );
         }
     }
-
+    
     private function _getAPIMethodsFromFile( $fullpath ) {
         $handle = fopen( $fullpath, "r" );
         $contents = fread( $handle, filesize( $fullpath ) );
@@ -59,38 +50,60 @@ class APIAnalyser {
         preg_match_all( '@(?<=function)[ ]+[&]?[_]?civicrm_[a-z_]+@' , $contents, $functions );
         return $functions[0];
     }
-                                                        
-
-    // FIXME: strip .php from group names
-    private function _prepareAPIStructure() {
-        foreach ( $this->_rawAPIStructure as $key => $group ) {
-            $this->_apiStructure[ $key ] = array();
-            foreach ( $group as $dontCare => $method ) {
-                $this->_apiStructure[ $key ][] = new APIMethod( $method );
-            }
+    
+    public function getMethodNames() {
+        $a = array();
+        foreach( $this->methods as $method ) {
+            $a[] = $method->name;
         }
+        return $a;
+    }    
+
+    public function __toString() {
+        return 'CiviCRM API Group: ' . $this->name . ' (containing ' . count($this->methods) . " methods) \n"; 
     }
 
-    function getAPI() {
-      return $this->_apiStructure;
-    }
-    
-    function getAPIGroups() {
-      return array_keys($this->_apiStructure);
-    }
-    
-    function getAPIGroupMethods() {
-        // TBD
-    }
-    
-    
-    
-    
-    
 }
 
 
 
+class APIAnalyser {
+
+    public $api = array();
+
+    function __construct( $apiDir ) {
+        foreach( $this->_getAPIFiles( $apiDir ) as $key => $file ) {
+            $this->api[] = new APIGroup( $apiDir . DIRECTORY_SEPARATOR . $file );
+        }
+    }
+
+    private function _isAPIFile( $name ) { 
+        return ( strtoupper( $name[0] ) === $name[0] && $name[0] !== '.');
+    }
+
+    private function _getAPIFiles( $apiDir ) {
+        $_apiFiles = array();
+        foreach ( scandir( $apiDir ) as $key => $file ) {
+            if ( $this->_isAPIFile( $file ) ) {
+                $_apiFiles[] = $file;
+            }
+        }
+        return $_apiFiles;
+    }
+
+    public function getAPI() {
+        return $this->api;
+    }
+    
+    function getAPIGroupNames() {
+        $a = array();
+        foreach ( $this->api as $apiGroup ) {
+            $a[] = $apiGroup->name;
+        }
+        return $a;
+    }
+    
+}
 
 
 
@@ -111,15 +124,13 @@ class APITestGenerator {
 
 }
 
-$a = new APIAnalyser();
-print_r( $a->getAPI() );
+$a = new APIAnalyser( '/home/mover/Work/CiviCRM/trunk/api/v2' );
+foreach( $a->api as $group ) {
+    echo $group;
+    foreach( $group->methods as $method ) {
+        echo $method;
+    }
+}
 
 
 ?>
-
-
-
-
-
-
-
