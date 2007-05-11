@@ -923,7 +923,14 @@ civicrm_membership_status.is_current_member =1";
                     $dao->modified_id   = $contactID;
                     $dao->modified_date = date('Ymd');
                     $dao->save();
-
+                    
+                    // Modify the membership dates as well while renewing
+                    // CURRENT membership.  
+                    $membership->join_date  = CRM_Utils_Date::isoToMysql( $membership->join_date );
+                    $membership->start_date = CRM_Utils_Date::isoToMysql( $membership->start_date );
+                    $membership->end_date   = CRM_Utils_Date::customFormat( $dates['end_date'],'%Y%m%d' );
+                    $membership->save( );
+                    
                     $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
                     $form->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                 }
