@@ -199,6 +199,11 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
             return;
 
+        case 'event_is_public':
+            $query->_where[$grouping][] = "civicrm_event.is_public $op $value";
+            $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
+            return;
+
         }
     }
 

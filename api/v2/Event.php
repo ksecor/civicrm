@@ -69,12 +69,7 @@ function civicrm_event_create( &$params )
         $config =& CRM_Core_Config::singleton();
         $params['domain_id'] = $config->domainID();
     }
-    
-    $error = _crm_check_required_fields( $params, 'CRM_Event_DAO_Event');
-    if ( is_a($error, 'CRM_Core_Error')  ) {
-        return civicrm_create_error( "Event is not created" );
-    }
-    
+
     $ids['event'      ] = $params['id'];
     $ids['eventTypeId'] = $params['event_type_id'];
     $ids['startDate'  ] = $params['start_date'];

@@ -1,6 +1,7 @@
 <?php
 
-require_once 'api/crm.php';
+require_once 'api/v2/Event.php';
+require_once 'api/v2/Participant.php';
 
 class TestOfSearchEventAPIV2 extends UnitTestCase 
 {
@@ -55,6 +56,9 @@ class TestOfSearchEventAPIV2 extends UnitTestCase
                         );
         
         $event = & civicrm_event_get($params);
+        $this->assertEqual( $event['event_id'], $id );
+        $this->assertEqual( $event['event_title'], 'Annual Function' );
+
     }
     
     function testDeleteParticipant()
