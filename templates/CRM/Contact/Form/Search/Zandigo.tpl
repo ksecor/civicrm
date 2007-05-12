@@ -158,11 +158,17 @@ function showHideZ (element) {
 
 {if $rows}
 Search Count: <b>{$rowCount}</b>
-<table>
-<tr><th>Contact ID</th><th>Sort Name</th></tr>
 {foreach from=$rows key=id item=row}
-<tr><td>{$row.contact_id}</td><td>{$row.sort_name}</td></tr>
+<div id='studentInfo'>
+<b>Name</b>: <img src="{$row.image_URL}" width=20 height=20/>{$row.display_name}<br />
+<b>Type</b>: {$row.custom_89}<br/>
+{if $row.custom_91}
+<b>Organization</b>: {$row.custom_91}<br/>
+{/if}
+{if $row.custom_95 or $row.custom_96 or $row.custom_97}
+<b>Location</b>: {$row.custom_95}, {$row.custom_96}, {$row.custom_97}<br/>
+{/if}
 {/foreach}
-</table>
+</dl>
 {/if}
 

@@ -159,6 +159,7 @@
        <type>varchar</type>
        <length>128</length>
        <comment>optional URL for preferred image (photo, logo, etc.) to display for this contact.</comment>
+       <import>true</import>
        <add>1.1</add>
   </field>
   <field>

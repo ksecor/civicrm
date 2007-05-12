@@ -49,26 +49,34 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
         $this->assign( 'rows'    , $rows );
 
         $this->_customFields = array( 
-                                     89 => array( 'name' => 'People'            ,
-                                                  'loc'  => 'top'               ),
-                                     90 => array( 'name' => 'Organizations' ,
-                                                  'loc'  => 'top'               ),
-                                     91 => array( 'name' => 'High School'       ,
-                                                  'loc'  => 'bottom'            ),
-                                     92 => array( 'name' => 'CEEB/ACT Code'     ,
-                                                  'loc'  => 'bottom'            ),
-                                     93 => array( 'name' => 'Graduation Year'   ,
-                                                  'loc'  => 'bottom'            ),
-                                     94 => array( 'name' => 'Type'              ,
-                                                  'loc'  => 'bottom'            ),
-                                     95 => array( 'name' => 'City'              ,
-                                                  'loc'  => 'bottom'            ),
-                                     96 => array( 'name' => 'State/Province'    ,
-                                                  'loc'  => 'bottom'            ),
-                                     97 => array( 'name' => 'Postal Code'       ,
-                                                  'loc'  => 'bottom'            ),
+                                     89 => array( 'name'   => 'People'            ,
+                                                  'loc'    => 'top'               ,
+                                                  'return' => 1                   ),
+                                     90 => array( 'name'   => 'Organizations'     ,
+                                                  'loc'    => 'top'               ,
+                                                  'return' => 1                   ),
+                                     91 => array( 'name'   => 'High School'       ,
+                                                  'loc'    => 'bottom'            ,
+                                                  'return' => 1                   ),
+                                     92 => array( 'name'   => 'CEEB/ACT Code'     ,
+                                                  'loc'    => 'bottom'            ,
+                                                  'return' => 0                   ),
+                                     93 => array( 'name'   => 'Graduation Year'   ,
+                                                  'loc'    => 'bottom'            ,
+                                                  'return' => 0                   ),
+                                     94 => array( 'name'   => 'Type'              ,
+                                                  'loc'    => 'bottom'            ,
+                                                  'return' => 0                   ),
+                                     95 => array( 'name'   => 'City'              ,
+                                                  'loc'    => 'bottom'            ,
+                                                  'return' => 1                   ),
+                                     96 => array( 'name'   => 'State/Province'    ,
+                                                  'loc'    => 'bottom'            ,
+                                                  'return' => 1                   ),
+                                     97 => array( 'name'   => 'Postal Code'       ,
+                                                  'loc'    => 'bottom'            ,
+                                                  'return' => 1                   ),
                                      );
-
 
     }
 
@@ -131,8 +139,19 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
     public function postProcess( ) {
         $values = $this->exportValues( );
 
+        $returnProperties = array( 'contact_id'   => 1,
+                                   'display_name' => 1,
+                                   'image_URL'    => 1,
+                                   );
+
+        foreach ( $this->_customFields as $key => $field ) {
+            if ( $field['return'] ) {
+                $returnProperties["custom_$key"] = 1;
+            }
+        }
+
         require_once 'api/Search.php';
-        list( $result, $options ) = crm_contact_search( $values, null, null, 0, 0 );
+        list( $result, $options ) = crm_contact_search( $values, $returnProperties, null, 0, 0 );
 
         $rows = array_values( $result );
         $this->assign_by_ref( 'rows', $rows );
