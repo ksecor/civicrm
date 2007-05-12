@@ -51,7 +51,7 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
         $this->_customFields = array( 
                                      89 => array( 'name' => 'People'            ,
                                                   'loc'  => 'top'               ),
-                                     90 => array( 'name' => 'Organization Type' ,
+                                     90 => array( 'name' => 'Organizations' ,
                                                   'loc'  => 'top'               ),
                                      91 => array( 'name' => 'High School'       ,
                                                   'loc'  => 'bottom'            ),

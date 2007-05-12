@@ -178,6 +178,10 @@ div.spacer, .spacer {
   text-align: left;
 } 
 
+#crm-container tbody {
+    border-top: none
+}
+
 #crm-container table.form-layout, #crm-container table.control-panel, #crm-container table.no-border {
   margin: 0em;
   /* width: auto; */

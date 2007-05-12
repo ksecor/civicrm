@@ -371,8 +371,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             if($field->data_type != 'Boolean') {
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
                 
+                $js = array( 'onclick' => "return showHideZ(this);");
                 foreach ($customOption as $v) {
-                    $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $field->attributes);
+//                    $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $field->attributes);
+                    $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $js);
                 }
                 $separator = null;
                 if ( (int ) $field->options_per_line == 1 ) {
