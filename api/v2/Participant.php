@@ -54,7 +54,7 @@ require_once 'api/v2/utils.php';
  * @return array participant id if participant is created otherwise is_error = 1
  * @access public
  */
-function civicrm_participant_create($params)
+function civicrm_participant_create(&$params)
 {
     _civicrm_initialize();
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
@@ -78,7 +78,7 @@ function civicrm_participant_create($params)
     $ids= array();
 
     require_once 'CRM/Event/BAO/Participant.php';
-    $participant = CRM_Event_BAO_Participant::create($params, $ids);
+    $participant = CRM_Event_BAO_Participant::create($params, $ids);//CRM_CORE_ERROR::DEBUG('pp',$participant);
 
     if ( is_a( $participant, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Participant is not created" );
@@ -115,7 +115,7 @@ function &civicrm_participant_get( &$params ) {
     }
 
     $participant  =& civicrm_participant_search( $params );
-
+    CRM_CORE_ERROR::DEBUG('$participant===',$participant);
 
     if ( count( $participant ) != 1 &&
          ! $participant['returnFirst'] ) {
@@ -126,13 +126,7 @@ function &civicrm_participant_get( &$params ) {
         return $participant;
     }
 
-    if ( count( $participant ) != 1 &&
-         ! $params['returnFirst'] ) {
-        return civicrm_create_error( ts( '%1 participants matching input params', array( 1 => count( $participant ) ) ) );
-    }
-
-    $participant = array_values( $participant )
-;
+    $participant = array_values( $participant );
     return $participant[0];
 }
 
@@ -143,11 +137,11 @@ function &civicrm_participant_get( &$params ) {
  *
  * @params  array  $params     an associative array of name/value property values of civicrm_participant
  *
- * @return  Array of all found participant property values.
+ * @return  participant property values.
  * @access public
  */  
 
-function civicrm_participant_search( $params ) {
+function civicrm_participant_search( &$params ) {
 
     $inputParams      = array( );
     $returnProperties = array( );
@@ -175,7 +169,7 @@ function civicrm_participant_search( $params ) {
     $query =& new CRM_Contact_BAO_Query( $newParams, $returnProperties, null );
     list( $select, $from, $where ) = $query->query( );
     
-    $sql = "$select $from $where";  
+    $sql = "$select $from $where";  CRM_Core_Error::debug('s',$sql);
 
     if ( ! empty( $sort ) ) {
         $sql .= " ORDER BY $sort ";
@@ -203,7 +197,7 @@ function civicrm_participant_search( $params ) {
  * @return array of updated participant property values
  * @access public
  */
-function civicrm_participant_update($params)
+function civicrm_participant_update(&$params)
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
@@ -255,7 +249,7 @@ function civicrm_participant_update($params)
  * @return null if successfull, object of CRM_Core_Error otherwise
  * @access public
  */
-function civicrm_participant_delete($participantID)
+function civicrm_participant_delete(&$participantID)
 {
     _civicrm_initialize();
     
@@ -281,7 +275,7 @@ function civicrm_participant_delete($participantID)
  * @return array of newly created payment property values.
  * @access public
  */
-function civicrm_participant_create_payment($params)
+function civicrm_participant_create_payment(&$params)
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
@@ -313,7 +307,7 @@ function civicrm_participant_create_payment($params)
  * @return array of updated participant_payment property values
  * @access public
  */
-function civicrm_participant_update_payment($params)
+function civicrm_participant_update_payment(&$params)
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
@@ -353,7 +347,7 @@ function civicrm_participant_update_payment($params)
  * @return null if successfull, array with is_error=1 otherwise
  * @access public
  */
-function civicrm_participant_delete_payment($participantPaymentID)
+function civicrm_participant_delete_payment(&$participantPaymentID)
 {
     _civicrm_initialize();
     
@@ -363,7 +357,7 @@ function civicrm_participant_delete_payment($participantPaymentID)
     require_once 'CRM/Event/BAO/ParticipantPayment.php';
     $participant = new CRM_Event_BAO_ParticipantPayment();
     
-    $params = array( 'id' => $participantPaymentID );
+    $params = array( 'participant_id' => $participantPaymentID );
     
     return $participant->deleteParticipantPayment( $params ) ? null : civicrm_create_error('Error while deleting participantPayment');
 }

@@ -182,7 +182,21 @@ class CRM_Event_BAO_Query
         case 'event_participant_id':
             $query->_where[$grouping][] = "civicrm_participant.id $op $value";
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+            return;
+
+        case 'event_id':
+            $query->_where[$grouping][] = "civicrm_event.id $op $value";
+            $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
+            return;
+
+        case 'event_contact_id':
+            $query->_where[$grouping][] = "civicrm_participant.contact_id $op $value";
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+            return;
             
+        case 'event_type_id':
+            $query->_where[$grouping][] = "civicrm_event.event_type_id $op $value";
+            $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
             return;
 
         }

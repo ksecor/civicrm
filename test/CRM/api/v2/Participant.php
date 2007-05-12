@@ -1,8 +1,8 @@
 <?php
 
-require_once 'api/crm.php';
+require_once 'api/v2/Participant.php';
 
-class TestOfCreateParticipantAPIV2 extends UnitTestCase 
+class TestOfParticipantAPIV2 extends UnitTestCase 
 {
     protected $_participant;
             
@@ -70,11 +70,10 @@ class TestOfCreateParticipantAPIV2 extends UnitTestCase
 
     function testGetParticipantsByEventId()
     {
-        $params = array('event_id' => $this->_participant2['event_id']);
+        $params = array('event_id' => 1 );
         $participant = & civicrm_participant_get($params);
-        foreach ( $participant as $id => $value ) {
-            $this->assertEqual($value['event_id'],$this->_participant2['event_id']);               
-        }
+        //returns error when more than one participant are found
+        $this->assertEqual($participant['is_error'], 1);               
     }
 
     function testDeleteParticipant()
