@@ -205,6 +205,7 @@ class CRM_Contribute_BAO_Query
             $query->_qill[$grouping ][] = ts( 'Paid By - %1', array( 1 => $pis[$pi] ) );
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
+
         case 'contribution_in_honor_of':
             $name = trim( $value ); 
             $newName = str_replace(',' , " " ,$name );
@@ -219,8 +220,8 @@ class CRM_Contribute_BAO_Query
             $query->_qill[$grouping][]  = ts( 'Honor name like - "%1"', array( 1 => $name ) );
             $query->_tables['civicrm_contact_b'] = $query->_whereTables['civicrm_contact_b'] = 1;
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            
             return;
+
         case 'contribution_status':
             
             foreach ($value as $k => $v) {
@@ -246,13 +247,6 @@ class CRM_Contribute_BAO_Query
             $query->_qill[$grouping][]  = ts('Contribution Status %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
             $query->_where[$grouping][] = "civicrm_contribution.contribution_status_id {$op} {$status}";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            return;
-            
-        case 'contribution_status_id':
-            $query->_where[$grouping][] = "civicrm_contribution.contribution_status_id $op $value";
-            $query->_qill[$grouping][]  = "Contribution Status ID $op \"$value\"";
-            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            
             return;
 
         case 'contribution_source':

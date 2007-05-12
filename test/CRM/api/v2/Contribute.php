@@ -60,7 +60,7 @@ class TestOfCreateContribution extends UnitTestCase
     {
         $params = array(
                         'domain_id'              => 1,
-                        'contact_id'             => $this->_individual['contact_id'],                              
+                        'contact_id'             => $this->_individual['contact_id'],            
                         'receive_date'           => date('Ymd'),
                         'total_amount'           => 101.00,
                         'contribution_type_id'   => 3,
@@ -78,7 +78,7 @@ class TestOfCreateContribution extends UnitTestCase
         $contribution = civicrm_contribution_add($params);
         $this->assertNotNull( $contribution['id'] );
         $this->assertEqual($contribution['domain_id'], 1);
-        $this->assertEqual($contribution['contact_id'], $this->_individual['contact_id']);                              
+        $this->assertEqual($contribution['contact_id'], $this->_individual['contact_id']);        
         $this->assertEqual($contribution['receive_date'],date('Ymd'));
         $this->assertEqual($contribution['total_amount'],101.00);
         $this->assertEqual($contribution['contribution_type_id'],3);
@@ -96,7 +96,7 @@ class TestOfCreateContribution extends UnitTestCase
     function testGetContribution()
     {
         $params = array(
-                        'contact_id'                          => $this->_individual['contact_id'],                              
+                        'contact_id'                          => $this->_individual['contact_id'],
                         'contribution_receive_date'           => date('Ymd'),
                         'contribution_total_amount'           => 101,
                         'contribution_type_id'                => 3,
@@ -107,14 +107,14 @@ class TestOfCreateContribution extends UnitTestCase
                         'contribution_transaction_id'         => 12351,
                         'contribution_invoice_id'             => 67896,
                         'contribution_source'                 => 'SSF',
-                        'contribution_status_id'              => 1,
+                        //for status="complete or pending or cancelled", use: array(1 => 1, 2=>1, 3=>1)
+                        'contribution_status'                 => array(1 => 1), //status=complete
                         //'return.total_amount' => 1
                         );
         $contribution = civicrm_contribution_get($params);
-
         $this->assertEqual($contribution['contribution_id']       , $this->_contribution['id'] );
-        $this->assertEqual($contribution['contact_id']            , $this->_individual['contact_id']);                              
-        //$this->assertEqual($contribution['receive_date']          ,date('Ymd')); //change format for test
+        $this->assertEqual($contribution['contact_id']            , $this->_individual['contact_id']);
+        $this->assertEqual($contribution['receive_date']          ,date('Y-m-d') . ' 00:00:00');
         $this->assertEqual($contribution['total_amount']          ,101.00);
         $this->assertEqual($contribution['contribution_type_id']  ,3);
         $this->assertEqual($contribution['non_deductible_amount'] ,10.00);
@@ -124,6 +124,15 @@ class TestOfCreateContribution extends UnitTestCase
         $this->assertEqual($contribution['invoice_id']            ,67896);
         $this->assertEqual($contribution['contribution_source']   ,'SSF');
         $this->assertEqual($contribution['contribution_status_id'],  1);
+    }
+
+    function testGetManyBadContributions()
+    {
+        $params = array(
+                        'contribution_status'  => array(1 => 1), //status=complete
+                        );
+        $contribution = civicrm_contribution_get($params);
+        $this->assertEqual( $contribution['is_error'], 1 );
     }
 }
 

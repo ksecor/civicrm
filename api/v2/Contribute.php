@@ -174,7 +174,7 @@ function &civicrm_contribution_search( &$params ) {
             $inputParams[$n] = $v;
         }
     }
-
+    
     require_once 'CRM/Contribute/BAO/Query.php';
     if ( empty( $returnProperties ) ) {
         $returnProperties = CRM_Contribute_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
@@ -182,22 +182,13 @@ function &civicrm_contribution_search( &$params ) {
     
     require_once 'CRM/Contact/BAO/Query.php';
     $newParams =& CRM_Contact_BAO_Query::convertFormValues( $inputParams );
-
-    $query =& new CRM_Contact_BAO_Query( $newParams, $returnProperties, null );
-    list( $select, $from, $where ) = $query->query( );
     
-    $sql = "$select $from $where";  
-
-    if ( ! empty( $sort ) ) {
-        $sql .= " ORDER BY $sort ";
-    }
-    $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-    
-    $contacts = array( );
-    while ( $dao->fetch( ) ) {
-        $contacts[$dao->contact_id] = $query->store( $dao );
-    }
-    $dao->free( );
+    list( $contacts, $options ) = CRM_Contact_BAO_Query::apiQuery( $newParams,
+                                                                   $returnProperties,
+                                                                   null,
+ 	                                                               $sort,
+                                                                   $offset,
+                                                                   $rowCount );
     
     return $contacts;
 }
