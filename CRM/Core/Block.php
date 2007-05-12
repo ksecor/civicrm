@@ -350,6 +350,12 @@ class CRM_Core_Block {
                                       'query' => 'reset=1',
                                       'title' => ts('Summary Report')
                                       );                
+            }
+            if ($role == 'superadmin') {
+                $shortCuts[] = array( 'path'  => 'civicrm/gcc/options',
+                                      'query' => 'reset=1',
+                                      'title' => ts('List Option Groups')
+                                      );                
                 self::$_properties[self::GCC]['subject'] = ($role == 'superadmin') ? "Super Admin" : self::$_properties[self::GCC]['subject'];
             }
 
