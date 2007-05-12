@@ -345,13 +345,11 @@ class CRM_Core_Block {
                 self::$_properties[self::GCC]['subject'] = 
                     ($role == 'retrofit') ? 'Retrofit Manager' : (($role == 'auditor') ? 'Auditor' : self::$_properties[self::GCC]['subject']);
             }
-            if ($role == 'admin' || $role == 'superadmin') {
+            if ($role == 'superadmin') {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
                                       'query' => 'reset=1',
                                       'title' => ts('Summary Report')
                                       );                
-            }
-            if ($role == 'superadmin') {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/options',
                                       'query' => 'reset=1',
                                       'title' => ts('List Option Groups')
