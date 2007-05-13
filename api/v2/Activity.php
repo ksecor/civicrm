@@ -81,22 +81,19 @@ function &civicrm_activity_create( &$params) {
         return civicrm_create_error( ts ( 'Missing Activity Name' ) );
     }   
 
-    $ids = array();
-
-    // Check for Activityy name
+    // Check for Activity name
     _civicrm_activity_check_name( $params['activity_name'] );
     
     //check the type of activity
-    if ($params['activity_name'] == 'Meeting' ) {
-        $activityType = 'Meeting';
-    } elseif ( $params['activity_name'] == 'Phonecall' ) {
-        $activityType = 'Phonecall';
-    } else {
-        $activityType = 'Activity';
+    if ( strtolower($params['activity_name']) == 'meeting' ) {
+        $activityType = 1;
+    } elseif ( strtolower($params['activity_name']) == 'phonecall' ) {
+        $activityType = 2;
     }
-    
-    $activity = CRM_Activity_BAO_Activity::add( $params, $ids, $activityType );
 
+    $ids = array();
+    $activity = CRM_Activity_BAO_Activity::add( $params, $ids, $activityType );
+    
     $activityArray = array(); 
     _civicrm_object_to_array( $activity, $activityArray);
     
@@ -204,6 +201,8 @@ function &civicrm_activity_delete( &$params ) {
     }
     
     $activity = CRM_Activity_BAO_Activity::del( $params['id'], $activityType );
+
+    return $activity;
 }
 
 /**
@@ -258,21 +257,19 @@ function &_civicrm_activities_get( $contactID, $daoName ) {
 }
 
 function _civicrm_activity_check_name( $activityName ) {
-    
     require_once 'CRM/Core/DAO/OptionGroup.php';
-    $grpdao =& new CRM_Core_DAO_OptionGroup( );
-    $grpdao->name = 'activity_type';
-    $grpdao->find(true);
- 
-        
+    $grpDAO =& new CRM_Core_DAO_OptionGroup( );
+    $grpDAO->name = 'activity_type';
+    $grpDAO->find(true);
+    
     require_once 'CRM/Core/DAO/OptionValue.php';
     $dao       =& new CRM_Core_DAO_OptionValue( );
     $dao->label = $activityName;
-    $dao->option_group_id = $grpdao->id;
-  
+    $dao->option_group_id = $grpDAO->id;
+    
     if (! $dao->find( true ) ) {
-        
         return civicrm_create_error( ts( "Invalid Activity Name" ) );
     }
+
     return true;
 }
