@@ -213,7 +213,7 @@ AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.n
                 $fieldName = $id;
             }
         }
-        if ($fieldName == '') return;
+        if ($fieldName == '') return true;
         
         if (array_key_exists($gName, $individuals)) {
             // query for the affected individuals
