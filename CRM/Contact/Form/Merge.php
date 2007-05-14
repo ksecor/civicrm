@@ -38,14 +38,9 @@ require_once 'api/Location.php';
 
 class CRM_Contact_Form_Merge extends CRM_Core_Form
 {
-    var $_defaults = array();
-
     var $_cid         = null;
     var $_oid         = null;
     var $_contactType = null;
-
-    // an ugly hack to be able to cleanly address the radios in Smarty
-    var $_col = 'column';
 
     function preProcess()
     {
@@ -105,7 +100,6 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
             if (!isset($diffs[$ct])) $diffs[$ct] = array();
             foreach ($diffs[$ct] as $field) {
-                $rows[] = $field;
                 foreach (array('main', 'other') as $moniker) {
                     $value = isset($$moniker->$field) ? $$moniker->$field : $$moniker->contact_type_object->$field;
                     $label = isset($specialValues[$moniker][$field]) ? $specialValues[$moniker]["{$field}_display"] : $value;
@@ -116,10 +110,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         if ($label === '0') $label = ts('No');
                         if ($label === '1') $label = ts('Yes');
                     }
-                    $group[$moniker] = HTML_QuickForm::createElement('radio', $this->_col, null, $label, $value);
-                    if ($moniker == 'main') $this->_defaults[$field] = $value;
+                    $rows[$field][$moniker] = $label;
+                    if ($moniker == 'other') $this->addElement('advcheckbox', $field, null, null, null, $value);
                 }
-                $this->addGroup($group, $field, $fields[$field]['title']);
+                $rows[$field]['title'] = $fields[$field]['title'];
             }
         }
 
@@ -138,11 +132,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 }
             }
             if (!empty($locations[$locTypeName]['main']) or !empty($locations[$locTypeName]['other'])) {
-                $rows[] = "location_$locTypeId";
-                $this->_defaults["location_$locTypeId"] = $locValue['main'];
-                $group['main']  = HTML_QuickForm::createElement('radio', $this->_col, null, $locLabel['main'],  $locValue['main']);
-                $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $locLabel['other'], $locValue['other']);
-                $this->addGroup($group, "location_$locTypeId", ts('Location: %1', array(1 => $locTypeName)));
+                $rows["location_$locTypeId"]['main']  = $locLabel['main'];
+                $rows["location_$locTypeId"]['other'] = $locLabel['other'];
+                $rows["location_$locTypeId"]['title'] = ts('Location: %1', array(1 => $locTypeName));
+                $this->addElement('advcheckbox', "location_$locTypeId", null, null, null, $locValue['other']);
             }
         }
 
@@ -158,26 +151,22 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             }
         }
         foreach ($diffs['custom'] as $id) {
-            $rows[] = "custom_$id";
-            $this->_defaults["custom_$id"] = $customValues['main'][$id];
-            $group['main']  = HTML_QuickForm::createElement('radio', $this->_col, null, $customLabels['main'][$id],  $customValues['main'][$id]);
-            $group['other'] = HTML_QuickForm::createElement('radio', $this->_col, null, $customLabels['other'][$id], $customValues['other'][$id]);
-            $this->addGroup($group, "custom_$id", CRM_Core_BAO_CustomField::getTitle($id));
+            $rows["custom_$id"]['main']  = $customLabels['main'][$id];
+            $rows["custom_$id"]['other'] = $customLabels['other'][$id];
+            $rows["custom_$id"]['title'] = CRM_Core_BAO_CustomField::getTitle($id);
+            $this->addElement('advcheckbox', "custom_$id", null, null, null, $customValues['other'][$id]);
         }
 
         $this->assign('rows', $rows);
 
         // add the 'move belongings?' and 'delete other?' checkboxes
-        $this->addElement('checkbox', 'moveBelongings', ts("Move the right-side contact's notes, relationships, etc.?"), null);
-        $this->addElement('checkbox', 'deleteOther',    ts("Delete the right-side contact after merging?"),              null);
-
-        // make defaults compatible with the ugly _col hack
-        foreach ($this->_defaults as $key => $value) $this->_defaults["{$key}[{$this->_col}]"] = $value;
+        $this->addElement('checkbox', 'moveBelongings', ts("Move the right-side contact's notes, relationships, etc."));
+        $this->addElement('checkbox', 'deleteOther',    ts('Delete the right-side contact after merging'));
     }
     
     function setDefaultValues()
     {
-        return $this->_defaults;
+        return array('deleteOther' => 1);
     }
     
     function addRules()
@@ -196,13 +185,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     {
         $formValues = $this->exportValues();
 
-        // get submitted contact values, unhack them and clear
+        // get submitted contact values and clear them
         $validFields = array_merge(CRM_Dedupe_Merger::$validFields['Contact'], CRM_Dedupe_Merger::$validFields[$this->_contactType]);
         foreach ($formValues as $key => $value) {
-            if ((in_array($key, $validFields) and array_key_exists($this->_col, $value)) or substr($key, 0, 7) == 'custom_') {
-                $submitted[$key] = $value[$this->_col];
-            } elseif (substr($key, 0, 9) == 'location_') {
-                $locations[substr($key, 9)] = $value[$this->_col];
+            if ((in_array($key, $validFields) or substr($key, 0, 7) == 'custom_') and $value != null) {
+                $submitted[$key] = $value;
+            } elseif (substr($key, 0, 9) == 'location_' and $value != null) {
+                $locations[substr($key, 9)] = $value;
             }
         }
         // FIXME: source vs. contact_source workaround
@@ -226,6 +215,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         // FIXME: the simplest approach to locations
         $locTypes =& CRM_Core_PseudoConstant::locationType();
+        if (!isset($locations)) $locations = array();
         foreach ($locations as $locTypeId => $locId) {
             $mainLocation = crm_get_locations($main, array($locTypes[$locTypeId]));
             // if we stay with the same location, skip it
