@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-05-07 06:41+0200\n"
+"POT-Creation-Date: 2007-05-14 06:32+0200\n"
 "PO-Revision-Date: 2007-05-08 23:17-0700\n"
 "Last-Translator: Thorsten <stxal@tcnet.ch>\n"
 "MIME-Version: 1.0\n"
@@ -1253,7 +1253,9 @@ msgstr "Wir können Ihre Benutzernummer nicht finden."
 msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
-msgstr "Dieses Profil ist nicht für den angeforderten Vorgang konfiguriert. Kontaktieren Sie den Seiten Administrator für weitere Informationen."
+msgstr ""
+"Dieses Profil ist nicht für den angeforderten Vorgang konfiguriert. "
+"Kontaktieren Sie den Seiten Administrator für weitere Informationen."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1465,7 +1467,9 @@ msgstr "Die angehängte Datei wurde gelöscht."
 msgid ""
 "%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; "
 "Payment Processor."
-msgstr "%1 ist nicht eingerichtet um CiviCRM &raquo; Global Settings &raquo; Finanz Modul zu Verwalten"
+msgstr ""
+"%1 ist nicht eingerichtet um CiviCRM &raquo; Global Settings &raquo; Finanz "
+"Modul zu Verwalten"
 
 #: CRM/Core/Payment/AuthorizeNet.php CRM/Core/Payment/Google.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
@@ -1767,7 +1771,9 @@ msgstr "jede Regel"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Are you sure you want to disable this ACL Role Assignment?"
-msgstr "Sind Sie sicher, dass Sie diese Zugriffsrechtelisten Mitgliedschaft (Member of AccessControlList) deaktivieren möchten?"
+msgstr ""
+"Sind Sie sicher, dass Sie diese Zugriffsrechtelisten Mitgliedschaft (Member "
+"of AccessControlList) deaktivieren möchten?"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Edit ACL Role Assignment"
@@ -3940,6 +3946,11 @@ msgstr "Neue Organisation"
 #: CRM/Core/Block.php
 msgid "New Household"
 msgstr "Neuer Haushalt"
+
+#: CRM/Core/Block.php
+#, fuzzy
+msgid "Quest Search"
+msgstr "Suche"
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"

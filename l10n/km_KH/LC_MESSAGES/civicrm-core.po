@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-05-07 06:41+0200\n"
+"POT-Creation-Date: 2007-05-14 06:32+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "MIME-Version: 1.0\n"
@@ -3984,6 +3984,11 @@ msgstr "អង្គការ​ថ្មី"
 #: CRM/Core/Block.php
 msgid "New Household"
 msgstr "ផ្ទះ​សម្បែង​ថ្មី"
+
+#: CRM/Core/Block.php
+#, fuzzy
+msgid "Quest Search"
+msgstr "ស្វែងរក"
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"

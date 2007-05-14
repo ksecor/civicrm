@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-05-07 06:41+0200\n"
+"POT-Creation-Date: 2007-05-14 06:32+0200\n"
 "PO-Revision-Date: 2007-03-12 08:15-0800\n"
 "Last-Translator: Atilla Gökhan Uz <atilla.uz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -3792,6 +3792,11 @@ msgstr "Yeni Kuruluş"
 #: CRM/Core/Block.php
 msgid "New Household"
 msgstr "Yeni Ev(?)"
+
+#: CRM/Core/Block.php
+#, fuzzy
+msgid "Quest Search"
+msgstr "Search"
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
