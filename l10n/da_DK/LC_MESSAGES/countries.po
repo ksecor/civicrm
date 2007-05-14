@@ -6,11 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2001-11-23 22:24+0100\n"
-"Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
+"PO-Revision-Date: 2007-05-11 04:15-0700\n"
+"Last-Translator: John Krumbæk <krumbaek@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 # AF
 msgid "Afghanistan"
@@ -134,7 +135,7 @@ msgstr "British Indian Ocean Territory"
 
 # VG
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "Jomfruøerne"
 
 # BN
 msgid "Brunei Darussalam"
@@ -209,7 +210,7 @@ msgid "Comoros"
 msgstr "Comorerne"
 
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "Den Demokratiske Republik Congo"
 
 # CG
 msgid "Congo"
@@ -224,7 +225,7 @@ msgid "Costa Rica"
 msgstr "Costa Rica"
 
 msgid "Côte d'Ivoire"
-msgstr ""
+msgstr "Elfenbenskysten"
 
 # HR
 msgid "Croatia"
@@ -259,7 +260,7 @@ msgid "Dominican Republic"
 msgstr "Dominikanske Republik"
 
 msgid "Timor-Leste"
-msgstr ""
+msgstr "Timor"
 
 # EC
 msgid "Ecuador"
@@ -311,14 +312,14 @@ msgstr "Frankrig"
 
 # GF
 msgid "French Guiana"
-msgstr ""
+msgstr "French Guiana"
 
 # PF
 msgid "French Polynesia"
 msgstr "Fransk Polynesien"
 
 msgid "French Southern Territories"
-msgstr ""
+msgstr "De Franske Oversøiske Departementer, Regioner og Kollektiviteter"
 
 # GA
 msgid "Gabon"
@@ -381,11 +382,11 @@ msgid "Haiti"
 msgstr "Haiti"
 
 msgid "Heard Island and McDonald Islands"
-msgstr ""
+msgstr "Heard og McDonald ørne"
 
 # VA
 msgid "Holy See (Vatican City State)"
-msgstr ""
+msgstr "Vatikanstaten"
 
 # HN
 msgid "Honduras"
@@ -412,7 +413,7 @@ msgid "Indonesia"
 msgstr "Indonesien"
 
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "Den islamiske republik Iran"
 
 # IQ
 msgid "Iraq"
@@ -432,7 +433,7 @@ msgstr "Italien"
 
 # JM
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamaica"
 
 # JP
 msgid "Japan"
@@ -444,7 +445,7 @@ msgstr "Jordan"
 
 # KZ
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kasakhstan"
 
 # KE
 msgid "Kenya"
@@ -468,10 +469,10 @@ msgstr "Kuwait"
 
 # KG
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Kirgisistan"
 
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Den Demokratiske Folkerepublik Laos "
 
 # LV
 msgid "Latvia"
@@ -490,7 +491,7 @@ msgid "Liberia"
 msgstr "Liberia"
 
 msgid "Libyan Arab Jamahiriya"
-msgstr ""
+msgstr "Libyen"
 
 # LI
 msgid "Liechtenstein"
@@ -506,10 +507,10 @@ msgstr "Luxemburg"
 
 # MO
 msgid "Macao"
-msgstr ""
+msgstr "Macao"
 
 msgid "Macedonia, Republic of"
-msgstr ""
+msgstr "Makedonien"
 
 # MG
 msgid "Madagascar"
@@ -525,7 +526,7 @@ msgstr "Malaysia"
 
 # MV
 msgid "Maldives"
-msgstr ""
+msgstr "Republikken Maldiverne"
 
 # ML
 msgid "Mali"
@@ -549,7 +550,7 @@ msgstr "Mauretanien"
 
 # MU
 msgid "Mauritius"
-msgstr ""
+msgstr "Mauritius"
 
 # YT
 msgid "Mayotte"
@@ -560,10 +561,10 @@ msgid "Mexico"
 msgstr "Mexico"
 
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "Mikronesien"
 
 msgid "Moldova, Republic of"
-msgstr ""
+msgstr "Moldavien"
 
 # MC
 msgid "Monaco"
@@ -654,7 +655,7 @@ msgid "Palau"
 msgstr "Palau"
 
 msgid "Palestinian Territory, Occupied"
-msgstr ""
+msgstr "Palæstina"
 
 # PA
 msgid "Panama"
@@ -717,16 +718,16 @@ msgid "Saint Helena"
 msgstr "Sankt Helena"
 
 msgid "Saint Kitts and Nevis"
-msgstr ""
+msgstr "Saint Kitts og Nevis"
 
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Saint Lucia"
 
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "Saint-Pierre og Miquelon"
 
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "Saint Vincent og Grenadinerne"
 
 # WS
 msgid "Samoa"
@@ -778,7 +779,7 @@ msgstr "Sydafrika"
 
 # GS
 msgid "South Georgia and the South Sandwich Islands"
-msgstr ""
+msgstr "Sydgeorgien og Sydsandwichøerne"
 
 # ES
 msgid "Spain"
@@ -798,7 +799,7 @@ msgstr "Surinam"
 
 # SJ
 msgid "Svalbard and Jan Mayen"
-msgstr ""
+msgstr "Svalbard og Jan Mayen"
 
 # SZ
 msgid "Swaziland"
@@ -813,7 +814,7 @@ msgid "Switzerland"
 msgstr "Schweiz"
 
 msgid "Syrian Arab Republic"
-msgstr ""
+msgstr "Syrien"
 
 # ST
 msgid "Sao Tome and Principe"
@@ -821,14 +822,14 @@ msgstr "São Tomé og Príncipe"
 
 # TW
 msgid "Taiwan"
-msgstr ""
+msgstr "Taiwan"
 
 # TJ
 msgid "Tajikistan"
 msgstr "Tadsjikistan"
 
 msgid "Tanzania, United Republic of"
-msgstr ""
+msgstr "Tanzania"
 
 # TH
 msgid "Thailand"
@@ -871,7 +872,7 @@ msgid "Turkmenistan"
 msgstr "Turkmenistan"
 
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Turks og Caicos øerne"
 
 # TV
 msgid "Tuvalu"
@@ -890,7 +891,7 @@ msgid "United Arab Emirates"
 msgstr "Forenede Arabiske Emirater"
 
 msgid "United Kingdom"
-msgstr ""
+msgstr "Det Forenede Kongerige Storbritannien og Nordirland"
 
 # UM
 msgid "United States Minor Outlying Islands"
@@ -917,15 +918,15 @@ msgid "Venezuela"
 msgstr "Venezuela"
 
 msgid "Viet Nam"
-msgstr ""
+msgstr "Vietnam"
 
 # VI
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "Jomfruøerne"
 
 # WF
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "Wallis og Futuna"
 
 # EH
 msgid "Western Sahara"
@@ -936,7 +937,7 @@ msgid "Yemen"
 msgstr "Yemen"
 
 msgid "Serbia and Montenegro"
-msgstr ""
+msgstr "Serbien og Montenegro"
 
 # ZM
 msgid "Zambia"
@@ -947,10 +948,10 @@ msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
 msgid "Åland Islands"
-msgstr ""
+msgstr "Ålandsøerne"
 
 msgid "Serbia"
-msgstr ""
+msgstr "Serbien"
 
 msgid "Montenegro"
-msgstr ""
+msgstr "Montenegro"
