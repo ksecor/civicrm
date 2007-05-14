@@ -79,6 +79,25 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
                                      );
 
     }
+    
+    /**
+        * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $defaults = array( );
+        $params   = array( );
+
+        // Set default search type to "Students" if we don't have one yet.
+        $params = $_POST;
+        if ( empty( $params['custom_89'] ) && empty( $params['custom_90'] ) ) {
+            $defaults['custom_89'] = 'Student';
+        }
+        return $defaults;
+    }
 
     public function buildQuickForm( ) { 
         $config   =& CRM_Core_Config::singleton( );

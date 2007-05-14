@@ -1,62 +1,14 @@
-{literal}
-<style type="text/css">
-.heading1{
-	font: 26px "Lucida Sans",Arial,Helvetica,Sans-Serif;
-	color: #999999;
-	margin: 0 0 0 0;
-}
+{assign var="showBlocks" value="'searchForm'"}
+{assign var="hideBlocks" value="'searchForm_show','searchForm_hide'"}
 
-.text1{
-	font: 14px Lucida Sans,Arial,Helvetica,Sans-Serif;
-	color: #73bcdf;
-	margin: 0 0 0 0;
-}
-	
-.text2{
-	font: 14px Lucida Sans,Arial,Helvetica,Sans-Serif;
-	color: #054685;
-	margin: 0 0 0 0;
-}
-
-.text3{
-	font: 14px Lucida Sans,Arial,Helvetica,Sans-Serif;
-	color: #a5adb4;
-	margin: 0 0 0 0;
-}
-
-.text4 a:link{
-	font: 15px Lucida Sans,Arial,Helvetica,Sans-Serif;
-	color: #054685;
-	margin: 0 0 0 0;
-	text-decoration:none;
-}
-	
-.text4 a:hover{
-	font: 15px Lucida Sans,Arial,Helvetica,Sans-Serif;
-	color: #72bcdf;
-	margin: 0 0 0 0;
-	text-decoration: underline overline;
-}	
-
-.text4 a:active{
-	font: 15px Lucida Sans,Arial,Helvetica,Sans-Serif;
-	color: #054685;
-	margin: 0 0 0 0;
-	text-decoration:none;
-}
-
-.text4 a:visited{
-	font: 15px Lucida Sans,Arial,Helvetica,Sans-Serif;
-	color: #054685;
-	margin: 0 0 0 0;
-	text-decoration:none;
-}
-</style>
-{/literal}
-
-<fieldset>
-  <legend>Search Crieria</legent>
+<div id="searchForm_show" class="form-item">
+  <a href="#" onclick="hide('searchForm_show'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+  <label>{ts}Edit Search Criteria{/ts}</label>
+</div>
+<div class="spacer"></div> 
 <div id="searchForm">
+<fieldset>
+<legend><span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>Search Criteria</legend>
 <div class="form-item">
 <table class="form-layout">
     <tr>
@@ -68,16 +20,21 @@
         {/if}
     {/foreach}
     </tr>
-    <tr>
+    <tr id="id-people-title">
         <td colspan="3" align="center">
-            <span class="heading1">Student Search<br /><br /></span>
+            <span class="heading1">People Search<br /><br /></span>
+        </td>
+    </tr>
+    <tr id="id-org-title">
+        <td colspan="3" align="center">
+            <span class="heading1">Organization Search<br /><br /></span>
         </td>
     </tr>
     
     {* Name, Gender, Email-All People Searches *}
     <tr id="id-first-name">
-        <td><span class="text1"><strong>Basic Info</strong></span></td>
-        <td class="label text3">{$form.first_name.label}</span></td>
+        <td class="text1"><strong>Basic Info</strong></td>
+        <td class="label text3">{$form.first_name.label}</td>
         <td class="nowrap">{$form.first_name.html}</td>
     </tr>
     <tr id="id-middle-name"><td></td> 
@@ -98,7 +55,8 @@
     </tr>
     
     {* Name Field-Organization Searches *}
-    <tr id="id-org-name"><td></td> 
+    <tr id="id-org-name">
+        <td><span class="text1"><strong>Basic Info</strong></span></td>
         <td class="label text3">{$form.organization_name.label}</td>
         <td class="nowrap">{$form.organization_name.html}</td>
     </tr>
@@ -127,10 +85,10 @@
         {if $details.loc == 'bottom'}
             {if $first}
                 <tr><td colspan="3">&nbsp;</td></tr>
-                <tr id="id-custom-{$customID}"><td><span class="text1"><strong>School Info</strong></span></td>
+                <tr id="id-custom_{$customID}"><td><span class="text1"><strong>School Info</strong></span></td>
                 {assign var="first" value=0}
             {else}
-                <tr id="id-custom-{$customID}"><td></td> 
+                <tr id="id-custom_{$customID}"><td></td> 
             {/if}           
             {assign var="customField" value="custom_"|cat:$customID}
             <td class="label text3">{$form.$customField.label}</td> 
@@ -145,30 +103,132 @@
     </tr>
 </table>
 </div>
-</div>
 </fieldset>
+</div>
+
+{if $rows}
+    {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
+    {assign var="showBlocks" value="'searchForm_show'"}
+    {assign var="hideBlocks" value="'searchForm'"}
+
+    <table align="left" width="630">
+      <tr>
+        <td align="left" width="33%">{$form.toggleSelect.html}&nbsp;<span class="text3">Select All</span></td>
+        <td align="center" width="33%"><span class="text3">Results x-y of {$rowCount}</span></td>
+        <td align="right" width="33%"><span class="text3">Page <strong>1</strong> 2 3 4 next</span></td>
+      </tr>
+      <tr height="35">
+        <td colspan="3" align="center"><span class="text2">Add to Database </span></td>
+      </tr>
+    </table>
+    <div class="spacer"></div>
+
+    <table class="form-layout-compressed">
+    {foreach from=$rows key=id item=row}
+        <tr>
+            {assign var=cbName value=$row.checkbox}
+            <td>{$form.$cbName.html}</td>
+            <td><img src="{$row.image_URL}" width="20" height="20" alt="{$row.display_name}" /></td>
+            <td>
+                Name:<br />
+                Status:<br />
+                {if $row.custom_91}Organization<br />{/if}
+                {if $row.custom_95 or $row.custom_96 or $row.custom_97}Location:{/if}
+            </td>
+            <td>
+                <strong>{$row.display_name}</strong><br />
+                {$row.custom_89}<br/>
+                {if $row.custom_91}{$row.custom_91}<br />{/if}
+                {if $row.custom_95 or $row.custom_96 or $row.custom_97}
+                    {$row.custom_95}, {$row.custom_96}, {$row.custom_97}
+                {/if}
+            </td>
+        </tr>
+    {/foreach}
+    </table>
+{/if}
+
+{include file="CRM/common/showHide.tpl"}
 
 {literal} 
 <script type="text/javascript">
-function showHideZ (element) {
-    alert('Clicked');
+form = document.Zandigo;
+setFields( );
+
+// Called by onClick of searchFor radio
+function showHideZ ( elem ) {
+    // unset other radio field 
+    var unsetFld = '';
+    if ( elem.name == 'custom_89' ) {
+        unsetFld = 'custom_90';
+    }
+    if ( elem.name == 'custom_90' ) {
+        unsetFld = 'custom_89';
+    }
+    unselectRadio( unsetFld, form.name );
+    setFields();
 }
+
+function setFields ( ) {
+    var searchFor = '';
+    for( i=0; i < form.elements.length; i++) {
+        if (form.elements[i].type == 'radio' && form.elements[i].checked == true) {
+            // which radio button is checked
+            searchFor = form.elements[i].value; 
+            
+            // is this a student or counselor (type 1), other person (type 2), or organization search
+            var sType = searchType( searchFor );
+             
+            // show and hide flds 
+            var hideRows = new Array();
+            var showRows = new Array();
+            switch (sType) 	{
+                case 1 :
+                    showRows = ['id-people-title','id-first-name','id-middle-name','id-last-name','id-gender','id-email','id-custom_91','id-custom_92','id-custom_93','id-custom_94','id-custom_95','id-custom_96','id-custom_97'];
+                    hideRows = ['id-org-title','id-org-name'];
+                    break;
+                case 2 :
+                    showRows = ['id-people-title','id-first-name','id-middle-name' ,'id-last-name', 'id-gender', 'id-email'];
+                    hideRows = ['id-org-title','id-org-name','id-custom_91','id-custom_92','id-custom_93','id-custom_94','id-custom_95','id-custom_96','id-custom_97'];
+                    break;
+                case 3 :
+                    showRows = ['id-org-title','id-org-name'];
+                    hideRows = ['id-people-title','id-first-name','id-middle-name' ,'id-last-name', 'id-gender', 'id-email','id-custom_91','id-custom_92','id-custom_93','id-custom_94','id-custom_95','id-custom_96','id-custom_97'];
+                    break;
+            }
+            for( j=0; j < hideRows.length; j++ ){
+                hide( hideRows[j], 'table-row' );
+            }
+            for( j=0; j < showRows.length; j++ ){
+                show( showRows[j], 'table-row' );
+            }
+            return;
+        }
+    }
+}
+
+function searchType ( searchFor ) {
+    var sType1 = ['Student', 'Guidance Counselor'];
+    for( i=0; i < sType1.length; i++) {
+        if ( sType1[i] == searchFor ) {
+            return 1;
+        }
+    }
+    var sType2 = ['Admissions Officer', 'Parent', 'Non Profit Director', 'College Access Director'];
+    for( i=0; i < sType2.length; i++) {
+        if ( sType2[i] == searchFor ) {
+            return 2;
+        }
+    }
+    var sType3 = ['High School', 'College', 'Organization', 'College Access Program'];
+    for( i=0; i < sType3.length; i++) {
+        if ( sType3[i] == searchFor ) {
+            return 3;
+        }
+    }
+
+}
+
 </script>
 {/literal}
-
-{if $rows}
-Search Count: <b>{$rowCount}</b>
-{foreach from=$rows key=id item=row}
-<div id='studentInfo'>
-<b>Name</b>: <img src="{$row.image_URL}" width=20 height=20/>{$row.display_name}<br />
-<b>Type</b>: {$row.custom_89}<br/>
-{if $row.custom_91}
-<b>Organization</b>: {$row.custom_91}<br/>
-{/if}
-{if $row.custom_95 or $row.custom_96 or $row.custom_97}
-<b>Location</b>: {$row.custom_95}, {$row.custom_96}, {$row.custom_97}<br/>
-{/if}
-{/foreach}
-</dl>
-{/if}
 

@@ -44,6 +44,11 @@ function civicrm_html_head()
 
     $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
 
+    // Add Zandigo.com styles for their forms and pages.
+    if ( arg(3) == 'zandigo' ) {
+        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/zandigo.css);</style>\n";
+    }
+    
     // include the below files ONLY if needed, since they are heavy weight
     if ( arg(0) == 'civicrm' ) {
         // do not include this in contribution and profile pages

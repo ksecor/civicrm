@@ -1,0 +1,52 @@
+/* $Id: zandigo.css,v 1.0 2007/05/14 dgg */
+.heading1{
+	font: 26px "Lucida Sans",Arial,Helvetica,Sans-Serif;
+	color: #999999;
+	margin: 0 0 0 0;
+}
+
+.text1{
+	font: 14px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #73bcdf;
+	margin: 0 0 0 0;
+}
+	
+.text2{
+	font: 14px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #054685;
+	margin: 0 0 0 0;
+}
+
+.text3{
+	font: 14px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #a5adb4;
+	margin: 0 0 0 0;
+}
+
+.text4 a:link{
+	font: 15px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #054685;
+	margin: 0 0 0 0;
+	text-decoration:none;
+}
+	
+.text4 a:hover{
+	font: 15px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #72bcdf;
+	margin: 0 0 0 0;
+	text-decoration: underline overline;
+}	
+
+.text4 a:active{
+	font: 15px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #054685;
+	margin: 0 0 0 0;
+	text-decoration:none;
+}
+
+.text4 a:visited{
+	font: 15px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #054685;
+	margin: 0 0 0 0;
+	text-decoration:none;
+}
