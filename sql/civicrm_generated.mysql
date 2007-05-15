@@ -697,7 +697,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_membership_type` DISABLE KEYS */;
 LOCK TABLES `civicrm_membership_type` WRITE;
-INSERT INTO `civicrm_membership_type` (`id`, `domain_id`, `name`, `description`, `member_of_contact_id`, `contribution_type_id`, `minimum_fee`, `duration_unit`, `duration_interval`, `period_type`, `fixed_period_start_day`, `fixed_period_rollover_day`, `relationship_type_id`, `relationship_direction`, `visibility`, `weight`, `renewal_msg_id`, `renewal_reminder_day`, `is_active`) VALUES (1,1,'General','Regular annual membership.',1,2,'100.00','year',2,'rolling',NULL,NULL,7,'a_b','Public',1,NULL,NULL,1),(2,1,'Student','Discount membership for full-time students.',1,1,'50.00','year',1,'rolling',NULL,NULL,7,'a_b','Public',2,NULL,NULL,1),(3,1,'Lifetime','Lifetime membership.',1,2,'1200.00','lifetime',1,'rolling',NULL,NULL,7,'a_b','Admin',3,NULL,NULL,1);
+INSERT INTO `civicrm_membership_type` (`id`, `domain_id`, `name`, `description`, `member_of_contact_id`, `contribution_type_id`, `minimum_fee`, `duration_unit`, `duration_interval`, `period_type`, `fixed_period_start_day`, `fixed_period_rollover_day`, `relationship_type_id`, `relationship_direction`, `visibility`, `weight`, `renewal_msg_id`, `renewal_reminder_day`, `is_active`) VALUES (1,1,'General','Regular annual membership.',1,2,'100.00','year',2,'rolling',NULL,NULL,7,'b_a','Public',1,NULL,NULL,1),(2,1,'Student','Discount membership for full-time students.',1,1,'50.00','year',1,'rolling',NULL,NULL,NULL,NULL,'Public',2,NULL,NULL,1),(3,1,'Lifetime','Lifetime membership.',1,2,'1200.00','lifetime',1,'rolling',NULL,NULL,7,'b_a','Admin',3,NULL,NULL,1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_membership_type` ENABLE KEYS */;
 
