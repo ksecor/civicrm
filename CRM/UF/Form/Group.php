@@ -67,26 +67,38 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        // current form id
+        // current form id 
         $this->_id = $this->get('id');
         $this-> assign('gid',$this->_id);
-
         $this->_group    =& CRM_Core_PseudoConstant::group( ); 
         
         // setting title for html page
-        if ( $this->_action == CRM_Core_Action::UPDATE ) {
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
             CRM_Utils_System::setTitle( ts( 'Profile Settings - %1', array(1 => $title ) ) );
-        } else if($this->_action == CRM_Core_Action::DELETE ) {
-            $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
-            CRM_Utils_System::setTitle( ts( 'Delete %1', array(1 => $title ) ) );
-            $this->_title = $title;
-            $this-> assign('title',$title);
+        } elseif ( $this->_action & (CRM_Core_Action::DISABLE | CRM_Core_Action::DELETE) ) { 
+            $ufGroup[$id]['module'] = implode( ' , ', CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id, true ));
+            $status = 0;
+            $status = CRM_Core_BAO_UFGroup::usedByModule($this->_id); 
+            if ($this->_action & (CRM_Core_Action::DISABLE) ) {
+                if ( $status ) {
+                    $message='This profile is currently used for '. $ufGroup[$id]['module'].'. If you disable the profile - it will be removed from these forms and/or modules.Do you want to continue?';
+                } else {            
+                    $message='Are you sure you want to disable this Profile?';
+                }
+            } else{
+                if ( $status ) {
+                    $message='This profile is currently used for '. $ufGroup[$id]['module'].'. If you delete the profile - it will be removed from these forms and/or modules. This action can not be undone. Do you want to continue?';
+                } else {            
+                    $message='Are you sure you want to delete this Profile? This action can not be undone.';
+                }  
+            }
+            $this->assign('message',$message);
         } else {
             CRM_Utils_System::setTitle( ts('New CiviCRM Profile Group') );
         }
     }
-
+    
     /**
      * Function to actually build the form
      *
@@ -95,22 +107,25 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-        if($this->_action & CRM_Core_Action::DELETE) {
+        if($this->_action & (CRM_Core_Action::DISABLE | CRM_Core_Action::DELETE) ) {
+            if( $this->_action & (CRM_Core_Action::DISABLE ) ) {
+                $display = 'Disable Profile';
+            } else {
+                $display = 'Delete Profile';
+            }
             $this->addButtons(array(
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Delete Profile Group'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                )
-                          );
+                                    array ( 'type'      => 'next',
+                                            'name'      => ts($display),
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                            'isDefault' => true   ),
+                                    array ( 'type'      => 'cancel',
+                                            'name'      => ts('Cancel') ),
+                                    )
+                              );
             return;
-
         }
-        
         $this->applyFilter('__ALL__', 'trim');
-
+        
         // title
         $this->add('text', 'title', ts('Profile Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'title'), true);
         
@@ -176,7 +191,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             $this->_cmsId = true;
         }
         $this->add('checkbox', 'is_cms_user', ts('Create CMS User?'), null, false, array('onclick' => "cms($this->_cmsId)"));
-
+        
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -267,7 +282,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         }
 
         // Don't assign showHide elements to template in DELETE mode (fields to be shown and hidden don't exist)
-        if ( !( $this->_action & CRM_Core_Action::DELETE )  ) {
+        if ( !( $this->_action & CRM_Core_Action::DELETE )&& !( $this->_action & CRM_Core_Action::DISABLE )  ) {
             $showHide->addToTemplate( );
         }
         return $defaults;
@@ -282,22 +297,28 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
     public function postProcess()
     {
         if( $this->_action & CRM_Core_Action::DELETE ) {
+            $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);        
             $ufJoinID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFJoin', $this->_id, 'id', 'uf_group_id' );
-            $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_UFJoin', $ufJoinID);
+            $wt = CRM_Utils_Weight::delWeight( 'CRM_Core_DAO_UFJoin', $ufJoinID );
             
-            $status = 0;
-            $status = CRM_Core_BAO_UFGroup::del($this->_id);
-            if ($status == 0) {
-                CRM_Core_Session::setStatus(ts('This profile cannot be deleted since it is used for other modules.', array(1 => $this->_title)));
-            } else {
-                CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been deleted.', array(1 => $this->_title)));
-            }            
+            CRM_Core_BAO_UFGroup::del($this->_id);
+            CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been deleted.', array(1 => $title)));
             return;
         }
+        
+        if( $this->_action & CRM_Core_Action::DISABLE ) {
+            $ufJoinParams = array('uf_group_id' => $this->_id);
+            CRM_Core_BAO_UFGroup::delUFJoin($ufJoinParams);
+
+            require_once "CRM/Core/BAO/UFGroup.php";
+            CRM_Core_BAO_UFGroup::setIsActive($this->_id, 0);
+            return;
+        }
+
         // get the submitted form values.
         $params = $ids = array( );
         $params = $this->controller->exportValues( $this->_name );
-
+        
         if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
             $ids['ufgroup'] = $this->_id;
         }
@@ -310,10 +331,10 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         
         // create uf group
         $ufGroup = CRM_Core_BAO_UFGroup::add($params, $ids);
-
+        
         //make entry in uf join table
         CRM_Core_BAO_UFGroup::createUFJoin($params, $ufGroup->id);
-
+        
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been saved.', array(1 => $ufGroup->title)));
         } else {

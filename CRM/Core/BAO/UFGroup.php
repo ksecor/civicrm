@@ -227,34 +227,33 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                $showAll= false, $restrict = null,
                                $skipPermission = false,
                                $ctype = null ) 
-    {
-        if ( $restrict ) {
-            $query  = "
-SELECT g.* from civicrm_uf_group g, civicrm_uf_join j 
- WHERE g.is_active   = 1
-   AND g.id          = %1 
-   AND j.uf_group_id = %1
-   AND j.module      = %2
-";
-            $params = array( 1 => array( $id, 'Integer' ),
-                             2 => array( $restrict, 'String' ) );
-        } else {
-            $query  = "SELECT g.* from civicrm_uf_group g WHERE g.is_active = 1 AND g.id = %1 ";
-            $params = array( 1 => array( $id, 'Integer' ) );
-        }
-
-        // add permissioning for profiles only if not registration
-        if ( ! $skipPermission ) {
-            $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
-            $query .= " AND $permissionClause ";
-        }
-
-        $group =& CRM_Core_DAO::executeQuery( $query, $params );
-        
-        $fields = array( );
-        if ( $group->fetch( ) ) {
-            $where = " WHERE uf_group_id = {$group->id}";
+        {
+            if ( $restrict ) {
+                $query  = "SELECT g.* from civicrm_uf_group g, civicrm_uf_join j 
+                            WHERE g.is_active   = 1
+                              AND g.id          = %1 
+                              AND j.uf_group_id = %1 
+                              AND j.module      = %2
+                              ";
+                $params = array( 1 => array( $id, 'Integer' ),
+                                 2 => array( $restrict, 'String' ) );
+            } else {
+                $query  = "SELECT g.* from civicrm_uf_group g WHERE g.is_active = 1 AND g.id = %1 ";
+                $params = array( 1 => array( $id, 'Integer' ) );
+            }
             
+        // add permissioning for profiles only if not registration
+            if ( ! $skipPermission ) {
+                $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
+                $query .= " AND $permissionClause ";
+        }
+            
+            $group =& CRM_Core_DAO::executeQuery( $query, $params );
+            
+            $fields = array( );
+            if ( $group->fetch( ) ) {
+                $where = " WHERE uf_group_id = {$group->id}";
+                
             if( $searchable ) {
                 $where .= " AND is_searchable = 1"; 
             }
@@ -842,8 +841,36 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         }
         
     }
+
+    /**
+     * Check if profile Group used by any module.
+     *
+     * @param int  $id    profile Id 
+     * 
+     * @return boolean
+     *
+     * @access public
+     * @static
+     *
+     */
+    public static function usedByModule( $id ) 
+    {               
+        //check whether this group is used by any module(check uf join records)
+        $sql = "SELECT id
+                 FROM civicrm_uf_join
+                 WHERE civicrm_uf_join.uf_group_id=$id" ; 
+        
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $sql );
+        if ( $dao->fetch( ) ) {        
+            return true;
+        } else {
+            return false;
+        }
+    }
     
-     /**
+
+    /**
      * Delete the profile Group.
      *
      * @param int  $id    profile Id 
@@ -856,19 +883,6 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
      */
     public static function del($id) 
     {                
-        //check whether this group is used by any module(check uf join records)
-        $sql = "SELECT id
-                FROM civicrm_uf_join
-                WHERE civicrm_uf_join.module 
-                   NOT IN ( 'User Registration','User Account','Profile','Search Profile' )
-                   AND civicrm_uf_join.uf_group_id =" . CRM_Utils_Type::escape($id, 'Integer'); 
-        
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $sql );
-        if ( $dao->fetch( ) ) { 
-            return 0;
-        }
-        
         //check whether this group contains  any profile fields
         require_once 'CRM/Core/DAO/UFField.php';
         require_once 'CRM/Core/BAO/UFField.php';
@@ -1022,7 +1036,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
         return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, $whereTables, true );
     }
     
-    /**CRM/UF/Form/Field.php
+    /**
      * Function to make uf join entries for an uf group
      *
      * @param array $params       (reference) an assoc array of name/value pairs

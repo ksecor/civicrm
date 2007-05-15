@@ -90,8 +90,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/admin/uf/group',
                                                                           'qs'    => 'action=disable&id=%%id%%',
-                                                                          'title' => ts('Disable CiviCRM Profile Group'),
-                                                                          'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                          'title' => ts('Disable CiviCRM Profile Group')
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
@@ -106,24 +105,23 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                                                           'title' => ts('Delete CiviCRM Profile Group'),
                                                                           ),
                                         CRM_Core_Action::PROFILE  => array(
-                                                                          'name'  => ts('Standalone Form'),
-                                                                          'url'   => 'civicrm/admin/uf/group',
-                                                                          'qs'    => 'action=profile&gid=%%id%%',
-                                                                          'title' => ts('Standalone Form for Profile Group'),
-                                                                          ),
+                                                                           'name'  => ts('Standalone Form'),
+                                                                           'url'   => 'civicrm/admin/uf/group',
+                                                                           'qs'    => 'action=profile&gid=%%id%%',
+                                                                           'title' => ts('Standalone Form for Profile Group'),
+                                                                           ),
                                         CRM_Core_Action::COPY     => array(
-                                                                          'name'  => ts('Copy Profile'),
-                                                                          'url'   => 'civicrm/admin/uf/group',
-                                                                          'qs'    => 'action=copy&gid=%%id%%',
-                                                                          'title' => ts('Make a Copy of CiviCRM Profile Group'),
-                                                                          'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
-                                                                          ),
-
+                                                                           'name'  => ts('Copy Profile'),
+                                                                           'url'   => 'civicrm/admin/uf/group',
+                                                                           'qs'    => 'action=copy&gid=%%id%%',
+                                                                           'title' => ts('Make a Copy of CiviCRM Profile Group'),
+                                                                           'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
+                                                                           ),
                                         );
         }
         return self::$_actionLinks;
     }
-
+    
     /**
      * Run the page.
      *
@@ -150,14 +148,11 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                           $this, false, 0);
         
         // what action to take ?
-        if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
+        if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE |CRM_Core_Action::DISABLE ) ) {
             $this->edit($id, $action) ;
         } else {
             // if action is enable or disable to the needful.
-            if ($action & CRM_Core_Action::DISABLE) {
-                require_once "CRM/Core/BAO/UFGroup.php";
-                CRM_Core_BAO_UFGroup::setIsActive($id, 0);
-            } else if ($action & CRM_Core_Action::ENABLE) {
+            if ($action & CRM_Core_Action::ENABLE) {
                 require_once "CRM/Core/BAO/UFGroup.php";
                 CRM_Core_BAO_UFGroup::setIsActive($id, 1);
             } else if ( $action & CRM_Core_Action::PROFILE ) { 
@@ -167,14 +162,13 @@ class CRM_UF_Page_Group extends CRM_Core_Page
             } else if ( $action & CRM_Core_Action::COPY ) {
                 $this->copy( );
             }
-
             // finally browse the uf groups
             $this->browse();
         }
         // parent run 
         parent::run();
     }
-
+    
     /**
      * This function is to make a copy of a profile, including
      * all the fields in the profile
@@ -185,13 +179,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page
     function copy( ) {
         $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this, true, 0, 'GET');
-
+        
         require_once 'CRM/Core/BAO/UFGroup.php';
-        CRM_Core_BAO_UFGroup::copy( $gid );
-
+        CRM_Core_BAO_UFGroup::copy( $gid ); 
         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/uf/group', 'reset=1' ) );
     }
-
+    
     /**
      * This function is for profile mode (standalone html form ) for uf group
      *
@@ -202,7 +195,6 @@ class CRM_UF_Page_Group extends CRM_Core_Page
     {
         $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this, false, 0, 'GET');
-
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD,
                                                        false, false, true ); 
         $controller->reset( );
@@ -226,10 +218,9 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         
         $this->assign( 'title', $title);
         $this->assign( 'action' , CRM_Core_Action::PROFILE );
-
         $this->assign( 'isForm' , 0 );
     }
-
+    
     /**
      * edit uf group
      *
@@ -242,7 +233,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
     {
         // create a simple controller for editing uf data
         $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Group', ts('CiviCRM Profile Group'), $action);
-
+        
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/uf/group/', 'action=browse'));
@@ -251,8 +242,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         $controller->process();
         $controller->run();
     }
-
-
+     
     /**
      * Browse all uf data groups.
      *
@@ -262,8 +252,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
      * @static
      */
     function browse($action=null)
-    {
-        
+    { 
         $ufGroup     = array( );
         $allUFGroups = array( );
         require_once 'CRM/Core/BAO/UFGroup.php';
@@ -296,10 +285,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         }
         $this->assign('rows', $ufGroup);
     }
-
+    
 
     /**
-     * this function is for preview mode for uf group
+     * this function is for preview mode for ufoup
      *
      * @param int $id uf group id
      * @return void
