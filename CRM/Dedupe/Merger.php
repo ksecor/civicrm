@@ -56,28 +56,49 @@ class CRM_Dedupe_Merger
         // FIXME: this should be generated dynamically from the schema's 
         // foreign keys referencing civicrm_contact(id)
         static $cidRefs = array(
-            'civicrm_household'               => array('primary_contact_id'),
-            'civicrm_organization'            => array('primary_contact_id'),
-            'civicrm_contribution_recur'      => array('contact_id'),
-            'civicrm_sms_history'             => array('contact_id'),
-            'civicrm_activity'                => array('source_contact_id'),
-            'civicrm_meeting'                 => array('source_contact_id'),
-            'civicrm_participant'             => array('contact_id'),
-            'civicrm_email_history'           => array('contact_id'),
-            'civicrm_note'                    => array('contact_id'),
-            'civicrm_uf_match'                => array('contact_id'),
-            'civicrm_log'                     => array('modified_id'),
             'civicrm_acl_cache'               => array('contact_id'),
-            'civicrm_subscription_history'    => array('contact_id'),
-            'civicrm_relationship'            => array('contact_id_a', 'contact_id_b'),
+            'civicrm_activity'                => array('source_contact_id'),
+            'civicrm_contribution'            => array('contact_id', 'solicitor_id', 'honor_contact_id'),
+            'civicrm_contribution_recur'      => array('contact_id'),
+            'civicrm_email_history'           => array('contact_id'),
+            'civicrm_group_contact'           => array('contact_id'),
+            'civicrm_household'               => array('primary_contact_id'),
+            'civicrm_log'                     => array('modified_id'),
+            'civicrm_mailing_event_queue'     => array('contact_id'),
             'civicrm_mailing_event_subscribe' => array('contact_id'),
-            'civicrm_membership_type'         => array('member_of_contact_id'),
+            'civicrm_meeting'                 => array('source_contact_id'),
             'civicrm_membership'              => array('contact_id'),
             'civicrm_membership_log'          => array('modified_id'),
+            'civicrm_membership_type'         => array('member_of_contact_id'),
+            'civicrm_note'                    => array('contact_id'),
+            'civicrm_organization'            => array('primary_contact_id'),
+            'civicrm_participant'             => array('contact_id'),
             'civicrm_phonecall'               => array('source_contact_id'),
-            'civicrm_group_contact'           => array('contact_id'),
-            'civicrm_mailing_event_queue'     => array('contact_id'),
-            'civicrm_contribution'            => array('contact_id', 'solicitor_id', 'honor_contact_id'),
+            'civicrm_relationship'            => array('contact_id_a', 'contact_id_b'),
+            'civicrm_sms_history'             => array('contact_id'),
+            'civicrm_subscription_history'    => array('contact_id'),
+            'civicrm_uf_match'                => array('contact_id'),
+        );
+        // FIXME: this should be generated dynamically from the schema
+        // tables that reference contacts with entity_{id,table}
+        static $eidRefs = array(
+            'civicrm_acl'              => array('entity_table'             => 'entity_id'),
+            'civicrm_acl_entity_role'  => array('entity_table'             => 'entity_id'),
+            'civicrm_activity'         => array('target_entity_table'      => 'target_entity_id'),
+            'civicrm_activity_history' => array('entity_table'             => 'entity_id'),
+            'civicrm_custom_value'     => array('entity_table'             => 'entity_id'),
+            'civicrm_entity_file'      => array('entity_table'             => 'entity_id'),
+            'civicrm_entity_tag'       => array('entity_table'             => 'entity_id'),
+            'civicrm_financial_trxn'   => array('entity_table'             => 'entity_id'),
+            'civicrm_location'         => array('entity_table'             => 'entity_id'),
+            'civicrm_log'              => array('entity_table'             => 'entity_id'),
+            'civicrm_mailing_group'    => array('entity_table'             => 'entity_id'),
+            'civicrm_meeting'          => array('target_entity_table'      => 'target_entity_id'),
+            'civicrm_note'             => array('entity_table'             => 'entity_id'),
+            'civicrm_phonecall'        => array('target_entity_table'      => 'target_entity_id'),
+            'civicrm_project'          => array('owner_entity_table'       => 'owner_entity_id'),
+            'civicrm_task'             => array('owner_entity_table'       => 'owner_entity_id'),
+            'civicrm_task_status'      => array('responsible_entity_table' => 'responsible_entity_id', 'target_entity_table' => 'target_entity_id'),
         );
         // if we ever reference civicrm_{household,individual,organization}(id)
         // we should define here further reference arrays
@@ -85,14 +106,21 @@ class CRM_Dedupe_Merger
         // FIXME: handle civicrm_{household,individual,organization}(contact_id) sanely
 
         // get the affected tables and sanitize ids for SQL
-        $affected = array_keys($cidRefs);
+        $affected = array_merge(array_keys($cidRefs), array_keys($eidRefs));
         if ($tables) $affected = array_intersect($affected, $tables);
         $mainId  = (int) $mainId;
         $otherId = (int) $otherId;
 
         foreach ($affected as $table) {
-            foreach ($cidRefs[$table] as $field) {
-                $sqls[] = "UPDATE $table SET $field = $mainId WHERE $field = $otherId";
+            if (isset($cidRefs[$table])) {
+                foreach ($cidRefs[$table] as $field) {
+                    $sqls[] = "UPDATE $table SET $field = $mainId WHERE $field = $otherId";
+                }
+            }
+            if (isset($eidRefs[$table])) {
+                foreach ($eidRefs[$table] as $entityTable => $entityId) {
+                    $sqls[] = "UPDATE $table SET $entityId = $mainId WHERE $entityId = $otherId AND $entityTable = 'civicrm_contact'";
+                }
             }
         }
 
@@ -100,11 +128,9 @@ class CRM_Dedupe_Merger
         $dao =& new CRM_Core_DAO();
         $dao->transaction('BEGIN');
         foreach ($sqls as $sql) {
-            CRM_Core_Error::debug('$sql', $sql);
             $dao->query($sql);
             $dao->fetch();
         }
-            exit;
         $dao->transaction('COMMIT');
     }
 
