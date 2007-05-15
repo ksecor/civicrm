@@ -7,6 +7,11 @@
       <th>{$row.title}</th><td>{$row.other}</td><td style='white-space: nowrap'>—{$form.$field.html}→</td><td>{$row.main}</td>
     </tr>
   {/foreach}
+  {foreach from=$tables item=params key=table}
+    <tr>
+      <th></th><td><a href="{$params.other_url}">{$params.title}</a></td><td style='white-space: nowrap'>—{$form.$table.html}→</td><td><a href="{$params.main_url}">{$params.title}</a></td>
+    </tr>
+  {/foreach}
 </table>
 <div class='form-item'>
   <p>{$form.moveBelongings.html} {$form.moveBelongings.label}</p>

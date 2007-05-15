@@ -167,8 +167,23 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         $this->assign('rows', $rows);
 
+        // add the related tables
+        $tables = array(
+            'civicrm_note' => array(
+                'title'     => ts('Notes'),
+                'main_url'  => CRM_Utils_System::url('civicrm/contact/view/note', "cid=$cid"),
+                'other_url' => CRM_Utils_System::url('civicrm/contact/view/note', "cid=$oid"),
+            ),
+        );
+        foreach ($tables as $table => $null) {
+            $tables[$table]['table'] = $table;
+            $this->addElement('checkbox', $table);
+        }
+        
+        $this->assign('tables', $tables);
+
         // add the 'move belongings?' and 'delete other?' elements
-        $this->addElement('checkbox', 'moveBelongings', ts("Move the Duplicate Contact's notes, relationships, etc."));
+        $this->addElement('checkbox', 'moveBelongings', ts("Move all the remaining Duplicate Contact's belongings to the Main Contact"));
         $this->addElement('hidden', 'deleteOther', 1);
         // alternatively, make the 'deleteOther' a visible checkbox - also uncomment the proper <p> in the template
         // $this->addElement('checkbox', 'deleteOther', ts('Delete the lleft-side ceft-side contact after merging'));
@@ -203,6 +218,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $submitted[$key] = $value;
             } elseif (substr($key, 0, 9) == 'location_' and $value != null) {
                 $locations[substr($key, 9)] = $value;
+            } elseif (substr($key, 0, 8) == 'civicrm_' and $value == '1') {
+                $tables[] = $key;
             }
         }
         // FIXME: source vs. contact_source workaround
@@ -249,6 +266,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $locDAO->entity_id = $this->_cid;
             $locDAO->is_primary = $mainLocation[0]->is_primary;
             $locDAO->save();
+        }
+
+        // handle the related tables
+        if (isset($tables)) {
+            CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid, $tables);
         }
 
         // handle the 'move belongings' and 'delete other' checkboxes

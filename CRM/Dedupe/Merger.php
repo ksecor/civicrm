@@ -107,7 +107,7 @@ class CRM_Dedupe_Merger
 
         // get the affected tables and sanitize ids for SQL
         $affected = array_merge(array_keys($cidRefs), array_keys($eidRefs));
-        if ($tables) $affected = array_intersect($affected, $tables);
+        if ($tables) $affected = array_unique(array_intersect($affected, $tables));
         $mainId  = (int) $mainId;
         $otherId = (int) $otherId;
 
