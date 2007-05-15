@@ -3,8 +3,7 @@
 require_once 'api/v2/Contact.php';
 require_once 'api/v2/Location.php';
 
-class TestOfUpdateLocationAPI extends UnitTestCase 
-{
+ class TestOfUpdateLocationAPI extends UnitTestCase  {
     protected $_individual;
     protected $_household;
     protected $_organization;
@@ -25,9 +24,9 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     function testCreateIndividual()
     {
         $params  = array('first_name'    => 'Manish',
-                         'last_name'     => 'Zope',
+                         'last_name'     => 'Zollpe',
                          'location_type' => 'Main',
-                         'email'         => 'manish@yahoo.com',
+                         'email'         => 'manisha@yahoo.com',
                          'contact_type'   => 'Individual'
                          );
         $contact =& civicrm_contact_add($params);
@@ -85,16 +84,15 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         
         
         $newLocation =& civicrm_location_add( $params );
-        $this->assertIsA($newLocation, 'CRM_Core_BAO_Location');
-        $this->_locationI['id'] = $newLocation->id;
-        $this->assertEqual($newLocation->phone[3]->phone, '91-20-234-657686');
-        $this->assertEqual($newLocation->phone[1]->phone_type, 'Phone');
-        $this->assertNull($newLocation->phone[2]->mobile_provider_id, 'Sprint');
-        $this->assertEqual($newLocation->im[1]->name, 'mlzope');
-        $this->assertEqual($newLocation->im[2]->provider_id, 3);
-        $this->assertEqual($newLocation->email[3]->email, 'manish@sify.com');
+        $this->_locationI['id'] = $newLocation['id'];
+        $this->assertEqual( $newLocation['phone'][3]['phone'], '91-20-234-657686' );
+        $this->assertEqual( $newLocation['phone'][1]['phone_type'], 'Phone' );
+        $this->assertNull( $newLocation['phone'][2]['mobile_provider_id'], 'Sprint' );
+        $this->assertEqual( $newLocation['im'][1]['name'], 'mlzope' );
+        $this->assertEqual( $newLocation['im'][2]['provider_id'], 3 );
+        $this->assertEqual( $newLocation['email'][3]['email'], 'manish@sify.com');
     }
-   
+    
     function testUpdateLocationIndividual()
     {
         $workPhone =array('phone' => '02327276048',
@@ -117,15 +115,14 @@ class TestOfUpdateLocationAPI extends UnitTestCase
                         'location_id'      => $this->_locationI['id']
                         );
         
-       
+        
         $location =& civicrm_location_update( $params );
-     
-        $this->assertEqual($location ->phone[1]->phone, '02327276048');
-        $this->assertEqual($location->phone[1]->phone_type, 'Phone');
-        $this->assertEqual($location->email[1]->email, 'Anil@indiatimes.com');
+        $this->assertEqual($location['phone'][1]['phone'], '02327276048');
+        $this->assertEqual($location['phone'][1]['phone_type'], 'Phone');
+        $this->assertEqual($location['email'][1]['email'], 'Anil@indiatimes.com');
     }
-
-/* Test cases for crm_update_location for Household contact */
+    
+/* Test Cases for crm_update_location for Household contact */
     
     function testCreateContactHousehold() 
     {
@@ -140,7 +137,7 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         $this->_household = $contact;
     }
     
-     function testCreateLocationHousehold()
+    function testCreateLocationHousehold()
     {
         //$workPhone  = & new CRM_Core_DAO_Phone();
         $workPhone = array('phone' => '91-20-276048',
@@ -199,16 +196,15 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         
 
         $newLocation =& civicrm_location_add( $params );
-        $this->assertIsA($newLocation, 'CRM_Core_BAO_Location');
-        $this->_locationH['id'] = $newLocation->id;
-        $this->assertEqual($newLocation->phone[3]->phone, '91-20-234-657686');
-        $this->assertEqual($newLocation->phone[1]->phone_type, 'Phone');
-        $this->assertEqual($newLocation->im[1]->name, 'mlzope');
-        $this->assertEqual($newLocation->im[2]->provider_id, 3);
-        $this->assertEqual($newLocation->email[3]->email, 'manish@sify.com');
+        $this->_locationH['id'] = $newLocation['id'];
+        $this->assertEqual( $newLocation['phone'][3]['phone'], '91-20-234-657686' );
+        $this->assertEqual( $newLocation['phone'][1]['phone_type'], 'Phone' );
+        $this->assertEqual( $newLocation['im'][1]['name'], 'mlzope' );
+        $this->assertEqual( $newLocation['im'][2]['provider_id'], 3 );
+        $this->assertEqual( $newLocation['email'][3]['email'], 'manish@sify.com' );
     }
     
-     function testUpdateLocationHousehold()
+    function testUpdateLocationHousehold()
     {
         $workPhone = array('phone' => '02327276048',
                            'phone_type' => 'Phone',
@@ -216,11 +212,6 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         
         $phones = array ($workPhone);
         
-        //$workEmailFirst  =& new CRM_Core_DAO_Email();
-        // $workEmailFirst->email = 'Anil@indiatimes.com';
-        
-        //$workEmailSecond =& new CRM_Core_DAO_Email();
-        //$workEmailSecond->email = 'manish@hotmail.com';
         $workEmailFirst = array( 'email' => 'Anil@indiatimes.com');
         $workEmailSecond = array( 'email' => 'manish@hotmail.com');
         $emails = array($workEmailFirst,$workEmailSecond);
@@ -237,16 +228,15 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         $contact = $this->_household;
         
         $location =& civicrm_location_update( $params );
-        $this->assertIsA($location, 'CRM_Core_BAO_Location');
-        $this->assertEqual($location->phone[1]->phone, '02327276048');
-        $this->assertEqual($location->phone[1]->phone_type, 'Phone');
-        $this->assertEqual($location->email[1]->email, 'Anil@indiatimes.com');
+        $this->assertEqual($location['phone'][1]['phone'], '02327276048');
+        $this->assertEqual($location['phone'][1]['phone_type'], 'Phone');
+        $this->assertEqual($location['email'][1]['email'], 'Anil@indiatimes.com');
     }
     
     //    Test cases for crm_update_location for Organization contact
     
-     function testCreateContactOrganization( ) 
-     {
+    function testCreateContactOrganization( ) 
+    {
         $params  = array('organization_name' => 'Zope Pvt Ltd', 
                          'nick_name'         => 'zope companies', 
                          'location_type'     => 'Home',
@@ -258,8 +248,8 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         $this->_organization = $contact;
     }
     
-     function testCreateLocationOrganization()
-     {
+    function testCreateLocationOrganization()
+    {
         //$workPhone  = & new CRM_Core_DAO_Phone();
         $workPhone = array ('phone' => '91-20-276048',
                             'phone_type'  => 'Phone');
@@ -316,17 +306,17 @@ class TestOfUpdateLocationAPI extends UnitTestCase
                         );
         
         $newLocation =& civicrm_location_add( $params );
-        $this->assertIsA($newLocation, 'CRM_Core_BAO_Location');
-        $this->_locationO['id'] = $newLocation->id;
-        $this->assertEqual($newLocation->phone[3]->phone, '91-20-234-657686');
-        $this->assertEqual($newLocation->phone[1]->phone_type, 'Phone');
-        $this->assertEqual($newLocation->im[1]->name, 'mlzope');
-        $this->assertEqual($newLocation->im[2]->provider_id, 3);
-        $this->assertEqual($newLocation->email[3]->email, 'manish@sify.com');
+   
+        $this->_locationO['id'] = $newLocation['id'];
+        $this->assertEqual( $newLocation['phone'][3]['phone'], '91-20-234-657686' );
+        $this->assertEqual( $newLocation['phone'][1]['phone_type'], 'Phone' );
+        $this->assertEqual( $newLocation['im'][1]['name'], 'mlzope' );
+        $this->assertEqual( $newLocation['im'][2]['provider_id'], 3 );
+        $this->assertEqual( $newLocation['email'][3]['email'], 'manish@sify.com' );
     }
       
-     function testUpdateLocationOrganization()
-     {
+    Function Testupdatelocationorganization()
+    {
         //$workPhone  = & new CRM_Core_DAO_Phone();
         $workPhone = array('phone' => '02327276048',
                            'phone_type' => 'Phone',
@@ -351,40 +341,47 @@ class TestOfUpdateLocationAPI extends UnitTestCase
                         );
         
         $location =& civicrm_location_update( $params );
-        $this->assertIsA($location, 'CRM_Core_BAO_Location');
-        $this->assertEqual($location->phone[1]->phone, '02327276048');
-        $this->assertEqual($location->phone[1]->phone_type, 'Phone');
-        $this->assertEqual($location->email[1]->email, 'Anil@indiatimes.com');
+        $this->assertEqual( $location['phone'][1]['phone'], '02327276048');
+        $this->assertEqual( $location['phone'][1]['phone_type'], 'Phone');
+        $this->assertEqual( $location['email'][1]['email'], 'Anil@indiatimes.com');
     }
     
     
      // Deleting the Data creatd for the test cases.
-     function testDeleteLocationIndividual()
-     {
-         foreach ($this->_locationI as $locationType) {
-             
-             $contact  = $this->_individual;
-             $contact['location_type']=$locationType;
-             $result =& civicrm_location_delete( $contact );
-             
+    function testDeleteLocationIndividual()
+    { 
+        foreach ($this->_locationI as $locationType => $locationTypeid) {
+            
+            $contact=array(
+                           'location_type' => $locationType,
+                           'contact_id'    => $this->_individual['contact_id']
+                           );
+            $result =& civicrm_location_delete( $contact );
+            
          }
-     }
-     
-     function testDeleteLocationHousehold()
-     {
-         foreach ($this->_locationH as $locationType) {
-             $contact  = $this->_household;
-             $contact['location_type']=$locationType;
-             $result =& civicrm_location_delete( $contact );
-         }
-     }
-     
+    }
+ 
+    function testDeleteLocationHousehold()
+    { 
+        foreach ($this->_locationH as $locationType => $locationTypeid) {
+          
+            $contact=array(
+                           'location_type' => $locationTypeid,
+                           'contact_id'    => $this->_household['contact_id']
+                           );
+            $result =& civicrm_location_delete( $contact );
+        }
+    }
+    
      function testDeleteLocationOrganization()
      {
-         foreach ($this->_locationO as $locationType) {
-            $contact  = $this->_organization;
-            $contact['location_type']=$locationType;
-            $result =& civicrm_location_delete( $contact, $location_type);
+         
+         foreach ($this->_locationO as $locationType => $locationTypeid) {
+             $contact=array(
+                            'location_type' => $locationTypeid,
+                            'contact_id'    => $this->_organization['contact_id']
+                            ); 
+             $result =& civicrm_location_delete( $contact );
          }
      }
      
@@ -406,8 +403,7 @@ class TestOfUpdateLocationAPI extends UnitTestCase
      {
          $contact  = $this->_organization;
          $result =& crm_delete_contact($contact);
-        //$this->assertNull($result);
+         //$this->assertNull($result);
      }
-}
-
+ }
 ?>
