@@ -165,8 +165,10 @@ class CRM_Core_OptionValue {
         }
         $params['option_group_id'] = $optionGroupID;
 
-        if ( !$params['value'] ) {
-            $params['value'] = $params['weight'];
+        if ( $action & CRM_Core_Action::ADD ) {
+            $fieldValues = array('option_group_id' => $optionGroupID);
+            // use the next available value
+            $params['value'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues, 'value');
         }
         if ( !$params['label'] ) {
             $params['label'] = $params['name'];
