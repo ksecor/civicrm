@@ -42,6 +42,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     var $_oid         = null;
     var $_contactType = null;
 
+    // FIXME: QuickForm can't create advcheckboxes with value set to 0 or '0' :(
+    // see HTML_QuickForm_advcheckbox::setValues() - but patching that doesn't 
+    // help, as QF doesn't put the 0-value elements in exportValues() anyway...
+    var $_qfZeroBug   = 'QuickFormCantMakeAdvcheckboxesWithZeroValue';
+
     function preProcess()
     {
         require_once 'api/Contact.php';
@@ -111,7 +116,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         if ($label === '1') $label = ts('Yes');
                     }
                     $rows[$field][$moniker] = $label;
-                    if ($moniker == 'other') $this->addElement('advcheckbox', $field, null, null, null, $value);
+                    if ($moniker == 'other') {
+                        if ($value === 0 or $value === '0') $value = $this->_qfZeroBug;
+                        $this->addElement('advcheckbox', $field, null, null, null, $value);
+                    }
                 }
                 $rows[$field]['title'] = $fields[$field]['title'];
             }
@@ -188,6 +196,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         // get submitted contact values and clear them
         $validFields = array_merge(CRM_Dedupe_Merger::$validFields['Contact'], CRM_Dedupe_Merger::$validFields[$this->_contactType]);
         foreach ($formValues as $key => $value) {
+            if ($value == $this->_qfZeroBug) $value = '0';
             if ((in_array($key, $validFields) or substr($key, 0, 7) == 'custom_') and $value != null) {
                 $submitted[$key] = $value;
             } elseif (substr($key, 0, 9) == 'location_' and $value != null) {
