@@ -167,9 +167,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         $this->assign('rows', $rows);
 
-        // add the 'move belongings?' and 'delete other?' checkboxes
-        $this->addElement('checkbox', 'moveBelongings', ts("Move the left-side contact's notes, relationships, etc."));
-        $this->addElement('checkbox', 'deleteOther',    ts('Delete the left-side contact after merging'));
+        // add the 'move belongings?' and 'delete other?' elements
+        $this->addElement('checkbox', 'moveBelongings', ts("Move the Duplicate Contact's notes, relationships, etc."));
+        $this->addElement('hidden', 'deleteOther', 1);
+        // alternatively, make the 'deleteOther' a visible checkbox - also uncomment the proper <p> in the template
+        // $this->addElement('checkbox', 'deleteOther', ts('Delete the lleft-side ceft-side contact after merging'));
     }
     
     function setDefaultValues()
