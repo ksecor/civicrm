@@ -5,23 +5,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-05-07 06:41+0200\n"
-"Last-Translator: Automatically generated\n"
+"POT-Creation-Date: 2007-05-07 06:41+0200\n"
+"PO-Revision-Date: 2007-05-08 01:20-0700\n"
+"Last-Translator: ycs <yuccmember@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 0.10\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
 msgid "Contact"
-msgstr ""
+msgstr "联络人"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_add_domain.tpl
 msgid "ACL Role"
-msgstr ""
+msgstr "存取角色"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/ACL/Form/ACL.php
 #: CRM/ACL/Page/ACL.php CRM/Core/DAO/CustomGroup.php
@@ -31,7 +32,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Group"
-msgstr ""
+msgstr "群组"
 
 #: CRM/ACL/BAO/ACL.php CRM/Core/Block.php CRM/Core/DAO/Mapping.php
 #: CRM/Core/Menu.php
@@ -2861,6 +2862,7 @@ msgstr ""
 msgid "%count new relationship record created."
 msgid_plural "%count new relationship records created."
 msgstr[0] ""
+msgstr[1] ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
@@ -2868,6 +2870,7 @@ msgid ""
 msgid_plural ""
 "%count relationship records not created due to invalid target contact type."
 msgstr[0] ""
+msgstr[1] ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
@@ -2875,6 +2878,7 @@ msgid ""
 msgid_plural ""
 "%count relationship records not created - duplicate of existing relationship."
 msgstr[0] ""
+msgstr[1] ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Relationship record has been updated."
@@ -7463,11 +7467,13 @@ msgstr ""
 msgid "Found %count group member"
 msgid_plural "Found %count group members"
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Found %count contact"
 msgid_plural "Found %count contacts"
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "selected records only"
@@ -7477,6 +7483,7 @@ msgstr ""
 msgid "the found record"
 msgid_plural "all %count records"
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Search/table.tpl
 msgid "Include contacts where"
@@ -8623,6 +8630,7 @@ msgstr ""
 msgid "This group currently has one member in it."
 msgid_plural "This group currently has %count members in it."
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid ""
