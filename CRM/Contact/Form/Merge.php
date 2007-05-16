@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Dedupe/Merger.php';
 require_once 'api/Location.php';
 
 class CRM_Contact_Form_Merge extends CRM_Core_Form
@@ -47,66 +48,12 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     // help, as QF doesn't put the 0-value elements in exportValues() anyway...
     var $_qfZeroBug   = 'QuickFormCantMakeAdvcheckboxesWithZeroValue';
 
-    // FIXME: consider moving this to CRM_Dedupe_Merger and creating a common 
-    // structure with moveContactBelongings()'s $cidRefs and $eidRefs
-    // FIXME: the sub-pages references by the URLs should
-    // be loaded dynamically on the merge form instead
-    static function &relTables()
-    {
-        static $relTables;
-        if (!$relTables) {
-            $relTables = array(
-                'rel_table_contributions' => array(
-                    'title'  => ts('Contributions'),
-                    'tables' => array('civicrm_contribution', 'civicrm_contribution_recur', 'civicrm_financial_trxn'),
-                    'url'    => '#',
-                ),
-                'rel_table_memberships' => array(
-                    'title'  => ts('Memberships'),
-                    'tables' => array('civicrm_membership', 'civicrm_membership_log', 'civicrm_membership_type'),
-                    'url'    => '#',
-                ),
-                'rel_table_events' => array(
-                    'title'  => ts('Events'),
-                    'tables' => array('civicrm_participant'), 
-                ),
-                'rel_table_activities' => array(
-                    'title'  => ts('Activities'),
-                    'tables' => array('civicrm_activity', 'civicrm_activity_history', 'civicrm_email_history', 'civicrm_meeting', 'civicrm_phonecall', 'civicrm_sms_history'),
-                    'url'    => CRM_Utils_System::url('civicrm/contact/view/activity', 'reset=1&show=1&cid=$cid'),
-                ),
-                'rel_table_relationships' => array(
-                    'title'  => ts('Relationships'),
-                    'tables' => array('civicrm_relationship'),
-                    'url'    => '#',
-                ),
-                'rel_table_groups' => array(
-                    'title'  => ts('Groups'),
-                    'tables' => array('civicrm_group_contact'),
-                    'url'    => '#',
-                ),
-                'rel_table_notes' => array(
-                    'title'  => ts('Notes'),
-                    'tables' => array('civicrm_note'),
-                    'url'    => CRM_Utils_System::url('civicrm/contact/view/note', 'reset=1&cid=$cid'),
-                ),
-                'rel_table_tags' => array(
-                    'title'  => ts('Tags'),
-                    'tables' => array('civicrm_entity_tag'),
-                    'url'    => '#',
-                ),
-            );
-        }
-        return $relTables;
-    }
-
     function preProcess()
     {
         require_once 'api/Contact.php';
         require_once 'api/Search.php';
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Core/OptionValue.php';
-        require_once 'CRM/Dedupe/Merger.php';
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);
@@ -220,19 +167,23 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         $this->assign('rows', $rows);
 
-        // add the related tables
-        $relTables =& self::relTables();
+        // add the related tables and unset the ones that don't sport any of the duplicate contact's info
+        $relTables = CRM_Dedupe_Merger::relTables();
+        $activeRelTables = CRM_Dedupe_Merger::getActiveRelTables($oid);
         foreach ($relTables as $name => $null) {
+            if (!in_array($name, $activeRelTables)) {
+                unset($relTables[$name]);
+                continue;
+            }
             $this->addElement('checkbox', $name);
             $relTables[$name]['main_url']  = str_replace('$cid', $cid, $relTables[$name]['url']);
             $relTables[$name]['other_url'] = str_replace('$cid', $oid, $relTables[$name]['url']);
         }
-        
         $this->assign('rel_tables', $relTables);
 
         // add the 'move belongings?' and 'delete other?' elements
-        $this->addElement('checkbox', 'moveBelongings', ts("Move other information associated with the Duplicate Contact's to the Main Contact"));
-        $this->addElement('hidden', 'deleteOther', 1);
+        $this->addElement('checkbox', 'moveBelongings', ts("Move other information associated with the Duplicate Contact to the Main Contact"));
+#       $this->addElement('hidden', 'deleteOther', 1);
         // alternatively, make the 'deleteOther' a visible checkbox - also uncomment the proper <p> in the template
         // $this->addElement('checkbox', 'deleteOther', ts('Delete the lleft-side ceft-side contact after merging'));
     }
@@ -260,7 +211,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         // get submitted contact values and clear them
         $validFields = array_merge(CRM_Dedupe_Merger::$validFields['Contact'], CRM_Dedupe_Merger::$validFields[$this->_contactType]);
-        $relTables =& self::relTables();
+        $relTables =& CRM_Dedupe_Merger::relTables();
         $moveTables = array();
         foreach ($formValues as $key => $value) {
             if ($value == $this->_qfZeroBug) $value = '0';
