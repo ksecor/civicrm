@@ -310,7 +310,6 @@ abstract class CRM_Member_Import_Parser {
             foreach ($values as $k => $v) {
                 $values[$k] = trim($v, " .\t\r\n");
             }
-
             if ( CRM_Utils_System::isNull( $values ) ) {
                 continue;
             }
@@ -407,7 +406,8 @@ abstract class CRM_Member_Import_Parser {
                                                 ts('Reason')), 
                                         $customHeaders);
                 $this->_errorFileName = $fileName . '.errors';
-                self::exportCSV($this->_errorFileName, $headers, $this->_errors);
+                
+                self::exportCSV($this->_errorFileName, $headers, $this->_errors  );
             }
             if ($this->_conflictCount) {
                 $headers = array_merge( array(  ts('Record Number'),
@@ -666,7 +666,16 @@ abstract class CRM_Member_Import_Parser {
 
         foreach ($data as $datum) {
             foreach ($datum as $key => $value) {
-                $datum[$key] = "\"$value\"";
+                if ( is_array($value) ) {
+                    foreach($value[0] as $k1=>$v1) {
+                        if ($k1 == 'location_type_id') {
+                            continue;
+                        }
+                        $datum[$k1] =  $v1;
+                    }
+                } else {
+                    $datum[$key] = "\"$value\"";
+                }
             }
             $output[] = implode(',', $datum);
         }

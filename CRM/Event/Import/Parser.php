@@ -670,7 +670,16 @@ abstract class CRM_Event_Import_Parser
         
         foreach ($data as $datum) {
             foreach ($datum as $key => $value) {
-                $datum[$key] = "\"$value\"";
+                if ( is_array($value) ) {
+                    foreach($value[0] as $k1=>$v1) {
+                        if ($k1 == 'location_type_id') {
+                            continue;
+                        }
+                        $datum[$k1] =  $v1;
+                    }
+                } else {
+                    $datum[$key] = "\"$value\"";
+                }
             }
             $output[] = implode(',', $datum);
         }
