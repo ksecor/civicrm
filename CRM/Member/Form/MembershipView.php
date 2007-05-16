@@ -49,6 +49,7 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form
      */
     public function preProcess( ) {
         require_once 'CRM/Member/BAO/Membership.php';
+        require_once 'CRM/Member/BAO/MembershipType.php';
 
         $values = array( ); 
         $id = $this->get( 'id' );
@@ -56,7 +57,31 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form
             $params = array( 'id' => $id ); 
             
             CRM_Member_BAO_Membership::retrieve( $params, $values );
-                    
+
+            //Provide information about membership source when it is the result of a relationship (CRM-1901)
+            $values['owner_membership_id']       = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', 
+                                                                                $id, 
+                                                                                'owner_membership_id' );
+            
+            if ( isset($values['owner_membership_id']) ) {
+                $values['owner_contact_id']      = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', 
+                                                                                $values['owner_membership_id'], 
+                                                                                'contact_id',
+                                                                                'id' );
+                
+                $values['owner_display_name']    = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                                                $values['owner_contact_id'], 
+                                                                                'display_name',
+                                                                                'id' );
+
+                $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails($values['membership_type_id']);
+                $direction =  strrev($membershipType['relationship_direction']);
+
+                $values['relationship']          = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_RelationshipType', 
+                                                                                $membershipType['relationship_type_id'], 
+                                                                                "name_$direction",
+                                                                                'id');
+            }
             $memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$id,"membership_type_id");
             $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $id,0,$memType);
         }

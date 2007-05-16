@@ -1,8 +1,11 @@
-<div class="form-item">  
+<div class="form-item"> 
 <fieldset>
       <legend>{ts}View Membership{/ts}</legend>
       <dl>  
         <dt class="font-size12pt">{ts}Member{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
+        {if $owner_display_name}
+            <dt>{ts}By Relationship{/ts}</dt><dd>{$relationship}&nbsp;&nbsp;{$owner_display_name}&nbsp;</dd>
+        {/if}
         <dt>{ts}Membership Type{/ts}</dt><dd>{$membership_type}&nbsp;</dd>
         <dt>{ts}Status{/ts}</dt><dd>{$status}&nbsp;</dd>
         <dt>{ts}Source{/ts}</dt><dd>{$source}&nbsp;</dd>
