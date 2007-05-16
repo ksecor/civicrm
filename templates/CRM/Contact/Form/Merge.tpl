@@ -4,12 +4,12 @@
   <tr><th></th><th>{ts}Duplicate Contact{/ts}</th><th>{ts}merge?{/ts}</th><th>{ts}Main Contact{/ts}</th></tr>
   {foreach from=$rows item=row key=field}
     <tr>
-      <th>{$row.title}</th><td>{$row.other}</td><td style='white-space: nowrap'>—{$form.$field.html}→</td><td>{$row.main}</td>
+      <th>{$row.title}</th><td>{$row.other}</td><td style='white-space: nowrap'>=={$form.$field.html}==&gt;</td><td>{$row.main}</td>
     </tr>
   {/foreach}
-  {foreach from=$tables item=params key=table}
+  {foreach from=$rel_tables item=params key=name}
     <tr>
-      <th></th><td><a href="{$params.other_url}">{$params.title}</a></td><td style='white-space: nowrap'>—{$form.$table.html}→</td><td><a href="{$params.main_url}">{$params.title}</a></td>
+      <th>{ts}Move all of...{/ts}</th><td><a href="{$params.other_url}">{$params.title}</a></td><td style='white-space: nowrap'>=={$form.$name.html}==&gt;</td><td><a href="{$params.main_url}">{$params.title}</a></td>
     </tr>
   {/foreach}
 </table>
