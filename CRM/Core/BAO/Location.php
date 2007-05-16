@@ -118,13 +118,15 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         foreach ($locElements as $element) {
             $varName = 'isPrimary' . ucfirst($element);
             $primarySet = false;
-            foreach ($params['location'][$locationId][$element] as $eleKey => $eleVal) {
-                if ($eleVal['is_primary'] && !$primarySet) {
-                    $$varName   = false;
-                    $primarySet = true;
-                } elseif ($eleVal['is_primary'] && $primarySet) {
-                    //set is_primary to zero if already set.
-                    $params['location'][$locationId][$element][$eleKey]['is_primary'] = 0;
+            if ( is_array($params['location'][$locationId][$element]) ) {
+                foreach ($params['location'][$locationId][$element] as $eleKey => $eleVal) {
+                    if ($eleVal['is_primary'] && !$primarySet) {
+                        $$varName   = false;
+                        $primarySet = true;
+                    } elseif ($eleVal['is_primary'] && $primarySet) {
+                        //set is_primary to zero if already set.
+                        $params['location'][$locationId][$element][$eleKey]['is_primary'] = 0;
+                    }
                 }
             }
         }
