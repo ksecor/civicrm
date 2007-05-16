@@ -76,11 +76,16 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
         if ( ! empty( $params['location'][$locationId]['phone'][$phoneId]['phone_type'] ) ) {
             $phone->phone_type         = $params['location'][$locationId]['phone'][$phoneId]['phone_type'];
         }
-        $phone->mobile_provider_id = CRM_Utils_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
+        $phone->mobile_provider_id = 
+            CRM_Utils_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
 
         // set this object to be the value of isPrimary and make sure no one else can be isPrimary
-        $phone->is_primary         = $isPrimary;
-        $isPrimary                 = false;
+        if ( $isPrimary ) {
+            $phone->is_primary     = $isPrimary;
+            $isPrimary             = false;
+        } else {
+            $phone->is_primary     = $params['location'][$locationId]['phone'][$phoneId]['is_primary'];
+        }
 
         return $phone->save( );
     }

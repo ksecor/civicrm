@@ -76,8 +76,12 @@ class CRM_Core_BAO_IM extends CRM_Core_DAO_IM {
         }
 
         // set this object to be the value of isPrimary and make sure no one else can be isPrimary
-        $im->is_primary   = $isPrimary;
-        $isPrimary        = false;
+        if ( $isPrimary ) {
+            $im->is_primary     = $isPrimary;
+            $isPrimary          = false;
+        } else {
+            $im->is_primary     = $params['location'][$locationId]['im'][$imId]['is_primary'];
+        }
 
         return $im->save( );
     }

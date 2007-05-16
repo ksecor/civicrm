@@ -74,8 +74,12 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
         $email->location_id = $params['location'][$locationId]['id'];
         
         // set this object to be the value of isPrimary and make sure no one else can be isPrimary
-        $email->is_primary  = $isPrimary;
-        $isPrimary          = false;
+        if ( $isPrimary ) {
+            $email->is_primary     = $isPrimary;
+            $isPrimary             = false;
+        } else {
+            $email->is_primary     = $params['location'][$locationId]['email'][$emailId]['is_primary'];
+        }
         
         if ( array_key_exists( 'on_hold', $params['location'][$locationId]['email'][$emailId]) ) {
             $values = array(

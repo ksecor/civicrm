@@ -110,7 +110,24 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         $location->address = $address_object;
         // set this to true if this has been made the primary IM.
         // the rule is the first entered value is the primary object
-        $isPrimaryPhone = $isPrimaryEmail = $isPrimaryIM = true;
+        $isPrimaryPhone = $isPrimaryEmail = $isPrimaryIm = true;
+
+        // Check if no two values of a field has is_primary=1. 
+        // If yes then make sure only one has is_primary=1 and set rest to false.
+        $locElements = array('email', 'phone', 'im');
+        foreach ($locElements as $element) {
+            $varName = 'isPrimary' . ucfirst($element);
+            $primarySet = false;
+            foreach ($params['location'][$locationId][$element] as $eleKey => $eleVal) {
+                if ($eleVal['is_primary'] && !$primarySet) {
+                    $$varName   = false;
+                    $primarySet = true;
+                } elseif ($eleVal['is_primary'] && $primarySet) {
+                    //set is_primary to zero if already set.
+                    $params['location'][$locationId][$element][$eleKey]['is_primary'] = 0;
+                }
+            }
+        }
 
         $location->phone = array( );
         $location->email = array( );
@@ -119,7 +136,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
             $location->phone[$i] = CRM_Core_BAO_Phone::add( $params, $ids, $locationId, $i, $isPrimaryPhone );
             $location->email[$i] = CRM_Core_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
-            $location->im   [$i] = CRM_Core_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIM    );
+            $location->im   [$i] = CRM_Core_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIm    );
         }
 
         if ( isset( $ids['location'] ) ) {
