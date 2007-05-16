@@ -27,14 +27,15 @@ Documentation
 Documentation, as well as the project bug tracker and mailing lists,
 can be found at http://civicrm.org/ Just click on the appropriate link.
 Our main documentation site is the wiki at http://wiki.civicrm.org/
-- particularily http://wiki.civicrm.org/confluence/display/CRMDOC/Home
+- particularily http://wiki.civicrm.org/confluence/display/CRMDOC/
 
 
 *************************
 Installation
 *************************
 The main installation documentation is available at
-http://wiki.civicrm.org/confluence/display/CRMDOC/Install
+http://wiki.civicrm.org/confluence/display/CRMDOC/2.+Install
+
 
 
 *************************
