@@ -64,6 +64,8 @@ class CRM_Utils_Geocode_Yahoo {
      * @static
      */
     static function format( &$values ) {
+        CRM_Utils_System::checkPHPVersion( 5, true );
+
         // we need a valid state and country, else we ignore
         if ( ! CRM_Utils_Array::value( 'state_province' , $values  ) &&
              ! CRM_Utils_Array::value( 'country'        , $values  ) ) {

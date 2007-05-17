@@ -53,16 +53,43 @@ class CRM_Admin_Form_Setting_Address extends CRM_Admin_Form_Setting
         $this->addElement('textarea','addressFormat', ts('Address Formatting'));  
         $this->addElement('text','maxLocationBlocks', ts('Maximum Locations'));
         $this->addYesNo('includeCounty', ts('Include County?'));
+
         // Address Standarization
         $this->addElement('text','AddressStdProvider', ts('Provider'));
         $this->addElement('text','AddressStdUserID', ts('User ID'));
         $this->addElement('text','AddressStdURL', ts('Web Service URL'));
+
         //Mailing Labels
         $this->addElement('text','individualNameFormat', ts('Individual Name Format'));
         $this->addElement('textarea','mailingLabelFormat', ts('Mailing Label Format'));  
 
+        $this->addFormRule( array( 'CRM_Admin_Form_Setting_Address', 'formRule' ) );
+
         parent::buildQuickForm();
     }
+
+    static function formRule( &$fields ) {
+        $p = empty( $fields['AddressStdProvider'] );
+        $u = empty( $fields['AddressStdUserID'  ] );
+        $w = empty( $fields['AddressStdURL'     ] );
+
+        // make sure that there is a value for all of them
+        // if any of them are set
+        if ( $p || $u || $w ) {
+            if ( ! CRM_Utils_System::checkPHPVersion( 5, false ) ) {
+                $errors['_qf_default'] = ts( 'Address features require PHP version 5 or greater' );
+                return $errors;
+            }
+
+            if ( ! ( $p && $u && $w ) ) {
+                $errors['_qf_default'] = ts( 'You must provide a value for all three address fields' );
+                return $errors;
+            }
+        }
+        
+        return true;
+    }
+
 }
 
 ?>

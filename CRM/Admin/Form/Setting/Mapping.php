@@ -53,7 +53,6 @@ class CRM_Admin_Form_Setting_Mapping extends CRM_Admin_Form_Setting
         $map = CRM_Core_SelectValues::mapProvider();
         $this->addElement('select','mapProvider', ts('Map Provider'),array('' => '- select -') + $map);  
         $this->add('text','mapAPIKey', ts('Provider Key'), null);  
-        //$this->addElement('text','geocodeMethod', ts('Geocode Method')); 
     
         parent::buildQuickForm();
     }
@@ -70,9 +69,15 @@ class CRM_Admin_Form_Setting_Mapping extends CRM_Admin_Form_Setting
      */
     static function formRule(&$fields) {
         $errors = array();
+
+        if ( ! CRM_Utils_System::checkPHPVersion( 5, false ) ) {
+            $errors['_qf_default'] = ts( 'Mapping features require PHP version 5 or greater' );
+        }
+
         if ( !$fields['mapAPIKey'] && $fields['mapProvider'] != '' ) {
-            $errors['mapAPIKey'] = "Api key is a required field";
+            $errors['mapAPIKey'] = "API key is a required field";
         } 
+
         return $errors;
     }
 

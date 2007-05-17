@@ -728,6 +728,18 @@ class CRM_Utils_System {
         return $request->getResponseCode( ) == 200 ? true : false;
     }
 
+    static function checkPHPVersion( $version = 5, $abort = true ) {
+        $phpVersion = substr( PHP_VERSION, 0, 1 );
+        if ( $phpVersion >= $version ) {
+            return true;
+        }
+
+        if ( $abort ) {
+            CRM_Core_Error::fatal( ts( 'This feature requires PHP Version %1 or greater',
+                                       array( 1 => $version ) ) );
+        }
+        return false;
+    }
 }
 
 ?>

@@ -41,6 +41,8 @@
 class CRM_Utils_Address_USPS {
     
     static function checkAddress(&$values) {
+        CRM_Utils_System::checkPHPVersion( 5, true );
+
         if ( ! isset($values['street_address'])     || 
               (! isset($values['city'])      &&
                ! isset($values['state_province'])     &&
@@ -56,8 +58,6 @@ class CRM_Utils_Address_USPS {
         
         $XMLQuery = '<AddressValidateRequest USERID="'.$userID.'"><Address ID="0"><Address1>'.$values['supplemental_address_1'].'</Address1><Address2>'.$address2.'</Address2><City>'.$values['city'].'</City><State>'.$values['state_province'].'</State><Zip5>'.$values['postal_code'].'</Zip5><Zip4>'.$values['postal_code_suffix'].'</Zip4></Address></AddressValidateRequest>';
                 
-//        $url = 'http://testing.shippingapis.com/ShippingAPITest.dll';
-        
         require_once 'HTTP/Request.php';
         $request =& new HTTP_Request( );
         
