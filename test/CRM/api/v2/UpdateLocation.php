@@ -3,7 +3,7 @@
 require_once 'api/v2/Contact.php';
 require_once 'api/v2/Location.php';
 
- class TestOfUpdateLocationAPI extends UnitTestCase  {
+class TestOfUpdateLocationAPI extends UnitTestCase  {
     protected $_individual;
     protected $_household;
     protected $_organization;
@@ -24,13 +24,13 @@ require_once 'api/v2/Location.php';
     function testCreateIndividual()
     {
         $params  = array('first_name'    => 'Manish',
-                         'last_name'     => 'Zollpe',
+                         'last_name'     => 'Zope',
                          'location_type' => 'Main',
                          'email'         => 'manisha@yahoo.com',
                          'contact_type'   => 'Individual'
                          );
         $contact =& civicrm_contact_add($params);
-
+        
         $this->assertEqual( $contact['is_error'], 0  );        
         $this->_individual = $contact;
     }
@@ -39,23 +39,23 @@ require_once 'api/v2/Location.php';
         $workPhone = array( 'phone' => '91-20-276048',
                             'phone_type'  => 'Phone');
         
-        $workMobile = array('phone' => '91-20-9890848585',
-                            'phone_type' => 'Mobile',
-                            'mobile_provider' => 'Sprint');
+        $workMobile = array( 'phone' => '91-20-9890848585',
+                             'phone_type' => 'Mobile',
+                             'mobile_provider' => 'Sprint' );
         
-        $workFax = array('phone' => '91-20-234-657686',
-                         'phone_type' => 'Fax',
-                         'is_primary' => TRUE);
+        $workFax = array( 'phone' => '91-20-234-657686',
+                          'phone_type' => 'Fax',
+                          'is_primary' => TRUE );
         
         $phone     = array ($workPhone, $workMobile, $workFax);
         
-        $workIMFirst = array('name' => 'mlzope',
-                             'provider_id' => '1',
-                             'is_primary' => FALSE);
+        $workIMFirst = array( 'name' => 'mlzope',
+                              'provider_id' => '1',
+                              'is_primary' => FALSE );
         
         $workIMSecond = array('name' => 'mlzope',
-                             'provider_id' => '3',
-                             'is_primary' => FALSE);
+                              'provider_id' => '3',
+                              'is_primary' => FALSE);
         
         $workIMThird = array('name' => 'mlzope',
                              'provider_id' => '5',
@@ -132,7 +132,7 @@ require_once 'api/v2/Location.php';
                          'contact_type'   => 'Household'
                          );
         $contact =& civicrm_contact_add( $params );
-
+        
         $this->assertEqual( $contact['is_error'], 0  );          
         $this->_household = $contact;
     }
@@ -150,15 +150,15 @@ require_once 'api/v2/Location.php';
         
         //$workFax    =& new CRM_Core_DAO_Phone();
         $workFax = array('phone' => '91-20-234-657686',
-                        'phone_type' => 'Fax',
-                        'is_primary' => TRUE);
+                         'phone_type' => 'Fax',
+                         'is_primary' => TRUE);
         
         $phone     = array ($workPhone, $workMobile, $workFax);
         
         //$workIMFirst  =& new CRM_Core_DAO_IM();
         $workIMFirst = array('name' => 'mlzope',
-                            'provider_id' => '1',
-                            'is_primary' => FALSE);
+                             'provider_id' => '1',
+                             'is_primary' => FALSE);
         
         //$workIMSecond =& new CRM_Core_DAO_IM();
         $workIMSecond = array('name' => 'mlzope',
@@ -218,7 +218,7 @@ require_once 'api/v2/Location.php';
         
         $params = array(
                         'phone'            => $phones,
-                        'city'             => 'Mumabi',
+                        'city'             => 'Mumbai',
                         'email'            => $emails,
                         'contact_id'       => $this->_household['contact_id'],
                         'location_id'      => $this->_locationH['id']
@@ -306,7 +306,7 @@ require_once 'api/v2/Location.php';
                         );
         
         $newLocation =& civicrm_location_add( $params );
-   
+        
         $this->_locationO['id'] = $newLocation['id'];
         $this->assertEqual( $newLocation['phone'][3]['phone'], '91-20-234-657686' );
         $this->assertEqual( $newLocation['phone'][1]['phone_type'], 'Phone' );
@@ -314,8 +314,8 @@ require_once 'api/v2/Location.php';
         $this->assertEqual( $newLocation['im'][2]['provider_id'], 3 );
         $this->assertEqual( $newLocation['email'][3]['email'], 'manish@sify.com' );
     }
-      
-    Function Testupdatelocationorganization()
+    
+    function Testupdatelocationorganization()
     {
         //$workPhone  = & new CRM_Core_DAO_Phone();
         $workPhone = array('phone' => '02327276048',
@@ -347,9 +347,10 @@ require_once 'api/v2/Location.php';
     }
     
     
-     // Deleting the Data creatd for the test cases.
+    // Deleting the Data creatd for the test cases.
     function testDeleteLocationIndividual()
     { 
+        
         foreach ($this->_locationI as $locationType => $locationTypeid) {
             
             $contact=array(
@@ -358,40 +359,41 @@ require_once 'api/v2/Location.php';
                            );
             $result =& civicrm_location_delete( $contact );
             
-         }
+        }
     }
  
     function testDeleteLocationHousehold()
     { 
+        
         foreach ($this->_locationH as $locationType => $locationTypeid) {
-          
+            
             $contact=array(
-                           'location_type' => $locationTypeid,
+                           'location_type' => $locationType,
                            'contact_id'    => $this->_household['contact_id']
                            );
             $result =& civicrm_location_delete( $contact );
         }
     }
     
-     function testDeleteLocationOrganization()
-     {
-         
-         foreach ($this->_locationO as $locationType => $locationTypeid) {
-             $contact=array(
-                            'location_type' => $locationTypeid,
-                            'contact_id'    => $this->_organization['contact_id']
+    function testDeleteLocationOrganization()
+    {
+        
+        foreach ($this->_locationO as $locationType => $locationTypeid) {
+            $contact=array(
+                           'location_type' => $locationType,
+                           'contact_id'    => $this->_organization['contact_id']
                             ); 
-             $result =& civicrm_location_delete( $contact );
-         }
-     }
+            $result =& civicrm_location_delete( $contact );
+        }
+    }
      
-     function testDeleteIndividual()
+    function testDeleteIndividual()
      {
          $contact  = $this->_individual;
          $result =& civicrm_contact_delete($contact);
          //        $this->assertNull($result);
      }
-     
+    
      function testDeleteHousehold()
      {
          $contact  = $this->_household;
@@ -405,5 +407,5 @@ require_once 'api/v2/Location.php';
          $result =& crm_delete_contact($contact);
          //$this->assertNull($result);
      }
- }
+}
 ?>
