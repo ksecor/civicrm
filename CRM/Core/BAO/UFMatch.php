@@ -207,6 +207,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
             $ufmatch->save( );
             $newContact = true;
         }
+
         if ( $status ) {
             return $newContact;
         } else {

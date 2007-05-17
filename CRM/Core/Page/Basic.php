@@ -181,7 +181,9 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     function browse( $action = null, $sort ) {
         $links =& $this->links();
         if ($action == null) {
-            $action = array_sum(array_keys($links));
+            if ( ! empty( $links ) ) {
+                $action = array_sum(array_keys($links));
+            }
         }
         if ( $action & CRM_Core_Action::DISABLE ) {
             $action -= CRM_Core_Action::DISABLE;

@@ -126,6 +126,10 @@ class CRM_Core_Invoke
             self::user($args);
             break;
 
+        case 'reports':
+            require_once 'Reports/Zend/Wrapper.php';
+            break;
+
         default         :
             if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;

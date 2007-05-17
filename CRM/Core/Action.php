@@ -193,6 +193,10 @@ class CRM_Core_Action {
      * @static
      */
     static function formLink( &$links, $mask, $values ) {
+        if ( empty( $links ) ) {
+            return null;
+        }
+
         $url = array( );
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
