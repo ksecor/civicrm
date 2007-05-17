@@ -63,6 +63,9 @@
     <dt></dt><dd>{$form.add_captcha.html} {$form.add_captcha.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}When CAPTCHA is included in an add / edit profile form, users are required to read an image with letters and numbers and enter the value in a field. This helps prevent abuse by automated scripts.{/ts}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}<strong>Do not enable this feature for stand-alone profile forms. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.</strong>{/ts}</dd>
+    {if $config->userFramework EQ 'Drupal'} 
+        <dt>&nbsp;</dt><dd class="description">{ts}<strong>CAPTCHA is also not available when a profile is used inside the User Registration and My Account screens.</strong>{/ts}</dd>
+    {/if}
     <dt></dt><dd>{$form.is_map.html} {$form.is_map.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If enabled, a Map link is included on the profile listings rows and detail screens for any contacts whose records include sufficient location data for your mapping provider.{/ts}</dd>
     <dt></dt><dd>{$form.is_uf_link.html} {$form.is_uf_link.label}</dd>
