@@ -38,16 +38,57 @@
  * Files required
  */
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Utils/Pager.php';
 
 class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
 
     protected $_customFields;
 
-    public function preProcess( ) {
-        $rows =& $this->get( 'rows' );
-        $this->assign( 'rowCount', count( $rows ) );
-        $this->assign( 'rows'    , $rows );
+    protected $_pager;
+    protected $_rowCount;
+    protected $_offset;
 
+    protected $_force;
+
+    public function preProcess( ) {
+        $this->initialize( );
+
+        $this->_force = CRM_Utils_Request::retrieve( 'force', 'Boolean',
+                                                     CRM_Core_DAO::$_nullObject );
+
+        $storeRowCount = $this->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
+        if ( $storeRowCount ) {
+            $pagerParams['rowCount'] = $storeRowCount;
+        } else {
+            $pagerParams['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
+        }
+
+        $pagerParams['rowCount' ]  = 2;
+        $pagerParmas['status'   ]  = 'People %%StatusMessage%%';
+        $pagerParmas['buttonTop']  = 'PagerTopButton';
+
+        $pagerParams['total'    ]  = $this->get( 'totalCount' );
+
+        $this->_pager = new CRM_Utils_Pager( $pagerParams );
+        list( $this->_offset, $this->_rowCount ) = $this->_pager->getOffsetAndRowCount( );
+        $this->assign_by_ref( 'pager', $this->_pager );
+
+        if ( $this->_force ) {
+            $this->postProcess( );
+
+            // redo pager stuff
+            $this->_pager = new CRM_Utils_Pager( $pagerParams );
+            list( $this->_offset, $this->_rowCount ) = $this->_pager->getOffsetAndRowCount( );
+            $this->assign_by_ref( 'pager', $this->_pager );
+        }
+
+        $rows =& $this->get( 'rows' );
+        $this->assign       ( 'rowCount', count( $rows ) );
+        $this->assign_by_ref( 'rows'    , $rows          );
+
+    }
+
+    public function initialize( ) {
         $this->_customFields = array( 
                                      89 => array( 'name'   => 'People'            ,
                                                   'loc'    => 'top'               ,
@@ -153,10 +194,28 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
                                  )
                            );
 
+
+        $this->addFormRule( array( 'CRM_Contact_Form_Search_Zandigo', 'formRule' ) );
+    }
+
+    static function formRule( &$fields ) {
+        if ( ! empty( $fields['custom_89'] ) &&
+             ! empty( $fields['custom_90'] ) ) {
+            $errors = array( 'custom_89' => ts( 'Only one of People or Organizations can be selected' ) );
+            return $errors;
+        }
+
+        if ( empty( $fields['custom_89'] ) &&
+             empty( $fields['custom_90'] ) ) {
+            $errors = array( 'custom_89' => ts( 'At least one of People or Organizations should be selected' ) );
+            return $errors;
+        }
+
+        return true;
     }
 
     public function postProcess( ) {
-        $values = $this->exportValues( );
+        $values = $this->controller->exportValues( $this->_name );
 
         $returnProperties = array( 'contact_id'   => 1,
                                    'display_name' => 1,
@@ -170,7 +229,9 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
         }
 
         require_once 'api/Search.php';
-        list( $result, $options ) = crm_contact_search( $values, $returnProperties, null, 0, 0 );
+        $totalCount = crm_contact_search_count( $values );
+        $this->set( 'totalCount', $totalCount );
+        list( $result, $options ) = crm_contact_search( $values, $returnProperties, null, $this->_offset, $this->_rowCount );
 
         $rows = array_values( $result );
         $this->assign_by_ref( 'rows', $rows );
