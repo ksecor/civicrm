@@ -160,11 +160,10 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // should we allow updates on a exisitng contact
         $this->addElement('checkbox', 'is_update_dupe', ts('Should we update the contact on a duplicate match?' ) );
 
+        // we do not have any url checks to allow relative urls
         $this->addElement('text', 'post_URL', ts('Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'post_URL') );
-        $this->addRule('post_URL', ts('Enter a valid URL.'), 'url');
-
         $this->addElement('text', 'cancel_URL', ts('Cancel Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'cancel_URL') );
-        $this->addRule('post_URL', ts('Enter a valid URL.'), 'url');
+
         // add select for groups
         $group               = array('' => ts('- select -')) + $this->_group;
         $this->_groupElement =& $this->addElement('select', 'group', ts('Limit Listings to Group'), $group);
