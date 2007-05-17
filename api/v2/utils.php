@@ -171,4 +171,56 @@ function _civicrm_custom_format_params( &$params, &$values, $extends )
     }
 }
 
+
+/**
+ * This function ensures that we have the right input parameters
+ *
+ * We also need to make sure we run all the form rules on the params list
+ * to ensure that the params are valid
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new history.
+ *                           
+ *
+ * @return bool true if success false otherwise
+ * @access public
+ */
+function _civicrm_check_required_fields(&$params, $daoName)
+{
+    if ( ( $params['extends'] == 'Activity' || 
+           $params['extends'] == 'Phonecall'  || 
+           $params['extends'] == 'Meeting'    || 
+           $params['extends'] == 'Group'      || 
+           $params['extends'] == 'Contribution' 
+           ) && 
+         ( $params['style'] == 'Tab' ) ) {
+        return _civicrm_create_error(ts("Can not create Custom Group in Tab for ". $params['extends']));
+    }
+
+    require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+    $dao =& new $daoName();
+    $fields = $dao->fields();
+ 
+    $missing = array();
+    foreach ($fields as $k => $v) {
+        if ($k == 'id') {
+            continue;
+        }
+        
+        if ($v['required'] && !(isset($params[$k]))) {
+            $missing[] = $k;
+        }
+    }
+
+    if (!empty($missing)) {
+        return civicrm_create_error(ts("Required fields ". implode(',', $missing) . " for $daoName are not found"));
+    }
+
+    return true;
+}
+
+
+
+
+
 ?>

@@ -246,7 +246,7 @@ function civicrm_participant_update(&$params)
  * 
  * @param  Int  $participantID   Id of the contact participant to be deleted
  * 
- * @return null if successfull, object of CRM_Core_Error otherwise
+ * @return boolean        true if success, else false
  * @access public
  */
 function civicrm_participant_delete(&$participantID)

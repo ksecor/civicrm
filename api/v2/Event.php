@@ -69,6 +69,11 @@ function civicrm_event_create( &$params )
         $config =& CRM_Core_Config::singleton();
         $params['domain_id'] = $config->domainID();
     }
+    
+    $error = _civicrm_check_required_fields( $params, 'CRM_Event_DAO_Event' );
+    if ($error['is_error']) {
+        return civicrm_create_error( $error['error_message'] );
+    }
 
     $ids['event'      ] = $params['id'];
     $ids['eventTypeId'] = $params['event_type_id'];
@@ -77,16 +82,16 @@ function civicrm_event_create( &$params )
     require_once 'CRM/Event/BAO/Event.php';
     $eventBAO = CRM_Event_BAO_Event::create($params, $ids);
     
-    $event = array();
-    _civicrm_object_to_array($eventBAO, $event);
-
-    if ( is_a( $event, 'CRM_Core_Error' ) ) {
+    if ( is_a( $eventBAO, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Event is not created" );
     } else {
+        $event = array();
+        _civicrm_object_to_array($eventBAO, $event);
         $values = array( );
         $values['event_id'] = $event['id'];
         $values['is_error']   = 0;
     }
+    
     return $values;
     
 }
@@ -227,7 +232,7 @@ function &civicrm_event_update( &$params ) {
  * 
  * @param  Int  $eventID    ID of event to be deleted
  * 
- * @return null if successfull, object of CRM_Core_Error otherwise
+ * @return boolean        true if success, else false
  * @access public
  */
 function &civicrm_event_delete( &$eventID ) {
