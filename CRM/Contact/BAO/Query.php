@@ -2277,8 +2277,9 @@ class CRM_Contact_BAO_Query {
      * @return void 
      * @access public 
      */
-    static function apiQuery( $params = null, $returnProperties = null, $options = null ,$sort = null, $offset = 0, $row_count = 25 ) {
-        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );
+    static function apiQuery( $params = null, $returnProperties = null, $options = null ,$sort = null, $offset = 0, $row_count = 25,
+                              $returnCount = false ) {
+        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null );
         list( $select, $from, $where ) = $query->query( );
         $options = $query->_options;
         $sql = "$select $from $where";
@@ -2295,8 +2296,13 @@ class CRM_Contact_BAO_Query {
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );
         }
-       
-        return array($values, $options);
+
+        if ( ! $returnCount ) {
+            return array($values, $options);
+        } else {
+            $count = $query->searchQuery( 0, 0, null, true );
+            return array($values, $options, $count);
+        }
     }
 
 

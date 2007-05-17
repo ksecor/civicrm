@@ -312,7 +312,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @access public
      * @static
      */
-    public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded, $useRequired = true, $search = false, $label = null) 
+    public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded,
+                                               $useRequired = true, $search = false, $label = null, $js = null ) 
     {
         $field =& new CRM_Core_DAO_CustomField();
         $field->id = $fieldId;
@@ -371,11 +372,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             if($field->data_type != 'Boolean') {
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
                 
-                $js = array( 'onclick' => "return showHideZ(this);");
-//                $js = null;
                 foreach ($customOption as $v) {
-//                    $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $field->attributes);
-                    $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $js);
+                    if ( $js ) {
+                        $newAttributes = $js;
+                    } else {
+                        $newAttributes = $field->attributes;
+                    }
+                    $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $newAttributes);
                 }
                 $separator = null;
                 if ( (int ) $field->options_per_line == 1 ) {

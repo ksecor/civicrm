@@ -89,12 +89,12 @@ function crm_contact_search_count( &$params ) {
  * @return int 
  * @access public 
  */ 
-function crm_contact_search( &$params, $return_properties = null, $sort = null, $offset = 0, $row_count = 25) {
+function crm_contact_search( &$params, $return_properties = null, $sort = null, $offset = 0, $row_count = 25, $returnCount = false ) {
     $sortString = CRM_Core_DAO::getSortString( $sort );
     require_once 'CRM/Contact/Form/Search.php';
     $newP =& CRM_Contact_Form_Search::convertFormValues( $params );
-    return CRM_Contact_BAO_Query::apiQuery( $newP, $return_properties, null, $sortString, $offset, $row_count );
-} 
+    return CRM_Contact_BAO_Query::apiQuery( $newP, $return_properties, null, $sortString, $offset, $row_count, $returnCount );
+}
 
 /** 
  * Returns the number of Contact objects which match the search criteria specified in $params.

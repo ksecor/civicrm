@@ -177,12 +177,14 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
 
         // add all custom fields
         require_once 'CRM/Core/BAO/CustomField.php';
+        $js = array( 'onclick' => "return showHideZ(this);");
         foreach ( $this->_customFields as $key => $field ) {
             CRM_Core_BAO_CustomField::addQuickFormElement( $this,
                                                            "custom_$key",
                                                            $key,
                                                            false,
-                                                           false, false, $field['name'] );
+                                                           false, false, $field['name'],
+                                                           $js );
         }
         $this->assign( 'customFields', $this->_customFields );
         $this->addButtons( array(
@@ -228,10 +230,13 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
             }
         }
 
+
         require_once 'api/Search.php';
-        $totalCount = crm_contact_search_count( $values );
+        list( $result, $options, $totalCount ) = crm_contact_search( $values, $returnProperties, null,
+                                                                     $this->_offset, $this->_rowCount,
+                                                                     true );
+
         $this->set( 'totalCount', $totalCount );
-        list( $result, $options ) = crm_contact_search( $values, $returnProperties, null, $this->_offset, $this->_rowCount );
 
         $rows = array_values( $result );
         $this->assign_by_ref( 'rows', $rows );
