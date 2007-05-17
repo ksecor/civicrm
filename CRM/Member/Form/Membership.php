@@ -251,7 +251,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
             $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
             $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
-            //CRM_Core_Error::debug('calcStatus', $calcStatus);
+
             if (empty($calcStatus)){
                 CRM_Core_Session::setStatus( ts('The membership can not be saved.<br/> No valid membership status for given dates.') );
                 return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&force=1&cid={$this->_contactID}&selectedChild=member"));
@@ -342,6 +342,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 }
                 
                 unset( $params['id'] );
+
+                // unset the custom value ids
+                if ( is_array( $params['custom'] ) ) {
+                    foreach ( $params['custom'] as $k => $v ) {
+                        unset( $params['custom'][$k]['id'] );
+                    }
+                }
                 
                 CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
             }
