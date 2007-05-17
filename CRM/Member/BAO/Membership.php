@@ -229,15 +229,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                                                       );
         
         $historyParams = array(
-            'entity_table'     => 'civicrm_contact',
-            'entity_id'        => $membership->contact_id,
-            'activity_type'    => $activityType,
-            'module'           => 'CiviMember',
-            'callback'         => 'CRM_Member_Page_Membership::details',
-            'activity_id'      => $membership->id,
-            'activity_summary' => $activitySummary,
-            'activity_date'    => $membership->start_date
-        );
+                               'entity_table'     => 'civicrm_contact',
+                               'entity_id'        => $membership->contact_id,
+                               'activity_type'    => $activityType,
+                               'module'           => 'CiviMember',
+                               'callback'         => 'CRM_Member_Page_Membership::details',
+                               'activity_id'      => $membership->id,
+                               'activity_summary' => $activitySummary,
+                               'activity_date'    => $membership->start_date
+                               );
         
         require_once "api/History.php";
         if ( is_a( crm_create_activity_history( $historyParams ), 'CRM_Core_Error' ) ) {
@@ -374,12 +374,12 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
 
         //delete Custom Data, if any
         require_once 'CRM/Core/BAO/CustomValue.php';
-        $cutomDAO = & new CRM_Core_DAO_CustomValue();
-        $cutomDAO->entity_id = $id;
-        $cutomDAO->entity_table = 'civicrm_membership';
-        $cutomDAO->find( );
-        while( $cutomDAO->fetch( )) {
-            $cutomDAO->delete();
+        $customDAO = & new CRM_Core_DAO_CustomValue();
+        $customDAO->entity_id = $membershipId;
+        $customDAO->entity_table = 'civicrm_membership';
+        $customDAO->find( );
+        while( $customDAO->fetch( )) {
+            $customDAO->delete();
         }
 
         require_once 'CRM/Member/DAO/MembershipPayment.php';
