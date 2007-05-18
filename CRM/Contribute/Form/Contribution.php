@@ -208,9 +208,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if($this->_noteId) {
             $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
         }
-        if ( isset (  $defaults['is_test'] ) ){
+        if (  $defaults['is_test'] ){
             $this->assign( "is_test" , true);
-        }
+        } 
         if (isset ( $defaults["honor_contact_id"] ) ) {
             $honorDefault = array();
             $this->_honorID = $defaults["honor_contact_id"];
@@ -223,7 +223,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $defaults["honor_email"]     = $honorDefault["location"][1]["email"][1]["email"];
             $defaults["contribution_honor"]    = 1;
         }
-       
+        
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
@@ -304,8 +304,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->addGroup( $statusOption, 'contribution_status_id', ts('Status Option') );
         */
         
-        $this->add('select', 'contribution_status_id', ts('Contribution Status'),
-                   array( ''=> ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionStatus( ) );
+        $this->add('select', 'contribution_status_id', ts('Contribution Status'),CRM_Contribute_PseudoConstant::contributionStatus( ) );
         $element =& $this->add('select', 'payment_instrument_id', 
                                ts( 'Paid By' ), 
                                array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
@@ -501,10 +500,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         // FIX ME
-        if ( CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) {
+        if ( !CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) {
             $params["contribution_status_id"] = 3;
         }
-
+        
         $ids['contribution'] = $params['id'] = $this->_id;
         if ( CRM_Utils_Array::value( 'contribution_honor', $formValues) ) {
             if ($formValues["contribution_honor"]) {
@@ -559,7 +558,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 }
             }
         }
-
+      
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
         
