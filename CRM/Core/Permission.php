@@ -121,7 +121,9 @@ class CRM_Core_Permission {
         $customGroups = array_keys( CRM_Core_PseudoConstant::customGroup( ) );
 
         // check if user has all powerful permission
-        if ( self::check( 'access all custom data' ) ) {
+        // or administer civicrm permission (CRM-1905)
+        if ( self::check( 'access all custom data' ) ||
+             self::check( 'administer CiviCRM' ) ) {
             return $customGroups;
         }
 

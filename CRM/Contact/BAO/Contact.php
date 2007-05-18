@@ -1729,12 +1729,16 @@ WHERE civicrm_contact.id IN $idString ";
             
             $locationType = array( );
             if ($status) {
-                $locationType['location_type'] = array ('name' => 'location_type', 'where' => 'civicrm_location_type.name', 'title' => 'Location Type');
+                $locationType['location_type'] = array ('name' => 'location_type',
+                                                        'where' => 'civicrm_location_type.name',
+                                                        'title' => 'Location Type');
             }
             
             $IMProvider = array( );
             if ($status) {
-                $IMProvider['im_provider'] = array ('name' => 'im_provider', 'where' => 'im_provider.name', 'title' => 'IM Provider');
+                $IMProvider['im_provider'] = array ('name' => 'im_provider',
+                                                    'where' => 'im_provider.name',
+                                                    'title' => 'IM Provider');
             }
             
             $locationFields = array_merge(  $locationType,
@@ -1754,12 +1758,9 @@ WHERE civicrm_contact.id IN $idString ";
 
             $fields = array_merge($fields,
                                   CRM_Contact_DAO_Contact::export( ) );
-            /*
-            $fields = array_merge($fields,
-                                  CRM_Core_DAO_Note::export());
-            */
+
             if ( $contactType != 'All' ) { 
-                    $fields = array_merge($fields,
+                $fields = array_merge($fields,
                                       CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );
                 
             } else {

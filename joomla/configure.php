@@ -4,7 +4,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
 global $mosConfig_absolute_path;
-global $civicrmUpgrade = 0;
+global $civicrmUpgrade = false;
 
 // $mosConfig_absolute_path = "/tmp/mos";
 
