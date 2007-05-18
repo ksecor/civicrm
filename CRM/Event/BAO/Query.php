@@ -142,6 +142,20 @@ class CRM_Event_BAO_Query
 
             return;
 
+        case 'event_type':
+            
+            $value = ucwords(strtolower(addslashes(trim($value))));
+
+            require_once 'CRM/Core/OptionGroup.php';
+            require_once 'CRM/Utils/Array.php';
+
+            $eventTypes  = CRM_Core_OptionGroup::values("event_type" );
+            $eventId = CRM_Utils_Array::key($value, $eventTypes);
+            $query->_where[$grouping][] = "civicrm_participant.event_id = civicrm_event.id and civicrm_event.event_type_id = '{$eventId}'";
+            $query->_qill[$grouping ][] = ts( 'Event Type - %1', array( 1 => $value ) );
+            $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
+            return;
+          
         case 'event_participant_test':
             $query->_where[$grouping][] = "civicrm_participant.is_test $op $value";
             if ( $value ) {
@@ -152,7 +166,7 @@ class CRM_Event_BAO_Query
             return;
 
         case 'event_participant_status':
-
+            
             foreach ($value as $k => $v) {
                 if ($v) {
                     $val[$k] = $k;
@@ -176,6 +190,34 @@ class CRM_Event_BAO_Query
             $query->_qill[$grouping][]  = ts('Participant Status %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
             
             $query->_where[$grouping][] = "civicrm_participant.status_id {$op} {$status}";
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+            return;
+
+        case 'event_participant_role':
+            
+            foreach ($value as $k => $v) {
+                if ($v) {
+                    $val[$k] = $k;
+                }
+            } 
+
+            $role = implode (',' ,$val);
+
+            if (count($val) > 1) {
+                $op = 'IN';
+                $status = "({$role})";
+            }     
+
+            require_once 'CRM/Event/PseudoConstant.php';
+            $roleTypes  = CRM_Event_PseudoConstant::participantRole( );
+
+            $names = array( );
+            foreach ( $val as $id => $dontCare ) {
+                $names[] = $roleTypes[$id];
+            }
+            $query->_qill[$grouping][]  = ts('Participant Role %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
+            
+            $query->_where[$grouping][] = "civicrm_participant.role_id {$op} {$role}";
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
 
@@ -271,13 +313,17 @@ class CRM_Event_BAO_Query
         $config =& CRM_Core_Config::singleton( );
         $domainID = CRM_Core_Config::domainID( );
 
-        $dataURL = $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/event&d={$domainID}&s=%{searchString}";
+        $dataURLEvent     = $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/event&d={$domainID}&s=%{searchString}";
+        $dataURLEventType = $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/eventType&d={$domainID}&s=%{searchString}";
         
         $form->assign( 'dojoIncludes', "dojo.require('dojo.widget.ComboBox');" );
         
-        $dojoAttributes = " dojoType='ComboBox' mode='remote' dataUrl='{$dataURL}' ";
+        $dojoAttributesEvent     = " dojoType='ComboBox' mode='remote' dataUrl='{$dataURLEvent}' ";
+        $dojoAttributesEventType = " dojoType='ComboBox' mode='remote' dataUrl='{$dataURLEventType}' ";
         
-        $title =& $form->add('text', 'event_title', ts('Event Name'), $dojoAttributes );
+        $title =& $form->add('text', 'event_title', ts('Event Name'), $dojoAttributesEvent );
+        $type  =& $form->add('text', 'event_type',  ts('Event Type'), $dojoAttributesEventType );
+
         if ( $title->getValue( ) ) {
             $form->assign( 'event_title_value',  $title->getValue( ) );
         } else {
@@ -285,6 +331,16 @@ class CRM_Event_BAO_Query
             $val = CRM_Utils_Array::value( 'event_title', $fv);
             if ( $val ) {
                 $form->assign( 'event_title_value',  $val );
+            }
+        }
+
+        if ( $type->getValue( ) ) {
+            $form->assign( 'event_type_value',  $type->getValue( ) );
+        } else {
+            $fv  =& $form->getFormValues( );
+            $val = CRM_Utils_Array::value( 'event_type', $fv);
+            if ( $val ) {
+                $form->assign( 'event_type_value',  $val );
             }
         }
 
@@ -301,7 +357,14 @@ class CRM_Event_BAO_Query
         foreach ( $statusValues as $k => $v ) {
             $status[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
         }
-        $form->addGroup($status, 'event_participant_status', ts('Participant status'));
+        $form->addGroup($status, 'event_participant_status', ts('Participant Status'));
+        
+        //adding participant role
+        $roleValues = CRM_Event_PseudoConstant::participantRole();
+        foreach ( $roleValues as $k => $v ) {
+            $role[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
+        }
+        $form->addGroup($role, 'event_participant_role', ts('Participant Role'));
 
         $form->addElement( 'checkbox', 'event_participant_test' , ts( 'Find Test Participants Only?' ) );
 

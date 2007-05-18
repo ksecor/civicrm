@@ -35,6 +35,9 @@ function invoke( ) {
 
     case 'event':
         return event( $config );
+        
+    case 'eventType':
+        return eventType( $config );
 
     case 'message':
         return message( $config );
@@ -104,6 +107,33 @@ LIMIT 6";
     $elements = array( );
     while ( $dao->fetch( ) && $count < 5 ) {
         $elements[] = array( $dao->title, $dao->title );
+        $count++;
+    }
+
+    require_once 'Services/JSON.php';
+    $json =& new Services_JSON( );
+    echo $json->encode( $elements );
+}
+
+function eventType( &$config ) {
+    require_once 'CRM/Utils/Type.php';
+    $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
+    $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+
+    $query ="
+SELECT label 
+FROM   civicrm_option_value v,
+       civicrm_option_group g
+WHERE  v.option_group_id = g.id
+AND  g.name = 'event_type'";
+
+    $nullArray = array( );
+    $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+
+    $count = 0;
+    $elements = array( );
+    while ( $dao->fetch( ) && $count < 5 ) {
+        $elements[] = array( $dao->label, $dao->label );
         $count++;
     }
 

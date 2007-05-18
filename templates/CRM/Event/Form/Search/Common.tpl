@@ -8,6 +8,17 @@
 </script>
 {/if}
     <td>{$form.event_title.html}</td>
+
+    <td class="label">{$form.event_type.label}</td> 
+{if $event_type_value}
+<script type="text/javascript">
+  dojo.addOnLoad( function( ) {ldelim}
+    dojo.widget.byId( 'event_type' ).setAllValues( '{$event_type_value}', '{$event_type_value}' )
+  {rdelim} );
+</script>
+{/if}
+    <td>{$form.event_type.html}</td>
+
  </tr>     
  <tr> 
     <td class="label"> {$form.event_start_date_low.label} </td>
@@ -28,6 +39,10 @@
     <td>{$form.event_participant_status.html}</td>
     <td class="label">{$form.event_participant_test.html}</td>
     <td>{$form.event_participant_test.label}</td>
+ </tr> 
+ <tr>
+    <td class="label">{ts}{$form.event_participant_role.label}{/ts}</td> 
+    <td>{$form.event_participant_role.html}</td>
  </tr> 
  <tr>
     <td colspan="4">
