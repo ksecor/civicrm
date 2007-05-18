@@ -4,13 +4,13 @@
   <base>CRM/Core</base>
   <class>PriceSetEntity</class>
   <name>civicrm_price_set_entity</name>
-  <add>1.7</add>
+  <add>1.8</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Price Set Entity</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <primaryKey>
       <name>id</name>
@@ -22,21 +22,21 @@
       <length>64</length>
       <required>true</required>
       <comment>Table which uses this price set</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <field>
       <name>entity_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Item in table</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <field>
       <name>price_set_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>price set being used</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <foreignKey>
       <name>price_set_id</name>
@@ -48,7 +48,7 @@
       <fieldName>entity_table</fieldName>
       <fieldName>entity_id</fieldName>
       <unique>true</unique>
-      <add>1.7</add>
+      <add>1.8</add>
   </index>
 </table>
 

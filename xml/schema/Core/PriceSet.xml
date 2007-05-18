@@ -4,13 +4,13 @@
   <base>CRM/Core</base>
   <class>PriceSet</class>
   <name>civicrm_price_set</name>
-  <add>1.7</add>
+  <add>1.8</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Price Set</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <primaryKey>
       <name>id</name>
@@ -21,7 +21,7 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which domain owns this price set</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <foreignKey>
       <name>domain_id</name>
@@ -34,13 +34,13 @@
       <length>64</length>
       <required>true</required>
       <comment>Variable name/programmatic handle for this group</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <index>
       <name>UI_name</name>
       <fieldName>name</fieldName>
       <unique>true</unique>
-      <add>1.7</add>
+      <add>1.8</add>
   </index>
   <field>
       <name>title</name>
@@ -48,39 +48,39 @@
       <length>64</length>
       <required>true</required>
       <comment>Friendly name</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <index>
       <name>UI_title</name>
       <fieldName>title</fieldName>
       <unique>true</unique>
-      <add>1.7</add>
+      <add>1.8</add>
   </index>
   <field>
       <name>is_active</name>
       <type>boolean</type>
       <default>1</default>
       <comment>Is this price set active</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <field>
       <name>help_pre</name>
       <type>text</type>
       <comment>Description and/or help text to display before fields in form.</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <field>
       <name>help_post</name>
       <type>text</type>
       <comment>Description and/or help text to display after fields in form.</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
   <field>
       <name>javascript</name>
       <type>varchar</type>
       <length>64</length>
       <comment>Optional Javascript script function(s) included on the form with this price_set. Can be used for conditional</comment>
-      <add>1.7</add>
+      <add>1.8</add>
   </field>
 </table>
 
