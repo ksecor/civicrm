@@ -139,8 +139,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         }
 
+        $this->_separateMembershipPayment = false;
+        if ( in_array("CiviMember", $config->enableComponents) ) {
+            require_once 'CRM/Member/BAO/Membership.php';
+            $this->_separateMembershipPayment = CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,true );
+        }
+        $this->set( 'separateMembershipPayment', $this->_separateMembershipPayment );
+
         if ( $this->_values['amount_block_is_active'] ) {
-            $this->buildAmount( );
+            $this->buildAmount( $this->_separateMembershipPayment );
 
             if ( $this->_values['is_monetary'] &&
                  $this->_values['is_recur']    &&
@@ -152,10 +159,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         require_once 'CRM/Contribute/BAO/Premium.php';
         CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
         
-        if ( in_array("CiviMember", $config->enableComponents) ) {
-            require_once 'CRM/Member/BAO/Membership.php';
-            CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,true );
-        }
 
         if ( $this->_values['honor_block_is_active'] ) {
             $this->buildHonorBlock( );
@@ -184,7 +187,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      * @return void
      * @access private
      */
-    function buildAmount( ) {
+    function buildAmount( $separateMembershipPayment = false ) {
         $elements = array( );
 
         // first build the radio boxes
@@ -206,7 +209,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                                                     ts('Other Amount'), 'amount_other_radio');
 
                 $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
-                $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
+
+                if ( ! $separateMembershipPayment ) {
+                    $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
+                }
                 $this->add('text', 'amount_other', ts( 'Other Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();') );
             } else {
                 $this->add('text', 'amount_other', ts( 'Contribution Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();'),true );               
@@ -216,7 +222,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->addRule( 'amount_other', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
         } else {
             $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
-            $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
+            if ( ! $separateMembershipPayment ) {
+                $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
+            }
             $this->assign( 'is_allow_other_amount', false );
         }
     }
@@ -481,9 +489,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $params['amount'] = self::computeAmount( $params, $this );
 
-        if ( !$params['amount'] && $params['selectMembership'] ) {
+        if ( ! $params['amount'] && $params['selectMembership'] ) {
             $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
-            if ( $memFee ) {
+            if ( $memFee && ! $this->_separateMembershipPayment ) {
                 $params['amount'] = $memFee;
             } else {
                 $params['amount'] = 0;
