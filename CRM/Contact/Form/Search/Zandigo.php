@@ -84,8 +84,8 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
 
         $rows =& $this->get( 'rows' );
         $this->assign_by_ref( 'rows'     , $rows          );
-        $this->assign       ( 'emptyRows',
-                              $this->get( 'emptyRows' ) );
+        $this->assign       ( 'rowsEmpty',
+                              $this->get( 'rowsEmpty' ) );
     }
 
     public function initialize( ) {
@@ -237,7 +237,7 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
                                                                      true );
 
         $this->set( 'totalCount', $totalCount );
-        $this->set( 'emptyRows',
+        $this->set( 'rowsEmpty',
                     $totalCount == 0 ? true : false );
         $rows = array_values( $result );
         $this->set( 'rows', $rows );

@@ -50,3 +50,51 @@
 	margin: 0 0 0 0;
 	text-decoration:none;
 }
+
+.text5{
+	font: 12px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #a5adb4;
+	margin: 10 10 10 10;
+}
+
+.text6{
+	font: 12px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #054685;
+	margin: 10;
+}
+
+.text7 a:link{
+	font: 12px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #054685;
+	margin: 0 0 0 0;
+	text-decoration:none;
+}
+	
+.text7 a:hover{
+	font: 12px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #72bcdf;
+	margin: 0 0 0 0;
+	text-decoration: underline overline;
+}	
+
+.text7 a:active{
+	font: 12px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #054685;
+	margin: 0 0 0 0;
+	text-decoration:none;
+}
+
+.text7 a:visited{
+	font: 12px Lucida Sans,Arial,Helvetica,Sans-Serif;
+	color: #054685;
+	margin: 0 0 0 0;
+	text-decoration:none;
+}
+
+.style2{
+    font: 14px Lucida Sans,Arial,Helvetica,Sans-Serif;
+    color: #a5adb4;
+    margin: 0 0 0 0;
+    font-weight: bold;
+}
+
