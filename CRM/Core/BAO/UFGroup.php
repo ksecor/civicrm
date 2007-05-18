@@ -1267,7 +1267,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $profileType = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
             
             //allow special mix profiles for Contribution and Participant
-            $specialProfiles = array('Contribution', 'Participant');
+            $specialProfiles = array('Contribution', 'Participant' , 'Membership');
 
             if ( in_array($profileType, $specialProfiles )  ) {
                 return true;

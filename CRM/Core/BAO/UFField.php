@@ -384,7 +384,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     {
         require_once "CRM/Core/SelectValues.php";
         $profileTypes = CRM_Core_SelectValues::contactType();
-        $otherTypes   = array ("Student" => "Students", "Contribution" => "Contributions", "Participant" => "Participants", "TMF" => "TMF");
+        $otherTypes   = array ("Student" => "Students", "Contribution" => "Contributions", "Participant" => "Participants", "Membership" => "Memberships", "TMF" => "TMF");
         $profileTypes = array_merge($profileTypes, $otherTypes);
         
         $ufField =& new CRM_Core_DAO_UFField();

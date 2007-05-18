@@ -109,7 +109,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true, true);
         } else {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true);
-        }
+        } 
         require_once "CRM/Contribute/BAO/Contribution.php";
         $this->_fields = array_merge (CRM_Contribute_BAO_Contribution::getContributionFields(), $this->_fields);
 
@@ -175,7 +175,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                     'geo_code_1', 'geo_code_2',
                                     'state_province', 'country',
                                     'phone', 'email', 'im', 'location_name' );
-
+            
             if ( ! $defaults['location_type_id'] &&
                  in_array($defaults['field_name'], $specialFields)  ) {
                 $defaults['location_type_id'] = 0;
@@ -186,6 +186,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                                 $defaults['location_type_id'],
                                                 CRM_Utils_Array::value( 'phone_type'      , $defaults ) );
             $this->_gid = $defaults['uf_group_id'];
+            
         } else {
             $defaults['is_active'] = 1;
         }
@@ -203,7 +204,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         //hidden field to catch the field id in profile
         $this->add('hidden', 'field_id', $this->_id);
-
+         
         $fields = array();
         $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual');
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
@@ -227,7 +228,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 unset( $contribFields['is_test']);
                 $fields['Contribution'] =& $contribFields;
             }
-         
         }
 
         if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
@@ -246,6 +246,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $fields['TMF']      =& CRM_TMF_BAO_Student::exportableFields();
         }
 
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            require_once 'CRM/Member/BAO/Membership.php';
+            $fields['Membership'] =& CRM_Member_BAO_Membership::exportableFields();          
+        }
+        
         $noSearchable = array();
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
@@ -299,6 +304,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         if ( ! empty( $contribFields ) ) {
             $sel1['Contribution'] = 'Contributions';
         }
+        
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            $sel1['Membership'] = 'Membership';
+        }
 
         foreach ($sel1 as $key=>$sel ) {
             if ($key) {
@@ -315,8 +324,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                     $sel4[$k]['phone'][$key] =& $phoneTypes;
                 }
             }
-        }
-      
+        } 
+         
         foreach ($sel1 as $k=>$sel ) {
             if ($k) {
                 if (is_array($this->_mapperFields[$k])) {

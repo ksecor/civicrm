@@ -204,11 +204,19 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,  CRM_Contact_Form_GroupTag::TAG, true, $required, null, $field['title'] );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required, false, $field['title']);
-            } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
+            } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date', 'membership_expiration_date', 'membership_start_date' )) ) {  
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
             } else if ($field['name'] == 'payment_instrument' ) {
                 $this->add('select', 'payment_instrument', ts( 'Paid By' ),
                            array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
+            } else if ($field['name'] == 'membership_type_id' ) { 
+                require_once 'CRM/Member/PseudoConstant.php';
+                $this->add('select', 'membership_type_id', ts( 'Membership Type' ),
+                           array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ), $required );
+            } else if ($field['name'] == 'status_id' ) { 
+                require_once 'CRM/Member/PseudoConstant.php';
+                $this->add('select', 'status_id', ts( 'Membership Status' ),
+                           array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ), $required );
             } else if ($field['name'] == 'contribution_type' ) {
                 $this->add('select', 'contribution_type', ts( 'Contribution Type' ), 
                            array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
