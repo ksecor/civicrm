@@ -454,8 +454,18 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                                $this );
         $this->_ufGroupID       = CRM_Utils_Request::retrieve( 'id'             , 'Positive',
                                                                $this );
-
-        // get user submitted values 
+	/*
+         * assign context to drive the template display, make sure context is valid
+         */
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                       $this, false, 'search' );
+        if ( ! CRM_Utils_Array::value( $this->_context, self::validContext() ) ) {
+	    $this->_context = 'search';
+	    $this->set( 'context', $this->_context );
+        }
+        $this->assign( 'context', $this->_context );
+	
+         // get user submitted values 
         // get it from controller only if form has been submitted, else preProcess has set this 
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name); 
@@ -478,15 +488,15 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         if ( empty( $this->_formValues ) ) {
-            
-            //check if group is a smart group (fix for CRM-1255)
+	    //check if group is a smart group (fix for CRM-1255)
             if ($this->_groupID) {
                 if ($ssId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $this->_groupID, 'saved_search_id' ) ) {
                     $this->_ssID = $ssId;
                 }
             }
 
-            if ( isset( $this->_ssID ) ) {
+	    // added check for smog CRM-1907
+            if ( isset( $this->_ssID ) && $this->_context != 'smog') {
                 // we only retrieve the saved search values if out current values are null
                 $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
                 
@@ -496,26 +506,13 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                 } else {
                     $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
                 }
-
                 $this->_returnProperties =& $this->returnProperties( );
-                
             } else if ( isset( $this->_ufGroupID ) ) {
                 // also set the uf group id if not already present
                 $this->_formValues['uf_group_id'] = $this->_ufGroupID;
             }
         }
         $this->assign( 'id', CRM_Utils_Array::value( 'uf_group_id', $this->_formValues ) );
-
-        /*
-         * assign context to drive the template display, make sure context is valid
-         */
-        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
-                                                       $this, false, 'search' );
-        if ( ! CRM_Utils_Array::value( $this->_context, self::validContext() ) ) {
-            $this->_context = 'search';
-            $this->set( 'context', $this->_context );
-        }
-        $this->assign( 'context', $this->_context );
 
         //CRM_Core_Error::debug( 'f', $this->_formValues );
         //CRM_Core_Error::debug( 'p', $this->_params );
