@@ -134,9 +134,17 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     $locLabel[$moniker] = '[' . ts('EMPTY') . ']';
                 } else {
                     $locValue[$moniker] = $locations[$locTypeName][$moniker][0]->id;
-                    $locLabel[$moniker] = $locations[$locTypeName][$moniker][0]->name . '<br />'
-                                        . $locations[$locTypeName][$moniker][0]->email[1]->email . '<br />'
-                                        . nl2br($locations[$locTypeName][$moniker][0]->address->display);
+                    $locLabel[$moniker] = $locations[$locTypeName][$moniker][0]->name . "\n";
+                    foreach ($locations[$locTypeName][$moniker][0]->email as $email) {
+                        $locLabel[$moniker] .= $email->email . "\n";
+                    }
+                    foreach ($locations[$locTypeName][$moniker][0]->phone as $phone) {
+                        $locLabel[$moniker] .= $phone->phone . "\n";
+                    }
+                    $locLabel[$moniker] .= $locations[$locTypeName][$moniker][0]->address->display;
+                    // drop consecutive newlines and convert the rest to <br />s
+                    $locLabel[$moniker] = preg_replace('/\n+/', "\n", $locLabel[$moniker]);
+                    $locLabel[$moniker] = nl2br(trim($locLabel[$moniker]));
                 }
             }
             if (!empty($locations[$locTypeName]['main']) or !empty($locations[$locTypeName]['other'])) {
@@ -183,7 +191,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         // add the 'move belongings?' and 'delete other?' elements
         $this->addElement('checkbox', 'moveBelongings', ts("Move other information associated with the Duplicate Contact to the Main Contact"));
-#       $this->addElement('hidden', 'deleteOther', 1);
+        $this->addElement('hidden', 'deleteOther', 1);
         // alternatively, make the 'deleteOther' a visible checkbox - also uncomment the proper <p> in the template
         // $this->addElement('checkbox', 'deleteOther', ts('Delete the lleft-side ceft-side contact after merging'));
     }

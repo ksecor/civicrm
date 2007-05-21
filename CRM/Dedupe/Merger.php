@@ -38,13 +38,13 @@ class CRM_Dedupe_Merger
     static $validFields = array(
         'Household'    => array('household_name'),
         'Organization' => array('organization_name', 'legal_name', 'sic_code'),
-        'Individual'   => array('first_name', 'middle_name', 'last_name',
-            'prefix_id', 'suffix_id', 'greeting_type', 'custom_greeting',
+        'Individual'   => array('prefix_id', 'first_name', 'middle_name',
+            'last_name', 'suffix_id', 'greeting_type', 'custom_greeting',
             'job_title', 'gender_id', 'birth_date', 'is_deceased', 'deceased_date'),
-        'Contact'      => array('nick_name', 'do_not_email', 'do_not_phone',
-            'do_not_mail', 'legal_identifier', 'home_URL', 'image_URL',
-            'preferred_communication_method', 'preferred_mail_format',
-            'do_not_trade', 'is_opt_out', 'source'),
+        'Contact'      => array('nick_name', 'legal_identifier', 'home_URL',
+            'image_URL', 'source', 'do_not_phone', 'do_not_email',
+            'do_not_mail', 'do_not_trade', 'preferred_communication_method',
+            'preferred_mail_format', 'is_opt_out'),
     );
 
     // FIXME: consider creating a common structure with cidRefs() and eidRefs()
@@ -58,41 +58,42 @@ class CRM_Dedupe_Merger
                 'rel_table_contributions' => array(
                     'title'  => ts('Contributions'),
                     'tables' => array('civicrm_contribution', 'civicrm_contribution_recur', 'civicrm_financial_trxn'),
-                    'url'    => '#',
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=contribute'),
                 ),
                 'rel_table_memberships' => array(
                     'title'  => ts('Memberships'),
                     'tables' => array('civicrm_membership', 'civicrm_membership_log', 'civicrm_membership_type'),
-                    'url'    => '#',
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=member'),
                 ),
                 'rel_table_events' => array(
                     'title'  => ts('Events'),
-                    'tables' => array('civicrm_participant'), 
+                    'tables' => array('civicrm_participant'),
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=participant'),
                 ),
                 'rel_table_activities' => array(
                     'title'  => ts('Activities'),
                     'tables' => array('civicrm_activity', 'civicrm_activity_history', 'civicrm_email_history', 'civicrm_meeting', 'civicrm_phonecall', 'civicrm_sms_history'),
-                    'url'    => CRM_Utils_System::url('civicrm/contact/view/activity', 'reset=1&show=1&cid=$cid'),
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=activity'),
                 ),
                 'rel_table_relationships' => array(
                     'title'  => ts('Relationships'),
                     'tables' => array('civicrm_relationship'),
-                    'url'    => '#',
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=rel'),
                 ),
                 'rel_table_groups' => array(
                     'title'  => ts('Groups'),
                     'tables' => array('civicrm_group_contact'),
-                    'url'    => '#',
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=group'),
                 ),
                 'rel_table_notes' => array(
                     'title'  => ts('Notes'),
                     'tables' => array('civicrm_note'),
-                    'url'    => CRM_Utils_System::url('civicrm/contact/view/note', 'reset=1&cid=$cid'),
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=note'),
                 ),
                 'rel_table_tags' => array(
                     'title'  => ts('Tags'),
                     'tables' => array('civicrm_entity_tag'),
-                    'url'    => '#',
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=tag'),
                 ),
             );
         }
@@ -275,16 +276,20 @@ class CRM_Dedupe_Merger
                 $diffs[$cType][] = $validField;
             }
         }
-        foreach ($main->custom_values as $mainCV) {
-            foreach ($other->custom_values as $otherCV) {
-                if ($mainCV['custom_field_id'] == $otherCV['custom_field_id']) {
-                    foreach ($mainCV as $key => $value) {
-                        if (substr($key, -5) == '_data' and $mainCV[$key] != $otherCV[$key]) {
-                            $diffs['custom'][] = $mainCV['custom_field_id'];
-                        }
-                    }
-                }
+
+        $customIds = array();
+        foreach ($main->custom_values as $cv) {
+            $customIds[$cv['custom_field_id']] = $cv['value'];
+        }
+        foreach ($other->custom_values as $cv) {
+            if ($customIds[$cv['custom_field_id']] == $cv['value']) {
+                unset($customIds[$cv['custom_field_id']]);
+            } else {
+                $customIds[$cv['custom_field_id']] = $cv['value'];
             }
+        }
+        foreach (array_keys($customIds) as $customId) {
+            $diffs['custom'][] = $customId;
         }
 
         return $diffs;
