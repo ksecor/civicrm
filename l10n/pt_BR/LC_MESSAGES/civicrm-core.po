@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-05-14 19:07-0700\n"
+"PO-Revision-Date: 2007-05-14 21:12-0700\n"
 "Last-Translator: Gabriel Henríquez <gmhenriquez@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1207,7 +1207,7 @@ msgstr "Não"
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomGroup.php
 #: CRM/Core/BAO/File.php
 msgid "Could not move custom file to custom upload directory"
-msgstr "Impossível mover o arquivo customizado para o diretório de upload"
+msgstr "Impossível mover o arquivo personalizado para o diretório de upload"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
@@ -1222,12 +1222,12 @@ msgstr "Carregar mapeamento"
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr "Salvar este campo de mapeamento"
+msgstr "Salvar este mapeamento de campo"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
-msgstr "Atualizar esse campo de mapeamento"
+msgstr "Atualizar este mapeamento de campo"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
