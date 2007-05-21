@@ -6,335 +6,336 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2002-01-05 18:40+0000\n"
-"Last-Translator: Wang Jian <lark@linux.net.cn>\n"
+"PO-Revision-Date: 2007-05-08 07:06-0700\n"
+"Last-Translator: ycs <yuccmember@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 msgid "Alabama"
-msgstr ""
+msgstr "阿拉巴马州"
 
 msgid "Alaska"
-msgstr ""
+msgstr "阿拉斯加州"
 
 msgid "Arizona"
-msgstr ""
+msgstr "亚利桑那州"
 
 msgid "Arkansas"
-msgstr ""
+msgstr "阿肯色州"
 
 msgid "California"
-msgstr ""
+msgstr "加州"
 
 msgid "Colorado"
-msgstr ""
+msgstr "科罗拉多州"
 
 msgid "Connecticut"
-msgstr ""
+msgstr "康乃迪克州"
 
 msgid "Delaware"
-msgstr ""
+msgstr "德拉瓦州"
 
 msgid "Florida"
-msgstr ""
+msgstr "佛罗里达州"
 
 msgid "Georgia"
-msgstr ""
+msgstr "乔治亚州"
 
 msgid "Hawaii"
-msgstr ""
+msgstr "夏威夷州"
 
 msgid "Idaho"
-msgstr ""
+msgstr "爱达荷州"
 
 msgid "Illinois"
-msgstr ""
+msgstr "伊利诺州"
 
 msgid "Indiana"
-msgstr ""
+msgstr "印第安纳州"
 
 msgid "Iowa"
-msgstr ""
+msgstr "爱荷华州"
 
 msgid "Kansas"
-msgstr ""
+msgstr "堪萨斯州"
 
 msgid "Kentucky"
-msgstr ""
+msgstr "肯塔基州"
 
 msgid "Louisiana"
-msgstr ""
+msgstr "路易斯安那州"
 
 msgid "Maine"
-msgstr ""
+msgstr "缅因州"
 
 msgid "Maryland"
-msgstr ""
+msgstr "马里兰州"
 
 msgid "Massachusetts"
-msgstr ""
+msgstr "麻萨诸塞州"
 
 msgid "Michigan"
-msgstr ""
+msgstr "密西根州"
 
 msgid "Minnesota"
-msgstr ""
+msgstr "明尼苏达州"
 
 msgid "Mississippi"
-msgstr ""
+msgstr "密西西比州"
 
 msgid "Missouri"
-msgstr ""
+msgstr "密苏里州"
 
 msgid "Montana"
-msgstr ""
+msgstr "蒙大拿州"
 
 msgid "Nebraska"
-msgstr ""
+msgstr "内布拉斯加州"
 
 msgid "Nevada"
-msgstr ""
+msgstr "内华达州"
 
 msgid "New Hampshire"
-msgstr ""
+msgstr "新罕布夏州"
 
 msgid "New Jersey"
-msgstr ""
+msgstr "新泽西州"
 
 msgid "New Mexico"
-msgstr ""
+msgstr "新墨西哥州"
 
 msgid "New York"
-msgstr ""
+msgstr "纽约州"
 
 msgid "North Carolina"
-msgstr ""
+msgstr "北卡罗来纳州"
 
 msgid "North Dakota"
-msgstr ""
+msgstr "北达科他州"
 
 msgid "Ohio"
-msgstr ""
+msgstr "俄亥俄州"
 
 msgid "Oklahoma"
-msgstr ""
+msgstr "俄克拉荷马州"
 
 msgid "Oregon"
-msgstr ""
+msgstr "奥勒岗州"
 
 msgid "Pennsylvania"
-msgstr ""
+msgstr "宾夕法尼亚州"
 
 msgid "Rhode Island"
-msgstr ""
+msgstr "罗德岛州"
 
 msgid "South Carolina"
-msgstr ""
+msgstr "南卡罗来纳州"
 
 msgid "South Dakota"
-msgstr ""
+msgstr "南达科他州"
 
 msgid "Tennessee"
-msgstr ""
+msgstr "田纳西州"
 
 msgid "Texas"
-msgstr ""
+msgstr "德州"
 
 msgid "Utah"
-msgstr ""
+msgstr "犹他州"
 
 msgid "Vermont"
-msgstr ""
+msgstr "佛蒙特州"
 
 msgid "Virginia"
-msgstr ""
+msgstr "维吉尼亚州"
 
 msgid "Washington"
-msgstr ""
+msgstr "华盛顿州"
 
 msgid "West Virginia"
-msgstr ""
+msgstr "西佛吉尼亚州"
 
 msgid "Wisconsin"
-msgstr ""
+msgstr "威斯康辛州"
 
 msgid "Wyoming"
-msgstr ""
+msgstr "怀俄明州"
 
 msgid "District of Columbia"
-msgstr ""
+msgstr "哥伦比亚特区"
 
 msgid "American Samoa"
-msgstr ""
+msgstr "美属萨摩亚"
 
 msgid "Guam"
-msgstr ""
+msgstr "关岛"
 
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "美属北马里亚纳群岛"
 
 msgid "Puerto Rico"
-msgstr ""
+msgstr "波多黎各(美属)"
 
 msgid "Virgin Islands"
-msgstr ""
+msgstr "美属维京群岛"
 
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "美属边疆群岛"
 
 msgid "Armed Forces Europe"
-msgstr ""
+msgstr "美军欧洲分部"
 
 msgid "Armed Forces Americas"
-msgstr ""
+msgstr "美军美洲分部"
 
 msgid "Armed Forces Pacific"
-msgstr ""
+msgstr "美军太平洋分部"
 
 msgid "Alberta"
-msgstr ""
+msgstr "亚伯达省 (Alberta)"
 
 msgid "British Columbia"
-msgstr ""
+msgstr "英属哥伦比亚省 (British Columbia)"
 
 msgid "Manitoba"
-msgstr ""
+msgstr "曼尼托巴省 (Manitoba)"
 
 msgid "New Brunswick"
-msgstr ""
+msgstr "新布伦瑞克省 (New Brunswick)"
 
 msgid "Newfoundland and Labrador"
-msgstr ""
+msgstr "纽芬兰及拉布拉多 (Newfoundland and Labrador)"
 
 msgid "Northwest Territories"
-msgstr ""
+msgstr "西北地区 (Northwest Territories)"
 
 msgid "Nova Scotia"
-msgstr ""
+msgstr "新斯科细亚省 (Nova Scotia)"
 
 msgid "Nunavut"
-msgstr ""
+msgstr "努纳武特地区 (Nunavut)"
 
 msgid "Ontario"
-msgstr ""
+msgstr "安大略省 (Ontario)"
 
 msgid "Prince Edward Island"
-msgstr ""
+msgstr "爱德华王子岛省 (Prince Edward Island)"
 
 msgid "Quebec"
-msgstr ""
+msgstr "魁北克省 (Quebec)"
 
 msgid "Saskatchewan"
-msgstr ""
+msgstr "萨克斯其万省 (Saskatchewan)"
 
 msgid "Yukon Territory"
-msgstr ""
+msgstr "育康地区 (Yukon Territory)"
 
 msgid "Maharashtra"
-msgstr ""
+msgstr "马哈拉施特拉 (Maharashtra)"
 
 msgid "Karnataka"
-msgstr ""
+msgstr "卡纳塔克 (Karnataka)"
 
 msgid "Andhra Pradesh"
-msgstr ""
+msgstr "安得拉邦 (Andhra Pradesh)"
 
 msgid "Arunachal Pradesh"
-msgstr ""
+msgstr "阿拉那契佩拉德 (Arunachal Pradesh)"
 
 msgid "Assam"
-msgstr ""
+msgstr "阿萨姆省 (Assam)"
 
 msgid "Bihar"
-msgstr ""
+msgstr "比哈省 (Bihar)"
 
 msgid "Chhattisgarh"
-msgstr ""
+msgstr "查提斯加邦 (Chhattisgarh)"
 
 msgid "Goa"
-msgstr ""
+msgstr "果阿 (Goa)"
 
 msgid "Gujarat"
-msgstr ""
+msgstr "戈加瑞 (Gujarat)"
 
 msgid "Haryana"
-msgstr ""
+msgstr "哈里亚纳邦 (Haryana)"
 
 msgid "Himachal Pradesh"
-msgstr ""
+msgstr "喜马查尔邦 (Himachal Pradesh)."
 
 msgid "Jammu and Kashmir"
-msgstr ""
+msgstr "查谟和喀什米尔 (Jammu and Kashmir)"
 
 msgid "Jharkhand"
-msgstr ""
+msgstr "贾坎德邦 (Jharkhand)"
 
 msgid "Kerala"
-msgstr ""
+msgstr "喀拉拉邦 (Kerala)"
 
 msgid "Madhya Pradesh"
-msgstr ""
+msgstr "中央邦 (Madhya Pradesh)"
 
 msgid "Manipur"
-msgstr ""
+msgstr "曼尼普尔 (Manipur)"
 
 msgid "Meghalaya"
-msgstr ""
+msgstr "梅加拉亚 (Meghalaya)"
 
 msgid "Mizoram"
-msgstr ""
+msgstr "米佐拉姆 (Mizoram)"
 
 msgid "Nagaland"
-msgstr ""
+msgstr "那加兰 (Nagaland)"
 
 msgid "Orissa"
-msgstr ""
+msgstr "奥里萨 (Orissa)"
 
 msgid "Punjab"
-msgstr ""
+msgstr "旁遮普 (Punjab)"
 
 msgid "Rajasthan"
-msgstr ""
+msgstr "拉贾斯坦邦 (Rajasthan)"
 
 msgid "Sikkim"
-msgstr ""
+msgstr "锡金 (Sikkim)"
 
 msgid "Tamil Nadu"
-msgstr ""
+msgstr "泰米尔纳德邦 (Tamil Nadu)"
 
 msgid "Tripura"
-msgstr ""
+msgstr "特里普拉邦 (Tripura)"
 
 msgid "Uttaranchal"
-msgstr ""
+msgstr "北安查尔邦 (Uttaranchal)"
 
 msgid "Uttar Pradesh"
-msgstr ""
+msgstr "北方邦 (Uttar Pradesh)"
 
 msgid "West Bengal"
-msgstr ""
+msgstr "西孟加拉邦 (West Bengal)"
 
 msgid "Andaman and Nicobar Islands"
-msgstr ""
+msgstr "安达曼和尼科巴群岛 (Andaman and Nicobar Islands)"
 
 msgid "Dadra and Nagar Haveli"
-msgstr ""
+msgstr "达德拉-纳加尔哈维利 (Dadra and Nagar Haveli)"
 
 msgid "Daman and Diu"
-msgstr ""
+msgstr "达曼和第乌 (Daman and Diu)"
 
 msgid "Delhi"
-msgstr ""
+msgstr "德里 (Delhi)"
 
 msgid "Lakshadweep"
-msgstr ""
+msgstr "拉克沙群岛 (Lakshadweep)"
 
 msgid "Pondicherry"
-msgstr ""
+msgstr "本地治里 (Pondicherry)"
 
 msgid "mazowieckie"
-msgstr ""
+msgstr "马佐夫舍省 (Mazowieckie)"
 
 msgid "pomorskie"
 msgstr ""
@@ -406,100 +407,100 @@ msgid "Umm al Qaywayn"
 msgstr ""
 
 msgid "Badakhshan"
-msgstr ""
+msgstr "巴达赫尚 (Badakhshan)"
 
 msgid "Badghis"
-msgstr ""
+msgstr "巴德吉斯 (Badghis)"
 
 msgid "Baghlan"
-msgstr ""
+msgstr "巴格兰 (Baghlan)"
 
 msgid "Balkh"
-msgstr ""
+msgstr "巴尔赫 (Balkh)"
 
 msgid "Bamian"
-msgstr ""
+msgstr "巴米扬 (Bamian)"
 
 msgid "Farah"
-msgstr ""
+msgstr "法拉 (Farah)"
 
 msgid "Faryab"
-msgstr ""
+msgstr "法利亚布 (Faryab)"
 
 msgid "Ghazni"
-msgstr ""
+msgstr "加兹尼 (Ghazni)"
 
 msgid "Ghowr"
-msgstr ""
+msgstr "古尔 (Ghowr)"
 
 msgid "Helmand"
-msgstr ""
+msgstr "赫尔曼德 (Helmand)"
 
 msgid "Herat"
-msgstr ""
+msgstr "赫拉特 (Herat)"
 
 msgid "Jowzjan"
-msgstr ""
+msgstr "朱兹詹 (Jowzjan)"
 
 msgid "Kabul"
-msgstr ""
+msgstr "喀布尔 (Kabul)"
 
 msgid "Kandahar"
-msgstr ""
+msgstr "坎大哈 (Kandahar)"
 
 msgid "Kapisa"
-msgstr ""
+msgstr "卡比萨 (Kapisa)"
 
 msgid "Khowst"
-msgstr ""
+msgstr "霍斯特 (Khowst)"
 
 msgid "Konar"
-msgstr ""
+msgstr "库纳尔 (Konar)"
 
 msgid "Kondoz"
-msgstr ""
+msgstr "昆都士 (Kondoz)"
 
 msgid "Laghman"
-msgstr ""
+msgstr "拉格曼 (Laghman)"
 
 msgid "Lowgar"
-msgstr ""
+msgstr "洛加尔 (Lowgar)"
 
 msgid "Nangrahar"
-msgstr ""
+msgstr "楠格哈尔 (Nangrahar)"
 
 msgid "Nimruz"
-msgstr ""
+msgstr "尼姆鲁兹 (Nimruz)"
 
 msgid "Nurestan"
-msgstr ""
+msgstr "努尔斯坦 (Nurestan)"
 
 msgid "Oruzgan"
-msgstr ""
+msgstr "乌鲁兹甘 (Oruzgan)"
 
 msgid "Paktia"
-msgstr ""
+msgstr "帕克蒂亚 (Paktia)"
 
 msgid "Paktika"
-msgstr ""
+msgstr "帕克蒂卡 (Paktika)"
 
 msgid "Parwan"
-msgstr ""
+msgstr "帕尔旺 (Parwan)"
 
 msgid "Samangan"
-msgstr ""
+msgstr "萨曼甘 (Samangan)"
 
 msgid "Sar-e Pol"
-msgstr ""
+msgstr "萨尔普勒 (Sar-e Pol)"
 
 msgid "Takhar"
-msgstr ""
+msgstr "塔哈尔 (Takhar)"
 
 msgid "Wardak"
-msgstr ""
+msgstr "瓦尔达克 (Wardak)"
 
 msgid "Zabol"
-msgstr ""
+msgstr "扎布尔 (Zabol)"
 
 msgid "Berat"
 msgstr ""
@@ -613,157 +614,157 @@ msgid "Erevan"
 msgstr ""
 
 msgid "Aragacotn"
-msgstr ""
+msgstr "阿拉加措特恩 (Aragacotn)"
 
 msgid "Ararat"
-msgstr ""
+msgstr "阿拉拉特 (Ararat)"
 
 msgid "Armavir"
-msgstr ""
+msgstr "阿尔马维尔 (Armavir)"
 
 msgid "Gegarkunik'"
-msgstr ""
+msgstr "格加尔库尼克 (Gegarkunik')"
 
 msgid "Kotayk'"
-msgstr ""
+msgstr "科泰克 (Kotayk')"
 
 msgid "Lory"
-msgstr ""
+msgstr "洛里 (Lory)"
 
 msgid "Sirak"
-msgstr ""
+msgstr "希拉克 (Sirak)"
 
 msgid "Syunik'"
-msgstr ""
+msgstr "休尼克 (Syunik')"
 
 msgid "Tavus"
-msgstr ""
+msgstr "塔武什 (Tavus)"
 
 msgid "Vayoc Jor"
-msgstr ""
+msgstr "瓦约茨佐尔 (Vayoc Jor)"
 
 msgid "Bengo"
-msgstr ""
+msgstr "本哥 (Bengo)"
 
 msgid "Benguela"
-msgstr ""
+msgstr "本吉拉 (Benguela)"
 
 msgid "Bie"
-msgstr ""
+msgstr "比耶 (Bie)"
 
 msgid "Cabinda"
-msgstr ""
+msgstr "喀丙达 (Cabinda)"
 
 msgid "Cuando-Cubango"
-msgstr ""
+msgstr "库安多古班哥 (Cuando-Cubango)"
 
 msgid "Cuanza Norte"
-msgstr ""
+msgstr "北广萨 (Cuanza Norte)"
 
 msgid "Cuanza Sul"
-msgstr ""
+msgstr "南广萨 (Cuanza Sul)"
 
 msgid "Cunene"
-msgstr ""
+msgstr "库内纳 (Cunene)"
 
 msgid "Huambo"
-msgstr ""
+msgstr "世博 (Huambo)"
 
 msgid "Huila"
-msgstr ""
+msgstr "威拉 (Huila)"
 
 msgid "Luanda"
-msgstr ""
+msgstr "罗安达 (Luanda)"
 
 msgid "Lunda Norte"
-msgstr ""
+msgstr "北伦达 (Lunda Norte)"
 
 msgid "Lunda Sul"
-msgstr ""
+msgstr "南伦达 (Lunda Sul)"
 
 msgid "Malange"
-msgstr ""
+msgstr "马兰哲 (Malange)"
 
 msgid "Moxico"
-msgstr ""
+msgstr "莫希科 (Moxico)"
 
 msgid "Namibe"
-msgstr ""
+msgstr "纳米贝 (Namibe)"
 
 msgid "Uige"
-msgstr ""
+msgstr "威热 (Uige)"
 
 msgid "Zaire"
-msgstr ""
+msgstr "扎伊尔 (Zaire)"
 
 msgid "Capital federal"
-msgstr ""
+msgstr "联邦首都 (Capital federal)"
 
 msgid "Buenos Aires"
-msgstr ""
+msgstr "布宜诺斯艾利斯 (Buenos Aires)"
 
 msgid "Catamarca"
-msgstr ""
+msgstr "卡塔马卡 (Catamarca)"
 
 msgid "Cordoba"
-msgstr ""
+msgstr "哥多华 (Cordoba)"
 
 msgid "Corrientes"
-msgstr ""
+msgstr "科连特斯 (Corrientes)"
 
 msgid "Chaco"
-msgstr ""
+msgstr "厦谷 (Chaco)"
 
 msgid "Chubut"
-msgstr ""
+msgstr "丘布特 (Chubut)"
 
 msgid "Entre Rios"
-msgstr ""
+msgstr "恩特雷里奥斯 (Entre Rios)"
 
 msgid "Formosa"
-msgstr ""
+msgstr "福莫萨 (Formosa)"
 
 msgid "Jujuy"
-msgstr ""
+msgstr "胡胡伊 (Jujuy)"
 
 msgid "La Pampa"
-msgstr ""
+msgstr "拉潘帕 (La Pampa)"
 
 msgid "Mendoza"
-msgstr ""
+msgstr "门多萨 (Mendoza)"
 
 msgid "Misiones"
-msgstr ""
+msgstr "米西奥内斯 (Misiones)"
 
 msgid "Neuquen"
-msgstr ""
+msgstr "内乌肯 (Neuquen)"
 
 msgid "Rio Negro"
-msgstr ""
+msgstr "内格罗河 (Rio Negro)"
 
 msgid "Salta"
-msgstr ""
+msgstr "萨尔塔 (Salta)"
 
 msgid "San Juan"
-msgstr ""
+msgstr "圣胡安 (San Juan)"
 
 msgid "San Luis"
-msgstr ""
+msgstr "圣路易斯 (San Luis)"
 
 msgid "Santa Cruz"
-msgstr ""
+msgstr "圣克鲁斯 (Santa Cruz)"
 
 msgid "Santa Fe"
-msgstr ""
+msgstr "圣菲 (Santa Fe)"
 
 msgid "Santiago del Estero"
-msgstr ""
+msgstr "圣地亚哥艾斯德罗 (Santiago del Estero)"
 
 msgid "Tierra del Fuego"
-msgstr ""
+msgstr "火地岛 (Tierra del Fuego)"
 
 msgid "Tucuman"
-msgstr ""
+msgstr "土库曼 (Tucuman)"
 
 msgid "Burgenland"
 msgstr ""
@@ -2212,103 +2213,103 @@ msgid "West"
 msgstr ""
 
 msgid "Beijing"
-msgstr ""
+msgstr "北京"
 
 msgid "Chongqing"
-msgstr ""
+msgstr "重庆"
 
 msgid "Shanghai"
-msgstr ""
+msgstr "上海"
 
 msgid "Tianjin"
-msgstr ""
+msgstr "天津"
 
 msgid "Anhui"
-msgstr ""
+msgstr "安徽省"
 
 msgid "Fujian"
-msgstr ""
+msgstr "福建省"
 
 msgid "Gansu"
-msgstr ""
+msgstr "甘肃省"
 
 msgid "Guangdong"
-msgstr ""
+msgstr "广东省"
 
 msgid "Gulzhou"
-msgstr ""
+msgstr "贵州省"
 
 msgid "Hainan"
-msgstr ""
+msgstr "海南岛"
 
 msgid "Hebei"
-msgstr ""
+msgstr "河北省"
 
 msgid "Heilongjiang"
-msgstr ""
+msgstr "黑龙江省"
 
 msgid "Henan"
-msgstr ""
+msgstr "河南省"
 
 msgid "Hubei"
-msgstr ""
+msgstr "河北省"
 
 msgid "Hunan"
-msgstr ""
+msgstr "湖南省"
 
 msgid "Jiangsu"
-msgstr ""
+msgstr "江苏省"
 
 msgid "Jiangxi"
-msgstr ""
+msgstr "江西省"
 
 msgid "Jilin"
-msgstr ""
+msgstr "吉林省"
 
 msgid "Liaoning"
-msgstr ""
+msgstr "辽宁省"
 
 msgid "Qinghai"
-msgstr ""
+msgstr "青海省"
 
 msgid "Shaanxi"
-msgstr ""
+msgstr "陕西省"
 
 msgid "Shandong"
-msgstr ""
+msgstr "山东省"
 
 msgid "Shanxi"
-msgstr ""
+msgstr "山西省"
 
 msgid "Sichuan"
-msgstr ""
+msgstr "四川省"
 
 msgid "Taiwan"
 msgstr "台湾"
 
 msgid "Yunnan"
-msgstr ""
+msgstr "云南省"
 
 msgid "Zhejiang"
-msgstr ""
+msgstr "浙江省"
 
 msgid "Guangxi"
-msgstr ""
+msgstr "广西壮族自治区"
 
 msgid "Neia Mongol (mn)"
-msgstr ""
+msgstr "内蒙古自治区"
 
 msgid "Xinjiang"
-msgstr ""
+msgstr "新疆维吾尔自治区"
 
 msgid "Xizang"
-msgstr ""
+msgstr "西藏自治区"
 
 msgid "Hong Kong"
-msgstr ""
+msgstr "香港特别行政区"
 
 msgid "Macau"
-msgstr ""
+msgstr "澳门特别行政区"
 
 msgid "Distrito Capital de Bogotá"
 msgstr ""
@@ -10402,55 +10403,55 @@ msgid "Viqueque"
 msgstr ""
 
 msgid "Changhua"
-msgstr ""
+msgstr "彰化"
 
 msgid "Chiayi"
-msgstr ""
+msgstr "嘉义"
 
 msgid "Hsinchu"
-msgstr ""
+msgstr "新竹"
 
 msgid "Hualien"
-msgstr ""
+msgstr "花莲"
 
 msgid "Ilan"
-msgstr ""
+msgstr "宜兰"
 
 msgid "Kaohsiung"
-msgstr ""
+msgstr "高雄"
 
 msgid "Miaoli"
-msgstr ""
+msgstr "苗栗"
 
 msgid "Nantou"
-msgstr ""
+msgstr "南投"
 
 msgid "Penghu"
-msgstr ""
+msgstr "澎湖"
 
 msgid "Pingtung"
-msgstr ""
+msgstr "屏东"
 
 msgid "Taichung"
-msgstr ""
+msgstr "台中"
 
 msgid "Tainan"
-msgstr ""
+msgstr "台南"
 
 msgid "Taipei"
-msgstr ""
+msgstr "台北"
 
 msgid "Taitung"
-msgstr ""
+msgstr "台东"
 
 msgid "Taoyuan"
-msgstr ""
+msgstr "桃园"
 
 msgid "Yunlin"
-msgstr ""
+msgstr "员林"
 
 msgid "Keelung"
-msgstr ""
+msgstr "基隆"
 
 msgid "Arusha"
 msgstr ""

@@ -5,13 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-05-07 06:42+0200\n"
-"PO-Revision-Date: 2007-05-07 06:42+0200\n"
-"Last-Translator: Automatically generated\n"
+"POT-Creation-Date: 2007-05-21 06:58+0200\n"
+"PO-Revision-Date: 2007-05-13 22:42-0700\n"
+"Last-Translator: ycs <yuccmember@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 0.10\n"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 msgid "Contribution Source"
@@ -109,7 +110,7 @@ msgstr ""
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Event/DAO/Participant.php
 #: CRM/Mailing/Form/Test.php
 msgid "Test"
-msgstr ""
+msgstr "测试"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -2302,7 +2303,7 @@ msgid "Tracked Opens"
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php
-msgid "Please select one of the memeberships"
+msgid "Please select one of the memberships"
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php

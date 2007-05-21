@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-05-07 06:42+0200\n"
+"POT-Creation-Date: 2007-05-21 06:58+0200\n"
 "PO-Revision-Date: 2007-04-20 13:48-0700\n"
 "Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
 "MIME-Version: 1.0\n"
@@ -2497,7 +2497,7 @@ msgstr "Öffnen nachverfolgen?"
 
 #: CRM/Member/BAO/Membership.php
 #, fuzzy
-msgid "Please select one of the memeberships"
+msgid "Please select one of the memberships"
 msgstr "Bitte mindestens einen Mitgliedsstatus auswählen."
 
 #: CRM/Member/BAO/Membership.php
