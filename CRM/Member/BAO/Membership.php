@@ -482,23 +482,27 @@ UPDATE civicrm_membership_type
     function buildMembershipBlock( &$form , $pageID , $formItems = false, $selectedMembershipID = null ,$thankPage = false )
     {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
-        require_once 'CRM/Member/DAO/MembershipType.php';
-        require_once 'CRM/Member/DAO/Membership.php';
-
-        $session = & CRM_Core_Session::singleton();
-        $cid = $session->get('userID');    
-
-        $membershipBlock   = array( ); 
-        $membershipTypeIds = array( );
-        $membershipTypes   = array( ); 
-        $radio             = array( ); 
 
         $dao = & new CRM_Member_DAO_MembershipBlock();
         $dao->entity_table = 'civicrm_contribution_page';
         $dao->entity_id = $pageID; 
         $dao->is_active = 1;
+
+        $separateMembershipPayment = false;
         if ( $dao->find(true) ) {
-            $this->assign( "is_separate_payment", $dao->is_separate_payment );
+            require_once 'CRM/Member/DAO/MembershipType.php';
+            require_once 'CRM/Member/DAO/Membership.php';
+
+            $session = & CRM_Core_Session::singleton();
+            $cid = $session->get('userID');    
+
+            $membershipBlock   = array( ); 
+            $membershipTypeIds = array( );
+            $membershipTypes   = array( ); 
+            $radio             = array( ); 
+
+            $form->assign( "is_separate_payment", $dao->is_separate_payment );
+            $separateMembershipPayment = $dao->is_separate_payment;
             CRM_Core_DAO::storeValues($dao, $membershipBlock );
             if( $dao->membership_types ) {
                 $membershipTypeIds = explode( ',' , $dao->membership_types);
@@ -511,14 +515,14 @@ UPDATE civicrm_membership_type
                         if ($selectedMembershipID  != null ) {
                             if ( $memType->id == $selectedMembershipID ) {
                                 CRM_Core_DAO::storeValues($memType,$mem);
-                                $this->assign( 'minimum_fee', CRM_Utils_Array::value('minimum_fee',$mem) );
-                                $this->assign( 'membership_name', $mem['name'] );
+                                $form->assign( 'minimum_fee', CRM_Utils_Array::value('minimum_fee',$mem) );
+                                $form->assign( 'membership_name', $mem['name'] );
                                 if ( !$thankPage && $cid ) {
                                     $membership = &new CRM_Member_DAO_Membership();
                                     $membership->contact_id         = $cid;
                                     $membership->membership_type_id = $memType->id;
                                     if ( $membership->find(true) ) {
-                                        $this->assign("renewal_mode", true );
+                                        $form->assign("renewal_mode", true );
                                         $mem['current_membership'] =  $membership->end_date;
                                     }
                                 }
@@ -533,7 +537,7 @@ UPDATE civicrm_membership_type
                                 $membership->contact_id         = $cid;
                                 $membership->membership_type_id = $memType->id;
                                 if ( $membership->find(true) ) {
-                                    $this->assign("renewal_mode", true );
+                                    $form->assign("renewal_mode", true );
                                     $mem['current_membership'] =  $membership->end_date;
                                 }
                             }
@@ -557,13 +561,15 @@ UPDATE civicrm_membership_type
                 } else {
                     $form->addGroup($radio,'selectMembership',null);
                 }
-                $form->addRule('selectMembership',ts("Please select one of the memeberships"),'required');
+                $form->addRule('selectMembership',ts("Please select one of the memberships"),'required');
             }
             
             $form->assign( 'membershipBlock' , $membershipBlock );
             $form->assign( 'membershipTypes' ,$membershipTypes );
         
         }
+
+        return $separateMembershipPayment;
     }
     
     /**

@@ -350,6 +350,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     }
                 }
                 
+                // unset the custom value ids
+                if ( is_array( $params['custom'] ) ) {
+                    foreach ( $params['custom'] as $k => $v ) {
+                        unset( $params['custom'][$k]['id'] );
+                    }
+                }
+                
                 CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
             }
         }
