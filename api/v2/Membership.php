@@ -196,7 +196,7 @@ function &civicrm_membership_type_delete( &$membershipTypeID ) {
     }
     require_once 'CRM/Member/BAO/MembershipType.php';
     $memberDelete = CRM_Member_BAO_MembershipType::del($membershipTypeID);
-    return $memberDelete ? null : civicrm_create_error('Error while deleting membership type');
+    return $memberDelete ? civicrm_create_error('Error while deleting membership type') :  null ;
 }
 
 /**
@@ -232,10 +232,18 @@ function civicrm_membership_status_create(&$params)
     require_once 'CRM/Member/BAO/MembershipStatus.php';
     $ids = array();
     $membershipStatusBAO = CRM_Member_BAO_MembershipStatus::add($params, $ids);
-    $membershipStatus = array();
-    _civicrm_object_to_array($membershipStatusBAO, $membershipStatus);
+     
+    if ( is_a( $membershipStatusBAO, 'CRM_Core_Error' ) ) {
+        return civicrm_create_error( "Membership is not created" );
+    } else {
+        $membershipStatus = array();
+        _civicrm_object_to_array($membershipStatusBAO, $membershipStatus);
+        $values = array( );
+        $values['id'] = $membershipStatus['id'];
+        $values['is_error']   = 0;
+    }
     
-    return $membershipStatus;
+    return $values;
 }
 
 /**
@@ -341,7 +349,7 @@ function &civicrm_membership_status_delete( &$membershipStatusID )
     
     require_once 'CRM/Member/BAO/MembershipStatus.php';
     $memberStatusDelete = CRM_Member_BAO_MembershipStatus::del($membershipStatusID);
-    return $memberStatusDelete ? null : civicrm_create_error('Error while deleting membership type Status');
+    return $memberStatusDelete ? civicrm_create_error('Error while deleting membership type Status') : null ;
 }
 
 /**
@@ -362,7 +370,7 @@ function civicrm_contact_membership_create(&$params)
         return civicrm_create_error( 'Params is not an array' );
     }
     
-    if ( !isset($params['membership_type_id']) || !isset($params['status_id']) || !isset($params['contact_id'] ) {
+    if ( !isset($params['membership_type_id']) || !isset($params['status_id']) || !isset($params['contact_id'] )) {
         return civicrm_create_error( 'Required parameter missing' );
     }
     

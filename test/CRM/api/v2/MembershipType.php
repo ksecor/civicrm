@@ -43,7 +43,7 @@ class TestOfMembershipTypeAPIV2 extends UnitTestCase
   
     }
 
-    
+     
     function testCreateWrongMembershipTypeWithoutContributionTypeId()
     {
         
@@ -60,7 +60,7 @@ class TestOfMembershipTypeAPIV2 extends UnitTestCase
         $membershiptype = & civicrm_membership_type_create($params);
         $this->assertEqual( $membershiptype['is_error'], 1 );
     }
-
+    
     function testCreateMembershipTypeWithoutDurationUnit()
     {
         
@@ -74,13 +74,13 @@ class TestOfMembershipTypeAPIV2 extends UnitTestCase
                         'duration_interval'    => '10',                 
                         'visibility'           => 'public'
                         );
-	
-        $membershiptype = & civicrm_membership_type_create($params);        
+        
+        $membershiptype = & civicrm_membership_type_create($params); 
         $this->_membershiptype1 = $membershiptype;
         $this->assertNotNull( $this->_membershiptype1['member_id'] );  
-
+        
     }
-
+    
     
 
     function testCreateMembershipTypeWithoutName()
@@ -182,31 +182,28 @@ class TestOfMembershipTypeAPIV2 extends UnitTestCase
         $this->assertEqual($membershiptype['is_active'],'1');
         $this->assertEqual($membershiptype['visibility'],'public');
     }
-    function testDeleteBadMembershipTypeWrongId()
-    {
-        $id = -14588;
-        $val = &civicrm_membership_type_delete($id);
-    }
 
     function testDeleteBadMembershipTypeWithoutId()
     {
         $val = &civicrm_membership_type_delete($this->_membershiptype['name']);
+        $this->assertEqual( $val['is_error'], 1);
     }
 
-    
-
-     function testDeleteBadMembershipTypeEmptyParam()
+    function testDeleteBadMembershipTypeEmptyParam()
     {
         $param = array();
         $val = &civicrm_membership_type_delete($param);
+        $this->assertEqual( $val['is_error'], 1);
     }
-
    
     function testDeleteMembershipType()
     {
         $val1 = &civicrm_membership_type_delete($this->_membershiptype1['member_id']);
         $val2 = &civicrm_membership_type_delete($this->_membershiptype2['member_id']);
         $val3 = &civicrm_membership_type_delete($this->_membershiptype['member_id']);
-
+        $this->assertEqual( $val1['is_error'], 0);
+        $this->assertEqual( $val2['is_error'], 0);
+        $this->assertEqual( $val3['is_error'], 0);
     }
 }
+  
