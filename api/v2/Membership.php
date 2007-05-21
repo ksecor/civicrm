@@ -96,6 +96,52 @@ function civicrm_membership_type_create(&$params)
 }
 
 /**
+ * Get a Membership Type.
+ * 
+ * This api is used for finding an existing membership type.
+ * Required parameters : id of membership type
+ * 
+ * @params  array $params  an associative array of name/value property values of civicrm_membership_type
+ * 
+ * @return  Array of all found membership type property values.
+ * @access public
+ */
+function civicrm_membership_types_get(&$params) 
+{
+    _civicrm_initialize();
+    if ( ! is_array($params) ) {
+        return civicrm_create_error('Params is not an array.');
+    }
+    
+    if ( ! isset($params['id'])) {
+        return civicrm_create_error('Required parameters missing.');
+    }
+    
+    require_once 'CRM/Member/BAO/MembershipType.php';
+    $membershipTypeBAO = new CRM_Member_BAO_MembershipType();
+    
+    $properties = array_keys($membershipTypeBAO->fields());
+    
+    foreach ($properties as $name) {
+        if (array_key_exists($name, $params)) {
+            $membershipTypeBAO->$name = $params[$name];
+        }
+    }
+    
+    if ( $membershipTypeBAO->find() ) {
+        $membershipType = array();
+        while ( $membershipTypeBAO->fetch() ) {
+            _civicrm_object_to_array( clone($membershipTypeBAO), $membershipType );
+            $membershipTypes[$membershipTypeBAO->id] = $membershipType;
+        }
+    } else {
+        return civicrm_create_error('Exact match not found');
+    }
+    return $membershipTypes;
+}
+
+
+/**
  * Update an existing membership type
  *
  * This api is used for updating an existing membership type.
@@ -299,7 +345,7 @@ function &civicrm_membership_status_delete( &$membershipStatusID )
 }
 
 /**
- * Create a Contct Membership
+ * Create a Contact Membership
  *  
  * This API is used for creating a Membership for a contact.
  * Required parameters : membership_type_id and status_id.
@@ -352,5 +398,313 @@ function civicrm_contact_membership_create(&$params)
     _civicrm_object_to_array($membershipBAO, $membership);
     return $membership;
 }
+
+/**
+ * Update an existing contact membership
+ *
+ * This api is used for updating an existing contact membership.
+ * Required parrmeters : id of a membership
+ * 
+ * @param  Array   $params  an associative array of name/value property values of civicrm_membership
+ * 
+ * @return array of updated membership property values
+ * @access public
+ */
+function civicrm_contact_membership_update(&$params)
+{
+    _civicrm_initialize();
+    if ( !is_array( $params ) ) {
+        return civicrm_create_error( 'Params is not an array' );
+    }
+    
+    if ( !isset($params['id']) ) {
+        return civicrm_create_error( 'Required parameter missing' );
+    }
+    
+    $changeFields = array(
+                          'membership_start_date' => 'start_date',
+                          'membership_end_date'   => 'end_date',
+                          'membership_source'     => 'source'
+                          );
+    
+    foreach ( $changeFields as $field => $requiredField ) {
+        if ( array_key_exists( $field, $params ) ) {
+            $params[$requiredField] = $params[$field];
+            unset($params[$field]);
+        }
+    }
+    
+    require_once 'CRM/Member/BAO/Membership.php';
+    $membershipBAO     =& new CRM_Member_BAO_Membership( );
+    $membershipBAO->id = $params['id'];
+    $membershipBAO->find(true);
+
+    $membershipBAO->copyValues($params);
+    
+    $datefields = array( 'start_date', 'end_date', 'join_date', 'reminder_date' );
+    
+    //fix the dates 
+    foreach ( $datefields as $value ) {
+        $membershipBAO->$value  = CRM_Utils_Date::customFormat($membershipBAO->$value,'%Y%m%d');
+        // Handle resetting date to 'null' (which is converted to 00000 by customFormat)
+        if ( $membershipBAO->$value == '00000') {
+            $membershipBAO->$value = 'null';
+        }
+        $params[$value] = $membershipBAO->$value;
+    }
+    
+    $membershipBAO->save();
+    
+    // Check and add membership for related contacts
+    $relatedContacts =
+        CRM_Member_BAO_Membership::checkMembershipRelationship( 
+                                                               $membershipBAO->id,
+                                                               $membershipBAO->contact_id,
+                                                               CRM_Core_Action::UPDATE
+                                                               );
+    
+    //delete all the related membership records before creating
+    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipBAO->id );
+
+    $params['membership_type_id'] = $membershipBAO->membership_type_id;
+    foreach ( $relatedContacts as $contactId ) {
+        $params['contact_id'         ] = $contactId;
+        $params['owner_membership_id'] = $membershipBAO->id;
+        unset( $params['id'] );
+        
+        CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+    }
+        
+    $membership = array();
+    _civicrm_object_to_array( $membershipBAO, $membership );
+    $membershipBAO->free( );
+    return $membership;
+}
+
+/**
+ * Get conatct membership record.
+ * 
+ * This api is used for finding an existing membership record.
+ * This api will also return the mebership records for the contacts
+ * having mebership based on the relationship with the direct members.
+ * 
+ * @params  Int  $contactID  ID of a contact
+ *
+ * @return  Array of all found membership property values.
+ * @access public
+ */
+function civicrm_contact_memberships_get(&$contactID)
+{
+    _civicrm_initialize();
+    if ( empty($contactID) ) {
+        return civicrm_create_error( 'Invalid value for ContactID.' );
+    }
+    
+    // get the membership for the given contact ID
+    require_once 'CRM/Member/BAO/Membership.php';
+    $membership = array('contact_id' => $contactID);
+    $membershipValues = $ids = array();
+    CRM_Member_BAO_Membership::getValues($membership, $membershipValues, $ids);
+    
+    if ( empty( $membershipValues ) ) {
+        return civicrm_create_error('No memberships for this contact.');
+    }
+    
+    foreach ($membershipValues as $membershipId => $values) {
+        // populate the membership type name for the membership type id
+        require_once 'CRM/Member/BAO/MembershipType.php';
+        $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails($values['membership_type_id']);
+        
+        $membershipValues[$membershipId]['membership_name'] = $membershipType['name'];
+        
+        $relationships[$membershipType['relationship_type_id']] = $membershipId;
+        
+        // populating relationship type name.
+        require_once 'CRM/Contact/BAO/RelationshipType.php';
+        $relationshipType = new CRM_Contact_BAO_RelationshipType();
+        $relationshipType->id = $membershipType['relationship_type_id'];
+        if ( $relationshipType->find(true) ) {
+            $membershipValues[$membershipId]['relationship_name'] = $relationshipType->name_a_b;
+        }
+    }
+    
+    $members[$contactID] = $membershipValues;
+    
+    // populating contacts in members array based on their relationship with direct members.
+    require_once 'CRM/Contact/BAO/Relationship.php';
+    foreach ($relationships as $relTypeId => $membershipId) {
+        // As members are not direct members, there should not be
+        // membership id in the result array.
+        unset($membershipValues[$membershipId]['id']);
+        $relationship = new CRM_Contact_BAO_Relationship();
+        $relationship->contact_id_b            = $contactID;
+        $relationship->relationship_type_id    = $relTypeId;
+        if ($relationship->find()) {
+            while ($relationship->fetch()) {
+                clone($relationship);
+                $membershipValues[$membershipId]['contact_id'] = $relationship->contact_id_a;
+                $members[$contactID][$relationship->contact_id_a] = $membershipValues[$membershipId];
+            }
+        }
+    }
+    return $members;
+    
+}
+
+/**
+ * Deletes an existing contact membership
+ * 
+ * This API is used for deleting a contact membership
+ * 
+ * @param  Int  $membershipID   Id of the contact membership to be deleted
+ * 
+ * @return null if successfull, object of CRM_Core_Error otherwise
+ * @access public
+ */
+function civicrm_membership_delete(&$membershipID)
+{
+    _civicrm_initialize();
+    
+    if (empty($membershipID)) {
+        return civicrm_create_error('Invalid value for membershipID');
+    }
+    
+    require_once 'CRM/Member/BAO/Membership.php';
+    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipID );
+    
+    $membership = new CRM_Member_BAO_Membership();
+    $result = $membership->deleteMembership($membershipID);
+    
+    return $result ?  civicrm_create_error('Error while deleting Membership') : null ;
+}
+
+/**
+ * Derives the Membership Status of a given Membership Reocrd
+ * 
+ * This API is used for deriving Membership Status of a given Membership 
+ * record using the rules encoded in the membership_status table.
+ * 
+ * @param  Int     $membershipID  Id of a membership
+ * @param  String  $statusDate    
+ * 
+ * @return Array  Array of status id and status name 
+ * @public
+ */
+function civicrm_membership_status_calc( &$membershipID )
+{
+    if ( empty( $membershipID ) ) {
+        return civicrm_create_error( 'Invalid value for membershipID' );
+    }
+
+    $query = "
+SELECT start_date, end_date, join_date
+  FROM civicrm_membership
+ WHERE id = %1
+";
+    $params = array( 1 => array( $membershipID, 'Integer' ) );
+    $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+    if ( $dao->fetch( ) ) {
+        require_once 'CRM/Member/BAO/MembershipStatus.php';
+        $result =&
+            CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $dao->start_date,
+                                                                        $dao->end_date,
+                                                                        $dao->join_date );
+    } else {
+        $result = null;
+    }
+    $dao->free( );
+    return $result;
+}
+
+/**
+ * take the input parameter list as specified in the data model and 
+ * convert it into the same format that we use in QF and BAO object
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param array  $values       The reformatted properties that we can use internally
+ *
+ * @param array  $create       Is the formatted Values array going to
+ *                             be used for CRM_Member_BAO_Membership:create()
+ *
+ * @return array|error
+ * @access public
+ */
+function _civicrm_membership_format_params( &$params, &$values, $create=false) 
+{
+    static $domainID = null;
+    if (!$domainID) {
+        $config =& CRM_Core_Config::singleton();
+        $domainID = $config->domainID();
+    }
+    
+    require_once "CRM/Member/DAO/Membership.php";
+    $fields =& CRM_Member_DAO_Membership::fields( );
+    _civicrm_store_values( $fields, $params, $values );
+    
+    foreach ($params as $key => $value) {
+        // ignore empty values or empty arrays etc
+        if ( CRM_Utils_System::isNull( $value ) ) {
+            continue;
+        }
+        
+        switch ($key) {
+        case 'membership_contact_id':
+            if (!CRM_Utils_Rule::integer($value)) {
+                return civicrm_create_error("contact_id not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            if (!$svq) {
+                return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
+            }
+            $values['contact_id'] = $values['membership_contact_id'];
+            unset($values['membership_contact_id']);
+            break;
+        case 'join_date':
+        case 'membership_start_date':
+        case 'membership_end_date':
+            if (!CRM_Utils_Rule::date($value)) {
+                return civicrm_create_error("$key not a valid date: $value");
+            }
+            break;
+        case 'membership_type_id':
+            $id = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_MembershipType", $value, 'id', 'name' );
+            $values[$key] = $id;
+            break;
+        case 'status_id':
+            $id = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_MembershipStatus", $value, 'id', 'name' );
+            $values[$key] = $id;
+            break;
+        default:
+            break;
+        }
+    }
+    
+    _civicrm_format_custom_params( $params, $values, 'Membership' );
+    
+    if ( $create ) {
+        // CRM_Member_BAO_Membership::create() handles membership_start_date,
+        // membership_end_date and membership_source. So, if $values contains
+        // membership_start_date, membership_end_date  or membership_source,
+        // convert it to start_date, end_date or source
+        $changes = array('membership_start_date' => 'start_date',
+                         'membership_end_date'   => 'end_date',
+                         'membership_source'     => 'source',
+                         );
+        
+        foreach ($changes as $orgVal => $changeVal) {
+            if ( isset($values[$orgVal]) ) {
+                $values[$changeVal] = $values[$orgVal];
+                unset($values[$orgVal]);
+            }
+        }
+    }
+    
+    return null;
+}
+
+
 
 ?>
