@@ -801,7 +801,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
             if ( $suffix_id ) {
                 $suffixes = array( );
                 $suffixes = CRM_Core_PseudoConstant::individualSuffix( );
-                $suffix   = $prefixes[$suffix_id];
+                $suffix   = $suffixes[$suffix_id];
             } else {
                 $suffix = CRM_Utils_Array::value( 'suffix', $values );
             }
