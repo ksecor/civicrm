@@ -136,11 +136,12 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         if($this->_action & CRM_Core_Action::DELETE) {
             $fieldValues = array('option_group_id' => $this->_gid);
             $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_OptionValue', $this->_id, $fieldValues);
-
-            if(CRM_Core_BAO_OptionValue::del($this->_id)) {
+            
+            if( CRM_Core_BAO_OptionValue::del($this->_id) ) {
                 CRM_Core_Session::setStatus( ts('Selected %1 type has been deleted.', array(1 => $this->_GName)) );
             } else {
                 CRM_Core_Session::setStatus( ts('Selected %1 type has not been deleted.', array(1 => $this->_GName)) );
+                CRM_Utils_Weight::correctDuplicateWeights('CRM_Core_DAO_OptionValue', $fieldValues);
             }
         } else {
             $params = $ids = array( );

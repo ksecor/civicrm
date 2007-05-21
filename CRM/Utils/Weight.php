@@ -30,6 +30,35 @@ require_once 'CRM/Core/DAO.php';
 class CRM_Utils_Weight {
 
     /**
+     * Function to correct duplicate weight entries by putting them (duplicate weights) in sequence.
+     *
+     * @param string  $daoName full name of the DAO
+     * @param array   $fieldValues field => value to be used in the WHERE
+     * @param string  $weightField field which contains the weight value,
+     * defaults to 'weight'
+     * @return bool 
+     */
+    static function correctDuplicateWeights($daoName, $fieldValues = null, $weightField = 'weight') 
+    {
+        $selectField = "MIN(id) AS dupeId, count(id) as dupeCount, $weightField as dupeWeight";
+        $groupBy     = "$weightField having dupeCount>1";
+        
+        $minDupeID =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $selectField, null, null, $groupBy );
+        $minDupeID->fetch();
+        
+        if ( $minDupeID->dupeId ) {
+            $additionalWhere = "id !=". $minDupeID->dupeId . " AND $weightField >= " . $minDupeID->dupeWeight;
+            $update = "$weightField = $weightField + 1";
+            CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+            
+            //recursive call to correct all duplicate weight entries.
+            CRM_Utils_Weight::correctDuplicateWeights($daoName, $fieldValues, $weightField);
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * Remove a row from the specified weight, and shift all rows below it up
      *
      * @param string $daoName full name of the DAO
@@ -58,7 +87,7 @@ class CRM_Utils_Weight {
         $update = "$weightField = $weightField - 1";
         CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
 
-        return true;
+        return $weight;
     }
         
     /**
@@ -81,6 +110,9 @@ class CRM_Utils_Weight {
         
         // max weight is the highest current weight
         $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
+        if ( !$maxWeight ) {
+            $maxWeight = 1;
+        }
         
         if ( $newWeight > $maxWeight ) {
             $newWeight = $maxWeight;
@@ -116,10 +148,10 @@ class CRM_Utils_Weight {
     }
     
     /**
-     * return the highest weight + 1
+     * returns the highest weight.
      *
      * @param string $daoName full name of the DAO
-     * @param array $fieldValues field => value to be used in the WHERE
+     * @param array  $fieldValues field => value to be used in the WHERE
      * @param string $weightField field which contains the weight value,
      * defaults to 'weight'
      * @return integer
@@ -131,13 +163,12 @@ class CRM_Utils_Weight {
         $weightDAO->fetch();
         if ( $weightDAO->max_weight ) {
             return $weightDAO->max_weight;
-        } else {
-            return 1;
         }
+        return false;
     }
 
     /**
-     * returns the default weight to be used.
+     * returns the default weight ( highest weight + 1 ) to be used.
      *
      * @param string $daoName full name of the DAO
      * @param array  $fieldValues field => value to be used in the WHERE
@@ -147,11 +178,9 @@ class CRM_Utils_Weight {
      */
     static function getDefaultWeight($daoName, $fieldValues = null, $weightField = 'weight')
     {
-        $selectField = "MAX($weightField) AS max_weight";
-        $weightDAO =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $selectField );
-        $weightDAO->fetch();
-        if ( $weightDAO->max_weight ) {
-            return $weightDAO->max_weight + 1;
+        $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
+        if ( $maxWeight ) {
+            return $maxWeight+1;
         } else {
             return 1;
         }
@@ -172,7 +201,8 @@ class CRM_Utils_Weight {
                             $fieldValues = null,
                             $queryData,
                             $additionalWhere = null,
-                            $orderBy = null )
+                            $orderBy = null,
+                            $groupBy = null )
     {
         require_once 'CRM/Utils/Type.php';
 
@@ -208,6 +238,9 @@ class CRM_Utils_Weight {
                 $query = "SELECT $queryData FROM $table";
                 if ( $where ) {
                     $query .= " WHERE $where";
+                }
+                if ( $groupBy ) {
+                    $query .= " GROUP BY $groupBy";
                 }
                 if ( $orderBy ) {
                     $query .= " ORDER BY $orderBy";
