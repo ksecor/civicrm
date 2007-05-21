@@ -135,11 +135,13 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
             $this->edit( );
         } else if ( $this->_action & CRM_Core_Action::DISABLE ) {
+            CRM_Contact_BAO_Relationship::disnableEnableRelationship( $this->_id, CRM_Core_Action::DISABLE );
             CRM_Contact_BAO_Relationship::setIsActive( $this->_id, 0 ) ;
             $session =& CRM_Core_Session::singleton();
             CRM_Utils_System::redirect( $session->popUserContext() );
          
         } else if ( $this->_action & CRM_Core_Action::ENABLE ) {
+            CRM_Contact_BAO_Relationship::disnableEnableRelationship( $this->_id, CRM_Core_Action::ENABLE );
             CRM_Contact_BAO_Relationship::setIsActive( $this->_id, 1 ) ;
              $session =& CRM_Core_Session::singleton();
             CRM_Utils_System::redirect( $session->popUserContext() );

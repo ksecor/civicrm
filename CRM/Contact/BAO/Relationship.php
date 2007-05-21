@@ -346,6 +346,44 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     }
 
     /**
+     * Function to disable/enable the relationship
+     *
+     * @param int $id relationship id
+     *
+     * @return null
+     * @access public
+
+     * @static
+     */
+    static function disnableEnableRelationship ( $id, $action ) 
+    {
+        $relationship =& new CRM_Contact_DAO_Relationship( );
+        $relationship->id = $id;
+        
+        $relationship->find(true);
+        
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            // create $params array which isrequired to delete memberships
+            // of the related contacts.
+            $params = array(
+                            'relationship_type_id' => "{$relationship->relationship_type_id}_a_b",
+                            'contact_check'        => array( $relationship->contact_id_b => 1 )
+                            );
+            
+            $ids = array();
+            // calling relatedMemberships to delete/add the memberships of
+            // related contacts.
+            if ( $action & CRM_Core_Action::DISABLE ) {
+                CRM_Contact_BAO_Relationship::relatedMemberships( $relationship->contact_id_a, $params, $ids,CRM_Core_Action::DELETE  );
+            }
+            if ( $action & CRM_Core_Action::ENABLE ) {
+                $ids['contact'] = $relationship->contact_id_a;
+                CRM_Contact_BAO_Relationship::relatedMemberships( $relationship->contact_id_a, $params, $ids,CRM_Core_Action::ADD  );
+            }     
+        }
+    }
+
+    /**
      * Delete the object records that are associated with this contact
      *
      * @param  int  $contactId id of the contact to delete

@@ -265,11 +265,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $params   = array( 'id' => $membershipId );
         $defaults = array( );
         $membership = self::retrieve( $params, $defaults );
-        if ( ! array_key_exists( 'active', $defaults ) ) {
-            // if the membership is not active, then it should not be
-            // added to the related contact.
-            return $contacts;
-        }
 
         require_once 'CRM/Member/BAO/MembershipType.php';
         $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membership->membership_type_id ); 
@@ -458,8 +453,7 @@ UPDATE civicrm_membership_type
             return $actives;
         } elseif ( $status == 'inactive' ) {
             foreach ($memberships as $f => $v) {
-                if ( isset( $v['active'] ) &&
-                     ! $v['active'] ) {
+                if ( ! $v['active'] ) {
                     $actives[$f] = $v;
                 }
             }
