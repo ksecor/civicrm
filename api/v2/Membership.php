@@ -53,7 +53,7 @@ require_once 'api/v2/utils.php';
  * @return array of newly created membership type property values.
  * @access public
  */
-function civicrm_membership_type_create($params) 
+function civicrm_membership_type_create(&$params) 
 {
     _civicrm_initialize();
     if ( ! is_array($params) ) {
@@ -86,7 +86,7 @@ function civicrm_membership_type_create($params)
         return civicrm_create_error( "Membership is not created" );
     } else {
         $member = array();
-        _civicrm_object_to_array($membershipTypeBAO, $member);//CRM_CORE_ERROR::DEBUG('membershipe',$member);
+        _civicrm_object_to_array($membershipTypeBAO, $member);
         $values = array( );
         $values['member_id'] = $member['id'];
         $values['is_error']   = 0;
@@ -106,7 +106,7 @@ function civicrm_membership_type_create($params)
  * @return array of updated membership type property values
  * @access public
  */
-function &civicrm_membership_type_update( $params ) {
+function &civicrm_membership_type_update( &$params ) {
     if ( !is_array( $params ) ) {
         return civicrm_create_error( 'Params is not an array' );
     }
@@ -144,7 +144,7 @@ function &civicrm_membership_type_update( $params ) {
  * @return boolean        true if success, else false
  * @access public
  */
-function &civicrm_membership_type_delete( $membershipTypeID ) {
+function &civicrm_membership_type_delete( &$membershipTypeID ) {
     if ( ! $membershipTypeID ) {
         return civicrm_create_error( 'Invalid value for membershipTypeID' );
     }
@@ -162,19 +162,19 @@ function &civicrm_membership_type_delete( $membershipTypeID ) {
  * @return array of newly created membership status property values.
  * @access public
  */
-function civicrm_membership_status_create($params) 
+function civicrm_membership_status_create(&$params) 
 {
     _civicrm_initialize();
     if ( ! is_array($params) ) {
-        return _civicrm_create_error('Params is not an array.');
+        return civicrm_create_error('Params is not an array.');
     }
     
     if ( empty($params) ) {
-        return _civicrm_error('Params can not be empty.');
+        return civicrm_create_error('Params can not be empty.');
     }
     
     if (! $params["name"] ) {
-        return _civicrm_error('Missing require fileds');
+        return civicrm_create_error('Missing require fileds');
     }
     
     if ( !$params['domain_id'] ) {
@@ -203,15 +203,15 @@ function civicrm_membership_status_create($params)
  * @return  Array of all found membership status property values.
  * @access public
  */
-function civicrm_membership_statuses_get($params) 
+function civicrm_membership_statuses_get(&$params) 
 {
     _civicrm_initialize();
     if ( ! is_array($params) ) {
-        return _civicrm_create_error('Params is not an array.');
+        return civicrm_create_error('Params is not an array.');
     }
     
     if ( ! isset($params['id'])) {
-        return _civicrm_create_error('Required parameters missing.');
+        return civicrm_create_error('Required parameters missing.');
     }
     
     require_once 'CRM/Member/BAO/MembershipStatus.php';
@@ -232,7 +232,7 @@ function civicrm_membership_statuses_get($params)
             $membershipStatuses[$membershipStatusBAO->id] = $membershipStatus;
         }
     } else {
-        return _civicrm_error('Exact match not found');
+        return civicrm_create_error('Exact match not found');
     }
     return $membershipStatuses;
 }
@@ -248,15 +248,15 @@ function civicrm_membership_statuses_get($params)
  * @return array of updated membership status property values
  * @access public
  */
-function &civicrm_membership_status_update( $params ) 
+function &civicrm_membership_status_update( &$params ) 
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
-        return _civicrm_create_error( 'Params is not an array' );
+        return civicrm_create_error( 'Params is not an array' );
     }
     
     if ( !isset($params['id']) ) {
-        return _civicrm_create_error( 'Required parameter missing' );
+        return civicrm_create_error( 'Required parameter missing' );
     }
     
     require_once 'CRM/Member/BAO/MembershipStatus.php';
@@ -286,15 +286,16 @@ function &civicrm_membership_status_update( $params )
  * @return null if successfull, object of CRM_Core_Error otherwise
  * @access public
  */
-function &civicrm_membership_status_delete( $membershipStatusID ) 
+function &civicrm_membership_status_delete( &$membershipStatusID ) 
 {
     _civicrm_initialize();
     if ( empty($membershipStatusID) ) {
-        return _civicrm_create_error( 'Invalid value for membershipStatusID' );
+        return civicrm_create_error( 'Invalid value for membershipStatusID' );
     }
     
     require_once 'CRM/Member/BAO/MembershipStatus.php';
-    CRM_Member_BAO_MembershipStatus::del($membershipStatusID);
+    $memberStatusDelete = CRM_Member_BAO_MembershipStatus::del($membershipStatusID);
+    return $memberStatusDelete ? null : civicrm_create_error('Error while deleting membership type Status');
 }
 
 /**
@@ -304,19 +305,18 @@ function &civicrm_membership_status_delete( $membershipStatusID )
  * Required parameters : membership_type_id and status_id.
  * 
  * @param   array  $params     an associative array of name/value property values of civicrm_membership
- * @param   int    $contactID  ID of a contact
  * 
  * @return array of newly created membership property values.
  * @access public
  */
-function civicrm_contact_membership_create($params, $contactID)
+function civicrm_contact_membership_create(&$params)
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
         return civicrm_create_error( 'Params is not an array' );
     }
     
-    if ( !isset($params['membership_type_id']) || !isset($params['status_id']) || empty($contactID)) {
+    if ( !isset($params['membership_type_id']) || !isset($params['status_id']) || !isset($params['contact_id'] ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
     
