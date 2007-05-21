@@ -9,7 +9,8 @@
     {ts}The Contribution Import Wizard allows you to easily upload contributions from other applications into CiviCRM.{/ts}
     </p>
     <p>
-    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}
+    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV) and must contain data needed to match the contribution to an existing contact
+    in your CiviCRM database.{/ts} {help id='upload'}
     </p>
  </div>    
 
@@ -26,14 +27,6 @@
         <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Amount").{/ts}
         </dd>
-        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">
-            {ts}Select 'Individual' if each record in your file represents and individual person.{/ts}
-        </dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select 'Organization' or 'Household' if each record in your file represents a contact of that type.{/ts}
-        </dd> 
         {include file="CRM/Core/Date.tpl"}  
     </dl>
     <div class="spacer"></div>
