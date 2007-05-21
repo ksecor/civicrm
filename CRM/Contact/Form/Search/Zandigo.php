@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2006                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,7 +18,7 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | http://www.civicrm.org/licensing/                                  |
@@ -49,6 +49,8 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
     protected $_offset;
 
     protected $_force;
+
+    protected $_rows;
 
     public function preProcess( ) {
         $this->initialize( );
@@ -82,8 +84,8 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
             $this->assign_by_ref( 'pager', $this->_pager );
         }
 
-        $rows =& $this->get( 'rows' );
-        $this->assign_by_ref( 'rows'     , $rows          );
+        $this->_rows =& $this->get( 'rows' );
+        $this->assign_by_ref( 'rows'     , $this->_rows          );
         $this->assign       ( 'rowsEmpty',
                               $this->get( 'rowsEmpty' ) );
     }
@@ -187,6 +189,17 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
                                                            $js );
         }
         $this->assign( 'customFields', $this->_customFields );
+
+        // add checkboxes
+        if ( is_array( $this->_rows ) ) {
+            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "return toggleCheckboxVals('mark_x_',this.form);" ) );
+            foreach ( $this->_rows as $row ) {
+                $this->addElement( 'checkbox', $row['checkbox'],
+                                   null, null,
+                                   array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" ) );
+            }
+        }
+
         $this->addButtons( array(
                                  array ( 'type'      => 'refresh',
                                          'name'      => ts('Search'),
@@ -239,8 +252,11 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
         $this->set( 'totalCount', $totalCount );
         $this->set( 'rowsEmpty',
                     $totalCount == 0 ? true : false );
-        $rows = array_values( $result );
-        $this->set( 'rows', $rows );
+        $this->_rows = array_values( $result );
+        foreach ( $this->_rows as $key => $row ) {
+            $this->_rows[$key]['checkbox'] = CRM_Core_Form::CB_PREFIX . $row['contact_id'];
+        }
+        $this->set( 'rows', $this->_rows );
     }
 
 }
