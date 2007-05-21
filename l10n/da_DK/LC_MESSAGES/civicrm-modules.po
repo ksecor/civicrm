@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-05-07 06:42+0200\n"
+"POT-Creation-Date: 2007-05-21 06:58+0200\n"
 "PO-Revision-Date: 2007-05-14 06:49-0700\n"
 "Last-Translator: John Krumbæk <krumbaek@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -229,7 +229,9 @@ msgstr "Email Adresse"
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
-msgstr "Venligst angive en gyldig værdi fra dit kontokorts sikkerheds kode. Det er normalt 3-4 cifre bag på kortet."
+msgstr ""
+"Venligst angive en gyldig værdi fra dit kontokorts sikkerheds kode. Det er "
+"normalt 3-4 cifre bag på kortet."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
@@ -344,7 +346,8 @@ msgstr "Deaktiver Belønning"
 
 #: CRM/Contribute/Payment/Google.php CRM/Event/Payment/Google.php
 msgid "Invalid response code received from Google Checkout: %1"
-msgstr "Ugyldig besvarelses kode modtaget fra Google på afregningstidspunkt: %1"
+msgstr ""
+"Ugyldig besvarelses kode modtaget fra Google på afregningstidspunkt: %1"
 
 #: CRM/Contribute/Payment/PayPalImpl.php CRM/Event/Payment/PayPalImpl.php
 msgid "Recurring contribution, but no database id"
@@ -2303,7 +2306,7 @@ msgid "Tracked Opens"
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php
-msgid "Please select one of the memeberships"
+msgid "Please select one of the memberships"
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-05-07 06:42+0200\n"
+"POT-Creation-Date: 2007-05-21 06:58+0200\n"
 "PO-Revision-Date: 2006-11-19 07:18-0800\n"
 "Last-Translator: Akarawuth Tamrareang <akarawuth@joomlacorner.com>\n"
 "MIME-Version: 1.0\n"
@@ -2610,7 +2610,7 @@ msgstr ""
 
 #: CRM/Member/BAO/Membership.php
 #, fuzzy
-msgid "Please select one of the memeberships"
+msgid "Please select one of the memberships"
 msgstr "กรุณาเลือกสถานะ."
 
 #: CRM/Member/BAO/Membership.php
