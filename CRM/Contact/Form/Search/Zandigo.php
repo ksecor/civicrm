@@ -147,18 +147,37 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
         $domainID =  CRM_Core_Config::domainID( );
         
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Individual' );
+ 
+        $this->assign( 'dojoIncludes',
+                       "dojo.require('dojo.widget.ComboBox');" );
 
-        $this->add( 'text', 'first_name', ts('First Name'),
-                    $attributes['first_name'] );
+        $dojoAttributes = array( 'dojoType'     => 'ComboBox',
+                                 'mode'         => 'remote',
+                                 'dataUrl'      => 
+                                 $config->userFrameworkResourceURL .
+                                 "extern/ajax.php?q=civicrm/zandigo&d={$domainID}&s=%{searchString}&t=" );
+
+        $attr = $dojoAttributes + $attributes['first_name'];
+        $attr['dataUrl'] = $attr['dataUrl'] . 'f';
+        $this->add( 'text', 'first_name', ts('First Name'), $attr );
         $this->add( 'text', 'middle_name', ts('Middle Name'),
                     $attributes['middle_name'] );
-        $this->add( 'text', 'last_name', ts('Last Name'),
-                    $attributes['last_name'] );
 
-        $this->add( 'text', 'organization_name', ts('Name'),
-                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Organization', 'organization_name' ) );
-        $this->add( 'text', 'email', ts('Email'),
-                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Email', 'email' ) );
+        $attr = $dojoAttributes + $attributes['last_name'];
+        $attr['dataUrl'] = $attr['dataUrl'] . 'l';
+        $this->add( 'text', 'last_name', ts('Last Name'), $attr );
+
+        $attr =
+            $dojoAttributes +
+            CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Organization', 'organization_name' );
+        $attr['dataUrl'] = $attr['dataUrl'] . 'n';
+        $this->add( 'text', 'organization_name', ts('Name'), $attr );
+
+        $attr =
+            $dojoAttributes +
+            CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Email', 'email' );
+        $attr['dataUrl'] = $attr['dataUrl'] . 'e';
+        $this->add( 'text', 'email', ts('Email'), $attr );
 
         $gender = array('' => ts('- any gender -')) + CRM_Core_PseudoConstant::gender( );
         $this->addElement('select', 'gender', ts('Gender'), $gender );

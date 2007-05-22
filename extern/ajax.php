@@ -28,6 +28,9 @@ function invoke( ) {
     case 'status':
         return status( $config );
 
+    case 'zandigo':
+        return zandigo( $config );
+
     default:
         return;
     }
@@ -65,6 +68,65 @@ LIMIT 6";
     $elements = array( );
     while ( $dao->fetch( ) && $count < 5 ) {
         $elements[] = array( $dao->sort_name, $dao->sort_name );
+        $count++;
+    }
+
+    require_once 'Services/JSON.php';
+    $json =& new Services_JSON( );
+    echo $json->encode( $elements );
+}
+
+function zandigo( &$config ) {
+    require_once 'CRM/Utils/Type.php';
+    $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
+    $type     = strtolower( CRM_Utils_Type::escape( $_GET['t'], 'String'  ) );
+    $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+
+    if ( $type == 'f' ) {
+        $var   = 'first_name';
+        $table = 'civicrm_individual';
+    } else if ( $type == 'l' ) {
+        $var   = 'last_name';
+        $table = 'civicrm_individual';
+    } else if ( $type == 'n' ) {
+        $var   = 'organization_name';
+        $table = 'civicrm_organization';
+    } else if ( $type == 'e' ) {
+        $var   = 'email';
+        $table = 'civicrm_email';
+    }
+
+    if ( $type == 'e' ) {
+        $query = "
+SELECT $var
+  FROM civicrm_email    e,
+       civicrm_contact  c,
+       civicrm_location l
+ WHERE domain_id      = $domainID
+   AND c.id           = l.entity_id
+   AND l.entity_table = 'civicrm_contact'
+   AND e.location_id  = l.id 
+   AND $var LIKE '$name%'
+ORDER BY $var
+LIMIT 6";
+    } else {
+        $query = "
+SELECT $var
+  FROM $table t, civicrm_contact c
+ WHERE domain_id = $domainID
+   AND c.id = t.contact_id
+   AND $var LIKE '$name%'
+ORDER BY $var
+LIMIT 6";
+    }
+
+    $nullArray = array( );
+    $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+
+    $count = 0;
+    $elements = array( );
+    while ( $dao->fetch( ) && $count < 5 ) {
+        $elements[] = array( $dao->$var, $dao->$var );
         $count++;
     }
 
