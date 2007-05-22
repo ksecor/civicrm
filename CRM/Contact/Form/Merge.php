@@ -151,7 +151,9 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $rows["location_$locTypeId"]['main']  = $locLabel['main'];
                 $rows["location_$locTypeId"]['other'] = $locLabel['other'];
                 $rows["location_$locTypeId"]['title'] = ts('Location: %1', array(1 => $locTypeName));
-                $this->addElement('advcheckbox', "location_$locTypeId", null, null, null, $locValue['other']);
+                if (!empty($locations[$locTypeName]['other'])) {
+                    $this->addElement('advcheckbox', "location_$locTypeId", null, null, null, $locValue['other']);
+                }
             }
         }
 
@@ -190,9 +192,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->assign('rel_tables', $relTables);
 
         // add the 'move belongings?' and 'delete other?' elements
-        $this->addElement('checkbox', 'moveBelongings', ts("Move other information associated with the Duplicate Contact to the Main Contact"));
+        $this->addElement('hidden', 'moveBelongings', 1);
         $this->addElement('hidden', 'deleteOther', 1);
-        // alternatively, make the 'deleteOther' a visible checkbox - also uncomment the proper <p> in the template
+        // alternatively, make 'em visible checkboxen - also uncomment the proper <p>s in the template
+        // $this->addElement('checkbox', 'moveBelongings', ts('Move other information associated with the Duplicate Contact to the Main Contact'));
         // $this->addElement('checkbox', 'deleteOther', ts('Delete the lleft-side ceft-side contact after merging'));
     }
     
@@ -244,6 +247,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $pcm = array_flip($pcm);
         }
 
+        // handle external_identifier separately; it's an UNIQUE field,
+        // so we can't update the main contact before deleting the other
+        if (isset($submitted['external_identifier'])) {
+            $extId = $submitted['external_identifier'];
+            unset($submitted['external_identifier']);
+        }
+
         $main =& crm_get_contact(array('contact_id' => $this->_cid));
 
         if (isset($submitted)) {
@@ -289,6 +299,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         if ($formValues['deleteOther']) {
             $other =& crm_get_contact(array('contact_id' => $this->_oid));
             crm_delete_contact($other);
+        }
+
+        // handle the UNIQUE external_identifier with a post-delete update
+        if (isset($extId)) {
+            crm_update_contact($main, array('external_identifier' => $extId));
         }
     }
 }

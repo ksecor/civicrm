@@ -4,7 +4,7 @@
   <tr><th></th><th>{ts}Duplicate Contact{/ts}</th><th>{ts}move?{/ts}</th><th>{ts}Main Contact{/ts}</th></tr>
   {foreach from=$rows item=row key=field}
     <tr>
-      <th>{$row.title}</th><td>{$row.other}</td><td style='white-space: nowrap'>=={$form.$field.html}==&gt;</td><td>{$row.main}</td>
+      <th>{$row.title}</th><td>{$row.other}</td><td style='white-space: nowrap'>{if $form.$field}=={$form.$field.html}==&gt;{/if}</td><td>{$row.main}</td>
     </tr>
   {/foreach}
   {foreach from=$rel_tables item=params key=name}
@@ -14,7 +14,7 @@
   {/foreach}
 </table>
 <div class='form-item'>
-  <p>{$form.moveBelongings.html} {$form.moveBelongings.label}</p>
+  <!--<p>{$form.moveBelongings.html} {$form.moveBelongings.label}</p>-->
   <!--<p>{$form.deleteOther.html} {$form.deleteOther.label}</p>-->
 </div>
 <div class='status'>

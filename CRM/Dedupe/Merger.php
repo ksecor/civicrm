@@ -42,7 +42,7 @@ class CRM_Dedupe_Merger
             'last_name', 'suffix_id', 'greeting_type', 'custom_greeting',
             'job_title', 'gender_id', 'birth_date', 'is_deceased', 'deceased_date'),
         'Contact'      => array('nick_name', 'legal_identifier', 'home_URL',
-            'image_URL', 'source', 'do_not_phone', 'do_not_email',
+            'image_URL', 'source', 'external_identifier', 'do_not_phone', 'do_not_email',
             'do_not_mail', 'do_not_trade', 'preferred_communication_method',
             'preferred_mail_format', 'is_opt_out'),
     );
