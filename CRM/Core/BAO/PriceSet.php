@@ -145,6 +145,94 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
     }
 
     /**
+     * Return a list of all forms which use this price set
+     *
+     * @param int  $id id of price set
+     * @param bool $checkPast search for events in the past as well as
+     * present or future
+     * @param bool $getInactive return only active forms if false, or only
+     * inactive if true
+     *
+     * @return array
+     */
+    public static function &getUsedBy( $id, $checkPast = false, $getInactive = false ) {
+        $usedBy = array( );
+        $today = date('Y-m-d');
+
+        $queryString = "SELECT entity_table, entity_id FROM civicrm_price_set_entity ";
+        $queryString .= "WHERE price_set_id = %1";
+        $params = array( 1 => array( $id, 'Integer') );
+        $crmFormDAO = CRM_Core_DAO::executeQuery( $queryString, $params );
+
+        $forms = array( );
+        while ( $crmFormDAO->fetch( ) ) {
+            $forms[ $crmFormDAO->entity_table ][] = $crmFormDAO->entity_id;
+        }
+
+        if ( empty( $forms ) ) {
+            return $usedBy;
+        }
+
+        require_once 'CRM/Event/DAO/Event.php';
+        require_once 'CRM/Core/OptionGroup.php';
+        require_once 'CRM/Utils/Array.php';
+
+        $eventTypes  = CRM_Core_OptionGroup::values("event_type" );
+
+        foreach ( $forms as $table => $entities ) {
+            // currently, the only supported table is 'civicrm_event_page'.
+            // contribution will be significantly different
+            switch ($table) {
+            case 'civicrm_event_page':
+                $eventIdList = implode( ',', $entities );
+                $queryString = "SELECT event_id FROM civicrm_event_page WHERE";
+                $queryString .= " id IN ($eventIdList)";
+                $params = array( );
+                $crmDAO = CRM_Core_DAO::executeQuery( $queryString, $params );
+
+                while ( $crmDAO->fetch() ) {
+                    $eventInfo = array();
+                    $eventDAO =& new CRM_Event_DAO_Event( );
+                    $eventDAO->id = $crmDAO->event_id;
+                    if ( $eventDAO->find() ) {
+                        $eventDAO->fetch();
+                        if ( $getInactive && $eventDAO->is_active ) {
+                            // ignore active events if searching for inactive
+                            continue;
+                        } elseif ( ! $getInactive && ! $eventDAO->is_active ) {
+                            // ignore inactive events if searching for active
+                            continue;
+                        }
+                        // we only care about the end date, not time.
+                        // note that in less than 8000 years, dates will be
+                        // longer than 10 characters.
+                        $endDate = substr( $eventDAO->end_date, 0, 10 );
+                        if ( $endDate < $today && ! $checkPast) {
+                            // event is in the past and we don't care
+                            continue;
+                        }
+                        $eventInfo['title'] = $eventDAO->title;
+                        $eventInfo['eventType'] = CRM_Utils_Array::value( $eventDAO->event_type_id, $eventTypes );
+                        $eventInfo['isPublic'] = $eventDAO->is_public;
+                        $eventInfo['startDate'] = substr( $eventDAO->start_date, 0, 10 );
+                        $eventInfo['endDate'] = $endDate;
+                        $usedBy[$table][$eventDAO->id] = $eventInfo;
+                    }
+                }
+                break;
+
+            default:
+                CRM_Core_Error::fatal( "$table is not supported in PriceSet::usedBy()" );
+                break;
+
+            }
+        }
+        return $usedBy;
+    }
+
+
+
+    /**
      * Determine if a price set has fields
      *
      * @param int id Price Set id

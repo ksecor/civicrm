@@ -54,4 +54,31 @@
        </div>
        {/if}
     {/if}
+
+    {if $usedBy}
+    <div id="price_set_used_by">
+        <p>{ts 1=$usedPriceSetTitle}Unable to disable the price set "%1" - it is in use by the following forms:{/ts}</p>
+        {if $usedBy.civicrm_event_page}
+        <p>{ts}Events:{/ts}</p>
+        <table class="report">
+        <tr class="columnheader-dark">
+            <th scope="col">{ts}Event{/ts}</th>
+            <th scope="col">{ts}Type{/ts}</th>
+            <th scope="col">{ts}Public{/ts}</th>
+            <th scope="col">{ts}Date(s){/ts}</th>
+        </tr>
+
+            {foreach from=$usedBy.civicrm_event_page item=event key=id}
+        <tr>
+            <td><a href="{crmURL p="civicrm/admin/event" q="action=update&reset=1&id=`$id`"}">{$event.title}</a></td>
+            <td>{$event.eventType}</td>
+            <td>{if $event.isPublic}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
+            <td>{$event.startDate}{if $event.endDate}&nbsp;to&nbsp;{$event.endDate}{/if}</td>
+        </tr>
+            {/foreach}
+        </table>
+        {/if}
+    </div>
+    {/if}
+
 {/if}

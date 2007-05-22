@@ -66,7 +66,6 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
         // check if variable _actionsLinks is populated
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this price set?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::BROWSE  => array(
                                                                           'name'  => ts('View and Edit Price Fields'),
@@ -91,7 +90,6 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
                                                                           'url'   => 'civicrm/admin/price',
                                                                           'qs'    => 'action=disable&reset=1&id=%%id%%',
                                                                           'title' => ts('Disable Price Set'),
-                                                                          'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
@@ -158,11 +156,33 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
 
             // if action is enable or disable to the needful.
             if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_PriceSet::setIsActive($id, 0);
-                //CRM_Core_BAO_PriceField::setPriceFieldStatus($id, 0);
+                $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id );
+                if ( empty( $usedBy ) ) {
+                    // disable price set
+                    CRM_Core_BAO_PriceSet::setIsActive($id, 0);
+                    // remove from all inactive forms
+                    $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id, true, true );
+                    if ( isset( $usedBy['civicrm_event_page'] ) ) {
+                        require_once 'CRM/Event/DAO/EventPage.php';
+                        foreach ( $usedBy['civicrm_event_page'] as $eventId => $unused ) {
+                            $eventPageDAO =& new CRM_Event_DAO_EventPage( );
+                            $eventPageDAO->event_id = $eventId;
+                            $eventPageDAO->find();
+                            while ( $eventPageDAO->fetch() ) {
+                                CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event_page', $eventPageDAO->id );
+                            }
+                        }
+                    }
+                } else {
+                    // add breadcrumb
+                    $url = CRM_Utils_System::url( 'civicrm/admin/price', 'reset=1' );
+                    $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Price Sets') . '</a>';
+                    CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+                    $this->assign( 'usedPriceSetTitle', CRM_Core_BAO_PriceSet::getTitle( $id ) );
+                    $this->assign( 'usedBy', $usedBy );
+                }
             } else if ($action & CRM_Core_Action::ENABLE) {
                 CRM_Core_BAO_PriceSet::setIsActive($id, 1);
-                //CRM_Core_BAO_PriceField::setPriceFieldStatus($id, 1);
             }
 
             // finally browse the price sets 
