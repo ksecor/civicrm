@@ -496,12 +496,14 @@ class CRM_Utils_System {
         return $config->userFrameworkBaseURL;
     }
 
-    static function authenticateScript( $abort = true ) {
+    static function authenticateScript( $abort = true, $name = null, $pass = null ) {
         // auth to make sure the user has a login/password to do a shell
         // operation
         // later on we'll link this to acl's
-        $name = trim( CRM_Utils_Array::value( 'name', $_REQUEST ) );
-        $pass = trim( CRM_Utils_Array::value( 'pass', $_REQUEST ) );
+        if ( ! $name ) {
+            $name = trim( CRM_Utils_Array::value( 'name', $_REQUEST ) );
+            $pass = trim( CRM_Utils_Array::value( 'pass', $_REQUEST ) );
+        }
 
         if ( ! $name ) { // its ok to have an empty password
             if ( $abort ) {

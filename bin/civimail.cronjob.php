@@ -49,7 +49,7 @@ function run( ) {
 
     // this does not return on failure
     // require_once 'CRM/Utils/System.php';
-    // CRM_Utils_System::authenticateScript( true );
+    CRM_Utils_System::authenticateScript( true );
 
     $config->userFramework      = 'Soap'; 
     $config->userFrameworkClass = 'CRM_Utils_System_Soap'; 
