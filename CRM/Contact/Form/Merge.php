@@ -68,6 +68,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->_cid         = $cid;
         $this->_oid         = $oid;
         $this->_contactType = $main->contact_type;
+        $this->addElement('checkbox', 'toggleSelect', null, null, array('onchange' => "return toggleCheckboxVals('move_',this.form);"));
 
         // FIXME: there must be a better way
         $names = array('preferred_communication_method' => array('newName'   => 'preferred_communication_method_display',
@@ -115,13 +116,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         if ($label === '0') $label = ts('No');
                         if ($label === '1') $label = ts('Yes');
                     }
-                    $rows[$field][$moniker] = $label;
+                    $rows["move_$field"][$moniker] = $label;
                     if ($moniker == 'other') {
                         if ($value === 0 or $value === '0') $value = $this->_qfZeroBug;
-                        $this->addElement('advcheckbox', $field, null, null, null, $value);
+                        $this->addElement('advcheckbox', "move_$field", null, null, null, $value);
                     }
                 }
-                $rows[$field]['title'] = $fields[$field]['title'];
+                $rows["move_$field"]['title'] = $fields[$field]['title'];
             }
         }
 
@@ -148,11 +149,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 }
             }
             if (!empty($locations[$locTypeName]['main']) or !empty($locations[$locTypeName]['other'])) {
-                $rows["location_$locTypeId"]['main']  = $locLabel['main'];
-                $rows["location_$locTypeId"]['other'] = $locLabel['other'];
-                $rows["location_$locTypeId"]['title'] = ts('Location: %1', array(1 => $locTypeName));
+                $rows["move_location_$locTypeId"]['main']  = $locLabel['main'];
+                $rows["move_location_$locTypeId"]['other'] = $locLabel['other'];
+                $rows["move_location_$locTypeId"]['title'] = ts('Location: %1', array(1 => $locTypeName));
                 if (!empty($locations[$locTypeName]['other'])) {
-                    $this->addElement('advcheckbox', "location_$locTypeId", null, null, null, $locValue['other']);
+                    $this->addElement('advcheckbox', "move_location_$locTypeId", null, null, null, $locValue['other']);
                 }
             }
         }
@@ -169,10 +170,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             }
         }
         foreach ($diffs['custom'] as $id) {
-            $rows["custom_$id"]['main']  = $customLabels['main'][$id];
-            $rows["custom_$id"]['other'] = $customLabels['other'][$id];
-            $rows["custom_$id"]['title'] = CRM_Core_BAO_CustomField::getTitle($id);
-            $this->addElement('advcheckbox', "custom_$id", null, null, null, $customValues['other'][$id]);
+            $rows["move_custom_$id"]['main']  = $customLabels['main'][$id];
+            $rows["move_custom_$id"]['other'] = $customLabels['other'][$id];
+            $rows["move_custom_$id"]['title'] = CRM_Core_BAO_CustomField::getTitle($id);
+            $this->addElement('advcheckbox', "move_custom_$id", null, null, null, $customValues['other'][$id]);
         }
 
         $this->assign('rows', $rows);
@@ -185,9 +186,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 unset($relTables[$name]);
                 continue;
             }
-            $this->addElement('checkbox', $name);
+            $this->addElement('checkbox', "move_$name");
             $relTables[$name]['main_url']  = str_replace('$cid', $cid, $relTables[$name]['url']);
             $relTables[$name]['other_url'] = str_replace('$cid', $oid, $relTables[$name]['url']);
+        }
+        foreach ($relTables as $name => $null) {
+            $relTables["move_$name"] = $relTables[$name];
+            unset($relTables[$name]);
         }
         $this->assign('rel_tables', $relTables);
 
@@ -226,12 +231,12 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $moveTables = array();
         foreach ($formValues as $key => $value) {
             if ($value == $this->_qfZeroBug) $value = '0';
-            if ((in_array($key, $validFields) or substr($key, 0, 7) == 'custom_') and $value != null) {
-                $submitted[$key] = $value;
-            } elseif (substr($key, 0, 9) == 'location_' and $value != null) {
-                $locations[substr($key, 9)] = $value;
-            } elseif (substr($key, 0, 10) == 'rel_table_' and $value == '1') {
-                $moveTables = array_merge($moveTables, $relTables[$key]['tables']);
+            if ((in_array(substr($key, 5), $validFields) or substr($key, 0, 12) == 'move_custom_') and $value != null) {
+                $submitted[substr($key, 5)] = $value;
+            } elseif (substr($key, 0, 14) == 'move_location_' and $value != null) {
+                $locations[substr($key, 14)] = $value;
+            } elseif (substr($key, 0, 15) == 'move_rel_table_' and $value == '1') {
+                $moveTables = array_merge($moveTables, $relTables[substr($key, 5)]['tables']);
             }
         }
         // FIXME: source vs. contact_source workaround
@@ -247,18 +252,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $pcm = array_flip($pcm);
         }
 
-        // handle external_identifier separately; it's an UNIQUE field,
-        // so we can't update the main contact before deleting the other
-        if (isset($submitted['external_identifier'])) {
-            $extId = $submitted['external_identifier'];
-            unset($submitted['external_identifier']);
-        }
-
         $main =& crm_get_contact(array('contact_id' => $this->_cid));
-
-        if (isset($submitted)) {
-            crm_update_contact($main, $submitted);
-        }
 
         // FIXME: the simplest approach to locations
         $locTypes =& CRM_Core_PseudoConstant::locationType();
@@ -296,14 +290,14 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         if ($formValues['moveBelongings']) {
             CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid);
         }
+
         if ($formValues['deleteOther']) {
             $other =& crm_get_contact(array('contact_id' => $this->_oid));
             crm_delete_contact($other);
         }
 
-        // handle the UNIQUE external_identifier with a post-delete update
-        if (isset($extId)) {
-            crm_update_contact($main, array('external_identifier' => $extId));
+        if (isset($submitted)) {
+            crm_update_contact($main, $submitted);
         }
     }
 }
