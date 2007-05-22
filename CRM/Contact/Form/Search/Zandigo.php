@@ -112,13 +112,13 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
                                                   'return' => 0                   ),
                                      95 => array( 'name'   => 'City'              ,
                                                   'loc'    => 'bottom'            ,
-                                                  'return' => 1                   ),
+                                                  'return' => 0                   ),
                                      96 => array( 'name'   => 'State/Province'    ,
                                                   'loc'    => 'bottom'            ,
-                                                  'return' => 1                   ),
+                                                  'return' => 0                   ),
                                      97 => array( 'name'   => 'Postal Code'       ,
                                                   'loc'    => 'bottom'            ,
-                                                  'return' => 1                   ),
+                                                  'return' => 0                   ),
                                      );
 
     }
@@ -251,9 +251,12 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
     public function postProcess( ) {
         $values = $this->controller->exportValues( $this->_name );
 
-        $returnProperties = array( 'contact_id'   => 1,
-                                   'display_name' => 1,
-                                   'image_URL'    => 1,
+        $returnProperties = array( 'contact_id'     => 1,
+                                   'display_name'   => 1,
+                                   'image_URL'      => 1,
+                                   'city'           => 1,
+                                   'state_province' => 1,
+                                   'postal_code'    => 1,
                                    );
 
         foreach ( $this->_customFields as $key => $field ) {

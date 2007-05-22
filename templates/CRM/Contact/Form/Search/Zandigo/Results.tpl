@@ -43,7 +43,7 @@
                     <tr><td class="text5">Name:</td></tr>
                     <tr><td class="text5">Status:</td></tr>
                     {if $row.custom_91}<tr><td class="text5">Organization</td></tr>{/if}
-                    {if $row.custom_95 or $row.custom_96 or $row.custom_97}
+                    {if $row.city or $row.state_province or $row.postal_code}
                         <tr><td class="text5">Location:</td></tr>
                     {/if}
                 </table>
@@ -53,8 +53,8 @@
                     <tr><td><strong><span class="text7"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="View this contact.">{$row.display_name}</a></span></strong></td></tr>
                     <tr><td class="text6">{$row.custom_89}</td></tr>
                     {if $row.custom_91}<tr><td class="text6">{$row.custom_91}</td></tr>{/if}
-                    {if $row.custom_95 or $row.custom_96 or $row.custom_97}
-                        <tr><td class="text6">{$row.custom_95}, {$row.custom_96}, {$row.custom_97}</td></tr>
+                    {if $row.city or $row.state_province or $row.postal_code}
+                        <tr><td class="text6">{$row.city}, {$row.state_province}, {$row.postal_code}</td></tr>
                     {/if}
                 </table>
             </td>
