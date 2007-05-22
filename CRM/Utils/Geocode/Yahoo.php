@@ -63,7 +63,7 @@ class CRM_Utils_Geocode_Yahoo {
      * @return boolean true if we modified the address, false otherwise
      * @static
      */
-    static function format( &$values ) {
+    static function format( &$values, $stateName = false ) {
         CRM_Utils_System::checkPHPVersion( 5, true );
 
         // we need a valid state and country, else we ignore
@@ -89,7 +89,11 @@ class CRM_Utils_Geocode_Yahoo {
             if ( CRM_Utils_Array::value( 'state_province_id', $values ) ) {
                 $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province_id'] );
             } else {
-                $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province'], 'name', 'abbreviation' );
+                if ( ! $stateName ) {
+                    $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province'], 'name', 'abbreviation' );
+                } else {
+                    $stateProvince = $values['state_province'];
+                }
             }
             $arg[] = "state=" . urlencode( $stateProvince );
         }

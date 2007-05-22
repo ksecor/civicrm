@@ -106,7 +106,7 @@ SELECT   c.id,
          a.street_address,
          a.city,
          a.postal_code,
-         s.abbreviation as state,
+         s.name as state,
          o.name as country
   FROM   civicrm_contact  c,
          civicrm_location l,
@@ -139,7 +139,7 @@ ORDER BY a.id
                          'state_province'    => $dao->state,
                          'postal_code'       => $dao->postal_code,
                          'country'           => $dao->country );
-        eval( $config->geocodeMethod . '::format( $params );' );
+        eval( $config->geocodeMethod . '::format( $params, true );' );
         if ( isset( $params['geo_code_1'] ) ) {
             $address = new CRM_Core_DAO_Address( );
             $address->id = $dao->address_id;

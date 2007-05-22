@@ -65,7 +65,7 @@ class CRM_Utils_Geocode_Google {
      * @return boolean true if we modified the address, false otherwise
      * @static
       */
-    static function format( &$values ) {
+    static function format( &$values, $stateName = false ) {
         CRM_Utils_System::checkPHPVersion( 5, true );
 
         require_once 'CRM/Utils/Array.php';
@@ -95,7 +95,11 @@ class CRM_Utils_Geocode_Google {
             if ( CRM_Utils_Array::value( 'state_province_id', $values ) ) {
                 $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province_id'] );
             } else {
-                $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province'], 'name', 'abbreviation' );
+                if ( ! $stateName ) {
+                    $stateProvince = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', $values['state_province'], 'name', 'abbreviation' );
+                } else {
+                    $stateProvince = $values['state_province'];
+                }
             }
             $add .= '+' . urlencode( str_replace('', '+', $stateProvince) );
             $add .= ',+';
