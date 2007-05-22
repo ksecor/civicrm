@@ -262,7 +262,9 @@ abstract class CRM_Import_Parser {
                   $mode = self::MODE_PREVIEW,
                   $contactType = self::CONTACT_INDIVIDUAL,
                   $onDuplicate = self::DUPLICATE_SKIP,
-                  $statusID = null, $totalRowCount = null ) {
+                  $statusID = null,
+                  $totalRowCount = null,
+                  $doGeocodeAddress = false ) {
         switch ($contactType) {
         case CRM_Import_Parser::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';
@@ -369,7 +371,7 @@ abstract class CRM_Import_Parser {
             } else if ( $mode == self::MODE_SUMMARY ) {
                 $returnCode = $this->summary( $values );
             } else if ( $mode == self::MODE_IMPORT ) {
-                $returnCode = $this->import( $onDuplicate, $values );
+                $returnCode = $this->import( $onDuplicate, $values, $doGeocodeAddress );
                 if ( $statusID && ( ( $this->_lineCount % $skip ) == 0 ) ) {
                     $currTimestamp = time( );
                     $totalTime = ( $currTimestamp - $startTimestamp );

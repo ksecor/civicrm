@@ -304,7 +304,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
      * @return boolean      the result of this processing
      * @access public
      */
-    function import( $onDuplicate, &$values) 
+    function import( $onDuplicate, &$values, $doGeocodeAddress = false ) 
     {
         require_once 'api/Contact.php';
 
@@ -440,7 +440,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $this->_newContacts[] = $newContact->id;
             }
         } else {
-            $newContact = crm_create_contact_formatted( $formatted, $onDuplicate, false );
+            $newContact = crm_create_contact_formatted( $formatted, $onDuplicate, $doGeocodeAddress );
             $relationship = true;
         }
         

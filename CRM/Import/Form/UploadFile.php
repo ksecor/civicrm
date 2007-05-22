@@ -70,6 +70,11 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
 
         $this->addElement( 'checkbox', 'skipColumnHeader', ts('First row contains column headers') );
 
+        if ( ! empty( $config->geocodeMethod ) ) {
+            $this->addElement( 'checkbox', 'doGeocodeAddress',
+                               ts( 'Lookup mapping info during import?' ) );
+        }
+
         $duplicateOptions = array();        
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
             null, null, ts('Skip'), CRM_Import_Parser::DUPLICATE_SKIP);

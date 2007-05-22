@@ -25,6 +25,13 @@
         </dd> 
         <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}</dd>
         <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
+{if $form.doGeocodeAddress.html}
+        <dt> </dt><dd>{$form.doGeocodeAddress.html} {$form.doGeocodeAddress.label}</dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">
+            {ts}This option is not recommended for large imports. Use the command-line geocoding script instead.{/ts}
+        </dd> 
+{/if}
         {include file="CRM/Core/Date.tpl"}
         <dt>&nbsp;</dt>
         <dd class="description">
