@@ -62,9 +62,10 @@ function run( ) {
             if ( $v[0] == $short || $v[0] == "--$var" ) {
                 $$var = $v[1];
                 break;
-            } else {
-                $$var = CRM_Utils_Array::value( $var, $_REQUEST );
             }
+        }
+        if ( ! $$var ) {
+            $$var = CRM_Utils_Array::value( $var, $_REQUEST );
         }
     }
 
