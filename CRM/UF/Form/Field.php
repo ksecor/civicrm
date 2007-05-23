@@ -110,8 +110,16 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         } else {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true);
         } 
-        require_once "CRM/Contribute/BAO/Contribution.php";
-        $this->_fields = array_merge (CRM_Contribute_BAO_Contribution::getContributionFields(), $this->_fields);
+
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            require_once "CRM/Contribute/BAO/Contribution.php";
+            $this->_fields = array_merge (CRM_Contribute_BAO_Contribution::getContributionFields(), $this->_fields);
+        }
+
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            require_once 'CRM/Member/BAO/Membership.php';
+            $this->_fields = array_merge (CRM_Member_BAO_Membership::exportableFields(), $this->_fields); 
+        }
 
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
@@ -248,7 +256,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form
 
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             require_once 'CRM/Member/BAO/Membership.php';
-            $fields['Membership'] =& CRM_Member_BAO_Membership::exportableFields();          
+            $membershipFields =& CRM_Member_BAO_Membership::exportableFields(); 
+            unset($membershipFields['membership_contact_id']);
+            unset($membershipFields['member_is_test']);
+            $fields['Membership'] =& $membershipFields;
         }
         
         $noSearchable = array();
