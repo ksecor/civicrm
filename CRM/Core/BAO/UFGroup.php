@@ -246,7 +246,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             if ( ! $skipPermission ) {
                 $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
                 $query .= " AND $permissionClause ";
-        }
+            }
             
             $group =& CRM_Core_DAO::executeQuery( $query, $params );
             
@@ -316,7 +316,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $customFields = CRM_Core_BAO_CustomField::getFieldsForImport( $ctype );
 
             // hack to add custom data for components
-            $components = array("Contribution", "Participant");
+            $components = array("Contribution", "Participant","Membership");
             foreach ( $components as $value) {
                 $customFields = array_merge($customFields, CRM_Core_BAO_CustomField::getFieldsForImport($value));
             }
@@ -481,6 +481,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
 
             $template =& CRM_Core_Smarty::singleton( );
+
             return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
         } else {
             if ( ! $profileID ) {
@@ -597,7 +598,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once 'CRM/Quest/BAO/Student.php';
             $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
-
+        
         // get the contact details (hier)
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
 
@@ -781,7 +782,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $providerName   = $imProviders[$details->$providerId];
                     if ( $providerName ) {
                         $values[$index] = $details->$detailName . " (" . $providerName .")";
-                    } else {
+                    } else {CRM/Core/BAO/UFGroup.php
                         $values[$index] = $details->$detailName;
                     }
                     $params[$index] = $details->$detailName ;        
@@ -837,7 +838,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                      }
                  }
             }
-                   
         }
         
     }
@@ -1313,7 +1313,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
         
         $config =& CRM_Core_Config::singleton( );
-        
+
         if ( substr($fieldName,0,14) === 'state_province' ) {
             $form->add('select', $name, $title,
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
@@ -1338,7 +1338,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ( $fieldName === 'birth_date' ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ( $fieldName === 'deceased_date' ) {  
-            $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
+            $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );    
+        } else if ( in_array($fieldName, array( "membership_start_date","membership_end_date" )) ) {  
+            $form->add('date', $name, $title, CRM_Core_SelectValues::date('manual'), $required ); 
+        }  else if ($field['name'] == 'membership_type_id' ) { 
+            require_once 'CRM/Member/PseudoConstant.php';
+            $form->add('select', 'membership_type_id', ts( 'Membership Type' ),
+                       array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ), $required );            
+        } else if ($field['name'] == 'status_id' ) { 
+            require_once 'CRM/Member/PseudoConstant.php';
+            $form->add('select', 'status_id', ts( 'Membership Status' ),
+                       array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ), $required );
         } else if ( $fieldName === 'gender' ) {  
             $genderOptions = array( );   
             $gender = CRM_Core_PseudoConstant::gender();   
@@ -1378,7 +1388,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                           CRM_Contact_Form_GroupTag::TAG,
                                                           false, $required,
                                                           null, $title, $name );
-
+            
         } else if ( $fieldName === 'home_URL' ) {
             $form->addElement('text', $name, $title,
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),

@@ -42,7 +42,7 @@ require_once 'CRM/Core/Form.php';
  * back in. It also uses a lot of functionality with the CRM API's, so any change
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
-  */
+ */
 class CRM_Profile_Form extends CRM_Core_Form
 {
     const
@@ -50,32 +50,32 @@ class CRM_Profile_Form extends CRM_Core_Form
         MODE_SEARCH   = 2,
         MODE_CREATE   = 4,
         MODE_EDIT     = 8;
-
+    
     protected $_mode;
     
     protected $_skipPermission = false;
-
+    
     /** 
      * The contact id that we are editing 
      * 
      * @var int 
      */ 
     protected $_id; 
- 
+    
     /** 
      * The group id that we are editing
      * 
      * @var int 
      */ 
     protected $_gid; 
- 
+    
     /** 
      * The title of the category we are editing 
      * 
      * @var string 
      */ 
     protected $_title; 
- 
+    
     /** 
      * the fields needed to build this form 
      * 
@@ -89,7 +89,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @var array 
      */ 
     protected $_contact; 
-
+    
     /** 
      * to store group_id of the group which is to be assigned to the contact
      * 
@@ -103,14 +103,14 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @var boolean
      */
     public $_isUpdateDupe = false;
-
+    
     /**
      * THe context from which we came from, allows us to go there if redirect not set
      *
      * @var string
      */
     protected $_context;
-
+    
     /**
      * THe contact type for registration case
      *
@@ -132,16 +132,16 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         require_once 'CRM/Core/BAO/UFGroup.php';
         require_once "CRM/Core/BAO/UFField.php";
-
+        
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
-
+  
         $this->_context  = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-	
+      
         if ( ! $this->_gid ) {
             $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this, false, 0, 'GET');
-        }
-
+        }  
+        
         // if we dont have a gid use the default, else just use that specific gid
         if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) && ! $this->_gid ) {
             $this->_ctype  = CRM_Utils_Request::retrieve( 'ctype', 'String', $this, false, 'Individual', 'REQUEST' );
@@ -153,17 +153,16 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                       $this->_gid,
                                                                       true, null,
                                                                       $this->_skipPermission ); 
-        } else {
+        } else {  
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null,
                                                                null, null,
                                                                false, null,
                                                                true );
         }
- 
         if (! is_array($this->_fields)) {
             $session =& CRM_Core_Session::singleton( );
             CRM_Core_Session::setStatus(ts('This feature is not currently available.'));
-
+            
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm', 'reset=1' ) );
         }
 
@@ -173,7 +172,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
         $session =& CRM_Core_Session::singleton( );
         $this->_cId = $session->get( 'userID' );
-
+       
         $this->setDefaultsValues();
     }
     
@@ -190,14 +189,14 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( $this->_id ) {
             CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $defaults, true );
         }
-
+        
         //set custom field defaults
         require_once "CRM/Core/BAO/CustomField.php";
         foreach ( $this->_fields as $name => $field ) {
             if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID($name) ) {
                 
                 $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
-
+                
                 if ( !isset( $defaults[$name] ) || $htmlType == 'File') {
                     CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id, $this->_mode );
                 }
@@ -210,7 +209,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                     
                     if ( $url ) {
                         $customFiles[$field['name']]['displayURL'] = "Attached File : $url";
-
+                        
                         $deleteExtra = "Are you sure you want to delete attached file ?";
                         $fileId      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue',
                                                                     $defaults[$customOptionValueId],
@@ -245,7 +244,13 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( $this->_mode != self::MODE_REGISTER && $this->_mode != self::MODE_SEARCH) {
             //check for mix profile fields (eg:  individual + other contact type)
             if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
-                CRM_Core_Error::fatal( ts( "This Profile includes fields for more than one record type.") );
+                CRM_Core_Session::setStatus( ts( "This Profile includes fields for more than one record type.") );
+            }
+            
+            $profileType = CRM_Core_BAO_UFField::getProfileType($this->_gid);  
+            if(in_array( $profileType, array( "Membership" , "Participant","Contribution" ) ) ){
+                CRM_Core_Session::setStatus(ts('Profile is not configured for the selected action.'));
+                return 0;
             }
         }
         
@@ -260,7 +265,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         } else {
             $inactiveNeeded = false;
         }
-
+        
         // should we restrict what we display
         $admin = true;
         if ( $this->_mode == self::MODE_EDIT ) {
@@ -292,7 +297,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
             CRM_Core_BAO_UFGroup::buildProfile($this, $field, $this->_mode );
-
+            
             if ($field['add_to_group_id']) {
                 $addToGroupId = $field['add_to_group_id'];
             }
@@ -307,7 +312,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $hBlocks[] = "'id_". $field['group_id'] . "_show'" ; 
                 $sBlocks[] = "'id_". $field['group_id'] ."'";   
             }
-
+            
             //build array for captcha
             if ( $field['add_captcha'] ) {
                 $addCaptcha[$field['group_id']] = $field['add_captcha'];
@@ -329,7 +334,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
         $setCaptcha = false;
-
+        
         // do this only for CiviCRM created forms
         if ( $this->_mode == self::MODE_CREATE ) {
             if (!empty($addCaptcha)) {
@@ -589,8 +594,9 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
+        
         $params = $this->controller->exportValues( $this->_name );
-       
+        
         if ( $this->_mode == self::MODE_CREATE ) {
             if ( $params['create_account'] ) {
                 $mail = $this->_mail; 
@@ -600,7 +606,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                 'pass2' => $params['confirm_pass']),
                                 'mail' => $params[$mail],
                                 );
-
+                                   
                 drupal_execute( 'user_register', $values );
                 $error = form_get_errors();
                 if ( $error ) {
