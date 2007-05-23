@@ -108,7 +108,7 @@ function civicrm_location_update( $params ) {
 
 /**
  * Deletes a contact location.
- * function &_civicrm_contact_add( &$params, $contactID = null ) {
+ * 
  * @param object $contact        A valid Contact object (passed by reference).
  * @param string $location_id    A valid location ID.
  *
