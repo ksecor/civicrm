@@ -584,7 +584,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
     static function &formattedFields( &$params , $row = false ) {
         $fields = array( );
 
-        if ( empty( $params ) ) {
+        if ( empty( $params ) || ! isset( $params['mapper'] ) ) {
             return $fields;
         }
         

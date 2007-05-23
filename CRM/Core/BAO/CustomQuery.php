@@ -169,18 +169,27 @@ class CRM_Core_BAO_CustomQuery {
             $this->_options[$dao->id]['attributes'] = array( 'label'     => $dao->label,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
-            if ( $dao->html_type == 'CheckBox' || $dao->html_type == 'Radio' || $dao->html_type == 'Select' || $dao->html_type == 'Multi-Select') {
+            if ( $dao->html_type == 'CheckBox' ||
+                 $dao->html_type == 'Radio'    ||
+                 $dao->html_type == 'Select'   ||
+                 $dao->html_type == 'Multi-Select' ) {
                 $optionIds[] = $dao->id;
             }
         }
 
         // build the cache for custom values with options (label => value)
         if ( ! empty( $optionIds ) ) {
-            $query = 'select entity_id, label, value from civicrm_custom_option where entity_id IN ( ' .
-                implode( ',', $optionIds ) . ' ) AND entity_table = \'civicrm_custom_field\''; 
+            $optionIdString = implode( ',', $optionIds );
+            $query = "
+SELECT entity_id, label, value
+  FROM civicrm_custom_option
+ WHERE entity_id IN ( $optionIdString ) ) AND entity_table = 'civicrm_custom_field'
+";
+
             $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             while ( $dao->fetch( ) ) {
-                if (preg_match("/^\d*(\.\d+)?$/", $dao->value)) {
+                $dataType = $this->_fields[$dao->entity_id]['data_type'];
+                if ( $dataType == 'Int' || $dataType == 'Float' ) {
                     $num = round($dao->value, 2);
                     $this->_options[$dao->entity_id]["$num"] = $dao->label;
                 } else {
