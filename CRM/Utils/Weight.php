@@ -49,12 +49,20 @@ class CRM_Utils_Weight {
         if ( $minDupeID->dupeId ) {
             $additionalWhere = "id !=". $minDupeID->dupeId . " AND $weightField >= " . $minDupeID->dupeWeight;
             $update = "$weightField = $weightField + 1";
-            CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
-            
+            $status = CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+        }
+        
+        if ( $minDupeID->dupeId && $status ) {
             //recursive call to correct all duplicate weight entries.
-            CRM_Utils_Weight::correctDuplicateWeights($daoName, $fieldValues, $weightField);
-        } else {
+            return CRM_Utils_Weight::correctDuplicateWeights($daoName, $fieldValues, $weightField);
+
+        } elseif ( !$minDupeID->dupeId ) { 
+            // case when no duplicate records are found.
             return true;
+
+        } elseif ( !$status ) {
+            // case when duplicate records are found but update status is false.
+            return false;
         }
     }
 
@@ -85,9 +93,9 @@ class CRM_Utils_Weight {
         // fill the gap
         $additionalWhere = "$weightField > $weight";
         $update = "$weightField = $weightField - 1";
-        CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
+        $status = CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
 
-        return $weight;
+        return $status;
     }
         
     /**
@@ -164,7 +172,7 @@ class CRM_Utils_Weight {
         if ( $weightDAO->max_weight ) {
             return $weightDAO->max_weight;
         }
-        return false;
+        return 0;
     }
 
     /**
@@ -179,11 +187,7 @@ class CRM_Utils_Weight {
     static function getDefaultWeight($daoName, $fieldValues = null, $weightField = 'weight')
     {
         $maxWeight = CRM_Utils_Weight::getMax($daoName, $fieldValues, $weightField);
-        if ( $maxWeight ) {
-            return $maxWeight+1;
-        } else {
-            return 1;
-        }
+        return $maxWeight+1;
     }
 
     /**
