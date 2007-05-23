@@ -58,10 +58,10 @@ function checkChildren(obj, element, value, src_func) {
         active_levels[element] = 0;
     }        
 
-    var res = {/literal}'{$config->resourceBase}'{literal};
+    var res = {/literal}{crmURL p='civicrm/ajax/country' q='s=getParameters'}{literal};
     
     var bindArgs = {
-        url: res + '/extern/ajax.php?q=civicrm/country&s=getParameters',
+        url: res,
         method: 'GET',
         type: "text/json",
         load: function(type, data)
@@ -78,7 +78,7 @@ function checkChildren(obj, element, value, src_func) {
                 container.setAttribute('id',element+'_container_'+node);
                 dojo.byId(element+'_children').appendChild(container);
                     
-                dojo.widget.createWidget("Select", {value: 'this should never be seen - it is replaced!', dataUrl: res + '/extern/ajax.php?q=civicrm/country&s=getParameters&node='+value, id: element +'_'+node, style: 'width: 300px', onValueChanged: src_func}, dojo.byId (element+'_container_'+node));
+                dojo.widget.createWidget("Select", {value: 'this should never be seen - it is replaced!', dataUrl: res + 'node='+value, id: element +'_'+node, style: 'width: 300px', onValueChanged: src_func}, dojo.byId (element+'_container_'+node));
             }
         }            
     };            

@@ -55,7 +55,8 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
 
         $attributes = array( 'dojoType'     => 'ComboBox',
                              'mode'         => 'remote',
-                             'dataUrl'      => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/search&d={$domainID}&s=%{searchString}",
+                             'dataUrl'      => CRM_Utils_System::url( 'civicrm/ajax/search',
+                                                                      "d={$domainID}&s=%{searchString}" ),
                              );
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
         $this->add( 'text', 'sort_name', ts('Name'), $attributes );
@@ -76,7 +77,8 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
         //state - country widget
         $attributes = array( 'dojoType'       => 'Select',
                              'style'          => 'width: 300px;',
-                             'dataUrl'        => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/state&s=a&node=root",
+                             'dataUrl'        => CRM_Utils_System::url( 'civicrm/ajax/state',
+                                                                        's=a&node=root' ),
                              'onValueChanged' => 'checkParamChildren',
                              'id'             => 'wizCardDefGroupId' );
 

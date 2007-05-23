@@ -187,6 +187,15 @@ class CRM_Core_Menu {
                             ),
 
                       array(
+                            'path'   => 'civicrm/ajax',
+                            'title'  => null,
+                            'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
+                            'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
+                            'weight' => 0,
+                            ),
+
+                      array(
                             'path'    => 'civicrm/contact/search/basic',
                             'title'   => ts('Find Contacts'),
                             'query'   => 'reset=1',

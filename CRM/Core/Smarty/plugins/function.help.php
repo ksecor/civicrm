@@ -60,11 +60,12 @@ function smarty_function_help( $params, &$smarty ) {
 
     $id   = urlencode( $params['id'] );
     $file = urlencode( $file );
-    return "
-<img id=\"{$id}_help\" class=\"action-icon\" src=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/i/Help.png\">
-<span dojoType=\"tooltip\" connectId=\"{$id}_help\" href=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/extern/ajax.php?q=civicrm/help&id=$id&file=$file\" style=\"width: 480px; padding: 1em;\">
+    $url = CRM_Utils_System::url( 'civicrm/ajax/help', "id=$id&file=$file" );
+    return <<< EOT
+<img id="{$id}_help" class="action-icon" src="{$smarty->_tpl_vars[ 'config']->resourceBase}/i/Help.png">
+<span dojoType="tooltip" connectId="{$id}_help" href="$url" style="width: 480px; padding: 1em;">
 </span>
-";
+EOT;
 
 }
 

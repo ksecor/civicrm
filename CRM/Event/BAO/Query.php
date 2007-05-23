@@ -313,8 +313,10 @@ class CRM_Event_BAO_Query
         $config =& CRM_Core_Config::singleton( );
         $domainID = CRM_Core_Config::domainID( );
 
-        $dataURLEvent     = $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/event&d={$domainID}&s=%{searchString}";
-        $dataURLEventType = $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/eventType&d={$domainID}&s=%{searchString}";
+        $dataURLEvent     = CRM_Utils_System::url( 'civicrm/ajax/event',
+                                                   "d={$domainID}&s=%{searchString}" );
+        $dataURLEventType = CRM_Utils_System::url( 'civicrm/ajax/eventType',
+                                                   "d={$domainID}&s=%{searchString}" );
         
         $form->assign( 'dojoIncludes', "dojo.require('dojo.widget.ComboBox');" );
         

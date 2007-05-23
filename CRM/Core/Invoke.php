@@ -78,6 +78,10 @@ class CRM_Core_Invoke
 
         switch ( $args[1] ) {
 
+        case 'ajax':
+            self::ajax( $args );
+            break;
+
         case 'contact'  : 
             self::contact ( $args );
             break;
@@ -386,6 +390,19 @@ class CRM_Core_Invoke
         require_once 'CRM/Contact/Page/View/DashBoard.php';
         $view =& new CRM_Contact_Page_View_DashBoard( );
         return $view->run();
+    }
+
+    /**
+     * This function for CiviCRM ajax
+     *
+     * @static
+     * @access public
+     */
+    static function ajax( &$args ) 
+    {
+        require_once 'CRM/Core/Page/AJAX.php';
+        $view =& new CRM_Core_Page_AJAX( );
+        return $view->run( $args );
     }
 
     /**

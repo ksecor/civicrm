@@ -30,7 +30,7 @@ setIntermediate = function(type,data,evt){
 doProgress = function(){
     dojo.io.bind({
 {/literal}
-        url: "{$config->resourceBase}extern/ajax.php?q=civicrm/status&id={$statusID}",
+        url: "{crmURL p='civicrm/ajax/status' q="id=$statusID"}",
 {literal}
         mimetype: "text/json",
         load: setIntermediate
