@@ -66,7 +66,8 @@ class CRM_Contact_BAO_Organization extends CRM_Contact_DAO_Organization
         $organization->copyValues( $params );
 
         $organization->id = CRM_Utils_Array::value( 'organization', $ids );
-        return $organization->save( );
+        $organization->save( );
+        return $organization;
     }
 
     /**

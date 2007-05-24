@@ -109,7 +109,14 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
 
         $note->id = CRM_Utils_Array::value( 'id', $ids );
         $note->save( );
-       
+
+        if ( $note->entity_table == 'civicrm_contact' ) {
+            require_once 'CRM/Core/BAO/Log.php';
+            CRM_Core_BAO_Log::register( $note->entity_id,
+                                        'civicrm_note',
+                                        $note->id );
+        }
+
         return $note;
     }
 

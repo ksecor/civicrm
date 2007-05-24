@@ -467,7 +467,13 @@ ORDER BY
             $contact->hash = md5( uniqid( rand( ), true ) );
         }
 
-        return $contact->save();
+        $contact->save( );
+        require_once 'CRM/Core/BAO/Log.php';
+        CRM_Core_BAO_Log::register( $contact->id,
+                                    'civicrm_contact',
+                                    $contact->id );
+                                  
+        return $contact;
     }
 
     /**
@@ -2105,7 +2111,6 @@ WHERE civicrm_contact.id IN $idString ";
             }
         }
 
-
         //get the custom fields for the contact
         $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );
 
@@ -2228,11 +2233,11 @@ WHERE civicrm_contact.id IN $idString ";
 
         require_once 'CRM/Contact/BAO/Contact.php';
         
-        if ($data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
+        if ( $data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
             $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
             $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
-
         }
+
         // contact is null if the profile does not have any contact fields
         if ( $contact ) {
           $contactID = $contact->id;

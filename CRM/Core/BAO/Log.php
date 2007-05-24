@@ -41,6 +41,8 @@ require_once 'CRM/Core/DAO/Log.php';
 
 class CRM_Core_BAO_Log extends CRM_Core_DAO_Log
 {
+    static $_processed = null;
+
     static function &lastModified( $id, $table = 'civicrm_contact' )
     {
         require_once 'CRM/Core/DAO/Log.php';
@@ -55,9 +57,9 @@ class CRM_Core_BAO_Log extends CRM_Core_DAO_Log
         if ( $log->find( true ) ) {
             list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $log->modified_id );
             $result = array( 'id'    => $log->modified_id,
-                          'name'  => $displayName,
-                          'image' => $contactImage,
-                          'date'  => $log->modified_date );
+                             'name'  => $displayName,
+                             'image' => $contactImage,
+                             'date'  => $log->modified_date );
         }
         return $result;
     }
@@ -77,5 +79,54 @@ class CRM_Core_BAO_Log extends CRM_Core_DAO_Log
         $log->copyValues($params);
         $log->save();
     }
+
+    static function register( $contactID,
+                              $tableName,
+                              $tableID  ,
+                              $userID = null ) {
+        if ( ! self::$_processed ) {
+            self::$_processed = array( );
+        }
+
+        if ( ! $userID ) {
+            $session =& CRM_Core_Session::singleton( );
+            $userID  =  $session->get( 'userID' );
+        }
+        if ( ! $userID ) {
+            return;
+        }
+
+        $log =& new CRM_Core_DAO_Log( );
+        $log->id = null;
+
+        if ( isset( self::$_processed[$contactID] ) ) {
+            if ( isset( self::$_processed[$contactID][$userID] ) ) {
+                $log->id = self::$_processed[$contactID][$userID];
+            }
+            self::$_processed[$contactID][$userID] = 1;
+        } else {
+            self::$_processed[$contactID] = array( $userID => 1 );
+        }
+
+        $logData = "$tableName,$tableID";
+        if ( ! $log->id ) {
+            $log->entity_table  = 'civicrm_contact';
+            $log->entity_id     = $contactID;
+            $log->modified_id   = $userID;
+            $log->modified_date = date( "YmdHis" );
+            $log->data          = $logData;
+            $log->save( );
+        } else {
+            $query = "
+UPDATE civicrm_log
+   SET data = concat( data, ':$logData' )
+ WHERE id = {$log->id}
+";
+            CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        }
+
+        self::$_processed[$contactID][$userID] = $log->id;
+    }
 }
+
 ?>

@@ -253,10 +253,8 @@ class CRM_Core_DAO extends DB_DataObject {
     function save( ) {
         if ($this->id) {
             $this->update();
-            $this->log( false );
         } else {
             $this->insert();
-            $this->log( true );
         }
         $this->free( );
         return $this;

@@ -96,7 +96,8 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
 
         $individual->id = CRM_Utils_Array::value( 'individual', $ids );
 
-        return $individual->save();
+        $individual->save( );
+        return $individual;
     }
 
     /**
