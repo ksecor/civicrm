@@ -53,7 +53,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     {
         parent::__construct();
     }
-    
 
     /**
      * takes an associative array and creates a membership object
@@ -686,7 +685,7 @@ UPDATE civicrm_membership_type
         $fields = array_merge($fields, $expFieldMembership );
         return $fields;
     }
-    
+
     /**
      * Function to get membership summary
      * 
@@ -706,7 +705,7 @@ WHERE ";
         $currentMonth    = date("Y-m-01");
         $currentMonthEnd = date("Y-m-31");
         $whereCond =  "membership_type_id = $membershipTypeId AND start_date >= '".$currentMonth ."' AND start_date <= ' ".$currentMonthEnd."'" ;
-
+        
         $query = $queryString . $whereCond;
         
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
@@ -1081,6 +1080,30 @@ WHERE mp.payment_entity_table ='civicrm_contribute'
         }
         $membership->free( );
     }
-
+    
+    /**
+     * Function to get list of membership fields for profile
+     * For now we only allow custom membership fields to be in
+     * profile
+     *
+     * @return return the list of membership fields
+     * @static
+     * @access public
+     */
+    static function getMembershipFields( ) 
+        {
+            $membershipFields =& CRM_Member_DAO_Membership::export( );
+            
+            foreach ($membershipFields as $key => $var) {
+                if ($key == 'membership_contact_id') {
+                    continue;
+                }
+                $fields[$key] = $var;
+            }
+            
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));
+            
+            return $fields;
+        }
 }
 ?>

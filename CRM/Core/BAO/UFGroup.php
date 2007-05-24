@@ -735,7 +735,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                         ! empty( $details->$name ) ) {
                                 $url = CRM_Utils_System::fixURL( $details->$name );
                                 $values[$index] = "<a href=\"$url\">{$details->$name}</a>";
-                            } else if ( in_array( $name, array('birth_date', 'deceased_date')) ) {
+                            } else if ( in_array( $name, array('birth_date', 'deceased_date','membership_start_date','membership_end_date','join_date')) ) {
                                 $values[$index] = $details->$name;
                                 require_once 'CRM/Utils/Date.php';
                                 $params[$index] = CRM_Utils_Date::isoToMysql( $details->$name );
@@ -1311,7 +1311,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else {
             $name = $fieldName;
         }
-        
+
         $config =& CRM_Core_Config::singleton( );
 
         if ( substr($fieldName,0,14) === 'state_province' ) {
@@ -1339,7 +1339,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ( $fieldName === 'deceased_date' ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );    
-        } else if ( in_array($fieldName, array( "membership_start_date","membership_end_date" )) ) {  
+        } else if ( in_array($fieldName, array( "membership_start_date","membership_end_date","join_date")) ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('manual'), $required ); 
         }  else if ($field['name'] == 'membership_type_id' ) { 
             require_once 'CRM/Member/PseudoConstant.php';
@@ -1451,12 +1451,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         if ($view && $mode != CRM_Profile_Form::MODE_SEARCH) {
             $form->freeze($name);
         }
-
+        
         //add the rules
         if ( in_array($fieldName, array('non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' )) ) {
             $form->addRule($name, ts('Please enter a valid amount.'), 'money');
         }
-
+        
         if ( $rule ) {
             if (!($rule == 'email'  &&  $mode == CRM_Profile_Form::MODE_SEARCH)) {
                 $form->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $title ) ), $rule );
@@ -1671,8 +1671,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                    } 
                }
         }
+        
     }
-
+    
     /**
      * Function to get profiles by type  eg: pure Individual etc
      *
