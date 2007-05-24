@@ -319,10 +319,11 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
 
             if ( $this->_mode == self::MODE_CREATE ) {
-                $cmsCid = false;
+                $cmsCid = false;// if false, user is not logged-in. 
                 if ( $this->_cId ) {
                     list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($this->_cId);
                     $cmsCid = true; 
+                    $this->assign('cmsCid', 1);
                 }
                 if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
                     $cms = true;
@@ -372,16 +373,26 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'showBlocks', $showBlocks ); 
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
-        if ( $this->_gid ) {
-            $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_cms_user' );
+        $config =& CRM_Core_Config::singleton( );
+        // if cms is drupal having version greater than equal to 5.1 
+        if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
+            if ( $this->_gid ) {
+                $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_cms_user' );
+            }
+            // $cms is true when there is email(primary location) is set in the profile field.
+            if ( $cmsUser && $cms) {
+                $extra = array('onclick' => "showMessage($cmsCid);return  showHideByValue('create_account', '', 'details','block','radio',false )");
+                $this->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra); 
+                if( !$cmsCid ) {
+                    $this->add('text', 'name', ts('User Name'));
+                    $this->add('password', 'pass', ts('Password'));
+                    $this->add('password', 'confirm_pass', ts('Confirm Password'));
+                }
+            } 
+            $baseURL = $config->userFrameworkBaseURL;
+            $this->assign('baseURL', $baseURL);
+            $this->assign('drupalCms', true);  
         }
-        if ( $cmsUser && $cms && !$cmsCid ) {
-            $extra = array('onclick' => "return showHideByValue('create_account', '', 'details','block','radio',false )");
-            $this->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra); 
-            $this->add('text', 'name', ts('User Name'));
-            $this->add('password', 'pass', ts('Password'));
-            $this->add('password', 'confirm_pass', ts('Confirm Password'));
-        }   
         $this->assign( 'groupId', $this->_gid ); 
 
         // if view mode pls freeze it with the done button.
@@ -596,24 +607,25 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         
         $params = $this->controller->exportValues( $this->_name );
-        
-        if ( $this->_mode == self::MODE_CREATE ) {
-            if ( $params['create_account'] ) {
-                $mail = $this->_mail; 
-                $values = array( 
-                                'name' => $params['name'],
-                                'pass' => array('pass1' => $params['pass'],
-                                                'pass2' => $params['confirm_pass']),
-                                'mail' => $params[$mail],
-                                );
+        if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
+            if ( $this->_mode == self::MODE_CREATE ) {
+                if ( $params['create_account'] ) {
+                    $mail = $this->_mail; 
+                    $values = array( 
+                                    'name' => $params['name'],
+                                    'pass' => array('pass1' => $params['pass'],
+                                                    'pass2' => $params['confirm_pass']),
+                                    'mail' => $params[$mail],
+                                    );
                                    
-                drupal_execute( 'user_register', $values );
-                $error = form_get_errors();
-                if ( $error ) {
-                    $session =& CRM_Core_Session::singleton();
-                    $session->setStatus( ts('Your profile is not saved and Account is not created.') );
-                    $url = CRM_Utils_System::url('civicrm/profile/create', 'reset=1&gid=' . $this->_gid );
-                    CRM_Utils_System::redirect($url);
+                    drupal_execute( 'user_register', $values );
+                    $error = form_get_errors();
+                    if ( $error ) {
+                        $session =& CRM_Core_Session::singleton();
+                        $session->setStatus( ts('Your profile is not saved and Account is not created.') );
+                        $url = CRM_Utils_System::url('civicrm/profile/create', 'reset=1&gid=' . $this->_gid );
+                        CRM_Utils_System::redirect($url);
+                    }
                 }
             }
         }

@@ -109,16 +109,19 @@
         <div class="messages help">{$field.groupHelpPost}</div>
     {/if}
 
-
-<tr><td>{$form.create_account.html} {$form.create_account.label}</td></tr>
-<div id="details">
-<table class="form-layout-compressed">
+{if $cms}
+ <tr><td>{$form.create_account.html} {$form.create_account.label}</td></tr>
+ {if $cmsCid neq 1}
+{ts} If you would like to create an account on this site, fill in your username and password{/ts}
+ {/if}
+ <div id="details">
+  <table class="form-layout-compressed">
     <tr><td>{$form.name.label}</td> <td>{$form.name.html}</td></tr>
     <tr><td>{$form.pass.label}</td> <td> {$form.pass.html}</td></tr>        
     <tr><td>{$form.confirm_pass.label}</td> <td> {$form.confirm_pass.html}</td></tr>
-</table>        
-</div>
-
+  </table>        
+ </div>
+{/if}
 
     {if $mode eq 8}
         </fieldset>
@@ -173,11 +176,19 @@
   {
      window.open(path,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,screenX=150,screenY=150,top=150,left=150')
   }
+  function showMessage( $cmsId )
+ {
+   if( $cmsId ) {
+     alert("You are logged-in user");
+   } else {
+     alert("Please login if you have an account on this site with the link " + $baseURL  );
+   }
+ }
   {/literal}	
 </script>
-
 {/if} {* fields array is not empty *}
 
+{if $drupalCms}
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="create_account"
 trigger_value       =""
@@ -186,3 +197,4 @@ target_element_type ="block"
 field_type          ="radio"
 invert              = 0
 }
+{/if}

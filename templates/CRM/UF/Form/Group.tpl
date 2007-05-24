@@ -102,16 +102,3 @@
     </div>
 {/if}
 
-{include file="CRM/common/showHide.tpl"}
-<script type="text/javascript" >
-{literal}
-function cms( $cmsId )
-{
- if( $cmsId ) {
-    alert("You are logged-in user");
- } else {
-     alert("Please login if you have an account on this site with the link http://localhost/drupal/user" );  
- }
-}
-{/literal}
-</script>

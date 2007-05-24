@@ -189,7 +189,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         if ( $this->_cId = $session->get( 'userID' ) ){
             $this->_cmsId = true;
         }
-        $this->add('checkbox', 'is_cms_user', ts('Create CMS User?'), null, false, array('onclick' => "cms($this->_cmsId)"));
+        $this->add('checkbox', 'is_cms_user', ts('Create CMS User?'));
         
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
