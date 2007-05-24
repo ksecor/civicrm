@@ -183,7 +183,7 @@ class CRM_Core_BAO_CustomQuery {
             $query = "
 SELECT entity_id, label, value
   FROM civicrm_custom_option
- WHERE entity_id IN ( $optionIdString ) ) AND entity_table = 'civicrm_custom_field'
+ WHERE entity_id IN ( $optionIdString ) AND entity_table = 'civicrm_custom_field'
 ";
 
             $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
