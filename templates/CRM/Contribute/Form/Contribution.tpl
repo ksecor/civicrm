@@ -90,6 +90,12 @@
             window.location= post; 
         }
      }
+
+     function status() {
+       document.getElementById("cancel_date[M]").value = "";
+       document.getElementById("cancel_date[d]").value = "";
+       document.getElementById("cancel_date[Y]").value = "";
+     }
     </script>
     {/literal}
 

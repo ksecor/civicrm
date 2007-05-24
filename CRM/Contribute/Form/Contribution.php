@@ -304,7 +304,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->addGroup( $statusOption, 'contribution_status_id', ts('Status Option') );
         */
         
-        $this->add('select', 'contribution_status_id', ts('Contribution Status'),CRM_Contribute_PseudoConstant::contributionStatus( ) );
+        $this->add('select', 'contribution_status_id',
+                   ts('Contribution Status'), 
+                   CRM_Contribute_PseudoConstant::contributionStatus( ),
+                   false, array('onChange' => "if (this.value != 3) status(); else return false"));
         $element =& $this->add('select', 'payment_instrument_id', 
                                ts( 'Paid By' ), 
                                array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
@@ -496,12 +499,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $formValues[$d]['i'] = '00';
                 $formValues[$d]['s'] = '00';
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
+            } else{
+                $params[$d] = null;
             }
         }
 
-        // FIX ME
-        if ( !CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) {
-            $params["contribution_status_id"] = 3;
+        if ( ( CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) && 
+             ($params["contribution_status_id"] == 3) ){
+            $params['cancel_date'] = date("Y-m-d");
         }
         
         $ids['contribution'] = $params['id'] = $this->_id;
