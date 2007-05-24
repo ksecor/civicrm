@@ -171,8 +171,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         $rows["custom_group_$gid"]['title'] = $group['title'];
                         $foundField = true;
                     }
-                    CRM_Core_Error::debug('$field', $field);
-                    $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomOption::getOptionLabel($fid, $mainTree[$gid]['fields'][$fid]['customValue']['data']);
+                    $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomOption::getOptionLabel($fid,  $mainTree[$gid]['fields'][$fid]['customValue']['data']);
                     $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomOption::getOptionLabel($fid, $otherTree[$gid]['fields'][$fid]['customValue']['data']);
                     $rows["move_custom_$fid"]['title'] = $field['label'];
                     $this->addElement('advcheckbox', "move_custom_$fid", null, null, null, $field['customValue']['data']);
