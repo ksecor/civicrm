@@ -292,7 +292,13 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 $email->is_primary  = 1;
                 $email->email       = $emailAddress; 
                 $email->save( );
+                $emailID = $email->id;
             }
+            require_once 'CRM/Core/BAO/Log.php';
+            // we dont know the email id, so we use the location id
+            CRM_Core_BAO_Log::register( $contactId,
+                                        'civicrm_location',
+                                        $contactDetails[3] );
         }
     }
     
