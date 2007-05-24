@@ -171,10 +171,12 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         $rows["custom_group_$gid"]['title'] = $group['title'];
                         $foundField = true;
                     }
-                    $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomOption::getOptionLabel($fid,  $mainTree[$gid]['fields'][$fid]['customValue']['data']);
-                    $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomOption::getOptionLabel($fid, $otherTree[$gid]['fields'][$fid]['customValue']['data']);
+                    // FIXME: is there a better way than getOptionLabel(), one that does not do a roundtrip to the database?
+                    $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomOption::getOptionLabel($fid,  $mainTree[$gid]['fields'][$fid]['customValue']['data'], $field['html_type'], $field['data_type']);
+                    $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomOption::getOptionLabel($fid, $otherTree[$gid]['fields'][$fid]['customValue']['data'], $field['html_type'], $field['data_type']);
                     $rows["move_custom_$fid"]['title'] = $field['label'];
-                    $this->addElement('advcheckbox', "move_custom_$fid", null, null, null, $field['customValue']['data']);
+                    $value = $field['customValue']['data'] ? $field['customValue']['data'] : $this->_qfZeroBug;
+                    $this->addElement('advcheckbox', "move_custom_$fid", null, null, null, $value);
                 }
             }
         }
@@ -253,6 +255,32 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $pcm = trim($pcm, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR);
             $pcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pcm);
             $pcm = array_flip($pcm);
+        }
+        // FIXME: fix custom fields so they're edible by crm_update_contact
+        // there should be an easier way (and API should consume its own output in the first place)
+        $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, null, -1);
+        foreach ($cgTree as $group) {
+            foreach ($group['fields'] as $fid => $field) {
+                $cFields[$fid]['attributes'] = $field;
+            }
+        }
+        foreach ($submitted as $key => $value) {
+            if (substr($key, 0, 7) == 'custom_') {
+                $fid = (int) substr($key, 7);
+                switch ($cFields[$fid]['attributes']['html_type']) {
+#               case 'CheckBox':
+#               case 'Multi-Select':
+#                   $submitted[$key] = trim($submitted[$key], CRM_Core_BAO_CustomOption::VALUE_SEPERATOR);
+#                   $submitted[$key] = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $submitted[$key]);
+#                   break;
+                case 'Select Country':
+                case 'Select State/Province':
+                    $submitted[$key] = CRM_Core_BAO_CustomField::getDisplayValue($value, $fid, $cFields);
+                    break;
+                default:
+                    break;
+                }
+            }
         }
 
         $main =& crm_get_contact(array('contact_id' => $this->_cid));
