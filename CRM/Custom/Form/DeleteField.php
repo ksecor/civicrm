@@ -114,6 +114,8 @@ class CRM_Custom_Form_DeleteField extends CRM_Core_Form {
             require_once "CRM/Core/BAO/UFField.php";
             CRM_Core_BAO_UFField::delUFField($this->_id);
             CRM_Core_Session::setStatus( ts('The custom field "%1" has been deleted.', array(1 => $field->label)) );        
+        } else {
+            CRM_Utils_Weight::correctDuplicateWeights('CRM_Core_DAO_CustomField');  
         }
     }
 }
