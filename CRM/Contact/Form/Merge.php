@@ -52,6 +52,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     {
         require_once 'api/Contact.php';
         require_once 'api/Search.php';
+        require_once 'CRM/Core/BAO/CustomGroup.php';
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Core/OptionValue.php';
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
@@ -159,21 +160,24 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         }
 
         // handle custom fields
+        $mainTree  =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_cid, -1);
+        $otherTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_oid, -1);
         if (!isset($diffs['custom'])) $diffs['custom'] = array();
-        foreach (array('main', 'other') as $moniker) {
-            $contact =& $$moniker;
-            foreach ($contact->custom_values as $cv) {
-                if (in_array($cv['custom_field_id'], $diffs['custom'])) {
-                    $customValues[$moniker][$cv['custom_field_id']] = $cv['value'];
-                    $customLabels[$moniker][$cv['custom_field_id']] = CRM_Core_BAO_CustomOption::getOptionLabel($id, $cv['value']);
+        foreach ($otherTree as $gid => $group) {
+            $foundField = false;
+            foreach ($group['fields'] as $fid => $field) {
+                if (in_array($fid, $diffs['custom'])) {
+                    if (!$foundField) {
+                        $rows["custom_group_$gid"]['title'] = $group['title'];
+                        $foundField = true;
+                    }
+                    CRM_Core_Error::debug('$field', $field);
+                    $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomOption::getOptionLabel($fid, $mainTree[$gid]['fields'][$fid]['customValue']['data']);
+                    $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomOption::getOptionLabel($fid, $otherTree[$gid]['fields'][$fid]['customValue']['data']);
+                    $rows["move_custom_$fid"]['title'] = $field['label'];
+                    $this->addElement('advcheckbox', "move_custom_$fid", null, null, null, $field['customValue']['data']);
                 }
             }
-        }
-        foreach ($diffs['custom'] as $id) {
-            $rows["move_custom_$id"]['main']  = $customLabels['main'][$id];
-            $rows["move_custom_$id"]['other'] = $customLabels['other'][$id];
-            $rows["move_custom_$id"]['title'] = CRM_Core_BAO_CustomField::getTitle($id);
-            $this->addElement('advcheckbox', "move_custom_$id", null, null, null, $customValues['other'][$id]);
         }
 
         $this->assign('rows', $rows);
