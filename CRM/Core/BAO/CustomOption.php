@@ -152,21 +152,21 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
     }
 
     static function getOptionLabel( $fieldId, $value, $fieldType = null, $entityTable = 'civicrm_custom_field' ) {
-        if ( $fieldType &&
-             $fieldType != 'Select' &&
-             $fieldType != 'Radio' ) {
-            return $value;
-        }
-
-        $dao =& new CRM_Core_DAO_CustomOption( );
-        $dao->entity_id    = $fieldId;
-        $dao->entity_table = $entityTable;
-        $dao->value = $value;
         $label = $value;
-        if ( $dao->find( true ) ) {
-            $label = $dao->label;
+        switch ($fieldType) {
+        case null:
+        case 'Radio':
+        case 'Select':
+            $dao =& new CRM_Core_DAO_CustomOption();
+            $dao->entity_id    = $fieldId;
+            $dao->entity_table = $entityTable;
+            $dao->value = $value;
+            if ($dao->find(true)) {
+                $label = $dao->label;
+            }
+            $dao->free();
+            break;
         }
-        $dao->free();
         return $label;
     }
 
