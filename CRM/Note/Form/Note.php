@@ -132,9 +132,8 @@ class CRM_Note_Form_Note extends CRM_Core_Form
      * @access public
      * @return None
      */
-    public function postProcess() 
+    public function postProcess( )
     {
-       
         $session =& CRM_Core_Session::singleton( );
 
         // store the submitted values in an array
@@ -153,22 +152,24 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             CRM_Core_BAO_Note::del( $this->_id );
-        
-            //CRM_Core_Session::setStatus( ts('Selected Note has been Deleted Successfuly.') );
             return;
-        }if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            
+        } if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $note->id = $this->_id;
-        } else {
-            $note->entity_table = $this->_entityTable;
-            $note->entity_id    = $this->_entityId;
         }
+
+        $note->entity_table = $this->_entityTable;
+        $note->entity_id    = $this->_entityId;
         $note->save( );
+
+        if ( $note->entity_table == 'civicrm_contact' ) {
+            require_once 'CRM/Core/BAO/Log.php';
+            CRM_Core_BAO_Log::register( $note->entity_id,
+                                        'civicrm_note',
+                                        $note->id );
+        }
 
         CRM_Core_Session::setStatus( ts('Your Note has been saved.') );
     }//end of function
-
-
 }
 
 ?>
