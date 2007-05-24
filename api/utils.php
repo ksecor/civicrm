@@ -1749,7 +1749,7 @@ function _crm_validate_formatted_contact(&$params) {
  * @access public
  */
 function _crm_validate_formatted_contribution(&$params) {
-
+    
     static $domainID = null;
     if (!$domainID) {
         $config =& CRM_Core_Config::singleton();
@@ -1789,14 +1789,10 @@ function _crm_validate_formatted_contribution(&$params) {
                 return _crm_error("currency not a valid code: $value");
             }
             break;
-        case 'contribution_type':
-             require_once 'CRM/Contribute/PseudoConstant.php';
-             $contributionType = CRM_Contribute_PseudoConstant::contributionType();
-             foreach ($contributionType as $v) {
-                 if (strtolower($v) == strtolower($value)) {
-                     $params[$key] = $v;
-                 }
-             }
+        case 'contribution_type_id':
+            if ( !$params['contribution_type_id'] ) {
+                return _crm_error("Contribution Type do not match");
+            }
             break;
 
         case 'payment_instrument':
