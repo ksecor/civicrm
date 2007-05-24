@@ -151,22 +151,41 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         return $customValue;
     }
 
-    static function getOptionLabel( $fieldId, $value, $fieldType = null, $entityTable = 'civicrm_custom_field' ) {
-        $label = $value;
+    static function getOptionLabel($fieldId, $value, $fieldType = null, $dataType = null, $entityTable = 'civicrm_custom_field')
+    {
         switch ($fieldType) {
+
         case null:
+        case 'CheckBox':
+        case 'Multi-Select':
         case 'Radio':
         case 'Select':
             $dao =& new CRM_Core_DAO_CustomOption();
             $dao->entity_id    = $fieldId;
             $dao->entity_table = $entityTable;
             $dao->value = $value;
-            if ($dao->find(true)) {
-                $label = $dao->label;
-            }
+            $label = $dao->find(true) ? $dao->label : $value;
             $dao->free();
             break;
+
+        case 'Select Country':
+            $label =& CRM_Core_PseudoConstant::country($value);
+            break;
+
+        case 'Select Date':
+            $label = CRM_Utils_Date::customFormat($value);
+            break;
+
+        case 'Select State/Province':
+            $label = CRM_Core_PseudoConstant::stateProvince($value);
+            break;
+
+        default:
+            $label = $value;
+            break;
+
         }
+        if ($dataType == 'Boolean') $label = $value ? ts('Yes') : ts('No');
         return $label;
     }
 
