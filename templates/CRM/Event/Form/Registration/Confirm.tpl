@@ -41,7 +41,7 @@
         </table>
         {ts}Total{/ts}: {$amount}
         {elseif $amount}
-            {ts}Amount :{/ts} 
+            {$event.fee_label}:
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
         {/if}
     </div>

@@ -72,7 +72,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         }          
 
         // get the eventPageID
-        $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+        $eventPageId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
                                                     $id,
                                                     'id',
                                                     'event_id' );

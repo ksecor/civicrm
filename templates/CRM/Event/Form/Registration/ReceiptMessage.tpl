@@ -20,9 +20,6 @@
 {/if}{*End of isShowLocation condition*}
 
 {if $location.1.phone.1.phone || $location.1.email.1.email}
-{if $event.is_monetary}
-{ts}Fee Label:{/ts} {$event.fee_label}
-{/if}
 
 {ts}Event Contacts:{/ts}
 {foreach from=$location.1.phone item=phone}
@@ -48,7 +45,7 @@
 {ts}Registration Fee{/ts}
 
 ===========================================================
-{ts}Amount{/ts}           : {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
+{$event.fee_label}       : {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
 {ts}Transaction #{/ts}    : {$trxn_id}

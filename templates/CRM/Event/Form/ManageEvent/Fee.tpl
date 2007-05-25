@@ -5,16 +5,17 @@
 <div class="form-item">
 <fieldset><legend>{ts}Event Fees{/ts}</legend>
     <dl>
- 	<dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
+    <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     <dt>{$form.is_monetary.label}</dt><dd>{$form.is_monetary.html}</dd>
     </dl>
-    
+  								
     <div id="event-fees">
         <div id="contributionType">
             <dl>
             <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This contribution type will be assigned to payments made by participants when they register online.{/ts}
-            <dt>{$form.fee_label.label}</dt><dd>{$form.fee_label.html}</dd>
+            <dt>{$form.fee_label.label}<span class="marker"> *</span>
+	    </dt><dd>{$form.fee_label.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This label is displayed with the list of event fees.{/ts}
             </dl>
         </div>

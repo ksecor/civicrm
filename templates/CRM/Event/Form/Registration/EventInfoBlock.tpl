@@ -49,10 +49,5 @@
         </td>
     </tr>
   {/if}
-
-  {if $event.is_monetary}
-    <tr><td><label>{ts}Fee Label{/ts}</label></td>
-         <td>{$event.fee_label}</td>
-    </tr>  
-  {/if}
+  
 </table>

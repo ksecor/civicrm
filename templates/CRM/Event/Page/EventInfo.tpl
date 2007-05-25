@@ -59,7 +59,7 @@
       {/if}
     
       {if $event.is_monetary eq 1 && $custom.value} 
-      <tr><td style="vertical-align:top;"><label>{ts}Fee(s){/ts}</label></td>
+      <tr><td style="vertical-align:top;"><label>{$event.fee_label}</label></td>
         <td>
         <table class="form-layout-compressed">
          {section name=loop start=1 loop=11}
@@ -71,9 +71,6 @@
          </table>
          </td>
       </tr>
-   	  <tr><td><label>{ts}Fee Label{/ts}</label></td>
-          <td>{$event.fee_label}</td>
-      </tr>  
       {/if}
     </table>
     {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1} 

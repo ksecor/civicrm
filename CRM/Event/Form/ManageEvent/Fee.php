@@ -103,7 +103,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         if ( !isset($defaults['is_monetary']) ) {
             $defaults['is_monetary'] = 1;
         }
-
+        
+        if ( !isset($defaults['fee_label']) ) {
+            $defaults['fee_label'] = ts('Event Fee(s)') ;
+        }
+        
         require_once 'CRM/Core/ShowHideBlocks.php';
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
         if ( !$defaults['is_monetary'] ) {
@@ -113,7 +117,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             $this->_showHide->addHide( 'map-field' );
         }
         $this->_showHide->addToTemplate( );
-        
+
         return $defaults;
     }
     

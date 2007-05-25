@@ -50,10 +50,12 @@
 </fieldset>
 {else}
  <table class="form-layout-compressed">
-    {if $paidEvent} 
-        <tr><td><label>{ts}Fee Label{/ts}</label></td><td>{$event.fee_label}</td></tr>   
+    {if $paidEvent}
+	<tr><td class="label nowrap">{$event.fee_label} <span class="marker">*</span></td>
+	    <td>&nbsp;</td>
+	    <td>{$form.amount.html}</td>
+	</tr>
     {/if}
-    <tr><td class="label nowrap">{$form.amount.label}</td><td>{$form.amount.html}</td></tr>
 </table>
 {/if}
 	{assign var=n value=email-$bltID}
