@@ -568,12 +568,14 @@ class CRM_Core_SelectValues
         if (!$components) {
             $components = array(
                                 'CiviContribute'  => ts('CiviContribute'),
-                                'CiviMail'        => ts('CiviMail'),
                                 'CiviMember'      => ts('CiviMember'),
                                 'CiviEvent'       => ts('CiviEvent'),
                                 // 'Quest'           => ts('Quest'),
                                 // 'TMF'             => ts('TMF')
                                 );
+            if (version_compare(phpversion(), '5') >= 0) {
+                $components['CiviMail'] = ts('CiviMail');
+            }
         }
         return $components;
     }
