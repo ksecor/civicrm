@@ -45,10 +45,11 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
         $items =& CRM_Core_Menu::items( );
         $groups = array( ts('Manage'), ts('Configure'), ts('Setup') );
         // Create array to hold descriptive text for collapsed view of control panel
-        $groupDesc = array ( 'Manage'    => ts('Access Control, Backup Data, and Synchronize Users to Contacts'),
-                        'Configure' => ts('Activity Types, Profiles, Custom Data, Duplicate Matching, Relationship Types, Tags and other site-configurable option lists.'),
-                        'Setup'     => ts('Global Settings, Gender Options, Instant Messenger Services, Mobile Phone Providers, Individual Name Prefixes and Suffixes, Preferred Communication Options'),
-                        );
+        $groupDesc =
+            array ( 'Manage'    => ts('Access Control, Backup Data, and Synchronize Users to Contacts'),
+                    'Configure' => ts('Activity Types, Profiles, Custom Data, Duplicate Matching, Relationship Types, Tags and other site-configurable option lists.'),
+                    'Setup'     => ts('Global Settings, Gender Options, Instant Messenger Services, Mobile Phone Providers, Individual Name Prefixes and Suffixes, Preferred Communication Options'),
+                    );
 
         $config =& CRM_Core_Config::singleton( );
         if ( in_array("CiviContribute", $config->enableComponents) ) {

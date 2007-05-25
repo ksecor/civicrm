@@ -53,9 +53,9 @@ class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Postive',
                                                          $this, false );
         $this->_system    = CRM_Utils_Request::retrieve( 'system', 'Boolean',
-                                                         $this, false, false );
+                                                         $this, false, true );
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
-                                                         $this, false, 'view' );
+                                                         $this, false, 'update' );
         $this->assign( 'action', $action );
 
         require_once 'CRM/Core/DAO/SystemConfig.php';
@@ -170,9 +170,9 @@ class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
 
         $params = $this->controller->exportValues( $this->_name );
 
-        CRM_Core_Error::debug( 'p', $params );
         $this->_config->location_count = $params['location_count'];
-        
+
+        $this->_config->domain_id = CRM_Core_Config::domainID( );
         foreach ( $this->_cbs as $name => $title ) {
             if ( CRM_Utils_Array::value( $name, $params ) &&
                  is_array( $params[$name] ) ) {
@@ -182,7 +182,7 @@ class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
                              array_keys( $params[$name] ) ) .
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else {
-                $this->_config->_name = 'NULL';
+                $this->_config->$name = 'NULL';
             }
         }
 

@@ -119,6 +119,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     protected $_duplicateButtonName;
 
+    protected $_maxLocationBlocks = 0;
+
+    protected $_editSections = array( );
+
+    protected $_showCommBlock = true;
+
     /**
      * build all the data structures needed to build the form
      *
@@ -127,13 +133,26 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function preProcess( ) 
     {
-        
         // reset action from the session
         $this->_action              = CRM_Utils_Request::retrieve('action', 'String', 
                                                                   $this, false, 'add' );
         
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
+    
+        // find the system config related location blocks
+        require_once 'CRM/Core/BAO/SystemConfig.php';
+        $this->_maxLocationBlocks = CRM_Core_BAO_SystemConfig::locationCount( );
+
+        $this->_editSections  = CRM_Core_BAO_SystemConfig::editContactSection( );
+        $configItems = array( '_showCommBlock'     => ts( 'Communication Preferences' ),
+                              '_showLocation'      => ts( 'Location' ),
+                              '_showDemographics'  => ts( 'Demographics' ),
+                              '_showTagsAndGroups' => ts( 'Tags and Groups' ) );
+        foreach ( $configItems as $c => $t ) {
+            $this->$c = $this->_editSections[$t];
+            $this->assign( substr( $c, 1 ), $this->$c );
+        }
 
         if ( $this->_action == CRM_Core_Action::ADD ) {
             $this->_contactType = CRM_Utils_Request::retrieve( 'ct', 'String',
@@ -202,15 +221,17 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $config =& CRM_Core_Config::singleton( );
         
         if ( $this->_action & CRM_Core_Action::ADD ) {
-            // set group and tag defaults if any
-            if ( $this->_gid ) {
-                $defaults['group'][$this->_gid] = 1;
-            }
-            if ( $this->_tid ) {
-                $defaults['tag'][$this->_tid] = 1;
+            if ( $this->_showTagsAndGroups ) {
+                // set group and tag defaults if any
+                if ( $this->_gid ) {
+                    $defaults['group'][$this->_gid] = 1;
+                }
+                if ( $this->_tid ) {
+                    $defaults['tag'][$this->_tid] = 1;
+                }
             }
 
-            if ( $config->maxLocationBlocks >= 1 ) {
+            if ( $this->_maxLocationBlocks >= 1 ) {
                 // set the is_primary location for the first location
                 $defaults['location']    = array( );
                 
@@ -218,7 +239,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 sort( $locationTypeKeys );
                 
                 // also set the location types for each location block
-                for ( $i = 0; $i < $config->maxLocationBlocks; $i++ ) {
+                for ( $i = 0; $i < $this->_maxLocationBlocks; $i++ ) {
                     $defaults['location'][$i+1] = array( );
                     if ( $i == 0 ) {
                         require_once 'CRM/Core/BAO/LocationType.php';
@@ -258,10 +279,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // to decide whether to display certain blocks (demographics)
             $this->_contactType = CRM_Utils_Array::value( 'contact_type', $defaults );
 
-            // set the group and tag ids
-            CRM_Contact_Form_GroupTag::setDefaults( $this->_contactId,                      
-                                                    $defaults, 
-                                                    CRM_Contact_Form_GroupTag::ALL );
+            if ( $this->_showTagsAndGroups ) {
+                // set the group and tag ids
+                CRM_Contact_Form_GroupTag::setDefaults( $this->_contactId,                      
+                                                        $defaults, 
+                                                        CRM_Contact_Form_GroupTag::ALL );
+            }
+
         }
 
         if ( ! empty( $_POST ) ) {
@@ -308,9 +332,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function setShowHide( &$defaults, $force ) 
     {
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
-                                                         '') ;
-        if ( $this->_contactType == 'Individual' ) {
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+
+        if ( $this->_showCommBlock ) {
+            $this->_showHide->addShow( 'commPrefs' );
+        }
+
+        if ( $this->_showDemographics &&
+             $this->_contactType == 'Individual' ) {
             $this->_showHide->addShow( 'id_demographics_show' );
             $this->_showHide->addHide( 'id_demographics' );
         }
@@ -318,7 +347,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // first do the defaults showing
         $config =& CRM_Core_Config::singleton( );
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
-                                                        $config->maxLocationBlocks );
+                                                        $this->_maxLocationBlocks );
  
         if ( $this->_action & CRM_Core_Action::ADD ) {
             // notes are only included in the template for New Contact
@@ -326,27 +355,31 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->_showHide->addHide( 'id_notes' );
         }
 
-        //add group and tags
-        $contactGroup = $contactTag = array( );
-        if ($this->_contactId) {
-            $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $this->_contactId, 'Added' );
-            $contactTag   =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
-        }
-        
-        if ( empty($contactGroup) || empty($contactTag) ) {
-            $this->_showHide->addShow( 'group_show' );
-            $this->_showHide->addHide( 'group' );
-        } else {
-            $this->_showHide->addShow( 'group' );
-            $this->_showHide->addHide( 'group_show' );
+        if ( $this->_showTagsAndGroups ) {
+            //add group and tags
+            $contactGroup = $contactTag = array( );
+            if ($this->_contactId) {
+                $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $this->_contactId, 'Added' );
+                $contactTag   =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
+            }
+            
+            if ( empty($contactGroup) || empty($contactTag) ) {
+                $this->_showHide->addShow( 'group_show' );
+                $this->_showHide->addHide( 'group' );
+            } else {
+                $this->_showHide->addShow( 'group' );
+                $this->_showHide->addHide( 'group_show' );
+            }
         }
 
-        // is there any demographics data?
-        if ( CRM_Utils_Array::value( 'gender_id'     , $defaults ) ||
-             CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
-             CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
-            $this->_showHide->addShow( 'id_demographics' );
-            $this->_showHide->addHide( 'id_demographics_show' );
+        // is there any demographic data?
+        if ( $this->_showDemographics ) {
+            if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
+                 CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
+                 CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
+                $this->_showHide->addShow( 'id_demographics' );
+                $this->_showHide->addHide( 'id_demographics_show' );
+            }
         }
 
         if ( $force ) {
@@ -354,7 +387,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $config =& CRM_Core_Config::singleton( );
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        $locationDefaults,
-                                                       $config->maxLocationBlocks );
+                                                       $this->_maxLocationBlocks );
         }
         
         $this->_showHide->addToTemplate( );
@@ -386,7 +419,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // assign a few constants used by all display elements
         // we can obsolete this when smarty can access class constans directly
         $config =& CRM_Core_Config::singleton( );
-        $this->assign( 'locationCount', $config->maxLocationBlocks + 1 );
+        $this->assign( 'locationCount', $this->_maxLocationBlocks + 1 );
         $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
         $this->assign( 'contact_type' , $this->_contactType );
 
@@ -394,10 +427,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         eval( 'CRM_Contact_Form_' . $this->_contactType . '::buildQuickForm( $this );' );
         
         // add the communications block
-        self::buildCommunicationBlock($this);
+        if ( $this->_showCommBlock ) {
+            self::buildCommunicationBlock($this);
+        }
 
         /* Entering the compact location engine */ 
-        $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, $config->maxLocationBlocks );
+        $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, $this->_maxLocationBlocks );
 
         /* End of locations */
         
@@ -467,8 +502,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         $params['contact_type'] = $this->_contactType;
-        if( ! isset( $params['is_deceased'] ) || $params['is_deceased'] != 1 ) { 
-            $params['deceased_date'] = null;
+
+        if ( $this->_showDemographics ) {
+            if( ! isset( $params['is_deceased'] ) || $params['is_deceased'] != 1 ) { 
+                $params['deceased_date'] = null;
+            }
         }
 
         // action is taken depending upon the mode
@@ -510,12 +548,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $params['custom'] = $customData;
         }
 
-        // this is a chekbox, so mark false if we dont get a POST value
-        $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
-
+        if ( $this->_showCommBlock ) {
+            // this is a chekbox, so mark false if we dont get a POST value
+            $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
+        }
+        
         $config  =& CRM_Core_Config::singleton( );
         require_once 'CRM/Contact/BAO/Contact.php';
-        $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks, true, false );
+        $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $this->_maxLocationBlocks, true, false );
      
         //add contact to gruoup
         require_once 'CRM/Contact/BAO/GroupContact.php';
@@ -575,7 +615,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $newOrg['contact_type'     ] = 'Organization';
                 $newOrg['organization_name'] = $params['current_employer'] ;
             
-                $orgName = CRM_Contact_BAO_Contact::create($newOrg, $ids, $config->maxLocationBlocks );
+                $orgName = CRM_Contact_BAO_Contact::create($newOrg, $ids, $this->_maxLocationBlocks );
 
                 //create relationship
                 $relationshipParams['contact_check'][$orgName->id] = 1;

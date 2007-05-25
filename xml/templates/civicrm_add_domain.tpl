@@ -211,11 +211,9 @@ VALUES
   (@option_group_id_csOpt, '{ts}Memberships{/ts}'  ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
   (@option_group_id_csOpt, '{ts}Events{/ts}'       ,  10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
 
-  (@option_group_id_ecOpt, '{ts}Name and Greeing{/ts}'         ,   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
-  (@option_group_id_ecOpt, '{ts}Communication Preferences{/ts}',   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
-  (@option_group_id_ecOpt, '{ts}Location{/ts}'                 ,   3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
-  (@option_group_id_ecOpt, '{ts}Demographics{/ts}'             ,   4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
-  (@option_group_id_ecOpt, '{ts}Tags and Groups{/ts}'          ,   5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
+  (@option_group_id_ecOpt, '{ts}Communication Preferences{/ts}',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+  (@option_group_id_ecOpt, '{ts}Demographics{/ts}'             ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
+  (@option_group_id_ecOpt, '{ts}Tags and Groups{/ts}'          ,   3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
 
   (@option_group_id_asOpt, '{ts}Search Criteria{/ts}'     ,   1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Address Fields{/ts}'      ,   2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),

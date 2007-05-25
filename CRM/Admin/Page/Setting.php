@@ -46,7 +46,8 @@ class CRM_Admin_Page_Setting extends CRM_Core_Page {
         
         $allTabs  = array( );
         
-        $tabs = array( 'component'    => ts( 'Components'           ), 
+        $tabs = array( 'component'    => ts( 'Components'           ),
+                       'system'       => ts( 'System Configuration' ),
                        'path'         => ts( 'File System Paths'    ),
                        'site'         => ts( 'Site URLs'            ),
                        'smtp'         => ts( 'SMTP Server'          ),

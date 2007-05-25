@@ -529,11 +529,6 @@ class CRM_Core_Invoke
             $view =& new CRM_Admin_Page_Access(ts('Access Control'));
             break;
 
-        case 'config':
-            require_once 'CRM/Admin/Page/SystemConfig.php';
-            $view =& new CRM_Admin_Page_SystemConfig( );
-            break;
-
         case 'locationType':
             require_once 'CRM/Admin/Page/LocationType.php';
             $view =& new CRM_Admin_Page_LocationType(ts('View Location Types'));
@@ -979,6 +974,9 @@ class CRM_Core_Invoke
         switch ( $thirdArg ) {
         case 'component' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
+            break;
+        case 'system':
+            $output = $wrapper->run( 'CRM_Admin_Form_SystemConfig', ts('System Configuration'), null); 
             break;
         case 'path' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Path', ts('File System Paths'), null); 

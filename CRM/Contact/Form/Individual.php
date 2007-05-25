@@ -81,23 +81,24 @@ class CRM_Contact_Form_Individual {
         // job title
         $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title']);
 
-        // radio button for gender
-        $genderOptions = array( );
-        $gender =CRM_Core_PseudoConstant::gender();
-        foreach ($gender as $key => $var) {
-            $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
+        if ( $form->_showDemographics ) {
+            // radio button for gender
+            $genderOptions = array( );
+            $gender =CRM_Core_PseudoConstant::gender();
+            foreach ($gender as $key => $var) {
+                $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
+            }
+            $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
+            
+            $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
+            
+            $form->addElement('date', 'deceased_date', ts('Deceased date'), CRM_Core_SelectValues::date('birth'));
+            $form->addRule('deceased_date', ts('Select a valid date.'), 'qfDate');
+            
+            $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
+            $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
         }
-        $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
-        
-        $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
 
-
-        $form->addElement('date', 'deceased_date', ts('Deceased date'), CRM_Core_SelectValues::date('birth'));
-        $form->addRule('deceased_date', ts('Select a valid date.'), 'qfDate');
-        
-        $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
-        $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
-        
         $form->addElement('text', 'home_URL', ts('Website'),
                           array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
                                        array('onfocus' => "if (!this.value) this.value='http://'; else return false")

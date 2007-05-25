@@ -9,6 +9,11 @@
 </tr>
 
 <tr>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/system' q='reset=1'}" id="idSystem">&raquo; {ts}System Configuration{/ts}</a></td>
+    <td>{ts}Configure system settings to hide and show various options.{/ts}</td>
+</tr>
+
+<tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/path' q='reset=1'}" id="idPath">&raquo; {ts}Directories{/ts}</a></td>
     <td>{ts}Configure directories in your file system for temporary uploads, images, custom files and custom templates.{/ts}</td>
 </tr>

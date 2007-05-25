@@ -122,7 +122,9 @@
 {/if}
 
 {* Plugging the Communication preferences block *} 
+{if $showCommBlock}
  {include file="CRM/Contact/Form/CommPrefs.tpl"}
+{/if}
  
 {* Conditionally insert any inline custom data groups *} 
 {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
@@ -130,6 +132,7 @@
 {* Plugging the Location block *}
 {include file="CRM/Contact/Form/Location.tpl"}
 
+{if $showDemographics}
 {if $contact_type eq 'Individual'}
  <div id = "id_demographics_show" class="section-hidden section-hidden-border label">
     {$demographics.show}{ts}Demographics{/ts}
@@ -199,6 +202,7 @@
 {/literal}
 
 {/if}  
+{/if}
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
@@ -218,6 +222,7 @@
 {/if}
  {* -- End of "notes" div -- *}
 
+{if $showTagsAndGroups}
  {* Groups and Tags block *} 
 <div id="group_show" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('group_show'); show('group'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Tags and Groups{/ts}</label><br />
@@ -248,6 +253,7 @@
     <div class="spacer"> </div>
     </fieldset>
 </div>
+{/if}
 
 <div class="crm-submit-buttons">
     {$form.buttons.html}
