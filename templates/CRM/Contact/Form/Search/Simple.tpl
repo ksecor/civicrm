@@ -77,9 +77,20 @@ function checkChildren(obj, element, value, src_func) {
                 container = document.createElement('span');
                 container.setAttribute('id',element+'_container_'+node);
                 dojo.byId(element+'_children').appendChild(container);
-                    
-                dojo.widget.createWidget("Select", {value: 'this should never be seen - it is replaced!', dataUrl: res + 'node='+value, id: element +'_'+node, style: 'width: 300px', onValueChanged: src_func}, dojo.byId (element+'_container_'+node));
-            }
+
+                if ( value ) {  
+                    dojo.widget.createWidget("Select", 
+                    {
+                      value: 'this should never be seen - it is replaced!',
+                      dataUrl: res + '&node='+value,
+                      id: element +'_'+node,
+                      style: 'width: 300px', 
+                      onValueChanged: src_func
+                    }, 
+                   
+                    dojo.byId (element+'_container_'+node));
+                } 
+           }
         }            
     };            
             
