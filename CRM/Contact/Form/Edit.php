@@ -286,6 +286,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                                         CRM_Contact_Form_GroupTag::ALL );
             }
 
+            
+            // set the default for use_household_address checkbox and Select Household name.
+            if ( $defaults['mail_to_household_id'] ) {
+                $defaults['use_household_address'] = true;
+                $defaults['shared_household'] = 
+                    CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $defaults['mail_to_household_id'], 'sort_name', 'id' );
+            }
         }
 
         if ( ! empty( $_POST ) ) {
@@ -423,9 +430,19 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
         $this->assign( 'contact_type' , $this->_contactType );
 
+        // set select-household (for individual) label to 'Change Household' when update mode.
+        if ( ($this->_contactType == 'Individual') && ($this->_action & CRM_Core_Action::UPDATE) ) {
+            $this->selHouseLabel = "Change Household";
+        }
+        
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_' . $this->_contactType . '::buildQuickForm( $this );' );
         
+        // freeze 'use household address' checkbox (for individual) when update mode.
+        if ( ($this->_contactType == 'Individual') && ($this->_action & CRM_Core_Action::UPDATE) ) {
+            $this->useHouseholdChkbox->freeze();
+        }
+
         // add the communications block
         if ( $this->_showCommBlock ) {
             self::buildCommunicationBlock($this);
@@ -551,6 +568,32 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( $this->_showCommBlock ) {
             // this is a chekbox, so mark false if we dont get a POST value
             $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
+        }
+        
+        // copy household address if use_household_address option is checked
+        if ( $this->_contactType == 'Individual' && $params['use_household_address'] ) {
+            $sharedHouseholdID = 
+                CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $params['shared_household'], 'id', 'sort_name' );
+            
+            if ( ! $sharedHouseholdID ) {
+                CRM_Core_Error::statusBounce( ts('Shared Household-ID not found.') );
+            }
+            // if update mode and shared household-name is kept same, skip address copy
+            if ( !($defaults['mail_to_household_id'] && ($defaults['mail_to_household_id'] == $sharedHouseholdID)) ) {
+                $params['mail_to_household_id'] = $sharedHouseholdID;
+                $locParams = array('contact_id' => $sharedHouseholdID);
+                
+                require_once 'api/v2/Location.php';
+                $values =& _civicrm_location_get( $locParams, $location_types );
+                
+                $params['location'][1]['address'] = $values[1]['address'];
+                
+                // unset all the ids and unwanted fields
+                $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
+                foreach ( $unsetFields as $fld ) {
+                    unset( $params['location'][1]['address'][$fld] );
+                }
+            }
         }
         
         $config  =& CRM_Core_Config::singleton( );

@@ -45,6 +45,24 @@
     {* Display the instant messenger block(s) *}
     {include file="CRM/Contact/Form/IM.tpl"}
 
+    {* Display the elements for shared address *}
+    {if $contact_type eq 'Individual' and $index eq 1}
+        <div class="form-item">
+            {$form.use_household_address.html}{$form.use_household_address.label}
+        </div>
+        <div class="form-item">
+            <span class="labels">
+                {$form.shared_household.label}
+            </span>
+            <span class="fields">
+                {$form.shared_household.html}
+            </span>
+        </div>
+        {* -- Spacer div contains floated elements -- *}
+        <div class="spacer"></div>
+    {/if}
+
+
     {* Display the address block *}
     {include file="CRM/Contact/Form/Address.tpl"} 
 
