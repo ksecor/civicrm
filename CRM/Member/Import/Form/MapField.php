@@ -170,7 +170,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $this->_mapperFields = $this->get( 'fields' );
+        $this->_mapperFields = $this->get( 'fields' ); 
         $this->_columnCount = $this->get( 'columnCount' );
         $this->assign( 'columnCount' , $this->_columnCount );
         $this->_dataValues = $this->get( 'dataValues' );
@@ -405,7 +405,6 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             $requiredFields = array(
                                     'membership_contact_id'  => ts('Contact ID'),
                                     'membership_type_id'     => ts('Membership Type'),
-                                    'status_id'              => ts('Membership Status'),
                                     );
             
             // validation for defalut dupe matching rule
@@ -589,7 +588,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
                       CRM_Member_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
         // add all the necessary variables to the form
-        $parser->set( $this );        
+        $parser->set( $this );    
     }
 
     /**

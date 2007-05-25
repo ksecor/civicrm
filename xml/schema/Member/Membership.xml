@@ -112,7 +112,8 @@
   </foreignKey>
   <field>  
       <name>is_override</name>     
-      <title>Status Override?</title>
+      <title>Status Override</title>
+      <import>true</import>
       <type>boolean</type>
       <comment>Admin users may set a manual status which overrides the calculated status. When this flag is true, automated status update scripts should NOT modify status for the record.</comment>
       <add>1.5</add>  
