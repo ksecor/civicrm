@@ -692,6 +692,7 @@ function _crm_format_custom_params( &$params, &$values, $extends )
             // fixed for checkbox and multiselect
             $newMulValues = array();
             if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select') {
+                $value = str_replace(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,',',trim($value,CRM_Core_BAO_CustomOption::VALUE_SEPERATOR));
                 $value = str_replace("|",",",$value);
                 $mulValues = explode( ',' , $value );
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
