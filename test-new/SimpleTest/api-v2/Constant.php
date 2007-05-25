@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Constant.php';
 
-class TestOfConstantAPIV2 extends UnitTestCase 
+class TestOfConstantAPIV2 extends CiviUnitTestCase 
 {
     function setUp() 
     {

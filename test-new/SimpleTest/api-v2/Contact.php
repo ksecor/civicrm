@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Contact.php';
 
-class TestOfContactAPIV2 extends UnitTestCase 
+class TestOfContactAPIV2 extends CiviUnitTestCase 
 {
     /**
      * Assume empty database with just civicrm_data
@@ -142,10 +142,16 @@ class TestOfContactAPIV2 extends UnitTestCase
     {
         $params = array('first_name'    => 'abc7',
                         'last_name'     => 'xyz7', 
-                        'contact_type'     => 'Individual',
+                        'contact_type'  => 'Individual',
                         'phone'         => '999999',
                         'phone_type'    => 'Phone',
-                        'email'         => 'man7@yahoo.com'
+                        'email'         => 'man7@yahoo.com',
+                        'do_not_trade'  => 1,
+                        'preferred_communication_method' => array(
+                                                                  '2' => 1,
+                                                                  '3' => 1,
+                                                                  '4' => 1,
+                                                                  )
                         );
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );

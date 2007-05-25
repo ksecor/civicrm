@@ -11,6 +11,8 @@
 .testmethod {
     border: 1px solid grey;
     padding: 4px;
+    margin: 2px;
+    background-color: #eee;
 }
 
 .passed-assertion, .failed-assertion {
@@ -24,4 +26,7 @@
 
 .failed-assertion {
     color: red;
+    font-weight: bold;
+    margin: 2px;
+    background-color: #fee;
 }

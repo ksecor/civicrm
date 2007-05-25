@@ -4,6 +4,8 @@ require_once '../../civicrm.config.php';
 require_once 'SimpleTest/unit_tester.php';
 require_once 'SimpleTest/reporter.php';
 
+require_once 'Test/CiviUnitTestCase.php';
+
 require_once 'Test/CiviGroupTest.php';
 require_once 'Test/CiviReporters.php';
 
@@ -74,10 +76,10 @@ if ( TEST == __FILE__ ) {
         $test4->run(new CiviTextReporter());                
         exit();
     }
-//    $test->run(new CiviHtmlReporter());
-    $test2->run(new CiviHtmlReporter());    
-//    $test3->run(new CiviHtmlReporter());    
-//    $test4->run(new CiviHtmlReporter());
+    $test->run(new HtmlReporter());
+    $test2->run(new HtmlReporter());    
+    $test3->run(new HtmlReporter());    
+    $test4->run(new HtmlReporter());
 }
 
 ?>
