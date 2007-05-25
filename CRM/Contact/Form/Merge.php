@@ -268,11 +268,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             if (substr($key, 0, 7) == 'custom_') {
                 $fid = (int) substr($key, 7);
                 switch ($cFields[$fid]['attributes']['html_type']) {
-#               case 'CheckBox':
-#               case 'Multi-Select':
-#                   $submitted[$key] = trim($submitted[$key], CRM_Core_BAO_CustomOption::VALUE_SEPERATOR);
-#                   $submitted[$key] = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $submitted[$key]);
-#                   break;
+                case 'File':
+                    $customFiles[] = $fid;
+                    unset($submitted["custom_$fid"]);
+                    break;
                 case 'Select Country':
                 case 'Select State/Province':
                     $submitted[$key] = CRM_Core_BAO_CustomField::getDisplayValue($value, $fid, $cFields);
@@ -325,6 +324,39 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         if ($formValues['deleteOther']) {
             $other =& crm_get_contact(array('contact_id' => $this->_oid));
             crm_delete_contact($other);
+        }
+
+        // move file custom fields
+        // FIXME: move this someplace else (one of the BAOs) after discussing
+        // where to, and whether CRM_Core_BAO_File::delete() shouldn't actually,
+        // like, delete a file...
+        require_once 'CRM/Core/BAO/File.php';
+        require_once 'CRM/Core/DAO/EntityFile.php';
+        $cvDao =& new CRM_Core_DAO_CustomValue();
+        $evDao =& new CRM_Core_DAO_EntityFile();
+        if (!isset($customFiles)) $customFiles = array();
+        foreach ($customFiles as $customId) {
+            $cvDao->custom_field_id = $customId;
+            $cvDao->entity_table    = 'civicrm_contact';
+            $cvDao->entity_id       = $this->_oid;
+            $cvDao->find(true);
+            $otherFileName = $cvDao->char_data;
+            $otherFileId   = $cvDao->file_id;
+            // the below doesn't work; not here, not anywhere else.
+#           CRM_Core_BAO_File::delete($mainFileId, $customId);
+            $cvDao->reset();
+            $cvDao->custom_field_id = $customId;
+            $cvDao->entity_table    = 'civicrm_contact';
+            $cvDao->entity_id       = $this->_cid;
+            $cvDao->char_data       = $otherFileName;
+            $cvDao->file_id         = $otherFileId;
+            $cvDao->save();
+            $cvDao->reset();
+            $evDao->entity_id    = $this->_cid;
+            $evDao->entity_table = 'civicrm_contact';
+            $evDao->file_id      = $otherFileId;
+            $evDao->save();
+            $cvDao->reset();
         }
 
         if (isset($submitted)) {
