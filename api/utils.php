@@ -258,7 +258,7 @@ function _crm_format_params( &$params, &$values ) {
     _crm_store_values( $fields, $params, $values );
     
     $ids = array("prefix","suffix","gender"); 
-    foreach ( $ids as $id ) {http://issues.civicrm.org/jira/browse/CRM-1586
+    foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {
             $values[$id] = $params[$id];
         }
