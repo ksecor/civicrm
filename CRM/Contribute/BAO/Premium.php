@@ -111,7 +111,7 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
      * @static
      */
 
-    function buildPremiumBlock( $form , $pageID , $formItems = false ,$selectedProductID = null ,$selectedOption = null ) {
+    function buildPremiumBlock( &$form , $pageID , $formItems = false ,$selectedProductID = null ,$selectedOption = null ) {
         
         require_once 'CRM/Contribute/DAO/Premium.php';
         $dao =& new CRM_Contribute_DAO_Premium();

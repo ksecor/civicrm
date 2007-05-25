@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>SystemConfig</class>
+  <name>civicrm_system_config</name>
+  <comment>Define setting for the site and users</comment>
+  <add>1.8</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+       <add>1.8</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+      <add>1.1</add>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+       <add>1.1</add>
+  </foreignKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Contact ID</comment>
+      <add>1.8</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.8</add>
+  </foreignKey>
+  <field>
+       <name>is_domain</name>
+       <type>boolean</type>
+       <comment>Is this the record for the domain setting?</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>location_count</name>
+       <type>int unsigned</type>
+       <comment>Number of locations to be displayed on edit page?</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>contact_summary_options</name>
+       <type>varchar</type>
+       <length>128</length>
+       <import>true</import>
+       <comment>What tabs are displayed in the contact summary</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>advanced_search_options</name>
+       <type>varchar</type>
+       <length>128</length>
+       <import>true</import>
+       <comment>What tabs are displayed in the advanced search screen</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>edit_contact_options</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>What sections are displayed with contact edit?</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>user_dashboard_options</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>What sections are displayed in user dashboard?</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>admin_panel_options</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>What sections are displayed in admin panel?</comment>
+       <add>1.8</add>
+  </field>
+</table>

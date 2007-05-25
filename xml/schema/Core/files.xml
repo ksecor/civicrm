@@ -41,4 +41,5 @@
 <xi:include href="PriceSet.xml"         parse="xml" />
 <xi:include href="PriceSetEntity.xml"   parse="xml" />
 <xi:include href="LineItem.xml"         parse="xml" />
+<xi:include href="SystemConfig.xml"     parse="xml" />
 </tables>

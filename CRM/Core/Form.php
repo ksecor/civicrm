@@ -615,7 +615,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
     }
 
-    function addCheckBox( $id, $title, $values, $other = null, $attributes = null ,$required = null, $javascriptMethod = null) {
+    function addCheckBox( $id, $title, $values, $other = null,
+                          $attributes = null, $required = null,
+                          $javascriptMethod = null,
+                          $separator = '<br />' ) {
         $options = array( );
 
         if ($javascriptMethod) {
@@ -628,7 +631,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             }
         }
 
-        $this->addGroup($options, $id, $title, '<br/>' );
+        $this->addGroup($options, $id, $title, $separator );
 
         if ( $other ) {
             $this->addElement( 'text', $id . '_other', ts( 'Other' ), $attributes[$id . '_other'] );
