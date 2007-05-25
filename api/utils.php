@@ -258,7 +258,7 @@ function _crm_format_params( &$params, &$values ) {
     _crm_store_values( $fields, $params, $values );
     
     $ids = array("prefix","suffix","gender"); 
-    foreach ( $ids as $id ) {
+    foreach ( $ids as $id ) {http://issues.civicrm.org/jira/browse/CRM-1586
         if ( array_key_exists( $id, $params ) ) {
             $values[$id] = $params[$id];
         }
@@ -665,9 +665,19 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                 return _crm_error('Invalid custom field ID');
             }
             
+            // modified for CRM-1586
+            // check data type for importing custom field (labels) with data type Integer
             /* validate the data against the CF type */
-            $valid = CRM_Core_BAO_CustomValue::typecheck(
-                                                         $customFields[$customFieldID][2], $value);
+            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+            foreach( $customOption as $v1 ) {
+                if(($customFields[$customFieldID][2]=="Int") && ( strtolower($v1['label']) == strtolower(trim($value)))) {
+                    $fieldType = "String";
+                    $valid = CRM_Core_BAO_CustomValue::typecheck($fieldType, $value);
+                } else {
+                    $valid = CRM_Core_BAO_CustomValue::typecheck(
+                                                                 $customFields[$customFieldID][2], $value);
+                }
+            }
             
             if (! $valid) {
                 return _crm_error('Invalid value for custom field ' .
