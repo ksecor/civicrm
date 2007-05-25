@@ -41,6 +41,72 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
 {
+    protected $_system    = false;
+    protected $_contactID = null;
+    protected $_action    = null;
+
+    protected $_cbs       = null;
+
+    protected $_config    = null;
+
+    function preProcess( ) {
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Postive',
+                                                         $this, false );
+        $this->_system    = CRM_Utils_Request::retrieve( 'system', 'Boolean',
+                                                         $this, false, false );
+        $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
+                                                         $this, false, 'view' );
+        $this->assign( 'action', $action );
+
+        require_once 'CRM/Core/DAO/SystemConfig.php';
+        $this->_config =& new CRM_Core_DAO_SystemConfig( );
+
+        if ( $this->_system ) {
+            if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+                $this->_contactID = null;
+            } else {
+                CRM_Utils_System::fatal( 'You do not have permission to edit system options' );
+            }
+            $this->_config->is_domain  = 1;
+            $this->_config->contact_id = null;
+        } else {
+            if ( ! $this->_contactID ) {
+                $session =& CRM_Core_Session::singleton( );
+                $this->_contactID = $session->get( 'userID' );
+                if ( ! $this->_contactID ) {
+                    CRM_Utils_System::fatal( 'Could not retrieve contact id' );
+                }
+                $this->set( 'cid', $this->_contactID );
+            }
+            $this->_config->is_domain  = 0;
+            $this->_config->contact_id = $this->_contactID;
+        }
+
+        $this->_config->find( true );
+    }
+
+    function setDefaultValues( ) {
+        $defaults = array( );
+
+        $defaults['location_count'] = $this->_config->location_count;
+        
+        require_once 'CRM/Core/BAO/CustomOption.php';
+        foreach ( $this->_cbs as $name => $title ) {
+            if ( $this->_config->$name ) {
+                $value = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                  substr( $this->_config->$name, 1, -1 ) );
+                if ( ! empty( $value ) ) {
+                    $defaults[$name] = array( );
+                    foreach ( $value as $n => $v ) {
+                        $defaults[$name][$v] = 1;
+                    }
+                }
+            }
+        }
+
+        return $defaults;
+    }
+
     /**
      * Function to build the form
      *
@@ -55,24 +121,33 @@ class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
         $this->add('text',
                    'location_count',
                    ts('Location Blocks to display'),
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_SystemConfig', 'location_count' ),
-                   true );
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_SystemConfig', 'location_count' ) );
+        $this->addRule( 'location_count', ts( 'Location count has to be postive' ), 'positiveInteger' );
 
         // add all the checkboxes
-        $cbs = array(
-                     'contact_summary_options' => ts( 'Contact Summary Options' ),
-                     'edit_contact_options'    => ts( 'Edit Contact Options'    ),
-                     'advanced_search_options' => ts( 'Advanced Search Options' ),
-                     'user_dashboard_options'  => ts( 'User Dashboard Options'  ),
-                     'admin_panel_options'     => ts( 'Admin Panel Options'     ),
-                     );
+        $this->_cbs = array(
+                            'contact_summary_options' => ts( 'Contact Summary Options' ),
+                            'edit_contact_options'    => ts( 'Edit Contact Options'    ),
+                            'advanced_search_options' => ts( 'Advanced Search Options' ),
+                            'user_dashboard_options'  => ts( 'User Dashboard Options'  ),
+                            'admin_panel_options'     => ts( 'Admin Panel Options'     ),
+                            );
 
         require_once 'CRM/Core/OptionGroup.php';
-        foreach ( $cbs as $name => $title ) {
+        foreach ( $this->_cbs as $name => $title ) {
             $this->addCheckBox( $name, $title, 
                                 array_flip( CRM_Core_OptionGroup::values( $name ) ),
                                 null, null, null, null, '&nbsp;' );
         }
+
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => ts('Save'),
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => ts('Cancel') ),
+                                 )
+                           );
 
         if ($this->_action == CRM_Core_Action::VIEW ) {
             $this->freeze( );
@@ -89,6 +164,29 @@ class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        if ( $this->_action == CRM_Core_Action::VIEW ) {
+            return;
+        }
+
+        $params = $this->controller->exportValues( $this->_name );
+
+        CRM_Core_Error::debug( 'p', $params );
+        $this->_config->location_count = $params['location_count'];
+        
+        foreach ( $this->_cbs as $name => $title ) {
+            if ( CRM_Utils_Array::value( $name, $params ) &&
+                 is_array( $params[$name] ) ) {
+                $this->_config->$name = 
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                    implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                             array_keys( $params[$name] ) ) .
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+            } else {
+                $this->_config->_name = 'NULL';
+            }
+        }
+
+        $this->_config->save( );
     }//end of function
 
 }
