@@ -375,23 +375,21 @@ function civicrm_contact_membership_create(&$params)
     }
     
     $values  = array( );   
-    $error = _civicrm_format_membership_params( $params, $values );
+    $error = _civicrm_membership_format_params( $params, $values );
     if (is_a($error, 'CRM_Core_Error') ) {
         return $error;
     }
+     
     $params = array_merge($values,$params);
-    $params['contact_id'] = $contactID;
-    
     require_once 'CRM/Member/BAO/Membership.php';
     $ids = array();
     $membershipBAO = CRM_Member_BAO_Membership::create($params, $ids);
-    
     if ( ! is_a( $membershipBAO, 'CRM_Core_Error') ) {
         $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
-                                                            $membershipBAO->id,
-                                                            $contactID,
-                                                            CRM_Core_Action::ADD
-                                                            );
+                                                                   $membershipBAO->id,
+                                                                   $params['contact_id'],
+                                                                   CRM_Core_Action::ADD
+                                                                   );
     }
     
     foreach ( $relatedContacts as $contactId ) {
@@ -404,7 +402,11 @@ function civicrm_contact_membership_create(&$params)
     
     $membership = array();
     _civicrm_object_to_array($membershipBAO, $membership);
-    return $membership;
+    $values = array( );
+    $values['id'] = $membership['id'];
+    $values['is_error']   = 0;
+    
+    return $values;
 }
 
 /**
@@ -486,6 +488,7 @@ function civicrm_contact_membership_update(&$params)
     $membership = array();
     _civicrm_object_to_array( $membershipBAO, $membership );
     $membershipBAO->free( );
+
     return $membership;
 }
 
@@ -583,7 +586,7 @@ function civicrm_membership_delete(&$membershipID)
     $membership = new CRM_Member_BAO_Membership();
     $result = $membership->deleteMembership($membershipID);
     
-    return $result ?  civicrm_create_error('Error while deleting Membership') : null ;
+    return $result ?   null :civicrm_create_error('Error while deleting Membership') ;
 }
 
 /**
@@ -655,7 +658,7 @@ function _civicrm_membership_format_params( &$params, &$values, $create=false)
         if ( CRM_Utils_System::isNull( $value ) ) {
             continue;
         }
-        
+               
         switch ($key) {
         case 'membership_contact_id':
             if (!CRM_Utils_Rule::integer($value)) {
@@ -689,8 +692,9 @@ function _civicrm_membership_format_params( &$params, &$values, $create=false)
             break;
         }
     }
-    
-    _civicrm_format_custom_params( $params, $values, 'Membership' );
+
+    _civicrm_custom_format_params( $params, $values, 'Membership' );
+      
     
     if ( $create ) {
         // CRM_Member_BAO_Membership::create() handles membership_start_date,

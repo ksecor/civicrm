@@ -182,6 +182,28 @@ class TestOfMembershipTypeAPIV2 extends UnitTestCase
         $this->assertEqual($membershiptype['is_active'],'1');
         $this->assertEqual($membershiptype['visibility'],'public');
     }
+    function testGetMembershipType()
+    {
+
+        $id =  $this->_membershiptype['member_id'] ;
+        $params = array( 'id'=> $id );        
+        $membershiptype = & civicrm_membership_types_get( $params );
+        
+        $this->assertEqual($membershiptype[$id]['name'],'30+ Membership');
+        $this->assertEqual($membershiptype[$id]['description'],'people above 30 are given health instructions');
+        $this->assertEqual($membershiptype[$id]['member_of_contact_id'],'33');
+        $this->assertEqual($membershiptype[$id]['contribution_type_id'],'1');
+        $this->assertEqual($membershiptype[$id]['minimum_fee'],'200');
+        $this->assertEqual($membershiptype[$id]['duration_unit'],'year');
+        $this->assertEqual($membershiptype[$id]['duration_interval'],'1');
+        $this->assertEqual($membershiptype[$id]['period_type'],'fixed');
+        $this->assertEqual($membershiptype[$id]['fixed_period_start_day'],'101');
+        $this->assertEqual($membershiptype[$id]['fixed_period_rollover_day'],'1231');
+        $this->assertEqual($membershiptype[$id]['relationship_type_id'],'7');
+        $this->assertEqual($membershiptype[$id]['is_active'],'1');
+        $this->assertEqual($membershiptype[$id]['visibility'],'public');
+    }
+     
 
     function testDeleteBadMembershipTypeWithoutId()
     {
