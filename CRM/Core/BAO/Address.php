@@ -195,11 +195,27 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         }
 
         foreach ($params['location'][$locationId]['address'] as $name => $value) {
-            if (!empty($value) && $name !='country_id') {
-                return true;
+            if (! empty($value) ) {
+                if ( $name !='country_id' ) {
+                    return true;
+                } else {
+                    // make sure its different from the default country
+                    $config =& CRM_Core_Config::singleton( );
+                    if ( $config->defaultContactCountry ) {
+                        $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode( );
+                        $defaultID = array_search( $config->defaultContactCountry,
+                                                   $countryIsoCodes );
+                        if ( $value != $defaultID ) {
+                            return true;
+                        }
+                    } else {
+                        // return if null default
+                        return true;
+                    }
+                }
             }
         }
-        
+
         return false;
     }
 
