@@ -43,65 +43,6 @@
 class CRM_Utils_ICalendar 
 {
 
-   /**
-    * Turn an array of events into a valid iCalendar file
-    *
-    * @param $events
-    *   An array of associative arrays where
-    *      'summary'       => Title of event (Text)
-    *      'description'   => Description of event (Text)
-    *      'start_date'    => Start date of all-day event in YYYYMMDD format (Required, if no start)
-    *      'end_date'      => End date of all-day event in YYYYMMDD format (Optional)
-    *      'location'      => Location of event (Text)
-    *      'url'           => URL to provide link for Event Info page
-    *      'contact_email' => email of event organiser
-    *
-    * @return  Text of a iCalendar file
-    */
-    function iCalendar( &$events ) 
-    {
-        $content = "BEGIN:VCALENDAR\nVERSION:2.0\n";
-        $content .= "PRODID:-//CiviCRM//NONSGML CiviEvent iCal//EN\n";
-        foreach ( $events as $uid => $event ) {
-            $content .= "BEGIN:VEVENT\n";
-            $content .= "SUMMARY:" . self::escapeText( $event['summary'] ) . "\n";
-
-            // create a unique identifier for the event
-            $config =& CRM_Core_Config::singleton( );
-            $content .= "UID:CiviCRM_EventID_" . $event['event_id'] . "@" . $config->userFrameworkBaseURL . "\n";
-
-            if ( $event['description'] ) {
-                $content .= "DESCRIPTION:" . self::escapeText( $event['description'] )  . "\n";
-            }
-
-            if ( $event['event_type'] ) {
-                $content .= "CATEGORIES:" . self::escapeText( $event['event_type'] )  . "\n";
-            }
-            
-            if ( $event['start_date'] && $event['end_date'] ) {
-                $content .= "DTSTART;VALUE=DATE:" . gmdate("Ymd\THis\Z", strtotime($event['start_date'])) . "\n";
-                $content .= "DTEND;VALUE=DATE:" . gmdate("Ymd\THis\Z", strtotime($event['end_date'])) . "\n";
-            }
-            
-            if ( $event['location'] ) {
-                $content .= "LOCATION:" . self::escapeText( $event['location'] ) . "\n";
-            }
-
-            if ( $event['contact_email'] ) {
-                $content .= "ORGANIZER:MAILTO:" . self::escapeText( $event['contact_email'] ) . "\n";
-            }
-            
-            if ( $event['url'] ) {
-                $content .= "URL:" . $event['url'] . "\n";
-            }
-             
-            $content .= "END:VEVENT\n";
-        }
-        $content .= "END:VCALENDAR\n";
-      
-        return $content;
-    }
-
     /**
      * Escape text elements for safe ICalendar use
      *

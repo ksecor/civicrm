@@ -15,7 +15,7 @@
  </div>    
 
  <div id="upload-file" class="form-item">
- <fieldset><legend>{ts}Upload Data File{/ts}</legend>
+ <fieldset>
     <dl>
         <dt>{$form.uploadFile.label}</dt><dd>{$form.uploadFile.html}</dd>
         <dt>&nbsp;</dt>
@@ -27,6 +27,14 @@
         <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Amount").{/ts}
         </dd>
+        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">
+            {ts}Select 'Individual' if you are importing contributions made by individual persons.{/ts}
+        </dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">{ts}Select 'Organization' or 'Household' if you are importing contributions made by contacts of that type.{/ts}
+        </dd> 
         {include file="CRM/Core/Date.tpl"}  
     </dl>
     <div class="spacer"></div>

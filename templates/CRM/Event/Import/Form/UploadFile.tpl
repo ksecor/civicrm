@@ -6,12 +6,16 @@
   
  <div id="help">
     <p>
-    {ts}The Event Import Wizard allows you to easily upload events from other applications into CiviCRM.{/ts} {help id='upload-intro'}
+    {ts}The Event Import Wizard allows you to easily upload event participation data such as event registrations from other applications into CiviCRM.{/ts}
+    </p>
+    <p>
+    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV) and must contain data needed to match the participant data to an existing contact
+    in your CiviCRM database.{/ts} {help id='upload'}
     </p>
  </div>    
 
  <div id="upload-file" class="form-item">
- <fieldset><legend>{ts}Upload Data File{/ts}</legend>
+ <fieldset>
     <dl>
         <dt>{$form.uploadFile.label}</dt><dd>{$form.uploadFile.html}</dd>
         <dt>&nbsp;</dt>
@@ -23,7 +27,14 @@
         <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Participant Role").{/ts}
         </dd>
-        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}</dd>
+        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">
+            {ts}Select 'Individual' if you are importing event participation data for individual persons.{/ts}
+        </dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">{ts}Select 'Organization' or 'Household' if you are importing event participation data for contacts of that type.{/ts}
+        </dd> 
         {include file="CRM/Core/Date.tpl"}  
     </dl>
     <div class="spacer"></div>

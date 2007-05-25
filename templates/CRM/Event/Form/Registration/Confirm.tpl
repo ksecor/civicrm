@@ -19,29 +19,28 @@
     </div>
     {if $paidEvent}
     <div class="header-dark">
-        {ts}Registration Fee{/ts}
+        {$event.fee_label}
     </div>
     <div class="display-block">
         {if $lineItem}
         <table>
-            <tr>
+            <tr class="columnheader">
                 <th>{ts}Item{/ts}</th>
-                <th>{ts}Qty{/ts}</th>
-                <th>{ts}Unit Price{/ts}</th>
-                <th>{ts}Total Price{/ts}</th>
+                <th class="right">{ts}Qty{/ts}</th>
+                <th class="right">{ts}Unit Price{/ts}</th>
+                <th class="right">{ts}Total Price{/ts}</th>
             </tr>
             {foreach from=$lineItem item=line}
             <tr>
                 <td>{$line.label}</td>
-                <td>{$line.qty}</td>
-                <td>{$line.unit_price}</td>
-                <td>{$line.line_total}</td>
+                <td class="right">{$line.qty}</td>
+                <td class="right">{$line.unit_price|crmMoney}</td>
+                <td class="right">{$line.line_total|crmMoney}</td>
             </tr>
             {/foreach}
         </table>
-        {ts}Total{/ts}: {$amount}
+        <strong>{ts}Event Total{/ts}: {$amount|crmMoney}</strong>
         {elseif $amount}
-            {$event.fee_label}:
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
         {/if}
     </div>

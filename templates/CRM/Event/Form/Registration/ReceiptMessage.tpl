@@ -42,10 +42,9 @@
 {if $event.is_monetary} {* This section for Paid events only.*}
 
 ===========================================================
-{ts}Registration Fee{/ts}
-
+{$event.fee_label}
 ===========================================================
-{$event.fee_label}       : {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
+{ts}Total Amount{/ts}     : {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
 {ts}Transaction #{/ts}    : {$trxn_id}

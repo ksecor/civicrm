@@ -188,12 +188,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                               );
             
         } else {
-            $contribButton = ts('Make Contribution');
-            if ( isset ($this->_values['is_monetary'] )  ) {
-                if ( $this->_contributeMode == 'notify' || ! $this->_values['is_monetary'] ) {
-                    $contribButton = ts('Continue >>');
-                }
-            }
+            $contribButton = ts('Continue >>');
             $this->addButtons(array(
                                     array ( 'type'      => 'next',
                                             'name'      => $contribButton,

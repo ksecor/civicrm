@@ -31,11 +31,10 @@
 
     {if $paidEvent}
     <div class="header-dark">
-        {ts}Registration Fee{/ts}
+        {$event.fee_label}
     </div>
     <div class="display-block">
         {if $amount}
-            {$event.fee_label}:
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
         {/if}
         {ts}Transaction Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />

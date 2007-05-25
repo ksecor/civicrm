@@ -20,7 +20,7 @@
    
     {if $invalidRowCount }
         <p class="error">
-        {ts count=$invalidRowCount plural='CiviCRM has detected invalid data and/or formatting errors in %count records. These records have not been imported.'}CiviCRM has detected invalid data and/or formatting errors in one record. This record have not been imported.{/ts}
+        {ts count=$invalidRowCount plural='CiviCRM has detected invalid data and/or formatting errors in %count records. These records have not been imported.'}CiviCRM has detected invalid data and/or formatting errors in one record. This record has not been imported.{/ts}
         </p>
         <p class="error">
         {ts 1=$downloadErrorRecordsUrl}You can <a href="%1">Download Errors</a>. You may then correct them, and import the new file with the corrected data.{/ts}
@@ -56,7 +56,7 @@
     {if $invalidRowCount }
     <tr class="error"><td class="label">{ts}Invalid Rows (skipped){/ts}</td>
         <td class="data">{$invalidRowCount}</td>
-        <td class="explanation">{ts}Rows with invalid data in one or more fields. These rows will be skipped (not imported).{/ts}
+        <td class="explanation">{ts}Rows with invalid data in one or more fields. These rows have been skipped (not imported).{/ts}
             {if $invalidRowCount}
                 <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
             {/if}

@@ -10,7 +10,7 @@
 {/if}
 
 {if $priceSet}
-<fieldset><legend>{ts}Fees{/ts}</legend>
+    <fieldset><legend>{$event.fee_label}</legend>
     <dl>
     {foreach from=$priceSet.fields item=element key=field_id}
         {if $element.options_per_line}
@@ -20,18 +20,18 @@
             {assign var="count" value="1"}
                 <table class="form-layout-compressed">
                     <tr>
-            {foreach name=outer key=key item=item from=$form.$element_name}
-                {if is_numeric($key) }
-                        <td class="labels font-light">{$form.$element_name.$key.html}</td>
-                    {if $count == $element.options_per_line}
-                    {assign var="count" value="1"}
-                    </tr>
-                    <tr>
-                    {else}
-                        {assign var="count" value=`$count+1`}
-                    {/if}
-                {/if}
-            {/foreach}
+                    {foreach name=outer key=key item=item from=$form.$element_name}
+                        {if is_numeric($key) }
+                                <td class="labels font-light">{$form.$element_name.$key.html}</td>
+                            {if $count == $element.options_per_line}
+                            {assign var="count" value="1"}
+                            </tr>
+                            <tr>
+                            {else}
+                                {assign var="count" value=`$count+1`}
+                            {/if}
+                        {/if}
+                    {/foreach}
                     </tr>
                 </table>
             </dd>
@@ -47,18 +47,19 @@
         {/if}
     {/foreach}
     </dl>
-</fieldset>
+    </fieldset>
 {else}
- <table class="form-layout-compressed">
     {if $paidEvent}
-	<tr><td class="label nowrap">{$event.fee_label} <span class="marker">*</span></td>
-	    <td>&nbsp;</td>
-	    <td>{$form.amount.html}</td>
-	</tr>
+     <table class="form-layout-compressed">
+        <tr><td class="label nowrap">{$event.fee_label} <span class="marker">*</span></td>
+            <td>&nbsp;</td>
+            <td>{$form.amount.html}</td>
+        </tr>
+    </table>
     {/if}
-</table>
 {/if}
-	{assign var=n value=email-$bltID}
+
+{assign var=n value=email-$bltID}
 <table class="form-layout-compressed">
     <tr><td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
  </table>

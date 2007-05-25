@@ -143,6 +143,7 @@
   <field>
       <name>gender_id</name>
       <type>int unsigned</type>
+      <headerPattern>/^gender$/i</headerPattern>
       <comment>FK to gender ID</comment>
       <add>1.2</add>
   </field>

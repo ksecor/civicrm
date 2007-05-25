@@ -9,12 +9,13 @@
     {ts}The Membership Import Wizard allows you to easily upload memberships from other applications into CiviCRM.{/ts}
     </p>
     <p>
-    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}
+    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV) and must contain data needed to match the membership data to an existing contact
+    in your CiviCRM database.{/ts} {help id='upload'}
     </p>
  </div>    
 
  <div id="upload-file" class="form-item">
- <fieldset><legend>{ts}Upload Data File{/ts}</legend>
+ <fieldset>
     <dl>
         <dt>{$form.uploadFile.label}</dt><dd>{$form.uploadFile.html}</dd>
         <dt>&nbsp;</dt>
@@ -29,10 +30,10 @@
         <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
-            {ts}Select 'Individual' if each record in your file represents and individual person.{/ts}
+            {ts}Select 'Individual' if you are importing memberships for individual persons.{/ts}
         </dd>
         <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select 'Organization' or 'Household' if each record in your file represents a contact of that type.{/ts}
+        <dd class="description">{ts}Select 'Organization' or 'Household' if you are importing memberships made by contacts of that type.{/ts}
         </dd> 
         {include file="CRM/Core/Date.tpl"}  
     </dl>
