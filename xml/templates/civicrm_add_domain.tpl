@@ -93,7 +93,7 @@ VALUES
    (@domain_id, 'participant_status'            , '{ts}Participant Status{/ts}'                 , 0, 1),
    (@domain_id, 'participant_role'              , '{ts}Participant Role{/ts}'                   , 0, 1),
    (@domain_id, 'event_type'                    , '{ts}Event Type{/ts}'                         , 0, 1),
-   (@domain_id, 'contact_summary_options'       , '{ts}Contact Summary Options{/ts}'            , 0, 1),
+   (@domain_id, 'contact_view_options'          , '{ts}Contact View Options{/ts}'               , 0, 1),
    (@domain_id, 'edit_contact_options'          , '{ts}Edit Contact Options{/ts}'               , 0, 1),
    (@domain_id, 'advanced_search_options'       , '{ts}Advanced Search Options{/ts}'            , 0, 1),
    (@domain_id, 'user_dashboard_options'        , '{ts}user Dashboard Options{/ts}'             , 0, 1);
@@ -112,7 +112,7 @@ SELECT @option_group_id_cs             := max(id) from civicrm_option_group wher
 SELECT @option_group_id_ps             := max(id) from civicrm_option_group where name = 'participant_status';
 SELECT @option_group_id_pRole          := max(id) from civicrm_option_group where name = 'participant_role';
 SELECT @option_group_id_etype          := max(id) from civicrm_option_group where name = 'event_type';
-SELECT @option_group_id_csOpt          := max(id) from civicrm_option_group where name = 'contact_summary_options';
+SELECT @option_group_id_csOpt          := max(id) from civicrm_option_group where name = 'contact_view_options';
 SELECT @option_group_id_ecOpt          := max(id) from civicrm_option_group where name = 'edit_contact_options';
 SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group where name = 'advanced_search_options';
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
@@ -211,6 +211,7 @@ VALUES
   (@option_group_id_ecOpt, '{ts}Communication Preferences{/ts}',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_ecOpt, '{ts}Demographics{/ts}'             ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
   (@option_group_id_ecOpt, '{ts}Tags and Groups{/ts}'          ,   3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+  (@option_group_id_ecOpt, '{ts}Notes{/ts}'                    ,   4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
 
   (@option_group_id_asOpt, '{ts}Address Fields{/ts}'      ,   1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Custom Fields{/ts}'       ,   2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
@@ -219,9 +220,9 @@ VALUES
   (@option_group_id_asOpt, '{ts}Relationships{/ts}'       ,   5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Notes{/ts}'               ,   6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Change Log{/ts}'          ,   7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Contributions{/ts}'       ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Memberships{/ts}'         ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Events{/ts}'              ,  10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts}Contributions{/ts}'       ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts}Memberships{/ts}'         ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts}Events{/ts}'              ,  10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
 
   (@option_group_id_udOpt, '{ts}Groups{/ts}'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, '{ts}Contributions{/ts}', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),

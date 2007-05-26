@@ -207,7 +207,7 @@
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
  {* Notes block only included for Add Contact (since it navigates from Edit form...) *}
- {if $action eq 1}
+ {if $showNotes and $action eq 1}
      <div id = "id_notes_show" class="section-hidden section-hidden-border">
         {$notes.show}<label>{ts}Notes{/ts}</label>
      </div>

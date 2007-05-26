@@ -95,7 +95,14 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $paneNames[ts('Task' )] = 'task';                
         }
 
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_searchOptions = CRM_Core_BAO_Preferences::advancedSearchOptions( );
+        
         foreach ( $paneNames as $name => $type ) {
+            if ( ! $this->_searchOptions[$name] ) {
+                continue;
+            }
+
             $allPanes[$name] = array( 'url' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
                                                                       "snippet=1&formType=$type" ),
                                       'open' => 'false',

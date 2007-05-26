@@ -148,7 +148,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $configItems = array( '_showCommBlock'     => ts( 'Communication Preferences' ),
                               '_showLocation'      => ts( 'Location' ),
                               '_showDemographics'  => ts( 'Demographics' ),
-                              '_showTagsAndGroups' => ts( 'Tags and Groups' ) );
+                              '_showTagsAndGroups' => ts( 'Tags and Groups' ),
+                              '_showNotes'         => ts( 'Notes' ) );
+
         foreach ( $configItems as $c => $t ) {
             $this->$c = $this->_editOptions[$t];
             $this->assign( substr( $c, 1 ), $this->$c );
@@ -356,7 +358,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
                                                         $this->_maxLocationBlocks );
  
-        if ( $this->_action & CRM_Core_Action::ADD ) {
+        if ( $this->_showNotes && 
+             ( $this->_action & CRM_Core_Action::ADD ) ) {
             // notes are only included in the template for New Contact
             $this->_showHide->addShow( 'id_notes_show' );
             $this->_showHide->addHide( 'id_notes' );
@@ -454,7 +457,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         /* End of locations */
         
         // add note block
-        if ($this->_action & CRM_Core_Action::ADD) {
+        if ( $this->_showNotes &&
+             ( $this->_action & CRM_Core_Action::ADD ) ) {
             require_once 'CRM/Contact/Form/Note.php';
             $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
         }
@@ -469,9 +473,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId,0,$this->_contactSubType);
         
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-          
-        $config  =& CRM_Core_Config::singleton( );
-        CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
+
+        if ( $this->_showNotes ) {
+            CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
+        }
 
         // add the dedupe button
         $this->addElement('submit', 
@@ -596,7 +601,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
         }
         
-        $config  =& CRM_Core_Config::singleton( );
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $this->_maxLocationBlocks, true, false );
      
@@ -610,7 +614,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         
         // here we replace the user context with the url to view this contact
-        $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
         CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type_display)));
 

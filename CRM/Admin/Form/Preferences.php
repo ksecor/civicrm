@@ -89,7 +89,7 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
         $defaults = array( );
 
         $defaults['location_count'] =
-            $this->_config->location_count ? $this->_config->location_count : 2;
+            $this->_config->location_count ? $this->_config->location_count : 1;
         
         require_once 'CRM/Core/BAO/CustomOption.php';
         foreach ( $this->_cbs as $name => $title ) {
@@ -102,11 +102,6 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
                     foreach ( $value as $n => $v ) {
                         $defaults[$name][$v] = 1;
                     }
-                }
-            } else {
-                $cbValues = CRM_Core_OptionGroup::values( $name );
-                foreach ( $cbValues as $n => $v ) {
-                    $defaults[$name][$n] = 1;
                 }
             }
         }

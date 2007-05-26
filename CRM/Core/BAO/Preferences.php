@@ -77,7 +77,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         }
 
         return
-            isset( self::$_systemObject->location_count ) ? self::$_systemObject->location_count : 2;
+            isset( self::$_systemObject->location_count ) ? self::$_systemObject->location_count : 1;
     }
 
     static function commonOptions( $system = true, $userID = null, $optionName ) {
@@ -95,12 +95,14 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         foreach ( $groupValues as $gn => $gv ) {
             $returnValues[$gv] = 0;
         }
-        if ( ! empty( $optionValue ) ) {
+        if ( ! empty( $optionValue ) ) { 
             require_once 'CRM/Core/BAO/CustomOption.php';
             $dbValues = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
                               substr( $optionValue, 1, -1 ) );
-            foreach ( $dbValues as $key => $val ) {
-                $returnValues[$groupValues[$val]] = 1;
+            if ( ! empty( $dbValues ) ) {
+                foreach ( $dbValues as $key => $val ) {
+                    $returnValues[$groupValues[$val]] = 1;
+                }
             }
         }
         
@@ -113,6 +115,10 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
     static function contactViewOptions( $system = true, $userID = null ) {
         return self::commonOptions( $system, $userID, 'contact_view_options' );
+    }
+
+    static function advancedSearchOptions( $system = true, $userID = null ) {
+        return self::commonOptions( $system, $userID, 'advanced_search_options' );
     }
 
 
