@@ -144,10 +144,14 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $allTabs  = array( );
         $weight = 10;
         
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_viewOptions = CRM_Core_BAO_Preferences::contactViewOptions( );
+        
         // get the contributions, new style of doing stuff
         // do the below only if the person has access to contributions
         $config =& CRM_Core_Config::singleton( );
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) &&
+             $this->_viewOptions[ts('Contributions')] ) {
             $allTabs[ts('Contributions')] = array ( 'id'     => 'contribute',
                                                     'url'    =>  CRM_Utils_System::url( 'civicrm/contact/view/contribution',
                                                                                      "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
@@ -158,7 +162,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         // get the memberships, new style of doing stuff
         // do the below only if the person has access to memberships
-        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+        if ( CRM_Core_Permission::access( 'CiviMember' ) &&
+             $this->_viewOptions[ts('Memberships')] ) {
             $allTabs[] = array ( 'id'  => 'member',
                                  'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/membership',
                                                                   "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
@@ -169,7 +174,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         // get the events, new style of doing stuff
         // do the below only if the person has access to events
-        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) &&
+             $this->_viewOptions[ts('Events')] ) {
             $allTabs[ts('Events')] = array ( 'id'  => 'participant',
                                              'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/participant',
                                                                               "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
@@ -184,8 +190,11 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                        'note'          => ts( 'Notes'         ),
                        'tag'           => ts( 'Tags'          ),
                        'log'           => ts( 'Change Log'    ) );
-        
+
         foreach ( $rest as $k => $v ) {
+            if ( ! $this->_viewOptions[$v] ) {
+                continue;
+            }
             if ( $k == 'activity' ) {
                 $history = array_key_exists( 'history', $_GET ) ? $_GET['history'] : 0;
                 $allTabs[] = array( 'id'     => $k,

@@ -14,7 +14,7 @@
       <dl>
         <dt>{$form.location_count.label}</dt><dd>{$form.location_count.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Number of locations to be displayed when creating and/or editing a contact.{/ts}</dd>
-        <dt>{$form.contact_summary_options.label}</dt><dd>{$form.contact_summary_options.html}</dd>
+        <dt>{$form.contact_view_options.label}</dt><dd>{$form.contact_view_options.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Tabs that should be displayed in the View Contacts Page{/ts}</dd>
         <dt>{$form.edit_contact_options.label}</dt><dd>{$form.edit_contact_options.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Sections that should be displayed in the Create/Edit Contacts Page{/ts}</dd>

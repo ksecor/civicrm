@@ -57,7 +57,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
     static function &userObject( $userID = null ) {
         if ( ! self::$_userObject ) {
             if ( ! $userID ) {
-                $session =& CRM_Core_Session::singelton( );
+                $session =& CRM_Core_Session::singleton( );
                 $userID  =  $session->get( 'userID' );
             }
             self::$_userObject =& new CRM_Core_DAO_Preferences( );
@@ -80,25 +80,25 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
             isset( self::$_systemObject->location_count ) ? self::$_systemObject->location_count : 2;
     }
 
-    static function editContactSection( $system = true, $userID = null ) {
+    static function commonOptions( $system = true, $userID = null, $optionName ) {
         if ( $system ) {
             $object = self::systemObject( );
         } else {
             $object = self::userObject( $userID );
         }
 
-        $eco = $object->edit_contact_options;
+        $optionValue = $object->$optionName;
         require_once 'CRM/Core/OptionGroup.php';
-        $groupValues = CRM_Core_OptionGroup::values( 'edit_contact_options' );
+        $groupValues = CRM_Core_OptionGroup::values( $optionName );
         
         $returnValues = array( );
         foreach ( $groupValues as $gn => $gv ) {
             $returnValues[$gv] = 0;
         }
-        if ( ! empty( $eco ) ) {
+        if ( ! empty( $optionValue ) ) {
             require_once 'CRM/Core/BAO/CustomOption.php';
             $dbValues = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                              substr( $eco, 1, -1 ) );
+                              substr( $optionValue, 1, -1 ) );
             foreach ( $dbValues as $key => $val ) {
                 $returnValues[$groupValues[$val]] = 1;
             }
@@ -106,6 +106,15 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         
         return $returnValues;
     }
+
+    static function editContactOptions( $system = true, $userID = null ) {
+        return self::commonOptions( $system, $userID, 'edit_contact_options' );
+    }
+
+    static function contactViewOptions( $system = true, $userID = null ) {
+        return self::commonOptions( $system, $userID, 'contact_view_options' );
+    }
+
 
 }
 

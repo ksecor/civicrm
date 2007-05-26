@@ -54,7 +54,7 @@
        <add>1.8</add>
   </field>
   <field>
-       <name>contact_summary_options</name>
+       <name>contact_view_options</name>
        <type>varchar</type>
        <length>128</length>
        <import>true</import>

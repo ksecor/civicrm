@@ -121,7 +121,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
     protected $_maxLocationBlocks = 0;
 
-    protected $_editSections = array( );
+    protected $_editOptions = array( );
 
     protected $_showCommBlock = true;
 
@@ -144,13 +144,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_maxLocationBlocks = CRM_Core_BAO_Preferences::locationCount( );
 
-        $this->_editSections  = CRM_Core_BAO_Preferences::editContactSection( );
+        $this->_editOptions  = CRM_Core_BAO_Preferences::editContactOptions( );
         $configItems = array( '_showCommBlock'     => ts( 'Communication Preferences' ),
                               '_showLocation'      => ts( 'Location' ),
                               '_showDemographics'  => ts( 'Demographics' ),
                               '_showTagsAndGroups' => ts( 'Tags and Groups' ) );
         foreach ( $configItems as $c => $t ) {
-            $this->$c = $this->_editSections[$t];
+            $this->$c = $this->_editOptions[$t];
             $this->assign( substr( $c, 1 ), $this->$c );
         }
 

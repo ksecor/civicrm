@@ -133,7 +133,7 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
 
         // add all the checkboxes
         $this->_cbs = array(
-                            'contact_summary_options' => ts( 'Contact Summary Options' ),
+                            'contact_view_options'    => ts( 'Contact View Options' ),
                             'edit_contact_options'    => ts( 'Edit Contact Options'    ),
                             'advanced_search_options' => ts( 'Advanced Search Options' ),
                             'user_dashboard_options'  => ts( 'User Dashboard Options'  ),
