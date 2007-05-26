@@ -325,6 +325,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $cmsCid = true; 
                     $this->assign('cmsCid', 1);
                 }
+
                 if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
                     $cms = true;
                     $this->_mail = 'email-Primary';
@@ -373,6 +374,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'showBlocks', $showBlocks ); 
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
+
         $config =& CRM_Core_Config::singleton( );
         // if cms is drupal having version greater than equal to 5.1 
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
@@ -381,7 +383,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             // $cms is true when there is email(primary location) is set in the profile field.
             if ( $cmsUser && $cms) {
-                $extra = array('onclick' => "showMessage($cmsCid);return  showHideByValue('create_account', '', 'details','block','radio',false )");
+                $extra = array('onclick' => "if (this.checked) showMessage(this); return showHideByValue('create_account', '', 'details','block','radio',false );");
                 $this->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra); 
                 if( !$cmsCid ) {
                     $this->add('text', 'name', ts('User Name'));
@@ -389,8 +391,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $this->add('password', 'confirm_pass', ts('Confirm Password'));
                 }
             } 
-            $baseURL = $config->userFrameworkBaseURL;
-            $this->assign('baseURL', $baseURL);
             $this->assign('drupalCms', true);  
         }
         $this->assign( 'groupId', $this->_gid ); 
@@ -605,9 +605,8 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
-        
         $params = $this->controller->exportValues( $this->_name );
-        if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
+        if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
             if ( $this->_mode == self::MODE_CREATE ) {
                 if ( $params['create_account'] ) {
                     $mail = $this->_mail; 

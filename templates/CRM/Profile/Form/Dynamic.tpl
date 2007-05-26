@@ -109,10 +109,10 @@
         <div class="messages help">{$field.groupHelpPost}</div>
     {/if}
 
-{if $cms}
- <tr><td>{$form.create_account.html} {$form.create_account.label}</td></tr>
+{if $drupalCms}
+ <br><div>{$form.create_account.html} {$form.create_account.label}</div>
  {if $cmsCid neq 1}
-{ts} If you would like to create an account on this site, fill in your username and password{/ts}
+ <div class="messages help">{ts}If you would like to create an account on this site, fill in your username and password{/ts}</div>
  {/if}
  <div id="details">
   <table class="form-layout-compressed">
@@ -146,9 +146,6 @@
         {/if}
      {/if}
 
-
-
-
 {if $mode eq 4}
 <div class="crm-submit-buttons"> 
      {$form.buttons.html}
@@ -176,12 +173,15 @@
   {
      window.open(path,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,screenX=150,screenY=150,top=150,left=150')
   }
-  function showMessage( $cmsId )
+ function showMessage( frm )
  {
-   if( $cmsId ) {
+   var cmsId = {/literal}'{$cmsCid}'{literal};
+   if ( cmsId ) {
      alert("You are logged-in user");
+     frm.checked = false;
    } else {
-     alert("Please login if you have an account on this site with the link " + $baseURL  );
+     var siteName = {/literal}'{$config->userFrameworkBaseURL}'{literal};
+     alert("Please login if you have an account on this site with the link " + siteName  );
    }
  }
   {/literal}	
