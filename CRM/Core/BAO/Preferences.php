@@ -33,19 +33,19 @@
  *
  */
 
-require_once 'CRM/Core/DAO/SystemConfig.php';
+require_once 'CRM/Core/DAO/Preferences.php';
 
 /**
  *
  */
-class CRM_Core_BAO_SystemConfig extends CRM_Core_DAO_SystemConfig {
+class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
     static private $_systemObject = null;
 
     static private $_userObject   = null;
 
     static function &systemObject( ) {
         if ( ! self::$_systemObject ) {
-            self::$_systemObject =& new CRM_Core_DAO_SystemConfig( );
+            self::$_systemObject =& new CRM_Core_DAO_Preferences( );
             self::$_systemObject->domain_id  = CRM_Core_Config::domainID( );
             self::$_systemObject->is_domain  = true;
             self::$_systemObject->contact_id = null;
@@ -60,7 +60,7 @@ class CRM_Core_BAO_SystemConfig extends CRM_Core_DAO_SystemConfig {
                 $session =& CRM_Core_Session::singelton( );
                 $userID  =  $session->get( 'userID' );
             }
-            self::$_userObject =& new CRM_Core_DAO_SystemConfig( );
+            self::$_userObject =& new CRM_Core_DAO_Preferences( );
             self::$_userObject->domain_id  = CRM_Core_Config::domainID( );
             self::$_userObject->is_domain  = false;
             self::$_userObject->contact_id = $userID;

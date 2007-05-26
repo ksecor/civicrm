@@ -22,8 +22,6 @@
         <dt>&nbsp;</dt><dd class="description">{ts}Sections that should be displayed in the Advanced Search Form{/ts}</dd>
         <dt>{$form.user_dashboard_options.label}</dt><dd>{$form.user_dashboard_options.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Sections that should be displayed in the User Dashboard{/ts}</dd>
-        <dt>{$form.admin_panel_options.label}</dt><dd>{$form.admin_panel_options.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Sections that should be expanded in the Admin Panel{/ts}</dd>
     {/if}
 	{if $action neq 4} {* action is not view *}
            <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>

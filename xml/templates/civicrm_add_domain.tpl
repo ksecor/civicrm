@@ -96,8 +96,7 @@ VALUES
    (@domain_id, 'contact_summary_options'       , '{ts}Contact Summary Options{/ts}'            , 0, 1),
    (@domain_id, 'edit_contact_options'          , '{ts}Edit Contact Options{/ts}'               , 0, 1),
    (@domain_id, 'advanced_search_options'       , '{ts}Advanced Search Options{/ts}'            , 0, 1),
-   (@domain_id, 'user_dashboard_options'        , '{ts}user Dashboard Options{/ts}'             , 0, 1),
-   (@domain_id, 'admin_panel_options'           , '{ts}Admin Panel Options{/ts}'                , 0, 1);
+   (@domain_id, 'user_dashboard_options'        , '{ts}user Dashboard Options{/ts}'             , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -117,7 +116,6 @@ SELECT @option_group_id_csOpt          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_ecOpt          := max(id) from civicrm_option_group where name = 'edit_contact_options';
 SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group where name = 'advanced_search_options';
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
-SELECT @option_group_id_apOpt          := max(id) from civicrm_option_group where name = 'admin_panel_options';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -230,16 +228,7 @@ VALUES
   (@option_group_id_udOpt, '{ts}Groups{/ts}'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, '{ts}Contributions{/ts}', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, '{ts}Memberships{/ts}'  , 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
-  (@option_group_id_udOpt, '{ts}Events{/ts}'       , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
-
-  (@option_group_id_apOpt, '{ts}Manage{/ts}'        ,   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
-  (@option_group_id_apOpt, '{ts}Configure{/ts}'     ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
-  (@option_group_id_apOpt, '{ts}Setup{/ts}'         ,   3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
-  (@option_group_id_apOpt, '{ts}CiviContribute{/ts}',   4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
-  (@option_group_id_apOpt, '{ts}CiviMember{/ts}'    ,   5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
-  (@option_group_id_apOpt, '{ts}CiviEvent{/ts}'     ,   6, NULL, NULL, 0, NULL, 6, NULL, 0, 0, 1 ),
-  (@option_group_id_apOpt, '{ts}CiviMail{/ts}'      ,   7, NULL, NULL, 0, NULL, 7, NULL, 0, 0, 1 );
-
+  (@option_group_id_udOpt, '{ts}Events{/ts}'       , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 );
 
 -- sample membership status entries
 INSERT INTO

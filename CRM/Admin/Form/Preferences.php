@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
  * This class generates form components for Location Type
  * 
  */
-class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
+class CRM_Admin_Form_Preferences extends CRM_Core_Form
 {
     protected $_system    = false;
     protected $_contactID = null;
@@ -58,8 +58,8 @@ class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
                                                          $this, false, 'update' );
         $this->assign( 'action', $action );
 
-        require_once 'CRM/Core/DAO/SystemConfig.php';
-        $this->_config =& new CRM_Core_DAO_SystemConfig( );
+        require_once 'CRM/Core/DAO/Preferences.php';
+        $this->_config =& new CRM_Core_DAO_Preferences( );
 
         if ( $this->_system ) {
             if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
@@ -88,11 +88,13 @@ class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
     function setDefaultValues( ) {
         $defaults = array( );
 
-        $defaults['location_count'] = $this->_config->location_count;
+        $defaults['location_count'] =
+            $this->_config->location_count ? $this->_config->location_count : 2;
         
         require_once 'CRM/Core/BAO/CustomOption.php';
         foreach ( $this->_cbs as $name => $title ) {
-            if ( $this->_config->$name ) {
+            if ( isset( $this->_config->$name ) &&
+                 $this->_config->$name ) {
                 $value = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
                                   substr( $this->_config->$name, 1, -1 ) );
                 if ( ! empty( $value ) ) {
@@ -100,6 +102,11 @@ class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
                     foreach ( $value as $n => $v ) {
                         $defaults[$name][$v] = 1;
                     }
+                }
+            } else {
+                $cbValues = CRM_Core_OptionGroup::values( $name );
+                foreach ( $cbValues as $n => $v ) {
+                    $defaults[$name][$n] = 1;
                 }
             }
         }
@@ -121,7 +128,7 @@ class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
         $this->add('text',
                    'location_count',
                    ts('Location Blocks to display'),
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_SystemConfig', 'location_count' ) );
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Preferences', 'location_count' ) );
         $this->addRule( 'location_count', ts( 'Location count has to be postive' ), 'positiveInteger' );
 
         // add all the checkboxes
@@ -130,7 +137,6 @@ class CRM_Admin_Form_SystemConfig extends CRM_Core_Form
                             'edit_contact_options'    => ts( 'Edit Contact Options'    ),
                             'advanced_search_options' => ts( 'Advanced Search Options' ),
                             'user_dashboard_options'  => ts( 'User Dashboard Options'  ),
-                            'admin_panel_options'     => ts( 'Admin Panel Options'     ),
                             );
 
         require_once 'CRM/Core/OptionGroup.php';

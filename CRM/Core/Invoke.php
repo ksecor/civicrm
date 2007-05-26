@@ -975,8 +975,8 @@ class CRM_Core_Invoke
         case 'component' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
             break;
-        case 'system':
-            $output = $wrapper->run( 'CRM_Admin_Form_SystemConfig', ts('System Configuration'), null); 
+        case 'preferences':
+            $output = $wrapper->run( 'CRM_Admin_Form_Preferences', ts('System Preferences'), null); 
             break;
         case 'path' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Path', ts('File System Paths'), null); 

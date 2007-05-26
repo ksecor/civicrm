@@ -9,8 +9,8 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/system' q='reset=1'}" id="idSystem">&raquo; {ts}System Configuration{/ts}</a></td>
-    <td>{ts}Configure system settings to hide and show various options.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences' q='reset=1'}" id="idPreferences">&raquo; {ts}System Preferences{/ts}</a></td>
+    <td>{ts}Configure system preferences to hide and show various options.{/ts}</td>
 </tr>
 
 <tr>

@@ -2,9 +2,9 @@
 
 <table>
   <base>CRM/Core</base>
-  <class>SystemConfig</class>
-  <name>civicrm_system_config</name>
-  <comment>Define setting for the site and users</comment>
+  <class>Preferences</class>
+  <name>civicrm_preferences</name>
+  <comment>Define preferences for the site and users</comment>
   <add>1.8</add>
   <field>
       <name>id</name>
@@ -81,13 +81,6 @@
        <type>varchar</type>
        <length>128</length>
        <comment>What sections are displayed in user dashboard?</comment>
-       <add>1.8</add>
-  </field>
-  <field>
-       <name>admin_panel_options</name>
-       <type>varchar</type>
-       <length>128</length>
-       <comment>What sections are displayed in admin panel?</comment>
        <add>1.8</add>
   </field>
 </table>

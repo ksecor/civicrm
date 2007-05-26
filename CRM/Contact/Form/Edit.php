@@ -141,10 +141,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
     
         // find the system config related location blocks
-        require_once 'CRM/Core/BAO/SystemConfig.php';
-        $this->_maxLocationBlocks = CRM_Core_BAO_SystemConfig::locationCount( );
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_maxLocationBlocks = CRM_Core_BAO_Preferences::locationCount( );
 
-        $this->_editSections  = CRM_Core_BAO_SystemConfig::editContactSection( );
+        $this->_editSections  = CRM_Core_BAO_Preferences::editContactSection( );
         $configItems = array( '_showCommBlock'     => ts( 'Communication Preferences' ),
                               '_showLocation'      => ts( 'Location' ),
                               '_showDemographics'  => ts( 'Demographics' ),
