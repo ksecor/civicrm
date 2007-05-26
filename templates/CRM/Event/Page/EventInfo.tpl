@@ -1,24 +1,30 @@
 {* this template is used for displaying event information *}
 
-<div class="form-item">
+<div class="vevent">
     <div class="display-block">
 	<table class="form-layout">
       {if $event.summary}
-        <tr><td colspan="2" class="report">{$event.summary}</td></tr>
+	<span class="summary">{$event.summary}</span>
+       {* <tr><td colspan="2" class="report">{$event.summary}</td></tr>*}
       {/if}
       {if $event.description}
         <tr><td colspan="2" class="report">{$event.description}</td></tr>
       {/if}
 	  <tr><td><label>{ts}When{/ts}</label></td>
           <td width="90%">
-            {$event.event_start_date|crmDate}
+	  	<abbr class="dtstart" title="{$event.event_start_date}">{$event.event_start_date|crmDate}</abbr>
+            
             {if $event.event_end_date}
                 &nbsp; {ts}through{/ts} &nbsp;
                 {* Only show end time if end date = start date *}
                 {if $event.event_end_date|date_format:"%Y%m%d" == $event.event_start_date|date_format:"%Y%m%d"}
-                    {$event.event_end_date|date_format:"%I:%M %p"}
+            		<abbr class="dtend" title="{$event.event_end_date}">
+			{$event.event_end_date|crmDate|date_format:"%I:%M %p"}
+			</abbr>        
                 {else}
-                    {$event.event_end_date|crmDate}
+			<abbr class="dtend" title="{$event.event_end_date}">
+			{$event.event_end_date|crmDate}
+			</abbr> 	
                 {/if}
             {/if}
           </td>
