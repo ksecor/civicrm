@@ -109,7 +109,7 @@
         <div class="messages help">{$field.groupHelpPost}</div>
     {/if}
 
-{if $drupalCms}
+{if $drupalCms }
  <br><div>{$form.create_account.html} {$form.create_account.label}</div>
  {if $cmsCid neq 1}
  <div class="messages help">{ts}If you would like to create an account on this site, fill in your username and password{/ts}</div>

@@ -376,6 +376,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         $config =& CRM_Core_Config::singleton( );
+        $drupalCms = false;
         // if cms is drupal having version greater than equal to 5.1 
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
             if ( $this->_gid ) {
@@ -390,9 +391,11 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $this->add('password', 'pass', ts('Password'));
                     $this->add('password', 'confirm_pass', ts('Confirm Password'));
                 }
+                $drupalCms = true;
             } 
-            $this->assign('drupalCms', true);  
         }
+
+        $this->assign( 'drupalCms', $drupalCms );  
         $this->assign( 'groupId', $this->_gid ); 
 
         // if view mode pls freeze it with the done button.
@@ -606,6 +609,9 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
+
+        //create drupal user is CMS user option is selected in profile
+        $config  =& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
             if ( $this->_mode == self::MODE_CREATE ) {
                 if ( $params['create_account'] ) {
@@ -616,7 +622,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                     'pass2' => $params['confirm_pass']),
                                     'mail' => $params[$mail],
                                     );
-                                   
+
                     drupal_execute( 'user_register', $values );
                     $error = form_get_errors();
                     if ( $error ) {
@@ -628,6 +634,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
+
         //for custom data of type file
         if ( !empty($_FILES) ) {
             foreach ( $_FILES as $key => $value) {
