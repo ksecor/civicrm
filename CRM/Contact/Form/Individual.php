@@ -102,8 +102,18 @@ class CRM_Contact_Form_Individual {
         // shared address elements
         $form->useHouseholdChkbox =& $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'));
         $selHouseLabel = ( $form->selHouseLabel ) ? $form->selHouseLabel : "Select Household";
-        $form->addElement('text', 'shared_household', ts( $selHouseLabel ));
-        
+        //$form->addElement('text', 'shared_household', ts( $selHouseLabel ));
+     
+        $domainID =  CRM_Core_Config::domainID( );   
+        $attributes = array( 'dojoType'     => 'ComboBox',
+                             'mode'         => 'remote',
+                             'dataUrl'      => CRM_Utils_System::url( 'civicrm/ajax/search',
+                                                                      "d={$domainID}&h=1&s=%{searchString}",
+                                                                      true, null, false ),
+                             );
+        $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
+        $form->add( 'text', 'shared_household', ts( $selHouseLabel ), $attributes );
+
         $form->addElement('text', 'home_URL', ts('Website'),
                           array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
                                        array('onfocus' => "if (!this.value) this.value='http://'; else return false")

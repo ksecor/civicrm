@@ -97,16 +97,23 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page {
 
     function search( &$config ) {
         require_once 'CRM/Utils/Type.php';
-        $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
-        $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
-
+        $domainID  = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
+        $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+        if ( $_GET['h'] ) { 
+            $household = CRM_Utils_Type::escape( $_GET['h'], 'Integer');
+        }
+        
         $query = "
 SELECT sort_name, id
-  FROM civicrm_contact
- WHERE domain_id = $domainID
-   AND sort_name LIKE '$name%'
-ORDER BY sort_name
-LIMIT 6";
+FROM civicrm_contact
+WHERE domain_id = $domainID
+  AND sort_name LIKE '$name%' ";
+
+        if ( $household ) {
+            $query .= " AND contact_type='Household'";
+        }
+        
+        $query .= " ORDER BY sort_name LIMIT 6";
 
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
