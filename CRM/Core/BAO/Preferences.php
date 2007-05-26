@@ -121,6 +121,9 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         return self::commonOptions( $system, $userID, 'advanced_search_options' );
     }
 
+    static function userDashboardOptions( $system = true, $userID = null ) {
+        return self::commonOptions( $system, $userID, 'user_dashboard_options' );
+    }
 
 }
 

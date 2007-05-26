@@ -116,7 +116,11 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         $components = array( );
         $config =& CRM_Core_Config::singleton( );
 
-        if ( in_array( 'CiviContribute', $config->enableComponents ) &&
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_userOptions  = CRM_Core_BAO_Preferences::userDashboardOptions( );
+
+        if ( $this->_userOptions[ts('Contributions')] &&
+             in_array( 'CiviContribute', $config->enableComponents ) &&
              ( CRM_Core_Permission::access( 'CiviContribute' ) ||
                CRM_Core_Permission::check('make online contributions') )
              ) {
@@ -126,7 +130,8 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $contribution->run( );
         }
         
-        if ( in_array( 'CiviMember', $config->enableComponents ) &&
+        if ( $this->_userOptions[ts('Memberships')] &&
+             in_array( 'CiviMember', $config->enableComponents ) &&
              ( CRM_Core_Permission::access( 'CiviMember' ) ||
                CRM_Core_Permission::check('make online contributions') )
              ) {
@@ -136,7 +141,8 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $membership->run( );
         }
 
-        if ( in_array( 'CiviEvent', $config->enableComponents ) &&
+        if ( $this->_userOptions[ts('Events')] &&
+             in_array( 'CiviEvent', $config->enableComponents ) &&
              ( CRM_Core_Permission::access( 'CiviEvent' ) ||
                CRM_Core_Permission::check('register for events') )
              ) {
@@ -148,10 +154,15 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
 
         $this->assign ( 'components', $components );
 
-        //build group selector
-        require_once "CRM/Contact/Page/View/UserDashBoard/GroupContact.php";
-        $gContact = new CRM_Contact_Page_View_UserDashBoard_GroupContact( );
-        $gContact->run( );
+        if ( $this->_userOptions[ts('Groups')] ) {
+            $this->assign( 'showGroup', true );
+            //build group selector
+            require_once "CRM/Contact/Page/View/UserDashBoard/GroupContact.php";
+            $gContact = new CRM_Contact_Page_View_UserDashBoard_GroupContact( );
+            $gContact->run( );
+        } else {
+            $this->assign( 'showGroup', false );
+        }
     }
         
     /**

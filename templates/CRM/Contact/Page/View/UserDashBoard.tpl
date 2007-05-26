@@ -1,4 +1,5 @@
 <table class="no-border">
+{if $showGroup}
     <tr>
         <td>
           <div class="header-dark">
@@ -8,6 +9,7 @@
             
         </td>
     </tr>
+{/if}
 
     {foreach from=$components key=componentName item=group}
     <tr>
