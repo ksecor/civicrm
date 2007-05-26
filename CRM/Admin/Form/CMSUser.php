@@ -36,10 +36,10 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * This class generates form components for Synchronizing Drupal Users
+ * This class generates form components for Synchronizing CMS Users
  * 
  */
-class CRM_Admin_Form_DrupalUser extends CRM_Core_Form
+class CRM_Admin_Form_CMSUser extends CRM_Core_Form
 {
     /**
      * Function to build the form
@@ -70,8 +70,8 @@ class CRM_Admin_Form_DrupalUser extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/Core/BAO/DrupalUser.php';
-        CRM_Core_BAO_DrupalUser::synchronize();
+        require_once 'CRM/Core/BAO/CMSUser.php';
+        CRM_Core_BAO_CMSUser::synchronize();
     }
 }
 

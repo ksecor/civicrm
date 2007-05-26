@@ -39,7 +39,7 @@
 
 require_once 'DB.php';
 
-class CRM_Core_BAO_DrupalUser  
+class CRM_Core_BAO_CMSUser  
 {
     /**
      * Function for synchronizing drupal users with CiviCRM contacts

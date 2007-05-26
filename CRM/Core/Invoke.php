@@ -592,8 +592,8 @@ class CRM_Core_Invoke
             break;   
             
         case 'synchUser':
-            require_once 'CRM/Admin/Page/DrupalUser.php';
-            $view =& new CRM_Admin_Page_DrupalUser(ts('Sync Drupal Users'));
+            require_once 'CRM/Admin/Page/CMSUser.php';
+            $view =& new CRM_Admin_Page_CMSUser(ts('Sync Drupal Users'));
             break;   
 
         case 'backup':

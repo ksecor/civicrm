@@ -36,9 +36,9 @@
 require_once 'CRM/Core/Page.php';
 
 /**
- * Page for synchronizing drupal users
+ * Page for synchronizing CMS users
  */
-class CRM_Admin_Page_DrupalUser extends CRM_Core_Page 
+class CRM_Admin_Page_CMSUser extends CRM_Core_Page 
 {
     /**
      * Run the page.
@@ -56,12 +56,12 @@ class CRM_Admin_Page_DrupalUser extends CRM_Core_Page
         //if javascript is enabled
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', 
                                         $this, '', '', 'GET') ) {
-            require_once 'CRM/Core/BAO/DrupalUser.php';
-            CRM_Core_BAO_DrupalUser::synchronize();
+            require_once 'CRM/Core/BAO/CMSUser.php';
+            CRM_Core_BAO_CMSUser::synchronize();
             return;
         }
 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Admin_Form_DrupalUser', 'Synchronize Drupal Users', $mode );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Admin_Form_CMSUser', 'Synchronize CMS Users', $mode );
         
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
