@@ -1537,8 +1537,15 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                     } else if ( substr( $name, 0, 7 ) == 'custom_') {
                         //fix for custom fields
                         $customFields = CRM_Core_BAO_CustomField::getFields( $values['Individual'] );
+
+			// hack to add custom data for components
+			$components = array("Contribution", "Participant","Membership");
+                        foreach ( $components as $value) {
+                            $customFields = CRM_Utils_Array::crmArrayMerge( $customFields, 
+                                                                            CRM_Core_BAO_CustomField::getFieldsForImport($value));
+			}
+
                         switch( $customFields[substr($name,7,9)][3] ) {
-                            
                         case 'Multi-Select':
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                             foreach ( $v as $item ) {
@@ -1552,7 +1559,7 @@ SELECT g.* from civicrm_uf_group g, civicrm_uf_join j
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                             foreach ( $v as $item ) {
                                 if ($item) {
-                                    $defaults[$fldName."[$item]"] = 1;
+                                    $defaults[$fldName][$item] = 1;
                                 }
                             }
                             break;
