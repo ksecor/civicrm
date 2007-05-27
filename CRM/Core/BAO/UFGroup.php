@@ -1541,10 +1541,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                             
                         case 'CheckBox':
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
-
                             foreach ( $v as $item ) {
                                 if ($item) {
-                                    $defaults["{$fldName}"][$item] = 1;
+                                    $defaults[$fldName][$item] = 1;
                                 }
                             }
                             break;
