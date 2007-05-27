@@ -8,407 +8,193 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide("dojo.widget.PageContainer");
 
+dojo.provide("dojo.widget.PageContainer");
 dojo.require("dojo.lang.func");
 dojo.require("dojo.widget.*");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html.selection");
-
-dojo.widget.defineWidget("dojo.widget.PageContainer", dojo.widget.HtmlWidget, {
-	// summary
-	//	A container that has multiple children, but shows only
-	//	one child at a time (like looking at the pages in a book one by one).
-	//
-	//	Publishes topics <widgetId>-addChild, <widgetId>-removeChild, and <widgetId>-selectChild
-	//
-	//	Can be base class for container, Wizard, Show, etc.
-
-	isContainer: true,
-
-	// doLayout: Boolean
-	//  if true, change the size of my currently displayed child to match my size
-	doLayout: true,
-
-	templateString: "<div dojoAttachPoint='containerNode'></div>",
-
-	// selectedChild: String
-	//   id of the currently shown page
-	selectedChild: "",
-
-	fillInTemplate: function(args, frag) {
-		// Copy style info from input node to output node
-		var source = this.getFragNodeRef(frag);
-		dojo.html.copyStyle(this.domNode, source);
-		dojo.widget.PageContainer.superclass.fillInTemplate.apply(this, arguments);
-	},
-
-	postCreate: function(args, frag) {
-		if(this.children.length){
-			// Setup each page panel
-			dojo.lang.forEach(this.children, this._setupChild, this);
-
-			// Figure out which child to initially display
-			var initialChild;
-			if(this.selectedChild){
-				this.selectChild(this.selectedChild);
-			}else{
-				for(var i=0; i<this.children.length; i++){
-					if(this.children[i].selected){
-						this.selectChild(this.children[i]);
-						break;
-					}
-				}
-				if(!this.selectedChildWidget){
-					this.selectChild(this.children[0]);
-				}
-			}
-		}
-	},
-
-	addChild: function(child){
-		dojo.widget.PageContainer.superclass.addChild.apply(this, arguments);
-		this._setupChild(child);
-
-		// in case the tab labels have overflowed from one line to two lines
-		this.onResized();
-
-		// if this is the first child, then select it
-		if(!this.selectedChildWidget){
-			this.selectChild(child);
-		}
-	},
-
-	_setupChild: function(/*Widget*/ page){
-		// Summary: Add the given child to this page container
-
-		page.hide();
-		
-		// since we are setting the width/height of the child elements, they need
-		// to be position:relative, or IE has problems (See bug #2033)
-		page.domNode.style.position="relative";
-
-		// publish the addChild event for panes added via addChild(), and the original panes too
-		dojo.event.topic.publish(this.widgetId+"-addChild", page);
-	},
-
-	removeChild: function(/*Widget*/ page){
-		dojo.widget.PageContainer.superclass.removeChild.apply(this, arguments);
-
-		// If we are being destroyed than don't run the code below (to select another page), because we are deleting
-		// every page one by one
-		if(this._beingDestroyed){ return; }
-
-		// this will notify any tablists to remove a button; do this first because it may affect sizing
-		dojo.event.topic.publish(this.widgetId+"-removeChild", page);
-
-		// in case the tab labels now take up one line instead of two lines
-		this.onResized();
-
-		if (this.selectedChildWidget === page) {
-			this.selectedChildWidget = undefined;
-			if (this.children.length > 0) {
-				this.selectChild(this.children[0], true);
-			}
-		}
-	},
-
-	selectChild: function(/*Widget*/ page, /*Widget*/ callingWidget){
-		// summary
-		//	Show the given widget (which must be one of my children)
-		page = dojo.widget.byId(page);
-		this.correspondingPageButton = callingWidget;
-
-		// Deselect old page and select new one
-		if(this.selectedChildWidget){
-			this._hideChild(this.selectedChildWidget);
-		}
-		this.selectedChildWidget = page;
-		this.selectedChild = page.widgetId;
-		this._showChild(page);
-		page.isFirstChild = (page == this.children[0]);
-		page.isLastChild = (page == this.children[this.children.length-1]);
-		dojo.event.topic.publish(this.widgetId+"-selectChild", page);
-	},
-
-	forward: function(){
-		// Summary: advance to next page
-		var index = dojo.lang.find(this.children, this.selectedChildWidget);
-		this.selectChild(this.children[index+1]);
-	},
-
-	back: function(){
-		// Summary: go back to previous page
-		var index = dojo.lang.find(this.children, this.selectedChildWidget);
-		this.selectChild(this.children[index-1]);
-	},
-
-	onResized: function(){
-		// Summary: called when any page is shown, to make it fit the container correctly
-		if(this.doLayout && this.selectedChildWidget){
-			with(this.selectedChildWidget.domNode.style){
-				top = dojo.html.getPixelValue(this.containerNode, "padding-top", true);
-				left = dojo.html.getPixelValue(this.containerNode, "padding-left", true);
-			}
-			var content = dojo.html.getContentBox(this.containerNode);
-			this.selectedChildWidget.resizeTo(content.width, content.height);
-		}
-	},
-
-	_showChild: function(/*Widget*/ page) {
-		// size the current page (in case this is the first time it's being shown, or I have been resized)
-		if(this.doLayout){
-			var content = dojo.html.getContentBox(this.containerNode);
-			page.resizeTo(content.width, content.height);
-		}
-
-		page.selected=true;
-		page.show();
-	},
-
-	_hideChild: function(/*Widget*/ page) {
-		page.selected=false;
-		page.hide();
-	},
-
-	closeChild: function(/*Widget*/ page) {
-		// summary
-		//	callback when user clicks the [X] to remove a page
-		//	if onClose() returns true then remove and destroy the childd
-		var remove = page.onClose(this, page);
-		if(remove) {
-			this.removeChild(page);
-			// makes sure we can clean up executeScripts in ContentPane onUnLoad
-			page.destroy();
-		}
-	},
-
-	destroy: function(){
-		this._beingDestroyed = true;
-		dojo.event.topic.destroy(this.widgetId+"-addChild");
-		dojo.event.topic.destroy(this.widgetId+"-removeChild");
-		dojo.event.topic.destroy(this.widgetId+"-selectChild");
-		dojo.widget.PageContainer.superclass.destroy.apply(this, arguments);
-	}
+dojo.widget.defineWidget("dojo.widget.PageContainer",dojo.widget.HtmlWidget,{isContainer:true,doLayout:true,templateString:"<div dojoAttachPoint='containerNode'></div>",selectedChild:"",fillInTemplate:function(_1,_2){
+var _3=this.getFragNodeRef(_2);
+dojo.html.copyStyle(this.domNode,_3);
+dojo.widget.PageContainer.superclass.fillInTemplate.apply(this,arguments);
+},postCreate:function(_4,_5){
+if(this.children.length){
+dojo.lang.forEach(this.children,this._setupChild,this);
+var _6;
+if(this.selectedChild){
+this.selectChild(this.selectedChild);
+}else{
+for(var i=0;i<this.children.length;i++){
+if(this.children[i].selected){
+this.selectChild(this.children[i]);
+break;
+}
+}
+if(!this.selectedChildWidget){
+this.selectChild(this.children[0]);
+}
+}
+}
+},addChild:function(_8){
+dojo.widget.PageContainer.superclass.addChild.apply(this,arguments);
+this._setupChild(_8);
+this.onResized();
+if(!this.selectedChildWidget){
+this.selectChild(_8);
+}
+},_setupChild:function(_9){
+_9.hide();
+_9.domNode.style.position="relative";
+dojo.event.topic.publish(this.widgetId+"-addChild",_9);
+},removeChild:function(_a){
+dojo.widget.PageContainer.superclass.removeChild.apply(this,arguments);
+if(this._beingDestroyed){
+return;
+}
+dojo.event.topic.publish(this.widgetId+"-removeChild",_a);
+this.onResized();
+if(this.selectedChildWidget===_a){
+this.selectedChildWidget=undefined;
+if(this.children.length>0){
+this.selectChild(this.children[0],true);
+}
+}
+},selectChild:function(_b,_c){
+_b=dojo.widget.byId(_b);
+this.correspondingPageButton=_c;
+if(this.selectedChildWidget){
+this._hideChild(this.selectedChildWidget);
+}
+this.selectedChildWidget=_b;
+this.selectedChild=_b.widgetId;
+this._showChild(_b);
+_b.isFirstChild=(_b==this.children[0]);
+_b.isLastChild=(_b==this.children[this.children.length-1]);
+dojo.event.topic.publish(this.widgetId+"-selectChild",_b);
+},forward:function(){
+var _d=dojo.lang.find(this.children,this.selectedChildWidget);
+this.selectChild(this.children[_d+1]);
+},back:function(){
+var _e=dojo.lang.find(this.children,this.selectedChildWidget);
+this.selectChild(this.children[_e-1]);
+},onResized:function(){
+if(this.doLayout&&this.selectedChildWidget){
+with(this.selectedChildWidget.domNode.style){
+top=dojo.html.getPixelValue(this.containerNode,"padding-top",true);
+left=dojo.html.getPixelValue(this.containerNode,"padding-left",true);
+}
+var _f=dojo.html.getContentBox(this.containerNode);
+this.selectedChildWidget.resizeTo(_f.width,_f.height);
+}
+},_showChild:function(_10){
+if(this.doLayout){
+var _11=dojo.html.getContentBox(this.containerNode);
+_10.resizeTo(_11.width,_11.height);
+}
+_10.selected=true;
+_10.show();
+},_hideChild:function(_12){
+_12.selected=false;
+_12.hide();
+},closeChild:function(_13){
+var _14=_13.onClose(this,_13);
+if(_14){
+this.removeChild(_13);
+_13.destroy();
+}
+},destroy:function(){
+this._beingDestroyed=true;
+dojo.event.topic.destroy(this.widgetId+"-addChild");
+dojo.event.topic.destroy(this.widgetId+"-removeChild");
+dojo.event.topic.destroy(this.widgetId+"-selectChild");
+dojo.widget.PageContainer.superclass.destroy.apply(this,arguments);
+}});
+dojo.widget.defineWidget("dojo.widget.PageController",dojo.widget.HtmlWidget,{templateString:"<span wairole='tablist' dojoAttachEvent='onKey'></span>",isContainer:true,containerId:"",buttonWidget:"PageButton","class":"dojoPageController",fillInTemplate:function(){
+dojo.html.addClass(this.domNode,this["class"]);
+dojo.widget.wai.setAttr(this.domNode,"waiRole","role","tablist");
+},postCreate:function(){
+this.pane2button={};
+var _15=dojo.widget.byId(this.containerId);
+if(_15){
+dojo.lang.forEach(_15.children,this.onAddChild,this);
+}
+dojo.event.topic.subscribe(this.containerId+"-addChild",this,"onAddChild");
+dojo.event.topic.subscribe(this.containerId+"-removeChild",this,"onRemoveChild");
+dojo.event.topic.subscribe(this.containerId+"-selectChild",this,"onSelectChild");
+},destroy:function(){
+dojo.event.topic.unsubscribe(this.containerId+"-addChild",this,"onAddChild");
+dojo.event.topic.unsubscribe(this.containerId+"-removeChild",this,"onRemoveChild");
+dojo.event.topic.unsubscribe(this.containerId+"-selectChild",this,"onSelectChild");
+dojo.widget.PageController.superclass.destroy.apply(this,arguments);
+},onAddChild:function(_16){
+var _17=dojo.widget.createWidget(this.buttonWidget,{label:_16.label,closeButton:_16.closable});
+this.addChild(_17);
+this.domNode.appendChild(_17.domNode);
+this.pane2button[_16]=_17;
+_16.controlButton=_17;
+var _18=this;
+dojo.event.connect(_17,"onClick",function(){
+_18.onButtonClick(_16);
 });
-
-
-dojo.widget.defineWidget(
-    "dojo.widget.PageController",
-    dojo.widget.HtmlWidget,
-	{
-		// summary
-		//	Set of buttons to select a page in a page list.
-		//	Monitors the specified PageContaine, and whenever a page is
-		//	added, deleted, or selected, updates itself accordingly.
-
-		templateString: "<span wairole='tablist' dojoAttachEvent='onKey'></span>",
-		isContainer: true,
-
-		// containerId: String
-		//	the id of the page container that I point to
-		containerId: "",
-
-		// buttonWidget: String
-		//	the name of the button widget to create to correspond to each page
-		buttonWidget: "PageButton",
-
-		// class: String
-		//	Class name to apply to the top dom node
-		"class": "dojoPageController",
-
-		fillInTemplate: function() {
-			dojo.html.addClass(this.domNode, this["class"]);  // "class" is a reserved word in JS
-			dojo.widget.wai.setAttr(this.domNode, "waiRole", "role", "tablist");
-		},
-
-		postCreate: function(){
-			this.pane2button = {};		// mapping from panes to buttons
-
-			// If children have already been added to the page container then create buttons for them
-			var container = dojo.widget.byId(this.containerId);
-			if(container){
-				dojo.lang.forEach(container.children, this.onAddChild, this);
-			}
-
-			dojo.event.topic.subscribe(this.containerId+"-addChild", this, "onAddChild");
-			dojo.event.topic.subscribe(this.containerId+"-removeChild", this, "onRemoveChild");
-			dojo.event.topic.subscribe(this.containerId+"-selectChild", this, "onSelectChild");
-		},
-
-		destroy: function(){
-			dojo.event.topic.unsubscribe(this.containerId+"-addChild", this, "onAddChild");
-			dojo.event.topic.unsubscribe(this.containerId+"-removeChild", this, "onRemoveChild");
-			dojo.event.topic.unsubscribe(this.containerId+"-selectChild", this, "onSelectChild");
-			dojo.widget.PageController.superclass.destroy.apply(this, arguments);
-		},
-
-		onAddChild: function(/*Widget*/ page){
-			// summary
-			//   Called whenever a page is added to the container.
-			//   Create button corresponding to the page.
-			var button = dojo.widget.createWidget(this.buttonWidget,
-				{
-					label: page.label,
-					closeButton: page.closable
-				});
-			this.addChild(button);
-			this.domNode.appendChild(button.domNode);
-			this.pane2button[page]=button;
-			page.controlButton = button;	// this value might be overwritten if two tabs point to same container
-
-			var _this = this;
-			dojo.event.connect(button, "onClick", function(){ _this.onButtonClick(page); });
-			dojo.event.connect(button, "onCloseButtonClick", function(){ _this.onCloseButtonClick(page); });
-		},
-
-		onRemoveChild: function(/*Widget*/ page){
-			// summary
-			//   Called whenever a page is removed from the container.
-			//   Remove the button corresponding to the page.
-			if(this._currentChild == page){ this._currentChild = null; }
-			var button = this.pane2button[page];
-			if(button){
-				button.destroy();
-			}
-			this.pane2button[page] = null;
-		},
-
-		onSelectChild: function(/*Widget*/ page){
-			// Summary
-			//	Called when a page has been selected in the PageContainer, either by me or by another PageController
-			if(this._currentChild){
-				var oldButton=this.pane2button[this._currentChild];
-				oldButton.clearSelected();
-			}
-			var newButton=this.pane2button[page];
-			newButton.setSelected();
-			this._currentChild=page;
-		},
-
-		onButtonClick: function(/*Widget*/ page){
-			// summary
-			//   Called whenever one of my child buttons is pressed in an attempt to select a page
-			var container = dojo.widget.byId(this.containerId);	// TODO: do this via topics?
-			container.selectChild(page, false, this);
-		},
-
-		onCloseButtonClick: function(/*Widget*/ page){
-			// summary
-			//   Called whenever one of my child buttons [X] is pressed in an attempt to close a page
-			var container = dojo.widget.byId(this.containerId);
-			container.closeChild(page);
-		},
-
-		onKey: function(/*Event*/ evt){
-			// summary:
-			//   Handle keystrokes on the page list, for advancing to next/previous button
-
-			if( (evt.keyCode == evt.KEY_RIGHT_ARROW)||
-				(evt.keyCode == evt.KEY_LEFT_ARROW) ){
-				var current = 0;
-				var next = null;	// the next button to focus on
-				
-				// find currently focused button in children array
-				var current = dojo.lang.find(this.children, this.pane2button[this._currentChild]);
-				
-				// pick next button to focus on
-				if(evt.keyCode == evt.KEY_RIGHT_ARROW){
-					next = this.children[ (current+1) % this.children.length ]; 
-				}else{ // is LEFT_ARROW
-					next = this.children[ (current+ (this.children.length-1)) % this.children.length ];
-				}
-				
-				dojo.event.browser.stopEvent(evt);
-				next.onClick();
-			}
-		}
-	}
-);
-
-dojo.widget.defineWidget("dojo.widget.PageButton", dojo.widget.HtmlWidget,
-{
-	// summary
-	//	Internal widget used by PageList.
-	//	The button-like or tab-like object you click to select or delete a page
-
-	templateString: "<span class='item'>" +
-						"<span dojoAttachEvent='onClick' dojoAttachPoint='titleNode' class='selectButton'>${this.label}</span>" +
-						"<span dojoAttachEvent='onClick:onCloseButtonClick' class='closeButton'>[X]</span>" +
-					"</span>",
-
-	// label: String
-	//  Name to print on the button
-	label: "foo",
-	
-	// closeButton: Boolean
-	//	true iff we should also print a close icon to destroy corresponding page
-	closeButton: false,
-
-	onClick: function(){
-		// summary
-		//  Basically this is the attach point PageController listens to, to select the page
-		this.focus();
-	},
-
-	onCloseButtonMouseOver: function(){
-		// summary
-		//	The close button changes color a bit when you mouse over	
-		dojo.html.addClass(this.closeButtonNode, "closeHover");
-	},
-
-	onCloseButtonMouseOut: function(){
-		// summary
-		// 	Revert close button to normal color on mouse out
-		dojo.html.removeClass(this.closeButtonNode, "closeHover");
-	},
-
-	onCloseButtonClick: function(/*Event*/ evt){
-		// summary
-		//	Handle clicking the close button for this tab
-	},
-	
-	setSelected: function(){
-		// summary
-		//	This is run whenever the page corresponding to this button has been selected
-		dojo.html.addClass(this.domNode, "current");
-		this.titleNode.setAttribute("tabIndex","0");
-	},
-	
-	clearSelected: function(){
-		// summary
-		//	This function is run whenever the page corresponding to this button has been deselected (and another page has been shown)
-		dojo.html.removeClass(this.domNode, "current");
-		this.titleNode.setAttribute("tabIndex","-1");
-	},
-
-	focus: function(){
-		// summary
-		//	This will focus on the this button (for accessibility you need to do this when the button is selected)
-		if(this.titleNode.focus){	// mozilla 1.7 doesn't have focus() func
-			this.titleNode.focus();
-		}
-	}
+dojo.event.connect(_17,"onCloseButtonClick",function(){
+_18.onCloseButtonClick(_16);
 });
-
-// These arguments can be specified for the children of a PageContainer.
-// Since any widget can be specified as a PageContainer child, mix them
-// into the base widget class.  (This is a hack, but it's effective.)
-dojo.lang.extend(dojo.widget.Widget, {
-	// label: String
-	//		Label or title of this widget.  Used by TabContainer to the name the tab, etc.
-	label: "",
-	
-	// selected: Boolean
-	//		Is this child currently selected?
-	selected: false,
-	
-	// closable: Boolean
-	//		True if user can close (destroy) this child, such as (for example) clicking the X on the tab.
-	closable: false,	// true if user can close this tab pane
-	
-	onClose: function(){
-		// summary: Callback if someone tries to close the child, child will be closed if func returns true
-		return true;
-	}
-});
+},onRemoveChild:function(_19){
+if(this._currentChild==_19){
+this._currentChild=null;
+}
+var _1a=this.pane2button[_19];
+if(_1a){
+_1a.destroy();
+}
+this.pane2button[_19]=null;
+},onSelectChild:function(_1b){
+if(this._currentChild){
+var _1c=this.pane2button[this._currentChild];
+_1c.clearSelected();
+}
+var _1d=this.pane2button[_1b];
+_1d.setSelected();
+this._currentChild=_1b;
+},onButtonClick:function(_1e){
+var _1f=dojo.widget.byId(this.containerId);
+_1f.selectChild(_1e,false,this);
+},onCloseButtonClick:function(_20){
+var _21=dojo.widget.byId(this.containerId);
+_21.closeChild(_20);
+},onKey:function(evt){
+if((evt.keyCode==evt.KEY_RIGHT_ARROW)||(evt.keyCode==evt.KEY_LEFT_ARROW)){
+var _23=0;
+var _24=null;
+var _23=dojo.lang.find(this.children,this.pane2button[this._currentChild]);
+if(evt.keyCode==evt.KEY_RIGHT_ARROW){
+_24=this.children[(_23+1)%this.children.length];
+}else{
+_24=this.children[(_23+(this.children.length-1))%this.children.length];
+}
+dojo.event.browser.stopEvent(evt);
+_24.onClick();
+}
+}});
+dojo.widget.defineWidget("dojo.widget.PageButton",dojo.widget.HtmlWidget,{templateString:"<span class='item'>"+"<span dojoAttachEvent='onClick' dojoAttachPoint='titleNode' class='selectButton'>${this.label}</span>"+"<span dojoAttachEvent='onClick:onCloseButtonClick' class='closeButton'>[X]</span>"+"</span>",label:"foo",closeButton:false,onClick:function(){
+this.focus();
+},onCloseButtonMouseOver:function(){
+dojo.html.addClass(this.closeButtonNode,"closeHover");
+},onCloseButtonMouseOut:function(){
+dojo.html.removeClass(this.closeButtonNode,"closeHover");
+},onCloseButtonClick:function(evt){
+},setSelected:function(){
+dojo.html.addClass(this.domNode,"current");
+this.titleNode.setAttribute("tabIndex","0");
+},clearSelected:function(){
+dojo.html.removeClass(this.domNode,"current");
+this.titleNode.setAttribute("tabIndex","-1");
+},focus:function(){
+if(this.titleNode.focus){
+this.titleNode.focus();
+}
+}});
+dojo.lang.extend(dojo.widget.Widget,{label:"",selected:false,closable:false,onClose:function(){
+return true;
+}});

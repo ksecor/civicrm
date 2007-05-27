@@ -11,267 +11,103 @@
 
 dojo.require("dojo.lang.declare");
 dojo.provide("dojo.widget.TreeWithNode");
-
-dojo.declare(
-	"dojo.widget.TreeWithNode",
-	null,
-	function(){ },
-{
-	/*
-	 * dynamic loading-related stuff. 
-	 * When an empty folder node appears, it is "UNCHECKED" first,
-	 * then after Rpc call it becomes LOADING and, finally LOADED
-	 *
-	 * tree may be dynamically loaded also
-	 */
-	loadStates: {
-		UNCHECKED: "UNCHECKED",
-    	LOADING: "LOADING",
-    	LOADED: "LOADED"
-	},
-	
-	state: "UNCHECKED",  // after creation will change to loadStates: "loaded/loading/unchecked"
-
-    //RpcUrl: "", // user can override rpc url for specific nodes
-
-	objectId: "", // the widget represents an object
-
-
-	// I need this to parse children
-	isContainer: true,
-	
-	lockLevel: 0, // lock ++ unlock --, so nested locking works fine
-	
-	lock: function() {
-		this.lockLevel++;
-	},
-	unlock: function() {
-		if (!this.lockLevel) {
-			//dojo.debug((new Error()).stack);
-			dojo.raise(this.widgetType+" unlock: not locked");
-		}
-		this.lockLevel--;
-	},
-	
-	
-	expandLevel: 0, // expand to level automatically
-	loadLevel: 0, // load to level automatically
-		
-	hasLock: function() {
-		return this.lockLevel>0;
-	},
-
-	isLocked: function() {
-		var node = this;
-		while (true) {
-			if (node.lockLevel) {
-				return true;
-			}
-			if (!node.parent || node.isTree) {
-				break;
-			}
-			
-			node = node.parent;
-			
-		}
-
-		return false;
-	},
-
-	
-	flushLock: function() {
-		this.lockLevel = 0;
-		//this.unMarkLoading();
-	},
-	
-	
-	actionIsDisabled: function(action) {
-		var disabled = false;
-
-		if (dojo.lang.inArray(this.actionsDisabled, action)) {
-			disabled = true;
-		}
-
-
-		//dojo.debug("Check "+this+" "+disabled)
-		
-		
-		if (this.isTreeNode) {
-			if (!this.tree.allowAddChildToLeaf && action == this.actions.ADDCHILD && !this.isFolder) {
-				disabled = true;
-			}
-		}
-		return disabled;
-	},
-		
-	actionIsDisabledNow: function(action) {
-		return this.actionIsDisabled(action) || this.isLocked();
-	},
-	
-	
-	/**
-	 * childrenArray is array of Widgets or array of Objects
-	 * widgets may be both attached and detached
-	 *
-	 * Use Cases
-	 * 1) lots of widgets are packed and passed in.
-	 *  - widgets are created
-	 *  - widgets have no parent (detached or not attached yet)
-	 *
-	 * 2) array of widgets and data objects passed in with flag makeWidgetsFromChildren
-	 *  - some widgets are not created
-	 *  - all objects have no parent
-	 *
-	 * 3) expand is called with makeWidgetsFromChildren=true
-	 *  - some objects need to be turned into widgets
-	 *  - some widgets have parent (e.g markup), some widgets and objects do not
-	 *
-	 *  Will folderize a node as side-effect.
-	 */
-	setChildren: function(childrenArray) {
-		//dojo.profile.start("setChildren "+this);
-		//dojo.debug("setChildren in "+this);
-		
-		
-		if (this.isTreeNode && !this.isFolder) {
-			//dojo.debug("folder parent "+parent+ " isfolder "+parent.isFolder);
-			this.setFolder();
-		} else if (this.isTreeNode) {
-			this.state = this.loadStates.LOADED;
-		}
-		
-		var hadChildren = this.children.length > 0;
-		
-        if (hadChildren && childrenArray){
-            // perf: most of time setChildren used for empty nodes, so save function call
-            this.destroyChildren()
-        }
-        
-		if (childrenArray) {
-			this.children = childrenArray;
-		}
-		
-
-
-		var hasChildren = this.children.length > 0;
-		if (this.isTreeNode && hasChildren != hadChildren) {
-			// call only when hasChildren state changes
-			this.viewSetHasChildren();
-		}
-		
-
-
-		for(var i=0; i<this.children.length; i++) {
-			var child = this.children[i];
-			
-			//dojo.profile.start("setChildren - create "+this);
-			
-			if (!(child instanceof dojo.widget.Widget)) {
-				
-				child = this.children[i] = this.tree.createNode(child);
-				var childWidgetCreated = true;	
-				//dojo.debugShallow(child)
-				
-				//dojo.debug("setChildren creates node "+child);
-			} else {
-				var childWidgetCreated = false;
-			}
-			
-			//dojo.profile.end("setChildren - create "+this);
-
-			//dojo.profile.start("setChildren - attach "+this);
-
-			if (!child.parent) { // detached child
-				
-				//dojo.debug("detached child "+child);
-				
-				child.parent = this;
-
-				//dojo.profile.start("setChildren - updateTree "+this);
-				
-				if (this.tree !== child.tree) {				
-					child.updateTree(this.tree);
-				}
-				//dojo.profile.end("setChildren - updateTree "+this);
-
-			
-				//dojo.debug("Add layout for "+child);
-				child.viewAddLayout();
-				this.containerNode.appendChild(child.domNode);
-					
-				var message = {
-					child: child,
-					index: i,
-					parent: this,
-					childWidgetCreated: childWidgetCreated
-				}
-			
-				delete dojo.widget.manager.topWidgets[child.widgetId];
-		
-
-				//dojo.profile.start("setChildren - event "+this);
-				//dojo.debug("publish "+this.tree.eventNames.afterAddChild)
-				dojo.event.topic.publish(this.tree.eventNames.afterAddChild, message);
-
-				//dojo.profile.end("setChildren - event "+this);
-
-			}
-			
-			if (this.tree.eagerWidgetInstantiation) {
-				dojo.lang.forEach(this.children, function(child) {
-					child.setChildren();
-				});
-			}
-
-			//dojo.profile.end("setChildren - attach "+this);
-
-		
-		}
-		
-
-
-		//dojo.profile.end("setChildren "+this);
-		
-	},	
-	
-	
-	doAddChild: function(child, index) {
-		return this.addChild(child, index, true);
-	},
-		
-	addChild: function(child, index, dontPublishEvent) {
-		if (dojo.lang.isUndefined(index)) {
-			index = this.children.length;
-		}
-		
-		//dojo.debug("doAddChild "+index+" called for "+this+" child "+child+" existing children "+(this.children.length ? this.children : "<no children>"));
-				
-		if (!child.isTreeNode){
-			dojo.raise("You can only add TreeNode widgets to a "+this.widgetType+" widget!");
-			return;
-		}
-			
-		this.children.splice(index, 0, child);
-		child.parent = this;
-				
-		child.addedTo(this, index, dontPublishEvent);
-		
-		// taken from DomWidget.registerChild
-		// delete from widget list that are notified on resize etc (no parent)
-		delete dojo.widget.manager.topWidgets[child.widgetId];
-				
-	},
-	
-	 /**
-     * does not inform children about resize (skips onShow),
-     * because on large trees that's slow
-     */
-    onShow: function() {        
-        this.animationInProgress=false;
-    },
-    
-    onHide: function() {        
-        this.animationInProgress=false;
-    }
-	
+dojo.declare("dojo.widget.TreeWithNode",null,function(){
+},{loadStates:{UNCHECKED:"UNCHECKED",LOADING:"LOADING",LOADED:"LOADED"},state:"UNCHECKED",objectId:"",isContainer:true,lockLevel:0,lock:function(){
+this.lockLevel++;
+},unlock:function(){
+if(!this.lockLevel){
+dojo.raise(this.widgetType+" unlock: not locked");
+}
+this.lockLevel--;
+},expandLevel:0,loadLevel:0,hasLock:function(){
+return this.lockLevel>0;
+},isLocked:function(){
+var _1=this;
+while(true){
+if(_1.lockLevel){
+return true;
+}
+if(!_1.parent||_1.isTree){
+break;
+}
+_1=_1.parent;
+}
+return false;
+},flushLock:function(){
+this.lockLevel=0;
+},actionIsDisabled:function(_2){
+var _3=false;
+if(dojo.lang.inArray(this.actionsDisabled,_2)){
+_3=true;
+}
+if(this.isTreeNode){
+if(!this.tree.allowAddChildToLeaf&&_2==this.actions.ADDCHILD&&!this.isFolder){
+_3=true;
+}
+}
+return _3;
+},actionIsDisabledNow:function(_4){
+return this.actionIsDisabled(_4)||this.isLocked();
+},setChildren:function(_5){
+if(this.isTreeNode&&!this.isFolder){
+this.setFolder();
+}else{
+if(this.isTreeNode){
+this.state=this.loadStates.LOADED;
+}
+}
+var _6=this.children.length>0;
+if(_6&&_5){
+this.destroyChildren();
+}
+if(_5){
+this.children=_5;
+}
+var _7=this.children.length>0;
+if(this.isTreeNode&&_7!=_6){
+this.viewSetHasChildren();
+}
+for(var i=0;i<this.children.length;i++){
+var _9=this.children[i];
+if(!(_9 instanceof dojo.widget.Widget)){
+_9=this.children[i]=this.tree.createNode(_9);
+var _a=true;
+}else{
+var _a=false;
+}
+if(!_9.parent){
+_9.parent=this;
+if(this.tree!==_9.tree){
+_9.updateTree(this.tree);
+}
+_9.viewAddLayout();
+this.containerNode.appendChild(_9.domNode);
+var _b={child:_9,index:i,parent:this,childWidgetCreated:_a};
+delete dojo.widget.manager.topWidgets[_9.widgetId];
+dojo.event.topic.publish(this.tree.eventNames.afterAddChild,_b);
+}
+if(this.tree.eagerWidgetInstantiation){
+dojo.lang.forEach(this.children,function(_c){
+_c.setChildren();
 });
+}
+}
+},doAddChild:function(_d,_e){
+return this.addChild(_d,_e,true);
+},addChild:function(_f,_10,_11){
+if(dojo.lang.isUndefined(_10)){
+_10=this.children.length;
+}
+if(!_f.isTreeNode){
+dojo.raise("You can only add TreeNode widgets to a "+this.widgetType+" widget!");
+return;
+}
+this.children.splice(_10,0,_f);
+_f.parent=this;
+_f.addedTo(this,_10,_11);
+delete dojo.widget.manager.topWidgets[_f.widgetId];
+},onShow:function(){
+this.animationInProgress=false;
+},onHide:function(){
+this.animationInProgress=false;
+}});

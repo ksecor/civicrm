@@ -8,808 +8,558 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.cal.iCalendar");
 dojo.require("dojo.lang.common");
 dojo.require("dojo.cal.textDirectory");
 dojo.require("dojo.date.common");
 dojo.require("dojo.date.serialize");
-
-
-dojo.cal.iCalendar.fromText =  function (/* string */text) {
-	// summary
-	// Parse text of an iCalendar and return an array of iCalendar objects
-
-	var properties = dojo.cal.textDirectory.tokenise(text);
-	var calendars = [];
-
-	//dojo.debug("Parsing iCal String");
-	for (var i = 0, begun = false; i < properties.length; i++) {
-		var prop = properties[i];
-		if (!begun) {
-			if (prop.name == 'BEGIN' && prop.value == 'VCALENDAR') {
-				begun = true;
-				var calbody = [];
-			}
-		} else if (prop.name == 'END' && prop.value == 'VCALENDAR') {
-			calendars.push(new dojo.cal.iCalendar.VCalendar(calbody));
-			begun = false;
-		} else {
-			calbody.push(prop);
-		}
-	}
-	return /* array */calendars;
+dojo.cal.iCalendar.fromText=function(_1){
+var _2=dojo.cal.textDirectory.tokenise(_1);
+var _3=[];
+for(var i=0,_5=false;i<_2.length;i++){
+var _6=_2[i];
+if(!_5){
+if(_6.name=="BEGIN"&&_6.value=="VCALENDAR"){
+_5=true;
+var _7=[];
 }
-
-
-dojo.cal.iCalendar.Component = function (/* string */ body ) {
-	// summary
-	// A component is the basic container of all this stuff. 
-
-	if (!this.name) {
-		this.name = "COMPONENT"
-	}
-
-	this.properties = [];
-	this.components = [];
-
-	if (body) {
-		for (var i = 0, context = ''; i < body.length; i++) {
-			if (context == '') {
-				if (body[i].name == 'BEGIN') {
-					context = body[i].value;
-					var childprops = [];
-				} else {
-					this.addProperty(new dojo.cal.iCalendar.Property(body[i]));
-				}
-			} else if (body[i].name == 'END' && body[i].value == context) {
-				if (context=="VEVENT") {
-					this.addComponent(new dojo.cal.iCalendar.VEvent(childprops));
-				} else if (context=="VTIMEZONE") {
-					this.addComponent(new dojo.cal.iCalendar.VTimeZone(childprops));
-				} else if (context=="VTODO") {
-					this.addComponent(new dojo.cal.iCalendar.VTodo(childprops));
-				} else if (context=="VJOURNAL") {
-					this.addComponent(new dojo.cal.iCalendar.VJournal(childprops));
-				} else if (context=="VFREEBUSY") {
-					this.addComponent(new dojo.cal.iCalendar.VFreeBusy(childprops));
-				} else if (context=="STANDARD") {
-					this.addComponent(new dojo.cal.iCalendar.Standard(childprops));
-				} else if (context=="DAYLIGHT") {
-					this.addComponent(new dojo.cal.iCalendar.Daylight(childprops));
-				} else if (context=="VALARM") {
-					this.addComponent(new dojo.cal.iCalendar.VAlarm(childprops));
-				}else {
-					dojo.unimplemented("dojo.cal.iCalendar." + context);
-				}
-				context = '';
-			} else {
-				childprops.push(body[i]);
-			}
-		}
-
-		if (this._ValidProperties) {
-			this.postCreate();
-		}
-	}
+}else{
+if(_6.name=="END"&&_6.value=="VCALENDAR"){
+_3.push(new dojo.cal.iCalendar.VCalendar(_7));
+_5=false;
+}else{
+_7.push(_6);
 }
-
-dojo.extend(dojo.cal.iCalendar.Component, {
-
-	addProperty: function (prop) {
-		// summary
-		// push a new property onto a component.
-		this.properties.push(prop);
-		this[prop.name.toLowerCase()] = prop;
-	},
-
-	addComponent: function (prop) {
-		// summary
-		// add a component to this components list of children.
-		this.components.push(prop);
-	},
-
-	postCreate: function() {
-		for (var x=0; x<this._ValidProperties.length; x++) {
-			var evtProperty = this._ValidProperties[x];
-			var found = false;
-	
-			for (var y=0; y<this.properties.length; y++) {	
-				var prop = this.properties[y];
-				var propName = prop.name.toLowerCase();
-				if (dojo.lang.isArray(evtProperty)) {
-
-					var alreadySet = false;
-					for (var z=0; z<evtProperty.length; z++) {
-						var evtPropertyName = evtProperty[z].name.toLowerCase();
-						if((this[evtPropertyName])  && (evtPropertyName != propName )) {
-							alreadySet=true;
-						} 
-					}
-					if (!alreadySet) {
-						this[propName] = prop;
-					}
-				} else {
-					if (propName == evtProperty.name.toLowerCase()) {
-						found = true;
-						if (evtProperty.occurance == 1){
-							this[propName] = prop;
-						} else {
-							found = true;
-							if (!dojo.lang.isArray(this[propName])) {
-							 	this[propName] = [];
-							}
-							this[propName].push(prop);
-						}
-					}
-				}
-			}
-
-			if (evtProperty.required && !found) {	
-				dojo.debug("iCalendar - " + this.name + ": Required Property not found: " + evtProperty.name);
-			}
-		}
-
-		// parse any rrules		
-		if (dojo.lang.isArray(this.rrule)) {
-			for(var x=0; x<this.rrule.length; x++) {
-				var rule = this.rrule[x].value;
-
-				//add a place to cache dates we have checked for recurrance
-				this.rrule[x].cache = function() {};
-				
-				var temp = rule.split(";");
-				for (var y=0; y<temp.length; y++) {
-					var pair = temp[y].split("=");
-					var key = pair[0].toLowerCase();
-					var val = pair[1];
-
-					if ((key == "freq") || (key=="interval") || (key=="until")) {
-						this.rrule[x][key]= val;
-					} else {
-						var valArray = val.split(",");
-						this.rrule[x][key] = valArray; 
-					}
-				}	
-			}
-			this.recurring = true;
-		}
-
-	}, 
-
-	toString: function () {
-		// summary
-		// output a string representation of this component.
-		return "[iCalendar.Component; " + this.name + ", " + this.properties.length +
-			" properties, " + this.components.length + " components]";
-	}
-});
-
-dojo.cal.iCalendar.Property = function (prop) {
-	// summary
-	// A single property of a component.
-
-	// unpack the values
-	this.name = prop.name;
-	this.group = prop.group;
-	this.params = prop.params;
-	this.value = prop.value;
-
 }
-
-dojo.extend(dojo.cal.iCalendar.Property, {
-	toString: function () {	
-		// summary
-		// output a string reprensentation of this component.
-		return "[iCalenday.Property; " + this.name + ": " + this.value + "]";
-	}
-});
-
-// This is just a little helper function for the Component Properties
-var _P = function (n, oc, req) {
-	return {name: n, required: (req) ? true : false,
-		occurance: (oc == '*' || !oc) ? -1 : oc}
 }
-
-/*
- * VCALENDAR
- */
-
-dojo.cal.iCalendar.VCalendar = function (/* string */ calbody) {
-	// summary
-	// VCALENDAR Component
-
-	this.name = "VCALENDAR";
-	this.recurring = [];
-	this.nonRecurringEvents = function(){};
-	dojo.cal.iCalendar.Component.call(this, calbody);
+return _3;
+};
+dojo.cal.iCalendar.Component=function(_8){
+if(!this.name){
+this.name="COMPONENT";
 }
-
-dojo.inherits(dojo.cal.iCalendar.VCalendar, dojo.cal.iCalendar.Component);
-
-dojo.extend(dojo.cal.iCalendar.VCalendar, {
-
-	addComponent: function (prop) {
-		// summary
-		// add component to the calenadar that makes it easy to pull them out again later.
-		this.components.push(prop);
-		if (prop.name.toLowerCase() == "vevent") {
-			if (prop.rrule) {
-				this.recurring.push(prop);
-			} else {
-				var startDate = prop.getDate();
-				var month = startDate.getMonth() + 1;
-				var dateString= month + "-" + startDate.getDate() + "-" + startDate.getFullYear();
-				if (!dojo.lang.isArray(this[dateString])) {
-					this.nonRecurringEvents[dateString] = [];
-				}
-				this.nonRecurringEvents[dateString].push(prop);
-			}
-		}
-	},
-
-	preComputeRecurringEvents: function(until) {
-		var calculatedEvents = function(){};
-
-		for(var x=0; x<this.recurring.length; x++) {
-			var dates = this.recurring[x].getDates(until);
-			for (var y=0; y<dates.length;y++) {
-				var month = dates[y].getMonth() + 1;
-				var dateStr = month + "-" + dates[y].getDate() + "-" + dates[y].getFullYear();
-				if (!dojo.lang.isArray(calculatedEvents[dateStr])) {
-					calculatedEvents[dateStr] = [];
-				}
-
-				if (!dojo.lang.inArray(calculatedEvents[dateStr], this.recurring[x])) { 
-					calculatedEvents[dateStr].push(this.recurring[x]);
-				} 
-			}
-		}
-		this.recurringEvents = calculatedEvents;
-	
-	},
-
-	getEvents: function(/* Date */ date) {
-		// summary
-		// Gets all events occuring on a particular date
-		var events = [];
-		var recur = [];
-		var nonRecur = [];
-		var month = date.getMonth() + 1;
-		var dateStr= month + "-" + date.getDate() + "-" + date.getFullYear();
-		if (dojo.lang.isArray(this.nonRecurringEvents[dateStr])) {
-			nonRecur= this.nonRecurringEvents[dateStr];
-			dojo.debug("Number of nonRecurring Events: " + nonRecur.length);
-		} 
-		
-
-		if (dojo.lang.isArray(this.recurringEvents[dateStr])) {
-			recur= this.recurringEvents[dateStr];
-		} 
-
-		events = recur.concat(nonRecur);
-
-		if (events.length > 0) {
-			return events;
-		} 
-
-		return null;			
-	}
-});
-
-/*
- * STANDARD
- */
-
-var StandardProperties = [
-	_P("dtstart", 1, true), _P("tzoffsetto", 1, true), _P("tzoffsetfrom", 1, true),
-	_P("comment"), _P("rdate"), _P("rrule"), _P("tzname")
-];
-
-
-dojo.cal.iCalendar.Standard = function (/* string */ body) {
-	// summary
-	// STANDARD Component
-
-	this.name = "STANDARD";
-	this._ValidProperties = StandardProperties;
-	dojo.cal.iCalendar.Component.call(this, body);
+this.properties=[];
+this.components=[];
+if(_8){
+for(var i=0,_a="";i<_8.length;i++){
+if(_a==""){
+if(_8[i].name=="BEGIN"){
+_a=_8[i].value;
+var _b=[];
+}else{
+this.addProperty(new dojo.cal.iCalendar.Property(_8[i]));
 }
-
-dojo.inherits(dojo.cal.iCalendar.Standard, dojo.cal.iCalendar.Component);
-
-/*
- * DAYLIGHT
- */
-
-var DaylightProperties = [
-	_P("dtstart", 1, true), _P("tzoffsetto", 1, true), _P("tzoffsetfrom", 1, true),
-	_P("comment"), _P("rdate"), _P("rrule"), _P("tzname")
-];
-
-dojo.cal.iCalendar.Daylight = function (/* string */ body) {
-	// summary
-	// Daylight Component
-	this.name = "DAYLIGHT";
-	this._ValidProperties = DaylightProperties;
-	dojo.cal.iCalendar.Component.call(this, body);
+}else{
+if(_8[i].name=="END"&&_8[i].value==_a){
+if(_a=="VEVENT"){
+this.addComponent(new dojo.cal.iCalendar.VEvent(_b));
+}else{
+if(_a=="VTIMEZONE"){
+this.addComponent(new dojo.cal.iCalendar.VTimeZone(_b));
+}else{
+if(_a=="VTODO"){
+this.addComponent(new dojo.cal.iCalendar.VTodo(_b));
+}else{
+if(_a=="VJOURNAL"){
+this.addComponent(new dojo.cal.iCalendar.VJournal(_b));
+}else{
+if(_a=="VFREEBUSY"){
+this.addComponent(new dojo.cal.iCalendar.VFreeBusy(_b));
+}else{
+if(_a=="STANDARD"){
+this.addComponent(new dojo.cal.iCalendar.Standard(_b));
+}else{
+if(_a=="DAYLIGHT"){
+this.addComponent(new dojo.cal.iCalendar.Daylight(_b));
+}else{
+if(_a=="VALARM"){
+this.addComponent(new dojo.cal.iCalendar.VAlarm(_b));
+}else{
+dojo.unimplemented("dojo.cal.iCalendar."+_a);
 }
-
-dojo.inherits(dojo.cal.iCalendar.Daylight, dojo.cal.iCalendar.Component);
-
-/*
- * VEVENT
- */
-
-var VEventProperties = [
-	// these can occur once only
-	_P("class", 1), _P("created", 1), _P("description", 1), _P("dtstart", 1),
-	_P("geo", 1), _P("last-mod", 1), _P("location", 1), _P("organizer", 1),
-	_P("priority", 1), _P("dtstamp", 1), _P("seq", 1), _P("status", 1),
-	_P("summary", 1), _P("transp", 1), _P("uid", 1), _P("url", 1), _P("recurid", 1),
-	// these two are exclusive
-	[_P("dtend", 1), _P("duration", 1)],
-	// these can occur many times over
-	_P("attach"), _P("attendee"), _P("categories"), _P("comment"), _P("contact"),
-	_P("exdate"), _P("exrule"), _P("rstatus"), _P("related"), _P("resources"),
-	_P("rdate"), _P("rrule")
-];
-
-dojo.cal.iCalendar.VEvent = function (/* string */ body) {
-	// summary 
-	// VEVENT Component
-	this._ValidProperties = VEventProperties;
-	this.name = "VEVENT";
-	dojo.cal.iCalendar.Component.call(this, body);
-	this.recurring = false;
-	this.startDate = dojo.date.fromIso8601(this.dtstart.value);
 }
-
-dojo.inherits(dojo.cal.iCalendar.VEvent, dojo.cal.iCalendar.Component);
-
-dojo.extend(dojo.cal.iCalendar.VEvent, {
-		getDates: function(until) {
-			var dtstart = this.getDate();
-
-			var recurranceSet = [];
-			var weekdays=["su","mo","tu","we","th","fr","sa"];
-			var order = { 
-				"daily": 1, "weekly": 2, "monthly": 3, "yearly": 4,
-				"byday": 1, "bymonthday": 1, "byweekno": 2, "bymonth": 3, "byyearday": 4};
-
-			// expand rrules into the recurrance 
-			for (var x=0; x<this.rrule.length; x++) {
-				var rrule = this.rrule[x];
-				var freq = rrule.freq.toLowerCase();
-				var interval = 1;
-
-				if (rrule.interval > interval) {
-					interval = rrule.interval;
-				}
-
-				var set = [];
-				var freqInt = order[freq];
-
-				if (rrule.until) {
-					var tmpUntil = dojo.date.fromIso8601(rrule.until);
-				} else {
-					var tmpUntil = until
-				}
-
-				if (tmpUntil > until) {
-					tmpUntil = until
-				}
-
-
-				if (dtstart<tmpUntil) {
-
-					var expandingRules = function(){};
-					var cullingRules = function(){};
-					expandingRules.length=0;
-					cullingRules.length =0;
-
-					switch(freq) {
-						case "yearly":
-							var nextDate = new Date(dtstart);
-							set.push(nextDate);
-							while(nextDate < tmpUntil) {
-								nextDate.setYear(nextDate.getFullYear()+interval);
-								tmpDate = new Date(nextDate);
-								if(tmpDate < tmpUntil) {
-									set.push(tmpDate);
-								}
-							}
-							break;
-						case "monthly":
-							nextDate = new Date(dtstart);
-							set.push(nextDate);
-							while(nextDate < tmpUntil) {
-								nextDate.setMonth(nextDate.getMonth()+interval);
-								var tmpDate = new Date(nextDate);
-								if (tmpDate < tmpUntil) {
-									set.push(tmpDate);
-								}
-							}
-							break;
-						case "weekly":
-							nextDate = new Date(dtstart);
-							set.push(nextDate);
-							while(nextDate < tmpUntil) {
-								nextDate.setDate(nextDate.getDate()+(7*interval));
-								var tmpDate = new Date(nextDate);
-								if (tmpDate < tmpUntil) {
-									set.push(tmpDate);
-								}
-							}
-							break;	
-						case "daily":
-							nextDate = new Date(dtstart);
-							set.push(nextDate);
-							while(nextDate < tmpUntil) {
-								nextDate.setDate(nextDate.getDate()+interval);
-								var tmpDate = new Date(nextDate);
-								if (tmpDate < tmpUntil) {
-									set.push(tmpDate);
-								}
-							}
-							break;
-	
-					}
-
-					if ((rrule["bymonth"]) && (order["bymonth"]<freqInt))	{
-						for (var z=0; z<rrule["bymonth"].length; z++) {
-							if (z==0) {
-								for (var zz=0; zz < set.length; zz++) {
-									set[zz].setMonth(rrule["bymonth"][z]-1);
-								}
-							} else {
-								var subset=[];
-								for (var zz=0; zz < set.length; zz++) {
-									var newDate = new Date(set[zz]);
-									newDate.setMonth(rrule[z]);
-									subset.push(newDate);
-								}
-								tmp = set.concat(subset);
-								set = tmp;
-							}
-						}
-					}
-
-					
-					// while the spec doesn't prohibit it, it makes no sense to have a bymonth and a byweekno at the same time
-					// and if i'm wrong then i don't know how to apply that rule.  This is also documented elsewhere on the web
-					if (rrule["byweekno"] && !rrule["bymonth"]) {	
-						dojo.debug("TODO: no support for byweekno yet");
-					}
-
-
-					// while the spec doesn't prohibit it, it makes no sense to have a bymonth and a byweekno at the same time
-					// and if i'm wrong then i don't know how to apply that rule.  This is also documented elsewhere on the web
-					if (rrule["byyearday"] && !rrule["bymonth"] && !rrule["byweekno"] ) {	
-						if (rrule["byyearday"].length > 1) {
-							var regex = "([+-]?)([0-9]{1,3})";
-							for (var z=1; x<rrule["byyearday"].length; z++) {
-								var regexResult = rrule["byyearday"][z].match(regex);
-								if (z==1) {
-									for (var zz=0; zz < set.length; zz++) {
-										if (regexResult[1] == "-") {
-											dojo.date.setDayOfYear(set[zz],366-regexResult[2]);
-										} else {
-											dojo.date.setDayOfYear(set[zz],regexResult[2]);
-										}
-									}
-								}	else {
-									var subset=[];
-									for (var zz=0; zz < set.length; zz++) {
-										var newDate = new Date(set[zz]);
-										if (regexResult[1] == "-") {
-											dojo.date.setDayOfYear(newDate,366-regexResult[2]);
-										} else {
-											dojo.date.setDayOfYear(newDate,regexResult[2]);
-										}
-										subset.push(newDate);
-									}
-									tmp = set.concat(subset);
-									set = tmp;
-								}
-							}
-						}
-					}
-
-					if (rrule["bymonthday"]  && (order["bymonthday"]<freqInt)) {	
-						if (rrule["bymonthday"].length > 0) {
-							var regex = "([+-]?)([0-9]{1,3})";
-							for (var z=0; z<rrule["bymonthday"].length; z++) {
-								var regexResult = rrule["bymonthday"][z].match(regex);
-								if (z==0) {
-									for (var zz=0; zz < set.length; zz++) {
-										if (regexResult[1] == "-") {
-											if (regexResult[2] < dojo.date.getDaysInMonth(set[zz])) {
-												set[zz].setDate(dojo.date.getDaysInMonth(set[zz]) - regexResult[2]);
-											}
-										} else {
-											if (regexResult[2] < dojo.date.getDaysInMonth(set[zz])) {
-												set[zz].setDate(regexResult[2]);
-											}
-										}
-									}
-								}	else {
-									var subset=[];
-									for (var zz=0; zz < set.length; zz++) {
-										var newDate = new Date(set[zz]);
-										if (regexResult[1] == "-") {
-											if (regexResult[2] < dojo.date.getDaysInMonth(set[zz])) {
-												newDate.setDate(dojo.date.getDaysInMonth(set[zz]) - regexResult[2]);
-											}
-										} else {
-											if (regexResult[2] < dojo.date.getDaysInMonth(set[zz])) {
-												newDate.setDate(regexResult[2]);
-											}
-										}
-										subset.push(newDate);
-									}
-									tmp = set.concat(subset);
-									set = tmp;
-								}
-							}
-						}
-					}
-
-					if (rrule["byday"]  && (order["byday"]<freqInt)) {	
-						if (rrule["bymonth"]) {
-							if (rrule["byday"].length > 0) {
-								var regex = "([+-]?)([0-9]{0,1}?)([A-Za-z]{1,2})";
-								for (var z=0; z<rrule["byday"].length; z++) {
-									var regexResult = rrule["byday"][z].match(regex);
-									var occurance = regexResult[2];
-									var day = regexResult[3].toLowerCase();
-
-
-									if (z==0) {
-										for (var zz=0; zz < set.length; zz++) {
-											if (regexResult[1] == "-") {
-												//find the nth to last occurance of date 
-												var numDaysFound = 0;
-												var lastDayOfMonth = dojo.date.getDaysInMonth(set[zz]);
-												var daysToSubtract = 1;
-												set[zz].setDate(lastDayOfMonth); 
-												if (weekdays[set[zz].getDay()] == day) {
-													numDaysFound++;
-													daysToSubtract=7;
-												}
-												daysToSubtract = 1;
-												while (numDaysFound < occurance) {
-													set[zz].setDate(set[zz].getDate()-daysToSubtract);	
-													if (weekdays[set[zz].getDay()] == day) {
-														numDaysFound++;
-														daysToSubtract=7;	
-													}
-												}
-											} else {
-												if (occurance) {
-													var numDaysFound=0;
-													set[zz].setDate(1);
-													var daysToAdd=1;
-
-													if(weekdays[set[zz].getDay()] == day) {
-														numDaysFound++;
-														daysToAdd=7;
-													}
-
-													while(numDaysFound < occurance) {
-														set[zz].setDate(set[zz].getDate()+daysToAdd);
-														if(weekdays[set[zz].getDay()] == day) {
-															numDaysFound++;
-															daysToAdd=7;
-														}
-													}
-												} else {
-													//we're gonna expand here to add a date for each of the specified days for each month
-													var numDaysFound=0;
-													var subset = [];
-
-													lastDayOfMonth = new Date(set[zz]);
-													var daysInMonth = dojo.date.getDaysInMonth(set[zz]);
-													lastDayOfMonth.setDate(daysInMonth);
-
-													set[zz].setDate(1);
-												
-													if (weekdays[set[zz].getDay()] == day) {
-														numDaysFound++;
-													}
-													var tmpDate = new Date(set[zz]);
-													daysToAdd = 1;
-													while(tmpDate.getDate() < lastDayOfMonth) {
-														if (weekdays[tmpDate.getDay()] == day) {
-															numDaysFound++;
-															if (numDaysFound==1) {
-																set[zz] = tmpDate;
-															} else {
-																subset.push(tmpDate);
-																tmpDate = new Date(tmpDate);
-																daysToAdd=7;	
-																tmpDate.setDate(tmpDate.getDate() + daysToAdd);
-															}
-														} else {
-															tmpDate.setDate(tmpDate.getDate() + daysToAdd);
-														}
-													}
-													var t = set.concat(subset);
-													set = t; 
-												}
-											}
-										}
-									}	else {
-										var subset=[];
-										for (var zz=0; zz < set.length; zz++) {
-											var newDate = new Date(set[zz]);
-											if (regexResult[1] == "-") {
-												if (regexResult[2] < dojo.date.getDaysInMonth(set[zz])) {
-													newDate.setDate(dojo.date.getDaysInMonth(set[zz]) - regexResult[2]);
-												}
-											} else {
-												if (regexResult[2] < dojo.date.getDaysInMonth(set[zz])) {
-													newDate.setDate(regexResult[2]);
-												}
-											}
-											subset.push(newDate);
-										}
-										tmp = set.concat(subset);
-										set = tmp;
-									}
-								}
-							}
-						} else {
-							dojo.debug("TODO: byday within a yearly rule without a bymonth");
-						}
-					}
-
-					dojo.debug("TODO: Process BYrules for units larger than frequency");
-			
-					//add this set of events to the complete recurranceSet	
-					var tmp = recurranceSet.concat(set);
-					recurranceSet = tmp;
-				}
-			}
-
-			// TODO: add rdates to the recurrance set here
-
-			// TODO: subtract exdates from the recurrance set here
-
-			//TODO:  subtract dates generated by exrules from recurranceSet here
-
-			recurranceSet.push(dtstart);
-			return recurranceSet;
-		},
-
-		getDate: function() {
-			return dojo.date.fromIso8601(this.dtstart.value);
-		}
-});
-
-/*
- * VTIMEZONE
- */
-
-var VTimeZoneProperties = [
-	_P("tzid", 1, true), _P("last-mod", 1), _P("tzurl", 1)
-
-	// one of 'standardc' or 'daylightc' must occur
-	// and each may occur more than once.
-];
-
-dojo.cal.iCalendar.VTimeZone = function (/* string */ body) {
-	// summary
-	// VTIMEZONE Component
-	this.name = "VTIMEZONE";
-	this._ValidProperties = VTimeZoneProperties;
-	dojo.cal.iCalendar.Component.call(this, body);
 }
-
-dojo.inherits(dojo.cal.iCalendar.VTimeZone, dojo.cal.iCalendar.Component);
-
-/*
- * VTODO
- */
-
-var VTodoProperties = [
-	// these can occur once only
-	_P("class", 1), _P("completed", 1), _P("created", 1), _P("description", 1),
-	_P("dtstart", 1), _P("geo", 1), _P("last-mod", 1), _P("location", 1),
-	_P("organizer", 1), _P("percent", 1), _P("priority", 1), _P("dtstamp", 1),
-	_P("seq", 1), _P("status", 1), _P("summary", 1), _P("uid", 1), _P("url", 1),
-	_P("recurid", 1),
-	// these two are exclusive
-	[_P("due", 1), _P("duration", 1)],
-	// these can occur many times over
-	_P("attach"), _P("attendee"), _P("categories"), _P("comment"), _P("contact"),
-	_P("exdate"), _P("exrule"), _P("rstatus"), _P("related"), _P("resources"),
-	_P("rdate"), _P("rrule")
-];
-
-dojo.cal.iCalendar.VTodo= function (/* string */ body) {
-	// summary
-	// VTODO Componenet
-	this.name = "VTODO";
-	this._ValidProperties = VTodoProperties;
-	dojo.cal.iCalendar.Component.call(this, body);
 }
-
-dojo.inherits(dojo.cal.iCalendar.VTodo, dojo.cal.iCalendar.Component);
-
-/*
- * VJOURNAL
- */
-
-var VJournalProperties = [
-	// these can occur once only
-	_P("class", 1), _P("created", 1), _P("description", 1), _P("dtstart", 1),
-	_P("last-mod", 1), _P("organizer", 1), _P("dtstamp", 1), _P("seq", 1),
-	_P("status", 1), _P("summary", 1), _P("uid", 1), _P("url", 1), _P("recurid", 1),
-	// these can occur many times over
-	_P("attach"), _P("attendee"), _P("categories"), _P("comment"), _P("contact"),
-	_P("exdate"), _P("exrule"), _P("related"), _P("rstatus"), _P("rdate"), _P("rrule")
-];
-
-dojo.cal.iCalendar.VJournal= function (/* string */ body) {
-	// summary
-	// VJOURNAL Component
-	this.name = "VJOURNAL";
-	this._ValidProperties = VJournalProperties;
-	dojo.cal.iCalendar.Component.call(this, body);
 }
-
-dojo.inherits(dojo.cal.iCalendar.VJournal, dojo.cal.iCalendar.Component);
-
-/*
- * VFREEBUSY
- */
-
-var VFreeBusyProperties = [
-	// these can occur once only
-	_P("contact"), _P("dtstart", 1), _P("dtend"), _P("duration"),
-	_P("organizer", 1), _P("dtstamp", 1), _P("uid", 1), _P("url", 1),
-	// these can occur many times over
-	_P("attendee"), _P("comment"), _P("freebusy"), _P("rstatus")
-];
-
-dojo.cal.iCalendar.VFreeBusy= function (/* string */ body) {
-	// summary
-	// VFREEBUSY Component
-	this.name = "VFREEBUSY";
-	this._ValidProperties = VFreeBusyProperties;
-	dojo.cal.iCalendar.Component.call(this, body);
 }
-
-dojo.inherits(dojo.cal.iCalendar.VFreeBusy, dojo.cal.iCalendar.Component);
-
-/*
- * VALARM
- */
-
-var VAlarmProperties = [
-	[_P("action", 1, true), _P("trigger", 1, true), [_P("duration", 1), _P("repeat", 1)],
-	_P("attach", 1)],
-
-	[_P("action", 1, true), _P("description", 1, true), _P("trigger", 1, true),
-	[_P("duration", 1), _P("repeat", 1)]],
-
-	[_P("action", 1, true), _P("description", 1, true), _P("trigger", 1, true),
-	_P("summary", 1, true), _P("attendee", "*", true),
-	[_P("duration", 1), _P("repeat", 1)],
-	_P("attach", 1)],
-
-	[_P("action", 1, true), _P("attach", 1, true), _P("trigger", 1, true),
-	[_P("duration", 1), _P("repeat", 1)],
-	_P("description", 1)]
-];
-
-dojo.cal.iCalendar.VAlarm= function (/* string */ body) {
-	// summary
-	// VALARM Component
-	this.name = "VALARM";
-	this._ValidProperties = VAlarmProperties;
-	dojo.cal.iCalendar.Component.call(this, body);
 }
-
-dojo.inherits(dojo.cal.iCalendar.VAlarm, dojo.cal.iCalendar.Component);
-
+}
+_a="";
+}else{
+_b.push(_8[i]);
+}
+}
+}
+if(this._ValidProperties){
+this.postCreate();
+}
+}
+};
+dojo.extend(dojo.cal.iCalendar.Component,{addProperty:function(_c){
+this.properties.push(_c);
+this[_c.name.toLowerCase()]=_c;
+},addComponent:function(_d){
+this.components.push(_d);
+},postCreate:function(){
+for(var x=0;x<this._ValidProperties.length;x++){
+var _f=this._ValidProperties[x];
+var _10=false;
+for(var y=0;y<this.properties.length;y++){
+var _12=this.properties[y];
+var _13=_12.name.toLowerCase();
+if(dojo.lang.isArray(_f)){
+var _14=false;
+for(var z=0;z<_f.length;z++){
+var _16=_f[z].name.toLowerCase();
+if((this[_16])&&(_16!=_13)){
+_14=true;
+}
+}
+if(!_14){
+this[_13]=_12;
+}
+}else{
+if(_13==_f.name.toLowerCase()){
+_10=true;
+if(_f.occurance==1){
+this[_13]=_12;
+}else{
+_10=true;
+if(!dojo.lang.isArray(this[_13])){
+this[_13]=[];
+}
+this[_13].push(_12);
+}
+}
+}
+}
+if(_f.required&&!_10){
+dojo.debug("iCalendar - "+this.name+": Required Property not found: "+_f.name);
+}
+}
+if(dojo.lang.isArray(this.rrule)){
+for(var x=0;x<this.rrule.length;x++){
+var _17=this.rrule[x].value;
+this.rrule[x].cache=function(){
+};
+var _18=_17.split(";");
+for(var y=0;y<_18.length;y++){
+var _19=_18[y].split("=");
+var key=_19[0].toLowerCase();
+var val=_19[1];
+if((key=="freq")||(key=="interval")||(key=="until")){
+this.rrule[x][key]=val;
+}else{
+var _1c=val.split(",");
+this.rrule[x][key]=_1c;
+}
+}
+}
+this.recurring=true;
+}
+},toString:function(){
+return "[iCalendar.Component; "+this.name+", "+this.properties.length+" properties, "+this.components.length+" components]";
+}});
+dojo.cal.iCalendar.Property=function(_1d){
+this.name=_1d.name;
+this.group=_1d.group;
+this.params=_1d.params;
+this.value=_1d.value;
+};
+dojo.extend(dojo.cal.iCalendar.Property,{toString:function(){
+return "[iCalenday.Property; "+this.name+": "+this.value+"]";
+}});
+var _P=function(n,oc,req){
+return {name:n,required:(req)?true:false,occurance:(oc=="*"||!oc)?-1:oc};
+};
+dojo.cal.iCalendar.VCalendar=function(_21){
+this.name="VCALENDAR";
+this.recurring=[];
+this.nonRecurringEvents=function(){
+};
+dojo.cal.iCalendar.Component.call(this,_21);
+};
+dojo.inherits(dojo.cal.iCalendar.VCalendar,dojo.cal.iCalendar.Component);
+dojo.extend(dojo.cal.iCalendar.VCalendar,{addComponent:function(_22){
+this.components.push(_22);
+if(_22.name.toLowerCase()=="vevent"){
+if(_22.rrule){
+this.recurring.push(_22);
+}else{
+var _23=_22.getDate();
+var _24=_23.getMonth()+1;
+var _25=_24+"-"+_23.getDate()+"-"+_23.getFullYear();
+if(!dojo.lang.isArray(this[_25])){
+this.nonRecurringEvents[_25]=[];
+}
+this.nonRecurringEvents[_25].push(_22);
+}
+}
+},preComputeRecurringEvents:function(_26){
+var _27=function(){
+};
+for(var x=0;x<this.recurring.length;x++){
+var _29=this.recurring[x].getDates(_26);
+for(var y=0;y<_29.length;y++){
+var _2b=_29[y].getMonth()+1;
+var _2c=_2b+"-"+_29[y].getDate()+"-"+_29[y].getFullYear();
+if(!dojo.lang.isArray(_27[_2c])){
+_27[_2c]=[];
+}
+if(!dojo.lang.inArray(_27[_2c],this.recurring[x])){
+_27[_2c].push(this.recurring[x]);
+}
+}
+}
+this.recurringEvents=_27;
+},getEvents:function(_2d){
+var _2e=[];
+var _2f=[];
+var _30=[];
+var _31=_2d.getMonth()+1;
+var _32=_31+"-"+_2d.getDate()+"-"+_2d.getFullYear();
+if(dojo.lang.isArray(this.nonRecurringEvents[_32])){
+_30=this.nonRecurringEvents[_32];
+dojo.debug("Number of nonRecurring Events: "+_30.length);
+}
+if(dojo.lang.isArray(this.recurringEvents[_32])){
+_2f=this.recurringEvents[_32];
+}
+_2e=_2f.concat(_30);
+if(_2e.length>0){
+return _2e;
+}
+return null;
+}});
+var StandardProperties=[_P("dtstart",1,true),_P("tzoffsetto",1,true),_P("tzoffsetfrom",1,true),_P("comment"),_P("rdate"),_P("rrule"),_P("tzname")];
+dojo.cal.iCalendar.Standard=function(_33){
+this.name="STANDARD";
+this._ValidProperties=StandardProperties;
+dojo.cal.iCalendar.Component.call(this,_33);
+};
+dojo.inherits(dojo.cal.iCalendar.Standard,dojo.cal.iCalendar.Component);
+var DaylightProperties=[_P("dtstart",1,true),_P("tzoffsetto",1,true),_P("tzoffsetfrom",1,true),_P("comment"),_P("rdate"),_P("rrule"),_P("tzname")];
+dojo.cal.iCalendar.Daylight=function(_34){
+this.name="DAYLIGHT";
+this._ValidProperties=DaylightProperties;
+dojo.cal.iCalendar.Component.call(this,_34);
+};
+dojo.inherits(dojo.cal.iCalendar.Daylight,dojo.cal.iCalendar.Component);
+var VEventProperties=[_P("class",1),_P("created",1),_P("description",1),_P("dtstart",1),_P("geo",1),_P("last-mod",1),_P("location",1),_P("organizer",1),_P("priority",1),_P("dtstamp",1),_P("seq",1),_P("status",1),_P("summary",1),_P("transp",1),_P("uid",1),_P("url",1),_P("recurid",1),[_P("dtend",1),_P("duration",1)],_P("attach"),_P("attendee"),_P("categories"),_P("comment"),_P("contact"),_P("exdate"),_P("exrule"),_P("rstatus"),_P("related"),_P("resources"),_P("rdate"),_P("rrule")];
+dojo.cal.iCalendar.VEvent=function(_35){
+this._ValidProperties=VEventProperties;
+this.name="VEVENT";
+dojo.cal.iCalendar.Component.call(this,_35);
+this.recurring=false;
+this.startDate=dojo.date.fromIso8601(this.dtstart.value);
+};
+dojo.inherits(dojo.cal.iCalendar.VEvent,dojo.cal.iCalendar.Component);
+dojo.extend(dojo.cal.iCalendar.VEvent,{getDates:function(_36){
+var _37=this.getDate();
+var _38=[];
+var _39=["su","mo","tu","we","th","fr","sa"];
+var _3a={"daily":1,"weekly":2,"monthly":3,"yearly":4,"byday":1,"bymonthday":1,"byweekno":2,"bymonth":3,"byyearday":4};
+for(var x=0;x<this.rrule.length;x++){
+var _3c=this.rrule[x];
+var _3d=_3c.freq.toLowerCase();
+var _3e=1;
+if(_3c.interval>_3e){
+_3e=_3c.interval;
+}
+var set=[];
+var _40=_3a[_3d];
+if(_3c.until){
+var _41=dojo.date.fromIso8601(_3c.until);
+}else{
+var _41=_36;
+}
+if(_41>_36){
+_41=_36;
+}
+if(_37<_41){
+var _42=function(){
+};
+var _43=function(){
+};
+_42.length=0;
+_43.length=0;
+switch(_3d){
+case "yearly":
+var _44=new Date(_37);
+set.push(_44);
+while(_44<_41){
+_44.setYear(_44.getFullYear()+_3e);
+_45=new Date(_44);
+if(_45<_41){
+set.push(_45);
+}
+}
+break;
+case "monthly":
+_44=new Date(_37);
+set.push(_44);
+while(_44<_41){
+_44.setMonth(_44.getMonth()+_3e);
+var _45=new Date(_44);
+if(_45<_41){
+set.push(_45);
+}
+}
+break;
+case "weekly":
+_44=new Date(_37);
+set.push(_44);
+while(_44<_41){
+_44.setDate(_44.getDate()+(7*_3e));
+var _45=new Date(_44);
+if(_45<_41){
+set.push(_45);
+}
+}
+break;
+case "daily":
+_44=new Date(_37);
+set.push(_44);
+while(_44<_41){
+_44.setDate(_44.getDate()+_3e);
+var _45=new Date(_44);
+if(_45<_41){
+set.push(_45);
+}
+}
+break;
+}
+if((_3c["bymonth"])&&(_3a["bymonth"]<_40)){
+for(var z=0;z<_3c["bymonth"].length;z++){
+if(z==0){
+for(var zz=0;zz<set.length;zz++){
+set[zz].setMonth(_3c["bymonth"][z]-1);
+}
+}else{
+var _48=[];
+for(var zz=0;zz<set.length;zz++){
+var _49=new Date(set[zz]);
+_49.setMonth(_3c[z]);
+_48.push(_49);
+}
+tmp=set.concat(_48);
+set=tmp;
+}
+}
+}
+if(_3c["byweekno"]&&!_3c["bymonth"]){
+dojo.debug("TODO: no support for byweekno yet");
+}
+if(_3c["byyearday"]&&!_3c["bymonth"]&&!_3c["byweekno"]){
+if(_3c["byyearday"].length>1){
+var _4b="([+-]?)([0-9]{1,3})";
+for(var z=1;x<_3c["byyearday"].length;z++){
+var _4c=_3c["byyearday"][z].match(_4b);
+if(z==1){
+for(var zz=0;zz<set.length;zz++){
+if(_4c[1]=="-"){
+dojo.date.setDayOfYear(set[zz],366-_4c[2]);
+}else{
+dojo.date.setDayOfYear(set[zz],_4c[2]);
+}
+}
+}else{
+var _48=[];
+for(var zz=0;zz<set.length;zz++){
+var _49=new Date(set[zz]);
+if(_4c[1]=="-"){
+dojo.date.setDayOfYear(_49,366-_4c[2]);
+}else{
+dojo.date.setDayOfYear(_49,_4c[2]);
+}
+_48.push(_49);
+}
+tmp=set.concat(_48);
+set=tmp;
+}
+}
+}
+}
+if(_3c["bymonthday"]&&(_3a["bymonthday"]<_40)){
+if(_3c["bymonthday"].length>0){
+var _4b="([+-]?)([0-9]{1,3})";
+for(var z=0;z<_3c["bymonthday"].length;z++){
+var _4c=_3c["bymonthday"][z].match(_4b);
+if(z==0){
+for(var zz=0;zz<set.length;zz++){
+if(_4c[1]=="-"){
+if(_4c[2]<dojo.date.getDaysInMonth(set[zz])){
+set[zz].setDate(dojo.date.getDaysInMonth(set[zz])-_4c[2]);
+}
+}else{
+if(_4c[2]<dojo.date.getDaysInMonth(set[zz])){
+set[zz].setDate(_4c[2]);
+}
+}
+}
+}else{
+var _48=[];
+for(var zz=0;zz<set.length;zz++){
+var _49=new Date(set[zz]);
+if(_4c[1]=="-"){
+if(_4c[2]<dojo.date.getDaysInMonth(set[zz])){
+_49.setDate(dojo.date.getDaysInMonth(set[zz])-_4c[2]);
+}
+}else{
+if(_4c[2]<dojo.date.getDaysInMonth(set[zz])){
+_49.setDate(_4c[2]);
+}
+}
+_48.push(_49);
+}
+tmp=set.concat(_48);
+set=tmp;
+}
+}
+}
+}
+if(_3c["byday"]&&(_3a["byday"]<_40)){
+if(_3c["bymonth"]){
+if(_3c["byday"].length>0){
+var _4b="([+-]?)([0-9]{0,1}?)([A-Za-z]{1,2})";
+for(var z=0;z<_3c["byday"].length;z++){
+var _4c=_3c["byday"][z].match(_4b);
+var _4d=_4c[2];
+var day=_4c[3].toLowerCase();
+if(z==0){
+for(var zz=0;zz<set.length;zz++){
+if(_4c[1]=="-"){
+var _4f=0;
+var _50=dojo.date.getDaysInMonth(set[zz]);
+var _51=1;
+set[zz].setDate(_50);
+if(_39[set[zz].getDay()]==day){
+_4f++;
+_51=7;
+}
+_51=1;
+while(_4f<_4d){
+set[zz].setDate(set[zz].getDate()-_51);
+if(_39[set[zz].getDay()]==day){
+_4f++;
+_51=7;
+}
+}
+}else{
+if(_4d){
+var _4f=0;
+set[zz].setDate(1);
+var _52=1;
+if(_39[set[zz].getDay()]==day){
+_4f++;
+_52=7;
+}
+while(_4f<_4d){
+set[zz].setDate(set[zz].getDate()+_52);
+if(_39[set[zz].getDay()]==day){
+_4f++;
+_52=7;
+}
+}
+}else{
+var _4f=0;
+var _48=[];
+_50=new Date(set[zz]);
+var _53=dojo.date.getDaysInMonth(set[zz]);
+_50.setDate(_53);
+set[zz].setDate(1);
+if(_39[set[zz].getDay()]==day){
+_4f++;
+}
+var _45=new Date(set[zz]);
+_52=1;
+while(_45.getDate()<_50){
+if(_39[_45.getDay()]==day){
+_4f++;
+if(_4f==1){
+set[zz]=_45;
+}else{
+_48.push(_45);
+_45=new Date(_45);
+_52=7;
+_45.setDate(_45.getDate()+_52);
+}
+}else{
+_45.setDate(_45.getDate()+_52);
+}
+}
+var t=set.concat(_48);
+set=t;
+}
+}
+}
+}else{
+var _48=[];
+for(var zz=0;zz<set.length;zz++){
+var _49=new Date(set[zz]);
+if(_4c[1]=="-"){
+if(_4c[2]<dojo.date.getDaysInMonth(set[zz])){
+_49.setDate(dojo.date.getDaysInMonth(set[zz])-_4c[2]);
+}
+}else{
+if(_4c[2]<dojo.date.getDaysInMonth(set[zz])){
+_49.setDate(_4c[2]);
+}
+}
+_48.push(_49);
+}
+tmp=set.concat(_48);
+set=tmp;
+}
+}
+}
+}else{
+dojo.debug("TODO: byday within a yearly rule without a bymonth");
+}
+}
+dojo.debug("TODO: Process BYrules for units larger than frequency");
+var tmp=_38.concat(set);
+_38=tmp;
+}
+}
+_38.push(_37);
+return _38;
+},getDate:function(){
+return dojo.date.fromIso8601(this.dtstart.value);
+}});
+var VTimeZoneProperties=[_P("tzid",1,true),_P("last-mod",1),_P("tzurl",1)];
+dojo.cal.iCalendar.VTimeZone=function(_55){
+this.name="VTIMEZONE";
+this._ValidProperties=VTimeZoneProperties;
+dojo.cal.iCalendar.Component.call(this,_55);
+};
+dojo.inherits(dojo.cal.iCalendar.VTimeZone,dojo.cal.iCalendar.Component);
+var VTodoProperties=[_P("class",1),_P("completed",1),_P("created",1),_P("description",1),_P("dtstart",1),_P("geo",1),_P("last-mod",1),_P("location",1),_P("organizer",1),_P("percent",1),_P("priority",1),_P("dtstamp",1),_P("seq",1),_P("status",1),_P("summary",1),_P("uid",1),_P("url",1),_P("recurid",1),[_P("due",1),_P("duration",1)],_P("attach"),_P("attendee"),_P("categories"),_P("comment"),_P("contact"),_P("exdate"),_P("exrule"),_P("rstatus"),_P("related"),_P("resources"),_P("rdate"),_P("rrule")];
+dojo.cal.iCalendar.VTodo=function(_56){
+this.name="VTODO";
+this._ValidProperties=VTodoProperties;
+dojo.cal.iCalendar.Component.call(this,_56);
+};
+dojo.inherits(dojo.cal.iCalendar.VTodo,dojo.cal.iCalendar.Component);
+var VJournalProperties=[_P("class",1),_P("created",1),_P("description",1),_P("dtstart",1),_P("last-mod",1),_P("organizer",1),_P("dtstamp",1),_P("seq",1),_P("status",1),_P("summary",1),_P("uid",1),_P("url",1),_P("recurid",1),_P("attach"),_P("attendee"),_P("categories"),_P("comment"),_P("contact"),_P("exdate"),_P("exrule"),_P("related"),_P("rstatus"),_P("rdate"),_P("rrule")];
+dojo.cal.iCalendar.VJournal=function(_57){
+this.name="VJOURNAL";
+this._ValidProperties=VJournalProperties;
+dojo.cal.iCalendar.Component.call(this,_57);
+};
+dojo.inherits(dojo.cal.iCalendar.VJournal,dojo.cal.iCalendar.Component);
+var VFreeBusyProperties=[_P("contact"),_P("dtstart",1),_P("dtend"),_P("duration"),_P("organizer",1),_P("dtstamp",1),_P("uid",1),_P("url",1),_P("attendee"),_P("comment"),_P("freebusy"),_P("rstatus")];
+dojo.cal.iCalendar.VFreeBusy=function(_58){
+this.name="VFREEBUSY";
+this._ValidProperties=VFreeBusyProperties;
+dojo.cal.iCalendar.Component.call(this,_58);
+};
+dojo.inherits(dojo.cal.iCalendar.VFreeBusy,dojo.cal.iCalendar.Component);
+var VAlarmProperties=[[_P("action",1,true),_P("trigger",1,true),[_P("duration",1),_P("repeat",1)],_P("attach",1)],[_P("action",1,true),_P("description",1,true),_P("trigger",1,true),[_P("duration",1),_P("repeat",1)]],[_P("action",1,true),_P("description",1,true),_P("trigger",1,true),_P("summary",1,true),_P("attendee","*",true),[_P("duration",1),_P("repeat",1)],_P("attach",1)],[_P("action",1,true),_P("attach",1,true),_P("trigger",1,true),[_P("duration",1),_P("repeat",1)],_P("description",1)]];
+dojo.cal.iCalendar.VAlarm=function(_59){
+this.name="VALARM";
+this._ValidProperties=VAlarmProperties;
+dojo.cal.iCalendar.Component.call(this,_59);
+};
+dojo.inherits(dojo.cal.iCalendar.VAlarm,dojo.cal.iCalendar.Component);

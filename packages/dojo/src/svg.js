@@ -8,313 +8,250 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.svg");
 dojo.require("dojo.lang.common");
 dojo.require("dojo.dom");
-
-dojo.mixin(dojo.svg, dojo.dom);
-
-dojo.svg.graphics=dojo.svg.g=new function(/* DOMDocument */ d){
-	//	summary
-	//	Singleton to encapsulate SVG rendering functions.
-	this.suspend=function(){
-		//	summary
-		//	Suspend the rendering engine
-		try { d.documentElement.suspendRedraw(0); } catch(e){ }
-	};
-	this.resume=function(){
-		//	summary
-		//	Resume the rendering engine
-		try { d.documentElement.unsuspendRedraw(0); } catch(e){ }
-	};
-	this.force=function(){
-		//	summary
-		//	Force the render engine to redraw
-		try { d.documentElement.forceRedraw(); } catch(e){ }
-	};
-}(document);
-
-dojo.svg.animations=dojo.svg.anim=new function(/* DOMDocument */ d){
-	//	summary
-	//	Singleton to encapsulate SVG animation functionality.
-	this.arePaused=function(){
-		//	summary
-		//	check to see if all animations are paused
-		try {
-			return d.documentElement.animationsPaused();	//	bool
-		} catch(e){
-			return false;	//	bool
-		}
-	} ;
-	this.pause=function(){
-		//	summary
-		//	pause all animations
-		try { d.documentElement.pauseAnimations(); } catch(e){ }
-	};
-	this.resume=function(){
-		//	summary
-		//	resume all animations
-		try { d.documentElement.unpauseAnimations(); } catch(e){ }
-	};
-}(document);
-
-//	fixme: these functions should be mixed in from dojo.style, but dojo.style is HTML-centric and needs to change.
-dojo.svg.toCamelCase=function(/* string */ selector){
-	//	summary
-	//	converts a CSS-style selector to a camelCased one
-	var arr=selector.split('-'), cc=arr[0];
-	for(var i=1; i < arr.length; i++) {
-		cc += arr[i].charAt(0).toUpperCase() + arr[i].substring(1);
-	}
-	return cc;	// string
-};
-dojo.svg.toSelectorCase=function(/* string */ selector) {
-	//	summary
-	//	converts a camelCased selector to a CSS style one
-	return selector.replace(/([A-Z])/g, "-$1" ).toLowerCase();	//	string
-};
-dojo.svg.getStyle=function(/* SVGElement */ node, /* string */ cssSelector){
-	//	summary
-	//	get the computed style of selector for node.
-	return document.defaultView.getComputedStyle(node, cssSelector);	//	object
-};
-dojo.svg.getNumericStyle=function(/* SVGElement */ node, /* string */ cssSelector){
-	//	summary
-	//	return the numeric version of the computed style of selector on node.
-	return parseFloat(dojo.svg.getStyle(node, cssSelector));
-};
-
-//	fixme: there are different ways of doing the following, need to take into account
-dojo.svg.getOpacity=function(/* SVGElement */node){
-	//	summary
-	//	Return the opacity of the passed element
-	return Math.min(1.0, dojo.svg.getNumericStyle(node, "fill-opacity"));	//	float
-};
-dojo.svg.setOpacity=function(/* SVGElement */ node, /* float */ opacity){
-	//	summary
-	//	set the opacity of node using attributes.
-	node.setAttributeNS(this.xmlns.svg, "fill-opacity", opacity);
-	node.setAttributeNS(this.xmlns.svg, "stroke-opacity", opacity);
-};
-dojo.svg.clearOpacity=function(/* SVGElement */ node){
-	//	summary
-	//	Set any attributes setting opacity to opaque (1.0)
-	node.setAttributeNS(this.xmlns.svg, "fill-opacity", "1.0");
-	node.setAttributeNS(this.xmlns.svg, "stroke-opacity", "1.0");
-};
-
-/**
- *	Coordinates and dimensions.
- */
-
-// TODO ////////////////////////////////////////////////////////// TODO
-dojo.svg.getCoords=function(/* SVGElement */ node){
-	//	summary
-	//	Returns the x/y coordinates of the passed node, if available.
-	if (node.getBBox) {
-		var box=node.getBBox();
-		return { x: box.x, y: box.y };	//	object
-	}
-	return null;	//	object
-};
-dojo.svg.setCoords=function(/* SVGElement */node, /* object */coords){
-	//	summary
-	//	Set the x/y coordinates of the passed node
-	var p=dojo.svg.getCoords();
-	if (!p) return;
-	var dx=p.x - coords.x;
-	var dy=p.y - coords.y;
-	dojo.svg.translate(node, dx, dy);
-};
-dojo.svg.getDimensions=function(/* SVGElement */node){
-	//	summary
-	//	Get the height and width of the passed node.
-	if (node.getBBox){
-		var box=node.getBBox();
-		return { width: box.width, height : box.height };	//	object
-	}
-	return null;	//	object
-};
-dojo.svg.setDimensions=function(/* SVGElement */node, /* object */dim){
-	//	summary
-	//	Set the dimensions of the passed element if possible.
-	//	will only support shape-based and container elements; path-based elements are ignored.
-	if (node.width){
-		node.width.baseVal.value=dim.width;
-		node.height.baseVal.value=dim.height;
-	}
-	else if (node.r){
-		node.r.baseVal.value=Math.min(dim.width, dim.height)/2;
-	}
-	else if (node.rx){
-		node.rx.baseVal.value=dim.width/2;
-		node.ry.baseVal.value=dim.height/2;
-	}
-};
-
-/**
- *	Transformations.
- */
-dojo.svg.translate=function(/* SVGElement */node, /* int */dx, /* int */dy){
-	//	summary
-	//	Translates the passed node by dx and dy
-	if (node.transform && node.ownerSVGElement && node.ownerSVGElement.createSVGTransform){
-		var t=node.ownerSVGElement.createSVGTransform();
-		t.setTranslate(dx, dy);
-		node.transform.baseVal.appendItem(t);
-	}
-};
-dojo.svg.scale=function(/* SVGElement */node, /* float */scaleX, /* float? */scaleY){
-	//	summary
-	//	Scales the passed element by factor scaleX and scaleY.  If scaleY not passed, scaleX is used.
-	if (!scaleY) var scaleY=scaleX;
-	if (node.transform && node.ownerSVGElement && node.ownerSVGElement.createSVGTransform){
-		var t=node.ownerSVGElement.createSVGTransform();
-		t.setScale(scaleX, scaleY);
-		node.transform.baseVal.appendItem(t);
-	}
-};
-dojo.svg.rotate=function(/* SVGElement */node, /* float */ang, /* int? */cx, /* int? */cy){
-	//	summary
-	//	rotate the passed node by ang, with optional cx/cy as the rotation point.
-	if (node.transform && node.ownerSVGElement && node.ownerSVGElement.createSVGTransform){
-		var t=node.ownerSVGElement.createSVGTransform();
-		if (cx == null) t.setMatrix(t.matrix.rotate(ang));
-		else t.setRotate(ang, cx, cy);
-		node.transform.baseVal.appendItem(t);
-	}
-};
-dojo.svg.skew=function(/* SVGElement */node, /* float */ang, /* string? */axis){
-	//	summary
-	//	skew the passed node by ang over axis.
-	var dir=axis || "x";
-	if (node.transform && node.ownerSVGElement && node.ownerSVGElement.createSVGTransform){
-		var t=node.ownerSVGElement.createSVGTransform();
-		if (dir != "x") t.setSkewY(ang);
-		else t.setSkewX(ang);
-		node.transform.baseVal.appendItem(t);
-	}
-};
-dojo.svg.flip=function(/* SVGElement */node, /* string? */axis){
-	//	summary
-	//	flip the passed element over axis
-	var dir=axis || "x";
-	if (node.transform && node.ownerSVGElement && node.ownerSVGElement.createSVGTransform){
-		var t=node.ownerSVGElement.createSVGTransform();
-		t.setMatrix((dir != "x") ? t.matrix.flipY() : t.matrix.flipX());
-		node.transform.baseVal.appendItem(t);
-	}
-};
-dojo.svg.invert=function(/* SVGElement */node){
-	//	summary
-	//	transform the passed node by the inverse of the current matrix
-	if (node.transform && node.ownerSVGElement && node.ownerSVGElement.createSVGTransform){
-		var t=node.ownerSVGElement.createSVGTransform();
-		t.setMatrix(t.matrix.inverse());
-		node.transform.baseVal.appendItem(t);
-	}
-};
-dojo.svg.applyMatrix=function(
-	/* SVGElement */node, 
-	/* int || SVGMatrix */a, 
-	/* int? */b, 
-	/* int? */c, 
-	/* int? */d, 
-	/* int? */e, 
-	/* int? */f
-){
-	//	summary
-	//	apply the passed matrix to node.  If params b - f are passed, a matrix will be created.
-	if (node.transform && node.ownerSVGElement && node.ownerSVGElement.createSVGTransform){
-		var m;
-		if (b){
-			var m=node.ownerSVGElement.createSVGMatrix();
-			m.a=a;
-			m.b=b;
-			m.c=c;
-			m.d=d;
-			m.e=e;
-			m.f=f;
-		} else m=a;
-		var t=node.ownerSVGElement.createSVGTransform();
-		t.setMatrix(m);
-		node.transform.baseVal.appendItem(t);
-	}
-};
-
-/**
- *	Grouping and z-index operations.
- */
-dojo.svg.group=function(/* Nodelist || array */nodes){
-	//	summary
-	//	expect an array of nodes, attaches the group to the parent of the first node.
-	var p=nodes.item(0).parentNode;
-	var g=document.createElementNS(this.xmlns.svg, "g");
-	for (var i=0; i < nodes.length; i++) g.appendChild(nodes.item(i));
-	p.appendChild(g);
-	return g;
-};
-dojo.svg.ungroup=function(/* SVGGElement */g){
-	//	summary
-	//	puts the children of the group on the same level as group was.
-	var p=g.parentNode;
-	while (g.childNodes.length > 0) p.appendChild(g.childNodes.item(0));
-	p.removeChild(g);
-};
-//	if the node is part of a group, return the group, else return null.
-dojo.svg.getGroup=function(/* SVGElement */node){
-	//	summary
-	//	if the node is part of a group, return the group, else return null.
-	var a=this.getAncestors(node);
-	for (var i=0; i < a.length; i++){
-		if (a[i].nodeType == this.ELEMENT_NODE && a[i].nodeName.toLowerCase() == "g")
-			return a[i];
-	}
-	return null;
-};
-dojo.svg.bringToFront=function(/* SVGElement */node){
-	//	summary
-	//	move the passed node the to top of the group (i.e. last child)
-	var n=this.getGroup(node) || node;
-	n.ownerSVGElement.appendChild(n);
-};
-dojo.svg.sendToBack=function(/* SVGElement */node){
-	//	summary
-	//	move the passed node to the bottom of the group (i.e. first child)
-	var n=this.getGroup(node) || node;
-	n.ownerSVGElement.insertBefore(n, n.ownerSVGElement.firstChild);
-};
-
-//	TODO: possibly push node up a level in the DOM if it's at the beginning or end of the childNodes list.
-dojo.svg.bringForward=function(/* SVGElement */node){
-	//	summary
-	//	move the passed node up one in the child node chain
-	var n=this.getGroup(node) || node;
-	if (this.getLastChildElement(n.parentNode) != n){
-		this.insertAfter(n, this.getNextSiblingElement(n), true);
-	}
-};
-dojo.svg.sendBackward=function(/* SVGElement */node){
-	//	summary
-	//	move the passed node down one in the child node chain
-	var n=this.getGroup(node) || node;
-	if (this.getFirstChildElement(n.parentNode) != n){
-		this.insertBefore(n, this.getPreviousSiblingElement(n), true);
-	}
-};
-// END TODO ////////////////////////////////////////////////////// TODO
-
-dojo.svg.createNodesFromText=function(/* string */ txt, /* bool? */ wrap){
-	//	summary
-	//	Create a list of nodes from text
-	var docFrag=(new DOMParser()).parseFromString(txt, "text/xml").normalize();
-	if(wrap){ 
-		return [docFrag.firstChild.cloneNode(true)];	//	array
-	}
-	var nodes=[];
-	for(var x=0; x<docFrag.childNodes.length; x++){
-		nodes.push(docFrag.childNodes.item(x).cloneNode(true));
-	}
-	return nodes;	// array
+dojo.mixin(dojo.svg,dojo.dom);
+dojo.svg.graphics=dojo.svg.g=new function(d){
+this.suspend=function(){
+try{
+d.documentElement.suspendRedraw(0);
 }
-// vim:ts=4:noet:tw=0:
+catch(e){
+}
+};
+this.resume=function(){
+try{
+d.documentElement.unsuspendRedraw(0);
+}
+catch(e){
+}
+};
+this.force=function(){
+try{
+d.documentElement.forceRedraw();
+}
+catch(e){
+}
+};
+}(document);
+dojo.svg.animations=dojo.svg.anim=new function(d){
+this.arePaused=function(){
+try{
+return d.documentElement.animationsPaused();
+}
+catch(e){
+return false;
+}
+};
+this.pause=function(){
+try{
+d.documentElement.pauseAnimations();
+}
+catch(e){
+}
+};
+this.resume=function(){
+try{
+d.documentElement.unpauseAnimations();
+}
+catch(e){
+}
+};
+}(document);
+dojo.svg.toCamelCase=function(_3){
+var _4=_3.split("-"),cc=_4[0];
+for(var i=1;i<_4.length;i++){
+cc+=_4[i].charAt(0).toUpperCase()+_4[i].substring(1);
+}
+return cc;
+};
+dojo.svg.toSelectorCase=function(_7){
+return _7.replace(/([A-Z])/g,"-$1").toLowerCase();
+};
+dojo.svg.getStyle=function(_8,_9){
+return document.defaultView.getComputedStyle(_8,_9);
+};
+dojo.svg.getNumericStyle=function(_a,_b){
+return parseFloat(dojo.svg.getStyle(_a,_b));
+};
+dojo.svg.getOpacity=function(_c){
+return Math.min(1,dojo.svg.getNumericStyle(_c,"fill-opacity"));
+};
+dojo.svg.setOpacity=function(_d,_e){
+_d.setAttributeNS(this.xmlns.svg,"fill-opacity",_e);
+_d.setAttributeNS(this.xmlns.svg,"stroke-opacity",_e);
+};
+dojo.svg.clearOpacity=function(_f){
+_f.setAttributeNS(this.xmlns.svg,"fill-opacity","1.0");
+_f.setAttributeNS(this.xmlns.svg,"stroke-opacity","1.0");
+};
+dojo.svg.getCoords=function(_10){
+if(_10.getBBox){
+var box=_10.getBBox();
+return {x:box.x,y:box.y};
+}
+return null;
+};
+dojo.svg.setCoords=function(_12,_13){
+var p=dojo.svg.getCoords();
+if(!p){
+return;
+}
+var dx=p.x-_13.x;
+var dy=p.y-_13.y;
+dojo.svg.translate(_12,dx,dy);
+};
+dojo.svg.getDimensions=function(_17){
+if(_17.getBBox){
+var box=_17.getBBox();
+return {width:box.width,height:box.height};
+}
+return null;
+};
+dojo.svg.setDimensions=function(_19,dim){
+if(_19.width){
+_19.width.baseVal.value=dim.width;
+_19.height.baseVal.value=dim.height;
+}else{
+if(_19.r){
+_19.r.baseVal.value=Math.min(dim.width,dim.height)/2;
+}else{
+if(_19.rx){
+_19.rx.baseVal.value=dim.width/2;
+_19.ry.baseVal.value=dim.height/2;
+}
+}
+}
+};
+dojo.svg.translate=function(_1b,dx,dy){
+if(_1b.transform&&_1b.ownerSVGElement&&_1b.ownerSVGElement.createSVGTransform){
+var t=_1b.ownerSVGElement.createSVGTransform();
+t.setTranslate(dx,dy);
+_1b.transform.baseVal.appendItem(t);
+}
+};
+dojo.svg.scale=function(_1f,_20,_21){
+if(!_21){
+var _21=_20;
+}
+if(_1f.transform&&_1f.ownerSVGElement&&_1f.ownerSVGElement.createSVGTransform){
+var t=_1f.ownerSVGElement.createSVGTransform();
+t.setScale(_20,_21);
+_1f.transform.baseVal.appendItem(t);
+}
+};
+dojo.svg.rotate=function(_23,ang,cx,cy){
+if(_23.transform&&_23.ownerSVGElement&&_23.ownerSVGElement.createSVGTransform){
+var t=_23.ownerSVGElement.createSVGTransform();
+if(cx==null){
+t.setMatrix(t.matrix.rotate(ang));
+}else{
+t.setRotate(ang,cx,cy);
+}
+_23.transform.baseVal.appendItem(t);
+}
+};
+dojo.svg.skew=function(_28,ang,_2a){
+var dir=_2a||"x";
+if(_28.transform&&_28.ownerSVGElement&&_28.ownerSVGElement.createSVGTransform){
+var t=_28.ownerSVGElement.createSVGTransform();
+if(dir!="x"){
+t.setSkewY(ang);
+}else{
+t.setSkewX(ang);
+}
+_28.transform.baseVal.appendItem(t);
+}
+};
+dojo.svg.flip=function(_2d,_2e){
+var dir=_2e||"x";
+if(_2d.transform&&_2d.ownerSVGElement&&_2d.ownerSVGElement.createSVGTransform){
+var t=_2d.ownerSVGElement.createSVGTransform();
+t.setMatrix((dir!="x")?t.matrix.flipY():t.matrix.flipX());
+_2d.transform.baseVal.appendItem(t);
+}
+};
+dojo.svg.invert=function(_31){
+if(_31.transform&&_31.ownerSVGElement&&_31.ownerSVGElement.createSVGTransform){
+var t=_31.ownerSVGElement.createSVGTransform();
+t.setMatrix(t.matrix.inverse());
+_31.transform.baseVal.appendItem(t);
+}
+};
+dojo.svg.applyMatrix=function(_33,a,b,c,d,e,f){
+if(_33.transform&&_33.ownerSVGElement&&_33.ownerSVGElement.createSVGTransform){
+var m;
+if(b){
+var m=_33.ownerSVGElement.createSVGMatrix();
+m.a=a;
+m.b=b;
+m.c=c;
+m.d=d;
+m.e=e;
+m.f=f;
+}else{
+m=a;
+}
+var t=_33.ownerSVGElement.createSVGTransform();
+t.setMatrix(m);
+_33.transform.baseVal.appendItem(t);
+}
+};
+dojo.svg.group=function(_3c){
+var p=_3c.item(0).parentNode;
+var g=document.createElementNS(this.xmlns.svg,"g");
+for(var i=0;i<_3c.length;i++){
+g.appendChild(_3c.item(i));
+}
+p.appendChild(g);
+return g;
+};
+dojo.svg.ungroup=function(g){
+var p=g.parentNode;
+while(g.childNodes.length>0){
+p.appendChild(g.childNodes.item(0));
+}
+p.removeChild(g);
+};
+dojo.svg.getGroup=function(_42){
+var a=this.getAncestors(_42);
+for(var i=0;i<a.length;i++){
+if(a[i].nodeType==this.ELEMENT_NODE&&a[i].nodeName.toLowerCase()=="g"){
+return a[i];
+}
+}
+return null;
+};
+dojo.svg.bringToFront=function(_45){
+var n=this.getGroup(_45)||_45;
+n.ownerSVGElement.appendChild(n);
+};
+dojo.svg.sendToBack=function(_47){
+var n=this.getGroup(_47)||_47;
+n.ownerSVGElement.insertBefore(n,n.ownerSVGElement.firstChild);
+};
+dojo.svg.bringForward=function(_49){
+var n=this.getGroup(_49)||_49;
+if(this.getLastChildElement(n.parentNode)!=n){
+this.insertAfter(n,this.getNextSiblingElement(n),true);
+}
+};
+dojo.svg.sendBackward=function(_4b){
+var n=this.getGroup(_4b)||_4b;
+if(this.getFirstChildElement(n.parentNode)!=n){
+this.insertBefore(n,this.getPreviousSiblingElement(n),true);
+}
+};
+dojo.svg.createNodesFromText=function(txt,_4e){
+var _4f=(new DOMParser()).parseFromString(txt,"text/xml").normalize();
+if(_4e){
+return [_4f.firstChild.cloneNode(true)];
+}
+var _50=[];
+for(var x=0;x<_4f.childNodes.length;x++){
+_50.push(_4f.childNodes.item(x).cloneNode(true));
+}
+return _50;
+};

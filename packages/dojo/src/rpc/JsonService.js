@@ -8,112 +8,62 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.rpc.JsonService");
 dojo.require("dojo.rpc.RpcService");
 dojo.require("dojo.io.*");
 dojo.require("dojo.json");
 dojo.require("dojo.lang.common");
-
-dojo.rpc.JsonService = function(args){
-	// passing just the URL isn't terribly useful. It's expected that at
-	// various times folks will want to specify:
-	//	- just the serviceUrl (for use w/ remoteCall())
-	//	- the text of the SMD to evaluate
-	// 	- a raw SMD object
-	//	- the SMD URL
-	if(args){
-		if(dojo.lang.isString(args)){
-			// we assume it's an SMD file to be processed, since this was the
-			// earlier function signature
-
-			// FIXME: also accept dojo.uri.Uri objects?
-			this.connect(args);
-		}else{
-			// otherwise we assume it's an arguments object with the following
-			// (optional) properties:
-			//	- serviceUrl
-			//	- strictArgChecks
-			//	- smdUrl
-			//	- smdStr
-			//	- smdObj
-			if(args["smdUrl"]){
-				this.connect(args.smdUrl);
-			}
-			if(args["smdStr"]){
-				this.processSmd(dj_eval("("+args.smdStr+")"));
-			}
-			if(args["smdObj"]){
-				this.processSmd(args.smdObj);
-			}
-			if(args["serviceUrl"]){
-				this.serviceUrl = args.serviceUrl;
-			}
-			if(typeof args["strictArgChecks"] != "undefined"){
-				this.strictArgChecks = args.strictArgChecks;
-			}
-		}
-	}
+dojo.rpc.JsonService=function(_1){
+if(_1){
+if(dojo.lang.isString(_1)){
+this.connect(_1);
+}else{
+if(_1["smdUrl"]){
+this.connect(_1.smdUrl);
 }
-
-dojo.inherits(dojo.rpc.JsonService, dojo.rpc.RpcService);
-
-dojo.extend(dojo.rpc.JsonService, {
-
-	bustCache: false,
-	
-	contentType: "application/json-rpc",
-
-	lastSubmissionId: 0,
-
-	callRemote: function(method, params){
-		//summary
-		// call an arbitrary remote method without requiring it
-		// to be predefined with SMD
-		var deferred = new dojo.Deferred();
-		this.bind(method, params, deferred);
-		return deferred;
-	},
-
-	bind: function(method, parameters, deferredRequestHandler, url){
-		//summary
-		//JSON-RPC bind method. Takes remote method, parameters, deferred,
-		//and a url, calls createRequest to make a JSON-RPC envelope and
-		//passes that off with bind.
-
-		dojo.io.bind({
-			url: url||this.serviceUrl,
-			postContent: this.createRequest(method, parameters),
-			method: "POST",
-			contentType: this.contentType,
-			mimetype: "text/json",
-			load: this.resultCallback(deferredRequestHandler),
-			error: this.errorCallback(deferredRequestHandler),
-			preventCache:this.bustCache 
-		});
-	},
-
-	createRequest: function(method, params){
-		//summary
-		//create a JSON-RPC envelope for the request
-		var req = { "params": params, "method": method, "id": ++this.lastSubmissionId };
-		var data = dojo.json.serialize(req);
-		dojo.debug("JsonService: JSON-RPC Request: " + data);
-		return data;
-	},
-
-	parseResults: function(obj){
-		//summary
-		//parse the result envelope and pass the results back to 
-		// to the callback function
-		if(!obj){ return; }
-		if (obj["Result"]!=null){ 
-			return obj["Result"]; 
-		}else if(obj["result"]!=null){ 
-			return obj["result"]; 
-		}else if(obj["ResultSet"]){
-			return obj["ResultSet"];
-		}else{
-			return obj;
-		}
-	}
-});
+if(_1["smdStr"]){
+this.processSmd(dj_eval("("+_1.smdStr+")"));
+}
+if(_1["smdObj"]){
+this.processSmd(_1.smdObj);
+}
+if(_1["serviceUrl"]){
+this.serviceUrl=_1.serviceUrl;
+}
+if(typeof _1["strictArgChecks"]!="undefined"){
+this.strictArgChecks=_1.strictArgChecks;
+}
+}
+}
+};
+dojo.inherits(dojo.rpc.JsonService,dojo.rpc.RpcService);
+dojo.extend(dojo.rpc.JsonService,{bustCache:false,contentType:"application/json-rpc",lastSubmissionId:0,callRemote:function(_2,_3){
+var _4=new dojo.Deferred();
+this.bind(_2,_3,_4);
+return _4;
+},bind:function(_5,_6,_7,_8){
+dojo.io.bind({url:_8||this.serviceUrl,postContent:this.createRequest(_5,_6),method:"POST",contentType:this.contentType,mimetype:"text/json",load:this.resultCallback(_7),error:this.errorCallback(_7),preventCache:this.bustCache});
+},createRequest:function(_9,_a){
+var _b={"params":_a,"method":_9,"id":++this.lastSubmissionId};
+var _c=dojo.json.serialize(_b);
+dojo.debug("JsonService: JSON-RPC Request: "+_c);
+return _c;
+},parseResults:function(_d){
+if(!_d){
+return;
+}
+if(_d["Result"]!=null){
+return _d["Result"];
+}else{
+if(_d["result"]!=null){
+return _d["result"];
+}else{
+if(_d["ResultSet"]){
+return _d["ResultSet"];
+}else{
+return _d;
+}
+}
+}
+}});

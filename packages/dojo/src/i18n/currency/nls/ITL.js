@@ -8,4 +8,5 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-({"displayName":"ITL","symbol":"₤"})
+
+({"displayName":"ITL","symbol":"\u20a4"});

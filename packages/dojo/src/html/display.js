@@ -8,189 +8,138 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.html.display");
 dojo.require("dojo.html.style");
-
-dojo.html._toggle = function(node, tester, setter){
-	node = dojo.byId(node);
-	setter(node, !tester(node));
-	return tester(node);
+dojo.html._toggle=function(_1,_2,_3){
+_1=dojo.byId(_1);
+_3(_1,!_2(_1));
+return _2(_1);
+};
+dojo.html.show=function(_4){
+_4=dojo.byId(_4);
+if(dojo.html.getStyleProperty(_4,"display")=="none"){
+dojo.html.setStyle(_4,"display",(_4.dojoDisplayCache||""));
+_4.dojoDisplayCache=undefined;
 }
-
-dojo.html.show = function(/* HTMLElement */node){
-	//	summary
-	//	Show the passed element by reverting display property set by dojo.html.hide
-	node = dojo.byId(node);
-	if(dojo.html.getStyleProperty(node, 'display')=='none'){
-		dojo.html.setStyle(node, 'display', (node.dojoDisplayCache||''));
-		node.dojoDisplayCache = undefined;	// cannot use delete on a node in IE6
-	}
+};
+dojo.html.hide=function(_5){
+_5=dojo.byId(_5);
+if(typeof _5["dojoDisplayCache"]=="undefined"){
+var d=dojo.html.getStyleProperty(_5,"display");
+if(d!="none"){
+_5.dojoDisplayCache=d;
 }
-
-dojo.html.hide = function(/* HTMLElement */node){
-	//	summary
-	//	Hide the passed element by setting display:none
-	node = dojo.byId(node);
-	if(typeof node["dojoDisplayCache"] == "undefined"){ // it could == '', so we cannot say !node.dojoDisplayCount
-		var d = dojo.html.getStyleProperty(node, 'display')
-		if(d!='none'){
-			node.dojoDisplayCache = d;
-		}
-	}
-	dojo.html.setStyle(node, 'display', 'none');
 }
-
-dojo.html.setShowing = function(/* HTMLElement */node, /* boolean? */showing){
-	//	summary
-	// Calls show() if showing is true, hide() otherwise
-	dojo.html[(showing ? 'show' : 'hide')](node);
+dojo.html.setStyle(_5,"display","none");
+};
+dojo.html.setShowing=function(_7,_8){
+dojo.html[(_8?"show":"hide")](_7);
+};
+dojo.html.isShowing=function(_9){
+return (dojo.html.getStyleProperty(_9,"display")!="none");
+};
+dojo.html.toggleShowing=function(_a){
+return dojo.html._toggle(_a,dojo.html.isShowing,dojo.html.setShowing);
+};
+dojo.html.displayMap={tr:"",td:"",th:"",img:"inline",span:"inline",input:"inline",button:"inline"};
+dojo.html.suggestDisplayByTagName=function(_b){
+_b=dojo.byId(_b);
+if(_b&&_b.tagName){
+var _c=_b.tagName.toLowerCase();
+return (_c in dojo.html.displayMap?dojo.html.displayMap[_c]:"block");
 }
-
-dojo.html.isShowing = function(/* HTMLElement */node){
-	//	summary
-	//	Returns whether the element is displayed or not.
-	// FIXME: returns true if node is bad, isHidden would be easier to make correct
-	return (dojo.html.getStyleProperty(node, 'display') != 'none');	//	boolean
+};
+dojo.html.setDisplay=function(_d,_e){
+dojo.html.setStyle(_d,"display",((_e instanceof String||typeof _e=="string")?_e:(_e?dojo.html.suggestDisplayByTagName(_d):"none")));
+};
+dojo.html.isDisplayed=function(_f){
+return (dojo.html.getComputedStyle(_f,"display")!="none");
+};
+dojo.html.toggleDisplay=function(_10){
+return dojo.html._toggle(_10,dojo.html.isDisplayed,dojo.html.setDisplay);
+};
+dojo.html.setVisibility=function(_11,_12){
+dojo.html.setStyle(_11,"visibility",((_12 instanceof String||typeof _12=="string")?_12:(_12?"visible":"hidden")));
+};
+dojo.html.isVisible=function(_13){
+return (dojo.html.getComputedStyle(_13,"visibility")!="hidden");
+};
+dojo.html.toggleVisibility=function(_14){
+return dojo.html._toggle(_14,dojo.html.isVisible,dojo.html.setVisibility);
+};
+dojo.html.setOpacity=function(_15,_16,_17){
+_15=dojo.byId(_15);
+var h=dojo.render.html;
+if(!_17){
+if(_16>=1){
+if(h.ie){
+dojo.html.clearOpacity(_15);
+return;
+}else{
+_16=0.999999;
 }
-
-dojo.html.toggleShowing = function(/* HTMLElement */node){
-	//	summary
-	// Call setShowing() on node with the complement of isShowing(), then return the new value of isShowing()
-	return dojo.html._toggle(node, dojo.html.isShowing, dojo.html.setShowing);	//	boolean
+}else{
+if(_16<0){
+_16=0;
 }
-
-// Simple mapping of tag names to display values
-// FIXME: simplistic 
-dojo.html.displayMap = { tr: '', td: '', th: '', img: 'inline', span: 'inline', input: 'inline', button: 'inline' };
-
-dojo.html.suggestDisplayByTagName = function(/* HTMLElement */node){
-	//	summary
-	// Suggest a value for the display property that will show 'node' based on it's tag
-	node = dojo.byId(node);
-	if(node && node.tagName){
-		var tag = node.tagName.toLowerCase();
-		return (tag in dojo.html.displayMap ? dojo.html.displayMap[tag] : 'block');	//	string
-	}
 }
-
-dojo.html.setDisplay = function(/* HTMLElement */node, /* string */display){
-	//	summary
-	// 	Sets the value of style.display to value of 'display' parameter if it is a string.
-	// 	Otherwise, if 'display' is false, set style.display to 'none'.
-	// 	Finally, set 'display' to a suggested display value based on the node's tag
-	dojo.html.setStyle(node, 'display', ((display instanceof String || typeof display == "string") ? display : (display ? dojo.html.suggestDisplayByTagName(node) : 'none')));
 }
-
-dojo.html.isDisplayed = function(/* HTMLElement */node){
-	//	summary
-	// 	Is true if the the computed display style for node is not 'none'
-	// 	FIXME: returns true if node is bad, isNotDisplayed would be easier to make correct
-	return (dojo.html.getComputedStyle(node, 'display') != 'none');	//	boolean
+if(h.ie){
+if(_15.nodeName.toLowerCase()=="tr"){
+var tds=_15.getElementsByTagName("td");
+for(var x=0;x<tds.length;x++){
+tds[x].style.filter="Alpha(Opacity="+_16*100+")";
 }
-
-dojo.html.toggleDisplay = function(/* HTMLElement */node){
-	//	summary
-	// 	Call setDisplay() on node with the complement of isDisplayed(), then
-	// 	return the new value of isDisplayed()
-	return dojo.html._toggle(node, dojo.html.isDisplayed, dojo.html.setDisplay);	//	boolean
 }
-
-dojo.html.setVisibility = function(/* HTMLElement */node, /* string */visibility){
-	//	summary
-	// 	Sets the value of style.visibility to value of 'visibility' parameter if it is a string.
-	// 	Otherwise, if 'visibility' is false, set style.visibility to 'hidden'. Finally, set style.visibility to 'visible'.
-	dojo.html.setStyle(node, 'visibility', ((visibility instanceof String || typeof visibility == "string") ? visibility : (visibility ? 'visible' : 'hidden')));
+_15.style.filter="Alpha(Opacity="+_16*100+")";
+}else{
+if(h.moz){
+_15.style.opacity=_16;
+_15.style.MozOpacity=_16;
+}else{
+if(h.safari){
+_15.style.opacity=_16;
+_15.style.KhtmlOpacity=_16;
+}else{
+_15.style.opacity=_16;
 }
-
-dojo.html.isVisible = function(/* HTMLElement */node){
-	//	summary
-	// 	Returns true if the the computed visibility style for node is not 'hidden'
-	// 	FIXME: returns true if node is bad, isInvisible would be easier to make correct
-	return (dojo.html.getComputedStyle(node, 'visibility') != 'hidden');	//	boolean
 }
-
-dojo.html.toggleVisibility = function(node){
-	//	summary
-	// Call setVisibility() on node with the complement of isVisible(), then return the new value of isVisible()
-	return dojo.html._toggle(node, dojo.html.isVisible, dojo.html.setVisibility);	//	boolean
 }
-
-dojo.html.setOpacity = function(/* HTMLElement */node, /* float */opacity, /* boolean? */dontFixOpacity){
-	//	summary
-	//	Sets the opacity of node in a cross-browser way.
-	//	float between 0.0 (transparent) and 1.0 (opaque)
-	node = dojo.byId(node);
-	var h = dojo.render.html;
-	if(!dontFixOpacity){
-		if( opacity >= 1.0){
-			if(h.ie){
-				dojo.html.clearOpacity(node);
-				return;
-			}else{
-				opacity = 0.999999;
-			}
-		}else if( opacity < 0.0){ opacity = 0; }
-	}
-	if(h.ie){
-		if(node.nodeName.toLowerCase() == "tr"){
-			// FIXME: is this too naive? will we get more than we want?
-			var tds = node.getElementsByTagName("td");
-			for(var x=0; x<tds.length; x++){
-				tds[x].style.filter = "Alpha(Opacity="+opacity*100+")";
-			}
-		}
-		node.style.filter = "Alpha(Opacity="+opacity*100+")";
-	}else if(h.moz){
-		node.style.opacity = opacity; // ffox 1.0 directly supports "opacity"
-		node.style.MozOpacity = opacity;
-	}else if(h.safari){
-		node.style.opacity = opacity; // 1.3 directly supports "opacity"
-		node.style.KhtmlOpacity = opacity;
-	}else{
-		node.style.opacity = opacity;
-	}
+};
+dojo.html.clearOpacity=function(_1b){
+_1b=dojo.byId(_1b);
+var ns=_1b.style;
+var h=dojo.render.html;
+if(h.ie){
+try{
+if(_1b.filters&&_1b.filters.alpha){
+ns.filter="";
 }
-
-dojo.html.clearOpacity = function(/* HTMLElement */node){
-	//	summary
-	//	Clears any opacity setting on the passed element.
-	node = dojo.byId(node);
-	var ns = node.style;
-	var h = dojo.render.html;
-	if(h.ie){
-		try {
-			if( node.filters && node.filters.alpha ){
-				ns.filter = ""; // FIXME: may get rid of other filter effects
-			}
-		} catch(e) {
-			/*
-			 * IE7 gives error if node.filters not set;
-			 * don't know why or how to workaround (other than this)
-			 */
-		}
-	}else if(h.moz){
-		ns.opacity = 1;
-		ns.MozOpacity = 1;
-	}else if(h.safari){
-		ns.opacity = 1;
-		ns.KhtmlOpacity = 1;
-	}else{
-		ns.opacity = 1;
-	}
 }
-
-dojo.html.getOpacity = function(/* HTMLElement */node){
-	//	summary
-	//	Returns the opacity of the passed element
-	node = dojo.byId(node);
-	var h = dojo.render.html;
-	if(h.ie){
-		var opac = (node.filters && node.filters.alpha &&
-			typeof node.filters.alpha.opacity == "number"
-			? node.filters.alpha.opacity : 100) / 100;
-	}else{
-		var opac = node.style.opacity || node.style.MozOpacity ||
-			node.style.KhtmlOpacity || 1;
-	}
-	return opac >= 0.999999 ? 1.0 : Number(opac);	//	float
+catch(e){
 }
+}else{
+if(h.moz){
+ns.opacity=1;
+ns.MozOpacity=1;
+}else{
+if(h.safari){
+ns.opacity=1;
+ns.KhtmlOpacity=1;
+}else{
+ns.opacity=1;
+}
+}
+}
+};
+dojo.html.getOpacity=function(_1e){
+_1e=dojo.byId(_1e);
+var h=dojo.render.html;
+if(h.ie){
+var _20=(_1e.filters&&_1e.filters.alpha&&typeof _1e.filters.alpha.opacity=="number"?_1e.filters.alpha.opacity:100)/100;
+}else{
+var _20=_1e.style.opacity||_1e.style.MozOpacity||_1e.style.KhtmlOpacity||1;
+}
+return _20>=0.999999?1:Number(_20);
+};

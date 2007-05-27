@@ -8,4 +8,5 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-({"displayName":"USD","symbol":"$"})
+
+({"displayName":"USD","symbol":"$"});

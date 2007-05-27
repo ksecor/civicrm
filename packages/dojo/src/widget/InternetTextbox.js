@@ -8,188 +8,69 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide("dojo.widget.InternetTextbox");
 
+dojo.provide("dojo.widget.InternetTextbox");
 dojo.require("dojo.widget.ValidationTextbox");
 dojo.require("dojo.validate.web");
-
-dojo.widget.defineWidget(
-	"dojo.widget.IpAddressTextbox",
-	dojo.widget.ValidationTextbox,
-	{
-		// summary:  A Textbox which tests for a valid IP address
-		// description:  Can specify formats for ipv4 or ipv6 as attributes in the markup.
-
-		// allowDottedDecimal: Boolean:
-		//		true or false, default is true.
-
-		// allowDottedHex:		Boolean:
-		//		 true or false, default is true.
-
-		// allowDottedOctal:	Boolean:
-		//		true or false, default is true.
-
-		// allowDecimal:		Boolean:
-		//		true or false, default is true.
-
-		// allowHex:			Boolean:
-		//		true or false, default is true.
-
-		// allowIPv6:			Boolean:
-		//		true or false, default is true.
-
-		// allowHybrid:			Boolean:
-		//		true or false, default is true.
-
-		mixInProperties: function(/*Object*/localProperties){
-			// summary: see dojo.widget.Widget
-
-			// First initialize properties in super-class.
-			dojo.widget.IpAddressTextbox.superclass.mixInProperties.apply(this, arguments);
-
-			// Get properties from markup attributes, and assign to flags object.
-			if(localProperties.allowdotteddecimal){ 
-				this.flags.allowDottedDecimal = (localProperties.allowdotteddecimal == "true");
-			}
-			if(localProperties.allowdottedhex){ 
-				this.flags.allowDottedHex = (localProperties.allowdottedhex == "true");
-			}
-			if(localProperties.allowdottedoctal){ 
-				this.flags.allowDottedOctal = (localProperties.allowdottedoctal == "true");
-			}
-			if(localProperties.allowdecimal){ 
-				this.flags.allowDecimal = (localProperties.allowdecimal == "true");
-			}
-			if(localProperties.allowhex){ 
-				this.flags.allowHex = (localProperties.allowhex == "true");
-			}
-			if(localProperties.allowipv6){ 
-				this.flags.allowIPv6 = (localProperties.allowipv6 == "true");
-			}
-			if(localProperties.allowhybrid){ 
-				this.flags.allowHybrid = (localProperties.allowhybrid == "true");
-			}
-		},
-
-		isValid: function(){ 
-			// summary: see dojo.widget.ValidationTextbox
-			return dojo.validate.isIpAddress(this.textbox.value, this.flags);
-		}
-	}
-);
-
-dojo.widget.defineWidget(
-	"dojo.widget.UrlTextbox",
-	dojo.widget.IpAddressTextbox,
-	{
-		// summary:
-		//		A Textbox which tests for a valid URL
-
-		// scheme: Boolean:
-		//		Can be true or false.  If omitted the scheme is optional.
-
-		// allowIP:	Boolean:
-		//		Allow an IP address for hostname.  Default is true.
-
-		// allowLocal: Boolean:
-		//		Allow the host to be "localhost".  Default is false.
-
-		// allowCC: Boolean:
-		//		Allow 2 letter country code domains.  Default is true.
-
-		// allowGeneric: Boolean:
-		//		Allow generic domains.  Can be true or false, default is true.
-
-		mixInProperties: function(/*Object*/localProperties){
-			// summary: see dojo.widget.Widget
-
-			// First initialize properties in super-class.
-			dojo.widget.UrlTextbox.superclass.mixInProperties.apply(this, arguments);
-
-			// Get properties from markup attributes, and assign to flags object.
-			if ( localProperties.scheme ) { 
-				this.flags.scheme = ( localProperties.scheme == "true" );
-			}
-			if ( localProperties.allowip ) { 
-				this.flags.allowIP = ( localProperties.allowip == "true" );
-			}
-			if ( localProperties.allowlocal ) { 
-				this.flags.allowLocal = ( localProperties.allowlocal == "true" );
-			}
-			if ( localProperties.allowcc ) { 
-				this.flags.allowCC = ( localProperties.allowcc == "true" );
-			}
-			if ( localProperties.allowgeneric ) { 
-				this.flags.allowGeneric = ( localProperties.allowgeneric == "true" );
-			}
-		},
-
-		isValid: function(){ 
-			// summary: see dojo.widget.ValidationTextbox
-			return dojo.validate.isUrl(this.textbox.value, this.flags);
-		}
-	}
-);
-
-//FIXME: DOC: need more consistent explanation on whether attributes are inherited from the parent.  Some make sense, some don't?
-
-dojo.widget.defineWidget(
-	"dojo.widget.EmailTextbox",
-	dojo.widget.UrlTextbox,
-	{
-		// summary:
-		//		A Textbox which tests for a valid email address
-		// description:
-		// 		Can use all markup attributes/properties of UrlTextbox except scheme.
-
-		// allowCruft: Boolean:
-		//		Allow address like <mailto:foo@yahoo.com>.  Default is false.
-
-		mixInProperties: function(/*Object*/localProperties){
-			// summary: see dojo.widget.Widget
-
-			// First initialize properties in super-class.
-			dojo.widget.EmailTextbox.superclass.mixInProperties.apply(this, arguments);
-	
-			// Get properties from markup attributes, and assign to flags object.
-			if(localProperties.allowcruft){ 
-				this.flags.allowCruft = (localProperties.allowcruft == "true");
-			}
-		},
-
-		isValid: function(){
-			// summary: see dojo.widget.ValidationTextbox
-			return dojo.validate.isEmailAddress(this.textbox.value, this.flags);
-		}
-	}
-);
-
-//TODO: perhaps combine with EmailTextbox?
-dojo.widget.defineWidget(
-	"dojo.widget.EmailListTextbox",
-	dojo.widget.EmailTextbox,
-	{
-		// summary:  A Textbox which tests for a list of valid email addresses
-		//
-		// listSeparator:  String
-		//		The character used to separate email addresses.  
-		//		Default is ";", ",", "\n" or " "
-
-		mixInProperties: function(/*Object*/localProperties){
-			// summary: see dojo.widget.Widget
-
-			// First initialize properties in super-class.
-			dojo.widget.EmailListTextbox.superclass.mixInProperties.apply(this, arguments);
-	
-			// Get properties from markup attributes, and assign to flags object.
-			if(localProperties.listseparator){ 
-				this.flags.listSeparator = localProperties.listseparator;
-			}
-		},
-
-		isValid: function(){
-			// summary: see dojo.widget.ValidationTextbox
-			return dojo.validate.isEmailAddressList(this.textbox.value, this.flags);
-		}
-	}
-);
+dojo.widget.defineWidget("dojo.widget.IpAddressTextbox",dojo.widget.ValidationTextbox,{mixInProperties:function(_1){
+dojo.widget.IpAddressTextbox.superclass.mixInProperties.apply(this,arguments);
+if(_1.allowdotteddecimal){
+this.flags.allowDottedDecimal=(_1.allowdotteddecimal=="true");
+}
+if(_1.allowdottedhex){
+this.flags.allowDottedHex=(_1.allowdottedhex=="true");
+}
+if(_1.allowdottedoctal){
+this.flags.allowDottedOctal=(_1.allowdottedoctal=="true");
+}
+if(_1.allowdecimal){
+this.flags.allowDecimal=(_1.allowdecimal=="true");
+}
+if(_1.allowhex){
+this.flags.allowHex=(_1.allowhex=="true");
+}
+if(_1.allowipv6){
+this.flags.allowIPv6=(_1.allowipv6=="true");
+}
+if(_1.allowhybrid){
+this.flags.allowHybrid=(_1.allowhybrid=="true");
+}
+},isValid:function(){
+return dojo.validate.isIpAddress(this.textbox.value,this.flags);
+}});
+dojo.widget.defineWidget("dojo.widget.UrlTextbox",dojo.widget.IpAddressTextbox,{mixInProperties:function(_2){
+dojo.widget.UrlTextbox.superclass.mixInProperties.apply(this,arguments);
+if(_2.scheme){
+this.flags.scheme=(_2.scheme=="true");
+}
+if(_2.allowip){
+this.flags.allowIP=(_2.allowip=="true");
+}
+if(_2.allowlocal){
+this.flags.allowLocal=(_2.allowlocal=="true");
+}
+if(_2.allowcc){
+this.flags.allowCC=(_2.allowcc=="true");
+}
+if(_2.allowgeneric){
+this.flags.allowGeneric=(_2.allowgeneric=="true");
+}
+},isValid:function(){
+return dojo.validate.isUrl(this.textbox.value,this.flags);
+}});
+dojo.widget.defineWidget("dojo.widget.EmailTextbox",dojo.widget.UrlTextbox,{mixInProperties:function(_3){
+dojo.widget.EmailTextbox.superclass.mixInProperties.apply(this,arguments);
+if(_3.allowcruft){
+this.flags.allowCruft=(_3.allowcruft=="true");
+}
+},isValid:function(){
+return dojo.validate.isEmailAddress(this.textbox.value,this.flags);
+}});
+dojo.widget.defineWidget("dojo.widget.EmailListTextbox",dojo.widget.EmailTextbox,{mixInProperties:function(_4){
+dojo.widget.EmailListTextbox.superclass.mixInProperties.apply(this,arguments);
+if(_4.listseparator){
+this.flags.listSeparator=_4.listseparator;
+}
+},isValid:function(){
+return dojo.validate.isEmailAddressList(this.textbox.value,this.flags);
+}});

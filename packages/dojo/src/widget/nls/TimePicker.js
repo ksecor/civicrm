@@ -8,4 +8,5 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-({"any":"any"})
+
+({"any":"any"});

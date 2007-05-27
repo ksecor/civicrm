@@ -8,233 +8,185 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.charting.Series");
 dojo.require("dojo.lang.common");
 dojo.require("dojo.charting.Plotters");
-
-dojo.charting.Series = function(/* object? */kwArgs){
-	//	summary
-	//	Create an instance of data series for plotting.
-	var args = kwArgs || { length:1 };
-	this.dataSource = args.dataSource || null;
-	this.bindings = { };
-	this.color = args.color;
-	this.label = args.label;
-
-	if(args.bindings){
-		for(var p in args.bindings){
-			this.addBinding(p, args.bindings[p]);
-		}
-	}
+dojo.charting.Series=function(_1){
+var _2=_1||{length:1};
+this.dataSource=_2.dataSource||null;
+this.bindings={};
+this.color=_2.color;
+this.label=_2.label;
+if(_2.bindings){
+for(var p in _2.bindings){
+this.addBinding(p,_2.bindings[p]);
+}
+}
 };
-
-dojo.extend(dojo.charting.Series, {
-	bind:function(/* dojo.collections.Store */src, /* object */bindings){
-		//	summary
-		//	Bind this series to src, with bindings.
-		this.dataSource = src;
-		this.bindings = bindings;
-	},
-	addBinding:function(/* string */name, /* string */binding){
-		//	summary
-		//	Bind to field "binding" using "name".
-		this.bindings[name] = binding;
-	},
-	evaluate:function(/* object? */kwArgs){
-		//	summary
-		//	Evaluate all bindings and return an array of objects describing the bind.
-		var ret = [];
-		var a = this.dataSource.getData();
-		var l = a.length;
-		var start = 0;
-		var end = l;
-		
-		/*	Allow for ranges.  Can be done in one of three ways:
-		 *	1. { from, to } as 0-based indices
-		 *	2. { length } as num of data points to get; a negative
-		 *		value will start from the end of the data set.
-		 *	3. { between:{ low, high, field } } will search the data
-		 *		set for values of field between low and high, and
-		 *		return those.
-		 *	No kwArg object means the full data set will be evaluated
-		 *		and returned.
-		 */
-		if(kwArgs){
-			if(kwArgs.between){
-				//	a little ugly, but we will use this as a shortcut
-				//	and return the evaluation from here.
-				for(var i=0; i<l; i++){
-					var fld = this.dataSource.getField(a[i], kwArgs.between.field);
-					if(fld>=kwArgs.between.low && fld<=kwArgs.between.high){
-						var o = { src: a[i], series: this };
-						for(var p in this.bindings){
-							o[p] = this.dataSource.getField(a[i], this.bindings[p]);
-						}
-						ret.push(o);
-					}
-				}
-			}
-			else if(kwArgs.from || kwArgs.length){
-				if(kwArgs.from){ 
-					start = Math.max(kwArgs.from,0);
-					if(kwArgs.to){ 
-						end = Math.min(kwArgs.to, end);
-					}
-				} else {
-					if(kwArgs.length < 0){
-						//	length points from end
-						start = Math.max((end + length),0);
-					} else {
-						end = Math.min((start + length), end);
-					}
-				}
-				for(var i=start; i<end; i++){
-					var o = { src: a[i], series: this };
-					for(var p in this.bindings){
-						o[p] = this.dataSource.getField(a[i], this.bindings[p]);
-					}
-					ret.push(o);
-				}
-			}
-		} else {
-			for(var i=start; i<end; i++){
-				var o = { src: a[i], series: this };
-				for(var p in this.bindings){
-					o[p] = this.dataSource.getField(a[i], this.bindings[p]);
-				}
-				ret.push(o);
-			}
-		}
-
-		//	sort by the x axis, if available.
-		if(ret.length>0 && typeof(ret[0].x) != "undefined"){
-			ret.sort(function(a,b){
-				if(a.x > b.x) return 1;
-				if(a.x < b.x) return -1;
-				return 0;
-			});
-		}
-		return ret;	//	array
-	},
-
-	//	trends
-	trends:{
-		createRange: function(/* array */values, /* int */len){
-			//	summary
-			//	Creates the data range used for all trends.
-			var idx = values.length-1;
-			var length = (len||values.length);
-			return { "index": idx, "length": length, "start":Math.max(idx-length,0) };	//	object
-		},
-
-		mean: function(/* array */values, /* int */len){
-			//	summary
-			//	Returns the mean or average over the set of values.
-			var range = this.createRange(values, len);
-			if(range.index<0){ return 0; }
-			var total = 0;
-			var count = 0;
-			for(var i=range.index; i>=range.start; i--){
-				total += values[i].y; 
-				count++;
-			}
-			total /= Math.max(count,1);
-			return total;	//	float
-		},
-
-		variance: function(/* array */values,/* int */len){
-			//	summary
-			//	Returns the variance of the set of values.
-			var range = this.createRange(values,len);
-			if(range.index < 0){ return 0; }
-			var total = 0;
-			var square = 0;
-			var count = 0;
-			for(var i=range.index; i>=range.start; i--){
-				total += values[i].y;
-				square += Math.pow(values[i].y, 2);
-				count++;
-			}
-			return (square/count)-Math.pow(total/count,2);	//	float
-		},
-
-		standardDeviation: function(/* array */values, /* int */len){
-			//	summary
-			//	Returns the standard deviation of the set of values.
-			return Math.sqrt(this.getVariance(values, len));	//	float
-		},
-
-		max: function(/* array */values, /* int */len){
-			//	summary
-			//	Returns the max number in the set of values.
-			var range = this.createRange(values, len);
-			if(range.index < 0){ return 0; }
-			var max = Number.MIN_VALUE;
-			for (var i=range.index; i>=range.start; i--){
-				max = Math.max(values[i].y,max);
-			}
-			return max;	//	float
-		},
-
-		min: function(/* array */values, /* int */len){
-			//	summary
-			//	Returns the lowest number in the set of values.
-			var range=this.createRange(values, len);
-			if(range.index < 0){ return 0; }
-			var min = Number.MAX_VALUE;
-			for(var i=range.index; i>=range.start; i--){
-				min = Math.min(values[i].y, min);
-			}
-			return min;	//	float
-		},
-
-		median: function(/* array */values, /* int */len){
-			//	summary
-			//	Returns the median in the set of values (number closest to the middle of a sorted set).
-			var range = this.createRange(values, len);
-			if(range.index<0){ return 0; }
-			var a = [];
-			for (var i=range.index; i>=range.start; i--){
-				var b=false;
-				for(var j=0; j<a.length; j++){
-					if(values[i].y == a[j]){
-						b = true;
-						break;
-					}
-				}
-				if(!b){ 
-					a.push(values[i].y); 
-				}
-			}
-			a.sort();
-			if(a.length > 0){ 
-				return a[Math.ceil(a.length / 2)]; 	//	float
-			}
-			return 0;	//	float
-		},
-
-		mode: function(/* array */values, /* int */len){
-			//	summary
-			//	Returns the mode in the set of values
-			var range=this.createRange(values, len);
-			if(range.index<0){ return 0; }
-			var o = {};
-			var ret = 0
-			var median = Number.MIN_VALUE;
-			for(var i=range.index; i>=range.start; i--){
-				if (!o[values[i].y]){
-					o[values[i].y] = 1;
-				} else { 
-					o[values[i].y]++;
-				}
-			}
-			for(var p in o){
-				if(median < o[p]){ 
-					median = o[p]; 
-					ret=p; 
-				}
-			}
-			return ret;
-		}
-	}
+dojo.extend(dojo.charting.Series,{bind:function(_4,_5){
+this.dataSource=_4;
+this.bindings=_5;
+},addBinding:function(_6,_7){
+this.bindings[_6]=_7;
+},evaluate:function(_8){
+var _9=[];
+var a=this.dataSource.getData();
+var l=a.length;
+var _c=0;
+var _d=l;
+if(_8){
+if(_8.between){
+for(var i=0;i<l;i++){
+var _f=this.dataSource.getField(a[i],_8.between.field);
+if(_f>=_8.between.low&&_f<=_8.between.high){
+var o={src:a[i],series:this};
+for(var p in this.bindings){
+o[p]=this.dataSource.getField(a[i],this.bindings[p]);
+}
+_9.push(o);
+}
+}
+}else{
+if(_8.from||_8.length){
+if(_8.from){
+_c=Math.max(_8.from,0);
+if(_8.to){
+_d=Math.min(_8.to,_d);
+}
+}else{
+if(_8.length<0){
+_c=Math.max((_d+length),0);
+}else{
+_d=Math.min((_c+length),_d);
+}
+}
+for(var i=_c;i<_d;i++){
+var o={src:a[i],series:this};
+for(var p in this.bindings){
+o[p]=this.dataSource.getField(a[i],this.bindings[p]);
+}
+_9.push(o);
+}
+}
+}
+}else{
+for(var i=_c;i<_d;i++){
+var o={src:a[i],series:this};
+for(var p in this.bindings){
+o[p]=this.dataSource.getField(a[i],this.bindings[p]);
+}
+_9.push(o);
+}
+}
+if(_9.length>0&&typeof (_9[0].x)!="undefined"){
+_9.sort(function(a,b){
+if(a.x>b.x){
+return 1;
+}
+if(a.x<b.x){
+return -1;
+}
+return 0;
 });
+}
+return _9;
+},trends:{createRange:function(_14,len){
+var idx=_14.length-1;
+var _17=(len||_14.length);
+return {"index":idx,"length":_17,"start":Math.max(idx-_17,0)};
+},mean:function(_18,len){
+var _1a=this.createRange(_18,len);
+if(_1a.index<0){
+return 0;
+}
+var _1b=0;
+var _1c=0;
+for(var i=_1a.index;i>=_1a.start;i--){
+_1b+=_18[i].y;
+_1c++;
+}
+_1b/=Math.max(_1c,1);
+return _1b;
+},variance:function(_1e,len){
+var _20=this.createRange(_1e,len);
+if(_20.index<0){
+return 0;
+}
+var _21=0;
+var _22=0;
+var _23=0;
+for(var i=_20.index;i>=_20.start;i--){
+_21+=_1e[i].y;
+_22+=Math.pow(_1e[i].y,2);
+_23++;
+}
+return (_22/_23)-Math.pow(_21/_23,2);
+},standardDeviation:function(_25,len){
+return Math.sqrt(this.getVariance(_25,len));
+},max:function(_27,len){
+var _29=this.createRange(_27,len);
+if(_29.index<0){
+return 0;
+}
+var max=Number.MIN_VALUE;
+for(var i=_29.index;i>=_29.start;i--){
+max=Math.max(_27[i].y,max);
+}
+return max;
+},min:function(_2c,len){
+var _2e=this.createRange(_2c,len);
+if(_2e.index<0){
+return 0;
+}
+var min=Number.MAX_VALUE;
+for(var i=_2e.index;i>=_2e.start;i--){
+min=Math.min(_2c[i].y,min);
+}
+return min;
+},median:function(_31,len){
+var _33=this.createRange(_31,len);
+if(_33.index<0){
+return 0;
+}
+var a=[];
+for(var i=_33.index;i>=_33.start;i--){
+var b=false;
+for(var j=0;j<a.length;j++){
+if(_31[i].y==a[j]){
+b=true;
+break;
+}
+}
+if(!b){
+a.push(_31[i].y);
+}
+}
+a.sort();
+if(a.length>0){
+return a[Math.ceil(a.length/2)];
+}
+return 0;
+},mode:function(_38,len){
+var _3a=this.createRange(_38,len);
+if(_3a.index<0){
+return 0;
+}
+var o={};
+var ret=0;
+var _3d=Number.MIN_VALUE;
+for(var i=_3a.index;i>=_3a.start;i--){
+if(!o[_38[i].y]){
+o[_38[i].y]=1;
+}else{
+o[_38[i].y]++;
+}
+}
+for(var p in o){
+if(_3d<o[p]){
+_3d=o[p];
+ret=p;
+}
+}
+return ret;
+}}});

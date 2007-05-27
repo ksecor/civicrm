@@ -10,131 +10,60 @@
 
 
 dojo.provide("dojo.widget.TreeDndControllerV3");
-
 dojo.require("dojo.dnd.TreeDragAndDropV3");
 dojo.require("dojo.experimental");
-
 dojo.experimental("Tree drag'n'drop' has lots of problems/bugs, it requires dojo drag'n'drop overhaul to work, probably in 0.5");
-	
-dojo.widget.defineWidget(
-	"dojo.widget.TreeDndControllerV3",
-	[dojo.widget.HtmlWidget, dojo.widget.TreeCommon],
-	function() {
-		this.dragSources = {};
-		this.dropTargets = {};
-		this.listenedTrees = {};
-	},
-{
-	listenTreeEvents: ["afterChangeTree","beforeTreeDestroy", "afterAddChild"],
-	listenNodeFilter: function(elem) { return elem instanceof dojo.widget.Widget}, 
-	
-	initialize: function(args) {
-		this.treeController = dojo.lang.isString(args.controller) ? dojo.widget.byId(args.controller) : args.controller;
-		
-		if (!this.treeController) {
-			dojo.raise("treeController must be declared");
-		}
-		
-	},
-
-	onBeforeTreeDestroy: function(message) {
-		this.unlistenTree(message.source);
-	},
-	
-	// first Dnd registration happens in addChild
-	// because I have information about parent on this stage and can use it
-	// to check locking or other things
-	onAfterAddChild: function(message) {
-		//dojo.debug("Dnd addChild "+message.child);
-		this.listenNode(message.child);		
-	},
-
-
-	onAfterChangeTree: function(message) {
-		/* catch new nodes on afterAddChild, because I need parent */		
-		if (!message.oldTree) return;
-		
-		//dojo.debug("HERE");
-		
-		if (!message.newTree || !this.listenedTrees[message.newTree.widgetId]) {			
-			this.processDescendants(message.node, this.listenNodeFilter, this.unlistenNode);
-		}		
-		
-		if (!this.listenedTrees[message.oldTree.widgetId]) {
-			// we have new node
-			this.processDescendants(message.node, this.listenNodeFilter, this.listenNode);	
-		}
-		//dojo.profile.end("onTreeChange");
-	},
-	
-	
-	/**
-	 * Controller(node model) creates DndNodes because it passes itself to node for synchroneous drops processing
-	 * I can't process DnD with events cause an event can't return result success/false
-	*/
-	listenNode: function(node) {
-
-		//dojo.debug("listen dnd "+node);
-		//dojo.debug((new Error()).stack)
-		//dojo.profile.start("Dnd listenNode "+node);		
-		if (!node.tree.DndMode) return;
-		if (this.dragSources[node.widgetId] || this.dropTargets[node.widgetId]) return;
-
-	
-		/* I drag label, not domNode, because large domNodes are very slow to copy and large to drag */
-
-		var source = null;
-		var target = null;
-
-	
-		if (!node.actionIsDisabled(node.actions.MOVE)) {
-			//dojo.debug("reg source")
-			
-			//dojo.profile.start("Dnd source "+node);		
-			var source = this.makeDragSource(node);
-			//dojo.profile.end("Dnd source "+node);		
-
-			this.dragSources[node.widgetId] = source;
-		}
-
-		//dojo.profile.start("Dnd target "+node);		
-		//dojo.debug("reg target");
-		var target = this.makeDropTarget(node);
-		//dojo.profile.end("Dnd target "+node);		
-
-		this.dropTargets[node.widgetId] = target;
-
-		//dojo.profile.end("Dnd listenNode "+node);		
-
-
-	},
-	
-	/**
-	 * Factory method, override it to create special source
-	 */
-	makeDragSource: function(node) {
-		return new dojo.dnd.TreeDragSourceV3(node.contentNode, this, node.tree.widgetId, node);
-	},
-
-
-	/**
-	 * Factory method, override it to create special target
-	 */
-	makeDropTarget: function(node) {
-		 return new dojo.dnd.TreeDropTargetV3(node.contentNode, this.treeController, node.tree.DndAcceptTypes, node);
-	},
-
-	unlistenNode: function(node) {
-
-		if (this.dragSources[node.widgetId]) {
-			dojo.dnd.dragManager.unregisterDragSource(this.dragSources[node.widgetId]);
-			delete this.dragSources[node.widgetId];
-		}
-
-		if (this.dropTargets[node.widgetId]) {
-			dojo.dnd.dragManager.unregisterDropTarget(this.dropTargets[node.widgetId]);
-			delete this.dropTargets[node.widgetId];
-		}
-	}
-
-});
+dojo.widget.defineWidget("dojo.widget.TreeDndControllerV3",[dojo.widget.HtmlWidget,dojo.widget.TreeCommon],function(){
+this.dragSources={};
+this.dropTargets={};
+this.listenedTrees={};
+},{listenTreeEvents:["afterChangeTree","beforeTreeDestroy","afterAddChild"],listenNodeFilter:function(_1){
+return _1 instanceof dojo.widget.Widget;
+},initialize:function(_2){
+this.treeController=dojo.lang.isString(_2.controller)?dojo.widget.byId(_2.controller):_2.controller;
+if(!this.treeController){
+dojo.raise("treeController must be declared");
+}
+},onBeforeTreeDestroy:function(_3){
+this.unlistenTree(_3.source);
+},onAfterAddChild:function(_4){
+this.listenNode(_4.child);
+},onAfterChangeTree:function(_5){
+if(!_5.oldTree){
+return;
+}
+if(!_5.newTree||!this.listenedTrees[_5.newTree.widgetId]){
+this.processDescendants(_5.node,this.listenNodeFilter,this.unlistenNode);
+}
+if(!this.listenedTrees[_5.oldTree.widgetId]){
+this.processDescendants(_5.node,this.listenNodeFilter,this.listenNode);
+}
+},listenNode:function(_6){
+if(!_6.tree.DndMode){
+return;
+}
+if(this.dragSources[_6.widgetId]||this.dropTargets[_6.widgetId]){
+return;
+}
+var _7=null;
+var _8=null;
+if(!_6.actionIsDisabled(_6.actions.MOVE)){
+var _7=this.makeDragSource(_6);
+this.dragSources[_6.widgetId]=_7;
+}
+var _8=this.makeDropTarget(_6);
+this.dropTargets[_6.widgetId]=_8;
+},makeDragSource:function(_9){
+return new dojo.dnd.TreeDragSourceV3(_9.contentNode,this,_9.tree.widgetId,_9);
+},makeDropTarget:function(_a){
+return new dojo.dnd.TreeDropTargetV3(_a.contentNode,this.treeController,_a.tree.DndAcceptTypes,_a);
+},unlistenNode:function(_b){
+if(this.dragSources[_b.widgetId]){
+dojo.dnd.dragManager.unregisterDragSource(this.dragSources[_b.widgetId]);
+delete this.dragSources[_b.widgetId];
+}
+if(this.dropTargets[_b.widgetId]){
+dojo.dnd.dragManager.unregisterDropTarget(this.dropTargets[_b.widgetId]);
+delete this.dropTargets[_b.widgetId];
+}
+}});

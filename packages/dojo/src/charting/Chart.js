@@ -8,78 +8,55 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.charting.Chart");
 dojo.require("dojo.lang.common");
 dojo.require("dojo.charting.PlotArea");
-
-dojo.charting.Chart = function(
-	/* HTMLElement? */node, 
-	/* string? */title, 
-	/* string? */description
-){
-	//	summary
-	//	Create the basic Chart object.
-	this.node = node || null;
-	this.title = title || "Chart";			//	pure string.
-	this.description = description || "";	//	HTML is allowed.
-	this.plotAreas = [];
+dojo.charting.Chart=function(_1,_2,_3){
+this.node=_1||null;
+this.title=_2||"Chart";
+this.description=_3||"";
+this.plotAreas=[];
 };
-
-dojo.extend(dojo.charting.Chart, {
-	//	methods
-	addPlotArea: function(/* object */obj, /* bool? */doRender){
-		//	summary
-		//	Add a PlotArea to this chart; object should be in the
-		//	form of: { plotArea, (x, y) or (top, left) }
-		if(obj.x!=null && obj.left==null){ obj.left = obj.x; }
-		if(obj.y!=null && obj.top==null){ obj.top = obj.y; }
-		this.plotAreas.push(obj);
-		if(doRender){ this.render(); }
-	},
-	
-	//	events
-	onInitialize:function(chart){ },
-	onRender:function(chart){ },
-	onDestroy:function(chart){ },
-
-	//	standard build methods
-	initialize: function(){
-		//	summary
-		//	Initialize the Chart by rendering it.
-		if(!this.node){ 
-			dojo.raise("dojo.charting.Chart.initialize: there must be a root node defined for the Chart."); 
-		}
-		this.destroy();
-		this.render();
-		this.onInitialize(this);
-	},
-	render:function(){
-		//	summary
-		//	Render the chart in its entirety.
-		if(this.node.style.position != "absolute"){
-			this.node.style.position = "relative";
-		}
-		for(var i=0; i<this.plotAreas.length; i++){
-			var area = this.plotAreas[i].plotArea;
-			var node = area.initialize();
-			node.style.position = "absolute";
-			node.style.top = this.plotAreas[i].top + "px";
-			node.style.left = this.plotAreas[i].left + "px";
-			this.node.appendChild(node);
-			area.render();
-		}
-	},
-	destroy: function(){
-		//	summary
-		//	Destroy any nodes that have maintained references.
-
-		//	kill any existing plotAreas
-		for(var i=0; i<this.plotAreas.length; i++){
-			this.plotAreas[i].plotArea.destroy();
-		};
-		//	clean out any child nodes.
-		while(this.node && this.node.childNodes && this.node.childNodes.length > 0){ 
-			this.node.removeChild(this.node.childNodes[0]); 
-		}
-	}
-});
+dojo.extend(dojo.charting.Chart,{addPlotArea:function(_4,_5){
+if(_4.x!=null&&_4.left==null){
+_4.left=_4.x;
+}
+if(_4.y!=null&&_4.top==null){
+_4.top=_4.y;
+}
+this.plotAreas.push(_4);
+if(_5){
+this.render();
+}
+},onInitialize:function(_6){
+},onRender:function(_7){
+},onDestroy:function(_8){
+},initialize:function(){
+if(!this.node){
+dojo.raise("dojo.charting.Chart.initialize: there must be a root node defined for the Chart.");
+}
+this.destroy();
+this.render();
+this.onInitialize(this);
+},render:function(){
+if(this.node.style.position!="absolute"){
+this.node.style.position="relative";
+}
+for(var i=0;i<this.plotAreas.length;i++){
+var _a=this.plotAreas[i].plotArea;
+var _b=_a.initialize();
+_b.style.position="absolute";
+_b.style.top=this.plotAreas[i].top+"px";
+_b.style.left=this.plotAreas[i].left+"px";
+this.node.appendChild(_b);
+_a.render();
+}
+},destroy:function(){
+for(var i=0;i<this.plotAreas.length;i++){
+this.plotAreas[i].plotArea.destroy();
+}
+while(this.node&&this.node.childNodes&&this.node.childNodes.length>0){
+this.node.removeChild(this.node.childNodes[0]);
+}
+}});

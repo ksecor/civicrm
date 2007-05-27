@@ -8,926 +8,521 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.require("dojo.io.common"); // io/common.js provides setIFrameSrc and the IO module
+
+dojo.require("dojo.io.common");
 dojo.provide("dojo.io.cometd");
 dojo.require("dojo.AdapterRegistry");
 dojo.require("dojo.json");
-dojo.require("dojo.io.BrowserIO"); // we need XHR for the handshake, etc.
-// FIXME: determine if we can use XMLHTTP to make x-domain posts despite not
-//        being able to hear back about the result
+dojo.require("dojo.io.BrowserIO");
 dojo.require("dojo.io.IframeIO");
-dojo.require("dojo.io.ScriptSrcIO"); // for x-domain long polling
-dojo.require("dojo.io.cookie"); // for peering
+dojo.require("dojo.io.ScriptSrcIO");
+dojo.require("dojo.io.cookie");
 dojo.require("dojo.event.*");
 dojo.require("dojo.lang.common");
 dojo.require("dojo.lang.func");
-
-/*
- * this file defines Comet protocol client. Actual message transport is
- * deferred to one of several connection type implementations. The default is a
- * forever-frame implementation. A single global object named "cometd" is
- * used to mediate for these connection types in order to provide a stable
- * interface.
- */
-
-// TODO: the auth handling in this file is a *mess*. It should probably live in
-// the cometd object with the ability to mix in or call down to an auth-handler
-// object, the prototypical variant of which is a no-op
-
-cometd = new function(){
-
-	this.initialized = false;
-	this.connected = false;
-
-	this.connectionTypes = new dojo.AdapterRegistry(true);
-
-	this.version = 0.1;
-	this.minimumVersion = 0.1;
-	this.clientId = null;
-
-	this._isXD = false;
-	this.handshakeReturn = null;
-	this.currentTransport = null;
-	this.url = null;
-	this.lastMessage = null;
-	this.globalTopicChannels = {};
-	this.backlog = [];
-
-	this.tunnelInit = function(childLocation, childDomain){
-		// placeholder
-	}
-
-	this.tunnelCollapse = function(){
-		dojo.debug("tunnel collapsed!");
-		// placeholder
-	}
-
-	this.init = function(props, root, bargs){
-		// FIXME: if the root isn't from the same host, we should automatically
-		// try to select an XD-capable transport
-		props = props||{};
-		// go ask the short bus server what we can support
-		props.version = this.version;
-		props.minimumVersion = this.minimumVersion;
-		props.channel = "/meta/handshake";
-		// FIXME: do we just assume that the props knows
-		// everything we care about WRT to auth? Should we be trying to
-		// call back into it for subsequent auth actions? Should we fire
-		// local auth functions to ask for/get auth data?
-
-		// FIXME: what about ScriptSrcIO for x-domain comet?
-		this.url = root||djConfig["cometdRoot"];
-		if(!this.url){
-			dojo.debug("no cometd root specified in djConfig and no root passed");
-			return;
-		}
-		
-		// FIXME: we need to select a way to handle JSONP-style stuff
-		// generically here. We already know if the server is gonna be on
-		// another domain (or can know it), so we should select appropriate
-		// negotiation methods here as well as in final transport type
-		// selection.
-		var bindArgs = {
-			url: this.url,
-			method: "POST",
-			mimetype: "text/json",
-			load: dojo.lang.hitch(this, "finishInit"),
-			content: { "message": dojo.json.serialize([props]) }
-		};
-
-		// borrowed from dojo.uri.Uri in lieu of fixed host and port properties
-        var regexp = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?$";
-		var r = (""+window.location).match(new RegExp(regexp));
-		if(r[4]){
-			var tmp = r[4].split(":");
-			var thisHost = tmp[0];
-			var thisPort = tmp[1]||"80"; // FIXME: match 443
-
-			r = this.url.match(new RegExp(regexp));
-			if(r[4]){
-				tmp = r[4].split(":");
-				var urlHost = tmp[0];
-				var urlPort = tmp[1]||"80";
-				if(	(urlHost != thisHost)||
-					(urlPort != thisPort) ){
-					dojo.debug(thisHost, urlHost);
-					dojo.debug(thisPort, urlPort);
-
-					this._isXD = true;
-					bindArgs.transport = "ScriptSrcTransport";
-					bindArgs.jsonParamName = "jsonp";
-					bindArgs.method = "GET";
-				}
-			}
-		}
-		if(bargs){
-			dojo.lang.mixin(bindArgs, bargs);
-		}
-		return dojo.io.bind(bindArgs);
-	}
-
-	this.finishInit = function(type, data, evt, request){
-		data = data[0];
-		this.handshakeReturn = data;
-		// pick a transport
-		if(data["authSuccessful"] == false){
-			dojo.debug("cometd authentication failed");
-			return;
-		}
-		if(data.version < this.minimumVersion){
-			dojo.debug("cometd protocol version mismatch. We wanted", this.minimumVersion, "but got", data.version);
-			return;
-		}
-		this.currentTransport = this.connectionTypes.match(
-			data.supportedConnectionTypes,
-			data.version,
-			this._isXD
-		);
-		this.currentTransport.version = data.version;
-		this.clientId = data.clientId;
-		this.tunnelInit = dojo.lang.hitch(this.currentTransport, "tunnelInit");
-		this.tunnelCollapse = dojo.lang.hitch(this.currentTransport, "tunnelCollapse");
-		this.initialized = true;
-		this.currentTransport.startup(data);
-		while(this.backlog.length != 0){
-			var cur = this.backlog.shift();
-			var fn = cur.shift();
-			this[fn].apply(this, cur);
-		}
-	}
-
-	this._getRandStr = function(){
-		return Math.random().toString().substring(2, 10);
-	}
-
-	// public API functions called by cometd or by the transport classes
-	this.deliver = function(messages){
-		dojo.lang.forEach(messages, this._deliver, this);
-	}
-
-	this._deliver = function(message){
-		// dipatch events along the specified path
-		if(!message["channel"]){
-			dojo.debug("cometd error: no channel for message!");
-			return;
-		}
-		if(!this.currentTransport){
-			this.backlog.push(["deliver", message]);
-			return;
-		}
-		this.lastMessage = message;
-		// check to see if we got a /meta channel message that we care about
-		if(	(message.channel.length > 5)&&
-			(message.channel.substr(0, 5) == "/meta")){
-			// check for various meta topic actions that we need to respond to
-			switch(message.channel){
-				case "/meta/subscribe":
-					if(!message.successful){
-						dojo.debug("cometd subscription error for channel", message.channel, ":", message.error);
-						return;
-					}
-					this.subscribed(message.subscription, message);
-					break;
-				case "/meta/unsubscribe":
-					if(!message.successful){
-						dojo.debug("cometd unsubscription error for channel", message.channel, ":", message.error);
-						return;
-					}
-					this.unsubscribed(message.subscription, message);
-					break;
-			}
-		}
-		// send the message down for processing by the transport
-		this.currentTransport.deliver(message);
-
-		if(message.data){
-			// dispatch the message to any locally subscribed listeners
-			var tname = (this.globalTopicChannels[message.channel]) ? message.channel : "/cometd"+message.channel;
-			dojo.event.topic.publish(tname, message);
-		}
-	}
-
-	this.disconnect = function(){
-		if(!this.currentTransport){
-			dojo.debug("no current transport to disconnect from");
-			return;
-		}
-		this.currentTransport.disconnect();
-	}
-
-	// public API functions called by end users
-	this.publish = function(/*string*/channel, /*object*/data, /*object*/properties){
-		// summary: 
-		//		publishes the passed message to the cometd server for delivery
-		//		on the specified topic
-		// channel:
-		//		the destination channel for the message
-		// data:
-		//		a JSON object containing the message "payload"
-		// properties:
-		//		Optional. Other meta-data to be mixed into the top-level of the
-		//		message
-		if(!this.currentTransport){
-			this.backlog.push(["publish", channel, data, properties]);
-			return;
-		}
-		var message = {
-			data: data,
-			channel: channel
-		};
-		if(properties){
-			dojo.lang.mixin(message, properties);
-		}
-		return this.currentTransport.sendMessage(message);
-	}
-
-	this.subscribe = function(	/*string*/				channel, 
-								/*boolean, optional*/	useLocalTopics, 
-								/*object, optional*/	objOrFunc, 
-								/*string, optional*/	funcName){ // return: boolean
-		// summary:
-		//		inform the server of this client's interest in channel
-		// channel:
-		//		name of the cometd channel to subscribe to
-		// useLocalTopics:
-		//		Determines if up a local event topic subscription to the passed
-		//		function using the channel name that was passed is constructed,
-		//		or if the topic name will be prefixed with some other
-		//		identifier for local message distribution. Setting this to
-		//		"true" is a good way to hook up server-sent message delivery to
-		//		pre-existing local topics.
-		// objOrFunc:
-		//		an object scope for funcName or the name or reference to a
-		//		function to be called when messages are delivered to the
-		//		channel
-		// funcName:
-		//		the second half of the objOrFunc/funcName pair for identifying
-		//		a callback function to notifiy upon channel message delivery
-		if(!this.currentTransport){
-			this.backlog.push(["subscribe", channel, useLocalTopics, objOrFunc, funcName]);
-			return;
-		}
-		if(objOrFunc){
-			var tname = (useLocalTopics) ? channel : "/cometd"+channel;
-			if(useLocalTopics){
-				this.globalTopicChannels[channel] = true;
-			}
-			dojo.event.topic.subscribe(tname, objOrFunc, funcName);
-		}
-		// FIXME: would we handle queuing of the subscription if not connected?
-		// Or should the transport object?
-		return this.currentTransport.sendMessage({
-			channel: "/meta/subscribe",
-			subscription: channel
-		});
-	}
-
-	this.subscribed = function(	/*string*/				channel, 
-								/*obj*/					message){
-		dojo.debug(channel);
-		dojo.debugShallow(message);
-	}
-
-	this.unsubscribe = function(/*string*/				channel, 
-								/*boolean, optional*/	useLocalTopics, 
-								/*object, optional*/	objOrFunc, 
-								/*string, optional*/	funcName){ // return: boolean
-		// summary:
-		//		inform the server of this client's disinterest in channel
-		// channel:
-		//		name of the cometd channel to subscribe to
-		// useLocalTopics:
-		//		Determines if up a local event topic subscription to the passed
-		//		function using the channel name that was passed is destroyed,
-		//		or if the topic name will be prefixed with some other
-		//		identifier for stopping message distribution.
-		// objOrFunc:
-		//		an object scope for funcName or the name or reference to a
-		//		function to be called when messages are delivered to the
-		//		channel
-		// funcName:
-		//		the second half of the objOrFunc/funcName pair for identifying
-		if(!this.currentTransport){
-			this.backlog.push(["unsubscribe", channel, useLocalTopics, objOrFunc, funcName]);
-			return;
-		}
-		//		a callback function to notifiy upon channel message delivery
-		if(objOrFunc){
-			// FIXME: should actual local topic unsubscription be delayed for
-			// successful unsubcribe notices from the other end? (guessing "no")
-			// FIXME: if useLocalTopics is false, should we go ahead and
-			// destroy the local topic?
-			var tname = (useLocalTopics) ? channel : "/cometd"+channel;
-			dojo.event.topic.unsubscribe(tname, objOrFunc, funcName);
-		}
-		return this.currentTransport.sendMessage({
-			channel: "/meta/unsubscribe",
-			subscription: channel
-		});
-	}
-
-	this.unsubscribed = function(/*string*/				channel, 
-								/*obj*/					message){
-		dojo.debug(channel);
-		dojo.debugShallow(message);
-	}
-
-	// FIXME: add an "addPublisher" function
-
+cometd=new function(){
+this.initialized=false;
+this.connected=false;
+this.connectionTypes=new dojo.AdapterRegistry(true);
+this.version=0.1;
+this.minimumVersion=0.1;
+this.clientId=null;
+this._isXD=false;
+this.handshakeReturn=null;
+this.currentTransport=null;
+this.url=null;
+this.lastMessage=null;
+this.globalTopicChannels={};
+this.backlog=[];
+this.tunnelInit=function(_1,_2){
+};
+this.tunnelCollapse=function(){
+dojo.debug("tunnel collapsed!");
+};
+this.init=function(_3,_4,_5){
+_3=_3||{};
+_3.version=this.version;
+_3.minimumVersion=this.minimumVersion;
+_3.channel="/meta/handshake";
+this.url=_4||djConfig["cometdRoot"];
+if(!this.url){
+dojo.debug("no cometd root specified in djConfig and no root passed");
+return;
 }
-
-/*
-transport objects MUST expose the following methods:
-	- check
-	- startup
-	- sendMessage
-	- deliver
-	- disconnect
-optional, standard but transport dependent methods are:
-	- tunnelCollapse
-	- tunnelInit
-
-Transports SHOULD be namespaced under the cometd object and transports MUST
-register themselves with cometd.connectionTypes
-
-here's a stub transport defintion:
-
-cometd.blahTransport = new function(){
-	this.connected = false;
-	this.connectionId = null;
-	this.authToken = null;
-	this.lastTimestamp = null;
-	this.lastId = null;
-
-	this.check = function(types, version, xdomain){
-		// summary:
-		//		determines whether or not this transport is suitable given a
-		//		list of transport types that the server supports
-		return dojo.lang.inArray(types, "blah");
-	}
-
-	this.startup = function(){
-		if(this.connected){ return; }
-		// FIXME: fill in startup routine here
-		this.connected = true;
-	}
-
-	this.sendMessage = function(message){
-		// FIXME: fill in message sending logic
-	}
-
-	this.deliver = function(message){
-		if(message["timestamp"]){
-			this.lastTimestamp = message.timestamp;
-		}
-		if(message["id"]){
-			this.lastId = message.id;
-		}
-		if(	(message.channel.length > 5)&&
-			(message.channel.substr(0, 5) == "/meta")){
-			// check for various meta topic actions that we need to respond to
-			// switch(message.channel){
-			// 	case "/meta/connect":
-			//		// FIXME: fill in logic here
-			//		break;
-			//	// case ...: ...
-			//	}
-		}
-	}
-
-	this.disconnect = function(){
-		if(!this.connected){ return; }
-		// FIXME: fill in shutdown routine here
-		this.connected = false;
-	}
+var _6={url:this.url,method:"POST",mimetype:"text/json",load:dojo.lang.hitch(this,"finishInit"),content:{"message":dojo.json.serialize([_3])}};
+var _7="^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?$";
+var r=(""+window.location).match(new RegExp(_7));
+if(r[4]){
+var _9=r[4].split(":");
+var _a=_9[0];
+var _b=_9[1]||"80";
+r=this.url.match(new RegExp(_7));
+if(r[4]){
+_9=r[4].split(":");
+var _c=_9[0];
+var _d=_9[1]||"80";
+if((_c!=_a)||(_d!=_b)){
+dojo.debug(_a,_c);
+dojo.debug(_b,_d);
+this._isXD=true;
+_6.transport="ScriptSrcTransport";
+_6.jsonParamName="jsonp";
+_6.method="GET";
 }
-cometd.connectionTypes.register("blah", cometd.blahTransport.check, cometd.blahTransport);
-*/
-
-cometd.iframeTransport = new function(){
-	this.connected = false;
-	this.connectionId = null;
-
-	this.rcvNode = null;
-	this.rcvNodeName = "";
-	this.phonyForm = null;
-	this.authToken = null;
-	this.lastTimestamp = null;
-	this.lastId = null;
-	this.backlog = [];
-
-	this.check = function(types, version, xdomain){
-		return ((!xdomain)&&
-				(!dojo.render.html.safari)&&
-				(dojo.lang.inArray(types, "iframe")));
-	}
-
-	this.tunnelInit = function(){
-		// we've gotten our initialization document back in the iframe, so
-		// now open up a connection and start passing data!
-		this.postToIframe({
-			message: dojo.json.serialize([
-				{
-					channel:	"/meta/connect",
-					clientId:	cometd.clientId,
-					connectionType: "iframe"
-					// FIXME: auth not passed here!
-					// "authToken": this.authToken
-				}
-			])
-		});
-	}
-
-	this.tunnelCollapse = function(){
-		if(this.connected){
-			// try to restart the tunnel
-			this.connected = false;
-
-			this.postToIframe({
-				message: dojo.json.serialize([
-					{
-						channel:	"/meta/reconnect",
-						clientId:	cometd.clientId,
-						connectionId:	this.connectionId,
-						timestamp:	this.lastTimestamp,
-						id:			this.lastId
-						// FIXME: no authToken provision!
-					}
-				])
-			});
-		}
-	}
-
-	this.deliver = function(message){
-		// handle delivery details that this transport particularly cares
-		// about. Most functions of should be handled by the main cometd object
-		// with only transport-specific details and state being tracked here.
-		if(message["timestamp"]){
-			this.lastTimestamp = message.timestamp;
-		}
-		if(message["id"]){
-			this.lastId = message.id;
-		}
-		// check to see if we got a /meta channel message that we care about
-		if(	(message.channel.length > 5)&&
-			(message.channel.substr(0, 5) == "/meta")){
-			// check for various meta topic actions that we need to respond to
-			switch(message.channel){
-				case "/meta/connect":
-					if(!message.successful){
-						dojo.debug("cometd connection error:", message.error);
-						return;
-					}
-					this.connectionId = message.connectionId;
-					this.connected = true;
-					this.processBacklog();
-					break;
-				case "/meta/reconnect":
-					if(!message.successful){
-						dojo.debug("cometd reconnection error:", message.error);
-						return;
-					}
-					this.connected = true;
-					break;
-				case "/meta/subscribe":
-					if(!message.successful){
-						dojo.debug("cometd subscription error for channel", message.channel, ":", message.error);
-						return;
-					}
-					// this.subscribed(message.channel);
-					dojo.debug(message.channel);
-					break;
-			}
-		}
-	}
-
-	this.widenDomain = function(domainStr){
-		// allow us to make reqests to the TLD
-		var cd = domainStr||document.domain;
-		if(cd.indexOf(".")==-1){ return; } // probably file:/// or localhost
-		var dps = cd.split(".");
-		if(dps.length<=2){ return; } // probably file:/// or an RFC 1918 address
-		dps = dps.slice(dps.length-2);
-		document.domain = dps.join(".");
-		return document.domain;
-	}
-
-	this.postToIframe = function(content, url){
-		if(!this.phonyForm){
-			if(dojo.render.html.ie){
-				this.phonyForm = document.createElement("<form enctype='application/x-www-form-urlencoded' method='POST' style='display: none;'>");
-				dojo.body().appendChild(this.phonyForm);
-			}else{
-				this.phonyForm = document.createElement("form");
-				this.phonyForm.style.display = "none"; // FIXME: will this still work?
-				dojo.body().appendChild(this.phonyForm);
-				this.phonyForm.enctype = "application/x-www-form-urlencoded";
-				this.phonyForm.method = "POST";
-			}
-		}
-
-		this.phonyForm.action = url||cometd.url;
-		this.phonyForm.target = this.rcvNodeName;
-		this.phonyForm.setAttribute("target", this.rcvNodeName);
-
-		while(this.phonyForm.firstChild){
-			this.phonyForm.removeChild(this.phonyForm.firstChild);
-		}
-
-		for(var x in content){
-			var tn;
-			if(dojo.render.html.ie){
-				tn = document.createElement("<input type='hidden' name='"+x+"' value='"+content[x]+"'>");
-				this.phonyForm.appendChild(tn);
-			}else{
-				tn = document.createElement("input");
-				this.phonyForm.appendChild(tn);
-				tn.type = "hidden";
-				tn.name = x;
-				tn.value = content[x];
-			}
-		}
-		this.phonyForm.submit();
-	}
-
-	this.processBacklog = function(){
-		while(this.backlog.length > 0){
-			this.sendMessage(this.backlog.shift(), true);
-		}
-	}
-
-	this.sendMessage = function(message, bypassBacklog){
-		// FIXME: what about auth fields?
-		if((bypassBacklog)||(this.connected)){
-			message.connectionId = this.connectionId;
-			message.clientId = cometd.clientId;
-			var bindArgs = {
-				url: cometd.url||djConfig["cometdRoot"],
-				method: "POST",
-				mimetype: "text/json",
-				// FIXME: we should be able to do better than this given that we're sending an array!
-				content: { message: dojo.json.serialize([ message ]) }
-			};
-			return dojo.io.bind(bindArgs);
-		}else{
-			this.backlog.push(message);
-		}
-	}
-
-	this.startup = function(handshakeData){
-		dojo.debug("startup!");
-		dojo.debug(dojo.json.serialize(handshakeData));
-
-		if(this.connected){ return; }
-
-		// this.widenDomain();
-
-		// NOTE: we require the server to cooperate by hosting
-		// cometdInit.html at the designated endpoint
-		this.rcvNodeName = "cometdRcv_"+cometd._getRandStr();
-		// the "forever frame" approach
-
-		var initUrl = cometd.url+"/?tunnelInit=iframe"; // &domain="+document.domain;
-		if(false && dojo.render.html.ie){ // FIXME: DISALBED FOR NOW
-			// use the "htmlfile hack" to prevent the background click junk
-			this.rcvNode = new ActiveXObject("htmlfile");
-			this.rcvNode.open();
-			this.rcvNode.write("<html>");
-			this.rcvNode.write("<script>document.domain = '"+document.domain+"'");
-			this.rcvNode.write("</html>");
-			this.rcvNode.close();
-
-			var ifrDiv = this.rcvNode.createElement("div");
-			this.rcvNode.appendChild(ifrDiv);
-			this.rcvNode.parentWindow.dojo = dojo;
-			ifrDiv.innerHTML = "<iframe src='"+initUrl+"'></iframe>"
-		}else{
-			this.rcvNode = dojo.io.createIFrame(this.rcvNodeName, "", initUrl);
-			// dojo.io.setIFrameSrc(this.rcvNode, initUrl);
-			// we're still waiting on the iframe to call back up to use and
-			// advertise that it's been initialized via tunnelInit
-		}
-	}
 }
-
-cometd.mimeReplaceTransport = new function(){
-	this.connected = false;
-	this.connectionId = null;
-	this.xhr = null;
-
-	this.authToken = null;
-	this.lastTimestamp = null;
-	this.lastId = null;
-	this.backlog = [];
-
-	this.check = function(types, version, xdomain){
-		return ((!xdomain)&&
-				(dojo.render.html.mozilla)&& // seems only Moz really supports this right now = (
-				(dojo.lang.inArray(types, "mime-message-block")));
-	}
-
-	this.tunnelInit = function(){
-		if(this.connected){ return; }
-		// FIXME: open up the connection here
-		this.openTunnelWith({
-			message: dojo.json.serialize([
-				{
-					channel:	"/meta/connect",
-					clientId:	cometd.clientId,
-					connectionType: "mime-message-block"
-					// FIXME: auth not passed here!
-					// "authToken": this.authToken
-				}
-			])
-		});
-		this.connected = true;
-	}
-
-	this.tunnelCollapse = function(){
-		if(this.connected){
-			// try to restart the tunnel
-			this.connected = false;
-			this.openTunnelWith({
-				message: dojo.json.serialize([
-					{
-						channel:	"/meta/reconnect",
-						clientId:	cometd.clientId,
-						connectionId:	this.connectionId,
-						timestamp:	this.lastTimestamp,
-						id:			this.lastId
-						// FIXME: no authToken provision!
-					}
-				])
-			});
-		}
-	}
-
-	this.deliver = cometd.iframeTransport.deliver;
-	// the logic appears to be the same
-
-	this.handleOnLoad = function(resp){
-		cometd.deliver(dojo.json.evalJson(this.xhr.responseText));
-	}
-
-	this.openTunnelWith = function(content, url){
-		// set up the XHR object and register the multipart callbacks
-		this.xhr = dojo.hostenv.getXmlhttpObject();
-		this.xhr.multipart = true; // FIXME: do Opera and Safari support this flag?
-		if(dojo.render.html.mozilla){
-			this.xhr.addEventListener("load", dojo.lang.hitch(this, "handleOnLoad"), false);
-		}else if(dojo.render.html.safari){
-			// Blah. WebKit doesn't actually populate responseText and/or responseXML. Useless.
-			dojo.debug("Webkit is broken with multipart responses over XHR = (");
-			this.xhr.onreadystatechange = dojo.lang.hitch(this, "handleOnLoad");
-		}else{
-			this.xhr.onload = dojo.lang.hitch(this, "handleOnLoad");
-		}
-		this.xhr.open("POST", (url||cometd.url), true); // async post
-		this.xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		dojo.debug(dojo.json.serialize(content));
-		this.xhr.send(dojo.io.argsFromMap(content, "utf8"));
-	}
-
-	this.processBacklog = function(){
-		while(this.backlog.length > 0){
-			this.sendMessage(this.backlog.shift(), true);
-		}
-	}
-
-	this.sendMessage = function(message, bypassBacklog){
-		// FIXME: what about auth fields?
-		if((bypassBacklog)||(this.connected)){
-			message.connectionId = this.connectionId;
-			message.clientId = cometd.clientId;
-			var bindArgs = {
-				url: cometd.url||djConfig["cometdRoot"],
-				method: "POST",
-				mimetype: "text/json",
-				content: { message: dojo.json.serialize([ message ]) }
-			};
-			return dojo.io.bind(bindArgs);
-		}else{
-			this.backlog.push(message);
-		}
-	}
-
-	this.startup = function(handshakeData){
-		dojo.debugShallow(handshakeData);
-		if(this.connected){ return; }
-		this.tunnelInit();
-	}
 }
-
-cometd.longPollTransport = new function(){
-	this.connected = false;
-	this.connectionId = null;
-
-	this.authToken = null;
-	this.lastTimestamp = null;
-	this.lastId = null;
-	this.backlog = [];
-
-	this.check = function(types, version, xdomain){
-		return ((!xdomain)&&(dojo.lang.inArray(types, "long-polling")));
-	}
-
-	this.tunnelInit = function(){
-		if(this.connected){ return; }
-		// FIXME: open up the connection here
-		this.openTunnelWith({
-			message: dojo.json.serialize([
-				{
-					channel:	"/meta/connect",
-					clientId:	cometd.clientId,
-					connectionType: "long-polling"
-					// FIXME: auth not passed here!
-					// "authToken": this.authToken
-				}
-			])
-		});
-		this.connected = true;
-	}
-
-	this.tunnelCollapse = function(){
-		if(!this.connected){
-			// try to restart the tunnel
-			this.connected = false;
-			dojo.debug("clientId:", cometd.clientId);
-			this.openTunnelWith({
-				message: dojo.json.serialize([
-					{
-						channel:	"/meta/reconnect",
-						connectionType: "long-polling",
-						clientId:	cometd.clientId,
-						connectionId:	this.connectionId,
-						timestamp:	this.lastTimestamp,
-						id:			this.lastId
-						// FIXME: no authToken provision!
-					}
-				])
-			});
-		}
-	}
-
-	this.deliver = cometd.iframeTransport.deliver;
-	// the logic appears to be the same
-
-	this.openTunnelWith = function(content, url){
-		dojo.io.bind({
-			url: (url||cometd.url),
-			method: "post",
-			content: content,
-			mimetype: "text/json",
-			load: dojo.lang.hitch(this, function(type, data, evt, args){
-				// dojo.debug(evt.responseText);
-				cometd.deliver(data);
-				this.connected = false;
-				this.tunnelCollapse();
-			}),
-			error: function(){ dojo.debug("tunnel opening failed"); }
-		});
-		this.connected = true;
-	}
-
-	this.processBacklog = function(){
-		while(this.backlog.length > 0){
-			this.sendMessage(this.backlog.shift(), true);
-		}
-	}
-
-	this.sendMessage = function(message, bypassBacklog){
-		// FIXME: what about auth fields?
-		if((bypassBacklog)||(this.connected)){
-			message.connectionId = this.connectionId;
-			message.clientId = cometd.clientId;
-			var bindArgs = {
-				url: cometd.url||djConfig["cometdRoot"],
-				method: "post",
-				mimetype: "text/json",
-				content: { message: dojo.json.serialize([ message ]) },
-				load: dojo.lang.hitch(this, function(type, data, evt, args){ cometd.deliver(data); }) 
-			};
-			return dojo.io.bind(bindArgs);
-		}else{
-			this.backlog.push(message);
-		}
-	}
-
-	this.startup = function(handshakeData){
-		if(this.connected){ return; }
-		this.tunnelInit();
-	}
+if(_5){
+dojo.lang.mixin(_6,_5);
 }
-
-cometd.callbackPollTransport = new function(){
-	this.connected = false;
-	this.connectionId = null;
-
-	this.authToken = null;
-	this.lastTimestamp = null;
-	this.lastId = null;
-	this.backlog = [];
-
-	this.check = function(types, version, xdomain){
-		// we handle x-domain!
-		return dojo.lang.inArray(types, "callback-polling");
-	}
-
-	this.tunnelInit = function(){
-		if(this.connected){ return; }
-		// FIXME: open up the connection here
-		this.openTunnelWith({
-			message: dojo.json.serialize([
-				{
-					channel:	"/meta/connect",
-					clientId:	cometd.clientId,
-					connectionType: "callback-polling"
-					// FIXME: auth not passed here!
-					// "authToken": this.authToken
-				}
-			])
-		});
-		this.connected = true;
-	}
-
-	this.tunnelCollapse = function(){
-		if(!this.connected){
-			// try to restart the tunnel
-			this.connected = false;
-			this.openTunnelWith({
-				message: dojo.json.serialize([
-					{
-						channel:	"/meta/reconnect",
-						connectionType: "long-polling",
-						clientId:	cometd.clientId,
-						connectionId:	this.connectionId,
-						timestamp:	this.lastTimestamp,
-						id:			this.lastId
-						// FIXME: no authToken provision!
-					}
-				])
-			});
-		}
-	}
-
-	this.deliver = cometd.iframeTransport.deliver;
-	// the logic appears to be the same
-
-	this.openTunnelWith = function(content, url){
-		// create a <script> element to generate the request
-		var req = dojo.io.bind({
-			url: (url||cometd.url),
-			content: content,
-			mimetype: "text/json",
-			transport: "ScriptSrcTransport",
-			jsonParamName: "jsonp",
-			load: dojo.lang.hitch(this, function(type, data, evt, args){
-				// dojo.debug(dojo.json.serialize(data));
-				cometd.deliver(data);
-				this.connected = false;
-				this.tunnelCollapse();
-			}),
-			error: function(){ dojo.debug("tunnel opening failed"); }
-		});
-		this.connected = true;
-	}
-
-	this.processBacklog = function(){
-		while(this.backlog.length > 0){
-			this.sendMessage(this.backlog.shift(), true);
-		}
-	}
-
-	this.sendMessage = function(message, bypassBacklog){
-		// FIXME: what about auth fields?
-		if((bypassBacklog)||(this.connected)){
-			message.connectionId = this.connectionId;
-			message.clientId = cometd.clientId;
-			var bindArgs = {
-				url: cometd.url||djConfig["cometdRoot"],
-				mimetype: "text/json",
-				transport: "ScriptSrcTransport",
-				jsonParamName: "jsonp",
-				content: { message: dojo.json.serialize([ message ]) },
-				load: dojo.lang.hitch(this, function(type, data, evt, args){ cometd.deliver(data); })
-			};
-			return dojo.io.bind(bindArgs);
-		}else{
-			this.backlog.push(message);
-		}
-	}
-
-	this.startup = function(handshakeData){
-		if(this.connected){ return; }
-		this.tunnelInit();
-	}
+return dojo.io.bind(_6);
+};
+this.finishInit=function(_e,_f,evt,_11){
+_f=_f[0];
+this.handshakeReturn=_f;
+if(_f["authSuccessful"]==false){
+dojo.debug("cometd authentication failed");
+return;
 }
-
-cometd.connectionTypes.register("mime-message-block", cometd.mimeReplaceTransport.check, cometd.mimeReplaceTransport);
-cometd.connectionTypes.register("long-polling", cometd.longPollTransport.check, cometd.longPollTransport);
-cometd.connectionTypes.register("callback-polling", cometd.callbackPollTransport.check, cometd.callbackPollTransport);
-cometd.connectionTypes.register("iframe", cometd.iframeTransport.check, cometd.iframeTransport);
-
-// FIXME: need to implement fallback-polling, IE XML block
-
-dojo.io.cometd = cometd;
+if(_f.version<this.minimumVersion){
+dojo.debug("cometd protocol version mismatch. We wanted",this.minimumVersion,"but got",_f.version);
+return;
+}
+this.currentTransport=this.connectionTypes.match(_f.supportedConnectionTypes,_f.version,this._isXD);
+this.currentTransport.version=_f.version;
+this.clientId=_f.clientId;
+this.tunnelInit=dojo.lang.hitch(this.currentTransport,"tunnelInit");
+this.tunnelCollapse=dojo.lang.hitch(this.currentTransport,"tunnelCollapse");
+this.initialized=true;
+this.currentTransport.startup(_f);
+while(this.backlog.length!=0){
+var cur=this.backlog.shift();
+var fn=cur.shift();
+this[fn].apply(this,cur);
+}
+};
+this._getRandStr=function(){
+return Math.random().toString().substring(2,10);
+};
+this.deliver=function(_14){
+dojo.lang.forEach(_14,this._deliver,this);
+};
+this._deliver=function(_15){
+if(!_15["channel"]){
+dojo.debug("cometd error: no channel for message!");
+return;
+}
+if(!this.currentTransport){
+this.backlog.push(["deliver",_15]);
+return;
+}
+this.lastMessage=_15;
+if((_15.channel.length>5)&&(_15.channel.substr(0,5)=="/meta")){
+switch(_15.channel){
+case "/meta/subscribe":
+if(!_15.successful){
+dojo.debug("cometd subscription error for channel",_15.channel,":",_15.error);
+return;
+}
+this.subscribed(_15.subscription,_15);
+break;
+case "/meta/unsubscribe":
+if(!_15.successful){
+dojo.debug("cometd unsubscription error for channel",_15.channel,":",_15.error);
+return;
+}
+this.unsubscribed(_15.subscription,_15);
+break;
+}
+}
+this.currentTransport.deliver(_15);
+if(_15.data){
+var _16=(this.globalTopicChannels[_15.channel])?_15.channel:"/cometd"+_15.channel;
+dojo.event.topic.publish(_16,_15);
+}
+};
+this.disconnect=function(){
+if(!this.currentTransport){
+dojo.debug("no current transport to disconnect from");
+return;
+}
+this.currentTransport.disconnect();
+};
+this.publish=function(_17,_18,_19){
+if(!this.currentTransport){
+this.backlog.push(["publish",_17,_18,_19]);
+return;
+}
+var _1a={data:_18,channel:_17};
+if(_19){
+dojo.lang.mixin(_1a,_19);
+}
+return this.currentTransport.sendMessage(_1a);
+};
+this.subscribe=function(_1b,_1c,_1d,_1e){
+if(!this.currentTransport){
+this.backlog.push(["subscribe",_1b,_1c,_1d,_1e]);
+return;
+}
+if(_1d){
+var _1f=(_1c)?_1b:"/cometd"+_1b;
+if(_1c){
+this.globalTopicChannels[_1b]=true;
+}
+dojo.event.topic.subscribe(_1f,_1d,_1e);
+}
+return this.currentTransport.sendMessage({channel:"/meta/subscribe",subscription:_1b});
+};
+this.subscribed=function(_20,_21){
+dojo.debug(_20);
+dojo.debugShallow(_21);
+};
+this.unsubscribe=function(_22,_23,_24,_25){
+if(!this.currentTransport){
+this.backlog.push(["unsubscribe",_22,_23,_24,_25]);
+return;
+}
+if(_24){
+var _26=(_23)?_22:"/cometd"+_22;
+dojo.event.topic.unsubscribe(_26,_24,_25);
+}
+return this.currentTransport.sendMessage({channel:"/meta/unsubscribe",subscription:_22});
+};
+this.unsubscribed=function(_27,_28){
+dojo.debug(_27);
+dojo.debugShallow(_28);
+};
+};
+cometd.iframeTransport=new function(){
+this.connected=false;
+this.connectionId=null;
+this.rcvNode=null;
+this.rcvNodeName="";
+this.phonyForm=null;
+this.authToken=null;
+this.lastTimestamp=null;
+this.lastId=null;
+this.backlog=[];
+this.check=function(_29,_2a,_2b){
+return ((!_2b)&&(!dojo.render.html.safari)&&(dojo.lang.inArray(_29,"iframe")));
+};
+this.tunnelInit=function(){
+this.postToIframe({message:dojo.json.serialize([{channel:"/meta/connect",clientId:cometd.clientId,connectionType:"iframe"}])});
+};
+this.tunnelCollapse=function(){
+if(this.connected){
+this.connected=false;
+this.postToIframe({message:dojo.json.serialize([{channel:"/meta/reconnect",clientId:cometd.clientId,connectionId:this.connectionId,timestamp:this.lastTimestamp,id:this.lastId}])});
+}
+};
+this.deliver=function(_2c){
+if(_2c["timestamp"]){
+this.lastTimestamp=_2c.timestamp;
+}
+if(_2c["id"]){
+this.lastId=_2c.id;
+}
+if((_2c.channel.length>5)&&(_2c.channel.substr(0,5)=="/meta")){
+switch(_2c.channel){
+case "/meta/connect":
+if(!_2c.successful){
+dojo.debug("cometd connection error:",_2c.error);
+return;
+}
+this.connectionId=_2c.connectionId;
+this.connected=true;
+this.processBacklog();
+break;
+case "/meta/reconnect":
+if(!_2c.successful){
+dojo.debug("cometd reconnection error:",_2c.error);
+return;
+}
+this.connected=true;
+break;
+case "/meta/subscribe":
+if(!_2c.successful){
+dojo.debug("cometd subscription error for channel",_2c.channel,":",_2c.error);
+return;
+}
+dojo.debug(_2c.channel);
+break;
+}
+}
+};
+this.widenDomain=function(_2d){
+var cd=_2d||document.domain;
+if(cd.indexOf(".")==-1){
+return;
+}
+var dps=cd.split(".");
+if(dps.length<=2){
+return;
+}
+dps=dps.slice(dps.length-2);
+document.domain=dps.join(".");
+return document.domain;
+};
+this.postToIframe=function(_30,url){
+if(!this.phonyForm){
+if(dojo.render.html.ie){
+this.phonyForm=document.createElement("<form enctype='application/x-www-form-urlencoded' method='POST' style='display: none;'>");
+dojo.body().appendChild(this.phonyForm);
+}else{
+this.phonyForm=document.createElement("form");
+this.phonyForm.style.display="none";
+dojo.body().appendChild(this.phonyForm);
+this.phonyForm.enctype="application/x-www-form-urlencoded";
+this.phonyForm.method="POST";
+}
+}
+this.phonyForm.action=url||cometd.url;
+this.phonyForm.target=this.rcvNodeName;
+this.phonyForm.setAttribute("target",this.rcvNodeName);
+while(this.phonyForm.firstChild){
+this.phonyForm.removeChild(this.phonyForm.firstChild);
+}
+for(var x in _30){
+var tn;
+if(dojo.render.html.ie){
+tn=document.createElement("<input type='hidden' name='"+x+"' value='"+_30[x]+"'>");
+this.phonyForm.appendChild(tn);
+}else{
+tn=document.createElement("input");
+this.phonyForm.appendChild(tn);
+tn.type="hidden";
+tn.name=x;
+tn.value=_30[x];
+}
+}
+this.phonyForm.submit();
+};
+this.processBacklog=function(){
+while(this.backlog.length>0){
+this.sendMessage(this.backlog.shift(),true);
+}
+};
+this.sendMessage=function(_34,_35){
+if((_35)||(this.connected)){
+_34.connectionId=this.connectionId;
+_34.clientId=cometd.clientId;
+var _36={url:cometd.url||djConfig["cometdRoot"],method:"POST",mimetype:"text/json",content:{message:dojo.json.serialize([_34])}};
+return dojo.io.bind(_36);
+}else{
+this.backlog.push(_34);
+}
+};
+this.startup=function(_37){
+dojo.debug("startup!");
+dojo.debug(dojo.json.serialize(_37));
+if(this.connected){
+return;
+}
+this.rcvNodeName="cometdRcv_"+cometd._getRandStr();
+var _38=cometd.url+"/?tunnelInit=iframe";
+if(false&&dojo.render.html.ie){
+this.rcvNode=new ActiveXObject("htmlfile");
+this.rcvNode.open();
+this.rcvNode.write("<html>");
+this.rcvNode.write("<script>document.domain = '"+document.domain+"'");
+this.rcvNode.write("</html>");
+this.rcvNode.close();
+var _39=this.rcvNode.createElement("div");
+this.rcvNode.appendChild(_39);
+this.rcvNode.parentWindow.dojo=dojo;
+_39.innerHTML="<iframe src='"+_38+"'></iframe>";
+}else{
+this.rcvNode=dojo.io.createIFrame(this.rcvNodeName,"",_38);
+}
+};
+};
+cometd.mimeReplaceTransport=new function(){
+this.connected=false;
+this.connectionId=null;
+this.xhr=null;
+this.authToken=null;
+this.lastTimestamp=null;
+this.lastId=null;
+this.backlog=[];
+this.check=function(_3a,_3b,_3c){
+return ((!_3c)&&(dojo.render.html.mozilla)&&(dojo.lang.inArray(_3a,"mime-message-block")));
+};
+this.tunnelInit=function(){
+if(this.connected){
+return;
+}
+this.openTunnelWith({message:dojo.json.serialize([{channel:"/meta/connect",clientId:cometd.clientId,connectionType:"mime-message-block"}])});
+this.connected=true;
+};
+this.tunnelCollapse=function(){
+if(this.connected){
+this.connected=false;
+this.openTunnelWith({message:dojo.json.serialize([{channel:"/meta/reconnect",clientId:cometd.clientId,connectionId:this.connectionId,timestamp:this.lastTimestamp,id:this.lastId}])});
+}
+};
+this.deliver=cometd.iframeTransport.deliver;
+this.handleOnLoad=function(_3d){
+cometd.deliver(dojo.json.evalJson(this.xhr.responseText));
+};
+this.openTunnelWith=function(_3e,url){
+this.xhr=dojo.hostenv.getXmlhttpObject();
+this.xhr.multipart=true;
+if(dojo.render.html.mozilla){
+this.xhr.addEventListener("load",dojo.lang.hitch(this,"handleOnLoad"),false);
+}else{
+if(dojo.render.html.safari){
+dojo.debug("Webkit is broken with multipart responses over XHR = (");
+this.xhr.onreadystatechange=dojo.lang.hitch(this,"handleOnLoad");
+}else{
+this.xhr.onload=dojo.lang.hitch(this,"handleOnLoad");
+}
+}
+this.xhr.open("POST",(url||cometd.url),true);
+this.xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+dojo.debug(dojo.json.serialize(_3e));
+this.xhr.send(dojo.io.argsFromMap(_3e,"utf8"));
+};
+this.processBacklog=function(){
+while(this.backlog.length>0){
+this.sendMessage(this.backlog.shift(),true);
+}
+};
+this.sendMessage=function(_40,_41){
+if((_41)||(this.connected)){
+_40.connectionId=this.connectionId;
+_40.clientId=cometd.clientId;
+var _42={url:cometd.url||djConfig["cometdRoot"],method:"POST",mimetype:"text/json",content:{message:dojo.json.serialize([_40])}};
+return dojo.io.bind(_42);
+}else{
+this.backlog.push(_40);
+}
+};
+this.startup=function(_43){
+dojo.debugShallow(_43);
+if(this.connected){
+return;
+}
+this.tunnelInit();
+};
+};
+cometd.longPollTransport=new function(){
+this.connected=false;
+this.connectionId=null;
+this.authToken=null;
+this.lastTimestamp=null;
+this.lastId=null;
+this.backlog=[];
+this.check=function(_44,_45,_46){
+return ((!_46)&&(dojo.lang.inArray(_44,"long-polling")));
+};
+this.tunnelInit=function(){
+if(this.connected){
+return;
+}
+this.openTunnelWith({message:dojo.json.serialize([{channel:"/meta/connect",clientId:cometd.clientId,connectionType:"long-polling"}])});
+this.connected=true;
+};
+this.tunnelCollapse=function(){
+if(!this.connected){
+this.connected=false;
+dojo.debug("clientId:",cometd.clientId);
+this.openTunnelWith({message:dojo.json.serialize([{channel:"/meta/reconnect",connectionType:"long-polling",clientId:cometd.clientId,connectionId:this.connectionId,timestamp:this.lastTimestamp,id:this.lastId}])});
+}
+};
+this.deliver=cometd.iframeTransport.deliver;
+this.openTunnelWith=function(_47,url){
+dojo.io.bind({url:(url||cometd.url),method:"post",content:_47,mimetype:"text/json",load:dojo.lang.hitch(this,function(_49,_4a,evt,_4c){
+cometd.deliver(_4a);
+this.connected=false;
+this.tunnelCollapse();
+}),error:function(){
+dojo.debug("tunnel opening failed");
+}});
+this.connected=true;
+};
+this.processBacklog=function(){
+while(this.backlog.length>0){
+this.sendMessage(this.backlog.shift(),true);
+}
+};
+this.sendMessage=function(_4d,_4e){
+if((_4e)||(this.connected)){
+_4d.connectionId=this.connectionId;
+_4d.clientId=cometd.clientId;
+var _4f={url:cometd.url||djConfig["cometdRoot"],method:"post",mimetype:"text/json",content:{message:dojo.json.serialize([_4d])},load:dojo.lang.hitch(this,function(_50,_51,evt,_53){
+cometd.deliver(_51);
+})};
+return dojo.io.bind(_4f);
+}else{
+this.backlog.push(_4d);
+}
+};
+this.startup=function(_54){
+if(this.connected){
+return;
+}
+this.tunnelInit();
+};
+};
+cometd.callbackPollTransport=new function(){
+this.connected=false;
+this.connectionId=null;
+this.authToken=null;
+this.lastTimestamp=null;
+this.lastId=null;
+this.backlog=[];
+this.check=function(_55,_56,_57){
+return dojo.lang.inArray(_55,"callback-polling");
+};
+this.tunnelInit=function(){
+if(this.connected){
+return;
+}
+this.openTunnelWith({message:dojo.json.serialize([{channel:"/meta/connect",clientId:cometd.clientId,connectionType:"callback-polling"}])});
+this.connected=true;
+};
+this.tunnelCollapse=function(){
+if(!this.connected){
+this.connected=false;
+this.openTunnelWith({message:dojo.json.serialize([{channel:"/meta/reconnect",connectionType:"long-polling",clientId:cometd.clientId,connectionId:this.connectionId,timestamp:this.lastTimestamp,id:this.lastId}])});
+}
+};
+this.deliver=cometd.iframeTransport.deliver;
+this.openTunnelWith=function(_58,url){
+var req=dojo.io.bind({url:(url||cometd.url),content:_58,mimetype:"text/json",transport:"ScriptSrcTransport",jsonParamName:"jsonp",load:dojo.lang.hitch(this,function(_5b,_5c,evt,_5e){
+cometd.deliver(_5c);
+this.connected=false;
+this.tunnelCollapse();
+}),error:function(){
+dojo.debug("tunnel opening failed");
+}});
+this.connected=true;
+};
+this.processBacklog=function(){
+while(this.backlog.length>0){
+this.sendMessage(this.backlog.shift(),true);
+}
+};
+this.sendMessage=function(_5f,_60){
+if((_60)||(this.connected)){
+_5f.connectionId=this.connectionId;
+_5f.clientId=cometd.clientId;
+var _61={url:cometd.url||djConfig["cometdRoot"],mimetype:"text/json",transport:"ScriptSrcTransport",jsonParamName:"jsonp",content:{message:dojo.json.serialize([_5f])},load:dojo.lang.hitch(this,function(_62,_63,evt,_65){
+cometd.deliver(_63);
+})};
+return dojo.io.bind(_61);
+}else{
+this.backlog.push(_5f);
+}
+};
+this.startup=function(_66){
+if(this.connected){
+return;
+}
+this.tunnelInit();
+};
+};
+cometd.connectionTypes.register("mime-message-block",cometd.mimeReplaceTransport.check,cometd.mimeReplaceTransport);
+cometd.connectionTypes.register("long-polling",cometd.longPollTransport.check,cometd.longPollTransport);
+cometd.connectionTypes.register("callback-polling",cometd.callbackPollTransport.check,cometd.callbackPollTransport);
+cometd.connectionTypes.register("iframe",cometd.iframeTransport.check,cometd.iframeTransport);
+dojo.io.cometd=cometd;

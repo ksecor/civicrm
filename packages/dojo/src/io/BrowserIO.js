@@ -8,685 +8,486 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide("dojo.io.BrowserIO");
 
+dojo.provide("dojo.io.BrowserIO");
 dojo.require("dojo.io.common");
 dojo.require("dojo.lang.array");
 dojo.require("dojo.lang.func");
 dojo.require("dojo.string.extras");
 dojo.require("dojo.dom");
 dojo.require("dojo.undo.browser");
-
-if(!dj_undef("window")) {
-
-dojo.io.checkChildrenForFile = function(/*DOMNode*/node){
-	//summary: Checks any child nodes of node for an input type="file" element.
-	var hasFile = false;
-	var inputs = node.getElementsByTagName("input");
-	dojo.lang.forEach(inputs, function(input){
-		if(hasFile){ return; }
-		if(input.getAttribute("type")=="file"){
-			hasFile = true;
-		}
-	});
-	return hasFile; //boolean
+if(!dj_undef("window")){
+dojo.io.checkChildrenForFile=function(_1){
+var _2=false;
+var _3=_1.getElementsByTagName("input");
+dojo.lang.forEach(_3,function(_4){
+if(_2){
+return;
 }
-
-dojo.io.formHasFile = function(/*DOMNode*/formNode){
-	//summary: Just calls dojo.io.checkChildrenForFile().
-	return dojo.io.checkChildrenForFile(formNode); //boolean
+if(_4.getAttribute("type")=="file"){
+_2=true;
 }
-
-dojo.io.updateNode = function(/*DOMNode*/node, /*String or Object*/urlOrArgs){
-	//summary: Updates a DOMnode with the result of a dojo.io.bind() call.
-	//node: DOMNode
-	//urlOrArgs: String or Object
-	//		Either a String that has an URL, or an object containing dojo.io.bind()
-	//		arguments.
-	node = dojo.byId(node);
-	var args = urlOrArgs;
-	if(dojo.lang.isString(urlOrArgs)){
-		args = { url: urlOrArgs };
-	}
-	args.mimetype = "text/html";
-	args.load = function(t, d, e){
-		while(node.firstChild){
-			dojo.dom.destroyNode(node.firstChild);
-		}
-		node.innerHTML = d;
-	};
-	dojo.io.bind(args);
-}
-
-dojo.io.formFilter = function(/*DOMNode*/node) {
-	//summary: Returns true if the node is an input element that is enabled, has
-	//a name, and whose type is one of the following values: ["file", "submit", "image", "reset", "button"]
-	var type = (node.type||"").toLowerCase();
-	return !node.disabled && node.name
-		&& !dojo.lang.inArray(["file", "submit", "image", "reset", "button"], type); //boolean
-}
-
-// TODO: Move to htmlUtils
-dojo.io.encodeForm = function(/*DOMNode*/formNode, /*String?*/encoding, /*Function?*/formFilter){
-	//summary: Converts the names and values of form elements into an URL-encoded
-	//string (name=value&name=value...).
-	//formNode: DOMNode
-	//encoding: String?
-	//		The encoding to use for the values. Specify a string that starts with
-	//		"utf" (for instance, "utf8"), to use encodeURIComponent() as the encoding
-	//		function. Otherwise, dojo.string.encodeAscii will be used.
-	//formFilter: Function?
-	//	A function used to filter out form elements. The element node will be passed
-	//	to the formFilter function, and a boolean result is expected (true indicating
-	//	indicating that the element should have its name/value included in the output).
-	//	If no formFilter is specified, then dojo.io.formFilter() will be used.
-	if((!formNode)||(!formNode.tagName)||(!formNode.tagName.toLowerCase() == "form")){
-		dojo.raise("Attempted to encode a non-form element.");
-	}
-	if(!formFilter) { formFilter = dojo.io.formFilter; }
-	var enc = /utf/i.test(encoding||"") ? encodeURIComponent : dojo.string.encodeAscii;
-	var values = [];
-
-	for(var i = 0; i < formNode.elements.length; i++){
-		var elm = formNode.elements[i];
-		if(!elm || elm.tagName.toLowerCase() == "fieldset" || !formFilter(elm)) { continue; }
-		var name = enc(elm.name);
-		var type = elm.type.toLowerCase();
-
-		if(type == "select-multiple"){
-			for(var j = 0; j < elm.options.length; j++){
-				if(elm.options[j].selected) {
-					values.push(name + "=" + enc(elm.options[j].value));
-				}
-			}
-		}else if(dojo.lang.inArray(["radio", "checkbox"], type)){
-			if(elm.checked){
-				values.push(name + "=" + enc(elm.value));
-			}
-		}else{
-			values.push(name + "=" + enc(elm.value));
-		}
-	}
-
-	// now collect input type="image", which doesn't show up in the elements array
-	var inputs = formNode.getElementsByTagName("input");
-	for(var i = 0; i < inputs.length; i++) {
-		var input = inputs[i];
-		if(input.type.toLowerCase() == "image" && input.form == formNode
-			&& formFilter(input)) {
-			var name = enc(input.name);
-			values.push(name + "=" + enc(input.value));
-			values.push(name + ".x=0");
-			values.push(name + ".y=0");
-		}
-	}
-	return values.join("&") + "&"; //String
-}
-
-dojo.io.FormBind = function(/*DOMNode or Object*/args) {
-	//summary: constructor for a dojo.io.FormBind object. See the Dojo Book for
-	//some information on usage: http://manual.dojotoolkit.org/WikiHome/DojoDotBook/Book23
-	//args: DOMNode or Object
-	//		args can either be the DOMNode for a form element, or an object containing
-	//		dojo.io.bind() arguments, one of which should be formNode with the value of
-	//		a form element DOMNode.
-	this.bindArgs = {};
-
-	if(args && args.formNode) {
-		this.init(args);
-	} else if(args) {
-		this.init({formNode: args});
-	}
-}
-dojo.lang.extend(dojo.io.FormBind, {
-	form: null,
-
-	bindArgs: null,
-
-	clickedButton: null,
-
-	init: function(/*DOMNode or Object*/args) {
-		//summary: Internal function called by the dojo.io.FormBind() constructor
-		//do not call this method directly.
-		var form = dojo.byId(args.formNode);
-
-		if(!form || !form.tagName || form.tagName.toLowerCase() != "form") {
-			throw new Error("FormBind: Couldn't apply, invalid form");
-		} else if(this.form == form) {
-			return;
-		} else if(this.form) {
-			throw new Error("FormBind: Already applied to a form");
-		}
-
-		dojo.lang.mixin(this.bindArgs, args);
-		this.form = form;
-
-		this.connect(form, "onsubmit", "submit");
-
-		for(var i = 0; i < form.elements.length; i++) {
-			var node = form.elements[i];
-			if(node && node.type && dojo.lang.inArray(["submit", "button"], node.type.toLowerCase())) {
-				this.connect(node, "onclick", "click");
-			}
-		}
-
-		var inputs = form.getElementsByTagName("input");
-		for(var i = 0; i < inputs.length; i++) {
-			var input = inputs[i];
-			if(input.type.toLowerCase() == "image" && input.form == form) {
-				this.connect(input, "onclick", "click");
-			}
-		}
-	},
-
-	onSubmit: function(/*DOMNode*/form) {
-		//summary: Function used to verify that the form is OK to submit.
-		//Override this function if you want specific form validation done.
-		return true; //boolean
-	},
-
-	submit: function(/*Event*/e) {
-		//summary: internal function that is connected as a listener to the
-		//form's onsubmit event.
-		e.preventDefault();
-		if(this.onSubmit(this.form)) {
-			dojo.io.bind(dojo.lang.mixin(this.bindArgs, {
-				formFilter: dojo.lang.hitch(this, "formFilter")
-			}));
-		}
-	},
-
-	click: function(/*Event*/e) {
-		//summary: internal method that is connected as a listener to the
-		//form's elements whose click event can submit a form.
-		var node = e.currentTarget;
-		if(node.disabled) { return; }
-		this.clickedButton = node;
-	},
-
-	formFilter: function(/*DOMNode*/node) {
-		//summary: internal function used to know which form element values to include
-		//		in the dojo.io.bind() request.
-		var type = (node.type||"").toLowerCase();
-		var accept = false;
-		if(node.disabled || !node.name) {
-			accept = false;
-		} else if(dojo.lang.inArray(["submit", "button", "image"], type)) {
-			if(!this.clickedButton) { this.clickedButton = node; }
-			accept = node == this.clickedButton;
-		} else {
-			accept = !dojo.lang.inArray(["file", "submit", "reset", "button"], type);
-		}
-		return accept; //boolean
-	},
-
-	// in case you don't have dojo.event.* pulled in
-	connect: function(/*Object*/srcObj, /*Function*/srcFcn, /*Function*/targetFcn) {
-		//summary: internal function used to connect event listeners to form elements
-		//that trigger events. Used in case dojo.event is not loaded.
-		if(dojo.evalObjPath("dojo.event.connect")) {
-			dojo.event.connect(srcObj, srcFcn, this, targetFcn);
-		} else {
-			var fcn = dojo.lang.hitch(this, targetFcn);
-			srcObj[srcFcn] = function(e) {
-				if(!e) { e = window.event; }
-				if(!e.currentTarget) { e.currentTarget = e.srcElement; }
-				if(!e.preventDefault) { e.preventDefault = function() { window.event.returnValue = false; } }
-				fcn(e);
-			}
-		}
-	}
 });
-
-dojo.io.XMLHTTPTransport = new function(){
-	//summary: The object that implements the dojo.io.bind transport for XMLHttpRequest.
-	var _this = this;
-
-	var _cache = {}; // FIXME: make this public? do we even need to?
-	this.useCache = false; // if this is true, we'll cache unless kwArgs.useCache = false
-	this.preventCache = false; // if this is true, we'll always force GET requests to cache
-
-	// FIXME: Should this even be a function? or do we just hard code it in the next 2 functions?
-	function getCacheKey(url, query, method) {
-		return url + "|" + query + "|" + method.toLowerCase();
-	}
-
-	function addToCache(url, query, method, http) {
-		_cache[getCacheKey(url, query, method)] = http;
-	}
-
-	function getFromCache(url, query, method) {
-		return _cache[getCacheKey(url, query, method)];
-	}
-
-	this.clearCache = function() {
-		_cache = {};
-	}
-
-	// moved successful load stuff here
-	function doLoad(kwArgs, http, url, query, useCache) {
-		if(	((http.status>=200)&&(http.status<300))|| 	// allow any 2XX response code
-			(http.status==304)|| 						// get it out of the cache
-			(http.status==1223)|| 						// Internet Explorer mangled the status code
-			(location.protocol=="file:" && (http.status==0 || http.status==undefined))||
-			(location.protocol=="chrome:" && (http.status==0 || http.status==undefined))
-		){
-			var ret;
-			if(kwArgs.method.toLowerCase() == "head"){
-				var headers = http.getAllResponseHeaders();
-				ret = {};
-				ret.toString = function(){ return headers; }
-				var values = headers.split(/[\r\n]+/g);
-				for(var i = 0; i < values.length; i++) {
-					var pair = values[i].match(/^([^:]+)\s*:\s*(.+)$/i);
-					if(pair) {
-						ret[pair[1]] = pair[2];
-					}
-				}
-			}else if(kwArgs.mimetype == "text/javascript"){
-				try{
-					ret = dj_eval(http.responseText);
-				}catch(e){
-					dojo.debug(e);
-					dojo.debug(http.responseText);
-					ret = null;
-				}
-			}else if(kwArgs.mimetype.substr(0, 9) == "text/json" || kwArgs.mimetype.substr(0, 16) == "application/json"){
-				try{
-					ret = dj_eval("("+kwArgs.jsonFilter(http.responseText)+")");
-				}catch(e){
-					dojo.debug(e);
-					dojo.debug(http.responseText);
-					ret = false;
-				}
-			}else if((kwArgs.mimetype == "application/xml")||
-						(kwArgs.mimetype == "text/xml")){
-				ret = http.responseXML;
-				if(!ret || typeof ret == "string" || !http.getResponseHeader("Content-Type")) {
-					ret = dojo.dom.createDocumentFromText(http.responseText);
-				}
-			}else{
-				ret = http.responseText;
-			}
-
-			if(useCache){ // only cache successful responses
-				addToCache(url, query, kwArgs.method, http);
-			}
-			kwArgs[(typeof kwArgs.load == "function") ? "load" : "handle"]("load", ret, http, kwArgs);
-		}else{
-			var errObj = new dojo.io.Error("XMLHttpTransport Error: "+http.status+" "+http.statusText);
-			kwArgs[(typeof kwArgs.error == "function") ? "error" : "handle"]("error", errObj, http, kwArgs);
-		}
-	}
-
-	// set headers (note: Content-Type will get overriden if kwArgs.contentType is set)
-	function setHeaders(http, kwArgs){
-		if(kwArgs["headers"]) {
-			for(var header in kwArgs["headers"]) {
-				if(header.toLowerCase() == "content-type" && !kwArgs["contentType"]) {
-					kwArgs["contentType"] = kwArgs["headers"][header];
-				} else {
-					http.setRequestHeader(header, kwArgs["headers"][header]);
-				}
-			}
-		}
-	}
-
-	this.inFlight = [];
-	this.inFlightTimer = null;
-
-	this.startWatchingInFlight = function(){
-		//summary: internal method used to trigger a timer to watch all inflight
-		//XMLHttpRequests.
-		if(!this.inFlightTimer){
-			// setInterval broken in mozilla x86_64 in some circumstances, see
-			// https://bugzilla.mozilla.org/show_bug.cgi?id=344439
-			// using setTimeout instead
-			this.inFlightTimer = setTimeout("dojo.io.XMLHTTPTransport.watchInFlight();", 10);
-		}
-	}
-
-	this.watchInFlight = function(){
-		//summary: internal method that checks each inflight XMLHttpRequest to see
-		//if it has completed or if the timeout situation applies.
-		var now = null;
-		// make sure sync calls stay thread safe, if this callback is called during a sync call
-		// and this results in another sync call before the first sync call ends the browser hangs
-		if(!dojo.hostenv._blockAsync && !_this._blockAsync){
-			for(var x=this.inFlight.length-1; x>=0; x--){
-				try{
-					var tif = this.inFlight[x];
-					if(!tif || tif.http._aborted || !tif.http.readyState){
-						this.inFlight.splice(x, 1); continue; 
-					}
-					if(4==tif.http.readyState){
-						// remove it so we can clean refs
-						this.inFlight.splice(x, 1);
-						doLoad(tif.req, tif.http, tif.url, tif.query, tif.useCache);
-					}else if (tif.startTime){
-						//See if this is a timeout case.
-						if(!now){
-							now = (new Date()).getTime();
-						}
-						if(tif.startTime + (tif.req.timeoutSeconds * 1000) < now){
-							//Stop the request.
-							if(typeof tif.http.abort == "function"){
-								tif.http.abort();
-							}
-		
-							// remove it so we can clean refs
-							this.inFlight.splice(x, 1);
-							tif.req[(typeof tif.req.timeout == "function") ? "timeout" : "handle"]("timeout", null, tif.http, tif.req);
-						}
-					}
-				}catch(e){
-					try{
-						var errObj = new dojo.io.Error("XMLHttpTransport.watchInFlight Error: " + e);
-						tif.req[(typeof tif.req.error == "function") ? "error" : "handle"]("error", errObj, tif.http, tif.req);
-					}catch(e2){
-						dojo.debug("XMLHttpTransport error callback failed: " + e2);
-					}
-				}
-			}
-		}
-
-		clearTimeout(this.inFlightTimer);
-		if(this.inFlight.length == 0){
-			this.inFlightTimer = null;
-			return;
-		}
-		this.inFlightTimer = setTimeout("dojo.io.XMLHTTPTransport.watchInFlight();", 10);
-	}
-
-	var hasXmlHttp = dojo.hostenv.getXmlhttpObject() ? true : false;
-	this.canHandle = function(/*dojo.io.Request*/kwArgs){
-		//summary: Tells dojo.io.bind() if this is a good transport to
-		//use for the particular type of request. This type of transport cannot
-		//handle forms that have an input type="file" element.
-
-		// FIXME: we need to determine when form values need to be
-		// multi-part mime encoded and avoid using this transport for those
-		// requests.
-		var mlc = kwArgs["mimetype"].toLowerCase()||"";
-		return hasXmlHttp
-			&& (
-				(
-					dojo.lang.inArray([
-						"text/plain", "text/html", "application/xml", 
-						"text/xml", "text/javascript"
-						], mlc
-					)
-				) || (
-					mlc.substr(0, 9) == "text/json" || mlc.substr(0, 16) == "application/json"
-				)
-			)
-			&& !( kwArgs["formNode"] && dojo.io.formHasFile(kwArgs["formNode"]) ); //boolean
-	}
-
-	this.multipartBoundary = "45309FFF-BD65-4d50-99C9-36986896A96F";	// unique guid as a boundary value for multipart posts
-
-	this.bind = function(/*dojo.io.Request*/kwArgs){
-		//summary: function that sends the request to the server.
-
-		//This function will attach an abort() function to the kwArgs dojo.io.Request object,
-		//so if you need to abort the request, you can call that method on the request object.
-		//The following are acceptable properties in kwArgs (in addition to the
-		//normal dojo.io.Request object properties).
-		//url: String: URL the server URL to use for the request.
-		//method: String: the HTTP method to use (GET, POST, etc...).
-		//mimetype: Specifies what format the result data should be given to the load/handle callback. Valid values are:
-		//		text/javascript, text/json, application/json, application/xml, text/xml. Any other mimetype will give back a text
-		//		string.
-		//transport: String: specify "XMLHTTPTransport" to force the use of this XMLHttpRequest transport.
-		//headers: Object: The object property names and values will be sent as HTTP request header
-		//		names and values.
-		//sendTransport: boolean: If true, then dojo.transport=xmlhttp will be added to the request.
-		//encoding: String: The type of encoding to use when dealing with the content kwArgs property.
-		//content: Object: The content object is converted into a name=value&name=value string, by
-		//		using dojo.io.argsFromMap(). The encoding kwArgs property is passed to dojo.io.argsFromMap()
-		//		for use in encoding the names and values. The resulting string is added to the request.
-		//formNode: DOMNode: a form element node. This should not normally be used. Use new dojo.io.FormBind() instead.
-		//		If formNode is used, then the names and values of the form elements will be converted
-		//		to a name=value&name=value string and added to the request. The encoding kwArgs property is used
-		//		to encode the names and values.
-		//postContent: String: Raw name=value&name=value string to be included as part of the request.
-		//back or backButton: Function: A function to be called if the back button is pressed. If this kwArgs property
-		//		is used, then back button support via dojo.undo.browser will be used. See notes for dojo.undo.browser on usage.
-		//		You need to set djConfig.preventBackButtonFix = false to enable back button support.
-		//changeUrl: boolean or String: Used as part of back button support. See notes for dojo.undo.browser on usage.
-		//user: String: The user name. Used in conjuction with password. Passed to XMLHttpRequest.open().
-		//password: String: The user's password. Used in conjuction with user. Passed to XMLHttpRequest.open().
-		//file: Object or Array of Objects: an object simulating a file to be uploaded. file objects should have the following properties:
-		//		name or fileName: the name of the file
-		//		contentType: the MIME content type for the file.
-		//		content: the actual content of the file.
-		//multipart: boolean: indicates whether this should be a multipart mime request. If kwArgs.file exists, then this
-		//		property is set to true automatically.
-		//sync: boolean: if true, then a synchronous XMLHttpRequest call is done,
-		//		if false (the default), then an asynchronous call is used.
-		//preventCache: boolean: If true, then a cache busting parameter is added to the request URL.
-		//		default value is false.
-		//useCache: boolean: If true, then XMLHttpTransport will keep an internal cache of the server
-		//		response and use that response if a similar request is done again.
-		//		A similar request is one that has the same URL, query string and HTTP method value.
-		//		default is false.
-		if(!kwArgs["url"]){
-			// are we performing a history action?
-			if( !kwArgs["formNode"]
-				&& (kwArgs["backButton"] || kwArgs["back"] || kwArgs["changeUrl"] || kwArgs["watchForURL"])
-				&& (!djConfig.preventBackButtonFix)) {
-        dojo.deprecated("Using dojo.io.XMLHTTPTransport.bind() to add to browser history without doing an IO request",
-        				"Use dojo.undo.browser.addToHistory() instead.", "0.4");
-				dojo.undo.browser.addToHistory(kwArgs);
-				return true;
-			}
-		}
-
-		// build this first for cache purposes
-		var url = kwArgs.url;
-		var query = "";
-		if(kwArgs["formNode"]){
-			var ta = kwArgs.formNode.getAttribute("action");
-			if((ta)&&(!kwArgs["url"])){ url = ta; }
-			var tp = kwArgs.formNode.getAttribute("method");
-			if((tp)&&(!kwArgs["method"])){ kwArgs.method = tp; }
-			query += dojo.io.encodeForm(kwArgs.formNode, kwArgs.encoding, kwArgs["formFilter"]);
-		}
-
-		if(url.indexOf("#") > -1) {
-			dojo.debug("Warning: dojo.io.bind: stripping hash values from url:", url);
-			url = url.split("#")[0];
-		}
-
-		if(kwArgs["file"]){
-			// force post for file transfer
-			kwArgs.method = "post";
-		}
-
-		if(!kwArgs["method"]){
-			kwArgs.method = "get";
-		}
-
-		// guess the multipart value
-		if(kwArgs.method.toLowerCase() == "get"){
-			// GET cannot use multipart
-			kwArgs.multipart = false;
-		}else{
-			if(kwArgs["file"]){
-				// enforce multipart when sending files
-				kwArgs.multipart = true;
-			}else if(!kwArgs["multipart"]){
-				// default 
-				kwArgs.multipart = false;
-			}
-		}
-
-		if(kwArgs["backButton"] || kwArgs["back"] || kwArgs["changeUrl"]){
-			dojo.undo.browser.addToHistory(kwArgs);
-		}
-
-		var content = kwArgs["content"] || {};
-
-		if(kwArgs.sendTransport) {
-			content["dojo.transport"] = "xmlhttp";
-		}
-
-		do { // break-block
-			if(kwArgs.postContent){
-				query = kwArgs.postContent;
-				break;
-			}
-
-			if(content) {
-				query += dojo.io.argsFromMap(content, kwArgs.encoding);
-			}
-			
-			if(kwArgs.method.toLowerCase() == "get" || !kwArgs.multipart){
-				break;
-			}
-
-			var	t = [];
-			if(query.length){
-				var q = query.split("&");
-				for(var i = 0; i < q.length; ++i){
-					if(q[i].length){
-						var p = q[i].split("=");
-						t.push(	"--" + this.multipartBoundary,
-								"Content-Disposition: form-data; name=\"" + p[0] + "\"", 
-								"",
-								p[1]);
-					}
-				}
-			}
-
-			if(kwArgs.file){
-				if(dojo.lang.isArray(kwArgs.file)){
-					for(var i = 0; i < kwArgs.file.length; ++i){
-						var o = kwArgs.file[i];
-						t.push(	"--" + this.multipartBoundary,
-								"Content-Disposition: form-data; name=\"" + o.name + "\"; filename=\"" + ("fileName" in o ? o.fileName : o.name) + "\"",
-								"Content-Type: " + ("contentType" in o ? o.contentType : "application/octet-stream"),
-								"",
-								o.content);
-					}
-				}else{
-					var o = kwArgs.file;
-					t.push(	"--" + this.multipartBoundary,
-							"Content-Disposition: form-data; name=\"" + o.name + "\"; filename=\"" + ("fileName" in o ? o.fileName : o.name) + "\"",
-							"Content-Type: " + ("contentType" in o ? o.contentType : "application/octet-stream"),
-							"",
-							o.content);
-				}
-			}
-
-			if(t.length){
-				t.push("--"+this.multipartBoundary+"--", "");
-				query = t.join("\r\n");
-			}
-		}while(false);
-
-		// kwArgs.Connection = "close";
-
-		var async = kwArgs["sync"] ? false : true;
-
-		var preventCache = kwArgs["preventCache"] ||
-			(this.preventCache == true && kwArgs["preventCache"] != false);
-		var useCache = kwArgs["useCache"] == true ||
-			(this.useCache == true && kwArgs["useCache"] != false );
-
-		// preventCache is browser-level (add query string junk), useCache
-		// is for the local cache. If we say preventCache, then don't attempt
-		// to look in the cache, but if useCache is true, we still want to cache
-		// the response
-		if(!preventCache && useCache){
-			var cachedHttp = getFromCache(url, query, kwArgs.method);
-			if(cachedHttp){
-				doLoad(kwArgs, cachedHttp, url, query, false);
-				return;
-			}
-		}
-
-		// much of this is from getText, but reproduced here because we need
-		// more flexibility
-		var http = dojo.hostenv.getXmlhttpObject(kwArgs);	
-		var received = false;
-
-		// build a handler function that calls back to the handler obj
-		if(async){
-			var startTime = 
-			// FIXME: setting up this callback handler leaks on IE!!!
-			this.inFlight.push({
-				"req":		kwArgs,
-				"http":		http,
-				"url":	 	url,
-				"query":	query,
-				"useCache":	useCache,
-				"startTime": kwArgs.timeoutSeconds ? (new Date()).getTime() : 0
-			});
-			this.startWatchingInFlight();
-		}else{
-			// block async callbacks until sync is in, needed in khtml, others?
-			_this._blockAsync = true;
-		}
-
-		if(kwArgs.method.toLowerCase() == "post"){
-			// FIXME: need to hack in more flexible Content-Type setting here!
-			if (!kwArgs.user) {
-				http.open("POST", url, async);
-			}else{
-        http.open("POST", url, async, kwArgs.user, kwArgs.password);
-			}
-			setHeaders(http, kwArgs);
-			http.setRequestHeader("Content-Type", kwArgs.multipart ? ("multipart/form-data; boundary=" + this.multipartBoundary) : 
-				(kwArgs.contentType || "application/x-www-form-urlencoded"));
-			try{
-				http.send(query);
-			}catch(e){
-				if(typeof http.abort == "function"){
-					http.abort();
-				}
-				doLoad(kwArgs, {status: 404}, url, query, useCache);
-			}
-		}else{
-			var tmpUrl = url;
-			if(query != "") {
-				tmpUrl += (tmpUrl.indexOf("?") > -1 ? "&" : "?") + query;
-			}
-			if(preventCache) {
-				tmpUrl += (dojo.string.endsWithAny(tmpUrl, "?", "&")
-					? "" : (tmpUrl.indexOf("?") > -1 ? "&" : "?")) + "dojo.preventCache=" + new Date().valueOf();
-			}
-			if (!kwArgs.user) {
-				http.open(kwArgs.method.toUpperCase(), tmpUrl, async);
-			}else{
-				http.open(kwArgs.method.toUpperCase(), tmpUrl, async, kwArgs.user, kwArgs.password);
-			}
-			setHeaders(http, kwArgs);
-			try {
-				http.send(null);
-			}catch(e)	{
-				if(typeof http.abort == "function"){
-					http.abort();
-				}
-				doLoad(kwArgs, {status: 404}, url, query, useCache);
-			}
-		}
-
-		if( !async ) {
-			doLoad(kwArgs, http, url, query, useCache);
-			_this._blockAsync = false;
-		}
-
-		kwArgs.abort = function(){
-			try{// khtml doesent reset readyState on abort, need this workaround
-				http._aborted = true; 
-			}catch(e){/*squelsh*/}
-			return http.abort();
-		}
-
-		return;
-	}
-	dojo.io.transports.addTransport("XMLHTTPTransport");
+return _2;
+};
+dojo.io.formHasFile=function(_5){
+return dojo.io.checkChildrenForFile(_5);
+};
+dojo.io.updateNode=function(_6,_7){
+_6=dojo.byId(_6);
+var _8=_7;
+if(dojo.lang.isString(_7)){
+_8={url:_7};
 }
-
+_8.mimetype="text/html";
+_8.load=function(t,d,e){
+while(_6.firstChild){
+dojo.dom.destroyNode(_6.firstChild);
+}
+_6.innerHTML=d;
+};
+dojo.io.bind(_8);
+};
+dojo.io.formFilter=function(_c){
+var _d=(_c.type||"").toLowerCase();
+return !_c.disabled&&_c.name&&!dojo.lang.inArray(["file","submit","image","reset","button"],_d);
+};
+dojo.io.encodeForm=function(_e,_f,_10){
+if((!_e)||(!_e.tagName)||(!_e.tagName.toLowerCase()=="form")){
+dojo.raise("Attempted to encode a non-form element.");
+}
+if(!_10){
+_10=dojo.io.formFilter;
+}
+var enc=/utf/i.test(_f||"")?encodeURIComponent:dojo.string.encodeAscii;
+var _12=[];
+for(var i=0;i<_e.elements.length;i++){
+var elm=_e.elements[i];
+if(!elm||elm.tagName.toLowerCase()=="fieldset"||!_10(elm)){
+continue;
+}
+var _15=enc(elm.name);
+var _16=elm.type.toLowerCase();
+if(_16=="select-multiple"){
+for(var j=0;j<elm.options.length;j++){
+if(elm.options[j].selected){
+_12.push(_15+"="+enc(elm.options[j].value));
+}
+}
+}else{
+if(dojo.lang.inArray(["radio","checkbox"],_16)){
+if(elm.checked){
+_12.push(_15+"="+enc(elm.value));
+}
+}else{
+_12.push(_15+"="+enc(elm.value));
+}
+}
+}
+var _18=_e.getElementsByTagName("input");
+for(var i=0;i<_18.length;i++){
+var _19=_18[i];
+if(_19.type.toLowerCase()=="image"&&_19.form==_e&&_10(_19)){
+var _15=enc(_19.name);
+_12.push(_15+"="+enc(_19.value));
+_12.push(_15+".x=0");
+_12.push(_15+".y=0");
+}
+}
+return _12.join("&")+"&";
+};
+dojo.io.FormBind=function(_1a){
+this.bindArgs={};
+if(_1a&&_1a.formNode){
+this.init(_1a);
+}else{
+if(_1a){
+this.init({formNode:_1a});
+}
+}
+};
+dojo.lang.extend(dojo.io.FormBind,{form:null,bindArgs:null,clickedButton:null,init:function(_1b){
+var _1c=dojo.byId(_1b.formNode);
+if(!_1c||!_1c.tagName||_1c.tagName.toLowerCase()!="form"){
+throw new Error("FormBind: Couldn't apply, invalid form");
+}else{
+if(this.form==_1c){
+return;
+}else{
+if(this.form){
+throw new Error("FormBind: Already applied to a form");
+}
+}
+}
+dojo.lang.mixin(this.bindArgs,_1b);
+this.form=_1c;
+this.connect(_1c,"onsubmit","submit");
+for(var i=0;i<_1c.elements.length;i++){
+var _1e=_1c.elements[i];
+if(_1e&&_1e.type&&dojo.lang.inArray(["submit","button"],_1e.type.toLowerCase())){
+this.connect(_1e,"onclick","click");
+}
+}
+var _1f=_1c.getElementsByTagName("input");
+for(var i=0;i<_1f.length;i++){
+var _20=_1f[i];
+if(_20.type.toLowerCase()=="image"&&_20.form==_1c){
+this.connect(_20,"onclick","click");
+}
+}
+},onSubmit:function(_21){
+return true;
+},submit:function(e){
+e.preventDefault();
+if(this.onSubmit(this.form)){
+dojo.io.bind(dojo.lang.mixin(this.bindArgs,{formFilter:dojo.lang.hitch(this,"formFilter")}));
+}
+},click:function(e){
+var _24=e.currentTarget;
+if(_24.disabled){
+return;
+}
+this.clickedButton=_24;
+},formFilter:function(_25){
+var _26=(_25.type||"").toLowerCase();
+var _27=false;
+if(_25.disabled||!_25.name){
+_27=false;
+}else{
+if(dojo.lang.inArray(["submit","button","image"],_26)){
+if(!this.clickedButton){
+this.clickedButton=_25;
+}
+_27=_25==this.clickedButton;
+}else{
+_27=!dojo.lang.inArray(["file","submit","reset","button"],_26);
+}
+}
+return _27;
+},connect:function(_28,_29,_2a){
+if(dojo.evalObjPath("dojo.event.connect")){
+dojo.event.connect(_28,_29,this,_2a);
+}else{
+var fcn=dojo.lang.hitch(this,_2a);
+_28[_29]=function(e){
+if(!e){
+e=window.event;
+}
+if(!e.currentTarget){
+e.currentTarget=e.srcElement;
+}
+if(!e.preventDefault){
+e.preventDefault=function(){
+window.event.returnValue=false;
+};
+}
+fcn(e);
+};
+}
+}});
+dojo.io.XMLHTTPTransport=new function(){
+var _2d=this;
+var _2e={};
+this.useCache=false;
+this.preventCache=false;
+function getCacheKey(url,_30,_31){
+return url+"|"+_30+"|"+_31.toLowerCase();
+}
+function addToCache(url,_33,_34,_35){
+_2e[getCacheKey(url,_33,_34)]=_35;
+}
+function getFromCache(url,_37,_38){
+return _2e[getCacheKey(url,_37,_38)];
+}
+this.clearCache=function(){
+_2e={};
+};
+function doLoad(_39,_3a,url,_3c,_3d){
+if(((_3a.status>=200)&&(_3a.status<300))||(_3a.status==304)||(_3a.status==1223)||(location.protocol=="file:"&&(_3a.status==0||_3a.status==undefined))||(location.protocol=="chrome:"&&(_3a.status==0||_3a.status==undefined))){
+var ret;
+if(_39.method.toLowerCase()=="head"){
+var _3f=_3a.getAllResponseHeaders();
+ret={};
+ret.toString=function(){
+return _3f;
+};
+var _40=_3f.split(/[\r\n]+/g);
+for(var i=0;i<_40.length;i++){
+var _42=_40[i].match(/^([^:]+)\s*:\s*(.+)$/i);
+if(_42){
+ret[_42[1]]=_42[2];
+}
+}
+}else{
+if(_39.mimetype=="text/javascript"){
+try{
+ret=dj_eval(_3a.responseText);
+}
+catch(e){
+dojo.debug(e);
+dojo.debug(_3a.responseText);
+ret=null;
+}
+}else{
+if(_39.mimetype.substr(0,9)=="text/json"||_39.mimetype.substr(0,16)=="application/json"){
+try{
+ret=dj_eval("("+_39.jsonFilter(_3a.responseText)+")");
+}
+catch(e){
+dojo.debug(e);
+dojo.debug(_3a.responseText);
+ret=false;
+}
+}else{
+if((_39.mimetype=="application/xml")||(_39.mimetype=="text/xml")){
+ret=_3a.responseXML;
+if(!ret||typeof ret=="string"||!_3a.getResponseHeader("Content-Type")){
+ret=dojo.dom.createDocumentFromText(_3a.responseText);
+}
+}else{
+ret=_3a.responseText;
+}
+}
+}
+}
+if(_3d){
+addToCache(url,_3c,_39.method,_3a);
+}
+_39[(typeof _39.load=="function")?"load":"handle"]("load",ret,_3a,_39);
+}else{
+var _43=new dojo.io.Error("XMLHttpTransport Error: "+_3a.status+" "+_3a.statusText);
+_39[(typeof _39.error=="function")?"error":"handle"]("error",_43,_3a,_39);
+}
+}
+function setHeaders(_44,_45){
+if(_45["headers"]){
+for(var _46 in _45["headers"]){
+if(_46.toLowerCase()=="content-type"&&!_45["contentType"]){
+_45["contentType"]=_45["headers"][_46];
+}else{
+_44.setRequestHeader(_46,_45["headers"][_46]);
+}
+}
+}
+}
+this.inFlight=[];
+this.inFlightTimer=null;
+this.startWatchingInFlight=function(){
+if(!this.inFlightTimer){
+this.inFlightTimer=setTimeout("dojo.io.XMLHTTPTransport.watchInFlight();",10);
+}
+};
+this.watchInFlight=function(){
+var now=null;
+if(!dojo.hostenv._blockAsync&&!_2d._blockAsync){
+for(var x=this.inFlight.length-1;x>=0;x--){
+try{
+var tif=this.inFlight[x];
+if(!tif||tif.http._aborted||!tif.http.readyState){
+this.inFlight.splice(x,1);
+continue;
+}
+if(4==tif.http.readyState){
+this.inFlight.splice(x,1);
+doLoad(tif.req,tif.http,tif.url,tif.query,tif.useCache);
+}else{
+if(tif.startTime){
+if(!now){
+now=(new Date()).getTime();
+}
+if(tif.startTime+(tif.req.timeoutSeconds*1000)<now){
+if(typeof tif.http.abort=="function"){
+tif.http.abort();
+}
+this.inFlight.splice(x,1);
+tif.req[(typeof tif.req.timeout=="function")?"timeout":"handle"]("timeout",null,tif.http,tif.req);
+}
+}
+}
+}
+catch(e){
+try{
+var _4a=new dojo.io.Error("XMLHttpTransport.watchInFlight Error: "+e);
+tif.req[(typeof tif.req.error=="function")?"error":"handle"]("error",_4a,tif.http,tif.req);
+}
+catch(e2){
+dojo.debug("XMLHttpTransport error callback failed: "+e2);
+}
+}
+}
+}
+clearTimeout(this.inFlightTimer);
+if(this.inFlight.length==0){
+this.inFlightTimer=null;
+return;
+}
+this.inFlightTimer=setTimeout("dojo.io.XMLHTTPTransport.watchInFlight();",10);
+};
+var _4b=dojo.hostenv.getXmlhttpObject()?true:false;
+this.canHandle=function(_4c){
+var mlc=_4c["mimetype"].toLowerCase()||"";
+return _4b&&((dojo.lang.inArray(["text/plain","text/html","application/xml","text/xml","text/javascript"],mlc))||(mlc.substr(0,9)=="text/json"||mlc.substr(0,16)=="application/json"))&&!(_4c["formNode"]&&dojo.io.formHasFile(_4c["formNode"]));
+};
+this.multipartBoundary="45309FFF-BD65-4d50-99C9-36986896A96F";
+this.bind=function(_4e){
+if(!_4e["url"]){
+if(!_4e["formNode"]&&(_4e["backButton"]||_4e["back"]||_4e["changeUrl"]||_4e["watchForURL"])&&(!djConfig.preventBackButtonFix)){
+dojo.deprecated("Using dojo.io.XMLHTTPTransport.bind() to add to browser history without doing an IO request","Use dojo.undo.browser.addToHistory() instead.","0.4");
+dojo.undo.browser.addToHistory(_4e);
+return true;
+}
+}
+var url=_4e.url;
+var _50="";
+if(_4e["formNode"]){
+var ta=_4e.formNode.getAttribute("action");
+if((ta)&&(!_4e["url"])){
+url=ta;
+}
+var tp=_4e.formNode.getAttribute("method");
+if((tp)&&(!_4e["method"])){
+_4e.method=tp;
+}
+_50+=dojo.io.encodeForm(_4e.formNode,_4e.encoding,_4e["formFilter"]);
+}
+if(url.indexOf("#")>-1){
+dojo.debug("Warning: dojo.io.bind: stripping hash values from url:",url);
+url=url.split("#")[0];
+}
+if(_4e["file"]){
+_4e.method="post";
+}
+if(!_4e["method"]){
+_4e.method="get";
+}
+if(_4e.method.toLowerCase()=="get"){
+_4e.multipart=false;
+}else{
+if(_4e["file"]){
+_4e.multipart=true;
+}else{
+if(!_4e["multipart"]){
+_4e.multipart=false;
+}
+}
+}
+if(_4e["backButton"]||_4e["back"]||_4e["changeUrl"]){
+dojo.undo.browser.addToHistory(_4e);
+}
+var _53=_4e["content"]||{};
+if(_4e.sendTransport){
+_53["dojo.transport"]="xmlhttp";
+}
+do{
+if(_4e.postContent){
+_50=_4e.postContent;
+break;
+}
+if(_53){
+_50+=dojo.io.argsFromMap(_53,_4e.encoding);
+}
+if(_4e.method.toLowerCase()=="get"||!_4e.multipart){
+break;
+}
+var t=[];
+if(_50.length){
+var q=_50.split("&");
+for(var i=0;i<q.length;++i){
+if(q[i].length){
+var p=q[i].split("=");
+t.push("--"+this.multipartBoundary,"Content-Disposition: form-data; name=\""+p[0]+"\"","",p[1]);
+}
+}
+}
+if(_4e.file){
+if(dojo.lang.isArray(_4e.file)){
+for(var i=0;i<_4e.file.length;++i){
+var o=_4e.file[i];
+t.push("--"+this.multipartBoundary,"Content-Disposition: form-data; name=\""+o.name+"\"; filename=\""+("fileName" in o?o.fileName:o.name)+"\"","Content-Type: "+("contentType" in o?o.contentType:"application/octet-stream"),"",o.content);
+}
+}else{
+var o=_4e.file;
+t.push("--"+this.multipartBoundary,"Content-Disposition: form-data; name=\""+o.name+"\"; filename=\""+("fileName" in o?o.fileName:o.name)+"\"","Content-Type: "+("contentType" in o?o.contentType:"application/octet-stream"),"",o.content);
+}
+}
+if(t.length){
+t.push("--"+this.multipartBoundary+"--","");
+_50=t.join("\r\n");
+}
+}while(false);
+var _59=_4e["sync"]?false:true;
+var _5a=_4e["preventCache"]||(this.preventCache==true&&_4e["preventCache"]!=false);
+var _5b=_4e["useCache"]==true||(this.useCache==true&&_4e["useCache"]!=false);
+if(!_5a&&_5b){
+var _5c=getFromCache(url,_50,_4e.method);
+if(_5c){
+doLoad(_4e,_5c,url,_50,false);
+return;
+}
+}
+var _5d=dojo.hostenv.getXmlhttpObject(_4e);
+var _5e=false;
+if(_59){
+var _5f=this.inFlight.push({"req":_4e,"http":_5d,"url":url,"query":_50,"useCache":_5b,"startTime":_4e.timeoutSeconds?(new Date()).getTime():0});
+this.startWatchingInFlight();
+}else{
+_2d._blockAsync=true;
+}
+if(_4e.method.toLowerCase()=="post"){
+if(!_4e.user){
+_5d.open("POST",url,_59);
+}else{
+_5d.open("POST",url,_59,_4e.user,_4e.password);
+}
+setHeaders(_5d,_4e);
+_5d.setRequestHeader("Content-Type",_4e.multipart?("multipart/form-data; boundary="+this.multipartBoundary):(_4e.contentType||"application/x-www-form-urlencoded"));
+try{
+_5d.send(_50);
+}
+catch(e){
+if(typeof _5d.abort=="function"){
+_5d.abort();
+}
+doLoad(_4e,{status:404},url,_50,_5b);
+}
+}else{
+var _60=url;
+if(_50!=""){
+_60+=(_60.indexOf("?")>-1?"&":"?")+_50;
+}
+if(_5a){
+_60+=(dojo.string.endsWithAny(_60,"?","&")?"":(_60.indexOf("?")>-1?"&":"?"))+"dojo.preventCache="+new Date().valueOf();
+}
+if(!_4e.user){
+_5d.open(_4e.method.toUpperCase(),_60,_59);
+}else{
+_5d.open(_4e.method.toUpperCase(),_60,_59,_4e.user,_4e.password);
+}
+setHeaders(_5d,_4e);
+try{
+_5d.send(null);
+}
+catch(e){
+if(typeof _5d.abort=="function"){
+_5d.abort();
+}
+doLoad(_4e,{status:404},url,_50,_5b);
+}
+}
+if(!_59){
+doLoad(_4e,_5d,url,_50,_5b);
+_2d._blockAsync=false;
+}
+_4e.abort=function(){
+try{
+_5d._aborted=true;
+}
+catch(e){
+}
+return _5d.abort();
+};
+return;
+};
+dojo.io.transports.addTransport("XMLHTTPTransport");
+};
 }

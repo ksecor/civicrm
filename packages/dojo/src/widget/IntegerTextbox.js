@@ -8,65 +8,33 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide("dojo.widget.IntegerTextbox");
 
+dojo.provide("dojo.widget.IntegerTextbox");
 dojo.require("dojo.widget.ValidationTextbox");
 dojo.require("dojo.validate.common");
-
-dojo.widget.defineWidget(
-	"dojo.widget.IntegerTextbox",
-	dojo.widget.ValidationTextbox,
-	{
-		// summary:
-		//		A subclass of ValidationTextbox.
-		//		Over-rides isValid/isInRange to test for integer input.
-		// signed: String
-		//		The leading plus-or-minus sign. Can be true or false, default is either.
-		/*=====
-		signed: "either",
-		// separator: "",
-		//		The character used as the thousands separator.  Default is no separator.
-		separator: "",
-		// min: Number
-		//		Minimum signed value.  Default is -Infinity
-		min: undefined,
-		// max: Number
-		//		Maximum signed value.  Default is +Infinity
-		max: undefined,
-		=====*/
-		mixInProperties: function(localProperties, frag){
-			// First initialize properties in super-class.
-			dojo.widget.IntegerTextbox.superclass.mixInProperties.apply(this, arguments);
-	
-			// Get properties from markup attributes, and assign to flags object.
-			if((localProperties.signed == "true")||
-				(localProperties.signed == "always")){
-				this.flags.signed = true;
-			}else if((localProperties.signed == "false")||
-					(localProperties.signed == "never")){
-				this.flags.signed = false;
-				this.flags.min = 0;
-			}else{
-				this.flags.signed = [ true, false ]; // optional
-			}
-			if(localProperties.separator){ 
-				this.flags.separator = localProperties.separator;
-			}
-			if(localProperties.min){ 
-				this.flags.min = parseInt(localProperties.min);
-			}
-			if(localProperties.max){ 
-				this.flags.max = parseInt(localProperties.max);
-			}
-		},
-
-		isValid: function(){
-			// summary: Over-ride for integer validation
-			return dojo.validate.isInteger(this.textbox.value, this.flags);
-		},
-		isInRange: function(){
-			// summary: Over-ride for integer validation
-			return dojo.validate.isInRange(this.textbox.value, this.flags);
-		}
-	}
-);
+dojo.widget.defineWidget("dojo.widget.IntegerTextbox",dojo.widget.ValidationTextbox,{mixInProperties:function(_1,_2){
+dojo.widget.IntegerTextbox.superclass.mixInProperties.apply(this,arguments);
+if((_1.signed=="true")||(_1.signed=="always")){
+this.flags.signed=true;
+}else{
+if((_1.signed=="false")||(_1.signed=="never")){
+this.flags.signed=false;
+this.flags.min=0;
+}else{
+this.flags.signed=[true,false];
+}
+}
+if(_1.separator){
+this.flags.separator=_1.separator;
+}
+if(_1.min){
+this.flags.min=parseInt(_1.min);
+}
+if(_1.max){
+this.flags.max=parseInt(_1.max);
+}
+},isValid:function(){
+return dojo.validate.isInteger(this.textbox.value,this.flags);
+},isInRange:function(){
+return dojo.validate.isInRange(this.textbox.value,this.flags);
+}});

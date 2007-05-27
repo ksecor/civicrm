@@ -8,4 +8,5 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-({"displayName":"British Pound Sterling","symbol":"£"})
+
+({"displayName":"British Pound Sterling","symbol":"\xa3"});

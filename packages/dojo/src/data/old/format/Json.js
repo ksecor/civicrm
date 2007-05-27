@@ -8,96 +8,62 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.data.old.format.Json");
 dojo.require("dojo.lang.assert");
-
-dojo.data.old.format.Json = new function() {
-
-	// -------------------------------------------------------------------
-	// Public functions
-	// -------------------------------------------------------------------
-	this.loadDataProviderFromFileContents = function(/* dojo.data.old.provider.Base */ dataProvider, /* string */ jsonFileContents) {
-		dojo.lang.assertType(dataProvider, dojo.data.old.provider.Base);
-		dojo.lang.assertType(jsonFileContents, String);
-		var arrayOfJsonData = eval("(" + jsonFileContents + ")");
-		this.loadDataProviderFromArrayOfJsonData(dataProvider, arrayOfJsonData);
-	};
-	
-	this.loadDataProviderFromArrayOfJsonData = function(/* dojo.data.old.provider.Base */ dataProvider, /* Array */ arrayOfJsonData) {
-		dojo.lang.assertType(arrayOfJsonData, Array, {optional: true});
-		if (arrayOfJsonData && (arrayOfJsonData.length > 0)) {
-			var firstRow = arrayOfJsonData[0];
-			dojo.lang.assertType(firstRow, [Array, "pureobject"]);
-			if (dojo.lang.isArray(firstRow)) {
-				_loadDataProviderFromArrayOfArrays(dataProvider, arrayOfJsonData);
-			} else {
-				dojo.lang.assertType(firstRow, "pureobject");
-				_loadDataProviderFromArrayOfObjects(dataProvider, arrayOfJsonData);
-			}
-		}
-	};
-
-	this.getJsonStringFromResultSet = function(/* dojo.data.old.ResultSet */ resultSet) {
-		dojo.unimplemented('dojo.data.old.format.Json.getJsonStringFromResultSet');
-		var jsonString = null;
-		return jsonString; // String
-	};
-
-	// -------------------------------------------------------------------
-	// Private functions
-	// -------------------------------------------------------------------
-	function _loadDataProviderFromArrayOfArrays(/* dojo.data.old.provider.Base */ dataProvider, /* Array */ arrayOfJsonData) {
-		/** 
-		 * Example: 
-		 * var arrayOfJsonStates = [
-		 * 	 [ "abbr",  "population",  "name" ]
-		 * 	 [  "WA",     5894121,      "Washington"    ],
-		 * 	 [  "WV",     1808344,      "West Virginia" ],
-		 * 	 [  "WI",     5453896,      "Wisconsin"     ],
-		 *   [  "WY",      493782,      "Wyoming"       ] ];
-		 * this._loadFromArrayOfArrays(arrayOfJsonStates);
-		 */
-		var arrayOfKeys = arrayOfJsonData[0];
-		for (var i = 1; i < arrayOfJsonData.length; ++i) {
-			var row = arrayOfJsonData[i];
-			var item = dataProvider.getNewItemToLoad();
-			for (var j in row) {
-				var value = row[j];
-				var key = arrayOfKeys[j];
-				item.load(key, value);
-			}
-		}
-	}
-
-	function _loadDataProviderFromArrayOfObjects(/* dojo.data.old.provider.Base */ dataProvider, /* Array */ arrayOfJsonData) {
-		/** 
-		 * Example: 
-		 * var arrayOfJsonStates = [
-		 * 	 { abbr: "WA", name: "Washington" },
-		 * 	 { abbr: "WV", name: "West Virginia" },
-		 * 	 { abbr: "WI", name: "Wisconsin", song: "On, Wisconsin!" },
-		 * 	 { abbr: "WY", name: "Wyoming", cities: ["Lander", "Cheyenne", "Laramie"] } ];
-		 * this._loadFromArrayOfArrays(arrayOfJsonStates);
-		 */
-		// dojo.debug("_loadDataProviderFromArrayOfObjects");
-		for (var i in arrayOfJsonData) {
-			var row = arrayOfJsonData[i];
-			var item = dataProvider.getNewItemToLoad();
-			for (var key in row) {
-				var value = row[key];
-				if (dojo.lang.isArray(value)) {
-					var arrayOfValues = value;
-					for (var j in arrayOfValues) {
-						value = arrayOfValues[j];
-						item.load(key, value);
-						// dojo.debug("loaded: " + key + " = " + value); 
-					}
-				} else {
-					item.load(key, value);
-				}
-			}
-		}
-	}
-	
+dojo.data.old.format.Json=new function(){
+this.loadDataProviderFromFileContents=function(_1,_2){
+dojo.lang.assertType(_1,dojo.data.old.provider.Base);
+dojo.lang.assertType(_2,String);
+var _3=eval("("+_2+")");
+this.loadDataProviderFromArrayOfJsonData(_1,_3);
+};
+this.loadDataProviderFromArrayOfJsonData=function(_4,_5){
+dojo.lang.assertType(_5,Array,{optional:true});
+if(_5&&(_5.length>0)){
+var _6=_5[0];
+dojo.lang.assertType(_6,[Array,"pureobject"]);
+if(dojo.lang.isArray(_6)){
+_loadDataProviderFromArrayOfArrays(_4,_5);
+}else{
+dojo.lang.assertType(_6,"pureobject");
+_loadDataProviderFromArrayOfObjects(_4,_5);
+}
+}
+};
+this.getJsonStringFromResultSet=function(_7){
+dojo.unimplemented("dojo.data.old.format.Json.getJsonStringFromResultSet");
+var _8=null;
+return _8;
+};
+function _loadDataProviderFromArrayOfArrays(_9,_a){
+var _b=_a[0];
+for(var i=1;i<_a.length;++i){
+var _d=_a[i];
+var _e=_9.getNewItemToLoad();
+for(var j in _d){
+var _10=_d[j];
+var key=_b[j];
+_e.load(key,_10);
+}
+}
+}
+function _loadDataProviderFromArrayOfObjects(_12,_13){
+for(var i in _13){
+var row=_13[i];
+var _16=_12.getNewItemToLoad();
+for(var key in row){
+var _18=row[key];
+if(dojo.lang.isArray(_18)){
+var _19=_18;
+for(var j in _19){
+_18=_19[j];
+_16.load(key,_18);
+}
+}else{
+_16.load(key,_18);
+}
+}
+}
+}
 }();
-

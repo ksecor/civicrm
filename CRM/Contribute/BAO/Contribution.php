@@ -788,6 +788,9 @@ WHERE  civicrm_contribution.contact_id = civicrm_contact.id
 ";
         return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
     }
+
+    static function annualContribution( $contactID ) {
+    }
 }
 
 ?>

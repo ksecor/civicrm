@@ -8,306 +8,258 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide("dojo.widget.Form");
 
+dojo.provide("dojo.widget.Form");
 dojo.require("dojo.widget.*");
 dojo.require("dojo.widget.HtmlWidget");
-
-dojo.widget.defineWidget("dojo.widget.Form", dojo.widget.HtmlWidget,
-	{
-		/*
-		summary: 
-			Widget for easily moving data to/from form
-		
-			description:
-				gets and sets data to and from js-object. With
-				this it's easy to create forms to application.
-				Just create empty form, then set it's values
-				with this and after user pushes submit,
-				getValues and send them as json-notation to
-				server.
-
-				Note: not all Form widgets are supported ATM
-					
-			usage: 
-				<form dojoType="Form" id="myForm">
-					Name: <input type="text" name="name" />
-				</form>
-				myObj={name: "John Doe"};
-				dojo.widget.byId('myForm').setValues(myObj);
-
-				myObj=dojo.widget.byId('myForm').getValues();
-
-		*/
-
-		isContainer: true,
-   		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onSubmit:onSubmit'></form>",
-		formElements: [],
-		// ignoreNullValue:
-		//	if true, then only fields that has data is set to form
-		// 	if false, fields that does not have corresponding object, is set to empty
-		ignoreNullValues: false,
-
-		postCreate: function(args,frag){
-			for (var key in args) {
-				if (key == "dojotype") continue;
-				var attr= document.createAttribute(key);
-      				attr.nodeValue=args[key];
-      				this.containerNode.setAttributeNode(attr);
-    			}
-  		},
-		_createRepeaters: function (/*object*/obj, /*widget*/widget) {
-			for(var i=0; i<widget.children.length; ++i) {
-				  if (widget.children[i].widgetType == "RepeaterContainer") {
-					var rIndex=widget.children[i].index;
-					var rIndexPos=rIndex.indexOf("%{index}");
-					rIndex=rIndex.substr(0,rIndexPos-1);
-					var myObj = this._getObject(obj, rIndex);
-					if (typeof(myObj) == "object" && myObj.length == 0) {
-						myObj=new Array();
-					}
-					var rowCount = widget.children[i].getRowCount();
-					for (var j=0,len=rowCount; j<len; ++j) {
-						widget.children[i].deleteRow(0);
-					}
-					for (var j=0; j<myObj.length; j++) {
-    					 	widget.children[i].addRow(false);
-					}
-				}
-				if (widget.children[i].isContainer) {
-					this._createRepeaters(obj, widget.children[i]);
-				}
-			}
-		},
- 
-		_createFormElements: function() {
-   			if(dojo.render.html.safari) {
-				// bug in safari (not registering form-elements)
-				this.formElements=[];
-				var elems = ["INPUT", "SELECT", "TEXTAREA"];
-				for (var k=0; k < elems.length; k++) {
-					var list = this.containerNode.getElementsByTagName(elems[k]);
-					for (var j=0,len2=list.length; j<len2; j++) {
-						this.formElements.push(list[j]);
-					}
-				}
-				// fixed in safari nightly
-			} else {
-				this.formElements=this.containerNode.elements;
-			}
-		},
-		onSubmit: function(/*event*/e) {
-    			e.preventDefault();
-  		},
-
-		submit: function() {
-			this.containerNode.submit();
-		},
-
-		_getFormElement: function(/*form elements name*/name) {
-			if(dojo.render.html.ie) {
-				for(var i=0, len=this.formElements.length; i<len; i++) {
-					var element = this.formElements[i];
-					if (element.name == name) {
-						return element;
-					} // if
-				} // for
-			} else {
-				var elem = this.formElements[name];
-				if (typeof(elem) != "undefined") {
-					return elem;
-				}
-			}
-			return null;
-		},
-
-		_getObject: function(/*object*/obj, /*string*/searchString) {
-			var namePath = [];
-			namePath=searchString.split(".");
-			var myObj=obj;
-			var name=namePath[namePath.length-1];
-
-			for(var j=0, len=namePath.length;j<len;++j) {
-				var p=namePath[j];
-				if (typeof(myObj[p]) == "undefined") {
-					myObj[p]={};
-				}
-				myObj=myObj[p];
-			}
-			return myObj;
-		},
-		_setToContainers: function (/*object*/obj,/*widget*/widget) {
-			for(var i=0, len=widget.children.length; i<len; ++i) {
-				var currentWidget=widget.children[i];
-				if (currentWidget.widgetType == "Repeater") {
-        				for(var j=0,len=currentWidget.getRowCount(); j<len; ++j) {
-          					currentWidget._initRow(j);
-        				}
-				}
-
-				if (currentWidget.isContainer) {
-					this._setToContainers (obj, currentWidget);
-					continue;
-				}
-
-				switch(currentWidget.widgetType) {
-					case "Checkbox":
-						currentWidget.setValue(currentWidget.inputNode.checked);
-						break;
-					case "DropdownDatePicker":
-						currentWidget.setValue(currentWidget.getValue());
-						break;
-					case "Select":
-						//widget.children[i].setValue(myObj[name]);
-						continue;
-						break;
-					case "ComboBox":
-						//widget.children[i].setSelectedValue(myObj[name]);
-						continue;
-						break;
-					default:
-						break;
-				}
-			}
-		},
-		setValues: function(/*object*/obj) {
-			this._createFormElements();
-    			this._createRepeaters(obj,this);
-			for(var i=0, len=this.formElements.length; i<len; i++) {
-				var element = this.formElements[i];
-				if (element.name == '') {continue};
-				var namePath = new Array();
-				namePath=element.name.split(".");
-				var myObj=obj;
-				var name=namePath[namePath.length-1];
-				for(var j=1,len2=namePath.length;j<len2;++j) {
-					var p=namePath[j - 1];
-					if(typeof(myObj[p]) == "undefined") {
-						myObj=undefined;
-						break;
-					};
-					myObj=myObj[p];
-				}
-
-				if (typeof(myObj) == "undefined") {
-					continue;
-				}
-				if (typeof(myObj[name]) == "undefined" && this.ignoreNullValues) {
-					continue;
-				}
-				var type=element.type;
-				if (type == "hidden" || type == "text" || type == "textarea" || type == "password") {
-					type = "text";
-				}
-				switch(type) {
-					case "checkbox":
-						element.checked=false;
-						if (typeof(myObj[name]) == 'undefined') continue;
-						for (var j=0,len2=myObj[name].length; j<len2; ++j) {
-							if(element.value == myObj[name][j]) {
-								element.checked=true;
-							}
-						}
-						break;
-					case "radio":
-						element.checked=false;
-						if (typeof(myObj[name]) == 'undefined') {continue};
-						if (myObj[name] == element.value) {
-							element.checked=true;
-						}
-						break;
-					case "select-multiple":
-						element.selectedIndex=-1;
-						for (var j=0,len2=element.options.length; j<len2; ++j) {
-							for (var k=0,len3=myObj[name].length;k<len3;++k) {
-								if (element.options[j].value == myObj[name][k]) {
-									element.options[j].selected=true;
-								}
-							}
-						}
-						break;
-					case "select-one":
-						element.selectedIndex="0";
-						for (var j=0,len2=element.options.length; j<len2; ++j) {
-							if (element.options[j].value == myObj[name]) {
-								element.options[j].selected=true;
-							} else {
-							//	element.options[j].selected=false;
-							}
-						}
-						break;
-					case "text":
-						var value="";
-						if (typeof(myObj[name]) != 'undefined') {
-							value = myObj[name];
-						}
-						element.value=value;
-						break;
-					default:
-						dojo.debug("Not supported type ("+type+")");
-						break;
-				}
-      			}
-			this._setToContainers(obj,this);
-		},
-		getValues: function() {
-			this._createFormElements();
-			var obj = { };
-
-			for(var i=0,len=this.formElements.length; i<len; i++) {
-				// FIXME: would be better to give it an attachPoint:
-				var elm = this.formElements[i];
-				var namePath = [];
-				if (elm.name == '') { continue;}
-				namePath=elm.name.split(".");
-				var myObj=obj;
-				var name=namePath[namePath.length-1];
-				for(var j=1,len2=namePath.length;j<len2;++j) {
-					var nameIndex = null;
-					var p=namePath[j - 1];
-					var nameA=p.split("[");
-					if (nameA.length > 1) {
-						if(typeof(myObj[nameA[0]]) == "undefined") {
-							myObj[nameA[0]]=[ ];
-						} // if
-						nameIndex=parseInt(nameA[1]);
-						if(typeof(myObj[nameA[0]][nameIndex]) == "undefined") {
-							myObj[nameA[0]][nameIndex]={};
-						}
-					} else if(typeof(myObj[nameA[0]]) == "undefined") {
-						myObj[nameA[0]]={}
-					} // if
-
-					if (nameA.length == 1) {
-						myObj=myObj[nameA[0]];
-					} else {
-						myObj=myObj[nameA[0]][nameIndex];
-					} // if
-				} // for
-
-				if ((elm.type != "select-multiple" && elm.type != "checkbox" && elm.type != "radio") || (elm.type=="radio" && elm.checked)) {
-					if(name == name.split("[")[0]) {
-						myObj[name]=elm.value;
-					} else {
-						// can not set value when there is no name
-					}
-				} else if (elm.type == "checkbox" && elm.checked) {
-					if(typeof(myObj[name]) == 'undefined') {
-						myObj[name]=[ ];
-					}
-					myObj[name].push(elm.value);
-				} else if (elm.type == "select-multiple") {
-					if(typeof(myObj[name]) == 'undefined') {
-						myObj[name]=[ ];
-					}
-					for (var jdx=0,len3=elm.options.length; jdx<len3; ++jdx) {
-						if (elm.options[jdx].selected) {
-							myObj[name].push(elm.options[jdx].value);
-						}
-					}
-				} // if
-				name=undefined;
-			} // for
-		return obj;
-	}
-});
+dojo.widget.defineWidget("dojo.widget.Form",dojo.widget.HtmlWidget,{isContainer:true,templateString:"<form dojoAttachPoint='containerNode' dojoAttachEvent='onSubmit:onSubmit'></form>",formElements:[],ignoreNullValues:false,postCreate:function(_1,_2){
+for(var _3 in _1){
+if(_3=="dojotype"){
+continue;
+}
+var _4=document.createAttribute(_3);
+_4.nodeValue=_1[_3];
+this.containerNode.setAttributeNode(_4);
+}
+},_createRepeaters:function(_5,_6){
+for(var i=0;i<_6.children.length;++i){
+if(_6.children[i].widgetType=="RepeaterContainer"){
+var _8=_6.children[i].index;
+var _9=_8.indexOf("%{index}");
+_8=_8.substr(0,_9-1);
+var _a=this._getObject(_5,_8);
+if(typeof (_a)=="object"&&_a.length==0){
+_a=new Array();
+}
+var _b=_6.children[i].getRowCount();
+for(var j=0,_d=_b;j<_d;++j){
+_6.children[i].deleteRow(0);
+}
+for(var j=0;j<_a.length;j++){
+_6.children[i].addRow(false);
+}
+}
+if(_6.children[i].isContainer){
+this._createRepeaters(_5,_6.children[i]);
+}
+}
+},_createFormElements:function(){
+if(dojo.render.html.safari){
+this.formElements=[];
+var _e=["INPUT","SELECT","TEXTAREA"];
+for(var k=0;k<_e.length;k++){
+var _10=this.containerNode.getElementsByTagName(_e[k]);
+for(var j=0,_12=_10.length;j<_12;j++){
+this.formElements.push(_10[j]);
+}
+}
+}else{
+this.formElements=this.containerNode.elements;
+}
+},onSubmit:function(e){
+e.preventDefault();
+},submit:function(){
+this.containerNode.submit();
+},_getFormElement:function(_14){
+if(dojo.render.html.ie){
+for(var i=0,len=this.formElements.length;i<len;i++){
+var _17=this.formElements[i];
+if(_17.name==_14){
+return _17;
+}
+}
+}else{
+var _18=this.formElements[_14];
+if(typeof (_18)!="undefined"){
+return _18;
+}
+}
+return null;
+},_getObject:function(obj,_1a){
+var _1b=[];
+_1b=_1a.split(".");
+var _1c=obj;
+var _1d=_1b[_1b.length-1];
+for(var j=0,len=_1b.length;j<len;++j){
+var p=_1b[j];
+if(typeof (_1c[p])=="undefined"){
+_1c[p]={};
+}
+_1c=_1c[p];
+}
+return _1c;
+},_setToContainers:function(obj,_22){
+for(var i=0,len=_22.children.length;i<len;++i){
+var _25=_22.children[i];
+if(_25.widgetType=="Repeater"){
+for(var j=0,len=_25.getRowCount();j<len;++j){
+_25._initRow(j);
+}
+}
+if(_25.isContainer){
+this._setToContainers(obj,_25);
+continue;
+}
+switch(_25.widgetType){
+case "Checkbox":
+_25.setValue(_25.inputNode.checked);
+break;
+case "DropdownDatePicker":
+_25.setValue(_25.getValue());
+break;
+case "Select":
+continue;
+break;
+case "ComboBox":
+continue;
+break;
+default:
+break;
+}
+}
+},setValues:function(obj){
+this._createFormElements();
+this._createRepeaters(obj,this);
+for(var i=0,len=this.formElements.length;i<len;i++){
+var _2a=this.formElements[i];
+if(_2a.name==""){
+continue;
+}
+var _2b=new Array();
+_2b=_2a.name.split(".");
+var _2c=obj;
+var _2d=_2b[_2b.length-1];
+for(var j=1,_2f=_2b.length;j<_2f;++j){
+var p=_2b[j-1];
+if(typeof (_2c[p])=="undefined"){
+_2c=undefined;
+break;
+}
+_2c=_2c[p];
+}
+if(typeof (_2c)=="undefined"){
+continue;
+}
+if(typeof (_2c[_2d])=="undefined"&&this.ignoreNullValues){
+continue;
+}
+var _31=_2a.type;
+if(_31=="hidden"||_31=="text"||_31=="textarea"||_31=="password"){
+_31="text";
+}
+switch(_31){
+case "checkbox":
+_2a.checked=false;
+if(typeof (_2c[_2d])=="undefined"){
+continue;
+}
+for(var j=0,_2f=_2c[_2d].length;j<_2f;++j){
+if(_2a.value==_2c[_2d][j]){
+_2a.checked=true;
+}
+}
+break;
+case "radio":
+_2a.checked=false;
+if(typeof (_2c[_2d])=="undefined"){
+continue;
+}
+if(_2c[_2d]==_2a.value){
+_2a.checked=true;
+}
+break;
+case "select-multiple":
+_2a.selectedIndex=-1;
+for(var j=0,_2f=_2a.options.length;j<_2f;++j){
+for(var k=0,_33=_2c[_2d].length;k<_33;++k){
+if(_2a.options[j].value==_2c[_2d][k]){
+_2a.options[j].selected=true;
+}
+}
+}
+break;
+case "select-one":
+_2a.selectedIndex="0";
+for(var j=0,_2f=_2a.options.length;j<_2f;++j){
+if(_2a.options[j].value==_2c[_2d]){
+_2a.options[j].selected=true;
+}else{
+}
+}
+break;
+case "text":
+var _34="";
+if(typeof (_2c[_2d])!="undefined"){
+_34=_2c[_2d];
+}
+_2a.value=_34;
+break;
+default:
+dojo.debug("Not supported type ("+_31+")");
+break;
+}
+}
+this._setToContainers(obj,this);
+},getValues:function(){
+this._createFormElements();
+var obj={};
+for(var i=0,len=this.formElements.length;i<len;i++){
+var elm=this.formElements[i];
+var _39=[];
+if(elm.name==""){
+continue;
+}
+_39=elm.name.split(".");
+var _3a=obj;
+var _3b=_39[_39.length-1];
+for(var j=1,_3d=_39.length;j<_3d;++j){
+var _3e=null;
+var p=_39[j-1];
+var _40=p.split("[");
+if(_40.length>1){
+if(typeof (_3a[_40[0]])=="undefined"){
+_3a[_40[0]]=[];
+}
+_3e=parseInt(_40[1]);
+if(typeof (_3a[_40[0]][_3e])=="undefined"){
+_3a[_40[0]][_3e]={};
+}
+}else{
+if(typeof (_3a[_40[0]])=="undefined"){
+_3a[_40[0]]={};
+}
+}
+if(_40.length==1){
+_3a=_3a[_40[0]];
+}else{
+_3a=_3a[_40[0]][_3e];
+}
+}
+if((elm.type!="select-multiple"&&elm.type!="checkbox"&&elm.type!="radio")||(elm.type=="radio"&&elm.checked)){
+if(_3b==_3b.split("[")[0]){
+_3a[_3b]=elm.value;
+}else{
+}
+}else{
+if(elm.type=="checkbox"&&elm.checked){
+if(typeof (_3a[_3b])=="undefined"){
+_3a[_3b]=[];
+}
+_3a[_3b].push(elm.value);
+}else{
+if(elm.type=="select-multiple"){
+if(typeof (_3a[_3b])=="undefined"){
+_3a[_3b]=[];
+}
+for(var jdx=0,_42=elm.options.length;jdx<_42;++jdx){
+if(elm.options[jdx].selected){
+_3a[_3b].push(elm.options[jdx].value);
+}
+}
+}
+}
+}
+_3b=undefined;
+}
+return obj;
+}});

@@ -8,348 +8,236 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.uuid.TimeBasedGenerator");
 dojo.require("dojo.lang.common");
 dojo.require("dojo.lang.type");
 dojo.require("dojo.lang.assert");
-
-dojo.uuid.TimeBasedGenerator = new function() {
-
-	// --------------------------------------------------
-	// Public constants:
-	// Number of hours between October 15, 1582 and January 1, 1970:
-	this.GREGORIAN_CHANGE_OFFSET_IN_HOURS = 3394248;
-	// Number of seconds between October 15, 1582 and January 1, 1970:
-	//   this.GREGORIAN_CHANGE_OFFSET_IN_SECONDS = 12219292800;	
-	
-	// --------------------------------------------------
-	// Private variables:
-	var _uuidPseudoNodeString = null;
-	var _uuidClockSeqString = null;
-	var _dateValueOfPreviousUuid = null;
-	var _nextIntraMillisecondIncrement = 0;
-	var _cachedMillisecondsBetween1582and1970 = null;
-	var _cachedHundredNanosecondIntervalsPerMillisecond = null;
-	var _uniformNode = null;
-	
-	// --------------------------------------------------
-	// Private constants:
-	var HEX_RADIX = 16;
-
-	function _carry(/* array */ arrayA) {
-		// summary: 
-		//   Given an array which holds a 64-bit number broken into 4 16-bit 
-		//   elements, this method carries any excess bits (greater than 16-bits) 
-		//   from each array element into the next.
-		// arrayA: An array with 4 elements, each of which is a 16-bit number.
-		arrayA[2] += arrayA[3] >>> 16;
-		arrayA[3] &= 0xFFFF;
-		arrayA[1] += arrayA[2] >>> 16;
-		arrayA[2] &= 0xFFFF;
-		arrayA[0] += arrayA[1] >>> 16;
-		arrayA[1] &= 0xFFFF;
-		dojo.lang.assert((arrayA[0] >>> 16) === 0);
-	}
-
-	function _get64bitArrayFromFloat(/* float */ x) {
-		// summary: 
-		//   Given a floating point number, this method returns an array which 
-		//   holds a 64-bit number broken into 4 16-bit elements.
-		var result = new Array(0, 0, 0, 0);
-		result[3] = x % 0x10000;
-		x -= result[3];
-		x /= 0x10000;
-		result[2] = x % 0x10000;
-		x -= result[2];
-		x /= 0x10000;
-		result[1] = x % 0x10000;
-		x -= result[1];
-		x /= 0x10000;
-		result[0] = x;
-		return result; // Array with 4 elements, each of which is a 16-bit number.
-	}
-
-	function _addTwo64bitArrays(/* array */ arrayA, /* array */ arrayB) {
-		// summary: 
-		//   Takes two arrays, each of which holds a 64-bit number broken into 4
-		//   16-bit elements, and returns a new array that holds a 64-bit number
-		//   that is the sum of the two original numbers.
-		// arrayA: An array with 4 elements, each of which is a 16-bit number.
-		// arrayB: An array with 4 elements, each of which is a 16-bit number.
-		dojo.lang.assertType(arrayA, Array);
-		dojo.lang.assertType(arrayB, Array);
-		dojo.lang.assert(arrayA.length == 4);
-		dojo.lang.assert(arrayB.length == 4);
-	
-		var result = new Array(0, 0, 0, 0);
-		result[3] = arrayA[3] + arrayB[3];
-		result[2] = arrayA[2] + arrayB[2];
-		result[1] = arrayA[1] + arrayB[1];
-		result[0] = arrayA[0] + arrayB[0];
-		_carry(result);
-		return result; // Array with 4 elements, each of which is a 16-bit number.
-	}
-
-	function _multiplyTwo64bitArrays(/* array */ arrayA, /* array */ arrayB) {
-		// summary: 
-		//   Takes two arrays, each of which holds a 64-bit number broken into 4
-		//   16-bit elements, and returns a new array that holds a 64-bit number
-		//   that is the product of the two original numbers.
-		// arrayA: An array with 4 elements, each of which is a 16-bit number.
-		// arrayB: An array with 4 elements, each of which is a 16-bit number.
-		dojo.lang.assertType(arrayA, Array);
-		dojo.lang.assertType(arrayB, Array);
-		dojo.lang.assert(arrayA.length == 4);
-		dojo.lang.assert(arrayB.length == 4);
-	
-		var overflow = false;
-		if (arrayA[0] * arrayB[0] !== 0) { overflow = true; }
-		if (arrayA[0] * arrayB[1] !== 0) { overflow = true; }
-		if (arrayA[0] * arrayB[2] !== 0) { overflow = true; }
-		if (arrayA[1] * arrayB[0] !== 0) { overflow = true; }
-		if (arrayA[1] * arrayB[1] !== 0) { overflow = true; }
-		if (arrayA[2] * arrayB[0] !== 0) { overflow = true; }
-		dojo.lang.assert(!overflow);
-	
-		var result = new Array(0, 0, 0, 0);
-		result[0] += arrayA[0] * arrayB[3];
-		_carry(result);
-		result[0] += arrayA[1] * arrayB[2];
-		_carry(result);
-		result[0] += arrayA[2] * arrayB[1];
-		_carry(result);
-		result[0] += arrayA[3] * arrayB[0];
-		_carry(result);
-		result[1] += arrayA[1] * arrayB[3];
-		_carry(result);
-		result[1] += arrayA[2] * arrayB[2];
-		_carry(result);
-		result[1] += arrayA[3] * arrayB[1];
-		_carry(result);
-		result[2] += arrayA[2] * arrayB[3];
-		_carry(result);
-		result[2] += arrayA[3] * arrayB[2];
-		_carry(result);
-		result[3] += arrayA[3] * arrayB[3];
-		_carry(result);
-		return result; // Array with 4 elements, each of which is a 16-bit number.
-	}
-
-	function _padWithLeadingZeros(/* string */ string, /* int */ desiredLength) {
-		// summary: 
-		//   Pads a string with leading zeros and returns the result.
-		// string: A string to add padding to.
-		// desiredLength: The number of characters the return string should have.
-
-		// examples: 
-		//   result = _padWithLeadingZeros("abc", 6);
-		//   dojo.lang.assert(result == "000abc");
-		while (string.length < desiredLength) {
-			string = "0" + string;
-		}
-		return string; // string
-	}
-
-	function _generateRandomEightCharacterHexString() {
-		// summary: 
-		//   Returns a randomly generated 8-character string of hex digits.
-
-		// FIXME: This probably isn't a very high quality random number.
-	
-		// Make random32bitNumber be a randomly generated floating point number
-		// between 0 and (4,294,967,296 - 1), inclusive.
-		var random32bitNumber = Math.floor( (Math.random() % 1) * Math.pow(2, 32) );
-	
-		var eightCharacterString = random32bitNumber.toString(HEX_RADIX);
-		while (eightCharacterString.length < 8) {
-			eightCharacterString = "0" + eightCharacterString;
-		}
-		return eightCharacterString; // String (an 8-character hex string)
-	}
-
-	function _generateUuidString(/* string? */ node) {
-		// summary: 
-		//   Generates a time-based UUID, meaning a version 1 UUID.  
-		// description: 
-		//   JavaScript code running in a browser doesn't have access to the 
-		//   IEEE 802.3 address of the computer, so if a node value isn't 
-		//   supplied, we generate a random pseudonode value instead.
-		// node: An optional 12-character string to use as the node in the new UUID.
-		dojo.lang.assertType(node, String, {optional: true});
-		if (node) {
-			dojo.lang.assert(node.length == 12);
-		} else {
-			if (_uniformNode) {
-				node = _uniformNode;
-			} else {
-				if (!_uuidPseudoNodeString) {
-					var pseudoNodeIndicatorBit = 0x8000;
-					var random15bitNumber = Math.floor( (Math.random() % 1) * Math.pow(2, 15) );
-					var leftmost4HexCharacters = (pseudoNodeIndicatorBit | random15bitNumber).toString(HEX_RADIX);
-					_uuidPseudoNodeString = leftmost4HexCharacters + _generateRandomEightCharacterHexString();
-				}
-				node = _uuidPseudoNodeString;
-			}
-		}
-		if (!_uuidClockSeqString) {
-			var variantCodeForDCEUuids = 0x8000; // 10--------------, i.e. uses only first two of 16 bits.
-			var random14bitNumber = Math.floor( (Math.random() % 1) * Math.pow(2, 14) );
-			_uuidClockSeqString = (variantCodeForDCEUuids | random14bitNumber).toString(HEX_RADIX);
-		}
-	
-		// Maybe we should think about trying to make the code more readable to
-		// newcomers by creating a class called "WholeNumber" that encapsulates
-		// the methods and data structures for working with these arrays that
-		// hold 4 16-bit numbers?  And then these variables below have names
-		// like "wholeSecondsPerHour" rather than "arraySecondsPerHour"?
-		var now = new Date();
-		var millisecondsSince1970 = now.valueOf(); // milliseconds since midnight 01 January, 1970 UTC.
-		var nowArray = _get64bitArrayFromFloat(millisecondsSince1970);
-		if (!_cachedMillisecondsBetween1582and1970) {
-			var arraySecondsPerHour = _get64bitArrayFromFloat(60 * 60);
-			var arrayHoursBetween1582and1970 = _get64bitArrayFromFloat(dojo.uuid.TimeBasedGenerator.GREGORIAN_CHANGE_OFFSET_IN_HOURS);
-			var arraySecondsBetween1582and1970 = _multiplyTwo64bitArrays(arrayHoursBetween1582and1970, arraySecondsPerHour);
-			var arrayMillisecondsPerSecond = _get64bitArrayFromFloat(1000);
-			_cachedMillisecondsBetween1582and1970 = _multiplyTwo64bitArrays(arraySecondsBetween1582and1970, arrayMillisecondsPerSecond);
-			_cachedHundredNanosecondIntervalsPerMillisecond = _get64bitArrayFromFloat(10000);
-		}
-		var arrayMillisecondsSince1970 = nowArray;
-		var arrayMillisecondsSince1582 = _addTwo64bitArrays(_cachedMillisecondsBetween1582and1970, arrayMillisecondsSince1970);
-		var arrayHundredNanosecondIntervalsSince1582 = _multiplyTwo64bitArrays(arrayMillisecondsSince1582, _cachedHundredNanosecondIntervalsPerMillisecond);
-	
-		if (now.valueOf() == _dateValueOfPreviousUuid) {
-			arrayHundredNanosecondIntervalsSince1582[3] += _nextIntraMillisecondIncrement;
-			_carry(arrayHundredNanosecondIntervalsSince1582);
-			_nextIntraMillisecondIncrement += 1;
-			if (_nextIntraMillisecondIncrement == 10000) {
-				// If we've gotten to here, it means we've already generated 10,000
-				// UUIDs in this single millisecond, which is the most that the UUID
-				// timestamp field allows for.  So now we'll just sit here and wait
-				// for a fraction of a millisecond, so as to ensure that the next
-				// time this method is called there will be a different millisecond
-				// value in the timestamp field.
-				while (now.valueOf() == _dateValueOfPreviousUuid) {
-					now = new Date();
-				}
-			}
-		} else {
-			_dateValueOfPreviousUuid = now.valueOf();
-			_nextIntraMillisecondIncrement = 1;
-		}
-	
-		var hexTimeLowLeftHalf  = arrayHundredNanosecondIntervalsSince1582[2].toString(HEX_RADIX);
-		var hexTimeLowRightHalf = arrayHundredNanosecondIntervalsSince1582[3].toString(HEX_RADIX);
-		var hexTimeLow = _padWithLeadingZeros(hexTimeLowLeftHalf, 4) + _padWithLeadingZeros(hexTimeLowRightHalf, 4);
-		var hexTimeMid = arrayHundredNanosecondIntervalsSince1582[1].toString(HEX_RADIX);
-		hexTimeMid = _padWithLeadingZeros(hexTimeMid, 4);
-		var hexTimeHigh = arrayHundredNanosecondIntervalsSince1582[0].toString(HEX_RADIX);
-		hexTimeHigh = _padWithLeadingZeros(hexTimeHigh, 3);
-		var hyphen = "-";
-		var versionCodeForTimeBasedUuids = "1"; // binary2hex("0001")
-		var resultUuid = hexTimeLow + hyphen + hexTimeMid + hyphen +
-					versionCodeForTimeBasedUuids + hexTimeHigh + hyphen +
-					_uuidClockSeqString + hyphen + node;
-		resultUuid = resultUuid.toLowerCase();
-		return resultUuid; // String (a 36 character string, which will look something like "b4308fb0-86cd-11da-a72b-0800200c9a66")
-	}
-
-	this.setNode = function(/* string? */ node) {
-		// summary: 
-		//   Sets the 'node' value that will be included in generated UUIDs.
-		// node: A 12-character hex string representing a pseudoNode or hardwareNode.
-		dojo.lang.assert((node === null) || (node.length == 12));
-		_uniformNode = node;
-	};
-
-	this.getNode = function() {
-		// summary: 
-		//   Returns the 'node' value that will be included in generated UUIDs.
-		return _uniformNode; // String (a 12-character hex string representing a pseudoNode or hardwareNode)
-	};
-
-	this.generate = function(/* misc? */ input) {
-		// summary: 
-		//   This function generates time-based UUIDs, meaning "version 1" UUIDs. 
-		// description: 
-		// For more info, see
-		//   http://www.webdav.org/specs/draft-leach-uuids-guids-01.txt
-		//   http://www.infonuovo.com/dma/csdocs/sketch/instidid.htm
-		//   http://kruithof.xs4all.nl/uuid/uuidgen
-		//   http://www.opengroup.org/onlinepubs/009629399/apdxa.htm#tagcjh_20
-		//   http://jakarta.apache.org/commons/sandbox/id/apidocs/org/apache/commons/id/uuid/clock/Clock.html
-
-		// examples: 
-		//   var generate = dojo.uuid.TimeBasedGenerator.generate;
-		//   var uuid;   // an instance of dojo.uuid.Uuid
-		//   var string; // a simple string literal
-		//   string = generate();
-		//   string = generate(String);
-		//   uuid   = generate(dojo.uuid.Uuid);
-		//   string = generate("017bf397618a");
-		//   string = generate({node: "017bf397618a"});         // hardwareNode
-		//   string = generate({node: "f17bf397618a"});         // pseudoNode
-		//   string = generate({hardwareNode: "017bf397618a"});
-		//   string = generate({pseudoNode:   "f17bf397618a"});
-		//   string = generate({node: "017bf397618a", returnType: String});
-		//   uuid   = generate({node: "017bf397618a", returnType: dojo.uuid.Uuid});
-		//   dojo.uuid.TimeBasedGenerator.setNode("017bf397618a");
-		//   string = generate(); // the generated UUID has node == "017bf397618a"
-		//   uuid   = generate(dojo.uuid.Uuid); // the generated UUID has node == "017bf397618a"
-		var nodeString = null;
-		var returnType = null;
-		
-		if (input) {
-			if (dojo.lang.isObject(input) && !dojo.lang.isBuiltIn(input)) {
-				// input: object {node: string, hardwareNode: string, pseudoNode: string}
-				// node: A 12-character hex string representing a pseudoNode or hardwareNode.
-				// hardwareNode: A 12-character hex string containing an IEEE 802.3 network node identificator.
-				// pseudoNode: A 12-character hex string representing a pseudoNode.
-				var namedParameters = input;
-				dojo.lang.assertValidKeywords(namedParameters, ["node", "hardwareNode", "pseudoNode", "returnType"]);
-				var node = namedParameters["node"];
-				var hardwareNode = namedParameters["hardwareNode"];
-				var pseudoNode = namedParameters["pseudoNode"];
-				nodeString = (node || pseudoNode || hardwareNode);
-				if (nodeString) {
-					var firstCharacter = nodeString.charAt(0);
-					var firstDigit = parseInt(firstCharacter, HEX_RADIX);
-					if (hardwareNode) {
-						dojo.lang.assert((firstDigit >= 0x0) && (firstDigit <= 0x7));
-					}
-					if (pseudoNode) {
-						dojo.lang.assert((firstDigit >= 0x8) && (firstDigit <= 0xF));
-					}
-				}
-				returnType = namedParameters["returnType"];
-				dojo.lang.assertType(returnType, Function, {optional: true});
-			} else {
-				if (dojo.lang.isString(input)) {
-					// input: string A 12-character hex string representing a pseudoNode or hardwareNode.
-					nodeString = input;
-					returnType = null;
-				} else {
-					if (dojo.lang.isFunction(input)) {
-						// input: constructor The type of object to return. Usually String or dojo.uuid.Uuid
-						nodeString = null;
-						returnType = input;
-					}
-				}
-			}
-			if (nodeString) {
-				dojo.lang.assert(nodeString.length == 12);
-				var integer = parseInt(nodeString, HEX_RADIX);
-				dojo.lang.assert(isFinite(integer));
-			}
-			dojo.lang.assertType(returnType, Function, {optional: true});
-		}
-		
-		var uuidString = _generateUuidString(nodeString);
-		var returnValue;
-		if (returnType && (returnType != String)) {
-			returnValue = new returnType(uuidString);
-		} else {
-			returnValue = uuidString;
-		}
-		return returnValue; // object
-	};
+dojo.uuid.TimeBasedGenerator=new function(){
+this.GREGORIAN_CHANGE_OFFSET_IN_HOURS=3394248;
+var _1=null;
+var _2=null;
+var _3=null;
+var _4=0;
+var _5=null;
+var _6=null;
+var _7=null;
+var _8=16;
+function _carry(_9){
+_9[2]+=_9[3]>>>16;
+_9[3]&=65535;
+_9[1]+=_9[2]>>>16;
+_9[2]&=65535;
+_9[0]+=_9[1]>>>16;
+_9[1]&=65535;
+dojo.lang.assert((_9[0]>>>16)===0);
+}
+function _get64bitArrayFromFloat(x){
+var _b=new Array(0,0,0,0);
+_b[3]=x%65536;
+x-=_b[3];
+x/=65536;
+_b[2]=x%65536;
+x-=_b[2];
+x/=65536;
+_b[1]=x%65536;
+x-=_b[1];
+x/=65536;
+_b[0]=x;
+return _b;
+}
+function _addTwo64bitArrays(_c,_d){
+dojo.lang.assertType(_c,Array);
+dojo.lang.assertType(_d,Array);
+dojo.lang.assert(_c.length==4);
+dojo.lang.assert(_d.length==4);
+var _e=new Array(0,0,0,0);
+_e[3]=_c[3]+_d[3];
+_e[2]=_c[2]+_d[2];
+_e[1]=_c[1]+_d[1];
+_e[0]=_c[0]+_d[0];
+_carry(_e);
+return _e;
+}
+function _multiplyTwo64bitArrays(_f,_10){
+dojo.lang.assertType(_f,Array);
+dojo.lang.assertType(_10,Array);
+dojo.lang.assert(_f.length==4);
+dojo.lang.assert(_10.length==4);
+var _11=false;
+if(_f[0]*_10[0]!==0){
+_11=true;
+}
+if(_f[0]*_10[1]!==0){
+_11=true;
+}
+if(_f[0]*_10[2]!==0){
+_11=true;
+}
+if(_f[1]*_10[0]!==0){
+_11=true;
+}
+if(_f[1]*_10[1]!==0){
+_11=true;
+}
+if(_f[2]*_10[0]!==0){
+_11=true;
+}
+dojo.lang.assert(!_11);
+var _12=new Array(0,0,0,0);
+_12[0]+=_f[0]*_10[3];
+_carry(_12);
+_12[0]+=_f[1]*_10[2];
+_carry(_12);
+_12[0]+=_f[2]*_10[1];
+_carry(_12);
+_12[0]+=_f[3]*_10[0];
+_carry(_12);
+_12[1]+=_f[1]*_10[3];
+_carry(_12);
+_12[1]+=_f[2]*_10[2];
+_carry(_12);
+_12[1]+=_f[3]*_10[1];
+_carry(_12);
+_12[2]+=_f[2]*_10[3];
+_carry(_12);
+_12[2]+=_f[3]*_10[2];
+_carry(_12);
+_12[3]+=_f[3]*_10[3];
+_carry(_12);
+return _12;
+}
+function _padWithLeadingZeros(_13,_14){
+while(_13.length<_14){
+_13="0"+_13;
+}
+return _13;
+}
+function _generateRandomEightCharacterHexString(){
+var _15=Math.floor((Math.random()%1)*Math.pow(2,32));
+var _16=_15.toString(_8);
+while(_16.length<8){
+_16="0"+_16;
+}
+return _16;
+}
+function _generateUuidString(_17){
+dojo.lang.assertType(_17,String,{optional:true});
+if(_17){
+dojo.lang.assert(_17.length==12);
+}else{
+if(_7){
+_17=_7;
+}else{
+if(!_1){
+var _18=32768;
+var _19=Math.floor((Math.random()%1)*Math.pow(2,15));
+var _1a=(_18|_19).toString(_8);
+_1=_1a+_generateRandomEightCharacterHexString();
+}
+_17=_1;
+}
+}
+if(!_2){
+var _1b=32768;
+var _1c=Math.floor((Math.random()%1)*Math.pow(2,14));
+_2=(_1b|_1c).toString(_8);
+}
+var now=new Date();
+var _1e=now.valueOf();
+var _1f=_get64bitArrayFromFloat(_1e);
+if(!_5){
+var _20=_get64bitArrayFromFloat(60*60);
+var _21=_get64bitArrayFromFloat(dojo.uuid.TimeBasedGenerator.GREGORIAN_CHANGE_OFFSET_IN_HOURS);
+var _22=_multiplyTwo64bitArrays(_21,_20);
+var _23=_get64bitArrayFromFloat(1000);
+_5=_multiplyTwo64bitArrays(_22,_23);
+_6=_get64bitArrayFromFloat(10000);
+}
+var _24=_1f;
+var _25=_addTwo64bitArrays(_5,_24);
+var _26=_multiplyTwo64bitArrays(_25,_6);
+if(now.valueOf()==_3){
+_26[3]+=_4;
+_carry(_26);
+_4+=1;
+if(_4==10000){
+while(now.valueOf()==_3){
+now=new Date();
+}
+}
+}else{
+_3=now.valueOf();
+_4=1;
+}
+var _27=_26[2].toString(_8);
+var _28=_26[3].toString(_8);
+var _29=_padWithLeadingZeros(_27,4)+_padWithLeadingZeros(_28,4);
+var _2a=_26[1].toString(_8);
+_2a=_padWithLeadingZeros(_2a,4);
+var _2b=_26[0].toString(_8);
+_2b=_padWithLeadingZeros(_2b,3);
+var _2c="-";
+var _2d="1";
+var _2e=_29+_2c+_2a+_2c+_2d+_2b+_2c+_2+_2c+_17;
+_2e=_2e.toLowerCase();
+return _2e;
+}
+this.setNode=function(_2f){
+dojo.lang.assert((_2f===null)||(_2f.length==12));
+_7=_2f;
+};
+this.getNode=function(){
+return _7;
+};
+this.generate=function(_30){
+var _31=null;
+var _32=null;
+if(_30){
+if(dojo.lang.isObject(_30)&&!dojo.lang.isBuiltIn(_30)){
+var _33=_30;
+dojo.lang.assertValidKeywords(_33,["node","hardwareNode","pseudoNode","returnType"]);
+var _34=_33["node"];
+var _35=_33["hardwareNode"];
+var _36=_33["pseudoNode"];
+_31=(_34||_36||_35);
+if(_31){
+var _37=_31.charAt(0);
+var _38=parseInt(_37,_8);
+if(_35){
+dojo.lang.assert((_38>=0)&&(_38<=7));
+}
+if(_36){
+dojo.lang.assert((_38>=8)&&(_38<=15));
+}
+}
+_32=_33["returnType"];
+dojo.lang.assertType(_32,Function,{optional:true});
+}else{
+if(dojo.lang.isString(_30)){
+_31=_30;
+_32=null;
+}else{
+if(dojo.lang.isFunction(_30)){
+_31=null;
+_32=_30;
+}
+}
+}
+if(_31){
+dojo.lang.assert(_31.length==12);
+var _39=parseInt(_31,_8);
+dojo.lang.assert(isFinite(_39));
+}
+dojo.lang.assertType(_32,Function,{optional:true});
+}
+var _3a=_generateUuidString(_31);
+var _3b;
+if(_32&&(_32!=String)){
+_3b=new _32(_3a);
+}else{
+_3b=_3a;
+}
+return _3b;
+};
 }();

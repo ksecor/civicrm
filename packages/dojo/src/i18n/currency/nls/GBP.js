@@ -8,4 +8,5 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-({"displayName":"GBP","symbol":"£"})
+
+({"displayName":"GBP","symbol":"\xa3"});

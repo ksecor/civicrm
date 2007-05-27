@@ -8,136 +8,87 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.lang.extras");
-
 dojo.require("dojo.lang.common");
-
-dojo.lang.setTimeout = function(/*Function*/func, /*int*/delay /*, ...*/){
-	// summary:
-	//		Sets a timeout in milliseconds to execute a function in a given
-	//		context with optional arguments.
-	// usage:
-	//		dojo.lang.setTimeout(Object context, function func, number delay[, arg1[, ...]]);
-	//		dojo.lang.setTimeout(function func, number delay[, arg1[, ...]]);
-
-	var context = window, argsStart = 2;
-	if(!dojo.lang.isFunction(func)){
-		context = func;
-		func = delay;
-		delay = arguments[2];
-		argsStart++;
-	}
-
-	if(dojo.lang.isString(func)){
-		func = context[func];
-	}
-	
-	var args = [];
-	for (var i = argsStart; i < arguments.length; i++){
-		args.push(arguments[i]);
-	}
-	return dojo.global().setTimeout(function(){ func.apply(context, args); }, delay); // int
+dojo.lang.setTimeout=function(_1,_2){
+var _3=window,_4=2;
+if(!dojo.lang.isFunction(_1)){
+_3=_1;
+_1=_2;
+_2=arguments[2];
+_4++;
 }
-
-dojo.lang.clearTimeout = function(/*int*/timer){
-	// summary: clears timer by number from the execution queue
-
-	// FIXME:
-	//		why do we have this function? It's not portable outside of browser
-	//		environments and it's a stupid wrapper on something that browsers
-	//		provide anyway.
-	dojo.global().clearTimeout(timer);
+if(dojo.lang.isString(_1)){
+_1=_3[_1];
 }
-
-dojo.lang.getNameInObj = function(/*Object*/ns, /*unknown*/item){
-	// summary: 
-	//		looks for a value in the object ns with a value matching item and
-	//		returns the property name
-	// ns: if null, dj_global is used
-	// item: value to return a name for
-	if(!ns){ ns = dj_global; }
-
-	for(var x in ns){
-		if(ns[x] === item){
-			return new String(x); // String
-		}
-	}
-	return null; // null
+var _5=[];
+for(var i=_4;i<arguments.length;i++){
+_5.push(arguments[i]);
 }
-
-dojo.lang.shallowCopy = function(/*Object*/obj, /*Boolean?*/deep){
-	// summary:
-	//		copies object obj one level deep, or full depth if deep is true
-	var i, ret;	
-
-	if(obj === null){ /*obj: null*/ return null; } // null
-	
-	if(dojo.lang.isObject(obj)){
-		// obj: Object	
-		ret = new obj.constructor();
-		for(i in obj){
-			if(dojo.lang.isUndefined(ret[i])){
-				ret[i] = deep ? dojo.lang.shallowCopy(obj[i], deep) : obj[i];
-			}
-		}
-	}else if(dojo.lang.isArray(obj)){
-		// obj: Array
-		ret = [];
-		for(i=0; i<obj.length; i++){
-			ret[i] = deep ? dojo.lang.shallowCopy(obj[i], deep) : obj[i];
-		}
-	}else{
-		// obj: Object
-		ret = obj;
-	}
-
-	return ret; // Object
+return dojo.global().setTimeout(function(){
+_1.apply(_3,_5);
+},_2);
+};
+dojo.lang.clearTimeout=function(_7){
+dojo.global().clearTimeout(_7);
+};
+dojo.lang.getNameInObj=function(ns,_9){
+if(!ns){
+ns=dj_global;
 }
-
-dojo.lang.firstValued = function(/* ... */){
-	// summary: Return the first argument that isn't undefined
-
-	for(var i = 0; i < arguments.length; i++){
-		if(typeof arguments[i] != "undefined"){
-			return arguments[i]; // Object
-		}
-	}
-	return undefined; // undefined
+for(var x in ns){
+if(ns[x]===_9){
+return new String(x);
 }
-
-dojo.lang.getObjPathValue = function(/*String*/objpath, /*Object?*/context, /*Boolean?*/create){
-	// summary:
-	//		Gets a value from a reference specified as a string descriptor,
-	//		(e.g. "A.B") in the given context.
-	// context: if not specified, dj_global is used
-	// create: if true, undefined objects in the path are created.
-	with(dojo.parseObjPath(objpath, context, create)){
-		return dojo.evalProp(prop, obj, create); // Object
-	}
 }
-
-dojo.lang.setObjPathValue = function(/*String*/objpath, /*anything*/value, /*Object?*/context, /*Boolean?*/create){
-	// summary:
-	//		Sets a value on a reference specified as a string descriptor.
-	//		(e.g. "A.B") in the given context. This is similar to straight
-	//		assignment, except that the object structure in question can
-	//		optionally be created if it does not exist.
-	//	context: if not specified, dj_global is used
-	//	create: if true, undefined objects in the path are created.
-
-	// FIXME: why is this function valuable? It should be scheduled for
-	// removal on the grounds that dojo.parseObjPath does most of it's work and
-	// is more straightforward and has fewer dependencies. Also, the order of
-	// arguments is bone-headed. "context" should clearly come after "create".
-	// *sigh*
-	dojo.deprecated("dojo.lang.setObjPathValue", "use dojo.parseObjPath and the '=' operator", "0.6");
-
-	if(arguments.length < 4){
-		create = true;
-	}
-	with(dojo.parseObjPath(objpath, context, create)){
-		if(obj && (create || (prop in obj))){
-			obj[prop] = value;
-		}
-	}
+return null;
+};
+dojo.lang.shallowCopy=function(_b,_c){
+var i,_e;
+if(_b===null){
+return null;
 }
+if(dojo.lang.isObject(_b)){
+_e=new _b.constructor();
+for(i in _b){
+if(dojo.lang.isUndefined(_e[i])){
+_e[i]=_c?dojo.lang.shallowCopy(_b[i],_c):_b[i];
+}
+}
+}else{
+if(dojo.lang.isArray(_b)){
+_e=[];
+for(i=0;i<_b.length;i++){
+_e[i]=_c?dojo.lang.shallowCopy(_b[i],_c):_b[i];
+}
+}else{
+_e=_b;
+}
+}
+return _e;
+};
+dojo.lang.firstValued=function(){
+for(var i=0;i<arguments.length;i++){
+if(typeof arguments[i]!="undefined"){
+return arguments[i];
+}
+}
+return undefined;
+};
+dojo.lang.getObjPathValue=function(_10,_11,_12){
+with(dojo.parseObjPath(_10,_11,_12)){
+return dojo.evalProp(prop,obj,_12);
+}
+};
+dojo.lang.setObjPathValue=function(_13,_14,_15,_16){
+dojo.deprecated("dojo.lang.setObjPathValue","use dojo.parseObjPath and the '=' operator","0.6");
+if(arguments.length<4){
+_16=true;
+}
+with(dojo.parseObjPath(_13,_15,_16)){
+if(obj&&(_16||(prop in obj))){
+obj[prop]=_14;
+}
+}
+};

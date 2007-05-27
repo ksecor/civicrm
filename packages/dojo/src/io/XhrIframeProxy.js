@@ -8,239 +8,143 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide("dojo.io.XhrIframeProxy");
 
+dojo.provide("dojo.io.XhrIframeProxy");
 dojo.require("dojo.experimental");
 dojo.experimental("dojo.io.XhrIframeProxy");
-
 dojo.require("dojo.io.IframeIO");
 dojo.require("dojo.dom");
 dojo.require("dojo.uri.Uri");
-
-dojo.io.XhrIframeProxy = {
-	//summary: Object that implements the iframe handling for XMLHttpRequest
-	//IFrame Proxying.
-	//description: Do not use this object directly. See the Dojo Book page
-	//on XMLHttpRequest IFrame Proxying:
-	//http://manual.dojotoolkit.org/WikiHome/DojoDotBook/Book75
-	//Usage of XHR IFrame Proxying does not work from local disk in Safari.
-
-	xipClientUrl: djConfig["xipClientUrl"] || dojo.uri.moduleUri("dojo.io", "xip_client.html"),
-
-	_state: {},
-	_stateIdCounter: 0,
-
-	needFrameRecursion: function(){
-		return (true == dojo.render.html.ie70);
-	},
-
-	send: function(facade){		
-		var stateId = "XhrIframeProxy" + (this._stateIdCounter++);
-		facade._stateId = stateId;
-
-
-		var frameUrl = this.xipClientUrl + "#0:init:id=" + stateId + "&server=" 
-			+ encodeURIComponent(facade._ifpServerUrl) + "&fr=false";
-		if(this.needFrameRecursion()){
-			//IE7 hack. Need to load server URL, and have that load the xip_client.html.
-			//Also, this server URL needs to different from the one eventually loaded by xip_client.html
-			//Otherwise, IE7 will not load it. Funky.
-			var fullClientUrl = window.location.href;
-			if((this.xipClientUrl + "").charAt(0) == "/"){
-				var endIndex = fullClientUrl.indexOf("://");
-				endIndex = fullClientUrl.indexOf("/", endIndex + 1);
-				fullClientUrl = fullClientUrl.substring(0, endIndex);
-			}else{
-				fullClientUrl = fullClientUrl.substring(0, fullClientUrl.lastIndexOf("/") + 1);
-			}
-			fullClientUrl += this.xipClientUrl;
-		
-			var serverUrl = facade._ifpServerUrl
-				+ (facade._ifpServerUrl.indexOf("?") == -1 ? "?" : "&") + "dojo.fr=1";
-
-			frameUrl = serverUrl + "#0:init:id=" + stateId + "&client=" 
-				+ encodeURIComponent(fullClientUrl) + "&fr=" + this.needFrameRecursion(); //fr is for Frame Recursion
-		}
-
-		this._state[stateId] = {
-			facade: facade,
-			stateId: stateId,
-			clientFrame: dojo.io.createIFrame(stateId, "", frameUrl)
-		};
-		
-		return stateId;
-	},
-	
-	receive: function(/*String*/stateId, /*String*/urlEncodedData){
-		/* urlEncodedData should have the following params:
-				- responseHeaders
-				- status
-				- statusText
-				- responseText
-		*/
-		//Decode response data.
-		var response = {};
-		var nvPairs = urlEncodedData.split("&");
-		for(var i = 0; i < nvPairs.length; i++){
-			if(nvPairs[i]){
-				var nameValue = nvPairs[i].split("=");
-				response[decodeURIComponent(nameValue[0])] = decodeURIComponent(nameValue[1]);
-			}
-		}
-
-		//Set data on facade object.
-		var state = this._state[stateId];
-		var facade = state.facade;
-
-		facade._setResponseHeaders(response.responseHeaders);
-		if(response.status == 0 || response.status){
-			facade.status = parseInt(response.status, 10);
-		}
-		if(response.statusText){
-			facade.statusText = response.statusText;
-		}
-		if(response.responseText){
-			facade.responseText = response.responseText;
-			
-			//Fix responseXML.
-			var contentType = facade.getResponseHeader("Content-Type");
-			if(contentType && (contentType == "application/xml" || contentType == "text/xml")){
-				facade.responseXML = dojo.dom.createDocumentFromText(response.responseText, contentType);
-			}
-		}
-		facade.readyState = 4;
-		
-		this.destroyState(stateId);
-	},
-
-	clientFrameLoaded: function(/*String*/stateId){
-		var state = this._state[stateId];
-		var facade = state.facade;
-
-		if(this.needFrameRecursion()){
-			var clientWindow = window.open("", state.stateId + "_clientEndPoint");
-		}else{
-			var clientWindow = state.clientFrame.contentWindow;
-		}
-
-		var reqHeaders = [];
-		for(var param in facade._requestHeaders){
-			reqHeaders.push(param + ": " + facade._requestHeaders[param]);
-		}
-		
-		var requestData = {
-			uri: facade._uri
-		};
-		if(reqHeaders.length > 0){
-			requestData.requestHeaders = reqHeaders.join("\r\n");		
-		}
-		if(facade._method){
-			requestData.method = facade._method;
-		}
-		if(facade._bodyData){
-			requestData.data = facade._bodyData;
-		}
-
-		clientWindow.send(dojo.io.argsFromMap(requestData, "utf8"));
-	},
-	
-	destroyState: function(/*String*/stateId){
-		var state = this._state[stateId];
-		if(state){
-			delete this._state[stateId];
-			var parentNode = state.clientFrame.parentNode;
-			parentNode.removeChild(state.clientFrame);
-			state.clientFrame = null;
-			state = null;
-		}
-	},
-
-	createFacade: function(){
-		if(arguments && arguments[0] && arguments[0]["iframeProxyUrl"]){
-			return new dojo.io.XhrIframeFacade(arguments[0]["iframeProxyUrl"]);
-		}else{
-			return dojo.io.XhrIframeProxy.oldGetXmlhttpObject.apply(dojo.hostenv, arguments);
-		}
-	}
+dojo.io.XhrIframeProxy={xipClientUrl:djConfig["xipClientUrl"]||dojo.uri.moduleUri("dojo.io","xip_client.html"),_state:{},_stateIdCounter:0,needFrameRecursion:function(){
+return (true==dojo.render.html.ie70);
+},send:function(_1){
+var _2="XhrIframeProxy"+(this._stateIdCounter++);
+_1._stateId=_2;
+var _3=this.xipClientUrl+"#0:init:id="+_2+"&server="+encodeURIComponent(_1._ifpServerUrl)+"&fr=false";
+if(this.needFrameRecursion()){
+var _4=window.location.href;
+if((this.xipClientUrl+"").charAt(0)=="/"){
+var _5=_4.indexOf("://");
+_5=_4.indexOf("/",_5+1);
+_4=_4.substring(0,_5);
+}else{
+_4=_4.substring(0,_4.lastIndexOf("/")+1);
 }
-
-//Replace the normal XHR factory with the proxy one.
-dojo.io.XhrIframeProxy.oldGetXmlhttpObject = dojo.hostenv.getXmlhttpObject;
-dojo.hostenv.getXmlhttpObject = dojo.io.XhrIframeProxy.createFacade;
-
-/**
-	Using this a reference: http://www.w3.org/TR/XMLHttpRequest/
-
-	Does not implement the onreadystate callback since dojo.io.BrowserIO does
-	not use it.
-*/
-dojo.io.XhrIframeFacade = function(ifpServerUrl){
-	//summary: XMLHttpRequest facade object used by dojo.io.XhrIframeProxy.
-	
-	//description: Do not use this object directly. See the Dojo Book page
-	//on XMLHttpRequest IFrame Proxying:
-	//http://manual.dojotoolkit.org/WikiHome/DojoDotBook/Book75
-	this._requestHeaders = {};
-	this._allResponseHeaders = null;
-	this._responseHeaders = {};
-	this._method = null;
-	this._uri = null;
-	this._bodyData = null;
-	this.responseText = null;
-	this.responseXML = null;
-	this.status = null;
-	this.statusText = null;
-	this.readyState = 0;
-	
-	this._ifpServerUrl = ifpServerUrl;
-	this._stateId = null;
+_4+=this.xipClientUrl;
+var _6=_1._ifpServerUrl+(_1._ifpServerUrl.indexOf("?")==-1?"?":"&")+"dojo.fr=1";
+_3=_6+"#0:init:id="+_2+"&client="+encodeURIComponent(_4)+"&fr="+this.needFrameRecursion();
 }
-
-dojo.lang.extend(dojo.io.XhrIframeFacade, {
-	//The open method does not properly reset since Dojo does not reuse XHR objects.
-	open: function(/*String*/method, /*String*/uri){
-		this._method = method;
-		this._uri = uri;
-
-		this.readyState = 1;
-	},
-	
-	setRequestHeader: function(/*String*/header, /*String*/value){
-		this._requestHeaders[header] = value;
-	},
-	
-	send: function(/*String*/stringData){
-		this._bodyData = stringData;
-		
-		this._stateId = dojo.io.XhrIframeProxy.send(this);
-		
-		this.readyState = 2;
-	},
-	abort: function(){
-		dojo.io.XhrIframeProxy.destroyState(this._stateId);
-	},
-	
-	getAllResponseHeaders: function(){
-		return this._allResponseHeaders; //String
-	},
-	
-	getResponseHeader: function(/*String*/header){
-		return this._responseHeaders[header]; //String
-	},
-	
-	_setResponseHeaders: function(/*String*/allHeaders){
-		if(allHeaders){
-			this._allResponseHeaders = allHeaders;
-			
-			//Make sure ther are now CR characters in the headers.
-			allHeaders = allHeaders.replace(/\r/g, "");
-			var nvPairs = allHeaders.split("\n");
-			for(var i = 0; i < nvPairs.length; i++){
-				if(nvPairs[i]){
-					var nameValue = nvPairs[i].split(": ");
-					this._responseHeaders[nameValue[0]] = nameValue[1];
-				}
-			}
-		}
-	}
-});
+this._state[_2]={facade:_1,stateId:_2,clientFrame:dojo.io.createIFrame(_2,"",_3)};
+return _2;
+},receive:function(_7,_8){
+var _9={};
+var _a=_8.split("&");
+for(var i=0;i<_a.length;i++){
+if(_a[i]){
+var _c=_a[i].split("=");
+_9[decodeURIComponent(_c[0])]=decodeURIComponent(_c[1]);
+}
+}
+var _d=this._state[_7];
+var _e=_d.facade;
+_e._setResponseHeaders(_9.responseHeaders);
+if(_9.status==0||_9.status){
+_e.status=parseInt(_9.status,10);
+}
+if(_9.statusText){
+_e.statusText=_9.statusText;
+}
+if(_9.responseText){
+_e.responseText=_9.responseText;
+var _f=_e.getResponseHeader("Content-Type");
+if(_f&&(_f=="application/xml"||_f=="text/xml")){
+_e.responseXML=dojo.dom.createDocumentFromText(_9.responseText,_f);
+}
+}
+_e.readyState=4;
+this.destroyState(_7);
+},clientFrameLoaded:function(_10){
+var _11=this._state[_10];
+var _12=_11.facade;
+if(this.needFrameRecursion()){
+var _13=window.open("",_11.stateId+"_clientEndPoint");
+}else{
+var _13=_11.clientFrame.contentWindow;
+}
+var _14=[];
+for(var _15 in _12._requestHeaders){
+_14.push(_15+": "+_12._requestHeaders[_15]);
+}
+var _16={uri:_12._uri};
+if(_14.length>0){
+_16.requestHeaders=_14.join("\r\n");
+}
+if(_12._method){
+_16.method=_12._method;
+}
+if(_12._bodyData){
+_16.data=_12._bodyData;
+}
+_13.send(dojo.io.argsFromMap(_16,"utf8"));
+},destroyState:function(_17){
+var _18=this._state[_17];
+if(_18){
+delete this._state[_17];
+var _19=_18.clientFrame.parentNode;
+_19.removeChild(_18.clientFrame);
+_18.clientFrame=null;
+_18=null;
+}
+},createFacade:function(){
+if(arguments&&arguments[0]&&arguments[0]["iframeProxyUrl"]){
+return new dojo.io.XhrIframeFacade(arguments[0]["iframeProxyUrl"]);
+}else{
+return dojo.io.XhrIframeProxy.oldGetXmlhttpObject.apply(dojo.hostenv,arguments);
+}
+}};
+dojo.io.XhrIframeProxy.oldGetXmlhttpObject=dojo.hostenv.getXmlhttpObject;
+dojo.hostenv.getXmlhttpObject=dojo.io.XhrIframeProxy.createFacade;
+dojo.io.XhrIframeFacade=function(_1a){
+this._requestHeaders={};
+this._allResponseHeaders=null;
+this._responseHeaders={};
+this._method=null;
+this._uri=null;
+this._bodyData=null;
+this.responseText=null;
+this.responseXML=null;
+this.status=null;
+this.statusText=null;
+this.readyState=0;
+this._ifpServerUrl=_1a;
+this._stateId=null;
+};
+dojo.lang.extend(dojo.io.XhrIframeFacade,{open:function(_1b,uri){
+this._method=_1b;
+this._uri=uri;
+this.readyState=1;
+},setRequestHeader:function(_1d,_1e){
+this._requestHeaders[_1d]=_1e;
+},send:function(_1f){
+this._bodyData=_1f;
+this._stateId=dojo.io.XhrIframeProxy.send(this);
+this.readyState=2;
+},abort:function(){
+dojo.io.XhrIframeProxy.destroyState(this._stateId);
+},getAllResponseHeaders:function(){
+return this._allResponseHeaders;
+},getResponseHeader:function(_20){
+return this._responseHeaders[_20];
+},_setResponseHeaders:function(_21){
+if(_21){
+this._allResponseHeaders=_21;
+_21=_21.replace(/\r/g,"");
+var _22=_21.split("\n");
+for(var i=0;i<_22.length;i++){
+if(_22[i]){
+var _24=_22[i].split(": ");
+this._responseHeaders[_24[0]]=_24[1];
+}
+}
+}
+}});

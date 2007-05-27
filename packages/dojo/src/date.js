@@ -8,6 +8,6 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide("dojo.date");
 
-dojo.deprecated("dojo.date", "use one of the modules in dojo.date.* instead", "0.5");
+dojo.provide("dojo.date");
+dojo.deprecated("dojo.date","use one of the modules in dojo.date.* instead","0.5");

@@ -8,4 +8,5 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-({"dateFormat-yearOnly":"yyyy年"})
+
+({"dateFormat-yearOnly":"yyyy\u5e74"});

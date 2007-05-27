@@ -8,52 +8,31 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.data.old.Observable");
 dojo.require("dojo.lang.common");
 dojo.require("dojo.lang.assert");
-
-// -------------------------------------------------------------------
-// Constructor
-// -------------------------------------------------------------------
-dojo.data.old.Observable = function() {
+dojo.data.old.Observable=function(){
 };
-
-// -------------------------------------------------------------------
-// Public instance methods
-// -------------------------------------------------------------------
-dojo.data.old.Observable.prototype.addObserver = function(/* object */ observer) {
-	/**
-	 * summary: Registers an object as an observer of this item,
-	 * so that the object will be notified when the item changes.
-	 */ 
-	dojo.lang.assertType(observer, Object);
-	dojo.lang.assertType(observer.observedObjectHasChanged, Function);
-	if (!this._arrayOfObservers) {
-		this._arrayOfObservers = [];
-	}
-	if (!dojo.lang.inArray(this._arrayOfObservers, observer)) {
-		this._arrayOfObservers.push(observer);
-	}
+dojo.data.old.Observable.prototype.addObserver=function(_1){
+dojo.lang.assertType(_1,Object);
+dojo.lang.assertType(_1.observedObjectHasChanged,Function);
+if(!this._arrayOfObservers){
+this._arrayOfObservers=[];
+}
+if(!dojo.lang.inArray(this._arrayOfObservers,_1)){
+this._arrayOfObservers.push(_1);
+}
 };
-
-dojo.data.old.Observable.prototype.removeObserver = function(/* object */ observer) {
-	/**
-	 * summary: Removes the observer registration for a previously
-	 * registered object.
-	 */ 
-	if (!this._arrayOfObservers) {
-		return;
-	}
-	var index = dojo.lang.indexOf(this._arrayOfObservers, observer);
-	if (index != -1) {
-		this._arrayOfObservers.splice(index, 1);
-	}
+dojo.data.old.Observable.prototype.removeObserver=function(_2){
+if(!this._arrayOfObservers){
+return;
+}
+var _3=dojo.lang.indexOf(this._arrayOfObservers,_2);
+if(_3!=-1){
+this._arrayOfObservers.splice(_3,1);
+}
 };
-
-dojo.data.old.Observable.prototype.getObservers = function() {
-	/**
-	 * summary: Returns an array with all the observers of this item.
-	 */ 
-	return this._arrayOfObservers; // Array or undefined
+dojo.data.old.Observable.prototype.getObservers=function(){
+return this._arrayOfObservers;
 };
-

@@ -8,462 +8,308 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.io.ScriptSrcIO");
 dojo.require("dojo.io.BrowserIO");
 dojo.require("dojo.undo.browser");
-
-//FIXME: should constantParams be JS object?
-//FIXME: check dojo.io calls. Can we move the BrowserIO defined calls somewhere
-//       else so that we don't depend on BrowserIO at all? The dependent calls
-//       have to do with dealing with forms and making query params from JS object.
-/**
- * See test_ScriptSrcIO.html for usage information.
- * Notes:
- * - The watchInFlight timer is set to 100 ms instead of 10ms (which is what BrowserIO.js uses).
- */
-dojo.io.ScriptSrcTransport = new function(){
-	this.preventCache = false; // if this is true, we'll always force GET requests to not cache
-	this.maxUrlLength = 1000; //Used to calculate if script request should be multipart.
-	this.inFlightTimer = null;
-
-	this.DsrStatusCodes = {
-		Continue: 100,
-		Ok: 200,
-		Error: 500
-	};
-
-	this.startWatchingInFlight = function(){
-		//summary: Internal method to start the process of watching for in-flight requests.
-		if(!this.inFlightTimer){
-			this.inFlightTimer = setInterval("dojo.io.ScriptSrcTransport.watchInFlight();", 100);
-		}
-	}
-
-	this.watchInFlight = function(){
-		//summary: Internal method to watch for in-flight requests.
-		var totalCount = 0;
-		var doneCount = 0;
-		for(var param in this._state){
-			totalCount++;
-			var currentState = this._state[param];
-			if(currentState.isDone){
-				doneCount++;
-				delete this._state[param];
-			}else if(!currentState.isFinishing){
-				var listener = currentState.kwArgs;
-				try{
-					if(currentState.checkString && eval("typeof(" + currentState.checkString + ") != 'undefined'")){
-						currentState.isFinishing = true;
-						this._finish(currentState, "load");
-						doneCount++;
-						delete this._state[param];
-					}else if(listener.timeoutSeconds && listener.timeout){
-						if(currentState.startTime + (listener.timeoutSeconds * 1000) < (new Date()).getTime()){
-							currentState.isFinishing = true;
-							this._finish(currentState, "timeout");
-							doneCount++;
-							delete this._state[param];
-						}
-					}else if(!listener.timeoutSeconds){
-						//Increment the done count if no timeout is specified, so
-						//that we turn off the timer if all that is left in the state
-						//list are things we can't clean up because they fail without
-						//getting a callback.
-						doneCount++;
-					}
-				}catch(e){
-					currentState.isFinishing = true;
-					this._finish(currentState, "error", {status: this.DsrStatusCodes.Error, response: e});
-				}
-			}
-		}
-	
-		if(doneCount >= totalCount){
-			clearInterval(this.inFlightTimer);
-			this.inFlightTimer = null;
-		}
-	}
-
-	this.canHandle = function(/*dojo.io.Request*/kwArgs){
-		//summary: Tells dojo.io.bind() if this is a good transport to
-		//use for the particular type of request. This type of transport can only
-		//handle responses that are JavaScript or JSON that is passed to a JavaScript
-		//callback. It can only do asynchronous binds, is limited to GET HTTP method
-		//requests, and cannot handle formNodes. However, it has the advantage of being
-		//able to do cross-domain requests.
-
-		return dojo.lang.inArray(["text/javascript", "text/json", "application/json"], (kwArgs["mimetype"].toLowerCase()))
-			&& (kwArgs["method"].toLowerCase() == "get")
-			&& !(kwArgs["formNode"] && dojo.io.formHasFile(kwArgs["formNode"]))
-			&& (!kwArgs["sync"] || kwArgs["sync"] == false)
-			&& !kwArgs["file"]
-			&& !kwArgs["multipart"];
-	}
-
-	this.removeScripts = function(){
-		//summary: Removes any script tags from the DOM that may have been added by ScriptSrcTransport.
-		//description: Be careful though, by removing them from the script, you may invalidate some
-		//script objects that were defined by the js file that was pulled in as the
-		//src of the script tag. Test carefully if you decide to call this method.
-		//In MSIE 6 (and probably 5.x), if you remove the script element while 
-		//part of the response script is still executing, the browser might crash.
-		var scripts = document.getElementsByTagName("script");
-		for(var i = 0; scripts && i < scripts.length; i++){
-			var scriptTag = scripts[i];
-			if(scriptTag.className == "ScriptSrcTransport"){
-				var parent = scriptTag.parentNode;
-				parent.removeChild(scriptTag);
-				i--; //Set the index back one since we removed an item.
-			}
-		}
-	}
-
-	this.bind = function(/*dojo.io.Request*/kwArgs){
-		//summary: function that sends the request to the server.
-		//description: See the Dojo Book page on this transport for a full
-		//description of supported kwArgs properties and usage:
-		//http://manual.dojotoolkit.org/WikiHome/DojoDotBook/Book25
-
-		//START duplication from BrowserIO.js (some changes made)
-		var url = kwArgs.url;
-		var query = "";
-		
-		if(kwArgs["formNode"]){
-			var ta = kwArgs.formNode.getAttribute("action");
-			if((ta)&&(!kwArgs["url"])){ url = ta; }
-			var tp = kwArgs.formNode.getAttribute("method");
-			if((tp)&&(!kwArgs["method"])){ kwArgs.method = tp; }
-			query += dojo.io.encodeForm(kwArgs.formNode, kwArgs.encoding, kwArgs["formFilter"]);
-		}
-
-		if(url.indexOf("#") > -1) {
-			dojo.debug("Warning: dojo.io.bind: stripping hash values from url:", url);
-			url = url.split("#")[0];
-		}
-
-		//Break off the domain/path of the URL.
-		var urlParts = url.split("?");
-		if(urlParts && urlParts.length == 2){
-			url = urlParts[0];
-			query += (query ? "&" : "") + urlParts[1];
-		}
-
-		if(kwArgs["backButton"] || kwArgs["back"] || kwArgs["changeUrl"]){
-			dojo.undo.browser.addToHistory(kwArgs);
-		}
-
-		//Create an ID for the request.
-		var id = kwArgs["apiId"] ? kwArgs["apiId"] : "id" + this._counter++;
-
-		//Fill out any other content pieces.
-		var content = kwArgs["content"];
-		var jsonpName = kwArgs.jsonParamName;
-		if(kwArgs.sendTransport || jsonpName) {
-			if (!content){
-				content = {};
-			}
-			if(kwArgs.sendTransport){
-				content["dojo.transport"] = "scriptsrc";
-			}
-
-			if(jsonpName){
-				content[jsonpName] = "dojo.io.ScriptSrcTransport._state." + id + ".jsonpCall";
-			}
-		}
-
-		if(kwArgs.postContent){
-			query = kwArgs.postContent;
-		}else if(content){
-			query += ((query) ? "&" : "") + dojo.io.argsFromMap(content, kwArgs.encoding, jsonpName);
-		}
-		//END duplication from BrowserIO.js
-
-		//START DSR
-
-		//If an apiId is specified, then we want to make sure useRequestId is true.
-		if(kwArgs["apiId"]){
-			kwArgs["useRequestId"] = true;
-		}
-
-		//Set up the state for this request.
-		var state = {
-			"id": id,
-			"idParam": "_dsrid=" + id,
-			"url": url,
-			"query": query,
-			"kwArgs": kwArgs,
-			"startTime": (new Date()).getTime(),
-			"isFinishing": false
-		};
-
-		if(!url){
-			//Error. An URL is needed.
-			this._finish(state, "error", {status: this.DsrStatusCodes.Error, statusText: "url.none"});
-			return;
-		}
-
-		//If this is a jsonp request, intercept the jsonp callback
-		if(content && content[jsonpName]){
-			state.jsonp = content[jsonpName];
-			state.jsonpCall = function(data){
-				if(data["Error"]||data["error"]){
-					if(dojo["json"] && dojo["json"]["serialize"]){
-						dojo.debug(dojo.json.serialize(data));
-					}
-					dojo.io.ScriptSrcTransport._finish(this, "error", data);
-				}else{
-					dojo.io.ScriptSrcTransport._finish(this, "load", data);
-				}
-			};
-		}
-
-		//Only store the request state on the state tracking object if a callback
-		//is expected or if polling on a checkString will be done.
-		if(kwArgs["useRequestId"] || kwArgs["checkString"] || state["jsonp"]){
-			this._state[id] = state;
-		}
-
-		//A checkstring is a string that if evaled will not be undefined once the
-		//script src loads. Used as an alternative to depending on a callback from
-		//the script file. If this is set, then multipart is not assumed to be used,
-		//since multipart requires a specific callback. With checkString we will be doing
-		//polling.
-		if(kwArgs["checkString"]){
-			state.checkString = kwArgs["checkString"];
-		}
-
-		//Constant params are parameters that should always be sent with each
-		//part of a multipart URL.
-		state.constantParams = (kwArgs["constantParams"] == null ? "" : kwArgs["constantParams"]);
-	
-		if(kwArgs["preventCache"] ||
-			(this.preventCache == true && kwArgs["preventCache"] != false)){
-			state.nocacheParam = "dojo.preventCache=" + new Date().valueOf();
-		}else{
-			state.nocacheParam = "";
-		}
-
-		//Get total length URL, if we were to do it as one URL.
-		//Add some padding, extra & separators.
-		var urlLength = state.url.length + state.query.length + state.constantParams.length 
-				+ state.nocacheParam.length + this._extraPaddingLength;
-
-		if(kwArgs["useRequestId"]){
-			urlLength += state.idParam.length;
-		}
-		
-		if(!kwArgs["checkString"] && kwArgs["useRequestId"] 
-			&& !state["jsonp"] && !kwArgs["forceSingleRequest"]
-			&& urlLength > this.maxUrlLength){
-			if(url > this.maxUrlLength){
-				//Error. The URL domain and path are too long. We can't
-				//segment that, so return an error.
-				this._finish(state, "error", {status: this.DsrStatusCodes.Error, statusText: "url.tooBig"});
-				return;
-			}else{
-				//Start the multiple requests.
-				this._multiAttach(state, 1);
-			}
-		}else{
-			//Send one URL.
-			var queryParams = [state.constantParams, state.nocacheParam, state.query];
-			if(kwArgs["useRequestId"] && !state["jsonp"]){
-				queryParams.unshift(state.idParam);
-			}
-			var finalUrl = this._buildUrl(state.url, queryParams);
-
-			//Track the final URL in case we need to use that instead of api ID when receiving
-			//the load callback.
-			state.finalUrl = finalUrl;
-			
-			this._attach(state.id, finalUrl);
-		}
-		//END DSR
-
-		this.startWatchingInFlight();
-	}
-	
-	//Private properties/methods
-	this._counter = 1;
-	this._state = {};
-	this._extraPaddingLength = 16;
-
-	//Is there a dojo function for this already?
-	this._buildUrl = function(url, nameValueArray){
-		var finalUrl = url;
-		var joiner = "?";
-		for(var i = 0; i < nameValueArray.length; i++){
-			if(nameValueArray[i]){
-				finalUrl += joiner + nameValueArray[i];
-				joiner = "&";
-			}
-		}
-
-		return finalUrl;
-	}
-
-	this._attach = function(id, url){
-		//Attach the script to the DOM.
-		var element = document.createElement("script");
-		element.type = "text/javascript";
-		element.src = url;
-		element.id = id;
-		element.className = "ScriptSrcTransport";
-		document.getElementsByTagName("head")[0].appendChild(element);
-	}
-
-	this._multiAttach = function(state, part){
-		//Check to make sure we still have a query to send up. This is mostly
-		//a protection from a goof on the server side when it sends a part OK
-		//response instead of a final response.
-		if(state.query == null){
-			this._finish(state, "error", {status: this.DsrStatusCodes.Error, statusText: "query.null"});
-			return;
-		}
-
-		if(!state.constantParams){
-			state.constantParams = "";
-		}
-
-		//How much of the query can we take?
-		//Add a padding constant to account for _part and a couple extra amperstands.
-		//Also add space for id since we'll need it now.
-		var queryMax = this.maxUrlLength - state.idParam.length
-					 - state.constantParams.length - state.url.length
-					 - state.nocacheParam.length - this._extraPaddingLength;
-		
-		//Figure out if this is the last part.
-		var isDone = state.query.length < queryMax;
-	
-		//Break up the query string if necessary.
-		var currentQuery;
-		if(isDone){
-			currentQuery = state.query;
-			state.query = null;
-		}else{
-			//Find the & or = nearest the max url length.
-			var ampEnd = state.query.lastIndexOf("&", queryMax - 1);
-			var eqEnd = state.query.lastIndexOf("=", queryMax - 1);
-
-			//See if & is closer, or if = is right at the edge,
-			//which means we should put it on the next URL.
-			if(ampEnd > eqEnd || eqEnd == queryMax - 1){
-				//& is nearer the end. So just chop off from there.
-				currentQuery = state.query.substring(0, ampEnd);
-				state.query = state.query.substring(ampEnd + 1, state.query.length) //strip off amperstand with the + 1.
-			}else{
-				//= is nearer the end. Take the max amount possible. 
-				currentQuery = state.query.substring(0, queryMax);
-			 
-				//Find the last query name in the currentQuery so we can prepend it to
-				//ampEnd. Could be -1 (not there), so account for that.
-				var queryName = currentQuery.substring((ampEnd == -1 ? 0 : ampEnd + 1), eqEnd);
-				state.query = queryName + "=" + state.query.substring(queryMax, state.query.length);
-			}
-		}
-		
-		//Now send a part of the script
-		var queryParams = [currentQuery, state.idParam, state.constantParams, state.nocacheParam];
-		if(!isDone){
-			queryParams.push("_part=" + part);
-		}
-
-		var url = this._buildUrl(state.url, queryParams);
-
-		this._attach(state.id + "_" + part, url);
-	}
-
-	this._finish = function(state, callback, event){
-		if(callback != "partOk" && !state.kwArgs[callback] && !state.kwArgs["handle"]){
-			//Ignore "partOk" because that is an internal callback.
-			if(callback == "error"){
-				state.isDone = true;
-				throw event;
-			}
-		}else{
-			switch(callback){
-				case "load":
-					var response = event ? event.response : null;
-					if(!response){
-						response = event;
-					}
-					state.kwArgs[(typeof state.kwArgs.load == "function") ? "load" : "handle"]("load", response, event, state.kwArgs);
-					state.isDone = true;
-					break;
-				case "partOk":
-					var part = parseInt(event.response.part, 10) + 1;
-					//Update the constant params, if any.
-					if(event.response.constantParams){
-						state.constantParams = event.response.constantParams;
-					}
-					this._multiAttach(state, part);
-					state.isDone = false;
-					break;
-				case "error":
-					state.kwArgs[(typeof state.kwArgs.error == "function") ? "error" : "handle"]("error", event.response, event, state.kwArgs);
-					state.isDone = true;
-					break;
-				default:
-					state.kwArgs[(typeof state.kwArgs[callback] == "function") ? callback : "handle"](callback, event, event, state.kwArgs);
-					state.isDone = true;
-			}
-		}
-	}
-
-	dojo.io.transports.addTransport("ScriptSrcTransport");
+dojo.io.ScriptSrcTransport=new function(){
+this.preventCache=false;
+this.maxUrlLength=1000;
+this.inFlightTimer=null;
+this.DsrStatusCodes={Continue:100,Ok:200,Error:500};
+this.startWatchingInFlight=function(){
+if(!this.inFlightTimer){
+this.inFlightTimer=setInterval("dojo.io.ScriptSrcTransport.watchInFlight();",100);
 }
-
-//Define callback handler.
-window.onscriptload = function(event){
-	var state = null;
-	var transport = dojo.io.ScriptSrcTransport;
-	
-	//Find the matching state object for event ID.
-	if(transport._state[event.id]){
-		state = transport._state[event.id];
-	}else{
-		//The ID did not match directly to an entry in the state list.
-		//Try searching the state objects for a matching original URL.
-		var tempState;
-		for(var param in transport._state){
-			tempState = transport._state[param];
-			if(tempState.finalUrl && tempState.finalUrl == event.id){
-				state = tempState;
-				break;
-			}
-		}
-
-		//If no matching original URL is found, then use the URL that was actually used
-		//in the SCRIPT SRC attribute.
-		if(state == null){
-			var scripts = document.getElementsByTagName("script");
-			for(var i = 0; scripts && i < scripts.length; i++){
-				var scriptTag = scripts[i];
-				if(scriptTag.getAttribute("class") == "ScriptSrcTransport"
-					&& scriptTag.src == event.id){
-					state = transport._state[scriptTag.id];
-					break;
-				}
-			}
-		}
-		
-		//If state is still null, then throw an error.
-		if(state == null){
-			throw "No matching state for onscriptload event.id: " + event.id;
-		}
-	}
-
-	var callbackName = "error";
-	switch(event.status){
-		case dojo.io.ScriptSrcTransport.DsrStatusCodes.Continue:
-			//A part of a multipart request.
-			callbackName = "partOk";
-			break;
-		case dojo.io.ScriptSrcTransport.DsrStatusCodes.Ok:
-			//Successful reponse.
-			callbackName = "load";
-			break;
-	}
-
-	transport._finish(state, callbackName, event);
+};
+this.watchInFlight=function(){
+var _1=0;
+var _2=0;
+for(var _3 in this._state){
+_1++;
+var _4=this._state[_3];
+if(_4.isDone){
+_2++;
+delete this._state[_3];
+}else{
+if(!_4.isFinishing){
+var _5=_4.kwArgs;
+try{
+if(_4.checkString&&eval("typeof("+_4.checkString+") != 'undefined'")){
+_4.isFinishing=true;
+this._finish(_4,"load");
+_2++;
+delete this._state[_3];
+}else{
+if(_5.timeoutSeconds&&_5.timeout){
+if(_4.startTime+(_5.timeoutSeconds*1000)<(new Date()).getTime()){
+_4.isFinishing=true;
+this._finish(_4,"timeout");
+_2++;
+delete this._state[_3];
+}
+}else{
+if(!_5.timeoutSeconds){
+_2++;
+}
+}
+}
+}
+catch(e){
+_4.isFinishing=true;
+this._finish(_4,"error",{status:this.DsrStatusCodes.Error,response:e});
+}
+}
+}
+}
+if(_2>=_1){
+clearInterval(this.inFlightTimer);
+this.inFlightTimer=null;
+}
+};
+this.canHandle=function(_6){
+return dojo.lang.inArray(["text/javascript","text/json","application/json"],(_6["mimetype"].toLowerCase()))&&(_6["method"].toLowerCase()=="get")&&!(_6["formNode"]&&dojo.io.formHasFile(_6["formNode"]))&&(!_6["sync"]||_6["sync"]==false)&&!_6["file"]&&!_6["multipart"];
+};
+this.removeScripts=function(){
+var _7=document.getElementsByTagName("script");
+for(var i=0;_7&&i<_7.length;i++){
+var _9=_7[i];
+if(_9.className=="ScriptSrcTransport"){
+var _a=_9.parentNode;
+_a.removeChild(_9);
+i--;
+}
+}
+};
+this.bind=function(_b){
+var _c=_b.url;
+var _d="";
+if(_b["formNode"]){
+var ta=_b.formNode.getAttribute("action");
+if((ta)&&(!_b["url"])){
+_c=ta;
+}
+var tp=_b.formNode.getAttribute("method");
+if((tp)&&(!_b["method"])){
+_b.method=tp;
+}
+_d+=dojo.io.encodeForm(_b.formNode,_b.encoding,_b["formFilter"]);
+}
+if(_c.indexOf("#")>-1){
+dojo.debug("Warning: dojo.io.bind: stripping hash values from url:",_c);
+_c=_c.split("#")[0];
+}
+var _10=_c.split("?");
+if(_10&&_10.length==2){
+_c=_10[0];
+_d+=(_d?"&":"")+_10[1];
+}
+if(_b["backButton"]||_b["back"]||_b["changeUrl"]){
+dojo.undo.browser.addToHistory(_b);
+}
+var id=_b["apiId"]?_b["apiId"]:"id"+this._counter++;
+var _12=_b["content"];
+var _13=_b.jsonParamName;
+if(_b.sendTransport||_13){
+if(!_12){
+_12={};
+}
+if(_b.sendTransport){
+_12["dojo.transport"]="scriptsrc";
+}
+if(_13){
+_12[_13]="dojo.io.ScriptSrcTransport._state."+id+".jsonpCall";
+}
+}
+if(_b.postContent){
+_d=_b.postContent;
+}else{
+if(_12){
+_d+=((_d)?"&":"")+dojo.io.argsFromMap(_12,_b.encoding,_13);
+}
+}
+if(_b["apiId"]){
+_b["useRequestId"]=true;
+}
+var _14={"id":id,"idParam":"_dsrid="+id,"url":_c,"query":_d,"kwArgs":_b,"startTime":(new Date()).getTime(),"isFinishing":false};
+if(!_c){
+this._finish(_14,"error",{status:this.DsrStatusCodes.Error,statusText:"url.none"});
+return;
+}
+if(_12&&_12[_13]){
+_14.jsonp=_12[_13];
+_14.jsonpCall=function(_15){
+if(_15["Error"]||_15["error"]){
+if(dojo["json"]&&dojo["json"]["serialize"]){
+dojo.debug(dojo.json.serialize(_15));
+}
+dojo.io.ScriptSrcTransport._finish(this,"error",_15);
+}else{
+dojo.io.ScriptSrcTransport._finish(this,"load",_15);
+}
+};
+}
+if(_b["useRequestId"]||_b["checkString"]||_14["jsonp"]){
+this._state[id]=_14;
+}
+if(_b["checkString"]){
+_14.checkString=_b["checkString"];
+}
+_14.constantParams=(_b["constantParams"]==null?"":_b["constantParams"]);
+if(_b["preventCache"]||(this.preventCache==true&&_b["preventCache"]!=false)){
+_14.nocacheParam="dojo.preventCache="+new Date().valueOf();
+}else{
+_14.nocacheParam="";
+}
+var _16=_14.url.length+_14.query.length+_14.constantParams.length+_14.nocacheParam.length+this._extraPaddingLength;
+if(_b["useRequestId"]){
+_16+=_14.idParam.length;
+}
+if(!_b["checkString"]&&_b["useRequestId"]&&!_14["jsonp"]&&!_b["forceSingleRequest"]&&_16>this.maxUrlLength){
+if(_c>this.maxUrlLength){
+this._finish(_14,"error",{status:this.DsrStatusCodes.Error,statusText:"url.tooBig"});
+return;
+}else{
+this._multiAttach(_14,1);
+}
+}else{
+var _17=[_14.constantParams,_14.nocacheParam,_14.query];
+if(_b["useRequestId"]&&!_14["jsonp"]){
+_17.unshift(_14.idParam);
+}
+var _18=this._buildUrl(_14.url,_17);
+_14.finalUrl=_18;
+this._attach(_14.id,_18);
+}
+this.startWatchingInFlight();
+};
+this._counter=1;
+this._state={};
+this._extraPaddingLength=16;
+this._buildUrl=function(url,_1a){
+var _1b=url;
+var _1c="?";
+for(var i=0;i<_1a.length;i++){
+if(_1a[i]){
+_1b+=_1c+_1a[i];
+_1c="&";
+}
+}
+return _1b;
+};
+this._attach=function(id,url){
+var _20=document.createElement("script");
+_20.type="text/javascript";
+_20.src=url;
+_20.id=id;
+_20.className="ScriptSrcTransport";
+document.getElementsByTagName("head")[0].appendChild(_20);
+};
+this._multiAttach=function(_21,_22){
+if(_21.query==null){
+this._finish(_21,"error",{status:this.DsrStatusCodes.Error,statusText:"query.null"});
+return;
+}
+if(!_21.constantParams){
+_21.constantParams="";
+}
+var _23=this.maxUrlLength-_21.idParam.length-_21.constantParams.length-_21.url.length-_21.nocacheParam.length-this._extraPaddingLength;
+var _24=_21.query.length<_23;
+var _25;
+if(_24){
+_25=_21.query;
+_21.query=null;
+}else{
+var _26=_21.query.lastIndexOf("&",_23-1);
+var _27=_21.query.lastIndexOf("=",_23-1);
+if(_26>_27||_27==_23-1){
+_25=_21.query.substring(0,_26);
+_21.query=_21.query.substring(_26+1,_21.query.length);
+}else{
+_25=_21.query.substring(0,_23);
+var _28=_25.substring((_26==-1?0:_26+1),_27);
+_21.query=_28+"="+_21.query.substring(_23,_21.query.length);
+}
+}
+var _29=[_25,_21.idParam,_21.constantParams,_21.nocacheParam];
+if(!_24){
+_29.push("_part="+_22);
+}
+var url=this._buildUrl(_21.url,_29);
+this._attach(_21.id+"_"+_22,url);
+};
+this._finish=function(_2b,_2c,_2d){
+if(_2c!="partOk"&&!_2b.kwArgs[_2c]&&!_2b.kwArgs["handle"]){
+if(_2c=="error"){
+_2b.isDone=true;
+throw _2d;
+}
+}else{
+switch(_2c){
+case "load":
+var _2e=_2d?_2d.response:null;
+if(!_2e){
+_2e=_2d;
+}
+_2b.kwArgs[(typeof _2b.kwArgs.load=="function")?"load":"handle"]("load",_2e,_2d,_2b.kwArgs);
+_2b.isDone=true;
+break;
+case "partOk":
+var _2f=parseInt(_2d.response.part,10)+1;
+if(_2d.response.constantParams){
+_2b.constantParams=_2d.response.constantParams;
+}
+this._multiAttach(_2b,_2f);
+_2b.isDone=false;
+break;
+case "error":
+_2b.kwArgs[(typeof _2b.kwArgs.error=="function")?"error":"handle"]("error",_2d.response,_2d,_2b.kwArgs);
+_2b.isDone=true;
+break;
+default:
+_2b.kwArgs[(typeof _2b.kwArgs[_2c]=="function")?_2c:"handle"](_2c,_2d,_2d,_2b.kwArgs);
+_2b.isDone=true;
+}
+}
+};
+dojo.io.transports.addTransport("ScriptSrcTransport");
+};
+window.onscriptload=function(_30){
+var _31=null;
+var _32=dojo.io.ScriptSrcTransport;
+if(_32._state[_30.id]){
+_31=_32._state[_30.id];
+}else{
+var _33;
+for(var _34 in _32._state){
+_33=_32._state[_34];
+if(_33.finalUrl&&_33.finalUrl==_30.id){
+_31=_33;
+break;
+}
+}
+if(_31==null){
+var _35=document.getElementsByTagName("script");
+for(var i=0;_35&&i<_35.length;i++){
+var _37=_35[i];
+if(_37.getAttribute("class")=="ScriptSrcTransport"&&_37.src==_30.id){
+_31=_32._state[_37.id];
+break;
+}
+}
+}
+if(_31==null){
+throw "No matching state for onscriptload event.id: "+_30.id;
+}
+}
+var _38="error";
+switch(_30.status){
+case dojo.io.ScriptSrcTransport.DsrStatusCodes.Continue:
+_38="partOk";
+break;
+case dojo.io.ScriptSrcTransport.DsrStatusCodes.Ok:
+_38="load";
+break;
+}
+_32._finish(_31,_38,_30);
 };

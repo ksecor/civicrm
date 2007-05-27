@@ -8,18 +8,10 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.data.old.Type");
 dojo.require("dojo.data.old.Item");
-
-// -------------------------------------------------------------------
-// Constructor
-// -------------------------------------------------------------------
-dojo.data.old.Type = function(/* dojo.data.old.provider.Base */ dataProvider) {
-	/**
-	 * summary:
-	 * A Type represents a type of value, like Text, Number, Picture,
-	 * or Varchar.
-	 */
-	dojo.data.old.Item.call(this, dataProvider);
+dojo.data.old.Type=function(_1){
+dojo.data.old.Item.call(this,_1);
 };
-dojo.inherits(dojo.data.old.Type, dojo.data.old.Item);
+dojo.inherits(dojo.data.old.Type,dojo.data.old.Item);

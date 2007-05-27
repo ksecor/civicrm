@@ -8,180 +8,94 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide("dojo.widget.Checkbox");
 
+dojo.provide("dojo.widget.Checkbox");
 dojo.require("dojo.widget.*");
 dojo.require("dojo.widget.HtmlWidget");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html.style");
 dojo.require("dojo.html.selection");
-
-dojo.widget.defineWidget(
-	"dojo.widget.Checkbox",
-	dojo.widget.HtmlWidget,
-	{
-		// summary
-		//	Same as an HTML checkbox, but with fancy styling
-
-		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/Checkbox.html"),
-		templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/Checkbox.css"),
-
-		// name: String
-		//	name used when submitting form; same as "name" attribute or plain HTML elements
-		name: "",
-
-		// id: String
-		//	id attached to the checkbox, used when submitting form
-		id: "",
-
-		// checked: Boolean
-		//	if true, checkbox is initially marked turned on;
-		//	in markup, specified as "checked='checked'" or just "checked"
-		checked: false,
-		
-		// tabIndex: Integer
-		//	order fields are traversed when user hits the tab key
-		tabIndex: "",
-
-		// value: Value
-		//	equivalent to value field on normal checkbox (if checked, the value is passed as
-		//	the value when form is submitted)
-		value: "on",
-
-		postMixInProperties: function(){
-			dojo.widget.Checkbox.superclass.postMixInProperties.apply(this, arguments);
-			
-			// set tabIndex="0" because if tabIndex=="" user won't be able to tab to the field
-			if(!this.disabled && this.tabIndex==""){ this.tabIndex="0"; }
-		},
-
-		fillInTemplate: function(){
-			this._setInfo();
-		},
-
-		postCreate: function(){
-			// find any associated label and create a labelled-by relationship
-			// assumes <label for="inputId">label text </label> rather than
-			// <label><input type="xyzzy">label text</label>
-			var notcon = true;
-			this.id = this.id !="" ? this.id : this.widgetId;
-			if(this.id != ""){
-				var labels = document.getElementsByTagName("label");
-				if (labels != null && labels.length > 0){
-					for(var i=0; i<labels.length; i++){
-						if (labels[i].htmlFor == this.id){
-							labels[i].id = (labels[i].htmlFor + "label");
-							this._connectEvents(labels[i]);
-							dojo.widget.wai.setAttr(this.domNode, "waiState", "labelledby", labels[i].id);
-							break;
-						}
-					}
-				}
-			}
-			this._connectEvents(this.domNode);
-			// this is needed here for IE
-			this.inputNode.checked=this.checked;
-		},
-
-		_connectEvents: function(/*DomNode*/ node){
-			dojo.event.connect(node, "onmouseover", this, "mouseOver");
-			dojo.event.connect(node, "onmouseout", this, "mouseOut");
-			dojo.event.connect(node, "onkey", this, "onKey");
-			dojo.event.connect(node, "onclick", this, "_onClick");
-			dojo.html.disableSelection(node);
-		},
-
-		_onClick: function(/*Event*/ e){
-			if(this.disabled == false){
-				this.checked = !this.checked;
-				this._setInfo();
-			}
-			e.preventDefault();
-			e.stopPropagation();
-			this.onClick();
-		},
-
-		setValue: function(/*boolean*/ bool){
-			// summary: set the checkbox state
-			if(this.disabled == false){
-				this.checked = bool;
-				this._setInfo();
-			}
-		},
-
-		onClick: function(){
-			// summary: user overridable callback function for checkbox being clicked
-		},
-
-		onKey: function(/*Event*/ e){
-			// summary: callback when user hits a key
-			var k = dojo.event.browser.keys;
-			if(e.key == " "){
-	 			this._onClick(e);
-	 		}
-		},
-
-		mouseOver: function(/*Event*/ e){
-			// summary: callback when user moves mouse over checkbox
-			this._hover(e, true);
-		},
-
-		mouseOut: function(/*Event*/ e){
-			// summary: callback when user moves mouse off of checkbox
-			this._hover(e, false);
-		},
-
-		_hover: function(/*Event*/ e, /*Boolean*/ isOver){
-			if (this.disabled == false){
-				var state = this.checked ? "On" : "Off";
-				var style = "dojoHtmlCheckbox" + state + "Hover";
-				if (isOver){
-					dojo.html.addClass(this.imageNode, style);
-				}else{
-					dojo.html.removeClass(this.imageNode,style);
-				}
-			}
-		},
-
-		_setInfo: function(){
-			// summary:
-			//	set state of hidden checkbox node to correspond to displayed value.
-			//	also set CSS class string according to checked/unchecked and disabled/enabled state
-			var state = "dojoHtmlCheckbox" + (this.disabled ? "Disabled" : "") + (this.checked ? "On" : "Off");
-			dojo.html.setClass(this.imageNode, "dojoHtmlCheckbox " + state);
-			this.inputNode.checked = this.checked;
-			if(this.disabled){
-				this.inputNode.setAttribute("disabled",true);
-			}else{
-				this.inputNode.removeAttribute("disabled");
-			}
-			dojo.widget.wai.setAttr(this.domNode, "waiState", "checked", this.checked);
-		}
-	}
-);
-
-dojo.widget.defineWidget(
-	"dojo.widget.a11y.Checkbox",
-	dojo.widget.Checkbox,
-	{
-		// summary
-		//	variation on Checkbox widget to be display on monitors in high-contrast mode (that don't display CSS background images)
-
-		templatePath: dojo.uri.moduleUri("dojo.widget", "templates/CheckboxA11y.html"),
-
-		fillInTemplate: function(){
-		},
-
-		postCreate: function(args, frag){
-			this.inputNode.checked=this.checked;
-			//only set disabled if true since FF interprets any value for disabled as true
-			if (this.disabled){
-				this.inputNode.setAttribute("disabled",true);
-			} 
-		},
-
-		_onClick: function(){
-			this.onClick();
-		}
-	}
-);
+dojo.widget.defineWidget("dojo.widget.Checkbox",dojo.widget.HtmlWidget,{templateString:"<span style=\"display: inline-block;\" tabIndex=\"${this.tabIndex}\" waiRole=\"checkbox\" id=\"${this.id}\">\n\t<img dojoAttachPoint=\"imageNode\" class=\"dojoHtmlCheckbox\" src=\"${dojoWidgetModuleUri}templates/images/blank.gif\" alt=\"\" />\n\t<input type=\"checkbox\" name=\"${this.name}\" style=\"display: none\" value=\"${this.value}\"\n\t\tdojoAttachPoint=\"inputNode\">\n</span>\n",templateCssString:".dojoHtmlCheckbox {\n\tborder: 0px;\n\twidth: 16px;\n\theight: 16px;\n\tmargin: 2px;\n\tvertical-align: middle;\n}\n\n.dojoHtmlCheckboxOn {\n\tbackground: url(check.gif) 0px 0px;\n}\n.dojoHtmlCheckboxOff {\n\tbackground: url(check.gif) -16px 0px;\n}\n.dojoHtmlCheckboxDisabledOn {\n\tbackground: url(check.gif) -32px 0px;\n}\n.dojoHtmlCheckboxDisabledOff {\n\tbackground: url(check.gif) -48px 0px;\n}\n.dojoHtmlCheckboxOnHover {\n\tbackground: url(check.gif) -64px 0px;\n}\n.dojoHtmlCheckboxOffHover {\n\tbackground: url(check.gif) -80px 0px;\n}\n",templateCssPath:dojo.uri.moduleUri("dojo.widget","templates/Checkbox.css"),name:"",id:"",checked:false,tabIndex:"",value:"on",postMixInProperties:function(){
+dojo.widget.Checkbox.superclass.postMixInProperties.apply(this,arguments);
+if(!this.disabled&&this.tabIndex==""){
+this.tabIndex="0";
+}
+},fillInTemplate:function(){
+this._setInfo();
+},postCreate:function(){
+var _1=true;
+this.id=this.id!=""?this.id:this.widgetId;
+if(this.id!=""){
+var _2=document.getElementsByTagName("label");
+if(_2!=null&&_2.length>0){
+for(var i=0;i<_2.length;i++){
+if(_2[i].htmlFor==this.id){
+_2[i].id=(_2[i].htmlFor+"label");
+this._connectEvents(_2[i]);
+dojo.widget.wai.setAttr(this.domNode,"waiState","labelledby",_2[i].id);
+break;
+}
+}
+}
+}
+this._connectEvents(this.domNode);
+this.inputNode.checked=this.checked;
+},_connectEvents:function(_4){
+dojo.event.connect(_4,"onmouseover",this,"mouseOver");
+dojo.event.connect(_4,"onmouseout",this,"mouseOut");
+dojo.event.connect(_4,"onkey",this,"onKey");
+dojo.event.connect(_4,"onclick",this,"_onClick");
+dojo.html.disableSelection(_4);
+},_onClick:function(e){
+if(this.disabled==false){
+this.checked=!this.checked;
+this._setInfo();
+}
+e.preventDefault();
+e.stopPropagation();
+this.onClick();
+},setValue:function(_6){
+if(this.disabled==false){
+this.checked=_6;
+this._setInfo();
+}
+},onClick:function(){
+},onKey:function(e){
+var k=dojo.event.browser.keys;
+if(e.key==" "){
+this._onClick(e);
+}
+},mouseOver:function(e){
+this._hover(e,true);
+},mouseOut:function(e){
+this._hover(e,false);
+},_hover:function(e,_c){
+if(this.disabled==false){
+var _d=this.checked?"On":"Off";
+var _e="dojoHtmlCheckbox"+_d+"Hover";
+if(_c){
+dojo.html.addClass(this.imageNode,_e);
+}else{
+dojo.html.removeClass(this.imageNode,_e);
+}
+}
+},_setInfo:function(){
+var _f="dojoHtmlCheckbox"+(this.disabled?"Disabled":"")+(this.checked?"On":"Off");
+dojo.html.setClass(this.imageNode,"dojoHtmlCheckbox "+_f);
+this.inputNode.checked=this.checked;
+if(this.disabled){
+this.inputNode.setAttribute("disabled",true);
+}else{
+this.inputNode.removeAttribute("disabled");
+}
+dojo.widget.wai.setAttr(this.domNode,"waiState","checked",this.checked);
+}});
+dojo.widget.defineWidget("dojo.widget.a11y.Checkbox",dojo.widget.Checkbox,{templateString:"<span class='dojoHtmlCheckbox'>\n\t<input type=\"checkbox\" name=\"${this.name}\" tabIndex=\"${this.tabIndex}\" id=\"${this.id}\" value=\"${this.value}\"\n\t\t dojoAttachEvent=\"onClick: _onClick;\" dojoAttachPoint=\"inputNode\"> \n</span>\n",fillInTemplate:function(){
+},postCreate:function(_10,_11){
+this.inputNode.checked=this.checked;
+if(this.disabled){
+this.inputNode.setAttribute("disabled",true);
+}
+},_onClick:function(){
+this.onClick();
+}});

@@ -8,43 +8,18 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.widget.RegexpTextbox");
-
 dojo.require("dojo.widget.ValidationTextbox");
-
-dojo.widget.defineWidget(
-	"dojo.widget.RegexpTextbox",
-	dojo.widget.ValidationTextbox,
-	{
-		/*
-		summary
-		  A subclass of ValidationTextbox.
-		  Over-rides isValid to test input based on a regular expression.
-		  Has a new property that can be specified as attributes in the markup. 
-		
-		regexp: String
-		       The regular expression string to use
-		flags: String
-		        Flags to pass to the regular expression (e.g. 'i', 'g', etc)
-		*/
-
-	    mixInProperties: function(localProperties, frag){
-	        // First initialize properties in super-class.
-	        dojo.widget.RegexpTextbox.superclass.mixInProperties.apply(this, arguments);
-
-	        // Get properties from markup attibutes, and assign to flags object.
-	        if(localProperties.regexp){
-	            this.flags.regexp = localProperties.regexp;
-	        }
-	        if(localProperties.flags){
-	            this.flags.flags = localProperties.flags;
-	        }
-	    },
-
-	    // Over-ride for integer validation
-	    isValid: function(){
-	        var regexp = new RegExp(this.flags.regexp, this.flags.flags);
-	        return regexp.test(this.textbox.value);
-	    }
-	}
-);
+dojo.widget.defineWidget("dojo.widget.RegexpTextbox",dojo.widget.ValidationTextbox,{mixInProperties:function(_1,_2){
+dojo.widget.RegexpTextbox.superclass.mixInProperties.apply(this,arguments);
+if(_1.regexp){
+this.flags.regexp=_1.regexp;
+}
+if(_1.flags){
+this.flags.flags=_1.flags;
+}
+},isValid:function(){
+var _3=new RegExp(this.flags.regexp,this.flags.flags);
+return _3.test(this.textbox.value);
+}});

@@ -8,5 +8,6 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.require("dojo.cal.textDirectory");
-dojo.deprecate("dojo.text.textDirectory", "use dojo.cal.textDirectory", "0.5");
+dojo.deprecate("dojo.text.textDirectory","use dojo.cal.textDirectory","0.5");

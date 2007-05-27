@@ -8,170 +8,119 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.widget.Repeater");
 dojo.require("dojo.widget.HtmlWidget");
 dojo.require("dojo.string");
 dojo.require("dojo.event.*");
 dojo.require("dojo.experimental");
 dojo.experimental("dojo.widget.Repeater");
-
-dojo.widget.defineWidget("dojo.widget.Repeater", dojo.widget.HtmlWidget,
-	{
-		/*
-		summary: 
-			Makes it easy to add dynamicly new segments to form, ie. add new rows.
-		
-			description: 
-					
-			usage: 
-				<div dojoType="Repeater" pattern="row.%{index}" useDnd="false">
-					<p>Name: <input typ="text" name="row.%{index}.name" value="" /><input type="button" rowAction="delete" value="remove this" </p>
-				</div>
-
-				or:
-				var myRepeater=dojo.widget.createWidget("Repeater",{pattern: "row.%{index}", useDnd: false});
-				myRepeater.setRow("<p>Name: <input typ="text" name="row.%{index}.name" value="" rowFunction="doThis" /><input type="button" rowAction="delete" value="remove this" /></p>", {doThis: function(node) { dojo.event.connect(node,"onClick", function() { alert("HERE"); }); } );
-
-		*/
-
-
-		name: "",
-		rowTemplate: "",
-		// myObject:
-		// 	Used to bind functionality to rowFunctions
-		myObject: null,
-		// myObject:
-		// 	defines pattern of the names
-		pattern: "",
-		// useDnd:
-		// 	if true, you can change position of rows by DnD
-		//	you can also remove rows by dragging row away
-		useDnd: false,
-		isContainer: true,
-
-		initialize: function(args,frag) {
-			var node = this.getFragNodeRef(frag);
-			node.removeAttribute("dojotype");
-			this.setRow(dojo.string.trim(node.innerHTML), {});
-			node.innerHTML="";
-			frag=null;
-		},
-
-		postCreate: function(args,frag){
-			if (this.useDnd) {
-				dojo.require("dojo.dnd.*");
-				var dnd = new dojo.dnd.HtmlDropTarget(this.domNode, [this.widgetId]);
-			}
-		},
-
-		_reIndexRows: function() {
-			for(var i=0,len=this.domNode.childNodes.length; i<len;i++) {
-				var elems = ["INPUT", "SELECT", "TEXTAREA"];
-				for (var k=0; k < elems.length; k++) {
-					var list = this.domNode.childNodes[i].getElementsByTagName(elems[k]);
-					for (var j=0,len2=list.length; j<len2; j++) {
-						var name = list[j].name;
-						var index=dojo.string.escape("regexp", this.pattern);
-						index = index.replace(/(%\\\{index\\\})/g,"%{index}");
-						var nameRegexp = dojo.string.substituteParams(index, {"index": "[0-9]*"});
-						var newName= dojo.string.substituteParams(this.pattern, {"index": "" + i});
-						var re=new RegExp(nameRegexp,"g");
-						list[j].name = name.replace(re,newName);
-					}
-				}
-			}
-		},
-
-		onDeleteRow: function(e) {
-			var index=dojo.string.escape("regexp", this.pattern);
-			index = index.replace(/%\\\{index\\\}/g,"\%{index}");
-			var nameRegexp = dojo.string.substituteParams(index, {"index": "([0-9]*)"});
-			var re=new RegExp(nameRegexp,"g");
-			this.deleteRow(re.exec(e.target.name)[1]);
-		},
-		hasRows: function() {
-			if (this.domNode.childNodes.length > 0) {
-				return true;
-			}
-			return false;
-		},
-
-		getRowCount: function() {
-			return this.domNode.childNodes.length;
-		},
-
-		deleteRow: function(/*integer*/idx) {
-			this.domNode.removeChild(this.domNode.childNodes[idx]);
-			this._reIndexRows();
-		},
-
-		_changeRowPosition: function(e) {
-			if (e.dragStatus == "dropFailure") {
-				this.domNode.removeChild(e["dragSource"].domNode);
-			} else if (e.dragStatus == "dropSuccess") {
-				//  nothing to do
-			} // else-if
-			this._reIndexRows();
-		},
-		setRow: function(/*string*/template, /*object*/myObject) {
-			//template = dojo.string.substituteParams(template, {"index": "0"});
-			template= template.replace(/\%\{(index)\}/g, "0");
-			this.rowTemplate=template;
-			this.myObject = myObject;
-		},
-		getRow: function() {
-			return this.rowTemplate;
-		},
-		_initRow: function(/*integer or dom node*/node) {
-			if (typeof(node) == "number") {
-                           node=this.domNode.childNodes[node];
-			} // if
-			var elems = ["INPUT", "SELECT", "IMG"];
-			for (var k=0; k < elems.length; k++) {
-				var list = node.getElementsByTagName(elems[k]);
-				for(var i=0, len=list.length; i<len; i++) {
-					var child = list[i];
-					if(child.nodeType != 1) {continue};
-					if (child.getAttribute("rowFunction") != null) {
-						if(typeof(this.myObject[child.getAttribute("rowFunction")]) == "undefined") {
-							dojo.debug("Function " + child.getAttribute("rowFunction") + " not found");
-						} else { 
-							this.myObject[child.getAttribute("rowFunction")](child);
-						} // ifelse
-					} else if (child.getAttribute("rowAction") != null) {
-						if(child.getAttribute("rowAction") == "delete") {
-							child.name=dojo.string.substituteParams(this.pattern, {"index": "" + (this.getRowCount() - 1)});
-							dojo.event.connect(child, "onclick", this, "onDeleteRow");
-						} // if
-					} // else-if
-				} // for
-			} // for
-		},
-		onAddRow: function(e) {
-		},
-		addRow: function(/*boolean*/doInit) {
-                        if (typeof(doInit) == "undefined") {
-				doInit=true;
-                        }
-			var node = document.createElement('span');
-			node.innerHTML=this.getRow();
-			if (node.childNodes.length == 1) {
-				node=node.childNodes[0];
-			}
-			this.domNode.appendChild(node);
-			var parser = new dojo.xml.Parse();
-			var frag = parser.parseElement(node, null, true);
-			dojo.widget.getParser().createSubComponents(frag, this);
-			this._reIndexRows();
-			if (doInit) {
-				this._initRow(node);
-			}
-			if (this.useDnd) { // bind to DND
-				node=new dojo.dnd.HtmlDragSource(node, this.widgetId);
-				dojo.event.connect(node, "onDragEnd", this, "_changeRowPosition");
-			}
-			this.onAddRow(node);
-		}
-});
-
-
+dojo.widget.defineWidget("dojo.widget.Repeater",dojo.widget.HtmlWidget,{name:"",rowTemplate:"",myObject:null,pattern:"",useDnd:false,isContainer:true,initialize:function(_1,_2){
+var _3=this.getFragNodeRef(_2);
+_3.removeAttribute("dojotype");
+this.setRow(dojo.string.trim(_3.innerHTML),{});
+_3.innerHTML="";
+_2=null;
+},postCreate:function(_4,_5){
+if(this.useDnd){
+dojo.require("dojo.dnd.*");
+var _6=new dojo.dnd.HtmlDropTarget(this.domNode,[this.widgetId]);
+}
+},_reIndexRows:function(){
+for(var i=0,_8=this.domNode.childNodes.length;i<_8;i++){
+var _9=["INPUT","SELECT","TEXTAREA"];
+for(var k=0;k<_9.length;k++){
+var _b=this.domNode.childNodes[i].getElementsByTagName(_9[k]);
+for(var j=0,_d=_b.length;j<_d;j++){
+var _e=_b[j].name;
+var _f=dojo.string.escape("regexp",this.pattern);
+_f=_f.replace(/(%\\\{index\\\})/g,"%{index}");
+var _10=dojo.string.substituteParams(_f,{"index":"[0-9]*"});
+var _11=dojo.string.substituteParams(this.pattern,{"index":""+i});
+var re=new RegExp(_10,"g");
+_b[j].name=_e.replace(re,_11);
+}
+}
+}
+},onDeleteRow:function(e){
+var _14=dojo.string.escape("regexp",this.pattern);
+_14=_14.replace(/%\\\{index\\\}/g,"%{index}");
+var _15=dojo.string.substituteParams(_14,{"index":"([0-9]*)"});
+var re=new RegExp(_15,"g");
+this.deleteRow(re.exec(e.target.name)[1]);
+},hasRows:function(){
+if(this.domNode.childNodes.length>0){
+return true;
+}
+return false;
+},getRowCount:function(){
+return this.domNode.childNodes.length;
+},deleteRow:function(idx){
+this.domNode.removeChild(this.domNode.childNodes[idx]);
+this._reIndexRows();
+},_changeRowPosition:function(e){
+if(e.dragStatus=="dropFailure"){
+this.domNode.removeChild(e["dragSource"].domNode);
+}else{
+if(e.dragStatus=="dropSuccess"){
+}
+}
+this._reIndexRows();
+},setRow:function(_19,_1a){
+_19=_19.replace(/\%\{(index)\}/g,"0");
+this.rowTemplate=_19;
+this.myObject=_1a;
+},getRow:function(){
+return this.rowTemplate;
+},_initRow:function(_1b){
+if(typeof (_1b)=="number"){
+_1b=this.domNode.childNodes[_1b];
+}
+var _1c=["INPUT","SELECT","IMG"];
+for(var k=0;k<_1c.length;k++){
+var _1e=_1b.getElementsByTagName(_1c[k]);
+for(var i=0,len=_1e.length;i<len;i++){
+var _21=_1e[i];
+if(_21.nodeType!=1){
+continue;
+}
+if(_21.getAttribute("rowFunction")!=null){
+if(typeof (this.myObject[_21.getAttribute("rowFunction")])=="undefined"){
+dojo.debug("Function "+_21.getAttribute("rowFunction")+" not found");
+}else{
+this.myObject[_21.getAttribute("rowFunction")](_21);
+}
+}else{
+if(_21.getAttribute("rowAction")!=null){
+if(_21.getAttribute("rowAction")=="delete"){
+_21.name=dojo.string.substituteParams(this.pattern,{"index":""+(this.getRowCount()-1)});
+dojo.event.connect(_21,"onclick",this,"onDeleteRow");
+}
+}
+}
+}
+}
+},onAddRow:function(e){
+},addRow:function(_23){
+if(typeof (_23)=="undefined"){
+_23=true;
+}
+var _24=document.createElement("span");
+_24.innerHTML=this.getRow();
+if(_24.childNodes.length==1){
+_24=_24.childNodes[0];
+}
+this.domNode.appendChild(_24);
+var _25=new dojo.xml.Parse();
+var _26=_25.parseElement(_24,null,true);
+dojo.widget.getParser().createSubComponents(_26,this);
+this._reIndexRows();
+if(_23){
+this._initRow(_24);
+}
+if(this.useDnd){
+_24=new dojo.dnd.HtmlDragSource(_24,this.widgetId);
+dojo.event.connect(_24,"onDragEnd",this,"_changeRowPosition");
+}
+this.onAddRow(_24);
+}});

@@ -8,5 +8,6 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.require("dojo.undo.Manager");
 dojo.provide("dojo.undo.*");

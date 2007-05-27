@@ -8,138 +8,109 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.widget.Editor2Plugin.AlwaysShowToolbar");
-
-//dojo.widget.Editor2Manager.registerPerInstancePlugin("dojo.widget.Editor2Plugin.AlwaysShowToolbar");
-
-dojo.event.topic.subscribe("dojo.widget.Editor2::onLoad", function(editor){
-	if(editor.toolbarAlwaysVisible){
-		var p = new dojo.widget.Editor2Plugin.AlwaysShowToolbar(editor);
-	}
+dojo.event.topic.subscribe("dojo.widget.Editor2::onLoad",function(_1){
+if(_1.toolbarAlwaysVisible){
+var p=new dojo.widget.Editor2Plugin.AlwaysShowToolbar(_1);
+}
 });
-dojo.declare("dojo.widget.Editor2Plugin.AlwaysShowToolbar", null,
-	function(editor){
-		this.editor = editor;
-		this.editor.registerLoadedPlugin(this);
-		this.setup();
-	},
-	{
-	_scrollSetUp: false,
-	_fixEnabled: false,
-	_scrollThreshold: false,
-	_handleScroll: true,
-
-	setup: function(){
-		var tdn = this.editor.toolbarWidget;
-		if(!tdn.tbBgIframe){
-			tdn.tbBgIframe = new dojo.html.BackgroundIframe(tdn.domNode);
-			tdn.tbBgIframe.onResized();
-		}
-		this.scrollInterval = setInterval(dojo.lang.hitch(this, "globalOnScrollHandler"), 100);
-
-		dojo.event.connect("before", this.editor.toolbarWidget, "destroy", this, "destroy");
-	},
-
-	globalOnScrollHandler: function(){
-		var isIE = dojo.render.html.ie;
-		if(!this._handleScroll){ return; }
-		var dh = dojo.html;
-		var tdn = this.editor.toolbarWidget.domNode;
-		var db = dojo.body();
-
-		if(!this._scrollSetUp){
-			this._scrollSetUp = true;
-			var editorWidth =  dh.getMarginBox(this.editor.domNode).width; 
-			this._scrollThreshold = dh.abs(tdn, true).y;
-			// dojo.debug("threshold:", this._scrollThreshold);
-			if((isIE)&&(db)&&(dh.getStyle(db, "background-image")=="none")){
-				with(db.style){
-					backgroundImage = "url(" + dojo.uri.moduleUri("dojo.widget", "templates/images/blank.gif") + ")";
-					backgroundAttachment = "fixed";
-				}
-			}
-		}
-
-		var scrollPos = (window["pageYOffset"]) ? window["pageYOffset"] : (document["documentElement"]||document["body"]).scrollTop;
-
-		// FIXME: need to have top and bottom thresholds so toolbar doesn't keep scrolling past the bottom
-		if(scrollPos > this._scrollThreshold){
-			// dojo.debug(scrollPos);
-			if(!this._fixEnabled){
-				var tdnbox = dojo.html.getMarginBox(tdn);
-				this.editor.editorObject.style.marginTop = tdnbox.height+"px";
-
-				if(isIE){
-					// FIXME: should we just use setBehvior() here instead?
-					tdn.style.left = dojo.html.abs(tdn, dojo.html.boxSizing.MARGIN_BOX).x;
-					if(tdn.previousSibling){
-						this._IEOriginalPos = ['after',tdn.previousSibling];
-					}else if(tdn.nextSibling){
-						this._IEOriginalPos = ['before',tdn.nextSibling];
-					}else{
-						this._IEOriginalPos = ['',tdn.parentNode];
-					}
-					dojo.body().appendChild(tdn);
-
-					dojo.html.addClass(tdn, "IEFixedToolbar");
-				}else{
-					with(tdn.style){
-						position = "fixed";
-						top = "0px";
-					}
-				}
-
-				tdn.style.width = tdnbox.width + "px";
-				tdn.style.zIndex = 1000;
-				this._fixEnabled = true;
-			}
-			// if we're showing the floating toolbar, make sure that if
-			// we've scrolled past the bottom of the editor that we hide
-			// the toolbar for this instance of the editor.
-
-			// TODO: when we get multiple editor toolbar support working
-			// correctly, ensure that we check this against the scroll
-			// position of the bottom-most editor instance.
-			if(!dojo.render.html.safari){
-				// safari reports a bunch of things incorrectly here
-				var eHeight = (this.height) ? parseInt(this.editor.height) : this.editor._lastHeight;
-				if(scrollPos > (this._scrollThreshold+eHeight)){
-					tdn.style.display = "none";
-				}else{
-					tdn.style.display = "";
-				}
-			}
-		}else if(this._fixEnabled){
-			(this.editor.object || this.editor.iframe).style.marginTop = null;
-			with(tdn.style){
-				position = "";
-				top = "";
-				zIndex = "";
-				display = "";
-			}
-			if(isIE){
-				tdn.style.left = "";
-				dojo.html.removeClass(tdn, "IEFixedToolbar");
-				if(this._IEOriginalPos){
-					dojo.html.insertAtPosition(tdn, this._IEOriginalPos[1], this._IEOriginalPos[0]);
-					this._IEOriginalPos = null;
-				}else{
-					dojo.html.insertBefore(tdn, this.editor.object||this.editor.iframe);
-				}
-			}
-			tdn.style.width = "";
-			this._fixEnabled = false;
-		}
-	},
-
-	destroy: function(){
-		this._IEOriginalPos = null;
-		this._handleScroll = false;
-		clearInterval(this.scrollInterval);
-		this.editor.unregisterLoadedPlugin(this);
-
-		if(dojo.render.html.ie){
-			dojo.html.removeClass(this.editor.toolbarWidget.domNode, "IEFixedToolbar");
-		}
-	}
-});
+dojo.declare("dojo.widget.Editor2Plugin.AlwaysShowToolbar",null,function(_3){
+this.editor=_3;
+this.editor.registerLoadedPlugin(this);
+this.setup();
+},{_scrollSetUp:false,_fixEnabled:false,_scrollThreshold:false,_handleScroll:true,setup:function(){
+var _4=this.editor.toolbarWidget;
+if(!_4.tbBgIframe){
+_4.tbBgIframe=new dojo.html.BackgroundIframe(_4.domNode);
+_4.tbBgIframe.onResized();
+}
+this.scrollInterval=setInterval(dojo.lang.hitch(this,"globalOnScrollHandler"),100);
+dojo.event.connect("before",this.editor.toolbarWidget,"destroy",this,"destroy");
+},globalOnScrollHandler:function(){
+var _5=dojo.render.html.ie;
+if(!this._handleScroll){
+return;
+}
+var dh=dojo.html;
+var _7=this.editor.toolbarWidget.domNode;
+var db=dojo.body();
+if(!this._scrollSetUp){
+this._scrollSetUp=true;
+var _9=dh.getMarginBox(this.editor.domNode).width;
+this._scrollThreshold=dh.abs(_7,true).y;
+if((_5)&&(db)&&(dh.getStyle(db,"background-image")=="none")){
+with(db.style){
+backgroundImage="url("+dojo.uri.moduleUri("dojo.widget","templates/images/blank.gif")+")";
+backgroundAttachment="fixed";
+}
+}
+}
+var _a=(window["pageYOffset"])?window["pageYOffset"]:(document["documentElement"]||document["body"]).scrollTop;
+if(_a>this._scrollThreshold){
+if(!this._fixEnabled){
+var _b=dojo.html.getMarginBox(_7);
+this.editor.editorObject.style.marginTop=_b.height+"px";
+if(_5){
+_7.style.left=dojo.html.abs(_7,dojo.html.boxSizing.MARGIN_BOX).x;
+if(_7.previousSibling){
+this._IEOriginalPos=["after",_7.previousSibling];
+}else{
+if(_7.nextSibling){
+this._IEOriginalPos=["before",_7.nextSibling];
+}else{
+this._IEOriginalPos=["",_7.parentNode];
+}
+}
+dojo.body().appendChild(_7);
+dojo.html.addClass(_7,"IEFixedToolbar");
+}else{
+with(_7.style){
+position="fixed";
+top="0px";
+}
+}
+_7.style.width=_b.width+"px";
+_7.style.zIndex=1000;
+this._fixEnabled=true;
+}
+if(!dojo.render.html.safari){
+var _c=(this.height)?parseInt(this.editor.height):this.editor._lastHeight;
+if(_a>(this._scrollThreshold+_c)){
+_7.style.display="none";
+}else{
+_7.style.display="";
+}
+}
+}else{
+if(this._fixEnabled){
+(this.editor.object||this.editor.iframe).style.marginTop=null;
+with(_7.style){
+position="";
+top="";
+zIndex="";
+display="";
+}
+if(_5){
+_7.style.left="";
+dojo.html.removeClass(_7,"IEFixedToolbar");
+if(this._IEOriginalPos){
+dojo.html.insertAtPosition(_7,this._IEOriginalPos[1],this._IEOriginalPos[0]);
+this._IEOriginalPos=null;
+}else{
+dojo.html.insertBefore(_7,this.editor.object||this.editor.iframe);
+}
+}
+_7.style.width="";
+this._fixEnabled=false;
+}
+}
+},destroy:function(){
+this._IEOriginalPos=null;
+this._handleScroll=false;
+clearInterval(this.scrollInterval);
+this.editor.unregisterLoadedPlugin(this);
+if(dojo.render.html.ie){
+dojo.html.removeClass(this.editor.toolbarWidget.domNode,"IEFixedToolbar");
+}
+}});

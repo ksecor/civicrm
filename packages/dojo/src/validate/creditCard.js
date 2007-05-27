@@ -8,95 +8,55 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide('dojo.validate.creditCard');
 
+dojo.provide("dojo.validate.creditCard");
 dojo.require("dojo.lang.common");
 dojo.require("dojo.validate.common");
-
-/*
-	Validates Credit Cards using account number rules in conjunction with the Luhn algorigthm
-	
- */
-
-dojo.validate.isValidCreditCard = function(/*String|Int*/value, /*String*/ccType){
-	//Summary:
-	//  checks if type matches the # scheme, and if Luhn checksum is accurate (unless its an Enroute card, the checkSum is skipped)
-	
-	//Value: Boolean
-	if(value&&ccType&&((ccType.toLowerCase()=='er'||dojo.validate.isValidLuhn(value))&&(dojo.validate.isValidCreditCardNumber(value,ccType.toLowerCase())))){
-			return true; //Boolean
-	}
-	return false; //Boolean
+dojo.validate.isValidCreditCard=function(_1,_2){
+if(_1&&_2&&((_2.toLowerCase()=="er"||dojo.validate.isValidLuhn(_1))&&(dojo.validate.isValidCreditCardNumber(_1,_2.toLowerCase())))){
+return true;
 }
-dojo.validate.isValidCreditCardNumber = function(/*String|Int*/value,/*String?*/ccType) {
-	//Summary:
-	//  checks if the # matches the pattern for that card or any card types if none is specified
-	//  value == CC #, white spaces and dashes are ignored
-	//  ccType is of the values in cardinfo -- if Omitted it it returns a | delimited string of matching card types, or false if no matches found
-	
-	//Value: Boolean
-	
-	if(typeof value!='string'){
-		value = String(value);
-	}
-	value = value.replace(/[- ]/g,''); //ignore dashes and whitespaces
-	/* 	FIXME: not sure on all the abbreviations for credit cards,below is what each stands for atleast to my knowledge
-		mc: Mastercard
-		ec: Eurocard
-		vi: Visa
-		ax: American Express
-		dc: Diners Club
-		bl: Carte Blanch
-		di: Discover
-		jcb: JCB
-		er: Enroute
-	 */
-	var results=[];
-	var cardinfo = {
-		'mc':'5[1-5][0-9]{14}','ec':'5[1-5][0-9]{14}','vi':'4([0-9]{12}|[0-9]{15})',
-		'ax':'3[47][0-9]{13}', 'dc':'3(0[0-5][0-9]{11}|[68][0-9]{12})',
-		'bl':'3(0[0-5][0-9]{11}|[68][0-9]{12})','di':'6011[0-9]{12}',
-		'jcb':'(3[0-9]{15}|(2131|1800)[0-9]{11})','er':'2(014|149)[0-9]{11}'
-	};
-	if(ccType&&dojo.lang.has(cardinfo,ccType.toLowerCase())){
-		return Boolean(value.match(cardinfo[ccType.toLowerCase()])); // boolean
-	}else{
-		for(var p in cardinfo){
-			if(value.match('^'+cardinfo[p]+'$')!=null){
-				results.push(p);
-			}
-		}
-		return (results.length)?results.join('|'):false; // string | boolean
-	}	
+return false;
+};
+dojo.validate.isValidCreditCardNumber=function(_3,_4){
+if(typeof _3!="string"){
+_3=String(_3);
 }
-
-dojo.validate.isValidCvv = function(/*String|Int*/value, /*String*/ccType) {
-	//Summary:
-	//  returns true if the security code (CCV) matches the correct format for supplied ccType
-	
-	//Value: Boolean
-	
-	if(typeof value!='string'){
-		value=String(value);
-	}
-	var format;
-	switch (ccType.toLowerCase()){
-		case 'mc':
-		case 'ec':
-		case 'vi':
-		case 'di':
-			format = '###';
-			break;
-		case 'ax':
-			format = '####';
-			break;
-		default:
-			return false; //Boolean
-	}
-	var flags = {format:format};
-	//FIXME? Why does isNumberFormat take an object for flags when its only parameter is either a string or an array inside the object?
-	if ((value.length == format.length)&&(dojo.validate.isNumberFormat(value, flags))){
-		return true; //Boolean
-	}
-	return false; //Boolean
+_3=_3.replace(/[- ]/g,"");
+var _5=[];
+var _6={"mc":"5[1-5][0-9]{14}","ec":"5[1-5][0-9]{14}","vi":"4([0-9]{12}|[0-9]{15})","ax":"3[47][0-9]{13}","dc":"3(0[0-5][0-9]{11}|[68][0-9]{12})","bl":"3(0[0-5][0-9]{11}|[68][0-9]{12})","di":"6011[0-9]{12}","jcb":"(3[0-9]{15}|(2131|1800)[0-9]{11})","er":"2(014|149)[0-9]{11}"};
+if(_4&&dojo.lang.has(_6,_4.toLowerCase())){
+return Boolean(_3.match(_6[_4.toLowerCase()]));
+}else{
+for(var p in _6){
+if(_3.match("^"+_6[p]+"$")!=null){
+_5.push(p);
 }
+}
+return (_5.length)?_5.join("|"):false;
+}
+};
+dojo.validate.isValidCvv=function(_8,_9){
+if(typeof _8!="string"){
+_8=String(_8);
+}
+var _a;
+switch(_9.toLowerCase()){
+case "mc":
+case "ec":
+case "vi":
+case "di":
+_a="###";
+break;
+case "ax":
+_a="####";
+break;
+default:
+return false;
+}
+var _b={format:_a};
+if((_8.length==_a.length)&&(dojo.validate.isNumberFormat(_8,_b))){
+return true;
+}
+return false;
+};

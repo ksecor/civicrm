@@ -8,8 +8,8 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide("dojo.widget.DomWidget");
 
+dojo.provide("dojo.widget.DomWidget");
 dojo.require("dojo.event.*");
 dojo.require("dojo.widget.Widget");
 dojo.require("dojo.dom");
@@ -18,897 +18,488 @@ dojo.require("dojo.xml.Parse");
 dojo.require("dojo.uri.*");
 dojo.require("dojo.lang.func");
 dojo.require("dojo.lang.extras");
-
-dojo.widget._cssFiles = {};
-dojo.widget._cssStrings = {};
-dojo.widget._templateCache = {};
-
-dojo.widget.defaultStrings = {
-	// summary: a mapping of strings that are used in template variable replacement
-	dojoRoot: dojo.hostenv.getBaseScriptUri(),
-	dojoWidgetModuleUri: dojo.uri.moduleUri("dojo.widget"),
-	baseScriptUri: dojo.hostenv.getBaseScriptUri()
+dojo.widget._cssFiles={};
+dojo.widget._cssStrings={};
+dojo.widget._templateCache={};
+dojo.widget.defaultStrings={dojoRoot:dojo.hostenv.getBaseScriptUri(),dojoWidgetModuleUri:dojo.uri.moduleUri("dojo.widget"),baseScriptUri:dojo.hostenv.getBaseScriptUri()};
+dojo.widget.fillFromTemplateCache=function(_1,_2,_3,_4){
+var _5=_2||_1.templatePath;
+var _6=dojo.widget._templateCache;
+if(!_5&&!_1["widgetType"]){
+do{
+var _7="__dummyTemplate__"+dojo.widget._templateCache.dummyCount++;
+}while(_6[_7]);
+_1.widgetType=_7;
+}
+var wt=_5?_5.toString():_1.widgetType;
+var ts=_6[wt];
+if(!ts){
+_6[wt]={"string":null,"node":null};
+if(_4){
+ts={};
+}else{
+ts=_6[wt];
+}
+}
+if((!_1.templateString)&&(!_4)){
+_1.templateString=_3||ts["string"];
+}
+if(_1.templateString){
+_1.templateString=this._sanitizeTemplateString(_1.templateString);
+}
+if((!_1.templateNode)&&(!_4)){
+_1.templateNode=ts["node"];
+}
+if((!_1.templateNode)&&(!_1.templateString)&&(_5)){
+var _a=this._sanitizeTemplateString(dojo.hostenv.getText(_5));
+_1.templateString=_a;
+if(!_4){
+_6[wt]["string"]=_a;
+}
+}
+if((!ts["string"])&&(!_4)){
+ts.string=_1.templateString;
+}
 };
-
-dojo.widget.fillFromTemplateCache = function(obj, templatePath, templateString, avoidCache){
-	// summary:
-	//		static method to build from a template w/ or w/o a real widget in
-	//		place
-	// obj: DomWidget
-	//		an instance of dojo.widget.DomWidget to initialize the template for
-	// templatePath: String
-	//		the URL to get the template from. dojo.uri.Uri is often passed as well.
-	// templateString: String?
-	//		a string to use in lieu of fetching the template from a URL
-	// avoidCache: Boolean?
-	//		should the template system not use whatever is in the cache and
-	//		always use the passed templatePath or templateString?
-
-	// dojo.debug("avoidCache:", avoidCache);
-	var tpath = templatePath || obj.templatePath;
-
-	var tmplts = dojo.widget._templateCache;
-	if(!tpath && !obj["widgetType"]) { // don't have a real template here
-		do {
-			var dummyName = "__dummyTemplate__" + dojo.widget._templateCache.dummyCount++;
-		} while(tmplts[dummyName]);
-		obj.widgetType = dummyName;
-	}
-	var wt = tpath?tpath.toString():obj.widgetType;
-
-	var ts = tmplts[wt];
-	if(!ts){
-		tmplts[wt] = {"string": null, "node": null};
-		if(avoidCache){
-			ts = {};
-		}else{
-			ts = tmplts[wt];
-		}
-	}
-
-	if((!obj.templateString)&&(!avoidCache)){
-		obj.templateString = templateString || ts["string"];
-	}
-	if(obj.templateString){
-		obj.templateString = this._sanitizeTemplateString(obj.templateString);
-	}
-
-	if((!obj.templateNode)&&(!avoidCache)){
-		obj.templateNode = ts["node"];
-	}
-	if((!obj.templateNode)&&(!obj.templateString)&&(tpath)){
-		// fetch a text fragment and assign it to templateString
-		// NOTE: we rely on blocking IO here!
-		var tstring = this._sanitizeTemplateString(dojo.hostenv.getText(tpath));
-
-		obj.templateString = tstring;
-		if(!avoidCache){
-			tmplts[wt]["string"] = tstring;
-		}
-	}
-	if((!ts["string"])&&(!avoidCache)){
-		ts.string = obj.templateString;
-	}
+dojo.widget._sanitizeTemplateString=function(_b){
+if(_b){
+_b=_b.replace(/^\s*<\?xml(\s)+version=[\'\"](\d)*.(\d)*[\'\"](\s)*\?>/im,"");
+var _c=_b.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
+if(_c){
+_b=_c[1];
 }
-
-dojo.widget._sanitizeTemplateString = function(/*String*/tString){
-	//summary: Strips <?xml ...?> declarations so that external SVG and XML
-	//documents can be added to a document without worry. Also, if the string
-	//is an HTML document, only the part inside the body tag is returned.
-	if(tString){
-		tString = tString.replace(/^\s*<\?xml(\s)+version=[\'\"](\d)*.(\d)*[\'\"](\s)*\?>/im, "");
-		var matches = tString.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
-		if(matches){
-			tString = matches[1];
-		}
-	}else{
-		tString = "";
-	}
-	return tString; //String
+}else{
+_b="";
 }
-
-dojo.widget._templateCache.dummyCount = 0;
-
-// Array: list of properties to search for node-to-property mappings
-dojo.widget.attachProperties = ["dojoAttachPoint", "id"];
-
-// String: name of the property to use for mapping DOM events to widget functions
-dojo.widget.eventAttachProperty = "dojoAttachEvent";
-
-// String: property name of code to evaluate when the widget is constructed
-dojo.widget.onBuildProperty = "dojoOnBuild";
-
-// Array:  possible accessibility values to set on widget elements - role or state
-dojo.widget.waiNames  = ["waiRole", "waiState"];
-
-dojo.widget.wai = {
-	// summary: Contains functions to set accessibility roles and states
-	//		onto widget elements
-	waiRole: { 	
-				// name: String:
-				//		information for mapping accessibility role
-				name: "waiRole", 
-				// namespace: String:
-				//		URI of the namespace for the set of roles
-				"namespace": "http://www.w3.org/TR/xhtml2", 
-				// alias: String:
-				//		The alias to assign the namespace
-				alias: "x2",
-				// prefix: String:
-				//		The prefix to assign to the role value
-				prefix: "wairole:"
-	},
-	waiState: { 
-				// name: String:
-				//		information for mapping accessibility state
-				name: "waiState", 
-				// namespace: String:
-				//		URI of the namespace for the set of states
-				"namespace": "http://www.w3.org/2005/07/aaa", 
-				// alias: String:
-				//		The alias to assign the namespace
-				alias: "aaa",
-				// prefix: String:
-				//		empty string - state value does not require prefix
-				prefix: ""
-	},
-	setAttr: function(/*DomNode*/node, /*String*/ ns, /*String*/ attr, /*String|Boolean*/value){
-		// summary: Use appropriate API to set the role or state attribute onto the element.
-		// description: In IE use the generic setAttribute() api.  Append a namespace
-		//   alias to the attribute name and appropriate prefix to the value. 
-		//   Otherwise, use the setAttribueNS api to set the namespaced attribute. Also
-		//   add the appropriate prefix to the attribute value.
-		if(dojo.render.html.ie){
-			node.setAttribute(this[ns].alias+":"+ attr, this[ns].prefix+value);
-		}else{
-			node.setAttributeNS(this[ns]["namespace"], attr, this[ns].prefix+value);
-		}
-	},
-
-	getAttr: function(/*DomNode*/ node, /*String*/ ns, /*String|Boolena*/ attr){
-		// Summary:  Use the appropriate API to retrieve the role or state value
-		// Description: In IE use the generic getAttribute() api.  An alias value 
-		// 	was added to the attribute name to simulate a namespace when the attribute
-		//  was set.  Otherwise use the getAttributeNS() api to retrieve the state value
-		if(dojo.render.html.ie){
-			return node.getAttribute(this[ns].alias+":"+attr);
-		}else{
-			return node.getAttributeNS(this[ns]["namespace"], attr);
-		}
-	},
-	removeAttr: function(/*DomNode*/ node, /*String*/ ns, /*String|Boolena*/ attr){
-		// summary:  Use the appropriate API to remove the role or state value
-		// description: In IE use the generic removeAttribute() api.  An alias value 
-		// 	was added to the attribute name to simulate a namespace when the attribute
-		//  was set.  Otherwise use the removeAttributeNS() api to remove the state value
-		var success = true; //only IE returns a value
-		if(dojo.render.html.ie){
-			 success = node.removeAttribute(this[ns].alias+":"+attr);
-		}else{
-			node.removeAttributeNS(this[ns]["namespace"], attr);
-		}
-		return success;
-	}
+return _b;
 };
-
-dojo.widget.attachTemplateNodes = function(rootNode, /*Widget*/ targetObj, events ){
-	// summary:
-	//		map widget properties and functions to the handlers specified in
-	//		the dom node and it's descendants. This function iterates over all
-	//		nodes and looks for these properties:
-	//			* dojoAttachPoint
-	//			* dojoAttachEvent	
-	//			* waiRole
-	//			* waiState
-	//			* any "dojoOn*" proprties passed in the events array
-	// rootNode: DomNode
-	//		the node to search for properties. All children will be searched.
-	// events: Array
-	//		a list of properties generated from getDojoEventsFromStr.
-
-	// FIXME: this method is still taking WAAAY too long. We need ways of optimizing:
-	//	a.) what we are looking for on each node
-	//	b.) the nodes that are subject to interrogation (use xpath instead?)
-	//	c.) how expensive event assignment is (less eval(), more connect())
-	// var start = new Date();
-	var elementNodeType = dojo.dom.ELEMENT_NODE;
-
-	function trim(str){
-		return str.replace(/^\s+|\s+$/g, "");
-	}
-
-	if(!rootNode){ 
-		rootNode = targetObj.domNode;
-	}
-
-	if(rootNode.nodeType != elementNodeType){
-		return;
-	}
-	// alert(events.length);
-
-	var nodes = rootNode.all || rootNode.getElementsByTagName("*");
-	var _this = targetObj;
-	for(var x=-1; x<nodes.length; x++){
-		var baseNode = (x == -1) ? rootNode : nodes[x];
-		// FIXME: is this going to have capitalization problems?  Could use getAttribute(name, 0); to get attributes case-insensitve
-		var attachPoint = [];
-		if(!targetObj.widgetsInTemplate || !baseNode.getAttribute('dojoType')){
-			for(var y=0; y<this.attachProperties.length; y++){
-				var tmpAttachPoint = baseNode.getAttribute(this.attachProperties[y]);
-				if(tmpAttachPoint){
-					attachPoint = tmpAttachPoint.split(";");
-					for(var z=0; z<attachPoint.length; z++){
-						if(dojo.lang.isArray(targetObj[attachPoint[z]])){
-							targetObj[attachPoint[z]].push(baseNode);
-						}else{
-							targetObj[attachPoint[z]]=baseNode;
-						}
-					}
-					break;
-				}
-			}
-
-			var attachEvent = baseNode.getAttribute(this.eventAttachProperty);
-			if(attachEvent){
-				// NOTE: we want to support attributes that have the form
-				// "domEvent: nativeEvent; ..."
-				var evts = attachEvent.split(";");
-				for(var y=0; y<evts.length; y++){
-					if((!evts[y])||(!evts[y].length)){ continue; }
-					var thisFunc = null;
-					var tevt = trim(evts[y]);
-					if(evts[y].indexOf(":") >= 0){
-						// oh, if only JS had tuple assignment
-						var funcNameArr = tevt.split(":");
-						tevt = trim(funcNameArr[0]);
-						thisFunc = trim(funcNameArr[1]);
-					}
-					if(!thisFunc){
-						thisFunc = tevt;
-					}
-	
-					var tf = function(){ 
-						var ntf = new String(thisFunc);
-						return function(evt){
-							if(_this[ntf]){
-								_this[ntf](dojo.event.browser.fixEvent(evt, this));
-							}
-						};
-					}();
-					dojo.event.browser.addListener(baseNode, tevt, tf, false, true);
-					// dojo.event.browser.addListener(baseNode, tevt, dojo.lang.hitch(_this, thisFunc));
-				}
-			}
-	
-			for(var y=0; y<events.length; y++){
-				//alert(events[x]);
-				var evtVal = baseNode.getAttribute(events[y]);
-				if((evtVal)&&(evtVal.length)){
-					var thisFunc = null;
-					var domEvt = events[y].substr(4); // clober the "dojo" prefix
-					thisFunc = trim(evtVal);
-					var funcs = [thisFunc];
-					if(thisFunc.indexOf(";")>=0){
-						funcs = dojo.lang.map(thisFunc.split(";"), trim);
-					}
-					for(var z=0; z<funcs.length; z++){
-						if(!funcs[z].length){ continue; }
-						var tf = function(){ 
-							var ntf = new String(funcs[z]);
-							return function(evt){
-								if(_this[ntf]){
-									_this[ntf](dojo.event.browser.fixEvent(evt, this));
-								}
-							}
-						}();
-						dojo.event.browser.addListener(baseNode, domEvt, tf, false, true);
-						// dojo.event.browser.addListener(baseNode, domEvt, dojo.lang.hitch(_this, funcs[z]));
-					}
-				}
-			}
-		}
-		// continue;
-
-		// FIXME: we need to put this into some kind of lookup structure
-		// instead of direct assignment
-		var tmpltPoint = baseNode.getAttribute(this.templateProperty);
-		if(tmpltPoint){
-			targetObj[tmpltPoint]=baseNode;
-		}
-
-		dojo.lang.forEach(dojo.widget.waiNames, function(name){
-			var wai = dojo.widget.wai[name];
-			var val = baseNode.getAttribute(wai.name);
-			if(val){
-				if(val.indexOf('-') == -1){ 
-					dojo.widget.wai.setAttr(baseNode, wai.name, "role", val);
-				}else{
-					// this is a state-value pair
-					var statePair = val.split('-');
-					dojo.widget.wai.setAttr(baseNode, wai.name, statePair[0], statePair[1]);
-				}
-			}
-		}, this);
-
-		var onBuild = baseNode.getAttribute(this.onBuildProperty);
-		if(onBuild){
-			eval("var node = baseNode; var widget = targetObj; "+onBuild);
-		}
-	}
-
+dojo.widget._templateCache.dummyCount=0;
+dojo.widget.attachProperties=["dojoAttachPoint","id"];
+dojo.widget.eventAttachProperty="dojoAttachEvent";
+dojo.widget.onBuildProperty="dojoOnBuild";
+dojo.widget.waiNames=["waiRole","waiState"];
+dojo.widget.wai={waiRole:{name:"waiRole","namespace":"http://www.w3.org/TR/xhtml2",alias:"x2",prefix:"wairole:"},waiState:{name:"waiState","namespace":"http://www.w3.org/2005/07/aaa",alias:"aaa",prefix:""},setAttr:function(_d,ns,_f,_10){
+if(dojo.render.html.ie){
+_d.setAttribute(this[ns].alias+":"+_f,this[ns].prefix+_10);
+}else{
+_d.setAttributeNS(this[ns]["namespace"],_f,this[ns].prefix+_10);
 }
-
-dojo.widget.getDojoEventsFromStr = function(str){
-	// summary:
-	//		generates a list of properties with names that match the form
-	//		dojoOn*
-	// str: String
-	//		the template string to search
-	
-	// var lstr = str.toLowerCase();
-	var re = /(dojoOn([a-z]+)(\s?))=/gi;
-	var evts = str ? str.match(re)||[] : [];
-	var ret = [];
-	var lem = {};
-	for(var x=0; x<evts.length; x++){
-		if(evts[x].length < 1){ continue; }
-		var cm = evts[x].replace(/\s/, "");
-		cm = (cm.slice(0, cm.length-1));
-		if(!lem[cm]){
-			lem[cm] = true;
-			ret.push(cm);
-		}
-	}
-	return ret; // Array
+},getAttr:function(_11,ns,_13){
+if(dojo.render.html.ie){
+return _11.getAttribute(this[ns].alias+":"+_13);
+}else{
+return _11.getAttributeNS(this[ns]["namespace"],_13);
 }
-
-dojo.declare("dojo.widget.DomWidget", 
-	dojo.widget.Widget,
-	function(){
-		// summary:
-		//		dojo.widget.DomWidget is the superclass that provides behavior for all
-		//		DOM-based renderers, including HtmlWidget and SvgWidget. DomWidget
-		//		implements the templating system that most widget authors use to define
-		//		the UI for their widgets.
-		if((arguments.length>0)&&(typeof arguments[0] == "object")){
-			this.create(arguments[0]);
-		}
-	},
-	{							 
-		// templateNode: DomNode
-		//		a node that represents the widget template. Pre-empts both templateString and templatePath.
-		templateNode: null,
-
-		// templateString String:
-		//		a string that represents the widget template. Pre-empts the
-		//		templatePath. In builds that have their strings "interned", the
-		//		templatePath is converted to an inline templateString, thereby
-		//		preventing a synchronous network call.
-		templateString: null,
-
-		// templateCssString String:
-		//		a string that represents the CSS for the widgettemplate.
-		//		Pre-empts the templateCssPath. In builds that have their
-		//		strings "interned", the templateCssPath is converted to an
-		//		inline templateCssString, thereby preventing a synchronous
-		//		network call.
-		templateCssString: null,
-
-		// preventClobber Boolean:
-		//		should the widget not replace the node from which it was
-		//		constructed? Widgets that apply behaviors to pre-existing parts
-		//		of a page can be implemented easily by setting this to "true".
-		//		In these cases, the domNode property will point to the node
-		//		which the widget was created from.
-		preventClobber: false,
-
-		// domNode DomNode:
-		//		this is our visible representation of the widget! Other DOM
-		//		Nodes may by assigned to other properties, usually through the
-		//		template system's dojoAttachPonit syntax, but the domNode
-		//		property is the canonical "top level" node in widget UI.
-		domNode: null, 
-
-		// containerNode DomNode:
-		//		holds child elements. "containerNode" is generally set via a
-		//		dojoAttachPoint assignment and it designates where widgets that
-		//		are defined as "children" of the parent will be placed
-		//		visually.
-		containerNode: null,
-
-		// widgetsInTemplate Boolean:
-		//		should we parse the template to find widgets that might be
-		//		declared in markup inside it? false by default.
-		widgetsInTemplate: false,
-
-		addChild: function(/*Widget*/	widget, overrideContainerNode, pos, ref, insertIndex){
-			// summary:
-			//		Process the given child widget, inserting it's dom node as
-			//		a child of our dom node
-			// overrideContainerNode: DomNode?
-			//		a non-default container node for the widget
-			// pos: String?
-			//		can be one of "before", "after", "first", or "last". This
-			//		has the same meaning as in dojo.dom.insertAtPosition()
-			// ref: DomNode?
-			//		a node to place the widget relative to
-			// insertIndex: int?
-			//		DOM index, same meaning as in dojo.dom.insertAtIndex()
-			// returns: the widget that was inserted
-
-			// FIXME: should we support addition at an index in the children arr and
-			// order the display accordingly? Right now we always append.
-			if(!this.isContainer){ // we aren't allowed to contain other widgets, it seems
-				dojo.debug("dojo.widget.DomWidget.addChild() attempted on non-container widget");
-				return null;
-			}else{
-				if(insertIndex == undefined){
-					insertIndex = this.children.length;
-				}
-				this.addWidgetAsDirectChild(widget, overrideContainerNode, pos, ref, insertIndex);
-				this.registerChild(widget, insertIndex);
-			}
-			return widget; // Widget
-		},
-		
-		addWidgetAsDirectChild: function(/*Widget*/	widget, overrideContainerNode, pos, ref, insertIndex){
-			// summary:
-			//		Process the given child widget, inserting it's dom node as
-			//		a child of our dom node
-			// overrideContainerNode: DomNode
-			//		a non-default container node for the widget
-			// pos: String?
-			//		can be one of "before", "after", "first", or "last". This
-			//		has the same meaning as in dojo.dom.insertAtPosition()
-			// ref: DomNode?
-			//		a node to place the widget relative to
-			// insertIndex: int?
-			//		DOM index, same meaning as in dojo.dom.insertAtIndex()
-			if((!this.containerNode)&&(!overrideContainerNode)){
-				this.containerNode = this.domNode;
-			}
-			var cn = (overrideContainerNode) ? overrideContainerNode : this.containerNode;
-			if(!pos){ pos = "after"; }
-			if(!ref){ 
-				if(!cn){ cn = dojo.body(); }
-				ref = cn.lastChild; 
-			}
-			if(!insertIndex) { insertIndex = 0; }
-			widget.domNode.setAttribute("dojoinsertionindex", insertIndex);
-
-			// insert the child widget domNode directly underneath my domNode, in the
-			// specified position (by default, append to end)
-			if(!ref){
-				cn.appendChild(widget.domNode);
-			}else{
-				// FIXME: was this meant to be the (ugly hack) way to support insert @ index?
-				//dojo.dom[pos](widget.domNode, ref, insertIndex);
-
-				// CAL: this appears to be the intended way to insert a node at a given position...
-				if (pos == 'insertAtIndex'){
-					// dojo.debug("idx:", insertIndex, "isLast:", ref === cn.lastChild);
-					dojo.dom.insertAtIndex(widget.domNode, ref.parentNode, insertIndex);
-				}else{
-					// dojo.debug("pos:", pos, "isLast:", ref === cn.lastChild);
-					if((pos == "after")&&(ref === cn.lastChild)){
-						cn.appendChild(widget.domNode);
-					}else{
-						dojo.dom.insertAtPosition(widget.domNode, cn, pos);
-					}
-				}
-			}
-		},
-
-		registerChild: function(widget, insertionIndex){
-			// summary: record that given widget descends from me
-			// widget: Widget
-			//		the widget that is now a child
-			// insertionIndex: int
-			//		where in the children[] array to place it
-
-			// we need to insert the child at the right point in the parent's 
-			// 'children' array, based on the insertionIndex
-
-			widget.dojoInsertionIndex = insertionIndex;
-
-			var idx = -1;
-			for(var i=0; i<this.children.length; i++){
-
-				//This appears to fix an out of order issue in the case of mixed
-				//markup and programmatically added children.  Previously, if a child
-				//existed from markup, and another child was addChild()d without specifying
-				//any additional parameters, it would end up first in the list, when in fact
-				//it should be after.  I can't see cases where this would break things, but
-				//I could see no other obvious solution. -dustin
-
-				if (this.children[i].dojoInsertionIndex <= insertionIndex){
-					idx = i;
-				}
-			}
-
-			this.children.splice(idx+1, 0, widget);
-
-			widget.parent = this;
-			widget.addedTo(this, idx+1);
-			
-			// If this widget was created programatically, then it was erroneously added
-			// to dojo.widget.manager.topWidgets.  Fix that here.
-			delete dojo.widget.manager.topWidgets[widget.widgetId];
-		},
-
-		removeChild: function(/*Widget*/ widget){
-			// summary: detach child domNode from parent domNode
-			dojo.dom.removeNode(widget.domNode);
-
-			// remove child widget from parent widget 
-			return dojo.widget.DomWidget.superclass.removeChild.call(this, widget); // Widget
-		},
-
-		getFragNodeRef: function(frag){
-			// summary:
-			//		returns the source node, if any, that the widget was
-			//		declared from
-			// frag: Object
-			//		an opaque data structure generated by the first-pass parser
-			if(!frag){return null;} // null
-			if(!frag[this.getNamespacedType()]){
-				dojo.raise("Error: no frag for widget type " + this.getNamespacedType() 
-					+ ", id " + this.widgetId
-					+ " (maybe a widget has set it's type incorrectly)");
-			}
-			return frag[this.getNamespacedType()]["nodeRef"]; // DomNode
-		},
-		
-		postInitialize: function(/*Object*/ args, /*Object*/ frag, /*Widget*/ parentComp){
-			// summary:
-			//		Replace the source domNode with the generated dom
-			//		structure, and register the widget with its parent.
-			//		This is an implementation of the stub function defined in
-			//		dojo.widget.Widget.
-			
-			//dojo.profile.start(this.widgetType + " postInitialize");
-			
-			var sourceNodeRef = this.getFragNodeRef(frag);
-			// Stick my generated dom into the output tree
-			//alert(this.widgetId + ": replacing " + sourceNodeRef + " with " + this.domNode.innerHTML);
-			if (parentComp && (parentComp.snarfChildDomOutput || !sourceNodeRef)){
-				// Add my generated dom as a direct child of my parent widget
-				// This is important for generated widgets, and also cases where I am generating an
-				// <li> node that can't be inserted back into the original DOM tree
-				parentComp.addWidgetAsDirectChild(this, "", "insertAtIndex", "",  args["dojoinsertionindex"], sourceNodeRef);
-			} else if (sourceNodeRef){
-				// Do in-place replacement of the my source node with my generated dom
-				if(this.domNode && (this.domNode !== sourceNodeRef)){
-					this._sourceNodeRef = dojo.dom.replaceNode(sourceNodeRef, this.domNode);
-				}
-			}
-
-			// Register myself with my parent, or with the widget manager if
-			// I have no parent
-			// TODO: the code below erroneously adds all programatically generated widgets
-			// to topWidgets (since we don't know who the parent is until after creation finishes)
-			if ( parentComp ) {
-				parentComp.registerChild(this, args.dojoinsertionindex);
-			} else {
-				dojo.widget.manager.topWidgets[this.widgetId]=this;
-			}
-
-			if(this.widgetsInTemplate){
-				var parser = new dojo.xml.Parse();
-
-				var subContainerNode;
-				//TODO: use xpath here?
-				var subnodes = this.domNode.getElementsByTagName("*");
-				for(var i=0;i<subnodes.length;i++){
-					if(subnodes[i].getAttribute('dojoAttachPoint') == 'subContainerWidget'){
-						subContainerNode = subnodes[i];
-//						break;
-					}
-					if(subnodes[i].getAttribute('dojoType')){
-						subnodes[i].setAttribute('isSubWidget', true);
-					}
-				}
-				if (this.isContainer && !this.containerNode){
-					//no containerNode is available, which means a widget is used as a container. find it here and move
-					//all dom nodes defined in the main html page as children of this.domNode into the actual container
-					//widget's node (at this point, the subwidgets defined in the template file is not parsed yet)
-					if(subContainerNode){
-						var src = this.getFragNodeRef(frag);
-						if (src){
-							dojo.dom.moveChildren(src, subContainerNode);
-							//do not need to follow children nodes in the main html page, as they
-							//will be dealt with in the subContainerWidget
-							frag['dojoDontFollow'] = true;
-						}
-					}else{
-						dojo.debug("No subContainerWidget node can be found in template file for widget "+this);
-					}
-				}
-
-				var templatefrag = parser.parseElement(this.domNode, null, true);
-				// createSubComponents not createComponents because frag has already been created
-				dojo.widget.getParser().createSubComponents(templatefrag, this);
-	
-				//find all the sub widgets defined in the template file of this widget
-				var subwidgets = [];
-				var stack = [this];
-				var w;
-				while((w = stack.pop())){
-					for(var i = 0; i < w.children.length; i++){
-						var cwidget = w.children[i];
-						if(cwidget._processedSubWidgets || !cwidget.extraArgs['issubwidget']){ continue; }
-						subwidgets.push(cwidget);
-						if(cwidget.isContainer){
-							stack.push(cwidget);
-						}
-					}
-				}
-	
-				//connect event to this widget/attach dom node
-				for(var i = 0; i < subwidgets.length; i++){
-					var widget = subwidgets[i];
-					if(widget._processedSubWidgets){
-						dojo.debug("This should not happen: widget._processedSubWidgets is already true!");
-						return;
-					}
-					widget._processedSubWidgets = true;
-					if(widget.extraArgs['dojoattachevent']){
-						var evts = widget.extraArgs['dojoattachevent'].split(";");
-						for(var j=0; j<evts.length; j++){
-							var thisFunc = null;
-							var tevt = dojo.string.trim(evts[j]);
-							if(tevt.indexOf(":") >= 0){
-								// oh, if only JS had tuple assignment
-								var funcNameArr = tevt.split(":");
-								tevt = dojo.string.trim(funcNameArr[0]);
-								thisFunc = dojo.string.trim(funcNameArr[1]);
-							}
-							if(!thisFunc){
-								thisFunc = tevt;
-							}
-							if(dojo.lang.isFunction(widget[tevt])){
-								dojo.event.kwConnect({
-									srcObj: widget, 
-									srcFunc: tevt, 
-									targetObj: this, 
-									targetFunc: thisFunc
-								});
-							}else{
-								alert(tevt+" is not a function in widget "+widget);
-							}
-						}
-					}
-	
-					if(widget.extraArgs['dojoattachpoint']){
-						//don't attach widget.domNode here, as we do not know which
-						//dom node we should connect to (in checkbox widget case, 
-						//it is inputNode). So we make the widget itself available
-						this[widget.extraArgs['dojoattachpoint']] = widget;
-					}
-				}
-			}
-
-			//dojo.profile.end(this.widgetType + " postInitialize");
-
-			// Expand my children widgets
-			/* dojoDontFollow is important for a very special case
-			 * basically if you have a widget that you instantiate from script
-			 * and that widget is a container, and it contains a reference to a parent
-			 * instance, the parser will start recursively parsing until the browser
-			 * complains.  So the solution is to set an initialization property of 
-			 * dojoDontFollow: true and then it won't recurse where it shouldn't
-			 */
-			if(this.isContainer && !frag["dojoDontFollow"]){
-				//alert("recurse from " + this.widgetId);
-				// build any sub-components with us as the parent
-				dojo.widget.getParser().createSubComponents(frag, this);
-			}
-		},
-
-		// method over-ride
-		buildRendering: function(/*Object*/ args, /*Object*/ frag){
-			// summary:
-			//		Construct the UI for this widget, generally from a
-			//		template. This can be over-ridden for custom UI creation to
-			//		to side-step the template system.  This is an
-			//		implementation of the stub function defined in
-			//		dojo.widget.Widget.
-
-			// DOM widgets construct themselves from a template
-			var ts = dojo.widget._templateCache[this.widgetType];
-			
-			// Handle style for this widget here, as even if templatePath
-			// is not set, style specified by templateCssString or templateCssPath
-			// should be applied. templateCssString has higher priority
-			// than templateCssPath
-			if(args["templatecsspath"]){
-				args["templateCssPath"] = args["templatecsspath"];
-			}
-			var cpath = args["templateCssPath"] || this.templateCssPath;
-			if(cpath && !dojo.widget._cssFiles[cpath.toString()]){
-				if((!this.templateCssString)&&(cpath)){
-					this.templateCssString = dojo.hostenv.getText(cpath);
-					this.templateCssPath = null;
-				}
-				dojo.widget._cssFiles[cpath.toString()] = true;
-			}
-		
-			if((this["templateCssString"])&&(!dojo.widget._cssStrings[this.templateCssString])){
-				dojo.html.insertCssText(this.templateCssString, null, cpath);
-				dojo.widget._cssStrings[this.templateCssString] = true;
-			}
-			if(	
-				(!this.preventClobber)&&(
-					(this.templatePath)||
-					(this.templateNode)||
-					(
-						(this["templateString"])&&(this.templateString.length) 
-					)||
-					(
-						(typeof ts != "undefined")&&( (ts["string"])||(ts["node"]) )
-					)
-				)
-			){
-				// if it looks like we can build the thing from a template, do it!
-				this.buildFromTemplate(args, frag);
-			}else{
-				// otherwise, assign the DOM node that was the source of the widget
-				// parsing to be the root node
-				this.domNode = this.getFragNodeRef(frag);
-			}
-			this.fillInTemplate(args, frag); 	// this is where individual widgets
-												// will handle population of data
-												// from properties, remote data
-												// sets, etc.
-		},
-
-		buildFromTemplate: function(/*Object*/ args, /*Object*/ frag){
-			// summary:
-			//		Called by buildRendering, creates the actual UI in a DomWidget.
-
-			// var start = new Date();
-			// copy template properties if they're already set in the templates object
-			// dojo.debug("buildFromTemplate:", this);
-			var avoidCache = false;
-			if(args["templatepath"]){
-//				avoidCache = true;
-				args["templatePath"] = args["templatepath"];
-			}
-			dojo.widget.fillFromTemplateCache(	this, 
-												args["templatePath"], 
-												null,
-												avoidCache);
-			var ts = dojo.widget._templateCache[this.templatePath?this.templatePath.toString():this.widgetType];
-			if((ts)&&(!avoidCache)){
-				if(!this.templateString.length){
-					this.templateString = ts["string"];
-				}
-				if(!this.templateNode){
-					this.templateNode = ts["node"];
-				}
-			}
-			var matches = false;
-			var node = null;
-			// var tstr = new String(this.templateString); 
-			var tstr = this.templateString; 
-			// attempt to clone a template node, if there is one
-			if((!this.templateNode)&&(this.templateString)){
-				matches = this.templateString.match(/\$\{([^\}]+)\}/g);
-				if(matches) {
-					// if we do property replacement, don't create a templateNode
-					// to clone from.
-					var hash = this.strings || {};
-					// FIXME: should this hash of default replacements be cached in
-					// templateString?
-					for(var key in dojo.widget.defaultStrings) {
-						if(dojo.lang.isUndefined(hash[key])) {
-							hash[key] = dojo.widget.defaultStrings[key];
-						}
-					}
-					// FIXME: this is a lot of string munging. Can we make it faster?
-					for(var i = 0; i < matches.length; i++) {
-						var key = matches[i];
-						key = key.substring(2, key.length-1);
-						var kval = (key.substring(0, 5) == "this.") ? dojo.lang.getObjPathValue(key.substring(5), this) : hash[key];
-						var value;
-						if((kval)||(dojo.lang.isString(kval))){
-							value = new String((dojo.lang.isFunction(kval)) ? kval.call(this, key, this.templateString) : kval);
-							// Safer substitution, see heading "Attribute values" in  
-							// http://www.w3.org/TR/REC-html40/appendix/notes.html#h-B.3.2
-							while (value.indexOf("\"") > -1) {
-								value=value.replace("\"","&quot;");
-							}
-							tstr = tstr.replace(matches[i], value);
-						}
-					}
-				}else{
-					// otherwise, we are required to instantiate a copy of the template
-					// string if one is provided.
-					
-					// FIXME: need to be able to distinguish here what should be done
-					// or provide a generic interface across all DOM implementations
-					// FIMXE: this breaks if the template has whitespace as its first 
-					// characters
-					// node = this.createNodesFromText(this.templateString, true);
-					// this.templateNode = node[0].cloneNode(true); // we're optimistic here
-					this.templateNode = this.createNodesFromText(this.templateString, true)[0];
-					if(!avoidCache){
-						ts.node = this.templateNode;
-					}
-				}
-			}
-			if((!this.templateNode)&&(!matches)){ 
-				dojo.debug("DomWidget.buildFromTemplate: could not create template");
-				return false;
-			}else if(!matches){
-				node = this.templateNode.cloneNode(true);
-				if(!node){ return false; }
-			}else{
-				node = this.createNodesFromText(tstr, true)[0];
-			}
-
-			// recurse through the node, looking for, and attaching to, our
-			// attachment points which should be defined on the template node.
-
-			this.domNode = node;
-			// dojo.profile.start("attachTemplateNodes");
-			this.attachTemplateNodes();
-			// dojo.profile.end("attachTemplateNodes");
-		
-			// relocate source contents to templated container node
-			// this.containerNode must be able to receive children, or exceptions will be thrown
-			if (this.isContainer && this.containerNode){
-				var src = this.getFragNodeRef(frag);
-				if (src){
-					dojo.dom.moveChildren(src, this.containerNode);
-				}
-			}
-		},
-
-		attachTemplateNodes: function(baseNode, targetObj){
-			// summary: 
-			//		hooks up event handlers and property/node linkages. Calls
-			//		dojo.widget.attachTemplateNodes to do all the hard work.
-			// baseNode: DomNode
-			//		defaults to "this.domNode"
-			// targetObj: Widget
-			//		defaults to "this"
-			if(!baseNode){ baseNode = this.domNode; }
-			if(!targetObj){ targetObj = this; }
-			return dojo.widget.attachTemplateNodes(baseNode, targetObj, 
-						dojo.widget.getDojoEventsFromStr(this.templateString));
-		},
-
-		fillInTemplate: function(){
-			// summary:
-			//		stub function! sub-classes may use as a default UI
-			//		initializer function. The UI rendering will be available by
-			//		the time this is called from buildRendering. If
-			//		buildRendering is over-ridden, this function may not be
-			//		fired!
-
-			// dojo.unimplemented("dojo.widget.DomWidget.fillInTemplate");
-		},
-		
-		// method over-ride
-		destroyRendering: function(){
-			// summary: UI destructor.  Destroy the dom nodes associated w/this widget.
-			try{
-				dojo.dom.destroyNode(this.domNode);
-				delete this.domNode;
-			}catch(e){ /* squelch! */ }
-			if(this._sourceNodeRef){
-				try{
-					dojo.dom.destroyNode(this._sourceNodeRef);
-				}catch(e){ /* squelch! */ }
-			}
-		},
-
-		createNodesFromText: function(){
-			// summary
-			//	Attempts to create a set of nodes based on the structure of the passed text.
-			//	Implemented in HtmlWidget and SvgWidget.
-			dojo.unimplemented("dojo.widget.DomWidget.createNodesFromText");
-		}
-	}
-);
+},removeAttr:function(_14,ns,_16){
+var _17=true;
+if(dojo.render.html.ie){
+_17=_14.removeAttribute(this[ns].alias+":"+_16);
+}else{
+_14.removeAttributeNS(this[ns]["namespace"],_16);
+}
+return _17;
+}};
+dojo.widget.attachTemplateNodes=function(_18,_19,_1a){
+var _1b=dojo.dom.ELEMENT_NODE;
+function trim(str){
+return str.replace(/^\s+|\s+$/g,"");
+}
+if(!_18){
+_18=_19.domNode;
+}
+if(_18.nodeType!=_1b){
+return;
+}
+var _1d=_18.all||_18.getElementsByTagName("*");
+var _1e=_19;
+for(var x=-1;x<_1d.length;x++){
+var _20=(x==-1)?_18:_1d[x];
+var _21=[];
+if(!_19.widgetsInTemplate||!_20.getAttribute("dojoType")){
+for(var y=0;y<this.attachProperties.length;y++){
+var _23=_20.getAttribute(this.attachProperties[y]);
+if(_23){
+_21=_23.split(";");
+for(var z=0;z<_21.length;z++){
+if(dojo.lang.isArray(_19[_21[z]])){
+_19[_21[z]].push(_20);
+}else{
+_19[_21[z]]=_20;
+}
+}
+break;
+}
+}
+var _25=_20.getAttribute(this.eventAttachProperty);
+if(_25){
+var _26=_25.split(";");
+for(var y=0;y<_26.length;y++){
+if((!_26[y])||(!_26[y].length)){
+continue;
+}
+var _27=null;
+var _28=trim(_26[y]);
+if(_26[y].indexOf(":")>=0){
+var _29=_28.split(":");
+_28=trim(_29[0]);
+_27=trim(_29[1]);
+}
+if(!_27){
+_27=_28;
+}
+var tf=function(){
+var ntf=new String(_27);
+return function(evt){
+if(_1e[ntf]){
+_1e[ntf](dojo.event.browser.fixEvent(evt,this));
+}
+};
+}();
+dojo.event.browser.addListener(_20,_28,tf,false,true);
+}
+}
+for(var y=0;y<_1a.length;y++){
+var _2d=_20.getAttribute(_1a[y]);
+if((_2d)&&(_2d.length)){
+var _27=null;
+var _2e=_1a[y].substr(4);
+_27=trim(_2d);
+var _2f=[_27];
+if(_27.indexOf(";")>=0){
+_2f=dojo.lang.map(_27.split(";"),trim);
+}
+for(var z=0;z<_2f.length;z++){
+if(!_2f[z].length){
+continue;
+}
+var tf=function(){
+var ntf=new String(_2f[z]);
+return function(evt){
+if(_1e[ntf]){
+_1e[ntf](dojo.event.browser.fixEvent(evt,this));
+}
+};
+}();
+dojo.event.browser.addListener(_20,_2e,tf,false,true);
+}
+}
+}
+}
+var _32=_20.getAttribute(this.templateProperty);
+if(_32){
+_19[_32]=_20;
+}
+dojo.lang.forEach(dojo.widget.waiNames,function(_33){
+var wai=dojo.widget.wai[_33];
+var val=_20.getAttribute(wai.name);
+if(val){
+if(val.indexOf("-")==-1){
+dojo.widget.wai.setAttr(_20,wai.name,"role",val);
+}else{
+var _36=val.split("-");
+dojo.widget.wai.setAttr(_20,wai.name,_36[0],_36[1]);
+}
+}
+},this);
+var _37=_20.getAttribute(this.onBuildProperty);
+if(_37){
+eval("var node = baseNode; var widget = targetObj; "+_37);
+}
+}
+};
+dojo.widget.getDojoEventsFromStr=function(str){
+var re=/(dojoOn([a-z]+)(\s?))=/gi;
+var _3a=str?str.match(re)||[]:[];
+var ret=[];
+var lem={};
+for(var x=0;x<_3a.length;x++){
+if(_3a[x].length<1){
+continue;
+}
+var cm=_3a[x].replace(/\s/,"");
+cm=(cm.slice(0,cm.length-1));
+if(!lem[cm]){
+lem[cm]=true;
+ret.push(cm);
+}
+}
+return ret;
+};
+dojo.declare("dojo.widget.DomWidget",dojo.widget.Widget,function(){
+if((arguments.length>0)&&(typeof arguments[0]=="object")){
+this.create(arguments[0]);
+}
+},{templateNode:null,templateString:null,templateCssString:null,preventClobber:false,domNode:null,containerNode:null,widgetsInTemplate:false,addChild:function(_3f,_40,pos,ref,_43){
+if(!this.isContainer){
+dojo.debug("dojo.widget.DomWidget.addChild() attempted on non-container widget");
+return null;
+}else{
+if(_43==undefined){
+_43=this.children.length;
+}
+this.addWidgetAsDirectChild(_3f,_40,pos,ref,_43);
+this.registerChild(_3f,_43);
+}
+return _3f;
+},addWidgetAsDirectChild:function(_44,_45,pos,ref,_48){
+if((!this.containerNode)&&(!_45)){
+this.containerNode=this.domNode;
+}
+var cn=(_45)?_45:this.containerNode;
+if(!pos){
+pos="after";
+}
+if(!ref){
+if(!cn){
+cn=dojo.body();
+}
+ref=cn.lastChild;
+}
+if(!_48){
+_48=0;
+}
+_44.domNode.setAttribute("dojoinsertionindex",_48);
+if(!ref){
+cn.appendChild(_44.domNode);
+}else{
+if(pos=="insertAtIndex"){
+dojo.dom.insertAtIndex(_44.domNode,ref.parentNode,_48);
+}else{
+if((pos=="after")&&(ref===cn.lastChild)){
+cn.appendChild(_44.domNode);
+}else{
+dojo.dom.insertAtPosition(_44.domNode,cn,pos);
+}
+}
+}
+},registerChild:function(_4a,_4b){
+_4a.dojoInsertionIndex=_4b;
+var idx=-1;
+for(var i=0;i<this.children.length;i++){
+if(this.children[i].dojoInsertionIndex<=_4b){
+idx=i;
+}
+}
+this.children.splice(idx+1,0,_4a);
+_4a.parent=this;
+_4a.addedTo(this,idx+1);
+delete dojo.widget.manager.topWidgets[_4a.widgetId];
+},removeChild:function(_4e){
+dojo.dom.removeNode(_4e.domNode);
+return dojo.widget.DomWidget.superclass.removeChild.call(this,_4e);
+},getFragNodeRef:function(_4f){
+if(!_4f){
+return null;
+}
+if(!_4f[this.getNamespacedType()]){
+dojo.raise("Error: no frag for widget type "+this.getNamespacedType()+", id "+this.widgetId+" (maybe a widget has set it's type incorrectly)");
+}
+return _4f[this.getNamespacedType()]["nodeRef"];
+},postInitialize:function(_50,_51,_52){
+var _53=this.getFragNodeRef(_51);
+if(_52&&(_52.snarfChildDomOutput||!_53)){
+_52.addWidgetAsDirectChild(this,"","insertAtIndex","",_50["dojoinsertionindex"],_53);
+}else{
+if(_53){
+if(this.domNode&&(this.domNode!==_53)){
+this._sourceNodeRef=dojo.dom.replaceNode(_53,this.domNode);
+}
+}
+}
+if(_52){
+_52.registerChild(this,_50.dojoinsertionindex);
+}else{
+dojo.widget.manager.topWidgets[this.widgetId]=this;
+}
+if(this.widgetsInTemplate){
+var _54=new dojo.xml.Parse();
+var _55;
+var _56=this.domNode.getElementsByTagName("*");
+for(var i=0;i<_56.length;i++){
+if(_56[i].getAttribute("dojoAttachPoint")=="subContainerWidget"){
+_55=_56[i];
+}
+if(_56[i].getAttribute("dojoType")){
+_56[i].setAttribute("isSubWidget",true);
+}
+}
+if(this.isContainer&&!this.containerNode){
+if(_55){
+var src=this.getFragNodeRef(_51);
+if(src){
+dojo.dom.moveChildren(src,_55);
+_51["dojoDontFollow"]=true;
+}
+}else{
+dojo.debug("No subContainerWidget node can be found in template file for widget "+this);
+}
+}
+var _59=_54.parseElement(this.domNode,null,true);
+dojo.widget.getParser().createSubComponents(_59,this);
+var _5a=[];
+var _5b=[this];
+var w;
+while((w=_5b.pop())){
+for(var i=0;i<w.children.length;i++){
+var _5d=w.children[i];
+if(_5d._processedSubWidgets||!_5d.extraArgs["issubwidget"]){
+continue;
+}
+_5a.push(_5d);
+if(_5d.isContainer){
+_5b.push(_5d);
+}
+}
+}
+for(var i=0;i<_5a.length;i++){
+var _5e=_5a[i];
+if(_5e._processedSubWidgets){
+dojo.debug("This should not happen: widget._processedSubWidgets is already true!");
+return;
+}
+_5e._processedSubWidgets=true;
+if(_5e.extraArgs["dojoattachevent"]){
+var _5f=_5e.extraArgs["dojoattachevent"].split(";");
+for(var j=0;j<_5f.length;j++){
+var _61=null;
+var _62=dojo.string.trim(_5f[j]);
+if(_62.indexOf(":")>=0){
+var _63=_62.split(":");
+_62=dojo.string.trim(_63[0]);
+_61=dojo.string.trim(_63[1]);
+}
+if(!_61){
+_61=_62;
+}
+if(dojo.lang.isFunction(_5e[_62])){
+dojo.event.kwConnect({srcObj:_5e,srcFunc:_62,targetObj:this,targetFunc:_61});
+}else{
+alert(_62+" is not a function in widget "+_5e);
+}
+}
+}
+if(_5e.extraArgs["dojoattachpoint"]){
+this[_5e.extraArgs["dojoattachpoint"]]=_5e;
+}
+}
+}
+if(this.isContainer&&!_51["dojoDontFollow"]){
+dojo.widget.getParser().createSubComponents(_51,this);
+}
+},buildRendering:function(_64,_65){
+var ts=dojo.widget._templateCache[this.widgetType];
+if(_64["templatecsspath"]){
+_64["templateCssPath"]=_64["templatecsspath"];
+}
+var _67=_64["templateCssPath"]||this.templateCssPath;
+if(_67&&!dojo.widget._cssFiles[_67.toString()]){
+if((!this.templateCssString)&&(_67)){
+this.templateCssString=dojo.hostenv.getText(_67);
+this.templateCssPath=null;
+}
+dojo.widget._cssFiles[_67.toString()]=true;
+}
+if((this["templateCssString"])&&(!dojo.widget._cssStrings[this.templateCssString])){
+dojo.html.insertCssText(this.templateCssString,null,_67);
+dojo.widget._cssStrings[this.templateCssString]=true;
+}
+if((!this.preventClobber)&&((this.templatePath)||(this.templateNode)||((this["templateString"])&&(this.templateString.length))||((typeof ts!="undefined")&&((ts["string"])||(ts["node"]))))){
+this.buildFromTemplate(_64,_65);
+}else{
+this.domNode=this.getFragNodeRef(_65);
+}
+this.fillInTemplate(_64,_65);
+},buildFromTemplate:function(_68,_69){
+var _6a=false;
+if(_68["templatepath"]){
+_68["templatePath"]=_68["templatepath"];
+}
+dojo.widget.fillFromTemplateCache(this,_68["templatePath"],null,_6a);
+var ts=dojo.widget._templateCache[this.templatePath?this.templatePath.toString():this.widgetType];
+if((ts)&&(!_6a)){
+if(!this.templateString.length){
+this.templateString=ts["string"];
+}
+if(!this.templateNode){
+this.templateNode=ts["node"];
+}
+}
+var _6c=false;
+var _6d=null;
+var _6e=this.templateString;
+if((!this.templateNode)&&(this.templateString)){
+_6c=this.templateString.match(/\$\{([^\}]+)\}/g);
+if(_6c){
+var _6f=this.strings||{};
+for(var key in dojo.widget.defaultStrings){
+if(dojo.lang.isUndefined(_6f[key])){
+_6f[key]=dojo.widget.defaultStrings[key];
+}
+}
+for(var i=0;i<_6c.length;i++){
+var key=_6c[i];
+key=key.substring(2,key.length-1);
+var _72=(key.substring(0,5)=="this.")?dojo.lang.getObjPathValue(key.substring(5),this):_6f[key];
+var _73;
+if((_72)||(dojo.lang.isString(_72))){
+_73=new String((dojo.lang.isFunction(_72))?_72.call(this,key,this.templateString):_72);
+while(_73.indexOf("\"")>-1){
+_73=_73.replace("\"","&quot;");
+}
+_6e=_6e.replace(_6c[i],_73);
+}
+}
+}else{
+this.templateNode=this.createNodesFromText(this.templateString,true)[0];
+if(!_6a){
+ts.node=this.templateNode;
+}
+}
+}
+if((!this.templateNode)&&(!_6c)){
+dojo.debug("DomWidget.buildFromTemplate: could not create template");
+return false;
+}else{
+if(!_6c){
+_6d=this.templateNode.cloneNode(true);
+if(!_6d){
+return false;
+}
+}else{
+_6d=this.createNodesFromText(_6e,true)[0];
+}
+}
+this.domNode=_6d;
+this.attachTemplateNodes();
+if(this.isContainer&&this.containerNode){
+var src=this.getFragNodeRef(_69);
+if(src){
+dojo.dom.moveChildren(src,this.containerNode);
+}
+}
+},attachTemplateNodes:function(_75,_76){
+if(!_75){
+_75=this.domNode;
+}
+if(!_76){
+_76=this;
+}
+return dojo.widget.attachTemplateNodes(_75,_76,dojo.widget.getDojoEventsFromStr(this.templateString));
+},fillInTemplate:function(){
+},destroyRendering:function(){
+try{
+dojo.dom.destroyNode(this.domNode);
+delete this.domNode;
+}
+catch(e){
+}
+if(this._sourceNodeRef){
+try{
+dojo.dom.destroyNode(this._sourceNodeRef);
+}
+catch(e){
+}
+}
+},createNodesFromText:function(){
+dojo.unimplemented("dojo.widget.DomWidget.createNodesFromText");
+}});

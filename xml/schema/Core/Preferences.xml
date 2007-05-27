@@ -69,18 +69,4 @@
        <comment>What tabs are displayed in the advanced search screen</comment>
        <add>1.8</add>
   </field>
-  <field>
-       <name>edit_contact_options</name>
-       <type>varchar</type>
-       <length>128</length>
-       <comment>What sections are displayed with contact edit?</comment>
-       <add>1.8</add>
-  </field>
-  <field>
-       <name>user_dashboard_options</name>
-       <type>varchar</type>
-       <length>128</length>
-       <comment>What sections are displayed in user dashboard?</comment>
-       <add>1.8</add>
-  </field>
 </table>

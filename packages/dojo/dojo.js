@@ -33,7 +33,7 @@ dojo.global=function(){
 return dj_currentContext;
 };
 dojo.locale=djConfig.locale;
-dojo.version={major:0,minor:0,patch:0,flag:"dev",revision:Number("$Rev: 8617 $".match(/[0-9]+/)[0]),toString:function(){
+dojo.version={major:0,minor:4,patch:3,flag:"",revision:Number("$Rev: 8617 $".match(/[0-9]+/)[0]),toString:function(){
 with(dojo.version){
 return major+"."+minor+"."+patch+flag+" ("+revision+")";
 }
@@ -9435,7 +9435,7 @@ _8cc(ret);
 },setData:function(_8d3){
 this._data=_8d3;
 }});
-dojo.widget.defineWidget("dojo.widget.ComboBox",dojo.widget.HtmlWidget,{forceValidOption:false,searchType:"stringstart",dataProvider:null,autoComplete:true,searchDelay:100,dataUrl:"",fadeTime:200,maxListLength:8,mode:"local",selectedResult:null,dataProviderClass:"",buttonSrc:dojo.uri.moduleUri("dojo.widget","templates/images/combo_box_arrow.png"),dropdownToggle:"fade",templatePath:dojo.uri.moduleUri("dojo.widget","templates/ComboBox.html"),templateCssPath:dojo.uri.moduleUri("dojo.widget","templates/ComboBox.css"),setValue:function(_8d4){
+dojo.widget.defineWidget("dojo.widget.ComboBox",dojo.widget.HtmlWidget,{forceValidOption:false,searchType:"stringstart",dataProvider:null,autoComplete:true,searchDelay:100,dataUrl:"",fadeTime:200,maxListLength:8,mode:"local",selectedResult:null,dataProviderClass:"",buttonSrc:dojo.uri.moduleUri("dojo.widget","templates/images/combo_box_arrow.png"),dropdownToggle:"fade",templateString:"<span _=\"whitespace and CR's between tags adds &nbsp; in FF\"\n\tclass=\"dojoComboBoxOuter\"\n\t><input style=\"display:none\"  tabindex=\"-1\" name=\"\" value=\"\" \n\t\tdojoAttachPoint=\"comboBoxValue\"\n\t><input style=\"display:none\"  tabindex=\"-1\" name=\"\" value=\"\" \n\t\tdojoAttachPoint=\"comboBoxSelectionValue\"\n\t><input type=\"text\" autocomplete=\"off\" class=\"dojoComboBox\"\n\t\tdojoAttachEvent=\"key:_handleKeyEvents; keyUp: onKeyUp; compositionEnd; onResize;\"\n\t\tdojoAttachPoint=\"textInputNode\"\n\t><img hspace=\"0\"\n\t\tvspace=\"0\"\n\t\tclass=\"dojoComboBox\"\n\t\tdojoAttachPoint=\"downArrowNode\"\n\t\tdojoAttachEvent=\"onMouseUp: handleArrowClick; onResize;\"\n\t\tsrc=\"${this.buttonSrc}\"\n></span>\n",templateCssString:".dojoComboBoxOuter {\n\tborder: 0px !important;\n\tmargin: 0px !important;\n\tpadding: 0px !important;\n\tbackground: transparent !important;\n\twhite-space: nowrap !important;\n}\n\n.dojoComboBox {\n\tborder: 1px inset #afafaf;\n\tmargin: 0px;\n\tpadding: 0px;\n\tvertical-align: middle !important;\n\tfloat: none !important;\n\tposition: static !important;\n\tdisplay: inline !important;\n}\n\n/* the input box */\ninput.dojoComboBox {\n\tborder-right-width: 0px !important; \n\tmargin-right: 0px !important;\n\tpadding-right: 0px !important;\n}\n\n/* the down arrow */\nimg.dojoComboBox {\n\tborder-left-width: 0px !important;\n\tpadding-left: 0px !important;\n\tmargin-left: 0px !important;\n}\n\n/* IE vertical-alignment calculations can be off by +-1 but these margins are collapsed away */\n.dj_ie img.dojoComboBox {\n\tmargin-top: 1px; \n\tmargin-bottom: 1px; \n}\n\n/* the drop down */\n.dojoComboBoxOptions {\n\tfont-family: Verdana, Helvetica, Garamond, sans-serif;\n\t/* font-size: 0.7em; */\n\tbackground-color: white;\n\tborder: 1px solid #afafaf;\n\tposition: absolute;\n\tz-index: 1000; \n\toverflow: auto;\n\tcursor: default;\n}\n\n.dojoComboBoxItem {\n\tpadding-left: 2px;\n\tpadding-top: 2px;\n\tmargin: 0px;\n}\n\n.dojoComboBoxItemEven {\n\tbackground-color: #f4f4f4;\n}\n\n.dojoComboBoxItemOdd {\n\tbackground-color: white;\n}\n\n.dojoComboBoxItemHighlight {\n\tbackground-color: #63709A;\n\tcolor: white;\n}\n",templateCssPath:dojo.uri.moduleUri("dojo.widget","templates/ComboBox.css"),setValue:function(_8d4){
 this.comboBoxValue.value=_8d4;
 if(this.textInputNode.value!=_8d4){
 this.textInputNode.value=_8d4;
@@ -10114,7 +10114,7 @@ dojo.html.setMarginBox(elm,{width:f.width,height:f.height});
 };
 dojo.html.insertCssText(".dojoLayoutContainer{ position: relative; display: block; overflow: hidden; }\n"+"body .dojoAlignTop, body .dojoAlignBottom, body .dojoAlignLeft, body .dojoAlignRight { position: absolute; overflow: hidden; }\n"+"body .dojoAlignClient { position: absolute }\n"+".dojoAlignClient { overflow: auto; }\n");
 dojo.provide("dojo.widget.TabContainer");
-dojo.widget.defineWidget("dojo.widget.TabContainer",dojo.widget.PageContainer,{labelPosition:"top",closeButton:"none",templateString:null,templatePath:dojo.uri.moduleUri("dojo.widget","templates/TabContainer.html"),templateCssPath:dojo.uri.moduleUri("dojo.widget","templates/TabContainer.css"),selectedTab:"",postMixInProperties:function(){
+dojo.widget.defineWidget("dojo.widget.TabContainer",dojo.widget.PageContainer,{labelPosition:"top",closeButton:"none",templateString:null,templateString:"<div id=\"${this.widgetId}\" class=\"dojoTabContainer\">\n\t<div dojoAttachPoint=\"tablistNode\"></div>\n\t<div class=\"dojoTabPaneWrapper\" dojoAttachPoint=\"containerNode\" dojoAttachEvent=\"onKey\" waiRole=\"tabpanel\"></div>\n</div>\n",templateCssString:".dojoTabContainer {\n\tposition : relative;\n}\n\n.dojoTabPaneWrapper {\n\tborder : 1px solid #6290d2;\n\t_zoom: 1; /* force IE6 layout mode so top border doesnt disappear */\n\tdisplay: block;\n\tclear: both;\n\toverflow: hidden;\n}\n\n.dojoTabLabels-top {\n\tposition : relative;\n\ttop : 0px;\n\tleft : 0px;\n\toverflow : visible;\n\tmargin-bottom : -1px;\n\twidth : 100%;\n\tz-index: 2;\t/* so the bottom of the tab label will cover up the border of dojoTabPaneWrapper */\n}\n\n.dojoTabNoLayout.dojoTabLabels-top .dojoTab {\n\tmargin-bottom: -1px;\n\t_margin-bottom: 0px; /* IE filter so top border lines up correctly */\n}\n\n.dojoTab {\n\tposition : relative;\n\tfloat : left;\n\tpadding-left : 9px;\n\tborder-bottom : 1px solid #6290d2;\n\tbackground : url(images/tab_left.gif) no-repeat left top;\n\tcursor: pointer;\n\twhite-space: nowrap;\n\tz-index: 3;\n}\n\n.dojoTab div {\n\tdisplay : block;\n\tpadding : 4px 15px 4px 6px;\n\tbackground : url(images/tab_top_right.gif) no-repeat right top;\n\tcolor : #333;\n\tfont-size : 90%;\n}\n\n.dojoTab .close {\n\tdisplay : inline-block;\n\theight : 12px;\n\twidth : 12px;\n\tpadding : 0 12px 0 0;\n\tmargin : 0 -10px 0 10px;\n\tcursor : default;\n\tfont-size: small;\n}\n\n.dojoTab .closeImage {\n\tbackground : url(images/tab_close.gif) no-repeat right top;\n}\n\n.dojoTab .closeHover {\n\tbackground-image : url(images/tab_close_h.gif);\n}\n\n.dojoTab.current {\n\tpadding-bottom : 1px;\n\tborder-bottom : 0;\n\tbackground-position : 0 -150px;\n}\n\n.dojoTab.current div {\n\tpadding-bottom : 5px;\n\tmargin-bottom : -1px;\n\tbackground-position : 100% -150px;\n}\n\n/* bottom tabs */\n\n.dojoTabLabels-bottom {\n\tposition : relative;\n\tbottom : 0px;\n\tleft : 0px;\n\toverflow : visible;\n\tmargin-top : -1px;\n\twidth : 100%;\n\tz-index: 2;\n}\n\n.dojoTabNoLayout.dojoTabLabels-bottom {\n\tposition : relative;\n}\n\n.dojoTabLabels-bottom .dojoTab {\n\tborder-top :  1px solid #6290d2;\n\tborder-bottom : 0;\n\tbackground : url(images/tab_bot_left.gif) no-repeat left bottom;\n}\n\n.dojoTabLabels-bottom .dojoTab div {\n\tbackground : url(images/tab_bot_right.gif) no-repeat right bottom;\n}\n\n.dojoTabLabels-bottom .dojoTab.current {\n\tborder-top : 0;\n\tbackground : url(images/tab_bot_left_curr.gif) no-repeat left bottom;\n}\n\n.dojoTabLabels-bottom .dojoTab.current div {\n\tpadding-top : 4px;\n\tbackground : url(images/tab_bot_right_curr.gif) no-repeat right bottom;\n}\n\n/* right-h tabs */\n\n.dojoTabLabels-right-h {\n\toverflow : visible;\n\tmargin-left : -1px;\n\tz-index: 2;\n}\n\n.dojoTabLabels-right-h .dojoTab {\n\tpadding-left : 0;\n\tborder-left :  1px solid #6290d2;\n\tborder-bottom : 0;\n\tbackground : url(images/tab_bot_right.gif) no-repeat right bottom;\n\tfloat : none;\n}\n\n.dojoTabLabels-right-h .dojoTab div {\n\tpadding : 4px 15px 4px 15px;\n}\n\n.dojoTabLabels-right-h .dojoTab.current {\n\tborder-left :  0;\n\tborder-bottom :  1px solid #6290d2;\n}\n\n/* left-h tabs */\n\n.dojoTabLabels-left-h {\n\toverflow : visible;\n\tmargin-right : -1px;\n\tz-index: 2;\n}\n\n.dojoTabLabels-left-h .dojoTab {\n\tborder-right :  1px solid #6290d2;\n\tborder-bottom : 0;\n\tfloat : none;\n\tbackground : url(images/tab_top_left.gif) no-repeat left top;\n}\n\n.dojoTabLabels-left-h .dojoTab.current {\n\tborder-right : 0;\n\tborder-bottom :  1px solid #6290d2;\n\tpadding-bottom : 0;\n\tbackground : url(images/tab_top_left.gif) no-repeat 0 -150px;\n}\n\n.dojoTabLabels-left-h .dojoTab div {\n\tbackground : 0;\n\tborder-bottom :  1px solid #6290d2;\n}\n",templateCssPath:dojo.uri.moduleUri("dojo.widget","templates/TabContainer.css"),selectedTab:"",postMixInProperties:function(){
 if(this.selectedTab){
 dojo.deprecated("selectedTab deprecated, use selectedChild instead, will be removed in","0.5");
 this.selectedChild=this.selectedTab;
@@ -10629,7 +10629,7 @@ this._handleDefaults(e,"onExecError","debug");
 }
 }});
 dojo.provide("dojo.widget.Tooltip");
-dojo.widget.defineWidget("dojo.widget.Tooltip",[dojo.widget.ContentPane,dojo.widget.PopupContainerBase],{caption:"",showDelay:500,hideDelay:100,connectId:"",templateCssPath:dojo.uri.moduleUri("dojo.widget","templates/TooltipTemplate.css"),fillInTemplate:function(args,frag){
+dojo.widget.defineWidget("dojo.widget.Tooltip",[dojo.widget.ContentPane,dojo.widget.PopupContainerBase],{caption:"",showDelay:500,hideDelay:100,connectId:"",templateCssString:".dojoTooltip {\n\tborder: solid black 1px;\n\tbackground: beige;\n\tcolor: black;\n\tposition: absolute;\n\tfont-size: small;\n\tpadding: 2px 2px 2px 2px;\n\tz-index: 10;\n\tdisplay: block;\n}\n",templateCssPath:dojo.uri.moduleUri("dojo.widget","templates/TooltipTemplate.css"),fillInTemplate:function(args,frag){
 if(this.caption!=""){
 this.domNode.appendChild(document.createTextNode(this.caption));
 }
@@ -10808,7 +10808,7 @@ dojo.kwCompoundRequire({common:["dojo.string","dojo.string.common","dojo.string.
 dojo.provide("dojo.string.*");
 dojo.provide("dojo.widget.ProgressBar");
 dojo.require("dojo.event");
-dojo.widget.defineWidget("dojo.widget.ProgressBar",dojo.widget.HtmlWidget,{progressValue:0,maxProgressValue:100,width:300,height:30,frontPercentClass:"frontPercent",backPercentClass:"backPercent",frontBarClass:"frontBar",backBarClass:"backBar",hasText:false,isVertical:false,showOnlyIntegers:false,dataSource:"",pollInterval:3000,duration:1000,templatePath:dojo.uri.moduleUri("dojo.widget","templates/ProgressBar.html"),templateCssPath:dojo.uri.moduleUri("dojo.widget","templates/ProgressBar.css"),containerNode:null,internalProgress:null,_pixelUnitRatio:0,_pixelPercentRatio:0,_unitPercentRatio:0,_unitPixelRatio:0,_floatDimension:0,_intDimension:0,_progressPercentValue:"0%",_floatMaxProgressValue:0,_dimension:"width",_pixelValue:0,_oInterval:null,_animation:null,_animationStopped:true,_progressValueBak:false,_hasTextBak:false,fillInTemplate:function(args,frag){
+dojo.widget.defineWidget("dojo.widget.ProgressBar",dojo.widget.HtmlWidget,{progressValue:0,maxProgressValue:100,width:300,height:30,frontPercentClass:"frontPercent",backPercentClass:"backPercent",frontBarClass:"frontBar",backBarClass:"backBar",hasText:false,isVertical:false,showOnlyIntegers:false,dataSource:"",pollInterval:3000,duration:1000,templateString:"<div dojoAttachPoint=\"containerNode\" style=\"position:relative;overflow:hidden\">\n\t<div style=\"position:absolute;display:none;width:100%;text-align:center\" dojoAttachPoint=\"backPercentLabel\" class=\"dojoBackPercentLabel\"></div>\n\t<div style=\"position:absolute;overflow:hidden;width:100%;height:100%\" dojoAttachPoint=\"internalProgress\">\n\t<div style=\"position:absolute;display:none;width:100%;text-align:center\" dojoAttachPoint=\"frontPercentLabel\" class=\"dojoFrontPercentLabel\"></div></div>\n</div>\n",templateCssString:".backBar{\n\tborder:1px solid #84a3d1;\n}\n.frontBar{\n\tbackground:url(\"images/bar.gif\") repeat bottom left;\n\tbackground-attachment: fixed;\n}\n.h-frontBar{\n\tbackground:url(\"images/h-bar.gif\") repeat bottom left;\n\tbackground-attachment: fixed;\n}\n.simpleFrontBar{\n\tbackground: red;\n}\n.frontPercent,.backPercent{\n\tfont:bold 13px helvetica;\n}\n.backPercent{\n\tcolor:#293a4b;\n}\n.frontPercent{\n\tcolor:#fff;\n}\n",templateCssPath:dojo.uri.moduleUri("dojo.widget","templates/ProgressBar.css"),containerNode:null,internalProgress:null,_pixelUnitRatio:0,_pixelPercentRatio:0,_unitPercentRatio:0,_unitPixelRatio:0,_floatDimension:0,_intDimension:0,_progressPercentValue:"0%",_floatMaxProgressValue:0,_dimension:"width",_pixelValue:0,_oInterval:null,_animation:null,_animationStopped:true,_progressValueBak:false,_hasTextBak:false,fillInTemplate:function(args,frag){
 this.internalProgress.className=this.frontBarClass;
 this.containerNode.className=this.backBarClass;
 if(this.isVertical){
@@ -12518,8 +12518,1069 @@ _b2e.className=this.tbodyClass;
 this.parseDataFromTable(_b2e);
 this.render(true);
 }});
+dojo.provide("dojo.math");
+dojo.math.degToRad=function(x){
+return (x*Math.PI)/180;
+};
+dojo.math.radToDeg=function(x){
+return (x*180)/Math.PI;
+};
+dojo.math.factorial=function(n){
+if(n<1){
+return 0;
+}
+var _b32=1;
+for(var i=1;i<=n;i++){
+_b32*=i;
+}
+return _b32;
+};
+dojo.math.permutations=function(n,k){
+if(n==0||k==0){
+return 1;
+}
+return (dojo.math.factorial(n)/dojo.math.factorial(n-k));
+};
+dojo.math.combinations=function(n,r){
+if(n==0||r==0){
+return 1;
+}
+return (dojo.math.factorial(n)/(dojo.math.factorial(n-r)*dojo.math.factorial(r)));
+};
+dojo.math.bernstein=function(t,n,i){
+return (dojo.math.combinations(n,i)*Math.pow(t,i)*Math.pow(1-t,n-i));
+};
+dojo.math.gaussianRandom=function(){
+var k=2;
+do{
+var i=2*Math.random()-1;
+var j=2*Math.random()-1;
+k=i*i+j*j;
+}while(k>=1);
+k=Math.sqrt((-2*Math.log(k))/k);
+return i*k;
+};
+dojo.math.mean=function(){
+var _b3e=dojo.lang.isArray(arguments[0])?arguments[0]:arguments;
+var mean=0;
+for(var i=0;i<_b3e.length;i++){
+mean+=_b3e[i];
+}
+return mean/_b3e.length;
+};
+dojo.math.round=function(_b41,_b42){
+if(!_b42){
+var _b43=1;
+}else{
+var _b43=Math.pow(10,_b42);
+}
+return Math.round(_b41*_b43)/_b43;
+};
+dojo.math.sd=dojo.math.standardDeviation=function(){
+var _b44=dojo.lang.isArray(arguments[0])?arguments[0]:arguments;
+return Math.sqrt(dojo.math.variance(_b44));
+};
+dojo.math.variance=function(){
+var _b45=dojo.lang.isArray(arguments[0])?arguments[0]:arguments;
+var mean=0,_b47=0;
+for(var i=0;i<_b45.length;i++){
+mean+=_b45[i];
+_b47+=Math.pow(_b45[i],2);
+}
+return (_b47/_b45.length)-Math.pow(mean/_b45.length,2);
+};
+dojo.math.range=function(a,b,step){
+if(arguments.length<2){
+b=a;
+a=0;
+}
+if(arguments.length<3){
+step=1;
+}
+var _b4c=[];
+if(step>0){
+for(var i=a;i<b;i+=step){
+_b4c.push(i);
+}
+}else{
+if(step<0){
+for(var i=a;i>b;i+=step){
+_b4c.push(i);
+}
+}else{
+throw new Error("dojo.math.range: step must be non-zero");
+}
+}
+return _b4c;
+};
+dojo.provide("dojo.collections.Store");
+dojo.collections.Store=function(_b4e){
+var data=[];
+var _b50={};
+this.keyField="Id";
+this.get=function(){
+return data;
+};
+this.getByKey=function(key){
+return _b50[key];
+};
+this.getByIndex=function(idx){
+return data[idx];
+};
+this.getIndexOf=function(key){
+for(var i=0;i<data.length;i++){
+if(data[i].key==key){
+return i;
+}
+}
+return -1;
+};
+this.getData=function(){
+var arr=[];
+for(var i=0;i<data.length;i++){
+arr.push(data[i].src);
+}
+return arr;
+};
+this.getDataByKey=function(key){
+if(_b50[key]!=null){
+return _b50[key].src;
+}
+return null;
+};
+this.getIndexOfData=function(obj){
+for(var i=0;i<data.length;i++){
+if(data[i].src==obj){
+return i;
+}
+}
+return -1;
+};
+this.getDataByIndex=function(idx){
+if(data[idx]){
+return data[idx].src;
+}
+return null;
+};
+this.update=function(obj,_b5c,val,_b5e){
+var _b5f=_b5c.split("."),i=0,o=obj,_b62;
+if(_b5f.length>1){
+_b62=_b5f.pop();
+do{
+if(_b5f[i].indexOf("()")>-1){
+var temp=_b5f[i++].split("()")[0];
+if(!o[temp]){
+dojo.raise("dojo.collections.Store.getField(obj, '"+_b62+"'): '"+temp+"' is not a property of the passed object.");
+}else{
+o=o[temp]();
+}
+}else{
+o=o[_b5f[i++]];
+}
+}while(i<_b5f.length&&o!=null);
+}else{
+_b62=_b5f[0];
+}
+obj[_b62]=val;
+if(!_b5e){
+this.onUpdateField(obj,_b5c,val);
+}
+};
+this.forEach=function(fn){
+if(Array.forEach){
+Array.forEach(data,fn,this);
+}else{
+for(var i=0;i<data.length;i++){
+fn.call(this,data[i]);
+}
+}
+};
+this.forEachData=function(fn){
+if(Array.forEach){
+Array.forEach(this.getData(),fn,this);
+}else{
+var a=this.getData();
+for(var i=0;i<a.length;i++){
+fn.call(this,a[i]);
+}
+}
+};
+this.setData=function(arr,_b6a){
+data=[];
+for(var i=0;i<arr.length;i++){
+var o={key:arr[i][this.keyField],src:arr[i]};
+data.push(o);
+_b50[o.key]=o;
+}
+if(!_b6a){
+this.onSetData();
+}
+};
+this.clearData=function(_b6d){
+data=[];
+_b50={};
+if(!_b6d){
+this.onClearData();
+}
+};
+this.addData=function(obj,key,_b70){
+var k=key||obj[this.keyField];
+if(_b50[k]!=null){
+var o=_b50[k];
+o.src=obj;
+}else{
+var o={key:k,src:obj};
+data.push(o);
+_b50[o.key]=o;
+}
+if(!_b70){
+this.onAddData(o);
+}
+};
+this.addDataRange=function(arr,_b74){
+var _b75=[];
+for(var i=0;i<arr.length;i++){
+var k=arr[i][this.keyField];
+if(_b50[k]!=null){
+var o=_b50[k];
+o.src=arr[i];
+}else{
+var o={key:k,src:arr[i]};
+data.push(o);
+_b50[k]=o;
+}
+_b75.push(o);
+}
+if(!_b74){
+this.onAddDataRange(_b75);
+}
+};
+this.addDataByIndex=function(obj,idx,key,_b7c){
+var k=key||obj[this.keyField];
+if(_b50[k]!=null){
+var i=this.getIndexOf(k);
+var o=data.splice(i,1);
+o.src=obj;
+}else{
+var o={key:k,src:obj};
+_b50[k]=o;
+}
+data.splice(idx,0,o);
+if(!_b7c){
+this.onAddData(o);
+}
+};
+this.addDataRangeByIndex=function(arr,idx,_b82){
+var _b83=[];
+for(var i=0;i<arr.length;i++){
+var k=arr[i][this.keyField];
+if(_b50[k]!=null){
+var j=this.getIndexOf(k);
+var o=data.splice(j,1);
+o.src=arr[i];
+}else{
+var o={key:k,src:arr[i]};
+_b50[k]=o;
+}
+_b83.push(o);
+}
+data.splice(idx,0,_b83);
+if(!_b82){
+this.onAddDataRange(_b83);
+}
+};
+this.removeData=function(obj,_b89){
+var idx=-1;
+var o=null;
+for(var i=0;i<data.length;i++){
+if(data[i].src==obj){
+idx=i;
+o=data[i];
+break;
+}
+}
+if(!_b89){
+this.onRemoveData(o);
+}
+if(idx>-1){
+data.splice(idx,1);
+delete _b50[o.key];
+}
+};
+this.removeDataRange=function(idx,_b8e,_b8f){
+var ret=data.splice(idx,_b8e);
+for(var i=0;i<ret.length;i++){
+delete _b50[ret[i].key];
+}
+if(!_b8f){
+this.onRemoveDataRange(ret);
+}
+return ret;
+};
+this.removeDataByKey=function(key,_b93){
+this.removeData(this.getDataByKey(key),_b93);
+};
+this.removeDataByIndex=function(idx,_b95){
+this.removeData(this.getDataByIndex(idx),_b95);
+};
+if(_b4e&&_b4e.length&&_b4e[0]){
+this.setData(_b4e,true);
+}
+};
+dojo.extend(dojo.collections.Store,{getField:function(obj,_b97){
+var _b98=_b97.split("."),i=0,o=obj;
+do{
+if(_b98[i].indexOf("()")>-1){
+var temp=_b98[i++].split("()")[0];
+if(!o[temp]){
+dojo.raise("dojo.collections.Store.getField(obj, '"+_b97+"'): '"+temp+"' is not a property of the passed object.");
+}else{
+o=o[temp]();
+}
+}else{
+o=o[_b98[i++]];
+}
+}while(i<_b98.length&&o!=null);
+if(i<_b98.length){
+dojo.raise("dojo.collections.Store.getField(obj, '"+_b97+"'): '"+_b97+"' is not a property of the passed object.");
+}
+return o;
+},getFromHtml:function(meta,body,_b9e){
+var rows=body.rows;
+var ctor=function(row){
+var obj={};
+for(var i=0;i<meta.length;i++){
+var o=obj;
+var data=row.cells[i].innerHTML;
+var p=meta[i].getField();
+if(p.indexOf(".")>-1){
+p=p.split(".");
+while(p.length>1){
+var pr=p.shift();
+o[pr]={};
+o=o[pr];
+}
+p=p[0];
+}
+var type=meta[i].getType();
+if(type==String){
+o[p]=data;
+}else{
+if(data){
+o[p]=new type(data);
+}else{
+o[p]=new type();
+}
+}
+}
+return obj;
+};
+var arr=[];
+for(var i=0;i<rows.length;i++){
+var o=ctor(rows[i]);
+if(_b9e){
+_b9e(o,rows[i]);
+}
+arr.push(o);
+}
+return arr;
+},onSetData:function(){
+},onClearData:function(){
+},onAddData:function(obj){
+},onAddDataRange:function(arr){
+},onRemoveData:function(obj){
+},onRemoveDataRange:function(arr){
+},onUpdateField:function(obj,_bb1,val){
+}});
+dojo.provide("dojo.widget.FilteringTable");
+dojo.widget.defineWidget("dojo.widget.FilteringTable",dojo.widget.HtmlWidget,function(){
+this.store=new dojo.collections.Store();
+this.valueField="Id";
+this.multiple=false;
+this.maxSelect=0;
+this.maxSortable=1;
+this.minRows=0;
+this.defaultDateFormat="%D";
+this.isInitialized=false;
+this.alternateRows=false;
+this.columns=[];
+this.sortInformation=[{index:0,direction:0}];
+this.headClass="";
+this.tbodyClass="";
+this.headerClass="";
+this.headerUpClass="selectedUp";
+this.headerDownClass="selectedDown";
+this.rowClass="";
+this.rowAlternateClass="alt";
+this.rowSelectedClass="selected";
+this.columnSelected="sorted-column";
+},{isContainer:false,templatePath:null,templateCssPath:null,getTypeFromString:function(s){
+var _bb4=s.split("."),i=0,obj=dj_global;
+do{
+obj=obj[_bb4[i++]];
+}while(i<_bb4.length&&obj);
+return (obj!=dj_global)?obj:null;
+},getByRow:function(row){
+return this.store.getByKey(dojo.html.getAttribute(row,"value"));
+},getDataByRow:function(row){
+return this.store.getDataByKey(dojo.html.getAttribute(row,"value"));
+},getRow:function(obj){
+var rows=this.domNode.tBodies[0].rows;
+for(var i=0;i<rows.length;i++){
+if(this.store.getDataByKey(dojo.html.getAttribute(rows[i],"value"))==obj){
+return rows[i];
+}
+}
+return null;
+},getColumnIndex:function(_bbc){
+for(var i=0;i<this.columns.length;i++){
+if(this.columns[i].getField()==_bbc){
+return i;
+}
+}
+return -1;
+},getSelectedData:function(){
+var data=this.store.get();
+var a=[];
+for(var i=0;i<data.length;i++){
+if(data[i].isSelected){
+a.push(data[i].src);
+}
+}
+if(this.multiple){
+return a;
+}else{
+return a[0];
+}
+},isSelected:function(obj){
+var data=this.store.get();
+for(var i=0;i<data.length;i++){
+if(data[i].src==obj){
+return true;
+}
+}
+return false;
+},isValueSelected:function(val){
+var v=this.store.getByKey(val);
+if(v){
+return v.isSelected;
+}
+return false;
+},isIndexSelected:function(idx){
+var v=this.store.getByIndex(idx);
+if(v){
+return v.isSelected;
+}
+return false;
+},isRowSelected:function(row){
+var v=this.getByRow(row);
+if(v){
+return v.isSelected;
+}
+return false;
+},reset:function(){
+this.store.clearData();
+this.columns=[];
+this.sortInformation=[{index:0,direction:0}];
+this.resetSelections();
+this.isInitialized=false;
+this.onReset();
+},resetSelections:function(){
+this.store.forEach(function(_bca){
+_bca.isSelected=false;
+});
+},onReset:function(){
+},select:function(obj){
+var data=this.store.get();
+for(var i=0;i<data.length;i++){
+if(data[i].src==obj){
+data[i].isSelected=true;
+break;
+}
+}
+this.onDataSelect(obj);
+},selectByValue:function(val){
+this.select(this.store.getDataByKey(val));
+},selectByIndex:function(idx){
+this.select(this.store.getDataByIndex(idx));
+},selectByRow:function(row){
+this.select(this.getDataByRow(row));
+},selectAll:function(){
+this.store.forEach(function(_bd1){
+_bd1.isSelected=true;
+});
+},onDataSelect:function(obj){
+},toggleSelection:function(obj){
+var data=this.store.get();
+for(var i=0;i<data.length;i++){
+if(data[i].src==obj){
+data[i].isSelected=!data[i].isSelected;
+break;
+}
+}
+this.onDataToggle(obj);
+},toggleSelectionByValue:function(val){
+this.toggleSelection(this.store.getDataByKey(val));
+},toggleSelectionByIndex:function(idx){
+this.toggleSelection(this.store.getDataByIndex(idx));
+},toggleSelectionByRow:function(row){
+this.toggleSelection(this.getDataByRow(row));
+},toggleAll:function(){
+this.store.forEach(function(_bd9){
+_bd9.isSelected=!_bd9.isSelected;
+});
+},onDataToggle:function(obj){
+},_meta:{field:null,format:null,filterer:null,noSort:false,sortType:"String",dataType:String,sortFunction:null,filterFunction:null,label:null,align:"left",valign:"middle",getField:function(){
+return this.field||this.label;
+},getType:function(){
+return this.dataType;
+}},createMetaData:function(obj){
+for(var p in this._meta){
+if(!obj[p]){
+obj[p]=this._meta[p];
+}
+}
+if(!obj.label){
+obj.label=obj.field;
+}
+if(!obj.filterFunction){
+obj.filterFunction=this._defaultFilter;
+}
+return obj;
+},parseMetadata:function(head){
+this.columns=[];
+this.sortInformation=[];
+var row=head.getElementsByTagName("tr")[0];
+var _bdf=row.getElementsByTagName("td");
+if(_bdf.length==0){
+_bdf=row.getElementsByTagName("th");
+}
+for(var i=0;i<_bdf.length;i++){
+var o=this.createMetaData({});
+if(dojo.html.hasAttribute(_bdf[i],"align")){
+o.align=dojo.html.getAttribute(_bdf[i],"align");
+}
+if(dojo.html.hasAttribute(_bdf[i],"valign")){
+o.valign=dojo.html.getAttribute(_bdf[i],"valign");
+}
+if(dojo.html.hasAttribute(_bdf[i],"nosort")){
+o.noSort=(dojo.html.getAttribute(_bdf[i],"nosort")=="true");
+}
+if(dojo.html.hasAttribute(_bdf[i],"sortusing")){
+var _be2=dojo.html.getAttribute(_bdf[i],"sortusing");
+var f=this.getTypeFromString(_be2);
+if(f!=null&&f!=window&&typeof (f)=="function"){
+o.sortFunction=f;
+}
+}
+o.label=dojo.html.renderedTextContent(_bdf[i]);
+if(dojo.html.hasAttribute(_bdf[i],"field")){
+o.field=dojo.html.getAttribute(_bdf[i],"field");
+}else{
+if(o.label.length>0){
+o.field=o.label;
+}else{
+o.field="field"+i;
+}
+}
+if(dojo.html.hasAttribute(_bdf[i],"format")){
+o.format=dojo.html.getAttribute(_bdf[i],"format");
+}
+if(dojo.html.hasAttribute(_bdf[i],"dataType")){
+var _be4=dojo.html.getAttribute(_bdf[i],"dataType");
+if(_be4.toLowerCase()=="html"||_be4.toLowerCase()=="markup"){
+o.sortType="__markup__";
+}else{
+var type=this.getTypeFromString(_be4);
+if(type){
+o.sortType=_be4;
+o.dataType=type;
+}
+}
+}
+if(dojo.html.hasAttribute(_bdf[i],"filterusing")){
+var _be2=dojo.html.getAttribute(_bdf[i],"filterusing");
+var f=this.getTypeFromString(_be2);
+if(f!=null&&f!=window&&typeof (f)=="function"){
+o.filterFunction=f;
+}
+}
+this.columns.push(o);
+if(dojo.html.hasAttribute(_bdf[i],"sort")){
+var info={index:i,direction:0};
+var dir=dojo.html.getAttribute(_bdf[i],"sort");
+if(!isNaN(parseInt(dir))){
+dir=parseInt(dir);
+info.direction=(dir!=0)?1:0;
+}else{
+info.direction=(dir.toLowerCase()=="desc")?1:0;
+}
+this.sortInformation.push(info);
+}
+}
+if(this.sortInformation.length==0){
+this.sortInformation.push({index:0,direction:0});
+}else{
+if(this.sortInformation.length>this.maxSortable){
+this.sortInformation.length=this.maxSortable;
+}
+}
+},parseData:function(body){
+if(body.rows.length==0&&this.columns.length==0){
+return;
+}
+var self=this;
+this["__selected__"]=[];
+var arr=this.store.getFromHtml(this.columns,body,function(obj,row){
+if(typeof (obj[self.valueField])=="undefined"||obj[self.valueField]==null){
+obj[self.valueField]=dojo.html.getAttribute(row,"value");
+}
+if(dojo.html.getAttribute(row,"selected")=="true"){
+self["__selected__"].push(obj);
+}
+});
+this.store.setData(arr,true);
+this.render();
+for(var i=0;i<this["__selected__"].length;i++){
+this.select(this["__selected__"][i]);
+}
+this.renderSelections();
+delete this["__selected__"];
+this.isInitialized=true;
+},onSelect:function(e){
+var row=dojo.html.getParentByType(e.target,"tr");
+if(dojo.html.hasAttribute(row,"emptyRow")){
+return;
+}
+var body=dojo.html.getParentByType(row,"tbody");
+if(this.multiple){
+if(e.shiftKey){
+var _bf1;
+var rows=body.rows;
+for(var i=0;i<rows.length;i++){
+if(rows[i]==row){
+break;
+}
+if(this.isRowSelected(rows[i])){
+_bf1=rows[i];
+}
+}
+if(!_bf1){
+_bf1=row;
+for(;i<rows.length;i++){
+if(this.isRowSelected(rows[i])){
+row=rows[i];
+break;
+}
+}
+}
+this.resetSelections();
+if(_bf1==row){
+this.toggleSelectionByRow(row);
+}else{
+var _bf4=false;
+for(var i=0;i<rows.length;i++){
+if(rows[i]==_bf1){
+_bf4=true;
+}
+if(_bf4){
+this.selectByRow(rows[i]);
+}
+if(rows[i]==row){
+_bf4=false;
+}
+}
+}
+}else{
+this.toggleSelectionByRow(row);
+}
+}else{
+this.resetSelections();
+this.toggleSelectionByRow(row);
+}
+this.renderSelections();
+},onSort:function(e){
+var _bf6=this.sortIndex;
+var _bf7=this.sortDirection;
+var _bf8=e.target;
+var row=dojo.html.getParentByType(_bf8,"tr");
+var _bfa="td";
+if(row.getElementsByTagName(_bfa).length==0){
+_bfa="th";
+}
+var _bfb=row.getElementsByTagName(_bfa);
+var _bfc=dojo.html.getParentByType(_bf8,_bfa);
+for(var i=0;i<_bfb.length;i++){
+dojo.html.setClass(_bfb[i],this.headerClass);
+if(_bfb[i]==_bfc){
+if(this.sortInformation[0].index!=i){
+this.sortInformation.unshift({index:i,direction:0});
+}else{
+this.sortInformation[0]={index:i,direction:(~this.sortInformation[0].direction)&1};
+}
+}
+}
+this.sortInformation.length=Math.min(this.sortInformation.length,this.maxSortable);
+for(var i=0;i<this.sortInformation.length;i++){
+var idx=this.sortInformation[i].index;
+var dir=(~this.sortInformation[i].direction)&1;
+dojo.html.setClass(_bfb[idx],dir==0?this.headerDownClass:this.headerUpClass);
+}
+this.render();
+},onFilter:function(){
+},_defaultFilter:function(obj){
+return true;
+},setFilter:function(_c01,fn){
+for(var i=0;i<this.columns.length;i++){
+if(this.columns[i].getField()==_c01){
+this.columns[i].filterFunction=fn;
+break;
+}
+}
+this.applyFilters();
+},setFilterByIndex:function(idx,fn){
+this.columns[idx].filterFunction=fn;
+this.applyFilters();
+},clearFilter:function(_c06){
+for(var i=0;i<this.columns.length;i++){
+if(this.columns[i].getField()==_c06){
+this.columns[i].filterFunction=this._defaultFilter;
+break;
+}
+}
+this.applyFilters();
+},clearFilterByIndex:function(idx){
+this.columns[idx].filterFunction=this._defaultFilter;
+this.applyFilters();
+},clearFilters:function(){
+for(var i=0;i<this.columns.length;i++){
+this.columns[i].filterFunction=this._defaultFilter;
+}
+var rows=this.domNode.tBodies[0].rows;
+for(var i=0;i<rows.length;i++){
+rows[i].style.display="";
+if(this.alternateRows){
+dojo.html[((i%2==1)?"addClass":"removeClass")](rows[i],this.rowAlternateClass);
+}
+}
+this.onFilter();
+},applyFilters:function(){
+var alt=0;
+var rows=this.domNode.tBodies[0].rows;
+for(var i=0;i<rows.length;i++){
+var b=true;
+var row=rows[i];
+for(var j=0;j<this.columns.length;j++){
+var _c11=this.store.getField(this.getDataByRow(row),this.columns[j].getField());
+if(this.columns[j].getType()==Date&&_c11!=null&&!_c11.getYear){
+_c11=new Date(_c11);
+}
+if(!this.columns[j].filterFunction(_c11)){
+b=false;
+break;
+}
+}
+row.style.display=(b?"":"none");
+if(b&&this.alternateRows){
+dojo.html[((alt++%2==1)?"addClass":"removeClass")](row,this.rowAlternateClass);
+}
+}
+this.onFilter();
+},createSorter:function(info){
+var self=this;
+var _c14=[];
+function createSortFunction(_c15,dir){
+var meta=self.columns[_c15];
+var _c18=meta.getField();
+return function(rowA,rowB){
+if(dojo.html.hasAttribute(rowA,"emptyRow")){
+return 1;
+}
+if(dojo.html.hasAttribute(rowB,"emptyRow")){
+return -1;
+}
+var a=self.store.getField(self.getDataByRow(rowA),_c18);
+var b=self.store.getField(self.getDataByRow(rowB),_c18);
+var ret=0;
+if(a>b){
+ret=1;
+}
+if(a<b){
+ret=-1;
+}
+return dir*ret;
+};
+}
+var _c1e=0;
+var max=Math.min(info.length,this.maxSortable,this.columns.length);
+while(_c1e<max){
+var _c20=(info[_c1e].direction==0)?1:-1;
+_c14.push(createSortFunction(info[_c1e].index,_c20));
+_c1e++;
+}
+return function(rowA,rowB){
+var idx=0;
+while(idx<_c14.length){
+var ret=_c14[idx++](rowA,rowB);
+if(ret!=0){
+return ret;
+}
+}
+return 0;
+};
+},createRow:function(obj){
+var row=document.createElement("tr");
+dojo.html.disableSelection(row);
+if(obj.key!=null){
+row.setAttribute("value",obj.key);
+}
+for(var j=0;j<this.columns.length;j++){
+var cell=document.createElement("td");
+cell.setAttribute("align",this.columns[j].align);
+cell.setAttribute("valign",this.columns[j].valign);
+dojo.html.disableSelection(cell);
+var val=this.store.getField(obj.src,this.columns[j].getField());
+if(typeof (val)=="undefined"){
+val="";
+}
+this.fillCell(cell,this.columns[j],val);
+row.appendChild(cell);
+}
+return row;
+},fillCell:function(cell,meta,val){
+if(meta.sortType=="__markup__"){
+cell.innerHTML=val;
+}else{
+if(meta.getType()==Date){
+val=new Date(val);
+if(!isNaN(val)){
+var _c2d=this.defaultDateFormat;
+if(meta.format){
+_c2d=meta.format;
+}
+cell.innerHTML=dojo.date.strftime(val,_c2d);
+}else{
+cell.innerHTML=val;
+}
+}else{
+if("Number number int Integer float Float".indexOf(meta.getType())>-1){
+if(val.length==0){
+val="0";
+}
+var n=parseFloat(val,10)+"";
+if(n.indexOf(".")>-1){
+n=dojo.math.round(parseFloat(val,10),2);
+}
+cell.innerHTML=n;
+}else{
+cell.innerHTML=val;
+}
+}
+}
+},prefill:function(){
+this.isInitialized=false;
+var body=this.domNode.tBodies[0];
+while(body.childNodes.length>0){
+body.removeChild(body.childNodes[0]);
+}
+if(this.minRows>0){
+for(var i=0;i<this.minRows;i++){
+var row=document.createElement("tr");
+if(this.alternateRows){
+dojo.html[((i%2==1)?"addClass":"removeClass")](row,this.rowAlternateClass);
+}
+row.setAttribute("emptyRow","true");
+for(var j=0;j<this.columns.length;j++){
+var cell=document.createElement("td");
+cell.innerHTML="&nbsp;";
+row.appendChild(cell);
+}
+body.appendChild(row);
+}
+}
+},init:function(){
+this.isInitialized=false;
+var head=this.domNode.getElementsByTagName("thead")[0];
+if(head.getElementsByTagName("tr").length==0){
+var row=document.createElement("tr");
+for(var i=0;i<this.columns.length;i++){
+var cell=document.createElement("td");
+cell.setAttribute("align",this.columns[i].align);
+cell.setAttribute("valign",this.columns[i].valign);
+dojo.html.disableSelection(cell);
+cell.innerHTML=this.columns[i].label;
+row.appendChild(cell);
+if(!this.columns[i].noSort){
+dojo.event.connect(cell,"onclick",this,"onSort");
+}
+}
+dojo.html.prependChild(row,head);
+}
+if(this.store.get().length==0){
+return false;
+}
+var idx=this.domNode.tBodies[0].rows.length;
+if(!idx||idx==0||this.domNode.tBodies[0].rows[0].getAttribute("emptyRow")=="true"){
+idx=0;
+var body=this.domNode.tBodies[0];
+while(body.childNodes.length>0){
+body.removeChild(body.childNodes[0]);
+}
+var data=this.store.get();
+for(var i=0;i<data.length;i++){
+var row=this.createRow(data[i]);
+body.appendChild(row);
+idx++;
+}
+}
+if(this.minRows>0&&idx<this.minRows){
+idx=this.minRows-idx;
+for(var i=0;i<idx;i++){
+row=document.createElement("tr");
+row.setAttribute("emptyRow","true");
+for(var j=0;j<this.columns.length;j++){
+cell=document.createElement("td");
+cell.innerHTML="&nbsp;";
+row.appendChild(cell);
+}
+body.appendChild(row);
+}
+}
+var row=this.domNode.getElementsByTagName("thead")[0].rows[0];
+var _c3c="td";
+if(row.getElementsByTagName(_c3c).length==0){
+_c3c="th";
+}
+var _c3d=row.getElementsByTagName(_c3c);
+for(var i=0;i<_c3d.length;i++){
+dojo.html.setClass(_c3d[i],this.headerClass);
+}
+for(var i=0;i<this.sortInformation.length;i++){
+var idx=this.sortInformation[i].index;
+var dir=(~this.sortInformation[i].direction)&1;
+dojo.html.setClass(_c3d[idx],dir==0?this.headerDownClass:this.headerUpClass);
+}
+this.isInitialized=true;
+return this.isInitialized;
+},render:function(){
+if(!this.isInitialized){
+var b=this.init();
+if(!b){
+this.prefill();
+return;
+}
+}
+var rows=[];
+var body=this.domNode.tBodies[0];
+var _c42=-1;
+for(var i=0;i<body.rows.length;i++){
+rows.push(body.rows[i]);
+}
+var _c44=this.createSorter(this.sortInformation);
+if(_c44){
+rows.sort(_c44);
+}
+for(var i=0;i<rows.length;i++){
+if(this.alternateRows){
+dojo.html[((i%2==1)?"addClass":"removeClass")](rows[i],this.rowAlternateClass);
+}
+dojo.html[(this.isRowSelected(body.rows[i])?"addClass":"removeClass")](body.rows[i],this.rowSelectedClass);
+body.appendChild(rows[i]);
+}
+},renderSelections:function(){
+var body=this.domNode.tBodies[0];
+for(var i=0;i<body.rows.length;i++){
+dojo.html[(this.isRowSelected(body.rows[i])?"addClass":"removeClass")](body.rows[i],this.rowSelectedClass);
+}
+},initialize:function(){
+var self=this;
+dojo.event.connect(this.store,"onSetData",function(){
+self.store.forEach(function(_c48){
+_c48.isSelected=false;
+});
+self.isInitialized=false;
+var body=self.domNode.tBodies[0];
+if(body){
+while(body.childNodes.length>0){
+body.removeChild(body.childNodes[0]);
+}
+}
+self.render();
+});
+dojo.event.connect(this.store,"onClearData",function(){
+self.isInitialized=false;
+self.render();
+});
+dojo.event.connect(this.store,"onAddData",function(_c4a){
+var row=self.createRow(_c4a);
+self.domNode.tBodies[0].appendChild(row);
+self.render();
+});
+dojo.event.connect(this.store,"onAddDataRange",function(arr){
+for(var i=0;i<arr.length;i++){
+arr[i].isSelected=false;
+var row=self.createRow(arr[i]);
+self.domNode.tBodies[0].appendChild(row);
+}
+self.render();
+});
+dojo.event.connect(this.store,"onRemoveData",function(_c4f){
+var rows=self.domNode.tBodies[0].rows;
+for(var i=0;i<rows.length;i++){
+if(self.getDataByRow(rows[i])==_c4f.src){
+rows[i].parentNode.removeChild(rows[i]);
+break;
+}
+}
+self.render();
+});
+dojo.event.connect(this.store,"onUpdateField",function(obj,_c53,val){
+var row=self.getRow(obj);
+var idx=self.getColumnIndex(_c53);
+if(row&&row.cells[idx]&&self.columns[idx]){
+self.fillCell(row.cells[idx],self.columns[idx],val);
+}
+});
+},postCreate:function(){
+this.store.keyField=this.valueField;
+if(this.domNode){
+if(this.domNode.nodeName.toLowerCase()!="table"){
+}
+if(this.domNode.getElementsByTagName("thead")[0]){
+var head=this.domNode.getElementsByTagName("thead")[0];
+if(this.headClass.length>0){
+head.className=this.headClass;
+}
+dojo.html.disableSelection(this.domNode);
+this.parseMetadata(head);
+var _c58="td";
+if(head.getElementsByTagName(_c58).length==0){
+_c58="th";
+}
+var _c59=head.getElementsByTagName(_c58);
+for(var i=0;i<_c59.length;i++){
+if(!this.columns[i].noSort){
+dojo.event.connect(_c59[i],"onclick",this,"onSort");
+}
+}
+}else{
+this.domNode.appendChild(document.createElement("thead"));
+}
+if(this.domNode.tBodies.length<1){
+var body=document.createElement("tbody");
+this.domNode.appendChild(body);
+}else{
+var body=this.domNode.tBodies[0];
+}
+if(this.tbodyClass.length>0){
+body.className=this.tbodyClass;
+}
+dojo.event.connect(body,"onclick",this,"onSelect");
+this.parseData(body);
+}
+}});
 dojo.provide("dojo.widget.TitlePane");
-dojo.widget.defineWidget("dojo.widget.TitlePane",dojo.widget.ContentPane,{labelNodeClass:"",containerNodeClass:"",label:"",open:true,templatePath:dojo.uri.moduleUri("dojo.widget","templates/TitlePane.html"),postCreate:function(){
+dojo.widget.defineWidget("dojo.widget.TitlePane",dojo.widget.ContentPane,{labelNodeClass:"",containerNodeClass:"",label:"",open:true,templateString:"<div dojoAttachPoint=\"domNode\">\n<div dojoAttachPoint=\"labelNode\" dojoAttachEvent=\"onclick: onLabelClick\"></div>\n<div dojoAttachPoint=\"containerNode\"></div>\n</div>\n",postCreate:function(){
 if(this.label){
 this.labelNode.appendChild(document.createTextNode(this.label));
 }
@@ -12541,7 +13602,7 @@ this.open=false;
 dojo.lfx.wipeIn(this.containerNode,250).play();
 this.open=true;
 }
-},setLabel:function(_b2f){
-this.labelNode.innerHTML=_b2f;
+},setLabel:function(_c5c){
+this.labelNode.innerHTML=_c5c;
 }});
 

@@ -8,5 +8,6 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.string");
 dojo.require("dojo.string.common");

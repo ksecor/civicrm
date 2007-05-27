@@ -8,10 +8,9 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.widget.SortableTable");
-
-dojo.deprecated("SortableTable will be removed in favor of FilteringTable.", "0.5");
-
+dojo.deprecated("SortableTable will be removed in favor of FilteringTable.","0.5");
 dojo.require("dojo.lang.common");
 dojo.require("dojo.date.format");
 dojo.require("dojo.html.*");
@@ -21,596 +20,478 @@ dojo.require("dojo.html.style");
 dojo.require("dojo.event.*");
 dojo.require("dojo.widget.*");
 dojo.require("dojo.widget.HtmlWidget");
-
-dojo.widget.defineWidget(
-	"dojo.widget.SortableTable",
-	dojo.widget.HtmlWidget,
-	function(){
-		this.data=[];
-		this.selected=[];		//	always an array to handle multiple selections.
-		this.columns=[];
-	},
-	{
-		//	custom properties
-		enableMultipleSelect: false,
-		maximumNumberOfSelections: 0,	//	0 for unlimited, is the default.
-		enableAlternateRows: false,
-		minRows: 0,	//	0 means ignore.
-		defaultDateFormat: "%D",
-		sortIndex: 0,		//	index of the column sorted on, first is the default.
-		sortDirection: 0,	//	0==asc, 1==desc
-		valueField: "Id",	//	if a JSON structure is parsed and there is a field of this name,
-							//	a value attribute will be added to the row (tr value="{Id}")
-
-		headClass: "",
-		tbodyClass: "",
-		headerClass: "",
-		headerSortUpClass: "selected",
-		headerSortDownClass: "selected",
-		rowClass: "",
-		rowAlternateClass: "alt",
-		rowSelectedClass: "selected",
-		columnSelected: "sorted-column",
-
-		isContainer: false,
-		templatePath:null,
-		templateCssPath:null,
-
-		getTypeFromString:function(/* string */ s){
-			//	summary
-			//	Find the constructor that matches param s by searching through the entire object tree.
-			var parts=s.split("."),i=0,obj=dj_global; 
-			do{obj=obj[parts[i++]];}while(i<parts.length&&obj); 
-			return(obj!=dj_global)?obj:null;	//	function
-		},
-		compare:function(/* object */ o1, /* object */ o2){
-			//	summary
-			//	Compare two objects using a shallow property compare
-			for(var p in o1){
-				if(!(p in o2)) return false;	//	boolean
-				if(o1[p].valueOf()!=o2[p].valueOf()) return false;	//	boolean
-			}
-			return true;	// boolean
-		},
-		isSelected:function(/* object */ o){
-			//	summary
-			//	checked to see if the passed object is in the current selection.
-			for(var i=0;i<this.selected.length;i++){
-				if(this.compare(this.selected[i],o)){
-					return true; // boolean
-				}
-			}
-			return false;	// boolean
-		},
-		removeFromSelected:function(/* object */ o){
-			//	summary
-			//	remove the passed object from the current selection.
-			var idx=-1;
-			for(var i=0;i<this.selected.length;i++){
-				if(this.compare(this.selected[i],o)){
-					idx=i;
-					break;
-				}
-			}
-			if(idx>=0){
-				this.selected.splice(idx,1);
-			}
-		},
-		getSelection:function(){
-			//	summary
-			//	return the array of currently selected objects (JSON format)
-			return this.selected;	//	array
-		},
-		getValue:function(){
-			//	summary
-			//	return a comma-delimited list of selected valueFields.
-			var a=[];
-			for(var i=0;i<this.selected.length;i++){
-				if (this.selected[i][this.valueField]){
-					a.push(this.selected[i][this.valueField]);
-				}
-			}
-			return a.join();	//	string
-		},
-		reset:function(){
-			//	summary
-			//	completely resets the internal representations.
-			this.columns=[];
-			this.data=[];
-			this.resetSelections(this.domNode.getElementsByTagName("tbody")[0]);
-		},
-		resetSelections:function(/* HTMLTableBodyElement */ body){
-			this.selected=[];
-			var idx=0;
-			var rows=body.getElementsByTagName("tr");
-			for(var i=0; i<rows.length; i++){
-				if(rows[i].parentNode==body){
-					rows[i].removeAttribute("selected");
-					if(this.enableAlternateRows&&idx%2==1){
-						rows[i].className=this.rowAlternateClass;
-					}else{
-						rows[i].className="";
-					}
-					idx++;
-				}
-			}
-		},
-
-		getObjectFromRow:function(/* HTMLTableRowElement */ row){
-			//	summary
-			//	creates a JSON object based on the passed row
-			var cells=row.getElementsByTagName("td");
-			var o={};
-			for(var i=0; i<this.columns.length;i++){
-				if(this.columns[i].sortType=="__markup__"){
-					//	FIXME: should we parse this instead?  Because if the user may not get back the markup they put in...
-					o[this.columns[i].getField()]=cells[i].innerHTML;
-				}else{
-					var text=dojo.html.renderedTextContent(cells[i]);
-					var val=text;
-					if (this.columns[i].getType() != String){
-						var val=new (this.columns[i].getType())(text);
-					}
-					o[this.columns[i].getField()]=val;
-				}
-			}
-			if(dojo.html.hasAttribute(row,"value")){
-				o[this.valueField]=dojo.html.getAttribute(row,"value");
-			}
-			return o;	//	object
-		},
-		setSelectionByRow:function(/* HTMLTableElementRow */ row){
-			//	summary
-			//	create the selection object based on the passed row, makes sure it's unique.
-			//	note that you need to call render manually (because of multi-select operations)
-			var o=this.getObjectFromRow(row);
-			var b=false;
-			for(var i=0;i<this.selected.length;i++){
-				if(this.compare(this.selected[i], o)){
-					b=true;
-					break;
-				}
-			}
-			if(!b){
-				this.selected.push(o);
-			}
-		},
-
-		parseColumns:function(/* HTMLTableHeadElement */ node){
-			//	summary
-			//	parses the passed element to create column objects
-			this.reset();
-			var row=node.getElementsByTagName("tr")[0];
-			var cells=row.getElementsByTagName("td");
-			if (cells.length==0) cells=row.getElementsByTagName("th");
-			for(var i=0; i<cells.length; i++){
-				var o={
-					field:null,
-					format:null,
-					noSort:false,
-					sortType:"String",
-					dataType:String,
-					sortFunction:null,
-					label:null,
-					align:"left",
-					valign:"middle",
-					getField:function(){ return this.field||this.label; },
-					getType:function(){ return this.dataType; }
-				};
-				//	presentation attributes
-				if(dojo.html.hasAttribute(cells[i], "align")){
-					o.align=dojo.html.getAttribute(cells[i],"align");
-				}
-				if(dojo.html.hasAttribute(cells[i], "valign")){
-					o.valign=dojo.html.getAttribute(cells[i],"valign");
-				}
-
-				//	sorting features.
-				if(dojo.html.hasAttribute(cells[i], "nosort")){
-					o.noSort=dojo.html.getAttribute(cells[i],"nosort")=="true";
-				}
-				if(dojo.html.hasAttribute(cells[i], "sortusing")){
-					var trans=dojo.html.getAttribute(cells[i],"sortusing");
-					var f=this.getTypeFromString(trans);
-					if (f!=null && f!=window && typeof(f)=="function") 
-						o.sortFunction=f;
-				}
-
-				if(dojo.html.hasAttribute(cells[i], "field")){
-					o.field=dojo.html.getAttribute(cells[i],"field");
-				}
-				if(dojo.html.hasAttribute(cells[i], "format")){
-					o.format=dojo.html.getAttribute(cells[i],"format");
-				}
-				if(dojo.html.hasAttribute(cells[i], "dataType")){
-					var sortType=dojo.html.getAttribute(cells[i],"dataType");
-					if(sortType.toLowerCase()=="html"||sortType.toLowerCase()=="markup"){
-						o.sortType="__markup__";	//	always convert to "__markup__"
-						o.noSort=true;
-					}else{
-						var type=this.getTypeFromString(sortType);
-						if(type){
-							o.sortType=sortType;
-							o.dataType=type;
-						}
-					}
-				}
-				o.label=dojo.html.renderedTextContent(cells[i]);
-				this.columns.push(o);
-
-				//	check to see if there's a default sort, and set the properties necessary
-				if(dojo.html.hasAttribute(cells[i], "sort")){
-					this.sortIndex=i;
-					var dir=dojo.html.getAttribute(cells[i], "sort");
-					if(!isNaN(parseInt(dir))){
-						dir=parseInt(dir);
-						this.sortDirection=(dir!=0)?1:0;
-					}else{
-						this.sortDirection=(dir.toLowerCase()=="desc")?1:0;
-					}
-				}
-			}
-		},
-
-		parseData:function(/* array */ data){
-			//	summary
-			//	Parse the passed JSON data structure, and cast based on columns.
-			this.data=[];
-			this.selected=[];
-			for(var i=0; i<data.length; i++){
-				var o={};	//	new data object.
-				for(var j=0; j<this.columns.length; j++){
-					var field=this.columns[j].getField();
-					if(this.columns[j].sortType=="__markup__"){
-						o[field]=String(data[i][field]);
-					}else{
-						var type=this.columns[j].getType();
-						var val=data[i][field];
-						var t=this.columns[j].sortType.toLowerCase();
-						if(type == String) {
-							o[field]=val;
-						} else {
-							if(val!=null){
-								o[field]=new type(val);
-							}else{
-								o[field]=new type();	//	let it use the default.
-							}
-						}
-					}
-				}
-				//	check for the valueField if not already parsed.
-				if(data[i][this.valueField]&&!o[this.valueField]){
-					o[this.valueField]=data[i][this.valueField];
-				}
-				this.data.push(o);
-			}
-		}, 
-
-		parseDataFromTable:function(/* HTMLTableBodyElement */ tbody){
-			//	summary
-			//	parses the data in the tbody of a table to create a set of objects.
-			//	Will add objects to this.selected if an attribute 'selected="true"' is present on the row.
-			this.data=[];
-			this.selected=[];
-			var rows=tbody.getElementsByTagName("tr");
-			for(var i=0; i<rows.length; i++){
-				if(dojo.html.getAttribute(rows[i],"ignoreIfParsed")=="true"){
-					continue;
-				}
-				var o={};	//	new data object.
-				var cells=rows[i].getElementsByTagName("td");
-				for(var j=0; j<this.columns.length; j++){
-					var field=this.columns[j].getField();
-					if(this.columns[j].sortType=="__markup__"){
-						//	FIXME: parse this?
-						o[field]=cells[j].innerHTML;
-					}else{
-						var type=this.columns[j].getType();
-						var val=dojo.html.renderedTextContent(cells[j]); //	should be the same index as the column.
-						if(type == String){
-							o[field]=val;
-						} else {
-							if (val!=null){
-								o[field]=new type(val);
-							} else {
-								o[field]=new type();	//	let it use the default.
-							}
-						}
-					}
-				}
-				if(dojo.html.hasAttribute(rows[i],"value")&&!o[this.valueField]){
-					o[this.valueField]=dojo.html.getAttribute(rows[i],"value");
-				}
-				//	FIXME: add code to preserve row attributes in __metadata__ field?
-				this.data.push(o);
-				
-				//	add it to the selections if selected="true" is present.
-				if(dojo.html.getAttribute(rows[i],"selected")=="true"){
-					this.selected.push(o);
-				}
-			}
-		},
-		
-		showSelections:function(){
-			var body=this.domNode.getElementsByTagName("tbody")[0];
-			var rows=body.getElementsByTagName("tr");
-			var idx=0;
-			for(var i=0; i<rows.length; i++){
-				if(rows[i].parentNode==body){
-					if(dojo.html.getAttribute(rows[i],"selected")=="true"){
-						rows[i].className=this.rowSelectedClass;
-					} else {
-						if(this.enableAlternateRows&&idx%2==1){
-							rows[i].className=this.rowAlternateClass;
-						}else{
-							rows[i].className="";
-						}
-					}
-					idx++;
-				}
-			}
-		},
-		render:function(bDontPreserve){
-			//	summary
-			//	renders the table to the browser
-			var data=[];
-			var body=this.domNode.getElementsByTagName("tbody")[0];
-
-			if(!bDontPreserve){
-				//	rebuild data and selection
-				this.parseDataFromTable(body);
-			}
-
-			//	clone this.data for sorting purposes.
-			for(var i=0; i<this.data.length; i++){
-				data.push(this.data[i]);
-			}
-			
-			var col=this.columns[this.sortIndex];
-			if(!col.noSort){
-				var field=col.getField();
-				if(col.sortFunction){
-					var sort=col.sortFunction;
-				}else{
-					var sort=function(a,b){
-						if (a[field]>b[field]) return 1;
-						if (a[field]<b[field]) return -1;
-						return 0;
-					}
-				}
-				data.sort(sort);
-				if(this.sortDirection!=0) data.reverse();
-			}
-
-			//	build the table and pop it in.
-			while(body.childNodes.length>0) body.removeChild(body.childNodes[0]);
-			for(var i=0; i<data.length;i++){
-				var row=document.createElement("tr");
-				dojo.html.disableSelection(row);
-				if (data[i][this.valueField]){
-					row.setAttribute("value",data[i][this.valueField]);
-				}
-				if(this.isSelected(data[i])){
-					row.className=this.rowSelectedClass;
-					row.setAttribute("selected","true");
-				} else {
-					if(this.enableAlternateRows&&i%2==1){
-						row.className=this.rowAlternateClass;
-					}
-				}
-				for(var j=0;j<this.columns.length;j++){
-					var cell=document.createElement("td");
-					cell.setAttribute("align", this.columns[j].align);
-					cell.setAttribute("valign", this.columns[j].valign);
-					dojo.html.disableSelection(cell);
-					if(this.sortIndex==j){
-						cell.className=this.columnSelected;
-					}
-					if(this.columns[j].sortType=="__markup__"){
-						cell.innerHTML=data[i][this.columns[j].getField()];
-						for(var k=0; k<cell.childNodes.length; k++){
-							var node=cell.childNodes[k];
-							if(node&&node.nodeType==dojo.html.ELEMENT_NODE){
-								dojo.html.disableSelection(node);
-							}
-						}
-					}else{
-						if(this.columns[j].getType()==Date){
-							var format=this.defaultDateFormat;
-							if(this.columns[j].format) format=this.columns[j].format;
-							cell.appendChild(document.createTextNode(dojo.date.strftime(data[i][this.columns[j].getField()], format)));
-						}else{
-							cell.appendChild(document.createTextNode(data[i][this.columns[j].getField()]));
-						}
-					}
-					row.appendChild(cell);
-				}
-				body.appendChild(row);
-				dojo.event.connect(row, "onclick", this, "onUISelect");
-			}
-			
-			//	if minRows exist.
-			var minRows=parseInt(this.minRows);
-			if (!isNaN(minRows) && minRows>0 && data.length<minRows){
-				var mod=0;
-				if(data.length%2==0) mod=1;
-				var nRows=minRows-data.length;
-				for(var i=0; i<nRows; i++){
-					var row=document.createElement("tr");
-					row.setAttribute("ignoreIfParsed","true");
-					if(this.enableAlternateRows&&i%2==mod){
-						row.className=this.rowAlternateClass;
-					}
-					for(var j=0;j<this.columns.length;j++){
-						var cell=document.createElement("td");
-						cell.appendChild(document.createTextNode("\u00A0"));
-						row.appendChild(cell);
-					}
-					body.appendChild(row);
-				}
-			}
-		},
-
-		//	the following the user can override.
-		onSelect:function(/* DomEvent */ e){ 
-			//	summary
-			//	empty function for the user to attach code to, fired by onUISelect
-		},
-		onUISelect:function(/* DomEvent */ e){
-			//	summary
-			//	fired when a user selects a row
-			var row=dojo.html.getParentByType(e.target,"tr");
-			var body=dojo.html.getParentByType(row,"tbody");
-			if(this.enableMultipleSelect){
-				if(e.metaKey||e.ctrlKey){
-					if(this.isSelected(this.getObjectFromRow(row))){
-						this.removeFromSelected(this.getObjectFromRow(row));
-						row.removeAttribute("selected");
-					}else{
-						//	push onto the selection stack.
-						this.setSelectionByRow(row);
-						row.setAttribute("selected","true");
-					}
-				}else if(e.shiftKey){
-					//	the tricky one.  We need to figure out the *last* selected row above, 
-					//	and select all the rows in between.
-					var startRow;
-					var rows=body.getElementsByTagName("tr");
-					//	if there's a selection above, we go with that first. 
-					for(var i=0;i<rows.length;i++){
-						if(rows[i].parentNode==body){
-							if(rows[i]==row) break;
-							if(dojo.html.getAttribute(rows[i],"selected")=="true"){
-								startRow=rows[i];
-							}
-						}
-					}
-					//	if there isn't a selection above, we continue with a selection below.
-					if(!startRow){
-						startRow=row;
-						for(;i<rows.length;i++){
-							if(dojo.html.getAttribute(rows[i],"selected")=="true"){
-								row=rows[i];
-								break;
-							}
-						}
-					}
-					this.resetSelections(body);
-					if(startRow==row){
-						//	this is the only selection
-						row.setAttribute("selected","true");
-						this.setSelectionByRow(row);
-					}else{
-						var doSelect=false;
-						for(var i=0; i<rows.length; i++){
-							if(rows[i].parentNode==body){
-								rows[i].removeAttribute("selected");
-								if(rows[i]==startRow){
-									doSelect=true;
-								}
-								if(doSelect){
-									this.setSelectionByRow(rows[i]);
-									rows[i].setAttribute("selected","true");
-								}
-								if(rows[i]==row){
-									doSelect=false;
-								}
-							}
-						}
-					}
-				}else{
-					//	reset the selection
-					this.resetSelections(body);
-					row.setAttribute("selected","true");
-					this.setSelectionByRow(row);
-				}
-			}else{
-				//	reset the data selection and go.
-				this.resetSelections(body);
-				row.setAttribute("selected","true");
-				this.setSelectionByRow(row);
-			}
-			this.showSelections();
-			this.onSelect(e);
-			e.stopPropagation();
-                        // ask kurund before uncommenting this part
-			// e.preventDefault();
-		},
-		onHeaderClick:function(/* DomEvent */ e){
-			//	summary
-			//	Main handler function for each header column click.
-			var oldIndex=this.sortIndex;
-			var oldDirection=this.sortDirection;
-			var source=e.target;
-			var row=dojo.html.getParentByType(source,"tr");
-			var cellTag="td";
-			if(row.getElementsByTagName(cellTag).length==0) cellTag="th";
-
-			var headers=row.getElementsByTagName(cellTag);
-			var header=dojo.html.getParentByType(source,cellTag);
-			
-			for(var i=0; i<headers.length; i++){
-				if(headers[i]==header){
-					if(i!=oldIndex){
-						//	new col.
-						this.sortIndex=i;
-						this.sortDirection=0;
-						headers[i].className=this.headerSortDownClass
-					}else{
-						this.sortDirection=(oldDirection==0)?1:0;
-						if(this.sortDirection==0){
-							headers[i].className=this.headerSortDownClass;
-						}else{
-							headers[i].className=this.headerSortUpClass;
-						}
-					}
-				}else{
-					//	reset the header class.
-					headers[i].className=this.headerClass;
-				}
-			}
-			this.render();
-		},
-
-		postCreate:function(){ 
-			// 	summary
-			//	overridden from HtmlWidget, initializes and renders the widget.
-			var thead=this.domNode.getElementsByTagName("thead")[0];
-			if(this.headClass.length>0){
-				thead.className=this.headClass;
-			}
-
-			//	disable selections
-			dojo.html.disableSelection(this.domNode);
-
-			//	parse the columns.
-			this.parseColumns(thead);
-
-			//	attach header handlers.
-			var header="td";
-			if(thead.getElementsByTagName(header).length==0) header="th";
-			var headers=thead.getElementsByTagName(header);
-			for(var i=0; i<headers.length; i++){
-				if(!this.columns[i].noSort){
-					dojo.event.connect(headers[i], "onclick", this, "onHeaderClick");
-				}
-				if(this.sortIndex==i){
-					if(this.sortDirection==0){
-						headers[i].className=this.headerSortDownClass;
-					}else{
-						headers[i].className=this.headerSortUpClass;
-					}
-				}
-			}
-
-			//	parse the tbody element and re-render it.
-			var tbody=this.domNode.getElementsByTagName("tbody")[0];
-			if (this.tbodyClass.length>0) {
-				tbody.className=this.tbodyClass;
-			}
-
-			this.parseDataFromTable(tbody);
-			this.render(true);
-		}
-	}
-);
+dojo.widget.defineWidget("dojo.widget.SortableTable",dojo.widget.HtmlWidget,function(){
+this.data=[];
+this.selected=[];
+this.columns=[];
+},{enableMultipleSelect:false,maximumNumberOfSelections:0,enableAlternateRows:false,minRows:0,defaultDateFormat:"%D",sortIndex:0,sortDirection:0,valueField:"Id",headClass:"",tbodyClass:"",headerClass:"",headerSortUpClass:"selected",headerSortDownClass:"selected",rowClass:"",rowAlternateClass:"alt",rowSelectedClass:"selected",columnSelected:"sorted-column",isContainer:false,templatePath:null,templateCssPath:null,getTypeFromString:function(s){
+var _2=s.split("."),i=0,_4=dj_global;
+do{
+_4=_4[_2[i++]];
+}while(i<_2.length&&_4);
+return (_4!=dj_global)?_4:null;
+},compare:function(o1,o2){
+for(var p in o1){
+if(!(p in o2)){
+return false;
+}
+if(o1[p].valueOf()!=o2[p].valueOf()){
+return false;
+}
+}
+return true;
+},isSelected:function(o){
+for(var i=0;i<this.selected.length;i++){
+if(this.compare(this.selected[i],o)){
+return true;
+}
+}
+return false;
+},removeFromSelected:function(o){
+var _b=-1;
+for(var i=0;i<this.selected.length;i++){
+if(this.compare(this.selected[i],o)){
+_b=i;
+break;
+}
+}
+if(_b>=0){
+this.selected.splice(_b,1);
+}
+},getSelection:function(){
+return this.selected;
+},getValue:function(){
+var a=[];
+for(var i=0;i<this.selected.length;i++){
+if(this.selected[i][this.valueField]){
+a.push(this.selected[i][this.valueField]);
+}
+}
+return a.join();
+},reset:function(){
+this.columns=[];
+this.data=[];
+this.resetSelections(this.domNode.getElementsByTagName("tbody")[0]);
+},resetSelections:function(_f){
+this.selected=[];
+var idx=0;
+var _11=_f.getElementsByTagName("tr");
+for(var i=0;i<_11.length;i++){
+if(_11[i].parentNode==_f){
+_11[i].removeAttribute("selected");
+if(this.enableAlternateRows&&idx%2==1){
+_11[i].className=this.rowAlternateClass;
+}else{
+_11[i].className="";
+}
+idx++;
+}
+}
+},getObjectFromRow:function(row){
+var _14=row.getElementsByTagName("td");
+var o={};
+for(var i=0;i<this.columns.length;i++){
+if(this.columns[i].sortType=="__markup__"){
+o[this.columns[i].getField()]=_14[i].innerHTML;
+}else{
+var _17=dojo.html.renderedTextContent(_14[i]);
+var val=_17;
+if(this.columns[i].getType()!=String){
+var val=new (this.columns[i].getType())(_17);
+}
+o[this.columns[i].getField()]=val;
+}
+}
+if(dojo.html.hasAttribute(row,"value")){
+o[this.valueField]=dojo.html.getAttribute(row,"value");
+}
+return o;
+},setSelectionByRow:function(row){
+var o=this.getObjectFromRow(row);
+var b=false;
+for(var i=0;i<this.selected.length;i++){
+if(this.compare(this.selected[i],o)){
+b=true;
+break;
+}
+}
+if(!b){
+this.selected.push(o);
+}
+},parseColumns:function(_1d){
+this.reset();
+var row=_1d.getElementsByTagName("tr")[0];
+var _1f=row.getElementsByTagName("td");
+if(_1f.length==0){
+_1f=row.getElementsByTagName("th");
+}
+for(var i=0;i<_1f.length;i++){
+var o={field:null,format:null,noSort:false,sortType:"String",dataType:String,sortFunction:null,label:null,align:"left",valign:"middle",getField:function(){
+return this.field||this.label;
+},getType:function(){
+return this.dataType;
+}};
+if(dojo.html.hasAttribute(_1f[i],"align")){
+o.align=dojo.html.getAttribute(_1f[i],"align");
+}
+if(dojo.html.hasAttribute(_1f[i],"valign")){
+o.valign=dojo.html.getAttribute(_1f[i],"valign");
+}
+if(dojo.html.hasAttribute(_1f[i],"nosort")){
+o.noSort=dojo.html.getAttribute(_1f[i],"nosort")=="true";
+}
+if(dojo.html.hasAttribute(_1f[i],"sortusing")){
+var _22=dojo.html.getAttribute(_1f[i],"sortusing");
+var f=this.getTypeFromString(_22);
+if(f!=null&&f!=window&&typeof (f)=="function"){
+o.sortFunction=f;
+}
+}
+if(dojo.html.hasAttribute(_1f[i],"field")){
+o.field=dojo.html.getAttribute(_1f[i],"field");
+}
+if(dojo.html.hasAttribute(_1f[i],"format")){
+o.format=dojo.html.getAttribute(_1f[i],"format");
+}
+if(dojo.html.hasAttribute(_1f[i],"dataType")){
+var _24=dojo.html.getAttribute(_1f[i],"dataType");
+if(_24.toLowerCase()=="html"||_24.toLowerCase()=="markup"){
+o.sortType="__markup__";
+o.noSort=true;
+}else{
+var _25=this.getTypeFromString(_24);
+if(_25){
+o.sortType=_24;
+o.dataType=_25;
+}
+}
+}
+o.label=dojo.html.renderedTextContent(_1f[i]);
+this.columns.push(o);
+if(dojo.html.hasAttribute(_1f[i],"sort")){
+this.sortIndex=i;
+var dir=dojo.html.getAttribute(_1f[i],"sort");
+if(!isNaN(parseInt(dir))){
+dir=parseInt(dir);
+this.sortDirection=(dir!=0)?1:0;
+}else{
+this.sortDirection=(dir.toLowerCase()=="desc")?1:0;
+}
+}
+}
+},parseData:function(_27){
+this.data=[];
+this.selected=[];
+for(var i=0;i<_27.length;i++){
+var o={};
+for(var j=0;j<this.columns.length;j++){
+var _2b=this.columns[j].getField();
+if(this.columns[j].sortType=="__markup__"){
+o[_2b]=String(_27[i][_2b]);
+}else{
+var _2c=this.columns[j].getType();
+var val=_27[i][_2b];
+var t=this.columns[j].sortType.toLowerCase();
+if(_2c==String){
+o[_2b]=val;
+}else{
+if(val!=null){
+o[_2b]=new _2c(val);
+}else{
+o[_2b]=new _2c();
+}
+}
+}
+}
+if(_27[i][this.valueField]&&!o[this.valueField]){
+o[this.valueField]=_27[i][this.valueField];
+}
+this.data.push(o);
+}
+},parseDataFromTable:function(_2f){
+this.data=[];
+this.selected=[];
+var _30=_2f.getElementsByTagName("tr");
+for(var i=0;i<_30.length;i++){
+if(dojo.html.getAttribute(_30[i],"ignoreIfParsed")=="true"){
+continue;
+}
+var o={};
+var _33=_30[i].getElementsByTagName("td");
+for(var j=0;j<this.columns.length;j++){
+var _35=this.columns[j].getField();
+if(this.columns[j].sortType=="__markup__"){
+o[_35]=_33[j].innerHTML;
+}else{
+var _36=this.columns[j].getType();
+var val=dojo.html.renderedTextContent(_33[j]);
+if(_36==String){
+o[_35]=val;
+}else{
+if(val!=null){
+o[_35]=new _36(val);
+}else{
+o[_35]=new _36();
+}
+}
+}
+}
+if(dojo.html.hasAttribute(_30[i],"value")&&!o[this.valueField]){
+o[this.valueField]=dojo.html.getAttribute(_30[i],"value");
+}
+this.data.push(o);
+if(dojo.html.getAttribute(_30[i],"selected")=="true"){
+this.selected.push(o);
+}
+}
+},showSelections:function(){
+var _38=this.domNode.getElementsByTagName("tbody")[0];
+var _39=_38.getElementsByTagName("tr");
+var idx=0;
+for(var i=0;i<_39.length;i++){
+if(_39[i].parentNode==_38){
+if(dojo.html.getAttribute(_39[i],"selected")=="true"){
+_39[i].className=this.rowSelectedClass;
+}else{
+if(this.enableAlternateRows&&idx%2==1){
+_39[i].className=this.rowAlternateClass;
+}else{
+_39[i].className="";
+}
+}
+idx++;
+}
+}
+},render:function(_3c){
+var _3d=[];
+var _3e=this.domNode.getElementsByTagName("tbody")[0];
+if(!_3c){
+this.parseDataFromTable(_3e);
+}
+for(var i=0;i<this.data.length;i++){
+_3d.push(this.data[i]);
+}
+var col=this.columns[this.sortIndex];
+if(!col.noSort){
+var _41=col.getField();
+if(col.sortFunction){
+var _42=col.sortFunction;
+}else{
+var _42=function(a,b){
+if(a[_41]>b[_41]){
+return 1;
+}
+if(a[_41]<b[_41]){
+return -1;
+}
+return 0;
+};
+}
+_3d.sort(_42);
+if(this.sortDirection!=0){
+_3d.reverse();
+}
+}
+while(_3e.childNodes.length>0){
+_3e.removeChild(_3e.childNodes[0]);
+}
+for(var i=0;i<_3d.length;i++){
+var row=document.createElement("tr");
+dojo.html.disableSelection(row);
+if(_3d[i][this.valueField]){
+row.setAttribute("value",_3d[i][this.valueField]);
+}
+if(this.isSelected(_3d[i])){
+row.className=this.rowSelectedClass;
+row.setAttribute("selected","true");
+}else{
+if(this.enableAlternateRows&&i%2==1){
+row.className=this.rowAlternateClass;
+}
+}
+for(var j=0;j<this.columns.length;j++){
+var _47=document.createElement("td");
+_47.setAttribute("align",this.columns[j].align);
+_47.setAttribute("valign",this.columns[j].valign);
+dojo.html.disableSelection(_47);
+if(this.sortIndex==j){
+_47.className=this.columnSelected;
+}
+if(this.columns[j].sortType=="__markup__"){
+_47.innerHTML=_3d[i][this.columns[j].getField()];
+for(var k=0;k<_47.childNodes.length;k++){
+var _49=_47.childNodes[k];
+if(_49&&_49.nodeType==dojo.html.ELEMENT_NODE){
+dojo.html.disableSelection(_49);
+}
+}
+}else{
+if(this.columns[j].getType()==Date){
+var _4a=this.defaultDateFormat;
+if(this.columns[j].format){
+_4a=this.columns[j].format;
+}
+_47.appendChild(document.createTextNode(dojo.date.strftime(_3d[i][this.columns[j].getField()],_4a)));
+}else{
+_47.appendChild(document.createTextNode(_3d[i][this.columns[j].getField()]));
+}
+}
+row.appendChild(_47);
+}
+_3e.appendChild(row);
+dojo.event.connect(row,"onclick",this,"onUISelect");
+}
+var _4b=parseInt(this.minRows);
+if(!isNaN(_4b)&&_4b>0&&_3d.length<_4b){
+var mod=0;
+if(_3d.length%2==0){
+mod=1;
+}
+var _4d=_4b-_3d.length;
+for(var i=0;i<_4d;i++){
+var row=document.createElement("tr");
+row.setAttribute("ignoreIfParsed","true");
+if(this.enableAlternateRows&&i%2==mod){
+row.className=this.rowAlternateClass;
+}
+for(var j=0;j<this.columns.length;j++){
+var _47=document.createElement("td");
+_47.appendChild(document.createTextNode("\xa0"));
+row.appendChild(_47);
+}
+_3e.appendChild(row);
+}
+}
+},onSelect:function(e){
+},onUISelect:function(e){
+var row=dojo.html.getParentByType(e.target,"tr");
+var _51=dojo.html.getParentByType(row,"tbody");
+if(this.enableMultipleSelect){
+if(e.metaKey||e.ctrlKey){
+if(this.isSelected(this.getObjectFromRow(row))){
+this.removeFromSelected(this.getObjectFromRow(row));
+row.removeAttribute("selected");
+}else{
+this.setSelectionByRow(row);
+row.setAttribute("selected","true");
+}
+}else{
+if(e.shiftKey){
+var _52;
+var _53=_51.getElementsByTagName("tr");
+for(var i=0;i<_53.length;i++){
+if(_53[i].parentNode==_51){
+if(_53[i]==row){
+break;
+}
+if(dojo.html.getAttribute(_53[i],"selected")=="true"){
+_52=_53[i];
+}
+}
+}
+if(!_52){
+_52=row;
+for(;i<_53.length;i++){
+if(dojo.html.getAttribute(_53[i],"selected")=="true"){
+row=_53[i];
+break;
+}
+}
+}
+this.resetSelections(_51);
+if(_52==row){
+row.setAttribute("selected","true");
+this.setSelectionByRow(row);
+}else{
+var _55=false;
+for(var i=0;i<_53.length;i++){
+if(_53[i].parentNode==_51){
+_53[i].removeAttribute("selected");
+if(_53[i]==_52){
+_55=true;
+}
+if(_55){
+this.setSelectionByRow(_53[i]);
+_53[i].setAttribute("selected","true");
+}
+if(_53[i]==row){
+_55=false;
+}
+}
+}
+}
+}else{
+this.resetSelections(_51);
+row.setAttribute("selected","true");
+this.setSelectionByRow(row);
+}
+}
+}else{
+this.resetSelections(_51);
+row.setAttribute("selected","true");
+this.setSelectionByRow(row);
+}
+this.showSelections();
+this.onSelect(e);
+e.stopPropagation();
+},onHeaderClick:function(e){
+var _57=this.sortIndex;
+var _58=this.sortDirection;
+var _59=e.target;
+var row=dojo.html.getParentByType(_59,"tr");
+var _5b="td";
+if(row.getElementsByTagName(_5b).length==0){
+_5b="th";
+}
+var _5c=row.getElementsByTagName(_5b);
+var _5d=dojo.html.getParentByType(_59,_5b);
+for(var i=0;i<_5c.length;i++){
+if(_5c[i]==_5d){
+if(i!=_57){
+this.sortIndex=i;
+this.sortDirection=0;
+_5c[i].className=this.headerSortDownClass;
+}else{
+this.sortDirection=(_58==0)?1:0;
+if(this.sortDirection==0){
+_5c[i].className=this.headerSortDownClass;
+}else{
+_5c[i].className=this.headerSortUpClass;
+}
+}
+}else{
+_5c[i].className=this.headerClass;
+}
+}
+this.render();
+},postCreate:function(){
+var _5f=this.domNode.getElementsByTagName("thead")[0];
+if(this.headClass.length>0){
+_5f.className=this.headClass;
+}
+dojo.html.disableSelection(this.domNode);
+this.parseColumns(_5f);
+var _60="td";
+if(_5f.getElementsByTagName(_60).length==0){
+_60="th";
+}
+var _61=_5f.getElementsByTagName(_60);
+for(var i=0;i<_61.length;i++){
+if(!this.columns[i].noSort){
+dojo.event.connect(_61[i],"onclick",this,"onHeaderClick");
+}
+if(this.sortIndex==i){
+if(this.sortDirection==0){
+_61[i].className=this.headerSortDownClass;
+}else{
+_61[i].className=this.headerSortUpClass;
+}
+}
+}
+var _63=this.domNode.getElementsByTagName("tbody")[0];
+if(this.tbodyClass.length>0){
+_63.className=this.tbodyClass;
+}
+this.parseDataFromTable(_63);
+this.render(true);
+}});

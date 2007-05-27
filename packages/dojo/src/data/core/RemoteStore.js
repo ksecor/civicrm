@@ -8,6 +8,7 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.data.core.RemoteStore");
 dojo.require("dojo.data.core.Read");
 dojo.require("dojo.data.core.Write");
@@ -17,574 +18,335 @@ dojo.require("dojo.Deferred");
 dojo.require("dojo.lang.declare");
 dojo.require("dojo.json");
 dojo.require("dojo.io.*");
-
-/* summary:
- *   RemoteStore is an implemention the dojo.data.core.Read and Write APIs. 
- *   It is designed to serve as a base class for dojo.data stores which interact 
- *   with stateless web services that can querying and modifying record-oriented 
- *   data.  Its features include asynchronous and synchronous querying and saving; 
- *   caching of queries; transactions; and datatype mapping.
- */
-
-/**************************************************************************
-  Classes derived from RemoteStore should implement the following three 
-  methods, which are each described in the documentation below:
-    _setupQueryRequest(result, requestKw) 
-    _resultToQueryData(responseData) 
-    _setupSaveRequest(saveKeywordArgs, requestKw)
-  
-  Data Consistency Guarantees
-  
-  * if two references to the same item are obtained (e.g. from two different query results) any changes to one item will be reflected in the other item reference.
-  * If an item has changed on the server and the item is retrieved via a new query, any previously obtained references to the item will (silently) reflect these new values.
-  * However, any uncommitted changes will not be "overwritten".
-  * If server queries are made while there are uncommitted changes, no attempt is made to evaluate whether the modifications would change the query result, e.g. add any uncommitted new items that match the query.
-  * However, uncomitted deleted items are removed from the query result.
-  * The transaction isolation level is equivalent to JDBC's "Read Committed":
-    each store instance is treated as separate transaction; since there is no row or table locking so nonrepeatable and phantom reads are possible.
-  
-  Memory Usage
-  
-  Because Javascript doesn't support weak references or user-defined finalize methods, there is a tradeoff between data consistency and memory usage.
-  In order to implement the above consistency guarantees (and to provide caching), RemoteStore remembers all the queries and items retrieved. 
-  To reduce memory consumption, use the method forgetResults(query);
-  
-  Store assumptions
-  
-  RemoteStore makes some assumptions about the nature of the remote store, things may break if these aren't true:
-  * that the items contained in a query response include all the attributes of the item (e.g. all the columns of a row).   
-    (to fix: changes need to record add and removes and fix self._data[key] = [ attributeDict, refCount]; )
-  * the query result may contain references to items that are not available to the client; use isItem() to test for the presence of the item.
-  * that modification to an item's attributes won't change it's primary key.
-  
-**************************************************************************/
-
-/* dojo.data API issues to resolve:
- * save should returns a Deferred, might want to add keyword argument with 'sync' 
- */
-
 dojo.experimental("dojo.data.core.RemoteStore");
-
-dojo.lang.declare("dojo.data.core.RemoteStore", [dojo.data.core.Read, dojo.data.core.Write], {
-
-	_datatypeMap: {
-		//map datatype strings to constructor function
-	},
-
-	//set to customize json serialization
-	_jsonRegistry: dojo.json.jsonRegistry,
-
-	initializer: function(/* object */ kwArgs) {
-		if (!kwArgs) {
-			kwArgs = {};
-		}
-		this._serverQueryUrl = kwArgs.queryUrl || "";
-		this._serverSaveUrl = kwArgs.saveUrl || "";
-				
-		this._deleted = {}; // deleted items {id: 1}	
-		this._changed = {}; // {id: {attr: [new values]}} // [] if attribute is removed
-		this._added = {};   // {id: 1} list of added items
-		this._results = {}; // {query: [ id1, ]};	// todo: make MRUDict of queries
-		/* data is a dictionary that conforms to this format: 
-		  { id-string: { attribute-string: [ value1, value2 ] } }
-		  where value is either an atomic JSON data type or 
-		  { 'id': string } for references to items
-		  or 
-		  { 'type': 'name', 'value': 'value' } for user-defined datatypes
-		*/ 
-		this._data = {}; // {id: [values, refcount]} // todo: handle refcount
-		this._numItems = 0;
-	},
-	
-	_setupQueryRequest: function(/* dojo.data.core.Result */ result, /* object */ requestKw) { 
-		/* summary:
-		 *   Classes derived from RemoteStore should override this method to
-		 *   provide their own implementations.
-		 *   This function prepares the query request by populating requestKw, 
-		 *   an associative array that will be passed to dojo.io.bind.
-		 */
-		result.query = result.query || "";
-		requestKw.url = this._serverQueryUrl + encodeURIComponent(result.query);
-		requestKw.method = 'get';
-		requestKw.mimetype = "text/json";
-	},
-
-	_resultToQueryMetadata: function(/* varies */ serverResponseData) { 
-		/* summary:
-		 *   Classes derived from RemoteStore should override this method to
-		 *   provide their own implementations.
-		 *   Converts the server response data into the resultMetadata object
-		 *   that will be returned to the caller.
-		 * returns:
-		 *   This simple default implementation just returns the entire raw
-		 *   serverResponseData, allowing the caller complete access to the 
-		 *   raw response data and metadata.
-		 */
-		return serverResponseData; 
-	},
-		
-	_resultToQueryData: function(/* varies */ serverResponseData) {
-		/* summary:
-		 *   Classes derived from RemoteStore should override this method to
-		 *   provide their own implementations.
-		 *   Converts the server response data into the internal data structure 
-		 *   used by RemoteStore.  
-		 * returns:
-		 *   The RemoteStore implementation requires _resultToQueryData() to 
-		 *   return an object that looks like:
-		 *   {item1-identifier-string: { 
-		 *   	attribute1-string: [ value1, value2, ... ], 
-		 *   	attribute2-string: [ value3, value4, ... ], 
-		 *   	...
-		 *   	},
-		 *    item2-identifier-string: { 
-		 *   	attribute1-string: [ value10, value11, ... ], 
-		 *   	attribute2-string: [ value12, value13, ... ], 
-		 *   	...
-		 *   	}
-		 *   }
-		 *   where value is either an atomic JSON data type or 
-		 *     {'id': string } for references to items
-		 *   or 
-		 *    {'type': 'name', 'value': 'value' } for user-defined datatypes
-		 * data:
-		 *   This simple default implementation assumes that the *serverResponseData* 
-		 *   argument is an object that looks like:
-		 *     { data:{ ... }, format:'format identifier', other metadata }
-		 *   
-		 */
-		return serverResponseData.data;
-	},
-
-	_remoteToLocalValues: function(/* object */ attributes) {
-		for (var key in attributes) {
-			 var values = attributes[key];
-			 for (var i = 0; i < values.length; i++) {
-				var value = values[i];
-				var type = value.datatype || value.type;
-				if (type) {
-					// todo: better error handling?
-					var localValue = value.value;
-					if (this._datatypeMap[type]) 
-						localValue = this._datatypeMap[type](value);							
-					values[i] = localValue;
-				}
-			}
-		}
-		return attributes; // object (attributes argument, modified in-place)
-	},
-
-	_queryToQueryKey: function(query) {
-		/* summary:
-		 *   Convert the query to a string that uniquely represents this query. 
-		 *   (Used by the query cache.)
-		 */
-		if (typeof query == "string")
-			return query;
-		else
-			return dojo.json.serialize(query);
-	},
-
-	_assertIsItem: function(/* item */ item) {
-		if (!this.isItem(item)) { 
-			throw new Error("dojo.data.RemoteStore: a function was passed an item argument that was not an item");
-		}
-	},
-	
-	get: function(/* item */ item, /* attribute || string */ attribute, /* value? */ defaultValue) {
-		// summary: See dojo.data.core.Read.get()
-		var valueArray = this.getValues(item, attribute);
-		if (valueArray.length == 0) {
-			return defaultValue;
-		}
-		return valueArray[0];  // value
-	},
-
-	getValues: function(/* item */ item, /* attribute || string */ attribute) {				
-		// summary: See dojo.data.core.Read.getValues()
-		var itemIdentity = this.getIdentity(item);
-		this._assertIsItem(itemIdentity);
-		var changes = this._changed[itemIdentity];
-		if (changes) {
-			var newvalues = changes[attribute]; 
-			if (newvalues !== undefined) {
-				return newvalues;  // Array
-			}
-			else {
-				return []; // Array
-			}
-		}
-		// return item.atts[attribute];
-		return this._data[itemIdentity][0][attribute]; // Array
-	},
-
-	getAttributes: function(/* item */ item) {	
-		// summary: See dojo.data.core.Read.getAttributes()
-		var itemIdentity = this.getIdentity(item);
-		if (!itemIdentity) 
-			return undefined; //todo: raise exception
-
-		var atts = [];
-		//var attrDict = item.attrs;
-		var attrDict = this._data[itemIdentity][0];
-		for (var att in attrDict) {
-			atts.push(att);
-		}
-		return atts; // Array
-	},
-	
-	hasAttribute: function(/* item */ item, /* attribute || string */ attribute) {
-		// summary: See dojo.data.core.Read.hasAttribute()
-		var valueArray = this.getValues(item, attribute);
-		return valueArray.length ? true : false; // Boolean
-	},
-
-	containsValue: function(/* item */ item, /* attribute || string */ attribute, /* value */ value) {
-		// summary: See dojo.data.core.Read.containsValue()
-		var valueArray = this.getValues(item, attribute);
-		for (var i=0; i < valueArray.length; i++) {	
-			if (valueArray[i] == value) {
-				return true; // Boolean
-			}
-		}
-		return false; // Boolean
-	},
-		
-	isItem: function(/* anything */ something) {
-		// summary: See dojo.data.core.Read.isItem()
-		if (!something) { return false; }
-		var itemIdentity = something;
-		// var id = something.id ? something.id : something; 
-		// if (!id) { return false; }
-		if (this._deleted[itemIdentity]) { return false; } //todo: do this?
-		if (this._data[itemIdentity]) { return true; } 
-		if (this._added[itemIdentity]) { return true; }
-		return false; // Boolean
-	},
-
-	find: function(/* object? || dojo.data.core.Result */ keywordArgs) {
-		// summary: See dojo.data.core.Read.find()
-		/* description:
-		 *   In addition to the keywordArgs parameters described in the
-		 *   dojo.data.core.Read.find() documentation, the keywordArgs for
-		 *   the RemoteStore find() method may include a bindArgs parameter,
-		 *   which the RemoteStore will pass to dojo.io.bind when it sends 
-		 *   the query.  The bindArgs parameter should be a keyword argument 
-		 *   object, as described in the dojo.io.bind documentation.
-		 */
-		var result = null;
-		if (keywordArgs instanceof dojo.data.core.Result) {
-			result = keywordArgs;
-			result.store = this;
-		} else {
-			result = new dojo.data.core.Result(keywordArgs, this);
-		}
-		var query = result.query;
-		
-		//todo: use this._results to implement caching
-		var self = this;
-		var bindfunc = function(type, data, evt) {
-			var scope = result.scope || dj_global;
-			if(type == "load") {	
-				//dojo.debug("loaded 1 " + dojo.json.serialize(data) );
-				result.resultMetadata = self._resultToQueryMetadata(data);
-				var dataDict = self._resultToQueryData(data); 
-				//dojo.debug("loaded 2 " + dojo.json.serialize(dataDict) );
-				if (result.onbegin) {
-					result.onbegin.call(scope, result);
-				}
-				var count = 0;
-				var resultData = []; 
-				var newItemCount = 0;
-				for (var key in dataDict) {
-					if (result._aborted)  {
-						break;
-					}
-					if (!self._deleted[key]) { //skip deleted items
-						//todo if in _added, remove from _added
-						var values = dataDict[key];										
-						var attributeDict = self._remoteToLocalValues(values);
-						var existingValue = self._data[key];
-						var refCount = 1;
-						if (existingValue) {
-							refCount = ++existingValue[1]; //increment ref count
-						} else {
-							newItemCount++;
-						}
-						//note: if the item already exists, we replace the item with latest set of attributes
-						//this assumes queries always return complete records
-						self._data[key] = [ attributeDict, refCount]; 
-						resultData.push(key);
-						count++; 
-						if (result.onnext) {
-							result.onnext.call(scope, key, result);
-						}
-					}									
-				}
-				self._results[self._queryToQueryKey(query)] = resultData; 
-				self._numItems += newItemCount;
-
-				result.length = count;
-				if (result.saveResult) {
-					result.items = resultData;
-				}
-				if (!result._aborted && result.oncompleted) {
-					result.oncompleted.call(scope, result);
-				}
-			} else if(type == "error" || type == 'timeout') {
-				// here, "data" is our error object
-				//todo: how to handle timeout?
-				dojo.debug("find error: " + dojo.json.serialize(data));
-				if (result.onerror) {
-					result.onerror.call(scope, data);
-				}
-			}
-		};
-
-		var bindKw = keywordArgs.bindArgs || {};
-		bindKw.sync = result.sync;
-		bindKw.handle = bindfunc;
-
-		this._setupQueryRequest(result, bindKw);
-		var request = dojo.io.bind(bindKw);
-		//todo: error if not bind success
-		//dojo.debug( "bind success " + request.bindSuccess);
-		result._abortFunc = request.abort;	 
-		return result; 
-	},
-
-	getIdentity: function(item) {
-		// summary: See dojo.data.core.Read.getIdentity()
-		if (!this.isItem(item)) {
-			return null;
-		}
-		return (item.id ? item.id : item); // Identity
-	},
-
-/*
-	findByIdentity: function(id) {
-		var item = this._latestData[id];
-		var idQuery = "/" + "*[.='"+id+"']";
-		//if (!item) item = this.find(idQuery, {async=0}); //todo: support bind(async=0)
-		if (item)
-			return new _Item(id, item, this); 
-		return null;
-	},
-*/
-
-/****
-Write API
-***/
-	newItem: function(/* object? */ attributes, /* object? */ keywordArgs) {
-		var itemIdentity = keywordArgs['identity'];
-		if (this._deleted[itemIdentity]) {
-			delete this._deleted[itemIdentity];
-		} else {
-			this._added[itemIdentity] = 1;
-			//todo? this._numItems++; ?? but its not in this._data
-		}
-		if (attributes) {
-			// FIXME:
-			for (var attribute in attributes) {
-				var valueOrArrayOfValues = attributes[attribute];
-				if (dojo.lang.isArray(valueOrArrayOfValues)) {
-					this.setValues(itemIdentity, attribute, valueOrArrayOfValues);
-				} else {
-					this.set(itemIdentity, attribute, valueOrArrayOfValues);
-				}
-			}
-		}
-		return { id: itemIdentity };
-	},
-		
-	deleteItem: function(/* item */ item) {
-		var identity = this.getIdentity(item);
-		if (!identity) {
-			return false;
-		}
-		
-		if (this._added[identity]) {
-			delete this._added[identity];
-		} else {
-			this._deleted[identity] = 1; 
-			//todo? this._numItems--; ?? but its still in this._data
-		}
-			
-		if (this._changed[identity]) {
-			delete this._changed[identity];	
-		}
-		return true; 
-	},
-	
-	setValues: function(/* item */ item, /* attribute || string */ attribute, /* array */ values) {
-		var identity = this.getIdentity(item);
-		if (!identity) {
-			return undefined; //todo: raise exception
-		}
-
-		var changes = this._changed[identity];
-		if (!changes) {
-			changes = {}
-			this._changed[identity] = changes;
-		} 					
-		changes[attribute] = values;
-		return true; // boolean
-	},
-
-	set: function(/* item */ item, /* attribute || string */ attribute, /* almost anything */ value) {
-		return this.setValues(item, attribute, [value]); 
-	},
-
-	unsetAttribute: function(/* item */ item, /* attribute || string */ attribute) {
-		return this.setValues(item, attribute, []); 
-	},
-
-	_initChanges: function() {
-		this._deleted = {}; 
-		this._changed = {};
-		this._added = {}; 
-	},
-
-	_setupSaveRequest: function(saveKeywordArgs, requestKw) { 
-		/* summary:
-		 *   This function prepares the save request by populating requestKw, 
-		 *   an associative array that will be passed to dojo.io.bind.
-		 */
-		requestKw.url = this._serverSaveUrl;
-		requestKw.method = 'post';
-		requestKw.mimetype = "text/plain";
-		var deleted = [];
-		for (var key in this._deleted) {
-			deleted.push(key);
-		}
-		//don't need _added in saveStruct, changed covers that info	 
-		var saveStruct = {'changed': this._changed, 'deleted': deleted };
-		var oldRegistry = dojo.json.jsonRegistry;
-		dojo.json.jsonRegistry = this._jsonRegistry;
-		var jsonString = dojo.json.serialize(saveStruct);
-		dojo.json.jsonRegistry = oldRegistry;
-		requestKw.postContent = jsonString;
-	},
-
-	save: function(/* object? */ keywordArgs) {
-		/* summary:
-		 *   Saves all the changes that have been made.
-		 * keywordArgs:
-		 *   The optional keywordArgs parameter may contain 'sync' to specify 
-		 *   whether the save operation is asynchronous or not.  The default is 
-		 *   asynchronous.  
-		 * examples: 
-		 *   store.save();
-		 *   store.save({sync:true});
-		 *   store.save({sync:false});
-		 */
-		keywordArgs = keywordArgs || {};
-		var result = new dojo.Deferred();			 
-		var self = this;
-
-		var bindfunc = function(type, data, evt) {			
-			if(type == "load"){ 
-				if (result.fired == 1) {
-					//it seems that mysteriously "load" sometime 
-					//gets called after "error"
-					//so check if an error has already occurred 
-					//and stop if it has 
-					return;
-				}
-				//update this._data upon save
-				var key = null;
-				for (key in self._added) {
-					if (!self._data[key])
-					self._data[key] = [{} , 1];
-				}
-				for (key in self._changed) {
-					var existing = self._data[key];
-					var changes = self._changed[key];
-					if (existing) {
-						existing[0] = changes;
-					} else {
-						self._data[key] = [changes, 1];
-					}
-				}
-				for (key in self._deleted) {
-					if (self._data[key]) {
-						delete self._data[key];
-					}
-				}
-				self._initChanges(); 
-				result.callback(true); //todo: what result to pass?
-			} else if(type == "error" || type == 'timeout'){
-				result.errback(data); //todo: how to handle timeout
-			}	
-		};
-				
-		var bindKw = { sync: keywordArgs["sync"], handle: bindfunc };
-		this._setupSaveRequest(keywordArgs, bindKw);
-		var request = dojo.io.bind(bindKw);
-		result.canceller = function(deferred) { request.abort(); };
-				
-		return result; 
-	},
-		 
-	revert: function() {
-		this._initChanges(); 
-		return true;
-	},
-
-	isDirty: function(/*item?*/ item) {
-		if (item) {
-			// return true if this item is dirty
-			var identity = item.id || item;
-			return this._deleted[identity] || this._changed[identity];
-		} else {
-			// return true if any item is dirty
-			var key = null;
-			for (key in this._changed) {
-				return true;
-			}
-			for (key in this._deleted) {
-				return true;
-			}
-			for (key in this._added) {
-				return true;
-			}
-
-			return false;
-		}
-	},
-
-/**
-additional public methods
-*/
-	createReference: function(idstring) {
-		return { id : idstring };
-	},
-
-	getSize: function() { 
-		return this._numItems; 
-	},
-		
-	forgetResults: function(query) {
-		var queryKey = this._queryToQueryKey(query);
-		var results = this._results[queryKey];
-		if (!results) return false;
-
-		var removed = 0;
-		for (var i = 0; i < results.length; i++) {
-			var key = results[i];
-			var existingValue = this._data[key];
-			if (existingValue[1] <= 1) {
-				delete this._data[key];
-				removed++;
-			}
-			else
-				existingValue[1] = --existingValue[1];
-		}
-		delete this._results[queryKey];
-		this._numItems -= removed;
-		return true;
-	} 
-});
-
-
-
+dojo.lang.declare("dojo.data.core.RemoteStore",[dojo.data.core.Read,dojo.data.core.Write],{_datatypeMap:{},_jsonRegistry:dojo.json.jsonRegistry,initializer:function(_1){
+if(!_1){
+_1={};
+}
+this._serverQueryUrl=_1.queryUrl||"";
+this._serverSaveUrl=_1.saveUrl||"";
+this._deleted={};
+this._changed={};
+this._added={};
+this._results={};
+this._data={};
+this._numItems=0;
+},_setupQueryRequest:function(_2,_3){
+_2.query=_2.query||"";
+_3.url=this._serverQueryUrl+encodeURIComponent(_2.query);
+_3.method="get";
+_3.mimetype="text/json";
+},_resultToQueryMetadata:function(_4){
+return _4;
+},_resultToQueryData:function(_5){
+return _5.data;
+},_remoteToLocalValues:function(_6){
+for(var _7 in _6){
+var _8=_6[_7];
+for(var i=0;i<_8.length;i++){
+var _a=_8[i];
+var _b=_a.datatype||_a.type;
+if(_b){
+var _c=_a.value;
+if(this._datatypeMap[_b]){
+_c=this._datatypeMap[_b](_a);
+}
+_8[i]=_c;
+}
+}
+}
+return _6;
+},_queryToQueryKey:function(_d){
+if(typeof _d=="string"){
+return _d;
+}else{
+return dojo.json.serialize(_d);
+}
+},_assertIsItem:function(_e){
+if(!this.isItem(_e)){
+throw new Error("dojo.data.RemoteStore: a function was passed an item argument that was not an item");
+}
+},get:function(_f,_10,_11){
+var _12=this.getValues(_f,_10);
+if(_12.length==0){
+return _11;
+}
+return _12[0];
+},getValues:function(_13,_14){
+var _15=this.getIdentity(_13);
+this._assertIsItem(_15);
+var _16=this._changed[_15];
+if(_16){
+var _17=_16[_14];
+if(_17!==undefined){
+return _17;
+}else{
+return [];
+}
+}
+return this._data[_15][0][_14];
+},getAttributes:function(_18){
+var _19=this.getIdentity(_18);
+if(!_19){
+return undefined;
+}
+var _1a=[];
+var _1b=this._data[_19][0];
+for(var att in _1b){
+_1a.push(att);
+}
+return _1a;
+},hasAttribute:function(_1d,_1e){
+var _1f=this.getValues(_1d,_1e);
+return _1f.length?true:false;
+},containsValue:function(_20,_21,_22){
+var _23=this.getValues(_20,_21);
+for(var i=0;i<_23.length;i++){
+if(_23[i]==_22){
+return true;
+}
+}
+return false;
+},isItem:function(_25){
+if(!_25){
+return false;
+}
+var _26=_25;
+if(this._deleted[_26]){
+return false;
+}
+if(this._data[_26]){
+return true;
+}
+if(this._added[_26]){
+return true;
+}
+return false;
+},find:function(_27){
+var _28=null;
+if(_27 instanceof dojo.data.core.Result){
+_28=_27;
+_28.store=this;
+}else{
+_28=new dojo.data.core.Result(_27,this);
+}
+var _29=_28.query;
+var _2a=this;
+var _2b=function(_2c,_2d,evt){
+var _2f=_28.scope||dj_global;
+if(_2c=="load"){
+_28.resultMetadata=_2a._resultToQueryMetadata(_2d);
+var _30=_2a._resultToQueryData(_2d);
+if(_28.onbegin){
+_28.onbegin.call(_2f,_28);
+}
+var _31=0;
+var _32=[];
+var _33=0;
+for(var key in _30){
+if(_28._aborted){
+break;
+}
+if(!_2a._deleted[key]){
+var _35=_30[key];
+var _36=_2a._remoteToLocalValues(_35);
+var _37=_2a._data[key];
+var _38=1;
+if(_37){
+_38=++_37[1];
+}else{
+_33++;
+}
+_2a._data[key]=[_36,_38];
+_32.push(key);
+_31++;
+if(_28.onnext){
+_28.onnext.call(_2f,key,_28);
+}
+}
+}
+_2a._results[_2a._queryToQueryKey(_29)]=_32;
+_2a._numItems+=_33;
+_28.length=_31;
+if(_28.saveResult){
+_28.items=_32;
+}
+if(!_28._aborted&&_28.oncompleted){
+_28.oncompleted.call(_2f,_28);
+}
+}else{
+if(_2c=="error"||_2c=="timeout"){
+dojo.debug("find error: "+dojo.json.serialize(_2d));
+if(_28.onerror){
+_28.onerror.call(_2f,_2d);
+}
+}
+}
+};
+var _39=_27.bindArgs||{};
+_39.sync=_28.sync;
+_39.handle=_2b;
+this._setupQueryRequest(_28,_39);
+var _3a=dojo.io.bind(_39);
+_28._abortFunc=_3a.abort;
+return _28;
+},getIdentity:function(_3b){
+if(!this.isItem(_3b)){
+return null;
+}
+return (_3b.id?_3b.id:_3b);
+},newItem:function(_3c,_3d){
+var _3e=_3d["identity"];
+if(this._deleted[_3e]){
+delete this._deleted[_3e];
+}else{
+this._added[_3e]=1;
+}
+if(_3c){
+for(var _3f in _3c){
+var _40=_3c[_3f];
+if(dojo.lang.isArray(_40)){
+this.setValues(_3e,_3f,_40);
+}else{
+this.set(_3e,_3f,_40);
+}
+}
+}
+return {id:_3e};
+},deleteItem:function(_41){
+var _42=this.getIdentity(_41);
+if(!_42){
+return false;
+}
+if(this._added[_42]){
+delete this._added[_42];
+}else{
+this._deleted[_42]=1;
+}
+if(this._changed[_42]){
+delete this._changed[_42];
+}
+return true;
+},setValues:function(_43,_44,_45){
+var _46=this.getIdentity(_43);
+if(!_46){
+return undefined;
+}
+var _47=this._changed[_46];
+if(!_47){
+_47={};
+this._changed[_46]=_47;
+}
+_47[_44]=_45;
+return true;
+},set:function(_48,_49,_4a){
+return this.setValues(_48,_49,[_4a]);
+},unsetAttribute:function(_4b,_4c){
+return this.setValues(_4b,_4c,[]);
+},_initChanges:function(){
+this._deleted={};
+this._changed={};
+this._added={};
+},_setupSaveRequest:function(_4d,_4e){
+_4e.url=this._serverSaveUrl;
+_4e.method="post";
+_4e.mimetype="text/plain";
+var _4f=[];
+for(var key in this._deleted){
+_4f.push(key);
+}
+var _51={"changed":this._changed,"deleted":_4f};
+var _52=dojo.json.jsonRegistry;
+dojo.json.jsonRegistry=this._jsonRegistry;
+var _53=dojo.json.serialize(_51);
+dojo.json.jsonRegistry=_52;
+_4e.postContent=_53;
+},save:function(_54){
+_54=_54||{};
+var _55=new dojo.Deferred();
+var _56=this;
+var _57=function(_58,_59,evt){
+if(_58=="load"){
+if(_55.fired==1){
+return;
+}
+var key=null;
+for(key in _56._added){
+if(!_56._data[key]){
+_56._data[key]=[{},1];
+}
+}
+for(key in _56._changed){
+var _5c=_56._data[key];
+var _5d=_56._changed[key];
+if(_5c){
+_5c[0]=_5d;
+}else{
+_56._data[key]=[_5d,1];
+}
+}
+for(key in _56._deleted){
+if(_56._data[key]){
+delete _56._data[key];
+}
+}
+_56._initChanges();
+_55.callback(true);
+}else{
+if(_58=="error"||_58=="timeout"){
+_55.errback(_59);
+}
+}
+};
+var _5e={sync:_54["sync"],handle:_57};
+this._setupSaveRequest(_54,_5e);
+var _5f=dojo.io.bind(_5e);
+_55.canceller=function(_60){
+_5f.abort();
+};
+return _55;
+},revert:function(){
+this._initChanges();
+return true;
+},isDirty:function(_61){
+if(_61){
+var _62=_61.id||_61;
+return this._deleted[_62]||this._changed[_62];
+}else{
+var key=null;
+for(key in this._changed){
+return true;
+}
+for(key in this._deleted){
+return true;
+}
+for(key in this._added){
+return true;
+}
+return false;
+}
+},createReference:function(_64){
+return {id:_64};
+},getSize:function(){
+return this._numItems;
+},forgetResults:function(_65){
+var _66=this._queryToQueryKey(_65);
+var _67=this._results[_66];
+if(!_67){
+return false;
+}
+var _68=0;
+for(var i=0;i<_67.length;i++){
+var key=_67[i];
+var _6b=this._data[key];
+if(_6b[1]<=1){
+delete this._data[key];
+_68++;
+}else{
+_6b[1]=--_6b[1];
+}
+}
+delete this._results[_66];
+this._numItems-=_68;
+return true;
+}});

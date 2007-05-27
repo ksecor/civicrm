@@ -8,70 +8,62 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.require("dojo.widget.DomWidget");
 dojo.provide("dojo.widget.SvgWidget");
-dojo.provide("dojo.widget.SVGWidget"); // back compat
-
+dojo.provide("dojo.widget.SVGWidget");
 dojo.require("dojo.dom");
-
-
 dojo.require("dojo.experimental");
 dojo.experimental("dojo.widget.SvgWidget");
-
-// SVGWidget is a mixin ONLY
-dojo.widget.declare(
-	"dojo.widget.SvgWidget",
-	dojo.widget.DomWidget,
-{
-	createNodesFromText: function(txt, wrap){
-		return dojo.svg.createNodesFromText(txt, wrap);
-	}
-});
-
-dojo.widget.SVGWidget = dojo.widget.SvgWidget;
-
+dojo.widget.declare("dojo.widget.SvgWidget",dojo.widget.DomWidget,{createNodesFromText:function(_1,_2){
+return dojo.svg.createNodesFromText(_1,_2);
+}});
+dojo.widget.SVGWidget=dojo.widget.SvgWidget;
 try{
 (function(){
-	var tf = function(){
-		// FIXME: fill this in!!!
-		var rw = new function(){
-			dojo.widget.SvgWidget.call(this);
-			this.buildRendering = function(){ return; }
-			this.destroyRendering = function(){ return; }
-			this.postInitialize = function(){ return; }
-			this.widgetType = "SVGRootWidget";
-			this.domNode = document.documentElement;
-		}
-		var wm = dojo.widget.manager;
-		wm.root = rw;
-		wm.add(rw);
-
-		// extend the widgetManager with a getWidgetFromNode method
-		wm.getWidgetFromNode = function(node){
-			var filter = function(x){
-				if(x.domNode == node){
-					return true;
-				}
-			}
-			var widgets = [];
-			while((node)&&(widgets.length < 1)){
-				widgets = this.getWidgetsByFilter(filter);
-				node = node.parentNode;
-			}
-			if(widgets.length > 0){
-				return widgets[0];
-			}else{
-				return null;
-			}
-		}
-
-		wm.getWidgetFromEvent = function(domEvt){
-			return this.getWidgetFromNode(domEvt.target);
-		}
-
-		wm.getWidgetFromPrimitive = wm.getWidgetFromNode;
-	}
-	// make sure we get called when the time is right
-	dojo.event.connect(dojo.hostenv, "loaded", tf);
+var tf=function(){
+var rw=new function(){
+dojo.widget.SvgWidget.call(this);
+this.buildRendering=function(){
+return;
+};
+this.destroyRendering=function(){
+return;
+};
+this.postInitialize=function(){
+return;
+};
+this.widgetType="SVGRootWidget";
+this.domNode=document.documentElement;
+};
+var wm=dojo.widget.manager;
+wm.root=rw;
+wm.add(rw);
+wm.getWidgetFromNode=function(_6){
+var _7=function(x){
+if(x.domNode==_6){
+return true;
+}
+};
+var _9=[];
+while((_6)&&(_9.length<1)){
+_9=this.getWidgetsByFilter(_7);
+_6=_6.parentNode;
+}
+if(_9.length>0){
+return _9[0];
+}else{
+return null;
+}
+};
+wm.getWidgetFromEvent=function(_a){
+return this.getWidgetFromNode(_a.target);
+};
+wm.getWidgetFromPrimitive=wm.getWidgetFromNode;
+};
+dojo.event.connect(dojo.hostenv,"loaded",tf);
 })();
-}catch(e){ alert(e); }
+}
+catch(e){
+alert(e);
+}

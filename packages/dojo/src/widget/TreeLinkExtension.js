@@ -10,64 +10,35 @@
 
 
 dojo.provide("dojo.widget.TreeLinkExtension");
-
 dojo.require("dojo.widget.HtmlWidget");
 dojo.require("dojo.widget.TreeExtension");
-
-dojo.widget.defineWidget(
-	"dojo.widget.TreeLinkExtension",
-	dojo.widget.TreeExtension,
-	function() {
-		this.params = {};
-	},
-{
-	/**
-	 * can only listen, no unlisten
-	 */
-
-	listenTreeEvents: ["afterChangeTree"],	
-
-	listenTree: function(tree) {
-		
-		dojo.widget.TreeCommon.prototype.listenTree.call(this,tree);
-		
-		var labelNode = tree.labelNodeTemplate;
-		var newLabel = this.makeALabel();
-		dojo.html.setClass(newLabel, dojo.html.getClass(labelNode));
-		labelNode.parentNode.replaceChild(newLabel, labelNode);		
-	},
-	
-		
-	
-	makeALabel: function() {		
-		var newLabel = document.createElement("a");
-		
-		for(var key in this.params) {
-			if (key in {}) continue;
-			newLabel.setAttribute(key, this.params[key]);
-		}
-		
-		return newLabel;
-	},
-		
-	
-	onAfterChangeTree: function(message) {
-		var _this = this;
-		
-		
-		// only for new nodes
-		if (!message.oldTree) {
-			this.listenNode(message.node);
-		}
-		
-	},
-	
-	listenNode: function(node) {
-		for(var key in node.object) {
-			if (key in {}) continue;
-			node.labelNode.setAttribute(key, node.object[key]);
-		}
-	}
-
-
-});
+dojo.widget.defineWidget("dojo.widget.TreeLinkExtension",dojo.widget.TreeExtension,function(){
+this.params={};
+},{listenTreeEvents:["afterChangeTree"],listenTree:function(_1){
+dojo.widget.TreeCommon.prototype.listenTree.call(this,_1);
+var _2=_1.labelNodeTemplate;
+var _3=this.makeALabel();
+dojo.html.setClass(_3,dojo.html.getClass(_2));
+_2.parentNode.replaceChild(_3,_2);
+},makeALabel:function(){
+var _4=document.createElement("a");
+for(var _5 in this.params){
+if(_5 in {}){
+continue;
+}
+_4.setAttribute(_5,this.params[_5]);
+}
+return _4;
+},onAfterChangeTree:function(_6){
+var _7=this;
+if(!_6.oldTree){
+this.listenNode(_6.node);
+}
+},listenNode:function(_8){
+for(var _9 in _8.object){
+if(_9 in {}){
+continue;
+}
+_8.labelNode.setAttribute(_9,_8.object[_9]);
+}
+}});

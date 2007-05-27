@@ -8,4 +8,5 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-({"displayName":"米ドル","symbol":"$"})
+
+({"displayName":"\u7c73\u30c9\u30eb","symbol":"$"});

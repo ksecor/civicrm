@@ -8,4 +8,5 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-({"selectDate":"Select a date"})
+
+({"selectDate":"Select a date"});

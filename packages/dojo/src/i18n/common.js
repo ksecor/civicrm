@@ -8,61 +8,35 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.i18n.common");
-
-dojo.i18n.getLocalization = function(/*String*/packageName, /*String*/bundleName, /*String?*/locale){
-//	summary:
-//		Returns an Object containing the localization for a given resource bundle
-//		in a package, matching the specified locale.
-//
-//	description:
-//		Returns a hash containing name/value pairs in its prototypesuch that values can be easily overridden.
-//		Throws an exception if the bundle is not found.
-//		Bundle must have already been loaded by dojo.requireLocalization() or by a build optimization step.
-//
-//	packageName: package which is associated with this resource
-//	bundleName: the base filename of the resource bundle (without the ".js" suffix)
-//	locale: the variant to load (optional).  By default, the locale defined by the
-//		host environment: dojo.locale
-
-	dojo.hostenv.preloadLocalizations();
-	locale = dojo.hostenv.normalizeLocale(locale);
-
-	// look for nearest locale match
-	var elements = locale.split('-');
-	var module = [packageName,"nls",bundleName].join('.');
-	var bundle = dojo.hostenv.findModule(module, true);
-
-	var localization;
-	for(var i = elements.length; i > 0; i--){
-		var loc = elements.slice(0, i).join('_');
-		if(bundle[loc]){
-			localization = bundle[loc];
-			break;
-		}
-	}
-	if(!localization){
-		localization = bundle.ROOT;
-	}
-
-	// make a singleton prototype so that the caller won't accidentally change the values globally
-	if(localization){
-		var clazz = function(){};
-		clazz.prototype = localization;
-		return new clazz(); // Object
-	}
-
-	dojo.raise("Bundle not found: " + bundleName + " in " + packageName+" , locale=" + locale);
+dojo.i18n.getLocalization=function(_1,_2,_3){
+dojo.hostenv.preloadLocalizations();
+_3=dojo.hostenv.normalizeLocale(_3);
+var _4=_3.split("-");
+var _5=[_1,"nls",_2].join(".");
+var _6=dojo.hostenv.findModule(_5,true);
+var _7;
+for(var i=_4.length;i>0;i--){
+var _9=_4.slice(0,i).join("_");
+if(_6[_9]){
+_7=_6[_9];
+break;
+}
+}
+if(!_7){
+_7=_6.ROOT;
+}
+if(_7){
+var _a=function(){
 };
-
-dojo.i18n.isLTR = function(/*String?*/locale){
-//	summary:
-//		Is the language read left-to-right?  Most exceptions are for middle eastern languages.
-//
-//	locale: a string representing the locale.  By default, the locale defined by the
-//		host environment: dojo.locale
-
-	var lang = dojo.hostenv.normalizeLocale(locale).split('-')[0];
-	var RTL = {ar:true,fa:true,he:true,ur:true,yi:true};
-	return !RTL[lang]; // Boolean
+_a.prototype=_7;
+return new _a();
+}
+dojo.raise("Bundle not found: "+_2+" in "+_1+" , locale="+_3);
+};
+dojo.i18n.isLTR=function(_b){
+var _c=dojo.hostenv.normalizeLocale(_b).split("-")[0];
+var _d={ar:true,fa:true,he:true,ur:true,yi:true};
+return !_d[_c];
 };

@@ -10,141 +10,71 @@
 
 
 dojo.provide("dojo.widget.TreeCommon");
-dojo.require("dojo.widget.*"); // for dojo.widget.manager
-
-dojo.declare(
-	"dojo.widget.TreeCommon",
-	null,
-{
-	listenTreeEvents: [],
-	listenedTrees: {},
-	
-	/**
-	 * evaluates to false => skip unlistening nodes
-	 * provided => use it
-	 */	
-	listenNodeFilter: null,
-	
-	listenTree: function(tree) {
-		
-		//dojo.debug("listenTree in "+this+" tree "+tree);
-		
-		var _this = this;
-		
-		if (this.listenedTrees[tree.widgetId]) {
-			return; // already listening
-		}
-		
-		dojo.lang.forEach(this.listenTreeEvents, function(event) {
-			var eventHandler =  "on" + event.charAt(0).toUpperCase() + event.substr(1);
-			//dojo.debug("subscribe: event "+tree.eventNames[event]+" widget "+_this+" handler "+eventHandler);
-			dojo.event.topic.subscribe(tree.eventNames[event], _this, eventHandler);
-		});
-		
-		
-		var filter;
-		
-		if (this.listenNodeFilter) {			
-			this.processDescendants(tree, this.listenNodeFilter, this.listenNode, true);
-		}
-		
-		/**
-		 * remember that I listen to this tree. No unbinding/binding/deselection
-		 * needed when transfer between listened trees
-		 */
-		this.listenedTrees[tree.widgetId] = true;
-		
-	},			
-	
-	// interface functions
-	listenNode: function() {},	
-	unlistenNode: function() {},
-			
-	unlistenTree: function(tree, nodeFilter) {
-		
-		var _this = this;
-	
-		if (!this.listenedTrees[tree.widgetId]) {
-			return; 
-		}
-		
-		dojo.lang.forEach(this.listenTreeEvents, function(event) {
-			var eventHandler =  "on" + event.charAt(0).toUpperCase() + event.substr(1);
-			dojo.event.topic.unsubscribe(tree.eventNames[event], _this, eventHandler);
-		});
-		
-		
-		if (this.listenNodeFilter) {
-			this.processDescendants(tree, this.listenNodeFilter, this.unlistenNode, true);
-		}
-		
-		delete this.listenedTrees[tree.widgetId];
-		
-	},
-	
-	
-	/**
-	 * check condition for node.domNode -> .. -> any node chain
-	 */
-	checkPathCondition: function(domElement, condition) {
-		
-		while (domElement && !domElement.widgetId) {
-			if (condition.call(null, domElement)) {
-				return true;
-			}
-			
-			domElement = domElement.parentNode;
-		}
-		
-		return false;
-	},
-		
-	
-	/**
-	 * get node widget id by its descendant dom node
-	 */
-	domElement2TreeNode: function(domElement) {
-		
-		while (domElement && !domElement.widgetId) {
-			domElement = domElement.parentNode;
-		}
-		
-		if (!domElement) {
-			return null;
-		}
-		
-		var widget = dojo.widget.byId(domElement.widgetId);
-		
-		if (!widget.isTreeNode) {
-			return null;
-		}
-		
-		return widget;
-	},
-	
-	/**
-	 * it is here, not in Widget, because mostly tree needs it
-	 */
-	processDescendants: function(elem, filter, func, skipFirst) {
-		
-		var _this = this;
-		
-		if (!skipFirst) {
-			if (!filter.call(_this,elem)) {
-				return;
-			}
-			func.call(_this,elem);	        
-		}
-		
-		
-		var stack = [elem];
-		while (elem = stack.pop()) {
-			dojo.lang.forEach(elem.children, function(elem) {
-				if (filter.call(_this, elem)) {		
-					func.call(_this, elem);
-					stack.push(elem);
-				}
-			});
-		}
-    }
+dojo.require("dojo.widget.*");
+dojo.declare("dojo.widget.TreeCommon",null,{listenTreeEvents:[],listenedTrees:{},listenNodeFilter:null,listenTree:function(_1){
+var _2=this;
+if(this.listenedTrees[_1.widgetId]){
+return;
+}
+dojo.lang.forEach(this.listenTreeEvents,function(_3){
+var _4="on"+_3.charAt(0).toUpperCase()+_3.substr(1);
+dojo.event.topic.subscribe(_1.eventNames[_3],_2,_4);
 });
+var _5;
+if(this.listenNodeFilter){
+this.processDescendants(_1,this.listenNodeFilter,this.listenNode,true);
+}
+this.listenedTrees[_1.widgetId]=true;
+},listenNode:function(){
+},unlistenNode:function(){
+},unlistenTree:function(_6,_7){
+var _8=this;
+if(!this.listenedTrees[_6.widgetId]){
+return;
+}
+dojo.lang.forEach(this.listenTreeEvents,function(_9){
+var _a="on"+_9.charAt(0).toUpperCase()+_9.substr(1);
+dojo.event.topic.unsubscribe(_6.eventNames[_9],_8,_a);
+});
+if(this.listenNodeFilter){
+this.processDescendants(_6,this.listenNodeFilter,this.unlistenNode,true);
+}
+delete this.listenedTrees[_6.widgetId];
+},checkPathCondition:function(_b,_c){
+while(_b&&!_b.widgetId){
+if(_c.call(null,_b)){
+return true;
+}
+_b=_b.parentNode;
+}
+return false;
+},domElement2TreeNode:function(_d){
+while(_d&&!_d.widgetId){
+_d=_d.parentNode;
+}
+if(!_d){
+return null;
+}
+var _e=dojo.widget.byId(_d.widgetId);
+if(!_e.isTreeNode){
+return null;
+}
+return _e;
+},processDescendants:function(_f,_10,_11,_12){
+var _13=this;
+if(!_12){
+if(!_10.call(_13,_f)){
+return;
+}
+_11.call(_13,_f);
+}
+var _14=[_f];
+while(_f=_14.pop()){
+dojo.lang.forEach(_f.children,function(_15){
+if(_10.call(_13,_15)){
+_11.call(_13,_15);
+_14.push(_15);
+}
+});
+}
+}});

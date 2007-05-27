@@ -8,4 +8,5 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-({"displayName":"日本円","symbol":"￥"})
+
+({"displayName":"\u65e5\u672c\u5186","symbol":"\uffe5"});

@@ -8,267 +8,119 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
-dojo.provide("dojo.widget.AccordionContainer");
 
+dojo.provide("dojo.widget.AccordionContainer");
 dojo.require("dojo.widget.*");
 dojo.require("dojo.html.*");
 dojo.require("dojo.lfx.html");
 dojo.require("dojo.html.selection");
 dojo.require("dojo.widget.html.layout");
 dojo.require("dojo.widget.PageContainer");
-
-
-/**
- * description
- *	Front view (3 panes, pane #2 open)
- *	------------------------
- *	|:::Pane#1 title:::    |
- * 	|:::Pane#2 title:::    |
- *	|                      |
- *	|    pane#2 contents   |
- *	|                      |
- *	|:::Pane#3 title:::    |
- *	------------------------
- *
- *	Side view (showing implementation):
- *
- *         viewport    pane#3     pane#2     pane#1
- *            =                                
- *            |                                =
- *            |                      =         |
- *	front     |                      |         |
- *            |                      |         =
- *            |                      =
- *            |          =
- *            =          |
- *                       |
- *                       =
- *
- *	Panes are stacked by z-index like a stack of cards, so they can be slid correctly.
- *	The panes on the bottom extend past the bottom of the viewport (but are hidden).
- *
- * usage
- *	<div dojoType="AccordionContainer">
- *		<div dojoType="ContentPane" label="pane 1">...</div>
- *		...
- *	</div>
- *
- * TODO:
- *	* this widget should extend PageContainer
- */
- dojo.widget.defineWidget(
-	"dojo.widget.AccordionContainer",
-	dojo.widget.HtmlWidget,
-	{
-		// summary: 
-		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
-		//		and switching between panes is visualized by sliding the other panes up/down.
-
-		isContainer: true,
-		
-		// labelNodeClass: String
-		//		CSS class name for dom node w/the title
-		labelNodeClass: "label",
-		
-		// containerNodeClass: String
-		//		CSS class name for dom node holding the content
-		containerNodeClass: "accBody",
-
-		// duration: Integer
-		//		Amount of time (in ms) it takes to slide panes
-		duration: 250,
-
-		fillInTemplate: function(){
-			with(this.domNode.style){
-				// position must be either relative or absolute
-				if(position!="absolute"){
-					position="relative";
-				}
-				overflow="hidden";
-			}
-		},
-
-		addChild: function(/*Widget*/ widget){
-			var child = this._addChild(widget);
-			this._setSizes();
-			return child;	// Widget
-		},
-		
-		_addChild: function(/*Widget*/ widget){
-			// summary
-			//		Internal call to add child, used during postCreate() and by the real addChild() call
-			if(widget.open){
-				dojo.deprecated("open parameter deprecated, use 'selected=true' instead will be removed in ", "0.5");
-				dojo.debug(widget.widgetId + ": open == " + widget.open);
-				widget.selected=true;
-			}
-			if (widget.widgetType != "AccordionPane") {
-				var wrapper=dojo.widget.createWidget("AccordionPane",{label: widget.label, selected: widget.selected, labelNodeClass: this.labelNodeClass, containerNodeClass: this.containerNodeClass, allowCollapse: this.allowCollapse });
-				wrapper.addChild(widget);
-				this.addWidgetAsDirectChild(wrapper);
-				this.registerChild(wrapper, this.children.length);
-				return wrapper;	// Widget
-			} else {
-				dojo.html.addClass(widget.containerNode, this.containerNodeClass);
-				dojo.html.addClass(widget.labelNode, this.labelNodeClass);
-				this.addWidgetAsDirectChild(widget);
-				this.registerChild(widget, this.children.length);	
-				return widget;	// Widget
-			}
-		},
-	
-		postCreate: function() {
-			var tmpChildren = this.children;
-			this.children=[];
-			dojo.html.removeChildren(this.domNode);
-			dojo.lang.forEach(tmpChildren, dojo.lang.hitch(this,"_addChild"));
-			this._setSizes();
-		},
-	
-		removeChild: function(/*Widget*/ widget) {
-			dojo.widget.AccordionContainer.superclass.removeChild.call(this, widget);
-			this._setSizes();
-		},
-		
-		onResized: function(){
-			this._setSizes();
-		},
-
-		_setSizes: function() {
-			// summary
-			//		Set panes' size/position based on my size, and the current open node.
-
-			// get cumulative height of all the title bars, and figure out which pane is open
-			var totalCollapsedHeight = 0;
-			var openIdx = 0;
-			dojo.lang.forEach(this.children, function(child, idx){
-				totalCollapsedHeight += child.getLabelHeight();
-				if(child.selected){ openIdx=idx; }
-			});
-
-			// size and position each pane
-			var mySize=dojo.html.getContentBox(this.domNode);
-			var y = 0;
-			dojo.lang.forEach(this.children, function(child, idx){
-				var childCollapsedHeight = child.getLabelHeight();
-				child.resizeTo(mySize.width, mySize.height-totalCollapsedHeight+childCollapsedHeight);
-				child.domNode.style.zIndex=idx+1;
-				child.domNode.style.position="absolute";
-				child.domNode.style.top = y+"px";
-				y += (idx==openIdx) ? dojo.html.getBorderBox(child.domNode).height : childCollapsedHeight;
-			});
-		},
-
-		selectChild: function(/*Widget*/ page){
-			// summary
-			//		close the current page and select a new one
-			dojo.lang.forEach(this.children, function(child){child.setSelected(child==page);});
-
-			// slide each pane that needs to be moved
-			var y = 0;
-			var anims = [];
-			dojo.lang.forEach(this.children, function(child, idx){
-				if(child.domNode.style.top != (y+"px")){
-					anims.push(dojo.lfx.html.slideTo(child.domNode, {top: y, left: 0}, this.duration));
-				}
-				y += child.selected ? dojo.html.getBorderBox(child.domNode).height : child.getLabelHeight();
-			}, this);
-			dojo.lfx.combine(anims).play();
-		}
-	}
-);
-
-dojo.widget.defineWidget(
-	"dojo.widget.AccordionPane",
-	dojo.widget.HtmlWidget,
-{
-	// summary
-	//		AccordionPane is a box with a title that contains another widget (often a ContentPane).
-	//		It's a widget used internally by AccordionContainer.
-	// label: String
-	//		label to print on top of AccordionPane
-	label: "",
-
-	// class: String
-	//	CSS class name for the AccordionPane's dom node
-	"class": "dojoAccordionPane",
-
-	// labelNodeClass: String
-	//	CSS class name for the AccordionPane's label node
-	labelNodeClass: "label",
-
-	// containerNodeClass: String
-	//	CSS class name for the AccordionPane's container node
-	containerNodeClass: "accBody",
-	
-	// selected: Boolean
-	//	if true, this is the open pane
-	selected: false,
-
-	templatePath: dojo.uri.moduleUri("dojo.widget", "templates/AccordionPane.html"),
-	templateCssPath: dojo.uri.moduleUri("dojo.widget", "templates/AccordionPane.css"),
-
-	isContainer: true,
-
-	fillInTemplate: function() {
-		dojo.html.addClass(this.domNode, this["class"]);
-		dojo.widget.AccordionPane.superclass.fillInTemplate.call(this);
-		dojo.html.disableSelection(this.labelNode);
-		this.setSelected(this.selected);
-	},
-
-	setLabel: function(/*String*/ label) {
-		// summary: set the  title of the node
-		this.labelNode.innerHTML=label;
-	},
-	
-	resizeTo: function(width, height){
-		dojo.html.setMarginBox(this.domNode, {width: width, height: height});
-		var children = [
-			{domNode: this.labelNode, layoutAlign: "top"},
-			{domNode: this.containerNode, layoutAlign: "client"}
-		];
-		dojo.widget.html.layout(this.domNode, children);
-		var childSize = dojo.html.getContentBox(this.containerNode);
-		this.children[0].resizeTo(childSize.width, childSize.height);
-	},
-
-	getLabelHeight: function() {
-		// summary: returns the height of the title dom node
-		return dojo.html.getMarginBox(this.labelNode).height;	// Integer
-	},
-
-	onLabelClick: function() {
-		// summary: callback when someone clicks my label
-		this.parent.selectChild(this);
-	},
-	
-	setSelected: function(/*Boolean*/ isSelected){
-		this.selected=isSelected;
-		(isSelected ? dojo.html.addClass : dojo.html.removeClass)(this.domNode, this["class"]+"-selected");
-
-		// make sure child is showing (lazy load), and also that onShow()/onHide() is called
-		var child = this.children[0];
-		if(child){
-			if(isSelected){
-				if(!child.isShowing()){
-					child.show();
-				}else{
-					child.onShow();
-				}
-			}else{
-				child.onHide();
-			}
-		}
-	}
+dojo.widget.defineWidget("dojo.widget.AccordionContainer",dojo.widget.HtmlWidget,{isContainer:true,labelNodeClass:"label",containerNodeClass:"accBody",duration:250,fillInTemplate:function(){
+with(this.domNode.style){
+if(position!="absolute"){
+position="relative";
+}
+overflow="hidden";
+}
+},addChild:function(_1){
+var _2=this._addChild(_1);
+this._setSizes();
+return _2;
+},_addChild:function(_3){
+if(_3.open){
+dojo.deprecated("open parameter deprecated, use 'selected=true' instead will be removed in ","0.5");
+dojo.debug(_3.widgetId+": open == "+_3.open);
+_3.selected=true;
+}
+if(_3.widgetType!="AccordionPane"){
+var _4=dojo.widget.createWidget("AccordionPane",{label:_3.label,selected:_3.selected,labelNodeClass:this.labelNodeClass,containerNodeClass:this.containerNodeClass,allowCollapse:this.allowCollapse});
+_4.addChild(_3);
+this.addWidgetAsDirectChild(_4);
+this.registerChild(_4,this.children.length);
+return _4;
+}else{
+dojo.html.addClass(_3.containerNode,this.containerNodeClass);
+dojo.html.addClass(_3.labelNode,this.labelNodeClass);
+this.addWidgetAsDirectChild(_3);
+this.registerChild(_3,this.children.length);
+return _3;
+}
+},postCreate:function(){
+var _5=this.children;
+this.children=[];
+dojo.html.removeChildren(this.domNode);
+dojo.lang.forEach(_5,dojo.lang.hitch(this,"_addChild"));
+this._setSizes();
+},removeChild:function(_6){
+dojo.widget.AccordionContainer.superclass.removeChild.call(this,_6);
+this._setSizes();
+},onResized:function(){
+this._setSizes();
+},_setSizes:function(){
+var _7=0;
+var _8=0;
+dojo.lang.forEach(this.children,function(_9,_a){
+_7+=_9.getLabelHeight();
+if(_9.selected){
+_8=_a;
+}
 });
-
-// These arguments can be specified for the children of an AccordionContainer
-// Since any widget can be specified as a child, mix them
-// into the base widget class.  (This is a hack, but it's effective.)
-dojo.lang.extend(dojo.widget.Widget, {
-	// open: String
-	//	is this the selected child?
-	//	DEPRECATED: will be removed in 0.5.  Used "selected" attribute instead.
-	open: false
+var _b=dojo.html.getContentBox(this.domNode);
+var y=0;
+dojo.lang.forEach(this.children,function(_d,_e){
+var _f=_d.getLabelHeight();
+_d.resizeTo(_b.width,_b.height-_7+_f);
+_d.domNode.style.zIndex=_e+1;
+_d.domNode.style.position="absolute";
+_d.domNode.style.top=y+"px";
+y+=(_e==_8)?dojo.html.getBorderBox(_d.domNode).height:_f;
 });
+},selectChild:function(_10){
+dojo.lang.forEach(this.children,function(_11){
+_11.setSelected(_11==_10);
+});
+var y=0;
+var _13=[];
+dojo.lang.forEach(this.children,function(_14,idx){
+if(_14.domNode.style.top!=(y+"px")){
+_13.push(dojo.lfx.html.slideTo(_14.domNode,{top:y,left:0},this.duration));
+}
+y+=_14.selected?dojo.html.getBorderBox(_14.domNode).height:_14.getLabelHeight();
+},this);
+dojo.lfx.combine(_13).play();
+}});
+dojo.widget.defineWidget("dojo.widget.AccordionPane",dojo.widget.HtmlWidget,{label:"","class":"dojoAccordionPane",labelNodeClass:"label",containerNodeClass:"accBody",selected:false,templateString:"<div dojoAttachPoint=\"domNode\">\n<div dojoAttachPoint=\"labelNode\" dojoAttachEvent=\"onclick: onLabelClick\" class=\"${this.labelNodeClass}\">${this.label}</div>\n<div dojoAttachPoint=\"containerNode\" style=\"overflow: hidden;\" class=\"${this.containerNodeClass}\"></div>\n</div>\n",templateCssString:".dojoAccordionPane .label {\n\tcolor: #000;\n\tfont-weight: bold;\n\tbackground: url(\"images/soriaAccordionOff.gif\") repeat-x top left #85aeec;\n\tborder:1px solid #d9d9d9;\n\tfont-size:0.9em;\n}\n\n.dojoAccordionPane-selected .label {\n\tbackground: url(\"images/soriaAccordionSelected.gif\") repeat-x top left #85aeec;\n\tborder:1px solid #84a3d1;\n}\n\n.dojoAccordionPane .label:hover {\n\tcursor: pointer;\n}\n\n.dojoAccordionPane .accBody {\n\tbackground: #fff;\n\toverflow: auto;\n\tborder:1px solid #84a3d1;\n}\n",templateCssPath:dojo.uri.moduleUri("dojo.widget","templates/AccordionPane.css"),isContainer:true,fillInTemplate:function(){
+dojo.html.addClass(this.domNode,this["class"]);
+dojo.widget.AccordionPane.superclass.fillInTemplate.call(this);
+dojo.html.disableSelection(this.labelNode);
+this.setSelected(this.selected);
+},setLabel:function(_16){
+this.labelNode.innerHTML=_16;
+},resizeTo:function(_17,_18){
+dojo.html.setMarginBox(this.domNode,{width:_17,height:_18});
+var _19=[{domNode:this.labelNode,layoutAlign:"top"},{domNode:this.containerNode,layoutAlign:"client"}];
+dojo.widget.html.layout(this.domNode,_19);
+var _1a=dojo.html.getContentBox(this.containerNode);
+this.children[0].resizeTo(_1a.width,_1a.height);
+},getLabelHeight:function(){
+return dojo.html.getMarginBox(this.labelNode).height;
+},onLabelClick:function(){
+this.parent.selectChild(this);
+},setSelected:function(_1b){
+this.selected=_1b;
+(_1b?dojo.html.addClass:dojo.html.removeClass)(this.domNode,this["class"]+"-selected");
+var _1c=this.children[0];
+if(_1c){
+if(_1b){
+if(!_1c.isShowing()){
+_1c.show();
+}else{
+_1c.onShow();
+}
+}else{
+_1c.onHide();
+}
+}
+}});
+dojo.lang.extend(dojo.widget.Widget,{open:false});

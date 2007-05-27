@@ -8,41 +8,29 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.browser_debug_xd");
-
-//Override dojo.provide, so we can trigger the next
-//script tag for the next local module. We can only add one
-//at a time because there are browsers that execute script tags
-//in the order that the code is received, and not in the DOM order.
-dojo.nonDebugProvide = dojo.provide;
-
-dojo.provide = function(resourceName){
-	var dbgQueue = dojo.hostenv["xdDebugQueue"];
-	if(dbgQueue && dbgQueue.length > 0 && resourceName == dbgQueue["currentResourceName"]){
-		//Set a timeout so the module can be executed into existence. Normally the
-		//dojo.provide call in a module is the first line. Don't want to risk attaching
-		//another script tag until the current one finishes executing.
-		window.setTimeout("dojo.hostenv.xdDebugFileLoaded('" + resourceName + "')", 1);
-	}
-
-	dojo.nonDebugProvide.apply(dojo, arguments);
+dojo.nonDebugProvide=dojo.provide;
+dojo.provide=function(_1){
+var _2=dojo.hostenv["xdDebugQueue"];
+if(_2&&_2.length>0&&_1==_2["currentResourceName"]){
+window.setTimeout("dojo.hostenv.xdDebugFileLoaded('"+_1+"')",1);
 }
-
-dojo.hostenv.xdDebugFileLoaded = function(resourceName){
-	var dbgQueue = this.xdDebugQueue;
-	
-	if(resourceName && resourceName == dbgQueue.currentResourceName){
-		dbgQueue.shift();
-	}
-
-	if(dbgQueue.length == 0){
-		dbgQueue.currentResourceName = null;
-		this.xdNotifyLoaded();
-	}else{
-		dbgQueue.currentResourceName = dbgQueue[0].resourceName;
-		var element = document.createElement("script");
-		element.type = "text/javascript";
-		element.src = dbgQueue[0].resourcePath;
-		document.getElementsByTagName("head")[0].appendChild(element);
-	}		
+dojo.nonDebugProvide.apply(dojo,arguments);
+};
+dojo.hostenv.xdDebugFileLoaded=function(_3){
+var _4=this.xdDebugQueue;
+if(_3&&_3==_4.currentResourceName){
+_4.shift();
 }
+if(_4.length==0){
+_4.currentResourceName=null;
+this.xdNotifyLoaded();
+}else{
+_4.currentResourceName=_4[0].resourceName;
+var _5=document.createElement("script");
+_5.type="text/javascript";
+_5.src=_4[0].resourcePath;
+document.getElementsByTagName("head")[0].appendChild(_5);
+}
+};

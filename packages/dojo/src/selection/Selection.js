@@ -8,465 +8,307 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.selection.Selection");
 dojo.require("dojo.lang.array");
 dojo.require("dojo.lang.func");
 dojo.require("dojo.lang.common");
 dojo.require("dojo.math");
-
-dojo.declare("dojo.selection.Selection", null,
-	{
-		initializer: function(items, isCollection){
-			this.items = [];
-			this.selection = [];
-			this._pivotItems = [];
-			this.clearItems();
-
-			if(items) {
-				if(isCollection) {
-					this.setItemsCollection(items);
-				} else {
-					this.setItems(items);
-				}
-			}
-		},
-
-		// Array: items to select from, order matters for growable selections
-		items: null,
-
-		// Array: items selected, aren't stored in order (see sorted())
-		selection: null, 
-		lastSelected: null, // last item selected
-
-		// Boolean: if true, grow selection will start from 0th item when nothing is selected
-		allowImplicit: true, 
-
-		// Integer: number of *selected* items
-		length: 0, 
-
-		// Boolean:
-		//		if true, the selection is treated as an in-order and can grow
-		//		by ranges, not just by single item
-		isGrowable: true,
-
-		_pivotItems: null, // stack of pivot items
-		_pivotItem: null, // item we grow selections from, top of stack
-
-		// event handlers
-		onSelect: function(item){
-			// summary: slot to be connect()'d to
-		},
-		onDeselect: function(item){
-			// summary: slot to be connect()'d to
-		},
-		onSelectChange: function(item, selected){
-			// summary: slot to be connect()'d to
-		},
-
-		_find: function(item, inSelection) {
-			if(inSelection) {
-				return dojo.lang.find(this.selection, item);
-			} else {
-				return dojo.lang.find(this.items, item);
-			}
-		},
-
-		isSelectable: function(/*Object*/item){
-			// summary:
-			//		user-customizable and should be over-ridden, will filter
-			//		items through this
-			return true; // boolean
-		},
-
-		setItems: function(/* ... */){
-			// summary:
-			//		adds all passed arguments to the items array, removing any
-			//		previously selected items.
-			this.clearItems();
-			this.addItems.call(this, arguments);
-		},
-
- 
-		setItemsCollection: function(/*Object*/collection){
-			// summary:
-			//		like setItems, but use in case you have an active
-			//		collection array-like object (i.e. getElementsByTagName
-			//		collection) that manages its own order and item list
-			this.items = collection;
-		},
-
-		addItems: function(/* ... */){
-			// summary:
-			//		adds all passed arguments to the items array
-			var args = dojo.lang.unnest(arguments);
-			for(var i = 0; i < args.length; i++){
-				this.items.push(args[i]);
-			}
-		},
-
-		addItemsAt: function(/*Object*/item, /*Object*/before /* ... */){
-			// summary:
-			//		add items to the array after the the passed "before" item.
-			if(this.items.length == 0){ // work for empy case
-				return this.addItems(dojo.lang.toArray(arguments, 2));
-			}
-
-			if(!this.isItem(item)){
-				item = this.items[item];
-			}
-			if(!item){ throw new Error("addItemsAt: item doesn't exist"); }
-			var idx = this._find(item);
-			if(idx > 0 && before){ idx--; }
-			for(var i = 2; i < arguments.length; i++){
-				if(!this.isItem(arguments[i])){
-					this.items.splice(idx++, 0, arguments[i]);
-				}
-			}
-		},
-
-		removeItem: function(/*Object*/item){
-			// summary: remove item
-			var idx = this._find(item);
-			if(idx > -1) {
-				this.items.splice(idx, 1);
-			}
-			// remove from selection
-			// FIXME: do we call deselect? I don't think so because this isn't how
-			// you usually want to deselect an item. For example, if you deleted an
-			// item, you don't really want to deselect it -- you want it gone. -DS
-			idx = this._find(item, true);
-			if(idx > -1) {
-				this.selection.splice(idx, 1);
-			}
-		},
-
-		clearItems: function(){
-			// summary: remove and uselect all items
-			this.items = [];
-			this.deselectAll();
-		},
-
-		isItem: function(/*Object*/item){
-			// summary: do we already "know" about the passed item?
-			return this._find(item) > -1; // boolean
-		},
-
-		isSelected: function(/*Object*/item){
-			// summary:
-			//		do we know about the item and is it selected by this
-			//		selection?
-			return this._find(item, true) > -1; // boolean
-		},
-
-		/**
-		 * allows you to filter item in or out of the selection
-		 * depending on the current selection and action to be taken
-		**/
-		selectFilter: function(item, selection, add, grow) {
-			return true;
-		},
-
-		update: function(/*Object*/item, /*Boolean*/add, /*Boolean*/grow, noToggle) {
-			// summary: manages selections, most selecting should be done here
-			// item: item which may be added/grown to/only selected/deselected
-			// add: behaves like ctrl in windows selection world
-			// grow: behaves like shift
-			// noToggle: if true, don't toggle selection on item
-			if(!this.isItem(item)){ return false; } // boolean
-
-			if(this.isGrowable && grow){
-				if( (!this.isSelected(item)) && 
-					this.selectFilter(item, this.selection, false, true) ){
-					this.grow(item);
-					this.lastSelected = item;
-				}
-			}else if(add){
-				if(this.selectFilter(item, this.selection, true, false)){
-					if(noToggle){
-						if(this.select(item)){
-							this.lastSelected = item;
-						}
-					}else if(this.toggleSelected(item)){
-						this.lastSelected = item;
-					}
-				}
-			}else{
-				this.deselectAll();
-				this.select(item);
-			}
-
-			this.length = this.selection.length;
-			return true; // Boolean
-		},
-
-		grow: function(/*Object*/toItem, /*Object*/fromItem){
-			// summary:
-			//		Grow a selection. Any items in (fromItem, lastSelected]
-			//		that aren't part of (fromItem, toItem] will be deselected
-			// toItem: which item to grow selection to
-			// fromItem: which item to start the growth from (it won't be selected)
-			if(!this.isGrowable){ return; }
-
-			if(arguments.length == 1){
-				fromItem = this._pivotItem;
-				if(!fromItem && this.allowImplicit){
-					fromItem = this.items[0];
-				}
-			}
-			if(!toItem || !fromItem){ return false; }
-
-			var fromIdx = this._find(fromItem);
-
-			// get items to deselect (fromItem, lastSelected]
-			var toDeselect = {};
-			var lastIdx = -1;
-			if(this.lastSelected){
-				lastIdx = this._find(this.lastSelected);
-				var step = fromIdx < lastIdx ? -1 : 1;
-				var range = dojo.math.range(lastIdx, fromIdx, step);
-				for(var i = 0; i < range.length; i++){
-					toDeselect[range[i]] = true;
-				}
-			}
-
-			// add selection (fromItem, toItem]
-			var toIdx = this._find(toItem);
-			var step = fromIdx < toIdx ? -1 : 1;
-			var shrink = lastIdx >= 0 && step == 1 ? lastIdx < toIdx : lastIdx > toIdx;
-			var range = dojo.math.range(toIdx, fromIdx, step);
-			if(range.length){
-				for(var i = range.length-1; i >= 0; i--){
-					var item = this.items[range[i]];
-					if(this.selectFilter(item, this.selection, false, true)){
-						if(this.select(item, true) || shrink){
-							this.lastSelected = item;
-						}
-						if(range[i] in toDeselect){
-							delete toDeselect[range[i]];
-						}
-					}
-				}
-			}else{
-				this.lastSelected = fromItem;
-			}
-
-			// now deselect...
-			for(var i in toDeselect){
-				if(this.items[i] == this.lastSelected){
-					//dojo.debug("oops!");
-				}
-				this.deselect(this.items[i]);
-			}
-
-			// make sure everything is all kosher after selections+deselections
-			this._updatePivot();
-		},
-
-		growUp: function(){
-			// summary: Grow selection upwards one item from lastSelected
-			if(!this.isGrowable){ return; }
-
-			var idx = this._find(this.lastSelected) - 1;
-			while(idx >= 0){
-				if(this.selectFilter(this.items[idx], this.selection, false, true)){
-					this.grow(this.items[idx]);
-					break;
-				}
-				idx--;
-			}
-		},
-
-		growDown: function(){
-			// summary: Grow selection downwards one item from lastSelected
-			if(!this.isGrowable){ return; }
-
-			var idx = this._find(this.lastSelected);
-			if(idx < 0 && this.allowImplicit){
-				this.select(this.items[0]);
-				idx = 0;
-			}
-			idx++;
-			while(idx > 0 && idx < this.items.length){
-				if(this.selectFilter(this.items[idx], this.selection, false, true)){
-					this.grow(this.items[idx]);
-					break;
-				}
-				idx++;
-			}
-		},
-
-		toggleSelected: function(/*Object*/item, /*Boolean*/noPivot){
-			// summary:
-			//		like it says on the tin. If noPivot is true, no selection
-			//		pivot is added (or removed) from the selection. Returns 1
-			//		if the item is selected, -1 if it is deselected, and 0 if
-			//		the item is not under management.
-			if(this.isItem(item)){
-				if(this.select(item, noPivot)){ return 1; }
-				if(this.deselect(item)){ return -1; }
-			}
-			return 0;
-		},
-
-		select: function(/*Object*/item, /*Boolean*/noPivot){
-			// summary:
-			//		like it says on the tin. If noPivot is true, no selection
-			//		pivot is added  from the selection.
-			if(this.isItem(item) && !this.isSelected(item)
-				&& this.isSelectable(item)){
-				this.selection.push(item);
-				this.lastSelected = item;
-				this.onSelect(item);
-				this.onSelectChange(item, true);
-				if(!noPivot){
-					this._addPivot(item);
-				}
-				this.length = this.selection.length;
-				return true;
-			}
-			return false;
-		},
-
-		deselect: function(item){
-			// summary: deselects the item if it's selected.
-			var idx = this._find(item, true);
-			if(idx > -1){
-				this.selection.splice(idx, 1);
-				this.onDeselect(item);
-				this.onSelectChange(item, false);
-				if(item == this.lastSelected){
-					this.lastSelected = null;
-				}
-				this._removePivot(item);
-				this.length = this.selection.length;
-				return true;
-			}
-			return false;
-		},
-
-		selectAll: function(){
-			// summary: selects all known items
-			for(var i = 0; i < this.items.length; i++){
-				this.select(this.items[i]);
-			}
-		},
-
-		deselectAll: function(){
-			// summary: deselects all currently selected items
-			while(this.selection && this.selection.length){
-				this.deselect(this.selection[0]);
-			}
-		},
-
-		selectNext: function(){
-			// summary:
-			//		clobbers the existing selection (if any) and selects the
-			//		next item "below" the previous "bottom" selection. Returns
-			//		whether or not selection was successful.
-			var idx = this._find(this.lastSelected);
-			while(idx > -1 && ++idx < this.items.length){
-				if(this.isSelectable(this.items[idx])){
-					this.deselectAll();
-					this.select(this.items[idx]);
-					return true;
-				}
-			}
-			return false;
-		},
-
-		selectPrevious: function(){
-			// summary:
-			//		clobbers the existing selection (if any) and selects the
-			//		item "above" the previous "top" selection. Returns whether
-			//		or not selection was successful.
-			var idx = this._find(this.lastSelected);
-			while(idx-- > 0){
-				if(this.isSelectable(this.items[idx])){
-					this.deselectAll();
-					this.select(this.items[idx]);
-					return true;
-				}
-			}
-			return false;
-		},
-
-		selectFirst: function(){
-			// summary:
-			//		select first selectable item. Returns whether or not an
-			//		item was selected.
-			this.deselectAll();
-			var idx = 0;
-			while(this.items[idx] && !this.select(this.items[idx])){
-				idx++;
-			}
-			return this.items[idx] ? true : false;
-		},
-
-		selectLast: function(){
-			// summary: select last selectable item
-			this.deselectAll();
-			var idx = this.items.length-1;
-			while(this.items[idx] && !this.select(this.items[idx])) {
-				idx--;
-			}
-			return this.items[idx] ? true : false;
-		},
-
-		_addPivot: function(item, andClear){
-			this._pivotItem = item;
-			if(andClear){
-				this._pivotItems = [item];
-			}else{
-				this._pivotItems.push(item);
-			}
-		},
-
-		_removePivot: function(item){
-			var i = dojo.lang.find(this._pivotItems, item);
-			if(i > -1){
-				this._pivotItems.splice(i, 1);
-				this._pivotItem = this._pivotItems[this._pivotItems.length-1];
-			}
-
-			this._updatePivot();
-		},
-
-		_updatePivot: function(){
-			if(this._pivotItems.length == 0){
-				if(this.lastSelected){
-					this._addPivot(this.lastSelected);
-				}
-			}
-		},
-
-		sorted: function(){
-			// summary: returns an array of items in sort order
-			return dojo.lang.toArray(this.selection).sort(
-				dojo.lang.hitch(this, function(a, b){
-					var A = this._find(a), B = this._find(b);
-					if(A > B){
-						return 1;
-					}else if(A < B){
-						return -1;
-					}else{
-						return 0;
-					}
-				})
-			);
-		},
-
-		updateSelected: function(){
-			// summary: 
-			//		remove any items from the selection that are no longer in
-			//		this.items
-			for(var i = 0; i < this.selection.length; i++) {
-				if(this._find(this.selection[i]) < 0) {
-					var removed = this.selection.splice(i, 1);
-
-					this._removePivot(removed[0]);
-				}
-			}
-			this.length = this.selection.length;
-		}
-	}
-);
+dojo.declare("dojo.selection.Selection",null,{initializer:function(_1,_2){
+this.items=[];
+this.selection=[];
+this._pivotItems=[];
+this.clearItems();
+if(_1){
+if(_2){
+this.setItemsCollection(_1);
+}else{
+this.setItems(_1);
+}
+}
+},items:null,selection:null,lastSelected:null,allowImplicit:true,length:0,isGrowable:true,_pivotItems:null,_pivotItem:null,onSelect:function(_3){
+},onDeselect:function(_4){
+},onSelectChange:function(_5,_6){
+},_find:function(_7,_8){
+if(_8){
+return dojo.lang.find(this.selection,_7);
+}else{
+return dojo.lang.find(this.items,_7);
+}
+},isSelectable:function(_9){
+return true;
+},setItems:function(){
+this.clearItems();
+this.addItems.call(this,arguments);
+},setItemsCollection:function(_a){
+this.items=_a;
+},addItems:function(){
+var _b=dojo.lang.unnest(arguments);
+for(var i=0;i<_b.length;i++){
+this.items.push(_b[i]);
+}
+},addItemsAt:function(_d,_e){
+if(this.items.length==0){
+return this.addItems(dojo.lang.toArray(arguments,2));
+}
+if(!this.isItem(_d)){
+_d=this.items[_d];
+}
+if(!_d){
+throw new Error("addItemsAt: item doesn't exist");
+}
+var _f=this._find(_d);
+if(_f>0&&_e){
+_f--;
+}
+for(var i=2;i<arguments.length;i++){
+if(!this.isItem(arguments[i])){
+this.items.splice(_f++,0,arguments[i]);
+}
+}
+},removeItem:function(_11){
+var idx=this._find(_11);
+if(idx>-1){
+this.items.splice(idx,1);
+}
+idx=this._find(_11,true);
+if(idx>-1){
+this.selection.splice(idx,1);
+}
+},clearItems:function(){
+this.items=[];
+this.deselectAll();
+},isItem:function(_13){
+return this._find(_13)>-1;
+},isSelected:function(_14){
+return this._find(_14,true)>-1;
+},selectFilter:function(_15,_16,add,_18){
+return true;
+},update:function(_19,add,_1b,_1c){
+if(!this.isItem(_19)){
+return false;
+}
+if(this.isGrowable&&_1b){
+if((!this.isSelected(_19))&&this.selectFilter(_19,this.selection,false,true)){
+this.grow(_19);
+this.lastSelected=_19;
+}
+}else{
+if(add){
+if(this.selectFilter(_19,this.selection,true,false)){
+if(_1c){
+if(this.select(_19)){
+this.lastSelected=_19;
+}
+}else{
+if(this.toggleSelected(_19)){
+this.lastSelected=_19;
+}
+}
+}
+}else{
+this.deselectAll();
+this.select(_19);
+}
+}
+this.length=this.selection.length;
+return true;
+},grow:function(_1d,_1e){
+if(!this.isGrowable){
+return;
+}
+if(arguments.length==1){
+_1e=this._pivotItem;
+if(!_1e&&this.allowImplicit){
+_1e=this.items[0];
+}
+}
+if(!_1d||!_1e){
+return false;
+}
+var _1f=this._find(_1e);
+var _20={};
+var _21=-1;
+if(this.lastSelected){
+_21=this._find(this.lastSelected);
+var _22=_1f<_21?-1:1;
+var _23=dojo.math.range(_21,_1f,_22);
+for(var i=0;i<_23.length;i++){
+_20[_23[i]]=true;
+}
+}
+var _25=this._find(_1d);
+var _22=_1f<_25?-1:1;
+var _26=_21>=0&&_22==1?_21<_25:_21>_25;
+var _23=dojo.math.range(_25,_1f,_22);
+if(_23.length){
+for(var i=_23.length-1;i>=0;i--){
+var _27=this.items[_23[i]];
+if(this.selectFilter(_27,this.selection,false,true)){
+if(this.select(_27,true)||_26){
+this.lastSelected=_27;
+}
+if(_23[i] in _20){
+delete _20[_23[i]];
+}
+}
+}
+}else{
+this.lastSelected=_1e;
+}
+for(var i in _20){
+if(this.items[i]==this.lastSelected){
+}
+this.deselect(this.items[i]);
+}
+this._updatePivot();
+},growUp:function(){
+if(!this.isGrowable){
+return;
+}
+var idx=this._find(this.lastSelected)-1;
+while(idx>=0){
+if(this.selectFilter(this.items[idx],this.selection,false,true)){
+this.grow(this.items[idx]);
+break;
+}
+idx--;
+}
+},growDown:function(){
+if(!this.isGrowable){
+return;
+}
+var idx=this._find(this.lastSelected);
+if(idx<0&&this.allowImplicit){
+this.select(this.items[0]);
+idx=0;
+}
+idx++;
+while(idx>0&&idx<this.items.length){
+if(this.selectFilter(this.items[idx],this.selection,false,true)){
+this.grow(this.items[idx]);
+break;
+}
+idx++;
+}
+},toggleSelected:function(_2a,_2b){
+if(this.isItem(_2a)){
+if(this.select(_2a,_2b)){
+return 1;
+}
+if(this.deselect(_2a)){
+return -1;
+}
+}
+return 0;
+},select:function(_2c,_2d){
+if(this.isItem(_2c)&&!this.isSelected(_2c)&&this.isSelectable(_2c)){
+this.selection.push(_2c);
+this.lastSelected=_2c;
+this.onSelect(_2c);
+this.onSelectChange(_2c,true);
+if(!_2d){
+this._addPivot(_2c);
+}
+this.length=this.selection.length;
+return true;
+}
+return false;
+},deselect:function(_2e){
+var idx=this._find(_2e,true);
+if(idx>-1){
+this.selection.splice(idx,1);
+this.onDeselect(_2e);
+this.onSelectChange(_2e,false);
+if(_2e==this.lastSelected){
+this.lastSelected=null;
+}
+this._removePivot(_2e);
+this.length=this.selection.length;
+return true;
+}
+return false;
+},selectAll:function(){
+for(var i=0;i<this.items.length;i++){
+this.select(this.items[i]);
+}
+},deselectAll:function(){
+while(this.selection&&this.selection.length){
+this.deselect(this.selection[0]);
+}
+},selectNext:function(){
+var idx=this._find(this.lastSelected);
+while(idx>-1&&++idx<this.items.length){
+if(this.isSelectable(this.items[idx])){
+this.deselectAll();
+this.select(this.items[idx]);
+return true;
+}
+}
+return false;
+},selectPrevious:function(){
+var idx=this._find(this.lastSelected);
+while(idx-->0){
+if(this.isSelectable(this.items[idx])){
+this.deselectAll();
+this.select(this.items[idx]);
+return true;
+}
+}
+return false;
+},selectFirst:function(){
+this.deselectAll();
+var idx=0;
+while(this.items[idx]&&!this.select(this.items[idx])){
+idx++;
+}
+return this.items[idx]?true:false;
+},selectLast:function(){
+this.deselectAll();
+var idx=this.items.length-1;
+while(this.items[idx]&&!this.select(this.items[idx])){
+idx--;
+}
+return this.items[idx]?true:false;
+},_addPivot:function(_35,_36){
+this._pivotItem=_35;
+if(_36){
+this._pivotItems=[_35];
+}else{
+this._pivotItems.push(_35);
+}
+},_removePivot:function(_37){
+var i=dojo.lang.find(this._pivotItems,_37);
+if(i>-1){
+this._pivotItems.splice(i,1);
+this._pivotItem=this._pivotItems[this._pivotItems.length-1];
+}
+this._updatePivot();
+},_updatePivot:function(){
+if(this._pivotItems.length==0){
+if(this.lastSelected){
+this._addPivot(this.lastSelected);
+}
+}
+},sorted:function(){
+return dojo.lang.toArray(this.selection).sort(dojo.lang.hitch(this,function(a,b){
+var A=this._find(a),B=this._find(b);
+if(A>B){
+return 1;
+}else{
+if(A<B){
+return -1;
+}else{
+return 0;
+}
+}
+}));
+},updateSelected:function(){
+for(var i=0;i<this.selection.length;i++){
+if(this._find(this.selection[i])<0){
+var _3e=this.selection.splice(i,1);
+this._removePivot(_3e[0]);
+}
+}
+this.length=this.selection.length;
+}});

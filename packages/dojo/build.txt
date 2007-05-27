@@ -68,4 +68,7 @@ dojoGuardEnd.js
 ../src/i18n/common.js
 ../src/date/format.js
 ../src/widget/SortableTable.js
+../src/math.js
+../src/collections/Store.js
+../src/widget/FilteringTable.js
 ../src/widget/TitlePane.js

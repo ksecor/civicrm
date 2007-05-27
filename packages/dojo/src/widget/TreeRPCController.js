@@ -10,153 +10,61 @@
 
 
 dojo.provide("dojo.widget.TreeRPCController");
-
 dojo.require("dojo.event.*");
-dojo.require("dojo.json")
+dojo.require("dojo.json");
 dojo.require("dojo.io.*");
 dojo.require("dojo.widget.TreeLoadingController");
-
-
-dojo.widget.defineWidget("dojo.widget.TreeRPCController", dojo.widget.TreeLoadingController, {
-	/**
-	 * Make request to server about moving children.
-	 *
-	 * Request returns "true" if move succeeded,
-	 * object with error field if failed
-	 *
-	 * I can't leave DragObject floating until async request returns, need to return false/true
-	 * so making it sync way...
-	 *
-	 * Also, "loading" icon is not shown until function finishes execution, so no indication for remote request.
-	*/
-	doMove: function(child, newParent, index){
-
-		//if (newParent.isTreeNode) newParent.markLoading();
-
-		var params = {
-			// where from
-			child: this.getInfo(child),
-			childTree: this.getInfo(child.tree),
-			// where to
-			newParent: this.getInfo(newParent),
-			newParentTree: this.getInfo(newParent.tree),
-			newIndex: index
-		};
-
-		var success;
-
-		this.runRPC({		
-			url: this.getRPCUrl('move'),
-			/* I hitch to get this.loadOkHandler */
-			load: function(response){
-				success = this.doMoveProcessResponse(response, child, newParent, index) ;
-			},
-			sync: true,
-			lock: [child, newParent],
-			params: params
-		});
-
-
-		return success;
-	},
-
-	doMoveProcessResponse: function(response, child, newParent, index){
-
-		if(!dojo.lang.isUndefined(response.error)){
-			this.RPCErrorHandler("server", response.error);
-			return false;
-		}
-
-		var args = [child, newParent, index];
-		return dojo.widget.TreeLoadingController.prototype.doMove.apply(this, args);
-
-	},
-
-
-	doRemoveNode: function(node, callObj, callFunc){
-
-		var params = {
-			node: this.getInfo(node),
-			tree: this.getInfo(node.tree)
-		}
-
-		this.runRPC({
-				url: this.getRPCUrl('removeNode'),
-				/* I hitch to get this.loadOkHandler */
-				load: function(response){
-					this.doRemoveNodeProcessResponse(response, node, callObj, callFunc) 
-				},
-				params: params,
-				lock: [node]
-		});
-
-	},
-
-
-	doRemoveNodeProcessResponse: function(response, node, callObj, callFunc){
-		if(!dojo.lang.isUndefined(response.error)){
-			this.RPCErrorHandler("server", response.error);
-			return false;
-		}
-
-		if(!response){ return false; }
-
-		if(response == true){
-			/* change parent succeeded */
-			var args = [ node, callObj, callFunc ];
-			dojo.widget.TreeLoadingController.prototype.doRemoveNode.apply(this, args);
-
-			return;
-		}else if(dojo.lang.isObject(response)){
-			dojo.raise(response.error);
-		}else{
-			dojo.raise("Invalid response "+response)
-		}
-
-
-	},
-
-
-
-	// -----------------------------------------------------------------------------
-	//                             Create node stuff
-	// -----------------------------------------------------------------------------
-
-
-	doCreateChild: function(parent, index, output, callObj, callFunc){
-
-			var params = {
-				tree: this.getInfo(parent.tree),
-				parent: this.getInfo(parent),
-				index: index,
-				data: output
-			}
-
-			this.runRPC({
-				url: this.getRPCUrl('createChild'),
-				load: function(response) {
-					// suggested data is dead, fresh data from server is used
-					this.doCreateChildProcessResponse( response, parent, index, callObj, callFunc) 
-				},
-				params: params,
-				lock: [parent]
-			});
-
-	},
-
-	doCreateChildProcessResponse: function(response, parent, index, callObj, callFunc){
-
-		if(!dojo.lang.isUndefined(response.error)){
-			this.RPCErrorHandler("server",response.error);
-			return false;
-		}
-
-		if(!dojo.lang.isObject(response)){
-			dojo.raise("Invalid result "+response)
-		}
-
-		var args = [parent, index, response, callObj, callFunc];
-		
-		dojo.widget.TreeLoadingController.prototype.doCreateChild.apply(this, args);
-	}
-});
+dojo.widget.defineWidget("dojo.widget.TreeRPCController",dojo.widget.TreeLoadingController,{doMove:function(_1,_2,_3){
+var _4={child:this.getInfo(_1),childTree:this.getInfo(_1.tree),newParent:this.getInfo(_2),newParentTree:this.getInfo(_2.tree),newIndex:_3};
+var _5;
+this.runRPC({url:this.getRPCUrl("move"),load:function(_6){
+_5=this.doMoveProcessResponse(_6,_1,_2,_3);
+},sync:true,lock:[_1,_2],params:_4});
+return _5;
+},doMoveProcessResponse:function(_7,_8,_9,_a){
+if(!dojo.lang.isUndefined(_7.error)){
+this.RPCErrorHandler("server",_7.error);
+return false;
+}
+var _b=[_8,_9,_a];
+return dojo.widget.TreeLoadingController.prototype.doMove.apply(this,_b);
+},doRemoveNode:function(_c,_d,_e){
+var _f={node:this.getInfo(_c),tree:this.getInfo(_c.tree)};
+this.runRPC({url:this.getRPCUrl("removeNode"),load:function(_10){
+this.doRemoveNodeProcessResponse(_10,_c,_d,_e);
+},params:_f,lock:[_c]});
+},doRemoveNodeProcessResponse:function(_11,_12,_13,_14){
+if(!dojo.lang.isUndefined(_11.error)){
+this.RPCErrorHandler("server",_11.error);
+return false;
+}
+if(!_11){
+return false;
+}
+if(_11==true){
+var _15=[_12,_13,_14];
+dojo.widget.TreeLoadingController.prototype.doRemoveNode.apply(this,_15);
+return;
+}else{
+if(dojo.lang.isObject(_11)){
+dojo.raise(_11.error);
+}else{
+dojo.raise("Invalid response "+_11);
+}
+}
+},doCreateChild:function(_16,_17,_18,_19,_1a){
+var _1b={tree:this.getInfo(_16.tree),parent:this.getInfo(_16),index:_17,data:_18};
+this.runRPC({url:this.getRPCUrl("createChild"),load:function(_1c){
+this.doCreateChildProcessResponse(_1c,_16,_17,_19,_1a);
+},params:_1b,lock:[_16]});
+},doCreateChildProcessResponse:function(_1d,_1e,_1f,_20,_21){
+if(!dojo.lang.isUndefined(_1d.error)){
+this.RPCErrorHandler("server",_1d.error);
+return false;
+}
+if(!dojo.lang.isObject(_1d)){
+dojo.raise("Invalid result "+_1d);
+}
+var _22=[_1e,_1f,_1d,_20,_21];
+dojo.widget.TreeLoadingController.prototype.doCreateChild.apply(this,_22);
+}});

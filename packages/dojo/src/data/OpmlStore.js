@@ -8,217 +8,157 @@
 		http://dojotoolkit.org/community/licensing.shtml
 */
 
+
 dojo.provide("dojo.data.OpmlStore");
 dojo.require("dojo.data.core.Read");
 dojo.require("dojo.data.core.Result");
 dojo.require("dojo.lang.assert");
 dojo.require("dojo.json");
-
 dojo.require("dojo.experimental");
 dojo.experimental("dojo.data.OpmlStore");
-// FIXME: The OpmlStore works in Firefox but does not yet work in IE.
-
-dojo.declare("dojo.data.OpmlStore", dojo.data.core.Read, {
-	/* summary:
-	 *   The OpmlStore implements the dojo.data.core.Read API.  
-	 */
-	 
-	/* examples:
-	 *   var opmlStore = new dojo.data.OpmlStore({url:"geography.opml"});
-	 *   var opmlStore = new dojo.data.OpmlStore({url:"http://example.com/geography.opml"});
-	 */
-	initializer: function(/* object */ keywordParameters) {
-		// keywordParameters: {url: String}
-		this._arrayOfTopLevelItems = [];
-		this._metadataNodes = null;
-		this._loadFinished = false;
-		this._opmlFileUrl = keywordParameters["url"];
-	},
-	
-	_assertIsItem: function(/* item */ item) {
-		if (!this.isItem(item)) { 
-			throw new Error("dojo.data.OpmlStore: a function was passed an item argument that was not an item");
-		}
-	},
-	
-	_removeChildNodesThatAreNotElementNodes: function(/* node */ node, /* boolean */ recursive) {
-		var childNodes = node.childNodes;
-		if (childNodes.length == 0) {
-			return;
-		}
-		var nodesToRemove = [];
-		var i, childNode;
-		for (i = 0; i < childNodes.length; ++i) {
-			childNode = childNodes[i];
-			if (childNode.nodeType != Node.ELEMENT_NODE) { 
-				nodesToRemove.push(childNode); 
-			}
-		};
-		// dojo.debug('trim: ' + childNodes.length + ' total, ' + nodesToRemove.length + ' junk');
-		for (i = 0; i < nodesToRemove.length; ++i) {
-			childNode = nodesToRemove[i];
-			node.removeChild(childNode);
-		}
-		// dojo.debug('trim: ' + childNodes.length + ' remaining');
-		if (recursive) {
-			for (i = 0; i < childNodes.length; ++i) {
-				childNode = childNodes[i];
-				this._removeChildNodesThatAreNotElementNodes(childNode, recursive);
-			}
-		}
-	},
-	
-	_processRawXmlTree: function(/* xmlDoc */ rawXmlTree) {
-		var headNodes = rawXmlTree.getElementsByTagName('head');
-		var headNode = headNodes[0];
-		this._removeChildNodesThatAreNotElementNodes(headNode);
-		this._metadataNodes = headNode.childNodes;
-		var bodyNodes = rawXmlTree.getElementsByTagName('body');
-		var bodyNode = bodyNodes[0];
-		this._removeChildNodesThatAreNotElementNodes(bodyNode, true);
-		
-		var bodyChildNodes = bodyNodes[0].childNodes;
-		for (var i = 0; i < bodyChildNodes.length; ++i) {
-			var node = bodyChildNodes[i];
-			if (node.tagName == 'outline') {
-				this._arrayOfTopLevelItems.push(node);
-			}
-		}
-	},
-	
-	get: function(/* item */ item, /* attribute || attribute-name-string */ attribute, /* value? */ defaultValue) {
-		// summary: See dojo.data.core.Read.get()
-		this._assertIsItem(item);
-		if (attribute == 'children') {
-			return (item.firstChild || defaultValue);
-		} else {
-			var value = item.getAttribute(attribute);
-			value = (value != undefined) ? value : defaultValue;
-			return value;
-		}
-	},
-		
-	getValues: function(/* item */ item, /* attribute || attribute-name-string */ attribute) {
-		// summary: See dojo.data.core.Read.getValues()
-		this._assertIsItem(item);
-		if (attribute == 'children') {
-			var array = [];
-			for (var i = 0; i < item.childNodes.length; ++i) {
-				array.push(item.childNodes[i]);
-			}
-			return array; // Array
-			// return item.childNodes; // FIXME: this isn't really an Array
-		} else {
-			return [item.getAttribute(attribute)]; // Array
-		}
-	},
-		
-	getAttributes: function(/* item */ item) {
-		// summary: See dojo.data.core.Read.getAttributes()
-		this._assertIsItem(item);
-		var attributes = [];
-		var xmlNode = item;
-		var xmlAttributes = xmlNode.attributes;
-		for (var i = 0; i < xmlAttributes.length; ++i) {
-			var xmlAttribute = xmlAttributes.item(i);
-			attributes.push(xmlAttribute.nodeName);
-		}
-		if (xmlNode.childNodes.length > 0) {
-			attributes.push('children');
-		}
-		return attributes; // array
-	},
-	
-	hasAttribute: function(/* item */ item, /* attribute || attribute-name-string */ attribute) {
-		// summary: See dojo.data.core.Read.hasAttribute()
-		return (this.getValues(item, attribute).length > 0);
-	},
-	
-	containsValue: function(/* item */ item, /* attribute || attribute-name-string */ attribute, /* anything */ value) {
-		// summary: See dojo.data.core.Read.containsValue()
-		var values = this.getValues(item, attribute);
-		for (var i = 0; i < values.length; ++i) {
-			var possibleValue = values[i];
-			if (value == possibleValue) {
-				return true;
-			}
-		}
-		return false; // boolean
-	},
-		
-	isItem: function(/* anything */ something) {
-		return (something && 
-				something.nodeType == Node.ELEMENT_NODE && 
-				something.tagName == 'outline'); // boolean
-	},
-	
-	isItemAvailable: function(/* anything */ something) {
-		return this.isItem(something);
-	},
-	
-	find: function(/* object? || dojo.data.core.Result */ keywordArgs) {
-		// summary: See dojo.data.core.Read.find()
-		var result = null;
-		if (keywordArgs instanceof dojo.data.core.Result) {
-			result = keywordArgs;
-			result.store = this;
-		} else {
-			result = new dojo.data.core.Result(keywordArgs, this);
-		}
-		var self = this;
-		var bindHandler = function(type, data, evt) {
-			var scope = result.scope || dj_global;
-			if (type == "load") {
-				self._processRawXmlTree(data);
-				if (result.saveResult) {
-					result.items = self._arrayOfTopLevelItems;
-				}
-				if (result.onbegin) {
-					result.onbegin.call(scope, result);
-				}
-				for (var i=0; i < self._arrayOfTopLevelItems.length; i++) {
-					var item = self._arrayOfTopLevelItems[i];
-					if (result.onnext && !result._aborted) {
-						result.onnext.call(scope, item, result);
-					}
-				}
-				if (result.oncompleted && !result._aborted) {
-					result.oncompleted.call(scope, result);
-				}
-			} else if(type == "error" || type == 'timeout') {
-				// todo: how to handle timeout?
-				var errorObject = data;
-				// dojo.debug("error in dojo.data.OpmlStore.find(): " + dojo.json.serialize(errorObject));
-				if (result.onerror) {
-					result.onerror.call(scope, data);
-				}
-			}
-		};
-		
-		if (!this._loadFinished) {
-			if (this._opmlFileUrl) {
-				var bindRequest = dojo.io.bind({
-					url: this._opmlFileUrl, // "playlist.opml",
-					handle: bindHandler,
-					mimetype: "text/xml",
-					sync: (result.sync || false) });
-				result._abortFunc = bindRequest.abort;
-			}
-		}
-		return result; // dojo.data.csv.Result
-	},
-	
-	getIdentity: function(/* item */ item) {
-		// summary: See dojo.data.core.Read.getIdentity()
-		dojo.unimplemented('dojo.data.OpmlStore.getIdentity()');
-		return null;
-	},
-	
-	findByIdentity: function(/* string */ identity) {
-		// summary: See dojo.data.core.Read.findByIdentity()
-		dojo.unimplemented('dojo.data.OpmlStore.findByIdentity()');
-		return null;
-	}
-});
-
-
+dojo.declare("dojo.data.OpmlStore",dojo.data.core.Read,{initializer:function(_1){
+this._arrayOfTopLevelItems=[];
+this._metadataNodes=null;
+this._loadFinished=false;
+this._opmlFileUrl=_1["url"];
+},_assertIsItem:function(_2){
+if(!this.isItem(_2)){
+throw new Error("dojo.data.OpmlStore: a function was passed an item argument that was not an item");
+}
+},_removeChildNodesThatAreNotElementNodes:function(_3,_4){
+var _5=_3.childNodes;
+if(_5.length==0){
+return;
+}
+var _6=[];
+var i,_8;
+for(i=0;i<_5.length;++i){
+_8=_5[i];
+if(_8.nodeType!=Node.ELEMENT_NODE){
+_6.push(_8);
+}
+}
+for(i=0;i<_6.length;++i){
+_8=_6[i];
+_3.removeChild(_8);
+}
+if(_4){
+for(i=0;i<_5.length;++i){
+_8=_5[i];
+this._removeChildNodesThatAreNotElementNodes(_8,_4);
+}
+}
+},_processRawXmlTree:function(_9){
+var _a=_9.getElementsByTagName("head");
+var _b=_a[0];
+this._removeChildNodesThatAreNotElementNodes(_b);
+this._metadataNodes=_b.childNodes;
+var _c=_9.getElementsByTagName("body");
+var _d=_c[0];
+this._removeChildNodesThatAreNotElementNodes(_d,true);
+var _e=_c[0].childNodes;
+for(var i=0;i<_e.length;++i){
+var _10=_e[i];
+if(_10.tagName=="outline"){
+this._arrayOfTopLevelItems.push(_10);
+}
+}
+},get:function(_11,_12,_13){
+this._assertIsItem(_11);
+if(_12=="children"){
+return (_11.firstChild||_13);
+}else{
+var _14=_11.getAttribute(_12);
+_14=(_14!=undefined)?_14:_13;
+return _14;
+}
+},getValues:function(_15,_16){
+this._assertIsItem(_15);
+if(_16=="children"){
+var _17=[];
+for(var i=0;i<_15.childNodes.length;++i){
+_17.push(_15.childNodes[i]);
+}
+return _17;
+}else{
+return [_15.getAttribute(_16)];
+}
+},getAttributes:function(_19){
+this._assertIsItem(_19);
+var _1a=[];
+var _1b=_19;
+var _1c=_1b.attributes;
+for(var i=0;i<_1c.length;++i){
+var _1e=_1c.item(i);
+_1a.push(_1e.nodeName);
+}
+if(_1b.childNodes.length>0){
+_1a.push("children");
+}
+return _1a;
+},hasAttribute:function(_1f,_20){
+return (this.getValues(_1f,_20).length>0);
+},containsValue:function(_21,_22,_23){
+var _24=this.getValues(_21,_22);
+for(var i=0;i<_24.length;++i){
+var _26=_24[i];
+if(_23==_26){
+return true;
+}
+}
+return false;
+},isItem:function(_27){
+return (_27&&_27.nodeType==Node.ELEMENT_NODE&&_27.tagName=="outline");
+},isItemAvailable:function(_28){
+return this.isItem(_28);
+},find:function(_29){
+var _2a=null;
+if(_29 instanceof dojo.data.core.Result){
+_2a=_29;
+_2a.store=this;
+}else{
+_2a=new dojo.data.core.Result(_29,this);
+}
+var _2b=this;
+var _2c=function(_2d,_2e,evt){
+var _30=_2a.scope||dj_global;
+if(_2d=="load"){
+_2b._processRawXmlTree(_2e);
+if(_2a.saveResult){
+_2a.items=_2b._arrayOfTopLevelItems;
+}
+if(_2a.onbegin){
+_2a.onbegin.call(_30,_2a);
+}
+for(var i=0;i<_2b._arrayOfTopLevelItems.length;i++){
+var _32=_2b._arrayOfTopLevelItems[i];
+if(_2a.onnext&&!_2a._aborted){
+_2a.onnext.call(_30,_32,_2a);
+}
+}
+if(_2a.oncompleted&&!_2a._aborted){
+_2a.oncompleted.call(_30,_2a);
+}
+}else{
+if(_2d=="error"||_2d=="timeout"){
+var _33=_2e;
+if(_2a.onerror){
+_2a.onerror.call(_30,_2e);
+}
+}
+}
+};
+if(!this._loadFinished){
+if(this._opmlFileUrl){
+var _34=dojo.io.bind({url:this._opmlFileUrl,handle:_2c,mimetype:"text/xml",sync:(_2a.sync||false)});
+_2a._abortFunc=_34.abort;
+}
+}
+return _2a;
+},getIdentity:function(_35){
+dojo.unimplemented("dojo.data.OpmlStore.getIdentity()");
+return null;
+},findByIdentity:function(_36){
+dojo.unimplemented("dojo.data.OpmlStore.findByIdentity()");
+return null;
+}});
