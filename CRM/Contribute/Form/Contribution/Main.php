@@ -105,6 +105,17 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
+        //set custom field defaults
+        require_once "CRM/Core/BAO/CustomField.php";
+        foreach ( $this->_fields as $name => $field ) {
+            if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID($name) ) {
+                if ( !isset( $this->_defaults[$name] ) ) {
+                    CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $this->_defaults,
+                                                                  null, CRM_Profile_Form::MODE_REGISTER );
+                }
+            }
+        }
+
         //set default membership for membershipship block
         require_once 'CRM/Member/BAO/Membership.php';
         if ( $membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock($this->_id) ) {

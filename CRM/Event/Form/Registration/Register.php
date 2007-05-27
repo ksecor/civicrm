@@ -90,17 +90,19 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     $this->_defaults["billing_" . $name] = $this->_defaults[$name];
                 }
             }
-            
-            //set custom field defaults
-            require_once "CRM/Core/BAO/CustomField.php";
-            foreach ($fields as $name => $field ) {
-                if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID($name) ) {
-                    if ( !isset( $this->_defaults[$name] )) { //fix for CRM-1743 
-                        CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $this->_defaults, null, CRM_Profile_Form::MODE_REGISTER );
-                    }
+        }
+
+        //set custom field defaults
+        require_once "CRM/Core/BAO/CustomField.php";
+        foreach ( $this->_fields as $name => $field ) {
+            if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID($name) ) {
+                if ( !isset( $this->_defaults[$name] )) { //fix for CRM-1743 
+                    CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $this->_defaults,
+                                                                  null, CRM_Profile_Form::MODE_REGISTER );
                 }
             }
         }
+
         return $this->_defaults;
     }
 
