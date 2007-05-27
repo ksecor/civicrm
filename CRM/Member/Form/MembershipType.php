@@ -116,7 +116,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $memberOrg =& $this->add('text', 'member_org', ts('Membership Organization'), 'size=30 maxlength=120' );
         //start day
         $this->add('date', 'fixed_period_start_day', ts('Fixed Period Start Day'), 
-                   CRM_Core_SelectValues::date('custom', 3, 1, 'M d'), false);
+                   CRM_Core_SelectValues::date('custom', 3, 1, "M\001d"), false);
         
         //rollover day
         $this->add('date', 'fixed_period_rollover_day', ts('Fixed Period Rollover Day'), 

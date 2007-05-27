@@ -92,6 +92,16 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
      */
     function browse( ) 
     {
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+
+        // add annual contribution
+        $annual = array( );
+        list( $annual['count'],
+              $annual['amount'],
+              $annual['avg'] ) =
+            CRM_Contribute_BAO_Contribution::annual( $this->_contactId );
+        $this->assign( 'annual', $annual );
+
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action );
         $controller->setEmbedded( true );
         $controller->reset( );
@@ -102,11 +112,9 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
         $controller->run( );
         
         //add honor block
-        
         // form all action links	
         $action = array_sum(array_keys($this->honorLinks( )));	    
         
-        require_once 'CRM/Contribute/BAO/Contribution.php';
         $params = array( );
         $params =  CRM_Contribute_BAO_Contribution::getHonorContacts( $this->_contactId );
         if ( ! empty($params) ) {

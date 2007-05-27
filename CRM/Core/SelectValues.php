@@ -388,7 +388,7 @@ class CRM_Core_SelectValues
      * @return array         the date array
      * @static
      */
-    static function &date($type = 'birth', $min = null, $max = null,$dateParts = null)
+    static function &date($type = 'birth', $min = null, $max = null, $dateParts = null)
     {
         static $_date = null;
         static $config = null;
@@ -419,14 +419,14 @@ class CRM_Core_SelectValues
             $minOffset = $min; 
             $maxOffset = $max; 
             if( $dateParts ) {
-                if (isset ($stringFormat) ) {
-                    require_once 'CRM/Core/BAO/CustomOption.php';
-                    $format = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$dateParts);
-                    foreach( $format as $v ) {
-                        $stringFormat = $stringFormat ." ".$v;  
-                    }
-                    $newDate['format'] = $stringFormat;
+                $stringFormat = null;
+                
+                require_once 'CRM/Core/BAO/CustomOption.php';
+                $format = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $dateParts );
+                foreach( $format as $v ) {
+                    $stringFormat .= " $v";
                 }
+                $newDate['format'] = $stringFormat;
             }
         } elseif ($type == 'fixed') {
             $minOffset = 0;

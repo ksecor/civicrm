@@ -789,7 +789,49 @@ WHERE  civicrm_contribution.contact_id = civicrm_contact.id
         return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
     }
 
-    static function annualContribution( $contactID ) {
+    static function annual( $contactID ) {
+        
+        if ( is_array( $contactID ) ) {
+            $contactIDs = implode( ',', $contactID );
+        } else {
+            $contactIDs = $contactID;
+        }
+
+        $config =& CRM_Core_Config::singleton( );
+        $startDate = $endDate = null;
+        $year     = date( 'Y' );
+        $nextYear = $year + 1;
+        
+        if ( $config->fiscalYearStart ) {
+            if ( $config->fiscalYearStart['M'] < 10 ) {
+                $config->fiscalYearStart['M'] = '0' . $config->fiscalYearStart['M'];
+            }
+            if ( $config->fiscalYearStart['d'] < 10 ) {
+                $config->fiscalYearStart['d'] = '0' . $config->fiscalYearStart['d'];
+            }
+            $monthDay = $config->fiscalYearStart['M'] . $config->fiscalYearStart['d'];
+        } else {
+            $monthDay = '0101';
+        }
+        $startDate = "$year$monthDay";
+        $endDate   = "$nextYear$monthDay";
+
+        $query = "
+SELECT count(*) as count,
+       sum(total_amount) as amount
+  FROM civicrm_contribution b
+ WHERE b.contact_id IN ( $contactIDs )
+   AND b.contribution_status_id = 1
+   AND b.receive_date >= $startDate
+   AND b.receive_date <  $endDate
+";
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        if ( $dao->fetch( ) ) {
+            if ( $dao->count > 0 && $dao->amount > 0) {
+                return array( $dao->count, $dao->amount, (float ) $dao->amount / $dao->count );
+            }
+        }
+        return array( 0, 0, 0 );
     }
 }
 

@@ -13,6 +13,16 @@
 </div>
 
 {if $rows}
+{if $annual.count}
+<table class="form-layout-compressed">
+    <tr>
+    <th></th>
+    <th>{ts}Current Year-to-Date{/ts} - {$annual.amount|crmMoney}</th>
+    <th> &nbsp; {ts}# Contributions{/ts} - {$annual.count}</th>
+    <th> &nbsp; {ts}Avg Amount{/ts} - {$annual.avg|crmMoney}</th>
+    </tr>
+</table>
+{/if}
     {include file="CRM/Contribute/Page/ContributionTotals.tpl" mode="view"}
     <p> </p>
     {include file="CRM/Contribute/Form/Selector.tpl"}

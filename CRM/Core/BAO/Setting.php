@@ -123,13 +123,17 @@ class CRM_Core_BAO_Setting
      */
     static function formatParams(&$params, &$values) 
     {
-        foreach ($params as $key => $val) {
-            if ( array_key_exists($key, $values)) {
-                unset($values[$key]);
+        if ( empty( $params ) ||
+             ! is_array( $params ) ) {
+            $params = $values;
+        } else {
+            foreach ($params as $key => $val) {
+                if ( array_key_exists($key, $values)) {
+                    unset($values[$key]);
+                }
             }
+            $params = array_merge($params, $values);
         }
-
-        $params = array_merge($params, $values);
     }
 
     /**
