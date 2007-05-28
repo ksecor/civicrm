@@ -111,7 +111,7 @@ class CRM_Contact_Form_Individual {
                                 );
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
         $form->add( 'text', 'shared_household', ts( $selHouseLabel ), $attributes );
-        
+
         $form->addElement('text', 'home_URL', ts('Website'),
                           array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
                                        array('onfocus' => "if (!this.value) this.value='http://'; else return false")
@@ -181,10 +181,12 @@ class CRM_Contact_Form_Individual {
         // if use_household_address option is checked, make sure 'correct household_name' is also present.
         if ( $fields['use_household_address'] ) {
             if ( $fields['shared_household'] ) {
+                list($householdName) = explode(",", $fields['shared_household']);
                 $contactID = 
-                    CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $fields['shared_household'], 'id', 'sort_name' );
+                    CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim( $householdName ), 'id', 'sort_name' );
                 if ( ! $contactID ) {
-                    $errors["shared_household"] = ts('Household not found.');
+                    $errors["shared_household"] = 
+                        ts("Household not found. Please select a household from the 'Select Household' list");
                 }
             } else {
                 $errors["shared_household"] = ts('Please enter the Household name.');

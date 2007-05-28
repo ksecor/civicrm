@@ -287,13 +287,23 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                                         $defaults, 
                                                         CRM_Contact_Form_GroupTag::ALL );
             }
-
             
-            // set the default for use_household_address checkbox and Select Household name.
+            // set the default for 'use_household_address' checkbox and Select-Household.
             if ( $defaults['mail_to_household_id'] ) {
                 $defaults['use_household_address'] = true;
-                $defaults['shared_household'] = 
-                    CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $defaults['mail_to_household_id'], 'sort_name', 'id' );
+                $domainID      =  CRM_Core_Config::domainID( );   
+                $query         =  "
+SELECT CONCAT(sort_name,', ', LEFT(street_address,25),', ', city) 'shared_name'
+FROM civicrm_contact, civicrm_address 
+WHERE civicrm_contact.id={$defaults['mail_to_household_id']} 
+AND domain_id=$domainID 
+AND civicrm_address.location_id=(SELECT id from civicrm_location 
+WHERE civicrm_location.entity_id=civicrm_contact.id 
+AND civicrm_location.entity_table='civicrm_contact')";
+                $nullArray = array( );
+                $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+                $dao->fetch( );
+                $this->assign('defaultSharedHousehold', trim( $dao->shared_name ));
             }
         }
 
@@ -440,11 +450,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_' . $this->_contactType . '::buildQuickForm( $this );' );
-        
-        // freeze 'use household address' checkbox (for individual) when update mode.
-        if ( ($this->_contactType == 'Individual') && ($this->_action & CRM_Core_Action::UPDATE) ) {
-            $this->useHouseholdChkbox->freeze();
-        }
 
         // add the communications block
         if ( $this->_showCommBlock ) {
@@ -577,13 +582,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         // copy household address if use_household_address option is checked
         if ( $this->_contactType == 'Individual' && $params['use_household_address'] ) {
+            list($householdName) = explode(",", $params['shared_household']);
+            
             $sharedHouseholdID = 
-                CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $params['shared_household'], 'id', 'sort_name' );
+                CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim($householdName), 'id', 'sort_name' );
             
             if ( ! $sharedHouseholdID ) {
-                CRM_Core_Error::statusBounce( ts('Shared Household-ID not found.') );
+                CRM_Core_Error::statusBounce( ts("Shared Household-ID not found.") );
             }
-            // if update mode and shared household-name is kept same, skip address copy
+            // In update mode, if shared household-name is kept same as earlier, skip address copy
             if ( !($defaults['mail_to_household_id'] && ($defaults['mail_to_household_id'] == $sharedHouseholdID)) ) {
                 $params['mail_to_household_id'] = $sharedHouseholdID;
                 $locParams = array('contact_id' => $sharedHouseholdID);
