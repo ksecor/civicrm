@@ -33,13 +33,70 @@
  *
  */
 
-require_once 'CRM/Admin/Form/Setting.php';
+require_once 'CRM/Admin/Form/Preferences.php';
 
 /**
  * This class generates form components for Address Section  
  */
-class CRM_Admin_Form_Setting_Address extends CRM_Admin_Form_Setting
+class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
 {
+    function preProcess( ) {
+        parent::preProcess( );
+
+        // add all the checkboxes
+        $this->_cbs = array(
+                            'address_options'    => ts( 'Address Fields'   ),
+                            );
+    }
+
+    function setDefaultValues( ) {
+        $defaults = array( );
+
+        $defaults['location_count'] =
+            $this->_config->location_count ? $this->_config->location_count : 1;
+
+        $defaults['address_standardization_provider'] = $this->_config->address_standardization_provider;
+        $defaults['address_standardization_userid'] = $this->_config->address_standardization_userid;
+        $defaults['address_standardization_url'] = $this->_config->address_standardization_url;
+        
+        if ( empty( $this->_config->address_format ) ) {
+            $defaults['address_format'] = '
+{street_address}
+{supplemental_address_1}
+{supplemental_address_2}
+{city}{, }{state_province}{ }{postal_code}
+{country}
+';
+        } else {
+            $defaults['address_format'] = $this->_config->address_format;
+        }
+
+        if ( empty( $this->_config->mailing_format ) ) {
+            $defaults['mailing_format'] = '
+{street_address}
+{supplemental_address_1}
+{supplemental_address_2}
+{city}{, }{state_province}{ }{postal_code}
+{country}
+';
+        } else {
+            $defaults['mailing_format'] = $this->_config->mailing_format;
+        }
+
+
+        if ( empty( $this->_config->individual_name_format ) ) {
+            $defaults['individual_name_format'] =
+                '{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}';
+        } else {
+            $defaults['individual_name_format'] = $this->_config->individual_name_format;
+        }
+
+
+        parent::cbsDefaultValues( $defaults );
+
+        return $defaults;
+    }
+
     /**
      * Function to build the form
      *
@@ -48,30 +105,31 @@ class CRM_Admin_Form_Setting_Address extends CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) 
     {
-        CRM_Utils_System::setTitle(ts('Settings - Addresses'));
-          
-        $this->addElement('textarea','addressFormat', ts('Address Formatting'));  
-        $this->addElement('text','maxLocationBlocks', ts('Maximum Locations'));
-        $this->addYesNo('includeCounty', ts('Include County?'));
+        $this->add('text',
+                   'location_count',
+                   ts('Location Blocks to display'),
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Preferences', 'location_count' ) );
+        $this->addRule( 'location_count', ts( 'Location count has to be postive' ), 'positiveInteger' );
+
+        // address formatting options
+        $this->addElement('text','individual_name_format', ts('Individual Name Format'));
+        $this->addElement('textarea','mailing_format', ts('Mailing Label Format'));  
+        $this->addElement('textarea','address_format', ts('Address Formatting'));  
 
         // Address Standarization
-        $this->addElement('text','AddressStdProvider', ts('Provider'));
-        $this->addElement('text','AddressStdUserID', ts('User ID'));
-        $this->addElement('text','AddressStdURL', ts('Web Service URL'));
+        $this->addElement('text', 'address_standardization_provider', ts('Provider'));
+        $this->addElement('text', 'address_standardization_userid'  , ts('User ID'));
+        $this->addElement('text', 'address_standardization_url'     , ts('Web Service URL'));
 
-        //Mailing Labels
-        $this->addElement('text','individualNameFormat', ts('Individual Name Format'));
-        $this->addElement('textarea','mailingLabelFormat', ts('Mailing Label Format'));  
-
-        $this->addFormRule( array( 'CRM_Admin_Form_Setting_Address', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Admin_Form_Preferences_Address', 'formRule' ) );
 
         parent::buildQuickForm();
     }
 
     static function formRule( &$fields ) {
-        $p = empty( $fields['AddressStdProvider'] );
-        $u = empty( $fields['AddressStdUserID'  ] );
-        $w = empty( $fields['AddressStdURL'     ] );
+        $p = empty( $fields['address_standardization_provider'] );
+        $u = empty( $fields['address_standardization_userid'  ] );
+        $w = empty( $fields['address_standardization_url'     ] );
 
         // make sure that there is a value for all of them
         // if any of them are set
@@ -89,6 +147,25 @@ class CRM_Admin_Form_Setting_Address extends CRM_Admin_Form_Setting
         
         return true;
     }
+
+    /**
+     * Function to process the form
+     *
+     * @access public
+     * @return None
+     */
+    public function postProcess() 
+    {
+        if ( $this->_action == CRM_Core_Action::VIEW ) {
+            return;
+        }
+
+        $this->_params = $this->controller->exportValues( $this->_name );
+
+        $this->_config->copyValues( $this->_params );
+
+        parent::postProcess( );
+    }//end of function
 
 }
 

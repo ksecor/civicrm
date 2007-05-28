@@ -12,14 +12,10 @@
       </div>
      {else}
       <dl>
-        <dt>{$form.location_count.label}</dt><dd>{$form.location_count.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Number of locations to be displayed when creating and/or editing a contact.{/ts}</dd>
         <dt>{$form.contact_view_options.label}</dt><dd>{$form.contact_view_options.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Tabs that should be displayed in the View Contacts Page{/ts}</dd>
         <dt>{$form.contact_edit_options.label}</dt><dd>{$form.contact_edit_options.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Sections that should be displayed in the Create/Edit Contacts Page{/ts}</dd>
-        <dt>{$form.address_options.label}</dt><dd>{$form.address_options.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Fields that should be displayed in the address form{/ts}</dd>
         <dt>{$form.advanced_search_options.label}</dt><dd>{$form.advanced_search_options.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Sections that should be displayed in the Advanced Search Form{/ts}</dd>
         <dt>{$form.user_dashboard_options.label}</dt><dd>{$form.user_dashboard_options.html}</dd>
