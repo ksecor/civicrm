@@ -96,7 +96,10 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         $config =& CRM_Core_Config::singleton();
 
         //get the address format sequence from the config file
-        foreach ($config->addressSequence as $v) {
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $sequence = CRM_Core_BAO_Preferences::value( 'address_sequence' );
+
+        foreach ($sequence as $v) {
             $address[$v] = 1;
         }
         

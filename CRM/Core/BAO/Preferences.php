@@ -69,27 +69,58 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         return self::$_userObject;
     }
 
-    static function locationCount( $system = true, $userID = null ) {
+    static function value( $name, $system = true, $userID = null ) {
         if ( $system ) {
             $object = self::systemObject( );
         } else {
             $object = self::userObject( $userID );
         }
 
-        return
-            isset( self::$_systemObject->location_count ) ? self::$_systemObject->location_count : 1;
+        if ( $name == 'address_sequence' ) {
+            return self::addressSequence( self::$_systemObject->address_format );
+        }
+
+        return self::$_systemObject->$name;
     }
 
-    static function commonOptions( $system = true, $userID = null, $optionName ) {
+    static function addressSequence( $format ) {
+        // also compute and store the address sequence
+        $addressSequence = array( 'street_address',
+                                  'supplemental_address_1',
+                                  'supplemental_address_2',
+                                  'city',
+                                  'county',
+                                  'state_province',
+                                  'postal_code',
+                                  'country');
+
+        // get the field sequence from the format
+        $newSequence = array();
+        foreach($addressSequence as $field) {
+            if (substr_count(format, $field)) {
+                $newSequence[strpos(format, $field)] = $field;
+            }
+        }
+        ksort($newSequence);
+        
+        // add the addressSequence fields that are missing in the addressFormat
+        // to the end of the list, so that (for example) if state_province is not
+        // specified in the addressFormat it's still in the address-editing form
+        $newSequence = array_merge($newSequence, $addressSequence);
+        $newSequence = array_unique($newSequence);
+        return $newSequence;
+    }
+
+    static function valueOptions( $name, $system = true, $userID = null ) {
         if ( $system ) {
             $object = self::systemObject( );
         } else {
             $object = self::userObject( $userID );
         }
 
-        $optionValue = $object->$optionName;
+        $optionValue = $object->$name;
         require_once 'CRM/Core/OptionGroup.php';
-        $groupValues = CRM_Core_OptionGroup::values( $optionName );
+        $groupValues = CRM_Core_OptionGroup::values( $name );
         
         $returnValues = array( );
         foreach ( $groupValues as $gn => $gv ) {
@@ -107,26 +138,6 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         }
         
         return $returnValues;
-    }
-
-    static function contactEditOptions( $system = true, $userID = null ) {
-        return self::commonOptions( $system, $userID, 'contact_edit_options' );
-    }
-
-    static function contactViewOptions( $system = true, $userID = null ) {
-        return self::commonOptions( $system, $userID, 'contact_view_options' );
-    }
-
-    static function advancedSearchOptions( $system = true, $userID = null ) {
-        return self::commonOptions( $system, $userID, 'advanced_search_options' );
-    }
-
-    static function userDashboardOptions( $system = true, $userID = null ) {
-        return self::commonOptions( $system, $userID, 'user_dashboard_options' );
-    }
-
-    static function addressOptions( $system = true, $userID = null ) {
-        return self::commonOptions( $system, $userID, 'address_options' );
     }
 
 }

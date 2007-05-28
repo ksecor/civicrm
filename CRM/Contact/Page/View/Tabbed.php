@@ -145,7 +145,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $weight = 10;
         
         require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_viewOptions = CRM_Core_BAO_Preferences::contactViewOptions( );
+        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options' );
         
         // get the contributions, new style of doing stuff
         // do the below only if the person has access to contributions

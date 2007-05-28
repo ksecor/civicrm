@@ -96,7 +96,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_searchOptions = CRM_Core_BAO_Preferences::advancedSearchOptions( );
+        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
         
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$name] ) {

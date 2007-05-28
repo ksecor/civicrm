@@ -8,7 +8,12 @@
  
 <fieldset><legend>{ts}Address{/ts}</legend>
 
-{foreach item=addressElement from=$config->addressSequence}
+{php}
+$config =& CRM_Core_Config::singleton( );
+$addressSequence = $config->addressSequence();
+$this->assign( 'addressSequence', $addressSequence );
+{/php}	
+{foreach item=addressElement from=$addressSequence}
     {include file=CRM/Contact/Form/Address/$addressElement.tpl}
 {/foreach}
 

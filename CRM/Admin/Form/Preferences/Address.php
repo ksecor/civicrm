@@ -58,27 +58,30 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
         $defaults['address_standardization_provider'] = $this->_config->address_standardization_provider;
         $defaults['address_standardization_userid'] = $this->_config->address_standardization_userid;
         $defaults['address_standardization_url'] = $this->_config->address_standardization_url;
+
         
+        $this->addressSequence = $newSequence;
+
         if ( empty( $this->_config->address_format ) ) {
-            $defaults['address_format'] = '
+            $defaults['address_format'] = "
 {street_address}
 {supplemental_address_1}
 {supplemental_address_2}
 {city}{, }{state_province}{ }{postal_code}
 {country}
-';
+";
         } else {
             $defaults['address_format'] = $this->_config->address_format;
         }
 
         if ( empty( $this->_config->mailing_format ) ) {
-            $defaults['mailing_format'] = '
+            $defaults['mailing_format'] = "
 {street_address}
 {supplemental_address_1}
 {supplemental_address_2}
 {city}{, }{state_province}{ }{postal_code}
 {country}
-';
+";
         } else {
             $defaults['mailing_format'] = $this->_config->mailing_format;
         }
@@ -162,8 +165,19 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
 
         $this->_params = $this->controller->exportValues( $this->_name );
 
+        // trim the format and unify line endings to LF
+        $format = array( 'address_format', 'mailing_format', 'individual_name_format' );
+        foreach ( $format as $f ) {
+          if ( ! empty( $this->_params[$f] ) ) {
+            $this->_params[$f] = trim( $this->_params[$f] );
+            $this->_params[$f] = str_replace(array("\r\n", "\r"), "\n", $this->_params[$f] );
+          }
+        }
+
+        
         $this->_config->copyValues( $this->_params );
 
+        
         parent::postProcess( );
     }//end of function
 

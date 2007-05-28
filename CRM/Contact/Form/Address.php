@@ -53,7 +53,7 @@ class CRM_Contact_Form_Address
     static function buildAddressBlock(&$form, &$location, $locationId)
     {
         require_once 'CRM/Core/BAO/Preferences.php';
-        $addressOptions = CRM_Core_BAO_Preferences::addressOptions( );
+        $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options' );
 
         $config =& CRM_Core_Config::singleton( );
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');

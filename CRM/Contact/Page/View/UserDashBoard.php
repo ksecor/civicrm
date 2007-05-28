@@ -117,7 +117,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         $config =& CRM_Core_Config::singleton( );
 
         require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_userOptions  = CRM_Core_BAO_Preferences::userDashboardOptions( );
+        $this->_userOptions  = CRM_Core_BAO_Preferences::valueOptions( 'user_dashboard_options' );
 
         if ( $this->_userOptions[ts('Contributions')] &&
              in_array( 'CiviContribute', $config->enableComponents ) &&

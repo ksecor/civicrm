@@ -13,6 +13,8 @@
         <dt>&nbsp</dt><dd class="description">{ts}Address display format for Contact Summary and Event Information screens.<br />Use {literal}{state_province}{/literal} for state/province abbreviation or {literal}{state_province_name}{/literal} for state province name.{/ts}{help id='address-tokens'}</dd>
         <dt>{$form.location_count.label}</dt><dd>{$form.location_count.html|crmReplace:class:two}</dd>
         <dt>&nbsp</dt><dd class="description">{ts}Maximum number of different locations/addresses that can be entered for a contact.{/ts}</dd>
+        <dt>{$form.address_options.label}</dt><dd>{$form.address_options.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Fields that should be displayed in the address form{/ts}</dd>
 </fieldset>
 <fieldset><legend>{ts}Address Standardization{/ts}</legend>
     <div class="description">

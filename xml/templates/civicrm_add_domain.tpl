@@ -252,3 +252,11 @@ VALUES
     (@domain_id,'{ts}Grace{/ts}', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 0, 1),
     (@domain_id,'{ts}Expired{/ts}', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 0, 1);
 
+{literal}
+-- Initial state of system preferences
+INSERT INTO 
+     civicrm_preferences(domain_id, contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url )
+VALUES 
+     (@domain_id,NULL,1,1,'123456789','1234','12345678910','1234','1234567891011','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}',NULL,NULL,NULL);
+{/literal}
+

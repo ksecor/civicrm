@@ -36,7 +36,7 @@ class CRM_Utils_Address
      * format an address string from address fields and a format string
      *
      * Format an address basing on the address fields provided.
-     * Use $config->addressFormat if there's no format specified.
+     * Use Preferences::address_format if there's no format specified.
      *
      * @param array   $fields            the address fields
      * @param string  $format            the desired address format
@@ -51,19 +51,14 @@ class CRM_Utils_Address
     static function format($fields, $format = null, $microformat = false, $mailing = false, $individualFormat = false )
     {
         static $config = null;
+        require_once 'CRM/Core/BAO/Preferences.php';
         
         if ( ! $format ) {
-            if ( ! $config ) {
-                $config =& CRM_Core_Config::singleton();
-            }
-            $format = $config->addressFormat;
+            $format = CRM_Core_BAO_Preferences::value( 'address_format' );
         }
 
         if ( $mailing ) {
-            if ( ! $config ) {
-                $config =& CRM_Core_Config::singleton();
-            }  
-            $format = $config->mailingLabelFormat;
+            $format = CRM_Core_BAO_Preferences::value( 'mailing_format' );
         }
         $formatted = $format;
 
@@ -93,10 +88,7 @@ class CRM_Utils_Address
             }
 
             if ( $type == 'Individual' ) {
-                if ( ! $config ) {
-                    $config =& CRM_Core_Config::singleton();
-                }  
-                $format = $config->individualNameFormat;
+                $format = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
                 $contactName = self::format($fields, $format, null, null, true);
             } else {
                 $contactName = $fields['display_name'];

@@ -172,48 +172,6 @@ class CRM_Core_Config
     public $lcMessages = 'en_US';
 
     /**
-     * The format of the individual name.
-     * @var string
-     */
-    public $individualNameFormat = "{individual_prefix}{ }{first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}";
-
-    /**
-     * The format of the mailing label fields.
-     * @var string
-     */
-    public $mailingLabelFormat = "{contact_name}\n{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}";
-
-    /**
-     * The format of the address fields.
-     * @var string
-     */
-    public $addressFormat = "{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}";
-        
-    /**
-     * Address Standardization Provider.
-     * @var string
-     */
-    public $AddressStdProvider = null;
-        
-    /**
-     * Address Standardization User ID.
-     * @var string
-     */
-    public $AddressStdUserID = null;
-    
-    /**
-     * Address Standardization URL.
-     * @var string
-     */
-    public $AddressStdURL = null;
-    
-    /**
-     * The sequence of the address fields.
-     * @var string
-     */
-    public $addressSequence = array('street_address', 'supplemental_address_1', 'supplemental_address_2', 'city', 'county', 'state_province', 'postal_code', 'country');
-
-    /**
      * String format for date+time
      * @var string
      */
@@ -482,12 +440,6 @@ class CRM_Core_Config
     public $includeDojo              = 1;
 
     /**
-     * include county in address block
-     * @var object
-     */
-    public $includeCounty = null;
-
-    /**
      * singleton function used to manage this object
      *
      * @param string the key in which to record session / log information
@@ -725,31 +677,6 @@ class CRM_Core_Config
              CRM_Utils_File::createDir( $this->templateCompileDir );
          }
         
-         if ( $this->addressFormat ) {
-            
-             // trim the format and unify line endings to LF
-             $format = trim($this->addressFormat);
-             $format = str_replace(array("\r\n", "\r"), "\n", $format);
-
-             // get the field sequence from the format
-             $newSequence = array();
-             foreach($this->addressSequence as $field) {
-                 if (substr_count($format, $field)) {
-                     $newSequence[strpos($format, $field)] = $field;
-                 }
-             }
-             ksort($newSequence);
-
-             // add the addressSequence fields that are missing in the addressFormat
-             // to the end of the list, so that (for example) if state_province is not
-             // specified in the addressFormat it's still in the address-editing form
-             $newSequence = array_merge($newSequence, $this->addressSequence);
-             $newSequence = array_unique($newSequence);
-
-             $this->addressSequence = $newSequence;
-             $this->addressFormat   = $format;
-         }
-        
          if ( defined( 'CIVICRM_DATEFORMAT_DATETIME' ) ) {
              $this->dateformatDatetime = CIVICRM_DATEFORMAT_DATETIME;
          }
@@ -852,22 +779,6 @@ class CRM_Core_Config
          if ( defined( 'CIVICRM_CAPTCHA_FONT' ) ) {
              $this->captchaFont = CIVICRM_CAPTCHA_FONT;
          }
-
-        if ( defined( 'CIVICRM_INCLUDE_COUNTY' ) ) {
-            $this->includeCounty = CIVICRM_INCLUDE_COUNTY;
-        }
-        
-        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_PROVIDER' ) ) {
-            $this->AddressStdProvider = CIVICRM_ADDRESS_STANDARDIZATION_PROVIDER;
-        }
-         
-        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_USERID' ) ) {
-            $this->AddressStdUserID = CIVICRM_ADDRESS_STANDARDIZATION_USERID;
-        }
-        
-        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_URL' ) ) {
-            $this->AddressStdURL = CIVICRM_ADDRESS_STANDARDIZATION_URL;
-        }
 
         if ( defined( 'CIVICRM_MAILER_SPOOL_PERIOD' ) ) {
             $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
@@ -1141,31 +1052,6 @@ class CRM_Core_Config
             $this->customFileUploadDir = $this->uploadDir;
         }
         
-        if ( $this->addressFormat ) {
-            
-            // trim the format and unify line endings to LF
-            $format = trim($this->addressFormat);
-            $format = str_replace(array("\r\n", "\r"), "\n", $format);
-            
-            // get the field sequence from the format
-            $newSequence = array();
-            foreach($this->addressSequence as $field) {
-                if (substr_count($format, $field)) {
-                    $newSequence[strpos($format, $field)] = $field;
-                }
-            }
-            ksort($newSequence);
-
-            // add the addressSequence fields that are missing in the addressFormat
-            // to the end of the list, so that (for example) if state_province is not
-            // specified in the addressFormat it's still in the address-editing form
-            $newSequence = array_merge($newSequence, $this->addressSequence);
-            $newSequence = array_unique($newSequence);
-
-            $this->addressSequence = $newSequence;
-            $this->addressFormat   = $format;
-        }
-        
         if ( $this->defaultCurrency ) {
             require_once "CRM/Core/PseudoConstant.php";
             $currencySymbolName = CRM_Core_PseudoConstant::currencySymbols( 'name' );
@@ -1188,6 +1074,12 @@ class CRM_Core_Config
         
         //CRM_Core_Error::debug('this', $this );
     }
+
+    function addressSequence( ) {
+        require_once 'CRM/Core/BAO/Preferences.php';
+        return CRM_Core_BAO_Preferences::value( 'address_sequence' );
+    }
+
 
 } // end CRM_Core_Config
 
