@@ -106,6 +106,39 @@ class CRM_Core_BAO_CMSUser
         CRM_Core_Session::setStatus($status);
         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
     }
+
+    /**
+     * Function to create CMS user using Profile
+     *
+     * @param array  $params associated array 
+     * @param string $mail email id for cms user
+     *
+     * @return int contact id that has been created
+     * @access public
+     * @static
+     */
+    static function creatCMSUser ( &$params, $mail ) 
+    {
+        $config  =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
+            if ( $params['create_account'] ) {
+                $values = array( 
+                                'name' => $params['name'],
+                                'pass' => array('pass1' => $params['pass'],
+                                                'pass2' => $params['confirm_pass']),
+                                'mail' => $params[$mail],
+                                );
+
+                drupal_execute( 'user_register', $values );
+
+                if ( form_get_errors( ) ) {
+                    return false;
+                }
+                return true;
+            }
+        }
+    }
+
 }
 
 ?>

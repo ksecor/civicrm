@@ -610,28 +610,19 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
 
-        //create drupal user is CMS user option is selected in profile
-        $config  =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
-            if ( $this->_mode == self::MODE_CREATE ) {
-                if ( $params['create_account'] ) {
-                    $mail = $this->_mail; 
-                    $values = array( 
-                                    'name' => $params['name'],
-                                    'pass' => array('pass1' => $params['pass'],
-                                                    'pass2' => $params['confirm_pass']),
-                                    'mail' => $params[$mail],
-                                    );
-
-                    drupal_execute( 'user_register', $values );
-                    $error = form_get_errors();
-                    if ( $error ) {
-                        $session =& CRM_Core_Session::singleton();
-                        $session->setStatus( ts('Your profile is not saved and Account is not created.') );
-                        $url = CRM_Utils_System::url('civicrm/profile/create', 'reset=1&gid=' . $this->_gid );
-                        CRM_Utils_System::redirect($url);
-                    }
-                }
+        //create CMS user (if CMS user option is selected in profile)
+        if ( $this->_mode == self::MODE_CREATE ) {
+            require_once "CRM/Core/BAO/CMSUser.php";
+            if ( ! CRM_Core_BAO_CMSUser::creatCMSUser( $params, $this->_mail ) ) {
+                CRM_Core_Session::setStatus( ts('Your profile is not saved and Account is not created.') );
+                return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/profile/create',
+                                                                         'reset=1&gid=' . $this->_gid) );
+            } else {
+                //find the civicrm contact that has been created
+                //during cms user creation and update the contact
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $params[$this->_mail], $this->_ctype );
+                $this->_id = $dao->contact_id;
             }
         }
 
@@ -653,11 +644,10 @@ class CRM_Profile_Form extends CRM_Core_Form
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );
         }
+        
         $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
                                                                    $this->_id, $this->_addToGroupID,
                                                                    $this->_gid, $this->_ctype );
-
-        
     }
 }
 

@@ -135,7 +135,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
      * @param string  $userKey the id of the user from the uf object
      * @param string  $mail    the email address of the user
      * @param string  $uf      the name of the user framework
-     * @param integer $status  returns the status if user created or already exits (used for drupal sync)
+     * @param integer $status  returns the status if user created or already exits (used for CMS sync)
      *
      * @return the ufmatch object that was found or created
      * @access public
@@ -148,8 +148,8 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
         if ( ! CRM_Utils_Rule::email( $mail ) ) {
             return $status ? null : false;
         }
-
-        $newContact = false;
+        
+        $newContact   = false;
 
         // make sure that a contact id exists for this user id
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
@@ -161,11 +161,10 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
             if ( $dao ) {
                 $ufmatch->contact_id = $dao->contact_id;
                 $ufmatch->domain_id  = $dao->domain_id ;
-                $ufmatch->email      = $mail           ;
+                $ufmatch->email      = $mail;
             } else {
                 require_once 'CRM/Core/BAO/LocationType.php';
                 $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
-                //CRM_Core_Error::debug('M', $mail);
                 $params = array( 'email' => $mail, 'location_type' => $locationType->name );
                 if ( $ctype == 'Organization' ) {
                     $params['organization_name'] = $mail;
@@ -196,16 +195,17 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 
                 require_once 'api/Contact.php';
                 $contact =& crm_create_contact( $params, $ctype, false );
+                
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::debug( 'error', $contact );
                     exit(1);
                 }
                 $ufmatch->contact_id = $contact->id;
                 $ufmatch->domain_id  = $contact->domain_id ;
-                $ufmatch->email      = $mail    ;
+                $ufmatch->email      = $mail;
             }
             $ufmatch->save( );
-            $newContact = true;
+            $newContact   = true;
         }
 
         if ( $status ) {
