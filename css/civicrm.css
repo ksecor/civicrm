@@ -799,11 +799,14 @@ div.crm-pager a {
 }
 
 #crm-container div#searchForm {
-	height: 100%;
+	/*height: 100%;*/
 	width: 100%;
 	overflow: hidden;
 }
 
+#crm-container div#searchForm table.form-layout td.nowrap { 
+        text-align: left;
+} 
 #crm-container #main {
 	height: 95%;
 	width: 95%;

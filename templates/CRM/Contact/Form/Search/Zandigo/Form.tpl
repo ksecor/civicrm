@@ -82,7 +82,7 @@
                 </tr>
                 <tr id="id-country"><td></td> 
                     <td class="label text3">{$form.country.label}</td> 
-                    <td>{$form.country.html}</td>
+                    <td class="nowrap">{$form.country.html}</td>
                 </tr>
 
                 {* High School Info Fields-Students and Guidance Counselors *}
@@ -98,14 +98,14 @@
                         {/if}           
                         {assign var="customField" value="custom_"|cat:$customID}
                         <td class="label text3">{$form.$customField.label}</td> 
-                        <td>{$form.$customField.html}</td>
+                        <td class="nowrap">{$form.$customField.html}</td>
                         </tr>
                     {/if}
                 {/foreach}
 
                 <tr>
                     <td colspan="2"></td>
-                    <td>{$form.buttons.html}</td>
+                    <td class="nowrap">{$form.buttons.html}</td>
                 </tr>
             </table>
         </td>
