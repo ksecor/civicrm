@@ -446,8 +446,21 @@ AND civicrm_location.entity_table='civicrm_contact')";
         // set select-household (for individual) label to 'Change Household' when update mode.
         if ( ($this->_contactType == 'Individual') && ($this->_action & CRM_Core_Action::UPDATE) ) {
             $this->selHouseLabel = "Change Household";
+            $this->useHouseExtra = array( 'onclick' => "
+showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);
+enableDisableByValue('use_household_address', 'true', 'location_1_address_street_address|location_1_address_supplemental_address_1|location_1_address_supplemental_address_2|location_1_address_city|location_1_address_postal_code|location_1_address_postal_code_suffix|location_1_address_county_id|location_1_address_state_province_id|location_1_address_country_id|location_1_address_geo_code_1|location_1_address_geo_code_2', 'block','radio', true);
+" );
+            $mailToHouseholdID = 
+                CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Individual', $this->_contactId, 'mail_to_household_id', 'contact_id' );
+            if ( $mailToHouseholdID ) {
+                $this->add('hidden', 'mail_to_household_id', $mailToHouseholdID);
+            }
+        } elseif ( ($this->_contactType == 'Individual') && ($this->_action & CRM_Core_Action::ADD) ) {
+            $this->useHouseExtra = array( 'onclick' => "
+showHideByValue('use_household_address', 'true', 'id_location_1_address', 'block', 'radio', true);
+showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);" );
         }
-        
+
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_' . $this->_contactType . '::buildQuickForm( $this );' );
 
@@ -579,19 +592,21 @@ AND civicrm_location.entity_table='civicrm_contact')";
             // this is a chekbox, so mark false if we dont get a POST value
             $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
         }
-        
+
         // copy household address if use_household_address option is checked
         if ( $this->_contactType == 'Individual' && $params['use_household_address'] ) {
-            list($householdName) = explode(",", $params['shared_household']);
+            if ( $params['shared_household'] ) {
+                list($householdName) = explode(",", $params['shared_household']);
+                $sharedHouseholdID = 
+                    CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim( $householdName ), 'id', 'sort_name' );
+            }
             
-            $sharedHouseholdID = 
-                CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim($householdName), 'id', 'sort_name' );
-            
-            if ( ! $sharedHouseholdID ) {
+            if ( !$params['mail_to_household_id'] && !$sharedHouseholdID ) {
                 CRM_Core_Error::statusBounce( ts("Shared Household-ID not found.") );
             }
+
             // In update mode, if shared household-name is kept same as earlier, skip address copy
-            if ( !($defaults['mail_to_household_id'] && ($defaults['mail_to_household_id'] == $sharedHouseholdID)) ) {
+            if ( $sharedHouseholdID && ( $params['mail_to_household_id'] != $sharedHouseholdID )) {
                 $params['mail_to_household_id'] = $sharedHouseholdID;
                 $locParams = array('contact_id' => $sharedHouseholdID);
                 

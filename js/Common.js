@@ -155,6 +155,76 @@ function showHideByValue(trigger_field_id, trigger_value, target_element_id, tar
 }
 
 /** 
+ *  This function is called when we need to enable or disable a related form element (target_element)
+ *  based on the value (trigger_value) of another form field (trigger_field).
+ * 
+ * @access public
+ * @param  trigger_field_id     HTML id of field whose onchange is the trigger
+ * @param  trigger_value        List of integers - option value(s) which trigger enable-element action for target_field
+ * @param  target_element_id    HTML id of element to be enabled or disabled
+ * @param  target_element_type  Type of element to be enabled or disabled ('block' or 'table-row')
+ * @param  field_type           Type of element radio/select
+ * @param  invert               Boolean - if true, we DISABLE target on value match; if false, we ENABLE target on value match
+ * @return none 
+*/
+function enableDisableByValue(trigger_field_id, trigger_value, target_element_id, target_element_type, field_type, invert ) {
+    if ( target_element_type == null ) {
+        var target_element_type = 'block';
+    } else if ( target_element_type == 'table-row' ) {
+	var target_element_type = '';
+    }
+    
+    if (field_type == 'select') {
+        var trigger = trigger_value.split("|");
+        var selectedOptionValue = document.getElementById(trigger_field_id).options[document.getElementById(trigger_field_id).selectedIndex].value;	
+        
+        var target = target_element_id.split("|");
+        for(var j = 0; j < target.length; j++) {
+  	    if (document.getElementById(target[j])) {
+              if ( invert ) {  
+                 document.getElementById(target[j]).disabled = false;
+              } else {
+                 document.getElementById(target[j]).disabled = true;
+              }
+	    }
+            for(var i = 0; i < trigger.length; i++) {
+                if (selectedOptionValue == trigger[i]) {
+    	            if (document.getElementById(target[j])) {
+                       if ( invert ) {  
+			  document.getElementById(target[j]).disabled = true;
+	               } else {
+			  document.getElementById(target[j]).disabled = false;
+	               }	
+		    }
+                }
+            }
+        }
+ 
+    } else if (field_type == 'radio') {
+        var target = target_element_id.split("|");
+        for(var j = 0; j < target.length; j++) {
+	    if (document.getElementsByName(trigger_field_id)[0].checked) {
+	       if (document.getElementById(target[j])) {
+		   if ( invert ) {  
+			document.getElementById(target[j]).disabled = true;
+		   } else {
+			document.getElementById(target[j]).disabled = false;
+		   }
+		}
+	    } else {
+	       if (document.getElementById(target[j])) {
+		   if ( invert ) {  
+			document.getElementById(target[j]).disabled = false;
+ 		   } else {
+			document.getElementById(target[j]).disabled = true;
+	    	   }
+		}
+	    }
+	}
+    }
+}
+
+/** 
  * This function is used to display a page element  (e.g. block or table row or...). 
  * 
  * This function is called by various links which handle requests to display the hidden blocks.

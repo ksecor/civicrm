@@ -14,7 +14,9 @@ $addressSequence = $config->addressSequence();
 $this->assign( 'addressSequence', $addressSequence );
 {/php}	
 {foreach item=addressElement from=$addressSequence}
-    {include file=CRM/Contact/Form/Address/$addressElement.tpl}
+    <span id="id_location_{$index}_address_{$addressElement}">
+        {include file=CRM/Contact/Form/Address/$addressElement.tpl}
+    </span>
 {/foreach}
 
 {include file=CRM/Contact/Form/Address/geo_code.tpl}
