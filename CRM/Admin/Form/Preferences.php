@@ -128,10 +128,11 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
 
         // add all the checkboxes
         $this->_cbs = array(
-                            'contact_view_options'    => ts( 'Contact View Options' ),
-                            'edit_contact_options'    => ts( 'Edit Contact Options'    ),
-                            'advanced_search_options' => ts( 'Advanced Search Options' ),
-                            'user_dashboard_options'  => ts( 'User Dashboard Options'  ),
+                            'contact_view_options'    => ts( 'Contact View Options'   ),
+                            'contact_edit_options'    => ts( 'Contact Edit Options'   ),
+                            'address_options'         => ts( 'Address Fields'         ),
+                            'advanced_search_options' => ts( 'Advanced Search Options'),
+                            'user_dashboard_options'  => ts( 'User Dashboard Options' ),
                             );
 
         require_once 'CRM/Core/OptionGroup.php';

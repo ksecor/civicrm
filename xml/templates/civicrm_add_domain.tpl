@@ -94,9 +94,10 @@ VALUES
    (@domain_id, 'participant_role'              , '{ts}Participant Role{/ts}'                   , 0, 1),
    (@domain_id, 'event_type'                    , '{ts}Event Type{/ts}'                         , 0, 1),
    (@domain_id, 'contact_view_options'          , '{ts}Contact View Options{/ts}'               , 0, 1),
-   (@domain_id, 'edit_contact_options'          , '{ts}Edit Contact Options{/ts}'               , 0, 1),
+   (@domain_id, 'contact_edit_options'          , '{ts}Contact Edit Options{/ts}'               , 0, 1),
    (@domain_id, 'advanced_search_options'       , '{ts}Advanced Search Options{/ts}'            , 0, 1),
-   (@domain_id, 'user_dashboard_options'        , '{ts}user Dashboard Options{/ts}'             , 0, 1);
+   (@domain_id, 'user_dashboard_options'        , '{ts}User Dashboard Options{/ts}'             , 0, 1),
+   (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -112,10 +113,11 @@ SELECT @option_group_id_cs             := max(id) from civicrm_option_group wher
 SELECT @option_group_id_ps             := max(id) from civicrm_option_group where name = 'participant_status';
 SELECT @option_group_id_pRole          := max(id) from civicrm_option_group where name = 'participant_role';
 SELECT @option_group_id_etype          := max(id) from civicrm_option_group where name = 'event_type';
-SELECT @option_group_id_csOpt          := max(id) from civicrm_option_group where name = 'contact_view_options';
-SELECT @option_group_id_ecOpt          := max(id) from civicrm_option_group where name = 'edit_contact_options';
+SELECT @option_group_id_cvOpt          := max(id) from civicrm_option_group where name = 'contact_view_options';
+SELECT @option_group_id_ceOpt          := max(id) from civicrm_option_group where name = 'contact_edit_options';
 SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group where name = 'advanced_search_options';
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
+SELECT @option_group_id_adOpt          := max(id) from civicrm_option_group where name = 'address_options';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -198,20 +200,20 @@ VALUES
   (@option_group_id_etype, '{ts}Performance{/ts}',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
   (@option_group_id_etype, '{ts}Workshop{/ts}',   6, 'Workshop',    NULL, 0, NULL, 6, NULL, 0, 0, 1 ),
 
-  (@option_group_id_csOpt, '{ts}Activities{/ts}'   ,   1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Relationships{/ts}',   2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Groups{/ts}'       ,   3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Notes{/ts}'        ,   4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Tags{/ts}'         ,   5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Change Log{/ts}'   ,   6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Contributions{/ts}',   7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Memberships{/ts}'  ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
-  (@option_group_id_csOpt, '{ts}Events{/ts}'       ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
+  (@option_group_id_cvOpt, '{ts}Activities{/ts}'   ,   1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
+  (@option_group_id_cvOpt, '{ts}Relationships{/ts}',   2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
+  (@option_group_id_cvOpt, '{ts}Groups{/ts}'       ,   3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
+  (@option_group_id_cvOpt, '{ts}Notes{/ts}'        ,   4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
+  (@option_group_id_cvOpt, '{ts}Tags{/ts}'         ,   5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
+  (@option_group_id_cvOpt, '{ts}Change Log{/ts}'   ,   6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
+  (@option_group_id_cvOpt, '{ts}Contributions{/ts}',   7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
+  (@option_group_id_cvOpt, '{ts}Memberships{/ts}'  ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
+  (@option_group_id_cvOpt, '{ts}Events{/ts}'       ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
 
-  (@option_group_id_ecOpt, '{ts}Communication Preferences{/ts}',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
-  (@option_group_id_ecOpt, '{ts}Demographics{/ts}'             ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
-  (@option_group_id_ecOpt, '{ts}Tags and Groups{/ts}'          ,   3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
-  (@option_group_id_ecOpt, '{ts}Notes{/ts}'                    ,   4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
+  (@option_group_id_ceOpt, '{ts}Communication Preferences{/ts}',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+  (@option_group_id_ceOpt, '{ts}Demographics{/ts}'             ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
+  (@option_group_id_ceOpt, '{ts}Tags and Groups{/ts}'          ,   3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+  (@option_group_id_ceOpt, '{ts}Notes{/ts}'                    ,   4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
 
   (@option_group_id_asOpt, '{ts}Address Fields{/ts}'      ,   1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Custom Fields{/ts}'       ,   2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
@@ -227,7 +229,19 @@ VALUES
   (@option_group_id_udOpt, '{ts}Groups{/ts}'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, '{ts}Contributions{/ts}', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, '{ts}Memberships{/ts}'  , 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
-  (@option_group_id_udOpt, '{ts}Events{/ts}'       , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 );
+  (@option_group_id_udOpt, '{ts}Events{/ts}'       , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
+
+  (@option_group_id_adOpt, '{ts}Street Address{/ts}'   ,  1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}Addt\'l Address 1{/ts}' ,  2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}Addt\'l Address 2{/ts}' ,  3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}City{/ts}'             ,  4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}Zip / Postal Code{/ts}',  5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}Add-on Code{/ts}'      ,  6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}County{/ts}'           ,  7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}State / Province{/ts}' ,  8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}Country{/ts}'          ,  9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}Latitude{/ts}'         , 10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}Longitude{/ts}'        , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 );
 
 -- sample membership status entries
 INSERT INTO

@@ -52,41 +52,56 @@ class CRM_Contact_Form_Address
      */
     static function buildAddressBlock(&$form, &$location, $locationId)
     {
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $addressOptions = CRM_Core_BAO_Preferences::addressOptions( );
+
         $config =& CRM_Core_Config::singleton( );
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
-        $location[$locationId]['address']['street_address']         =
-            $form->addElement('text', "location[$locationId][address][street_address]", ts('Street Address'),
-                              $attributes['street_address']);
-        $location[$locationId]['address']['supplemental_address_1'] =
-            $form->addElement('text', "location[$locationId][address][supplemental_address_1]", ts('Addt\'l Address 1'),
-                              $attributes['supplemental_address_1']);
-        $location[$locationId]['address']['supplemental_address_2'] =
-            $form->addElement('text', "location[$locationId][address][supplemental_address_2]", ts('Addt\'l Address 2'),
-                              $attributes['supplemental_address_2']);
-        $location[$locationId]['address']['city']                   =
-            $form->addElement('text', "location[$locationId][address][city]", ts('City'),
-                              $attributes['city']);
-        $location[$locationId]['address']['postal_code']            =
-            $form->addElement('text', "location[$locationId][address][postal_code]", ts('Zip / Postal Code'),
-                              $attributes['postal_code']);
-        $location[$locationId]['address']['postal_code_suffix']            =
-            $form->addElement('text', "location[$locationId][address][postal_code_suffix]", ts('Add-on Code'),
-                              array( 'size' => 4, 'maxlength' => 12 ));
-        if ( $config->includeCounty ) {
-            $location[$locationId]['address']['county_id']             =
-                $form->addElement('select', "location[$locationId][address][county_id]", ts('County'),
-                                  array('' => ts('- select -')) + CRM_Core_PseudoConstant::county());
-        }        
-        $location[$locationId]['address']['state_province_id']      =
-            $form->addElement('select', "location[$locationId][address][state_province_id]", ts('State / Province'),
-                              array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
-        $location[$locationId]['address']['country_id']             =
-            $form->addElement('select', "location[$locationId][address][country_id]", ts('Country'),
-                              array('' => ts('- select -')) + CRM_Core_PseudoConstant::country());
-        $location[$locationId]['address']['geo_code_1']             =
-            $form->addElement('text', "location[$locationId][address][geo_code_1]", ts('Latitude'), array('size' => 4, 'maxlength' => 8));
-        $location[$locationId]['address']['geo_code_2']             =
-            $form->addElement('text', "location[$locationId][address][geo_code_2]", ts('Longitude'), array('size' => 4, 'maxlength' => 8));
+
+        $elements = array( 
+                          'street_address'         => array( ts('Street Address')   , null, null ),
+                          'supplemental_address_1' => array( ts('Addt\'l Address 1'), null, null ),
+                          'supplemental_address_2' => array( ts('Addt\'l Address 1'), null, null ),
+                          'city'                   => array( ts('City')             , null, null ),
+                          'postal_code'            => array( ts('Zip / Postal Code'), null, null ),
+                          'postal_code_suffix'     => array(ts('Add-on Code')       ,
+                                                            array( 'size' => 4, 'maxlength' => 12 ), null ),
+                          'county_id'              => array( ts('County')           , null, county        ),
+                          'state_province_id'      => array( ts('State / Province') , null, stateProvince ),
+                          'country_id'             => array( ts('Country')          , null, country       ), 
+                                                    'geo_code_1'             => array( ts('Latitude')         ,
+                                                             array( 'size' => 4, 'maxlength' => 8 ), null ),
+                          'geo_code_1'             => array( ts('Latitude')         ,
+                                                             array( 'size' => 4, 'maxlength' => 8 ), null ),
+                          'geo_code_2'             => array( ts('Longitude')         ,
+                                                             array( 'size' => 4, 'maxlength' => 8 ), null ),
+                          );
+
+        foreach ( $elements as $name => $v ) {
+            list( $title, $attributes, $select ) = $v;
+
+            if ( ! $addressOptions[$title] ) {
+                continue;
+            }
+
+            if ( ! $attributes ) {
+                $attributes = $attributes[$name];
+            }
+             
+            if ( ! $select ) {
+                $location[$locationId]['address'][$name] =
+                    $form->addElement( 'text',
+                                       "location[$locationId][address][$name]",
+                                       $title,
+                                       $attributes );
+            } else {
+                $location[$locationId]['address'][$name] =
+                    $form->addElement( 'select',
+                                       "location[$locationId][address][$name]",
+                                       $title,
+                                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
+            }
+        }
     }
     
     

@@ -1,3 +1,4 @@
+{if $form.location.$index.address.postal_code}
 <div class="form-item">
     <span class="labels">
     {$form.location.$index.address.postal_code.label}
@@ -9,3 +10,4 @@
     <span class="description font-italic">{ts}Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).{/ts}</span>
     </span>
 </div>
+{/if}

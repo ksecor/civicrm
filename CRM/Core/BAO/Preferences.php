@@ -109,8 +109,8 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         return $returnValues;
     }
 
-    static function editContactOptions( $system = true, $userID = null ) {
-        return self::commonOptions( $system, $userID, 'edit_contact_options' );
+    static function contactEditOptions( $system = true, $userID = null ) {
+        return self::commonOptions( $system, $userID, 'contact_edit_options' );
     }
 
     static function contactViewOptions( $system = true, $userID = null ) {
@@ -123,6 +123,10 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
     static function userDashboardOptions( $system = true, $userID = null ) {
         return self::commonOptions( $system, $userID, 'user_dashboard_options' );
+    }
+
+    static function addressOptions( $system = true, $userID = null ) {
+        return self::commonOptions( $system, $userID, 'address_options' );
     }
 
 }

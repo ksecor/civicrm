@@ -56,17 +56,41 @@
   <field>
        <name>contact_view_options</name>
        <type>varchar</type>
-       <length>128</length>
+       <length>32</length>
        <import>true</import>
        <comment>What tabs are displayed in the contact summary</comment>
        <add>1.8</add>
   </field>
   <field>
+       <name>contact_edit_options</name>
+       <type>varchar</type>
+       <length>32</length>
+       <import>true</import>
+       <comment>What tabs are displayed in the contact edit</comment>
+       <add>1.8</add>
+  </field>
+  <field>
        <name>advanced_search_options</name>
+       <type>varchar</type>
+       <length>32</length>
+       <import>true</import>
+       <comment>What tabs are displayed in the advanced search screen</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>user_dashboard_options</name>
+       <type>varchar</type>
+       <length>32</length>
+       <import>true</import>
+       <comment>What tabs are displayed in the contact edit</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>address_options</name>
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
-       <comment>What tabs are displayed in the advanced search screen</comment>
+       <comment>What fields are displayed from the address table</comment>
        <add>1.8</add>
   </field>
 </table>

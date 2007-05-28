@@ -1,3 +1,4 @@
+{if $form.location.$index.address.state_province}
 <div class="form-item">
     <span class="labels">
     {$form.location.$index.address.state_province_id.label}
@@ -6,3 +7,4 @@
     {$form.location.$index.address.state_province_id.html}
     </span>
 </div>
+{/if}
