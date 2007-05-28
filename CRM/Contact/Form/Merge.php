@@ -332,31 +332,44 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         // like, delete a file...
         require_once 'CRM/Core/BAO/File.php';
         require_once 'CRM/Core/DAO/EntityFile.php';
-        $cvDao =& new CRM_Core_DAO_CustomValue();
-        $evDao =& new CRM_Core_DAO_EntityFile();
         if (!isset($customFiles)) $customFiles = array();
         foreach ($customFiles as $customId) {
-            $cvDao->custom_field_id = $customId;
-            $cvDao->entity_table    = 'civicrm_contact';
-            $cvDao->entity_id       = $this->_oid;
-            $cvDao->find(true);
-            $otherFileName = $cvDao->char_data;
-            $otherFileId   = $cvDao->file_id;
-            // the below doesn't work; not here, not anywhere else.
-#           CRM_Core_BAO_File::delete($mainFileId, $customId);
-            $cvDao->reset();
-            $cvDao->custom_field_id = $customId;
-            $cvDao->entity_table    = 'civicrm_contact';
-            $cvDao->entity_id       = $this->_cid;
-            $cvDao->char_data       = $otherFileName;
-            $cvDao->file_id         = $otherFileId;
-            $cvDao->save();
-            $cvDao->reset();
-            $evDao->entity_id    = $this->_cid;
+            // get the duplicate contact's file's id
+            $otherCVDao =& new CRM_Core_DAO_CustomValue();
+            $otherCVDao->custom_field_id = $customId;
+            $otherCVDao->entity_table    = 'civicrm_contact';
+            $otherCVDao->entity_id       = $this->_oid;
+            $otherCVDao->find(true);
+            $otherFileId = $otherCVDao->file_id;
+
+            // get the main contact's file's id
+            $mainCVDao =& new CRM_Core_DAO_CustomValue();
+            $mainCVDao->custom_field_id = $customId;
+            $mainCVDao->entity_table    = 'civicrm_contact';
+            $mainCVDao->entity_id       = $this->_cid;
+            $mainCVDao->find(true);
+            $mainFileId = $mainCVDao->file_id;
+            $mainCVDao->free();
+
+            // delete the main contact's file
+            CRM_Core_BAO_File::delete($mainFileId, $this->_cid, 'civicrm_contact');
+
+            // reassign the duplicate's contact file to the
+            // main contact in the civicrm_custom_value table
+            $otherCVDao->entity_id = $this->_cid;
+            $otherCVDao->save();
+            $otherCVDao->free();
+
+            // reassign the duplicate contact's file to the
+            // main contact in the civicrm_entity_file table
+            $evDao =& new CRM_Core_DAO_EntityFile();
+            $evDao->entity_id    = $this->_oid;
             $evDao->entity_table = 'civicrm_contact';
             $evDao->file_id      = $otherFileId;
+            $evDao->find(true);
+            $evDao->entity_id = $this->_cid;
             $evDao->save();
-            $cvDao->reset();
+            $evDao->free();
         }
 
         if (isset($submitted)) {
