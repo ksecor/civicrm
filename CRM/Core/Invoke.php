@@ -970,13 +970,21 @@ class CRM_Core_Invoke
 
         $wrapper =& new CRM_Utils_Wrapper( );
         
-        $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
+        $thirdArg  = CRM_Utils_Array::value( 3, $args, '' );
+        $fourthArg = CRM_Utils_Array::value( 4, $args, '' );
         switch ( $thirdArg ) {
         case 'component' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
             break;
         case 'preferences':
-            $output = $wrapper->run( 'CRM_Admin_Form_Preferences', ts('System Preferences'), null); 
+            switch ( $fourthArg ) {
+            case 'display':
+                $output = $wrapper->run( 'CRM_Admin_Form_Preferences_Display', ts('System Preferences'), null); 
+                break;
+            case 'address':
+                $output = $wrapper->run( 'CRM_Admin_Form_Preferences_Address', ts('Address Preferences'), null); 
+                break;
+            }
             break;
         case 'path' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Path', ts('File System Paths'), null); 

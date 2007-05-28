@@ -57,7 +57,6 @@
        <name>contact_view_options</name>
        <type>varchar</type>
        <length>32</length>
-       <import>true</import>
        <comment>What tabs are displayed in the contact summary</comment>
        <add>1.8</add>
   </field>
@@ -65,7 +64,6 @@
        <name>contact_edit_options</name>
        <type>varchar</type>
        <length>32</length>
-       <import>true</import>
        <comment>What tabs are displayed in the contact edit</comment>
        <add>1.8</add>
   </field>
@@ -73,7 +71,6 @@
        <name>advanced_search_options</name>
        <type>varchar</type>
        <length>32</length>
-       <import>true</import>
        <comment>What tabs are displayed in the advanced search screen</comment>
        <add>1.8</add>
   </field>
@@ -81,16 +78,53 @@
        <name>user_dashboard_options</name>
        <type>varchar</type>
        <length>32</length>
-       <import>true</import>
        <comment>What tabs are displayed in the contact edit</comment>
        <add>1.8</add>
   </field>
   <field>
        <name>address_options</name>
        <type>varchar</type>
-       <length>128</length>
-       <import>true</import>
+       <length>32</length>
        <comment>What fields are displayed from the address table</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>address_format</name>
+       <type>text</type>
+       <comment>Format to display the address</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>mailing_format</name>
+       <type>text</type>
+       <comment>Format to display a mailing label</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>individual_name_format</name>
+       <type>text</type>
+       <comment>Format to display a individual name</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>address_standardization_provider</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>object name of provider for address standarization</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>address_standardization_userid</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>user id for provider login</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>address_standardization_url</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>url of address standardization service</comment>
        <add>1.8</add>
   </field>
 </table>

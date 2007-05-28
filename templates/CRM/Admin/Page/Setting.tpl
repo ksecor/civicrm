@@ -9,7 +9,7 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences' q='reset=1'}" id="idPreferences">&raquo; {ts}System Preferences{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences/display' q='reset=1'}" id="idPreferences">&raquo; {ts}System Preferences{/ts}</a></td>
     <td>{ts}Configure system preferences to hide and show various options.{/ts}</td>
 </tr>
 
@@ -44,7 +44,7 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/address}" id="idAddress">&raquo; {ts}Address Settings{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences/address}" id="idAddress">&raquo; {ts}Address Settings{/ts}</a></td>
     <td>{ts}Format contact address input and display. Configure optional Address Standardization provider.{/ts}</td>
 </tr>
 

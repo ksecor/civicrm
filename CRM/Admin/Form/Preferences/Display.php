@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
  * This class generates form components for Location Type
  * 
  */
-class CRM_Admin_Form_Preferences extends CRM_Core_Form
+class CRM_Admin_Form_Preferences_Display extends CRM_Core_Form
 {
     protected $_system    = false;
     protected $_contactID = null;
