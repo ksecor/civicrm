@@ -49,10 +49,10 @@ class CRM_Utils_Address_USPS {
                ! isset($values['postal_code']) ) ) {
             return false;
         }
-        
-        $config =& CRM_Core_Config::singleton( );
-        $userID = $config->AddressStdUserID;
-        $url = $config->AddressStdURL;
+
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $userID = CRM_Core_BAO_Preferences::value( 'address_standardization_userid' );
+        $url    = CRM_Core_BAO_Preferences::value( 'address_standardization_url'    );
 
         $address2 = str_replace( ',', '', $values['street_address'] );
         

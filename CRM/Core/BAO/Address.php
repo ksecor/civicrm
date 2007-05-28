@@ -156,9 +156,11 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         }
         
         $config =& CRM_Core_Config::singleton( );
-        
+
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $asp = CRM_Core_BAO_Preferences::value( 'address_standardization_provider' );
         // clean up the address via USPS web services if enabled
-        if ($config->AddressStdProvider === 'USPS') {
+        if ($asp === 'USPS') {
             require_once 'CRM/Utils/Address/USPS.php';
             CRM_Utils_Address_USPS::checkAddress($params);
         }
