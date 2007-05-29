@@ -53,7 +53,7 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
         $defaults = array( );
 
         $defaults['location_count'] =
-            $this->_config->location_count ? $this->_config->location_count : 1;
+            isset( $this->_config->location_count ) ? $this->_config->location_count : 1;
 
         $defaults['address_standardization_provider'] = $this->_config->address_standardization_provider;
         $defaults['address_standardization_userid'] = $this->_config->address_standardization_userid;

@@ -358,9 +358,10 @@ ORDER BY civicrm_custom_group.weight,
                         }
                     }
                     
-                    break; 
+                    break;
+
                 case 'Link':
-                    $customValue['data'] =  "<a href=$crmDAO->civicrm_custom_value_char_data>".$crmDAO->civicrm_custom_value_char_data . '</a>';
+                    $customValue['data'] =  $crmDAO->civicrm_custom_value_char_data;
                     break;
                 }
                 
@@ -1293,6 +1294,10 @@ ORDER BY civicrm_custom_group.weight,
                                 $format = str_replace('M','B',$format);
                             }
                             $form[$elementName]['html'] = CRM_Utils_Date::customFormat($field['customValue']['data'],$format);
+                            break;
+
+                        case 'Link':
+                            $form[$elementName]['html'] = "<a href=\"{$field['customValue']['data']}\">{$field['customValue']['data']}</a>";
                             break;
 
                         default:

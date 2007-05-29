@@ -512,8 +512,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $qf->addRule($elementName, ts('%1 must be in proper money format. (decimal point/comma/space is allowed).', array(1 => $label)), 'money');
             }
             break;
+
         case 'Link':
-            $element =& $qf->add('text', $elementName, $label,CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField',$elementName),
+            $element =& $qf->add('text',
+                                 $elementName,
+                                 $label,
+                                 CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField',$elementName),
                                  (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
             $qf->addRule( $elementName, ts('Enter a valid Website.'),'url');
                     
@@ -672,11 +676,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 }
             }
             break;
+
         case 'Link':
-            if (empty( $value )){
+            if ( empty( $value ) ) {
                 $display='';
             } else {
-                $display = $value;
+                $display = "<a href=\"$value\">$value</a>";
             }  
                 
         }
