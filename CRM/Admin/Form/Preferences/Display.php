@@ -43,21 +43,19 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
 {
     function preProcess( ) {
         parent::preProcess( );
+        CRM_Utils_System::setTitle(ts('Settings - Site Preferences'));
 
         // add all the checkboxes
         $this->_cbs = array(
-                            'contact_view_options'    => ts( 'Contact View Options'   ),
-                            'contact_edit_options'    => ts( 'Contact Edit Options'   ),
-                            'advanced_search_options' => ts( 'Advanced Search Options'),
-                            'user_dashboard_options'  => ts( 'User Dashboard Options' ),
+                            'contact_view_options'    => ts( 'Viewing Contacts'   ),
+                            'contact_edit_options'    => ts( 'Editing Contacts'   ),
+                            'advanced_search_options' => ts( 'Advanced Search'),
+                            'user_dashboard_options'  => ts( 'User Dashboard' ),
                             );
     }
 
     function setDefaultValues( ) {
         $defaults = array( );
-
-        $defaults['location_count'] =
-            $this->_config->location_count ? $this->_config->location_count : 1;
 
         parent::cbsDefaultValues( $defaults );
 
@@ -72,12 +70,6 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
      */
     public function buildQuickForm( ) 
     {
-        $this->add('text',
-                   'location_count',
-                   ts('Location Blocks to display'),
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Preferences', 'location_count' ) );
-        $this->addRule( 'location_count', ts( 'Location count has to be postive' ), 'positiveInteger' );
-
         parent::buildQuickForm( );
     }
 

@@ -1,4 +1,4 @@
-{if $form.location.$index.address.state_province}
+{if $form.location.$index.address.state_province_id}
 <div class="form-item">
     <span class="labels">
     {$form.location.$index.address.state_province_id.label}

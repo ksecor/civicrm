@@ -43,6 +43,8 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
     function preProcess( ) {
         parent::preProcess( );
 
+        CRM_Utils_System::setTitle(ts('Settings - Addresses'));
+
         // add all the checkboxes
         $this->_cbs = array(
                             'address_options'    => ts( 'Address Fields'   ),
@@ -110,14 +112,14 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
     {
         $this->add('text',
                    'location_count',
-                   ts('Location Blocks to display'),
+                   ts('Number of Locations'),
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Preferences', 'location_count' ) );
-        $this->addRule( 'location_count', ts( 'Location count has to be postive' ), 'positiveInteger' );
+        $this->addRule( 'location_count', ts( 'Location count must be a positive integer (e.g. 1 or 2 or ...).' ), 'positiveInteger' );
 
         // address formatting options
         $this->addElement('text','individual_name_format', ts('Individual Name Format'));
         $this->addElement('textarea','mailing_format', ts('Mailing Label Format'));  
-        $this->addElement('textarea','address_format', ts('Address Formatting'));  
+        $this->addElement('textarea','address_format', ts('Display Format'));  
 
         // Address Standarization
         $this->addElement('text', 'address_standardization_provider', ts('Provider'));
@@ -138,12 +140,12 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
         // if any of them are set
         if ( $p || $u || $w ) {
             if ( ! CRM_Utils_System::checkPHPVersion( 5, false ) ) {
-                $errors['_qf_default'] = ts( 'Address features require PHP version 5 or greater' );
+                $errors['_qf_default'] = ts( 'Address Standardization features require PHP version 5 or greater.' );
                 return $errors;
             }
 
             if ( ! ( $p && $u && $w ) ) {
-                $errors['_qf_default'] = ts( 'You must provide a value for all three address fields' );
+                $errors['_qf_default'] = ts( 'You must provide values for all three Address Standarization fields.' );
                 return $errors;
             }
         }

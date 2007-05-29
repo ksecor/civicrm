@@ -236,7 +236,7 @@ VALUES
   (@option_group_id_adOpt, '{ts}Addt\'l Address 2{/ts}' ,  3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}City{/ts}'             ,  4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}Zip / Postal Code{/ts}',  5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, '{ts}Add-on Code{/ts}'      ,  6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}Postal Code Suffix{/ts},  6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}County{/ts}'           ,  7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}State / Province{/ts}' ,  8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}Country{/ts}'          ,  9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),

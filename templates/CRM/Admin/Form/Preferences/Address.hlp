@@ -33,3 +33,16 @@
 </table>
 </div>
 {/htxt}
+{htxt id='name-tokens'}
+<p>{ts}The following tokens are available to control the format of individuals' contact names when they are included in <strong>mailing labels</strong>.{/ts}</p>
+<div class="form-item">
+<table style="">
+<tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{individual_prefix}{/literal}</td><td>{ts}Assigned name prefix, if any (e.g. 'Ms.', 'Dr.', 'Hon.' etc.).{/ts}</td>
+<tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{individual_suffix}{/literal}</td><td>{ts}Assigned name suffix, if any (e.g. 'II', 'Jr.', 'Sr.' etc.).{/ts}</td>
+<tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{first_name}{/literal}</td><td>{ts}Contact's first name.{/ts}</td>
+<tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{middle_name}{/literal}</td><td>{ts}Contact's middle name.{/ts}</td>
+<tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{last_name}{/literal}</td><td>{ts}Contact's last name.{/ts}</td>
+<tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{, }{/literal}</td><td>{ts}Add spaces or punctuation to layout by surrounding them with brackets.{/ts}</td>
+</table>
+</div>
+{/htxt}
