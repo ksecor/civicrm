@@ -126,7 +126,8 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
         foreach ( $this->_cbs as $name => $title ) {
             $this->addCheckBox( $name, $title, 
                                 array_flip( CRM_Core_OptionGroup::values( $name ) ),
-                                null, null, null, null, '&nbsp;&nbsp;' );
+                                null, null, null, null,
+                                array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ) );
         }
 
         $this->addButtons( array(
