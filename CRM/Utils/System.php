@@ -743,6 +743,49 @@ class CRM_Utils_System {
         }
         return false;
     }
+
+    static function formatWikiURL( $string ) {
+        $items = explode( ' ', trim( $string ), 2 );
+        if ( count( $items ) == 2 ) {
+            $title = $items[1];
+        } else {
+            $title = $items[0];
+        }
+
+        $url = self::urlEncode( $items[0] );
+        return "<a href=\"$url\">$title</a>";
+    }
+
+    static function urlEncode( $url ) {
+        $items = parse_url( $url );
+        if ( $items === false ) {
+            return null;
+        }
+
+        if ( ! CRM_Utils_Array::value( 'query', $items ) ) {
+            return $url;
+        }
+
+        $items['query'] = urlencode( $items['query'] );
+
+        $url = $items['scheme'] . '://';
+        if ( CRM_Utils_Array::value( 'user', $items ) ) {
+            $url .= "{$items['user']}:{$items['pass']}@";
+        }
+
+        $url .= $items['host'];
+        if ( CRM_Utils_Array::value( 'port', $items ) ) {
+            $url .= ":{$items['port']}";
+        }
+
+        $url .= "{$items['path']}?{$items['query']}";
+        if ( CRM_Utils_Array::value( 'fragment', $items ) ) {
+            $url .= "#{$items['fragment']}";
+        }
+
+        return $url;
+    }
+
 }
 
 ?>

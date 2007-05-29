@@ -1297,7 +1297,8 @@ ORDER BY civicrm_custom_group.weight,
                             break;
 
                         case 'Link':
-                            $form[$elementName]['html'] = "<a href=\"{$field['customValue']['data']}\">{$field['customValue']['data']}</a>";
+                            $form[$elementName]['html'] =
+                                CRM_Utils_System::formatWikiURL( $field['customValue']['data'] );
                             break;
 
                         default:

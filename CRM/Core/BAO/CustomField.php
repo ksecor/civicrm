@@ -519,7 +519,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                  $label,
                                  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField',$elementName),
                                  (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
-            $qf->addRule( $elementName, ts('Enter a valid Website.'),'url');
+            $qf->addRule( $elementName, ts('Enter a valid Website.'),'wikiURL');
                     
             break;
         }
@@ -681,7 +681,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             if ( empty( $value ) ) {
                 $display='';
             } else {
-                $display = "<a href=\"$value\">$value</a>";
+                $display = CRM_Utils_System::formatWikiURL( $value );
             }  
                 
         }

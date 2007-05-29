@@ -128,6 +128,11 @@ class CRM_Utils_Rule
         return Validate::uri( $url, $options );
     }
 
+    static function wikiURL( $string ) {
+        $items = explode( ' ', trim( $string ), 2 );
+        return self::url( $items[0] );
+    }
+
     static function domain( $domain ) 
     {
         // not perfect, but better than the previous one; see CRM-1502
