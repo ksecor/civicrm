@@ -225,6 +225,63 @@ function enableDisableByValue(trigger_field_id, trigger_value, target_element_id
 }
 
 /** 
+ *  This function is called when we need to Reset a related form element (target_element)
+ *  based on the value (trigger_value) of another form field (trigger_field).
+ * 
+ * @access public
+ * @param  trigger_field_id     HTML id of field whose onchange is the trigger
+ * @param  trigger_value        List of integers - option value(s) which trigger reset action for target_field
+ * @param  target_element_id    HTML id of element to be reset
+ * @param  field_type           Type of element radio/select
+ * @param  invert               Boolean - if true, we RESET target on value-match; if false, we RESET target on No-value-match
+ * @return none 
+*/
+function resetByValue(trigger_field_id, trigger_value, target_element_id, field_type, invert ) {
+    
+    if (field_type == 'select') {
+        var trigger = trigger_value.split("|");
+        var selectedOptionValue = document.getElementById(trigger_field_id).options[document.getElementById(trigger_field_id).selectedIndex].value;	
+        
+        var target = target_element_id.split("|");
+        for(var j = 0; j < target.length; j++) {
+            for(var i = 0; i < trigger.length; i++) {
+		if ( invert ) {
+                  if (selectedOptionValue == trigger[i]) {
+    	            if (document.getElementById(target[j])) {
+			document.getElementById(target[j]).value = "";
+		    }
+                  }
+		} else {
+		    if (selectedOptionValue != trigger[i]) {
+    	              if (document.getElementById(target[j])) {
+			  document.getElementById(target[j]).value = "";
+		      }
+		    }
+		}
+            }
+        }
+
+     } else if (field_type == 'radio') {
+        var target = target_element_id.split("|");
+        for(var j = 0; j < target.length; j++) {
+	      if ( invert ) {
+		   if (document.getElementsByName(trigger_field_id)[0].checked) {
+		       if (document.getElementById(target[j])) {
+	  		    document.getElementById(target[j]).value = "";
+			}
+		   }
+	      } else {
+		   if (!document.getElementsByName(trigger_field_id)[0].checked) {
+		       if (document.getElementById(target[j])) {
+	  		    document.getElementById(target[j]).value = "";
+			}
+		   }
+	      }
+	}
+    }
+}
+
+/** 
  * This function is used to display a page element  (e.g. block or table row or...). 
  * 
  * This function is called by various links which handle requests to display the hidden blocks.

@@ -100,8 +100,8 @@ class CRM_Contact_Form_Individual {
         }
         
         // shared address element block
-        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $this->useHouseExtra);
-        $selHouseLabel = ( $form->selHouseLabel ) ? $form->selHouseLabel : "Select Household";
+        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $this->useHouseholdExtra);
+        $selHouseholdLabel = ( $form->selHouseholdLabel ) ? $form->selHouseholdLabel : "Select Household";
         $domainID      =  CRM_Core_Config::domainID( );   
         $attributes    = array( 'dojoType'     => 'ComboBox',
                                 'mode'         => 'remote',
@@ -110,7 +110,7 @@ class CRM_Contact_Form_Individual {
                                                                          true, null, false ),
                                 );
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
-        $form->add( 'text', 'shared_household', ts( $selHouseLabel ), $attributes );
+        $form->add( 'text', 'shared_household', ts( $selHouseholdLabel ), $attributes );
         // shared address element-block Ends.
         
         $form->addElement('text', 'home_URL', ts('Website'),
@@ -179,17 +179,9 @@ class CRM_Contact_Form_Individual {
             }
         }
 
-        // if use_household_address option is checked, make sure 'correct household_name' is also present.
-        if ( $fields['use_household_address'] ) {
-            if ( !$fields['mail_to_household_id'] && $fields['shared_household'] ) {
-                list($householdName) = explode(",", $fields['shared_household']);
-                $contactID = 
-                    CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim( $householdName ), 'id', 'sort_name' );
-                if ( ! $contactID ) {
-                    $errors["shared_household"] = 
-                        ts("Household not found. Please select a household from the 'Select Household' list");
-                }
-            } elseif ( !$fields['mail_to_household_id'] && !$fields['shared_household'] ) {
+        // if use_household_address option is checked, make sure 'valid household_name' is also present.
+        if ( $fields['use_household_address'] && !$fields['shared_household_selected'] ) {
+            if ( !$fields['mail_to_household_id'] || $fields['shared_household'] ) {
                 $errors["shared_household"] = 
                     ts("Please select a household from the 'Select Household' list");
             }
