@@ -99,7 +99,6 @@ function civicrm_membership_type_create(&$params)
  * Get a Membership Type.
  * 
  * This api is used for finding an existing membership type.
- * Required parameters : id of membership type
  * 
  * @params  array $params  an associative array of name/value property values of civicrm_membership_type
  * 
@@ -109,12 +108,9 @@ function civicrm_membership_type_create(&$params)
 function civicrm_membership_types_get(&$params) 
 {
     _civicrm_initialize();
+
     if ( ! is_array($params) ) {
         return civicrm_create_error('Params is not an array.');
-    }
-    
-    if ( ! isset($params['id'])) {
-        return civicrm_create_error('Required parameters missing.');
     }
     
     require_once 'CRM/Member/BAO/MembershipType.php';
@@ -250,7 +246,6 @@ function civicrm_membership_status_create(&$params)
  * Get a membership status.
  * 
  * This api is used for finding an existing membership status.
- * Required parrmeters : id of a membership status
  * 
  * @params  array $params  an associative array of name/value property values of civicrm_membership_status
  *
@@ -262,10 +257,6 @@ function civicrm_membership_statuses_get(&$params)
     _civicrm_initialize();
     if ( ! is_array($params) ) {
         return civicrm_create_error('Params is not an array.');
-    }
-    
-    if ( ! isset($params['id'])) {
-        return civicrm_create_error('Required parameters missing.');
     }
     
     require_once 'CRM/Member/BAO/MembershipStatus.php';
