@@ -80,6 +80,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                                                      $id,
                                                      'is_show_location',
                                                      'id' );
+       
         $this->assign( 'isShowLocation',$isShowLocation );
 
 
@@ -95,7 +96,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
 
         $params = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
+        CRM_Core_BAO_Location::getValues($params, $values, $ids, 1, 1);
         
         //retrieve custom field information
         require_once 'CRM/Core/BAO/CustomGroup.php';
@@ -131,8 +132,8 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $this->assign('displayRecent' , false );
         
         // assigning title to template in case someone wants to use it, also setting CMS page title
-        $this->assign( 'title', $values['event']['title'] );
-        CRM_Utils_System::setTitle($values['event']['title']);  
+//         $this->assign( 'title', $values['event']['title'] );
+//         CRM_Utils_System::setTitle($values['event']['title']);  
 
         $this->assign('event',   $values['event']);
         if ( isset ($values['custom']) ) {

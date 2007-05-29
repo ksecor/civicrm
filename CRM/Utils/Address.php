@@ -154,7 +154,11 @@ class CRM_Utils_Address
         if (! $microformat) {
             $formatted = "\n$formatted\n";
         } else {
-            $formatted = "\n<div class=\"vcard\"><span class=\"adr\">$formatted</span></div>\n";
+            if( $microformat === 1) {
+                $formatted = "\n<div class=\"location vcard\"><span class=\"adr\">$formatted</span></div>\n";
+            } else {
+                $formatted = "\n<div class=\"vcard\"><span class=\"adr\">$formatted</span></div>\n";
+            }
         }
         $formatted = preg_replace('/\n{[^{}]*}/u', "\n", $formatted);
         $formatted = preg_replace('/{[^{}]*}\n/u', "\n", $formatted);
