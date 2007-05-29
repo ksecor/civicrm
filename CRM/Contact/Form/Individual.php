@@ -50,7 +50,7 @@ class CRM_Contact_Form_Individual {
      * @access public
      * @return None 
      */
-    public function buildQuickForm( &$form )
+    public function buildQuickForm( &$form, $action = null )
     {
         $form->applyFilter('__ALL__','trim');
         
@@ -99,9 +99,47 @@ class CRM_Contact_Form_Individual {
             $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
         }
         
+        // Declare javascript methods to be used, for use-household-address checkbox.
+        // Also set label to be used for 'select-household' combo-box.
+        if ( $action & CRM_Core_Action::UPDATE ) {
+            $addressFlds = array('location_1_address_street_address',
+                                 'location_1_address_supplemental_address_1',
+                                 'location_1_address_supplemental_address_2',
+                                 'location_1_address_city',
+                                 'location_1_address_postal_code',
+                                 'location_1_address_postal_code_suffix',
+                                 'location_1_address_county_id',
+                                 'location_1_address_state_province_id',
+                                 'location_1_address_country_id',
+                                 'location_1_address_geo_code_1',
+                                 'location_1_address_geo_code_2');
+            foreach ( $addressFlds as $addFld ) {
+                $extraOnAddFlds = $extraOnAddFlds ? ($extraOnAddFlds . "|" . $addFld) : $addFld;
+            }
+            $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
+            
+            $useHouseholdExtra = array( 'onclick' => "
+showHideByValue('use_household_address',      '', 'shared_household',      'block', 'radio', false);
+showHideByValue('use_household_address',      '', 'id_location_1_address', 'block', 'radio', true);
+enableDisableByValue('use_household_address', '', $extraOnAddFlds,         'block', 'radio', true);
+resetByValue('use_household_address',         '', $extraOnAddFlds,         'radio',  false);   " );
+            
+            $mailToHouseholdID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Individual', 
+                                                              $this->_contactId, 
+                                                              'mail_to_household_id', 
+                                                              'contact_id' );
+            if ( $mailToHouseholdID ) {
+                $form->add('hidden', 'mail_to_household_id', $mailToHouseholdID);
+                $selHouseholdLabel = "Change Household"; // select-household label to be used.
+            }
+        } elseif ( $action & CRM_Core_Action::ADD ) {
+            $useHouseholdExtra = array( 'onclick' => "
+showHideByValue('use_household_address', 'true', 'id_location_1_address', 'block', 'radio', true);
+showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);" );
+        }
+        
         // shared address element block
-        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $this->useHouseholdExtra);
-        $selHouseholdLabel = ( $form->selHouseholdLabel ) ? $form->selHouseholdLabel : "Select Household";
+        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
         $domainID      =  CRM_Core_Config::domainID( );   
         $attributes    = array( 'dojoType'     => 'ComboBox',
                                 'mode'         => 'remote',
@@ -109,7 +147,10 @@ class CRM_Contact_Form_Individual {
                                                                          "d={$domainID}&sh=1&s=%{searchString}",
                                                                          true, null, false ),
                                 );
+
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
+
+        $selHouseholdLabel = $selHouseholdLabel ? $selHouseholdLabel : "Select Household";
         $form->add( 'text', 'shared_household', ts( $selHouseholdLabel ), $attributes );
         // shared address element-block Ends.
         

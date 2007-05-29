@@ -73,20 +73,30 @@
 {/section}
 
 {if $contact_type EQ 'Individual'}
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="use_household_address"
-    trigger_value       ="true"
-    target_element_id   ="shared_household" 
-    target_element_type ="block"
-    field_type          ="radio"
-    invert              = 0
-}
-{include file="CRM/common/enableDisableByFieldValue.tpl" 
-    trigger_field_id    ="use_household_address"
-    trigger_value       ="true"
-    target_element_id   ="location_1_address_street_address|location_1_address_supplemental_address_1|location_1_address_supplemental_address_2|location_1_address_city|location_1_address_postal_code|location_1_address_postal_code_suffix|location_1_address_county_id|location_1_address_state_province_id|location_1_address_country_id|location_1_address_geo_code_1|location_1_address_geo_code_2" 
-    target_element_type ="block"
-    field_type          ="radio"
-    invert              = 1
-}
+   {include file="CRM/common/showHideByFieldValue.tpl" 
+       trigger_field_id    ="use_household_address"
+       trigger_value       =""
+       target_element_id   ="shared_household" 
+       target_element_type ="block"
+       field_type          ="radio"
+       invert              = 0
+   }
+   {if $form.errors}
+       {include file="CRM/common/showHideByFieldValue.tpl" 
+         trigger_field_id    ="use_household_address"
+         trigger_value       =""
+         target_element_id   ="id_location_1_address" 
+         target_element_type ="block"
+         field_type          ="radio"
+         invert              = 1
+       }
+   {/if}
+   {include file="CRM/common/enableDisableByFieldValue.tpl" 
+       trigger_field_id    ="use_household_address"
+       trigger_value       =""
+       target_element_id   ="location_1_address_street_address|location_1_address_supplemental_address_1|location_1_address_supplemental_address_2|location_1_address_city|location_1_address_postal_code|location_1_address_postal_code_suffix|location_1_address_county_id|location_1_address_state_province_id|location_1_address_country_id|location_1_address_geo_code_1|location_1_address_geo_code_2" 
+       target_element_type ="block"
+       field_type          ="radio"
+       invert              = 1
+   }
 {/if}
