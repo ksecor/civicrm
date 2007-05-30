@@ -9,8 +9,8 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences/display' q='reset=1'}" id="idPreferences">&raquo; {ts}System Preferences{/ts}</a></td>
-    <td>{ts}Configure system preferences to hide and show various options.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences/display' q='reset=1'}" id="idPreferences">&raquo; {ts}Site Preferences{/ts}</a></td>
+    <td>{ts}Configure screen and form elements for Viewing Contacts, Editing Contacts, Advanced Search and the Contact Dashboard.{/ts}</td>
 </tr>
 
 <tr>

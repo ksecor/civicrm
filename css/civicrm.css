@@ -112,7 +112,6 @@ border-top-style: none;
   text-align: right;
   vertical-align: top;
   font-weight: bold;
-  /*white-space: nowrap;*/
   padding: 5px 15px 5px 0px;
 }
 
@@ -203,7 +202,7 @@ border-top-style: none;
   border: 0px none;
 }
 
-#crm-container .form-layout td.report {
+#crm-container .form-layout td.report, #crm-container .form-layout td.description {
   white-space: normal;
 }
 

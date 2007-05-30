@@ -50,7 +50,7 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
                             'contact_view_options'    => ts( 'Viewing Contacts'   ),
                             'contact_edit_options'    => ts( 'Editing Contacts'   ),
                             'advanced_search_options' => ts( 'Advanced Search'),
-                            'user_dashboard_options'  => ts( 'User Dashboard' ),
+                            'user_dashboard_options'  => ts( 'Contact Dashboard' ),
                             );
     }
 
