@@ -121,21 +121,19 @@ class CRM_Core_BAO_CMSUser
     {
         $config  =& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
-            if ( $params['create_account'] ) {
-                $values = array( 
-                                'name' => $params['name'],
-                                'pass' => array('pass1' => $params['pass'],
-                                                'pass2' => $params['confirm_pass']),
-                                'mail' => $params[$mail],
-                                );
-
-                drupal_execute( 'user_register', $values );
-
-                if ( form_get_errors( ) ) {
-                    return false;
-                }
-                return true;
+            $values = array( 
+                            'name' => $params['name'],
+                            'pass' => array('pass1' => $params['pass'],
+                                            'pass2' => $params['confirm_pass']),
+                            'mail' => $params[$mail],
+                            );
+            
+            drupal_execute( 'user_register', $values );
+            
+            if ( form_get_errors( ) ) {
+                return false;
             }
+            return true;
         }
     }
 

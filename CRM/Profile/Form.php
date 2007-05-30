@@ -611,7 +611,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         $params = $this->controller->exportValues( $this->_name );
 
         //create CMS user (if CMS user option is selected in profile)
-        if ( $this->_mode == self::MODE_CREATE ) {
+        if ( $params['create_account']  && $this->_mode == self::MODE_CREATE ) {
             require_once "CRM/Core/BAO/CMSUser.php";
             if ( ! CRM_Core_BAO_CMSUser::creatCMSUser( $params, $this->_mail ) ) {
                 CRM_Core_Session::setStatus( ts('Your profile is not saved and Account is not created.') );
