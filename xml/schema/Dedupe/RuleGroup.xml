@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<table>
+  <base>CRM/Dedupe</base>
+  <class>RuleGroup</class>
+  <name>civicrm_dedupe_rule_group</name>
+  <comment>Dedupe rule groups</comment>
+  <add>1.8</add>
+  <field>
+    <name>id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>Unique dedupe rule group id</comment>
+    <add>1.8</add>
+  </field>
+  <primaryKey>
+    <name>id</name>
+    <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+    <name>domain_id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>The id of the domain this rule group belongs to</comment>
+    <add>1.8</add>
+  </field>
+  <foreignKey>
+    <name>domain_id</name>
+    <table>civicrm_domain</table>
+    <key>id</key>
+    <add>1.8</add>
+  </foreignKey>
+  <field>
+    <name>contact_type</name>
+    <type>enum</type>
+    <values>Individual, Organization, Household</values>
+    <comment>The type of contacts this group applies to</comment>
+    <add>1.8</add>
+  </field>
+  <field>
+    <name>threshold</name>
+    <type>int</type>
+    <required>true</required>
+    <comment>The weight threshold the sum of the rule weights has to cross to consider two contacts the same</comment>
+    <add>1.8</add>
+  </field>
+</table>
