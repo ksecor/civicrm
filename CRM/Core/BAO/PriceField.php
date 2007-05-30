@@ -213,16 +213,14 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             $label = $field->label;
         }
 
-        /**
-         * This was split into a different function before. however thanx to php4's bug with references,
-         * it was not working, so i munged it back into one big function - lobo
-         */
         switch($field->html_type) {
         case 'Text':
             if ($field->is_display_amounts) {
                 $customOption = CRM_Core_BAO_PriceField::getOptions( $field->id, $inactiveNeeded );
+                // text fields only have one option
+                $optionKey = key($customOption);
                 $label .= '&nbsp;-&nbsp;';
-                $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('value',$customOption[1]) );
+                $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('value', $customOption[$optionKey]) );
             }
             $qf->add(
                 'text', $elementName, $label, 'size="4"',
