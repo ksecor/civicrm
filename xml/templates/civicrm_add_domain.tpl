@@ -236,7 +236,7 @@ VALUES
   (@option_group_id_adOpt, '{ts}Addt\'l Address 2{/ts}' ,  3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}City{/ts}'             ,  4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}Zip / Postal Code{/ts}',  5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, '{ts}Postal Code Suffix{/ts},  6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, '{ts}Postal Code Suffix{/ts}',  6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}County{/ts}'           ,  7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}State / Province{/ts}' ,  8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}Country{/ts}'          ,  9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
@@ -260,3 +260,13 @@ VALUES
      (@domain_id,NULL,1,1,'123456789','1234','12345678910','1234','123456891011','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}',NULL,NULL,NULL);
 {/literal}
 
+-- the default dedupe rules
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Individual', 20);
+
+SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
+
+INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
+VALUES
+  (@dedupe_rule_group_id, 'civicrm_individual', 'first_name', 5),
+  (@dedupe_rule_group_id, 'civicrm_individual', 'last_name',  7),
+  (@dedupe_rule_group_id, 'civicrm_email',      'email',     10);
