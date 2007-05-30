@@ -134,7 +134,10 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
         $params   = array( );
 
         // Set default search type to "Students" if we don't have one yet.
-        $params = $_POST;
+        $params = $this->controller->exportValues( $this->_name );
+        if ( empty( $params ) ) {
+            $params = $_POST;
+        }
         if ( empty( $params['custom_89'] ) && empty( $params['custom_90'] ) ) {
             $defaults['custom_89'] = 'Student';
         }
