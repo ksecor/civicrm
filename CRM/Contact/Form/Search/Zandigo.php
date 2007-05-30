@@ -65,7 +65,6 @@ class CRM_Contact_Form_Search_Zandigo extends CRM_Core_Form {
             $pagerParams['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
         }
 
-        $pagerParams['rowCount' ]  = 2;
         $pagerParmas['status'   ]  = 'People %%StatusMessage%%';
         $pagerParmas['buttonTop']  = 'PagerTopButton';
 
