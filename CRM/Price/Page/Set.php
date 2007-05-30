@@ -66,6 +66,7 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
         // check if variable _actionsLinks is populated
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
+            $deleteExtra = ts('Are you sure you want to delete this price set?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::BROWSE  => array(
                                                                           'name'  => ts('View and Edit Price Fields'),
@@ -102,6 +103,7 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
                                                                           'url'   => 'civicrm/admin/price',
                                                                           'qs'    => 'action=delete&reset=1&id=%%id%%',
                                                                           'title' => ts('Delete Price Set'),
+                                                                          'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"'
                                                                           ),
                                         );
         }
@@ -129,17 +131,6 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
         
-        if ($action & CRM_Core_Action::DELETE) {
-            $session = & CRM_Core_Session::singleton();
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price', 'action=browse'));
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteSet','Delete Price Set', null );
-            $id = CRM_Utils_Request::retrieve('id', 'Positive',
-                                              $this, false, 0);
-            $controller->set('id', $id);
-            $controller->setEmbedded( true );
-            $controller->process( );
-            $controller->run( );
-        }
         // assign vars to templates
         $this->assign('action', $action);
         $id = CRM_Utils_Request::retrieve('id', 'Positive',
@@ -155,11 +146,9 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
             require_once 'CRM/Core/BAO/PriceField.php';
 
             // if action is enable or disable to the needful.
-            if ($action & CRM_Core_Action::DISABLE) {
+            if ($action & (CRM_Core_Action::DISABLE | CRM_Core_Action::DELETE)) {
                 $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id );
                 if ( empty( $usedBy ) ) {
-                    // disable price set
-                    CRM_Core_BAO_PriceSet::setIsActive($id, 0);
                     // remove from all inactive forms
                     $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id, true, true );
                     if ( isset( $usedBy['civicrm_event_page'] ) ) {
@@ -172,6 +161,21 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
                                 CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event_page', $eventPageDAO->id );
                             }
                         }
+                    }
+                    if ( $action & CRM_Core_Action::DISABLE) {
+                        // disable price set
+                        CRM_Core_BAO_PriceSet::setIsActive( $id, 0 );
+                    } elseif ( $action & CRM_Core_Action::DELETE) {
+                        // prompt to delete
+                        $session = & CRM_Core_Session::singleton();
+                        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price', 'action=browse'));
+                        $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteSet','Delete Price Set', null );
+                        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                                          $this, false, 0);
+                        $controller->set('id', $id);
+                        $controller->setEmbedded( true );
+                        $controller->process( );
+                        $controller->run( );
                     }
                 } else {
                     // add breadcrumb
@@ -268,9 +272,6 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
-
-            // is this price set in use
-            $priceSet[$dao->id]['is_used'] = CRM_Core_BAO_PriceSet::isUsed($dao->id);
 
             $priceSet[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('id' => $dao->id));

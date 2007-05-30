@@ -98,6 +98,9 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      * @static
      *
      */
+    //
+    // NOTE: This currently works differently from getUsedBy().
+    //
     public static function isUsed( $id )
     {
         // this could be optimized later.  For now, it's a set of
@@ -145,7 +148,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
     }
 
     /**
-     * Return a list of all forms which use this price set
+     * Return a list of all forms which use this price set.
      *
      * @param int  $id id of price set
      * @param bool $checkPast search for events in the past as well as

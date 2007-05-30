@@ -626,7 +626,7 @@ class CRM_Core_Invoke
 
         case 'price':
             if ( CRM_Utils_Array::value( 3, $args ) == 'field' ) {
-                $url = CRM_Utils_System::url( 'civicrm/admin/price' );
+                $url = CRM_Utils_System::url( 'civicrm/admin/price', 'action=browse&reset=1' );
                 $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Price Sets') . '</a>';
                 CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
                 if ( CRM_Utils_Array::value ( 4, $args ) == 'option' ) {

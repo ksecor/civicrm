@@ -2,7 +2,7 @@
     {include file="CRM/Price/Form/Set.tpl"}
 {elseif $action eq 1024}
     {include file="CRM/Price/Form/Preview.tpl"}
-{elseif $action eq 8}
+{elseif $action eq 8 and !$usedBy}
     {include file="CRM/Price/Form/DeleteSet.tpl"}
 {else}
     <div id="help">
@@ -19,7 +19,6 @@
         <tr class="columnheader">
             <th field="Set Title"  dataType="String">{ts}Set Title{/ts}</th>
             <th field="Status"       dataType="String">{ts}Status?{/ts}</th>
-            <th field="In Use"       dataType="String">{ts}In Use{/ts}</th>
             <th datatype="html"></th>
         </tr>
         </thead>
@@ -28,7 +27,6 @@
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
             <td>{if $row.is_active       eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{if $row.is_used eq true} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{$row.action}</td>
         </tr>
         {/foreach}
@@ -57,7 +55,11 @@
 
     {if $usedBy}
     <div id="price_set_used_by">
+        {if $action eq 8}
+        <p>{ts 1=$usedPriceSetTitle}Unable to delete the price set "%1" - it is in use by the following forms:{/ts}</p>
+        {elseif $action eq 64}
         <p>{ts 1=$usedPriceSetTitle}Unable to disable the price set "%1" - it is in use by the following forms:{/ts}</p>
+        {/if}
         {if $usedBy.civicrm_event_page}
         <p>{ts}Events:{/ts}</p>
         <table class="report">
