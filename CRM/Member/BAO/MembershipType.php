@@ -395,6 +395,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         $statusID = $membershipDetails[$membershipId]->status_id;
         $membershipTypeDetails = self::getMembershipTypeDetails( $membershipDetails[$membershipId]->membership_type_id );
         $statusDetails  = CRM_Member_BAO_MembershipStatus::getMembershipStatus($statusID);
+        
         if ( $statusDetails['is_current_member'] == 1 ) {
             $startDate    = $membershipDetails[$membershipId]->start_date;
             $date         = explode('-', $membershipDetails[$membershipId]->end_date);
@@ -423,30 +424,84 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             }
                 
         } else {
-            $date = $membershipDetails[$membershipId]->end_date;
-            $date         = explode('-', $date );
-            $startDate = $logStartDate = date('Y-m-d',mktime($hour, $minute, $second, $date[1], $date[2]+1, $date[0]));
-           
+            $today = date("Y-m-d");
+            
+            $rollover = false;
+            
+            if ( $membershipTypeDetails['period_type'] == 'rolling' ) {
+                $startDate = $logStartDate = $today;
+            } else if ( $membershipTypeDetails['period_type'] == 'fixed' ) {
+                // Renewing expired membership is two step process. 
+                // 1. Renew the start date
+                // 2. Renew the end date
+                
+                // 1.
+                $date = explode( '-', $membershipDetails[$membershipId]->start_date );
+                $startDate = $logStartDate = date( 'Y-m-d', mktime( 0, 0, 0, $date[1], $date[2], date("Y") ) );
+                // before moving to the step 2, check if TODAY is in
+                // rollover window.
+                $rolloverDay   = substr( $membershipTypeDetails['fixed_period_rollover_day'], -2 );
+                $rolloverMonth = substr( $membershipTypeDetails['fixed_period_rollover_day'], 0, -2 );
+                
+                $fixedstartMonth = substr( $membershipTypeDetails['fixed_period_start_day'], 0, -2 );
+                                
+                if ( ( $rolloverMonth - $fixedstartMonth ) < 0 ) { 
+                    $rolloverDate = date( 'Ymd', 
+                                         mktime( 0, 0, 0, 
+                                               $rolloverMonth,
+                                               $rolloverDay, 
+                                               date('Y')+1 ) );
+                } else {
+                    $rolloverDate = date( 'Ymd', 
+                                         mktime( 0, 0, 0, 
+                                               $rolloverMonth,
+                                               $rolloverDay, 
+                                               date("Y") ) );
+                }
+                
+                if ( CRM_Utils_Date::isoToMysql( $today ) > $rolloverDate ) {
+                    $rollover = true;
+                }
+            }
+            
+            // 2.
             $date         = explode('-', $startDate);
             
             $year  = $date[0];
             $month = $date[1];
             $day   = $date[2];
+            
             switch ( $membershipTypeDetails['duration_unit'] ) {
             case 'year' :
                 $year  = $year   + $membershipTypeDetails['duration_interval'];
+                
+                if ( $rollover ) {
+                    $year  = $year   + $membershipTypeDetails['duration_interval'];
+                }
+                
                 break;
             case 'month':
                 $month = $month  + $membershipTypeDetails['duration_interval'];
+                
+                if ( $rollover ) {
+                    $month  = $month   + $membershipTypeDetails['duration_interval'];
+                }
+                
                 break;
             case 'day':
                 $day   = $day    + $membershipTypeDetails['duration_interval'];
+                
+                if ( $rollover ) {
+                    $day  = $day   + $membershipTypeDetails['duration_interval'];
+                }
+                
                 break;
             }
+            
             if ($membershipTypeDetails['duration_unit'] =='lifetime') {
                 $endDate = null;
             } else {
-                $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+                $endDate = date( 'Y-m-d', mktime( 0, 0, 0, $month, $day-1, $year));
             }
         }
         
