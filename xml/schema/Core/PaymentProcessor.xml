@@ -4,7 +4,7 @@
   <base>CRM/Core</base>
   <class>PaymentProcessor</class>
   <name>civicrm_payment_processor</name>
-  <add>1.1</add>
+  <add>1.8</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
@@ -20,7 +20,7 @@
       <name>domain_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Which Domain owns this location type.</comment>
+      <comment>Which Domain owns this payment processor.</comment>
        <add>1.8</add>
   </field>
   <foreignKey>
@@ -45,6 +45,13 @@
        <add>1.8</add>
   </field>
   <field>
+      <name>processor_class_name</name>
+      <type>varchar</type>
+      <length>255</length>
+      <comment>Payment Processor Class Name.</comment>
+      <add>1.8</add>
+  </field>
+  <field>
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this processor active?</comment>
@@ -62,6 +69,13 @@
         <comment>Is this processor for a test site?</comment>
        <add>1.8</add>
   </field>
+  <index>
+    <name>UI_name_test</name>
+    <fieldName>name</fieldName>
+    <fieldName>is_test</fieldName>
+    <unique>true</unique>
+    <add>1.8</add>
+  </index>
   <field>
        <name>user_name</name>
        <title>User Name</title>
@@ -77,8 +91,8 @@
        <add>1.8</add>
   </field>
   <field>
-       <name>key</name>
-       <title>Key</title>
+       <name>signature</name>
+       <title>Signature</title>
        <type>varchar</type>
        <length>255</length>
        <add>1.8</add>
