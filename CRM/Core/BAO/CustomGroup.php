@@ -237,6 +237,7 @@ WHERE civicrm_custom_group.domain_id = $domainID
             $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
         }
 
+	require_once 'CRM/Core/Permission.php';
         // ensure that the user has access to these custom groups
         $strWhere .= 
             " AND " .

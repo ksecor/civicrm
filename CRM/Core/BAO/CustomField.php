@@ -228,6 +228,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
 
             // also get the permission stuff here
+	    require_once 'CRM/Core/Permission.php';
             $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
                                                                         "{$cgTable}." );
 

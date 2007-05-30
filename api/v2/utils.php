@@ -112,7 +112,7 @@ function _civicrm_object_to_array( &$dao, &$values )
 function _civicrm_custom_format_params( &$params, &$values, $extends )
 {
     $values['custom'] = array();
-    
+    require_once 'CRM/Core/BAO/CustomField.php' ;    
     $customFields = CRM_Core_BAO_CustomField::getFields( $extends );
     
     foreach ($params as $key => $value) {

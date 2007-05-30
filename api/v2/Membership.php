@@ -368,14 +368,16 @@ function civicrm_contact_membership_create(&$params)
     $values  = array( );   
     $error = _civicrm_membership_format_params( $params, $values );
     if (is_a($error, 'CRM_Core_Error') ) {
-        return $error;
+        return civicrm_create_error( 'Membership is not created' );
     }
      
     $params = array_merge($values,$params);
     require_once 'CRM/Member/BAO/Membership.php';
     $ids = array();
+    $ids = $params['id'];
     $membershipBAO = CRM_Member_BAO_Membership::create($params, $ids);
     if ( ! is_a( $membershipBAO, 'CRM_Core_Error') ) {
+      require_once 'CRM/Core/Action.php';
         $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
                                                                    $membershipBAO->id,
                                                                    $params['contact_id'],
@@ -400,88 +402,6 @@ function civicrm_contact_membership_create(&$params)
     return $values;
 }
 
-/**
- * Update an existing contact membership
- *
- * This api is used for updating an existing contact membership.
- * Required parrmeters : id of a membership
- * 
- * @param  Array   $params  an associative array of name/value property values of civicrm_membership
- * 
- * @return array of updated membership property values
- * @access public
- */
-function civicrm_contact_membership_update(&$params)
-{
-    _civicrm_initialize();
-    if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Params is not an array' );
-    }
-    
-    if ( !isset($params['id']) ) {
-        return civicrm_create_error( 'Required parameter missing' );
-    }
-    
-    $changeFields = array(
-                          'membership_start_date' => 'start_date',
-                          'membership_end_date'   => 'end_date',
-                          'membership_source'     => 'source'
-                          );
-    
-    foreach ( $changeFields as $field => $requiredField ) {
-        if ( array_key_exists( $field, $params ) ) {
-            $params[$requiredField] = $params[$field];
-            unset($params[$field]);
-        }
-    }
-    
-    require_once 'CRM/Member/BAO/Membership.php';
-    $membershipBAO     =& new CRM_Member_BAO_Membership( );
-    $membershipBAO->id = $params['id'];
-    $membershipBAO->find(true);
-
-    $membershipBAO->copyValues($params);
-    
-    $datefields = array( 'start_date', 'end_date', 'join_date', 'reminder_date' );
-    
-    //fix the dates 
-    foreach ( $datefields as $value ) {
-        $membershipBAO->$value  = CRM_Utils_Date::customFormat($membershipBAO->$value,'%Y%m%d');
-        // Handle resetting date to 'null' (which is converted to 00000 by customFormat)
-        if ( $membershipBAO->$value == '00000') {
-            $membershipBAO->$value = 'null';
-        }
-        $params[$value] = $membershipBAO->$value;
-    }
-    
-    $membershipBAO->save();
-    
-    // Check and add membership for related contacts
-    $relatedContacts =
-        CRM_Member_BAO_Membership::checkMembershipRelationship( 
-                                                               $membershipBAO->id,
-                                                               $membershipBAO->contact_id,
-                                                               CRM_Core_Action::UPDATE
-                                                               );
-    
-    //delete all the related membership records before creating
-    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipBAO->id );
-
-    $params['membership_type_id'] = $membershipBAO->membership_type_id;
-    foreach ( $relatedContacts as $contactId ) {
-        $params['contact_id'         ] = $contactId;
-        $params['owner_membership_id'] = $membershipBAO->id;
-        unset( $params['id'] );
-        
-        CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
-    }
-        
-    $membership = array();
-    _civicrm_object_to_array( $membershipBAO, $membership );
-    $membershipBAO->free( );
-
-    return $membership;
-}
 
 /**
  * Get conatct membership record.
@@ -531,7 +451,16 @@ function civicrm_contact_memberships_get(&$contactID)
     }
     
     $members[$contactID] = $membershipValues;
+    require_once 'CRM/Core/BAO/CustomGroup.php';
+    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership',$membershipId , false,1);
+    CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
     
+    foreach ( $defaults as $key => $val ) {
+      $members[$contactID][$membershipId][$key] = $val;
+    }
+
+
+
     // populating contacts in members array based on their relationship with direct members.
     require_once 'CRM/Contact/BAO/Relationship.php';
     foreach ($relationships as $relTypeId => $membershipId) {
