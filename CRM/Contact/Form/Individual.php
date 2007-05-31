@@ -222,7 +222,7 @@ showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'r
 
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
         if ( $fields['use_household_address'] && !$fields['shared_household_selected'] ) {
-            if ( !$fields['mail_to_household_id'] || $fields['shared_household'] ) {
+            if ( !$fields['old_mail_to_household_id'] || $fields['shared_household'] ) {
                 $errors["shared_household"] = 
                     ts("Please select a household from the 'Select Household' list");
             }
