@@ -78,7 +78,7 @@ function civicrm_participant_create(&$params)
     $ids= array();
 
     require_once 'CRM/Event/BAO/Participant.php';
-    $participant = CRM_Event_BAO_Participant::create($params, $ids);//CRM_CORE_ERROR::DEBUG('pp',$participant);
+    $participant = CRM_Event_BAO_Participant::create($params, $ids);
 
     if ( is_a( $participant, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Participant is not created" );
@@ -115,7 +115,7 @@ function &civicrm_participant_get( &$params ) {
     }
 
     $participant  =& civicrm_participant_search( $params );
-    CRM_CORE_ERROR::DEBUG('$participant===',$participant);
+    
 
     if ( count( $participant ) != 1 &&
          ! $participant['returnFirst'] ) {
@@ -169,7 +169,7 @@ function civicrm_participant_search( &$params ) {
     $query =& new CRM_Contact_BAO_Query( $newParams, $returnProperties, null );
     list( $select, $from, $where ) = $query->query( );
     
-    $sql = "$select $from $where";  CRM_Core_Error::debug('s',$sql);
+    $sql = "$select $from $where";  
 
     if ( ! empty( $sort ) ) {
         $sql .= " ORDER BY $sort ";

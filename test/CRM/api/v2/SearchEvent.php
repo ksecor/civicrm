@@ -23,6 +23,7 @@ class TestOfSearchEventAPIV2 extends UnitTestCase
                         'event_type_id'            => '3',
                         'is_public'                => '1',
                         'start_date'               => '20070219',
+			'end_date'                 => '20080219',
                         'is_online_registration'   => '0',
                         'max_participants'         => '15',
                         'is_monetary'              => '0', 
@@ -32,6 +33,7 @@ class TestOfSearchEventAPIV2 extends UnitTestCase
                         );
 	
         $this->_event = & civicrm_event_create($params);
+	$this->assertEqual( $this->_event['is_error'], 0 );
     }
     function testCreateParticipant()
     {
@@ -46,6 +48,7 @@ class TestOfSearchEventAPIV2 extends UnitTestCase
                         );
        
         $this->_participant = & civicrm_participant_create($params);
+	$this->assertEqual( $this->_participant['is_error'], 0 );
     }
     function testGetEvent()
     {
@@ -70,7 +73,7 @@ class TestOfSearchEventAPIV2 extends UnitTestCase
     function testDeleteEvent()
     {
         $val = &civicrm_event_delete($this->_event['event_id']);
-        $this->assertEqual( $val['is_error'], 0 );    
+        $this->assertEqual( $val['is_error'], 0 );
     }
 
 }

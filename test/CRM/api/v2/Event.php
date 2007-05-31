@@ -1,6 +1,7 @@
 <?php
 
-require_once 'api/crm.php';
+require_once 'api/v2/Event.php';
+
 
 class TestOfCreateEventAPIV2 extends UnitTestCase 
 {
@@ -106,7 +107,7 @@ class TestOfCreateEventAPIV2 extends UnitTestCase
                         );
         
         $event = & civicrm_event_create($params);  
-
+	$this->assertNotNull( $event['event_id'] );    
     }
     
     function testCreateEventWithoutEndDate()
@@ -161,6 +162,26 @@ class TestOfCreateEventAPIV2 extends UnitTestCase
         $this->assertNotNull( $event['event_id'] );                
 
         $this->_event = $event;
+    }
+    function testUpdateEvent()
+    {
+      $params = array(
+		      'id'                       => $this->_event['event_id'],
+		      'title'                    => 'Dinner',
+		      'summary'                  => 'Regular function', 
+		      'description'              => 'Award ceremony and cultural events',
+		      'event_type_id'            => '1',
+		      'is_public'                => '0',
+		      'start_date'               => '20080219',
+		      'is_online_registration'   => '1',
+		      'max_participants'         => '100',
+		      'is_monetary'              => '0', 
+		      'contribution_type_id'     => '0', 
+		      'is_map'                   => '0', 
+		      'is_active'                => '1' 
+		      );
+      
+      $event = & civicrm_event_create($params);
     }
     
     function testDeleteEvent()

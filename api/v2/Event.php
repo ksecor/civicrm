@@ -78,7 +78,7 @@ function civicrm_event_create( &$params )
     $ids['event'      ] = $params['id'];
     $ids['eventTypeId'] = $params['event_type_id'];
     $ids['startDate'  ] = $params['start_date'];
-    
+    $ids['event_id']            =  $params['event_id'];
     require_once 'CRM/Event/BAO/Event.php';
     $eventBAO = CRM_Event_BAO_Event::create($params, $ids);
     
@@ -181,49 +181,23 @@ function civicrm_event_search(&$params ) {
     while ( $dao->fetch( ) ) {
         $event[$dao->event_id] = $query->store( $dao );
     }
+  
+ 
+    require_once 'CRM/Core/BAO/CustomGroup.php';
+    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $dao->event_id, false,1);
+    CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false ); 
+    if ( is_array( $defaults ) ) {
+      foreach ( $defaults as $key => $val ) {
+	$event[$dao->event_id][$key] = $val;
+      }
+    }
+    
+ 
     $dao->free( );
-    
     return $event;
 
 }
 
-/**
- * Update an existing event
- *
- * This api is used for updating an existing event.
- * Required parrmeters : id of a event
- * 
- * @param  Array   $params  an associative array of title/value property values of civicrm_event
- * 
- * @return array of updated event property values
- * @access public
- */
-function &civicrm_event_update( &$params ) {
-    if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Params is not an array' );
-    }
-    
-    if ( !isset($params['id']) ) {
-        return civicrm_create_error( 'Required parameter missing' );
-    }
-    
-    require_once 'CRM/Event/DAO/Event.php';
-    $eventDAO =& new CRM_Event_DAO_Event( );
-    $eventDAO->id = $params['id'];
-    if ($eventDAO->find(true)) {
-        $fields = $eventDAO->fields( );
-        foreach ( $fields as $name => $field) {
-            if (array_key_exists($name, $params)) {
-                $eventDAO->$name = $params[$name];
-            }
-        }
-        $eventDAO->save();
-    }
-    
-    $event = array();
-    _civicrm_object_to_array( $eventDAO, $event );
-    return $event;
-}
 
 /**
  * Deletes an existing event
