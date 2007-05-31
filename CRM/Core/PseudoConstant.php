@@ -202,6 +202,13 @@ class CRM_Core_PseudoConstant
     private static $pcm;
     
     /**
+     * location type
+     * @var array
+     * @static
+     */
+    private static $paymentProcessor;
+    
+    /**
      * populate the object from the database. generic populate
      * method
      *
@@ -896,6 +903,33 @@ class CRM_Core_PseudoConstant
         }        
         return self::$pcm;
     }
+
+    /**
+     * Get all active payment processors
+     *
+     * The static array paymentProcessor is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all  - get payment processors     - default is to get only active ones.
+     * @param boolean $test - get test payment processors
+     *
+     * @return array - array of all payment processors
+     *
+     */
+    public static function &paymentProcessor( $all = false, $test = false )
+    {
+        $condition  = "is_test = ";
+        $condition .=  ( $test ) ? '1' : '0';
+
+        if ( ! self::$paymentProcessor ) {
+            self::populate( self::$paymentProcessor, 'CRM_Core_DAO_PaymentProcessor', $all, 
+                            'name', 'is_active', $condition, 'is_default, name' );
+        }
+        return self::$paymentProcessor;
+    }
+
 }
 
 ?>

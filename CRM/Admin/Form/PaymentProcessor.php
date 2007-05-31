@@ -184,7 +184,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
                 $testName = "test_{$field['name']}";
                 $defaults[$testName] = $testDAO->{$field['name']};
             }
-        }            
+        }    
         return $defaults;
     }
 
@@ -200,20 +200,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
 
         $domainID = CRM_Core_Config::domainID( );
 
-        $dao =& new CRM_Core_DAO_PaymentProcessor( );
-        $dao->id         = $this->_id;
-        $dao->domain_id  = $domainID;
-        $dao->is_test    = 0;
-        $dao->is_default = CRM_Utils_Array::value( 'is_default', $values, 0 );
-        $dao->is_active  = CRM_Utils_Array::value( 'is_active' , $values, 0 );
-        foreach ( $this->_fields as $field ) {
-            $dao->{$field['name']} = trim( $values[$field['name']] );
-            if ( empty( $dao->{$field['name']} ) ) {
-                $dao->{$field['name']} = 'null';
-            }
-        }
-
-        if ( $dao->is_default ) {
+        if ( CRM_Utils_Array::value( 'is_default', $values ) ) {
             $query = "
 UPDATE civicrm_payment_processor
    SET is_default = 0
@@ -222,31 +209,37 @@ UPDATE civicrm_payment_processor
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
-        
-        $dao->save( );
-
-        $testDAO     =& new CRM_Core_DAO_PaymentProcessor( );
-
-        $testDAO->id         = $this->_testID;
-        $testDAO->is_active  = CRM_Utils_Array::value( 'is_active', $values );
-        $testDAO->domain_id  = $domainID;
-        $testDAO->is_test    = 1;
-        $testDAO->is_default = 0;
-
-        $testDAO->name                 = $values['name'];
-        $testDAO->description          = $values['description'];
-        $testDAO->processor_class_name = $values['processor_class_name'];
-        
-        foreach ( $this->_fields as $field ) {
-            $testName = "test_{$field['name']}";
-            $testDAO->{$field['name']} = trim( $values[$testName] );
-            if ( empty( $testDAO->{$field['name']} ) ) {
-                $testDAO->{$field['name']} = 'null';
-            }
-        }
-        $testDAO->save( );
+        self::updatePaymentProcessor( $values, $domainID, false );
+        self::updatePaymentProcessor( $values, $domainID, true );
 
     }//end of function
+
+    function updatePaymentProcessor( &$values, $domainID, $test ) {
+        $dao =& new CRM_Core_DAO_PaymentProcessor( );
+
+        $dao->id         = $test ? $this->_testID : $this->_id;
+        $dao->domain_id  = $domainID;
+        $dao->is_test    = $test;
+        if ( ! $test ) {
+            $dao->is_default = CRM_Utils_Array::value( 'is_default', $values, 0 );
+        } else {
+            $dao->is_default = 0;
+        }
+        $dao->is_active  = CRM_Utils_Array::value( 'is_active' , $values, 0 );
+
+        $dao->name                 = $values['name'];
+        $dao->description          = $values['description'];
+        $dao->processor_class_name = $values['processor_class_name'];
+        
+        foreach ( $this->_fields as $field ) {
+            $fieldName = $test ? "test_{$field['name']}" : $field['name'];
+            $dao->{$field['name']} = trim( $values[$fieldName] );
+            if ( empty( $dao->{$field['name']} ) ) {
+                $dao->{$field['name']} = 'null';
+            }
+        }
+        $dao->save( );
+    }
 
 }
 

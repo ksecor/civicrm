@@ -16,6 +16,8 @@
     <dt>&nbsp;</dt><dd class="description">{ts}This title will be displayed at the top of the page.{/ts}</dd>
     <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</dd>
+    <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select the payment processor that handles this contribution page.{/ts}</dd>
     <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
