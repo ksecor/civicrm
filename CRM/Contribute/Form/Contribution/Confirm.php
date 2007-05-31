@@ -59,7 +59,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                                 CRM_Core_DAO::$_nullObject, false, null, 'GET' );
             if ( $rfp ) {
                 require_once 'CRM/Core/Payment.php'; 
-                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' );
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
                 $expressParams = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
 
                 $this->_params['payer'       ] = $expressParams['payer'       ];
@@ -180,11 +180,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
 
-        if ($config->paymentProcessor == 'Google_Checkout') {
+        if ( $this->_paymentProcessor['processor'] == 'Google_Checkout') {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
-                       $config->googleCheckoutButton[$this->_mode],
+                       $this->_paymentProcessor['url_button'],
                        array( 'class' => 'form-submit' ) );
             
             $this->addButtons(array(
@@ -373,7 +373,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             if ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
                 require_once 'CRM/Core/Payment.php';
-                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' );
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
             }
             
             if ( $this->_contributeMode == 'express' ) {
@@ -407,7 +407,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
                 if ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
-                    if ($config->paymentProcessor == 'Google_Checkout') {
+                    if ( $this->_paymentProcessor['processor'] == 'Google_Checkout' ) {
                         $payment->doCheckout( $this->_params );
                     }
                     // addd qfKey so we can send to paypal
@@ -690,7 +690,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
                                 'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
                                 'currency'          => $params['currencyID'],
-                                'payment_processor' => $config->paymentProcessor,
+                                'payment_processor' => $this->_paymentProcessor['processor'],
                                 'trxn_id'           => $result['trxn_id'],
                                 );
             

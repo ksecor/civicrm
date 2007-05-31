@@ -15,7 +15,7 @@
 	<thead> 
         <tr class="columnheader">
             <th field="Name" dataType="String" >{ts}Name{/ts}</th>
-            <th field="Processor Type" dataType="String">{ts}Processor Type{/ts}</th>
+            <th field="Processor Type" dataType="String">{ts}Processor{/ts}</th>
             <th field="Description" dataType="String">{ts}Description{/ts}</th>
             <th field="Enabled" dataType="String">{ts}Enabled?{/ts}</th>
 	        <th field="Default" dataType="String">{ts}Default?{/ts}</th>
@@ -27,7 +27,7 @@
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
-	        <td>{$row.processor_class_name}</td>	
+	        <td>{$row.processor}</td>	
             <td>{$row.description}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 		<td>{if $row.is_default eq 1} [X] {else}  {/if}</td>

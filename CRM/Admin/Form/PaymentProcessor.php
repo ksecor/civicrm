@@ -86,7 +86,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
                     $attributes['description'] );
 
         $types = array('select' => '- select -') + CRM_Core_SelectValues::paymentProcessor( );
-        $this->add( 'select', 'processor_class_name', ts( 'Processor Type' ), $types, true );
+        $this->add( 'select', 'processor', ts( 'Processor' ), $types, true );
                    
         
         // is this processor active ?
@@ -227,9 +227,9 @@ UPDATE civicrm_payment_processor
         }
         $dao->is_active  = CRM_Utils_Array::value( 'is_active' , $values, 0 );
 
-        $dao->name                 = $values['name'];
-        $dao->description          = $values['description'];
-        $dao->processor_class_name = $values['processor_class_name'];
+        $dao->name         = $values['name'];
+        $dao->description  = $values['description'];
+        $dao->processor    = $values['processor'];
         
         foreach ( $this->_fields as $field ) {
             $fieldName = $test ? "test_{$field['name']}" : $field['name'];

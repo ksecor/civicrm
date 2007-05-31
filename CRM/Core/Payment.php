@@ -53,6 +53,8 @@ abstract class CRM_Core_Payment {
      */
     static private $_singleton = null;
 
+    protected $_paymentProcessor;
+
     /**  
      * singleton function used to manage this object  
      *  
@@ -62,14 +64,14 @@ abstract class CRM_Core_Payment {
      * @static  
      *  
      */  
-    static function &singleton( $mode = 'test', $component ) {
+    static function &singleton( $mode = 'test', $component, &$paymentProcessor ) {
         if ( self::$_singleton === null ) {
             $config       =& CRM_Core_Config::singleton( );
-            $paymentClass = "CRM_{$component}_" . $config->paymentFile;
+            $paymentClass = "CRM_{$component}_" . $paymentProcessor['file'];
             
             $classPath = str_replace( '_', '/', $paymentClass ) . '.php';
             require_once($classPath);
-            self::$_singleton = eval( 'return ' . $paymentClass . '::singleton( $mode );' );
+            self::$_singleton = eval( 'return ' . $paymentClass . '::singleton( $mode, $paymentProcessor );' );
         }
         return self::$_singleton;
     }

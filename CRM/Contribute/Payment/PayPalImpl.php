@@ -55,8 +55,9 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
      *
      * @return void 
      */ 
-    function __construct( $mode ) {
-        parent::__construct( $mode );
+    function __construct( $mode, &$paymentProcessor ) {
+        CRM_Core_Error::debug( 'p', $paymentProcessor );
+        parent::__construct( $mode, $paymentProcessor );
     }
 
     /** 
@@ -68,9 +69,9 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
      * @static 
      * 
      */ 
-    static function &singleton( $mode ) {
+    static function &singleton( $mode, &$paymentProcessor ) {
         if (self::$_singleton === null ) { 
-            self::$_singleton =& new CRM_Contribute_Payment_PaypalImpl( $mode );
+            self::$_singleton =& new CRM_Contribute_Payment_PaypalImpl( $mode, $paymentProcessor );
         } 
         return self::$_singleton; 
     } 
@@ -94,7 +95,7 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
                                             true, null, false );
         
         $paypalParams =
-            array( 'business'           => $config->paymentUsername[$this->_mode],
+            array( 'business'           => $this->_paymentProcessor['user_name'],
                    'notify_url'         => $notifyURL,
                    'item_name'          => $params['item_name'],
                    'quantity'           => 1,
@@ -150,9 +151,9 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
         }
 
         $uri = substr( $uri, 1 );
-        $url = ( $this->_mode == 'test' ) ? $config->paymentPayPalExpressTestUrl : $config->paymentPayPalExpressUrl;
+        $url = $this->_paymentProcessor['url_site'];
         $sub = empty( $params['is_recur'] ) ? 'xclick' : 'subscriptions';
-        $paypalURL = "https://{$url}/{$sub}/$uri";
+        $paypalURL = "{$url}{$sub}/$uri";
 
         CRM_Core_Error::debug_var( 'paypalParams', $paypalParams );
         CRM_Core_Error::debug_var( 'paypalURL'   , $paypalURL );

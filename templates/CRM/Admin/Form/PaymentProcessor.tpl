@@ -15,7 +15,7 @@
   <dl>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
-    <dt>{$form.processor_class_name.label}</dt><dd>{$form.processor_class_name.html}</dd>
+    <dt>{$form.processor.label}</dt><dd>{$form.processor.html}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_default.html} {$form.is_default.label}</dd>
 
@@ -23,7 +23,7 @@
 <legend>Processor Details for Live Site</legend>
     <dt>{$form.user_name.label}</dt><dd>{$form.user_name.html}</dd>
     <dt>{$form.password.label}</dt><dd>{$form.password.html}</dd>
-    <dt>{$form.key.label}</dt><dd>{$form.key.html}</dd>
+    <dt>{$form.signature.label}</dt><dd>{$form.signature.html}</dd>
     <dt>{$form.url_site.label}</dt><dd>{$form.url_site.html}</dd>
     <dt>{$form.url_button.label}</dt><dd>{$form.url_button.html}</dd>
     <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
@@ -33,7 +33,7 @@
 <legend>Processor Details for Test Site</legend>
     <dt>{$form.test_user_name.label}</dt><dd>{$form.test_user_name.html}</dd>
     <dt>{$form.test_password.label}</dt><dd>{$form.test_password.html}</dd>
-    <dt>{$form.test_key.label}</dt><dd>{$form.test_key.html}</dd>
+    <dt>{$form.test_signature.label}</dt><dd>{$form.test_signature.html}</dd>
     <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html}</dd>
     <dt>{$form.test_url_button.label}</dt><dd>{$form.test_url_button.html}</dd>
     <dt>{$form.test_subject.label}</dt><dd>{$form.test_subject.html}</dd>

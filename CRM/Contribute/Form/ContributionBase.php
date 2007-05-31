@@ -117,16 +117,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
 
-        // check if this is a paypal auto return and redirect accordingly
-        if ( $config->paymentProcessor == "PayPal_Standard" &&
-             isset( $_GET['payment_date'] )                 &&
-             isset( $_GET['merchant_return_link'] )         &&
-             CRM_Utils_Array::value( 'payment_status', $_GET ) == 'Completed' ) {
-            $url = CRM_Utils_System::url( 'civicrm/contribute/transact',
-                                          "_qf_ThankYou_display=1&qfKey={$this->controller->_key}" );
-            CRM_Utils_System::redirect( $url );
-        }
-
         // current contribution page id 
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive',
                                                   $this );
@@ -152,9 +142,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         // current mode
         $this->_mode = ( $this->_action == 1024 ) ? 'test' : 'live';
 
-        $this->_values = $this->get( 'values' );
-        $this->_fields = $this->get( 'fields' );
-        $this->_bltID  = $this->get( 'bltID'  );
+        $this->_values           = $this->get( 'values' );
+        $this->_fields           = $this->get( 'fields' );
+        $this->_bltID            = $this->get( 'bltID'  );
+        $this->_paymentProcessor = $this->get( 'paymentProcessor' );
 
         if ( ! $this->_values ) {
             // get all the values from the dao object
@@ -181,7 +172,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             }
             $this->set   ( 'bltID', $this->_bltID );
 
-            if ( ($config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM) && CRM_Utils_Array::value('is_monetary',$this->_values) ) {
+            require_once 'CRM/Core/BAO/PaymentProcessor.php';
+            $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_values['payment_processor_id'],
+                                                                                  $this->_mode );
+            $this->set( 'paymentProcessor', $this->_paymentProcessor );
+
+            if ( ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) &&
+                 CRM_Utils_Array::value('is_monetary', $this->_values) ) {
                 $this->setCreditCardFields( );
             }
 
@@ -201,10 +198,20 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         }
 
+        // check if this is a paypal auto return and redirect accordingly
+        if ( $this->_paymentProcessor['processor'] == "PayPal_Standard" &&
+             isset( $_GET['payment_date'] )                                       &&
+             isset( $_GET['merchant_return_link'] )                               &&
+             CRM_Utils_Array::value( 'payment_status', $_GET ) == 'Completed' ) {
+            $url = CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                          "_qf_ThankYou_display=1&qfKey={$this->controller->_key}" );
+            CRM_Utils_System::redirect( $url );
+        }
+
         // make sure we have a valid payment class, else abort
         if ( CRM_Utils_Array::value('is_monetary',$this->_values) &&
-             ! $config->paymentFile ) {
-            CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
+             ! $this->_paymentProcessor['file'] ) {
+            CRM_Core_Error::fatal( ts( 'Payment processor is not set for this page' ) );
         }
 
         // check if one of the (amount , membership)  bloks is active or not
@@ -219,7 +226,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $this->set('amount_block_is_active',$this->_values['amount_block_is_active' ]);
         }
 
-        if ( !empty($membership) && isset($membership["is_separate_payment"]) && $config->paymentProcessor == "PayPal_Standard" ) {
+        if ( ! empty($membership) &&
+             isset( $membership["is_separate_payment"] ) &&
+             $this->_paymentProcessor['processor'] == "PayPal_Standard" ) {
             CRM_Core_Error::fatal( ts( 'This contribution page is configured to support separate contribution and membership payments. The PayPal Website Payments Standard plugin does not currently support multiple simultaneous payments. Please contact the site administrator and notify them of this error' ) );
         }
 
@@ -234,7 +243,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         //assign cancelSubscription URL to templates
         $this->assign( 'cancelSubscriptionUrl',
-                       self::cancelSubscriptionURL( $config, $this->_mode ) );
+                       self::cancelSubscriptionURL( $this->_paymentProcessor, $this->_mode ) );
         
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
@@ -245,14 +254,11 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_amount   = $this->get( 'amount' );
     }
 
-    static function cancelSubscriptionURL( &$config, $mode ) {
+    static function cancelSubscriptionURL( &$paymentProcessor, $mode ) {
         $cancelSubscriptionURL = null;
-        if ( $config->paymentProcessor == 'PayPal_Standard' ) {
-            if ( $mode == 'live' ) {
-                $cancelSubscriptionURL = "https://{$config->paymentPayPalExpressUrl}/cgi-bin/webscr?cmd=_subscr-find&alias=" . urlencode($config->paymentUsername['live']);
-            } else {
-                $cancelSubscriptionURL = "https://{$config->paymentPayPalExpressTestUrl}/cgi-bin/webscr?cmd=_subscr-find&alias=" . urlencode($config->paymentUsername['test']);
-            }
+        if ( $paymentProcessor['processor'] == 'PayPal_Standard' ) {
+            $cancelSubscriptionURL = "https://{$paymentProcessor['site_url']}/cgi-bin/webscr?cmd=_subscr-find&alias=" .
+                urlencode( $paymentProcessor['user_name'] );
         }
         return $cancelSubscriptionURL;
     }
@@ -288,7 +294,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
  
         $config =& CRM_Core_Config::singleton( );
         if ( isset($this->_values['is_recur']) && 
-             $config->enableRecurContribution ) {
+             $this->_paymentProcessor['recur_contribution'] ) {
             $this->assign( 'is_recur_enabled', 1 );
             $vars = array_merge( $vars, array( 'is_recur', 'frequency_interval', 'frequency_unit',
                                                'installments' ) );

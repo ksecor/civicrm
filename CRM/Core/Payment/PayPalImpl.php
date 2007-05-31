@@ -48,26 +48,26 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      *
      * @return void 
      */ 
-    function __construct( $mode ) {
+    function __construct( $mode, &$paymentProcessor ) {
         require_once 'PayPal.php';
         require_once 'PayPal/Profile/API.php';
 
         $this->_mode = $mode;
 
-        $config =& CRM_Core_Config::singleton( );
+        $this->_paymentProcessor = $paymentProcessor;
 
-        if ( $config->paymentProcessor == 'PayPal_Standard' ) {
+        if ( $this->_paymentProcessor['processor'] == 'PayPal_Standard' ) {
             return;
         }
 
-        if ( $config->paymentUsername[$mode] ) {
+        if ( $this->_paymentProcessor['user_name'] ) {
             require_once 'PayPal/Profile/Handler/Array.php';
             $environment = ( $mode == 'test' ) ? 'sandbox' : 'live';
             $this->_handler =& ProfileHandler_Array::getInstance( 
                                                                  array(
-                                                                       'username'        => $config->paymentUsername[$mode],
+                                                                       'username'        => $this->_paymentProcessor['user_name'],
                                                                        'certificateFile' => null,
-                                                                       'subject'         => $config->paymentSubject[$mode],
+                                                                       'subject'         => $this->_paymentProcessor['subject'],
                                                                        'environment'     => $environment,
                                                                        )
                                                                  );
@@ -82,27 +82,10 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                 return self::error( $this->_profile );
             }
 
-            $this->_profile->setAPIPassword( $config->paymentPassword[$mode] );
-            $this->_profile->setSignature  ( $config->paymentKey     [$mode] );
+            $this->_profile->setAPIPassword( $this->_paymentProcessor['password']  );
+            $this->_profile->setSignature  ( $this->_paymentProcessor['signature'] );
         } else {
-            require_once 'PayPal/Profile/Handler/File.php';
-            $this->_handler =& ProfileHandler_File::getInstance( array(
-                                                                       'path' => $config->paymentCertPath[$mode],
-                                                                       'charset' => self::CHARSET,
-                                                                       )
-                                                                 );
-        
-            if ( PayPal::isError( $handler ) ) {
-                return self::error( $handler );
-            }
-        
-            $this->_profile =& APIProfile::getInstance( $config->paymentKey[$mode], $this->_handler );
-
-            if ( PayPal::isError( $this->_profile ) ) {
-                return self::error( $this->_profile );
-            }
-
-            $this->_profile->setAPIPassword( $config->paymentPassword[$mode] );
+            CRM_Core_Error::fatal( ts( 'Could not find user name for payment processor' ) );
         }
 
         $this->_caller =& PayPal::getCallerServices( $this->_profile );
@@ -482,47 +465,24 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      * @public 
      */ 
     function checkConfig( $mode ) {
-        $config =& CRM_Core_Config::singleton( );
-
         $error = array( );
-        if ( $config->paymentProcessor == 'PayPal_Standard' ) {
-            if ( empty( $config->paymentUsername[$mode] ) ) {
-                if ( $mode == 'live' ) {
-                    $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME'));
-                } else {
-                    $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME'));
-                }
+        if ( $this->_paymentProcessor['processor'] == 'PayPal_Standard' ||
+             $this->_paymentProcessor['processor'] == 'PayPal' ) {
+            if ( empty( $this->_paymentProcessor['user_name'] ) ) {
+                $error[] = ts( 'user_name is not set in the Administer CiviCRM &raquo; Payment Processor.' );
             }
         }
 
-        if ( $config->paymentProcessor == 'PayPal' ) {
-            if ( empty(  $config->paymentUsername[$mode] ) && empty( $config->paymentCertPath[$mode] ) ) {
-                if ( $mode == 'live' ) {
-                    $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'));
-                } else {
-                    $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'));
-                }
-            }
-        }
-
-        if ( $config->paymentProcessor != 'PayPal_Standard' ) {
-            if ( empty( $config->paymentKey[$mode] ) ) {
-                if ( $mode == 'live' ) {
-                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_KEY') ); 
-                } else {
-                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY') ); 
-                }
+        if ( $this->_paymentProcessor['processor'] != 'PayPal_Standard' ) {
+            if ( empty( $this->_paymentProcessor['signature'] ) ) {
+                $error[] = ts( 'signature is not set in the Administer CiviCRM &raquo; Payment Processor.' );
             }
             
-            if ( empty( $config->paymentPassword[$mode] ) ) {
-                if ( $mode == 'live' ) {
-                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD') );
-                } else {
-                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD') );
-                }
+            if ( empty( $this->_paymentProcessor['password'] ) ) {
+                $error[] = ts( 'password is not set in the Administer CiviCRM &raquo; Payment Processor.' );
             }
         }
-
+    
         if ( ! empty( $error ) ) {
             return implode( ' ', $error );
         } else {

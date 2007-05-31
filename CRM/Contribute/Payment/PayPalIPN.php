@@ -35,6 +35,8 @@
 
 class CRM_Contribute_Payment_PayPalIPN {
 
+    static $_paymentProcessor = null;
+
     static function retrieve( $name, $type, $location = 'POST', $abort = true ) {
         static $store = null;
         $value = CRM_Utils_Request::retrieve( $name, $type, $store,
@@ -272,8 +274,6 @@ class CRM_Contribute_Payment_PayPalIPN {
 
         $contribution->save( );
         
-        $config =& CRM_Core_Config::singleton( );
-
         // next create the transaction record
         $trxnParams = array(
                             'entity_table'      => 'civicrm_contribution',
@@ -284,7 +284,7 @@ class CRM_Contribute_Payment_PayPalIPN {
                             'fee_amount'        => $contribution->fee_amount,
                             'net_amount'        => $contribution->net_amount,
                             'currency'          => $contribution->currency,
-                            'payment_processor' => $config->paymentProcessor,
+                            'payment_processor' => self::$_paymentProcessor['processor'],
                             'trxn_id'           => $contribution->trxn_id,
                             );
         
@@ -431,7 +431,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         $template->assign( 'is_recur', $recur );
         if ( $recur ) {
             require_once 'CRM/Contribute/Form/ContributionBase.php';
-            $url = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( $config,
+            $url = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( $paymentProcessor,
                                                                                 $contribution->is_test ? 'test' : 'live' );
             $template->assign( 'cancelSubscriptionUrl', $url );
         }
@@ -485,7 +485,30 @@ class CRM_Contribute_Payment_PayPalIPN {
             echo "Failure: Could not find contribution type record for $contributionTypeID<p>";
             return;
         }
-        
+
+        // get the contribution page id from the contribution
+        // and then initialize the payment processor from it
+        if ( ! $contribution->contribution_page_id ) {
+            CRM_Core_Error::debug_log_message( "Could not find contribution page for contribution record: $contributionID" );
+            echo "Failure: Could not find contribution page for contribution record: $contributionID<p>";
+            return;
+        }
+
+        // get the payment processor id from contribution page
+        $paymentProcessorID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                                           $contribution->contribution_page_id,
+                                                           'payment_processor_id' );
+        if ( ! $paymentProcessorID ) {
+            CRM_Core_Error::debug_log_message( "Could not find payment processor for contribution record: $contributionID" );
+            echo "Failure: Could not find payment processor for contribution record: $contributionID<p>";
+            return;
+        }
+
+        $isTest = self::retrieve( 'test_ipn'     , 'Integer', 'POST', false );
+
+        require_once 'CRM/Core/BAO/PaymentProcessor.php';
+        self::$_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID,
+                                                                     $isTest ? 'test' : 'live' );
         if ( array_key_exists( 'contributionRecurID', $_GET ) ) {
             // check if first contribution is completed, else complete first contribution
             $first = true;

@@ -161,7 +161,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
             if ( $this->_values['is_monetary'] &&
                  isset($this->_values['is_recur'])    &&
-                 $config->enableRecurContribution ) {
+                 $this->_paymentProcessor['recur_contribution'] ) {
                 $this->buildRecur( );
             }
         }
@@ -178,7 +178,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
         // if payment is via a button only, dont display continue
-        if ( $config->paymentBillingMode != CRM_Core_Payment::BILLING_MODE_BUTTON || !$this->_values['is_monetary']) {
+        if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
+             ! $this->_values['is_monetary']) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
                                             'name'      => ts('Continue >>'), 
@@ -277,7 +278,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     function buildCreditCard( ) {
         $config =& CRM_Core_Config::singleton( );
 
-        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM) {
+        if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM) {
             foreach ( $this->_fields as $name => $field ) {
                 $this->add( $field['htmlType'],
                             $field['name'],
@@ -285,16 +286,18 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                             $field['attributes'] );
             }
 
-            $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
+            $this->addRule( 'cvv2',
+                            ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ),
+                            'integer' );
 
             $this->addRule( 'credit_card_exp_date', ts('Credit card expiration date can not be a past date.'), 'currentDate');
         }            
             
-        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
+        if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
                        $this->_expressButtonName,
-                       $config->paymentExpressButton,
+                       $this->_paymentProcessor['url_button'],
                        array( 'class' => 'form-submit' ) );
         }
     }
@@ -396,7 +399,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         if ( $self->_values['is_monetary'] ) {
-            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Contribute' );
+            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Contribute', $self->_paymentProcessor );
             $error   =  $payment->checkConfig( $self->_mode );
             if ( $error ) {
                 $errors['_qf_default'] = $error;
@@ -424,7 +427,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // make sure either 
         // return if this is express mode
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
+        if ( $self->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
             if ( CRM_Utils_Array::value( $self->_expressButtonName . '_x', $fields ) ||
                  CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
                  CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
@@ -534,12 +537,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // not required if is_monetary=FALSE or amount is less than 0
         if ( $this->_values['is_monetary'] ||(float ) $params['amount'] <= 0.0 ) {
             
-            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute' ); 
+            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor ); 
 
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
 
-            if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
+            if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
                     //get the button name  
                     $buttonName = $this->controller->getButtonName( );  
                     if ($buttonName == $this->_expressButtonName || 
@@ -560,14 +563,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                         
                         $this->set( 'token', $token ); 
                         
-                        if ( $this->_mode == 'test' ) {
-                            $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl. "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                        } else {
-                            $paymentURL = "https://" . $config->paymentPayPalExpressUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                        }
+                        $paymentURL = $this->_paymentProcessor['url_site'] . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                         CRM_Utils_System::redirect( $paymentURL ); 
                     }
-            } else if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
+            } else if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
                 $this->set( 'contributeMode', 'notify' );
             }
         }         

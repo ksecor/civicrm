@@ -100,9 +100,10 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor {
      * @static
      * @access public
      */
-    static function &getDefault() {
+    static function &getDefault( ) {
         if (self::$_defaultPaymentProcessor == null) {
-            $params = array('is_default' => 1, 'domain_id' => CRM_Core_Config::domainID( ));
+            $params = array( 'is_default' => 1,
+                             'domain_id'  => CRM_Core_Config::domainID( ));
             $defaults = array();
             self::$_defaultPaymentProcessor = self::retrieve($params, $defaults);
         }
@@ -120,5 +121,83 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor {
     static function del($paymentProcessorId) 
     {
     }
+
+    static function getPayment( $paymentProcessorID, $mode ) {
+        $dao =& new CRM_Core_DAO_PaymentProcessor( );
+        
+        $dao->id        = $paymentProcessorID;
+        $dao->is_active = 1;
+        $dao->domain_id = CRM_Core_Config::domainID( );
+        if ( ! $dao->find( true ) ) {
+            CRM_Core_Error::fatal( ts( 'Could not retrieve payment processor details' ) );
+        }
+
+        if ( $mode == 'test' ) {
+            $testDAO =& new CRM_Core_DAO_PaymentProcessor( );
+            $testDAO->name      = $dao->name;
+            $testDAO->is_active = 1;
+            $testDAO->is_test   = 1;
+            $testDAO->domain_id = $dao->domain_id;
+            if ( ! $testDAO->find( true ) ) {
+                CRM_Core_Error::fatal( ts( 'Could not retrieve payment processor details' ) );
+            }
+            return self::buildPayment( $testDAO );
+        } else {
+            return self::buildPayment( $dao );
+        }
+    }
+
+    static function buildPayment( $dao ) {
+
+        $fields = array( 'name', 'processor', 'user_name', 'password',
+                         'signature', 'url_site', 'url_button', 'subject' );
+        $result = array( );
+        foreach ( $fields as $name ) {
+            $result[$name] = $dao->$name;
+        }
+        $result['recur_contribution'] = false;
+
+        switch ( $result['processor'] ) {
+
+        case 'PayPal_Standard':
+            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_NOTIFY;
+            $result['file']         = 'Payment_PayPalImpl';
+            $result['recur_contribution'] = true;
+            break;
+
+        case 'Google_Checkout':
+            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_NOTIFY;
+            $result['file']         = 'Payment_Google';
+            break;
+
+        case 'PayPal_Express':
+            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_BUTTON;
+            $result['file']         = 'Payment_PayPalImpl';
+            break;
+
+        case 'PayPal':
+            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_FORM | CRM_Core_Payment::BILLING_MODE_BUTTON;
+            $result['file']         = 'Payment_PayPalImpl';
+            break;
+
+        case 'Moneris':
+            $result['billing_mode']       = CRM_Core_Payment::BILLING_MODE_FORM;
+            $result['recur_contribution'] = true;
+            $result['file']               = 'Payment_Moneris';
+            break;
+
+        case 'AuthNet_AIM':
+            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_FORM;
+            $result['file']         = 'Payment_AuthorizeNet';
+            break;
+
+        case 'Dummy':
+            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_FORM;
+            $result['file']         = 'Payment_Dummy';
+            break;
+        }
+        return $result;
+    }
+
 }
 ?>
