@@ -46,9 +46,9 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
         $groups = array( ts('Manage'), ts('Configure'), ts('Setup') );
         // Create array to hold descriptive text for collapsed view of control panel
         $groupDesc =
-            array ( 'Manage'    => ts('Access Control, Backup Data, and Synchronize Users to Contacts'),
-                    'Configure' => ts('Activity Types, Profiles, Custom Data, Duplicate Matching, Relationship Types, Tags and other site-configurable option lists.'),
-                    'Setup'     => ts('Global Settings, Gender Options, Instant Messenger Services, Mobile Phone Providers, Individual Name Prefixes and Suffixes, Preferred Communication Options'),
+            array ( 'Manage'    => ts('Access Control, Backup Data, Synchronize Users to Contacts'),
+                    'Configure' => ts('Global Settings, Custom Data, Profiles, Domain Information, Duplicate Matching, Import/Export Mapping, Message Templates'),
+                    'Setup'     => ts('Activity Types,  Gender Options, Individual Name Prefixes and Suffixes, Instant Messenger Services, Location Types, Mobile Phone Providers, Preferred Communication Options, Relationship Types, Tags'),
                     );
 
         $config =& CRM_Core_Config::singleton( );
@@ -86,6 +86,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             foreach ( $items as $item ) {
                 if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
                     $value = array( 'title' => $item['title'],
+                                    'desc'  => $item['desc'],
                                     'id'    => strtr($item['title'], array('('=>'_', ')'=>'', ' '=>'',
                                                                            ','=>'_', '/'=>'_' 
                                                                            )

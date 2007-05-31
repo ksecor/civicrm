@@ -76,7 +76,7 @@ class CRM_Contribute_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviContribute',
-                                 'icon'    => 'admin/online_contribution_pages.png',
+                                 'icon'    => 'admin/small/online_contribution_pages.png',
                                  'weight'  => 360
                                  ),
                       
@@ -87,7 +87,7 @@ class CRM_Contribute_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviContribute',
-                                 'icon'    => 'admin/Premiums.png',
+                                 'icon'    => 'admin/small/Premiums.png',
                                  'weight'  => 365
                                  ),
                        
@@ -98,7 +98,7 @@ class CRM_Contribute_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviContribute',
-                                 'icon'    => 'admin/contribution_types.png',
+                                 'icon'    => 'admin/small/contribution_types.png',
                                  'weight'  => 370
                                  ),
                       
@@ -109,7 +109,7 @@ class CRM_Contribute_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviContribute',
-                                 'icon'    => 'admin/payment_instruments.png',
+                                 'icon'    => 'admin/small/payment_instruments.png',
                                  'weight'  => 380
                                  ),
 
@@ -120,7 +120,7 @@ class CRM_Contribute_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviContribute',
-                                 'icon'    => 'admin/accepted_creditcards.png',
+                                 'icon'    => 'admin/small/accepted_creditcards.png',
                                  'weight'  => 395
                                  ),
                            );
@@ -133,7 +133,7 @@ class CRM_Contribute_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviContribute',
-                                 'icon'    => 'admin/PayPal_mark_37x23.gif',
+                                 'icon'    => 'admin/small/PayPal_mark_37x23.gif',
                                  'weight'  => 400
                                  );
             }

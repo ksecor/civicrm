@@ -535,54 +535,80 @@ class CRM_Core_Menu {
                      array(
                            'path'    => 'civicrm/admin/access',
                            'title'   => ts('Access Control'),
+                           'desc'    => ts('Grant or deny access to actions (view, edit...), features and components.'), 
                            'query'   => 'reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/03.png',
+                           'icon'    => 'admin/small/03.png',
                            'weight'  => 110
                            ),
 
                      array(
                            'path'    => 'civicrm/admin/backup',
                            'title'   => ts('Backup Data'),
+                           'desc'    => ts('Create a backup file containing your CiviCRM data.'),
                            'type'    => self::CALLBACK,
                            'extra' => 'onclick = "return confirm(\'' . $backupDataExtra . '\');"',
                            'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/14.png',
+                           'icon'    => 'admin/small/14.png',
                            'weight'  => 120
                            ),
                       
                      array(
                            'path'    => 'civicrm/admin/synchUser',
-                           'title'   => ts('Synchronize Users-to-Contacts'),
+                           'title'   => ts('Synchronize Users to Contacts'),
+                           'desc'    => ts('Automatically create a CiviCRM contact record for each CMS user record.'),
                            'type'    => self::CALLBACK,
                            'extra' => 'onclick = "if (confirm(\'' . $drupalSyncExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                            'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/Synch_user.png',
+                           'icon'    => 'admin/small/Synch_user.png',
                            'weight'  => 130
                            ),
                       
-                     array(
-                           'path'    => 'civicrm/admin/options',
-                           'title'   => ts('Activity Types'),
-                           'query'   => 'group=activity_type&reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/05.png',
-                           'weight'  => 210
-                           ),
-                      
-                     array(
-                           'path'    => 'civicrm/admin/uf/group',
-                           'title'   => ts('CiviCRM Profile'),
-                           'query'   => 'reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/Profile.png',
-                           'weight'  => 220
+                       array(
+                             'path'    => 'civicrm/admin/setting',
+                             'title'   => ts('Global Settings'),
+                             'desc'    => ts('Configure Global Settings for your site, including: Enabled Components, Site Preferences for screens and forms, Directory Paths and Resource URLs, Address formats, Localization, Payment Processor, Outbound Email, Mapping, and Debugging.'), 
+                             'query'  => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Configure'),
+                             'icon'    => 'admin/small/36.png',
+                             'weight'  => 200
+                             ),
+                       
+                       array(
+                             'path'    => 'civicrm/admin/custom/group',
+                             'title'   => ts('Custom Data'),
+                             'desc'    => ts('Configure custom fields to collect and store custom data which is not included in the standard CiviCRM forms.'), 
+                             'query'   => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Configure'),
+                             'icon'    => 'admin/small/custm_data.png',
+                             'weight'  => 210
+                             ),
+                       
+                       array(
+                             'path'   => 'civicrm/admin/custom/group/field',
+                             'title'  => ts('Custom Data Fields'),
+                             'query'  => 'reset=1',
+                             'type'   => self::CALLBACK,
+                             'crmType'=> self::CALLBACK,
+                             'weight' => 211
+                             ),
+                       
+                       array(
+                             'path'    => 'civicrm/admin/uf/group',
+                             'title'   => ts('CiviCRM Profile'),
+                             'desc'    => ts('Profiles allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features.'), 
+                             'query'   => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Configure'),
+                             'icon'    => 'admin/small/Profile.png',
+                             'weight'  => 220
                            ),
                       
                      array(
@@ -595,180 +621,175 @@ class CRM_Core_Menu {
                            ),
                       
                      array(
-                           'path'    => 'civicrm/admin/custom/group',
-                           'title'   => ts('Custom Data'),
-                           'query'   => 'reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/custm_data.png',
-                           'weight'  => 230
-                           ),
-                      
-                     array(
-                           'path'   => 'civicrm/admin/custom/group/field',
-                           'title'  => ts('Custom Data Fields'),
-                           'query'  => 'reset=1',
-                           'type'   => self::CALLBACK,
-                           'crmType'=> self::CALLBACK,
-                           'weight' => 231
-                           ),
-                      
-                     array(
-                           'path'    => 'civicrm/admin/locationType',
-                           'title'   => ts('Location Types (Home, Work...)'),
-                           'query'  => 'reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/13.png',
-                           'weight'  => 240
-                           ),
-                      
-                     array(
-                           'path'    => 'civicrm/admin/tag',
-                           'title'   => ts('Tags (Categories)'),
-                           'query'  => 'reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/11.png',
-                           'weight'  => 260
-                           ),
-                      
-                     array(
-                           'path'       => 'civicrm/admin/mapping',
-                           'title'      => ts('Import/Export Mappings'),
-                           'query'      => 'reset=1',
-                           'type'       => self::CALLBACK,
-                           'crmType'    => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'       => 'admin/import_export_map.png',
-                           'weight'     => 290
-                           ),
-                     
-                     array(
-                           'path'       => 'civicrm/admin/messageTemplates',
-                           'title'      => ts('Message Templates'),
-                           'query'      => 'reset=1',
-                           'type'       => self::CALLBACK,
-                           'crmType'    => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'       => 'admin/template.png',
-                           'weight'     => 295
-                                 ),
-
-                     array(
                            'path'    => 'civicrm/contact/domain',
-                           'title'   => ts('Edit Domain Information'),
+                           'title'   => ts('Domain Information'),
+                           'desc'    => ts('Configure primary contact name, email, and address information for this site. This information is used by CiviMail to identify the sending organization.'), 
                            'query'  => 'reset=1&action=update',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/domain.png',
-                           'weight'  => 270
-                           ),
-
-                     array(
-                           'path'    => 'civicrm/admin/reltype',
-                           'title'   => ts('Relationship Types'),
-                           'query'  => 'reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/rela_type.png',
-                           'weight'  => 250
+                           'icon'    => 'admin/small/domain.png',
+                           'weight'  => 230
                            ),
 
                      array(
                            'path'    => 'civicrm/admin/dupematch',
                            'title'   => ts('Duplicate Matching'),
+                           'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 
                            'query'  => 'reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/duplicate_matching.png',
-                           'weight'  => 239
+                           'icon'    => 'admin/small/duplicate_matching.png',
+                           'weight'  => 240
                            ),
 
-                     array(
-                           'path'    => 'civicrm/admin/setting',
-                           'title'   => ts('Global Settings'),
-                           'query'  => 'reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/36.png',
-                           'weight'  => 300
-                           ),
-
-                     array(
+                       array(
+                             'path'       => 'civicrm/admin/mapping',
+                             'title'      => ts('Import/Export Mappings'),
+                             'desc'    => ts('Import and Export mappings allow you to easily run the same job multiple times. This option allows you to rename or delete existing mappings.'), 
+                             'query'      => 'reset=1',
+                             'type'       => self::CALLBACK,
+                             'crmType'    => self::LOCAL_TASK,
+                             'adminGroup' => ts('Configure'),
+                             'icon'       => 'admin/small/import_export_map.png',
+                             'weight'     => 250
+                             ),
+                       
+                       array(
+                             'path'       => 'civicrm/admin/messageTemplates',
+                             'title'      => ts('Message Templates'),
+                             'desc'    => ts('Message templates allow you to save and re-use messages with layouts which you can use when sending email to one or more contacts.'), 
+                             'query'      => 'reset=1',
+                             'type'       => self::CALLBACK,
+                             'crmType'    => self::LOCAL_TASK,
+                             'adminGroup' => ts('Configure'),
+                             'icon'       => 'admin/small/template.png',
+                             'weight'     => 260
+                             ),
+                       
+                       array(
+                             'path'    => 'civicrm/admin/options',
+                             'title'   => ts('Activity Types'),
+                             'desc'    => ts('CiviCRM has several built-in activity types (meetings, phone calls, emails sent). Track other types of interactions by creating custom activity types here.'), 
+                             'query'   => 'group=activity_type&reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Setup'),
+                             'icon'    => 'admin/small/05.png',
+                             'weight'  => 310
+                             ),
+                       
+                       array(
                            'path'    => 'civicrm/admin/options',
-                           'title'   => ts('Gender Options (Male, Female...)'),
+                           'title'   => ts('Gender Options'),
+                           'desc'    => ts('Customize the pre-configured options for individual gender (e.g. Male, Female, Transgender).'), 
                            'query'  => 'group=gender&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/01.png',
-                           'weight'  => 310
+                           'icon'    => 'admin/small/01.png',
+                           'weight'  => 320
                            ),
                       
-                     array(
+                       array(
+                             'path'    => 'civicrm/admin/options',
+                             'title'   => ts('Individual Prefixes (Ms, Mr...)'),
+                             'desc'    => ts('Customize the pre-configured options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.).'), 
+                             'query'  => 'group=individual_prefix&reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Setup'),
+                             'icon'    => 'admin/small/title.png',
+                             'weight'  => 330
+                             ),
+                       
+                       array(
+                             'path'    => 'civicrm/admin/options',
+                             'title'   => ts('Individual Suffixes (Jr, Sr...)'),
+                             'desc'    => ts('Customize the pre-configured options for individual contact suffixes (e.g. Jr., Sr. etc.).'), 
+                             'query'  => 'group=individual_suffix&reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Setup'),
+                             'icon'    => 'admin/small/10.png',
+                             'weight'  => 340
+                             ),
+                       
+                       
+                       array(
                            'path'    => 'civicrm/admin/options',
                            'title'   => ts('Instant Messenger Services'),
+                           'desc'    => ts('Add to or modify the pre-configured options for IM services - used when recording screen-names for contacts.'), 
                            'query'  => 'group=instant_messenger_service&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/07.png',
-                           'weight'  => 320
+                           'icon'    => 'admin/small/07.png',
+                           'weight'  => 350
                            ),
 
-                     array(
+                       array(
+                             'path'    => 'civicrm/admin/locationType',
+                             'title'   => ts('Location Types (Home, Work...)'),
+                             'desc'    => ts(''), 
+                             'query'  => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Setup'),
+                             'icon'    => 'admin/small/13.png',
+                             'weight'  => 360
+                             ),
+                       
+                       array(
                            'path'    => 'civicrm/admin/options',
                            'title'   => ts('Mobile Phone Providers'),
+                           'desc'    => ts(''), 
                            'query'  => 'group=mobile_provider&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/08.png',
-                           'weight'  => 339
+                           'icon'    => 'admin/small/08.png',
+                           'weight'  => 365
                            ),
     
                      array(
                            'path'    => 'civicrm/admin/options',
-                           'title'   => ts('Individual Prefixes (Ms, Mr...)'),
-                           'query'  => 'group=individual_prefix&reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/title.png',
-                           'weight'  => 340
-                           ),
-                      
-                     array(
-                           'path'    => 'civicrm/admin/options',
-                           'title'   => ts('Individual Suffixes (Jr, Sr...)'),
-                           'query'  => 'group=individual_suffix&reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/10.png',
-                           'weight'  => 350
-                           ),
-
-
-                     array(
-                           'path'    => 'civicrm/admin/options',
-                           'title'   => ts('Preferred Communication Options'),
+                           'title'   => ts('Preferred Communication Methods'),
+                           'desc'    => ts(''), 
                            'query'  => 'group=preferred_communication_method&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/communication.png',
-                           'weight'  => 360
+                           'icon'    => 'admin/small/communication.png',
+                           'weight'  => 370
                            ),
-                     );
+
+                       array(
+                             'path'    => 'civicrm/admin/reltype',
+                             'title'   => ts('Relationship Types'),
+                             'desc'    => ts(''), 
+                             'query'  => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Setup'),
+                             'icon'    => 'admin/small/rela_type.png',
+                             'weight'  => 375
+                             ),
+                       
+                       array(
+                             'path'    => 'civicrm/admin/tag',
+                             'title'   => ts('Tags (Categories)'),
+                             'desc'    => ts(''), 
+                             'query'  => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Setup'),
+                             'icon'    => 'admin/small/11.png',
+                             'weight'  => 380
+                             ),
+                       
+                       );
         return $items;
     }
 
