@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<table>
+  <base>CRM/Case</base>
+  <class>Case</class>
+  <name>civicrm_case</name>
+  <comment>This table stores information about cases grouping activities.</comment>
+  <add>1.8</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Case ID</comment>
+       <add>1.8</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Contact ID of contact record given case belongs to.</comment>
+       <add>1.8</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.8</add>
+  </foreignKey>  
+  <field>
+       <name>casetag1_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>Id of first case category.</comment>
+       <add>1.8</add>
+  </field>
+  <index>
+       <name>UI_casetag1_id</name>
+       <fieldName>casetag1_id</fieldName>
+       <add>1.8</add>
+  </index>
+  <field>
+       <name>casetag2_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>Id of second case category.</comment>
+       <add>1.8</add>
+  </field>
+  <index>
+       <name>UI_casetag2_id</name>
+       <fieldName>casetag2_id</fieldName>
+       <add>1.8</add>
+  </index>
+  <field>
+       <name>casetag3_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>Id of third case category.</comment>
+       <add>1.8</add>
+  </field>
+  <index>
+       <name>UI_casetag3_id</name>
+       <fieldName>casetag3_id</fieldName>
+       <add>1.8</add>
+  </index>
+  <field>
+      <name>subject</name>
+      <type>varchar</type>
+      <length>128</length>
+      <comment>Short name of the case.</comment>
+       <add>1.8</add>
+  </field>
+    <field>
+     <name>start_date</name>
+     <type>date</type>
+     <comment>Date on which given case starts.</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+     <name>end_date</name>
+     <type>date</type>
+     <comment>Date on which given case ends.</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+      <name>details</name>
+      <type>text</type>
+      <comment>Details about the meeting (agenda, notes, etc).</comment>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>status_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>Id of case status.</comment>
+       <add>1.8</add>
+  </field>
+  <index>
+       <name>UI_status_id</name>
+       <fieldName>status_id</fieldName>
+       <add>1.8</add>
+  </index>
+</table>

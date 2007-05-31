@@ -21,7 +21,7 @@
       <name>entity_table</name>
       <type>varchar</type>
       <length>64</length>
-      <comment>physical tablename for entity being tagged, e.g. civicrm_contact</comment>
+      <comment>physical tablename for entity whose activity history is tracked, e.g. civicrm_contact</comment>
        <add>1.1</add>
   </field>
   <field>
