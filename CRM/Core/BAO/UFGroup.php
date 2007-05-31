@@ -624,11 +624,22 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
         $imProviders   = CRM_Core_PseudoConstant::IMProvider( );
         //start of code to set the default values
-        foreach ($fields as $name => $field ) {
+        foreach ($fields as $name => $field ) { 
             $index   = $field['title'];
             $params[$index] = $values[$index] = '';
             $customFieldName = null;
-
+            if ( $name === 'organization_name' ) {
+                require_once "CRM/Contact/BAO/Relationship.php";
+                $rel = CRM_Contact_BAO_Relationship::getRelationship($cid);
+                krsort($rel);
+                foreach ($rel as $k => $v) {
+                    if ($v['relation'] == 'Employee of') {
+                        $values[$index] = $params[$index] = $v['name'];
+                        break;
+                    }
+                }
+            }
+            
             if ( isset($details->$name) || $name == 'group' || $name == 'tag') {//hack for CRM-665
                 // to handle gender / suffix / prefix
                 if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix' ) ) ) {
@@ -786,11 +797,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $values[$index] = $details->$detailName;
                     }
                     $params[$index] = $details->$detailName ;        
-                }  else {
+                } else {
                     $values[$index] = $params[$index] = $details->$detailName;
                 }
             }
-
+            
             if ( $field['visibility'] == "Public User Pages and Listings" &&
                  CRM_Core_Permission::check( 'profile listings and forms' ) ) {
                 
@@ -1494,7 +1505,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 } else {
                     $fldName = "field[$contactId][$name]";
                 }
-
+                
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 if ( $name == 'group' ) {                   
                     CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::GROUP, $fldName ); 
@@ -1502,6 +1513,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if( $name == 'tag' ) {
                     CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::TAG, $fldName ); 
                 }
+
+                if( $name == 'organization_name' ) {
+                    require_once "CRM/Contact/BAO/Relationship.php";
+                    $rel = CRM_Contact_BAO_Relationship::getRelationship($contactId);
+                    krsort($rel);
+                    foreach ($rel as $key => $value) {
+                        if ($value['relation'] == 'Employee of') {
+                            $defaults[$name] =  $value['name'];
+                            break;
+                        }
+                    }
+                }
+
                 if (CRM_Utils_Array::value($name, $details ) || isset( $details[$name] ) ) {
                     //to handle custom data (checkbox) to be written
                     // to handle gender / suffix / prefix

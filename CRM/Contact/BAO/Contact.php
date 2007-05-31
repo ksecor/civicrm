@@ -1728,6 +1728,13 @@ WHERE civicrm_contact.id IN $idString ";
                 }
             }
             
+            
+            $currEmp['organization_name'] =   array ('name' => 'organization_name',
+                                                     'where' => 'civicrm_organization.organization_name',
+                                                     'title' => 'Current Employer');
+
+            $fields = array_merge($fields, $currEmp);  
+            
             // the fields are only meant for Individual contact type
             if ( $contactType == 'Individual') {
                 $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( ) );                
@@ -1984,7 +1991,7 @@ WHERE civicrm_contact.id IN $idString ";
             $data['contact_type'] = 'Individual';
         }
 
-
+        
         // get the contact details (hier)
         if ( $contactID ) {
             list($details, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactID, $fields );
@@ -2244,11 +2251,55 @@ WHERE civicrm_contact.id IN $idString ";
         } else if ( array_key_exists( 'contact', $ids ) ) {
           $contactID = $ids['contact'];
         } 
-
+        
         if ( ! $contactID ) {
           CRM_Core_Error::fatal( 'Cannot proceed without a valid contact id' );
         }
 
+        if( $data['contact_type'] == 'Individual'&& 
+            array_key_exists( 'organization_name', $params ) ) {
+            require_once "CRM/Contact/DAO/Organization.php";
+            $org =& new CRM_Contact_DAO_Organization();
+            $org->organization_name = $params['organization_name'];
+            $org->find();
+            while ($org->fetch()) {
+                $dupeIds[] = $org->contact_id;
+            }
+            //get the relationship id
+            require_once "CRM/Contact/DAO/RelationshipType.php";
+            $relType =& new CRM_Contact_DAO_RelationshipType();
+            $relType->name_a_b = "Employee of";
+            $relType->find(true);
+            $relTypeId = $relType->id;
+            
+            $relationshipParams1['relationship_type_id'] = $relTypeId.'_a_b';
+            $relationshipParams2 = array('contact' => $contactID );
+            
+            if (empty($dupeIds)) {
+                //create new organization
+                $orgId = array();                            
+                $newOrg['contact_type'     ] = 'Organization';
+                $newOrg['organization_name'] = $params['organization_name'] ;
+                
+                $orgName = CRM_Contact_BAO_Contact::create($newOrg, 
+                                                           $orgId, 
+                                                           2 );
+                
+                //create relationship
+                $relationshipParams1['contact_check'][$orgName->id] = 1;
+                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams1, 
+                                                                    $relationshipParams2);
+            } else {
+                //if more than one matching organizations found, we
+                //add relationships to all those organizations
+                foreach($dupeIds as $key => $value) {
+                    $relationshipParams1['contact_check'][$value] = 1;
+                    $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams1,
+                                                                        $relationshipParams2);
+                }
+            }
+        }
+        
         // Process group and tag  
         if ( CRM_Utils_Array::value('group', $fields )) {
             CRM_Contact_BAO_GroupContact::create( $params['group'], $contactID );
@@ -2307,7 +2358,7 @@ WHERE civicrm_contact.id IN $idString ";
             $params['contact_id'] = $contactID;
             CRM_TMF_BAO_Student::create( $params, $ids);
         }
-        
+ 
         if ( $editHook ) {
             CRM_Utils_Hook::post( 'edit'  , 'Profile', $contactID  , $params );
         } else {
