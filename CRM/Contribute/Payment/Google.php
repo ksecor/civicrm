@@ -54,8 +54,8 @@ class CRM_Contribute_Payment_Google extends CRM_Core_Payment_Google {
      * 
      * @return void 
      */ 
-    function __construct( $mode ) {
-        parent::__construct( $mode );
+    function __construct( $mode, &$paymentProcessor ) {
+        parent::__construct( $mode, $paymentProcessor );
     }
 
     /** 
@@ -67,9 +67,9 @@ class CRM_Contribute_Payment_Google extends CRM_Core_Payment_Google {
      * @static 
      * 
      */ 
-    static function &singleton( $mode ) {
+    static function &singleton( $mode, &$paymentProcessor ) {
         if (self::$_singleton === null ) { 
-            self::$_singleton =& new CRM_Contribute_Payment_Google( $mode );
+            self::$_singleton =& new CRM_Contribute_Payment_Google( $mode, $paymentProcessor );
         } 
         return self::$_singleton; 
     } 
@@ -84,14 +84,15 @@ class CRM_Contribute_Payment_Google extends CRM_Core_Payment_Google {
      *  
      */  
     function doCheckout( &$params ) {
-        $config =& CRM_Core_Config::singleton( );
-
-        $url = ( $this->_mode == 'test' ) ? $config->googleCheckoutTestUrl : $config->googleCheckoutUrl;
-        $url = 'https://' . $url . '/cws/v2/Merchant/' . $config->merchantID[$this->_mode] . '/checkout';
+        $url = 
+            $this->_paymentProcessor['site_url'] .
+            'cws/v2/Merchant/' .
+            $this->_paymentProcessor['user_name'] .
+            '/checkout';
         
         //Create a new shopping cart object
-        $merchant_id  = $config->merchantID[$this->_mode];  // Merchant ID
-        $merchant_key = $config->paymentKey[$this->_mode];  // Merchant Key
+        $merchant_id  = $this->_paymentProcessor['site_url'];  // Merchant ID
+        $merchant_key = $this->_paymentProcessor['password'];  // Merchant Key
         $server_type  = ( $this->_mode == 'test' ) ? 'sandbox' : '';
         
         $cart =  new GoogleCart($merchant_id, $merchant_key, $server_type); 

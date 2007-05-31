@@ -37,9 +37,9 @@ class CRM_Core_Payment_Dummy extends CRM_Core_Payment {
      *
      * @return void
      */
-    function __construct( $mode ) {
+    function __construct( $mode, &$paymentProcessor ) {
         $this->_mode = $mode;
-        $config =& CRM_Core_Config::singleton();
+        $this->_paymentProcessor = $paymentProcessor;
     }
 
     /**

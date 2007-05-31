@@ -44,14 +44,15 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
      *
      * @return void
      */
-    function __construct( $mode ) {
+    function __construct( $mode,, &$paymentProcessor ) {
         $this->_mode = $mode;
+        $this->_paymentProcessor = $paymentProcessor;
 
         $config =& CRM_Core_Config::singleton();
-        $this->_setParam( 'apiLogin', $config->apiLogin );
-        $this->_setParam( 'paymentKey', $config->paymentKey[$mode] );
+        $this->_setParam( 'apiLogin'   , $config->apiLogin );
+        $this->_setParam( 'paymentKey' , $config->paymentKey[$mode] );
         $this->_setParam( 'paymentType', $config->paymentType );
-        $this->_setParam( 'md5Hash', $config->md5Hash );
+        $this->_setParam( 'md5Hash'    , $config->md5Hash );
         
         if ( ! empty( $config->gatewaySendEmail ) ) {
             $this->_setParam( 'emailCustomer', 'TRUE' );

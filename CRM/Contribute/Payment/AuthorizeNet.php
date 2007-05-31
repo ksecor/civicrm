@@ -33,8 +33,8 @@ class CRM_Contribute_Payment_AuthorizeNet extends CRM_Core_Payment_AuthorizeNet 
      *
      * @return void
      */
-    function __construct( $mode ) {
-        parent::__construct( $mode );
+    function __construct( $mode, &$paymentProcessor ) {
+        parent::__construct( $mode, $paymentProcessor );
     }
 
     /**
@@ -45,9 +45,9 @@ class CRM_Contribute_Payment_AuthorizeNet extends CRM_Core_Payment_AuthorizeNet 
      * @return object
      * @static
      */
-    static function &singleton( $mode ) {
+    static function &singleton( $mode, &$paymentProcessor ) {
         if (self::$_singleton === null ) {
-            self::$_singleton =& new CRM_Contribute_Payment_AuthorizeNet( $mode );
+            self::$_singleton =& new CRM_Contribute_Payment_AuthorizeNet( $mode, $paymentProcessor );
         }
         return self::$_singleton;
     }

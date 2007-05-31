@@ -47,12 +47,14 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
      * 
      * @return void 
      */ 
-    function __construct( $mode ) {
+    function __construct( $mode, &$paymentProcessor ) {
+        $this->_paymentProcessor = $paymentProcessor;
+
         require_once 'Services/mpgClasses.php'; // require moneris supplied api library
         $config =& CRM_Core_Config::singleton( ); // get merchant data from config
         $this->_profile['mode'] = $mode; // live or test
-        $this->_profile['storeid'] = $config->paymentKey[$mode];
-        $this->_profile['apitoken'] = $config->paymentPassword[$mode];
+        $this->_profile['storeid']  = $this->_paymentProcessor['signature'];
+        $this->_profile['apitoken'] = $this->_paymentProcessor['password' ];
         if ('CAD' != $config->currencyID) {
           return self::error(); // Configuration error: default currency must be CAD
         }
@@ -228,24 +230,14 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
      * @public 
      */ 
     function checkConfig( $mode ) {
-        $config =& CRM_Core_Config::singleton( );
-
         $error = array( );
-
-        if ( empty( $config->paymentKey[$mode] ) ) {
-            if ( $mode == 'live' ) {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_KEY') ); 
-            } else {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY') ); 
-            }
-        }
         
-        if ( empty( $config->paymentPassword[$mode] ) ) {
-            if ( $mode == 'live' ) {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD') );
-            } else {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD') );
-            }
+        if ( empty( $this->_paymentProcessor['signature'] ) ) {
+            $error[] = ts( 'signature is not set in the Administer CiviCRM &raquo; Payment Processor.' );
+        }
+            
+        if ( empty( $this->_paymentProcessor['password'] ) ) {
+            $error[] = ts( 'password is not set in the Administer CiviCRM &raquo; Payment Processor.' );
         }
 
         if ( ! empty( $error ) ) {

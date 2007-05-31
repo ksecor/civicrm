@@ -33,7 +33,9 @@
  * 
  */ 
 
-class CRM_Core_Payment_Google { 
+require_once 'CRM/Core/Payment.php';
+
+class CRM_Core_Payment_Google extends CRM_Core_Payment { 
     /**
      * mode of operation: live or test
      *
@@ -49,8 +51,9 @@ class CRM_Core_Payment_Google {
      * 
      * @return void 
      */ 
-    function __construct( $mode ) {
+    function __construct( $mode, &$paymentProcessor ) {
         $this->_mode = $mode;
+        $this->_paymentProcessor = $paymentProcessor;
     }
 
     /** 
@@ -66,22 +69,12 @@ class CRM_Core_Payment_Google {
 
         $error = array( );
 
-        if ( empty( $config->merchantID[$mode] ) ) {
-            if ( $mode == 'live' ) {
-                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', 
-                              array(1 => 'Merchant-ID'));
-            } else {
-                $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', 
-                              array(1 => 'Merchant-ID'));
-            }
+        if ( empty( $this->_paymentProcessor['user_name'] ) ) {
+            $error[] = ts( 'user_name is not set in the Administer CiviCRM &raquo; Payment Processor.' );
         }
         
-        if ( empty( $config->paymentKey[$mode] ) ) {
-            if ( $mode == 'live' ) {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_KEY') );
-            } else {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY') );
-            }
+        if ( empty( $this->_paymentProcessor['password'] ) ) {
+            $error[] = ts( 'password is not set in the Administer CiviCRM &raquo; Payment Processor.' );
         }
         
         if ( ! empty( $error ) ) {
