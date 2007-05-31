@@ -573,44 +573,20 @@ AND civicrm_location.entity_table='civicrm_contact')";
             // this is a chekbox, so mark false if we dont get a POST value
             $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
         }
-
-        // copy household address if use_household_address option (for individual form) is checked
+        
+        // copy household address, if use_household_address option (for individual form) is checked
         if ( $this->_contactType == 'Individual' ) {
-            if ( $params['use_household_address'] ) {
-                if ( $params['shared_household'] ) {
-                    list($householdName) = explode(",", $params['shared_household']);
-                    $sharedHouseholdID = 
-                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim( $householdName ), 'id', 'sort_name' );
-                }
-                
-                if ( !$params['mail_to_household_id'] && !$sharedHouseholdID ) {
-                    CRM_Core_Error::statusBounce( ts("Shared Household-ID not found.") );
-                }
-                
-                if ( $sharedHouseholdID ) {
-                    $params['mail_to_household_id'] = $sharedHouseholdID;
-                }
-
-                $locParams = array( 'contact_id' => $params['mail_to_household_id'] );
-                
-                require_once 'api/v2/Location.php';
-                $values =& _civicrm_location_get( $locParams, $location_types );
-                
-                $params['location'][1]['address'] = $values[1]['address'];
-                
-                // unset all the ids and unwanted fields
-                $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
-                foreach ( $unsetFields as $fld ) {
-                    unset( $params['location'][1]['address'][$fld] );
-                }
-            } else {
-                $params['mail_to_household_id'] = false;
-            }
+            CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
         }
-
+        
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $this->_maxLocationBlocks, true, false );
-     
+        
+        // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
+        if ( $this->_contactType == 'Individual' ) {
+            CRM_Contact_Form_Individual::handleSharedRelation( $contact->id, $params );
+        }
+        
         //add contact to gruoup
         require_once 'CRM/Contact/BAO/GroupContact.php';
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
