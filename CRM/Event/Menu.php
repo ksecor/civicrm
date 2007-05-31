@@ -52,7 +52,6 @@ class CRM_Event_Menu {
                        array( 
                               'path'    => 'civicrm/event/info', 
                               'query'   => 'reset=1',
-                              'title'   => ts( 'Event Information' ), 
                               'access'  => CRM_Core_Permission::check( 'register for events'), 
                               'type'    => CRM_Core_Menu::CALLBACK,  
                               'crmType' => CRM_Core_Menu::CALLBACK,
