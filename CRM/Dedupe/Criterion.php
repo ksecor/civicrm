@@ -86,6 +86,7 @@ class CRM_Dedupe_Criterion
         $cid = (int) $cid;
 
         // return the query
+        // FIXME: add custom fields
         switch ($this->_table) {
 
         case 'civicrm_contact':
@@ -115,12 +116,13 @@ class CRM_Dedupe_Criterion
         if ($this->_length == -1) {
             $condition = "= '" . CRM_Utils_Type::escape($match, 'String') . "'";
         } else {
-            $substr = function_exists('mb_substr') ? 'mb_substr' : 'substr';
-            $match = $substr($match, 0, $this->_length);
+            $substr    = function_exists('mb_substr') ? 'mb_substr' : 'substr';
+            $match     = $substr($match, 0, $this->_length);
             $condition = "LIKE '" . CRM_Utils_Type::escape($match, 'String') . "%'";
         }
 
         // build and return the query
+        // FIXME: add custom fields
         switch ($this->_table) {
 
         case 'civicrm_contact':

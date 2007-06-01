@@ -606,6 +606,16 @@ class CRM_Core_Invoke
             $view =& new CRM_Admin_Page_DomainDump(ts('Backup Database'));
             break;   
             
+        case 'dupefind':
+            require_once 'CRM/Admin/Page/DupeFind.php';
+            $view =& new CRM_Admin_Page_DupeFind(ts('Find Duplicate Contacts'));
+            break;
+            
+        case 'duperules':
+            require_once 'CRM/Admin/Page/DupeRules.php';
+            $view =& new CRM_Admin_Page_DupeRules(ts('Duplicate Finding Rules'));
+            break;
+            
         case 'dupematch':
             require_once 'CRM/Admin/Page/DupeMatch.php';
             $view =& new CRM_Admin_Page_DupeMatch(ts('Duplicate Matching'));

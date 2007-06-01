@@ -566,6 +566,17 @@ class CRM_Core_Menu {
                            'weight'  => 130
                            ),
                       
+                     array(
+                           'path'       => 'civicrm/admin/dupefind',
+                           'title'      => ts('Find Duplicate Contacts'),
+                           'query'      => 'reset=1',
+                           'type'       => self::CALLBACK,
+                           'crmType'    => self::LOCAL_TASK,
+                           'adminGroup' => ts('Manage'),
+                           'icon'       => 'admin/duplicate_matching.png',
+                           'weight'     => 140
+                           ),
+
                        array(
                              'path'    => 'civicrm/admin/setting',
                              'title'   => ts('Global Settings'),
@@ -642,6 +653,17 @@ class CRM_Core_Menu {
                            'adminGroup' => ts('Configure'),
                            'icon'    => 'admin/duplicate_matching.png',
                            'weight'  => 240
+                           ),
+
+                     array(
+                           'path'    => 'civicrm/admin/duperules',
+                           'title'   => ts('Duplicate Finding Rules'),
+                           'query'  => 'reset=1',
+                           'type'    => self::CALLBACK,
+                           'crmType' => self::LOCAL_TASK,
+                           'adminGroup' => ts('Configure'),
+                           'icon'    => 'admin/duplicate_matching.png',
+                           'weight'  => 245
                            ),
 
                        array(

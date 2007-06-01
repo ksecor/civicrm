@@ -46,7 +46,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
         $groups = array( ts('Manage'), ts('Configure'), ts('Setup') );
         // Create array to hold descriptive text for collapsed view of control panel
         $groupDesc =
-            array ( 'Manage'    => ts('Access Control, Backup Data, Synchronize Users to Contacts'),
+            array ( 'Manage'    => ts('Access Control, Backup Data, Synchronize Users to Contacts and Find Duplicate Contacts'),
                     'Configure' => ts('Global Settings, Custom Data, Profiles, Domain Information, Duplicate Matching, Import/Export Mapping, Message Templates'),
                     'Setup'     => ts('Activity Types,  Gender Options, Individual Name Prefixes and Suffixes, Instant Messenger Services, Location Types, Mobile Phone Providers, Preferred Communication Options, Relationship Types, Tags'),
                     );
