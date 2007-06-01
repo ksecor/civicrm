@@ -143,7 +143,7 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         }
 
         if ( ! isset( $defaults['customFileUploadDir'] ) && is_dir($config->templateCompileDir) ) {
-            $customDir = $path . "upload/custom/";
+            $customDir = $path . "custom/";
             
             CRM_Utils_File::createDir( $customDir );
             $defaults['customFileUploadDir'] = $customDir;

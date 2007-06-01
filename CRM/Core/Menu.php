@@ -697,7 +697,7 @@ class CRM_Core_Menu {
                              'query'   => 'group=activity_type&reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Setup'),
+                             'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/05.png',
                              'weight'  => 310
                              ),
@@ -709,7 +709,7 @@ class CRM_Core_Menu {
                            'query'  => 'group=gender&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Setup'),
+                           'adminGroup' => ts('Option Lists'),
                            'icon'    => 'admin/01.png',
                            'weight'  => 320
                            ),
@@ -721,7 +721,7 @@ class CRM_Core_Menu {
                              'query'  => 'group=individual_prefix&reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Setup'),
+                             'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/title.png',
                              'weight'  => 330
                              ),
@@ -733,7 +733,7 @@ class CRM_Core_Menu {
                              'query'  => 'group=individual_suffix&reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Setup'),
+                             'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/10.png',
                              'weight'  => 340
                              ),
@@ -746,7 +746,7 @@ class CRM_Core_Menu {
                            'query'  => 'group=instant_messenger_service&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Setup'),
+                           'adminGroup' => ts('Option Lists'),
                            'icon'    => 'admin/07.png',
                            'weight'  => 350
                            ),
@@ -758,7 +758,7 @@ class CRM_Core_Menu {
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Setup'),
+                             'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/13.png',
                              'weight'  => 360
                              ),
@@ -770,7 +770,7 @@ class CRM_Core_Menu {
                            'query'  => 'group=mobile_provider&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Setup'),
+                           'adminGroup' => ts('Option Lists'),
                            'icon'    => 'admin/08.png',
                            'weight'  => 365
                            ),
@@ -782,7 +782,7 @@ class CRM_Core_Menu {
                            'query'  => 'group=preferred_communication_method&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Setup'),
+                           'adminGroup' => ts('Option Lists'),
                            'icon'    => 'admin/communication.png',
                            'weight'  => 370
                            ),
@@ -794,7 +794,7 @@ class CRM_Core_Menu {
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Setup'),
+                             'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/rela_type.png',
                              'weight'  => 375
                              ),
@@ -806,7 +806,7 @@ class CRM_Core_Menu {
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Setup'),
+                             'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/11.png',
                              'weight'  => 380
                              ),
