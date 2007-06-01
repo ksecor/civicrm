@@ -298,6 +298,7 @@ WHERE civicrm_contact.id={$defaults['mail_to_household_id']}
 AND domain_id=$domainID 
 AND civicrm_address.location_id=(SELECT id from civicrm_location 
 WHERE civicrm_location.entity_id=civicrm_contact.id 
+AND civicrm_location.is_primary=1
 AND civicrm_location.entity_table='civicrm_contact')";
                 $nullArray = array( );
                 $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
@@ -587,6 +588,10 @@ AND civicrm_location.entity_table='civicrm_contact')";
             CRM_Contact_Form_Individual::handleSharedRelation( $contact->id, $params );
         }
         
+        if ( $this->_contactType == 'Household' ) {
+            CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
+        }
+
         //add contact to gruoup
         require_once 'CRM/Contact/BAO/GroupContact.php';
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );

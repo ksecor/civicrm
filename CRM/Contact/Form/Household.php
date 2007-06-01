@@ -115,8 +115,37 @@ class CRM_Contact_Form_Household
         return empty( $errors ) ? true : $errors;
     }
 
+    /**
+     * This function synchronizes (updates) the address of individuals, sharing the address of the passed in household-contact-ID.
+     *
+     * @param integer $householdContactID  the household contact id.
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function synchronizeIndividualAddresses( $householdContactID ) {
+        require_once 'api/v2/Location.php';
+        $locParams = array( 'contact_id' => $householdContactID );
+        $values =& _civicrm_location_get( $locParams, $location_types );
+        
+        $query =  "SELECT contact_id from civicrm_individual where mail_to_household_id=$householdContactID";
+        $nullArray = array( );
+        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+        
+        while ( $dao->fetch( ) ) {
+            $idParams = array( 'id' => $dao->contact_id, 'contact_id' => $dao->contact_id );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+
+            $params['location'][1]['address'] = $values[1]['address'];
+            
+            $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
+            foreach ( $unsetFields as $fld ) {
+                unset( $params['location'][1]['address'][$fld] );
+            }
+            CRM_Core_BAO_Address::add( $params, $ids, 1 );
+        }
+    }
 }
-
-
     
 ?>

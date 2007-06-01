@@ -114,6 +114,7 @@ AND civicrm_contact.sort_name LIKE '$name%'
 AND domain_id=$domainID 
 AND civicrm_address.location_id=(SELECT id from civicrm_location 
 WHERE civicrm_location.entity_id=civicrm_contact.id 
+AND civicrm_location.is_primary=1
 AND civicrm_location.entity_table='civicrm_contact') 
 ORDER BY civicrm_contact.sort_name LIMIT 6";
         } else {

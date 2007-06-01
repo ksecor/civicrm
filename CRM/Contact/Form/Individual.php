@@ -255,10 +255,10 @@ showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'r
                 CRM_Core_Error::statusBounce( ts("Shared Household-ID not found.") );
             }
             
-            $sharedHouseholdID = 
+            $params['mail_to_household_id'] = 
                 $params['mail_to_household_id'] ? $params['mail_to_household_id'] : $params['old_mail_to_household_id'];
             
-            $locParams = array( 'contact_id' => $sharedHouseholdID );
+            $locParams = array( 'contact_id' => $params['mail_to_household_id'] );
             
             require_once 'api/v2/Location.php';
             $values =& _civicrm_location_get( $locParams, $location_types );
