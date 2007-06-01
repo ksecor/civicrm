@@ -6,12 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-05-29 12:36-0700\n"
-"Last-Translator: Chiara Salatin <chiarasalatin@fastmail.fm>\n"
+"PO-Revision-Date: 2001-09-24 21:46+0200\n"
+"Last-Translator: Softcatalà <traddrake@softcatala.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.10\n"
 
 msgid "Alabama"
 msgstr "Alabama"
@@ -20,16 +19,16 @@ msgid "Alaska"
 msgstr "Alaska"
 
 msgid "Arizona"
-msgstr "Arizona"
+msgstr ""
 
 msgid "Arkansas"
 msgstr "Arkansas"
 
 msgid "California"
-msgstr "California"
+msgstr ""
 
 msgid "Colorado"
-msgstr "Colorado"
+msgstr ""
 
 msgid "Connecticut"
 msgstr "Connecticut"
@@ -38,10 +37,10 @@ msgid "Delaware"
 msgstr "Delaware"
 
 msgid "Florida"
-msgstr "Florida"
+msgstr ""
 
 msgid "Georgia"
-msgstr "Georgia"
+msgstr "Geòrgia"
 
 msgid "Hawaii"
 msgstr "Hawaii"
@@ -59,7 +58,7 @@ msgid "Iowa"
 msgstr "Iowa"
 
 msgid "Kansas"
-msgstr "Iowa"
+msgstr "Kansas"
 
 msgid "Kentucky"
 msgstr "Kentucky"
@@ -68,10 +67,10 @@ msgid "Louisiana"
 msgstr "Louisiana"
 
 msgid "Maine"
-msgstr "Louisiana"
+msgstr "Maine"
 
 msgid "Maryland"
-msgstr "Maryland"
+msgstr ""
 
 msgid "Massachusetts"
 msgstr "Massachusetts"
@@ -89,7 +88,7 @@ msgid "Missouri"
 msgstr "Missouri"
 
 msgid "Montana"
-msgstr "Montana"
+msgstr ""
 
 msgid "Nebraska"
 msgstr "Nebraska"
@@ -116,7 +115,7 @@ msgid "North Dakota"
 msgstr "North Dakota"
 
 msgid "Ohio"
-msgstr "North Dakota"
+msgstr "Ohio"
 
 msgid "Oklahoma"
 msgstr "Oklahoma"
@@ -164,34 +163,34 @@ msgid "Wyoming"
 msgstr "Wyoming"
 
 msgid "District of Columbia"
-msgstr "District of Columbia"
+msgstr "Disricte de Columbia"
 
 msgid "American Samoa"
-msgstr "Samoa americane"
+msgstr "Samoa Americana"
 
 msgid "Guam"
 msgstr "Guam"
 
 msgid "Northern Mariana Islands"
-msgstr "Isole Mariana del Nord"
+msgstr "Illes Marianes del Nord"
 
 msgid "Puerto Rico"
-msgstr "Portorico"
+msgstr "Puerto Rico"
 
 msgid "Virgin Islands"
-msgstr "Isole Vergini"
+msgstr "Illes Verge"
 
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Illes Perifèriques Menors dels EUA"
 
 msgid "Armed Forces Europe"
-msgstr "Forze Armate Europa"
+msgstr ""
 
 msgid "Armed Forces Americas"
-msgstr "Forze Armate Americhe"
+msgstr ""
 
 msgid "Armed Forces Pacific"
-msgstr "Forze Armate Pacifico"
+msgstr ""
 
 msgid "Alberta"
 msgstr "Alberta"
@@ -206,136 +205,136 @@ msgid "New Brunswick"
 msgstr "New Brunswick"
 
 msgid "Newfoundland and Labrador"
-msgstr "Terranova e Labrador"
+msgstr ""
 
 msgid "Northwest Territories"
-msgstr "Territori del Nord-Ovest"
+msgstr ""
 
 msgid "Nova Scotia"
-msgstr "Nuova Scozia"
+msgstr "Nova Scotia"
 
 msgid "Nunavut"
-msgstr "Nunavut"
+msgstr ""
 
 msgid "Ontario"
 msgstr "Ontario"
 
 msgid "Prince Edward Island"
-msgstr "Isola Principe Edoardo"
+msgstr "Prince Edward Island"
 
 msgid "Quebec"
-msgstr "Québec"
+msgstr "Quebec"
 
 msgid "Saskatchewan"
 msgstr "Saskatchewan"
 
 msgid "Yukon Territory"
-msgstr "Yukon"
+msgstr "Yukon Territory"
 
 msgid "Maharashtra"
-msgstr "Maharashtra"
+msgstr ""
 
 msgid "Karnataka"
-msgstr "Karnataka"
+msgstr ""
 
 msgid "Andhra Pradesh"
-msgstr "Andhra Pradesh"
+msgstr ""
 
 msgid "Arunachal Pradesh"
-msgstr "Arunachal Pradesh"
+msgstr ""
 
 msgid "Assam"
-msgstr "Assam"
+msgstr ""
 
 msgid "Bihar"
-msgstr "Bihar"
+msgstr ""
 
 msgid "Chhattisgarh"
-msgstr "Chhattisgarh"
+msgstr ""
 
 msgid "Goa"
-msgstr "Goa"
+msgstr ""
 
 msgid "Gujarat"
-msgstr "Gujarat"
+msgstr ""
 
 msgid "Haryana"
-msgstr "Haryana"
+msgstr ""
 
 msgid "Himachal Pradesh"
-msgstr "Himachal Pradesh"
+msgstr ""
 
 msgid "Jammu and Kashmir"
-msgstr "Jammu e Kashmir"
+msgstr ""
 
 msgid "Jharkhand"
-msgstr "Jharkhand"
+msgstr ""
 
 msgid "Kerala"
-msgstr "Kerala"
+msgstr ""
 
 msgid "Madhya Pradesh"
-msgstr "Madhya Pradesh"
+msgstr ""
 
 msgid "Manipur"
-msgstr "Manipur"
+msgstr ""
 
 msgid "Meghalaya"
-msgstr "Meghalaya"
+msgstr ""
 
 msgid "Mizoram"
-msgstr "Mizoram"
+msgstr ""
 
 msgid "Nagaland"
-msgstr "Nagaland"
+msgstr ""
 
 msgid "Orissa"
-msgstr "Orissa"
+msgstr ""
 
 msgid "Punjab"
-msgstr "Punjab"
+msgstr ""
 
 msgid "Rajasthan"
-msgstr "Rajasthan"
+msgstr ""
 
 msgid "Sikkim"
-msgstr "Sikkim"
+msgstr ""
 
 msgid "Tamil Nadu"
-msgstr "Tamil Nadu"
+msgstr ""
 
 msgid "Tripura"
-msgstr "Tripura"
+msgstr ""
 
 msgid "Uttaranchal"
-msgstr "Uttaranchal"
+msgstr ""
 
 msgid "Uttar Pradesh"
-msgstr "Uttar Pradesh"
+msgstr ""
 
 msgid "West Bengal"
-msgstr "Bengala Occidentale"
+msgstr ""
 
 msgid "Andaman and Nicobar Islands"
-msgstr "Isole Andamane e Nicobar"
+msgstr ""
 
 msgid "Dadra and Nagar Haveli"
-msgstr "Dadra e Nagar Haveli"
+msgstr ""
 
 msgid "Daman and Diu"
-msgstr "Daman e Diu"
+msgstr ""
 
 msgid "Delhi"
-msgstr "Delhi"
+msgstr ""
 
 msgid "Lakshadweep"
-msgstr "Lakshadweep"
+msgstr ""
 
 msgid "Pondicherry"
-msgstr "Pondicherry"
+msgstr ""
 
 msgid "mazowieckie"
-msgstr "mazowieckie"
+msgstr ""
 
 msgid "pomorskie"
 msgstr ""
@@ -353,10 +352,10 @@ msgid "lubuskie"
 msgstr ""
 
 msgid "łódzkie"
-msgstr "łódz"
+msgstr ""
 
 msgid "małopolskie"
-msgstr "Małopol"
+msgstr ""
 
 msgid "opolskie"
 msgstr ""
@@ -395,7 +394,7 @@ msgid "Ash Shariqah"
 msgstr ""
 
 msgid "Dubayy"
-msgstr "Dubai"
+msgstr ""
 
 msgid "Ra's al Khaymah"
 msgstr ""
@@ -1253,7 +1252,7 @@ msgid "Limburg"
 msgstr ""
 
 msgid "Luxembourg"
-msgstr "Lussemburgo"
+msgstr ""
 
 msgid "Namur"
 msgstr ""
@@ -2285,7 +2284,7 @@ msgid "Sichuan"
 msgstr ""
 
 msgid "Taiwan"
-msgstr "Taiwan"
+msgstr ""
 
 msgid "Yunnan"
 msgstr ""
@@ -2309,7 +2308,7 @@ msgid "Hong Kong"
 msgstr "Hong Kong"
 
 msgid "Macau"
-msgstr ""
+msgstr "Macau"
 
 msgid "Distrito Capital de Bogotá"
 msgstr ""
@@ -7130,7 +7129,7 @@ msgid "Rodrigues Island"
 msgstr ""
 
 msgid "Male"
-msgstr "M"
+msgstr ""
 
 msgid "Alif"
 msgstr ""
@@ -7310,7 +7309,7 @@ msgid "Jalisco"
 msgstr ""
 
 msgid "Mexico"
-msgstr "Messico"
+msgstr "Mèxic"
 
 msgid "Michoacin"
 msgstr ""
@@ -7583,7 +7582,7 @@ msgid "Nassarawa"
 msgstr ""
 
 msgid "Niger"
-msgstr ""
+msgstr "Níger"
 
 msgid "Ogun"
 msgstr ""
@@ -7847,7 +7846,7 @@ msgid "Loa Santoa"
 msgstr ""
 
 msgid "Panama"
-msgstr "Panama"
+msgstr "Panamà"
 
 msgid "Veraguas"
 msgstr ""
@@ -8999,7 +8998,7 @@ msgid "Ostergotlands lan"
 msgstr ""
 
 msgid "Saint Helena"
-msgstr ""
+msgstr "Saint Helena"
 
 msgid "Ascension"
 msgstr ""
