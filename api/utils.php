@@ -657,29 +657,44 @@ function _crm_format_custom_params( &$params, &$values, $extends )
     $values['custom'] = array();
     
     $customFields = CRM_Core_BAO_CustomField::getFields( $extends );
-    
+
     foreach ($params as $key => $value) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+
             /* check if it's a valid custom field id */
             if ( !array_key_exists($customFieldID, $customFields)) {
                 return _crm_error('Invalid custom field ID');
             }
             
             // modified for CRM-1586
-            // check data type for importing custom field (labels) with data type Integer
+            // check data type for importing custom field (labels) with data type Integer/Float/Money
             /* validate the data against the CF type */
-            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-            foreach( $customOption as $v1 ) {
-                if(($customFields[$customFieldID][2]=="Int") && ( strtolower($v1['label']) == strtolower(trim($value)))) {
+            
+            if( ( $customFields[$customFieldID][2] == "Int")    ||
+                ( $customFields[$customFieldID][2] == "Float" ) ||
+                ( $customFields[$customFieldID][2] == "Money" ) ) { 
+                
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID);
+                foreach( $customOption as $v1 ) {
+                    //If custom option do not match with params value($value), 
+                    //then continue, otherwise set fieldType to "String"
+                    
+                    if ( ! ( strtolower($v1['label']) == strtolower( trim( $value ) ) ) ) {
+                        continue ;
+                    }
+                    
                     $fieldType = "String";
-                    $valid = CRM_Core_BAO_CustomValue::typecheck($fieldType, $value);
-                } else {
-                    $valid = CRM_Core_BAO_CustomValue::typecheck(
-                                                                 $customFields[$customFieldID][2], $value);
                 }
+            } else {
+                //set the Field type 
+                $fieldType = $customFields[$customFieldID][2];
             }
             
-            if (! $valid) {
+            //validate the datatype of $value
+            $valid = CRM_Core_BAO_CustomValue::typecheck( $fieldType, $value);
+            
+            //return error, if not valid custom field
+            if ( ! $valid ) {
                 return _crm_error('Invalid value for custom field ' .
                                   $customFields[$customFieldID][1]);
             }
@@ -703,9 +718,9 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                         }
                     }
                 }
-                
                 $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-            } else if( $customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] == 'Radio' ) {
+                
+            } else if ( $customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
                     if( ( strtolower($v2['label']) == strtolower(trim($value)) )||( strtolower($v2['value']) == strtolower(trim($value)))) {
@@ -714,7 +729,6 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                     }
                 }
             }
-            
             $values['custom'][$customFieldID] = array(
                                                       'value'   => $value,
                                                       'extends' => $customFields[$customFieldID][3],
@@ -722,14 +736,13 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                                                       'custom_field_id' => $customFieldID,
                                                       );
         }
+        
     }
 }
 
+
 function _crm_update_contact( $contact, $values, $overwrite = true ) 
 {
-    //CRM_Core_Error::debug( 'c', $contact );
-    //CRM_Core_Error::debug( 'v', $values );
-
     // first check to make sure the location arrays sync up
     $param = array("contact_id" =>$contact->id );
     $contact = crm_get_contact($param);
