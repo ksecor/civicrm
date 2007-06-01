@@ -647,9 +647,25 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
              
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-
+ 
+       // make entry in membership table
+        if ( isset( $params['membership_type_id'] ) ) {
+            $memberParams = array(
+                                  'contact_id'            => $contactID,
+                                  'membership_type_id'    => $params['membership_type_id'],
+                                  'join_date'             => CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format($params['join_date'])),
+                                  'start_date'            => CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format($params['membership_start_date'])),
+                                  'end_date'              => CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format($params['membership_end_date'])),
+                                  'status_id'             => $params['status_id'],
+                                  'is_override'           => $params['is_override'],
+                                  'source'                => $params['membership_source']
+                                  );
+            
+            $membership =& CRM_Member_BAO_Membership::add( $memberParams, $ids );
+        }
+        
         // process the custom data that is submitted or that came via the url
-        //format custom data
+        // format custom data
         $customData = array( );
         foreach ( $this->_params as $key => $value ) {
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
