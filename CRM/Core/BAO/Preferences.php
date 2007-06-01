@@ -97,8 +97,8 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         // get the field sequence from the format
         $newSequence = array();
         foreach($addressSequence as $field) {
-            if (substr_count(format, $field)) {
-                $newSequence[strpos(format, $field)] = $field;
+            if (substr_count($format, $field)) {
+                $newSequence[strpos($format, $field)] = $field;
             }
         }
         ksort($newSequence);
