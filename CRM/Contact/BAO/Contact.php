@@ -874,7 +874,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @access public
      * @static
      */
-    static function resolveDefaults( &$defaults, $reverse = false ) {
+    static function resolveDefaults( &$defaults, $reverse = false ) 
+    {
         // hack for birth_date
         if ( CRM_Utils_Array::value( 'birth_date', $defaults ) ) {
             if (is_array($defaults['birth_date'])) {
@@ -2498,7 +2499,8 @@ WHERE     civicrm_contact.id = %1";
      * @static
      * @access public
      */
-    static function generateChecksum( $contactID, $ts = null, $live = null ) {
+    static function generateChecksum( $contactID, $ts = null, $live = null ) 
+    {
         $hash = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                              $contactID, 'hash' );
         if ( ! $hash ) {
@@ -2533,7 +2535,8 @@ WHERE     civicrm_contact.id = %1";
      * @static
      * @access public
      */
-    static function validChecksum( $contactID, $inputCheck ) {
+    static function validChecksum( $contactID, $inputCheck ) 
+    {
         list( $inputCS, $inputTS, $inputLF ) = explode( '_', $inputCheck );
 
         $check = self::generateChecksum( $contactID, $inputTS, $inputLF );
@@ -2548,9 +2551,16 @@ WHERE     civicrm_contact.id = %1";
     }
 
 
-
-
-    static function makeCurrentEmployerRelationship($contactID, $organizationName) 
+    /**
+     * Build the Current employer relationship with the individual
+     *
+     * @param int    $contactID             contact id of the individual
+     * @param string $organizationName      current employer name
+     * 
+     * @access public
+     * @static
+     */
+    static function makeCurrentEmployerRelationship( $contactID, $organizationName ) 
     {
         require_once "CRM/Contact/DAO/Organization.php";
         $org =& new CRM_Contact_DAO_Organization();
@@ -2566,8 +2576,8 @@ WHERE     civicrm_contact.id = %1";
         $relType->find(true);
         $relTypeId = $relType->id;
                 
-        $relationshipParams1['relationship_type_id'] = $relTypeId.'_a_b';
-        $relationshipParams2 = array('contact' => $contactID );
+        $relationshipParams['relationship_type_id'] = $relTypeId.'_a_b';
+        $cid = array('contact' => $contactID );
         
         if (empty($dupeIds)) {
             //create new organization
@@ -2581,18 +2591,18 @@ WHERE     civicrm_contact.id = %1";
                                                        CRM_Contact_Form_Edit::LOCATION_BLOCKS );
             
             //create relationship
-            $relationshipParams1['contact_check'][$orgName->id] = 1;
+            $relationshipParams['contact_check'][$orgName->id] = 1;
 
            
-            $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams1, 
-                                                                $relationshipParams2);
+            $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, 
+                                                                $cid);
         } else {
             //if more than one matching organizations found, we
             //add relationships to all those organizations
             foreach($dupeIds as $key => $value) {
-                $relationshipParams1['contact_check'][$value] = 1;
-                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams1,
-                                                                    $relationshipParams2);
+                $relationshipParams['contact_check'][$value] = 1;
+                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams,
+                                                                    $cid);
             }
         }
         
