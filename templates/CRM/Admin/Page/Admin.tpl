@@ -1,6 +1,6 @@
 {* Displays Administer CiviCRM Control Panel *}
 {* Set cells per row value for control panel icons *}
-{assign var=itemsPerRow value=3}
+{assign var=itemsPerRow value=4}
 
 {if $newVersion}
     <div class="messages status">
@@ -22,21 +22,23 @@
  <div id = "id_{$groupName}_show" class="section-hidden label{if $smarty.foreach.adminLoop.last eq false} section-hidden-border{/if}">
     <table class="form-layout">
     <tr>
-        <td width="20%" class="font-size11pt">{$group.show} {$groupName}</td>
-        <td class="description" width="*" style="white-space: nowrap;">
-            {*$groupDesc.$groupName *}
+        <td width="20%" class="font-size11pt" style="vertical-align: top;">{$group.show} {$groupName}</td>
+        <td width="80%" style="white-space: nowrap;">
+            <table class="form-layout" width="100%">
+            <tr><td>
             {assign var=i value=1}
             {foreach from=$group item=panelItem  key=panelName name=groupLoop}
                 {if $panelName != 'show' AND $panelName != 'hide' }
-                    &raquo;&nbsp;<a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="idc_{$panelItem.id}">{$panelItem.title}</a>&nbsp;&nbsp;&nbsp;
+                    &raquo;&nbsp;<a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="idc_{$panelItem.id}">{$panelItem.title}</a><br />
                     {if $i % $itemsPerRow eq 0}
-                        <br />
+                        </td><td>
                     {/if}
                     {if $smarty.foreach.groupLoop.last eq false}
                         {assign var="i" value="`$i+1`"}
                     {/if}
                 {/if}
             {/foreach}
+            </td></tr></table>
         </td>
     </tr>
     </table>
@@ -53,10 +55,10 @@
                     <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} ><img src="{$config->resourceBase}i/
                     {$panelItem.icon}" alt="{$panelItem.title}"/></a>
                 </td>
-                <td class="report font-size11pt" style="vertical-align: text-top;">
+                <td class="report font-size11pt" style="vertical-align: text-top;" width="20%">
                     <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="id_{$panelItem.id}">{$panelItem.title}</a>
                 </td>
-                <td class="description"  style="vertical-align: text-top;" width="80%">
+                <td class="description"  style="vertical-align: text-top;" width="75%">
                     {$panelItem.desc}
                 </td>
             </tr>

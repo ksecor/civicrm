@@ -540,7 +540,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/small/03.png',
+                           'icon'    => 'admin/03.png',
                            'weight'  => 110
                            ),
 
@@ -551,7 +551,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'extra' => 'onclick = "return confirm(\'' . $backupDataExtra . '\');"',
                            'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/small/14.png',
+                           'icon'    => 'admin/14.png',
                            'weight'  => 120
                            ),
                       
@@ -562,7 +562,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'extra' => 'onclick = "if (confirm(\'' . $drupalSyncExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                            'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/small/Synch_user.png',
+                           'icon'    => 'admin/Synch_user.png',
                            'weight'  => 130
                            ),
                       
@@ -574,7 +574,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Configure'),
-                             'icon'    => 'admin/small/36.png',
+                             'icon'    => 'admin/36.png',
                              'weight'  => 200
                              ),
                        
@@ -586,7 +586,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Configure'),
-                             'icon'    => 'admin/small/custm_data.png',
+                             'icon'    => 'admin/custm_data.png',
                              'weight'  => 210
                              ),
                        
@@ -607,7 +607,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Configure'),
-                             'icon'    => 'admin/small/Profile.png',
+                             'icon'    => 'admin/Profile.png',
                              'weight'  => 220
                            ),
                       
@@ -628,7 +628,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/small/domain.png',
+                           'icon'    => 'admin/domain.png',
                            'weight'  => 230
                            ),
 
@@ -640,7 +640,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/small/duplicate_matching.png',
+                           'icon'    => 'admin/duplicate_matching.png',
                            'weight'  => 240
                            ),
 
@@ -652,7 +652,7 @@ class CRM_Core_Menu {
                              'type'       => self::CALLBACK,
                              'crmType'    => self::LOCAL_TASK,
                              'adminGroup' => ts('Configure'),
-                             'icon'       => 'admin/small/import_export_map.png',
+                             'icon'       => 'admin/import_export_map.png',
                              'weight'     => 250
                              ),
                        
@@ -664,7 +664,7 @@ class CRM_Core_Menu {
                              'type'       => self::CALLBACK,
                              'crmType'    => self::LOCAL_TASK,
                              'adminGroup' => ts('Configure'),
-                             'icon'       => 'admin/small/template.png',
+                             'icon'       => 'admin/template.png',
                              'weight'     => 260
                              ),
                        
@@ -676,7 +676,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Setup'),
-                             'icon'    => 'admin/small/05.png',
+                             'icon'    => 'admin/05.png',
                              'weight'  => 310
                              ),
                        
@@ -688,7 +688,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/small/01.png',
+                           'icon'    => 'admin/01.png',
                            'weight'  => 320
                            ),
                       
@@ -700,7 +700,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Setup'),
-                             'icon'    => 'admin/small/title.png',
+                             'icon'    => 'admin/title.png',
                              'weight'  => 330
                              ),
                        
@@ -712,7 +712,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Setup'),
-                             'icon'    => 'admin/small/10.png',
+                             'icon'    => 'admin/10.png',
                              'weight'  => 340
                              ),
                        
@@ -725,7 +725,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/small/07.png',
+                           'icon'    => 'admin/07.png',
                            'weight'  => 350
                            ),
 
@@ -737,7 +737,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Setup'),
-                             'icon'    => 'admin/small/13.png',
+                             'icon'    => 'admin/13.png',
                              'weight'  => 360
                              ),
                        
@@ -749,7 +749,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/small/08.png',
+                           'icon'    => 'admin/08.png',
                            'weight'  => 365
                            ),
     
@@ -761,7 +761,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Setup'),
-                           'icon'    => 'admin/small/communication.png',
+                           'icon'    => 'admin/communication.png',
                            'weight'  => 370
                            ),
 
@@ -773,7 +773,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Setup'),
-                             'icon'    => 'admin/small/rela_type.png',
+                             'icon'    => 'admin/rela_type.png',
                              'weight'  => 375
                              ),
                        
@@ -785,7 +785,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Setup'),
-                             'icon'    => 'admin/small/11.png',
+                             'icon'    => 'admin/11.png',
                              'weight'  => 380
                              ),
                        
