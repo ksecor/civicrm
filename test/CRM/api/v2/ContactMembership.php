@@ -89,6 +89,22 @@ class TestOfContactMembershipAPIV2 extends UnitTestCase
 	  $this->assertEqual($membership[$contactId][$this->_membership['id']]['source'],'Payment');
 	  $this->assertEqual($membership[$contactId][$this->_membership['id']]['status_id'],'2');   
         }
+    function testUpdateMembership()
+      {
+	$params = array(
+			'id'                 => $this->_membership['id'],
+			'membership_type_id' => '3',
+			'join_date'          => '20060125',
+			'start_date'         => '20060125',
+			'end_date'           => '20061225',
+			'source'             => 'Donation',
+			'status_id'          => '2',
+			'contact_id'         => $this->_individual['contact_id']
+			);
+	$membership = & civicrm_contact_membership_create($params);
+	$this->assertEqual( $membership['is_error'], 0 );
+      }
+    
     
     function testDeleteMembership()
         {

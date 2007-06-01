@@ -373,8 +373,11 @@ function civicrm_contact_membership_create(&$params)
      
     $params = array_merge($values,$params);
     require_once 'CRM/Member/BAO/Membership.php';
-    $ids = array();
-    $ids = $params['id'];
+    //for edit membership id should be present
+    if ( $params['id'] ) {
+      $ids = array( 'membership' => $params['id'],
+		    'user_id'=> $params['contact_id'] );
+    }
     $membershipBAO = CRM_Member_BAO_Membership::create($params, $ids);
     if ( ! is_a( $membershipBAO, 'CRM_Core_Error') ) {
       require_once 'CRM/Core/Action.php';
@@ -452,7 +455,7 @@ function civicrm_contact_memberships_get(&$contactID)
     
     $members[$contactID] = $membershipValues;
     require_once 'CRM/Core/BAO/CustomGroup.php';
-    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership',$membershipId , false,1);
+    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership',$membershipId , false,$membershipValues[$membershipId][membership_type_id]);
     CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
     
     foreach ( $defaults as $key => $val ) {
