@@ -623,45 +623,10 @@ AND civicrm_location.entity_table='civicrm_contact')";
         //add relationship for the contact
         if ( isset( $params['current_employer'] ) && $params['current_employer'] ) {
             
-            //check if organization exits
-            $dupeIds = array();
-            require_once "CRM/Contact/DAO/Organization.php";
-            $org =& new CRM_Contact_DAO_Organization();
-            $org->organization_name = $params['current_employer'];
-            $org->find();
-            while ($org->fetch()) {
-                $dupeIds[] = $org->contact_id;
-            }
             
-            //get the relationship id
-            require_once "CRM/Contact/DAO/RelationshipType.php";
-            $relType =& new CRM_Contact_DAO_RelationshipType();
-            $relType->name_a_b = "Employee of";
-            $relType->find(true);
-            $relTypeId = $relType->id;
-            
-            $relationshipParams['relationship_type_id'] = $relTypeId.'_a_b';
-            $cid = array( 'contact' => $contact->id);
-            
-            if (empty($dupeIds)) {
-                //create new organization
-                $ids = array();                            
-                $newOrg['contact_type'     ] = 'Organization';
-                $newOrg['organization_name'] = $params['current_employer'] ;
-            
-                $orgName = CRM_Contact_BAO_Contact::create($newOrg, $ids, $this->_maxLocationBlocks );
+            CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
+                                                                     $params['current_employer']);
 
-                //create relationship
-                $relationshipParams['contact_check'][$orgName->id] = 1;
-                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cid );
-            } else {
-                //if more than one matching organizations found, we
-                //add relationships to all those organizations
-                foreach($dupeIds as $key => $value) {
-                    $relationshipParams['contact_check'][$value] = 1;
-                    $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cid );
-                }
-            }
         }
     
         // now invoke the post hook

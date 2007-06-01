@@ -2258,48 +2258,11 @@ WHERE civicrm_contact.id IN $idString ";
 
         if( $data['contact_type'] == 'Individual'&& 
             array_key_exists( 'organization_name', $params ) ) {
-            require_once "CRM/Contact/DAO/Organization.php";
-            $org =& new CRM_Contact_DAO_Organization();
-            $org->organization_name = $params['organization_name'];
-            $org->find();
-            while ($org->fetch()) {
-                $dupeIds[] = $org->contact_id;
-            }
-            //get the relationship id
-            require_once "CRM/Contact/DAO/RelationshipType.php";
-            $relType =& new CRM_Contact_DAO_RelationshipType();
-            $relType->name_a_b = "Employee of";
-            $relType->find(true);
-            $relTypeId = $relType->id;
-            
-            $relationshipParams1['relationship_type_id'] = $relTypeId.'_a_b';
-            $relationshipParams2 = array('contact' => $contactID );
-            
-            if (empty($dupeIds)) {
-                //create new organization
-                $orgId = array();                            
-                $newOrg['contact_type'     ] = 'Organization';
-                $newOrg['organization_name'] = $params['organization_name'] ;
-                
-                $orgName = CRM_Contact_BAO_Contact::create($newOrg, 
-                                                           $orgId, 
-                                                           2 );
-                
-                //create relationship
-                $relationshipParams1['contact_check'][$orgName->id] = 1;
-                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams1, 
-                                                                    $relationshipParams2);
-            } else {
-                //if more than one matching organizations found, we
-                //add relationships to all those organizations
-                foreach($dupeIds as $key => $value) {
-                    $relationshipParams1['contact_check'][$value] = 1;
-                    $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams1,
-                                                                        $relationshipParams2);
-                }
-            }
+            if( $params['organization_name'] )  {
+                self::makeCurrentEmployerRelationship($contactID, $params['organization_name']);
+             }
         }
-        
+  
         // Process group and tag  
         if ( CRM_Utils_Array::value('group', $fields )) {
             CRM_Contact_BAO_GroupContact::create( $params['group'], $contactID );
@@ -2582,6 +2545,57 @@ WHERE     civicrm_contact.id = %1";
         // checksum matches so now check timestamp
         $now = time( );
         return ( $inputTS + ( $inputLF * 60 * 60 ) >= $now ) ? true : false;
+    }
+
+
+
+
+    static function makeCurrentEmployerRelationship($contactID, $organizationName) 
+    {
+        require_once "CRM/Contact/DAO/Organization.php";
+        $org =& new CRM_Contact_DAO_Organization();
+        $org->organization_name = $organizationName;
+        $org->find();
+        while ($org->fetch()) {
+            $dupeIds[] = $org->contact_id;
+        }
+        //get the relationship id
+        require_once "CRM/Contact/DAO/RelationshipType.php";
+        $relType =& new CRM_Contact_DAO_RelationshipType();
+        $relType->name_a_b = "Employee of";
+        $relType->find(true);
+        $relTypeId = $relType->id;
+                
+        $relationshipParams1['relationship_type_id'] = $relTypeId.'_a_b';
+        $relationshipParams2 = array('contact' => $contactID );
+        
+        if (empty($dupeIds)) {
+            //create new organization
+            $orgId = array();                            
+            $newOrg['contact_type'     ] = 'Organization';
+            $newOrg['organization_name'] = $organizationName ;
+
+            require_once "CRM/Contact/Form/Edit.php";
+            $orgName = CRM_Contact_BAO_Contact::create($newOrg, 
+                                                       $orgId, 
+                                                       CRM_Contact_Form_Edit::LOCATION_BLOCKS );
+            
+            //create relationship
+            $relationshipParams1['contact_check'][$orgName->id] = 1;
+
+           
+            $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams1, 
+                                                                $relationshipParams2);
+        } else {
+            //if more than one matching organizations found, we
+            //add relationships to all those organizations
+            foreach($dupeIds as $key => $value) {
+                $relationshipParams1['contact_check'][$value] = 1;
+                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams1,
+                                                                    $relationshipParams2);
+            }
+        }
+        
     }
 }
 
