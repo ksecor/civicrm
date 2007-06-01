@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-21 06:58+0200\n"
-"PO-Revision-Date: 2007-05-24 09:06-0700\n"
-"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
+"PO-Revision-Date: 2007-05-29 12:19-0700\n"
+"Last-Translator: Chiara Salatin <chiarasalatin@fastmail.fm>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -229,32 +229,32 @@ msgstr "Indirizzo Email"
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
-msgstr ""
+msgstr "Prego inserisci un valore valido per il codice di sicurezza della tua carta. Di solito corrisponde alle ultime 3-4 cifre sul retro della carta, dove si appone la firma."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Please enter a valid Credit Card Number"
-msgstr ""
+msgstr "Prego inserisci un numero di carta di credito valido"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr ""
+msgstr "Prego inserisci un codice di verifica della carta di credito valido"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
-msgstr ""
+msgstr "Prego inserisci un importo valido in questo campo (es. 99.99)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "(top of page)"
-msgstr ""
+msgstr "(inizio pagina)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "(bottom of page)"
-msgstr ""
+msgstr "(fine pagina)"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -270,9 +270,8 @@ msgstr "Messaggio lasciato"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
 #: CRM/Member/Form/Membership.php
-#, fuzzy
 msgid "You do not have permission to access this page"
-msgstr "Non hai i permessi sufficienti per visualizzare questa Applicazione."
+msgstr "Non hai i permessi sufficienti per visualizzare questa pagina."
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -310,26 +309,26 @@ msgstr "Amministra Premiums"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
-msgstr "Cruscotto"
+msgstr "Dashboard"
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
 msgid "Configure Online Contribution Pages"
-msgstr "Configura le pagine per la donazione Online"
+msgstr "Configura le pagine per il contributo online"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid "Test-drive"
-msgstr ""
+msgstr "Test - drive"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "Live Page"
-msgstr ""
+msgstr "Pagina Live!"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "FollowUp"
-msgstr ""
+msgstr "Il seguito"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
@@ -346,31 +345,27 @@ msgstr "Disabilita Premium"
 
 #: CRM/Contribute/Payment/Google.php CRM/Event/Payment/Google.php
 msgid "Invalid response code received from Google Checkout: %1"
-msgstr ""
+msgstr "Codice di risposta ricevuto da Google Checkout non valido: %1"
 
 #: CRM/Contribute/Payment/PayPalImpl.php CRM/Event/Payment/PayPalImpl.php
 msgid "Recurring contribution, but no database id"
-msgstr ""
+msgstr "Contributo frequente, ma nessuna identificazione nel database"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
-#, fuzzy
 msgid "Event ID"
-msgstr "ID Contatto"
+msgstr "ID Evento"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Confirm From Name"
-msgstr "Da Nome"
+msgstr "Conferma Da Nome"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Confirm From Email"
-msgstr "Da Email"
+msgstr "Conferma Da Email"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Event Title"
-msgstr "Titolo"
+msgstr "Titolo Evento"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
@@ -382,41 +377,36 @@ msgstr "Riassunto"
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
 msgid "Event Information"
-msgstr "Note Contatto"
+msgstr "Note Evento"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 #: CRM/Event/Form/Task/Export.php
 msgid "Participant ID"
-msgstr ""
+msgstr "ID Partecipante"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Member/DAO/MembershipPayment.php
-#, fuzzy
 msgid "Payment Entity Table"
-msgstr "Tabella Entità target"
+msgstr "Tabella Entità Pagamento"
 
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Delete Event"
-msgstr "Elimina"
+msgstr "Elimina Evento"
 
 #: CRM/Event/Form/ManageEvent/Registration.php CRM/Event/Invoke.php
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Online Registration"
-msgstr "Contributo Online:"
+msgstr "Registrazione Online"
 
 #: CRM/Event/Form/Participant.php CRM/Event/Form/Registration/Register.php
 msgid "Event Fee(s)"
-msgstr ""
+msgstr "Quota Evento"
 
 #: CRM/Event/Form/Registration/Confirm.php CRM/Event/Payment/GoogleIPN.php
 #: CRM/Event/Payment/PayPalIPN.php
-#, fuzzy
 msgid "Online Event Registration:"
-msgstr "Contributo Online:"
+msgstr "Registrazione Evento Online:"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 #, fuzzy
@@ -5682,7 +5672,7 @@ msgstr ""
 #: templates/CRM/Member/Form/Task/Export.tpl
 msgid "One membership record selected for export."
 msgid_plural "%count membership records selected for export."
-msgstr[0] ""
+msgstr[0] "Un record iscrizione selezionato per esportarlo"
 msgstr[1] ""
 
 #: templates/CRM/Member/Form/Task/Export.tpl
@@ -5690,21 +5680,20 @@ msgid ""
 "Click <strong>Export Memberships</strong> to download a comma-separated "
 "values (CSV) file of membership data. Each row will also include member "
 "contact information (name, address, email, phone...) as available."
-msgstr ""
+msgstr "Clicca <strong>Esporta Iscrizioni</strong> per scaricare file con valori separati da virgole (CSV) dei dati iscrizione. Ogni riga includerà inoltre le informazioni disponibili sui contatti del membro (nome, indirizzo, email, telefono...)."
 
 #: templates/CRM/Member/Form/Task/Print.tpl
-#, fuzzy
 msgid "Start/Renew Date"
-msgstr "Data inizio"
+msgstr "Data inizio/rinnovo"
 
 #: templates/CRM/Member/Form/Task.tpl
 msgid "Number of selected members: %1"
-msgstr ""
+msgstr "Numero dei membri selezionati: %1"
 
 #: templates/CRM/Member/Import/Form/Preview.tpl
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid "Total rows (membership records) in uploaded file."
-msgstr ""
+msgstr "Righe totali (registri iscrizione) nel file caricato."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid ""
@@ -5713,14 +5702,14 @@ msgid ""
 msgid_plural ""
 "CiviCRM has detected mismatched membership IDs. These records have not been "
 "Updated."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "CiviCRM ha rilevato un ID iscrizione non corrispondente. Questo record non è stato aggiornato."
+msgstr[1] "CiviCRM ha rilevato diversi ID iscrizione non corrispondenti. Questi record non sono stati aggiornati."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Memberships</a>. You may then "
 "correct them, and import the new file with the corrected data."
-msgstr ""
+msgstr "Puoi <a href=\"%1\">scaricare le iscrizioni non corrispondenti</a>. Puoi corregerle e importare il nuovo file con i dati corretti."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid ""
@@ -5731,8 +5720,8 @@ msgid_plural ""
 "CiviCRM has detected %count records with conflicting transaction IDs within "
 "this data file or relative to existing membership records. These records "
 "have not been imported."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "CiviCRM ha rilevato un record con un ID di transazione non corrispondente al file dati o relativo a record di iscrizioni già esistenti. Questo record non è stato importato."
+msgstr[1] "CiviCRM ha rilevato %conta record con un ID di transazione non corrispondente al file dati o relativo a record di iscrizioni già esistenti. Questi record non sono stati importati."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid ""
@@ -5741,27 +5730,26 @@ msgid ""
 msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "membership records."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "CiviCRM ha rilevato un record duplicato in un'iscrizione CiviCRM già esistente."
+msgstr[1] "CiviCRM ha rilevato %conta record duplicati in iscrizioni CiviCRM già esistenti."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid "Rows with mismatched membership IDs... (NOT updated)."
-msgstr ""
+msgstr "Righe con ID di iscrizione non corrispondenti... (NON aggiornati)."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Download Mismatched Memberships"
-msgstr "Elimina Gruppo"
+msgstr "Scarica Iscrizioni Non Corrispondenti"
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM membership records."
-msgstr ""
+msgstr "Righe che sono duplicati di record di iscrizione CiviCRM esistenti"
 
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
 "The Membership Import Wizard allows you to easily upload memberships from "
 "other applications into CiviCRM."
-msgstr ""
+msgstr "L'Aiuto Importa Iscrizioni ti permette di caricare facilmente iscrizioni da altre applicazioni a CiviCRM."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid ""
@@ -5769,7 +5757,7 @@ msgid ""
 "(s) for online membership sign-up and renewal. Administrators can create or "
 "modify Membership Types <a href=\"%2\">here</a>, and configure Online "
 "Contribution Pages which include membership sign-up <a href=\"%1\">here</a>."
-msgstr ""
+msgstr "CiviMember ti permette di creare tipologie di iscrizioni personalizzate, nonchè una o più pagine per l'iscrizione ed il rinnovo online. Gli Amministratori possono creare o modificare le Tipologie di Iscrizione <a href=\"%2\">here</a>, e configurare le pagine del Contributo Online che include la procedura d'iscrizione<a href=\"%1\">here</a>."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid ""
@@ -5782,11 +5770,11 @@ msgid ""
 "from other sources.\n"
 "     Refer to the <a href=\"%2\" target=\"_blank\" title=\"%4\">CiviMember "
 "Guide</a> for more information."
-msgstr ""
+msgstr "Puoi anche immettere e tracciare le iscrizioni off-line. Per registrare le iscrizioni manualmente per contatti individuali, usa <a href=\"%1\">Find Contacts</a> per localizzare il contatto. Poi clicca <strong>View</strong> per andare alla pagina con il riassunto e clicca sul link <strong>New Membership</strong>Puoi anche <a href=\"%3\"> importare un gruppo di registrazioni </a> di iscrizioni da altre fonti.Per maggiori informazioni vai a <a href=\"%2\" target=\"_blank\" title=\"%4\">CiviMember Guide</a>."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Membership Summary"
-msgstr ""
+msgstr "Riassunto iscrizione"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid ""
@@ -5795,24 +5783,23 @@ msgid ""
 "commonly used search criteria. To run your own customized searches - click "
 "<a href=\"%1\">Find Members</a>. You can search by Member Name, Membership "
 "Type, Status, and Signup Date Ranges."
-msgstr ""
+msgstr "Questa tabella fornisce un riassunto dell'attività di iscrizione e rinnovo, ed include collegamenti diretti ai dettagli per i criteri di ricerca più utilizzati. Per eseguire le tue ricerche personalizzate clicca <a href=\"%1\">Trova Membri</a>. Puoi cercare per Nome Membro, Tipologia di Iscrizione, Stato, e Data di iscrizione."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Members by Type"
-msgstr ""
+msgstr "Membri per tipologia"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid "Current #"
-msgstr "Valuta"
+msgstr "Attuale #"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Totals (all types)"
-msgstr ""
+msgstr "Totali (tutte le tipologie)"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Recent Memberships"
-msgstr ""
+msgstr "Iscrizioni recenti"
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
@@ -5825,6 +5812,8 @@ msgid ""
 "ended sometime within the past month.\" (<a href=\"%1\" target=\"_blank\" "
 "title=\"%2\">read more...</a>)"
 msgstr ""
+"CiviMember calcola automaticamente lo stato attuale per ogni contatto iscritto sulla base delle regole di stato configurate qui.La \"regola\" di stato informa CiviMember di quale stato assegnare sulla base delle date di inizio e fine di iscrizione. Per esempio, il default<strong>Grace</strong>\n"
+"la regola di stato comunica... \"assegna lo stato di Grace se il periodo di iscrizione è terminato nell'ultimo mese\". (<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)"
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
@@ -5833,13 +5822,13 @@ msgid ""
 "the rules\n"
 "        by clicking the Edit links below. Or you can <a href=\"%1\">add a "
 "new status and rule</a>."
-msgstr ""
+msgstr "Le regole di stato fornite per default dovrebbero essere sufficenti per la vostra organizzazione. In ogni caso, potete facilmente cambiare i nomi di stato e/o modificare le regole cliccando sul collegamento \"Modifica\" sottostante. Oppure potete aggiungere un nuovo stato e regola. "
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
 "There are no custom membership status entered. You can <a href=\"%1\">add "
 "one</a>."
-msgstr ""
+msgstr "Non è stato inserito alcuno stato di iscrizione cliente. Potete aggiungerne uno"
 
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid ""
@@ -5849,32 +5838,29 @@ msgid ""
 "duration (can be \"lifetime\"). Each member type is specifically linked to "
 "the membership entity (organization) - e.g. Bay Area Chapter (<a href=\"%1\" "
 "target=\"_blank\" title=\"%2\">read more...</a>)."
-msgstr ""
+msgstr "Le tipologie di iscrizione sono utilizzate per categorizzare le iscrizioni. Potete definire un numero illimitato di tipologie. Ogni tipo comprende un \"nome\" (Socio Emerito, Socio Oro...), una descrizione, una quota d'iscrizione minima (può anche essere $ 0) ed una durata (può anche essere \"vitalizia\"). Ogni tipo di socio/membro è assegnato ad una specifica entità di appartenenza (organizzazione) - es. Bay Area Chapter(<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
 
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid "Fixed Start"
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.tpl
-#, fuzzy
 msgid ""
 "There are no membership types entered. You can <a href=\"%1\">add one</a>."
-msgstr ""
-"Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
-"\">aggiungine uno ora</a>."
+msgstr "Non ci sono tipologie di iscrizione inserite. Puoi aggiungerne una ora. "
 
 #: templates/CRM/Member/Page/MessageTemplates.tpl
 msgid ""
 "NOTE: This template feature is not yet integrated with the CiviMail "
 "component. CiviMail message templates must be saved as local text files and "
 "uploaded."
-msgstr ""
+msgstr "NOTA: Questa funzione del modulo non è ancora integrata il componente CiviMail. Il modulo dei messaggi CiviMail deve essere salvato come file di testo locale e caricato successivamente."
 
 #: templates/CRM/Member/Page/MessageTemplates.tpl
 msgid "New Message Templates"
-msgstr ""
+msgstr "Moduli Nuovo Messaggio"
 
 #: templates/CRM/Member/Page/MessageTemplates.tpl
 msgid ""
 "There are no Message Templates  entered. You can <a href=\"%1\">add one</a>."
-msgstr ""
+msgstr "Non ci sono moduli di messaggio inseriti. Potete aggiungerne uno ora."

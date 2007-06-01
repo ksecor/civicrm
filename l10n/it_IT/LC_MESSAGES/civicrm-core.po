@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-05-24 08:14-0700\n"
+"PO-Revision-Date: 2007-05-28 06:52-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1964,9 +1964,8 @@ msgid "Enable Debugging"
 msgstr "Abilita Debugging"
 
 #: CRM/Admin/Form/Setting/Debugging.php
-#, fuzzy
 msgid "Display Backtrace"
-msgstr "Nome"
+msgstr "Visualizza la backtrace"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Template"
@@ -2428,7 +2427,6 @@ msgid "This is an unexpected place to be in, contact support"
 msgstr "Non ci si dovrebbe mai trovare qui, si prega di contattare il supporto."
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "phone"
 msgstr "Telefono"
 
@@ -2554,11 +2552,11 @@ msgstr "Nome Visualizzato"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Home URL"
-msgstr ""
+msgstr "Indirizzo sito Web"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Image Url"
-msgstr ""
+msgstr "URL immagine"
 
 #: CRM/Contact/DAO/Contact.php xml/templates/civicrm_add_domain.tpl
 msgid "Preferred Communication Method"
@@ -2578,7 +2576,7 @@ msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "Non inviare email in serie (disattivata)"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Internal Contact ID"
@@ -2589,9 +2587,8 @@ msgid "Source of Contact Data"
 msgstr "Fonte dei dati del contatto"
 
 #: CRM/Contact/DAO/Individual.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Tipo di contributo"
+msgstr "Modalità di saluto"
 
 #: CRM/Contact/DAO/Individual.php
 #, fuzzy
@@ -2637,152 +2634,148 @@ msgid "Sic Code"
 msgstr ""
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Nome"
+msgstr "Nome A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Nome"
+msgstr "Nome B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
-msgstr ""
+msgstr "Dati modulo inviati"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
-msgstr ""
+msgstr "Tracciamento"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Web"
-msgstr ""
+msgstr "Web"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "API"
-msgstr ""
+msgstr "API"
 
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 1"
-msgstr ""
+msgstr "Indirizzo 1"
 
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 2"
-msgstr ""
+msgstr "Indirizzo 2"
 
 #: CRM/Contact/Form/Address.php
 msgid "Latitude"
-msgstr ""
+msgstr "Latitudine"
 
 #: CRM/Contact/Form/Address.php
 msgid "Longitude"
-msgstr ""
+msgstr "Longitudine"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Contact Name:"
-msgstr "Modulo per Contatto"
+msgstr "Nome del contatto:"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Email Domain:"
-msgstr ""
+msgstr "Dominio di posta:"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Send Emails RETURN-PATH:"
-msgstr ""
+msgstr "RETURN-PATH delle email inviate:"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "The Domain \"%1\" has been saved."
-msgstr "La Riunione \"%1\" è stata salvata."
+msgstr "Il dominio \"%1\" è stato salvato."
 
 #: CRM/Contact/Form/Edit.php
 msgid "contact does not exist: %1"
-msgstr ""
+msgstr "contatto inesistente: %1"
 
 #: CRM/Contact/Form/Edit.php
 msgid "You do not have the necessary permission to edit this contact."
-msgstr ""
+msgstr "Permessi insufficienti per modificare il contatto."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Could not get a contact_id and/or contact_type"
-msgstr ""
+msgstr "Impossibile estrarre un contact_id e/o un contact_type"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Check for Matching Contact(s)"
-msgstr ""
+msgstr "Controlla contatti corrispondenti"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save Duplicate Contact"
-msgstr ""
+msgstr "Salva contatto duplicato"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save and New"
-msgstr ""
+msgstr "Salva e Nuovo"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
-msgstr ""
+msgstr "Contatto %1 salvato."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Mail Format"
-msgstr ""
+msgstr "Formato di posta"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
-msgstr ""
+msgstr "Può essere indicato solo un indirizzo principale."
 
 #: CRM/Contact/Form/Edit.php
 msgid "The Location Type should be set if there is any location information"
-msgstr ""
+msgstr "Se ci sono indirizzi si deve impostare la Tipologia di indirizzo"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Two locations cannot have same location type"
-msgstr ""
+msgstr "Non si possono avere due indirizzi della stessa tipologia"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
-msgstr ""
+msgstr "Si deve impostare un indirizzo principale"
 
 #: CRM/Contact/Form/Email.php
 msgid "Email (preferred)"
-msgstr ""
+msgstr "Email (preferita)"
 
 #: CRM/Contact/Form/Email.php
 msgid "another email"
-msgstr ""
+msgstr "altra email"
 
 #: CRM/Contact/Form/Email.php
 msgid "hide this email"
-msgstr ""
+msgstr "nascondi email"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Contact has been added to the selected group."
-msgstr ""
+msgstr "Il contatto è stato aggiunto al gruppo selezionato."
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger (preferred)"
-msgstr ""
+msgstr "Instant Messenger (preferito)"
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger"
-msgstr ""
+msgstr "Instant Messenger"
 
 #: CRM/Contact/Form/IM.php
 msgid "another IM"
-msgstr ""
+msgstr "altro IM"
 
 #: CRM/Contact/Form/IM.php
 msgid "hide this IM"
-msgstr ""
+msgstr "nascondi IM"
 
 #: CRM/Contact/Form/IM.php
 msgid "- select service -"
-msgstr ""
+msgstr "- seleziona servizio -"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Prefix"
@@ -2802,20 +2795,19 @@ msgstr "- suffisso -"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Greeting"
-msgstr ""
+msgstr "Saluto"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Job title"
-msgstr ""
+msgstr "Titolo lavorativo"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Contact is deceased"
-msgstr ""
+msgstr "Il contatto è deceduto"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid "Deceased date"
-msgstr "Ricevuto"
+msgstr "Data di decesso"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Date of birth"
@@ -2825,25 +2817,24 @@ msgstr "Data di Nascita"
 msgid ""
 "Enter a valid web location beginning with \"http://\" or \"https://\". "
 "EXAMPLE: http://www.mysite.org"
-msgstr ""
+msgstr "Inserire un indirizzo Web valido che inizi con \"http://\" o \"https://\". ESEMPIO: http://www.miosito.it"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid "Current Employer"
-msgstr "Valuta"
+msgstr "Attuale datore di lavoro"
 
 #: CRM/Contact/Form/Individual.php
 msgid "External Id"
-msgstr ""
+msgstr "ID esterno"
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
 "First Name and Last Name OR an email in the Primary Location should be set."
-msgstr ""
+msgstr "Nell'indirizzo principale si deve impostare nome e cognome O una email"
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
-msgstr ""
+msgstr "Indirizzo principale di questo contatto"
 
 #: CRM/Contact/Form/Organization.php
 msgid "SIC Code"
@@ -2855,15 +2846,15 @@ msgstr "Prego inserire Sito Web valido."
 
 #: CRM/Contact/Form/Phone.php
 msgid "Phone (preferred)"
-msgstr ""
+msgstr "Telefono (preferito)"
 
 #: CRM/Contact/Form/Phone.php
 msgid "another phone"
-msgstr ""
+msgstr "altro telefono"
 
 #: CRM/Contact/Form/Phone.php
 msgid "hide this phone"
-msgstr ""
+msgstr "nascondi telefono"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Please select a relationship type."
@@ -2875,7 +2866,7 @@ msgstr "La data di inizio non è valida."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "End date is not valid."
-msgstr ""
+msgstr "La data di fine non è valida."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Find Target Contact"
@@ -2887,7 +2878,7 @@ msgstr "Ricerca Ancora"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Save Relationship"
-msgstr ""
+msgstr "Salva relazione"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "%count new relationship record created."
