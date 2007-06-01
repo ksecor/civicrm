@@ -24,21 +24,31 @@
     <tr>
         <td width="20%" class="font-size11pt" style="vertical-align: top;">{$group.show} {$groupName}</td>
         <td width="80%" style="white-space: nowrap;">
+
             <table class="form-layout" width="100%">
-            <tr><td>
-            {assign var=i value=1}
             {foreach from=$group item=panelItem  key=panelName name=groupLoop}
+               
+                
                 {if $panelName != 'show' AND $panelName != 'hide' }
+
+                    {if $smarty.foreach.groupLoop.iteration is odd} <tr> {/if}
+
+                    <td width="50%"> 
                     &raquo;&nbsp;<a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="idc_{$panelItem.id}">{$panelItem.title}</a><br />
-                    {if $i % $itemsPerRow eq 0}
-                        </td><td>
-                    {/if}
-                    {if $smarty.foreach.groupLoop.last eq false}
-                        {assign var="i" value="`$i+1`"}
-                    {/if}
+                    </td>
+
+                    {if $smarty.foreach.groupLoop.iteration is even} </tr> {/if}
+
+
+
                 {/if}
+
+
             {/foreach}
-            </td></tr></table>
+
+
+
+            </table>
         </td>
     </tr>
     </table>
