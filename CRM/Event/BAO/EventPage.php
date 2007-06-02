@@ -111,8 +111,23 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
      * @return void
      * @access public
      */
-    static function sendMail( $contactID, &$values, $participantId ) {
-
+    static function sendMail( $contactID, &$values, $participantId ) 
+    {
+        require_once 'CRM/Core/BAO/UFGroup.php';
+        //this condition is added, since same contact can have
+        //multiple event registrations..       
+        $params = array( array( 'event_participant_id', '=', $participantId, 0, 0 ) );
+        $gIds = array(
+                    'custom_pre_id' => $values['custom_pre_id'],
+                    'custom_post_id'=> $values['custom_post_id']
+                    );
+        
+        //send notification email if field values are set (CRM-1941)
+        foreach ($gIds as $gId) {
+            $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($gId,$contactID,$params);         
+            CRM_Core_BAO_UFGroup::commonSendMail($contactID, &$val);
+        }        
+            
         if ( $values['event_page']['is_email_confirm'] ) {
             $template =& CRM_Core_Smarty::singleton( );
             require_once 'CRM/Contact/BAO/Contact.php';
@@ -178,7 +193,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                 }
             }
         }
-    }
-
+    }    
 }
+
 ?>

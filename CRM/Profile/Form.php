@@ -137,11 +137,11 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->_gid      = $this->get( 'gid' ); 
   
         $this->_context  = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-      
+       
         if ( ! $this->_gid ) {
             $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this, false, 0, 'GET');
         }  
-        
+       
         // if we dont have a gid use the default, else just use that specific gid
         if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) && ! $this->_gid ) {
             $this->_ctype  = CRM_Utils_Request::retrieve( 'ctype', 'String', $this, false, 'Individual', 'REQUEST' );
@@ -153,7 +153,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                       $this->_gid,
                                                                       true, null,
                                                                       $this->_skipPermission ); 
-        } else {  
+        } else { 
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null,
                                                                null, null,
                                                                false, null,
@@ -173,7 +173,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( );
         $this->_cId = $session->get( 'userID' );
        
-        $this->setDefaultsValues();
+        $this->setDefaultsValues();$i=0;
     }
     
     /** 
@@ -609,7 +609,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
-
+        
         //create CMS user (if CMS user option is selected in profile)
         if ( $params['create_account']  && $this->_mode == self::MODE_CREATE ) {
             require_once "CRM/Core/BAO/CMSUser.php";
@@ -630,7 +630,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( !empty($_FILES) ) {
             foreach ( $_FILES as $key => $value) {
                 $files = array( );
-                if ( $params[$key] ){ 
+                if ( $params[$key] ){
                     $files['name'] = $params[$key];
                 }
                 if ( $value['type'] ) {
@@ -644,10 +644,16 @@ class CRM_Profile_Form extends CRM_Core_Form
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );
         }
-        
+
+        require_once 'CRM/Core/BAO/UFGroup.php'; 
+        if ( !$this->_mode == self::MODE_REGISTER ) {            
+            $values = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($this->_gid,$this->_id,null);                
+            CRM_Core_BAO_UFGroup::commonSendMail($this->_id, &$values);
+        } 
         $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
                                                                    $this->_id, $this->_addToGroupID,
                                                                    $this->_gid, $this->_ctype );
+        
     }
 }
 

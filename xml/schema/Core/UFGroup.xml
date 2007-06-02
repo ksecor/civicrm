@@ -163,5 +163,11 @@
        <comment>Should we create a cms user for this profile </comment>
        <add>1.8</add>
   </field>
+  <field>
+       <name>notify</name>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
 
 </table>

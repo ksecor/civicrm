@@ -114,7 +114,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function getRegistrationFields( $action, $mode, $ctype = null ) 
     {
         if ( $mode & CRM_Profile_Form::MODE_REGISTER) {
-            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
+        $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
         } else {
             $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile');  
         }
@@ -247,7 +247,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
             $query .= " AND $permissionClause ";
         }
-        
+       
         $group =& CRM_Core_DAO::executeQuery( $query, $params );
         
         $fields = array( );
@@ -467,6 +467,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $controller->reset( );
                 }
             }
+
             $controller->set( 'id'      , $userID );
             $controller->set( 'register', 1 );
             $controller->set( 'skipPermission', 1 );
@@ -1642,7 +1643,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 // So if only core schema in use then withought following check gets the DB error.
                 $student      = new CRM_Quest_BAO_Student();
                 $tableStudent = $student->getTableName();
-                //CRM_Core_Error::debug('table', $tableStudent);
+                
                 if ($tableStudent) {
                     //set student defaults
                     CRM_Quest_BAO_Student::retrieve( $details, $studentDefaults, $ids);
@@ -1773,6 +1774,108 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         return $copy;
     }
 
-}
+    
+    /**
+     * Process that send notification e-mails
+     *
+     * @params int     $contactId      contact id
+     * @params array   $values         associative array of name/value pair
+     * @return void
+     * @access public
+     */
+    
+    static function commonSendMail( $contactID, &$values ) {
+        if ( !$contactID || !$values ){
+            return;
+        }
+        
+        $template =& CRM_Core_Smarty::singleton( );
+                   
+        list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+               
+        self::profileDisplay( $values['id'] , $values['values'],$template );
+        $emailList = explode(',',$values['email']);
+        
+        $contactLink = CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$contactID");
+          
+        // set details in the template here
+        $template->assign( 'email', $email );
+        $template->assign( 'displayName',$displayName);            
+        $template->assign( 'currentDate',date('j-m-y') );
+        $template->assign( 'contactLink',$contactLink);
+        
+        $subject = trim( $template->fetch( 'CRM/UF/Form/NotifySubject.tpl' ) );
+        $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );             
+         
+        if($message) {
+            require_once 'CRM/Utils/Mail.php';
+            foreach ( $emailList as $emailTo ) {   
+                CRM_Utils_Mail::send( $email,
+                                      $displayName,
+                                      $emailTo,
+                                      $subject,
+                                      $message,
+                                      null,
+                                      null
+                                      );
+            }
+        }            
+    }
+    
+    
+    /**  
+     * Given a contact id and a group id, returns the field values from the db
+     * for this group and notify email only if group's notify field is
+     * set and field values are not empty 
+     *  
+     * @params $gid      group id
+     * @params $cid      contact id
+     * @params $params   associative array 
+     * @return array
+     * @access public  
+     */ 
+    function checkFieldsEmptyValues( $gid,$cid,$params ) 
+    {
+        if ( $gid ) {
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $cid) ){
+                $values = array( );
+                $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );  
+                CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
 
+                $count=0;//checks for array with only keys and not values
+                foreach ($values as $value) {
+                    if ($value) {
+                        $count++;
+                    }
+                } 
+                
+                $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'notify' );
+                $val = array(
+                                'id'     => $gid,
+                                'values' => $values,
+                                'email'  => $email
+                                );
+                return ($count && $email) ? $val : false;
+            }
+        } 
+    }
+
+    /**  
+     * Function to assign uf fields to template
+     * 
+     * @params int     $gid      group id
+     * @params array   $values   associative array of fields 
+     * @return void  
+     * @access public  
+     */ 
+    function profileDisplay( $gid,$values,$template ) 
+    {
+        $groupTitle = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'title' );
+        $template->assign( "grouptitle", $groupTitle );
+        if ( count($values) ) {
+            $template->assign( 'values', $values );
+        }               
+    }  
+}
 ?>

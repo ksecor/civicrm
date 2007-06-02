@@ -83,7 +83,20 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
      * @access public
      */
     static function sendMail( $contactID, &$values, $contributionId ) 
-    {
+    { 
+        $params = array( array( 'contribution_id', '=', $contributionId, 0, 0 ) );
+        $gIds = array(
+                    'custom_pre_id' => $values['custom_pre_id'],
+                    'custom_post_id'=> $values['custom_post_id']
+                    ); 
+
+        //send notification email if field values are set (CRM-1941)
+        require_once 'CRM/Core/BAO/UFGroup.php';
+        foreach ($gIds as $gId) {
+            $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($gId,$contactID,$params); 
+            CRM_Core_BAO_UFGroup::commonSendMail($this->_id, &$val); 
+         }
+        
         if ( $values['is_email_receipt'] ) {
             $template =& CRM_Core_Smarty::singleton( );
 
@@ -97,7 +110,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
-           
+            
             $receiptFrom = '"' . $values['receipt_from_name'] . '" <' . $values['receipt_from_email'] . '>';
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
@@ -131,14 +144,12 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                 $params = array( array( 'contribution_id', '=', $contributionId, 0, 0 ) );
 
                 CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
-
                 foreach( $fields as $v  ) {
                     $groupTitle = $v["groupTitle"];
                 }
                 if ( $groupTitle ) {
                     $template->assign( $name."_grouptitle", $groupTitle );
                 }
-                
                 if ( count( $values ) ) {
                     $template->assign( $name, $values );
                 }
