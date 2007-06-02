@@ -129,20 +129,6 @@ class CRM_Contribute_Menu {
                                  'weight'  => 395
                                  ),
                            );
-            $config =& CRM_Core_Config::singleton( );
-            if ( $config->paymentProcessor == 'PayPal' || $config->paymentProcessor == 'PayPal_Express' ) {
-                $items[] = array(
-                                 'path'    => 'civicrm/admin/contribute/createPPD',
-                                 'title'   => ts('Create PayPal API Profile'),
-                                 'desc'    => ts('For PayPal Pro or Express WITH certificate-based authentication only. (This option is NOT used for the recommended signature-based authentication method).'), 
-                                 'query'   => 'reset=1',
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                                 'adminGroup' => 'CiviContribute',
-                                 'icon'    => 'admin/small/PayPal_mark_37x23.gif',
-                                 'weight'  => 400
-                                 );
-            }
             break;
 
         case 'contact':
