@@ -540,7 +540,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/03.png',
+                           'icon'    => 'admin/small/03.png',
                            'weight'  => 110
                            ),
 
@@ -551,32 +551,33 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'extra' => 'onclick = "return confirm(\'' . $backupDataExtra . '\');"',
                            'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/14.png',
+                           'icon'    => 'admin/small/14.png',
                            'weight'  => 120
-                           ),
-                      
-                     array(
-                           'path'    => 'civicrm/admin/synchUser',
-                           'title'   => ts('Synchronize Users to Contacts'),
-                           'desc'    => ts('Automatically create a CiviCRM contact record for each CMS user record.'),
-                           'type'    => self::CALLBACK,
-                           'extra' => 'onclick = "if (confirm(\'' . $drupalSyncExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
-                           'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/Synch_user.png',
-                           'weight'  => 130
                            ),
                       
                      array(
                            'path'       => 'civicrm/admin/dupefind',
                            'title'      => ts('Find Duplicate Contacts'),
+                           'desc'    => ts('Use configured duplicate matching rules to identify suspected duplicate contact records in your database.'),
                            'query'      => 'reset=1',
                            'type'       => self::CALLBACK,
                            'crmType'    => self::LOCAL_TASK,
                            'adminGroup' => ts('Manage'),
-                           'icon'       => 'admin/duplicate_matching.png',
-                           'weight'     => 140
+                           'icon'       => 'admin/small/duplicate_matching.png',
+                           'weight'     => 130
                            ),
 
+                       array(
+                             'path'    => 'civicrm/admin/synchUser',
+                             'title'   => ts('Synchronize Users to Contacts'),
+                             'desc'    => ts('Automatically create a CiviCRM contact record for each CMS user record.'),
+                             'type'    => self::CALLBACK,
+                             'extra' => 'onclick = "if (confirm(\'' . $drupalSyncExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
+                             'adminGroup' => ts('Manage'),
+                             'icon'    => 'admin/small/Synch_user.png',
+                             'weight'  => 140
+                             ),
+                       
                        array(
                              'path'    => 'civicrm/admin/setting',
                              'title'   => ts('Global Settings'),
@@ -585,7 +586,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Configure'),
-                             'icon'    => 'admin/36.png',
+                             'icon'    => 'admin/small/36.png',
                              'weight'  => 200
                              ),
                        
@@ -597,7 +598,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Configure'),
-                             'icon'    => 'admin/custm_data.png',
+                             'icon'    => 'admin/small/custm_data.png',
                              'weight'  => 210
                              ),
                        
@@ -618,7 +619,7 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Configure'),
-                             'icon'    => 'admin/Profile.png',
+                             'icon'    => 'admin/small/Profile.png',
                              'weight'  => 220
                            ),
                       
@@ -639,7 +640,7 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/domain.png',
+                           'icon'    => 'admin/small/domain.png',
                            'weight'  => 230
                            ),
 
@@ -651,18 +652,19 @@ class CRM_Core_Menu {
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/duplicate_matching.png',
+                           'icon'    => 'admin/small/duplicate_matching.png',
                            'weight'  => 240
                            ),
 
                      array(
                            'path'    => 'civicrm/admin/duperules',
                            'title'   => ts('Duplicate Finding Rules'),
+                           'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 
                            'query'  => 'reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/duplicate_matching.png',
+                           'icon'    => 'admin/small/duplicate_matching.png',
                            'weight'  => 245
                            ),
 
@@ -698,43 +700,43 @@ class CRM_Core_Menu {
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/05.png',
+                             'icon'    => 'admin/small/05.png',
                              'weight'  => 310
                              ),
                        
                        array(
                            'path'    => 'civicrm/admin/options',
                            'title'   => ts('Gender Options'),
-                           'desc'    => ts('Customize the pre-configured options for individual gender (e.g. Male, Female, Transgender).'), 
+                           'desc'    => ts('Options for assigning gender to individual contacts (e.g. Male, Female, Transgender).'), 
                            'query'  => 'group=gender&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Option Lists'),
-                           'icon'    => 'admin/01.png',
+                           'icon'    => 'admin/small/01.png',
                            'weight'  => 320
                            ),
                       
                        array(
                              'path'    => 'civicrm/admin/options',
                              'title'   => ts('Individual Prefixes (Ms, Mr...)'),
-                             'desc'    => ts('Customize the pre-configured options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.).'), 
+                             'desc'    => ts('Options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.).'), 
                              'query'  => 'group=individual_prefix&reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/title.png',
+                             'icon'    => 'admin/small/title.png',
                              'weight'  => 330
                              ),
                        
                        array(
                              'path'    => 'civicrm/admin/options',
                              'title'   => ts('Individual Suffixes (Jr, Sr...)'),
-                             'desc'    => ts('Customize the pre-configured options for individual contact suffixes (e.g. Jr., Sr. etc.).'), 
+                             'desc'    => ts('Options for individual contact suffixes (e.g. Jr., Sr. etc.).'), 
                              'query'  => 'group=individual_suffix&reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/10.png',
+                             'icon'    => 'admin/small/10.png',
                              'weight'  => 340
                              ),
                        
@@ -742,72 +744,72 @@ class CRM_Core_Menu {
                        array(
                            'path'    => 'civicrm/admin/options',
                            'title'   => ts('Instant Messenger Services'),
-                           'desc'    => ts('Add to or modify the pre-configured options for IM services - used when recording screen-names for contacts.'), 
+                           'desc'    => ts('List of IM services which can be used when recording screen-names for contacts.'), 
                            'query'  => 'group=instant_messenger_service&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Option Lists'),
-                           'icon'    => 'admin/07.png',
+                           'icon'    => 'admin/small/07.png',
                            'weight'  => 350
                            ),
 
                        array(
                              'path'    => 'civicrm/admin/locationType',
                              'title'   => ts('Location Types (Home, Work...)'),
-                             'desc'    => ts(''), 
+                             'desc'    => ts('Options for categorizing contact addresses and phone numbers (e.g. Home, Work, Billing, etc.).'), 
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/13.png',
+                             'icon'    => 'admin/small/13.png',
                              'weight'  => 360
                              ),
                        
                        array(
                            'path'    => 'civicrm/admin/options',
                            'title'   => ts('Mobile Phone Providers'),
-                           'desc'    => ts(''), 
+                           'desc'    => ts('List of mobile phone providers which can be assigned when recording contact phone numbers.'), 
                            'query'  => 'group=mobile_provider&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Option Lists'),
-                           'icon'    => 'admin/08.png',
+                           'icon'    => 'admin/small/08.png',
                            'weight'  => 365
                            ),
     
                      array(
                            'path'    => 'civicrm/admin/options',
                            'title'   => ts('Preferred Communication Methods'),
-                           'desc'    => ts(''), 
+                           'desc'    => ts('One or more preferred methods of communication can be assigned to each contact. Customize the available options here.'), 
                            'query'  => 'group=preferred_communication_method&reset=1',
                            'type'    => self::CALLBACK,
                            'crmType' => self::LOCAL_TASK,
                            'adminGroup' => ts('Option Lists'),
-                           'icon'    => 'admin/communication.png',
+                           'icon'    => 'admin/small/communication.png',
                            'weight'  => 370
                            ),
 
                        array(
                              'path'    => 'civicrm/admin/reltype',
                              'title'   => ts('Relationship Types'),
-                             'desc'    => ts(''), 
+                             'desc'    => ts('Contacts can be linked to each other through Relationships (e.g. Spouse, Employer, etc.). Define the types of relationships you want to record here.'), 
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/rela_type.png',
+                             'icon'    => 'admin/small/rela_type.png',
                              'weight'  => 375
                              ),
                        
                        array(
                              'path'    => 'civicrm/admin/tag',
                              'title'   => ts('Tags (Categories)'),
-                             'desc'    => ts(''), 
+                             'desc'    => ts('Tags are useful for segmenting the contacts in your database into categories (e.g. Staff Member, Donor, Volunteer, etc.). Create and edit available tags here.'), 
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
                              'crmType' => self::LOCAL_TASK,
                              'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/11.png',
+                             'icon'    => 'admin/small/11.png',
                              'weight'  => 380
                              ),
                        

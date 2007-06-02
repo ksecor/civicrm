@@ -73,8 +73,10 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
            $v = CRM_Core_ShowHideBlocks::links($this, $group, '' , '', false);
            $adminPanel[$group]['show'] = $v['show'];
            $adminPanel[$group]['hide'] = $v['hide'];
+           $i = 0;
             foreach ( $items as $item ) {
                 if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
+                    $i++;
                     $value = array( 'title' => $item['title'],
                                     'desc'  => $item['desc'],
                                     'id'    => strtr($item['title'], array('('=>'_', ')'=>'', ' '=>'',
@@ -88,6 +90,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
                     $adminPanel[$group][$item['weight'] . '.' . $item['title']] = $value;
                 }
             }
+            $adminPanel[$group]['perColumn'] = round($i / 2);
             ksort( $adminPanel[$group] );
         }
 

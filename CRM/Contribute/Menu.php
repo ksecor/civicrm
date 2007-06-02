@@ -72,6 +72,7 @@ class CRM_Contribute_Menu {
                            array(
                                  'path'    => 'civicrm/admin/contribute',
                                  'title'   => ts('Manage Contribution Pages'),
+                                 'desc'    => ts('CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc.'), 
                                  'query'   => 'reset=1',
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
@@ -83,6 +84,7 @@ class CRM_Contribute_Menu {
                            array(
                                  'path'    => 'civicrm/admin/contribute/managePremiums',
                                  'title'   => ts('Manage Premiums'),
+                                 'desc'    => ts('CiviContribute allows you to configure any number of Premiums which can be offered to contributors as incentives / thank-you gifts. Define the premiums you want to offer here.'), 
                                  'query'   => 'reset=1',
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
@@ -94,6 +96,7 @@ class CRM_Contribute_Menu {
                            array(
                                  'path'    => 'civicrm/admin/contribute/contributionType',
                                  'title'   => ts('Contribution Types'),
+                                 'desc'    => ts('Contribution types are used to categorize contributions for reporting and accounting purposes. These are also referred to as Funds.'), 
                                  'query'   => 'reset=1',
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
@@ -105,6 +108,7 @@ class CRM_Contribute_Menu {
                            array(
                                  'path'    => 'civicrm/admin/options',
                                  'title'   => ts('Payment Instruments'),
+                                 'desc'    => ts('You may choose to record the payment instrument used for each contribution. Common payment methods are installed by default (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, add them here.'), 
                                  'query'   => 'group=payment_instrument&reset=1',
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
@@ -116,6 +120,7 @@ class CRM_Contribute_Menu {
                            array(
                                  'path'    => 'civicrm/admin/options',
                                  'title'   => ts('Accepted Credit Cards'),
+                                 'desc'    => ts('Credit card options that will be offered to contributors using your Online Contribution pages.'), 
                                  'query'   => 'group=accept_creditcard&reset=1',
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
@@ -129,6 +134,7 @@ class CRM_Contribute_Menu {
                 $items[] = array(
                                  'path'    => 'civicrm/admin/contribute/createPPD',
                                  'title'   => ts('Create PayPal API Profile'),
+                                 'desc'    => ts('For PayPal Pro or Express WITH certificate-based authentication only. (This option is NOT used for the recommended signature-based authentication method).'), 
                                  'query'   => 'reset=1',
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,

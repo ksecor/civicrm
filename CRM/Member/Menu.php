@@ -62,6 +62,7 @@ class CRM_Member_Menu {
                            array(
                                  'path'    => 'civicrm/admin/member/membershipType',
                                  'title'   => ts('Membership Types'),
+                                 'desc'    => ts('Define the types of memberships you want to offer. For each type, you can specify a "name" (Gold Member, Honor Society Member...), a description, duration, and a minimum fee.'), 
                                  'query'  => 'reset=1',
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
@@ -73,6 +74,7 @@ class CRM_Member_Menu {
                            array(
                                  'path'    => 'civicrm/admin/member/membershipStatus',
                                  'title'   => ts('Membership Status Rules'),
+                                 'desc'    => ts('Status "rules" define the current status for a membership based on that membership\'s start and end dates. You can adjust the default status options and rules as needed to meet your needs.'), 
                                  'query'  => 'reset=1',
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,

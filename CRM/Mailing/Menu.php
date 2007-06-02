@@ -58,23 +58,25 @@ class CRM_Mailing_Menu {
                            array(
                                  'path'    => 'civicrm/admin/mail',
                                  'title'   => ts('Mailer Settings '),
+                                 'desc'    => ts('Configure spool period, throttling and other mailer settings.'), 
                                  'query'  => 'reset=1',
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviMail',
-                                 'icon'    => 'admin/07.png',
+                                 'icon'    => 'admin/small/07.png',
                                  'weight'  => 400
                                  ),
                            array(
                                  'path'    => 'civicrm/admin/component',
-                                 'query'   => 'reset=1',
                                  'title'   => ts('Header/ Footer/ Automated Messages'),
+                                 'desc'    => ts('Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, and Opt-out messages.'), 
+                                 'query'   => 'reset=1',
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,  
                                  'adminGroup' => 'CiviMail',
-                                 'icon'    => 'admin/Profile.png',
+                                 'icon'    => 'admin/small/Profile.png',
                                  'weight'  => 410,
                                  ),
                            

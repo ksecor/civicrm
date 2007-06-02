@@ -87,65 +87,70 @@ class CRM_Event_Menu {
                            array(
                                  'path'    => 'civicrm/admin/event',
                                  'title'   => ts('Manage Events'),
+                                 'desc'    => ts('Create and edit event configuration including times, locations, online registration forms, and fees. Links for iCal and RSS syndication.'), 
                                  'query'  => 'reset=1',
                                  'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                                  CRM_Core_Permission::check( 'access CiviEvent' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviEvent',
-                                 'icon'    => 'admin/event_manage.png',
+                                 'icon'    => 'admin/small/event_manage.png',
                                  'weight'  => 370
                                  ),
                       
                            array(
                                  'path'    => 'civicrm/admin/options',
                                  'title'   => ts('Event Types'),
+                                 'desc'    => ts('Use Event Types to categorize your events. Event feeds can be filtered by Event Type and participant searches can use Event Type as a criteria.'), 
                                  'query'  => 'group=event_type&reset=1',
                                  'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                                  CRM_Core_Permission::check( 'access CiviEvent' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviEvent',
-                                 'icon'    => 'admin/event_type.png',
+                                 'icon'    => 'admin/small/event_type.png',
                                  'weight'  => 375
                                  ),
                        
                            array(
                                  'path'    => 'civicrm/admin/options',
                                  'title'   => ts('Participant Status'),
+                                 'desc'    => ts('Define statuses for event participants here (e.g. Registered, Attended, Cancelled...). You can then assign statuses and search for participants by status.'), 
                                  'query'  => 'group=participant_status&reset=1',
                                  'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                                  CRM_Core_Permission::check( 'access CiviEvent' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviEvent',
-                                 'icon'    => 'admin/parti_status.png',
+                                 'icon'    => 'admin/small/parti_status.png',
                                  'weight'  => 380
                                  ),
 
                            array(
                                  'path'    => 'civicrm/admin/options',
                                  'title'   => ts('Participant Role'),
+                                 'desc'    => ts('Define participant roles for events here (e.g. Attendee, Host, Speaker...). You can then assign roles and search for participants by role.'), 
                                  'query'  => 'group=participant_role&reset=1',
                                  'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                                  CRM_Core_Permission::check( 'access CiviEvent' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviEvent',
-                                 'icon'    => 'admin/parti_role.png',
+                                 'icon'    => 'admin/small/parti_role.png',
                                  'weight'  => 385
                                  ),
 
                            array(
                                  'path'    => 'civicrm/admin/price',
                                  'title'   => ts('Price Sets'),
+                                 'desc'    => ts('Price sets allow you to offer multiple options with associated fees (e.g. pre-conference workshops, additional meals, etc.). Configure Price Sets for events which need more than a single set of fee levels.'), 
                                  'query'   => 'reset=1',
                                  'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                                  CRM_Core_Permission::check( 'access CiviEvent' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviEvent',
-                                 'icon'    => 'admin/price_sets.png',
+                                 'icon'    => 'admin/small/price_sets.png',
                                  'weight'  => 386
                                  ),
                                   

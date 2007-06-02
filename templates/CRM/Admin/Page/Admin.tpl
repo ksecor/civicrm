@@ -1,7 +1,4 @@
 {* Displays Administer CiviCRM Control Panel *}
-{* Set cells per row value for control panel icons *}
-{assign var=itemsPerRow value=4}
-
 {if $newVersion}
     <div class="messages status">
         <dl>
@@ -17,37 +14,28 @@
 <div id="help" class="description section-hidden-border">
 {ts}Administer your CiviCRM site using the links on this page. Click <img src="{$config->resourceBase}/i/TreePlus.gif" alt="Plus sign." style="vertical-align: bottom; height: 20px; width: 20px;"> for descriptions of the options in each section.{/ts}
 </div>
+
 {strip}
 {foreach from=$adminPanel key=groupName item=group name=adminLoop}
  <div id = "id_{$groupName}_show" class="section-hidden label{if $smarty.foreach.adminLoop.last eq false} section-hidden-border{/if}">
     <table class="form-layout">
     <tr>
-        <td width="20%" class="font-size11pt" style="vertical-align: top;">{$group.show} {$groupName}</td>
-        <td width="80%" style="white-space: nowrap;">
+        <td width="20%" class="font-size11pt" style="vertical-align: top; padding: 0px;">{$group.show} {$groupName}</td>
+        <td width="80%" style="white-space: nowrap; padding: 0px;">
 
             <table class="form-layout" width="100%">
-            {foreach from=$group item=panelItem  key=panelName name=groupLoop}
-               
-                
-                {if $panelName != 'show' AND $panelName != 'hide' }
-
-                    {if $smarty.foreach.groupLoop.iteration is odd} <tr> {/if}
-
-                    <td width="50%"> 
-                    &raquo;&nbsp;<a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="idc_{$panelItem.id}">{$panelItem.title}</a><br />
-                    </td>
-
-                    {if $smarty.foreach.groupLoop.iteration is even} </tr> {/if}
-
-
-
-                {/if}
-
-
-            {/foreach}
-
-
-
+            <tr>
+                <td width="50%" style="padding: 0px;">
+                {foreach from=$group item=panelItem  key=panelName name=groupLoop}
+                    {if $panelName != 'show' AND $panelName != 'hide' AND $panelName != 'perColumn'}
+                        &raquo;&nbsp;<a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="idc_{$panelItem.id}">{$panelItem.title}</a><br />
+                        {if $smarty.foreach.groupLoop.iteration EQ $group.perColumn}
+                            </td><td width="50%" style="padding: 0px;">
+                        {/if}
+                    {/if}
+                {/foreach}
+                </td>
+            </tr>
             </table>
         </td>
     </tr>
@@ -59,7 +47,7 @@
         <table class="form-layout">
                 
         {foreach from=$group item=panelItem  key=panelName name=groupLoop}
-          {if $panelName != 'show' AND $panelName != 'hide' }
+          {if $panelName != 'show' AND $panelName != 'hide' AND $panelName != 'perColumn'}
             <tr>
                 <td style="vertical-align: top;">
                     <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} ><img src="{$config->resourceBase}i/
