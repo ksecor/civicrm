@@ -33,10 +33,10 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}This field is blank for non-monetary contributions.{/ts}</td></tr>
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
-{*if $email*}
+{if $email}
         <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Email a receipt for this contribution to {*$email*}?{/ts}</td></tr>
-{*/if*}
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Email a receipt for this contribution to {$email}?{/ts}</td></tr>
+{/if}
         <tr><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
 {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}
@@ -96,11 +96,21 @@
         }
      }
 
+     function verify( ) {
+       var element = document.getElementsByName("is_email_receipt");
+        if ( element[0].checked ) {
+         var ok = confirm( "Click OK to save this contribution record AND send a receipt to the contributor now." );    
+          if (!ok ) {
+            return false;
+          }
+        }
+     }
      function status() {
        document.getElementById("cancel_date[M]").value = "";
        document.getElementById("cancel_date[d]").value = "";
        document.getElementById("cancel_date[Y]").value = "";
      }
+
     </script>
     {/literal}
 
@@ -206,3 +216,4 @@
 {$initHideBoxes}
 {/if}
 {include file="CRM/common/showHide.tpl"}
+
