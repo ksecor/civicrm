@@ -1,0 +1,47 @@
+{if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}
+{/if}
+{ts}Thanks for your support.{/ts}
+
+{ts}Please print this receipt for your records.{/ts}
+
+===========================================================
+{ts}Contribution Information{/ts}
+
+===========================================================
+{ts}Contribution Type{/ts}: {$formValues.contributionType_name}
+{ts}Total Amount{/ts}     : {$formValues.total_amount|crmMoney}
+{ts}Received Date{/ts}    :{$receive_date|crmDate}
+{ts}Paid By{/ts}          :{$formValues.paidBy}
+{ts}Source{/ts}           :{$formValues.source}
+{ts}Transiction ID{/ts}   :{$formValues.trxn_id}
+{if $showCustom}
+
+===========================================================
+{ts}Custom Information{/ts}
+
+===========================================================
+{foreach from=$customField item=value key=name}
+ {$name} : {$value}
+{/foreach}
+{/if}
+{if $formValues.honor_firstname }
+
+===========================================================
+{ts}In Honor Of{/ts}
+
+===========================================================
+{$formValues.honor_prefix} {$formValues.honor_firstname} {$formValues.honor_lastname}
+{if $formValues.honor_email}
+{ts}Honoree Email{/ts}: {$formValues.honor_email}
+{/if}
+{/if}
+
+{if $formValues.product_name }
+===========================================================
+{ts}Premium Information{/ts}
+
+===========================================================
+Product Name :{$formValues.product_name}
+Fulfiled Date:{$fulfilled_date|crmDate}
+
+{/if}

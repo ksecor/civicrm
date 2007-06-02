@@ -20,7 +20,8 @@
         {/if}
         </td></tr> 
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</td></tr>
-        <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
+        <tr><td class="label">{$form.total_amount.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.total_amount.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by contributor.{/ts}</td></tr>
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
 {if $hideCalender neq true}
 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_1}
@@ -28,14 +29,34 @@
 {/if}    
 </td>
 </tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
         <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}This field is blank for non-monetary contributions.{/ts}</td></tr>
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
+{*if $email*}
+        <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Email a receipt for this contribution to {*$email*}?{/ts}</td></tr>
+{*/if*}
+        <tr><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
+{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
+{include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}
+</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</td></tr>
+      </table>
+      {include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1}
+
+ <div id="id-additional-show" class="section-hidden section-hidden-border" style="clear: both;">
+        <a href="#" onclick="hide('id-additional-show'); show('id-additional'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Details{/ts}</label><br />
+ </div>
+ <div id="id-additional" class="section-shown">
+<fieldset>
+<dl>
+
+<legend><a href="#" onclick="hide('id-additional'); show('id-additional-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Details{/ts}</legend>
+      <table class="form-layout-compressed">
+        <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
         <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
-        <tr><td class="label">{$form.total_amount.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.total_amount.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by contributor.{/ts}</td></tr>
         <tr><td class="label">{$form.non_deductible_amount.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.non_deductible_amount.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Non-deductible portion of this contribution.{/ts}</td></tr>
         <tr><td class="label">{$form.fee_amount.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.fee_amount.html}</td></tr>
@@ -46,22 +67,12 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Unique internal reference ID for this contribution.{/ts}</td></tr>
         <tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.{/ts}<br />{ts}For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>
-        <tr><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
-{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
-{include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}
-</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</td></tr>
         <tr><td class="label">{$form.thankyou_date.label}</td><td>{$form.thankyou_date.html}
 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_3}
 {include file="CRM/common/calendar/body.tpl" dateVar=thankyou_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_3}
 </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a thank-you message was sent to the contributor.{/ts}</td></tr>
-        <tr><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
-{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
-{include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_4}
-</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</td></tr>
-        <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
+
         
         <tr id="showHonorOfDetails_show"><td class="label">{$form.contribution_honor.label}</td><td>{$form.contribution_honor.html}</td></tr>
 
@@ -70,15 +81,9 @@
         <tr id="showHonorOfDetailsLname"><td class="label">{$form.honor_lastname.label}</td><td>{$form.honor_lastname.html}</td>
         <tr id="showHonorOfDetailsEmail"><td class="label">{$form.honor_email.label}</td><td>{$form.honor_email.html}</td>
     </table>
-    
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="contribution_honor"
-    trigger_value       =""
-    target_element_id   ="showHonorOfDetailsPrefix|showHonorOfDetailsFname|showHonorOfDetailsLname|showHonorOfDetailsEmail" 
-    target_element_type ="table-row"
-    field_type          ="radio"
-    invert              = 0
-}
+</dl>
+</fieldset>
+</div>     
 
     {literal}
     <script type="text/javascript">
@@ -99,9 +104,14 @@
     </script>
     {/literal}
 
+ <div id="id-premium-show" class="section-hidden section-hidden-border" style="clear: both;">
+        <a href="#" onclick="hide('id-premium-show'); show('id-premium'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Premium Information{/ts}</label><br />
+ </div>
+ <div id="id-premium" class="section-shown">
       {if $premiums }
-      <fieldset><legend>{ts}Premium Information{/ts}</legend> 
-        <div class="form-layout-compressed">
+      <fieldset>
+<legend><a href="#" onclick="hide('id-premium'); show('id-premium-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Premium Information{/ts}</legend>
+
            <dt class="label">{$form.product_name.label}</dt><dd>{$form.product_name.html}</dd>
            <div id="premium_contri">
 	   <dt class="label">{$form.min_amount.label}</dt><dd>{$form.min_amount.html|crmReplace:class:texttolabel}</dd>
@@ -110,10 +120,28 @@
            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_5}
            {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_5}      
            </dd>
-        </div>            
       </fieldset>
       {/if} 
-      {include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1}
+</div>
+
+ <div id="id-cancel-show" class="section-hidden section-hidden-border" style="clear: both;">
+        <a href="#" onclick="hide('id-cancel-show'); show('id-cancel'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Cancellation{/ts}</label><br />
+ </div>
+ <div id="id-cancel" class="section-shown">
+      <fieldset>
+<legend><a href="#" onclick="hide('id-cancel'); show('id-cancel-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Cancellation{/ts}</legend>
+<table class="form-layout-compressed">
+        <tr><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
+{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
+{include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_4}
+</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</td></tr>
+        <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
+</table>
+</fieldset>
+</div>
+
+
 
       {literal}
         <script type="text/javascript">
@@ -157,7 +185,14 @@
 </fieldset> 
 </div> 
 
-
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="contribution_honor"
+    trigger_value       =""
+    target_element_id   ="showHonorOfDetailsPrefix|showHonorOfDetailsFname|showHonorOfDetailsLname|showHonorOfDetailsEmail" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
 
 
 {if $action eq 1 or $action eq 2 }
@@ -170,3 +205,4 @@
 {if $action ne 2 or $showOption eq true}
 {$initHideBoxes}
 {/if}
+{include file="CRM/common/showHide.tpl"}
