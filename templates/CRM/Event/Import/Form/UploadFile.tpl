@@ -33,8 +33,8 @@
             {ts}Select 'Individual' if you are importing event participation data for individual persons.{/ts}
         </dd>
         <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select 'Organization' or 'Household' if you are importing event participation data for contacts of that type.{/ts}
-        </dd> 
+        <dd class="description">{ts}Select 'Organization' or 'Household' if you are importing event participation data for contacts of that type.{/ts}</dd>
+        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd> 
         {include file="CRM/Core/Date.tpl"}  
     </dl>
     <div class="spacer"></div>

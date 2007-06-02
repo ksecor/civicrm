@@ -519,9 +519,9 @@ function _crm_format_participant_params( &$params, &$values, $create=false)
                 return _crm_error("$key not a valid date: $value");
             }
             break;
-        case 'event_id':
+        case 'event_title':
             $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $value, 'id', 'title' );
-            $values[$key] = $id;
+            $values['event_id'] = $id;
             break;
         case 'event_status_id':
             $id = CRM_Core_OptionGroup::getValue('participant_status', $value);
@@ -2042,6 +2042,16 @@ function _crm_object_to_array( &$dao, &$values )
             $values[$key] = $dao->$key;
         }
     }
+}
+
+function _crm_duplicate_formatted_participant(&$params) 
+{
+    require_once 'CRM/Event/BAO/Participant.php';
+    if( CRM_Event_BAO_Participant::checkDuplicate( $params,$duplicate ) ) {
+        $error =& _crm_error( "Found matching records{$params['contact_id']}", CRM_Core_Error::DUPLICATE_PARTICIPANT, 'Fatal',$params['contact_id']);
+        return $error;
+    }
+    return true;
 }
 
 ?>

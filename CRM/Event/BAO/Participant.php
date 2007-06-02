@@ -618,5 +618,68 @@ WHERE  civicrm_participant.id = {$participantId}
         return;
     }
 
+    /**
+     *Checks duplicate participants
+     *
+     * @param array  $duplicates (reference ) an assoc array of name/value pairs
+     * @param array $input an assosiative array of name /value pairs
+     * from other function
+     * @return object CRM_Contribute_BAO_Contribution object    
+     * @access public
+     * @static
+     */
+    static function checkDuplicate( $input, &$duplicates ) 
+    {    
+        $eventId         = CRM_Utils_Array::value( 'event_id'  , $input );
+        $contactId      = CRM_Utils_Array::value( 'contact_id', $input );
+        
+        $clause = array( );
+        $input = array( );
+        
+        if ( $eventId ) {
+            $clause[]  = "event_id = %1";
+            $input[1]  = array( $eventId, 'Integer' );
+        }
+        
+        if ( $contactId ) {
+            $clause[]  = "contact_id = %2";
+            $input[2]  = array( $contactId, 'Integer' );
+        }
+        
+        if ( empty( $clause ) ) {
+            return false;
+        }
+        
+        $clause = implode( ' AND ', $clause );
+        
+        $query = "SELECT id FROM civicrm_participant WHERE $clause";
+        $dao =& CRM_Core_DAO::executeQuery( $query, $input );
+        $result = false;
+        while ( $dao->fetch( ) ) {
+            $duplicates[] = $dao->id;
+            $result = true;
+        }
+        return $result;
+    }
+    
+    /**
+     * Function to check if the participant exits in the db
+     * 
+     * @return id of the paricipant objectif exists else return null
+     * @static
+     */
+    static function checkParticipantExists($params)
+    {
+        require_once "CRM/Event/DAO/Participant.php";
+        $participant =& new CRM_Event_DAO_Participant();
+        $participant->contact_id = $params['contact_id'];
+        $participant->event_id = $params['event_id'];
+        $result = null;
+        if ($participant->find( true )) {
+            $result = $participant->id;
+        } 
+        return $result;
+    } 
+    
 }
 ?>

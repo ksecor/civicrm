@@ -61,24 +61,21 @@ function crm_create_participant($params, $contactID)
     if ( !is_array( $params ) ) {
         return _crm_error( 'Params is not an array' );
     }
-    
-
     if ( !isset($params['event_id']) || empty($contactID)) {
         return _crm_error( 'Required parameter missing' );
     }
     if ( !isset($params['status_id'] )) {
         $params['status_id'] = 1;
     } 
-    
     if ( !isset($params['register_date'] )) {
-             $params['register_date']= date( 'YmdHis' );
-         }
+        $params['register_date']= date( 'YmdHis' );
+    }
     
     $params['contact_id'] = $contactID;    
     require_once 'CRM/Event/BAO/Participant.php';
     $ids = array();
     $participantBAO = CRM_Event_BAO_Participant::create($params, $ids);
-
+    
     $participant = array();
     _crm_object_to_array($participantBAO, $participant);
     return $participant;
@@ -293,4 +290,35 @@ function crm_delete_participant_payment($participantPaymentID)
     
     return $participant->deleteParticipantPayment( $params ) ? null : _crm_error('Error while deleting participantPayment');
 }
+
+function &crm_create_participant_formatted( &$params , $onDuplicate ) 
+{
+    _crm_initialize( );
+
+    // return error if we have no params
+    if ( empty( $params ) ) {
+        return _crm_error( 'Input Parameters empty' );
+    }
+
+    require_once 'CRM/Event/Import/Parser.php';
+    if ( $onDuplicate != CRM_Event_Import_Parser::DUPLICATE_NOCHECK) {
+        CRM_Core_Error::reset( );
+        $error = _crm_duplicate_formatted_participant($params);
+        if (is_a( $error, 'CRM_Core_Error')) {
+            return $error;
+        }
+    }
+    
+    $participant = crm_create_participant($params, $params['contact_id']);
+    return $participant;
+}
+
+function &crm_update_participant_formatted( &$params, $overwrite = true) 
+{
+    if( ! ( $params['id'] = CRM_Event_BAO_Participant::checkParticipantExists($params) ) ) {
+        return _crm_error("Could not find valid participant");
+    }
+    return crm_update_participant( $params );
+}
+
 ?>
