@@ -270,9 +270,18 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
     {
         // delete price fields
         require_once 'CRM/Core/DAO/PriceField.php';
+        require_once 'CRM/Core/DAO/CustomOption.php';
         $priceField =& new CRM_Core_DAO_PriceField();
         $priceField->price_set_id = $id;
-        $priceField->delete();
+        $priceField->find();
+        while ( $priceField->fetch() ) {
+            // delete options first
+            $customOption =& new CRM_Core_DAO_CustomOption();
+            $customOption->entity_table = 'civicrm_price_field';
+            $customOption->entity_id = $priceField->id;
+            $customOption->delete();
+            $priceField->delete();
+        }
 
         $set =& new CRM_Core_DAO_PriceSet();
         $set->id = $id;

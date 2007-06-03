@@ -321,25 +321,11 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         require_once 'CRM/Utils/Weight.php';
 
         // delete options
-        $dependencies = array(
-                              'CRM_Core_DAO_CustomOption' => array ( 
-                                                                    'entity_id'       => $id,
-                                                                    'entity_table'    => 'civicrm_price_field'
-                                                                    )
-                              );
-        
-        foreach( $dependencies as $daoName => $values ) {
-            require_once ( str_replace( '_', '/', $daoName) . ".php" );
-            eval('$dao= new ' . $daoName . '();');
-            foreach( $values as $field => $value ) {
-                $dao->$field = $value;
-            }
-            
-            $dao->find( );
-            while( $dao->fetch( ) ) {
-                $dao->delete( );
-            }
-        }
+        require_once( 'CRM/Core/DAO/CustomOption.php' );
+        $customOption =& new CRM_Core_DAO_CustomOption();
+        $customOption->entity_table = 'civicrm_price_field';
+        $customOption->entity_id = $id;
+        $customOption->delete();
         
         //delete field
         $field = & new CRM_Core_DAO_PriceField();
