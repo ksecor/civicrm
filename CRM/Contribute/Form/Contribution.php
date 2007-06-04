@@ -734,7 +734,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $template =& CRM_Core_Smarty::singleton( );
             $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
 
-            $subject = 'Receipt: Of line Contribution Received';
+            $subject = 'Receipt: Off line Contribution Received';
             $receiptFrom = '"' . $formValues['receipt_from_name'] . '" <' . $formValues['receipt_from_email'] . '>';
          
             require_once 'CRM/Utils/Mail.php';
