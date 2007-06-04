@@ -62,6 +62,8 @@ class CRM_Contact_Form_Household
         // nick_name
         $form->addElement('text', 'nick_name', ts('Nick Name'),
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
+        $form->addElement('text', 'contact_source', ts('Source'));
+        $form->addElement('text', 'external_identifier', ts('External Id'));
     }
     
     /**

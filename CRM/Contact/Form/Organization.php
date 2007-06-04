@@ -75,6 +75,8 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
                                        ));
         $form->addRule('home_URL', ts('Enter a valid Website.'), 'url');
 
+        $form->addElement('text', 'contact_source', ts('Source'));
+        $form->addElement('text', 'external_identifier', ts('External Id'));
     }
 
     static function formRule( &$fields ,&$files, $options) {

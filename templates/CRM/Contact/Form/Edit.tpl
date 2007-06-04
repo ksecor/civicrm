@@ -65,23 +65,24 @@
 {elseif $contact_type eq 'Household'}
 <div id="name">
  <fieldset><legend>{ts}Household{/ts}</legend>
-    <div class="form-item">
-        <span class="labels">{$form.household_name.label}</span>
-        <span class="fields">
-            {$form.household_name.html|crmReplace:class:big}
-        </span>
-    </div>
-
-    <div class="form-item">
-        <span class="labels">{$form.nick_name.label}</span>
-        <span class="fields">
-            {$form.nick_name.html|crmReplace:class:big}
-        </span>
-    </div>
-
-    <!-- Spacer div forces fieldset to contain floated elements -->
-    <div class="spacer"></div>
-
+   	<table class="form-layout">
+    <tr>
+		<td>{$form.household_name.label}</td>
+        <td>{$form.contact_source.label}</td>
+    </tr>
+    <tr>
+        <td>{$form.household_name.html|crmReplace:class:big}</td>
+        <td>{$form.contact_source.html}</td>
+    </tr>
+    <tr>
+       	<td>{$form.nick_name.label}</td>
+        <td>{$form.external_identifier.label}</td>        
+	</tr>
+    <tr>
+        <td>{$form.nick_name.html|crmReplace:class:big}</td>
+        <td>{$form.external_identifier.html}</td>        
+    </tr>
+    </table>
     {$form._qf_Edit_refresh_dedupe.html}    
     {if $isDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_duplicate.html}{/if}
     <div class="spacer"></div>
@@ -98,19 +99,24 @@
 		<td>{$form.organization_name.label}</td>
 		<td>{$form.legal_name.label}</td>
 		<td>{$form.sic_code.label}</td>
+        <td>{$form.contact_source.label}</td>
+        
     </tr>
     <tr>
         <td>{$form.organization_name.html|crmReplace:class:big}</td>
         <td>{$form.legal_name.html|crmReplace:class:big}</td>
-        <td>{$form.sic_code.html}</td>
+        <td>{$form.sic_code.html |crmReplace:class:big}</td>
+        <td>{$form.contact_source.html}</td>
     </tr>
     <tr>
         <td>{$form.home_URL.label}</td>
-		<td colspan="2">{$form.nick_name.label}</td>
+		<td>{$form.nick_name.label}</td>
+        <td>{$form.external_identifier.label}</td>        
 	</tr>
     <tr>
         <td>{$form.home_URL.html|crmReplace:class:big}</td>
-        <td colspan="2">{$form.nick_name.html|crmReplace:class:big}</td>
+        <td>{$form.nick_name.html|crmReplace:class:big}</td>
+        <td>{$form.external_identifier.html}</td>        
     </tr>
     </table>
     {$form._qf_Edit_refresh_dedupe.html}    
