@@ -1801,17 +1801,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         // set details in the template here
         $template->assign( 'email', $email );
         $template->assign( 'displayName',$displayName);            
-        $template->assign( 'currentDate',date('j-m-y') );
+        $template->assign( 'currentDate',date('r') );
         $template->assign( 'contactLink',$contactLink);
         
         $subject = trim( $template->fetch( 'CRM/UF/Form/NotifySubject.tpl' ) );
         $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );             
-         
+        $emailFrom = '"' . $displayName . '" <' . $email . '>';
+       
         if($message) {
             require_once 'CRM/Utils/Mail.php';
-            foreach ( $emailList as $emailTo ) {   
-                CRM_Utils_Mail::send( $email,
-                                      $displayName,
+            foreach ( $emailList as $emailTo ) {  
+                CRM_Utils_Mail::send( $emailFrom,
+                                      "",
                                       $emailTo,
                                       $subject,
                                       $message,
