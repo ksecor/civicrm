@@ -29,9 +29,9 @@ must input these values before your can process TEST or LIVE transactions. Refer
             <dt>{$form.paymentExpressButton.label}</dt><dd>{$form.paymentExpressButton.html}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}URL to the button image used for the PayPal Express service. Keep the default value, unless you want to use a different button image.{/ts}</dd>
             <dt>{$form.paymentPayPalExpressTestUrl.label}</dt><dd>{$form.paymentPayPalExpressTestUrl.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}TEST URL for the PayPal processing service gateway. Keep the default value, unless you need to connect to a specific international PayPal processing host.{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}TEST URL for the PayPal processing service gateway. Keep the default value, unless PayPal has instructed you to connect to a different processing host URL.{/ts}</dd>
             <dt>{$form.paymentPayPalExpressUrl.label}</dt><dd>{$form.paymentPayPalExpressUrl.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}LIVE URL for PayPal processing service gateway. Keep the default value, unless you need to connect to a specific international PayPal processing host.{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}LIVE URL for PayPal processing service gateway. Keep the default value, unless PayPal has instructed you to connect to a different processing host URL.{/ts}</dd>
             </dl>           
             </div>
             
