@@ -69,7 +69,7 @@ class CRM_Admin_Page_DupeRules extends CRM_Core_Page_Basic
                   CRM_Core_Action::UPDATE  => array(
                       'name'  => ts('Edit Rule'),
                       'url'   => 'civicrm/admin/duperules',
-                      'qs'    => 'action=update&id=%%id%%&advance=0',
+                      'qs'    => 'action=update&id=%%id%%',
                       'title' => ts('Edit DupeRule'),
                   ),
               );

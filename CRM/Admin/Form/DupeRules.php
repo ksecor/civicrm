@@ -43,8 +43,7 @@ require_once 'CRM/Dedupe/DAO/RuleGroup.php';
  */
 class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
 {
-    protected $_rgid;
-    protected $_threshold;
+    protected $_defaults = array();
 
     /**
      * Function to pre processing
@@ -59,13 +58,16 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
         $rgDao->domain_id = CRM_Core_Config::domainID();
         $rgDao->id        = $rgid;
         $rgDao->find(true);
-        $this->_threshold = $rgDao->threshold;
-        $this->_rgid      = $rgid;
-        $ruleDao          =& new CRM_Dedupe_DAO_Rule();
+        $this->_defaults['threshold'] = $rgDao->threshold;
+
+        $ruleDao =& new CRM_Dedupe_DAO_Rule();
         $ruleDao->dedupe_rule_group_id = $rgid;
         $ruleDao->find();
+        $count = 0;
         while ($ruleDao->fetch()) {
-            // get them, tiger
+            $this->_defaults["where_$count"]  = "{$ruleDao->rule_table}.{$ruleDao->rule_field}";
+            $this->_defaults["length_$count"] = $ruleDao->rule_length;
+            $this->_defaults["weight_$count"] = $ruleDao->rule_weight;
         }
     }
 
@@ -77,12 +79,29 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
      */
     public function buildQuickForm()
     {
-        // FIXME: do the build
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $importableFields = CRM_Contact_BAO_Contact::importableFields($rgDao->contact_type);
+        $fields = array();
+        foreach ($importableFields as $iField) {
+            if (isset($iField['where'])) {
+                list($table, $column) = explode('.', $iField['where']);
+                $fields[] = array('title' => $iField['title'], 'table' => $table, 'column' => $column);
+            }
+        }
 
+        $this->add('text', 'threshold', ts('Threshold'), null, true);
+        $this->addButtons(array(
+            array('type' => 'next',   'name' => ts('Save'), 'isDefault' => true),
+            array('type' => 'cancel', 'name' => ts('Cancel')),
+        ));
         parent::buildQuickForm();
     }
 
-       
+    function setDefaultValues()
+    {
+        return $this->_defaults;
+    }
+
     /**
      * Function to process the form
      *
