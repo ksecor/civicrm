@@ -920,7 +920,8 @@ civicrm_membership_status.is_current_member =1";
      * @access public
      * 
      **/
-    static function renewMembership( $contactID, $membershipTypeID, $is_test, $form = null)
+    static function renewMembership( $contactID, $membershipTypeID, $is_test, 
+                                     $form = null, $changeToday = null)
     {
         if ( $currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID,  $membershipTypeID) ) {
             if ( $form ) {
@@ -931,24 +932,11 @@ civicrm_membership_status.is_current_member =1";
                 // membership is not CURRENT
                 require_once 'CRM/Member/BAO/MembershipStatus.php';
                 $membership =& new CRM_Member_DAO_Membership();
-                $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id']);
+                $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id'], $changeToday );
                 $currentMembership['join_date'] = CRM_Utils_Date::customFormat($currentMembership['join_date'],'%Y%m%d');
                 $currentMembership['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
                 $currentMembership['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
                 $currentMembership['reminder_date'] = CRM_Utils_Date::customFormat($dates['reminder_date'],'%Y%m%d'); 
-                
-                // membership status will change as per the new start
-                // and end dates.
-                $membershipStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
-                                                 CRM_Utils_Date::customFormat($dates['start_date'],
-                                                                              '%Y-%m-%d'),
-                                                 CRM_Utils_Date::customFormat($dates['end_date'],
-                                                                              '%Y-%m-%d'),
-                                                 CRM_Utils_Date::customFormat($currentMembership['join_date'],
-                                                                              '%Y-%m-%d')
-                                                 );
-                
-                $currentMembership['status_id'] = $membershipStatus['id'];
                 
                 if ( $form ) {
                     $currentMembership['source']     = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
@@ -956,6 +944,22 @@ civicrm_membership_status.is_current_member =1";
                 
                 $currentMembership['is_test']    = $is_test;
                 $membership->copyValues($currentMembership);
+                $membership->save();
+                
+                // membership status will change as per the new start
+                // and end dates.
+                $membershipStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
+                                                 CRM_Utils_Date::customFormat( $membership->start_date,
+                                                                               '%Y-%m-%d'),
+                                                 CRM_Utils_Date::customFormat( $membership->end_date,
+                                                                               '%Y-%m-%d'),
+                                                 CRM_Utils_Date::customFormat( $membership->join_date,
+                                                                               '%Y-%m-%d')
+                                                 );
+                
+                //$currentMembership['status_id'] =
+                //$membershipStatus['id'];
+                $membership->status_id = $membershipStatus['id'];
                 $membership->save();
                 
                 //insert log here 
@@ -981,10 +985,17 @@ civicrm_membership_status.is_current_member =1";
                 $membership = &new CRM_Member_DAO_Membership();
                 $membership->id = $currentMembership['id'];
                 $membership->find(true); 
-                
-                //insert log here 
+                                
                 require_once 'CRM/Member/DAO/MembershipLog.php';
-                $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id);
+                $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id , 
+                                                                                          $changeToday );
+                // Insert renewed dates for CURRENT membership                  
+                $membership->join_date  = CRM_Utils_Date::isoToMysql( $membership->join_date );
+                $membership->start_date = CRM_Utils_Date::isoToMysql( $membership->start_date );
+                $membership->end_date   = CRM_Utils_Date::customFormat( $dates['end_date'],'%Y%m%d' );
+                $membership->save( );
+                
+                //Now insert the log for renewal 
                 $dao = new CRM_Member_DAO_MembershipLog();
                 $dao->membership_id = $membership->id;
                 $dao->status_id     = $membership->status_id;
@@ -994,13 +1005,6 @@ civicrm_membership_status.is_current_member =1";
                 $dao->modified_id   = $contactID;
                 $dao->modified_date = date('Ymd');
                 $dao->save();
-
-                // Modify the membership dates as well while renewing
-                // CURRENT membership.  
-                $membership->join_date  = CRM_Utils_Date::isoToMysql( $membership->join_date );
-                $membership->start_date = CRM_Utils_Date::isoToMysql( $membership->start_date );
-                $membership->end_date   = CRM_Utils_Date::customFormat( $dates['end_date'],'%Y%m%d' );
-                $membership->save( );
                 
                 if ( $form ) {
                     $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));

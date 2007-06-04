@@ -11,12 +11,12 @@ VALUES
 	(1, 'S7', 'Membership Type Created for testing Scenario 7', 1, 1, 50.00, 'day', 30, 'rolling', NULL, NULL, NULL, NULL, 'Admin', 10, NULL, NULL, 1),
 	(1, 'S8', 'Membership Type Created for testing Scenario 8', 1, 1, 60.00, 'day', 30, 'fixed', 0501, 0518, NULL, NULL, 'Admin', 11, NULL, NULL, 1),
 	(1, 'S9', 'Membership Type Created for testing Scenario 9', 1, 1, 50.00, 'year', 1, 'rolling', NULL, NULL, NULL, NULL, 'Admin', 12, NULL, NULL, 1),
-	(1, 'S10', 'Membership Type Created for testing Scenario 10', 1, 1, 60.00, 'year', 1, 'fixed', 0701, 0501, NULL, NULL, 'Admin', 13, NULL, NULL, 1),
+	(1, 'S10', 'Membership Type Created for testing Scenario 10', 1, 1, 60.00, 'year', 1, 'fixed', 0101, 1101, NULL, NULL, 'Admin', 13, NULL, NULL, 1),
 	(1, 'S11', 'Membership Type Created for testing Scenario 11', 1, 1, 50.00, 'month', 1, 'rolling', NULL, NULL, NULL, NULL, 'Admin', 14, NULL, NULL, 1),
 	(1, 'S12', 'Membership Type Created for testing Scenario 12', 1, 1, 60.00, 'month', 1, 'fixed', 0501,0520, NULL, NULL, 'Admin', 15, NULL, NULL, 1),
 	(1, 'S13', 'Membership Type Created for testing Scenario 13', 1, 1, 50.00, 'day', 30, 'rolling', NULL, NULL, NULL, NULL, 'Admin', 16, NULL, NULL, 1),
 	(1, 'S14', 'Membership Type Created for testing Scenario 14', 1, 1, 60.00, 'day', 30, 'fixed', 0501, 0518, NULL, NULL, 'Admin', 17, NULL, NULL, 1),
-	(1, 'S15', 'Membership Type Created for testing Scenario 15', 1, 1, 60.00, 'year', 1, 'fixed', 0701, 0601, NULL, NULL, 'Admin', 18, NULL, NULL, 1),
+	(1, 'S15', 'Membership Type Created for testing Scenario 15', 1, 1, 60.00, 'year', 1, 'fixed', 0101, 1101, NULL, NULL, 'Admin', 18, NULL, NULL, 1),
 	(1, 'S16', 'Membership Type Created for testing Scenario 16', 1, 1, 60.00, 'month', 1, 'fixed', 0520,0615, NULL, NULL, 'Admin', 19, NULL, NULL, 1),
 	(1, 'S17', 'Membership Type Created for testing Scenario 17', 1, 1, 50.00, 'year', 1, 'rolling', NULL, NULL, NULL, NULL, 'Admin', 20, NULL, NULL, 1),
 	(1, 'S18', 'Membership Type Created for testing Scenario 18', 1, 1, 60.00, 'year', 1, 'fixed', 0501, 1201, NULL, NULL, 'Admin', 21, NULL, NULL, 1);
@@ -109,9 +109,9 @@ VALUES
 INSERT INTO `civicrm_membership` 
 (`contact_id`, `membership_type_id`, `join_date`, `start_date`, `end_date`, `source`, `status_id`, `is_override`, `reminder_date`, `owner_membership_id`, `is_test`) 
 VALUES 
-(55, @membership_type_id_S10, '2004-05-02', '2003-07-01', '2005-06-30', 'Payment', 4, NULL, NULL, NULL, 0),
-(64, @membership_type_id_S10, '2004-05-12', '2003-07-01', '2005-06-30', 'Check', 4, NULL, NULL, NULL, 0),
-(82, @membership_type_id_S10, '2004-05-27', '2003-07-01', '2005-06-30', 'Payment', 4, NULL, NULL, NULL, 0);
+(55, @membership_type_id_S10, '2004-11-02', '2004-01-01', '2005-12-31', 'Payment', 4, NULL, NULL, NULL, 0),
+(64, @membership_type_id_S10, '2004-11-12', '2004-01-01', '2005-12-31', 'Check', 4, NULL, NULL, NULL, 0),
+(82, @membership_type_id_S10, '2004-11-27', '2004-01-01', '2005-12-31', 'Payment', 4, NULL, NULL, NULL, 0);
 -- S11
 INSERT INTO `civicrm_membership` 
 (`contact_id`, `membership_type_id`, `join_date`, `start_date`, `end_date`, `source`, `status_id`, `is_override`, `reminder_date`, `owner_membership_id`, `is_test`) 
@@ -144,9 +144,9 @@ VALUES
 INSERT INTO `civicrm_membership` 
 (`contact_id`, `membership_type_id`, `join_date`, `start_date`, `end_date`, `source`, `status_id`, `is_override`, `reminder_date`, `owner_membership_id`, `is_test`) 
 VALUES 
-(55, @membership_type_id_S15, '2005-05-03', '2004-07-01', '2005-06-30', 'Payment', 4, NULL, NULL, NULL, 0),
-(64, @membership_type_id_S15, '2005-05-12', '2004-07-01', '2005-06-30', 'Check', 4, NULL, NULL, NULL, 0),
-(82, @membership_type_id_S15, '2005-05-30', '2004-07-01', '2005-06-30', 'Payment', 4, NULL, NULL, NULL, 0);
+(55, @membership_type_id_S15, '2004-10-03', '2004-01-01', '2004-12-31', 'Payment', 4, NULL, NULL, NULL, 0),
+(64, @membership_type_id_S15, '2004-10-12', '2004-01-01', '2004-12-31', 'Check', 4, NULL, NULL, NULL, 0),
+(82, @membership_type_id_S15, '2004-10-30', '2004-01-01', '2004-12-31', 'Payment', 4, NULL, NULL, NULL, 0);
 -- S16
 INSERT INTO `civicrm_membership` 
 (`contact_id`, `membership_type_id`, `join_date`, `start_date`, `end_date`, `source`, `status_id`, `is_override`, `reminder_date`, `owner_membership_id`, `is_test`) 

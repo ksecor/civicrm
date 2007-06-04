@@ -644,7 +644,33 @@ class CRM_Utils_Date {
 
         return ( $mysqlDate >= $now ) ? false : true;
     }
-
+    
+    /**
+     * Function to get customized today
+     *
+     * This function is used for getting customized today. To get
+     * actuall today pass 'dayParams' as null. or else pass the day,
+     * month, year values as array values
+     * Example: $dayParams = array( 'day' => '25', 'month' => '10',
+     *                              'year' => '2007' ); 
+     * 
+     * @param  Array $dayParams   Array of the day, month, year values.
+     * 
+     * @return string  Return the customized todays date (Y-m-d)
+     * @static
+     */
+    static function getToday( $dayParams = null )
+    {
+        if ( is_null( $dayParams ) || empty( $dayParams ) ) {
+            $today = date( "Y-m-d" );
+        } else {
+            $today = date( "Y-m-d", mktime( 0, 0, 0, 
+                                            $dayParams['month'], 
+                                            $dayParams['day'], 
+                                            $dayParams['year'] ) );
+        }
+        
+        return $today;
+    }
 }
-
 ?>
