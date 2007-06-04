@@ -1,0 +1,14 @@
+ /*******************************************************
+-- *
+-- * modifying tables
+-- *
+-- *******************************************************/
+
+-- /*******************************************************
+-- *
+-- * civicrm_uf_group
+-- *
+-- *******************************************************/
+
+	ALTER TABLE `civicrm_uf_group` ADD `notify` varchar(255) NULL DEFAULT NULL COMMENT 'If you want member(s) of your organization to receive a notification email whenever this Profile form is used to enter or update contact information, enter one or more email addresses here separated by a comma';
+       
