@@ -674,23 +674,26 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                 ( $customFields[$customFieldID][2] == "Float" ) ||
                 ( $customFields[$customFieldID][2] == "Money" ) ) { 
                 
+                //Intialize the variable
+                $valid     = null;
+                $fieldType = null;
+
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID);
                 foreach( $customOption as $v1 ) {
-                    //If custom option do not match with params value($value), 
-                    //then continue, otherwise set fieldType to "String"
-                    
-                    if ( ! ( strtolower($v1['label']) == strtolower( trim( $value ) ) ) ) {
-                        continue ;
+
+                    //check wether $value is label or value
+                    if ( ( strtolower($v1['label']) == strtolower( trim( $value ) ) ) ) {
+                        $fieldType = "String";
+                    } else if ( ( strtolower($v1['value']) == strtolower( trim( $value ) ) ) ) {
+                        $fieldType = $customFields[$customFieldID][2];
                     }
-                    
-                    $fieldType = "String";
                 }
             } else {
                 //set the Field type 
                 $fieldType = $customFields[$customFieldID][2];
             }
             
-            //validate the datatype of $value
+            //Validate the datatype of $value
             $valid = CRM_Core_BAO_CustomValue::typecheck( $fieldType, $value);
             
             //return error, if not valid custom field
