@@ -44,7 +44,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
      *
      * @return void
      */
-    function __construct( $mode,, &$paymentProcessor ) {
+    function __construct( $mode, &$paymentProcessor ) {
         $this->_mode = $mode;
         $this->_paymentProcessor = $paymentProcessor;
 
