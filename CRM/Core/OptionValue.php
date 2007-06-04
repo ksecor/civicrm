@@ -235,15 +235,23 @@ class CRM_Core_OptionValue {
             
             if( $mode == 'contribute' ) {
                 $nameTitle = array('payment_instrument' => array('name' =>'payment_instrument',
-                                                                 'title'=> 'Payment Instrument')
+                                                                 'title'=> 'Payment Instrument',
+                                                                 'headerPattern' => '/^payment|(p(ayment\s)?instrument)$/i'
+                                                                 )
                                    );
             } else if ( $mode == '' ) {
                 $nameTitle = array('gender'            => array('name' => 'gender',
-                                                                'title'=> 'Gender'),
+                                                                'title'=> 'Gender',
+                                                                'headerPattern' => '/^gender$/i'
+                                                                ),
                                    'individual_prefix' => array('name' => 'individual_prefix',
-                                                                'title'=> 'Individual Prefix'),
+                                                                'title'=> 'Individual Prefix',
+                                                                'headerPattern' => '/^(prefix|title)/i'
+                                                                ),
                                    'individual_suffix' => array('name' => 'individual_suffix',
-                                                                'title'=> 'Individual Suffix')
+                                                                'title'=> 'Individual Suffix',
+                                                                'headerPattern' => '/^suffix$/i'
+                                                                ),
                                    );
             }
 
