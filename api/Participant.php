@@ -152,14 +152,43 @@ function crm_update_participant($params)
                 $participantBAO->$name = $params[$name];
             }
         }
-        
+               
         //fix the dates 
         foreach ( $datefields as $key => $value ) {
             $participantBAO->$key  = CRM_Utils_Date::customFormat($participantBAO->$key,'%Y%m%d');
         }
         $participantBAO->save();
     }
-    
+    if (is_array($params['custom'])) {
+        foreach ($params['custom'] as $customValue) {
+            /* get the field for the data type */
+            $field = CRM_Core_BAO_CustomValue::typeToField($customValue['type']);
+            if (! $field) {
+                /* FIXME failure! */
+                continue;
+            }
+            
+            /* adjust the value if it's boolean */
+            if ($customValue['type'] == 'Boolean') {
+                $value = CRM_Utils_String::strtobool($customValue['value']);
+            } if ($customValue['type'] == 'Date') {
+                $value = preg_replace('/[^0-9]/', '', $customValue['value']);
+            } else {
+                $value = $customValue['value'];
+            }
+            
+            /* look for a matching existing custom value */
+            $match = false;
+            $customBAO=& new CRM_Core_BAO_CustomValue( );
+            $customBAO->custom_field_id = $customValue['custom_field_id'];
+            $customBAO->entity_table = 'civicrm_participant';
+            $customBAO->entity_id =  $participantBAO->id;
+            if ($customBAO->find(true)) {
+                $customBAO->$field = $value;
+                $customBAO->save();
+            }
+        }
+    }
     $participant = array();
     _crm_object_to_array( $participantBAO, $participant );
     return $participant;
