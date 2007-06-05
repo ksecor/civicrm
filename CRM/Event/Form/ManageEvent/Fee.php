@@ -113,6 +113,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         if ( !$defaults['is_monetary'] ) {
             $this->_showHide->addHide( 'event-fees' );
         }
+
         if ( isset($defaults['price_set_id']) ) {
             $this->_showHide->addHide( 'map-field' );
         }
@@ -204,10 +205,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
 
             if ( !$check && !$values['price_set_id'] ) {
                 if ( !$values['label'][1] ) {
-                    $errorMsg['label[1]'] = "Please enter Fee Label.";
+                    $errorMsg['label[1]'] = "Please enter a label for at least one fee level.";
                 }
                 if ( !$values['value'][1] ) {
-                    $errorMsg['value[1]'] = "Please enter Fee Amount.";
+                    $errorMsg['value[1]'] = "Please enter an amount for at least one fee level.";
                 }
             }
             

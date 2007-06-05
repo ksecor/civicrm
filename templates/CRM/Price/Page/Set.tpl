@@ -6,8 +6,46 @@
     {include file="CRM/Price/Form/DeleteSet.tpl"}
 {else}
     <div id="help">
-    {ts}Price Sets allow you to have optional items with associated prices.  Use this if having a single set of fee levels is not sufficient for the event.{/ts}
+        {ts}Price sets allow you to set up multiple event registration options with associated fees (e.g. pre-conference workshops, additional meals, etc.).
+        Configure Price Sets for events which need more than a single set of fee levels.{/ts}
     </div>
+
+    {if $usedBy}
+    <div class='spacer'></div>
+    <div id="price_set_used_by" class="messages status">
+      <dl>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
+      <dd>
+        {if $action eq 8}
+            {ts 1=$usedPriceSetTitle}Unable to delete the "%1" price set - it is currently in use by one or more active events.{/ts}
+        {elseif $action eq 64}
+            {ts 1=$usedPriceSetTitle}Unable to disable the "%1" price set - it is currently in use by one or more active events.{/ts}
+        {/if}
+        {ts}If you no longer want to use this price set, click the event title below, and modify the fees for that event.{/ts}<br />
+        
+        {if $usedBy.civicrm_event_page} {* If and when Price Sets are used by entities other than events, add condition here and change text above. *}
+            <table class="report">
+            <tr class="columnheader-dark">
+                <th scope="col">{ts}Event{/ts}</th>
+                <th scope="col">{ts}Type{/ts}</th>
+                <th scope="col">{ts}Public{/ts}</th>
+                <th scope="col">{ts}Date(s){/ts}</th>
+            </tr>
+
+            {foreach from=$usedBy.civicrm_event_page item=event key=id}
+                <tr>
+                    <td><a href="{crmURL p="civicrm/admin/event" q="action=update&reset=1&subPage=Fee&id=`$id`"}">{$event.title}</a></td>
+                    <td>{$event.eventType}</td>
+                    <td>{if $event.isPublic}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
+                    <td>{$event.startDate}{if $event.endDate}&nbsp;to&nbsp;{$event.endDate}{/if}</td>
+                </tr>
+            {/foreach}
+            </table>
+        {/if}
+      </dd>
+      </dl>
+    </div>
+    {/if}
 
     {if $rows}
     <div id="price_set">
@@ -52,35 +90,4 @@
        </div>
        {/if}
     {/if}
-
-    {if $usedBy}
-    <div id="price_set_used_by">
-        {if $action eq 8}
-        <p>{ts 1=$usedPriceSetTitle}Unable to delete the price set "%1" - it is in use by the following forms:{/ts}</p>
-        {elseif $action eq 64}
-        <p>{ts 1=$usedPriceSetTitle}Unable to disable the price set "%1" - it is in use by the following forms:{/ts}</p>
-        {/if}
-        {if $usedBy.civicrm_event_page}
-        <p>{ts}Events:{/ts}</p>
-        <table class="report">
-        <tr class="columnheader-dark">
-            <th scope="col">{ts}Event{/ts}</th>
-            <th scope="col">{ts}Type{/ts}</th>
-            <th scope="col">{ts}Public{/ts}</th>
-            <th scope="col">{ts}Date(s){/ts}</th>
-        </tr>
-
-            {foreach from=$usedBy.civicrm_event_page item=event key=id}
-        <tr>
-            <td><a href="{crmURL p="civicrm/admin/event" q="action=update&reset=1&id=`$id`"}">{$event.title}</a></td>
-            <td>{$event.eventType}</td>
-            <td>{if $event.isPublic}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
-            <td>{$event.startDate}{if $event.endDate}&nbsp;to&nbsp;{$event.endDate}{/if}</td>
-        </tr>
-            {/foreach}
-        </table>
-        {/if}
-    </div>
-    {/if}
-
 {/if}

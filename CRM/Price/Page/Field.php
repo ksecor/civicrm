@@ -84,7 +84,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                                                                           'title' => ts('Edit Price') 
                                                                           ),
                                         CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Preview Price Display'),
+                                                                          'name'  => ts('Preview Field'),
                                                                           'url'   => 'civicrm/admin/price/field',
                                                                           'qs'    => 'action=preview&reset=1&gid=%%gid%%&id=%%id%%',
                                                                           'title' => ts('Preview Price'),

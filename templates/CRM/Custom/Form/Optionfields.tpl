@@ -5,7 +5,7 @@
 	{strip}
 	<table>
 	<tr><th>&nbsp;</th>
-	    <th> {ts}Defaults{/ts}</th>
+	    <th> {ts}Default{/ts}</th>
         <th> {ts}Label{/ts}</th>
         <th> {ts}Value{/ts}</th>
         <th> {ts}Weight{/ts}</th>

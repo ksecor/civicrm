@@ -23,12 +23,12 @@
         <div id="priceSet">
             <dl>
             <dt>{$form.price_set_id.label}</dt><dd>{$form.price_set_id.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts 1=$adminPriceSets}Select a pre-configured Price Set to offer multiple individually priced options for event registrants. Otherwise, select &quot;- none -&quot, and enter one or more fee levels in the table below. Create or edit Price Sets <a href="%1">here</a>.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts 1=$adminPriceSets}Select a pre-configured Price Set to offer multiple individually priced options for event registrants. Otherwise, select &quot;-none-&quot, and enter one or more fee levels in the table below. Create or edit Price Sets <a href="%1">here</a>.{/ts}</dd>
             </dl>
         </div>
         
-        <fieldset id="map-field">
-        <p>{ts}Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}</p>
+        <fieldset id="map-field"><legend>{ts}Fee Levels{/ts}</legend>
+        <p>{ts}Use the table below to enter descriptive labels and amounts for up to ten event fee levels. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}</p>
         <table id="map-field-table">
         <tr class="columnheader"><th scope="column">{ts}Fee Label{/ts}</th><th scope="column">{ts}Amount{/ts}</th><th scope="column">{ts}Default?{/ts}</th></tr>
         {section name=loop start=1 loop=11}
@@ -46,3 +46,12 @@
 </div>
 
 {include file="CRM/common/showHide.tpl"}
+
+{literal} 
+<script type="text/javascript">
+// Re-show Fee Level grid if Price Set select has been set to none.
+if ( document.getElementById('price_set_id').options[document.getElementById('price_set_id').selectedIndex].value == '' ) {
+    show( 'map-field' );
+}
+</script>
+{/literal}
