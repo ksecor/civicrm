@@ -43,7 +43,10 @@ require_once 'CRM/Dedupe/DAO/RuleGroup.php';
  */
 class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
 {
+    const RULES_COUNT = 5;
     protected $_defaults = array();
+    protected $_fields   = array();
+    protected $_rgid;
 
     /**
      * Function to pre processing
@@ -53,21 +56,30 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
      */
     function preProcess()
     {
-        $rgid             = CRM_Utils_Request::retrieve('id', 'Positive', $this, false, 0);
+        $this->_rgid      = CRM_Utils_Request::retrieve('id', 'Positive', $this, false, 0);
         $rgDao            =& new CRM_Dedupe_DAO_RuleGroup();
         $rgDao->domain_id = CRM_Core_Config::domainID();
-        $rgDao->id        = $rgid;
+        $rgDao->id        = $this->_rgid;
         $rgDao->find(true);
         $this->_defaults['threshold'] = $rgDao->threshold;
 
         $ruleDao =& new CRM_Dedupe_DAO_Rule();
-        $ruleDao->dedupe_rule_group_id = $rgid;
+        $ruleDao->dedupe_rule_group_id = $this->_rgid;
         $ruleDao->find();
         $count = 0;
         while ($ruleDao->fetch()) {
             $this->_defaults["where_$count"]  = "{$ruleDao->rule_table}.{$ruleDao->rule_field}";
             $this->_defaults["length_$count"] = $ruleDao->rule_length;
             $this->_defaults["weight_$count"] = $ruleDao->rule_weight;
+            $count++;
+        }
+
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $importableFields = CRM_Contact_BAO_Contact::importableFields($rgDao->contact_type);
+        foreach ($importableFields as $iField) {
+            if (isset($iField['where'])) {
+                $this->_fields[$iField['where']] = $iField['title'];
+            }
         }
     }
 
@@ -79,17 +91,12 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
      */
     public function buildQuickForm()
     {
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $importableFields = CRM_Contact_BAO_Contact::importableFields($rgDao->contact_type);
-        $fields = array();
-        foreach ($importableFields as $iField) {
-            if (isset($iField['where'])) {
-                list($table, $column) = explode('.', $iField['where']);
-                $fields[] = array('title' => $iField['title'], 'table' => $table, 'column' => $column);
-            }
+        for ($count = 0; $count < self::RULES_COUNT; $count++) {
+            $this->add('select', "where_$count", ts('Field'), array(null => ts('- none -')) + $this->_fields);
+            $this->add('text', "length_$count", ts('Length'));
+            $this->add('text', "weight_$count", ts('Weight'));
         }
-
-        $this->add('text', 'threshold', ts('Threshold'), null, true);
+        $this->add('text', 'threshold', ts("Weight Threshold to Consider Two Contacts 'Matching':"));
         $this->addButtons(array(
             array('type' => 'next',   'name' => ts('Save'), 'isDefault' => true),
             array('type' => 'cancel', 'name' => ts('Cancel')),
@@ -110,7 +117,35 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
      */
     public function postProcess() 
     {
-        // FIXME; post process
+        $values = $this->exportValues();
+
+        $rgDao            =& new CRM_Dedupe_DAO_RuleGroup();
+        $rgDao->domain_id = CRM_Core_Config::domainID();
+        $rgDao->id        = $this->_rgid;
+        $rgDao->find(true);
+        $rgDao->threshold = $values['threshold'];
+        $rgDao->save();
+
+        $ruleDao =& new CRM_Dedupe_DAO_Rule();
+        $ruleDao->dedupe_rule_group_id = $this->_rgid;
+        $ruleDao->delete();
+        $ruleDao->free();
+
+        for ($count = 0; $count < self::RULES_COUNT; $count++) {
+            list($table, $field) = explode('.', $values["where_$count"]);
+            $length = $values["length_$count"];
+            $weight = $values["weight_$count"];
+            if ($table and $field) {
+                $ruleDao =& new CRM_Dedupe_DAO_Rule();
+                $ruleDao->dedupe_rule_group_id = $this->_rgid;
+                $ruleDao->rule_table           = $table;
+                $ruleDao->rule_field           = $field;
+                $ruleDao->rule_length          = $length;
+                $ruleDao->rule_weight          = $weight;
+                $ruleDao->save();
+                $ruleDao->free();
+            }
+        }
     }
     
 }
