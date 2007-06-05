@@ -53,17 +53,31 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         parent::preProcess( );
 
         // get the payment processor meta information
-        $this->_ppType = CRM_Utils_Request::retrieve( 'pp', 'String', $this, false, 'PayPal_Standard' );
+
+        if ( $this->_id ) {
+            $this->_ppType = CRM_Utils_Request::retrieve( 'pp', 'String', $this, false, null );
+            if ( ! $this->_ppType ) {
+                $this->_ppType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PaymentProcessor',
+                                                              $this->_id,
+                                                              'payment_processor_type' );
+            }
+            $this->set( 'pp', $this->_ppType );
+        } else {
+            $this->_ppType = CRM_Utils_Request::retrieve( 'pp', 'String', $this, true, null );
+        }
+
         require_once 'CRM/Core/DAO/PaymentProcessorType.php';
         $this->_ppDAO =& new CRM_Core_DAO_PaymentProcessorType( );
         $this->_ppDAO->name = $this->_ppType;
+
         if ( ! $this->_ppDAO->find( true ) ) {
             CRM_Core_Error::fatal( ts( 'Could not find payment processor meta information' ) );
         }
 
         if ( $this->_id ) {
             $refreshURL = CRM_Utils_System::url( 'civicrm/admin/paymentProcessor',
-                                                 "reset=1&action=update&id={$this->_id}" );
+                                                 "reset=1&action=update&id={$this->_id}",
+                                                 true, null, false );
         } else {
             $refreshURL = CRM_Utils_System::url( 'civicrm/admin/paymentProcessor',
                                                  "reset=1&action=add",
@@ -220,6 +234,11 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
                 $defaults[$testName] = $testDAO->{$field['name']};
             }
         }    
+
+        if ( $this->_ppType ) {
+            $defaults['payment_processor_type'] = $this->_ppType;
+        }
+
         return $defaults;
     }
 

@@ -40,7 +40,7 @@
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}" id="newPaymentProcessor">&raquo; {ts}New Payment Processor{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1&pp=PayPal"}" id="newPaymentProcessor">&raquo; {ts}New Payment Processor{/ts}</a>
         </div>
         {/if}
     </div>
@@ -49,7 +49,7 @@
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/admin/paymentProcessor' q="action=add&reset=1"}{/capture}
+        {capture assign=crmURL}{crmURL p='civicrm/admin/paymentProcessor' q="action=add&reset=1&pp=PayPal"}{/capture}
         <dd>{ts 1=$crmURL}There are no Payment Processors entered. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    
