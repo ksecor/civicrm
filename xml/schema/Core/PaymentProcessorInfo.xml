@@ -2,8 +2,8 @@
 
 <table>
   <base>CRM/Core</base>
-  <class>PaymentProcessor</class>
-  <name>civicrm_payment_processor</name>
+  <class>PaymentProcessorInfo</class>
+  <name>civicrm_payment_processor_info</name>
   <add>1.8</add>
   <field>
       <name>id</name>
@@ -31,7 +31,15 @@
   </foreignKey>
   <field>
        <name>name</name>
-       <title>Payment Processor</title>
+       <title>Payment Processor variable name to be used in code</title>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Payment Processor Name.</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>title</name>
+       <title>Payment Processor Title</title>
        <type>varchar</type>
        <length>64</length>
        <comment>Payment Processor Name.</comment>
@@ -45,13 +53,6 @@
        <add>1.8</add>
   </field>
   <field>
-      <name>processor_class_name</name>
-      <type>varchar</type>
-      <length>255</length>
-      <comment>Payment Processor Class Name.</comment>
-      <add>1.8</add>
-  </field>
-  <field>
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this processor active?</comment>
@@ -63,57 +64,36 @@
         <comment>Is this processor the default?</comment>
        <add>1.8</add>
   </field>
-  <field>
-        <name>is_test</name>
-        <type>boolean</type>
-        <comment>Is this processor for a test site?</comment>
-       <add>1.8</add>
-  </field>
   <index>
-    <name>UI_name_test</name>
+    <name>UI_name</name>
     <fieldName>name</fieldName>
-    <fieldName>is_test</fieldName>
     <unique>true</unique>
     <add>1.8</add>
   </index>
   <field>
-       <name>user_name</name>
-       <title>User Name</title>
+       <name>user_name_label</name>
+       <title>Label for User Name if used</title>
        <type>varchar</type>
        <length>255</length>
        <add>1.8</add>
   </field>
   <field>
-       <name>password</name>
-       <title>Password</title>
+       <name>password_label</name>
+       <title>Label for password</title>
        <type>varchar</type>
        <length>255</length>
        <add>1.8</add>
   </field>
   <field>
-       <name>signature</name>
-       <title>Signature</title>
+       <name>signature_label</name>
+       <title>Label for Signature</title>
        <type>varchar</type>
        <length>255</length>
        <add>1.8</add>
   </field>
   <field>
-       <name>url_site</name>
-       <title>Site URL</title>
-       <type>varchar</type>
-       <length>255</length>
-       <add>1.8</add>
-  </field>
-  <field>
-       <name>url_button</name>
-       <title>Button URL</title>
-       <type>varchar</type>
-       <length>255</length>
-       <add>1.8</add>
-  </field>
-  <field>
-       <name>subject</name>
-       <title>Subject</title>
+       <name>subject_label</name>
+       <title>Label for Subject</title>
        <type>varchar</type>
        <length>255</length>
        <add>1.8</add>
@@ -121,6 +101,34 @@
   <field>
        <name>class_name</name>
        <title>Suffix for PHP clas name implementation</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>url_site_default</name>
+       <title>Default Live Site URL</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>url_button_default</name>
+       <title>Default Live Button URL</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>url_site_test_default</name>
+       <title>Default Test Site URL</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>url_button_test_default</name>
+       <title>Default Test Button URL</title>
        <type>varchar</type>
        <length>255</length>
        <add>1.8</add>

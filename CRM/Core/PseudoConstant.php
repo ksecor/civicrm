@@ -202,11 +202,18 @@ class CRM_Core_PseudoConstant
     private static $pcm;
     
     /**
-     * location type
+     * payment processor
      * @var array
      * @static
      */
     private static $paymentProcessor;
+    
+    /**
+     * payment processor
+     * @var array
+     * @static
+     */
+    private static $paymentProcessorInfo;
     
     /**
      * populate the object from the database. generic populate
@@ -229,9 +236,9 @@ class CRM_Core_PseudoConstant
      * @static
      */
     public static function populate( &$var, $name, $all = false, $retrieve = 'name',
-                                     $filter = 'is_active', $condition = null, $orderby = null ) 
+                                     $filter = 'is_active', $condition = null, $orderby = null, $key = 'id' ) 
     {
-        $cacheKey = "{$name}_{$all}_{$retrieve}_{$filter}_{$condition}_{$orderby}";
+        $cacheKey = "{$name}_{$all}_{$key}_{$retrieve}_{$filter}_{$condition}_{$orderby}";
         $cache =& CRM_Utils_Cache::singleton( );
         $var = $cache->get( $cacheKey );
         if ( $var ) {
@@ -243,7 +250,7 @@ class CRM_Core_PseudoConstant
         
         $object->domain_id = CRM_Core_Config::domainID( );
         $object->selectAdd( );
-        $object->selectAdd( "id, $retrieve" );
+        $object->selectAdd( "$key, $retrieve" );
         if ($condition) {
             $object->whereAdd($condition);
         }
@@ -261,7 +268,7 @@ class CRM_Core_PseudoConstant
         $object->find( );
         $var = array( );
         while ( $object->fetch( ) ) {
-            $var[$object->id] = $object->$retrieve;
+            $var[$object->$key] = $object->$retrieve;
         }
 
         $cache->set( $cacheKey, $var );
@@ -930,6 +937,28 @@ class CRM_Core_PseudoConstant
         return self::$paymentProcessor;
     }
 
+    /**
+     * Get all active payment processors
+     *
+     * The static array paymentProcessor is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all  - get payment processors     - default is to get only active ones.
+     * @param boolean $test - get test payment processors
+     *
+     * @return array - array of all payment processors
+     *
+     */
+    public static function &paymentProcessorInfo( $all = false, $test = false )
+    {
+        if ( ! self::$paymentProcessorInfo ) {
+            self::populate( self::$paymentProcessorInfo, 'CRM_Core_DAO_PaymentProcessorInfo', $all, 
+                            'title', 'is_active', null, 'is_default, title', 'name' );
+        }
+        return self::$paymentProcessorInfo;
+    }
 }
 
 ?>

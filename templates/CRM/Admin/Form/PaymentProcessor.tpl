@@ -22,21 +22,37 @@
 <fieldset>
 <legend>Processor Details for Live Site</legend>
     <dt>{$form.user_name.label}</dt><dd>{$form.user_name.html}</dd>
+{if $form.password}
     <dt>{$form.password.label}</dt><dd>{$form.password.html}</dd>
+{/if}
+{if $form.signature}
     <dt>{$form.signature.label}</dt><dd>{$form.signature.html}</dd>
-    <dt>{$form.url_site.label}</dt><dd>{$form.url_site.html}</dd>
-    <dt>{$form.url_button.label}</dt><dd>{$form.url_button.html}</dd>
+{/if}
+{if $form.subject}
     <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
+{/if}
+    <dt>{$form.url_site.label}</dt><dd>{$form.url_site.html}</dd>
+{if $form.url_button}
+    <dt>{$form.url_button.label}</dt><dd>{$form.url_button.html}</dd>
+{/if}
 </fieldset>
 
 <fieldset>
 <legend>Processor Details for Test Site</legend>
     <dt>{$form.test_user_name.label}</dt><dd>{$form.test_user_name.html}</dd>
+{if $form.test_password}
     <dt>{$form.test_password.label}</dt><dd>{$form.test_password.html}</dd>
+{/if}
+{if $form.test_signature}
     <dt>{$form.test_signature.label}</dt><dd>{$form.test_signature.html}</dd>
-    <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html}</dd>
-    <dt>{$form.test_url_button.label}</dt><dd>{$form.test_url_button.html}</dd>
+{/if}
+{if $form.test_subject}
     <dt>{$form.test_subject.label}</dt><dd>{$form.test_subject.html}</dd>
+{/if}
+    <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html}</dd>
+{if $form.test_url_button}
+    <dt>{$form.test_url_button.label}</dt><dd>{$form.test_url_button.html}</dd>
+{/if}
 </fieldset>
 
 </dl>

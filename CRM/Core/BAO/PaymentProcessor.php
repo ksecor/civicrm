@@ -160,8 +160,8 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor {
         switch ( $result['processor'] ) {
 
         case 'PayPal_Standard':
-            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_NOTIFY;
-            $result['file']         = 'Payment_PayPalImpl';
+            $result['billing_mode']       = CRM_Core_Payment::BILLING_MODE_NOTIFY;
+            $result['file']               = 'Payment_PayPalImpl';
             $result['recur_contribution'] = true;
             break;
 

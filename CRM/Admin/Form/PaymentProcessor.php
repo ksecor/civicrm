@@ -47,27 +47,41 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
 
     protected $_fields = null;
 
+    protected $_ppDAO;
+
     function preProcess( ) {
         parent::preProcess( );
 
+        // get the payment processor meta information
+        $ppInfo = CRM_Utils_Request::retrieve( 'pp', 'String', $this, false, 'PayPal_Standard' );
+        require_once 'CRM/Core/DAO/PaymentProcessorInfo.php';
+        $this->_ppDAO =& new CRM_Core_DAO_PaymentProcessorInfo( );
+        $this->_ppDAO->name = $ppInfo;
+        if ( ! $this->_ppDAO->find( true ) ) {
+            CRM_Core_Error::fatal( ts( 'Could not find payment processor meta information' ) );
+        }
+                                   
         $this->_fields = array(
                                array( 'name'  => 'user_name',
-                                      'label' => ts( 'User Name' ) ),
+                                      'label' => $this->_ppDAO->user_name_label ),
                                array( 'name'  => 'password',
-                                      'label' => ts( 'Password' ) ),
+                                      'label' => $this->_ppDAO->password_label ),
                                array( 'name'  => 'signature',
-                                      'label' => ts( 'Signature' ) ),
+                                      'label' => $this->_ppDAO->signature_label ),
+                               array( 'name'  => 'subject',
+                                      'label' => $this->_ppDAO->subject_label ),
                                array( 'name'  => 'url_site',
                                       'label' => ts( 'Site URL' ),
                                       'rule'  => 'url',
                                       'msg'   => ts( 'Enter a valid URL' ) ),
-                               array( 'name'  => 'url_button',
+                               );
+
+        if ( ! empty( $this->_ppDAO->url_button_default ) ) {
+            $this->_fields[] = array( 'name'  => 'url_button',
                                       'label' => ts( 'Button URL' ),
                                       'rule'  => 'url',
-                                      'msg'   => ts( 'Enter a valid URL' ) ),
-                               array( 'name'  => 'subject',
-                                      'label' => ts( 'Subject' ) )
-                               );
+                                      'msg'   => ts( 'Enter a valid URL' ) );
+        }
     }
 
     /**
@@ -85,7 +99,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         $this->add( 'text', 'description', ts( 'Description' ),
                     $attributes['description'] );
 
-        $types = array('select' => '- select -') + CRM_Core_SelectValues::paymentProcessor( );
+        $types = array('select' => '- select -') + CRM_Core_PseudoConstant::paymentProcessorInfo( );
         $this->add( 'select', 'processor', ts( 'Processor' ), $types, true );
                    
         
@@ -95,6 +109,10 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
 
 
         foreach ( $this->_fields as $field ) {
+            if ( empty( $field['label'] ) ) {
+                continue;
+            }
+
             $this->add( 'text', $field['name'],
                         $field['label'], $attributes['name'] );
             $this->add( 'text', "test_{$field['name']}",
@@ -157,6 +175,10 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
 
         if ( ! $this->_id ) {
             $defaults['is_active'] = $defaults['is_default'] = 1;
+            $defaults['url_site'] = $this->_ppDAO->url_site_default;
+            $defaults['url_button'] = $this->_ppDAO->url_button_default;
+            $defaults['test_url_site'] = $this->_ppDAO->url_site_test_default;
+            $defaults['test_url_button'] = $this->_ppDAO->url_button_test_default;
             return $defaults;
         }
 
@@ -209,8 +231,8 @@ UPDATE civicrm_payment_processor
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
-        self::updatePaymentProcessor( $values, $domainID, false );
-        self::updatePaymentProcessor( $values, $domainID, true );
+        $this->updatePaymentProcessor( $values, $domainID, false );
+        $this->updatePaymentProcessor( $values, $domainID, true );
 
     }//end of function
 
@@ -238,6 +260,12 @@ UPDATE civicrm_payment_processor
                 $dao->{$field['name']} = 'null';
             }
         }
+
+        // also copy meta fields from the info DAO
+        $dao->is_recur     = $this->_ppDAO->is_recur;
+        $dao->billing_mode = $this->_ppDAO->billing_mode;
+        $dao->class_name   = $this->_ppDAO->class_name;
+
         $dao->save( );
     }
 

@@ -39,6 +39,13 @@
        <add>1.5</add>
   </field>
   <field>
+       <name>label</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Option label.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
