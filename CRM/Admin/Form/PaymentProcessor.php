@@ -262,9 +262,9 @@ UPDATE civicrm_payment_processor
         }
         $dao->is_active  = CRM_Utils_Array::value( 'is_active' , $values, 0 );
 
-        $dao->name         = $values['name'];
-        $dao->description  = $values['description'];
-        $dao->processor    = $values['processor'];
+        $dao->name                   = $values['name'];
+        $dao->description            = $values['description'];
+        $dao->payment_processor_type = $values['payment_processor_type'];
         
         foreach ( $this->_fields as $field ) {
             $fieldName = $test ? "test_{$field['name']}" : $field['name'];

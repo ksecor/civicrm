@@ -180,7 +180,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
 
-        if ( $this->_paymentProcessor['processor'] == 'Google_Checkout') {
+        if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout') {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
@@ -407,7 +407,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
                 if ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
-                    if ( $this->_paymentProcessor['processor'] == 'Google_Checkout' ) {
+                    if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' ) {
                         $payment->doCheckout( $this->_params );
                     }
                     // addd qfKey so we can send to paypal
@@ -706,7 +706,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
                                 'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
                                 'currency'          => $params['currencyID'],
-                                'payment_processor' => $this->_paymentProcessor['processor'],
+                                'payment_processor' => $this->_paymentProcessor['payment_processor_type'],
                                 'trxn_id'           => $result['trxn_id'],
                                 );
             

@@ -13,9 +13,9 @@
   </div>
 {else}
   <dl>
+    <dt>{$form.payment_processor_type.label}</dt><dd>{$form.payment_processor_type.html}</dd>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
-    <dt>{$form.payment_processor_type.label}</dt><dd>{$form.payment_processor_type.html}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_default.html} {$form.is_default.label}</dd>
 

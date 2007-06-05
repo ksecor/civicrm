@@ -56,7 +56,6 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
      * @return void 
      */ 
     function __construct( $mode, &$paymentProcessor ) {
-        CRM_Core_Error::debug( 'p', $paymentProcessor );
         parent::__construct( $mode, $paymentProcessor );
     }
 

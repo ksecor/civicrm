@@ -199,7 +199,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
 
         // check if this is a paypal auto return and redirect accordingly
-        if ( $this->_paymentProcessor['processor'] == "PayPal_Standard" &&
+        if ( $this->_paymentProcessor['payment_processor_type'] == "PayPal_Standard" &&
              isset( $_GET['payment_date'] )                                       &&
              isset( $_GET['merchant_return_link'] )                               &&
              CRM_Utils_Array::value( 'payment_status', $_GET ) == 'Completed' ) {
@@ -210,7 +210,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         // make sure we have a valid payment class, else abort
         if ( CRM_Utils_Array::value('is_monetary',$this->_values) &&
-             ! $this->_paymentProcessor['file'] ) {
+             ! $this->_paymentProcessor['class_name'] ) {
             CRM_Core_Error::fatal( ts( 'Payment processor is not set for this page' ) );
         }
 
@@ -228,7 +228,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         if ( ! empty($membership) &&
              isset( $membership["is_separate_payment"] ) &&
-             $this->_paymentProcessor['processor'] == "PayPal_Standard" ) {
+             $this->_paymentProcessor['payment_processor_type'] == "PayPal_Standard" ) {
             CRM_Core_Error::fatal( ts( 'This contribution page is configured to support separate contribution and membership payments. The PayPal Website Payments Standard plugin does not currently support multiple simultaneous payments. Please contact the site administrator and notify them of this error' ) );
         }
 
@@ -256,7 +256,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
     static function cancelSubscriptionURL( &$paymentProcessor, $mode ) {
         $cancelSubscriptionURL = null;
-        if ( $paymentProcessor['processor'] == 'PayPal_Standard' ) {
+        if ( $paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
             $cancelSubscriptionURL = "https://{$paymentProcessor['site_url']}/cgi-bin/webscr?cmd=_subscr-find&alias=" .
                 urlencode( $paymentProcessor['user_name'] );
         }

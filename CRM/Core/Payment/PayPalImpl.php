@@ -56,7 +56,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
 
         $this->_paymentProcessor = $paymentProcessor;
 
-        if ( $this->_paymentProcessor['processor'] == 'PayPal_Standard' ) {
+        if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
             return;
         }
 
@@ -466,14 +466,14 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      */ 
     function checkConfig( $mode ) {
         $error = array( );
-        if ( $this->_paymentProcessor['processor'] == 'PayPal_Standard' ||
-             $this->_paymentProcessor['processor'] == 'PayPal' ) {
+        if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ||
+             $this->_paymentProcessor['payment_processor_type'] == 'PayPal' ) {
             if ( empty( $this->_paymentProcessor['user_name'] ) ) {
                 $error[] = ts( 'user_name is not set in the Administer CiviCRM &raquo; Payment Processor.' );
             }
         }
 
-        if ( $this->_paymentProcessor['processor'] != 'PayPal_Standard' ) {
+        if ( $this->_paymentProcessor['payment_processor_type'] != 'PayPal_Standard' ) {
             if ( empty( $this->_paymentProcessor['signature'] ) ) {
                 $error[] = ts( 'signature is not set in the Administer CiviCRM &raquo; Payment Processor.' );
             }
