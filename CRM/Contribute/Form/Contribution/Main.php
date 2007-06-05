@@ -161,7 +161,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
             if ( $this->_values['is_monetary'] &&
                  isset($this->_values['is_recur'])    &&
-                 $this->_paymentProcessor['recur_contribution'] ) {
+                 $this->_paymentProcessor['is_recur'] ) {
                 $this->buildRecur( );
             }
         }

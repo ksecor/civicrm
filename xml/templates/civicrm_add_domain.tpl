@@ -268,9 +268,13 @@ VALUES
 INSERT INTO `civicrm_payment_processor_type` 
  (domain_id, name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_button_default, url_site_test_default, url_button_test_default, billing_mode, is_recur )
 VALUES 
- (@domain_id,'PayPal_Standard','PayPal - Website Payments Standard',NULL,1,1,'User Name',NULL,NULL,NULL,'Payment_PayPal','https://www.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,4,1),
- (@domain_id,'PayPal','PayPal - Website Payments Pro',NULL,1,0,'User Name','Password','Signature',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
- (@domain_id,'PayPal_Express','PayPal - Express',NULL,1,0,'User Name','Password','Signature',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',2,NULL);
+ (@domain_id,'PayPal_Standard','{ts}PayPal - Website Payments Standard{/ts}',NULL,1,1,'{ts}User Name{/ts}',NULL,NULL,NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,4,1),
+ (@domain_id,'PayPal','{ts}PayPal - Website Payments Pro{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
+ (@domain_id,'PayPal_Express','{ts}PayPal - Express{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
+ (@domain_id,'Google_Checkout','{ts}Google Checkout{/ts}',NULL,1,0,'{ts}Merchant ID{/ts}',NULL,NULL,NULL,'Payment_Google','https://checkout.google.com/','http://checkout.google.com/buttons/checkout.gif','https://sandbox.google.com/checkout','http://sandbox.google.com/checkout/buttons/checkout.gif',4,NULL),
+ (@domain_id,'Moneris','{ts}Moneris{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_Moneris',NULL,NULL,NULL,NULL,1,1),
+ (@domain_id,'AuthNet_AIM','{ts}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts}API Login{/ts}',NULL,'{ts}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet',NULL,NULL,NULL,NULL,1,NULL),
+ (@domain_id,'Dummy','{ts}Dummy Payment Processor{/ts}',NULL,1,0,'{ts}User Name{/ts}',NULL,NULL,NULL,'Payment_Dummy',NULL,NULL,NULL,NULL,1,NULL);
 
 -- the default dedupe rules
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Individual', 20);

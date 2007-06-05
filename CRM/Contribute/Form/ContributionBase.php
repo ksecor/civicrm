@@ -294,7 +294,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
  
         $config =& CRM_Core_Config::singleton( );
         if ( isset($this->_values['is_recur']) && 
-             $this->_paymentProcessor['recur_contribution'] ) {
+             $this->_paymentProcessor['is_recur'] ) {
             $this->assign( 'is_recur_enabled', 1 );
             $vars = array_merge( $vars, array( 'is_recur', 'frequency_interval', 'frequency_unit',
                                                'installments' ) );

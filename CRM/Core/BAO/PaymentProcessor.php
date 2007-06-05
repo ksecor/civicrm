@@ -150,51 +150,11 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor {
     static function buildPayment( $dao ) {
 
         $fields = array( 'name', 'processor', 'user_name', 'password',
-                         'signature', 'url_site', 'url_button', 'subject' );
+                         'signature', 'url_site', 'url_button', 'subject',
+                         'is_recur', 'billing_mode');
         $result = array( );
         foreach ( $fields as $name ) {
             $result[$name] = $dao->$name;
-        }
-        $result['recur_contribution'] = false;
-
-        switch ( $result['processor'] ) {
-
-        case 'PayPal_Standard':
-            $result['billing_mode']       = CRM_Core_Payment::BILLING_MODE_NOTIFY;
-            $result['file']               = 'Payment_PayPalImpl';
-            $result['recur_contribution'] = true;
-            break;
-
-        case 'Google_Checkout':
-            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_NOTIFY;
-            $result['file']         = 'Payment_Google';
-            break;
-
-        case 'PayPal_Express':
-            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_BUTTON;
-            $result['file']         = 'Payment_PayPalImpl';
-            break;
-
-        case 'PayPal':
-            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_FORM | CRM_Core_Payment::BILLING_MODE_BUTTON;
-            $result['file']         = 'Payment_PayPalImpl';
-            break;
-
-        case 'Moneris':
-            $result['billing_mode']       = CRM_Core_Payment::BILLING_MODE_FORM;
-            $result['recur_contribution'] = true;
-            $result['file']               = 'Payment_Moneris';
-            break;
-
-        case 'AuthNet_AIM':
-            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_FORM;
-            $result['file']         = 'Payment_AuthorizeNet';
-            break;
-
-        case 'Dummy':
-            $result['billing_mode'] = CRM_Core_Payment::BILLING_MODE_FORM;
-            $result['file']         = 'Payment_Dummy';
-            break;
         }
         return $result;
     }
