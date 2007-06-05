@@ -53,14 +53,24 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         parent::preProcess( );
 
         // get the payment processor meta information
-        $ppInfo = CRM_Utils_Request::retrieve( 'pp', 'String', $this, false, 'PayPal_Standard' );
-        require_once 'CRM/Core/DAO/PaymentProcessorInfo.php';
-        $this->_ppDAO =& new CRM_Core_DAO_PaymentProcessorInfo( );
-        $this->_ppDAO->name = $ppInfo;
+        $this->_ppType = CRM_Utils_Request::retrieve( 'pp', 'String', $this, false, 'PayPal_Standard' );
+        require_once 'CRM/Core/DAO/PaymentProcessorType.php';
+        $this->_ppDAO =& new CRM_Core_DAO_PaymentProcessorType( );
+        $this->_ppDAO->name = $this->_ppType;
         if ( ! $this->_ppDAO->find( true ) ) {
             CRM_Core_Error::fatal( ts( 'Could not find payment processor meta information' ) );
         }
-                                   
+
+        if ( $this->_id ) {
+            $refreshURL = CRM_Utils_System::url( 'civicrm/admin/paymentProcessor',
+                                                 "reset=1&action=update&id={$this->_id}" );
+        } else {
+            $refreshURL = CRM_Utils_System::url( 'civicrm/admin/paymentProcessor',
+                                                 "reset=1&action=add",
+                                                 true, null, false );
+        }
+        $this->assign( 'refreshURL', $refreshURL );
+
         $this->_fields = array(
                                array( 'name'  => 'user_name',
                                       'label' => $this->_ppDAO->user_name_label ),
@@ -99,8 +109,9 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         $this->add( 'text', 'description', ts( 'Description' ),
                     $attributes['description'] );
 
-        $types = array('select' => '- select -') + CRM_Core_PseudoConstant::paymentProcessorInfo( );
-        $this->add( 'select', 'processor', ts( 'Processor' ), $types, true );
+        $types = array('select' => '- select -') + CRM_Core_PseudoConstant::paymentProcessorType( );
+        $this->add( 'select', 'payment_processor_type', ts( 'Payment Processor Type' ), $types, true,
+                    array('onchange' => "reload(true)") );
                    
         
         // is this processor active ?
@@ -172,6 +183,8 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
 
     function setDefaultValues( ) {
         $defaults = array( );
+
+        $defaults['payment_processor_type'] = $this->_ppType;
 
         if ( ! $this->_id ) {
             $defaults['is_active'] = $defaults['is_default'] = 1;

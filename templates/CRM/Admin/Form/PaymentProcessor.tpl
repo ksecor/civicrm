@@ -15,7 +15,7 @@
   <dl>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
-    <dt>{$form.processor.label}</dt><dd>{$form.processor.html}</dd>
+    <dt>{$form.payment_processor_type.label}</dt><dd>{$form.payment_processor_type.html}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_default.html} {$form.is_default.label}</dd>
 
@@ -62,3 +62,19 @@
   </dl> 
 </fieldset>
 </div>
+
+{if $action eq 1  or $action eq 2}
+<script type="text/javascript" >
+{literal}
+    function reload(refresh) {
+        var paymentProcessorType = document.getElementById("payment_processor_type");
+        var url = {/literal}"{$refreshURL}"{literal}
+        var post = url + "&pp=" + paymentProcessorType.value;
+        if( refresh ) {
+            window.location= post; 
+        }
+    }
+{/literal}
+    </script>
+
+{/if}

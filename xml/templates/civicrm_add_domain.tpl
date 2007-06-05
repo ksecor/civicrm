@@ -260,6 +260,18 @@ VALUES
      (@domain_id,NULL,1,1,'123456789','1234','12345678910','1234','123456891011','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}',NULL,NULL,NULL);
 {/literal}
 
+-- various processor options
+--
+-- Table structure for table `civicrm_payment_processor_type`
+--
+
+INSERT INTO `civicrm_payment_processor_type` 
+ (domain_id, name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_button_default, url_site_test_default, url_button_test_default, billing_mode, is_recur )
+VALUES 
+ (@domain_id,'PayPal_Standard','PayPal - Website Payments Standard',NULL,1,1,'User Name',NULL,NULL,NULL,'Payment_PayPal','https://www.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,4,1),
+ (@domain_id,'PayPal','PayPal - Website Payments Pro',NULL,1,0,'User Name','Password','Signature',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
+ (@domain_id,'PayPal_Express','PayPal - Express',NULL,1,0,'User Name','Password','Signature',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',2,NULL);
+
 -- the default dedupe rules
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Individual', 20);
 

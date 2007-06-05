@@ -2,14 +2,14 @@
 
 <table>
   <base>CRM/Core</base>
-  <class>PaymentProcessorInfo</class>
-  <name>civicrm_payment_processor_info</name>
+  <class>PaymentProcessorType</class>
+  <name>civicrm_payment_processor_type</name>
   <add>1.8</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Payment Processor ID</comment>
+      <comment>Payment Processor Type ID</comment>
        <add>1.8</add>
   </field>
   <primaryKey>

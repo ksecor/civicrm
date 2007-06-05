@@ -45,10 +45,10 @@
        <add>1.8</add>
   </field>
   <field>
-      <name>processor_class_name</name>
+      <name>payment_processor_type</name>
       <type>varchar</type>
       <length>255</length>
-      <comment>Payment Processor Class Name.</comment>
+      <comment>Payment Processor Type.</comment>
       <add>1.8</add>
   </field>
   <field>

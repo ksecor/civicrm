@@ -1,6 +1,6 @@
 {* this template is used for adding/editing location type  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Payment Procesor Info{/ts}{elseif $action eq 2}{ts}Edit Payment Procesor Info{/ts}{else}{ts}Delete Payment Procesor Info{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Payment Procesor Type{/ts}{elseif $action eq 2}{ts}Edit Payment Procesor Type{/ts}{else}{ts}Delete Payment Procesor Type{/ts}{/if}</legend>
 
 {if $action eq 8}
   <div class="messages status">

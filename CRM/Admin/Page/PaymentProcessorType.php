@@ -34,12 +34,12 @@
  */
 
 require_once 'CRM/Core/Page/Basic.php';
-require_once 'CRM/Core/DAO/PaymentProcessorInfo.php';
+require_once 'CRM/Core/DAO/PaymentProcessorType.php';
 
 /**
  * Page for displaying list of payment processors
  */
-class CRM_Admin_Page_PaymentProcessorInfo extends CRM_Core_Page_Basic 
+class CRM_Admin_Page_PaymentProcessorType extends CRM_Core_Page_Basic 
 {
     /**
      * The action links that we need to display for the browse screen
@@ -56,7 +56,7 @@ class CRM_Admin_Page_PaymentProcessorInfo extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Core_BAO_PaymentProcessorInfo';
+        return 'CRM_Core_BAO_PaymentProcessorType';
     }
 
     /**
@@ -70,28 +70,28 @@ class CRM_Admin_Page_PaymentProcessorInfo extends CRM_Core_Page_Basic
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/paymentProcessorInfo',
+                                                                    'url'   => 'civicrm/admin/paymentProcessorType',
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
-                                                                    'title' => ts('Edit Payment ProcessorInfo') 
+                                                                    'title' => ts('Edit Payment ProcessorType') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/paymentProcessorInfo',
+                                                                    'url'   => 'civicrm/admin/paymentProcessorType',
                                                                     'qs'    => 'action=disable&id=%%id%%',
 
-                                                                    'title' => ts('Disable Payment ProcessorInfo') 
+                                                                    'title' => ts('Disable Payment ProcessorType') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/paymentProcessorInfo',
+                                                                    'url'   => 'civicrm/admin/paymentProcessorType',
                                                                     'qs'    => 'action=enable&id=%%id%%',
-                                                                    'title' => ts('Enable Payment ProcessorInfo') 
+                                                                    'title' => ts('Enable Payment ProcessorType') 
                                                                     ),
                                    CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/paymentProcessorInfo',
+                                                                    'url'   => 'civicrm/admin/paymentProcessorType',
                                                                     'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete Payment ProcessorInfo') 
+                                                                    'title' => ts('Delete Payment ProcessorType') 
                                                                    )
                                   );
         }
@@ -142,8 +142,8 @@ class CRM_Admin_Page_PaymentProcessorInfo extends CRM_Core_Page_Basic
     function browse($action=null)
     {
         // get all custom groups sorted by weight
-        $paymentProcessorInfo = array();
-        $dao =& new CRM_Core_DAO_PaymentProcessorInfo();
+        $paymentProcessorType = array();
+        $dao =& new CRM_Core_DAO_PaymentProcessorType();
 
         // set the domain_id parameter
         $config =& CRM_Core_Config::singleton( );
@@ -153,8 +153,8 @@ class CRM_Admin_Page_PaymentProcessorInfo extends CRM_Core_Page_Basic
         $dao->find();
 
         while ($dao->fetch()) {
-            $paymentProcessorInfo[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $paymentProcessorInfo[$dao->id]);
+            $paymentProcessorType[$dao->id] = array();
+            CRM_Core_DAO::storeValues( $dao, $paymentProcessorType[$dao->id]);
 
             // form all action links
             $action = array_sum(array_keys($this->links()));
@@ -172,10 +172,10 @@ class CRM_Admin_Page_PaymentProcessorInfo extends CRM_Core_Page_Basic
                 }
             }
             
-            $paymentProcessorInfo[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
+            $paymentProcessorType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                                     array('id' => $dao->id));
         }
-        $this->assign('rows', $paymentProcessorInfo);
+        $this->assign('rows', $paymentProcessorType);
     }
 
     /**
@@ -185,7 +185,7 @@ class CRM_Admin_Page_PaymentProcessorInfo extends CRM_Core_Page_Basic
      */
     function editForm() 
     {
-        return 'CRM_Admin_Form_PaymentProcessorInfo';
+        return 'CRM_Admin_Form_PaymentProcessorType';
     }
     
     /**
@@ -195,7 +195,7 @@ class CRM_Admin_Page_PaymentProcessorInfo extends CRM_Core_Page_Basic
      */
     function editName() 
     {
-        return 'Payment Processor Info';
+        return 'Payment Processor Type';
     }
     
     /**
@@ -205,7 +205,7 @@ class CRM_Admin_Page_PaymentProcessorInfo extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/admin/paymentProcessorInfo';
+        return 'civicrm/admin/paymentProcessorType';
     }
 }
 

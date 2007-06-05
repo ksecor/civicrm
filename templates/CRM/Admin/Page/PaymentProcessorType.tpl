@@ -3,7 +3,7 @@
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}
-   {include file="CRM/Admin/Form/PaymentProcessorInfo.tpl"}
+   {include file="CRM/Admin/Form/PaymentProcessorType.tpl"}
 {/if}
 
 {if $rows}
@@ -49,7 +49,7 @@
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/admin/paymentProcessorInfo' q="action=add&reset=1"}{/capture}
+        {capture assign=crmURL}{crmURL p='civicrm/admin/paymentProcessorType' q="action=add&reset=1"}{/capture}
         <dd>{ts 1=$crmURL}There are no Payment Processors entered. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    

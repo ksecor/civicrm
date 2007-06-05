@@ -29,7 +29,7 @@
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
- * $Id: PaymentProcessorInfo.php 9702 2007-05-29 23:57:16Z lobo $
+ * $Id: PaymentProcessorType.php 9702 2007-05-29 23:57:16Z lobo $
  *
  */
 
@@ -39,7 +39,7 @@ require_once 'CRM/Admin/Form.php';
  * This class generates form components for Location Type
  * 
  */
-class CRM_Admin_Form_PaymentProcessorInfo extends CRM_Admin_Form
+class CRM_Admin_Form_PaymentProcessorType extends CRM_Admin_Form
 {
     protected $_id     = null;
 
@@ -102,7 +102,7 @@ class CRM_Admin_Form_PaymentProcessorInfo extends CRM_Admin_Form
      */
     public function buildQuickForm( $check = false ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PaymentProcessorInfo' );
+        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PaymentProcessorType' );
 
         foreach ( $this->_fields as $field ) {
             $required = CRM_Utils_Array::value( 'required', $field, false );
@@ -114,9 +114,9 @@ class CRM_Admin_Form_PaymentProcessorInfo extends CRM_Admin_Form
         }
 
         // is this processor active ?
-        $this->add('checkbox', 'is_active' , ts('Is this Payment Processor Info active?') );
-        $this->add('checkbox', 'is_default', ts('Is this Payment Processor Info the default?') );
-        $this->add('checkbox', 'is_recur'  , ts('Does this Payment Processor Info support recurring donations?') );
+        $this->add('checkbox', 'is_active' , ts('Is this Payment Processor Type active?') );
+        $this->add('checkbox', 'is_default', ts('Is this Payment Processor Type the default?') );
+        $this->add('checkbox', 'is_recur'  , ts('Does this Payment Processor Type support recurring donations?') );
 
         parent::buildQuickForm( );
     }
@@ -135,7 +135,7 @@ class CRM_Admin_Form_PaymentProcessorInfo extends CRM_Admin_Form
 
         $domainID = CRM_Core_Config::domainID( );
 
-        $dao =& new CRM_Core_DAO_PaymentProcessorInfo( );
+        $dao =& new CRM_Core_DAO_PaymentProcessorType( );
         $dao->id        = $this->_id;
         $dao->domain_id = $domainID;
 
@@ -169,7 +169,7 @@ UPDATE civicrm_payment_processor
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
-        $dao =& new CRM_Core_DAO_PaymentProcessorInfo( );
+        $dao =& new CRM_Core_DAO_PaymentProcessorType( );
 
         $dao->id         = $this->_id;
         $dao->domain_id  = $domainID;

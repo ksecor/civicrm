@@ -209,11 +209,11 @@ class CRM_Core_PseudoConstant
     private static $paymentProcessor;
     
     /**
-     * payment processor
+     * payment processor types
      * @var array
      * @static
      */
-    private static $paymentProcessorInfo;
+    private static $paymentProcessorType;
     
     /**
      * populate the object from the database. generic populate
@@ -940,24 +940,23 @@ class CRM_Core_PseudoConstant
     /**
      * Get all active payment processors
      *
-     * The static array paymentProcessor is returned
+     * The static array paymentProcessorType is returned
      *
      * @access public
      * @static
      *
      * @param boolean $all  - get payment processors     - default is to get only active ones.
-     * @param boolean $test - get test payment processors
      *
-     * @return array - array of all payment processors
+     * @return array - array of all payment processor types
      *
      */
-    public static function &paymentProcessorInfo( $all = false, $test = false )
+    public static function &paymentProcessorType( $all = false )
     {
-        if ( ! self::$paymentProcessorInfo ) {
-            self::populate( self::$paymentProcessorInfo, 'CRM_Core_DAO_PaymentProcessorInfo', $all, 
+        if ( ! self::$paymentProcessorType ) {
+            self::populate( self::$paymentProcessorType, 'CRM_Core_DAO_PaymentProcessorType', $all, 
                             'title', 'is_active', null, 'is_default, title', 'name' );
         }
-        return self::$paymentProcessorInfo;
+        return self::$paymentProcessorType;
     }
 }
 

@@ -539,9 +539,9 @@ class CRM_Core_Invoke
             $view =& new CRM_Admin_Page_PaymentProcessor(ts('View Payment Processors'));
             break;
 
-        case 'paymentProcessorInfo':
-            require_once 'CRM/Admin/Page/PaymentProcessorInfo.php';
-            $view =& new CRM_Admin_Page_PaymentProcessorInfo(ts('View Payment Processor Info'));
+        case 'paymentProcessorType':
+            require_once 'CRM/Admin/Page/PaymentProcessorType.php';
+            $view =& new CRM_Admin_Page_PaymentProcessorType(ts('View Payment Processor Type'));
             break;
 
         case 'reltype':

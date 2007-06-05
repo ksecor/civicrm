@@ -33,15 +33,15 @@
  *
  */
 
-require_once 'CRM/Core/DAO/PaymentProcessorInfo.php';
+require_once 'CRM/Core/DAO/PaymentProcessorType.php';
 
 
-class CRM_Core_BAO_PaymentProcessorInfo extends CRM_Core_DAO_PaymentProcessorInfo {
+class CRM_Core_BAO_PaymentProcessorType extends CRM_Core_DAO_PaymentProcessorType {
 
     /**
      * static holder for the default payment processor
      */
-    static $_defaultPaymentProcessorInfo = null;
+    static $_defaultPaymentProcessorType = null;
 
 
     /**
@@ -66,11 +66,11 @@ class CRM_Core_BAO_PaymentProcessorInfo extends CRM_Core_DAO_PaymentProcessorInf
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $paymentProcessorInfo =& new CRM_Core_DAO_PaymentProcessorInfo( );
-        $paymentProcessorInfo->copyValues( $params );
-        if ( $paymentProcessorInfo->find( true ) ) {
-            CRM_Core_DAO::storeValues( $paymentProcessorInfo, $defaults );
-            return $paymentProcessorInfo;
+        $paymentProcessorType =& new CRM_Core_DAO_PaymentProcessorType( );
+        $paymentProcessorType->copyValues( $params );
+        if ( $paymentProcessorType->find( true ) ) {
+            CRM_Core_DAO::storeValues( $paymentProcessorType, $defaults );
+            return $paymentProcessorType;
         }
         return null;
     }
@@ -87,7 +87,7 @@ class CRM_Core_BAO_PaymentProcessorInfo extends CRM_Core_DAO_PaymentProcessorInf
      * @static
      */
     static function setIsActive( $id, $is_active ) {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_PaymentProcessorInfo', $id, 'is_active', $is_active );
+        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_PaymentProcessorType', $id, 'is_active', $is_active );
     }
     
     /**
@@ -101,24 +101,24 @@ class CRM_Core_BAO_PaymentProcessorInfo extends CRM_Core_DAO_PaymentProcessorInf
      * @access public
      */
     static function &getDefault( ) {
-        if (self::$_defaultPaymentProcessorInfo == null) {
+        if (self::$_defaultPaymentProcessorType == null) {
             $params = array( 'is_default' => 1,
                              'domain_id'  => CRM_Core_Config::domainID( ));
             $defaults = array();
-            self::$_defaultPaymentProcessorInfo = self::retrieve($params, $defaults);
+            self::$_defaultPaymentProcessorType = self::retrieve($params, $defaults);
         }
-        return self::$_defaultPaymentProcessorInfo;
+        return self::$_defaultPaymentProcessorType;
     }
     
     /**
      * Function to delete payment processor
      * 
-     * @param  int  $paymentProcessorInfoId     ID of the processor to be deleted.
+     * @param  int  $paymentProcessorTypeId     ID of the processor to be deleted.
      * 
      * @access public
      * @static
      */
-    static function del($paymentProcessorInfoId) 
+    static function del($paymentProcessorTypeId) 
     {
     }
 
