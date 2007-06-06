@@ -780,16 +780,21 @@ class CRM_Core_DAO extends DB_DataObject {
      * This function is to make a shallow copy of an object
      * and all the fields in the object
      * 
-     * @param string $daoName         name of the dao
-     * @param array  $criteria        array of all the fields & values on which basis to copy
-     * @param array  $newData         array of all the fields & values to be copied besides the other fields
-     * @param string $fieldsToPrefix  fields that you want to prefix
+     * @param string $daoName                 name of the dao
+     * @param array  $criteria                array of all the fields & values 
+     *                                        on which basis to copy
+     * @param array  $newData                 array of all the fields & values 
+     *                                        to be copied besides the other fields
+     * @param string $fieldsToPrefix          fields that you want to prefix
+     * @param string $blockCopyOfDependencies fields that you want to block from
+     *                                        getting copied
+     * 
      *
-     * @return (reference ) the newly created copy of the object
+     * @return (reference )                   the newly created copy of the object
      * @access public
      */
-    static function &copyGeneric( $daoName, $criteria , $newData = null, $fieldsToPrefix = null ) 
-    {
+    static function &copyGeneric( $daoName, $criteria , $newData = null, $fieldsToPrefix = null, $blockCopyOfDependencies = null ) 
+        { 
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object   =& new ' . $daoName . '( );' );
         if ( ! $newData ) {
@@ -802,6 +807,14 @@ class CRM_Core_DAO extends DB_DataObject {
 
         $object->find( );
         while ( $object->fetch( ) ) {
+
+            // all the objects except with $blockCopyOfDependencies set
+            // be copied - addresses #CRM-1962
+
+            if ( $blockCopyOfDependencies && $object->$blockCopyOfDependencies ) {
+                break;
+            }
+            
             eval( '$newObject   =& new ' . $daoName . '( );' );
             
             $fields =& $object->fields( );
@@ -814,6 +827,7 @@ class CRM_Core_DAO extends DB_DataObject {
                     // copy everything but the id!
                     continue;
                 }
+                
                 
                 $dbName = $value['name'];
                 if ( isset( $fieldsToPrefix[$dbName] ) ) {

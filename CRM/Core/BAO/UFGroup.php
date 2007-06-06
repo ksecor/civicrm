@@ -1767,10 +1767,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     {
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
         
-        $copy        =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFGroup', array( 'id' => $id ), null, $fieldsToPrefix );
+        $copy        =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFGroup', 
+                                                   array( 'id' => $id ), 
+                                                   null, 
+                                                   $fieldsToPrefix );
 
-        $copyUFJoin  =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin', array( 'uf_group_id' => $id ), array( 'uf_group_id' => $copy->id ) );
-        $copyUFField =& CRM_Core_DAO::copyGeneric( 'CRM_Core_BAO_UFField', array( 'uf_group_id' => $id ), array( 'uf_group_id' => $copy->id ) );
+        $copyUFJoin  =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin', 
+                                                   array( 'uf_group_id' => $id ), 
+                                                   array( 'uf_group_id' => $copy->id),
+                                                   null,
+                                                   'entity_table');
+
+        $copyUFField =& CRM_Core_DAO::copyGeneric( 'CRM_Core_BAO_UFField', 
+                                                   array( 'uf_group_id' => $id ), 
+                                                   array( 'uf_group_id' => $copy->id ) );
         return $copy;
     }
 
