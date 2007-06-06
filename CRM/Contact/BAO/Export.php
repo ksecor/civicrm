@@ -119,7 +119,7 @@ class CRM_Contact_BAO_Export {
         if ( CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
             $groupClause = " ( civicrm_group_contact.status = 'Added' OR civicrm_group_contact.status is NULL ) ";
             if ( empty( $where ) ) {
-                $where = $groupClause;
+                $where = "WHERE $groupClause";
             } else {
                 $where = "$where AND $groupClause";
             }

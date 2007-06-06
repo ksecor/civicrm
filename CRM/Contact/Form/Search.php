@@ -430,7 +430,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * set the button names
          */
         $this->_searchButtonName = $this->getButtonName( 'refresh' );
-        $this->_exportButtonName = $this->getButtonName( 'refresh', 'export' );
         $this->_printButtonName  = $this->getButtonName( 'next'   , 'print' );
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' );
         
@@ -454,7 +453,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                                $this );
         $this->_ufGroupID       = CRM_Utils_Request::retrieve( 'id'             , 'Positive',
                                                                $this );
-	/*
+        /*
          * assign context to drive the template display, make sure context is valid
          */
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
@@ -671,12 +670,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->controller->resetPage( $formName );
             return;
         } else {
-            // do export stuff
-            if ( $buttonName == $this->_exportButtonName ) {
-                return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/export/contact') );
-            } else {
-                $output = CRM_Core_Selector_Controller::SESSION;
-            }
+            $output = CRM_Core_Selector_Controller::SESSION;
 
             // create the selector, controller and run - store results in session
             $selector =& new CRM_Contact_Selector($this->_formValues, $this->_params,
