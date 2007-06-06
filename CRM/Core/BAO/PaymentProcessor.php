@@ -124,7 +124,7 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor {
 
     static function getPayment( $paymentProcessorID, $mode ) {
         $dao =& new CRM_Core_DAO_PaymentProcessor( );
-        
+
         $dao->id        = $paymentProcessorID;
         $dao->is_active = 1;
         $dao->domain_id = CRM_Core_Config::domainID( );

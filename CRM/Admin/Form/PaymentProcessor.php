@@ -190,7 +190,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
 
         if ( $present ) {
             if ( ! $allPresent ) {
-                $errors['_qf_default'] = ts( 'You must have at least the user_name and url specified' );
+                $errors['_qf_default'] = ts( 'You must have at least the user_name specified' );
             }
         }
         return $present;

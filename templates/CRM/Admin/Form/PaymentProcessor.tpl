@@ -49,7 +49,7 @@
 {if $form.test_subject}
     <dt>{$form.test_subject.label}</dt><dd>{$form.test_subject.html}</dd>
 {/if}
-    <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html}</dd>
+    <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html}|crmReplace:class:huge</dd>
 {if $form.test_url_button}
     <dt>{$form.test_url_button.label}</dt><dd>{$form.test_url_button.html}</dd>
 {/if}
