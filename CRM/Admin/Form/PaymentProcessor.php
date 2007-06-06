@@ -173,7 +173,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
     }
 
     static function checkSection( &$fields, &$errors, $section = null ) {
-        $names = array( 'user_name', 'url_site' );
+        $names = array( 'user_name' );
         
         $present    = false;
         $allPresent = true;
