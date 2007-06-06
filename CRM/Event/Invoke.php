@@ -129,7 +129,7 @@ class CRM_Event_Invoke
             $controller =& new CRM_Event_Import_Controller(ts('Import Participants'));
             $session->pushUserContext( CRM_Utils_System::url("civicrm/event", "reset=1" ) );
             return $controller->run();
-        } elseif( $secondArg == 'manage' ){
+        } elseif( $secondArg == 'manage' || $secondArg == 'add' ){
             require_once 'CRM/Event/Page/ManageEvent.php';
             $page =& new CRM_Event_Page_ManageEvent( );
             return $page->run( );

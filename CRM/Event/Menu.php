@@ -170,26 +170,38 @@ class CRM_Event_Menu {
                                  ),
                        
                            array(
-                                 'path'    => 'civicrm/event/import', 
+                                 'path'    => 'civicrm/event/manage', 
                                  'query'   => 'reset=1',
-                                 'title'   => ts( 'Import Participants' ),
-                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                                              CRM_Core_Permission::check( 'access CiviEvent' ),
+                                 'title'   => ts( 'Manage Events' ),
+                                 'access'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
+                                 CRM_Core_Permission::check( 'access CiviEvent' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,  
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                                  'weight'  => 820,  
                                  ),
 
                              array(
-                                 'path'    => 'civicrm/event/manage', 
-                                 'query'   => 'reset=1',
-                                 'title'   => ts( 'Manage Events' ),
+                                 'path'    => 'civicrm/event/add', 
+                                 'query'   => 'action=add&reset=1',
+                                 'title'   => ts( 'New Event' ),
                                  'access'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
                                               CRM_Core_Permission::check( 'access CiviEvent' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,  
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                                  'weight'  => 830,  
-                                 )
+                                 ),
+
+                           array(
+                                 'path'    => 'civicrm/event/import', 
+                                 'query'   => 'reset=1',
+                                 'title'   => ts( 'Import Participants' ),
+                                 'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                 CRM_Core_Permission::check( 'access CiviEvent' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,  
+                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                                 'weight'  => 840,  
+                                 ),
+                           
                            );
             break;
         }
