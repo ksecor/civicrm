@@ -657,30 +657,26 @@ function _crm_format_custom_params( &$params, &$values, $extends )
     $values['custom'] = array();
     
     $customFields = CRM_Core_BAO_CustomField::getFields( $extends );
-
+    
     foreach ($params as $key => $value) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-
+            
             /* check if it's a valid custom field id */
             if ( !array_key_exists($customFieldID, $customFields)) {
                 return _crm_error('Invalid custom field ID');
             }
             
+            $fieldType = null;
+            
             // modified for CRM-1586
             // check data type for importing custom field (labels) with data type Integer/Float/Money
             /* validate the data against the CF type */
-            
             if( ( $customFields[$customFieldID][2] == "Int")    ||
                 ( $customFields[$customFieldID][2] == "Float" ) ||
                 ( $customFields[$customFieldID][2] == "Money" ) ) { 
-                
-                //Intialize the variable
-                $valid     = null;
-                $fieldType = null;
-
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID);
                 foreach( $customOption as $v1 ) {
-
+                    
                     //check wether $value is label or value
                     if ( ( strtolower($v1['label']) == strtolower( trim( $value ) ) ) ) {
                         $fieldType = "String";
@@ -692,6 +688,8 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                 //set the Field type 
                 $fieldType = $customFields[$customFieldID][2];
             }
+            
+            $valid = null;
             
             //Validate the datatype of $value
             $valid = CRM_Core_BAO_CustomValue::typecheck( $fieldType, $value);
