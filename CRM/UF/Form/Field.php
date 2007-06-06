@@ -214,7 +214,16 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $this->add('hidden', 'field_id', $this->_id);
          
         $fields = array();
-        $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual');
+        $fields['Individual'] =& CRM_Contact_BAO_Contact::exportableFields('Individual');
+
+        // current employer field for individual
+        $currEmp['organization_name'] =   array ('name' => 'organization_name',
+                                                 'where' => 'civicrm_organization.organization_name',
+                                                 'title' => 'Current Employer');
+        
+        $fields['Individual'] = array_merge( $fields['Individual'], $currEmp);  
+
+
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
 

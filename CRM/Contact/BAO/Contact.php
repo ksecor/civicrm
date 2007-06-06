@@ -1729,13 +1729,6 @@ WHERE civicrm_contact.id IN $idString ";
                 }
             }
             
-            
-            $currEmp['organization_name'] =   array ('name' => 'organization_name',
-                                                     'where' => 'civicrm_organization.organization_name',
-                                                     'title' => 'Current Employer');
-
-            $fields = array_merge($fields, $currEmp);  
-            
             // the fields are only meant for Individual contact type
             if ( $contactType == 'Individual') {
                 $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( ) );                
