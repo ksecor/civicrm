@@ -1082,6 +1082,17 @@ civicrm_membership_status.is_current_member =1";
 
             CRM_Utils_Hook::post( 'create', 'Membership', $membership->id, $membership );
 
+            //Now insert the log  
+            require_once 'CRM/Member/BAO/MembershipLog.php';
+            $dao = new CRM_Member_DAO_MembershipLog();
+            $dao->membership_id = $membership->id;
+            $dao->status_id     = $membership->status_id;
+            $dao->start_date    = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
+            $dao->end_date      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
+            $dao->modified_id   = $contactID;
+            $dao->modified_date = date('Ymd');
+            $dao->save();     
+
             if ( $form ) {
                 $form->assign( 'mem_start_date',
                                CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
