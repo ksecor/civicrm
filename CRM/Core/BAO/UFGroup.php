@@ -1019,6 +1019,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                        );
             }
         }
+	$fields['external_identifier'] =  array('name'             => 'external_identifier',
+						'title'            => $importableFields['external_identifier']['title'],
+						'where'            => $importableFields['external_identifier']['where'],
+						);
 
         //this is the fix to ignore the groups/ tags for dupe checking CRM-664, since we never use them for dupe checking
         unset( $params['group'] );

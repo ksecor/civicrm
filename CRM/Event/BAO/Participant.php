@@ -422,7 +422,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                     }
                 }
             }
-            
+            $tmpConatctField['external_identifier'] = $contactFields['external_identifier'];
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, $note);

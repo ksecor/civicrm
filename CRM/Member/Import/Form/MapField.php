@@ -428,7 +428,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
                     if( $field == 'membership_contact_id' &&  $defaultFlag ) {
-                        if ( in_array('email', $importKeys) || 
+                        if ( in_array('email', $importKeys) || in_array('external_identifier', $importKeys) ||
                              ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
                              in_array('household_name', $importKeys) ||
                              in_array('organization_name', $importKeys)) {

@@ -397,6 +397,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
                 }
             }
+	    $tmpConatctField['external_identifier'] = $contactFields['external_identifier'];
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, $note);
