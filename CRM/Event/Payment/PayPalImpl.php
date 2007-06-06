@@ -139,7 +139,7 @@ class CRM_Event_Payment_PayPalImpl extends CRM_Core_Payment_PayPalImpl {
         $uri = substr( $uri, 1 );
         $url = $this->_paymentProcessor['url_site'];
         $sub = empty( $params['is_recur'] ) ? 'xclick' : 'subscriptions';
-        $paypalURL = "{$url}/{$sub}/$uri";
+        $paypalURL = "{$url}{$sub}/$uri";
 
         // CRM_Core_Error::debug( 'paypalParams', $paypalParams );
         // CRM_Core_Error::debug( 'paypalURL'   , $paypalURL );
