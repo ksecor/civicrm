@@ -1,4 +1,4 @@
-{* this template is used for adding/editing location type  *}
+{* this template is used for adding/editing available Payment Processors  *}
 <div class="form-item">
 <fieldset><legend>{if $action eq 1}{ts}New Payment Procesor Type{/ts}{elseif $action eq 2}{ts}Edit Payment Procesor Type{/ts}{else}{ts}Delete Payment Procesor Type{/ts}{/if}</legend>
 

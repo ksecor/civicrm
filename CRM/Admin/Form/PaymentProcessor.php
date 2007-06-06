@@ -66,6 +66,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
             $this->_ppType = CRM_Utils_Request::retrieve( 'pp', 'String', $this, true, null );
         }
 
+        $this->assign( 'ppType', $this->_ppType );
         require_once 'CRM/Core/DAO/PaymentProcessorType.php';
         $this->_ppDAO =& new CRM_Core_DAO_PaymentProcessorType( );
         $this->_ppDAO->name = $this->_ppType;

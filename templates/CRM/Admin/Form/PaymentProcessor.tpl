@@ -1,13 +1,13 @@
-{* this template is used for adding/editing location type  *}
+{* This template is used for adding/configuring Payment Processors used by a particular site/domain.  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Payment Procesor{/ts}{elseif $action eq 2}{ts}Edit Payment Procesor{/ts}{else}{ts}Delete Payment Procesor{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Payment Processor{/ts}{elseif $action eq 2}{ts}Edit Payment Processor{/ts}{else}{ts}Delete Payment Processor{/ts}{/if}</legend>
 
 {if $action eq 8}
   <div class="messages status">
     <dl>
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
       <dd>    
-        {ts}WARNING: Deleting this option may result in some transaction pages being rendered inactive.{/ts} {ts}Do you want to continue?{/ts}
+        {ts}WARNING: Deleting this Payment Processor may result in some transaction pages being rendered inactive.{/ts} {ts}Do you want to continue?{/ts}
       </dd>
     </dl>
   </div>
@@ -20,7 +20,7 @@
     <dt>&nbsp;</dt><dd>{$form.is_default.html} {$form.is_default.label}</dd>
 
 <fieldset>
-<legend>Processor Details for Live Site</legend>
+<legend>Processor Details for Live Payments</legend>
     <dt>{$form.user_name.label}</dt><dd>{$form.user_name.html}</dd>
 {if $form.password}
     <dt>{$form.password.label}</dt><dd>{$form.password.html}</dd>
@@ -38,8 +38,8 @@
 </fieldset>
 
 <fieldset>
-<legend>Processor Details for Test Site</legend>
-    <dt>{$form.test_user_name.label}</dt><dd>{$form.test_user_name.html}</dd>
+<legend>Processor Details for Test Payments</legend>
+    <dt>{$form.test_user_name.label}</dt><dd>{$form.test_user_name.html} {help id=$ppType|cat:'-test-user-name'}</dd>
 {if $form.test_password}
     <dt>{$form.test_password.label}</dt><dd>{$form.test_password.html}</dd>
 {/if}
