@@ -390,8 +390,15 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         require_once 'CRM/Member/BAO/Membership.php';
         require_once 'CRM/Member/BAO/MembershipStatus.php';
         $params = array('id' => $membershipId);
-        $membershipDetails     =  CRM_Member_BAO_Membership::getValues( $params, $values ,$ids );
-        $statusID = $membershipDetails[$membershipId]->status_id;
+        
+        $membership =& new CRM_Member_BAO_Membership( );
+        
+        //$membership->copyValues( $params );
+        $membership->id = $membershipId;
+        $membership->find(true);
+        
+        $membershipDetails = CRM_Member_BAO_Membership::getValues( $params, $values ,$ids );
+        $statusID          = $membershipDetails[$membershipId]->status_id;
         $membershipTypeDetails = self::getMembershipTypeDetails( $membershipDetails[$membershipId]->membership_type_id );
         $statusDetails  = CRM_Member_BAO_MembershipStatus::getMembershipStatus($statusID);
         
@@ -421,20 +428,10 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             } else {
                 $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
             }
-            
+            $today = date( 'Y-m-d' );
         } else {
-            
             $today = CRM_Utils_Date::getToday( $changeToday );
-            /*
-            if ( is_null( $changeToday ) || empty( $changeToday ) ) {
-                $today = date( "Y-m-d" );
-            } else {
-                $today = date( "Y-m-d", mktime( 0, 0, 0, 
-                                                $changeToday['month'], 
-                                                $changeToday['day'], 
-                                                $changeToday['year'] ) );
-            }
-            */
+            
             $rollover = false;
                         
             if ( $membershipTypeDetails['period_type'] == 'rolling' ) {
@@ -516,8 +513,10 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         }
         
         $membershipDates = array();
-        $membershipDates['start_date']      =  CRM_Utils_Date::customFormat($startDate,'%Y%m%d');
-        $membershipDates['end_date'  ]      =  CRM_Utils_Date::customFormat($endDate,'%Y%m%d');
+        $membershipDates['today']      = CRM_Utils_Date::customFormat($today,'%Y%m%d');
+        $membershipDates['start_date'] = CRM_Utils_Date::customFormat($startDate,'%Y%m%d');
+        $membershipDates['end_date'  ] = CRM_Utils_Date::customFormat($endDate,'%Y%m%d');
+        
         if ( $membershipTypeDetails["renewal_reminder_day"] ) {
             $date = explode('-', $endDate );
             $year  = $date[0];
@@ -526,9 +525,9 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             $day = $day - $membershipTypeDetails["renewal_reminder_day"];
             $reminderDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
         }
-        $membershipDates['reminder_date'] = CRM_Utils_Date::customFormat($reminderDate,'%Y%m%d');
         
-        $membershipDates['log_start_date' ] =  CRM_Utils_Date::customFormat($logStartDate,'%Y%m%d');
+        $membershipDates['reminder_date']   = CRM_Utils_Date::customFormat($reminderDate,'%Y%m%d');
+        $membershipDates['log_start_date' ] = CRM_Utils_Date::customFormat($logStartDate,'%Y%m%d');
         
         return $membershipDates;
     }

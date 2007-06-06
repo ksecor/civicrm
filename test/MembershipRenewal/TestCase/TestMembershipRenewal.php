@@ -10,7 +10,6 @@ class TestOfMembershipRenewal extends UnitTestCase
     {
     }
     
-    
     function testS1Data( )
     {
         echo "\n";
@@ -21,17 +20,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S1' );
         
+        $today = array( 'day'   => 06,
+                        'month' => 12,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today);
             
             // check : no new membership added while renewing
             echo "\n";
@@ -49,16 +58,6 @@ class TestOfMembershipRenewal extends UnitTestCase
             $this->assertEqual( 'Current',
                                 CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus',
                                                              $value['status_id']) );
-            
-            echo "\n";
-            echo "<br />";
-            echo "Checking membership status after renewal is CURRENT";
-            echo "\n";
-            echo "<br />";
-            $this->assertEqual( 'Current',
-                                CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus',
-                                                             $renewData[$id]['status_id']) );
-            
             echo "\n";
             echo "<br />";
             echo "Checking Joining Date is same after renwal";
@@ -114,17 +113,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S2' );
         
+        $today = array( 'day'   => 06,
+                        'month' => 06,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -189,17 +198,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S3' );
         
+        $today = array( 'day'   => 12,
+                        'month' => 12,
+                        'year'  => 2007 );
+                
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData, 
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -264,17 +283,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S4' );
         
+        $today = array( 'day'   => 12,
+                        'month' => 12,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -339,17 +368,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S5' );
         
+        $today = array( 'day'   => 15,
+                        'month' => 06,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -414,17 +453,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S6' );
         
+        $today = array( 'day'   => 27,
+                        'month' => 11,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -489,17 +538,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S7' );
         
+        $today = array( 'day'   => 31,
+                        'month' => 12,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -564,17 +623,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S8' );
         
+        $today = array( 'day'   => 21,
+                        'month' => 12,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -639,17 +708,28 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S9' );
         
+        $today = array( 'day'   => 21,
+                        'month' => 08,
+                        'year'  => 2007 );
+        
+        $today = null;
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -790,17 +870,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S11' );
         
+        $today = array( 'day'   => 03,
+                        'month' => 06,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -873,17 +963,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S12' );
         
+        $today = array( 'day'   => 21,
+                        'month' => 05,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -947,17 +1047,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S13' );
         
+        $today = array( 'day'   => 21,
+                        'month' => 09,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -1022,17 +1132,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S14' );
         
+        $today = array( 'day'   => 21,
+                        'month' => 05,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -1087,7 +1207,7 @@ class TestOfMembershipRenewal extends UnitTestCase
         }
     }
     
-    function S15Data( )
+    function testS15Data( )
     {
         echo "\n";
         echo "<br />";
@@ -1097,17 +1217,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S15' );
         
+        $today = array( 'day'   => 21,
+                        'month' => 06,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -1123,7 +1253,7 @@ class TestOfMembershipRenewal extends UnitTestCase
             echo "\n";
             echo "<br />";
             $this->assertEqual( $value['join_date'], 
-                                $renewData[$id]['join_date'] );
+                                CRM_Utils_Date::mysqlToIso( $renewData[$id]['join_date'] ) );
             echo "\n";
             echo "<br />";
             echo "Checking Start Date is renewed correctly";
@@ -1162,7 +1292,7 @@ class TestOfMembershipRenewal extends UnitTestCase
         }
     }
     
-    function S16Data( )
+    function testS16Data( )
     {
         echo "\n";
         echo "<br />";
@@ -1172,17 +1302,27 @@ class TestOfMembershipRenewal extends UnitTestCase
         
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S16' );
         
+        $today = array( 'day'   => 12,
+                        'month' => 06,
+                        'year'  => 2007 );
+        
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, 
+                                                                    $originalData, 
+                                                                    $renewData, $logData,
+                                                                    false, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $value, 
+                                                                         $calculatedDates,
+                                                                         $today );
             
             // check : no new membership added while renewing
             echo "\n";
@@ -1198,7 +1338,7 @@ class TestOfMembershipRenewal extends UnitTestCase
             echo "\n";
             echo "<br />";
             $this->assertEqual( $value['join_date'], 
-                                $renewData[$id]['join_date'] );
+                                CRM_Utils_Date::mysqlToIso( $renewData[$id]['join_date'] ) );
             echo "\n";
             echo "<br />";
             echo "Checking Start Date is renewed correctly";
@@ -1236,7 +1376,7 @@ class TestOfMembershipRenewal extends UnitTestCase
             echo "<br />";
         }
     }
-        
+    
     function testS17Data( )
     {
         echo "\n";
@@ -1257,16 +1397,10 @@ class TestOfMembershipRenewal extends UnitTestCase
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
-            /*
-            CRM_Core_Error::debug( '$calculatedDates', $calculatedDates );
-            CRM_Core_Error::debug( 'Renew Start Date', $renewData[$id]['start_date'] );
-            CRM_Core_Error::debug( 'Renew End Date', $renewData[$id]['end_date'] );
-            CRM_Core_Error::debug( 'Log Start Date', $logData['renew'][$id]['start_date'] );
-            CRM_Core_Error::debug( 'Log End Date', $logData['renew'][$id]['end_date'] );
-            CRM_Core_Error::debug( 'Log Start Date', $logData['update'][$id]['start_date'] );
-            CRM_Core_Error::debug( 'Log End Date', $logData['update'][$id]['end_date'] );
-            */
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $logData['update'][$id], 
+                                                                         $calculatedDates );
+            
             // check : no new membership added while renewing
             echo "\n";
             echo "<br />";
@@ -1275,6 +1409,38 @@ class TestOfMembershipRenewal extends UnitTestCase
             echo "<br />";
             $this->assertEqual( $id, $renewData[$id]['id'] );
             
+            // Membership Status Update
+            echo "\n";
+            echo "<br />";
+            echo "Checking Start Date is same";
+            echo "\n";
+            echo "<br />";
+            $this->assertEqual( $value['start_date'], 
+                                $logData['update'][$id]['start_date'] );
+            echo "\n";
+            echo "<br />";
+            echo "Checking End Date is same";
+            echo "\n";
+            echo "<br />";
+            $this->assertEqual( $value['end_date'], 
+                                $logData['update'][$id]['end_date'] );
+            echo "\n";
+            echo "<br />";
+            echo "Checking status is changed";
+            echo "\n";
+            echo "<br />";
+            $this->assertNotEqual( $value['status_id'], 
+                                   $logData['update'][$id]['status_id'] );
+            
+            $expired = false;
+            if ( ! CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus',
+                                              $logData['update'][$id]['status_id'],
+                                              'is_current_member'
+                                              )  ) {
+                $expired = true;
+            }
+            
+            // Membership Renew
             echo "\n";
             echo "<br />";
             echo "Checking Joining Date is same after renwal";
@@ -1282,13 +1448,25 @@ class TestOfMembershipRenewal extends UnitTestCase
             echo "<br />";
             $this->assertEqual( $value['join_date'], 
                                 CRM_Utils_Date::mysqlToIso( $renewData[$id]['join_date'] ) );
+            
+            
             echo "\n";
             echo "<br />";
-            echo "Checking Start Date is unchanged";
-            echo "\n";
-            echo "<br />";
-            $this->assertEqual( $value['start_date'],
-                                CRM_Utils_Date::mysqlToIso( $renewData[$id]['start_date'] ) );
+            if ( $expired ) {
+                echo "Checking Start Date is Updated";
+                echo "\n";
+                echo "<br />";
+                // Renewed Start date is same as that of logged start
+                // date. Hence using logStartDate.
+                $this->assertEqual( $calculatedDates['renewStartDate'],
+                                    CRM_Utils_Date::mysqlToIso( $renewData[$id]['start_date'] ) );
+            } else {
+                echo "Checking Start Date is unchanged";
+                echo "\n";
+                echo "<br />";
+                $this->assertEqual( $value['start_date'],
+                                    CRM_Utils_Date::mysqlToIso( $renewData[$id]['start_date'] ) );
+            }
             
             echo "\n";
             echo "<br />";
@@ -1297,23 +1475,6 @@ class TestOfMembershipRenewal extends UnitTestCase
             echo "<br />";
             $this->assertEqual( $calculatedDates['renewEndDate'], 
                                 CRM_Utils_Date::mysqlToIso( $renewData[$id]['end_date'] ) );
-            
-            echo "\n";
-            echo "<br />";
-            echo "Checking start date in the log";
-            echo "\n";
-            echo "<br />";
-            $this->assertEqual( $calculatedDates['logStartDate'],
-                                $logData[$id]['start_date'] );
-            
-            echo "\n";
-            echo "<br />";
-            echo "Checking end date in the log";
-            echo "\n";
-            echo "<br />";
-            $this->assertEqual( $calculatedDates['logEndDate'], 
-                                $logData[$id]['end_date'] );
-                        
             echo "\n";
             echo "<br />";
         }
@@ -1327,28 +1488,28 @@ class TestOfMembershipRenewal extends UnitTestCase
         echo "\n";
         echo "<br />";
         
+        $today = array( 'month' => 11,
+                        'day'   => 12,
+                        'year'  => 2007
+                        );
+        
         $membershipType = test_MembershipRenewal_MembershipValues::getMembershipTypeData( 'S18' );
         
         $originalData = array( );
         $renewData    = array( );
         $logData      = array( );
         
-        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData, true );
+        test_MembershipRenewal_MembershipValues::getMembershipData( $membershipType->id, $originalData, $renewData, $logData, true, $today );
         
         foreach( $originalData as $id => $value ) {
             echo "=============  Membership Id : $id  ===============";
             
             $calculatedDates = array( );
-            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, $value, $calculatedDates );
-            /*
-            CRM_Core_Error::debug( '$calculatedDates', $calculatedDates );
-            CRM_Core_Error::debug( 'Renew Start Date', $renewData[$id]['start_date'] );
-            CRM_Core_Error::debug( 'Renew End Date', $renewData[$id]['end_date'] );
-            CRM_Core_Error::debug( 'Log Start Date', $logData['renew'][$id]['start_date'] );
-            CRM_Core_Error::debug( 'Log End Date', $logData['renew'][$id]['end_date'] );
-            CRM_Core_Error::debug( 'Log Start Date', $logData['update'][$id]['start_date'] );
-            CRM_Core_Error::debug( 'Log End Date', $logData['update'][$id]['end_date'] );
-            */
+            test_MembershipRenewal_MembershipValues::getCalculatedDates( $membershipType, 
+                                                                         $logData['update'][$id], 
+                                                                         $calculatedDates,
+                                                                         $today );
+            
             // check : no new membership added while renewing
             echo "\n";
             echo "<br />";
@@ -1357,6 +1518,38 @@ class TestOfMembershipRenewal extends UnitTestCase
             echo "<br />";
             $this->assertEqual( $id, $renewData[$id]['id'] );
             
+            // Membership Status Update
+            echo "\n";
+            echo "<br />";
+            echo "Checking Start Date is same";
+            echo "\n";
+            echo "<br />";
+            $this->assertEqual( $value['start_date'], 
+                                $logData['update'][$id]['start_date'] );
+            echo "\n";
+            echo "<br />";
+            echo "Checking End Date is same";
+            echo "\n";
+            echo "<br />";
+            $this->assertEqual( $value['end_date'], 
+                                $logData['update'][$id]['end_date'] );
+            echo "\n";
+            echo "<br />";
+            echo "Checking status is changed";
+            echo "\n";
+            echo "<br />";
+            $this->assertNotEqual( $value['status_id'], 
+                                   $logData['update'][$id]['status_id'] );
+            
+            $expired = false;
+            if ( ! CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus',
+                                              $logData['update'][$id]['status_id'],
+                                              'is_current_member'
+                                              )  ) {
+                $expired = true;
+            }
+            
+            // Membership Renew
             echo "\n";
             echo "<br />";
             echo "Checking Joining Date is same after renwal";
@@ -1364,39 +1557,33 @@ class TestOfMembershipRenewal extends UnitTestCase
             echo "<br />";
             $this->assertEqual( $value['join_date'], 
                                 CRM_Utils_Date::mysqlToIso( $renewData[$id]['join_date'] ) );
+            
+            
             echo "\n";
             echo "<br />";
-            echo "Checking Start Date is unchanged";
-            echo "\n";
-            echo "<br />";
-            $this->assertEqual( $value['start_date'],
-                                CRM_Utils_Date::mysqlToIso( $renewData[$id]['start_date'] ) );
+            if ( $expired ) {
+                echo "Checking Start Date is Updated";
+                echo "\n";
+                echo "<br />";
+                // Renewed Start date is same as that of logged start
+                // date. Hence using logStartDate.
+                $this->assertEqual( $calculatedDates['renewStartDate'],
+                                    CRM_Utils_Date::mysqlToIso( $renewData[$id]['start_date'] ) );
+            } else {
+                echo "Checking Start Date is unchanged";
+                echo "\n";
+                echo "<br />";
+                $this->assertEqual( $value['start_date'],
+                                    CRM_Utils_Date::mysqlToIso( $renewData[$id]['start_date'] ) );
+            }
             
             echo "\n";
             echo "<br />";
             echo "Checking End Date is renewed correctly";
             echo "\n";
             echo "<br />";
-                        
             $this->assertEqual( $calculatedDates['renewEndDate'], 
                                 CRM_Utils_Date::mysqlToIso( $renewData[$id]['end_date'] ) );
-            
-            echo "\n";
-            echo "<br />";
-            echo "Checking start date in the log";
-            echo "\n";
-            echo "<br />";
-            $this->assertEqual( $calculatedDates['logStartDate'],
-                                $logData[$id]['start_date'] );
-            
-            echo "\n";
-            echo "<br />";
-            echo "Checking end date in the log";
-            echo "\n";
-            echo "<br />";
-            $this->assertEqual( $calculatedDates['logEndDate'], 
-                                $logData[$id]['end_date'] );
-                        
             echo "\n";
             echo "<br />";
         }

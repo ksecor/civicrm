@@ -10,23 +10,23 @@ class test_MembershipRenewal_MembershipValues
         return $membershipType;
     }
     
-    static function getMembershipLogRecord( &$membership , $stale=false)
+    static function getMembershipLogRecord( $membershipId , $stale=false)
     {
         require_once "CRM/Member/BAO/MembershipLog.php";
         $membershipLog =& new CRM_Member_BAO_MembershipLog( );
-        $membershipLog->membership_id = $membership->id;
+        $membershipLog->membership_id = $membershipId;
         $membershipLog->orderBy( 'id DESC' );
-        // Remove the comments below once STALE membership issue is fixed.
-        /*
+        
         if ( $stale ) {
-            $membershipLog->limit( '2' );
+            //$membershipLog->limit( '2' );
             $membershipLog->find( );
+            $logArray = array( );
             while ( $membershipLog->fetch( ) ) {
-                $logArray[] = $membershipLog;
+                CRM_Core_DAO::storeValues( $membershipLog, $logArray[] );
             }
             return $logArray;
         }
-        */
+        
         $membershipLog->find( true );
         return $membershipLog;
     }
@@ -43,10 +43,9 @@ class test_MembershipRenewal_MembershipValues
         // Check if rollover day is passed and accordingly fix the
         // dates for the renewal and log
         $rolloverPassed = false;
+        $today = CRM_Utils_Date::getToday( $changeToday );
         
         if ( (!$current) && ($type == 'fixed') ) {
-            $today = CRM_Utils_Date::getToday( $changeToday );
-            
             $rollover = date("Ymd", mktime(0, 0, 0,
                                            substr($membershipType->fixed_period_rollover_day, 0, -2),
                                            substr($membershipType->fixed_period_rollover_day, -2, 2),
@@ -81,7 +80,7 @@ class test_MembershipRenewal_MembershipValues
                              );
                     
                 } else if ( $type == 'rolling' ) {
-                    $calculatedDates['logStartDate'] = $calculatedDates['renewStartDate'] = date( 'Y-m-d', mktime( 0, 0, 0, date("m"), date("d"), date("Y") ) );
+                    $calculatedDates['logStartDate'] = $calculatedDates['renewStartDate'] = $today;
                 }
                 // For EXPIRED memberships, first get the logStartDate
                 // and renewStartDate.                
@@ -124,7 +123,7 @@ class test_MembershipRenewal_MembershipValues
                              );
                     
                 } else if ( $type == 'rolling' ) {
-                    $calculatedDates['logStartDate'] = $calculatedDates['renewStartDate'] = date( 'Y-m-d', mktime( 0, 0, 0, date("m"), date("d"), date("Y") ) );
+                    $calculatedDates['logStartDate'] = $calculatedDates['renewStartDate'] = $today;
                 }
                 
                 // Now get the logEndDate and renewEndDate based on
@@ -160,7 +159,7 @@ class test_MembershipRenewal_MembershipValues
                              );
                     
                 } else if ( $type == 'rolling' ) {
-                    $calculatedDates['logStartDate'] = $calculatedDates['renewStartDate'] = date( 'Y-m-d', mktime( 0, 0, 0, date("m"), date("d"), date("Y") ) );
+                    $calculatedDates['logStartDate'] = $calculatedDates['renewStartDate'] = $today;
                 }
                 
                 // Now get the logEndDate and renewEndDate based on
@@ -188,39 +187,31 @@ class test_MembershipRenewal_MembershipValues
             // get the membership data before renewing
             $originalData[$membership->id] = array( );
             CRM_Core_DAO::storeValues( $membership, $originalData[$membership->id] );
-            
+            $form = null;
             // renew the membership
             $renewMembership = CRM_Member_BAO_Membership::renewMembership( $membership->contact_id, 
                                                                            $membershipTypeId,
-                                                                           true, null, $today );
+                                                                           true, $form, $today );
             // get the memership data after renewing
             $renewData[$renewMembership->id]    = array( );
             CRM_Core_DAO::storeValues( $renewMembership, $renewData[$renewMembership->id] );
             
             //get log record
-            $membershipLog = self::getMembershipLogRecord( $membership, $stale );
+            $membershipLog = self::getMembershipLogRecord( $membership->id, $stale );
             
-            // Remove the comments below once STALE membership issue is fixed.
-            /*
             if ( ! $stale ) {
-            */
-            $logData[$renewMembership->id]      = array( );
-            CRM_Core_DAO::storeValues( $membershipLog,
-                                       $logData[$renewMembership->id] );
-            
-            // Remove the comments below once STALE membership issue is fixed.
-            /*
+                $logData[$renewMembership->id] = array( );
+                CRM_Core_DAO::storeValues( $membershipLog,
+                                           $logData[$renewMembership->id] );
             } else {
                 // populate and return the log record created while
-                // updaing status.
-                $logData['update'][$renewMembership->id]      = array( );
-                CRM_Core_DAO::storeValues( $membershipLog[2], $logData['update'][$renewMembership->id] );
+                // renewing.
+                $logData['renew'][$renewMembership->id] = $membershipLog[0];
                 
-                // populate and return the log record created while renewing.
-                $logData['renew'][$renewMembership->id]      = array( );
-                CRM_Core_DAO::storeValues( $membershipLog[1], $logData['renew'][$renewMembership->id] );
+                // populate and return the log record created while
+                // updaing status.
+                $logData['update'][$renewMembership->id] = $membershipLog[1];
             }
-            */
         }
         
         $membership->free( );
