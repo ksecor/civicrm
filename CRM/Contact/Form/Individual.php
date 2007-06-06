@@ -122,10 +122,10 @@ class CRM_Contact_Form_Individual {
 showHideByValue('use_household_address',      '', 'shared_household',      'block', 'radio', false);
 showHideByValue('use_household_address',      '', 'id_location_1_address', 'block', 'radio', true);
 enableDisableByValue('use_household_address', '', $extraOnAddFlds,         'block', 'radio', true);
-resetByValue('use_household_address',         '', $extraOnAddFlds,         'radio',  false);   " );
+resetByValue('use_household_address',         '', $extraOnAddFlds,         'text',  'radio', false);   " );
             
             $mailToHouseholdID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Individual', 
-                                                              $this->_contactId, 
+                                                              $form->_contactId, 
                                                               'mail_to_household_id', 
                                                               'contact_id' );
             if ( $mailToHouseholdID ) {
@@ -134,12 +134,21 @@ resetByValue('use_household_address',         '', $extraOnAddFlds,         'radi
             }
         } elseif ( $action & CRM_Core_Action::ADD ) {
             $useHouseholdExtra = array( 'onclick' => "
-showHideByValue('use_household_address', 'true', 'id_location_1_address', 'block', 'radio', true);
-showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);" );
+showHideByValue('use_household_address', 'true', 'confirm_shared_option', 'block', 'radio', false);
+showHideSharedOptions();
+" );
+            $selectHouseholdExtra = array( 'onclick' => "showHideSharedOptions();" );
+            
+            $sharedOptions = array( '0' => ts('Create new household'), '1' => ts('Select existing household') );
+            $form->addRadio('shared_option', ts('shared options'),  $sharedOptions, $selectHouseholdExtra);
+            
+            $form->add( 'text', 'create_household', ts( 'New household' ), 
+                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' ) );
         }
         
         // shared address element block
-        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
+        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'),     $useHouseholdExtra);
+        
         $domainID      =  CRM_Core_Config::domainID( );   
         $attributes    = array( 'dojoType'     => 'ComboBox',
                                 'mode'         => 'remote',
@@ -222,9 +231,16 @@ showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'r
 
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
         if ( $fields['use_household_address'] && !$fields['shared_household_selected'] ) {
-            if ( !$fields['old_mail_to_household_id'] || $fields['shared_household'] ) {
-                $errors["shared_household"] = 
-                    ts("Please select a household from the 'Select Household' list");
+            if ( ! $fields['create_household'] ) {
+                if ( !array_key_exists( 'shared_option', $fields ) || $fields['shared_option'] ) {
+                    if ( !$fields['old_mail_to_household_id'] || $fields['shared_household'] ) {
+                        $errors["shared_household"] = 
+                            ts("Please select a household from the 'Select Household' list");
+                    }
+                } else {
+                    $errors["create_household"] = 
+                        ts("Please specify a new household");
+                }
             }
         }
         
@@ -240,41 +256,64 @@ showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'r
      * @access public
      * @static
      */
-    static function copyHouseholdAddress( &$params ) {
-        
-        if ( $params['use_household_address'] ) {
-            
-            if ( $params['shared_household'] ) {
-                list($householdName) = 
-                    explode( ",", $params['shared_household'] );
-                $params['mail_to_household_id'] = 
-                    CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim( $householdName ), 'id', 'sort_name' );
-            }
-            
-            if ( !$params['old_mail_to_household_id'] && !$params['mail_to_household_id'] ) {
-                CRM_Core_Error::statusBounce( ts("Shared Household-ID not found.") );
-            }
-            
+    static function copyHouseholdAddress( &$params ) 
+    {
+        if ( $params['shared_household'] ) {
+            list($householdName) = 
+                explode( ",", $params['shared_household'] );
             $params['mail_to_household_id'] = 
-                $params['mail_to_household_id'] ? $params['mail_to_household_id'] : $params['old_mail_to_household_id'];
-            
-            $locParams = array( 'contact_id' => $params['mail_to_household_id'] );
-            
-            require_once 'api/v2/Location.php';
-            $values =& _civicrm_location_get( $locParams, $location_types );
-            
-            $params['location'][1]['address'] = $values[1]['address'];
-            
-            // unset all the ids and unwanted fields
-            $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
-            foreach ( $unsetFields as $fld ) {
-                unset( $params['location'][1]['address'][$fld] );
-            }
-        } else {
-            $params['mail_to_household_id'] = false;
+                CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim( $householdName ), 'id', 'sort_name' );
+        }
+        
+        if ( !$params['old_mail_to_household_id'] && !$params['mail_to_household_id'] ) {
+            CRM_Core_Error::statusBounce( ts("Shared Household-ID not found.") );
+        }
+        
+        $params['mail_to_household_id'] = 
+            $params['mail_to_household_id'] ? $params['mail_to_household_id'] : $params['old_mail_to_household_id'];
+        
+        $locParams = array( 'contact_id' => $params['mail_to_household_id'] );
+        
+        require_once 'api/v2/Location.php';
+        $values =& _civicrm_location_get( $locParams, $location_types );
+        
+        $params['location'][1]['address'] = $values[1]['address'];
+        
+        // unset all the ids and unwanted fields
+        $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
+        foreach ( $unsetFields as $fld ) {
+            unset( $params['location'][1]['address'][$fld] );
         }
     }
-
+    
+    /**
+     * Function to create a new shared household (used if create-new-household options is checked).
+     *
+     * @param array $params  the input form values
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function createSharedHousehold( &$params ) 
+    {
+        $householdParams = array( );
+        
+        $householdParams['contact_type']   = 'Household';
+        $householdParams['household_name'] = $params['create_household'];
+        $householdParams['location']       = $params['location'];
+        
+        unset( $householdParams['location'][2] );
+        
+        $contact = CRM_Contact_BAO_Contact::create( $householdParams, $ids, 1 );
+        
+        if ( $contact->id ) {
+            $params['mail_to_household_id'] = $contact->id;
+            return true;
+        }
+        return false;
+    }
+    
     /**
      * Function to Add/Edit/Delete the relation of individual with shared-household.
      *
@@ -285,8 +324,8 @@ showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'r
      * @access public
      * @static
      */
-    static function handleSharedRelation( $contactID, &$params ) {
-        
+    static function handleSharedRelation( $contactID, &$params ) 
+    {
         if ( $params['old_mail_to_household_id'] != $params['mail_to_household_id'] ) {
             require_once 'CRM/Contact/BAO/Relationship.php';
             $relID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_RelationshipType', 'Household Member of', 'id', 'name_a_b' );

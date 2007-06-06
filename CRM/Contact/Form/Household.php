@@ -126,7 +126,8 @@ class CRM_Contact_Form_Household
      * @access public
      * @static
      */
-    static function synchronizeIndividualAddresses( $householdContactID ) {
+    static function synchronizeIndividualAddresses( $householdContactID ) 
+    {
         require_once 'api/v2/Location.php';
         $locParams = array( 'contact_id' => $householdContactID );
         $values =& _civicrm_location_get( $locParams, $location_types );
@@ -138,7 +139,7 @@ class CRM_Contact_Form_Household
         while ( $dao->fetch( ) ) {
             $idParams = array( 'id' => $dao->contact_id, 'contact_id' => $dao->contact_id );
             CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-
+            
             $params['location'][1]['address'] = $values[1]['address'];
             
             $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );

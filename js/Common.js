@@ -232,11 +232,12 @@ function enableDisableByValue(trigger_field_id, trigger_value, target_element_id
  * @param  trigger_field_id     HTML id of field whose onchange is the trigger
  * @param  trigger_value        List of integers - option value(s) which trigger reset action for target_field
  * @param  target_element_id    HTML id of element to be reset
+ * @param  target_field_type    Field-Type of element to be reset ('radio' or 'text')
  * @param  field_type           Type of element radio/select
  * @param  invert               Boolean - if true, we RESET target on value-match; if false, we RESET target on No-value-match
  * @return none 
 */
-function resetByValue(trigger_field_id, trigger_value, target_element_id, field_type, invert ) {
+function resetByValue(trigger_field_id, trigger_value, target_element_id, target_field_type, field_type, invert) {
     
     if (field_type == 'select') {
         var trigger = trigger_value.split("|");
@@ -247,15 +248,35 @@ function resetByValue(trigger_field_id, trigger_value, target_element_id, field_
             for(var i = 0; i < trigger.length; i++) {
 		if ( invert ) {
                   if (selectedOptionValue == trigger[i]) {
-    	            if (document.getElementById(target[j])) {
-			document.getElementById(target[j]).value = "";
-		    }
+		       if (target_field_type == 'radio') {	
+			   if (document.getElementsByName(target[j])) {
+				for (var i=0; i<document.getElementsByName(target[j]).length; i++) {
+				   if (document.getElementsByName(target[j])[i].checked) {
+ 				       document.getElementsByName(target[j])[i].checked = null;
+				   }
+				}
+			   }
+		       } else {	
+	    	           if (document.getElementById(target[j])) {
+			       document.getElementById(target[j]).value = "";
+			   }
+		       }
                   }
 		} else {
 		    if (selectedOptionValue != trigger[i]) {
-    	              if (document.getElementById(target[j])) {
-			  document.getElementById(target[j]).value = "";
-		      }
+		       if (target_field_type == 'radio') {	
+			   if (document.getElementsByName(target[j])) {
+				for (var i=0; i<document.getElementsByName(target[j]).length; i++) {
+				   if (document.getElementsByName(target[j])[i].checked) {
+ 				       document.getElementsByName(target[j])[i].checked = null;
+				   }
+				}
+			   }
+		       } else {	
+	    	           if (document.getElementById(target[j])) {
+			       document.getElementById(target[j]).value = "";
+			   }
+		       }
 		    }
 		}
             }
@@ -266,15 +287,35 @@ function resetByValue(trigger_field_id, trigger_value, target_element_id, field_
         for(var j = 0; j < target.length; j++) {
 	      if ( invert ) {
 		   if (document.getElementsByName(trigger_field_id)[0].checked) {
-		       if (document.getElementById(target[j])) {
-	  		    document.getElementById(target[j]).value = "";
-			}
+		       if (target_field_type == 'radio') {	
+			   if (document.getElementsByName(target[j])) {
+				for (var i=0; i<document.getElementsByName(target[j]).length; i++) {
+				   if (document.getElementsByName(target[j])[i].checked) {
+ 				       document.getElementsByName(target[j])[i].checked = null;
+				   }
+				}
+			   }
+		       } else {	
+			       if (document.getElementById(target[j])) {
+		  		   document.getElementById(target[j]).value = "";
+			      }
+		       }
 		   }
 	      } else {
 		   if (!document.getElementsByName(trigger_field_id)[0].checked) {
-		       if (document.getElementById(target[j])) {
-	  		    document.getElementById(target[j]).value = "";
-			}
+		       if (target_field_type == 'radio') {	
+			   if (document.getElementsByName(target[j])) {
+				for (var i=0; i<document.getElementsByName(target[j]).length; i++) {
+				   if (document.getElementsByName(target[j])[i].checked) {
+ 				       document.getElementsByName(target[j])[i].checked = null;
+				   }
+				}
+			   }
+		       } else {	
+			       if (document.getElementById(target[j])) {
+		  		   document.getElementById(target[j]).value = "";
+			      }
+		       }
 		   }
 	      }
 	}

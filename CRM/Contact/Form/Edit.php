@@ -577,7 +577,16 @@ AND civicrm_location.entity_table='civicrm_contact')";
         
         // copy household address, if use_household_address option (for individual form) is checked
         if ( $this->_contactType == 'Individual' ) {
-            CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
+            if ( $params['use_household_address'] ) {
+                if ( ( $this->_action & CRM_Core_Action::ADD ) && !$params['shared_option'] && $params['create_household'] ) {
+                    CRM_Contact_Form_Individual::createSharedHousehold( $params );
+                } elseif ( ( $params['shared_option'] && ( $this->_action & CRM_Core_Action::ADD ) ) || 
+                           ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+                    CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
+                }
+            } else {
+                $params['mail_to_household_id'] = false;
+            }
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -588,7 +597,7 @@ AND civicrm_location.entity_table='civicrm_contact')";
             CRM_Contact_Form_Individual::handleSharedRelation( $contact->id, $params );
         }
         
-        if ( $this->_contactType == 'Household' ) {
+        if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 
