@@ -1,14 +1,390 @@
- /*******************************************************
+-- /*******************************************************
 -- *
--- * modifying tables
+-- * add new  tables
 -- *
 -- *******************************************************/
+
+-- /*******************************************************
+-- *
+-- * civicrm_case
+-- *
+-- * This table stores information about cases grouping activities.
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_case (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique Case ID',
+     contact_id int unsigned NOT NULL COMMENT 'Contact ID of contact record given case belongs to.',
+     casetag1_id int unsigned NOT NULL COMMENT 'Id of first case category.',
+     casetag2_id int unsigned NOT NULL COMMENT 'Id of second case category.',
+     casetag3_id int unsigned NOT NULL COMMENT 'Id of third case category.',
+     subject varchar(128) COMMENT 'Short name of the case.',
+     start_date date COMMENT 'Date on which given case starts.',
+     end_date date COMMENT 'Date on which given case ends.',
+     details text COMMENT 'Details about the meeting (agenda, notes, etc).',
+     status_id int unsigned NOT NULL   COMMENT 'Id of case status.' 
+,
+    PRIMARY KEY ( id )
+,   INDEX UI_casetag1_id(casetag1_id)
+,   INDEX UI_casetag2_id(casetag2_id)
+,   INDEX UI_casetag3_id(casetag3_id)
+,   INDEX UI_status_id(status_id)
+,     
+    CONSTRAINT FK_civicrm_case_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_case_activity
+-- *
+-- * Joining table for case-activity associations.
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_case_activity (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique case-activity association id',
+     case_id int unsigned NOT NULL COMMENT 'Case ID of case-activity association.',
+     activity_id int unsigned NOT NULL COMMENT 'Activity ID of case-activity association.' 
+
+,    PRIMARY KEY ( id )
+
+,    CONSTRAINT FK_civicrm_case_activity_case_id FOREIGN KEY (case_id) REFERENCES civicrm_case(id)
+
+,    CONSTRAINT FK_civicrm_case_activity_activity_id FOREIGN KEY (activity_id) REFERENCES civicrm_activity(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_dedupe_rule_group
+-- *
+-- * Dedupe rule groups
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_dedupe_rule_group (
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique dedupe rule group id',
+     domain_id int unsigned NOT NULL   COMMENT 'The id of the domain this rule group belongs to',
+     contact_type enum('Individual', 'Organization', 'Household')    COMMENT 'The type of contacts this group applies to',
+     threshold int NOT NULL   COMMENT 'The weight threshold the sum of the rule weights has to cross to consider two contacts the same' 
+,
+    PRIMARY KEY ( id )
+,      
+    CONSTRAINT FK_civicrm_dedupe_rule_group_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_dedupe_rule
+-- *
+-- * Dedupe rules for use by rule groups
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_dedupe_rule (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique dedupe rule id',
+     dedupe_rule_group_id int unsigned NOT NULL COMMENT 'The id of the rule group this rule belongs to',
+     rule_table varchar(64) NOT NULL COMMENT 'The name of the table this rule is about',
+     rule_field varchar(64) NOT NULL COMMENT 'The name of the field of the table referenced in rule_table',
+     rule_length int unsigned COMMENT 'The lenght of the matching substring',
+     rule_weight int NOT NULL COMMENT 'The weight of the rule' 
+
+,    PRIMARY KEY ( id )
+
+,    CONSTRAINT FK_civicrm_dedupe_rule_dedupe_rule_group_id FOREIGN KEY (dedupe_rule_group_id) REFERENCES civicrm_dedupe_rule_group(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_payment_processor
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_payment_processor (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Payment Processor ID',
+     domain_id int unsigned NOT NULL COMMENT 'Which Domain owns this payment processor.',
+     name varchar(64) COMMENT 'Payment Processor Name.',
+     description varchar(255) COMMENT 'Payment Processor Description.',
+     payment_processor_type varchar(255) COMMENT 'Payment Processor Type.',
+     is_active tinyint COMMENT 'Is this processor active?',
+     is_default tinyint COMMENT 'Is this processor the default?',
+     is_test tinyint COMMENT 'Is this processor for a test site?',
+     user_name varchar(255),
+     password varchar(255),
+     signature varchar(255),
+     url_site varchar(255),
+     url_button varchar(255),
+     subject varchar(255),
+     class_name varchar(255),
+     billing_mode int unsigned NOT NULL COMMENT 'Billing Mode',
+     is_recur tinyint COMMENT 'Can process recurring contributions' 
+
+,    PRIMARY KEY ( id )
+ 
+,    UNIQUE INDEX UI_name_test( name, is_test )
+
+,    CONSTRAINT FK_civicrm_payment_processor_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_payment_processor_type
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_payment_processor_type (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Payment Processor Type ID',
+     domain_id int unsigned NOT NULL COMMENT 'Which Domain owns this payment processor.',
+     name varchar(64) COMMENT 'Payment Processor Name.',
+     title varchar(64) COMMENT 'Payment Processor Name.',
+     description varchar(255) COMMENT 'Payment Processor Description.',
+     is_active tinyint COMMENT 'Is this processor active?',
+     is_default tinyint COMMENT 'Is this processor the default?',
+     user_name_label varchar(255),
+     password_label varchar(255),
+     signature_label varchar(255),
+     subject_label varchar(255),
+     class_name varchar(255),
+     url_site_default varchar(255),
+     url_button_default varchar(255),
+     url_site_test_default varchar(255),
+     url_button_test_default varchar(255),
+     billing_mode int unsigned NOT NULL COMMENT 'Billing Mode',
+     is_recur tinyint COMMENT 'Can process recurring contributions' 
+
+,    PRIMARY KEY ( id )
+ 
+,    UNIQUE INDEX UI_name( name )
+  
+,    CONSTRAINT FK_civicrm_payment_processor_type_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_preferences
+-- *
+-- * Define preferences for the site and users
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_preferences (
+
+     id int unsigned NOT NULL AUTO_INCREMENT  ,
+     domain_id int unsigned NOT NULL COMMENT 'Which Domain owns this contact',
+     contact_id int unsigned COMMENT 'FK to Contact ID',
+     is_domain tinyint COMMENT 'Is this the record for the domain setting?',
+     location_count int unsigned COMMENT 'Number of locations to be displayed on edit page?',
+     contact_view_options varchar(32) COMMENT 'What tabs are displayed in the contact summary',
+     contact_edit_options varchar(32) COMMENT 'What tabs are displayed in the contact edit',
+     advanced_search_options varchar(32) COMMENT 'What tabs are displayed in the advanced search screen',
+     user_dashboard_options varchar(32) COMMENT 'What tabs are displayed in the contact edit',
+     address_options varchar(32) COMMENT 'What fields are displayed from the address table',
+     address_format text COMMENT 'Format to display the address',
+     mailing_format text COMMENT 'Format to display a mailing label',
+     individual_name_format text COMMENT 'Format to display a individual name',
+     address_standardization_provider varchar(64) COMMENT 'object name of provider for address standarization',
+     address_standardization_userid varchar(64) COMMENT 'user id for provider login',
+     address_standardization_url varchar(255) COMMENT 'url of address standardization service' 
+
+,    PRIMARY KEY ( id )
+ 
+,    CONSTRAINT FK_civicrm_preferences_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+
+,    CONSTRAINT FK_civicrm_preferences_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_price_set
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_price_set (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Price Set',
+     domain_id int unsigned NOT NULL COMMENT 'Which domain owns this price set',
+     name varchar(64) NOT NULL  COMMENT 'Variable name/programmatic handle for this group',
+     title varchar(64) NOT NULL COMMENT 'Friendly name',
+     is_active tinyint DEFAULT 1 COMMENT 'Is this price set active',
+     help_pre text COMMENT 'Description and/or help text to display before fields in form.',
+     help_post text COMMENT 'Description and/or help text to display after fields in form.',
+     javascript varchar(64) COMMENT 'Optional Javascript script function(s) included on the form with this price_set. Can be used for conditional' 
+
+,    PRIMARY KEY ( id )
+ 
+,    UNIQUE INDEX UI_name( name )
+
+,    UNIQUE INDEX UI_title( title )
+  
+,    CONSTRAINT FK_civicrm_price_set_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_price_field
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_price_field (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Price Field',
+     price_set_id int unsigned NOT NULL COMMENT 'FK to civicrm_price_set',
+     name varchar(64) NOT NULL COMMENT 'Variable name/programmatic handle for this field',
+     label varchar(64) NOT NULL COMMENT 'Text for form field label (also friendly name for administering this field)',
+     html_type enum('Text', 'Select', 'Radio', 'CheckBox') NOT NULL   ,
+     is_enter_qty tinyint DEFAULT 0 COMMENT 'Enter a quantity for this field?',
+     help_pre text COMMENT 'Description and/or help text to display before this field.',
+     help_post text COMMENT 'Description and/or help text to display after this field.',
+     weight int DEFAULT 1 COMMENT 'Order in which the fields should appear',
+     is_display_amounts tinyint DEFAULT 1 COMMENT 'Should the price be displayed next to the label for each option?',
+     options_per_line int unsigned DEFAULT 1 COMMENT 'number of options per line for checkbox and radio',
+     is_active tinyint DEFAULT 1 COMMENT 'Is this price field active',
+     is_required tinyint DEFAULT 1 COMMENT 'Is this price field required (value must be > 1)',
+     active_on datetime DEFAULT 0 COMMENT 'If non-zero, do not show this field before the date specified',
+     expire_on datetime DEFAULT 0 COMMENT 'If non-zero, do not show this field after the date specified',
+     javascript varchar(255) COMMENT 'Optional scripting attributes for field' 
+
+,    PRIMARY KEY ( id )
+
+,    INDEX UI_name( name )
+  
+,    CONSTRAINT FK_civicrm_price_field_price_set_id FOREIGN KEY (price_set_id) REFERENCES civicrm_price_set(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_price_set_entity
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_price_set_entity (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Price Set Entity',
+     entity_table varchar(64) NOT NULL COMMENT 'Table which uses this price set',
+     entity_id int unsigned NOT NULL COMMENT 'Item in table',
+     price_set_id int unsigned NOT NULL COMMENT 'price set being used' 
+
+,    PRIMARY KEY ( id )
+ 
+,    UNIQUE INDEX UI_entity( entity_table, entity_id )
+  
+,    CONSTRAINT FK_civicrm_price_set_entity_price_set_id FOREIGN KEY (price_set_id) REFERENCES civicrm_price_set(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_line_item
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_line_item (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Line Item',
+     entity_table varchar(64) NOT NULL COMMENT 'table which has the transaction',
+     entity_id int unsigned NOT NULL COMMENT 'entry in table',
+     price_field_id int unsigned NOT NULL COMMENT 'FK to price_field',
+     custom_option_id int unsigned NOT NULL COMMENT 'FK to custom_option',
+     label varchar(255) NOT NULL COMMENT 'descriptive label for item - from custom_option.label',
+     qty int unsigned NOT NULL COMMENT 'How many items ordered',
+     unit_price decimal(20,2) NOT NULL COMMENT 'price of each item',
+     line_total decimal(20,2) NOT NULL COMMENT 'qty * unit_price'
+
+,    PRIMARY KEY ( id )
+
+,    CONSTRAINT FK_civicrm_line_item_price_field_id FOREIGN KEY (price_field_id) REFERENCES civicrm_price_field(id)
+
+,    CONSTRAINT FK_civicrm_line_item_custom_option_id FOREIGN KEY (custom_option_id) REFERENCES civicrm_custom_option(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * Modifying Tables
+-- *
+-- *******************************************************/
+
+-- /*******************************************************
+-- *
+-- * civicrm_activity_history
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_activity_history 
+	    ADD is_test tinyint(4) NULL DEFAULT '0';
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_contribution
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_contribution
+	    ADD is_email_receipt tinyint(4) NULL DEFAULT NULL;
+
+-- /*******************************************************
+-- *
+-- * civicrm_contribution_page
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_contribution_page
+	    ADD payment_processor_id int(10) unsigned NOT NULL,
+	    ADD INDEX FK_civicrm_contribution_page_payment_processor_id ( payment_processor_id );
+
+ 
+-- /*******************************************************
+-- *
+-- * civicrm_custom_field
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_custom_field
+	    MODIFY data_type enum('String','Int','Float','Money','Memo','Date','Boolean','StateProvince','Country','File','Link') NULL DEFAULT NULL,
+    	    MODIFY html_type enum('Text','TextArea','Select','Multi-Select','Radio','CheckBox','Select Date','Select State/Province','Select Country','File','Link') NULL DEFAULT NULL;
+
+-- /*******************************************************
+-- *
+-- * civicrm_event
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_event
+	    ADD registration_start_date datetime NULL DEFAULT NULL,
+	    ADD registration_end_date datetime NULL DEFAULT NULL,
+	    ADD fee_label varchar(255) NULL DEFAULT NULL,
+	    ADD is_show_location tinyint(4) NULL DEFAULT '1';
+  
+-- /*******************************************************
+-- *
+-- * civicrm_membership
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_membership
+	    ADD is_test tinyint(4) NULL DEFAULT '0';
+
+-- /*******************************************************
+-- *
+-- * civicrm_option_group
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_option_group
+    	    ADD label varchar(255) NULL DEFAULT NULL;
 
 -- /*******************************************************
 -- *
 -- * civicrm_uf_group
 -- *
 -- *******************************************************/
-
-	ALTER TABLE `civicrm_uf_group` ADD `notify` varchar(255) NULL DEFAULT NULL COMMENT 'If you want member(s) of your organization to receive a notification email whenever this Profile form is used to enter or update contact information, enter one or more email addresses here separated by a comma';
-       
+	ALTER TABLE civicrm_uf_group 
+  	    ADD is_cms_user tinyint(4) NULL DEFAULT '0',
+	    ADD notify varchar(255) NULL DEFAULT NULL COMMENT 'If you want member(s) of your organization to receive a notification email whenever this Profile form is used to enter or update contact information, enter one or more email addresses here separated by a comma';
+      
