@@ -1065,9 +1065,9 @@ civicrm_membership_status.is_current_member =1";
             $status =
                 CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
                                                  CRM_Utils_Date::customFormat( $dates['start_date'],
-                                                                               $format );
+                                                                               $format ),
                                                  CRM_Utils_Date::customFormat( $dates['end_date'],
-                                                                               $format );
+                                                                               $format ),
                                                  CRM_Utils_Date::customFormat( $dates['join_date'],
                                                                                $format )
                                                  );  
