@@ -70,7 +70,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             if ( $rfp ) {
                 //require_once 'CRM/Contribute/Payment.php'; 
                 require_once 'CRM/Core/Payment.php'; 
-                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event' );
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
                 $expressParams = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
                 
                 $this->_params['payer'       ] = $expressParams['payer'       ];
@@ -247,7 +247,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         // required only if paid event
         if ( $this->_values['event']['is_monetary'] ) {
             require_once 'CRM/Core/Payment.php';
-            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event' );
+            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
 
             switch ( $this->_contributeMode ) {
             case 'express':

@@ -147,6 +147,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( ! $this->_values ) {
             // get all the values from the dao object
             $this->_values = array( );
+            $this->_fields = array( );
 
             //retrieve event information
             $params = array( 'id' => $this->_id );

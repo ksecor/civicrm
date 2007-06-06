@@ -230,7 +230,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */ 
     static function formRule(&$fields, &$files, $self) {
         if ( $self->_values['event']['is_monetary'] ) {
-            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event' );
+            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
             $error   =  $payment->checkConfig( $self->_mode );
             if ( $error ) {
                 $errors['_qf_default'] = $error;
@@ -355,7 +355,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             $this->set( 'invoiceID', $invoiceID );
             
-            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event' ); 
+            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor ); 
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
             
