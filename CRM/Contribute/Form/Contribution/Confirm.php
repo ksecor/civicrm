@@ -407,9 +407,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
                 if ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
-                    if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' ) {
-                        $payment->doCheckout( $this->_params );
-                    }
                     // addd qfKey so we can send to paypal
                     $this->_params['qfKey'] = $this->controller->_key;
                     $result =& $payment->doTransferCheckout( $this->_params );

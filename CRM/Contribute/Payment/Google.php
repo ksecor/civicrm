@@ -83,19 +83,20 @@ class CRM_Contribute_Payment_Google extends CRM_Core_Payment_Google {
      * @access public 
      *  
      */  
-    function doCheckout( &$params ) {
+    function doTransferCheckout( &$params ) {
         $url = 
-            $this->_paymentProcessor['site_url'] .
-            'cws/v2/Merchant/' .
+            $this->_paymentProcessor['url_site'] .
+            '/cws/v2/Merchant/' .
             $this->_paymentProcessor['user_name'] .
             '/checkout';
         
+
         //Create a new shopping cart object
-        $merchant_id  = $this->_paymentProcessor['site_url'];  // Merchant ID
+        $merchant_id  = $this->_paymentProcessor['user_name'];  // Merchant ID
         $merchant_key = $this->_paymentProcessor['password'];  // Merchant Key
         $server_type  = ( $this->_mode == 'test' ) ? 'sandbox' : '';
-        
-        $cart =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
+
+        $cart  =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
         $item1 = new GoogleItem($params['item_name'],'', 1, $params['amount']);
         $cart->AddItem($item1);
 
@@ -124,7 +125,9 @@ class CRM_Contribute_Payment_Google extends CRM_Core_Payment_Google {
         foreach ( $googleParams as $key => $value ) {
             $request->addPostData($key, $value);
         }
+
         $result = $request->sendRequest( );
+
         if ( PEAR::isError( $result ) ) {
             CRM_Core_Error::fatal( $result->getMessage( ) );
         }

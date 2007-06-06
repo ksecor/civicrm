@@ -198,6 +198,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         }
 
+        $this->assign_by_ref( 'paymentProcessor', $this->_paymentProcessor );
+
         // check if this is a paypal auto return and redirect accordingly
         if ( $this->_paymentProcessor['payment_processor_type'] == "PayPal_Standard" &&
              isset( $_GET['payment_date'] )                                       &&

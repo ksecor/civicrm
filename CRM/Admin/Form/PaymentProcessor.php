@@ -140,9 +140,9 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
             }
 
             $this->add( 'text', $field['name'],
-                        $field['label'], $attributes['name'] );
+                        $field['label'], $attributes[$field['name']] );
             $this->add( 'text', "test_{$field['name']}",
-                        $field['label'], $attributes['name'] );
+                        $field['label'], $attributes[$field['name']] );
             if ( CRM_Utils_Array::value( 'rule', $field ) ) {
                 $this->addRule( $field['name']         , $field['msg'], $field['rule'] );
                 $this->addRule( "test_{$field['name']}", $field['msg'], $field['rule'] );

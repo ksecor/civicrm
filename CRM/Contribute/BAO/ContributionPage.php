@@ -94,7 +94,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         require_once 'CRM/Core/BAO/UFGroup.php';
         foreach ($gIds as $gId) {
             $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($gId,$contactID,$params); 
-            CRM_Core_BAO_UFGroup::commonSendMail($this->_id, $val); 
+            CRM_Core_BAO_UFGroup::commonSendMail($contactID, $val); 
          }
         
         if ( $values['is_email_receipt'] ) {

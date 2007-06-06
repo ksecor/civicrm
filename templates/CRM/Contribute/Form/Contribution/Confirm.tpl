@@ -6,7 +6,7 @@
     <div id="help">
         <p>{ts}Please verify the information below carefully. Click <strong>Go Back</strong> if you need to make changes.{/ts}
             {if $contributeMode EQ 'notify'}
-               {if $config->paymentProcessor EQ 'Google_Checkout'} 
+               {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'} 
                   {ts}Click the <strong>Google Checkout</strong> button to checkout to Google, where you will select your payment method and complete the contribution.{/ts}
                {else} 
                 {ts}Click the <strong>Continue</strong> button to go to PayPal, where you will select your payment method and complete the contribution.{/ts}
@@ -113,7 +113,7 @@
     </div>
     {/if}
     
-    {if $config->paymentProcessor EQ 'Google_Checkout' and $is_monetary and $amount GT 0}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $is_monetary and $amount GT 0}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
          <table class="form-layout-compressed">
           <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>

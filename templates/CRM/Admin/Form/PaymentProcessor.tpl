@@ -31,9 +31,9 @@
 {if $form.subject}
     <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 {/if}
-    <dt>{$form.url_site.label}</dt><dd>{$form.url_site.html}</dd>
+    <dt>{$form.url_site.label}</dt><dd>{$form.url_site.html|crmReplace:class:huge}</dd>
 {if $form.url_button}
-    <dt>{$form.url_button.label}</dt><dd>{$form.url_button.html}</dd>
+    <dt>{$form.url_button.label}</dt><dd>{$form.url_button.html|crmReplace:class:huge}</dd>
 {/if}
 </fieldset>
 
@@ -49,9 +49,9 @@
 {if $form.test_subject}
     <dt>{$form.test_subject.label}</dt><dd>{$form.test_subject.html}</dd>
 {/if}
-    <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html}|crmReplace:class:huge</dd>
+    <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html|crmReplace:class:huge}</dd>
 {if $form.test_url_button}
-    <dt>{$form.test_url_button.label}</dt><dd>{$form.test_url_button.html}</dd>
+    <dt>{$form.test_url_button.label}</dt><dd>{$form.test_url_button.html|crmReplace:class:huge}</dd>
 {/if}
 </fieldset>
 
