@@ -103,7 +103,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             
             // see if we need to include this paneName in the current form
             if ( $this->_formType == $type ||
-                 isset( $_POST[ "hidden_{$type}" ] ) ) {
+                 isset( $_POST[ "hidden_{$type}" ] ) ||
+                 ( isset( $this->_formValues[ "hidden_{$type}" ] ) &&
+                   $this->_formValues[ "hidden_{$type}" ] ) ) {
                 $allPanes[$name]['open'] = 'true';
                 eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
             }
