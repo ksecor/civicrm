@@ -273,7 +273,7 @@ class CRM_Event_Payment_GoogleIPN extends CRM_Core_Payment_GoogleIPN {
                             'fee_amount'        => $contribution->fee_amount,
                             'net_amount'        => $contribution->net_amount,
                             'currency'          => $contribution->currency,
-                            'payment_processor' => $config->paymentProcessor,
+                            'payment_processor' => 'Google_Checkout',
                             'trxn_id'           => $contribution->trxn_id,
                             );
         

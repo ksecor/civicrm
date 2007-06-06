@@ -49,18 +49,12 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         $this->_paymentProcessor = $paymentProcessor;
 
         $config =& CRM_Core_Config::singleton();
-        $this->_setParam( 'apiLogin'   , $config->apiLogin );
-        $this->_setParam( 'paymentKey' , $config->paymentKey[$mode] );
-        $this->_setParam( 'paymentType', $config->paymentType );
-        $this->_setParam( 'md5Hash'    , $config->md5Hash );
+        $this->_setParam( 'apiLogin'   , $paymentProcessor['user_name'] );
+        $this->_setParam( 'paymentKey' , $paymentProcessor['password']  );
+        $this->_setParam( 'paymentType', 'AIM' );
+        $this->_setParam( 'md5Hash'    , $paymentProcessor['signature'] );
         
-        if ( ! empty( $config->gatewaySendEmail ) ) {
-            $this->_setParam( 'emailCustomer', 'TRUE' );
-        }
-        else {
-            $this->_setParam( 'emailCustomer', 'FALSE' );
-        }
-        
+        $this->_setParam( 'emailCustomer', 'TRUE' );
         $this->_setParam( 'timestamp', time( ) );
         srand( time( ) );
         $this->_setParam( 'sequence', rand( 1, 1000 ) );
@@ -349,19 +343,17 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
      * @public
      */
     function checkConfig( $mode ) {
-        $config =& CRM_Core_Config::singleton( );
-
         $error = array();
-        if ( empty( $config->apiLogin ) ) {
-            $error[] = ts('%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; Payment Processor.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME'));
+        if ( empty( $this->_paymentProcessor['user_name'] ) ) {
+            $error[] = ts( 'APILogin is not set for this payment processor' );
         }
 
-        if ( empty( $config->paymentKey[$mode] ) ) {
-            if ( $mode == 'live' ) {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_KEY') );
-            } else {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY') );
-            }
+        if ( empty( $this->_paymentProcessor['password'] ) ) {
+            $error[] = ts( 'Key is not set for this payment processor' );
+        }
+
+        if ( empty( $this->_paymentProcessor['signature'] ) ) {
+            $error[] = ts( 'MD5 Hash is not set for this payment processor' );
         }
 
         if ( ! empty( $error ) ) {

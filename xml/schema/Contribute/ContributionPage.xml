@@ -60,18 +60,12 @@
   <field> 
       <name>payment_processor_id</name> 
       <type>int unsigned</type>                 
-      <required>true</required>                  
       <comment>Payment Processor for this contribution Page </comment> 
       <add>1.8</add> 
   </field> 
   <foreignKey> 
        <name>payment_processor_id</name> 
        <table>civicrm_payment_processor</table> 
-       <key>id</key> 
-  </foreignKey>
-  <foreignKey> 
-       <name>contribution_type_id</name> 
-       <table>civicrm_contribution_type</table> 
        <key>id</key> 
   </foreignKey>
   <field>  

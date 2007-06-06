@@ -69,13 +69,13 @@
 {if $paidEvent}   
 {if $form.credit_card_number}
  <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
-    {if $config->paymentBillingMode & 2}
+    {if $paymentProcessor.billing_mode & 2}
       <table class="form-layout-compressed">
         <tr><td class="description">{ts}If you have a PayPal account, you can click the PayPal button to continue. Otherwise, fill in the credit card and billing information on this form and click <strong>Continue</strong> at the bottom of the page.{/ts}</td></tr>
         <tr><td>{$form._qf_Register_next_express.html} <span style="font-size:11px; font-family: Arial, Verdana;">Save time.  Checkout securely.  Pay without sharing your financial information. </span></td></tr>
       </table>
     {/if}
-    {if $config->paymentBillingMode & 1}
+    {if $paymentProcessor.billing_mode & 1}
       <table class="form-layout-compressed">
         <tr><td class="label">{$form.credit_card_type.label}</td><td>{$form.credit_card_type.html}</td></tr>
         <tr><td class="label">{$form.credit_card_number.label}</td><td>{$form.credit_card_number.html}<br />
@@ -111,7 +111,7 @@
  {include file="CRM/UF/Form/Block.tpl" fields=$customPost}    
 
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *}
-{if $config->paymentProcessor EQ 'PayPal_Express'}
+{if $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}
     <fieldset><legend>{ts}Checkout with PayPal{/ts}</legend>
     <table class="form-layout-compressed">
     <tr><td class="description">{ts}Click the PayPal button to continue.{/ts}</td></tr>

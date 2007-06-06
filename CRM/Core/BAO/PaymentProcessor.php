@@ -129,7 +129,7 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor {
         $dao->is_active = 1;
         $dao->domain_id = CRM_Core_Config::domainID( );
         if ( ! $dao->find( true ) ) {
-            CRM_Core_Error::fatal( ts( 'Could not retrieve payment processor details' ) );
+            return null;
         }
 
         if ( $mode == 'test' ) {

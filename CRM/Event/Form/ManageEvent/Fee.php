@@ -133,6 +133,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $this->addYesNo('is_monetary', ts('Paid Event'),null, null,array('onclick' =>"return showHideByValue('is_monetary','0','event-fees','block','radio',false);"));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
+        $this->add( 'select', 'payment_processor_id',
+                    ts( 'Payment Processor' ),
+                    CRM_Core_PseudoConstant::paymentProcessor( ) );
+
         $this->add('select', 'contribution_type_id',ts( 'Contribution Type' ),
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
         
@@ -184,14 +188,18 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     static function formRule( &$values ) 
     {
         if ( $values['is_monetary'] ) {
+            if ( ! $values['payment_processor_id'] ) {
+                $errorMsg['payment_processor_id'] = ts( 'Please select a payment processor' );
+            }
+
             //check if contribution type is selected
             if ( !$values['contribution_type_id'] ) {
-                $errorMsg['contribution_type_id'] = "Please select contribution type.";
+                $errorMsg['contribution_type_id'] = ts( "Please select contribution type." );
             }
             
             //check for the event fee label (mandatory)
             if ( !$values['fee_label'] ) {
-                $errorMsg['fee_label'] = "Please enter the fee label for the paid event.";
+                $errorMsg['fee_label'] = ts( "Please enter the fee label for the paid event." );
             }
             
             //check fee label and amount

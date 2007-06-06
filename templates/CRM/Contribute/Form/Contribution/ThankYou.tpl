@@ -12,7 +12,7 @@
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
         {if $contributeMode EQ 'notify'}
             <p>
-            {ts}Your contribution has been submitted to {if $config->paymentProcessor EQ 'Google_Checkout'}Google{else}PayPal{/if} for processing. Please print this page for your records.{/ts}
+            {ts}Your contribution has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{else}PayPal{/if} for processing. Please print this page for your records.{/ts}
             {if $is_email_receipt}
                 {ts 1=$email} An email receipt will be sent to %1 once the transaction is processed successfully.{/ts}</p>
             {/if}

@@ -55,8 +55,8 @@ class CRM_Event_Payment_Google extends CRM_Core_Payment_Google {
      * 
      * @return void 
      */ 
-    function __construct( $mode ) {
-        parent::__construct( $mode );
+    function __construct( $mode, &$paymentProcessor ) {
+        parent::__construct( $mode, $paymentProcessor );
     }
 
     /** 
@@ -68,9 +68,9 @@ class CRM_Event_Payment_Google extends CRM_Core_Payment_Google {
      * @static 
      * 
      */ 
-    static function &singleton( $mode ) {
+    static function &singleton( $mode, &$paymentProcessor ) {
         if (self::$_singleton === null ) { 
-            self::$_singleton =& new CRM_Event_Payment_Google( $mode );
+            self::$_singleton =& new CRM_Event_Payment_Google( $mode, $paymentProcessor );
         } 
         return self::$_singleton; 
     } 
@@ -84,15 +84,18 @@ class CRM_Event_Payment_Google extends CRM_Core_Payment_Google {
      * @access public 
      *  
      */  
-    function doCheckout( &$params ) {
+    function doTransferCheckout( &$params ) {
         $config =& CRM_Core_Config::singleton( );
 
-        $url = ( $this->_mode == 'test' ) ? $config->googleCheckoutTestUrl : $config->googleCheckoutUrl;
-        $url = 'https://' . $url . '/cws/v2/Merchant/' . $config->merchantID[$this->_mode] . '/checkout';
+        $url = 
+            $this->_paymentProcessor['url_site'] .
+            '/cws/v2/Merchant/' . 
+            $this->_paymentProcessor['user_name'] .
+            '/checkout';
         
         //Create a new shopping cart object
-        $merchant_id  = $config->merchantID[$this->_mode];  // Merchant ID
-        $merchant_key = $config->paymentKey[$this->_mode];  // Merchant Key
+        $merchant_id  = $this->_paymentProcessor['user_name'];
+        $merchant_key = $this->_paymentProcessor['password']
         $server_type  = ( $this->_mode == 'test' ) ? 'sandbox' : '';
         
         $cart =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
@@ -103,7 +106,8 @@ class CRM_Event_Payment_Google extends CRM_Core_Payment_Google {
 
         $cart->SetMerchantPrivateData($privateData);
 
-        $returnURL = CRM_Utils_System::url( 'civicrm/event/register', "_qf_ThankYou_display=1&qfKey={$params['qfKey']}", true, null, false );
+        $returnURL = CRM_Utils_System::url( 'civicrm/event/register',
+                                            "_qf_ThankYou_display=1&qfKey={$params['qfKey']}", true, null, false );
         $cart->SetContinueShoppingUrl( $returnURL );
         
         $cartVal      = base64_encode($cart->GetXML());

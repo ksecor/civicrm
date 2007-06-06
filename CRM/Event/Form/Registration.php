@@ -74,6 +74,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     public $_values;
 
     /**
+     * the paymentProcessor attributes for this page
+     *
+     * @var array
+     * @protected
+     */
+    public $_paymentProcessor;
+
+    /**
      * The params submitted by the form and computed by the app
      *
      * @var array
@@ -127,11 +135,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         // current mode
         $this->_mode = ( $this->_action == 1024 ) ? 'test' : 'live';
         
-        $this->_values = $this->get( 'values' );
-        $this->_fields = $this->get( 'fields' );
-        $this->_bltID  = $this->get( 'bltID'  );
-        $this->_priceSetId = $this->get( 'priceSetId' );
-        $this->_priceSet = $this->get( 'priceSet' ) ;
+        $this->_values           = $this->get( 'values' );
+        $this->_fields           = $this->get( 'fields' );
+        $this->_bltID            = $this->get( 'bltID'  );
+        $this->_paymentProcessor = $this->get( 'paymentProcessor' );
+        $this->_priceSetId       = $this->get( 'priceSetId' );
+        $this->_priceSet         = $this->get( 'priceSet' ) ;
 
         $config  =& CRM_Core_Config::singleton( );
 
@@ -152,9 +161,16 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
 
+            // check if form is active
+            if ( ! $this->_values['event']['is_active'] ) {
+                // form is inactive, die a fatal death
+                CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
+            }
+      
             $now = time( );
 
-            $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value('registration_start_date',$this->_values['event']) );
+            $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_start_date',
+                                                                           $this->_values['event'] ) );
             if ( $startDate &&
                  $startDate >= $now ) {
                 CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
@@ -165,6 +181,18 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                  $endDate < $now ) {
                 CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
             }
+
+            require_once 'CRM/Core/BAO/PaymentProcessor.php';
+            $this->_paymentProcessor =
+                CRM_Core_BAO_PaymentProcessor::getPayment( $this->_values['event']['payment_processor_id'],
+                                                           $this->_mode );
+
+            // make sure we have a valid payment class, else abort
+            if ( $this->_values['event']['is_monetary'] && ! $this->_paymentProcessor ) {
+                CRM_Core_Error::fatal( ts( 'Payment Processor is not set.' ) );
+            }
+
+            $this->set( 'paymentProcessor', $this->_paymentProcessor );
 
             //retrieve custom information
             $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
@@ -214,10 +242,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             }
             $this->set( 'bltID', $this->_bltID );
 
-            if ( ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM ) && $this->_values['event']['is_monetary'] ) {
+            if ( $this->_values['event']['is_monetary'] &&
+                 ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) ) {
                 $this->setCreditCardFields( );
             }
-
+            
             $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $this->_values, $ids, self::LOCATION_BLOCKS);
@@ -226,16 +255,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->set( 'fields', $this->_fields );
         }
 
-        // check if form is active
-        if ( ! $this->_values['event']['is_active'] ) {
-            // form is inactive, die a fatal death
-            CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
-        }
-      
-        // make sure we have a valid payment class, else abort
-        if ( $this->_values['event']['is_monetary'] && ! $config->paymentFile ) {
-            CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
-        }
+        $this->assign_by_ref( 'paymentProcessor', $this->_paymentProcessor );
 
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode );

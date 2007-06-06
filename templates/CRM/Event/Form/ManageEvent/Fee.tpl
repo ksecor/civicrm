@@ -10,6 +10,13 @@
     </dl>
   								
     <div id="event-fees">
+	<div id="paymentProcessor">
+            <dl>
+              <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}This payment processor will be used to process payments.{/ts}
+            </dl>
+        </div>
+           
         <div id="contributionType">
             <dl>
             <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>

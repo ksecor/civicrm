@@ -30,7 +30,7 @@
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Amount"}" id="idContributionAmounts">&raquo; {ts}Contribution Amounts{/ts}</a></td>
     <td>
         {ts}Configure contribution amount options and labels, minimum and maximum amounts.{/ts}
-        {if $config->paymentProcessor EQ 'PayPal_Standard'}{ts}Enable recurring contributions.{/ts}{/if}
+        {ts}Enable recurring contributions.{/ts}
     </td>
 </tr>
 {if $CiviMember}

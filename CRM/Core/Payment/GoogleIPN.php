@@ -59,8 +59,10 @@ abstract class CRM_Core_Payment_GoogleIPN {
      *
      * @return void 
      */ 
-    function __construct( $mode ) {
+    function __construct( $mode, &$paymentProcessor ) {
         $this->_mode = $mode;
+
+        $this->_paymentProcessor = $paymentProcessor;
     }
 
     /**  
@@ -95,14 +97,14 @@ abstract class CRM_Core_Payment_GoogleIPN {
      * @return object  
      * @static  
      */  
-    static function &singleton( $mode = 'test', $component ) {
+    static function &singleton( $mode = 'test', $component, &$paymentProcessor ) {
         if ( self::$_singleton === null ) {
             $config       =& CRM_Core_Config::singleton( );
-            $paymentClass = "CRM_{$component}_" . $config->paymentFile . "IPN";
+            $paymentClass = "CRM_{$component}_" . $paymentProcessor['class_name'] . "IPN";
             
             $classPath = str_replace( '_', '/', $paymentClass ) . '.php';
             require_once($classPath);
-            self::$_singleton = eval( 'return ' . $paymentClass . '::singleton( $mode );' );
+            self::$_singleton = eval( 'return ' . $paymentClass . '::singleton( $mode, $paymentProcessor );' );
         }
         return self::$_singleton;
     }

@@ -505,10 +505,7 @@ class CRM_Contribute_BAO_Query
         //add field for transaction ID search
         $form->addElement( 'text', 'contribution_transaction_id', ts( "Transaction ID" ) );
 
-        $config =& CRM_Core_Config::singleton( );
-        if ($config->paymentProcessor == "PayPal_Standard") {
-            $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Recurring Contributions Only' ) );
-        }
+        $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Recurring Contributions Only' ) );
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

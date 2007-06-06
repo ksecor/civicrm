@@ -35,6 +35,8 @@
 
 class CRM_Event_Payment_PayPalIPN 
 {
+    static $_paymentProcessor = null;
+
     static function retrieve( $name, $type, $location = 'POST', $abort = true ) 
     {
         static $store = null;
@@ -102,6 +104,18 @@ class CRM_Event_Payment_PayPalIPN
             return;
         }
 
+        // get the payment processor id from contribution page
+        $paymentProcessorID = $event->payment_processor_id;
+        if ( ! $paymentProcessorID ) {
+            CRM_Core_Error::debug_log_message( "Could not find payment processor for event record: $eventID\n" );
+            echo "Failure: Could ot find payment processor for event record: $eventID<p>";
+            return;
+        }
+
+        require_once 'CRM/Core/BAO/PaymentProcessor.php';
+        self::$_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID,
+                                                                              $contribution->is_test ? 'test' : 'live' );
+        
         return self::single( $contactID, $contribution, $contributionType, $eventID );
     }
 
@@ -231,8 +245,6 @@ class CRM_Event_Payment_PayPalIPN
 
         $contribution->save( );
 
-        $config =& CRM_Core_Config::singleton( );
-
         // next create the transaction record
         $trxnParams = array(
                             'entity_table'      => 'civicrm_contribution',
@@ -243,7 +255,7 @@ class CRM_Event_Payment_PayPalIPN
                             'fee_amount'        => $contribution->fee_amount,
                             'net_amount'        => $contribution->net_amount,
                             'currency'          => $contribution->currency,
-                            'payment_processor' => $config->paymentProcessor,
+                            'payment_processor' => self::$_paymentProcessor['payment_processor_type'],
                             'trxn_id'           => $contribution->trxn_id,
                             );
         

@@ -174,11 +174,11 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $this->assign( 'lineItem', $this->_lineItem );
 
-        if ($config->paymentProcessor == 'Google_Checkout') {
+        if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout') {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
-                       $config->googleCheckoutButton[$this->_mode],
+                       $this->_paymentProcessor['url_button'],
                        array( 'class' => 'form-submit' ) );
             
             $this->addButtons(array(
@@ -266,12 +266,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
                 // save params here also since we dont come back
                 $this->set( 'params', $this->_params );
-                
-                if ($config->paymentProcessor == 'Google_Checkout') {
-                    $payment->doCheckout( $this->_params );
-                }
                 $result =& $payment->doTransferCheckout( $this->_params );
                 break;
+
             default   :
                 self::mapParams( $this->_bltID, $this->_params, $this->_params, true );
                 $result =& $payment->doDirectPayment( $this->_params );
@@ -472,7 +469,7 @@ WHERE  v.option_group_id = g.id
                             'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
                             'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
                             'currency'          => $params['currencyID'],
-                            'payment_processor' => $config->paymentProcessor,
+                            'payment_processor' => $this->_paymentProcessor['payment_processor_type'],
                             'trxn_id'           => $result['trxn_id'],
                             );
         

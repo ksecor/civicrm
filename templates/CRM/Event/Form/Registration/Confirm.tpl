@@ -105,7 +105,7 @@
     </div>
     {/if}    
    
-    {if $config->paymentProcessor EQ 'Google_Checkout' and $paidEvent}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
          <table class="form-layout-compressed">
           <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>

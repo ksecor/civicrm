@@ -284,7 +284,7 @@ class CRM_Contribute_Payment_PayPalIPN {
                             'fee_amount'        => $contribution->fee_amount,
                             'net_amount'        => $contribution->net_amount,
                             'currency'          => $contribution->currency,
-                            'payment_processor' => self::$_paymentProcessor['processor'],
+                            'payment_processor' => self::$_paymentProcessor['payment_processor_type'],
                             'trxn_id'           => $contribution->trxn_id,
                             );
         
@@ -504,11 +504,10 @@ class CRM_Contribute_Payment_PayPalIPN {
             return;
         }
 
-        $isTest = self::retrieve( 'test_ipn'     , 'Integer', 'POST', false );
-
         require_once 'CRM/Core/BAO/PaymentProcessor.php';
         self::$_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID,
-                                                                     $isTest ? 'test' : 'live' );
+                                                                              $contribution->is_test ? 'test' : 'live' );
+        
         if ( array_key_exists( 'contributionRecurID', $_GET ) ) {
             // check if first contribution is completed, else complete first contribution
             $first = true;

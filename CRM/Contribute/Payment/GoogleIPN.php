@@ -36,6 +36,7 @@
 require_once 'CRM/Core/Payment/GoogleIPN.php';
 
 class CRM_Contribute_Payment_GoogleIPN extends CRM_Core_Payment_GoogleIPN {
+
     /** 
      * We only need one instance of this object. So we use the singleton 
      * pattern and cache the instance in this variable 
@@ -219,6 +220,26 @@ class CRM_Contribute_Payment_GoogleIPN extends CRM_Core_Payment_GoogleIPN {
             return;
         }
         
+        // get the contribution page id from the contribution
+        // and then initialize the payment processor from it
+        if ( ! $contribution->contribution_page_id ) {
+            CRM_Core_Error::debug_log_message( "Could not find contribution page for contribution record: $contributionID" );
+            echo "Failure: Could not find contribution page for contribution record: $contributionID<p>";
+            return;
+        }
+
+        // get the payment processor id from contribution page
+        $paymentProcessorID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                                           $contribution->contribution_page_id,
+                                                           'payment_processor_id' );
+        if ( ! $paymentProcessorID ) {
+            CRM_Core_Error::debug_log_message( "Could not find payment processor for contribution record: $contributionID" );
+            echo "Failure: Could not find payment processor for contribution record: $contributionID<p>";
+            return;
+        }
+
+        $isTest = self::retrieve( 'test_ipn'     , 'Integer', 'POST', false );
+
         // lets start since payment has been made
         $now              = date( 'YmdHis' );
         $contactID        = $contribution->contact_id;
@@ -232,8 +253,7 @@ class CRM_Contribute_Payment_GoogleIPN extends CRM_Core_Payment_GoogleIPN {
         $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
         
         $contribution->contribution_status_id  = 1;
-        $contribution->source                  = ts( 'Online Contribution:' ) . ' ' . $values['title'];
-        //     $contribution->is_test    = $privateData['test'] ? 1 : 0; //since this is done before checkout
+        $contribution->source     = ts( 'Online Contribution:' ) . ' ' . $values['title'];
         $contribution->fee_amount = $dataRoot['fee_amount']['VALUE']; //not available
         $contribution->net_amount = $dataRoot['net_amount']['VALUE']; //not available
         $contribution->trxn_id    = $dataRoot['google-order-number']['VALUE']; // storing google-order-no
@@ -259,7 +279,7 @@ class CRM_Contribute_Payment_GoogleIPN extends CRM_Core_Payment_GoogleIPN {
                             'fee_amount'        => $contribution->fee_amount,
                             'net_amount'        => $contribution->net_amount,
                             'currency'          => $contribution->currency,
-                            'payment_processor' => $config->paymentProcessor,
+                            'payment_processor' => 'Google_Checkout',
                             'trxn_id'           => $contribution->trxn_id,
                             );
         

@@ -133,7 +133,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $buttonName = empty( $uploadNames ) ? 'next' : 'upload';
 
         // if payment is via a button only, dont display continue
-        if ( $config->paymentBillingMode != CRM_Core_Payment::BILLING_MODE_BUTTON ||
+        if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
              ! $this->_values['event']['is_monetary']) {
             $this->addButtons(array( 
                                     array ( 'type'      => $buttonName, 
@@ -193,7 +193,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     function buildCreditCard( ) {
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_FORM ) {
+        if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) {
             foreach ( $this->_fields as $name => $field ) {
                 $this->add( $field['htmlType'],
                             $field['name'],
@@ -207,11 +207,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->addRule( 'credit_card_exp_date', ts('Select a valid date greater than today.'), 'currentDate');
         }            
             
-        if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
+        if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
                        $this->_expressButtonName,
-                       $config->paymentExpressButton,
+                       $this->_paymentProcessor['url_button'],
                        array( 'class' => 'form-submit' ) );
         }
     }
@@ -273,7 +273,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $params = $this->controller->exportValues( $this->_name ); 
             
             $params['currencyID']     = $config->defaultCurrency;
-            //$params['payment_action'] = 'Sale'; 
 
             if ( !empty( $params['priceSetId'] ) ) {
                 $totalPrice = 0;
@@ -360,7 +359,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
             
-            if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
+            if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
                 //get the button name  
                 $buttonName = $this->controller->getButtonName( );  
                 if ($buttonName == $this->_expressButtonName || 
@@ -380,15 +379,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     
                     $this->set( 'token', $token ); 
                     
-                    if ( $this->_mode == 'test' ) {
-                        $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                    } else {
-                        $paymentURL = "https://" . $config->paymentPayPalExpressUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                    }
+                    $paymentURL =
+                        $this->_paymentProcessor['url_site'] .
+                        "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                     
                     CRM_Utils_System::redirect( $paymentURL ); 
                 }
-            } else if ( $config->paymentBillingMode & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
+            } else if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
                 $this->set( 'contributeMode', 'notify' );
             }
         }

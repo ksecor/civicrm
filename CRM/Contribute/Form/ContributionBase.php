@@ -67,6 +67,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
     public $_values;
 
     /**
+     * the paymentProcessor attributes for this page
+     *
+     * @var array
+     * @protected
+     */
+    public $_paymentProcessor;
+
+    /**
      * the default values for the form
      *
      * @var array
