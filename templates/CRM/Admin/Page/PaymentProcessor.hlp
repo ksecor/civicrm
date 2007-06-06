@@ -10,7 +10,7 @@ in test-drive mode first. Once you are satisfied that your test contributions ar
 account information. Then you are ready to activate and promote your contribution page(s).{/ts}</p>
 {/htxt}
 
-{htxt id='paypal-test-username'}
+{htxt id='PayPal-test-user-name'}
 {ts}
 <strong>TEST Account Username or Email Address:</strong>
 <p><strong>PayPal Website Payments Pro or Express</strong> - If you are using the recommended <strong>Signature-based API Credentials</strong> - enter your API Username value as displayed in your account Profile - View API Signature screen.</p>
