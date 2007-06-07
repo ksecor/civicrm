@@ -422,6 +422,16 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             }
           
         } else {
+            if ( $values['external_identifier'] ) {
+                $checkCid = new CRM_Contact_DAO_Contact();
+                $checkCid->external_id = $values['external_id'];
+                $checkCid->find(true);
+                if ($checkCid->contact_id != $formatted['contact_id']) {
+                    array_unshift($values, "Mismatch of External identifier :" . $values['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
+                    return CRM_Contribute_Import_Parser::ERROR;
+                }
+            }
+
             $newMembership = crm_create_contact_membership($formatted, $formatted['contact_id']);
             if ( is_a( $newMembership, CRM_Core_Error ) ) {
                 array_unshift($values, $newMembership->_errors[0]['message']);

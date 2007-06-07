@@ -387,6 +387,16 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
           
         } else {
+            if ( $values['external_identifier'] ) {
+                $checkCid = new CRM_Contact_DAO_Contact();
+                $checkCid->external_id = $values['external_id'];
+                $checkCid->find(true);
+                if ($checkCid->contact_id != $formatted['contact_id']) {
+                    array_unshift($values, "Mismatch of External identifier :" . $values['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
+                    return CRM_Contribute_Import_Parser::ERROR;
+                }
+            }
+            
             $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
             if ( is_a( $newContribution, CRM_Core_Error ) ) {
                 array_unshift($values, $newContribution->_errors[0]['message']);
