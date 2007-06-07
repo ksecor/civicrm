@@ -522,7 +522,9 @@ AND civicrm_location.entity_table='civicrm_contact')";
         }
         
         // store the submitted values in an array
-        $params = $this->controller->exportValues( $this->_name );
+        //$params = $this->controller->exportValues( $this->_name );
+        $params = $_POST;
+
         $params['contact_type'] = $this->_contactType;
 
         if ( $this->_showDemographics ) {

@@ -66,9 +66,9 @@ class CRM_Contact_Form_Address
                           'postal_code'            => array( ts('Zip / Postal Code'), null, null ),
                           'postal_code_suffix'     => array(ts('Postal Code Suffix')       ,
                                                             array( 'size' => 4, 'maxlength' => 12 ), null ),
-                          'county_id'              => array( ts('County')           , null, county        ),
-                          'state_province_id'      => array( ts('State / Province') , null, stateProvince ),
-                          'country_id'             => array( ts('Country')          , null, country       ), 
+                          'county'                 => array( ts('County')           , null, county        ),
+                          'state_province'         => array( ts('State / Province') , null, stateProvince ),
+                          'country'                => array( ts('Country')          , null, country       ), 
                           'geo_code_1'             => array( ts('Latitude')         ,
                                                              array( 'size' => 4, 'maxlength' => 8 ), null ),
                           'geo_code_2'             => array( ts('Longitude')         ,
@@ -93,11 +93,24 @@ class CRM_Contact_Form_Address
                                        $title,
                                        $attributes );
             } else {
+                $attributes = null;
+                if ( $name == 'country' ) {
+                    $attributes = array( 'dojoType'       => 'ComboBox',
+                                         'mode'           => 'remote',
+                                         'style'          => 'width: 300px;',
+                                         'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/country",
+                                                                                    "s=%{searchString}&node=root",
+                                                                                    true, null, false ),
+                                         'onValueChanged' => 'checkParamChildren',
+                                         'id'             => 'wizCardDefGroupId' );
+                    
+                }
+
                 $location[$locationId]['address'][$name] =
                     $form->addElement( 'select',
                                        "location[$locationId][address][$name]",
                                        $title,
-                                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
+                                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ), $attributes );
             }
         }
     }
@@ -124,34 +137,34 @@ class CRM_Contact_Form_Address
                 continue;
             }
             
-            $stateProvinceId = CRM_Utils_Array::value( 'state_province_id',$fields['location'][$i]['address'] );
-            $countryId       = CRM_Utils_Array::value( 'country_id',$fields['location'][$i]['address'] );
-            $countyId        = CRM_Utils_Array::value( 'county_id', $fields['location'][$i]['address'] );
+//             $stateProvinceId = CRM_Utils_Array::value( 'state_province_id',$fields['location'][$i]['address'] );
+//             $countryId       = CRM_Utils_Array::value( 'country_id',$fields['location'][$i]['address'] );
+//             $countyId        = CRM_Utils_Array::value( 'county_id', $fields['location'][$i]['address'] );
 
-            if ($stateProvinceId && $countryId) {
-                $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
-                $stateProvinceDAO->id = $stateProvinceId;
-                $stateProvinceDAO->find(true);
+//             if ($stateProvinceId && $countryId) {
+//                 $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
+//                 $stateProvinceDAO->id = $stateProvinceId;
+//                 $stateProvinceDAO->find(true);
 
-                if ($stateProvinceDAO->country_id != $countryId) {
-                    // countries mismatch hence display error
-                    $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-                    $countries =& CRM_Core_PseudoConstant::country();
-                    $errors["location[$i][address][state_province_id]"] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
-                }
-            }
+//                 if ($stateProvinceDAO->country_id != $countryId) {
+//                     // countries mismatch hence display error
+//                     $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
+//                     $countries =& CRM_Core_PseudoConstant::country();
+//                     $errors["location[$i][address][state_province_id]"] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+//                 }
+//             }
             
-            if ($stateProvinceId && $countyId) {
-                $countyDAO =& new CRM_Core_DAO_County();
-                $countyDAO->id = $countyId;
-                $countyDAO->find(true);
+//             if ($stateProvinceId && $countyId) {
+//                 $countyDAO =& new CRM_Core_DAO_County();
+//                 $countyDAO->id = $countyId;
+//                 $countyDAO->find(true);
 
-                if ($countyDAO->state_province_id != $stateProvinceId) {
-                    $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-                    $counties =& CRM_Core_PseudoConstant::county();
-                    $errors["location[$i][address][county_id]"] = "County " . $counties[$countyId] . " is not part of ". $stateProvinces[$stateProvinceId] . ". It belongs to " . $stateProvinces[$countyDAO->state_province_id] . "." ;
-                }
-            }
+//                 if ($countyDAO->state_province_id != $stateProvinceId) {
+//                     $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
+//                     $counties =& CRM_Core_PseudoConstant::county();
+//                     $errors["location[$i][address][county_id]"] = "County " . $counties[$countyId] . " is not part of ". $stateProvinces[$stateProvinceId] . ". It belongs to " . $stateProvinces[$countyDAO->state_province_id] . "." ;
+//                 }
+//             }
         }
     }
 }

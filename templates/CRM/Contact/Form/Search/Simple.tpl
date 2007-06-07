@@ -84,8 +84,7 @@ function checkChildren(obj, element, value, src_func) {
                       value: 'this should never be seen - it is replaced!',
                       dataUrl: res + '&node='+value,
                       id: element +'_'+node,
-                      style: 'width: 300px', 
-                      onValueChanged: src_func
+                      style: 'width: 300px'
                     }, 
                    
                     dojo.byId (element+'_container_'+node));

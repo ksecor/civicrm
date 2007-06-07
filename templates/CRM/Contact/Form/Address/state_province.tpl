@@ -1,10 +1,11 @@
-{if $form.location.$index.address.state_province_id}
+{if $form.location.$index.address.state_province}
 <div class="form-item">
     <span class="labels">
-    {$form.location.$index.address.state_province_id.label}
+    {ts}State / Province{/ts}
+    {*$form.location.$index.address.state_province_id.label*}
     </span>
-    <span class="fields">
-    {$form.location.$index.address.state_province_id.html}
+    <span id="wizCardDefGroupId_children" class="fields">
+    {*$form.location.$index.address.state_province_id.html*}
     </span>
 </div>
 {/if}
