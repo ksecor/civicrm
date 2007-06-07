@@ -74,9 +74,12 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
                                        array('onfocus' => "if (!this.value) this.value='http://'; else return false")
                                        ));
         $form->addRule('home_URL', ts('Enter a valid Website.'), 'url');
-
+        
         $form->addElement('text', 'contact_source', ts('Source'));
-        $form->addElement('text', 'external_identifier', ts('External Id'));
+        $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
+        $this->addRule( 'external_identifier', ts('External ID already exists in Database.'), 
+                        'objectExists', array( 'CRM_Contact_DAO_Contact', $this->_id, 'external_identifier' ) );
+        
     }
 
     static function formRule( &$fields ,&$files, $options) {

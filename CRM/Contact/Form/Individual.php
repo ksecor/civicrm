@@ -172,7 +172,9 @@ showHideSharedOptions();
         $form->addElement('text', 'current_employer', ts('Current Employer'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'current_employer') );
         
         $form->addElement('text', 'contact_source', ts('Source'));
-        $form->addElement('text', 'external_identifier', ts('External Id'));
+        $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
+        $this->addRule( 'external_identifier', ts('External ID already exists in Database.'), 
+                        'objectExists', array( 'CRM_Contact_DAO_Contact', $this->_id, 'external_identifier' ) );
         $config =& CRM_Core_Config::singleton();
         CRM_Core_ShowHideBlocks::links($this, 'demographics', '' , '');
     }
