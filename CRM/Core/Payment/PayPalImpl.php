@@ -483,7 +483,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         }
     
         if ( ! empty( $error ) ) {
-            return implode( ' ', $error );
+            return implode( '<p>', $error );
         } else {
             return null;
         }

@@ -52,6 +52,8 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
     function preProcess( ) {
         parent::preProcess( );
 
+        CRM_Utils_System::setTitle(ts('Settings - Payment Processor'));
+
         // get the payment processor meta information
 
         if ( $this->_id ) {

@@ -813,6 +813,28 @@ class CRM_Core_Menu {
                              'weight'  => 380
                              ),
                        
+                       array(
+                             'path'    => 'civicrm/admin/paymentProcessor',
+                             'title'   => ts('Payment Processor'),
+                             'desc'    => ts('Payment Processor setup for CiviCRM transactions'),
+                             'query'  => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::CALLBACK,
+                             'adminGroup' => null,
+                             'weight'  => 390
+                             ),
+                       
+                       array(
+                             'path'    => 'civicrm/admin/paymentProcessorType',
+                             'title'   => ts('Payment Processor Type'),
+                             'desc'    => ts('Payment Processor type information'),
+                             'query'  => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::CALLBACK,
+                             'adminGroup' => null,
+                             'weight'  => 390
+                             ),
+                       
                        );
         return $items;
     }

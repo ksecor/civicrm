@@ -1,4 +1,4 @@
-<?php
+php
 /**
  * CiviCRM Configuration File - v1.7
  */
@@ -157,72 +157,6 @@ define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
  *
  */
 define( 'CIVICRM_SMTP_PASSWORD', ''    );
-
-/**
- * Payment Processor Passwords and/or Signature:
- *
- * Select and configure your payment processing service from Administer CiviCRM >> Global Settings >> 
- * Payment Processor. For most services, you will also need to enter a Password and/or a Signature
- * or key below. These values are not stored separately (not in your database) for security reasons.
- */
-
-/*
- * TEST Payment Server (Sandbox) Settings:
- * NOTE: Not all settings are used by all payment processors and authentication credential methods.
- * 
- */
-
-/* API Password
- * PayPal API Signature credential: API Password value (from your PayPal sandbox account - View API Signature screen).
- * PayPal Pro or Express with API Certificate credential: API Password value (from your PayPal sandbox account).
- * Moneris: API Token value.
- */
- 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , '' ); 
-
-/* API Signature or Key 
- * PayPal API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
- * PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
- * Moneris: Use the storeid value.
- * Authorize.net: Use the API Transaction Key.
- */
- 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , '' ); 
-
-/* API Subject
- * PayPal API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
- */
- 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_SUBJECT'       , '' );
-
-/*
- * LIVE Payment Server Settings:
- * NOTE: Not all settings are used by all payment processors and authentication credential methods.
- * 
- */
-
-/* API Password
- * PayPal Pro or Express with API Signature credential: API Password value (from your PayPal account - View API Signature screen)
- * PayPal Pro or Express with API Certificate credential: API Password value (from your PayPal account).
- * Moneris: API Token value.
- */
-
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , '' );
-
-/* API Signature or Key 
- * PayPal Pro or Express with API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
- * PayPal Pro or Express with API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
- * Moneris: Use the storeid value.
- * Authorize.net: Use the API Transaction Key.
- */
-
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
-
-/* API Subject
- * PayPal Pro or Express with API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
-  */
-
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_SUBJECT'       , '' );
 
 /**
  * Multi-site Support
