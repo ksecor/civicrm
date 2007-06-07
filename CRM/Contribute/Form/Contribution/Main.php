@@ -478,9 +478,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( CRM_Utils_Array::value('amount',$params) == 'amount_other_radio' || ! empty( $params['amount_other'] ) ) {
             $amount = $params['amount_other'];
         } else {
-            $amountID = array_search( CRM_Utils_Array::value('amount',$params),
-                                      CRM_Utils_Array::value('amount_id',$form->_values) );
-
+            if ( CRM_Utils_Array::value('amount_id',$form->_values) ) {
+                $amountID = array_search( CRM_Utils_Array::value('amount',$params),
+                                          CRM_Utils_Array::value('amount_id',$form->_values) );
+            }
+            
             if ( ! empty( $form->_values['value'] ) &&
                  $amountID ) {
                 $params['amount_level'] =
