@@ -87,9 +87,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         if ( !$submit ) {
             return self::error(9002, 'Could not initiate connection to payment gateway');
         }
-        // do not allow reuse of connections which have handled cc info
-        #curl_setopt( $submit, CURLOPT_FORBID_REUSE, true );
-        #curl_setopt( $submit, CURLOPT_FRESH_CONNECT, true );
+
         curl_setopt( $submit, CURLOPT_POST, true );
         curl_setopt( $submit, CURLOPT_RETURNTRANSFER, true );
         curl_setopt( $submit, CURLOPT_POSTFIELDS, implode( '&', $postFields ) );
@@ -350,10 +348,6 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
 
         if ( empty( $this->_paymentProcessor['password'] ) ) {
             $error[] = ts( 'Key is not set for this payment processor' );
-        }
-
-        if ( empty( $this->_paymentProcessor['signature'] ) ) {
-            $error[] = ts( 'MD5 Hash is not set for this payment processor' );
         }
 
         if ( ! empty( $error ) ) {
