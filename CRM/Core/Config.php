@@ -440,6 +440,11 @@ class CRM_Core_Config
     public $includeDojo              = 1;
 
     /**
+     * to determine wether the call is from cms or civicrm 
+     */
+    public $cmsCall  = false;
+
+    /**
      * singleton function used to manage this object
      *
      * @param string the key in which to record session / log information

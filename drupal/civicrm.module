@@ -345,6 +345,11 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
                                                   civicrm_get_ctype( 'Individual' ) );
     case 'register':
         $config =& CRM_Core_Config::singleton( );
+
+        if ( $config->cmsCall ) {
+            return;
+        }
+ 
         if ( empty( $_POST ) || $config->userFrameworkVersion < 4.7 ) {
             return civicrm_register_data($edit, $user, $category, true, false );
         } else {

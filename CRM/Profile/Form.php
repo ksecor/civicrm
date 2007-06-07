@@ -170,10 +170,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             CRM_Core_BAO_UFGroup::setRegisterDefaults(  $this->_fields, $defaults );
             $this->setDefaults( $defaults );    
         }
-        $session =& CRM_Core_Session::singleton( );
-        $this->_cId = $session->get( 'userID' );
+
        
-        $this->setDefaultsValues();$i=0;
+        $this->setDefaultsValues();
     }
     
     /** 
@@ -317,21 +316,11 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( $field['add_captcha'] ) {
                 $addCaptcha[$field['group_id']] = $field['add_captcha'];
             }
-
-            if ( $this->_mode == self::MODE_CREATE ) {
-                $cmsCid = false;// if false, user is not logged-in. 
-                if ( $this->_cId ) {
-                    list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($this->_cId);
-                    $cmsCid = true; 
-                    $this->assign('cmsCid', 1);
-                }
-
-                if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
-                    $cms = true;
-                    $this->_mail = 'email-Primary';
-                    if ( !$this->_mail ) {
-                        $this->_mail = 'email-' . $primaryLocationType;
-                    }
+            if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
+                $cms = true;
+                $this->_mail = 'email-Primary';
+                if ( !$this->_mail ) {
+                    $this->_mail = 'email-' . $primaryLocationType;
                 }
             }
         }
@@ -374,28 +363,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'showBlocks', $showBlocks ); 
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
-
-        $config =& CRM_Core_Config::singleton( );
-        $drupalCms = false;
-        // if cms is drupal having version greater than equal to 5.1 
-        if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
-            if ( $this->_gid ) {
-                $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_cms_user' );
-            }
-            // $cms is true when there is email(primary location) is set in the profile field.
-            if ( $cmsUser && $cms) {
-                $extra = array('onclick' => "if (this.checked) showMessage(this); return showHideByValue('create_account', '', 'details','block','radio',false );");
-                $this->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra); 
-                if( !$cmsCid ) {
-                    $this->add('text', 'name', ts('User Name'));
-                    $this->add('password', 'pass', ts('Password'));
-                    $this->add('password', 'confirm_pass', ts('Confirm Password'));
-                }
-                $drupalCms = true;
-            } 
-        }
-
-        $this->assign( 'drupalCms', $drupalCms );  
+        require_once 'CRM/Core/BAO/CMSUser.php';
+        CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $cms );
         $this->assign( 'groupId', $this->_gid ); 
 
         // if view mode pls freeze it with the done button.
@@ -626,16 +595,10 @@ class CRM_Profile_Form extends CRM_Core_Form
         //create CMS user (if CMS user option is selected in profile)
         if ( $params['create_account']  && $this->_mode == self::MODE_CREATE ) {
             require_once "CRM/Core/BAO/CMSUser.php";
-            if ( ! CRM_Core_BAO_CMSUser::creatCMSUser( $params, $this->_mail ) ) {
+            if ( ! CRM_Core_BAO_CMSUser::create( $params, $this->_mail ) ) {
                 CRM_Core_Session::setStatus( ts('Your profile is not saved and Account is not created.') );
                 return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/profile/create',
                                                                          'reset=1&gid=' . $this->_gid) );
-            } else {
-                //find the civicrm contact that has been created
-                //during cms user creation and update the contact
-                require_once 'CRM/Contact/BAO/Contact.php';
-                $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $params[$this->_mail], $this->_ctype );
-                $this->_id = $dao->contact_id;
             }
         }
 

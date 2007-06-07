@@ -117,24 +117,79 @@ class CRM_Core_BAO_CMSUser
      * @access public
      * @static
      */
-    static function creatCMSUser ( &$params, $mail ) 
-    {
+    static function create ( &$params, $mail ) 
+        {
         $config  =& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
             $values = array( 
                             'name' => $params['name'],
-                            'pass' => array('pass1' => $params['pass'],
-                                            'pass2' => $params['confirm_pass']),
                             'mail' => $params[$mail],
                             );
+            if ( !variable_get('user_email_verification', TRUE )) {
+                $values['pass'] = array('pass1' => $params['pass'],
+                                        'pass2' => $params['confirm_pass']);
+
+            }
+
+            $config->cmsCall = true;
             
             drupal_execute( 'user_register', $values );
             
+            $config->cmsCall = false;
+
             if ( form_get_errors( ) ) {
                 return false;
             }
             return true;
         }
+    }
+
+    /**
+     * Function to create Form for CMS user using Profile
+     *
+     * @param object  $form
+     * @param integer $gid id of group of profile
+     *
+     * @param string $cms true, if the profile field has email(primary)
+     * @access public
+     * @static
+     */
+    static function buildForm ( &$form, $gid, $cms ) 
+    {
+       
+        $session =& CRM_Core_Session::singleton( );
+        $cId = $session->get( 'userID' );
+        $cmsCid = false;// if false, user is not logged-in. 
+        if ( $cId ) {
+            list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($cId);
+            $cmsCid = true; 
+            $form->assign('cmsCid', 1);
+        }
+        
+
+        $config =& CRM_Core_Config::singleton( );
+        $drupalCms = false;
+        // if cms is drupal having version greater than equal to 5.1 
+        if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
+            if ( $gid ) {
+                $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
+            }
+            // $cms is true when there is email(primary location) is set in the profile field.
+            if ( $cmsUser && $cms) {
+                $extra = array('onclick' => "if (this.checked) showMessage(this); return showHideByValue('create_account', '', 'details','block','radio',false );");
+                $form->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra); 
+                if( !$cmsCid ) {
+                    $form->add('text', 'name', ts('User Name'));
+                    if ( !variable_get('user_email_verification', TRUE )) {
+                        $form->add('password', 'pass', ts('Password'));
+                        $form->add('password', 'confirm_pass', ts('Confirm Password'));
+                    }
+                }
+                $drupalCms = true;
+            } 
+        }
+
+        $form->assign( 'drupalCms', $drupalCms ); 
     }
 
 }
