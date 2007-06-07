@@ -81,6 +81,7 @@ class CRM_Core_Report_Excel {
 
         foreach ( $rows as $row ) {
             $schema_insert = '';
+            $colNo = 0;
             foreach ( $row as $j => $value ) {
                 if (!isset($value) || is_null($value)) {
                     $schema_insert .= '';
@@ -99,9 +100,10 @@ class CRM_Core_Report_Excel {
                     $schema_insert .= '';
                 }
          
-                if ($j < $fields_cnt-1) {
+                if ($colNo < $fields_cnt-1) {
                     $schema_insert .= $seperator;
                 }
+                $colNo++;
             } // end for
 
             $out = $schema_insert . $add_character;
