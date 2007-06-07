@@ -34,7 +34,9 @@
         {$event.fee_label}
     </div>
     <div class="display-block">
-        {if $amount}
+        {if $lineItem}
+            {include file="CRM/Event/Form/Registration/LineItem.tpl}
+        {elseif $amount}
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
         {/if}
         {ts}Transaction Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />

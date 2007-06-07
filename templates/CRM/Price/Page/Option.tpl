@@ -22,7 +22,7 @@
         {foreach from=$customOption item=row}
         <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
-            <td>{$row.value}</td>
+            <td>{$row.value|crmMoney}</td>
             <td>{$row.weight}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{$row.action}</td>

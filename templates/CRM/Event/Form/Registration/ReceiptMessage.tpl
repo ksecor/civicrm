@@ -44,7 +44,19 @@
 ===========================================================
 {$event.fee_label}
 ===========================================================
-{ts}Total Amount{/ts}     : {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
+{if $lineItem}
+{capture assign="ts_item}{ts}Item{/ts}{/capture}
+{capture assign="ts_qty}{ts}Qty{/ts}{/capture}
+{capture assign="ts_each}{ts}Each{/ts}{/capture}
+{capture assign="ts_total}{ts}Total{/ts}{/capture}
+{$ts_item|string_format:"%-30s"} {$ts_qty|string_format:"%5s"} {$ts_each|string_format:"%10s"} {$ts_total|string_format:"%10s"}
+----------------------------------------------------------
+{foreach from=$lineItem item=line}
+{$line.label|truncate:30:"..."|string_format:"%-30s"} {$line.qty|string_format:"%5s"} {$line.unit_price|crmMoney|string_format:"%10s"} {$line.line_total|crmMoney|string_format:"%10s"}
+{/foreach}
+
+{/if}
+{ts}Total Amount{/ts}     : {$amount|crmMoney} {if $amount_level && !$line_item} - {$amount_level} {/if}
 
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
 {ts}Transaction #{/ts}    : {$trxn_id}

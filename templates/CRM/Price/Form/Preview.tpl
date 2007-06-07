@@ -18,7 +18,7 @@
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div><br />{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
-	{if $element.options_per_line }
+    {if ($element.html_type eq 'CheckBox' || $element.html_type eq 'Radio') && $element.options_per_line }
         {assign var="element_name" value=price_$field_id}
         <dt>{$form.$element_name.label} </dt>
         <dd>
@@ -47,7 +47,7 @@
         {if $element.help_post}
             <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
         {/if}
-	{else}
+    {else}
         {assign var="name" value=`$element.name`} 
         {assign var="element_name" value="price_"|cat:$field_id}  
         <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>

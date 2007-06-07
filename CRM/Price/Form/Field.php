@@ -140,6 +140,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             require_once 'CRM/Utils/Weight.php';
             $fieldValues = array('price_set_id' => $this->_gid);
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_PriceField', $fieldValues);
+            $defaults['options_per_line'] = 1;
             $defaults['is_display_amounts'] = 1;
         }
 
@@ -211,8 +212,6 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             // is active ?
             $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
             
-            //for checkbox handling of default option
-            $this->add('checkbox', 'default_checkbox_option['.$i.']', null);
         }
         
         $_showHide->addToTemplate();                
@@ -320,16 +319,16 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 $showBlocks = 'optionField_'.$idx;
 
                 // both value and label are empty
-                if ( empty( $fields['option_value'][$idx] ) && empty( $fields['option_label'] ) ) {
+                if ( $fields['option_value'][$idx] == '' && $fields['option_label'][$idx] == '' ) {
                     $_showHide->addHide($showBlocks);
                     continue;
                 }
 
                 $_showHide->addShow($showBlocks);
 
-                if ( ! empty( $fields['option_value'][$idx] ) ) {
+                if ( $fields['option_value'][$idx] != '' ) {
                     // check for empty label
-                    if ( empty( $fields['option_label'][$idx] ) ) {
+                    if ( $fields['option_label'][$idx] == '' ) {
                         $errors['option_label]['.$idx.']'] = ts( 'Option label cannot be empty' );
                     }
                     // all fields are money fields
@@ -340,9 +339,9 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                     }
                 }
 
-                if ( ! empty( $fields['option_label'][$idx] ) ) {
+                if ( $fields['option_label'][$idx] != '' ) {
                     // check for empty value
-                    if ( empty( $fields['option_value'][$idx] ) ) {
+                    if ( $fields['option_value'][$idx] == '' ) {
                         $errors['option_value]['.$idx.']'] = ts( 'Option value cannot be empty' );
                     }
                     // check for duplicate labels, if not already done
@@ -473,6 +472,8 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         $priceField->save();
 
         if ($this->_action & CRM_Core_Action::ADD) {
+
+            require_once 'CRM/Utils/Money.php';
 
             if ( $priceField->html_type == 'Text' ) {
                 $params['option_value'] = array( 1 => $params['price'] );
