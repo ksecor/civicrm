@@ -53,45 +53,50 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
         $this->assign( 'dojoIncludes',
                        "dojo.require('dojo.widget.Select');dojo.require('dojo.widget.ComboBox');dojo.require('dojo.widget.Tooltip');" );
 
-        $attributes = array( 'dojoType'     => 'ComboBox',
-                             'mode'         => 'remote',
-                             'dataUrl'      => CRM_Utils_System::url( 'civicrm/ajax/search',
-                                                                      "d={$domainID}&s=%{searchString}" ),
-                             );
-        $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
-        $this->add( 'text', 'sort_name', ts('Name'), $attributes );
+//         $attributes = array( 'dojoType'     => 'ComboBox',
+//                              'mode'         => 'remote',
+//                              'dataUrl'      => CRM_Utils_System::url( 'civicrm/ajax/search',
+//                                                                       "d={$domainID}&s=%{searchString}" ),
+//                              );
+//         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
+//         $this->add( 'text', 'sort_name', ts('Name'), $attributes );
 
-        $attributes = array( 'dojoType'     => 'Select',
-                             'style'        => 'width: 300px;',
-                             'autocomplete' => 'true' );
+//         $attributes = array( 'dojoType'     => 'Select',
+//                              'style'        => 'width: 300px;',
+//                              'autocomplete' => 'true' );
 
-        // select for state province
-        $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
-        $this->addElement('select', 'state_province', ts('State/Province'), $stateProvince, $attributes);
+//         // select for state province
+//         $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
+//         $this->addElement('select', 'state_province', ts('State/Province'), $stateProvince, $attributes);
 
-        // select for country
-        $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( );
-        $this->addElement('select', 'country', ts('Country'), $country, $attributes );
+//         // select for country
+//         $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( );
+//         $this->addElement('select', 'country', ts('Country'), $country, $attributes );
 
 
         //state - country widget
-        $attributes = array( 'dojoType'       => 'Select',
+        $attributes = array( 'dojoType'       => 'ComboBox',
+                             'mode'           => 'remote',
                              'style'          => 'width: 300px;',
-                             'dataUrl'        => CRM_Utils_System::url( 'civicrm/ajax/state',
-                                                                        's=a&node=root' ),
+                             'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/country",
+                                                                        "s=%{searchString}&node=root",
+                                                                       true, null, false ),
+//                              'dataUrl'        => CRM_Utils_System::url( 'civicrm/ajax/country',
+//                                                                         's=a&node=root',
+//                                                                         true, null, false ),
                              'onValueChanged' => 'checkParamChildren',
                              'id'             => 'wizCardDefGroupId' );
 
-        $this->addElement('select', 'state', ts('State'), null, $attributes );
+        $this->addElement('select', 'country', ts('Country'), null, $attributes );
 
-        $this->addButtons( array(
-                                 array ( 'type'      => 'refresh',
-                                         'name'      => ts('Search'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
+//         $this->addButtons( array(
+//                                  array ( 'type'      => 'refresh',
+//                                          'name'      => ts('Search'),
+//                                          'isDefault' => true   ),
+//                                  array ( 'type'      => 'cancel',
+//                                          'name'      => ts('Cancel') ),
+//                                  )
+//                            );
 
     }
 

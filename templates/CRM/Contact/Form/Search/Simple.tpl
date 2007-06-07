@@ -1,4 +1,4 @@
-<table>
+<!--table>
         <tr> 
             <td class="label">{$form.sort_name.label}</td>
             <td class="nowrap">{$form.sort_name.html}{help id='sort_name'}</td>
@@ -15,7 +15,7 @@
             <td colspan=2>{$form.buttons.html}</td>
         </tr>
 
-</table>
+</table-->
 <br/><br/>
 {if $rows}
 <table>
@@ -30,7 +30,7 @@
 
 <script type="text/javascript">
 
-dojo.require("dojo.widget.Select");
+dojo.require("dojo.widget.ComboBox");
 dojo.require("dojo.io.*");
 
 var active_levels = Array();
@@ -58,7 +58,7 @@ function checkChildren(obj, element, value, src_func) {
         active_levels[element] = 0;
     }        
 
-    var res = {/literal}"{crmURL p='civicrm/ajax/country' q='s=getParameters'}"{literal};
+    var res = {/literal}"{crmURL p='civicrm/ajax/state' q='s=getParameters'}"{literal};
     
     var bindArgs = {
         url: res,
@@ -79,7 +79,7 @@ function checkChildren(obj, element, value, src_func) {
                 dojo.byId(element+'_children').appendChild(container);
 
                 if ( value ) {  
-                    dojo.widget.createWidget("Select", 
+                    dojo.widget.createWidget("ComboBox", 
                     {
                       value: 'this should never be seen - it is replaced!',
                       dataUrl: res + '&node='+value,
@@ -114,11 +114,8 @@ function removeChildren(element, value) {
 {/literal}
 
 <div id="select_root">
- {$form.state.label}{$form.state.html}{help id='state_province'}
+ {$form.country.label}{$form.country.html}{help id='country'}
 </div>
 
  
 <div id="wizCardDefGroupId_children"></div>    
-
-
-
