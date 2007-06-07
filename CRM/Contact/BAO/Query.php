@@ -36,7 +36,7 @@
 require_once 'CRM/Core/DAO/Location.php'; 
 require_once 'CRM/Core/DAO/Address.php'; 
 require_once 'CRM/Core/DAO/Phone.php'; 
-require_once 'CRM/Core/DAO/Email.php'; 
+require_once 'CRM/Core/DAO/Email.php';
 
 
 class CRM_Contact_BAO_Query {
@@ -610,6 +610,7 @@ class CRM_Contact_BAO_Query {
                 $index++;
                 $cond = "is_primary = 1";
                 $elementName = $elementFullName;
+
                 $elementType = '';
                 if ( strpos( $elementName, '-' ) ) {
                     // this is either phone, email or IM
@@ -672,7 +673,18 @@ class CRM_Contact_BAO_Query {
                         $this->_select["{$tName}_id"]                   = "`$tName`.id as `{$tName}_id`";
                         $this->_element["{$tName}_id"]                  = 1;
                         if ( substr( $tName, -15 ) == '-state_province' ) {
-                            $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.abbreviation as `{$name}-{$elementFullName}`";
+                            
+                            // FIXME: hack to fix CRM-1900
+
+                            require_once 'CRM/Core/BAO/Preferences.php';
+                            $a = CRM_Core_BAO_Preferences::value( 'address_format' );
+
+                            if ( substr_count( $a, 'state_province_name' ) > 0 ) {
+                                $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.name as `{$name}-{$elementFullName}`";                            
+                            } else {
+                                $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.abbreviation as `{$name}-{$elementFullName}`";                            
+                            }
+                            
                         } else {
                             if ( substr( $elementFullName,0,2) == 'im' ) {
                                 $provider = "{$name}-{$elementFullName}-provider_id";
