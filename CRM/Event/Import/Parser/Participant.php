@@ -352,11 +352,11 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         } else {
             if ( $values['external_identifier'] ) {
                 $checkCid = new CRM_Contact_DAO_Contact();
-                $checkCid->external_id = $values['external_id'];
+                $checkCid->external_identifier = $values['external_identifier'];
                 $checkCid->find(true);
-                if ($checkCid->contact_id != $formatted['contact_id']) {
+                if ($checkCid->id != $formatted['contact_id']) {
                     array_unshift($values, "Mismatch of External identifier :" . $values['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
-                    return CRM_Contribute_Import_Parser::ERROR;
+                    return CRM_Event_Import_Parser::ERROR;
                 }
             }
             $newParticipant = crm_create_participant_formatted($formatted, $onDuplicate);
