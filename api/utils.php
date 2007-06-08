@@ -1856,7 +1856,8 @@ function _crm_validate_formatted_contribution(&$params) {
 }
 
 function &_crm_duplicate_formatted_contact(&$params) {
-    if ( $params['contact_type'] == 'Individual') {
+    if ( $params['contact_type'] == 'Individual' || (!isset($params['household_name']) && !isset($params['organization_name'])) ) {
+        
         require_once 'CRM/Core/BAO/UFGroup.php';
         if ( ( $ids =& CRM_Core_BAO_UFGroup::findContact( $params, null, true ) ) != null ) {
             $error =& _crm_error( "Found matching contacts: $ids",
@@ -1865,7 +1866,7 @@ function &_crm_duplicate_formatted_contact(&$params) {
             return $error;
         }
         return true;
-    } else {
+    } else {  
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $params['contact_type']) . ".php");
         eval('$contact =& new CRM_Contact_DAO_'.$params['contact_type'].'();');
         if ( $params['contact_type'] == 'Household' ) {
