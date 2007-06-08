@@ -58,13 +58,20 @@ class CRM_Dedupe_Criterion
     private $_weight;
 
     /**
+     * The supported tables.
+     */
+    static $supportedTables = array('civicrm_address', 'civicrm_contact',
+        'civicrm_email', 'civicrm_household', 'civicrm_im', 'civicrm_individual',
+        'civicrm_note', 'civicrm_organization', 'civicrm_phone');
+
+    /**
      * Construct the criterion based on a hash of criterion data.
      */
     function __construct($params)
     {
         // sanitize the parameters for SQL use
-        if (preg_match('/^civicrm_[a-z_]+$/', $params['table'])) $this->_table = $params['table'];
-        if (preg_match('/^[a-zA-Z_]+$/',      $params['field'])) $this->_field = $params['field'];
+        if (in_array($params['table'], self::$supportedTables)) $this->_table = $params['table'];
+        if (preg_match('/^[a-zA-Z_]+$/', $params['field']))     $this->_field = $params['field'];
         $this->_length = (int) $params['length'];
         $this->_weight = (int) $params['weight'];
     }
@@ -99,10 +106,14 @@ class CRM_Dedupe_Criterion
 
         case 'civicrm_address':
         case 'civicrm_email':
+        case 'civicrm_im':
         case 'civicrm_phone':
             return "SELECT param.{$this->_field} AS 'match' FROM {$this->_table} param
                 INNER JOIN civicrm_location loc ON param.location_id = loc.id
                 WHERE loc.entity_table = 'civicrm_contact' AND loc.entity_id = $cid";
+
+        case 'civicrm_note':
+            return "SELECT {$this->_field} AS 'match' FROM {$this->_table} WHERE entity_table = 'civicrm_contact' AND entity_id = $cid";
         }
     }
 
@@ -139,6 +150,9 @@ class CRM_Dedupe_Criterion
             return "SELECT loc.entity_id AS contact_id FROM civicrm_location loc
                 INNER JOIN {$this->_table} param ON param.location_id = loc.id
                 WHERE loc.entity_table = 'civicrm_contact' AND param.{$this->_field} $condition";
+
+        case 'civicrm_note':
+            return "SELECT entity_id AS contact_id FROM {$this->_table} WHERE entity_table = 'civicrm_contact' AND {$this->_field} $condition";
         }
     }
 }

@@ -75,10 +75,27 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Dedupe/Criterion.php';
         $importableFields = CRM_Contact_BAO_Contact::importableFields($rgDao->contact_type);
+        // FIXME: this is what you end up doing when abusing importableFields()
+        $replacements = array(
+            'civicrm_country.name'        => 'civicrm_address.country_id',
+            'civicrm_county.name'         => 'civicrm_address.county_id',
+            'civicrm_state_province.name' => 'civicrm_address.state_province_id',
+            'gender.label'                => 'civicrm_individual.gender_id',
+            'individual_prefix.label'     => 'civicrm_individual.prefix_id',
+            'individual_suffix.label'     => 'civicrm_individual.suffix_id',
+        );
         foreach ($importableFields as $iField) {
             if (isset($iField['where'])) {
-                $this->_fields[$iField['where']] = $iField['title'];
+                $where = $iField['where'];
+                if (isset($replacements[$where])) {
+                    $where = $replacements[$where];
+                }
+                $table = array_shift(explode('.', $where));
+                if (in_array($table, CRM_Dedupe_Criterion::$supportedTables)) {
+                    $this->_fields[$where] = $iField['title'];
+                }
             }
         }
     }
