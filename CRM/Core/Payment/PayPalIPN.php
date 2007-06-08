@@ -49,7 +49,7 @@ class CRM_Core_Payment_PayPalIPN {
         return $value;
     }
 
-    static function recur( $contactID, &$contribution, &$contributionType, $first ) {
+    static function recur( $component, $contactID, &$contribution, &$contributionType, $first ) {
         $contributionRecurID = self::retrieve( 'contributionRecurID', 'Integer', 'GET' , true );
         $contributionPageID  = self::retrieve( 'contributionPageID' , 'Integer', 'GET' , true );
         $txnType             = self::retrieve( 'txn_type'           , 'String' , 'POST', true );
@@ -153,10 +153,10 @@ class CRM_Core_Payment_PayPalIPN {
             $contribution->receive_date          = $now;
         }
 
-        self::single( $contactID, $contribution, $contributionType, null, true, $first );
+        self::single( $component, $contactID, $contribution, $contributionType, null, true, $first );
     }
 
-    static function single( $contactID, &$contribution, &$contributionType, $eventID, $recur = false, $first = false ) {
+    static function single( $component, $contactID, &$contribution, &$contributionType, $eventID, $recur = false, $first = false ) {
         $membershipTypeID   = self::retrieve( 'membershipTypeID', 'Integer', 'GET', false );
 
         // make sure the invoice is valid and matches what we have in the contribution record
@@ -555,7 +555,7 @@ WHERE  v.option_group_id = g.id
         $contributionTypeID = self::retrieve( 'contributionTypeID', 'Integer', 'GET', true );
 
         if ( $component == 'event' ) {
-            $eventID            = CRM_Core_Payment_PayPalIPN::retrieve( 'eventID'           , 'Integer', 'GET', true );
+            $eventID = CRM_Core_Payment_PayPalIPN::retrieve( 'eventID'           , 'Integer', 'GET', true );
         }
 
         // make sure contact exists and is valid
@@ -635,12 +635,12 @@ WHERE  v.option_group_id = g.id
                 if ( $contribution->contribution_status_id == 1 ) {
                     $first = false;
                 }
-                return self::recur( $contactID, $contribution, $contributionType, $first );
+                return self::recur( $component, $contactID, $contribution, $contributionType, $first );
             } else {
-                return self::single( $contactID, $contribution, $contributionType, null, false, false );
+                return self::single( $component, $contactID, $contribution, $contributionType, null, false, false );
             }
         } else {
-            return self::single( $contactID, $contribution, $contributionType, $eventID );
+            return self::single( $component, $contactID, $contribution, $contributionType, $eventID );
         }
     }
 

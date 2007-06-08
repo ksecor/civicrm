@@ -277,10 +277,10 @@ VALUES
  (@domain_id,'AuthNet_AIM','{ts}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts}API Login{/ts}','{ts}Payment Key{/ts}','{ts}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll',NULL,'https://secure.authorize.net/gateway/transact.dll',NULL,1,NULL);
 
 INSERT INTO `civicrm_payment_processor` 
- (domain_id, name, description, is_active, is_default, is_test, user_name, password, signature, subject, class_name, url_site, url_button, billing_mode, is_recur )
+ (domain_id, name, description, payment_processor_type, is_active, is_default, is_test, user_name, password, signature, subject, class_name, url_site, url_button, billing_mode, is_recur )
 VALUES 
- ( @domain_id, '{ts}Dummy{/ts}', NULL, 1, 1, 0, 'dummy', NULL, NULL, NULL, 'Pyyment_Dummy', NULL, NULL, 1, 0 ),
- ( @domain_id, '{ts}Dummy{/ts}', NULL, 1, 1, 1, 'dummy', NULL, NULL, NULL, 'Pyyment_Dummy', NULL, NULL, 1, 0 );
+ ( @domain_id, '{ts}Dummy{/ts}', 'Dummy', NULL, 1, 1, 0, 'dummy', NULL, NULL, NULL, 'Pyyment_Dummy', NULL, NULL, 1, 0 ),
+ ( @domain_id, '{ts}Dummy{/ts}', 'Dummy', NULL, 1, 1, 1, 'dummy', NULL, NULL, NULL, 'Pyyment_Dummy', NULL, NULL, 1, 0 );
 
 -- the default dedupe rules
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Individual', 20);

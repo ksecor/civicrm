@@ -932,7 +932,7 @@ class CRM_Core_PseudoConstant
 
         if ( ! self::$paymentProcessor ) {
             self::populate( self::$paymentProcessor, 'CRM_Core_DAO_PaymentProcessor', $all, 
-                            'name', 'is_active', $condition, 'is_default, name' );
+                            'name', 'is_active', $condition, 'is_default desc, name' );
         }
         return self::$paymentProcessor;
     }
