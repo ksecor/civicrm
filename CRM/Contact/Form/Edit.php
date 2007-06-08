@@ -292,14 +292,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $defaults['use_household_address'] = true;
                 $domainID      =  CRM_Core_Config::domainID( );   
                 $query         =  "
-SELECT CONCAT(sort_name,', ', LEFT(street_address,25),', ', city) 'shared_name'
-FROM civicrm_contact, civicrm_address 
-WHERE civicrm_contact.id={$defaults['mail_to_household_id']} 
-AND domain_id=$domainID 
-AND civicrm_address.location_id=(SELECT id from civicrm_location 
-WHERE civicrm_location.entity_id=civicrm_contact.id 
-AND civicrm_location.is_primary=1
-AND civicrm_location.entity_table='civicrm_contact')";
+SELECT CONCAT_WS( ', ', household_name, LEFT( street_address, 25 ) , city ) 'shared_name', 
+civicrm_household.contact_id 'id'
+FROM civicrm_household
+LEFT JOIN civicrm_location ON civicrm_location.entity_id={$defaults['mail_to_household_id']} 
+AND civicrm_location.is_primary=1 
+AND civicrm_location.entity_table='civicrm_contact'
+LEFT JOIN civicrm_address ON civicrm_address.location_id=civicrm_location.id
+where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
+                
                 $nullArray = array( );
                 $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
                 $dao->fetch( );

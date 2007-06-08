@@ -139,16 +139,21 @@ class CRM_Contact_Form_Household
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
         
         while ( $dao->fetch( ) ) {
+            $params = array();
+            
             $idParams = array( 'id' => $dao->contact_id, 'contact_id' => $dao->contact_id );
             CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
             
-            $params['location'][1]['address'] = $values[1]['address'];
+            $params['contact_id']                      = $dao->contact_id;
+            $params['location'][1]['address']          = $values[1]['address'];
+            $params['location'][1]['location_type_id'] = $values[1]['location_type_id'];
             
             $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
             foreach ( $unsetFields as $fld ) {
                 unset( $params['location'][1]['address'][$fld] );
             }
-            CRM_Core_BAO_Address::add( $params, $ids, 1 );
+            CRM_Core_BAO_Location::add( $params, $ids, 1 );
+            unset($params);
         }
     }
 }
