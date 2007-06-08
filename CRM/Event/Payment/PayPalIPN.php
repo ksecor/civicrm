@@ -35,8 +35,9 @@
 
 require_once 'CRM/Core/Payment/PayPalIPN.php';
 
-class CRM_Event_Payment_PayPalIPN extends CRM_Core_Payment_PayPalIPN {
+class CRM_Event_Payment_PayPalIPN extends CRM_Core_Payment_PayPalIPN
 {
+
     static function main( ) 
     {
         CRM_Core_Payment_PayPalIPN::main( 'event' );
