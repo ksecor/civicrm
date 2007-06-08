@@ -1,6 +1,7 @@
 <div class="form-item">
+  <h2>Matching Rules for {$contact_type}</h2>
   <table>
-    <tr><th>{ts}Field{/ts}</th><th>{ts}Length{/ts}</th><th>{ts}Weight{/ts}</th></tr>
+    <tr class="columnheader"><th>{ts}Field{/ts}</th><th>{ts}Length{/ts}</th><th>{ts}Weight{/ts}</th></tr>
     {section name=count loop=5}
       {capture assign=where}where_{$smarty.section.count.index}{/capture}
       {capture assign=length}length_{$smarty.section.count.index}{/capture}

@@ -1,6 +1,6 @@
 {if $action eq 1 or $action eq 2 or $action eq 8}
   {include file="CRM/Admin/Form/DupeRules.tpl"}
-{/if}
+{else}
 {if $rows}
 <div id="browseValues">
   <div class="form-item">
@@ -20,4 +20,5 @@
     {/strip}
   </div>
 </div>
+{/if}
 {/if}

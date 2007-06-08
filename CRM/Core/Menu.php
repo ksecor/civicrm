@@ -661,7 +661,7 @@ class CRM_Core_Menu {
 
                      array(
                            'path'    => 'civicrm/admin/duperules',
-                           'title'   => ts('Duplicate Finding Rules'),
+                           'title'   => ts('Duplicate Matching Rules'),
                            'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 
                            'query'  => 'reset=1',
                            'type'    => self::CALLBACK,

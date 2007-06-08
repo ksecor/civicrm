@@ -44,6 +44,7 @@ require_once 'CRM/Dedupe/DAO/RuleGroup.php';
 class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
 {
     const RULES_COUNT = 5;
+    protected $_contactType;
     protected $_defaults = array();
     protected $_fields   = array();
     protected $_rgid;
@@ -62,6 +63,7 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
         $rgDao->id        = $this->_rgid;
         $rgDao->find(true);
         $this->_defaults['threshold'] = $rgDao->threshold;
+        $this->_contactType           = $rgDao->contact_type;
 
         $ruleDao =& new CRM_Dedupe_DAO_Rule();
         $ruleDao->dedupe_rule_group_id = $this->_rgid;
@@ -76,7 +78,7 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
 
         require_once 'CRM/Contact/BAO/Contact.php';
         require_once 'CRM/Dedupe/Criterion.php';
-        $importableFields = CRM_Contact_BAO_Contact::importableFields($rgDao->contact_type);
+        $importableFields = CRM_Contact_BAO_Contact::importableFields($this->_contactType);
         // FIXME: this is what you end up doing when abusing importableFields()
         $replacements = array(
             'civicrm_country.name'        => 'civicrm_address.country_id',
@@ -110,14 +112,15 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
     {
         for ($count = 0; $count < self::RULES_COUNT; $count++) {
             $this->add('select', "where_$count", ts('Field'), array(null => ts('- none -')) + $this->_fields);
-            $this->add('text', "length_$count", ts('Length'));
-            $this->add('text', "weight_$count", ts('Weight'));
+            $this->add('text', "length_$count", ts('Length'), array('class' => 'two'));
+            $this->add('text', "weight_$count", ts('Weight'), array('class' => 'two'));
         }
-        $this->add('text', 'threshold', ts("Weight Threshold to Consider Two Contacts 'Matching':"));
+        $this->add('text', 'threshold', ts("Weight Threshold to Consider Two Contacts 'Matching':"), array('class' => 'two'));
         $this->addButtons(array(
             array('type' => 'next',   'name' => ts('Save'), 'isDefault' => true),
             array('type' => 'cancel', 'name' => ts('Cancel')),
         ));
+        $this->assign('contact_type', $this->_contactType);
         parent::buildQuickForm();
     }
 
