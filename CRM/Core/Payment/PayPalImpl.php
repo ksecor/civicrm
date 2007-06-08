@@ -50,6 +50,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      */ 
     function __construct( $mode, &$paymentProcessor ) {
         require_once 'PayPal.php';
+        require_once 'PayPal/Profile/API.php';
 
         $this->_mode = $mode;
 
