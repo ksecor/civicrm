@@ -73,13 +73,6 @@ class CRM_Contribute_Invoke {
             $view =& new CRM_Contribute_Page_ManagePremiums(ts('Manage Premiums'));
             break;
             
-        case 'createPPD':
-            $session =& CRM_Core_Session::singleton( );
-            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
-            $wrapper =& new CRM_Utils_Wrapper( ); 
-            return $wrapper->run( 'CRM_Contribute_Form_CreatePPD', ts( 'Create PPD' ), null );
-            break;
-            
         default:
             require_once 'CRM/Contribute/Page/ContributionPage.php'; 
             $view =& new CRM_Contribute_Page_ContributionPage(ts('Contribution Page'));  
@@ -156,6 +149,10 @@ class CRM_Contribute_Invoke {
             require_once 'CRM/Contribute/Page/Contribution.php';
             $page =& new CRM_Contribute_Page_Contribution( );
             return $page->run( );
+        } else if ( $secondArg == 'offline' ) {
+            require_once 'CRM/Utils/Wrapper.php';
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contribute_Form_Offline', ts('Contribution Payment Form'), null);
         } else if ( $secondArg == 'manage' ) {
             require_once 'CRM/Contribute/Page/ContributionPage.php';
             $page =& new CRM_Contribute_Page_ContributionPage( );

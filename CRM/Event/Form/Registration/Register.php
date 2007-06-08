@@ -123,7 +123,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
         if ( $this->_values['event']['is_monetary'] ) {
             $this->buildAmount( );
-            $this->buildCreditCard( );
+
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::buildCreditCard( $this );
         }
 
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );

@@ -77,7 +77,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $this->_params['payer_id'    ] = $expressParams['payer_id'    ];
                 $this->_params['payer_status'] = $expressParams['payer_status'];
 
-                self::mapParams( $this->_bltID, $expressParams, $this->_params, false );
+                require_once 'CRM/Core/Payment/Form.php';
+                CRM_Core_Payment_Form::mapParams( $this->_bltID, $expressParams, $this->_params, false );
                 
                 // fix state and country id if present
                 if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
@@ -270,7 +271,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 break;
 
             default   :
-                self::mapParams( $this->_bltID, $this->_params, $this->_params, true );
+                require_once 'CRM/Core/Payment/Form.php';
+                CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $this->_params, true );
                 $result =& $payment->doDirectPayment( $this->_params );
                 break;
             }
@@ -542,39 +544,5 @@ WHERE  v.option_group_id = g.id
         return $contactID;
     }
 
-    /**
-     * function to map address fields
-     *
-     * @return void
-     * @static
-     */
-    static function mapParams( $id, &$src, &$dst, $reverse = false ) {
-        static $map = null;
-        if ( ! $map ) {
-            $map = array( 'first_name'             => 'billing_first_name'        ,
-                          'middle_name'            => 'billing_middle_name'       ,
-                          'last_name'              => 'billing_last_name'         ,
-                          'email'                  => "email-$id"                 ,
-                          'street_address'         => "street_address-$id"        ,
-                          'supplemental_address_1' => "supplemental_address_1-$id",
-                          'city'                   => "city-$id"                  ,
-                          'state_province'         => "state_province-$id"        ,
-                          'postal_code'            => "postal_code-$id"           ,
-                          'country'                => "country-$id"               ,
-                          );
-        }
-        
-        foreach ( $map as $n => $v ) {
-            if ( ! $reverse ) {
-                if ( isset( $src[$n] ) ) {
-                    $dst[$v] = $src[$n];
-                }
-            } else {
-                if ( isset( $src[$v] ) ) {
-                    $dst[$n] = $src[$v];
-                }
-            }
-        }
-    }
 }
 ?>

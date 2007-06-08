@@ -145,8 +145,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->applyFilter('__ALL__', 'trim');
         $this->add( 'text', "email-{$this->_bltID}",
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
+
         if ( $this->_values['is_monetary'] ) {
-            $this->buildCreditCard( );
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::buildCreditCard( $this );
         }
 
         $this->_separateMembershipPayment = false;
@@ -267,39 +269,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //email
         $this->addElement('text', 'honor_email', ts('Honoree Email Address'));
         $this->addRule( "honor_email", ts('Honoree Email is not valid.'), 'email' );
-    }
-
-    /** 
-     * Function to add all the credit card fields
-     * 
-     * @return None 
-     * @access public 
-     */
-    function buildCreditCard( ) {
-        $config =& CRM_Core_Config::singleton( );
-
-        if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM) {
-            foreach ( $this->_fields as $name => $field ) {
-                $this->add( $field['htmlType'],
-                            $field['name'],
-                            $field['title'],
-                            $field['attributes'] );
-            }
-
-            $this->addRule( 'cvv2',
-                            ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ),
-                            'integer' );
-
-            $this->addRule( 'credit_card_exp_date', ts('Credit card expiration date can not be a past date.'), 'currentDate');
-        }            
-            
-        if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
-            $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
-            $this->add('image',
-                       $this->_expressButtonName,
-                       $this->_paymentProcessor['url_button'],
-                       array( 'class' => 'form-submit' ) );
-        }
     }
 
     /** 

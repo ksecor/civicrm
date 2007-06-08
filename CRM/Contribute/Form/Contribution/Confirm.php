@@ -66,7 +66,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['payer_id'    ] = $expressParams['payer_id'    ];
                 $this->_params['payer_status'] = $expressParams['payer_status'];
 
-                self::mapParams( $this->_bltID, $expressParams, $this->_params, false );
+                require_once 'CRM/Core/Payment/Form.php';
+                CRM_Core_Payment_Form::mapParams( $this->_bltID, $expressParams, $this->_params, false );
 
                 // fix state and country id if present
                 if ( ! empty( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
@@ -345,7 +346,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
    
         if ( $processMembership && $this->_contributeMode != 'notify' ) {
-            self::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
+
             require_once "CRM/Member/BAO/Membership.php";
             CRM_Member_BAO_Membership::postProcessMembership($membershipParams,$contactID,$this );
         } else {
@@ -353,7 +356,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // all the payment processors expect the name and address to be in the 
             // so we copy stuff over to first_name etc. 
             $paymentParams = $this->_params;
-            self::mapParams( $this->_bltID, $this->_params, $paymentParams, true );
+
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $paymentParams, true );
 
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
             $contributionType->id = $this->_values['contribution_type_id'];
@@ -814,34 +819,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
     }
 
-    static function mapParams( $id, &$src, &$dst, $reverse = false ) {
-        static $map = null;
-        if ( ! $map ) {
-            $map = array( 'first_name'             => 'billing_first_name'        ,
-                          'middle_name'            => 'billing_middle_name'       ,
-                          'last_name'              => 'billing_last_name'         ,
-                          'email'                  => "email-$id"                 ,
-                          'street_address'         => "street_address-$id"        ,
-                          'supplemental_address_1' => "supplemental_address_1-$id",
-                          'city'                   => "city-$id"                  ,
-                          'state_province'         => "state_province-$id"        ,
-                          'postal_code'            => "postal_code-$id"           ,
-                          'country'                => "country-$id"               ,
-                          );
-        }
-        
-        foreach ( $map as $n => $v ) {
-            if ( ! $reverse ) {
-                if ( isset( $src[$n] ) ) {
-                    $dst[$v] = $src[$n];
-                }
-            } else {
-                if ( isset( $src[$v] ) ) {
-                    $dst[$n] = $src[$v];
-                }
-            }
-        }
-    }
 }
 
 ?>

@@ -435,7 +435,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $this->_online ) {
             $element->freeze( );
         }
-        $element =& $this->add( 'text', 'source', ts('Source'),(isset($attributes['source'])) ? $attributes['source'] : ""  ); 
+        $element =& $this->add( 'text', 'source', ts('Source'), $attributes['source'] );
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -671,16 +671,16 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $formValues['contributionType_name'] = $contributionType->name;
             
             // Retrieve the name and email from receipt is to be send
-
             $formValues['receipt_from_name'] = $this->userDisplayName;
             $formValues['receipt_from_email']= $this->userEmail;
+
             // assigned various dates to the templates
             $this->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receive_date'])));
             $this->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receipt_date'])));
             $this->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['thankyou_date'])));
             $this->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['cancel_date'])));
             
-            // retrieved premium product name and assigned fulfilled
+            // retrieve premium product name and assigned fulfilled
             // date to template
             require_once 'CRM/Contribute/DAO/Product.php';
             $productDAO =& new CRM_Contribute_DAO_Product();
@@ -691,7 +691,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             
             $this->assign('fulfilled_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['fulfilled_date'])));
             
-            // retrieved payment instrument name
+            // retrieve payment instrument name
             $paymentInstrumentGroup = array();
             $paymentInstrumentGroup['name'] = 'payment_instrument';
             require_once 'CRM/Core/BAO/OptionGroup.php';
@@ -702,7 +702,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             require_once 'CRM/Core/BAO/OptionValue.php';
             CRM_Core_BAO_OptionValue::retrieve($paymentInstrument, $paymentInstrument);
             $formValues['paidBy'] = $paymentInstrument['label'];
-            // retrieved individual prefix value for honoree
+
+            // retrieve individual prefix value for honoree
             $individualPrefixGroup = array();
             $individualPrefixGroup['name'] = 'individual_prefix';
             require_once 'CRM/Core/BAO/OptionGroup.php';
@@ -713,7 +714,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             require_once 'CRM/Core/BAO/OptionValue.php';
             CRM_Core_BAO_OptionValue::retrieve($individualPrefix,$individualPrefix );
             $formValues['honor_prefix'] = $individualPrefix['label'];
-            // retrieved custom data
+
+            // retrieve custom data
             $showCustom = 0;
             $customData = array( );
             foreach ( $formValues as $key => $value ) {
