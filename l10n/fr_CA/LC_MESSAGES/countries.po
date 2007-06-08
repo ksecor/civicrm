@@ -6,11 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2004-10-18 08:00-0500\n"
-"Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
+"PO-Revision-Date: 2007-06-05 04:13-0700\n"
+"Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 # AF
 msgid "Afghanistan"
@@ -390,7 +391,7 @@ msgstr "Île Heard et Îles McDonald"
 
 # VA
 msgid "Holy See (Vatican City State)"
-msgstr "Saint-Siège (État de la Cité du Vatican)"
+msgstr "État de la Cité du Vatican"
 
 # HN
 msgid "Honduras"
@@ -838,7 +839,7 @@ msgstr "Sao Tomé-et-Principe"
 
 # TW
 msgid "Taiwan"
-msgstr "Taïwan (Province de Chine)"
+msgstr "Taïwan"
 
 # TJ
 msgid "Tajikistan"

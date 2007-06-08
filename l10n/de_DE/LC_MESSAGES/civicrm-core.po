@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-05-27 01:53-0700\n"
+"PO-Revision-Date: 2007-06-07 03:08-0700\n"
 "Last-Translator: Michael Beurskens <beursken@uni-duesseldorf.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5538,24 +5538,24 @@ msgstr "CAPTCHA verwenden?"
 
 #: CRM/UF/Form/Group.php
 msgid "Collapse profile fieldset on initial display?"
-msgstr ""
+msgstr "Profil-Felder bei Standardanzeige zusammenklappen?"
 
 #: CRM/UF/Form/Group.php
 msgid "Include Edit Link in Search Results?"
-msgstr ""
+msgstr "Link zum Bearbeiten in Suchergebnissen anzeigen?"
 
 #: CRM/UF/Form/Group.php
 msgid "Include Website Profile Link in Search Results?"
-msgstr ""
+msgstr "Link auf Website-Profil in Suchergebnissen anzeigen?"
 
 #: CRM/UF/Form/Group.php
 msgid "This profile cannot be deleted since it is used for other modules."
-msgstr ""
+msgstr "Das Profil kann nicht entfernt werden, da es von anderen Modulen genutzt wird."
 
 #: CRM/UF/Form/Group.php
 msgid ""
 "You must delete all profile fields for \"%1\" prior to deleting the profile."
-msgstr ""
+msgstr "Sie müssen alle Felder des Profils \"%1\" löschen, bevor Sie das Profil löschen."
 
 #: CRM/UF/Form/Group.php
 msgid "Your CiviCRM Profile Group \"%1\" has been deleted."
@@ -5583,9 +5583,8 @@ msgid "Edit CiviCRM Profile Field"
 msgstr "CiviCRMprofilfeld bearbeiten"
 
 #: CRM/UF/Page/Field.php
-#, fuzzy
 msgid "Preview CiviCRM Profile Field"
-msgstr "CiviCRMprofilfeld ansehen"
+msgstr "Vorschau auf das Profilfeld"
 
 #: CRM/UF/Page/Field.php
 msgid "Disable CiviCRM Profile Field"
@@ -5600,15 +5599,12 @@ msgid "%1 - CiviCRM Profile Fields"
 msgstr "%1 - CiviCRMprofilfelder"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Are you sure you want to disable this CiviCRM Profile?"
-msgstr ""
-"Sind Sie sicher, dass Sie dieses CiviCRMprofilfeld deaktivieren möchten?"
+msgstr "Sind Sie sicher, dass Sie dieses Profil deaktivieren möchten?"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Are you sure you want to make a copy of this Profile?"
-msgstr "Sind Sie sicher, dass Sie diese Komponente deaktivieren möchten?"
+msgstr "Sind Sie sicher, dass Sie eine Kopie dieses Profils erstellen möchten?"
 
 #: CRM/UF/Page/Group.php
 msgid "View and Edit Fields"
@@ -5631,56 +5627,50 @@ msgid "Enable CiviCRM Profile Group"
 msgstr "CiviCRMprofilgruppe aktivieren"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Delete CiviCRM Profile Group"
-msgstr "CiviCRMprofilgruppe deaktivieren"
+msgstr "Profilgruppe löschen"
 
 #: CRM/UF/Page/Group.php
 msgid "Standalone Form"
-msgstr ""
+msgstr "Selbstständiges Formular"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Standalone Form for Profile Group"
-msgstr "CiviCRMprofilgruppe aktivieren"
+msgstr "Selbstständiges Formular für Profilgruppe"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Copy Profile"
-msgstr "Profilname"
+msgstr "Profil kopieren"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Make a Copy of CiviCRM Profile Group"
-msgstr "Neue CiviCRM Profilgruppe"
+msgstr "CiviCRM Profilgruppe kopieren"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "CiviCRM Profile Group Preview"
-msgstr "CiviCRM Profil Gruppe"
+msgstr "Vorschau auf CiviCRM Profilgruppe"
 
 #: CRM/Utils/Address/USPS.php
 msgid "Address not found in USPS database."
-msgstr ""
+msgstr "Adresse nicht in der Datenbank der amerikanischen Post"
 
 #: CRM/Utils/CAPTCHA.php
 msgid "Error initializing CAPTCHA library"
-msgstr ""
+msgstr "Fehler bei der Einrichtung der CAPTCHA-Biblliothek"
 
 #: CRM/Utils/CAPTCHA.php
 msgid "Error generating CAPTCHA image"
-msgstr ""
+msgstr "Fehler bei der Erstellung des CAPTCHA-Bildes"
 
 #: CRM/Utils/CAPTCHA.php
-#, fuzzy
 msgid "Please enter the phrase as displayed in the image."
-msgstr "Bitte geben Sie einen gültigen Namen ein."
+msgstr "Bitte geben Sie die in der Grafik enthaltene Zeichenfolge ein."
 
 #: CRM/Utils/CAPTCHA.php
 msgid ""
 "Input text must match the phrase in the image. Please review the image and "
 "re-enter matching text."
-msgstr ""
+msgstr "Der eingegebene Text entspricht nicht der Grafik. Bitte überprüfen Sie das Bild und geben Sie den entsprechenden Text erneut ein."
 
 #: CRM/Utils/Pager.php
 msgid "Contacts %%StatusMessage%%"
@@ -5695,59 +5685,52 @@ msgid "Page %1 of %2"
 msgstr "Seite %1 von %2"
 
 #: CRM/Utils/Pager.php
-#, fuzzy
 msgid "&lt; Previous"
-msgstr " &lt; Voheriges"
+msgstr " &lt; Voheriger"
 
 #: CRM/Utils/Pager.php
-#, fuzzy
 msgid "Next &gt;"
-msgstr "Nächste &gt;"
+msgstr "Nächster &gt;"
 
 #: CRM/Utils/Pager.php
-#, fuzzy
 msgid "&lt;&lt; First"
-msgstr " &lt;&lt; Erste"
+msgstr " &lt;&lt; Erster"
 
 #: CRM/Utils/Pager.php
-#, fuzzy
 msgid "Last &gt;&gt;"
-msgstr "Erste &gt;&gt; "
+msgstr "Letzter &gt;&gt; "
 
 #: CRM/Utils/REST.php
 msgid "Could not authenticate user, invalid name / password"
-msgstr ""
+msgstr "Der Benutzer konnte nicht authentfiziert werden, Benutzername/Kennwort ungültig"
 
 #: CRM/Utils/REST.php
 msgid "Could not interpert return values from function"
-msgstr ""
+msgstr "Die Ergebnisse der Funktion konnten nicht interpretiert werden"
 
 #: CRM/Utils/REST.php
 msgid "Unknown function invocation"
-msgstr ""
+msgstr "Aufruf einer unbekannten Funktion"
 
 #: CRM/Utils/REST.php
-#, fuzzy
 msgid "Invalid name and password"
-msgstr "Ungültige Emailadresse"
+msgstr "Ungültiger Name bzw. Kennwort"
 
 #: CRM/Utils/REST.php
 msgid "session keys do not match, please re-auth"
-msgstr ""
+msgstr "Die Sitzungskennung stimmt nicht überein, bitte melden Sie sich erneut an"
 
 #: CRM/Utils/REST.php
-#, fuzzy
 msgid "Unknown error"
-msgstr "Unbekannt"
+msgstr "Unbekannter Fehler"
 
 #: CRM/Utils/REST.php
 msgid "Unknown function called"
-msgstr ""
+msgstr "Unbekannte Funktion aufgerufen"
 
 #: CRM/Utils/Token.php
-#, fuzzy
 msgid "Displays your organization's postal address."
-msgstr "Postadresse Ihrer Organisation"
+msgstr "Zeigt die Postanschrift Ihrer Organisation"
 
 #: CRM/Utils/Token.php
 #, fuzzy
