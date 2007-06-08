@@ -105,9 +105,10 @@ class CRM_Core_Menu {
             self::$_items = self::permissionedItems( );
             $config =& CRM_Core_Config::singleton( );
 
-            $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
-
-            switch ( $args[1] ) {
+            $args     = explode( '/', $_GET[$config->userFrameworkURLVar] );
+            $firstArg = CRM_Utils_Array::value( 1, $args );
+            
+            switch ( $firstArg ) {
             case 'admin':
                 $items =& self::adminItems( );
                 break;
@@ -140,9 +141,11 @@ class CRM_Core_Menu {
 
             self::$_items = array_merge( self::$_items, $items );
 
-            require_once 'CRM/Core/Component.php';
-            $items =& CRM_Core_Component::menu( false, $args[1] );
-            self::$_items = array_merge( self::$_items, $items );
+            if ( $firstArg ) {
+                require_once 'CRM/Core/Component.php';
+                $items =& CRM_Core_Component::menu( false, $args[1] );
+                self::$_items = array_merge( self::$_items, $items );
+            }
             
             self::initialize( );
 

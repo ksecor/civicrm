@@ -489,6 +489,98 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         }
     }
 
+    function doTransferCheckout( &$params, $component = 'contribute' ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( $component != 'contribute' && $component != 'event' ) {
+            CRM_Core_Error::fatal( ts( 'Component is invalid' ) );
+        }
+        
+        $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}&module={$component}";
+
+        if ( $component == 'Event' ) {
+            $notifyURL .= "eventID={$params['eventID']}";
+        } else {
+            $selectMembership = CRM_Utils_Array::value( 'selectMembership', $params );
+            if ( $selectMembership &&
+                 $selectMembership != 'no_thanks' ) {
+                $notifyURL .= "&membershipTypeID=$selectMembership";
+            }
+        }
+
+        $url    = ( $component == 'event' ) ? 'civicrm/event/register' : 'civicrm/contribute/transact';
+        $cancel = ( $component == 'event' ) ? '_qf_Register_display'   : '_qf_Main_display';
+        $returnURL = CRM_Utils_System::url( $url,
+                                            "_qf_ThankYou_display=1&qfKey={$params['qfKey']}",
+                                            true, null, false );
+        $cancelURL = CRM_Utils_System::url( $url,
+                                            "$cancel=1&cancel=1&qfKey={$params['qfKey']}",
+                                            true, null, false );
+        
+        $paypalParams =
+            array( 'business'           => $this->_paymentProcessor['user_name'],
+                   'notify_url'         => $notifyURL,
+                   'item_name'          => $params['item_name'],
+                   'quantity'           => 1,
+                   'undefined_quantity' => 0,
+                   'cancel_return'      => $cancelURL,
+                   'no_note'            => 1,
+                   'no_shipping'        => 1,
+                   'return'             => $returnURL,
+                   'rm'                 => 1,
+                   'currency_code'      => $params['currencyID'],
+                   'invoice'            => $params['invoiceID'] );
+
+        // if recurring donations, add a few more items
+        if ( ! empty( $params['is_recur'] ) ) {
+            if ( $params['contributionRecurID'] ) {
+                $notifyURL .= "&contributionRecurID={$params['contributionRecurID']}&contributionPageID={$params['contributionPageID']}";
+                $paypalParams['notify_url'] = $notifyURL;
+            } else {
+                CRM_Core_Error::fatal( ts( 'Recurring contribution, but no database id' ) );
+            }
+            
+            $paypalParams +=
+                array( 'cmd'                => '_xclick-subscriptions',
+                       'a3'                 => $params['amount'],
+                       'p3'                 => $params['frequency_interval'],
+                       't3'                 => ucfirst( substr( $params['frequency_unit'], 0, 1 ) ),
+                       'src'                => 1,
+                       'sra'                => 1,
+                       'srt'                => ( $params['installments'] > 0 ) ? $params['installments'] : null,
+                       'no_note'            => 1,
+                       'modify'             => 0,
+                       );
+        } else {
+            $paypalParams +=
+                array( 'cmd'                => 'xclick',
+                       'amount'             => $params['amount'],
+                       );
+        }
+        
+        $uri = '';
+        foreach ( $paypalParams as $key => $value ) {
+            if ( $value === null ) {
+                continue;
+            }
+
+            $value = urlencode( $value );
+            if ( $key == 'return' ||
+                 $key == 'cancel_return' ||
+                 $key == 'notify_url' ) {
+                $value = str_replace( '%2F', '/', $value );
+            }
+            $uri .= "&{$key}={$value}";
+        }
+
+        $uri = substr( $uri, 1 );
+        $url = $this->_paymentProcessor['url_site'];
+        $sub = empty( $params['is_recur'] ) ? 'xclick' : 'subscriptions';
+        $paypalURL = "{$url}{$sub}/$uri";
+
+        CRM_Utils_System::redirect( $paypalURL );
+    }
+
 }
 
 ?>
