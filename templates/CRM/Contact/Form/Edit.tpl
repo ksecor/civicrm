@@ -59,6 +59,7 @@
 
     {$form._qf_Edit_refresh_dedupe.html}
     {if $isDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_duplicate.html}{/if}
+    {if $isSharedHouseholdDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_sharedHouseholdDuplicate.html}{/if}
     <div class="spacer"></div>
  </fieldset>
  </div>

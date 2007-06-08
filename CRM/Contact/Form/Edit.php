@@ -485,6 +485,9 @@ AND civicrm_location.entity_table='civicrm_contact')";
         $this->addElement('submit', 
                           $this->_duplicateButtonName,
                           ts( 'Save Duplicate Contact' ) );
+        $this->addElement('submit', 
+                          $this->getButtonName( 'next'   , 'sharedHouseholdDuplicate' ),
+                          ts( 'Save With Duplicate Household' ) );
 
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );

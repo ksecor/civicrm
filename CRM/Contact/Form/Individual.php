@@ -142,7 +142,7 @@ showHideSharedOptions();
             $sharedOptions = array( '0' => ts('Create new household'), '1' => ts('Select existing household') );
             $form->addRadio('shared_option', ts('shared options'),  $sharedOptions, $selectHouseholdExtra);
             
-            $form->add( 'text', 'create_household', ts( 'New household' ), 
+            $form->add( 'text', 'create_household', ts( 'Household Name' ), 
                         CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' ) );
         }
         
@@ -242,6 +242,32 @@ showHideSharedOptions();
                 } else {
                     $errors["create_household"] = 
                         ts("Please specify a new household");
+                }
+            } else {
+                if ( ! CRM_Utils_Array::value( '_qf_Edit_next_sharedHouseholdDuplicate', $fields ) ) {
+                    $dupeIDs = array();
+                    require_once "CRM/Contact/DAO/Household.php";
+                    $contact = & new CRM_Contact_DAO_Household();
+                    $contact->household_name = $fields['create_household'];
+                    $contact->find();
+
+                    while ($contact->fetch(true)) {
+                        if ( $contact->contact_id != $options) {
+                            $dupeIDs[] = $contact->contact_id;
+                        }
+                    }
+                    unset($urls);
+                    foreach( $dupeIDs as $id ) {
+                        $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                        $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
+                            '">' . $displayName . '</a>';
+                    }
+                    if (!empty($dupeIDs)) {
+                        $url = implode( ', ',  $urls );
+                        $errors['_qf_default'] = ts( 'One matching household: %1, was found. You can specify it through \'Select existing household\' option or click \'Save With Duplicate Household\' button below.', array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching households: %1, were found. You can specify them through \'Select existing household\' option or click \'Save With Duplicate Household\' button below.' ) );
+                        $template =& CRM_Core_Smarty::singleton( );
+                        $template->assign( 'isSharedHouseholdDuplicate', 1 );
+                    }
                 }
             }
         }
