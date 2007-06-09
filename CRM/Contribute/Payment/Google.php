@@ -84,59 +84,7 @@ class CRM_Contribute_Payment_Google extends CRM_Core_Payment_Google {
      *  
      */  
     function doTransferCheckout( &$params ) {
-        $url = 
-            $this->_paymentProcessor['url_site'] .
-            '/cws/v2/Merchant/' .
-            $this->_paymentProcessor['user_name'] .
-            '/checkout';
-        
-
-        //Create a new shopping cart object
-        $merchant_id  = $this->_paymentProcessor['user_name'];  // Merchant ID
-        $merchant_key = $this->_paymentProcessor['password'];  // Merchant Key
-        $server_type  = ( $this->_mode == 'test' ) ? 'sandbox' : '';
-
-        $cart  =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
-        $item1 = new GoogleItem($params['item_name'],'', 1, $params['amount']);
-        $cart->AddItem($item1);
-
-        $privateData = "contactID={$params['contactID']},contributionID={$params['contributionID']},contributionTypeID={$params['contributionTypeID']},invoiceID={$params['invoiceID']}";
-        if ( $params['selectMembership'] &&  $params['selectMembership'] != 'no_thanks' ) {
-            $privateData .= ",membershipTypeID={$params['selectMembership']}";
-        }
-        
-        $cart->SetMerchantPrivateData($privateData);
-
-        $returnURL = CRM_Utils_System::url( 'civicrm/contribute/transact',
-                                            "_qf_ThankYou_display=1&qfKey={$params['qfKey']}",
-                                            true, null, false );
-        $cart->SetContinueShoppingUrl( $returnURL );
-        
-        $cartVal      = base64_encode($cart->GetXML());
-        $signatureVal = base64_encode($cart->CalcHmacSha1($cart->GetXML()));
-        
-        $googleParams = array('cart'      => $cartVal,
-                              'signature' => $signatureVal );
-        
-        require_once 'HTTP/Request.php';
-        $params = array( 'method' => HTTP_REQUEST_METHOD_POST,
-                         'allowRedirects' => false );
-        $request =& new HTTP_Request( $url, $params );
-        foreach ( $googleParams as $key => $value ) {
-            $request->addPostData($key, $value);
-        }
-
-        $result = $request->sendRequest( );
-
-        if ( PEAR::isError( $result ) ) {
-            CRM_Core_Error::fatal( $result->getMessage( ) );
-        }
-        
-        if ( $request->getResponseCode( ) != 302 ) {
-            CRM_Core_Error::fatal( ts( 'Invalid response code received from Google Checkout: %1', array(1 => $request->getResponseCode())) );
-        }
-        CRM_Utils_System::redirect( $request->getResponseHeader( 'location' ) );
-        exit( );
+        parent::doTransferCheckout( $params, 'contribute' );
     }
 
 }

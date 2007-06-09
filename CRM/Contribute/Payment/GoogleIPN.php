@@ -99,7 +99,7 @@ class CRM_Contribute_Payment_GoogleIPN extends CRM_Core_Payment_GoogleIPN {
      *  
      */  
     function orderStateChange( $status, $dataRoot ) {
-        parent::orderStateChange($status, $dataRoot, 'contribute' );
+        parent::orderStateChange( $status, $dataRoot, 'contribute' );
     }
     
 }

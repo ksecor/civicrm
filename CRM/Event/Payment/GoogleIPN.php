@@ -83,7 +83,7 @@ class CRM_Event_Payment_GoogleIPN extends CRM_Core_Payment_GoogleIPN {
      *  
      */  
     function newOrderNotify( $dataRoot, $privateData ) {
-        parent::newOrderNotify($dataRoot, $privateData, 'event');
+        parent::newOrderNotify( $dataRoot, $privateData, 'event' );
     }
     
     
