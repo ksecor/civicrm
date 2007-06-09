@@ -4,12 +4,16 @@
 {elseif $action eq 4}
     {include file="CRM/Contribute/Form/ContributionView.tpl"}
 {else}
-{if $permission EQ 'edit'}
-    {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution"}{/capture}
-{/if}
 <div class="description">
     {ts 1=$displayName}Contributions received from %1 since inception.{/ts} 
-    {if $permission EQ 'edit'}{ts 1=$newContribURL}Click <a href="%1">New Contribution</a> to record a new offline contribution from this contact.{/ts}{/if}
+    {if $permission EQ 'edit'}
+     {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution"}{/capture}
+     {ts 1=$newContribURL}Click <a href="%1">New Contribution</a> to record a new offline contribution from this contact.{/ts}
+     {if $newCredit}
+       {capture assign=newCreditURL}{crmURL p="civicrm/contribute/offline" q="reset=1&cid=`$contactId`"}{/capture}
+       {ts 1=$newCreditURL}Click <a href="%1">New Credit Card Contribution</a> to process a new credit card contribution from this contact.{/ts}
+     {/if}
+    {/if}
 </div>
 
 {if $rows}

@@ -56,7 +56,13 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
                                                          $this, false, 'add' );
         $this->assign( 'action'  , $this->_action   ); 
 
-        $this->_mode      = $this->_action & CRM_Core_Action::PREVIEW ? 'test' : 'live';
+        $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
+                                                                        "billing_mode IN ( 1, 3 )" );
+        if ( count( $this->_processors ) == 0 ) {
+            CRM_Core_Error::fatal( ts( 'You do not have any  payment processors that support this feature' ) );
+        }
+
+        $this->_mode       = $this->_action & CRM_Core_Action::PREVIEW ? 'test' : 'live';
 
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
 
@@ -116,10 +122,9 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
     function buildQuickForm( ) {
         CRM_Core_Payment_Form::buildCreditCard( $this );
         
-        // payment processor to process this transaction
         $this->add( 'select', 'payment_processor_id',
                     ts( 'Payment Processor' ),
-                    CRM_Core_PseudoConstant::paymentProcessor( ) );
+                    $this->_processors );
 
         $this->add( 'text', "email-{$this->_bltID}",
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
@@ -158,10 +163,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
 
         require_once 'CRM/Core/BAO/PaymentProcessor.php';
         $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_params['payment_processor_id'],
-                                                                              'test' );
-        if ( ! ( $this->_paymentProcessor['billing_mode'] & 1 ) ) {
-            CRM_Core_Error::fatal( ts( 'Your payment processor does not support form contributions' ) );
-        }
+                                                                              $this->_mode );
 
         $params = $this->_params;
 
@@ -264,12 +266,12 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
             $this->set   ('is_deductible',  true );
         }
         
-        $contribution =& $this->processContribution( $this->_params, $result, $contactID, 
+        $contribution =& $this->processContribution( $this->_params, $result, $this->_contactID, 
                                                      $contributionType,  true, false );
         
         // finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
-        CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $this->_values, $contribution->id );
+        CRM_Contribute_BAO_ContributionPage::sendMail( $this->_contactID, $this->_values, $contribution->id );
     }
     
     /**

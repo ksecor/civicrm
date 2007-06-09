@@ -925,10 +925,14 @@ class CRM_Core_PseudoConstant
      * @return array - array of all payment processors
      *
      */
-    public static function &paymentProcessor( $all = false, $test = false )
+    public static function &paymentProcessor( $all = false, $test = false, $additionalCond = null )
     {
         $condition  = "is_test = ";
         $condition .=  ( $test ) ? '1' : '0';
+
+        if ( $additionalCond ) {
+            $condition .= " AND ( $additionalCond ) ";
+        }
 
         if ( ! self::$paymentProcessor ) {
             self::populate( self::$paymentProcessor, 'CRM_Core_DAO_PaymentProcessor', $all, 
