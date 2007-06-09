@@ -8,8 +8,7 @@
       {capture assign=weight}weight_{$smarty.section.count.index}{/capture}
       <tr class="{cycle values="odd-row,even-row"}"><td>{$form.$where.html}</td><td>{$form.$length.html}</td><td>{$form.$weight.html}</td></tr>
     {/section}
-    <tr><td></td><td></td><td><hr /></td></tr>
-    <tr><th colspan="2" style="text-align: right;">{$form.threshold.label}</th><td>{$form.threshold.html}</td></tr>
+    <tr class="columnheader"><th colspan="2" style="text-align: right;">{$form.threshold.label}</th><td>{$form.threshold.html}</td></tr>
   </table>
   <p>{$form.buttons.html}</p>
 </div>
