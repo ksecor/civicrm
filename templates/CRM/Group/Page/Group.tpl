@@ -15,9 +15,9 @@
 	<thead>  
      <tr class="columnheader">
       <th field="Name" dataType="String" scope="col">{ts}Name{/ts}</th>
+      <th field="ID" dataType="Integer" scope="col">{ts}ID{/ts}</th>
       <th field="Description" dataType="String" scope="col">{ts}Description{/ts}</th>
       <th field="Visibility" dataType="String" scope="col">{ts}Visibility{/ts}</th>
-      {*<th  title="Action Links"></th>*}
       <th datatype="html"></th>
      </tr>
 	</thead>
@@ -26,6 +26,7 @@
    {foreach from=$rows item=row}
      <tr class="{cycle values="odd-row,even-row"}{if NOT $row.is_active} disabled{/if}">
         <td>{$row.title}</td>	
+        <td>{$row.id}</td>
         <td>
             {$row.description|mb_truncate:80:"...":true}
         </td>

@@ -21,6 +21,7 @@
          <thead> 
           <tr class="columnheader">
             <th field="Title" dataType="String" >{ts}Title{/ts}</th>
+            <th field="ID" dataType="String" >{ts}ID{/ts}</th>
             <th field="Status" dataType="String" >{ts}Status?{/ts}</th>
             <th datatype="html">&nbsp;</th>
           </tr>
@@ -31,6 +32,7 @@
             <td>
                <strong>{$row.title}</strong>
             </td>
+            <td>{$row.id}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{$row.action}</td>
         </tr>
