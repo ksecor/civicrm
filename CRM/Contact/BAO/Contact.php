@@ -1321,20 +1321,14 @@ WHERE civicrm_contact.id IN $idString ";
         
         CRM_Contact_BAO_Relationship::deleteContact( $id );
 
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-            require_once 'CRM/Contribute/BAO/Contribution.php';
-            CRM_Contribute_BAO_Contribution::deleteContact( $id );
-        }
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        CRM_Contribute_BAO_Contribution::deleteContact( $id );
         
-        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-            require_once 'CRM/Member/BAO/Membership.php';
-            CRM_Member_BAO_Membership::deleteContact( $id, $userId );
-        }
+        require_once 'CRM/Member/BAO/Membership.php';
+        CRM_Member_BAO_Membership::deleteContact( $id, $userId );
         
-        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
-            require_once 'CRM/Event/BAO/Participant.php';
-            CRM_Event_BAO_Participant::deleteContact( $id );
-        }
+        require_once 'CRM/Event/BAO/Participant.php';
+        CRM_Event_BAO_Participant::deleteContact( $id );
         
         CRM_Core_BAO_Note::deleteContact($id);
 
