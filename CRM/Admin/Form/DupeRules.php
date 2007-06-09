@@ -112,10 +112,10 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
     {
         for ($count = 0; $count < self::RULES_COUNT; $count++) {
             $this->add('select', "where_$count", ts('Field'), array(null => ts('- none -')) + $this->_fields);
-            $this->add('text', "length_$count", ts('Length'), array('class' => 'two'));
-            $this->add('text', "weight_$count", ts('Weight'), array('class' => 'two'));
+            $this->add('text', "length_$count", ts('Length'), array('class' => 'two', 'style' => 'text-align: right'));
+            $this->add('text', "weight_$count", ts('Weight'), array('class' => 'two', 'style' => 'text-align: right'));
         }
-        $this->add('text', 'threshold', ts("Weight Threshold to Consider Two Contacts 'Matching':"), array('class' => 'two'));
+        $this->add('text', 'threshold', ts("Weight Threshold to Consider Contacts 'Matching':"), array('class' => 'two', 'style' => 'text-align: right'));
         $this->addButtons(array(
             array('type' => 'next',   'name' => ts('Save'), 'isDefault' => true),
             array('type' => 'cancel', 'name' => ts('Cancel')),
