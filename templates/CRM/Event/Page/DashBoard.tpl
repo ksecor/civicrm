@@ -21,6 +21,7 @@
 <table class="report">
 <tr class="columnheader-dark">
     <th scope="col">{ts}Event{/ts}</th>
+    <th scope="col">{ts}ID{/ts}</th>
     <th scope="col">{ts}Type{/ts}</th>
     <th scope="col">{ts}Public{/ts}</th>
     <th scope="col">{ts}Participants{/ts}</th>
@@ -32,6 +33,7 @@
 {foreach from=$eventSummary.events item=values key=id}
 <tr>
     <td><a href="{crmURL p="civicrm/event/info" q="reset=1&id=`$id`"}">{$values.eventTitle}</a></td>
+    <td>{$id}</td>
     <td>{$values.eventType}</td>
     <td>{$values.isPublic}</td>
     <td class="right">
