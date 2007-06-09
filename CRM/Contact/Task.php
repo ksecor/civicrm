@@ -56,7 +56,8 @@ class CRM_Contact_Task {
         SAVE_SEARCH_UPDATE    =    14,
         PRINT_CONTACTS        =    15,
         LABEL_CONTACTS        =    16,
-        BATCH_UPDATE          =    17; 
+        BATCH_UPDATE          =    17,
+        ADD_EVENT             =    18;
 
 
     /**
@@ -133,6 +134,12 @@ class CRM_Contact_Task {
                                                   'result' => true ),
                                   );
             
+            if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+                self::$_tasks[18] = array( 'title'  => ts( 'Add Contacts to Event' ),
+                                           'class'  => 'CRM_Event_Form_Participant',
+                                           'result' => true );
+            }
+
             self::$_tasks += CRM_Core_Component::taskList( );
             asort(self::$_tasks);
         }

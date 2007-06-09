@@ -20,7 +20,9 @@
         </td></tr>
         <tr>{* <tr> for delete form button *}
         {else} {* If action is other than Delete *}
+{if $single}
         <tr><td class="label font-size12pt">{ts}Name{/ts}</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
+{/if}
         <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
         {if $action eq 1 && !$past }<br /><a href="{$pastURL}">&raquo; {ts}Include past event(s) in this select list.{/ts}</a>{/if}    
         {if $is_test}
