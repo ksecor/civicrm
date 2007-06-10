@@ -302,7 +302,7 @@ function &crm_get_contact( $params, $returnProperties = null ) {
  *                                returned Contact object. If NULL, the default
  *                                set of properties will be included.
  *
- * @return CRM_Contact|CRM_Core_Error  Returns the array of contact if found, else
+ * @return array|CRM_Core_Error   Returns the array of contact values if found, else
  *                                Error Object
  * @access public
  *
