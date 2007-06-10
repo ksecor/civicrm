@@ -323,6 +323,14 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
      */
     public static function getContactValues($contactId) 
     {
+        if ( ! $contactId ) {
+            // adding this year since an empty contact id could have serious repurcussions
+            // like looping forever
+            CRM_Core_Error::backtrace( );
+            CRM_Core_Error::fatal( 'Please file an issue with the backtrace' );
+            return null;
+        }
+
         $customValue =& new CRM_Core_BAO_CustomValue();
         
         $customValue->entity_id = $contactId;
