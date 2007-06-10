@@ -41,8 +41,7 @@
   <field>
       <name>location_type_id</name>
       <type>int unsigned</type>
-      <required>true</required>
-      <comment>FK to Location Type ID. Make this optional so we can swap location ids CRM-1986, if mysql complains</comment>
+      <comment>FK to Location Type ID. Optional so we can reset location type id ( CRM-1986 )</comment>
       <add>1.1</add>
   </field>
   <foreignKey>

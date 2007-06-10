@@ -86,15 +86,15 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * The params submitted by the form and computed by the app
      *
      * @var array
-     * @protected
+     * @public
      */
-    protected $_params;
+    public $_params;
 
     /** 
      * The fields involved in this contribution page
      * 
      * @var array 
-     * @protected 
+     * @public
      */ 
     public $_fields;
 
@@ -110,9 +110,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * Cache the amount to make things easier
      *
      * @var float
-     * @protected
+     * @public
      */
-    protected $_amount;
+    public $_amount;
 
     /** 
      * Function to set variables up before form is built 

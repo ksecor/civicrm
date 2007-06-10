@@ -357,11 +357,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // all the payment processors expect the name and address to be in the 
             // so we copy stuff over to first_name etc. 
             
-            $paymentParams      = $form->_params;
-            $contrinutionTypeId = $form->_values['contribution_type_id'];
+            $paymentParams      = $this->_params;
+            $contributionTypeId = $this->_values['contribution_type_id'];
             CRM_Contribute_BAO_Contribution::postProcessConfirmCommon( $this, $paymentParams, 
                                                                        $premiumParams, $contactID, 
-                                                                       $contrinutionTypeId, 
+                                                                       $contributionTypeId, 
                                                                        'contribution' );
         }
     }
@@ -469,21 +469,25 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return void
      * @access public
      */
-    public function processContribution( $params, $result, $contactID, $contributionType,
-                                         $deductibleMode = true, $pending = false ) 
+    static function processContribution( &$form, $params, $result, $contactID, $contributionType,
+                                         $deductibleMode = true, $pending = false,
+                                         $online = true ) 
     {
 
         CRM_Core_DAO::transaction( 'BEGIN' );
 
-        if ( $this->get( 'honor_block_is_active' ) ) {
-           $honorCId = self::createHonorContact( );
-        }
+        $honorCId = $recurringContributionID = null;
+        if ( $online ) {
+            if ( $form->get( 'honor_block_is_active' ) ) {
+                $honorCId = $form->createHonorContact( );
+            }
 
-        $recurringContributionID = $this->processRecurringContribution( $params, $contactID );
+            $recurringContributionID = $form->processRecurringContribution( $params, $contactID );
+        }
 
         $config =& CRM_Core_Config::singleton( );
         $nonDeductibleAmount = $params['amount'];
-        if ( $contributionType->is_deductible && $deductibleMode ) {
+        if ( $online && $contributionType->is_deductible && $deductibleMode ) {
             $selectProduct = CRM_Utils_Array::value( 'selectProduct', $premiumParams );
             if ( $selectProduct &&
                  $selectProduct != 'no_thanks' ) {
@@ -503,7 +507,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $now = date( 'YmdHis' );    
         $receiptDate = null;
-        if ( $this->_values['is_email_receipt'] ) {
+        if ( ! $online || $form->_values['is_email_receipt'] ) {
             $receiptDate = $now ;
         }
        
@@ -512,17 +516,19 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $contribParams = array(
                                'contact_id'            => $contactID,
                                'contribution_type_id'  => $contributionType->id,
-                               'contribution_page_id'  => $this->_id,
+                               'contribution_page_id'  => $online ? $form->_id : null,
                                'receive_date'          => $now,
                                'non_deductible_amount' => $nonDeductibleAmount,
                                'total_amount'          => $params['amount'],
-                               'amount_level'          => $params['amount_level'],
+                               'amount_level'          => CRM_Utils_Array::value( 'amount_level', $params ),
                                'invoice_id'            => $params['invoiceID'],
                                'currency'              => $params['currencyID'],
-                               'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title']
+                               'source'                => $online ? 
+                               ts( 'Online Contribution:' ) . ' ' . $form->_values['title'] :
+                               ts( 'Online Contribution made by Admin' ),
                                );
 
-        if ( $this->_values['is_monetary'] ) {
+        if ( ! $online || $form->_values['is_monetary'] ) {
             $contribParams['payment_instrument_id'] = 1;
         }
 
@@ -545,7 +551,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $contribParams["contribution_status_id"] = $pending ? 2 : 1;
 
-        if( $this->_action & CRM_Core_Action::PREVIEW ) {
+        if( $form->_action & CRM_Core_Action::PREVIEW ) {
             $contribParams["is_test"] = 1;
         }
 
@@ -562,40 +568,43 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
              
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
- 
-        // process the custom data that is submitted or that came via the url
-        // format custom data
-        $customData = array( );
-        foreach ( $this->_params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,$value, 'Contribution');
-            }
-        }
-        
-        if ( ! empty($customData) ) {
-            foreach ( $customData as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_contribution', 
-                                  'entity_id'       => $contribution->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
+
+        if ( $online ) {
+            // process the custom data that is submitted or that came via the url
+            // format custom data
+            $customData = array( );
+            foreach ( $form->_params as $key => $value ) {
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,$value, 'Contribution');
                 }
-                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+            
+            if ( ! empty($customData) ) {
+                foreach ( $customData as $customValue) {
+                    $cvParams = array(
+                                      'entity_table'    => 'civicrm_contribution', 
+                                      'entity_id'       => $contribution->id,
+                                      'value'           => $customValue['value'],
+                                      'type'            => $customValue['type'],
+                                      'custom_field_id' => $customValue['custom_field_id'],
+                                      'file_id'         => $customValue['file_id'],
+                                      );
+                    
+                    if ($customValue['id']) {
+                        $cvParams['id'] = $customValue['id'];
+                    }
+                    CRM_Core_BAO_CustomValue::create($cvParams);
+                }
             }
         }
+
         // return if pending
         if ( $pending ) {
             return $contribution;
         }
  
         // next create the transaction record
-        if ( $this->_values['is_monetary'] ) {
+        if ( ! $online || $form->_values['is_monetary'] ) {
             $trxnParams = array(
                                 'entity_table'      => 'civicrm_contribution',
                                 'entity_id'         => $contribution->id,
@@ -605,7 +614,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
                                 'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
                                 'currency'          => $params['currencyID'],
-                                'payment_processor' => $this->_paymentProcessor['payment_processor_type'],
+                                'payment_processor' => $form->_paymentProcessor['payment_processor_type'],
                                 'trxn_id'           => $result['trxn_id'],
                                 );
             
@@ -621,7 +630,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         'module'           => 'CiviContribute', 
                         'callback'         => 'CRM_Contribute_Page_Contribution::details',
                         'activity_id'      => $contribution->id, 
-                        'activity_summary' => CRM_Utils_Money::format($params['amount']). ' - ' . $this->_values['title'] . ' (online)',
+                        'activity_summary' => CRM_Utils_Money::format($params['amount']). ' - ' . $form->_values['title'] . ' (online)',
                         'activity_date'    => $now,
                         'is_test'          => $contribution->is_test
                         );

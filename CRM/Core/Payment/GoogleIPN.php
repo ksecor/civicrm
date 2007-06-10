@@ -276,9 +276,6 @@ class CRM_Core_Payment_GoogleIPN {
             CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
         }
 
-        // $contribution->is_test    = $privateData['test'] ? 1 : 0; 
-        // commented above part,since this is done before checkout
-
         $contribution->receive_date           = 
             CRM_Utils_Date::isoToMysql($contribution->receive_date); 
 
