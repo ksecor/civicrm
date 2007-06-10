@@ -105,25 +105,20 @@ UPDATE civicrm_location
 
         $location->id = CRM_Utils_Array::value( 'id', $ids['location'][$locationId] );
         
-        if ( $location->id ) {
-            $tempLoc =& new CRM_Core_DAO_Location( );
-            $tempLoc->id = $location->id;
-            // CRM-1986, we swap location types in UI. If so, also swap them during update
-            if ( $tempLoc->find( true ) &&
-                 $tempLoc->location_type_id != $location->location_type_id ) {
-                $sql = "
+
+        // CRM-1986, reset any other location which has the same new location_type_id
+        // hopefully this does not result in location with null id since we should be
+        // giving the ones set to null a new id
+        $sql = "
 UPDATE civicrm_location 
    SET location_type_id = null
  WHERE entity_table     = %1
    AND entity_id        = %2
    AND location_type_id = %3";
-
-                $sqlParams = array( 1 => array( $location->entity_table    , 'String'  ),
-                                    2 => array( $location->entity_id       , 'Integer' ),
-                                    3 => array( $location->location_type_id, 'Integer' ) );       
-                CRM_Core_DAO::executeQuery( $sql, $sqlParams );
-            }
-        }
+        $sqlParams = array( 1 => array( $location->entity_table    , 'String'  ),
+                            2 => array( $location->entity_id       , 'Integer' ),
+                            3 => array( $location->location_type_id, 'Integer' ) );       
+        CRM_Core_DAO::executeQuery( $sql, $sqlParams );
 
         $location->save( );
 
