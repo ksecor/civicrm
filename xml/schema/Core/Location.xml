@@ -41,8 +41,7 @@
   <field>
       <name>location_type_id</name>
       <type>int unsigned</type>
-      <required>true</required>
-      <comment>FK to Location Type ID</comment>
+      <comment>FK to Location Type ID. This is optional so we can swap location ids (CRM-1986)</comment>
        <add>1.1</add>
   </field>
   <foreignKey>
