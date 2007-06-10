@@ -182,9 +182,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         $session =& CRM_Core_Session::singleton();
         $values = array('contact_id' => $session->get('userID'));
-        $contact = array();
-        $ids = array();
-        CRM_Contact_BAO_Contact::retrieve($values,$contact,$id);
+        require_once 'api/Contact.php';
+        $contact =& crm_fetch_contact( $values );
         
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'owner'));
         foreach($verp as $key => $value) {
