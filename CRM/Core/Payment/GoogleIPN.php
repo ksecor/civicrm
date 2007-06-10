@@ -539,7 +539,7 @@ WHERE  v.option_group_id = g.id
      * @return object  
      * @static  
      */  
-    static function &singleton( $mode = 'test', $component, &$paymentProcessor ) {
+    static function &singleton( $mode, $component, &$paymentProcessor ) {
         if ( self::$_singleton === null ) {
             $config       =& CRM_Core_Config::singleton( );
             $paymentClass = "CRM_{$component}_" . $paymentProcessor['class_name'] . "IPN";
@@ -579,12 +579,14 @@ WHERE  v.option_group_id = g.id
      * @param int     $orderNo        <order-total> send by google
      * @param string  $root           root of xml-response
      *  
-     * @return component/module  
+     * @return array context of this call (test, module, payment processor id)
      * @static  
      */  
-    static function getModule($xml_response, $privateData, $orderNo, $root) {
+    static function getContext($xml_response, $privateData, $orderNo, $root) {
         require_once 'CRM/Contribute/DAO/Contribution.php';
-        
+
+        $isTest = null;
+        $module = null;
         if ($root == 'new-order-notification') {
             $contributionID   = $privateData['contributionID'];
             $contribution     =& new CRM_Contribute_DAO_Contribution( );
@@ -592,71 +594,71 @@ WHERE  v.option_group_id = g.id
             if ( ! $contribution->find( true ) ) {
                 CRM_Core_Error::debug_log_message( "Could not find contribution record: $contributionID" );
                 echo "Failure: Could not find contribution record for $contributionID<p>";
-                return;
+                exit( );
             }
             if (stristr($contribution->source, 'Online Contribution')) {
-                return 'Contribute';
+                $module = 'Contribute';
             } elseif (stristr($contribution->source, 'Online Event Registration')) {
-                return 'Event';
+                $module = 'Event';
             }
+            $isTest = $contribution->is_test;
         } else {
             $contribution =& new CRM_Contribute_DAO_Contribution( );
             $contribution->invoice_id = $orderNo;
             if ( ! $contribution->find( true ) ) {
                 CRM_Core_Error::debug_log_message( "Could not find contribution record with invoice id: $orderNo" );
                 echo "Failure: Could not find contribution record with invoice id: $orderNo <p>";
-                return;
+                exit( );
             }
             if (stristr($contribution->source, 'Online Contribution')) {
-                return 'Contribute';
+                $module = 'Contribute';
             } elseif (stristr($contribution->source, 'Online Event Registration')) {
-                return 'Event';
+                $module = 'Event';
             }
+            $isTest = $contribution->is_test;
         }
-        
-        CRM_Core_Error::debug_log_message( "Could not find the module or component (Contribute/Event)" );
-        CRM_Core_Error::debug_log_message( "Contribution ID received in private data: {$privateData['contributionID']}" );
-        CRM_Core_Error::debug_log_message( "Invoice ID received in private data: {$privateData['invoiceID']}" );
-        CRM_Core_Error::debug_log_message( "Google oredr No: $orderNo" );
-        exit();
+
+        if ( $module == 'Contribute' ) {
+            if ( ! $contribution->contribution_page_id ) {
+                CRM_Core_Error::debug_log_message( "Could not find contribution page for contribution record: $contributionID" );
+                echo "Failure: Could not find contribution page for contribution record: $contributionID<p>";
+                exit( );
+            }
+            // get the payment processor id from contribution page
+            $paymentProcessorID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                                               $contribution->contribution_page_id,
+                                                               'payment_processor_id' );
+        } else {
+            if ( empty( $privateData['eventID'] ) ) {
+                CRM_Core_Error::debug_log_message( "Could not find event ID" );
+                echo "Failure: Could not find eventID<p>";
+                exit( );
+            }
+
+            // we are in event mode
+            // make sure event exists and is valid
+            require_once 'CRM/Event/DAO/Event.php';
+            $event =& new CRM_Event_DAO_Event( );
+            $event->id = $privateData['eventID'];
+            if ( ! $event->find( true ) ) {
+                CRM_Core_Error::debug_log_message( "Could not find event: $eventID" );
+                echo "Failure: Could not find event: $eventID<p>";
+                exit( );
+            }
+            
+            // get the payment processor id from contribution page
+            $paymentProcessorID = $event->payment_processor_id;
+        }
+
+        if ( ! $paymentProcessorID ) {
+            CRM_Core_Error::debug_log_message( "Could not find payment processor for contribution record: $contributionID" );
+            echo "Failure: Could not find payment processor for contribution record: $contributionID<p>";
+            exit( );
+        }
+
+        return array( $isTest, $module, $paymentProcessorID );
     }
 
-    /**  
-     * The function returns the mode(test, live..), given the google-order-no and merchant-private-data
-     *  
-     * @param xml     $xml_response   response send by google in xml format
-     * @param array   $privateData    contains the name value pair of <merchant-private-data>
-     * @param int     $orderNo        <order-total> send by google
-     * @param string  $root           root of xml-response
-     *  
-     * @return mode  
-     * @static  
-     */  
-    static function getMode($xml_response, $privateData, $orderNo, $root) {
-        require_once 'CRM/Contribute/DAO/Contribution.php';
-        
-        if ($root == 'new-order-notification') {
-            $contributionID   = $privateData['contributionID'];
-            $contribution     =& new CRM_Contribute_DAO_Contribution( );
-            $contribution->id = $contributionID;
-            if ( ! $contribution->find( true ) ) {
-                CRM_Core_Error::debug_log_message( "Could not find contribution record: $contributionID" );
-                echo "Failure: Could not find contribution record for $contributionID<p>";
-                return;
-            }
-            return $contribution->is_test;
-        } else {
-            $contribution =& new CRM_Contribute_DAO_Contribution( );
-            $contribution->invoice_id = $orderNo;
-            if ( ! $contribution->find( true ) ) {
-                CRM_Core_Error::debug_log_message( "Could not find contribution record with invoice id: $orderNo" );
-                echo "Failure: Could not find contribution record with invoice id: $orderNo <p>";
-                return;
-            }
-            return $contribution->is_test;
-        }
-    }
-    
     /**
      * This method is handles the response that will be invoked (from extern/googleNotify) every time
      * a notification or request is sent by the Google Server.
@@ -700,16 +702,18 @@ WHERE  v.option_group_id = g.id
         $privateData = $data[$root]['shopping-cart']['merchant-private-data']['VALUE'];
         $privateData = $privateData ? self::stringToArray($privateData) : '';
         
-        $mode   = self::getMode($xml_response, $privateData, $orderNo, $root);
+        list( $mode, $module, $paymentProcessorID ) = self::getContext($xml_response, $privateData, $orderNo, $root);
         $mode   = $mode ? 'test' : 'live';
         
-        $module = self::getModule($xml_response, $privateData, $orderNo, $root);
+        require_once 'CRM/Core/BAO/PaymentProcessor.php';
+        $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID,
+                                                                       $mode );
         
-        $ipn    =& self::singleton( $mode, $module );
+        $ipn    =& self::singleton( $mode, $module, $paymentProcessor );
         
         // Create new response object
-        $merchant_id  = $config->merchantID[$mode];  //Your Merchant ID
-        $merchant_key = $config->paymentKey[$mode];  //Your Merchant Key
+        $merchant_id  = $paymentProcessor['user_name'];
+        $merchant_key = $paymentProcessor['password'];
         $server_type  = ($mode == 'test') ? "sandbox" : '';
         
         $response = new GoogleResponse($merchant_id, $merchant_key,
