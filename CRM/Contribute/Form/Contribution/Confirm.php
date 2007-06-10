@@ -346,111 +346,24 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
    
         if ( $processMembership && $this->_contributeMode != 'notify' ) {
-            require_once 'CRM/Core/Payment/Form.php';
-            CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
+            //require_once 'CRM/Core/Payment/Form.php';
+            //CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
 
             require_once "CRM/Member/BAO/Membership.php";
-            CRM_Member_BAO_Membership::postProcessMembership($membershipParams,$contactID,$this );
+            CRM_Member_BAO_Membership::postProcessMembership( $membershipParams, $contactID,
+                                                              $this, $premiumParams );
         } else {
             // at this point we've created a contact and stored its address etc
             // all the payment processors expect the name and address to be in the 
             // so we copy stuff over to first_name etc. 
-            $paymentParams = $this->_params;
-
-            require_once 'CRM/Core/Payment/Form.php';
-            CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $paymentParams, true );
-
-            $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-            $contributionType->id = $this->_values['contribution_type_id'];
-            if ( ! $contributionType->find( true ) ) {
-                CRM_Core_Error::fatal( "Could not find a system table" );
-            }
             
-            // add some contribution type details to the params list
-            // if folks need to use it
-            $paymentParams['contributionType_name']                = 
-                $this->_params['contributionType_name']            = $contributionType->name;
-            $paymentParams['contributionType_accounting_code']     = 
-                $this->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
-            $paymentParams['contributionPageID']                   =
-                $this->_params['contributionPageID']               = $this->_values['id'];
-            
-            
-            if ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
-                require_once 'CRM/Core/Payment.php';
-                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
-            }
-            
-            if ( $this->_contributeMode == 'express' ) {
-                if ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
-                    $result =& $payment->doExpressCheckout( $paymentParams );
-                }
-            } else if ( $this->_contributeMode == 'notify' ) {
-                // this is not going to come back, i.e. we fill in the other details
-                // when we get a callback from the payment processor
-                // also add the contact ID and contribution ID to the params list
-                $paymentParams['contactID'] = $this->_params['contactID'] = $contactID;
-                $contribution =& $this->processContribution( $paymentParams,
-                                                             null,
-                                                             $contactID,
-                                                             $contributionType, 
-                                                             true,
-                                                             true );
-                $this->_params['contributionID'    ] = $contribution->id;
-                $this->_params['contributionTypeID'] = $contributionType->id;
-                $this->_params['item_name'         ] = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
-                $this->_params['receive_date']       = $now;
-                if ( $this->_values['is_recur'] &&
-                     $contribution->contribution_recur_id ) {
-                    $this->_params['contributionRecurID'] = $contribution->contribution_recur_id;
-                }
-
-                $this->set( 'params', $this->_params );
-                self::postProcessPremium( $premiumParams, $contribution );
-
-                // commit the transaction before we xfer
-                CRM_Core_DAO::transaction( 'COMMIT' );
-
-                if ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
-                    // addd qfKey so we can send to paypal
-                    $this->_params['qfKey'] = $this->controller->_key;
-                    $result =& $payment->doTransferCheckout( $this->_params );
-                }
-            } elseif ( $this->_values['is_monetary'] && $this->_amount > 0.0 ) {
-                $result =& $payment->doDirectPayment( $paymentParams );
-            }
-            
-            if ( is_a( $result, 'CRM_Core_Error' ) ) {
-                CRM_Core_Error::displaySessionError( $result );
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
-            }
-            
-            if ( $result ) {
-                $this->_params = array_merge( $this->_params, $result );
-            }
-            $this->_params['receive_date'] = $now;
-            $this->set( 'params', $this->_params );
-            $this->assign( 'trxn_id', $result['trxn_id'] );
-            $this->assign( 'receive_date',
-                           CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
-            
-            // result has all the stuff we need
-            // lets archive it to a financial transaction
-            if ( $contributionType->is_deductible ) {
-                $this->assign('is_deductible',  true );
-                $this->set('is_deductible',  true);
-            }
-
-            $contribution =& $this->processContribution( $this->_params, $result, $contactID, 
-                                                         $contributionType,  true, false );
-            
-            self::postProcessPremium( $premiumParams, $contribution );
-        
-            // finally send an email receipt
-            require_once "CRM/Contribute/BAO/ContributionPage.php";
-            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $this->_values, $contribution->id );
+            $paymentParams      = $form->_params;
+            $contrinutionTypeId = $form->_values['contribution_type_id'];
+            CRM_Contribute_BAO_Contribution::postProcessConfirmCommon( $this, $paymentParams, 
+                                                                       $premiumParams, $contactID, 
+                                                                       $contrinutionTypeId, 
+                                                                       'contribution' );
         }
-    
     }
     
     /**

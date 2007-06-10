@@ -769,7 +769,7 @@ civicrm_membership_status.is_current_member =1";
      * @return void
      * @access public
      */                                   
-    public function postProcessMembership( $membershipParams, $contactID ,&$form )
+    public function postProcessMembership( $membershipParams, $contactID ,&$form, &$premiumParams)
     {
         $tempParams = $membershipParams;
         $paymemtDone = false;
@@ -784,22 +784,23 @@ civicrm_membership_status.is_current_member =1";
         $form->assign( 'membership_name', $membershipDetails['name'] );
         
         $minimumFee = CRM_Utils_Array::value('minimum_fee',$membershipDetails);
-        $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $form->_id );
-        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+        
+        $contributionTypeId = null;
+        
         if ( $form->_values['amount_block_is_active']) {
-            $contributionType->id = $form->_values['contribution_type_id'];
+            $contributionTypeId = $form->_values['contribution_type_id'];
         } else {
             $paymemtDone  = true ;
-            $membershipParams['amount'] = $minimumFee;
-            $contributionType->id = $membershipDetails['contribution_type_id']; 
+            $params['amount'] = $minimumFee;
+            $contributionTypeId = $membershipDetails['contribution_type_id']; 
         }
-        if ( ! $contributionType->find( true ) ) {
-            CRM_Core_Error::fatal( "Could not find a system table" );
-        }
-        $membershipParams['contributionType_name'] = $contributionType->name;
-        $membershipParams['contributionType_accounting_code'] = $contributionType->accounting_code;
-        $membershipParams['contributionForm_id']              = $form->_values['id'];
-
+        
+        $result = CRM_Contribute_BAO_Contribution::postProcessConfirmCommon( $form, $membershipParams, 
+                                                                             $premiumParams, $contactID,
+                                                                             $contributionTypeId, 
+                                                                             'membership' );
+        
+        /*
         if ($form->_values['is_monetary']) {
             require_once 'CRM/Core/Payment.php';
             $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute' );
@@ -810,6 +811,9 @@ civicrm_membership_status.is_current_member =1";
                 $result =& $payment->doDirectPayment( $membershipParams );
             }
         }
+        */
+        
+        
         $errors = array();
         if ( is_a( $result, 'CRM_Core_Error' ) ) {
             $errors[1] = $result;
@@ -840,6 +844,7 @@ civicrm_membership_status.is_current_member =1";
             
         }
         
+        $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $form->_id );
         if ( $memBlockDetails['is_separate_payment']  && ! $paymemtDone ) {
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
             $contributionType->id = $membershipDetails['contribution_type_id']; 
@@ -1021,7 +1026,6 @@ civicrm_membership_status.is_current_member =1";
                 $membership->id = $currentMembership['id'];
                 $membership->find( true ); 
                                 
-                require_once 'CRM/Member/DAO/MembershipLog.php';
                 $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id , 
                                                                                           $changeToday );
                 
@@ -1037,6 +1041,7 @@ civicrm_membership_status.is_current_member =1";
                 CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
                 
                 //Now insert the log for renewal 
+                require_once 'CRM/Member/DAO/MembershipLog.php';
                 $dao = new CRM_Member_DAO_MembershipLog();
                 $dao->membership_id = $membership->id;
                 $dao->status_id     = $membership->status_id;
