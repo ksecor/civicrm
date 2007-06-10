@@ -48,14 +48,14 @@ $config->userHookClass          = 'CRM_Utils_Hook_Soap';
 require_once 'CRM/Utils/Array.php';
 $value = CRM_Utils_Array::value( 'module', $_GET );
 
+require_once 'CRM/Core/Payment/PayPalIPN.php';
+
 switch ( $value ) {
  case 'contribute':
-     require_once 'CRM/Contribute/Payment/PayPalIPN.php';
-     CRM_Contribute_Payment_PayPalIPN::main( );
+     CRM_Core_Payment_PayPalIPN::main( 'contribute' );
      break;
  case 'event':
-     require_once 'CRM/Event/Payment/PayPalIPN.php';
-     CRM_Event_Payment_PayPalIPN::main( );
+     CRM_Core_Payment_PayPalIPN::main( 'event' );
      break;
  default     :
      require_once 'CRM/Core/Error.php';
