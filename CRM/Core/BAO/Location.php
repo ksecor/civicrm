@@ -90,10 +90,11 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         // if no location has is_primary, make this one is_primart
         if ( $location->is_primary ) {
             // reset all other locations with the same entity table entity id
-            $sql = "UPDATE " . self::getTableName( ) . "
- SET is_primary = 0 WHERE 
- entity_table = %1 AND
- entity_id    = %2 ";
+            $sql = "
+UPDATE civicrm_location
+   SET is_primary = 0
+ WHERE entity_table = %1
+   AND entity_id    = %2 ";
             $sqlParams = array( 1 => array( $location->entity_table, 'String' ),
                                 2 => array( $location->entity_id   , 'Integer' ) );
             CRM_Core_DAO::executeQuery( $sql, $sqlParams );
@@ -101,8 +102,29 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             $location->is_primary = self::primaryLocationValue( $location->entity_id,
                                                                 $location->entity_table );
         }
-        
+
         $location->id = CRM_Utils_Array::value( 'id', $ids['location'][$locationId] );
+        
+        if ( $location->id ) {
+            $tempLoc =& new CRM_Core_DAO_Location( );
+            $tempLoc->id = $location->id;
+            // CRM-1986, we swap location types in UI. If so, also swap them during update
+            if ( $tempLoc->find( true ) &&
+                 $tempLoc->location_type_id != $location->location_type_id ) {
+                $sql = "
+UPDATE civicrm_location 
+   SET location_type_id = null
+ WHERE entity_table     = %1
+   AND entity_id        = %2
+   AND location_type_id = %3";
+
+                $sqlParams = array( 1 => array( $location->entity_table    , 'String'  ),
+                                    2 => array( $location->entity_id       , 'Integer' ),
+                                    3 => array( $location->location_type_id, 'Integer' ) );       
+                CRM_Core_DAO::executeQuery( $sql, $sqlParams );
+            }
+        }
+
         $location->save( );
 
         $params['location'][$locationId]['id'] = $location->id;
