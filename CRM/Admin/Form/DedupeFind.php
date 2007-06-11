@@ -71,7 +71,10 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         }
 
         $foundDupes = CRM_Dedupe_Finder::findDupes($search, $rgDao->threshold, $rgDao->contact_type);
-
+        if (!$foundDupes) {
+            $this->assign('no_dupes', true);
+            return;
+        }
 
         $cids = array_keys($foundDupes);
         foreach ($foundDupes as $dupeset) {

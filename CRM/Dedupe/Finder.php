@@ -71,6 +71,16 @@ class CRM_Dedupe_Finder
         }
         // remove $cid from the results
         unset($cids[array_search($cid, $cids)]);
+        // remove other contact types from the results
+        if ($contactType) {
+            $dao =& new CRM_Core_DAO();
+            $dao->query("SELECT id FROM civicrm_contact WHERE contact_type != '$contactType'");
+            while ($dao->fetch()) {
+                if (in_array($dao->id, $cids)) {
+                    unset($cids[array_search($dao->id, $cids)]);
+                }
+            }
+        }
         return $cids;
     }
 
@@ -87,7 +97,9 @@ class CRM_Dedupe_Finder
         // for each contact_id find its dupes, but 
         // intersect the result with this group's contacts
         foreach ($members as $cid) {
-            $dupes[$cid] = array_intersect(self::findDupesOfContact($cid, $params, $threshold), $members);
+            if (!$contactType or $dao->contact_type == $contactType) {
+                $dupes[$cid] = array_intersect(self::findDupesOfContact($cid, $params, $threshold, $contactType), $members);
+            }
         }
         // return dropping empty matches
         return array_filter($dupes);
@@ -106,7 +118,9 @@ class CRM_Dedupe_Finder
         $dao->domain_id = CRM_Core_Config::domainID();
         $dao->find();
         while ($dao->fetch()) {
-            $dupes[$dao->id] = self::findDupesOfContact($dao->id, $params, $threshold);
+            if (!$contactType or $dao->contact_type == $contactType) {
+                $dupes[$dao->id] = self::findDupesOfContact($dao->id, $params, $threshold, $contactType);
+            }
         }
         // return dropping empty matches
         return array_filter($dupes);

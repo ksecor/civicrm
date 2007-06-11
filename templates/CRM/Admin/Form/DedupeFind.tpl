@@ -1,3 +1,11 @@
+{if $no_dupes}
+<div class='status'>
+  <dl>
+    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+    <dd>{ts}There are no duplicates matching this rule.{/ts}</dd>
+  </dl>
+</div>
+{else}
 <div class="form-item">
   {foreach from=$main_contacts item=main_name key=main_id}
   <table style="width: 45%; float: left; margin: 10px;">
@@ -12,3 +20,4 @@
   {/foreach}
 </div>
 <div style="clear: both;"></div>
+{/if}
