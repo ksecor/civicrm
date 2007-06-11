@@ -295,7 +295,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
             // Retrieve the name and email from receipt is to be send
             $session =& CRM_Core_Session::singleton( );
             $userID = $session->get( 'userID' );
-            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( userID );
+            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
             
             $formValues['receipt_from_name']  = $userName;
             $formValues['receipt_from_email'] = $userEmail;
