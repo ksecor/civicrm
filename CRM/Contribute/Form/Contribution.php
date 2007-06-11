@@ -661,15 +661,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // Code Added to Send ReceiptMail, Assigned variables to
         // Message generating templates
         if ( $formValues['is_email_receipt'] ) {
-            //Retrieve Contribution Typr Name from contribution_type_id
-            
-            $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-            $contributionType->id = $formValues['contribution_type_id'];
-            if ( ! $contributionType->find( true ) ) {
-                CRM_Core_Error::fatal( "Could not find a system table" );
-            }
-            $formValues['contributionType_name'] = $contributionType->name;
-            
+            //Retrieve Contribution Type Name from contribution_type_id
+            $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                                $formValues['contribution_type_id'] );
+
             // Retrieve the name and email from receipt is to be send
             $formValues['receipt_from_name'] = $this->userDisplayName;
             $formValues['receipt_from_email']= $this->userEmail;
@@ -729,8 +724,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 }
             }
             $this->assign('showCustom',$showCustom);
-            $this->assign('customField',$customField);
-            $this->assign('formValues',$formValues);
+            $this->assign_by_ref('customField',$customField);
+            $this->assign_by_ref('formValues',$formValues);
             require_once 'CRM/Contact/BAO/Contact.php';
             list( $contributorDisplayName, $contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
             $template =& CRM_Core_Smarty::singleton( );

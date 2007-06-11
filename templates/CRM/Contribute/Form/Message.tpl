@@ -10,10 +10,10 @@
 ===========================================================
 {ts}Contribution Type{/ts}: {$formValues.contributionType_name}
 {ts}Total Amount{/ts}     : {$formValues.total_amount|crmMoney}
-{ts}Received Date{/ts}    :{$receive_date|crmDate}
-{ts}Paid By{/ts}          :{$formValues.paidBy}
-{ts}Source{/ts}           :{$formValues.source}
-{ts}Transiction ID{/ts}   :{$formValues.trxn_id}
+{ts}Received Date{/ts}    : {$receive_date|crmDate}
+{ts}Paid By{/ts}          : {$formValues.paidBy}
+{ts}Source{/ts}           : {$formValues.source}
+{ts}Transaction ID{/ts}   : {$formValues.trxn_id}
 {if $showCustom}
 
 ===========================================================

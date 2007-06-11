@@ -140,8 +140,8 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
                     $attributes['total_amount'], true );
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
 
-        $this->add( 'text', 'source', ts('Source'), $attributes['source'] );
-        $this->addElement('checkbox','is_email_receipt', ts('Is email receipt'),null );
+        $this->add( 'text', 'source', ts('Contribution Source'), $attributes['source'] );
+        $this->addElement('checkbox', 'is_email_receipt', ts('Is email receipt'), null );
 
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
@@ -194,10 +194,10 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
                                               $this->_contactID,
                                               'contact_type' );
 
-        CRM_Contact_BAO_Contact::createProfileContact( $params, $fields,
-                                                       $this->_contactID, 
-                                                       null, null, 
-                                                       $ctype );
+        $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields,
+                                                                   $this->_contactID, 
+                                                                   null, null, 
+                                                                   $ctype );
 
         // add all the additioanl payment params we need
         $this->_params["state_province-{$this->_bltID}"] =
@@ -253,7 +253,15 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         if ( $result ) {
             $this->_params = array_merge( $this->_params, $result );
         }
+
         $this->_params['receive_date'] = $now;
+
+        if ( CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
+            $this->_params['receipt_date'] = $now;
+        } else {
+            $this->_params['receipt_date'] = null;
+        }
+        
         $this->set( 'params', $this->_params );
         $this->assign( 'trxn_id', $result['trxn_id'] );
         $this->assign( 'receive_date',
@@ -266,9 +274,56 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
             $this->set   ('is_deductible',  true );
         }
 
+        // set source if not set 
+        if ( empty( $this->_params['source'] ) ) {
+            $this->_params['source'] = ts( 'Online Contribution: CiviCRM Admin Interface' );
+        }
+
         require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
         $contribution =& CRM_Contribute_Form_Contribution_Confirm::processContribution( $this, $this->_params, $result, $this->_contactID, 
                                                                                         $contributionType,  false, false, false );
+
+        if ( $contribution->id &&
+             CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
+
+            $formValues = array( );
+
+            //Retrieve Contribution Typr Name from contribution_type_id
+            $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                                $this->_params['contribution_type_id'] );
+            
+            // Retrieve the name and email from receipt is to be send
+            $session =& CRM_Core_Session::singleton( );
+            $userID = $session->get( 'userID' );
+            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( userID );
+            
+            $formValues['receipt_from_name']  = $userName;
+            $formValues['receipt_from_email'] = $userEmail;
+
+            // assigned various dates to the templates
+            $this->assign('receive_date',
+                          CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($this->_params['receive_date'])));
+            $this->assign('receipt_date',
+                          CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($this->_params['receipt_date'])));
+
+            list( $contributorDisplayName, $contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+
+            $this->assign_by_ref( 'formValues', $formValues );
+
+            $template =& CRM_Core_Smarty::singleton( );
+            $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
+
+            $subject = 'Receipt: Off line Contribution Received';
+            $receiptFrom = '"' . $formValues['receipt_from_name'] . '" <' . $formValues['receipt_from_email'] . '>';
+         
+            require_once 'CRM/Utils/Mail.php';
+            CRM_Utils_Mail::send( $receiptFrom,
+                                  $contributorDisplayName,
+                                  $contributorEmail,
+                                  $subject,
+                                  $message);
+        }
+
     }
     
 }

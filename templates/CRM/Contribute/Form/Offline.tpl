@@ -13,6 +13,11 @@
 	{assign var=n value=email-$bltID}
         <td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td>
     </tr>
+    <tr>
+        <td class="label nowrap">{$form.source.label}</td><td>{$form.source.html}</td>
+    </tr>
+        <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Email a receipt for this contribution to {$email}?{/ts}</td></tr>
     </table>
 
     <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>

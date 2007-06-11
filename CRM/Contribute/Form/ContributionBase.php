@@ -265,6 +265,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
     }
 
     static function cancelSubscriptionURL( &$paymentProcessor, $mode ) {
+        CRM_Core_Error::backtrace( );
         $cancelSubscriptionURL = null;
         if ( $paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
             $cancelSubscriptionURL = "https://{$paymentProcessor['site_url']}/cgi-bin/webscr?cmd=_subscr-find&alias=" .

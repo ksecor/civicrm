@@ -506,8 +506,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         $now = date( 'YmdHis' );    
-        $receiptDate = null;
-        if ( ! $online || $form->_values['is_email_receipt'] ) {
+        $receiptDate = CRM_Utils_Array::value( 'receipt_date', $params );
+        if ( ! $online && $form->_values['is_email_receipt'] ) {
             $receiptDate = $now ;
         }
        
@@ -525,7 +525,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                'currency'              => $params['currencyID'],
                                'source'                => $online ? 
                                ts( 'Online Contribution:' ) . ' ' . $form->_values['title'] :
-                               ts( 'Online Contribution made by Admin' ),
+                               $params['source'],
                                );
 
         if ( ! $online || $form->_values['is_monetary'] ) {
