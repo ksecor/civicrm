@@ -661,15 +661,13 @@ WHERE  v.option_group_id = g.id
      * a notification or request is sent by the Google Server.
      *
      */
-    static function main( ) 
+    static function main( $xml_response ) 
     {
         require_once('Google/library/googleresponse.php');
         require_once('Google/library/googlemerchantcalculations.php');
         require_once('Google/library/googleresult.php');
         require_once('Google/library/xml-processing/xmlparser.php');
         
-        //require_once('CRM/Core/Payment/GoogleIPN.php');
-
         $config =& CRM_Core_Config::singleton();
         define('RESPONSE_HANDLER_LOG_FILE', $config->uploadDir . 'CiviCRM.log');
         
@@ -680,7 +678,6 @@ WHERE  v.option_group_id = g.id
         }
         
         // Retrieve the XML sent in the HTTP POST request to the ResponseHandler
-        $xml_response = $HTTP_RAW_POST_DATA;
         if (get_magic_quotes_gpc()) {
             $xml_response = stripslashes($xml_response);
         }

@@ -45,6 +45,6 @@ $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
 $config->userHookClass          = 'CRM_Utils_Hook_Soap';
 
 require_once 'CRM/Core/Payment/GoogleIPN.php';
-CRM_Core_Payment_GoogleIPN::main( );
+CRM_Core_Payment_GoogleIPN::main( $HTTP_RAW_POST_DATA );
 
 ?>
