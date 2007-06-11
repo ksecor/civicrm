@@ -62,16 +62,30 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         foreach ($foundDupes as $dupeset) {
             $cids = array_merge($cids, $dupeset);
         }
-        $cidstring = implode(', ', array_unique($cids));
-        $sql = "SELECT id, display_name FROM civicrm_contact WHERE id IN ($cidstring) AND domain_id = " . CRM_Core_Config::domainID();
+        $cidString = implode(', ', array_unique($cids));
+        $domainId  = CRM_Core_Config::domainID();
+        $sql = "SELECT id, display_name FROM civicrm_contact WHERE id IN ($cidString) AND domain_id = $domainId ORDER BY sort_name";
         $dao =& new CRM_Core_DAO();
         $dao->query($sql);
         $displayNames = array();
         while ($dao->fetch()) {
             $displayNames[$dao->id] = $dao->display_name;
         }
-        $this->_foundDupes   = $foundDupes;
-        $this->_displayNames = $displayNames;
+
+        // FIXME: sort the contacts; $displayName 
+        // is already sort_name-sorted, so use that
+        $mainContacts = array();
+        $dupeContacts = array();
+        foreach ($foundDupes as $mainId => $dupes) {
+            $mainContacts[$mainId] = $displayNames[$mainId];
+            $localDupes = array();
+            foreach ($dupes as $dupeId) {
+                $localDupes[$dupeId] = $displayNames[$dupeId];
+            }
+            $dupeContacts[$mainId] = $localDupes;
+        }
+        $this->_mainContacts = $mainContacts;
+        $this->_dupeContacts = $dupeContacts;
     }
 
     /**
@@ -82,8 +96,8 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
      */
     public function buildQuickForm()
     {
-        $this->assign('found_dupes', $this->_foundDupes);
-        $this->assign('display_names', $this->_displayNames);
+        $this->assign('main_contacts', $this->_mainContacts);
+        $this->assign('dupe_contacts', $this->_dupeContacts);
         $this->addButtons(array(
             array('type' => 'next', 'name' => ts('Merge'), 'isDefault' => true),
         ));
@@ -101,6 +115,9 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
      */
     public function postProcess() 
     {
+        $exportValues = $this->exportValues();
+        CRM_Core_Error::debug('$exportValues', $exportValues);
+        exit;
     }
 }
 
