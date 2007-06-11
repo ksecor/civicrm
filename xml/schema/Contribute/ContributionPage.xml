@@ -250,5 +250,18 @@
        <comment>text for honor block.</comment>  
        <add>1.5</add>  
   </field>
- 
+  <field>
+       <name>start_date</name>
+       <type>datetime</type>
+       <title>Contribution Page Start Date</title>
+       <comment>Date and time that this page starts.</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>end_date</name>
+       <type>datetime</type>
+       <title>Contribution Page End Date</title>
+       <comment>Date and time that this page ends. May be NULL if no defined end date/time</comment>
+       <add>1.8</add>
+  </field>
 </table>
