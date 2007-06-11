@@ -32,16 +32,17 @@
  *
  */
 
+require_once 'CRM/Contact/BAO/Group.php';
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Dedupe/Criterion.php';
 
 class CRM_Dedupe_Finder
 {
     /**
-     * Based on the provided contact_id, an array of criteria, and minimal 
-     * threshold, return an array of duplicate contact ids.
+     * Based on the provided contact_id, an array of criteria and 
+     * minimal threshold, return an array of duplicate contact ids.
      */
-    function findDuplicateContacts($cid, $params, $threshold)
+    function findDupesOfContact($cid, $params, $threshold)
     {
         $criteria = array();
         foreach ($params as $param) {
@@ -62,12 +63,52 @@ class CRM_Dedupe_Finder
         }
 
         $cids = array();
-        foreach ($weights as $cid => $weight) {
+        foreach ($weights as $id => $weight) {
             if ($weight >= $threshold) {
-                $cids[] = $cid;
+                $cids[] = $id;
             }
         }
+        // remove $cid from the results
+        unset($cids[array_search($cid, $cids)]);
         return $cids;
+    }
+
+    /**
+     * Based on the provided group_id, an array of criteria and minimal
+     * threshold, return a contact_id-keyed array of duplicate contact_ids
+     * in the given group.
+     */
+    function findDupesInGroup($gid, $params, $threshold)
+    {
+        // get the group's contact_ids
+        $members = array_keys(CRM_Contact_BAO_Group::getMember($gid));
+        $dupes   = array();
+        // for each contact_id find its dupes, but 
+        // intersect the result with this group's contacts
+        foreach ($members as $cid) {
+            $dupes[$cid] = array_intersect(self::findDupesOfContact($cid, $params, $threshold), $members);
+        }
+        // return dropping empty matches
+        return array_filter($dupes);
+    }
+
+    /**
+     * Based on an array of criteria and minimal threshold, return 
+     * a contact_id-keyed array of duplicate contact_ids across the 
+     * whole database.
+     */
+    function findDupes($params, $threshold)
+    {
+        $contacts = array();
+        $dupes    = array();
+        $dao =& new CRM_Contact_DAO_Contact();
+        $dao->domain_id = CRM_Core_Config::domainID();
+        $dao->find();
+        while ($dao->fetch()) {
+            $dupes[$dao->id] = self::findDupesOfContact($dao->id, $params, $threshold);
+        }
+        // return dropping empty matches
+        return array_filter($dupes);
     }
 }
 
