@@ -103,7 +103,10 @@ class CRM_Contact_Form_Address
                                                                                     true, null, false ),
                                          'onValueChanged' => 'checkParamChildren',
                                          'id'             => 'wizCardDefGroupId' );
-                    
+
+                    $stateURL = CRM_Utils_System::url( "civicrm/ajax/state","s=%{searchString}",
+                                                       true, null, false );
+                    $form->assign( 'stateURL', $stateURL);
                 }
 
                 $location[$locationId]['address'][$name] =

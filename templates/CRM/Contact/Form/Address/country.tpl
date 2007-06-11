@@ -29,7 +29,7 @@ function checkChildren(obj, element, value, src_func) {
         active_levels[element] = 0;
     }        
 
-    var res = {/literal}"{crmURL p='civicrm/ajax/state' q='s=getParameters'}"{literal};
+    var res = {/literal}"{$stateURL}"{literal};
     
     var state = {/literal}"location[{$index}][address][state_province]"{literal};
 
@@ -46,7 +46,7 @@ function checkChildren(obj, element, value, src_func) {
                 active_levels[element] = tmp;
                 
                 node = active_levels[element];
-                
+
                 container = document.createElement('span');
                 container.setAttribute('id',element+'_container_'+node);
                 dojo.byId(element+'_children').appendChild(container);
@@ -54,10 +54,11 @@ function checkChildren(obj, element, value, src_func) {
                 dojo.widget.createWidget("ComboBox", 
                     {
                       value: 'this should never be seen - it is replaced!',
-                      dataUrl: res + '&node='+value,
+                      dataUrl: res + '&node='+value+'&sc=child',
                       id: element +'_'+node,
                       style: 'width: 300px',
-                      name : state
+                      name : state,
+                      mode: 'remote'
                     }, 
                    
                dojo.byId (element+'_container_'+node));

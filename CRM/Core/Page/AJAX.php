@@ -242,14 +242,21 @@ LIMIT 6";
 
     function state( &$config ) {
         require_once 'CRM/Utils/Type.php';
-        $name     = strtolower( CRM_Utils_Type::escape( $_GET['node'], 'String'  ) );
+        $countryName  = strtolower( CRM_Utils_Type::escape( $_GET['node'], 'String'  ) );
+        $stateName    = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+        $includeState = strtolower( CRM_Utils_Type::escape( $_GET['sc'], 'String'  ) );
 
         $query = "
 SELECT civicrm_state_province.name name
   FROM civicrm_state_province, civicrm_country
  WHERE civicrm_state_province.country_id = civicrm_country.id
-  AND  civicrm_country.name LIKE '$name%'
-ORDER BY name";
+  AND  civicrm_country.name LIKE '$countryName%'";
+
+        if ( $includeState ) {
+            $query .= " AND  civicrm_state_province.name LIKE '$stateName%' ";
+        }
+
+        $query .= " ORDER BY name";
 
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );

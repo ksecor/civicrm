@@ -96,7 +96,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      * @access public
      * @static
      */
-    static function fixAddress( &$params ) {
+    static function fixAddress( &$params ) 
+    {
         /* Split the zip and +4, if it's in US format */
         if (CRM_Utils_Array::value( 'postal_code', $params ) &&
             preg_match('/^(\d{4,5})[+-](\d{4})$/',
@@ -107,9 +108,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         }
 
         // add state_id if state is set
-        if ( isset( $params['state_province_id'] ) &&
-             ! is_numeric( $params['state_province_id'] ) &&
-             isset( $params['state_province'] ) ) {
+        if ( ( ! isset( $params['state_province_id'] ) || ! is_numeric( $params['state_province_id'] ) )
+             && isset( $params['state_province'] ) ) {
             $state_province       = & new CRM_Core_DAO_StateProvince();
             $state_province->name = $params['state_province'];
             if ( ! $state_province->find(true) ) {
