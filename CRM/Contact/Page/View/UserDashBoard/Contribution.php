@@ -78,26 +78,32 @@ class CRM_Contact_Page_View_UserDashBoard_Contribution extends CRM_Contact_Page_
             $this->assign('honor', true);
         }
 
-        require_once 'CRM/Contribute/DAO/ContributionRecur.php';
-        $recur =& new CRM_Contribute_DAO_ContributionRecur( );
-        $recur->contact_id = $this->_contactId;
-        $recur->find();
+        require_once 'CRM/Contribute/Form/ContributionBase.php';
+        require_once 'CRM/Contribute/BAO/ContributionRecur.php';
+
+        $recur             =& new CRM_Contribute_DAO_ContributionRecur( );
+        $recur->contact_id =  $this->_contactId;
+        $recur->find( );
+
+        $config =& CRM_Core_Config::singleton( );
 
         require_once 'api/utils.php';
         $recurRow = array();
         while( $recur->fetch() ) {
             _crm_object_to_array($recur, $values);
+
+            $paymentProcessor = CRM_Contribute_BAO_ContributionRecur::getPaymentProcessor( $recur->id,
+                                                                                           $recur->is_test ? 'test' : 'live' );
+            $values['cancelSubscriptionUrl'] = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( $paymentProcessor );
             $recurRow[] = $values;
         }
         $this->assign('recurRows',$recurRow);
-        $this->assign('recur', true); 
-        
-        $config =& CRM_Core_Config::singleton( );
-        
-        require_once 'CRM/Contribute/Form/ContributionBase.php';
-        $url = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( $config,
-                                                                            $recur->is_test ? 'test' : 'live' );
-        $this->assign( 'cancelSubscriptionUrl', $url );
+
+        if ( ! empty( $recurRows ) ) {
+            $this->assign('recur', true); 
+        } else {
+            $this->assign( 'recur', false );
+        }
 	}
     
     

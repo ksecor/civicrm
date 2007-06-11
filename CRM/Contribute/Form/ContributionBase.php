@@ -253,7 +253,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         //assign cancelSubscription URL to templates
         $this->assign( 'cancelSubscriptionUrl',
-                       self::cancelSubscriptionURL( $this->_paymentProcessor, $this->_mode ) );
+                       self::cancelSubscriptionURL( $this->_paymentProcessor ) );
         
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
@@ -264,8 +264,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_amount   = $this->get( 'amount' );
     }
 
-    static function cancelSubscriptionURL( &$paymentProcessor, $mode ) {
-        CRM_Core_Error::backtrace( );
+    static function cancelSubscriptionURL( &$paymentProcessor ) {
         $cancelSubscriptionURL = null;
         if ( $paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
             $cancelSubscriptionURL = "https://{$paymentProcessor['site_url']}/cgi-bin/webscr?cmd=_subscr-find&alias=" .

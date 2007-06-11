@@ -425,8 +425,7 @@ WHERE  v.option_group_id = g.id
         $template->assign( 'is_recur', $recur );
         if ( $recur ) {
             require_once 'CRM/Contribute/Form/ContributionBase.php';
-            $url = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( $paymentProcessor,
-                                                                                $contribution->is_test ? 'test' : 'live' );
+            $url = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( $paymentProcessor );
             $template->assign( 'cancelSubscriptionUrl', $url );
         }
 
