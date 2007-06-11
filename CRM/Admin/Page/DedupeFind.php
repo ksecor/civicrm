@@ -36,7 +36,7 @@
 require_once 'CRM/Core/Page/Basic.php';
 require_once 'CRM/Dedupe/DAO/RuleGroup.php';
 
-class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
+class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
 {
     /**
      * The action links that we need to display for the browse screen
@@ -67,10 +67,10 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
             // helper variable for nicer formatting
               self::$_links = array(
                   CRM_Core_Action::UPDATE  => array(
-                      'name'  => ts('Edit Rule'),
-                      'url'   => 'civicrm/admin/deduperules',
+                      'name'  => ts('Use Rule'),
+                      'url'   => 'civicrm/admin/dedupefind',
                       'qs'    => 'action=update&id=%%id%%',
-                      'title' => ts('Edit DedupeRule'),
+                      'title' => ts('Use DedupeRule'),
                   ),
               );
         }
@@ -146,7 +146,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
      */
     function editForm()
     {
-        return 'CRM_Admin_Form_DedupeRules';
+        return 'CRM_Admin_Form_DedupeFind';
     }
 
     /**
@@ -156,7 +156,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
      */
     function editName()
     {
-        return 'DedupeRules';
+        return 'DedupeFind';
     }
 
     /**
@@ -166,7 +166,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
      */
     function userContext($mode = null)
     {
-        return 'civicrm/admin/deduperules';
+        return 'civicrm/admin/dedupefind';
     }
 }
 

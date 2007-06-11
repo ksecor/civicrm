@@ -35,14 +35,13 @@
 
 require_once 'CRM/Admin/Form.php';
 require_once 'CRM/Dedupe/Finder.php';
+require_once 'CRM/Dedupe/DAO/Rule.php';
+require_once 'CRM/Dedupe/DAO/RuleGroup.php';
 
-/**
- * This class generates form components for DedupeRules
- * 
- */
 class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
 {
-    protected $_displayNames;
+    protected $_mainContacts;
+    protected $_dupeContacts;
 
     /**
      * Function to pre processing
@@ -52,12 +51,28 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
      */
     function preProcess()
     {
-        $search = array(
-            array('table' => 'civicrm_contact',    'field' => 'display_name', 'length' => 5, 'weight' => 10),
-            array('table' => 'civicrm_individual', 'field' => 'last_name',                   'weight' =>  7),
-            array('table' => 'civicrm_email',      'field' => 'email',        'length' => 6, 'weight' =>  5),
-        );
-        $foundDupes = CRM_Dedupe_Finder::findDupes($search, 15);
+        // FIXME: move this to CRM_Dedupe_BAO_RuleGroup::getCriteriaArray()
+        $rgid   = CRM_Utils_Request::retrieve('id', 'Positive', $this, false, 0);
+        $rgDao =& new CRM_Dedupe_DAO_RuleGroup();
+        $rgDao->id = $rgid;
+        $rgDao->find(true);
+
+        $ruleDao =& new CRM_Dedupe_DAO_Rule();
+        $ruleDao->dedupe_rule_group_id = $rgid;
+        $ruleDao->find();
+        $search = array();
+        while ($ruleDao->fetch()) {
+            $search[] = array(
+                'table'  => $ruleDao->rule_table,
+                'field'  => $ruleDao->rule_field,
+                'length' => $ruleDao->rule_length ? $ruleDao->rule_length : null,
+                'weight' => $ruleDao->rule_weight,
+            );
+        }
+
+        $foundDupes = CRM_Dedupe_Finder::findDupes($search, $rgDao->threshold, $rgDao->contact_type);
+
+
         $cids = array_keys($foundDupes);
         foreach ($foundDupes as $dupeset) {
             $cids = array_merge($cids, $dupeset);

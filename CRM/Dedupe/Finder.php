@@ -43,7 +43,7 @@ class CRM_Dedupe_Finder
      * Based on the provided contact_id, an array of criteria and 
      * minimal threshold, return an array of duplicate contact ids.
      */
-    function findDupesOfContact($cid, $params, $threshold)
+    function findDupesOfContact($cid, $params, $threshold, $contactType = null)
     {
         $criteria = array();
         foreach ($params as $param) {
@@ -79,7 +79,7 @@ class CRM_Dedupe_Finder
      * threshold, return a contact_id-keyed array of duplicate contact_ids
      * in the given group.
      */
-    function findDupesInGroup($gid, $params, $threshold)
+    function findDupesInGroup($gid, $params, $threshold, $contactType = null)
     {
         // get the group's contact_ids
         $members = array_keys(CRM_Contact_BAO_Group::getMember($gid));
@@ -98,7 +98,7 @@ class CRM_Dedupe_Finder
      * a contact_id-keyed array of duplicate contact_ids across the 
      * whole database.
      */
-    function findDupes($params, $threshold)
+    function findDupes($params, $threshold, $contactType = null)
     {
         $contacts = array();
         $dupes    = array();
