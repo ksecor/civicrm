@@ -359,10 +359,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             $paymentParams      = $this->_params;
             $contributionTypeId = $this->_values['contribution_type_id'];
-            CRM_Contribute_BAO_Contribution::postProcessConfirmCommon( $this, $paymentParams, 
-                                                                       $premiumParams, $contactID, 
-                                                                       $contributionTypeId, 
-                                                                       'contribution' );
+            CRM_Contribute_BAO_Contribution::processConfirm( $this, $paymentParams, 
+                                                             $premiumParams, $contactID, 
+                                                             $contributionTypeId, 
+                                                             'contribution' );
         }
     }
     

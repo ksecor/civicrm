@@ -840,10 +840,10 @@ SELECT count(*) as count,
      *
      *
      */
-    public function postProcessConfirmCommon( &$form, &$paymentParams, &$premiumParams, $contactID, $contributionTypeId, $component='contribution' )
+    public function processConfirm( &$form, &$params, &$premiumParams, $contactID, $contributionTypeId, $component='contribution' )
     {
         require_once 'CRM/Core/Payment/Form.php';
-        CRM_Core_Payment_Form::mapParams( $form->_bltID, $form->_params, $paymentParams, true );
+        CRM_Core_Payment_Form::mapParams( $form->_bltID, $form->_params, $params, true );
         
         $contributionType =& new CRM_Contribute_DAO_ContributionType( );
         $contributionType->id = $contributionTypeId;
@@ -853,11 +853,11 @@ SELECT count(*) as count,
         
         // add some contribution type details to the params list
         // if folks need to use it
-        $paymentParams['contributionType_name']                = 
+        $params['contributionType_name']                = 
             $form->_params['contributionType_name']            = $contributionType->name;
-        $paymentParams['contributionType_accounting_code']     = 
+        $params['contributionType_accounting_code']     = 
             $form->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
-        $paymentParams['contributionPageID']                   =
+        $params['contributionPageID']                   =
             $form->_params['contributionPageID']               = $form->_values['id'];
         
         
@@ -868,17 +868,17 @@ SELECT count(*) as count,
         
         if ( $form->_contributeMode == 'express' ) {
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-                $result =& $payment->doExpressCheckout( $paymentParams );
+                $result =& $payment->doExpressCheckout( $params );
             }
         } else if ( ( $form->_contributeMode == 'notify' ) && ( $component !== 'membership' ) ) {
             // this is not going to come back, i.e. we fill in the other details
             // when we get a callback from the payment processor
             // also add the contact ID and contribution ID to the params list
-            $paymentParams['contactID'] = $form->_params['contactID'] = $contactID;
+            $params['contactID'] = $form->_params['contactID'] = $contactID;
             $contribution =
                 CRM_Contribute_Form_Contribution_Confirm::processContribution(
                                                                               $form,
-                                                                              $paymentParams,
+                                                                              $params,
                                                                               null,
                                                                               $contactID,
                                                                               $contributionType, 
@@ -904,16 +904,19 @@ SELECT count(*) as count,
                 $result =& $payment->doTransferCheckout( $form->_params );
             }
         } elseif ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-            $result =& $payment->doDirectPayment( $paymentParams );
+            $result =& $payment->doDirectPayment( $params );
         }
         
         if ( $component == 'membership' ) {
-            return $result;
-        }
+            $membershipResult = array( );
+        }       
         
         if ( is_a( $result, 'CRM_Core_Error' ) ) {
-            CRM_Core_Error::displaySessionError( $result );
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
+            if ( $component !== 'membership' ) {
+                CRM_Core_Error::displaySessionError( $result );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
+            }
+            $membershipResult[1] = $result;
         } else {
             if ( $result ) {
                 $form->_params = array_merge( $form->_params, $result );
@@ -936,7 +939,13 @@ SELECT count(*) as count,
                                                                       $contributionType, true, false, true );
             
             $form->postProcessPremium( $premiumParams, $contribution );
+            
+            $membershipResult[1] = $contribution;
         }
+        
+        if ( $component == 'membership' ) {
+            return $membershipResult;
+        }       
         
         // finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";

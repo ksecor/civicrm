@@ -795,53 +795,16 @@ civicrm_membership_status.is_current_member =1";
             $contributionTypeId = $membershipDetails['contribution_type_id']; 
         }
         
-        $result = CRM_Contribute_BAO_Contribution::postProcessConfirmCommon( $form, $membershipParams, 
-                                                                             $premiumParams, $contactID,
-                                                                             $contributionTypeId, 
-                                                                             'membership' );
-        
-        /*
-        if ($form->_values['is_monetary']) {
-            require_once 'CRM/Core/Payment.php';
-            $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute' );
-            
-            if ( $form->_contributeMode == 'express' ) {
-                $result =& $payment->doExpressCheckout( $membershipParams);
-            } else {
-                $result =& $payment->doDirectPayment( $membershipParams );
-            }
-        }
-        */
-        
+        $result = CRM_Contribute_BAO_Contribution::processConfirm( $form, $membershipParams, 
+                                                                   $premiumParams, $contactID,
+                                                                   $contributionTypeId, 
+                                                                   'membership' );
         
         $errors = array();
-        if ( is_a( $result, 'CRM_Core_Error' ) ) {
-            $errors[1] = $result;
+        if ( is_a( $result[1], 'CRM_Core_Error' ) ) {
+            $errors[1]       = $result[1];
         } else {
-            $now = date( 'YmdHis' );
-            if ( $result ) {
-                $membershipParams = array_merge($membershipParams, $result );
-            }
-            $membershipParams['receive_date'] = $now;
-            $form->set( 'params', $membershipParams );
-            $form->assign( 'trxn_id', $result['trxn_id'] );
-            $form->assign( 'receive_date',
-                           CRM_Utils_Date::mysqlToIso( $membershipParams['receive_date']) );
-            
-            $config =& CRM_Core_Config::singleton( );
-            if ( $contributionType->is_deductible ) {
-                $form->assign('is_deductible' , true );
-                $form->set('is_deductible' , true);
-            }
-            $contribution[1] =
-                CRM_Contribute_Form_Contribution_Confirm::processContribution( $membershipParams,
-                                                                               $result,
-                                                                               $contactID,
-                                                                               $contributionType,
-                                                                               true );
-            CRM_Contribute_Form_Contribution_Confirm::postProcessPremium( $membershipParams,
-                                                                          $contribution[1] );
-            
+            $contribution[1] = $result[1];
         }
         
         $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $form->_id );
@@ -870,7 +833,8 @@ civicrm_membership_status.is_current_member =1";
                 $form->assign('membership_trx_id' , $result['trxn_id']);
                 $form->assign('membership_amount'  , $minimumFee);
                 $contribution[2] =
-                    CRM_Contribute_Form_Contribution_Confirm::processContribution( $tempParams,
+                    CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
+                                                                                   $tempParams,
                                                                                    $result,
                                                                                    $contactID,
                                                                                    $contributionType,
