@@ -153,7 +153,7 @@ class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
 
         for ($count = 0; $count < self::RULES_COUNT; $count++) {
             list($table, $field) = explode('.', $values["where_$count"]);
-            $length = $values["length_$count"];
+            $length = $values["length_$count"] ? $values["length_$count"] : null;
             $weight = $values["weight_$count"];
             if ($table and $field) {
                 $ruleDao =& new CRM_Dedupe_DAO_Rule();

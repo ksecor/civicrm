@@ -47,10 +47,10 @@ class CRM_Dedupe_Criterion
     private $_field;
 
     /**
-     * The length of the match (for prefix matches); if -1, match on the whole 
-     * string.
+     * The length of the match (for prefix matches); 
+     * if null, match on the whole string.
      */
-    private $_length;
+    private $_length = null;
 
     /**
      * The weight of the criterion; if 0, disregard this criterion.
@@ -70,9 +70,9 @@ class CRM_Dedupe_Criterion
     function __construct($params)
     {
         // sanitize the parameters for SQL use
-        if (in_array($params['table'], self::$supportedTables)) $this->_table = $params['table'];
-        if (preg_match('/^[a-zA-Z_]+$/', $params['field']))     $this->_field = $params['field'];
-        $this->_length = (int) $params['length'];
+        if (in_array($params['table'], self::$supportedTables)) $this->_table  = $params['table'];
+        if (preg_match('/^[a-zA-Z_]+$/', $params['field']))     $this->_field  = $params['field'];
+        if ($params['length'] !== null)                         $this->_length = (int) $params['length'];
         $this->_weight = (int) $params['weight'];
     }
 
@@ -124,7 +124,7 @@ class CRM_Dedupe_Criterion
     function query($match)
     {
         // create the WHERE condition
-        if ($this->_length == -1) {
+        if ($this->_length === null) {
             $condition = "= '" . CRM_Utils_Type::escape($match, 'String') . "'";
         } else {
             $substr    = function_exists('mb_substr') ? 'mb_substr' : 'substr';
