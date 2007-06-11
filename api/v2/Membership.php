@@ -85,10 +85,10 @@ function civicrm_membership_type_create(&$params)
     if ( is_a( $membershipTypeBAO, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Membership is not created" );
     } else {
-        $member = array();
-        _civicrm_object_to_array($membershipTypeBAO, $member);
+        $membershipType = array();
+        _civicrm_object_to_array( $membershipTypeBAO, $membershipType );
         $values = array( );
-        $values['member_id'] = $member['id'];
+        $values['membership_type_id'] = $membershipType['id'];
         $values['is_error']   = 0;
     }
     
@@ -180,19 +180,26 @@ function &civicrm_membership_type_update( &$params ) {
  * Deletes an existing membership type
  * 
  * This API is used for deleting a membership type
+ * Required parrmeters : id of a membership type
  * 
- * @param  Int  $membershipTypeID    ID of membership type to be deleted
+ * @param  Array   $params  an associative array of name/value property values of civicrm_membership_type
  * 
  * @return boolean        true if success, else false
  * @access public
  */
-function &civicrm_membership_type_delete( &$membershipTypeID ) {
-    if ( ! $membershipTypeID ) {
+function &civicrm_membership_type_delete( &$params ) {
+    if ( !is_array( $params ) ) {
+        return civicrm_create_error( 'Params is not an array' );
+    }
+    
+    if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
         return civicrm_create_error( 'Invalid value for membershipTypeID' );
     }
     require_once 'CRM/Member/BAO/MembershipType.php';
-    $memberDelete = CRM_Member_BAO_MembershipType::del($membershipTypeID);
-    return $memberDelete ? civicrm_create_error('Error while deleting membership type') :  null ;
+    $memberDelete = CRM_Member_BAO_MembershipType::del( $params['id'] );
+    return $memberDelete ?
+        civicrm_create_error('Error while deleting membership type') : 
+        civicrm_create_success( );
 }
 
 /**
