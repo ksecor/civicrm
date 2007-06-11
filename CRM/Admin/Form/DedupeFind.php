@@ -74,6 +74,7 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
 
         // FIXME: sort the contacts; $displayName 
         // is already sort_name-sorted, so use that
+        // (also, consider sorting by dupe count first)
         $mainContacts = array();
         $dupeContacts = array();
         foreach ($foundDupes as $mainId => $dupes) {
@@ -96,6 +97,13 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
      */
     public function buildQuickForm()
     {
+        $radios = array();
+        foreach ($this->_dupeContacts as $mainId => $dupes) {
+            foreach ($dupes as $dupeId => $dupeName) {
+                $radios[] = HTML_QuickForm::createElement('radio', null, null, $dupeName, "$mainId|$dupeId");
+            }
+        }
+        $this->addGroup($radios, 'merge_ids');
         $this->assign('main_contacts', $this->_mainContacts);
         $this->assign('dupe_contacts', $this->_dupeContacts);
         $this->addButtons(array(
