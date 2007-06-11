@@ -265,11 +265,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     public function postProcess() 
     {
+        // we first reset the confirm page so it accepts new values
+        $this->controller->resetPage( 'Confirm' );
+            
         if ($this->_values['event']['is_monetary']) {
             $config =& CRM_Core_Config::singleton( );
-            
-            // we first reset the confirm page so it accepts new values
-            $this->controller->resetPage( 'Confirm' );
             
             // get the submitted form values. 
             $params = $this->controller->exportValues( $this->_name ); 
