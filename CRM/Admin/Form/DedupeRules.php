@@ -121,7 +121,6 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
             array('type' => 'cancel', 'name' => ts('Cancel')),
         ));
         $this->assign('contact_type', $this->_contactType);
-        parent::buildQuickForm();
     }
 
     function setDefaultValues()

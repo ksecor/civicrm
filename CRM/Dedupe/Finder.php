@@ -32,8 +32,9 @@
  *
  */
 
-require_once 'CRM/Contact/BAO/Group.php';
 require_once 'CRM/Core/DAO.php';
+require_once 'CRM/Contact/BAO/Group.php';
+require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Dedupe/Criterion.php';
 
 class CRM_Dedupe_Finder

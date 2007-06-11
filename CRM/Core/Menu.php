@@ -559,7 +559,7 @@ class CRM_Core_Menu {
                            ),
                       
                      array(
-                           'path'       => 'civicrm/admin/dupefind',
+                           'path'       => 'civicrm/admin/dedupefind',
                            'title'      => ts('Find Duplicate Contacts'),
                            'desc'    => ts('Use configured duplicate matching rules to identify suspected duplicate contact records in your database.'),
                            'query'      => 'reset=1',
