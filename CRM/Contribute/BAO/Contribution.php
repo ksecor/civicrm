@@ -836,14 +836,14 @@ SELECT count(*) as count,
     }
     
     /**
-     * common postProcess for confirmation
+     * process payment confirm
      *
-     *
+     * 
      */
-    public function processConfirm( &$form, &$params, &$premiumParams, $contactID, $contributionTypeId, $component='contribution' )
+    public function processConfirm( &$form, &$paymentParams, &$premiumParams, $contactID, $contributionTypeId, $component='contribution' )
     {
         require_once 'CRM/Core/Payment/Form.php';
-        CRM_Core_Payment_Form::mapParams( $form->_bltID, $form->_params, $params, true );
+        CRM_Core_Payment_Form::mapParams( $form->_bltID, $form->_params, $paymentParams, true );
         
         $contributionType =& new CRM_Contribute_DAO_ContributionType( );
         $contributionType->id = $contributionTypeId;
@@ -853,11 +853,11 @@ SELECT count(*) as count,
         
         // add some contribution type details to the params list
         // if folks need to use it
-        $params['contributionType_name']                = 
+        $paymentParams['contributionType_name']                = 
             $form->_params['contributionType_name']            = $contributionType->name;
-        $params['contributionType_accounting_code']     = 
+        $paymentParams['contributionType_accounting_code']     = 
             $form->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
-        $params['contributionPageID']                   =
+        $paymentParams['contributionPageID']                   =
             $form->_params['contributionPageID']               = $form->_values['id'];
         
         
@@ -868,17 +868,17 @@ SELECT count(*) as count,
         
         if ( $form->_contributeMode == 'express' ) {
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-                $result =& $payment->doExpressCheckout( $params );
+                $result =& $payment->doExpressCheckout( $paymentParams );
             }
         } else if ( ( $form->_contributeMode == 'notify' ) && ( $component !== 'membership' ) ) {
             // this is not going to come back, i.e. we fill in the other details
             // when we get a callback from the payment processor
             // also add the contact ID and contribution ID to the params list
-            $params['contactID'] = $form->_params['contactID'] = $contactID;
+            $paymentParams['contactID'] = $form->_params['contactID'] = $contactID;
             $contribution =
                 CRM_Contribute_Form_Contribution_Confirm::processContribution(
                                                                               $form,
-                                                                              $params,
+                                                                              $paymentParams,
                                                                               null,
                                                                               $contactID,
                                                                               $contributionType, 
@@ -904,7 +904,7 @@ SELECT count(*) as count,
                 $result =& $payment->doTransferCheckout( $form->_params );
             }
         } elseif ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-            $result =& $payment->doDirectPayment( $params );
+            $result =& $payment->doDirectPayment( $paymentParams );
         }
         
         if ( $component == 'membership' ) {
