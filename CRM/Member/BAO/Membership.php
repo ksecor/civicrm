@@ -961,20 +961,22 @@ civicrm_membership_status.is_current_member =1";
                 $membership->save();
                 
                 //insert log here 
-                require_once 'CRM/Member/DAO/MembershipLog.php';
-                $dao = new CRM_Member_DAO_MembershipLog();
-                $dao->membership_id = $membership->id;
-                $dao->status_id     = $membership->status_id;
-                $dao->start_date    = CRM_Utils_Date::customFormat($dates['log_start_date'],
-                                                                   $format);
-                $dao->end_date      = CRM_Utils_Date::customFormat($dates['end_date'],
-                                                                   $format); 
-                $dao->renewal_reminder_date = CRM_Utils_Date::customFormat($dates['reminder_date'],
-                                                                           $format); 
-                $dao->modified_id   = $contactID;
-                $dao->modified_date = CRM_Utils_Date::customFormat($currentMembership['today_date'],
-                                                                   $format);
-                $dao->save();
+                $logParams = array( 
+                             'membership_id'         => $membership->id,
+                             'status_id'             => $membership->status_id,
+                             'start_date'            => (CRM_Utils_Date::customFormat($dates['log_start_date'],
+                                                                              $format) ),
+                             'end_date'              => (CRM_Utils_Date::customFormat($dates['end_date'],
+                                                                              $format) ), 
+                             'renewal_reminder_date' => (CRM_Utils_Date::customFormat($dates['reminder_date'],
+                                                                                      $format) ), 
+                             'modified_id'           => $contactID,
+                             'modified_date'         => ( CRM_Utils_Date::customFormat($currentMembership['today_date'],
+                                                                               $format) ) );
+                $dontCare = null;
+                
+                require_once 'CRM/Member/BAO/MembershipLog.php';
+                CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );
                 
                 if ( $form ) {
                     $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],
@@ -1005,21 +1007,24 @@ civicrm_membership_status.is_current_member =1";
                 CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
                 
                 //Now insert the log for renewal 
-                require_once 'CRM/Member/DAO/MembershipLog.php';
-                $dao = new CRM_Member_DAO_MembershipLog();
-                $dao->membership_id = $membership->id;
-                $dao->status_id     = $membership->status_id;
-                $dao->start_date    = CRM_Utils_Date::customFormat($dates['log_start_date'],
-                                                                   $format);
-                $dao->end_date      = CRM_Utils_Date::customFormat($dates['end_date'],
-                                                                   $format);
-                $dao->renewal_reminder_date = CRM_Utils_Date::customFormat($dates['reminder_date'],
-                                                                           $format);
-                $dao->modified_id   = $contactID;
-                $dao->modified_date = CRM_Utils_Date::customFormat($currentMembership['today_date'],
-                                                                   $format);
-                $dao->save();
+                $logParams = array( 
+                             'membership_id'         => $membership->id,
+                             'status_id'             => $membership->status_id,
+                             'start_date'            => ( CRM_Utils_Date::customFormat($dates['log_start_date'],
+                                                                                       $format) ),
+                             'end_date'              => ( CRM_Utils_Date::customFormat($dates['end_date'],
+                                                                                       $format) ),
+                             'renewal_reminder_date' => ( CRM_Utils_Date::customFormat($dates['reminder_date'],
+                                                                                       $format) ),
+                             'modified_id'           => $contactID,
+                             'modified_date'         => (CRM_Utils_Date::customFormat($currentMembership['today_date'],
+                                                                                      $format) ) );
                 
+                $dontCare = null;
+                
+                require_once 'CRM/Member/BAO/MembershipLog.php';
+                CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );
+                                
                 if ( $form ) {
                     $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],
                                                                                   $format));
@@ -1068,16 +1073,19 @@ civicrm_membership_status.is_current_member =1";
             CRM_Utils_Hook::post( 'create', 'Membership', $membership->id, $membership );
             
             //Now insert the log  
+            $logParams = array( 
+                         'membership_id' => $membership->id,
+                         'status_id'     => $membership->status_id,
+                         'start_date'    => ( CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d') ),
+                         'end_date'      => ( CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d') ),
+                         'modified_id'   => $contactID,
+                         'modified_date' => date('Ymd') );
+            
+            $dontCare = null;
+            
             require_once 'CRM/Member/BAO/MembershipLog.php';
-            $dao = new CRM_Member_DAO_MembershipLog();
-            $dao->membership_id = $membership->id;
-            $dao->status_id     = $membership->status_id;
-            $dao->start_date    = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
-            $dao->end_date      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
-            $dao->modified_id   = $contactID;
-            $dao->modified_date = date('Ymd');
-            $dao->save();     
-
+            CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );
+            
             if ( $form ) {
                 $form->assign( 'mem_start_date',
                                CRM_Utils_Date::customFormat($dates['start_date'], $format));
