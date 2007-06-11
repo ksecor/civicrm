@@ -88,8 +88,8 @@ function civicrm_membership_type_create(&$params)
         $membershipType = array();
         _civicrm_object_to_array( $membershipTypeBAO, $membershipType );
         $values = array( );
-        $values['membership_type_id'] = $membershipType['id'];
-        $values['is_error']   = 0;
+        $values['id']       = $membershipType['id'];
+        $values['is_error'] = 0;
     }
     
     return $values;
@@ -193,8 +193,9 @@ function &civicrm_membership_type_delete( &$params ) {
     }
     
     if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
-        return civicrm_create_error( 'Invalid value for membershipTypeID' );
+        return civicrm_create_error( 'Invalid or no value for membershipTypeID' );
     }
+
     require_once 'CRM/Member/BAO/MembershipType.php';
     $memberDelete = CRM_Member_BAO_MembershipType::del( $params['id'] );
     return $memberDelete ?
@@ -223,7 +224,7 @@ function civicrm_membership_status_create(&$params)
     }
     
     if (! $params["name"] ) {
-        return civicrm_create_error('Missing require fileds');
+        return civicrm_create_error('Missing required fields');
     }
     
     if ( !$params['domain_id'] ) {
@@ -235,19 +236,16 @@ function civicrm_membership_status_create(&$params)
     require_once 'CRM/Member/BAO/MembershipStatus.php';
     $ids = array();
     $membershipStatusBAO = CRM_Member_BAO_MembershipStatus::add($params, $ids);
-     
     if ( is_a( $membershipStatusBAO, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Membership is not created" );
     } else {
-        $membershipStatus = array();
-        _civicrm_object_to_array($membershipStatusBAO, $membershipStatus);
-        $values = array( );
-        $values['id'] = $membershipStatus['id'];
-        $values['is_error']   = 0;
+        $values             = array( );
+        $values['id']       = $membershipStatusBAO->id;
+        $values['is_error'] = 0;
+        return $values;
     }
-    
-    return $values;
 }
+
 
 /**
  * Get a membership status.
@@ -338,17 +336,22 @@ function &civicrm_membership_status_update( &$params )
  * @return null if successfull, object of CRM_Core_Error otherwise
  * @access public
  */
-function &civicrm_membership_status_delete( &$membershipStatusID ) 
-{
-    _civicrm_initialize();
-    if ( empty($membershipStatusID) ) {
-        return civicrm_create_error( 'Invalid value for membershipStatusID' );
+function &civicrm_membership_status_delete( &$params ) {
+    if ( ! is_array( $params ) ) {
+        return civicrm_create_error( 'Params is not an array' );
     }
     
+    if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
+        return civicrm_create_error( 'Invalid or no value for membershipStatusID' );
+    }
+
     require_once 'CRM/Member/BAO/MembershipStatus.php';
-    $memberStatusDelete = CRM_Member_BAO_MembershipStatus::del($membershipStatusID);
-    return $memberStatusDelete ? civicrm_create_error('Error while deleting membership type Status') : null ;
+    $memberStatusDelete = CRM_Member_BAO_MembershipStatus::del( $params['id'] );
+    return $memberStatusDelete ?
+        civicrm_create_error('Error while deleting membership type Status') :
+        civicrm_create_success( );
 }
+
 
 /**
  * Create a Contact Membership

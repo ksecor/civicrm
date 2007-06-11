@@ -2,7 +2,7 @@
 
 class CiviUnitTestCase extends UnitTestCase {
 
-    function createOrganization( ) {
+    function organizationCreate( ) {
         require_once 'api/v2/Contact.php';
         $params = array( 'organization_name' => 'Unit Test Organization',
                          'contact_type'      => 'Organization' );
@@ -15,7 +15,7 @@ class CiviUnitTestCase extends UnitTestCase {
         return $result['contact_id'];
     }
 
-    function deleteContact( $contactID ) {
+    function contactDelete( $contactID ) {
         require_once 'api/v2/Contact.php';
         $params['contact_id'] = $contactID;
         $result = civicrm_contact_delete( $params );
@@ -25,7 +25,7 @@ class CiviUnitTestCase extends UnitTestCase {
         return;
     }
 
-    function createMembershipType( $contactID, $contributionTypeID = 1 ) {
+    function membershipTypeCreate( $contactID, $contributionTypeID = 1 ) {
         $params = array( 'name'                 => 'General',
                          'duration_unit'        => 'year',
                          'duration_interval'    => 1,
@@ -35,13 +35,23 @@ class CiviUnitTestCase extends UnitTestCase {
 
         $result = civicrm_membership_type_create( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
-             ! CRM_Utils_Array::value( 'membership_type_id', $result) ) {
+             ! CRM_Utils_Array::value( 'id', $result) ) {
             CRM_Core_Error::debug( 'r', $r );
             CRM_Core_Error::fatal( 'Could not create membership type' );
         }
 
-        return $result['membership_type_id'];
+        return $result['id'];
     }
+
+    function membershipStatusDelete( $membershipStatusID ) {
+        $params['id'] = $membershipStatusID;
+        $result = civicrm_membership_status_delete( $params );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not delete membership status' );
+        }
+        return;
+    }
+
 
 }
 

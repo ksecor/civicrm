@@ -19,12 +19,12 @@ class TestOfMembershipTypeDelete extends CiviUnitTestCase {
     }
 
     function testMembershipTypeDelete( ) {
-        $orgID = $this->createOrganization( );
-        $membershipTypeID = $this->createMembershipType( $orgID );
+        $orgID = $this->organizationCreate( );
+        $membershipTypeID = $this->membershipTypeCreate( $orgID );
         $params['id'] = $membershipTypeID;
         $result = civicrm_membership_type_delete( $params );
         $this->assertEqual( $result['is_error'], 0 );
-        $this->deleteContact( $orgID );
+        $this->contactDelete( $orgID );
     }
 
     function tearDown( ) {
