@@ -342,7 +342,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $phoneType  = "-{$field->phone_type}";
                     }
                 }
-                
+
                 $fields[$name] =
                     array('name'             => $name,
                           'groupTitle'       => $group->title,
@@ -350,15 +350,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'groupHelpPost'    => $group->help_post,
                           'title'            => $title,
                           'where'            => CRM_Utils_Array::value('where',$importableFields[$field->field_name]),
-                          'attributes'       => CRM_Core_DAO::makeAttribute( CRM_Utils_Array::value($field->field_name,$importableFields) ),                          'is_required'      => $field->is_required,
+                          'attributes'       => CRM_Core_DAO::makeAttribute( CRM_Utils_Array::value($field->field_name,
+                                                                                                    $importableFields) ),
+                          'is_required'      => $field->is_required,
                           'is_view'          => $field->is_view,
                           'help_post'        => $field->help_post,
                           'visibility'       => $field->visibility,
                           'in_selector'      => $field->in_selector,
-                          'rule'             => CRM_Utils_Array::value( 'rule',
-                                                                        $importableFields[$field->field_name] ),
-                          'options_per_line' => CRM_Utils_Array::value( 'options_per_line',
-                                                                        $importableFields[$field->field_name] ),
+                          'rule'             => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
                           'location_type_id' => $field->location_type_id,
                           'phone_type'       => $field->phone_type,
                           'group_id'         => $group->id,
@@ -372,7 +371,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     // if field is not present in customFields, that means the user
                     // DOES NOT HAVE permission to access that field
                     if ( array_key_exists( $name, $customFields ) ) {
-                        $fields[$name]['is_search_range'] = $customFields[$name]['is_search_range'];
+                        $fields[$name]['is_search_range' ] = $customFields[$name]['is_search_range'];
+                        // fix for CRM-1994
+                        $fields[$name]['options_per_line'] = $customFields[$name]['options_per_line']; 
                     } else {
                         unset( $fields[$name] );
                     }
