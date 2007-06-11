@@ -36,7 +36,7 @@
 require_once 'CRM/Core/Page/Basic.php';
 require_once 'CRM/Dedupe/DAO/RuleGroup.php';
 
-class CRM_Admin_Page_DupeRules extends CRM_Core_Page_Basic
+class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
 {
     /**
      * The action links that we need to display for the browse screen
@@ -68,7 +68,7 @@ class CRM_Admin_Page_DupeRules extends CRM_Core_Page_Basic
               self::$_links = array(
                   CRM_Core_Action::UPDATE  => array(
                       'name'  => ts('Edit Rule'),
-                      'url'   => 'civicrm/admin/duperules',
+                      'url'   => 'civicrm/admin/deduperules',
                       'qs'    => 'action=update&id=%%id%%',
                       'title' => ts('Edit DupeRule'),
                   ),
@@ -146,7 +146,7 @@ class CRM_Admin_Page_DupeRules extends CRM_Core_Page_Basic
      */
     function editForm()
     {
-        return 'CRM_Admin_Form_DupeRules';
+        return 'CRM_Admin_Form_DedupeRules';
     }
 
     /**
@@ -156,7 +156,7 @@ class CRM_Admin_Page_DupeRules extends CRM_Core_Page_Basic
      */
     function editName()
     {
-        return 'DupeRules';
+        return 'DedupeRules';
     }
 
     /**
@@ -166,7 +166,7 @@ class CRM_Admin_Page_DupeRules extends CRM_Core_Page_Basic
      */
     function userContext($mode = null)
     {
-        return 'civicrm/admin/duperules';
+        return 'civicrm/admin/deduperules';
     }
 }
 

@@ -616,9 +616,9 @@ class CRM_Core_Invoke
             $view =& new CRM_Admin_Page_DupeFind(ts('Find Duplicate Contacts'));
             break;
             
-        case 'duperules':
-            require_once 'CRM/Admin/Page/DupeRules.php';
-            $view =& new CRM_Admin_Page_DupeRules(ts('Duplicate Matching Rules'));
+        case 'deduperules':
+            require_once 'CRM/Admin/Page/DedupeRules.php';
+            $view =& new CRM_Admin_Page_DedupeRules(ts('Duplicate Matching Rules'));
             break;
             
         case 'dupematch':

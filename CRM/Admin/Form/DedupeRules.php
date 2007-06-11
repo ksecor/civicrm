@@ -38,10 +38,10 @@ require_once 'CRM/Dedupe/DAO/Rule.php';
 require_once 'CRM/Dedupe/DAO/RuleGroup.php';
 
 /**
- * This class generates form components for DupeRules
+ * This class generates form components for DedupeRules
  * 
  */
-class CRM_Admin_Form_DupeRules extends CRM_Admin_Form
+class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
 {
     const RULES_COUNT = 5;
     protected $_contactType;
