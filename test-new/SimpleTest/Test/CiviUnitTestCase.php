@@ -1,7 +1,11 @@
 <?php
 
-class CiviUnitTestCase extends UnitTestCase {
 
+require_once '../../CRM/Contribute/BAO/ContributionType.php';
+
+class CiviUnitTestCase extends UnitTestCase {
+   
+    
     function organizationCreate( ) 
     {
         require_once 'api/v2/Contact.php';
@@ -14,6 +18,27 @@ class CiviUnitTestCase extends UnitTestCase {
         }
 
         return $result['contact_id'];
+    }
+
+     /** 
+     * Function to create Individual
+     * 
+     * @return int $id of individual created
+     */    
+    
+    function individualCreate() 
+    {
+        $params = array(
+                        'first_name'    => 'Anthony',
+                        'middle_name'   => 'john',
+                        'last_name'     => 'Anderson',
+                        'prefix'        => 'Mr.',
+                        'suffix'        => 'Jr',
+                        'email'         => 'anthony_anderson@civicrm.org',
+                        'contact_type'  => 'Individual'
+                        );
+        $contact =& civicrm_contact_add($params);
+        return $contact['contact_id'];
     }
 
     function contactDelete( $contactID ) 
@@ -66,6 +91,37 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         return;
     }
+
+    /** 
+     * Function to create Contribution Type
+     * 
+     * @return int $id of contribution type created
+     */    
+    function CreateContributeType() 
+    {
+        $params = array(
+                        'name'            => 'Gift',
+                        'description'     => 'For some worthwhile cause',
+                        'accounting_code' => 1004,
+                        'is_deductible'   => 0,
+                        'is_active'       => 1
+                        );
+       
+        $ids = null;
+        $contributionType = CRM_Contribute_BAO_ContributionType::add($params, $ids);
+        return $contributionType->id;
+    }
+   
+     /**
+     * Function to delete contribution Types 
+     * 
+     * @param int $contributionTypeId
+     */
+    function DeleteContributeType($contributionTypeID) 
+    {
+        $del= CRM_Contribute_BAO_ContributionType::del($contributionTypeID);
+    }     
+
 }
 
 ?>
