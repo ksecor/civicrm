@@ -57,11 +57,11 @@ function civicrm_event_create( &$params )
 {
     _civicrm_initialize();
     if ( ! is_array($params) ) {
-        return civicrm_create_error('Params is not an array.');
+        return civicrm_create_error('Params is not an array');
     }
     
     if (!$params["title"] || ! $params['event_type_id'] || ! $params['start_date']) {
-        return civicrm_create_error('Missing require fileds ( title, event type id,start date)');
+        return civicrm_create_error('Missing require fields ( title, event type id,start date)');
     }
     
     if ( !$params['domain_id'] ) {
@@ -74,11 +74,16 @@ function civicrm_event_create( &$params )
     if ($error['is_error']) {
         return civicrm_create_error( $error['error_message'] );
     }
-
-    $ids['event'      ] = $params['id'];
+    
+    // Do we really want $params[id], even if we have
+    // $params[event_id]? if yes then please uncomment the below line 
+    
+    //$ids['event'      ] = $params['id'];
+    
     $ids['eventTypeId'] = $params['event_type_id'];
     $ids['startDate'  ] = $params['start_date'];
-    $ids['event_id']            =  $params['event_id'];
+    $ids['event_id']    = $params['event_id'];
+    
     require_once 'CRM/Event/BAO/Event.php';
     $eventBAO = CRM_Event_BAO_Event::create($params, $ids);
     
@@ -93,7 +98,6 @@ function civicrm_event_create( &$params )
     }
     
     return $values;
-    
 }
 
 /**
@@ -129,7 +133,6 @@ function civicrm_event_get( &$params )
 
     $event = array_values( $event );
     return $event[0];
-
 }
 /**
  * Get Event record.
@@ -215,6 +218,6 @@ function &civicrm_event_delete( &$eventID ) {
     }
     require_once 'CRM/Event/BAO/Event.php';
     $eventDelete = CRM_Event_BAO_Event::del($eventID);
-    return $eventDelete ? null : civicrm_create_error('Error while deleting participant');
+    return $eventDelete ? null : civicrm_create_error('Error while deleting event');
 }
 ?>

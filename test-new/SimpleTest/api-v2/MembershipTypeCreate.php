@@ -20,7 +20,7 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $membershiptype['is_error'], 1 );
     }
          
-    function testMembershipTypeCreateWithoutMemberOfContactid()
+    function testMembershipTypeCreateWithoutMemberOfContactId()
     {
         $params = array(
                         'name'                 => '60+ Membership',
