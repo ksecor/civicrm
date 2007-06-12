@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-06-08 06:45-0700\n"
+"PO-Revision-Date: 2007-06-11 06:40-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4751,9 +4751,8 @@ msgid "Import/Export Mappings"
 msgstr ""
 
 #: CRM/Core/Menu.php templates/CRM/Contact/Form/Domain.tpl
-#, fuzzy
 msgid "Edit Domain Information"
-msgstr "Détails de la contribution"
+msgstr "Modifier les informations du domaines"
 
 #: CRM/Core/Menu.php
 msgid "Relationship Types"
@@ -10369,7 +10368,7 @@ msgstr "Don"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Member Dues"
-msgstr ""
+msgstr "Frais d'adhésion"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Campaign Contribution"
@@ -10557,14 +10556,12 @@ msgid "Current"
 msgstr "Devise"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Grace"
-msgstr "Imprimer"
+msgstr "Grâce"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Expired"
-msgstr "Expiration"
+msgstr "Expiré"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
