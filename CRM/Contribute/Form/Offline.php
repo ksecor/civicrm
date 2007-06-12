@@ -66,7 +66,11 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
 
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
 
-        // also check for billing informatin
+        require_once 'CRM/Contact/BAO/Contact.php';
+        list( $this->userDisplayName, $this->userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+        $this->assign( 'displayName', $this->userDisplayName );
+
+        // also check for billing information
         // get the billing location type
         $locationTypes =& CRM_Core_PseudoConstant::locationType( );
         $this->_bltID = array_search( ts('Billing'),  $locationTypes );
@@ -124,7 +128,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         
         $this->add( 'select', 'payment_processor_id',
                     ts( 'Payment Processor' ),
-                    $this->_processors );
+                    $this->_processors, true );
 
         $this->add( 'text', "email-{$this->_bltID}",
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
@@ -141,11 +145,12 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
 
         $this->add( 'text', 'source', ts('Contribution Source'), $attributes['source'] );
-        $this->addElement('checkbox', 'is_email_receipt', ts('Is email receipt'), null );
+        $this->addElement('checkbox', 'is_email_receipt', ts('Send Receipt?'), null );
 
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Save'), 
+                                        'name'      => ts('Submit Contribution'), 
+                                        'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" ),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ), 
                                 array ( 'type'      => 'cancel', 

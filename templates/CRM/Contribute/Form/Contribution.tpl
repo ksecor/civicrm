@@ -13,7 +13,9 @@
       </div> 
    {else} 
       <table class="form-layout-compressed">
-        <tr><td class="label font-size12pt">{ts}From{/ts}</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
+        <tr>
+            <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
+        </tr>
         <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}&nbsp;
         {if $is_test}
         {ts}(test){/ts}
@@ -35,7 +37,7 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
 {if $email}
         <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Email a receipt for this contribution to {$email}?{/ts}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
 {/if}
         <tr><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
