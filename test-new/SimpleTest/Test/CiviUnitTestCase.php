@@ -4,8 +4,7 @@
 require_once '../../CRM/Contribute/BAO/ContributionType.php';
 
 class CiviUnitTestCase extends UnitTestCase {
-   
-    
+        
     function organizationCreate( ) 
     {
         require_once 'api/v2/Contact.php';
@@ -25,7 +24,6 @@ class CiviUnitTestCase extends UnitTestCase {
      * 
      * @return int $id of individual created
      */    
-    
     function individualCreate() 
     {
         $params = array(
@@ -97,7 +95,7 @@ class CiviUnitTestCase extends UnitTestCase {
      * 
      * @return int $id of contribution type created
      */    
-    function CreateContributeType() 
+    function createContributeType() 
     {
         $params = array(
                         'name'            => 'Gift',
@@ -112,16 +110,15 @@ class CiviUnitTestCase extends UnitTestCase {
         return $contributionType->id;
     }
    
-     /**
+    /**
      * Function to delete contribution Types 
      * 
      * @param int $contributionTypeId
      */
-    function DeleteContributeType($contributionTypeID) 
+    function deleteContributeType($contributionTypeID) 
     {
         $del= CRM_Contribute_BAO_ContributionType::del($contributionTypeID);
-    }     
-
+    }
 }
 
 ?>
