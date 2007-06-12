@@ -19,6 +19,7 @@
        <option value="civicrm/profile/create">Profile Create</option>
        <option value="civicrm/profile/edit">Profile Edit</option>
        <option value="civicrm/contribute/transact">Online Contribution</option>
+       <option value="civicrm/event/info">Event Info Page</option>
        <option value="civicrm/event/register">Online Event Registration</option>
     </param>
     <param name="id"    type="text" size="5" label="Contribution or Event id" description="The ID number of your Contribution or Event as defined when the Contribution or Event was created. Leave blank if not relevant"/>

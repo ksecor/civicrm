@@ -119,6 +119,12 @@ class CRM_Admin_Page_PaymentProcessor extends CRM_Core_Page_Basic
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
 
+        // set title and breadcrumb
+        CRM_Utils_System::setTitle(ts('Settings - Payment Processor'));
+        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
+        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Global Settings') . '</a>';
+        CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+
         // assign vars to templates
         $this->assign('action', $action);
         $id = CRM_Utils_Request::retrieve('id', 'Positive',
@@ -136,7 +142,7 @@ class CRM_Admin_Page_PaymentProcessor extends CRM_Core_Page_Basic
     }
 
     /**
-     * Browse all custom data groups.
+     * Browse all payment processors.
      *
      * @return void
      * @access public
@@ -161,17 +167,11 @@ class CRM_Admin_Page_PaymentProcessor extends CRM_Core_Page_Basic
             // form all action links
             $action = array_sum(array_keys($this->links()));
             
-            // update enable/disable links depending on custom_group properties.
-            if ($dao->is_reserved) {
+            // update enable/disable links.
+            if ($dao->is_active) {
                 $action -= CRM_Core_Action::ENABLE;
-                $action -= CRM_Core_Action::DISABLE;
-                $action -= CRM_Core_Action::DELETE;
             } else {
-                if ($dao->is_active) {
-                    $action -= CRM_Core_Action::ENABLE;
-                } else {
-                    $action -= CRM_Core_Action::DISABLE;
-                }
+                $action -= CRM_Core_Action::DISABLE;
             }
             
             $paymentProcessor[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 

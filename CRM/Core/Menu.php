@@ -311,7 +311,7 @@ class CRM_Core_Menu {
             if ( ! $processed ) {                
                 $processed = true;
                 foreach ( self::$_items as $key => $item ) {
-                    if ( $item['path'] == $path ) {
+                    if ( $item['path'] == $path && isset( $item['title']) ) {
                         CRM_Utils_System::setTitle( $item['title'] );
                         break;
                     }
