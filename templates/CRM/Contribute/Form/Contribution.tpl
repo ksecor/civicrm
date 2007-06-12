@@ -25,12 +25,11 @@
         <tr><td class="label">{$form.total_amount.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.total_amount.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by contributor.{/ts}</td></tr>
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
-{if $hideCalender neq true}
-{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_1}
-{include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_1}
-{/if}    
-</td>
-</tr>
+        {if $hideCalender neq true}
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_1}
+            {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_1}
+        {/if}    
+        </td></tr>
         <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}This field is blank for non-monetary contributions.{/ts}</td></tr>
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
@@ -122,16 +121,25 @@
  <div id="id-premium" class="section-shown">
       {if $premiums }
       <fieldset>
-<legend><a href="#" onclick="hide('id-premium'); show('id-premium-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Premium Information{/ts}</legend>
-
+        <legend><a href="#" onclick="hide('id-premium'); show('id-premium-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Premium Information{/ts}</legend>
+           <dl>
            <dt class="label">{$form.product_name.label}</dt><dd>{$form.product_name.html}</dd>
+           </dl>
+
            <div id="premium_contri">
-	   <dt class="label">{$form.min_amount.label}</dt><dd>{$form.min_amount.html|crmReplace:class:texttolabel}</dd>
+            <dl>
+            <dt class="label">{$form.min_amount.label}</dt><dd>{$form.min_amount.html|crmReplace:class:texttolabel}</dd>
+            </dl>
+            <div class="spacer"></div>
            </div>
+
+           <dl>
            <dt class="label">{$form.fulfilled_date.label}</dt><dd>{$form.fulfilled_date.html}
            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_5}
            {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_5}      
            </dd>
+           </dl>
+
       </fieldset>
       {/if} 
 </div>

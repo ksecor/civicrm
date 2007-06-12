@@ -51,9 +51,11 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
     public $_paymentProcessor;
 
     function preProcess( ) {
+        CRM_Utils_System::setTitle(ts('Submit Credit Card Contribution'));
+        
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
-                                                         $this, false, 'add' );
+                                                         $this, false, 'preview' );
         $this->assign( 'action'  , $this->_action   ); 
 
         $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
@@ -294,7 +296,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
 
             $formValues = array( );
 
-            //Retrieve Contribution Typr Name from contribution_type_id
+            //Retrieve Contribution Type Name from contribution_type_id
             $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
                                                                                 $this->_params['contribution_type_id'] );
             
@@ -319,7 +321,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
             $template =& CRM_Core_Smarty::singleton( );
             $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
 
-            $subject = 'Receipt: Off line Contribution Received';
+            $subject = ts('Contribution Receipt');
             $receiptFrom = '"' . $formValues['receipt_from_name'] . '" <' . $formValues['receipt_from_email'] . '>';
          
             require_once 'CRM/Utils/Mail.php';

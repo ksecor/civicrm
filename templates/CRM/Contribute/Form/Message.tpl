@@ -1,8 +1,11 @@
 {if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}
 {/if}
+
 {ts}Thanks for your support.{/ts}
 
+
 {ts}Please print this receipt for your records.{/ts}
+
 
 ===========================================================
 {ts}Contribution Information{/ts}
@@ -12,12 +15,11 @@
 {ts}Total Amount{/ts}     : {$formValues.total_amount|crmMoney}
 {ts}Received Date{/ts}    : {$receive_date|crmDate}
 {ts}Paid By{/ts}          : {$formValues.paidBy}
-{ts}Source{/ts}           : {$formValues.source}
 {ts}Transaction ID{/ts}   : {$formValues.trxn_id}
 {if $showCustom}
 
 ===========================================================
-{ts}Custom Information{/ts}
+{ts}Additional Information{/ts}
 
 ===========================================================
 {foreach from=$customField item=value key=name}
@@ -41,7 +43,7 @@
 {ts}Premium Information{/ts}
 
 ===========================================================
-Product Name :{$formValues.product_name}
-Fulfiled Date:{$fulfilled_date|crmDate}
+{$formValues.product_name}
+{ts}Sent{/ts}: {$fulfilled_date|crmDate}
 
 {/if}

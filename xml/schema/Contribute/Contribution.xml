@@ -220,15 +220,6 @@
       <comment>Origin of this Contribution.</comment>   
       <add>1.3</add>   
   </field> 
-  <field>  
-      <name>is_email_receipt</name>     
-      <title>Receipt Email</title>
-      <import>true</import>
-      <type>boolean</type>
-      <comment>When this flag is true, automated email scripts should
-  send a contribution received receipt.</comment>
-      <add>1.5</add>  
-  </field> 
   <field>      
       <name>amount_level</name>
       <title>Amount Label</title>

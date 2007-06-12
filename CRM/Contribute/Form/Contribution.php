@@ -377,7 +377,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $element->freeze( );
         }
 
-        $this->addElement('date', 'receipt_date', ts('Receipt Sent'), CRM_Core_SelectValues::date('manual', 3, 1)); 
+        $this->addElement('date', 'receipt_date', ts('Receipt Date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('receipt_date', ts('Select a valid date.'), 'qfDate');
 
         $this->addElement('date', 'thankyou_date', ts('Thank-you Sent'), CRM_Core_SelectValues::date('manual', 3, 1)); 
@@ -532,7 +532,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                          'invoice_id',
                          'cancel_reason',
                          'source',
-                         'is_email_receipt'
                           );
 
         foreach ( $fields as $f ) {
@@ -731,7 +730,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $template =& CRM_Core_Smarty::singleton( );
             $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
 
-            $subject = 'Receipt: Off line Contribution Received';
+            $subject = ts('Contribution Receipt');
             $receiptFrom = '"' . $formValues['receipt_from_name'] . '" <' . $formValues['receipt_from_email'] . '>';
          
             require_once 'CRM/Utils/Mail.php';
@@ -741,6 +740,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                                   $subject,
                                   $message);
         }
+
+        CRM_Core_Session::setStatus( ts('The contribution record has been saved.') );
+
     }
     
     /** 

@@ -496,7 +496,7 @@ class CRM_Contribute_BAO_Query
         
         // add null checkboxes for thank you and receipt
         $form->addElement( 'checkbox', 'contribution_thankyou_date_isnull', ts( 'Thank-you date not set?' ) );
-        $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt not set?' ) );
+        $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt not sent?' ) );
 
         //add fields for honor search
         $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
