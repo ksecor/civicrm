@@ -55,6 +55,19 @@
        <comment>Access prefix to call within a country to a different area</comment>
        <add>1.1</add>
   </field>
+  <field>
+      <name>region_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Country Id</comment>
+       <add>1.8</add>
+  </field>
+  <foreignKey>
+      <name>region_id</name>
+      <table>civicrm_worldregion</table>
+      <key>id</key>
+      <add>1.8</add>
+  </foreignKey>
   <index>
     <name>UI_name_iso_code</name>
     <fieldName>name</fieldName>
