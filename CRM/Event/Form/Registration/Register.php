@@ -131,6 +131,37 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
+        require_once 'CRM/Core/BAO/UFGroup.php' ;
+        //to create an cms user 
+        $profile = new CRM_Core_BAO_UFGroup();
+        $session =& CRM_Core_Session::singleton( );
+        $cId = $session->get( 'userID' );
+        if ( $cId ) {
+            $this->assign('cId', true);
+        }
+        if ( $this->_values['custom_pre_id'] ) {
+            $profile->id = $this->_values['custom_pre_id'];
+            $profile->find(true);
+            if ( $profile->is_cms_user ) {
+                $cms = true;//true , having the field primary-email
+                require_once 'CRM/Core/BAO/CMSUser.php';
+                CRM_Core_BAO_CMSUser::buildForm( $this, $this->_values['custom_pre_id'] , $cms );
+                $this->assign('preCms', true);
+            } else {
+                if ($this->_values['custom_post_id'] ) {
+                    $profile->id = $this->_values['custom_post_id'];
+                    $profile->find(true);
+                    if ( $profile->is_cms_user ) {
+                        $cms = true;//true , having the field primary-email
+                        require_once 'CRM/Core/BAO/CMSUser.php';
+                        CRM_Core_BAO_CMSUser::buildForm( $this, $this->_values['custom_post_id'] , $cms );
+                        $this->assign('postCms', true);
+                    } 
+                }
+            }
+        }
+
+
         $uploadNames = $this->get( 'uploadNames' );
         $buttonName = empty( $uploadNames ) ? 'next' : 'upload';
 
@@ -265,11 +296,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     public function postProcess() 
     {
-        // we first reset the confirm page so it accepts new values
-        $this->controller->resetPage( 'Confirm' );
-            
         if ($this->_values['event']['is_monetary']) {
             $config =& CRM_Core_Config::singleton( );
+            
+            // we first reset the confirm page so it accepts new values
+            $this->controller->resetPage( 'Confirm' );
             
             // get the submitted form values. 
             $params = $this->controller->exportValues( $this->_name ); 

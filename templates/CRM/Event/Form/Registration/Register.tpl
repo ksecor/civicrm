@@ -65,6 +65,19 @@
  </table>
   
  {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
+ {if $preCms }{*true if is_cms_user field is set *}
+ <br><div>{$form.create_account.html} {$form.create_account.label}</div>
+ {if $cId neq 1 }
+ <div class="messages help">{ts}If you would like to create an account on this site, fill in your username and password{/ts}</div>
+ {/if}
+ <div id="details">
+  <table class="form-layout-compressed">
+    <tr><td>{$form.name.label}</td> <td>{$form.name.html}</td></tr>
+    <tr><td>{$form.pass.label}</td> <td> {$form.pass.html}</td></tr>        
+    <tr><td>{$form.confirm_pass.label}</td> <td> {$form.confirm_pass.html}</td></tr>
+  </table>        
+ </div>
+ {/if}
 
 {if $paidEvent}   
 {if $form.credit_card_number}
@@ -108,7 +121,20 @@
 {/if}        
 {/if}        
 
- {include file="CRM/UF/Form/Block.tpl" fields=$customPost}    
+ {include file="CRM/UF/Form/Block.tpl" fields=$customPost}   
+ {if $postCms }{*true if is_cms_user field is set *}
+ <br><div>{$form.create_account.html} {$form.create_account.label}</div>
+ {if $cId neq 1 }
+ <div class="messages help">{ts}If you would like to create an account on this site, fill in your username and password{/ts}</div>
+ {/if}
+ <div id="details">
+  <table class="form-layout-compressed">
+    <tr><td>{$form.name.label}</td> <td>{$form.name.html}</td></tr>
+    <tr><td>{$form.pass.label}</td> <td> {$form.pass.html}</td></tr>        
+    <tr><td>{$form.confirm_pass.label}</td> <td> {$form.confirm_pass.html}</td></tr>
+  </table>        
+ </div>
+ {/if} 
 
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *}
 {if $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}
@@ -130,4 +156,29 @@
         </div>
     {/if}
 </div>
+<script type="text/javascript">
+{literal}
+ function showMessage( frm )
+ {
+   var cId = {/literal}'{$cId}'{literal};
+   if ( cId ) {
+     alert("You are logged-in user");
+     frm.checked = false;
+   } else {
+     var siteName = {/literal}'{$config->userFrameworkBaseURL}'{literal};
+     alert("Please login if you have an account on this site with the link " + siteName  );
+   }
+ }
+  {/literal}	
+</script>
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+trigger_field_id    ="create_account"
+trigger_value       =""
+target_element_id   ="details" 
+target_element_type ="block"
+field_type          ="radio"
+invert              = 0
+}
+
 

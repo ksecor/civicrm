@@ -136,7 +136,7 @@ class CRM_Core_BAO_CMSUser
             drupal_execute( 'user_register', $values );
             
             $config->cmsCall = false;
-
+            
             if ( form_get_errors( ) ) {
                 return false;
             }
@@ -156,20 +156,10 @@ class CRM_Core_BAO_CMSUser
      */
     static function buildForm ( &$form, $gid, $cms ) 
     {
-       
-        $session =& CRM_Core_Session::singleton( );
-        $cId = $session->get( 'userID' );
-        $cmsCid = false;// if false, user is not logged-in. 
-        if ( $cId ) {
-            list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($cId);
-            $cmsCid = true; 
-            $form->assign('cmsCid', 1);
-        }
-        
-
         $config =& CRM_Core_Config::singleton( );
         $drupalCms = false;
-        // if cms is drupal having version greater than equal to 5.1 
+        // if cms is drupal having version greater than equal to 5.1
+        // then drupalCms will true
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
             if ( $gid ) {
                 $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
@@ -177,7 +167,9 @@ class CRM_Core_BAO_CMSUser
             // $cms is true when there is email(primary location) is set in the profile field.
             if ( $cmsUser && $cms) {
                 $extra = array('onclick' => "if (this.checked) showMessage(this); return showHideByValue('create_account', '', 'details','block','radio',false );");
-                $form->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra); 
+                $form->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra);
+                $session =& CRM_Core_Session::singleton( );
+                $cmsCid = $session->get( 'userID' );
                 if( !$cmsCid ) {
                     $form->add('text', 'name', ts('User Name'));
                     if ( !variable_get('user_email_verification', TRUE )) {

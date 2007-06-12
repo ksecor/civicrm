@@ -178,6 +178,37 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+       
+        require_once 'CRM/Core/BAO/UFGroup.php' ;
+        //to create an cms user 
+        $profile = new CRM_Core_BAO_UFGroup();
+        $session =& CRM_Core_Session::singleton( );
+        $cId = $session->get( 'userID' );
+        if ( $cId ) {
+            $this->assign('cId', true);
+        }
+        if ( $this->_values['custom_pre_id'] ) {
+            $profile->id = $this->_values['custom_pre_id'];
+            $profile->find(true);
+            if ( $profile->is_cms_user ) {
+                $cms = true;//true , having the field primary-email
+                require_once 'CRM/Core/BAO/CMSUser.php';
+                CRM_Core_BAO_CMSUser::buildForm( $this, $this->_values['custom_pre_id'] , $cms );
+                $this->assign('preCms', true);
+            } else {
+                if ($this->_values['custom_post_id'] ) {
+                    $profile->id = $this->_values['custom_post_id'];
+                    $profile->find(true);
+                    if ( $profile->is_cms_user ) {
+                        $cms = true;//true , having the field primary-email
+                        require_once 'CRM/Core/BAO/CMSUser.php';
+                        CRM_Core_BAO_CMSUser::buildForm( $this, $this->_values['custom_post_id'] , $cms );
+                        $this->assign('postCms', true);
+                    } 
+                }
+            }
+        }
+        
         
         // if payment is via a button only, dont display continue
         if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||

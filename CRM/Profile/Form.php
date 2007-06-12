@@ -316,6 +316,15 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( $field['add_captcha'] ) {
                 $addCaptcha[$field['group_id']] = $field['add_captcha'];
             }
+            $session =& CRM_Core_Session::singleton( );
+            $cId = $session->get( 'userID' );
+            $cmsCid = false;// if false, user is not logged-in. 
+            if ( $cId ) {
+                list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($cId);
+                $cmsCid = true; 
+                $form->assign('cmsCid', 1);
+            }
+        
             if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
                 $cms = true;
                 $this->_mail = 'email-Primary';

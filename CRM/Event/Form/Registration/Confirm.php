@@ -142,6 +142,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         if ( isset ($this->_values['event_page']['confirm_title'] ) ) 
             CRM_Utils_System::setTitle($this->_values['event_page']['confirm_title']);
+        
         $this->set( 'params', $this->_params );
     }
     /**
@@ -326,7 +327,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 CRM_Core_BAO_CustomValue::create($cvParams);
             }
         }
-        
+
+        if ( $params['create_account']  ) {
+            require_once "CRM/Core/BAO/CMSUser.php";
+            if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $this->_bltID ) ) {
+                CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
+            }
+        }
+      
         require_once 'CRM/Event/BAO/ParticipantPayment.php';
         $paymentParams = array('participant_id'       => $participant->id,
                                'payment_entity_id'    => $contribution->id,
