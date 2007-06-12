@@ -126,7 +126,7 @@ class CRM_Core_Payment_Form {
      * @return None 
      * @access public 
      */
-    function buildCreditCard( &$form ) {
+    function buildCreditCard( &$form, $useRequired = false ) {
         require_once 'CRM/Core/Payment.php';
 
         if ( $form->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM) {
@@ -134,7 +134,8 @@ class CRM_Core_Payment_Form {
                 $form->add( $field['htmlType'],
                             $field['name'],
                             $field['title'],
-                            $field['attributes'] );
+                            $field['attributes'],
+                            $useRequired ? $field['is_required'] : false );
             }
 
             $form->addRule( 'cvv2',

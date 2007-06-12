@@ -124,7 +124,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
     }
 
     function buildQuickForm( ) {
-        CRM_Core_Payment_Form::buildCreditCard( $this );
+        CRM_Core_Payment_Form::buildCreditCard( $this, true );
         
         $this->add( 'select', 'payment_processor_id',
                     ts( 'Payment Processor' ),
@@ -145,6 +145,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
 
         $this->add( 'text', 'source', ts('Contribution Source'), $attributes['source'] );
+
         $this->addElement('checkbox', 'is_email_receipt', ts('Send Receipt?'), null );
 
         $this->addButtons(array( 
