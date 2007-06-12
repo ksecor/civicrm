@@ -115,7 +115,7 @@ class CRM_Core_Menu {
                 
             case 'contact':
                 // unset the search item
-                unset( self::$_items[2] );
+                unset( self::$_items[3] );
                 $items =& self::contactItems( );
                 break;
 
@@ -892,7 +892,7 @@ class CRM_Core_Menu {
                              'weight'  => 10,
                              ),
 
-                       /* Repeat this year for local nav bar, remove it when we switch *
+                       /* Repeat this here for local nav bar, remove it when we switch *
                         * to using Tab Container                                       */
                        array(
                              'path'    => 'civicrm/contact/search/basic',
