@@ -351,8 +351,9 @@ class CRM_Core_Payment_PayPalIPN {
             }
 
             // create membership record
-            if ($membershipTypeID) {
-                self::processMembership ( $contactID, $contribution, $membershipTypeID, $contribAmount );
+            if ( $membershipTypeID ) {
+                require_once 'CRM/Member/BAO/Membership.php';
+                CRM_Member_BAO_Membership::processIPNMembership ( $contactID, $contribution, $membershipTypeID, $contribAmount );
             }
         } else { // event 
             //create participant record
@@ -447,99 +448,6 @@ WHERE  v.option_group_id = g.id
 
         CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );
         echo "Success: Database updated<p>";
-    }
-
-    static function processMembership( $contactID, &$contribution, $membershipTypeID, &$contribAmount ) {
-        $template =& CRM_Core_Smarty::singleton( );
-        $template->assign('membership_assign' , true );
-                
-        require_once 'CRM/Member/BAO/Membership.php';
-        require_once 'CRM/Member/DAO/MembershipLog.php';
-        require_once 'CRM/Member/BAO/MembershipType.php';
-        $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeID );
-        $template->assign('membership_name',$membershipDetails['name']);
-                
-        $minimumFee = $membershipDetails['minimum_fee'];
-        $template->assign('membership_amount'  , $minimumFee);
-        $contribAmount -= $minimumFee;
-        if ( $contribAmount < 0 ) {
-            $contribAmount = 0;
-        }
-                
-        if ($currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID,  $membershipTypeID)) {
-            if ( ! $currentMembership['is_current_member'] ) {
-                $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id']);
-                $currentMembership['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
-                $currentMembership['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
-                $currentMembership['source']     = self::retrieve( 'item_name', 'String', 'POST', false );
-                $membership = &new CRM_Member_DAO_Membership();
-                $membership->copyValues($currentMembership);
-                        
-                //insert log here 
-                $membershipLog = new CRM_Member_DAO_MembershipLog();
-                $membershipLog->membership_id = $membership->id;
-                $membershipLog->status_id     = $membership->status_id;
-                $membershipLog->start_date    = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
-                $membershipLog->end_date      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'); 
-                $membershipLog->modified_id   = $contactID;
-                $membershipLog->modified_date = date('Ymd');
-                $membershipLog->save();
-                        
-                $template->assign('mem_start_date', CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
-                $template->assign('mem_end_date',   CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
-            } else {
-                $membership = &new CRM_Member_DAO_Membership();
-                $membership->id = $currentMembership['id'];
-                $membership->find(true); 
-                        
-                //insert log here 
-                $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id);
-                $membershipLog = new CRM_Member_DAO_MembershipLog();
-                $membershipLog->membership_id = $membership->id;
-                $membershipLog->status_id     = $membership->status_id;
-                $membershipLog->start_date    = CRM_Utils_Date::customFormat($dates['log_start_date'],'%Y%m%d');
-                $membershipLog->end_date      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'); 
-                $membershipLog->modified_id   = $contactID;
-                $membershipLog->modified_date = date('Ymd');
-                $membershipLog->save();
-                        
-                $template->assign('mem_start_date', CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
-                $template->assign('mem_end_date',   CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
-                        
-            }
-        } else {
-            require_once 'CRM/Member/BAO/MembershipStatus.php';
-            $memParams = array();
-            $memParams['contact_id']             = $contactID;
-            $memParams['membership_type_id']     = $membershipTypeID;
-            $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membershipTypeID);
-                    
-            $memParams['join_date']     = CRM_Utils_Date::customFormat($dates['join_date'],'%Y%m%d');
-            $memParams['start_date']    = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
-            $memParams['end_date']      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
-            $memParams['reminder_date'] = CRM_Utils_Date::customFormat($dates['reminder_date'],'%Y%m%d'); 
-            $memParams['source'  ]      = self::retrieve( 'item_name', 'String', 'POST', false );
-            $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( CRM_Utils_Date::customFormat($dates['start_date'],'%Y-%m-%d'),CRM_Utils_Date::customFormat($dates['end_date'],'%Y-%m-%d'),CRM_Utils_Date::customFormat($dates['join_date'],'%Y-%m-%d')) ;
-                    
-            $memParams['status_id']   = $status['id'];
-            $memParams['is_override'] = false;
-            $membership = &new CRM_Member_DAO_Membership();
-            $membership->copyValues($memParams);
-
-            $template->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
-            $template->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
-        }
-
-        require_once 'CRM/Member/DAO/MembershipBlock.php';
-        $dao = & new CRM_Member_DAO_MembershipBlock();
-        $dao->entity_table = 'civicrm_contribution_page';
-        $dao->entity_id = $contribution->contribution_page_id; 
-        $dao->is_active = 1;
-        if ( $dao->find(true) ) {
-            $membershipBlock   = array(); 
-            CRM_Core_DAO::storeValues($dao, $membershipBlock );
-            $template->assign( 'membershipBlock' , $membershipBlock );
-        }
     }
 
     static function main( $component = 'contribute' ) {
