@@ -83,7 +83,7 @@
 	{foreach from=$recurRows item=row key=id}
 	   <tr>
         <td> <label>{ts}{$recurRows.$id.amount}{/ts}</label>  every {$recurRows.$id.frequency_interval} {$recurRows.$id.frequency_unit} for {$recurRows.$id.installments} installments  </td>
-        <td><a href="{$cancelSubscriptionUrl}">{ts}Change Recurring Contribution{/ts}</a></td>
+        <td><a href="{$recurRows.$id.cancelSubscriptionUrl}">{ts}Change Recurring Contribution{/ts}</a></td>
 	   </tr>
     {/foreach}
   </table>

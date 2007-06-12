@@ -326,6 +326,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                        $this->_formValues ) ) {
             $this->_formValues["contribution_test"] = 0;
         }
+        $this->_formValues["contribution_test"] = 1;
 
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 

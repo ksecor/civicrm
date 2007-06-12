@@ -99,7 +99,7 @@ class CRM_Contact_Page_View_UserDashBoard_Contribution extends CRM_Contact_Page_
         }
         $this->assign('recurRows',$recurRow);
 
-        if ( ! empty( $recurRows ) ) {
+        if ( ! empty( $recurRow ) ) {
             $this->assign('recur', true); 
         } else {
             $this->assign( 'recur', false );
