@@ -157,7 +157,7 @@ class CiviUnitTestCase extends UnitTestCase {
      * 
      * @return int $id of contribution type created
      */    
-    function createContributeType() 
+    function contributionTypeCreate() 
     {
         $params = array(
                         'name'            => 'Gift',
@@ -177,7 +177,7 @@ class CiviUnitTestCase extends UnitTestCase {
      * 
      * @param int $contributionTypeId
      */
-    function deleteContributeType($contributionTypeID) 
+    function contributionTypeDelete($contributionTypeID) 
     {
         $del= CRM_Contribute_BAO_ContributionType::del($contributionTypeID);
     }
@@ -211,6 +211,7 @@ class CiviUnitTestCase extends UnitTestCase {
      */
     function contributionCreate($cID,$cTypeID)
     {
+        require_once 'api/v2/Contribute.php';
         $params = array(
                         'domain_id'              => 1,
                         'contact_id'             => $cID,
@@ -240,11 +241,70 @@ class CiviUnitTestCase extends UnitTestCase {
      */
     function contributionDelete($contributionId)
     {
+        require_once 'api/v2/Contribute.php';
         $params = array( 'contribution_id' => $contributionId );
         $val =& civicrm_contribution_delete( $params );
         $this->assertEqual($val['is_error'], 0);
     }
+
+
+    /**
+     * Function to delete participant 
+     * 
+     * @param int $participantID
+     */
     
+    function participantDelete( $participantID ) 
+    {
+        require_once 'api/v2/Participant.php';
+        $result = & civicrm_participant_delete( $participantID );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not delete participant' );
+        }
+        return;
+    
+    }
+
+    /**
+     * Function to create participant payment
+     *
+     * @return int $id of created payment
+     */
+    
+    function participantPaymentCreate( $participantID ) 
+    {
+        //Create Participant Payment record With Values
+        $params = array(
+                        'participant_id'       => $participantID,
+                        'payment_entity_table' => 'civicrm_contribute',           
+                        'payment_entity_id'    => 3
+                        );
+        
+        $participantPayment = & civicrm_participant_create_payment( $params );
+        if ( CRM_Utils_Array::value( 'is_error', $participantPayment ) ||
+             ! CRM_Utils_Array::value( 'id', $participantPayment ) ) {
+            CRM_Core_Error::fatal( 'Could not create participant payment' );
+        }
+        return $participantPayment['id'];
+    }
+
+    /**
+     * Function to delete participant payment
+     * 
+     * @param int $paymentID
+     */
+    
+    function participantPaymentDelete( $paymentID ) 
+    {
+        require_once 'api/v2/Participant.php';
+        $result = & civicrm_participant_delete_payment( $paymentID );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not delete participant payment' );
+        }
+        return;
+    
+    }
+
     /** 
      * Function to add a Location
      * 
@@ -264,7 +324,6 @@ class CiviUnitTestCase extends UnitTestCase {
         
         return $result['id'];
     }
-
 }
 
 ?>
