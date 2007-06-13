@@ -4,63 +4,69 @@
 require_once '../../CRM/Contribute/BAO/ContributionType.php';
 
 class CiviUnitTestCase extends UnitTestCase {
-        
-    function organizationCreate( ) 
-    {
-        require_once 'api/v2/Contact.php';
-        $params = array( 'organization_name' => 'Unit Test Organization',
-                         'contact_type'      => 'Organization' );
-        $result = civicrm_contact_add( $params ); 
-        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
-             ! CRM_Utils_Array::value( 'contact_id', $result) ) {
-            CRM_Core_Error::fatal( 'Could not create test org contact' );
-        }
 
-        return $result['contact_id'];
+    /** 
+     * Generic function to create Organisation, to be used in test cases
+     * 
+     * @param array   parameters for civicrm_contact_add api function call
+     * @return int    id of Organisation created
+     */
+    function organizationCreate( $params = null ) {
+        if ( $params === null ) {
+            $params = array( 'organization_name' => 'Unit Test Organization',
+                             'contact_type'      => 'Organization' );
+        }
+        return $this->_contactCreate( $params );
     }
     
     /** 
-     * Function to create Individual
+     * Generic function to create Individual, to be used in test cases
      * 
-     * @return int $id of individual created
-     */ 
-    
-    function individualCreate( ) {
-        require_once 'api/v2/Contact.php';
-        $params = array( 'first_name'       => 'Anthony',
-                         'middle_name'      => 'john',
-                         'Last_name'        => 'Anderson',
-                         'prefix'           => 'Mr.',
-                         'suffix'           => 'Jr',
-                         'email'            => 'anthony_anderson@civicrm.org',
-                         'contact_type'     => 'Individual');
-        
-        $result = civicrm_contact_add( $params );
-        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
-             ! CRM_Utils_Array::value( 'contact_id', $result) ) {
-            CRM_Core_Error::fatal( 'Could not create test individual contact' );
+     * @param array   parameters for civicrm_contact_add api function call
+     * @return int    id of Individual created
+     */
+    function individualCreate( $params = null ) {
+        if ( $params === null ) {
+            $params = array( 'first_name'       => 'Anthony',
+                             'middle_name'      => 'john',
+                             'Last_name'        => 'Anderson',
+                             'prefix'           => 'Mr.',
+                             'suffix'           => 'Jr',
+                             'email'            => 'anthony_anderson@civicrm.org',
+                             'contact_type'     => 'Individual');
         }
-        
-        return $result['contact_id'];
+        return $this->_contactCreate( $params );
     }
 
     /** 
-     * Function to create household
+     * Generic function to create Household, to be used in test cases
      * 
-     * @return int $id of household created
-     */ 
+     * @param array   parameters for civicrm_contact_add api function call
+     * @return int    id of Household created
+     */
     function householdCreate( ) {
-        require_once 'api/v2/Contact.php';
         $params = array( 'household_name' => 'Unit Test household',
                          'contact_type'      => 'Household' );
+        return $this->_contactCreate( $params );
+    }
+
+    /** 
+     * Private helper function for calling civicrm_contact_add
+     * 
+     * @param array   parameters for civicrm_contact_add api function call
+     * @return int    id of Household created
+     */
+    private function _contactCreate( $params ) {
+        require_once 'api/v2/Contact.php';
         $result = civicrm_contact_add( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'contact_id', $result ) ) {
             CRM_Core_Error::fatal( 'Could not create test household contact' );
         }
-        
         return $result['contact_id'];
     }
+
+
     
     function contactDelete( $contactID ) 
     {
