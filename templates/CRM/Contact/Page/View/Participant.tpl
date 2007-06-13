@@ -13,12 +13,12 @@
     </div>
 
     {if $rows}
-        {include file="CRM/Event/Form/Selector.tpl"}
         {if $action eq 16 and $permission EQ 'edit'}
-        <div class="action-link">
-        <a href="{$newEventURL}">&raquo; {ts}New Event Registration{/ts}</a>
-        </div>
+            <div class="action-link">
+            <a href="{$newEventURL}">&raquo; {ts}New Event Registration{/ts}</a>
+            </div>
         {/if}
+        {include file="CRM/Event/Form/Selector.tpl"}
     {else}
        <div class="messages status">
            <dl>

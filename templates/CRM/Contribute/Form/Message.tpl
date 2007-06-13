@@ -12,10 +12,10 @@
 
 ===========================================================
 {ts}Contribution Type{/ts}: {$formValues.contributionType_name}
-{ts}Total Amount{/ts}     : {$formValues.total_amount|crmMoney}
-{ts}Received Date{/ts}    : {$receive_date|crmDate}
-{ts}Paid By{/ts}          : {$formValues.paidBy}
-{ts}Transaction ID{/ts}   : {$formValues.trxn_id}
+{ts}Total Amount{/ts}: {$formValues.total_amount|crmMoney}
+{ts}Received Date{/ts}: {$receive_date|crmDate}
+{ts}Paid By{/ts}: {$formValues.paidBy}
+{ts}Transaction ID{/ts}: {$formValues.trxn_id}
 {if $showCustom}
 
 ===========================================================
@@ -23,7 +23,7 @@
 
 ===========================================================
 {foreach from=$customField item=value key=name}
- {$name} : {$value}
+ {$name}: {$value}
 {/foreach}
 {/if}
 {if $formValues.honor_firstname }

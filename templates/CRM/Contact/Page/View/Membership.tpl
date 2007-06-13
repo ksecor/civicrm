@@ -14,7 +14,11 @@
 
 {if $activeMembers}
 <div id="memberships">
-<p></p>
+    {if $action ne 1 and $action ne 2 and $permission EQ 'edit'}
+	    <div class="action-link">
+    	<a href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
+        </div>
+    {/if}
     <div><label>{ts}Active Memberships{/ts}</label></div>
     <div class="form-item">
         {strip}
@@ -40,11 +44,6 @@
         </table>
         {/strip}
 
-        {if $action ne 1 and $action ne 2 and $permission EQ 'edit'}
-	    <div class="action-link">
-    	<a href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
-        </div>
-        {/if}
     </div>
 </div>
 {/if}

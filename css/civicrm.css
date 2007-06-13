@@ -285,6 +285,7 @@ border-top-style: none;
 
 #crm-container .action-link {
   margin: 0.5em 0em 0.5em;
+  font-weight: bold;
 }
 
 #crm-container .header-dark {
