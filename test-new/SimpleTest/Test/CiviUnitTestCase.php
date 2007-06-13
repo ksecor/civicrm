@@ -69,7 +69,12 @@ class CiviUnitTestCase extends UnitTestCase {
         
         return $result['id'];
     }
-    
+
+    /**
+     * Function to delete Membership Type
+     * 
+     * @param int $membershipTypeID
+     */
     function membershipTypeDelete( $membershipTypeID )
     {
         $params['id'] = $membershipTypeID;

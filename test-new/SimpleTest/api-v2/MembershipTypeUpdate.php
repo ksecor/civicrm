@@ -4,14 +4,16 @@ require_once 'api/v2/Membership.php';
 
 class TestOfMembershipTypeUpdateAPIV2 extends CiviUnitTestCase 
 {
+    protected $_contactID;
+    protected $_contributionTypeID;
+
     function setUp() 
     {
+        $this->_contactID           = $this->organizationCreate( ) ;
+        $this->_contributionTypeID  = $this->createContributeType();
+        
     }
-    
-    function tearDown() 
-    {
-    }
-
+ 
     function testMembershipTypeUpdateEmptyParams()
     {
         $params = array();                        
@@ -23,9 +25,8 @@ class TestOfMembershipTypeUpdateAPIV2 extends CiviUnitTestCase
     {
         $params = array(
                         'name'                 => '60+ Membership',
-                        'description'          => 'people above 60 are given health instructions',
-                        'member_of_contact_id' => '33',
-                        'contribution_type_id' => '1',
+                        'description'          => 'people above 60 are given health instructions',                        'member_of_contact_id' => $this->_contactID,
+                        'contribution_type_id' => $this->_contributionTypeID,
                         'minimum_fee'          => '1200',
                         'duration_unit'        => 'month',
                         'duration_interval'    => '10',
@@ -38,8 +39,7 @@ class TestOfMembershipTypeUpdateAPIV2 extends CiviUnitTestCase
     }
     function testMembershipTypeUpdate()
     {
-        $contactID = 1;
-        $id = $this->membershipTypeCreate( $contactID );
+        $id = $this->membershipTypeCreate( $this->_contactID,$this->_contributionTypeID );
         $params = array(
                         'id'                        => $id,
                         'name'                      => 'Updated General',
@@ -58,6 +58,12 @@ class TestOfMembershipTypeUpdateAPIV2 extends CiviUnitTestCase
         $this->assertEqual($membershiptype['duration_interval'],'10');
         $this->assertEqual($membershiptype['period_type'],'fixed');
         $this->membershipTypeDelete( $membershiptype['id']);
+    }
+    
+    function tearDown() 
+    {
+        $this->contactDelete( $this->_contactID ) ;
+        $this->deleteContributeType( $this->_contributionTypeID );
     }
 }
 
