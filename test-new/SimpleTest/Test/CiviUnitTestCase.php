@@ -192,6 +192,50 @@ class CiviUnitTestCase extends UnitTestCase {
         $tag =& civicrm_tag_create($params);
         return $tag['tag_id'];
     }
+
+    /**
+     * Function to create contribution  
+     * 
+     * @param int $cID      contact_id
+     * @param int $cTypeID  id of contribution type
+     *
+     * @return int id of created contribution
+     */
+    function contributionCreate($cID,$cTypeID)
+    {
+        $params = array(
+                        'domain_id'              => 1,
+                        'contact_id'             => $cID,
+                        'receive_date'           => date('Ymd'),
+                        'total_amount'           => 100.00,
+                        'contribution_type_id'   => $cTypeID,
+                        'payment_instrument_id'  => 1,
+                        'non_deductible_amount'  => 10.00,
+                        'fee_amount'             => 50.00,
+                        'net_amount'             => 90.00,
+                        'trxn_id'                => 12345,
+                        'invoice_id'             => 67890,
+                        'source'                 => 'SSF',
+                        'contribution_status_id' => 1,
+                        'note'                   => 'Donating for Nobel Cause',
+                        );
+        
+        $contribution =& civicrm_contribution_add($params);
+        return $contribution['id'];
+
+    }
+    
+    /**
+     * Function to delete contribution  
+     * 
+     * @param int $contributionId
+     */
+    function contributionDelete($contributionId)
+    {
+        $params = array( 'contribution_id' => $contributionId );
+        $val =& civicrm_contribution_delete( $params );
+        $this->assertEqual($val['is_error'], 0);
+    }
 }
 
 ?>

@@ -1,0 +1,129 @@
+<?php
+
+require_once 'api/v2/Contribute.php';
+
+class TestOfCreateContributionAPIV2 extends CiviUnitTestCase 
+{
+    /**
+     * Assume empty database with just civicrm_data
+     */
+    protected $_individualId;    
+    protected $_contribution;
+    protected $_contributionTypeId;
+    
+    function setUp() 
+    {
+        $this->_contributionTypeId = $this->CreateContributeType();  
+        $this->_individualId = $this->individualCreate();
+    }
+    
+    function tearDown() 
+    {
+        $this->contactDelete($this->_individualId);
+        $this->deleteContributeType($this->_contributionTypeId);
+    }
+    
+     
+    function testCreateEmptyParamsContribution()
+    {
+        $params = array();
+        $contribution =& civicrm_contribution_add($params);
+        $this->assertEqual( $contribution['is_error'], 1 );
+    }
+
+
+    function testCreateParamsNotArrayContribution()
+    {
+        $params = 'domain_id= 1';                            
+        $contribution =& civicrm_contribution_add($params);
+        $this->assertEqual( $contribution['is_error'], 1 );
+    }
+    
+    
+    function testCreateContribution()
+    {
+        $params = array(
+                        'domain_id'              => 1,
+                        'contact_id'             => $this->_individualId,                              
+                        'receive_date'           => date('Ymd'),
+                        'total_amount'           => 100.00,
+                        'contribution_type_id'   => $this->_contributionTypeId,
+                        'payment_instrument_id'  => 1,
+                        'non_deductible_amount'  => 10.00,
+                        'fee_amount'             => 50.00,
+                        'net_amount'             => 90.00,
+                        'trxn_id'                => 12345,
+                        'invoice_id'             => 67890,
+                        'source'                 => 'SSF',
+                        'contribution_status_id' => 1,
+                        'note'                   => 'Donating for Nobel Cause',
+                        'return.contact_id'      => 1
+                        );
+        
+        $contribution =& civicrm_contribution_add($params);
+        
+        $this->assertEqual($contribution['domain_id'], 1);
+        $this->assertEqual($contribution['contact_id'], $this->_individualId);                              
+        $this->assertEqual($contribution['receive_date'],date('Ymd'));
+        $this->assertEqual($contribution['total_amount'],100.00);
+        $this->assertEqual($contribution['contribution_type_id'],$this->_contributionTypeId);
+        $this->assertEqual($contribution['payment_instrument_id'],1);
+        $this->assertEqual($contribution['non_deductible_amount'],10.00);
+        $this->assertEqual($contribution['fee_amount'],50.00);
+        $this->assertEqual($contribution['net_amount'],90.00);
+        $this->assertEqual($contribution['trxn_id'],12345);
+        $this->assertEqual($contribution['invoice_id'],67890);
+        $this->assertEqual($contribution['source'],'SSF');
+        $this->assertEqual($contribution['contribution_status_id'],  1);
+        $this->_contribution = $contribution;
+    }
+    
+    
+    //To Update Contribution
+    function testCreateUpdateContribution()
+    {
+        $params = array(
+                        'domain_id'              => 1,
+                        'contribution_id'        => $this->_contribution['id'],
+                        'contact_id'             => $this->_individualId,                              
+                        'receive_date'           => date('Ymd'),
+                        'total_amount'           => 110.00,
+                        'contribution_type_id'   => $this->_contributionTypeId,
+                        'payment_instrument_id'  => 1,
+                        'non_deductible_amount'  => 20.00,
+                        'fee_amount'             => 60.00,
+                        'net_amount'             => 100.00,
+                        'trxn_id'                => 23456,
+                        'invoice_id'             => 78901,
+                        'source'                 => 'WORLD',
+                        'contribution_status_id' => 1,
+                        'note'                   => 'Donating for Nobel Cause',
+                        'return.contact_id'      => 1
+                        );
+        
+        $contribution =& civicrm_contribution_add($params);
+        $this->assertEqual($contribution['domain_id'], 1);
+        $this->assertEqual($contribution['contact_id'], $this->_individualId);                              
+        $this->assertEqual($contribution['receive_date'],date('Ymd'));
+        $this->assertEqual($contribution['total_amount'],110.00);
+        $this->assertEqual($contribution['contribution_type_id'],$this->_contributionTypeId);
+        $this->assertEqual($contribution['payment_instrument_id'],1);
+        $this->assertEqual($contribution['non_deductible_amount'],20.00);
+        $this->assertEqual($contribution['fee_amount'],60.00);
+        $this->assertEqual($contribution['net_amount'],100.00);
+        $this->assertEqual($contribution['trxn_id'],23456);
+        $this->assertEqual($contribution['invoice_id'],78901);
+        $this->assertEqual($contribution['source'],'WORLD');
+        $this->assertEqual($contribution['contribution_status_id'],  1);
+        $this->_contribution = $contribution;
+    }
+    
+    
+    function testDeleteContribution()
+    {
+        $params = array( 'contribution_id' => $this->_contribution['id'] );
+        $val =& civicrm_contribution_delete( $params );
+        $this->assertEqual($val['is_error'], 0);
+    }
+}
+?>
