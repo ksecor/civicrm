@@ -44,9 +44,11 @@ class CiviUnitTestCase extends UnitTestCase {
      * @param array   parameters for civicrm_contact_add api function call
      * @return int    id of Household created
      */
-    function householdCreate( ) {
-        $params = array( 'household_name' => 'Unit Test household',
-                         'contact_type'      => 'Household' );
+    function householdCreate( $params = null ) {
+        if ( $params === null ) {    
+            $params = array( 'household_name' => 'Unit Test household',
+                             'contact_type'      => 'Household' );
+        }
         return $this->_contactCreate( $params );
     }
 
