@@ -10,7 +10,7 @@ class CiviUnitTestCase extends UnitTestCase {
         require_once 'api/v2/Contact.php';
         $params = array( 'organization_name' => 'Unit Test Organization',
                          'contact_type'      => 'Organization' );
-        $result = civicrm_contact_add( $params );
+        $result = civicrm_contact_add( $params ); 
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'contact_id', $result) ) {
             CRM_Core_Error::fatal( 'Could not create test org contact' );
@@ -18,27 +18,50 @@ class CiviUnitTestCase extends UnitTestCase {
 
         return $result['contact_id'];
     }
-
-     /** 
+    
+    /** 
      * Function to create Individual
      * 
      * @return int $id of individual created
-     */    
-    function individualCreate() 
-    {
-        $params = array(
-                        'first_name'    => 'Anthony',
-                        'middle_name'   => 'john',
-                        'last_name'     => 'Anderson',
-                        'prefix'        => 'Mr.',
-                        'suffix'        => 'Jr',
-                        'email'         => 'anthony_anderson@civicrm.org',
-                        'contact_type'  => 'Individual'
-                        );
-        $contact =& civicrm_contact_add($params);
-        return $contact['contact_id'];
+     */ 
+    
+    function individualCreate( ) {
+        require_once 'api/v2/Contact.php';
+        $params = array( 'first_name'       => 'Anthony',
+                         'middle_name'      => 'john',
+                         'Last_name'        => 'Anderson',
+                         'prefix'           => 'Mr.',
+                         'suffix'           => 'Jr',
+                         'email'            => 'anthony_anderson@civicrm.org',
+                         'contact_type'     => 'Individual');
+        
+        $result = civicrm_contact_add( $params );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
+             ! CRM_Utils_Array::value( 'contact_id', $result) ) {
+            CRM_Core_Error::fatal( 'Could not create test individual contact' );
+        }
+        
+        return $result['contact_id'];
     }
 
+    /** 
+     * Function to create household
+     * 
+     * @return int $id of household created
+     */ 
+    function householdCreate( ) {
+        require_once 'api/v2/Contact.php';
+        $params = array( 'household_name' => 'Unit Test household',
+                         'contact_type'      => 'Household' );
+        $result = civicrm_contact_add( $params );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
+             ! CRM_Utils_Array::value( 'contact_id', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not create test household contact' );
+        }
+        
+        return $result['contact_id'];
+    }
+    
     function contactDelete( $contactID ) 
     {
         require_once 'api/v2/Contact.php';
@@ -49,7 +72,7 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         return;
     }
-
+    
     function membershipTypeCreate( $contactID, $contributionTypeID = 1 ) 
     {
         $params = array( 'name'                 => 'General',
@@ -94,6 +117,32 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         return;
     }
+    
+    /** 
+     * Function to create Participant 
+     *
+     * @param int $contactID
+     *
+     * @return int $id of participant created
+     */    
+    function participantCreate( $contactID ) 
+    { 
+        $params = array(
+                        'contact_id'    => $contactID,
+                        'event_id'      => 1,
+                        'status_id'     => 2,
+                        'role_id'       => 1,
+                        'register_date' => 20070219,
+                        'source'        => 'Wimbeldon',
+                        'event_level'   => 'Payment'
+                        );
+
+        $result = civicrm_participant_create( $params );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not create participant' );
+        }
+        return $result['participant_id'];
+    }
 
     /** 
      * Function to create Contribution Type
@@ -123,6 +172,25 @@ class CiviUnitTestCase extends UnitTestCase {
     function deleteContributeType($contributionTypeID) 
     {
         $del= CRM_Contribute_BAO_ContributionType::del($contributionTypeID);
+    }
+
+    
+    /** 
+     * Function to create Tag
+     * 
+     * @return int tag_id of created tag
+     */    
+    function tagCreate()
+    {
+        require_once 'api/v2/Tag.php';
+        $params = array(
+                        'name'        => 'New Tag3',
+                        'description' => 'This is description for New Tag 03',
+                        'domain_id'   => '1'
+                        );
+        
+        $tag =& crm_tag_create($params);
+        return $tag['tag_id'];
     }
 }
 
