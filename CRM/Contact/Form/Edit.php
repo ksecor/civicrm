@@ -201,8 +201,21 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
                 list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
                 CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
+
+                // find number of location blocks for this contact and adjust value accordinly
+                $query = "
+SELECT count( l.id )
+  FROM civicrm_location l
+ WHERE l.entity_table = 'civicrm_contact'
+   AND l.entity_id    = {$this->_contactId}
+";
+                $locCount = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+                if ( $locCount && $this->_maxLocationBlocks < $locCount ) {
+                    $this->_maxLocationBlocks = $locCount;
+                }
                 return;
             }
+
             CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
         }            
     }
@@ -274,6 +287,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $locationExists[] = $loc->location_type_id;
             }
             $this->assign( 'locationExists' , $locationExists );
+            $this->_maxLocationBlocks = count( $contact->location );
 
             $this->assign( 'contactId' , $this->_contactId );
             // also set contact_type, since this is used in showHide routines 

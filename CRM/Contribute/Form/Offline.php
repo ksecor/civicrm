@@ -86,6 +86,12 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
 
         require_once 'CRM/Core/Payment/Form.php';
         CRM_Core_Payment_Form::setCreditCardFields( $this );
+
+        // also set the post url
+        $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
+                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" );
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $postURL );
     }
 
     function setDefaultValues( ) {
@@ -146,7 +152,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
                     $attributes['total_amount'], true );
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
 
-        $this->add( 'text', 'source', ts('Contribution Source'), $attributes['source'] );
+        $this->add( 'text', 'contribution_source', ts('Contribution Source'), $attributes['source'] );
 
         $this->addElement('checkbox', 'is_email_receipt', ts('Send Receipt?'), null );
 
@@ -201,7 +207,15 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                               $this->_contactID,
                                               'contact_type' );
-
+        
+        $nameFields = array( 'first_name', 'middle_name', 'last_name' );
+        foreach ( $nameFields as $name ) {
+            $fields[$name] = 1;
+            if ( array_key_exists( "billing_$name", $params ) ) {
+                $params[$name] = $params["billing_{$name}"];
+            }
+        }
+        
         $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields,
                                                                    $this->_contactID, 
                                                                    null, null, 
@@ -283,8 +297,10 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         }
 
         // set source if not set 
-        if ( empty( $this->_params['source'] ) ) {
+        if ( empty( $this->_params['contribution_source'] ) ) {
             $this->_params['source'] = ts( 'Online Contribution: CiviCRM Admin Interface' );
+        } else {
+            $this->_params['source'] = $this->_params['contribution_source'];
         }
 
         require_once 'CRM/Contribute/Form/Contribution/Confirm.php';

@@ -27,7 +27,7 @@
         <td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td>
     </tr>
     <tr>
-        <td class="label nowrap">{$form.source.label}</td><td>{$form.source.html}</td>
+        <td class="label nowrap">{$form.contribution_source.label}</td><td>{$form.contribution_source.html}</td>
     </tr>
     {if $config->smtpServer AND $config->smtpServer NEQ 'YOUR SMTP SERVER'}
     <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}<br />
