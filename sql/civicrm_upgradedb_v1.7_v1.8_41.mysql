@@ -4,6 +4,7 @@
 -- *
 -- *******************************************************/
 
+
 -- /*******************************************************
 -- *
 -- * civicrm_case
@@ -34,6 +35,8 @@ CREATE TABLE civicrm_case (
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
+
+
 -- /*******************************************************
 -- *
 -- * civicrm_case_activity
@@ -52,6 +55,27 @@ CREATE TABLE civicrm_case_activity (
 ,    CONSTRAINT FK_civicrm_case_activity_case_id FOREIGN KEY (case_id) REFERENCES civicrm_case(id)
 
 ,    CONSTRAINT FK_civicrm_case_activity_activity_id FOREIGN KEY (activity_id) REFERENCES civicrm_activity(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_activity_assignment
+-- *
+-- * Activity assignments
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_activity_assignment (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Activity assignment id',
+     activity_id int unsigned NOT NULL COMMENT 'Activity id for which the assigment is created',
+     target_entity_table varchar(64) NOT NULL COMMENT 'Name of table where item being referenced is stored (contact assigned to given activity).',
+     target_entity_id int unsigned NOT NULL COMMENT 'Foreign key to the referenced item.' 
+
+,    PRIMARY KEY ( id )
+
+,    CONSTRAINT FK_civicrm_activity_assignment_activity_id FOREIGN KEY (activity_id) REFERENCES civicrm_activity(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
@@ -96,6 +120,40 @@ CREATE TABLE civicrm_dedupe_rule (
 ,    PRIMARY KEY ( id )
 
 ,    CONSTRAINT FK_civicrm_dedupe_rule_dedupe_rule_group_id FOREIGN KEY (dedupe_rule_group_id) REFERENCES civicrm_dedupe_rule_group(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_grant
+-- *
+-- * This table stores information about grants given to a contact.
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_grant (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Grant id',
+     contact_id int unsigned NOT NULL   COMMENT 'Contact ID of contact record given grant belongs to.',
+     application_received_date date    COMMENT 'Date on which grant application was received by donor.',
+     decision_date date    COMMENT 'Date on which grant decision was made.',
+     money_transfer_date date    COMMENT 'Date on which grant money transfer was made.',
+     grant_due_date date    COMMENT 'Date on which grant report is due.',
+     grant_report_received tinyint    COMMENT 'Yes/No field stating whether grant report was received by donor.',
+     grant_type_id int unsigned NOT NULL   COMMENT 'Id of first case category.',
+     amount_total decimal(20,2) NOT NULL   COMMENT 'Total amount, in default currency.',
+     amount_requested decimal(20,2) NOT NULL   COMMENT 'Requested amount, in default currency.',
+     amount_granted decimal(20,2) NOT NULL   COMMENT 'Granted amount, in default currency.',
+     rationale text    COMMENT 'Grant rationale.',
+     status_id int unsigned NOT NULL   COMMENT 'Id of case status.' 
+
+,    PRIMARY KEY ( id )
+ 
+,    INDEX UI_grant_type_id( grant_type_id )
+
+,    INDEX UI_status_id( status_id )
+  
+,    CONSTRAINT FK_civicrm_grant_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
@@ -306,7 +364,42 @@ CREATE TABLE civicrm_line_item (
 ,    CONSTRAINT FK_civicrm_line_item_price_field_id FOREIGN KEY (price_field_id) REFERENCES civicrm_price_field(id)
 
 ,    CONSTRAINT FK_civicrm_line_item_custom_option_id FOREIGN KEY (custom_option_id) REFERENCES civicrm_custom_option(id)
+
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_timezone
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_timezone (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Timezone Id',
+     name varchar(64)    COMMENT 'Timezone full name',
+     abbreviation char(3)    COMMENT 'ISO Code for timezone abbreviation',
+     country_id int unsigned NOT NULL   COMMENT 'Country Id' 
+
+,    PRIMARY KEY ( id )
+
+,    CONSTRAINT FK_civicrm_timezone_country_id FOREIGN KEY (country_id) REFERENCES civicrm_country(id)
   
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_worldregion
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_worldregion (
+
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Country Id',
+     name varchar(128) COMMENT 'Region name to be associated with countries' 
+
+,    PRIMARY KEY ( id )
+ 
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
 
@@ -315,6 +408,20 @@ CREATE TABLE civicrm_line_item (
 -- * Modifying Tables
 -- *
 -- *******************************************************/
+
+-- /*******************************************************
+-- *
+-- * civicrm_activity
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_activity
+	    ADD activity_tag1_id int(10) unsigned NOT NULL,
+	    ADD activity_tag2_id int(10) unsigned NOT NULL,
+	    ADD activity_tag3_id int(10) unsigned NOT NULL,
+	    ADD INDEX UI_activity_tag1_id (activity_tag1_id),
+	    ADD INDEX UI_activity_tag2_id (activity_tag2_id),
+	    ADD INDEX UI_activity_tag3_id (activity_tag3_id);
+
 
 -- /*******************************************************
 -- *
@@ -327,22 +434,26 @@ CREATE TABLE civicrm_line_item (
 
 -- /*******************************************************
 -- *
--- * civicrm_contribution
--- *
--- *******************************************************/
-	ALTER TABLE civicrm_contribution
-	    ADD is_email_receipt tinyint(4) NULL DEFAULT NULL;
-
--- /*******************************************************
--- *
 -- * civicrm_contribution_page
 -- *
 -- *******************************************************/
 	ALTER TABLE civicrm_contribution_page
-	    ADD payment_processor_id int(10) unsigned NOT NULL,
+	    ADD `start_date` datetime NULL DEFAULT NULL,
+	    ADD `end_date` datetime NULL DEFAULT NULL,
+	    ADD payment_processor_id int(10) unsigned NULL DEFAULT NULL,
 	    ADD INDEX FK_civicrm_contribution_page_payment_processor_id ( payment_processor_id );
 
- 
+
+-- /*******************************************************
+-- *
+-- * civicrm_country
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_country
+	    ADD region_id int(10) unsigned NOT NULL,
+	    ADD INDEX FK_civicrm_country_region_id ( region_id );
+   
+
 -- /*******************************************************
 -- *
 -- * civicrm_custom_field
@@ -351,6 +462,8 @@ CREATE TABLE civicrm_line_item (
 	ALTER TABLE civicrm_custom_field
 	    MODIFY data_type enum('String','Int','Float','Money','Memo','Date','Boolean','StateProvince','Country','File','Link') NULL DEFAULT NULL,
     	    MODIFY html_type enum('Text','TextArea','Select','Multi-Select','Radio','CheckBox','Select Date','Select State/Province','Select Country','File','Link') NULL DEFAULT NULL;
+
+
 
 -- /*******************************************************
 -- *
@@ -361,7 +474,29 @@ CREATE TABLE civicrm_line_item (
 	    ADD registration_start_date datetime NULL DEFAULT NULL,
 	    ADD registration_end_date datetime NULL DEFAULT NULL,
 	    ADD fee_label varchar(255) NULL DEFAULT NULL,
-	    ADD is_show_location tinyint(4) NULL DEFAULT '1';
+	    ADD is_show_location tinyint(4) NULL DEFAULT '1',
+	    ADD payment_processor_id int(10) unsigned NULL DEFAULT NULL AFTER contribution_type_id,
+	    ADD INDEX FK_civicrm_event_payment_processor_id ( payment_processor_id );
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_line_item
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_line_item
+	    ADD INDEX index_entity (entity_table, entity_id);
+
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_location
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_location
+	    MODIFY location_type_id int(10) unsigned NULL DEFAULT NULL;
+   
   
 -- /*******************************************************
 -- *
