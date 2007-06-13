@@ -244,6 +244,27 @@ class CiviUnitTestCase extends UnitTestCase {
         $val =& civicrm_contribution_delete( $params );
         $this->assertEqual($val['is_error'], 0);
     }
+    
+    /** 
+     * Function to add a Location
+     * 
+     * @return int location id of created location
+     */    
+    function locationAdd( $contactID ) 
+    {
+        $params['contact_id'] = $contactID;
+        
+        $result = civicrm_location_add( $params );
+        
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
+             ! CRM_Utils_Array::value( 'id', $result) ) {
+            CRM_Core_Error::debug( 'r', $r );
+            CRM_Core_Error::fatal( 'Could not create location' );
+        }
+        
+        return $result['id'];
+    }
+
 }
 
 ?>

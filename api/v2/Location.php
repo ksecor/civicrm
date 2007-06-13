@@ -48,7 +48,10 @@ require_once 'api/v2/utils.php';
  */
 function civicrm_location_add( &$params ) {
     _civicrm_initialize( );
-    
+    $error = _civicrm_location_check_params( $params );
+    if ( civicrm_error( $error ) ) {
+        return $error;
+    }  
     $locationTypeDAO = & new CRM_Core_DAO_LocationType();
     $locationTypeDAO->name      = $params['location_type'];
     $locationTypeDAO->domain_id = CRM_Core_Config::domainID( );
@@ -438,5 +441,43 @@ function &_civicrm_location_object_to_array( $locObject ) {
     return $locArray;
     // building location array ends  
 }
+
+/**
+ * This function ensures that we have the right input location parameters
+ *
+ * We also need to make sure we run all the form rules on the params list
+ * to ensure that the params are valid
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new location.
+ *
+ * @return bool|CRM_Utils_Error
+ * @access public
+ */
+function _civicrm_location_check_params( &$params ) {
+    static $required = array( 'contact_id', 'location_type' );
+    
+    // cannot create a location with empty params
+    if ( empty( $params ) ) {
+        return civicrm_create_error( 'Input Parameters empty' );
+    }
+
+    $valid = true;
+    $error = '';
+    foreach ( $required as $field ) {
+        if ( ! CRM_Utils_Array::value( $field, $params ) ) {
+            $valid = false;
+            $error .= $field;
+            break;
+        }
+    }
+    
+    if ( ! $valid ) {
+        return civicrm_create_error( "Required fields not found for location $error" );
+    }
+    
+    return array();
+}
+
 
 ?>
