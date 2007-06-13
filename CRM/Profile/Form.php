@@ -322,7 +322,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( $cId ) {
                 list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($cId);
                 $cmsCid = true; 
-                $form->assign('cmsCid', 1);
+                $this->assign('cmsCid', 1);
             }
         
             if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
@@ -372,8 +372,14 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'showBlocks', $showBlocks ); 
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
-        require_once 'CRM/Core/BAO/CMSUser.php';
-        CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $cms );
+
+        if ( ! $cmsCid ) {
+            require_once 'CRM/Core/BAO/CMSUser.php';
+            CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $cms );
+        } else {
+            $this->assign( 'showCMS', false );
+        }
+
         $this->assign( 'groupId', $this->_gid ); 
 
         // if view mode pls freeze it with the done button.
@@ -593,12 +599,15 @@ class CRM_Profile_Form extends CRM_Core_Form
                 if(substr( $name, 0, 5 ) == 'email' ) {                
                     $email = $name;
                 }
-              }
-              require_once 'CRM/Contact/BAO/Contact.php';
-              $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $params[$email], $this->_ctype );
-              if($dao){
-                  $this->_id = $dao->contact_id;
-              }
+            }
+         
+            if ( CRM_Utils_Array::value( $email, $params ) ) {
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $params[$email], $this->_ctype );
+                if ( $dao ) {
+                    $this->_id = $dao->contact_id;
+                }
+            }
         }
         
         //create CMS user (if CMS user option is selected in profile)

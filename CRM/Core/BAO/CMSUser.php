@@ -158,6 +158,7 @@ class CRM_Core_BAO_CMSUser
     {
         $config =& CRM_Core_Config::singleton( );
         $showCMS = false;
+
         // if cms is drupal having version greater than equal to 5.1
         // then showCMS will true
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
@@ -189,10 +190,29 @@ class CRM_Core_BAO_CMSUser
             $config  =& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
                 $errors = array( );
-                $emailName = 'email-' . $self->_bltID;
+                $emailName = null;
+                if ( ! empty( $self->_bltID ) ) {
+                    // this is a transaction related page
+                    $emailName = 'email-' . $self->_bltID;
+                } else {
+                    // find the email field in a profile page
+                    foreach ( $fields as $name => $dontCare ) {
+                        if(substr( $name, 0, 5 ) == 'email' ) {
+                            $emailName = $name;
+                            break;
+                        }
+                    }
+                }
+
+                if ( $emailName == null ) {
+                    $errors['_qf_default'] == ts( 'Could not find an email address' );
+                    return $errors;
+                }
+
                 if ( empty( $fields['cms_name'] ) ) {
                     $errors['cms_name'] = ts( 'Please specify a CMS user name' );
                 }
+
                 if ( empty( $fields[ $emailName ] ) ) {
                     $errors[$emailName] = ts( 'Please specify a valid email address' );
                 }
@@ -226,8 +246,9 @@ class CRM_Core_BAO_CMSUser
                     // also unset drupal messages to avoid twice display of errors
                     unset( $_SESSION['messages'] );
                 }
-                if ( ! empty( $errors ) ) {
+                CRM_Core_Error::debug( 'e', $errors );
 
+                if ( ! empty( $errors ) ) {
                     return $errors;
                 }
 

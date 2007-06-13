@@ -142,7 +142,7 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
         }
 
         $cart->SetContinueShoppingUrl( $returnURL );
-        
+
         $cartVal      = base64_encode($cart->GetXML());
         $signatureVal = base64_encode($cart->CalcHmacSha1($cart->GetXML()));
         
