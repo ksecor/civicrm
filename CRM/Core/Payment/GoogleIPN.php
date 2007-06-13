@@ -257,10 +257,9 @@ class CRM_Core_Payment_GoogleIPN {
         $now       = date( 'YmdHis' );
         $contactID = $contribution->contact_id;
         $amount    = $contribution->total_amount;
-        $eventID   = $contribution->trxn_id; 
 
         if ( $component == "event" ) {
-            $eventID     = (int)str_replace('eid', "", $eventID);
+            $eventID     = (int)str_replace('eid', "", $contribution->trxn_id);
             
             $eventParams = array( 'id' => $eventID );
             require_once 'CRM/Event/BAO/Event.php';
@@ -274,6 +273,8 @@ class CRM_Core_Payment_GoogleIPN {
                 ts( 'Online Event Registration:' ) . ' ' . $values['event']['title'];
             
         } elseif ( $component == "contribute" ) {
+            $membershipTypeID     = (int)str_replace('mid', "", $contribution->trxn_id);
+
             require_once 'CRM/Contribute/BAO/ContributionPage.php';
             CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
         }
@@ -626,7 +627,7 @@ WHERE  v.option_group_id = g.id
         }
         case "new-order-notification": {
             $response->SendAck();
-            $ipn->newOrderNotify($data[$root], $privateData);
+            $ipn->newOrderNotify($data[$root], $privateData, $module);
             break;
         }
         case "order-state-change-notification": {
