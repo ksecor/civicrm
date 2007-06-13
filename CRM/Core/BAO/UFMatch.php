@@ -66,6 +66,10 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         } else if ( $uf == 'Joomla' ) {
             $key  = 'id';
             $mail = 'email';
+				} else if ( $uf == 'Standalone' ) {
+					  // There is no CMS to synchronize with in the standalone version,
+					  //  so just return.
+					  return;
         } else {
             CRM_Core_Error::statusBounce(ts('Please set the user framework variable'));
         }

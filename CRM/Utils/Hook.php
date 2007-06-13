@@ -35,7 +35,8 @@
 
 require_once 'CRM/Utils/System/Drupal.php'; 
 require_once 'CRM/Utils/System/Joomla.php' ; 
-require_once 'CRM/Utils/System/Soap.php' ; 
+require_once 'CRM/Utils/System/Soap.php' ;
+require_once 'CRM/Utils/System/Standalone.php';
  
 class CRM_Utils_Hook {
 

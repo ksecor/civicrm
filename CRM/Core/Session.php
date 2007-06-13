@@ -68,6 +68,10 @@ class CRM_Core_Session {
      *
      * Since we are now a client / module of drupal, drupal takes care
      * of initiating the php session handler session_start ().
+     *
+     * When using CiviCRM standalone (i.e. w/o Drupal), we start the session
+     * in index.php and then pass it off to here.
+     *
      * All crm code should always use the session using
      * CRM_Core_Session. we prefix stuff to avoid collisions with drupal and also
      * collisions with other crm modules!!
@@ -123,7 +127,7 @@ class CRM_Core_Session {
      */
     function reset( $all = 1) {
         if ( $all != 1 ) {
-            // to make certain we clear it, firs initialize it to empty
+            // to make certain we clear it, first initialize it to empty
             $this->_session[$this->_key] = array();
             unset( $this->_session[$this->_key] );
         } else {

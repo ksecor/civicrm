@@ -92,9 +92,11 @@ class CRM_Core_Smarty extends Smarty {
 
         if ( $config->userFramework == 'Joomla' ) {
             $this->assign( 'metaTpl', 'joomla' );
-        } else {
+        } elseif ( $config->userFramework == 'Drupal' ) {
             $this->assign( 'metaTpl', 'drupal' );
-        }
+        } else {
+            $this->assign( 'metaTpl', 'standalone' );
+	}
 
         $this->register_function ( 'crmURL' , array( 'CRM_Utils_System', 'crmURL' ) );
     }

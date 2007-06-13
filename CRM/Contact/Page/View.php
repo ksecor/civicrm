@@ -172,14 +172,16 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         
         $config =& CRM_Core_Config::singleton( );
         
-        //add link to CMS user
-        if ( $uid = CRM_Core_BAO_UFMatch::getUFId( $this->_contactId ) ) {
+        //add link to CMS user unless we're running the standalone version
+	if ($config->userFramework != 'Standalone') {
+          if ( $uid = CRM_Core_BAO_UFMatch::getUFId( $this->_contactId ) ) {
             if ($config->userFramework == 'Drupal') {
                 $url = CRM_Utils_System::url( 'user/' . $uid );
             } else {
                 $url = $config->userFrameworkBaseURL . 'index2.php?option=com_users&task=editA&hidemainmenu=1&id=' . $uid;
             }
             $this->assign( 'url', $url );
+	  }
         }
     
         if ( CRM_Core_Permission::check( 'access Contact Dashboard' ) ) {
