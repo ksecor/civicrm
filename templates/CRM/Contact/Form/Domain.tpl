@@ -8,13 +8,16 @@
         <dt>{$form.contact_name.label}</dt><dd>{$form.contact_name.html}</dd>
         <dt>{$form.email_domain.label}</dt><dd>{$form.email_domain.html}</dd>
         {edit}
-        <dt>&nbsp;</dt><dd class="description">(e.g. example.org)</dd>
+            <dt>&nbsp;</dt>
+            <dd class="description">
+                {ts}Set this to the domain (e.g., <code>example.org</code>) that should be seen in your mailings' "action" email addressess (like <code>subscribe.*@example.org</code>). This domain (or, more properly, the machine that this domain's MX record points to) has to know how to handle incoming CiviMail emails (so it can process the "actions" like subscribe, optOut, etc.).{/ts}
+            </dd>
         {/edit}
         <dt>{$form.email_return_path.label}</dt><dd>{$form.email_return_path.html}</dd>
         {edit}
             <dt>&nbsp;</dt>
             <dd class="description">
-                {ts}Use this field to populate the RETURN-PATH mail header element with a fixed value. Enter a fully qualified email address which belongs to a valid SMTP account in your domain. If this field is left blank, the FROM email address will be used as the RETURN-PATH.{/ts}
+                {ts}Use this field to populate the <code>Return-Path</code> mail header element with a fixed value (e.g., <code>myuser@example.org</code>). Enter a fully qualified email address which belongs to a valid SMTP account in your domain. This address will not be seen by "typical" email clients. Consult with your SMTP provider what address to put in here so that the SMTP server accepts outgoing mail from CiviMail. If this field is left blank, the <code>From</code> email address will be used as the <code>Return-Path</code>.{/ts}
             </dd>
         {/edit}
     </dl>

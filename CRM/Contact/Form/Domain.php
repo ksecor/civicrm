@@ -112,7 +112,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $this->add('text', 'contact_name', ts('Contact Name:'), array('size' => 25) );
         $this->add('text', 'email_domain', ts('Email Domain:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
         $this->addRule( "email_domain", ts('Email is not valid.'), 'domain' );
-        $this->add('text', 'email_return_path', ts('Send Emails RETURN-PATH:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
+        $this->add('text', 'email_return_path', ts('Return-Path:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
         $this->addRule( "email_return_path", ts('Email is not valid.'), 'email' );
         
         require_once 'CRM/Contact/Form/Location.php';
