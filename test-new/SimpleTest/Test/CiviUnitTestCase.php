@@ -67,9 +67,7 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         return $result['contact_id'];
     }
-
-
-    
+        
     function contactDelete( $contactID ) 
     {
         require_once 'api/v2/Contact.php';
@@ -181,26 +179,62 @@ class CiviUnitTestCase extends UnitTestCase {
     {
         $del= CRM_Contribute_BAO_ContributionType::del($contributionTypeID);
     }
-
     
     /** 
      * Function to create Tag
      * 
      * @return int tag_id of created tag
      */    
-    function tagCreate()
+    function tagCreate( $params = null )
     {
-        require_once 'api/v2/Tag.php';
-        $params = array(
-                        'name'        => 'New Tag3',
-                        'description' => 'This is description for New Tag 03',
-                        'domain_id'   => '1'
-                        );
+        if ( $params === null ) {
+            $params = array(
+                            'name'        => 'New Tag3',
+                            'description' => 'This is description for New Tag 03',
+                            'domain_id'   => '1'
+                            );
+        }
         
+        require_once 'api/v2/Tag.php';
         $tag =& civicrm_tag_create($params);
+        
         return $tag['tag_id'];
     }
-
+    
+    /** 
+     * Function to delete Tag
+     * 
+     * @param  int $tagId   id of the tag to be deleted
+     */    
+    function tagDelete( $tagId )
+    {
+        require_once 'api/v2/Tag.php';
+        $params['tag_id'] = $tagId;
+        $result = civicrm_tag_delete( $params );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not delete tag' );
+        }
+        return;
+    }
+    
+    /** 
+     * Add entity(s) to the tag
+     * 
+     * @param  array  $params 
+     *
+     */
+    
+    function entityTagAdd( $params )
+    {
+        $result = civicrm_entity_tag_add( $params );
+        
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Error while creating entity tag' );
+        }
+        
+        return;
+    }
+    
     /**
      * Function to create contribution  
      * 

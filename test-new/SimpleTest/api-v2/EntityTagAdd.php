@@ -28,7 +28,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $this->assertEqual( $individualEntity['is_error'], 0 );
         $this->assertEqual( $individualEntity['added'], 1 );
         $this->contactDelete( $params['contact_id'] );
-        civicrm_tag_delete($tagID);
+        $this->tagDelete( $tagID );
     }
       
     function testHouseholdEntityTagAddEmptyParams( ) 
@@ -50,7 +50,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $this->assertEqual( $householdEntity['is_error'], 0 );
         $this->assertEqual( $householdEntity['added'], 1 );
         $this->contactDelete( $params['contact_id'] );
-        civicrm_tag_delete($tagID);
+        $this->tagDelete( $tagID );
     }
     
     function testOrganizationEntityTagAddEmptyParams( ) 
@@ -73,7 +73,41 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $this->assertEqual( $organizationEntity['is_error'], 0 );
         $this->assertEqual( $organizationEntity['added'], 1 );
         $this->contactDelete( $params['contact_id'] );
-        civicrm_tag_delete($tagID);
+        $this->tagDelete( $tagID );
+    }
+    
+    function testEntityTagAddIndividualDouble( ) 
+    {
+        $individualId   = $this->individualCreate( );
+        $organizationId = $this->organizationCreate( );
+        
+        $tagID = $this->tagCreate( );
+        
+        $params = array(
+                        'contact_id' =>  $individualId,
+                        'tag_id'     =>  $tagID
+                        );
+        
+        $result = civicrm_entity_tag_add( $params );
+        
+        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEqual( $result['added'],    1 );
+                
+        $params = array(
+                        'contact_id_i' => $individualId,
+                        'contact_id_o' => $organizationId,
+                        'tag_id'       => $tagID
+                        );
+        
+        $result = civicrm_entity_tag_add( $params );
+        
+        $this->assertEqual( $result['is_error'],  0 );
+        $this->assertEqual( $result['added'],     1 );
+        $this->assertEqual( $result['not_added'], 1 );
+        
+        $this->contactDelete( $individualId   );
+        $this->contactDelete( $organizationId );
+        $this->tagDelete(     $tagID          );
     }
     
     function tearDown( ) 

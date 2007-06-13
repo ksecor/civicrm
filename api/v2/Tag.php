@@ -83,19 +83,20 @@ function civicrm_tag_create( &$params )
 /**
  * Deletes an existing Tag
  *
- * @param  id  $tag    Id of the tag to be deleted
+ * @param  array  $params
  * 
- * @return NULL | error  null if successfull, error otherwise
+ * @return boolean | error  true if successfull, error otherwise
  * @access public
  */
-function civicrm_tag_delete( &$tagId ) 
+function civicrm_tag_delete( &$params ) 
 {
-    if ( ! $tagId ) {
-        return civicrm_create_error( 'Invalid value for tagId' );
+    $tagID = CRM_Utils_Array::value( 'tag_id', $params );
+    if ( ! $tagID ) {
+        return civicrm_create_error( ts( 'Could not find tag_id in input parameters' ) );
     }
     
     require_once 'CRM/Core/BAO/Tag.php';
-    return CRM_Core_BAO_Tag::del( $tagId ) ? null : civicrm_create_error('Error while deleting tag');
+    return CRM_Core_BAO_Tag::del( $tagID ) ? civicrm_create_success( ) : civicrm_create_error(  ts( 'Could not delete tag' )  );
 }
 
 ?>

@@ -115,7 +115,7 @@ function civicrm_event_get( &$params )
 {
     _civicrm_initialize();
     if ( ! is_array($params) ) {
-        return civicrm_create_error('Params is not an array.');
+        return civicrm_create_error('Params is not an array');
     }
     if ( ! isset($params['event_id'])) {
         return civicrm_create_error('Required id (event ID) parameter is missing.');
@@ -144,8 +144,8 @@ function civicrm_event_get( &$params )
  * @access public
  */  
 
-function civicrm_event_search(&$params ) {
-
+function civicrm_event_search( &$params ) 
+{
     $inputParams      = array( );
     $returnProperties = array( );
     $otherVars = array( 'sort', 'offset', 'rowCount' );
@@ -184,8 +184,7 @@ function civicrm_event_search(&$params ) {
     while ( $dao->fetch( ) ) {
         $event[$dao->event_id] = $query->store( $dao );
     }
-  
- 
+    
     require_once 'CRM/Core/BAO/CustomGroup.php';
     $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $dao->event_id, false,1);
     CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false ); 
@@ -195,10 +194,8 @@ function civicrm_event_search(&$params ) {
       }
     }
     
- 
     $dao->free( );
     return $event;
-
 }
 
 
@@ -207,17 +204,20 @@ function civicrm_event_search(&$params ) {
  * 
  * This API is used for deleting a event
  * 
- * @param  Int  $eventID    ID of event to be deleted
+ * @param  Array  $params    array containing event_id to be deleted
  * 
- * @return boolean        true if success, else false
+ * @return boolean        true if success, error otherwise
  * @access public
  */
-function &civicrm_event_delete( &$eventID ) {
+function &civicrm_event_delete( &$params ) 
+{
+    $eventID = CRM_Utils_Array::value( 'event_id', $params );
+    
     if ( ! $eventID ) {
-        return civicrm_create_error( 'Invalid value for eventID' );
+        return civicrm_create_error( ts( 'Invalid value for eventID' ) );
     }
     require_once 'CRM/Event/BAO/Event.php';
-    $eventDelete = CRM_Event_BAO_Event::del($eventID);
-    return $eventDelete ? null : civicrm_create_error('Error while deleting event');
+    
+    return CRM_Event_BAO_Event::del( $eventID ) ?  civicrm_create_success( ) : civicrm_create_error( ts( 'Error while deleting event' ) );
 }
 ?>
