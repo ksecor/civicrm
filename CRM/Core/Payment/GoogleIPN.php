@@ -188,6 +188,7 @@ class CRM_Core_Payment_GoogleIPN {
             $contribution->trxn_id = "mid" . $membershipTypeID;
         }
 
+        // CRM_Core_Error::debug_var( 'c', $contribution );
         $contribution->save( );
     }
     
@@ -203,6 +204,7 @@ class CRM_Core_Payment_GoogleIPN {
     function orderStateChange( $status, $dataRoot, $component ) {
         $component = strtolower($component);
 
+        // CRM_Core_Error::debug_var( "$status, $component", $dataRoot );
         $orderNo   = $dataRoot['google-order-number']['VALUE'];
         
         require_once 'CRM/Contribute/DAO/Contribution.php';
@@ -214,6 +216,7 @@ class CRM_Core_Payment_GoogleIPN {
             return;
         }
         
+        // CRM_Core_Error::debug_var( 'c', $contribution );        
         if ( $status == 'PAYMENT_DECLINED' || 
              $status == 'CANCELLED_BY_GOOGLE' || 
              $status == 'CANCELLED' ) {        
@@ -248,7 +251,6 @@ class CRM_Core_Payment_GoogleIPN {
                 echo "Failure: Could not find payment processor for contribution record: $contributionID<p>";
                 return;
             }
-            $isTest = self::retrieve( 'test_ipn'     , 'Integer', 'POST', false );
         }
         
         // lets start since payment has been made
@@ -292,6 +294,7 @@ class CRM_Core_Payment_GoogleIPN {
 
         CRM_Core_DAO::transaction( 'BEGIN' );
         
+        // CRM_Core_Error::debug_var( 'CT', $contribution );
         $contribution->save( );
         
         require_once 'CRM/Core/Config.php';
@@ -406,15 +409,16 @@ WHERE  v.option_group_id = g.id
             $template->assign( 'title', $values['event']['title']);
 
             require_once "CRM/Event/BAO/EventPage.php";
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $values['page'] );
+            CRM_Event_BAO_EventPage::sendMail( $contactID, $values['page'], $participant->id );
             
         } elseif ( $component == "contribute" ) {
             $template->assign( 'title',   $values['title']);
             
             require_once 'CRM/Contribute/BAO/ContributionPage.php';
-            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values );
+            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values, $contribution->id );
         }
 
+        CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );
         echo "Success: Database updated<p>";
     }
 
@@ -428,12 +432,7 @@ WHERE  v.option_group_id = g.id
      */  
     static function &singleton( $mode, $component, &$paymentProcessor ) {
         if ( self::$_singleton === null ) {
-            $config       =& CRM_Core_Config::singleton( );
-            $paymentClass = "CRM_{$component}_" . $paymentProcessor['class_name'] . "IPN";
-            
-            $classPath = str_replace( '_', '/', $paymentClass ) . '.php';
-            require_once($classPath);
-            self::$_singleton = eval( 'return ' . $paymentClass . '::singleton( $mode, $paymentProcessor );' );
+            self::$_singleton = new CRM_Core_Payment_GoogleIPN( $mode, $paymentProcessor );
         }
         return self::$_singleton;
     }
@@ -511,6 +510,7 @@ WHERE  v.option_group_id = g.id
                 echo "Failure: Could not find contribution page for contribution record: $contributionID<p>";
                 exit( );
             }
+
             // get the payment processor id from contribution page
             $paymentProcessorID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
                                                                $contribution->contribution_page_id,
@@ -559,7 +559,7 @@ WHERE  v.option_group_id = g.id
         require_once('Google/library/xml-processing/xmlparser.php');
         
         $config =& CRM_Core_Config::singleton();
-        define('RESPONSE_HANDLER_LOG_FILE', $config->uploadDir . 'CiviCRM.log');
+        define('RESPONSE_HANDLER_LOG_FILE', $config->uploadDir . 'CiviCRM.Google.log');
         
         //Setup the log file
         if (!$message_log = fopen(RESPONSE_HANDLER_LOG_FILE, "a")) {
@@ -593,7 +593,7 @@ WHERE  v.option_group_id = g.id
         $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID,
                                                                        $mode );
         
-        $ipn    =& self::singleton( $mode, $module, $paymentProcessor );
+        $ipn    =& self::singleton( $mode, $paymentProcessor );
         
         // Create new response object
         $merchant_id  = $paymentProcessor['user_name'];
@@ -652,15 +652,15 @@ WHERE  v.option_group_id = g.id
                 break;
             }
             case 'CHARGED': {
-                $ipn->orderStateChange('CHARGED', $data[$root]);
+                $ipn->orderStateChange('CHARGED', $data[$root], $module);
                 break;
             }
             case 'PAYMENT_DECLINED': {
-                $ipn->orderStateChange('PAYMENT_DECLINED', $data[$root]);
+                $ipn->orderStateChange('PAYMENT_DECLINED', $data[$root], $module);
                 break;
             }
             case 'CANCELLED': {
-                $ipn->orderStateChange('CANCELLED', $data[$root]);
+                $ipn->orderStateChange('CANCELLED', $data[$root], $module);
                 break;
             }
             case 'CANCELLED_BY_GOOGLE': {
