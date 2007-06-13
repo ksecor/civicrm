@@ -34,11 +34,6 @@
  */
 
 
-require_once 'CRM/Utils/System/Drupal.php';
-require_once 'CRM/Utils/System/Joomla.php' ;
-require_once 'CRM/Utils/System/Soap.php' ;
-require_once 'CRM/Utils/System/Standalone.php';
-
 /**
  * System wide utilities.
  *
@@ -259,6 +254,7 @@ class CRM_Utils_System {
         }
 
         $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return eval( 'return ' . $config->userFrameworkClass . '::url( $path, $query, $absolute, $fragment, $htmlize );' );
 
     }
@@ -305,6 +301,7 @@ class CRM_Utils_System {
      */
     function setTitle( $title ) {
         $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return eval( $config->userFrameworkClass . '::setTitle( $title );' );
     }
 
@@ -427,6 +424,7 @@ class CRM_Utils_System {
      */
     static function appendBreadCrumb( $bc ) {
         $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return eval( 'return ' . $config->userFrameworkClass . '::appendBreadCrumb( $bc );' );
     }
 
@@ -439,6 +437,7 @@ class CRM_Utils_System {
      */
     static function resetBreadCrumb( ) {
         $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return eval( 'return ' . $config->userFrameworkClass . '::resetBreadCrumb( );' );
     }
 
@@ -453,6 +452,7 @@ class CRM_Utils_System {
      */
     static function addHTMLHead( $bc ) {
         $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return eval( 'return ' . $config->userFrameworkClass . '::addHTMLHead( $bc );' );
     }
 
@@ -467,6 +467,7 @@ class CRM_Utils_System {
      */
     static function postURL( $action ) {
         $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return eval( 'return ' . $config->userFrameworkClass . '::postURL( $action  ); ' );
     }
 
@@ -481,6 +482,7 @@ class CRM_Utils_System {
         $config   =& CRM_Core_Config::singleton( ); 
 
         $config->userFrameworkBaseURL = str_replace( 'http://', 'https://', $config->userFrameworkBaseURL );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return eval( 'return ' . $config->userFrameworkClass . '::mapConfigToSSL( ); ' );
     }
 
@@ -542,6 +544,7 @@ class CRM_Utils_System {
      */ 
     static function authenticate( $name, $password ) {
         $config =& CRM_Core_Config::singleton( ); 
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return  
             eval( 'return ' . $config->userFrameworkClass . '::authenticate($name, $password);' ); 
 
@@ -557,6 +560,7 @@ class CRM_Utils_System {
      */  
     static function setUFMessage( $message ) {
         $config =& CRM_Core_Config::singleton( );  
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return   
             eval( 'return ' . $config->userFrameworkClass . '::setMessage( $message );' );
     }

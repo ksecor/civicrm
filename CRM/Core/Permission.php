@@ -33,11 +33,6 @@
  *
  */
 
-require_once 'CRM/Core/Permission/Drupal.php';
-require_once 'CRM/Core/Permission/Joomla.php';
-require_once 'CRM/Core/Permission/Soap.php';
-require_once 'CRM/Core/Permission/Standalone.php';
-
 /**
  * This is the basic permission class wrapper
  */
@@ -68,6 +63,7 @@ class CRM_Core_Permission {
      */
     public static function getPermission( ) {
         $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userPermissionClass ) . '.php' );
         return eval( 'return ' . $config->userPermissionClass . '::getPermission( );' );
     }
 
@@ -81,10 +77,8 @@ class CRM_Core_Permission {
      * @access public
      */
     static function check( $str ) {
-        static $config = null;
-        if ( ! $config ) {
-            $config   =& CRM_Core_Config::singleton( );
-        }
+        $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userPermissionClass ) . '.php' );
         return eval( 'return ' . $config->userPermissionClass . '::check( $str ); ' );
     }
     
@@ -100,6 +94,7 @@ class CRM_Core_Permission {
      */
     public static function whereClause( $type, &$tables, &$whereTables ) {
         $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userPermissionClass ) . '.php' );
         return eval( 'return ' . $config->userPermissionClass . '::whereClause( $type, $tables, $whereTables );' );
     }
 
@@ -115,6 +110,7 @@ class CRM_Core_Permission {
      */
     public static function group( ) {
         $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userPermissionClass ) . '.php' );
         return eval( 'return ' . $config->userPermissionClass . '::group( );' );
     }
 
