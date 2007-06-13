@@ -823,6 +823,7 @@ SELECT count(*) as count,
   FROM civicrm_contribution b
  WHERE b.contact_id IN ( $contactIDs )
    AND b.contribution_status_id = 1
+   AND b.is_test = 0
    AND b.receive_date >= $startDate
    AND b.receive_date <  $endDate
 ";

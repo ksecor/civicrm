@@ -294,35 +294,36 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         if ( $contribution->id &&
              CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
 
-            $formValues = array( );
+            // Retrieve Contribution Type Name from contribution_type_id
+            $this->_params['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                                $this->_params['contribution_type_id'] );          
 
-            //Retrieve Contribution Type Name from contribution_type_id
-            $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
-                                                                                $this->_params['contribution_type_id'] );
-            
-            // Retrieve the name and email from receipt is to be send
-            $session =& CRM_Core_Session::singleton( );
-            $userID = $session->get( 'userID' );
-            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
-            
-            $formValues['receipt_from_name']  = $userName;
-            $formValues['receipt_from_email'] = $userEmail;
+            // Retrieve payment instrument name (from hard-coded payment_instrument_id = 1, credit card)
+            $paymentInstrumentGroup = array();
+            $paymentInstrumentGroup['name'] = 'payment_instrument';
+            require_once 'CRM/Core/BAO/OptionGroup.php';
+            CRM_Core_BAO_OptionGroup::retrieve($paymentInstrumentGroup, $paymentInstrumentGroup);
+            $paymentInstrument = array();
+            $paymentInstrument['value']            = 1;      
+            $paymentInstrument['option_group_id']  = $paymentInstrumentGroup['id'];
+            require_once 'CRM/Core/BAO/OptionValue.php';
+            CRM_Core_BAO_OptionValue::retrieve($paymentInstrument, $paymentInstrument);
+            $this->_params['paidBy'] = $paymentInstrument['label'];
 
-            // assigned various dates to the templates
-            $this->assign('receive_date',
-                          CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($this->_params['receive_date'])));
-            $this->assign('receipt_date',
-                          CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($this->_params['receipt_date'])));
+            $this->_params['trxn_id'] = $result['trxn_id'];
 
-            list( $contributorDisplayName, $contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
-
-            $this->assign_by_ref( 'formValues', $formValues );
+            $this->assign_by_ref( 'formValues', $this->_params );
 
             $template =& CRM_Core_Smarty::singleton( );
             $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
 
+            // Retrieve the name and email of the current user - this will be the FROM for the receipt email
+            $session =& CRM_Core_Session::singleton( );
+            $userID = $session->get( 'userID' );
+            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+            $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
+            list( $contributorDisplayName, $contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
             $subject = ts('Contribution Receipt');
-            $receiptFrom = '"' . $formValues['receipt_from_name'] . '" <' . $formValues['receipt_from_email'] . '>';
          
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
@@ -331,6 +332,8 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
                                   $subject,
                                   $message);
         }
+
+        CRM_Core_Session::setStatus( 'The contribution has been processed and a receipt has been emailed to the contributor.' );
 
     }
     
