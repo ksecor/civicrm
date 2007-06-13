@@ -109,19 +109,7 @@
         <div class="messages help">{$field.groupHelpPost}</div>
     {/if}
 
-{if $drupalCms }
- <br><div>{$form.create_account.html} {$form.create_account.label}</div>
- {if $cmsCid neq 1}
- <div class="messages help">{ts}If you would like to create an account on this site, fill in your username and password{/ts}</div>
- {/if}
- <div id="details">
-  <table class="form-layout-compressed">
-    <tr><td>{$form.name.label}</td> <td>{$form.name.html}</td></tr>
-    <tr><td>{$form.pass.label}</td> <td> {$form.pass.html}</td></tr>        
-    <tr><td>{$form.confirm_pass.label}</td> <td> {$form.confirm_pass.html}</td></tr>
-  </table>        
- </div>
-{/if}
+{include file="CRM/common/CMSUser.tpl"}
 
     {if $mode eq 8}
         </fieldset>
@@ -177,7 +165,7 @@
  {
    var cmsId = {/literal}'{$cmsCid}'{literal};
    if ( cmsId ) {
-     alert("You are logged-in user");
+     alert("You are a logged-in user");
      frm.checked = false;
    } else {
      var siteName = {/literal}'{$config->userFrameworkBaseURL}'{literal};

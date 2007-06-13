@@ -345,7 +345,6 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
                                                   civicrm_get_ctype( 'Individual' ) );
     case 'register':
         $config =& CRM_Core_Config::singleton( );
-
         if ( $config->cmsCall ) {
             return;
         }
@@ -358,6 +357,11 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         return;
 
     case 'insert':
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->cmsCall ) {
+            return;
+        }
+ 
         return civicrm_register_data($edit, $user, $category, false);
 
     case 'view':

@@ -122,21 +122,21 @@ class CRM_Core_BAO_CMSUser
         $config  =& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
             $values = array( 
-                            'name' => $params['name'],
+                            'name' => $params['cms_name'],
                             'mail' => $params[$mail],
                             );
             if ( !variable_get('user_email_verification', TRUE )) {
-                $values['pass'] = array('pass1' => $params['pass'],
-                                        'pass2' => $params['confirm_pass']);
+                $values['pass'] = array('pass1' => $params['cms_pass'],
+                                        'pass2' => $params['cms_confirm_pass']);
 
             }
 
             $config->cmsCall = true;
             
-            drupal_execute( 'user_register', $values );
+            $res = drupal_execute( 'user_register', $values );
             
             $config->cmsCall = false;
-            
+
             if ( form_get_errors( ) ) {
                 return false;
             }
@@ -157,9 +157,9 @@ class CRM_Core_BAO_CMSUser
     static function buildForm ( &$form, $gid, $cms ) 
     {
         $config =& CRM_Core_Config::singleton( );
-        $drupalCms = false;
+        $showCMS = false;
         // if cms is drupal having version greater than equal to 5.1
-        // then drupalCms will true
+        // then showCMS will true
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
             if ( $gid ) {
                 $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
@@ -170,18 +170,71 @@ class CRM_Core_BAO_CMSUser
                 $form->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra);
                 $session =& CRM_Core_Session::singleton( );
                 $cmsCid = $session->get( 'userID' );
-                if( !$cmsCid ) {
-                    $form->add('text', 'name', ts('User Name'));
+                if( ! $cmsCid ) {
+                    $form->add('text', 'cms_name', ts('User Name') );
                     if ( !variable_get('user_email_verification', TRUE )) {
-                        $form->add('password', 'pass', ts('Password'));
-                        $form->add('password', 'confirm_pass', ts('Confirm Password'));
+                        $form->add('password', 'cms_pass', ts('Password') );
+                        $form->add('password', 'cms_confirm_pass', ts('Confirm Password') );
                     }
+                    $form->addFormRule( array( 'CRM_Core_BAO_CMSUser', 'formRule' ), $form );
                 }
-                $drupalCms = true;
+                $showCMS = true;
             } 
         }
+        $form->assign( 'showCMS', $showCMS ); 
+    }
 
-        $form->assign( 'drupalCms', $drupalCms ); 
+    static function formRule( &$fields, &$files, &$self ) {
+        if ( CRM_Utils_Array::value( 'create_account', $fields ) ) {
+            $config  =& CRM_Core_Config::singleton( );
+            if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
+                $errors = array( );
+                $emailName = 'email-' . $self->_bltID;
+                if ( empty( $fields['cms_name'] ) ) {
+                    $errors['cms_name'] = ts( 'Please specify a CMS user name' );
+                }
+                if ( empty( $fields[ $emailName ] ) ) {
+                    $errors[$emailName] = ts( 'Please specify a valid email address' );
+                }
+                if ( ! variable_get('user_email_verification', TRUE ) ) {
+                    if ( empty( $fields['cms_pass'] ) ||
+                         empty( $fields['cms_confirm_pass'] ) ) {
+                        $errors['cms_pass'] = ts( 'Please enter a password' );
+                    }
+                    if ( $fields['cms_pass'] != $fields['cms_confirm_pass'] ) {
+                        $errors['cms_pass'] = ts( 'The password fields do not match' );
+                    }
+                }
+
+                if ( ! empty( $errors ) ) {
+                    return $errors;
+                }
+
+                // now check that the drupal db does not have the user name and/or email
+                $params = array( 'name' => $fields['name'],
+                                 'mail' => $fields[$emailName] );
+                _user_edit_validate(null, $params );
+                $errors = form_get_errors( );
+                if ( $errors ) {
+                    if ( CRM_Utils_Array::value( 'name', $errors ) ) {
+                        $errors['cms_name'] = $errors['name'];
+                    } else if ( CRM_Utils_Array::value( 'mail', $errors ) ) {
+                        $errors[$emailName] = $errors['mail'];
+                    } else {
+                        $errors['cms_name'] = $errors[$emailName] = implode( '<br/>', array_values( $errors ) );
+                    }
+                    // also unset drupal messages to avoid twice display of errors
+                    unset( $_SESSION['messages'] );
+                }
+                if ( ! empty( $errors ) ) {
+
+                    return $errors;
+                }
+
+
+            }
+        }
+        return true;
     }
 
 }

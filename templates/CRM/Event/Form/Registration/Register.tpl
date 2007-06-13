@@ -64,20 +64,7 @@
     <tr><td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
  </table>
   
- {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
- {if $preCms }{*true if is_cms_user field is set *}
- <br><div>{$form.create_account.html} {$form.create_account.label}</div>
- {if $cId neq 1 }
- <div class="messages help">{ts}If you would like to create an account on this site, fill in your username and password{/ts}</div>
- {/if}
- <div id="details">
-  <table class="form-layout-compressed">
-    <tr><td>{$form.name.label}</td> <td>{$form.name.html}</td></tr>
-    <tr><td>{$form.pass.label}</td> <td> {$form.pass.html}</td></tr>        
-    <tr><td>{$form.confirm_pass.label}</td> <td> {$form.confirm_pass.html}</td></tr>
-  </table>        
- </div>
- {/if}
+{include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
 
 {if $paidEvent}   
 {if $form.credit_card_number}
@@ -121,20 +108,9 @@
 {/if}        
 {/if}        
 
- {include file="CRM/UF/Form/Block.tpl" fields=$customPost}   
- {if $postCms }{*true if is_cms_user field is set *}
- <br><div>{$form.create_account.html} {$form.create_account.label}</div>
- {if $cId neq 1 }
- <div class="messages help">{ts}If you would like to create an account on this site, fill in your username and password{/ts}</div>
- {/if}
- <div id="details">
-  <table class="form-layout-compressed">
-    <tr><td>{$form.name.label}</td> <td>{$form.name.html}</td></tr>
-    <tr><td>{$form.pass.label}</td> <td> {$form.pass.html}</td></tr>        
-    <tr><td>{$form.confirm_pass.label}</td> <td> {$form.confirm_pass.html}</td></tr>
-  </table>        
- </div>
- {/if} 
+{include file="CRM/UF/Form/Block.tpl" fields=$customPost}   
+
+{include file="CRM/common/CMSUser.tpl"}
 
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *}
 {if $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}

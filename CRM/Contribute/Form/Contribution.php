@@ -501,7 +501,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @access public 
      * @return None 
      */ 
-    public function postProcess()  
+    public function postProcess( )  
     { 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             require_once 'CRM/Contribute/BAO/Contribution.php';
