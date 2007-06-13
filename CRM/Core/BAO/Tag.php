@@ -83,17 +83,20 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
         require_once 'CRM/Core/DAO/EntityTag.php';
         $entityTag =& new CRM_Core_DAO_EntityTag( );
         $entityTag->tag_id = $id;
-        $entityTag->find();
-        while ( $entityTag->fetch() ) {
-            $entityTag->delete();
+        if ( $entityTag->find( ) ) {
+            while ( $entityTag->fetch() ) {
+                $entityTag->delete();
+            }
         }
         
         // delete from tag table
         $tag =& new CRM_Core_DAO_Tag( );
         $tag->id = $id;
-        $tag->delete();
-        CRM_Core_Session::setStatus( ts('Selected Tag has been Deleted Successfuly.') );
-        return true;
+        if ( $tag->delete( ) ) {
+            CRM_Core_Session::setStatus( ts('Selected Tag has been Deleted Successfuly.') );
+            return true;
+        }
+        return false;
     }
 
     /**

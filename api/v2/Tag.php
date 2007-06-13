@@ -46,7 +46,7 @@ require_once 'api/v2/utils.php';
  * @return array of newly created tag property values.
  * @access public
  */
-function crm_tag_create( &$params ) 
+function civicrm_tag_create( &$params ) 
 {
     _civicrm_initialize( );
     
@@ -88,7 +88,7 @@ function crm_tag_create( &$params )
  * @return NULL | error  null if successfull, error otherwise
  * @access public
  */
-function crm_tag_delete( &$tagId ) 
+function civicrm_tag_delete( &$tagId ) 
 {
     if ( ! $tagId ) {
         return civicrm_create_error( 'Invalid value for tagId' );
