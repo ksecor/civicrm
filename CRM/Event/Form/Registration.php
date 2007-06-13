@@ -185,9 +185,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
             $this->_paymentProcessor =
-                CRM_Core_BAO_PaymentProcessor::getPayment( $this->_values['event']['payment_processor_id'],
+                CRM_Core_BAO_PaymentProcessor::getPayment( CRM_Utils_Array::value( 'payment_processor_id',$this->_values['event'] ),
                                                            $this->_mode );
-
+            
             // make sure we have a valid payment class, else abort
             if ( $this->_values['event']['is_monetary'] && ! $this->_paymentProcessor ) {
                 CRM_Core_Error::fatal( ts( 'Payment Processor is not set.' ) );
