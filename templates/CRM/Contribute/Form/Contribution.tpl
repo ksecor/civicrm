@@ -44,7 +44,7 @@
 </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</td></tr>
       </table>
-      {include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1}
+      {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
 
  <div id="id-additional-show" class="section-hidden section-hidden-border" style="clear: both;">
         <a href="#" onclick="hide('id-additional-show'); show('id-additional'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Details{/ts}</label><br />

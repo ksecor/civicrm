@@ -56,7 +56,7 @@
     </div>
 
      <br clear="all" />
-    {   include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1} 
+    {   include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1} 
     <dl> 
      
   {/if}

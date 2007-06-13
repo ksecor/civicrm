@@ -91,23 +91,4 @@
 </dl>  
 {/if}
 
-<script type="text/javascript"> 
-    var showBlocks = new Array({$showBlocks1}); 
-    var hideBlocks = new Array({$hideBlocks1}); 
- 
-{* hide and display the appropriate blocks as directed by the php code *} 
-    on_load_init_blocks( showBlocks, hideBlocks ); 
 
-
-{literal}
-
-
-function popUp(URL) {
-day = new Date();
-id = day.getTime();
-eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=640,height=420,left = 202,top = 184');");
-}
-{/literal}
-
- </script> 
- 
