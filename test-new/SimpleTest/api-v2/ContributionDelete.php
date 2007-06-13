@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Contribute.php';
 
-class TestOfDeleteContributionAPIV2 extends CiviUnitTestCase 
+class TestOfContributionDeleteAPIV2 extends CiviUnitTestCase 
 {
     /**
      * Assume empty database with just civicrm_data

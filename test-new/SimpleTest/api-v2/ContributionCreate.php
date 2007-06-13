@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Contribute.php';
 
-class TestOfCreateContributionAPIV2 extends CiviUnitTestCase 
+class TestOfContributionCreateAPIV2 extends CiviUnitTestCase 
 {
     /**
      * Assume empty database with just civicrm_data
