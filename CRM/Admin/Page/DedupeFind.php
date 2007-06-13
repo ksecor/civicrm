@@ -69,7 +69,7 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
                   CRM_Core_Action::UPDATE  => array(
                       'name'  => ts('Use Rule'),
                       'url'   => 'civicrm/admin/dedupefind',
-                      'qs'    => 'action=update&id=%%id%%',
+                      'qs'    => 'reset=1&action=update&rgid=%%id%%',
                       'title' => ts('Use DedupeRule'),
                   ),
               );
@@ -98,6 +98,8 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
         $id = CRM_Utils_Request::retrieve('id', 'Positive', $this, false, 0);
 
         // which action to take?
+        // FIXME: the whole action/Page-vs.-Form abuse
+        // in the case of DedupeFind should be fixed
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $this->edit($action, $id);
         }

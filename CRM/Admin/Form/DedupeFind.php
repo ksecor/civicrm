@@ -40,6 +40,8 @@ require_once 'CRM/Dedupe/DAO/RuleGroup.php';
 
 class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
 {
+    protected $_cid = null;
+    protected $_rgid;
     protected $_mainContacts;
     protected $_dupeContacts;
 
@@ -52,7 +54,8 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
     function preProcess()
     {
         // FIXME: move this to CRM_Dedupe_BAO_RuleGroup::getCriteriaArray()
-        $rgid   = CRM_Utils_Request::retrieve('id', 'Positive', $this, false, 0);
+        $cid    = CRM_Utils_Request::retrieve('cid',  'Positive', $this, false, 0);
+        $rgid   = CRM_Utils_Request::retrieve('rgid', 'Positive', $this, false, 0);
         $rgDao =& new CRM_Dedupe_DAO_RuleGroup();
         $rgDao->id = $rgid;
         $rgDao->find(true);
@@ -103,6 +106,8 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
             }
             $dupeContacts[$mainId] = $localDupes;
         }
+        if ($cid) $this->_cid = $cid;
+        $this->_rgid = $rgid;
         $this->_mainContacts = $mainContacts;
         $this->_dupeContacts = $dupeContacts;
     }
@@ -117,6 +122,8 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
     {
         $this->assign('main_contacts', $this->_mainContacts);
         $this->assign('dupe_contacts', $this->_dupeContacts);
+        if ($this->_cid) $this->assign('cid', $this->_cid);
+        $this->assign('rgid', $this->_rgid);
     }
 
     function setDefaultValues()
