@@ -189,7 +189,7 @@ class CiviUnitTestCase extends UnitTestCase {
                         'domain_id'   => '1'
                         );
         
-        $tag =& crm_tag_create($params);
+        $tag =& civicrm_tag_create($params);
         return $tag['tag_id'];
     }
 }

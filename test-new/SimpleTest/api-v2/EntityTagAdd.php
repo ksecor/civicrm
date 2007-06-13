@@ -28,7 +28,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $this->assertEqual( $individualEntity['is_error'], 0 );
         $this->assertEqual( $individualEntity['added'], 1 );
         $this->contactDelete( $params['contact_id'] );
-        crm_tag_delete($tagID);
+        civicrm_tag_delete($tagID);
     }
       
     function testHouseholdEntityTagAddEmptyParams( ) 
@@ -50,7 +50,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $this->assertEqual( $householdEntity['is_error'], 0 );
         $this->assertEqual( $householdEntity['added'], 1 );
         $this->contactDelete( $params['contact_id'] );
-        crm_tag_delete($tagID);
+        civicrm_tag_delete($tagID);
     }
     
     function testOrganizationEntityTagAddEmptyParams( ) 
@@ -73,7 +73,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $this->assertEqual( $organizationEntity['is_error'], 0 );
         $this->assertEqual( $organizationEntity['added'], 1 );
         $this->contactDelete( $params['contact_id'] );
-        crm_tag_delete($tagID);
+        civicrm_tag_delete($tagID);
     }
     
     function tearDown( ) 

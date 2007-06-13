@@ -20,7 +20,6 @@ class TestOfTagDeleteAPIV2 extends CiviUnitTestCase
         $tag = "noID";
         
         $tagDelete =& civicrm_tag_delete($tag);
-        print_r($tagDelete);
         $this->assertEqual($tagDelete['is_error'],1 );
         
     }
