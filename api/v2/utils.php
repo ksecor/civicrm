@@ -185,16 +185,18 @@ function _civicrm_custom_format_params( &$params, &$values, $extends )
  * @return bool true if success false otherwise
  * @access public
  */
-function _civicrm_check_required_fields(&$params, $daoName)
+function _civicrm_check_required_fields( &$params, $daoName)
 {
-    if ( ( $params['extends'] == 'Activity' || 
-           $params['extends'] == 'Phonecall'  || 
-           $params['extends'] == 'Meeting'    || 
-           $params['extends'] == 'Group'      || 
-           $params['extends'] == 'Contribution' 
-           ) && 
-         ( $params['style'] == 'Tab' ) ) {
-        return _civicrm_create_error(ts("Can not create Custom Group in Tab for ". $params['extends']));
+    if ( isset($params['extends'] ) ) {
+        if ( ( $params['extends'] == 'Activity' || 
+            $params['extends'] == 'Phonecall'  || 
+            $params['extends'] == 'Meeting'    || 
+            $params['extends'] == 'Group'      || 
+            $params['extends'] == 'Contribution' 
+            ) && 
+            ( $params['style'] == 'Tab' ) ) {
+            return _civicrm_create_error(ts("Can not create Custom Group in Tab for ". $params['extends']));
+        }
     }
 
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
@@ -206,9 +208,11 @@ function _civicrm_check_required_fields(&$params, $daoName)
         if ($k == 'id') {
             continue;
         }
-        
-        if ($v['required'] && !(isset($params[$k]))) {
-            $missing[] = $k;
+
+        if ( isset( $v['required'] ) ) {
+            if ($v['required'] && !(isset($params[$k]))) {
+                $missing[] = $k;
+            }
         }
     }
 
