@@ -117,8 +117,7 @@ class CRM_Core_BAO_CMSUser
      * @access public
      * @static
      */
-    static function create ( &$params, $mail ) 
-        {
+    static function create ( &$params, $mail ) {
         $config  =& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
             $values = array( 
@@ -131,7 +130,7 @@ class CRM_Core_BAO_CMSUser
 
             }
 
-            $config->cmsCall = true;
+            $config->inCiviCRM = true;
             
             $res = drupal_execute( 'user_register', $values );
             
@@ -149,12 +148,12 @@ class CRM_Core_BAO_CMSUser
      *
      * @param object  $form
      * @param integer $gid id of group of profile
+     * @param string $emailPresent true, if the profile field has email(primary)
      *
-     * @param string $cms true, if the profile field has email(primary)
      * @access public
      * @static
      */
-    static function buildForm ( &$form, $gid, $cms ) 
+    static function buildForm ( &$form, $gid, $emailPresent ) 
     {
         $config =& CRM_Core_Config::singleton( );
         $showCMS = false;
@@ -163,15 +162,15 @@ class CRM_Core_BAO_CMSUser
         // then showCMS will true
         if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >=5.1 ) {
             if ( $gid ) {
-                $cmsUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
+                $isCMSUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
             }
             // $cms is true when there is email(primary location) is set in the profile field.
-            if ( $cmsUser && $cms) {
-                $extra = array('onclick' => "if (this.checked) showMessage(this); return showHideByValue('create_account', '', 'details','block','radio',false );");
-                $form->addElement('checkbox', 'create_account', ts('Create an account for CMS?'), null, $extra);
+            if ( $isCMSUser && $emailPresent) {
+                $extra = array('onclick' => "if (this.checked) showMessage(this); return showHideByValue('cms_create_account', '', 'details','block','radio',false );");
+                $form->addElement('checkbox', 'cms_create_account', ts('Create an account for CMS?'), null, $extra);
                 $session =& CRM_Core_Session::singleton( );
-                $cmsCid = $session->get( 'userID' );
-                if( ! $cmsCid ) {
+                $userID = $session->get( 'userID' );
+                if( ! $userID ) {
                     $form->add('text', 'cms_name', ts('User Name') );
                     if ( !variable_get('user_email_verification', TRUE )) {
                         $form->add('password', 'cms_pass', ts('Password') );
@@ -186,7 +185,7 @@ class CRM_Core_BAO_CMSUser
     }
 
     static function formRule( &$fields, &$files, &$self ) {
-        if ( CRM_Utils_Array::value( 'create_account', $fields ) ) {
+        if ( CRM_Utils_Array::value( 'cms_create_account', $fields ) ) {
             $config  =& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Drupal' && $config->userFrameworkVersion >= 5.1 ) {
                 $errors = array( );
@@ -246,7 +245,6 @@ class CRM_Core_BAO_CMSUser
                     // also unset drupal messages to avoid twice display of errors
                     unset( $_SESSION['messages'] );
                 }
-                CRM_Core_Error::debug( 'e', $errors );
 
                 if ( ! empty( $errors ) ) {
                     return $errors;

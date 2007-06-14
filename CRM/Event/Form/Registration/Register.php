@@ -131,34 +131,25 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
-        require_once 'CRM/Core/BAO/UFGroup.php' ;
-        //to create an cms user 
-        $profile = new CRM_Core_BAO_UFGroup();
         $session =& CRM_Core_Session::singleton( );
-        $cId = $session->get( 'userID' );
-        if ( $cId ) {
-            $this->assign('cId', true);
-        }
-        $addCMS = false;
-        if ( $this->_values['custom_pre_id'] ) {
-            $profile->id = $this->_values['custom_pre_id'];
-            $profile->find(true);
-            if ( $profile->is_cms_user ) {
+        $userID = $session->get( 'userID' );
+        if ( ! $userID ) {
+            $createCMSUser = false;
+            if ( $this->_values['custom_pre_id'] ) {
+                $profileID = $this->_values['custom_pre_id'];
+                $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', 'is_cms_user', $profileID );
+            }
+            if ( ! $createCMSUser &&
+                 $this->_values['custom_post_id'] ) {
+                $profileID = $this->_values['custom_post_id'];
+                $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', 'is_cms_user', $profileID );
+            }
+
+            if ( $createCMSUser ) {
                 require_once 'CRM/Core/BAO/CMSUser.php';
-                CRM_Core_BAO_CMSUser::buildForm( $this, $this->_values['custom_pre_id'] , true );
-                $addCMS = true;
+                CRM_Core_BAO_CMSUser::buildForm( $this, $profileID , true );
             }
         }
-
-        if (! $addCMS && $this->_values['custom_post_id'] ) {
-            $profile->id = $this->_values['custom_post_id'];
-            $profile->find(true);
-            if ( $profile->is_cms_user ) {
-                require_once 'CRM/Core/BAO/CMSUser.php';
-                CRM_Core_BAO_CMSUser::buildForm( $this, $this->_values['custom_post_id'] , true );
-            } 
-        }
-
 
         $uploadNames = $this->get( 'uploadNames' );
         $buttonName = empty( $uploadNames ) ? 'next' : 'upload';

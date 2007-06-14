@@ -278,12 +278,16 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
 
-        $cId = $session->get( 'userID' );
-        $cmsCid = false;// if false, user is not logged-in. 
-        if ( $cId ) {
-            list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($cId);
-            $cmsCid = true; 
-            $this->assign('cmsCid', 1);
+        $userID = $session->get( 'userID' );
+        $authUser = false; // if false, user is not logged-in. 
+        if ( $userID ) {
+            list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+            $authUser = true; 
+            $this->assign('authUser', 1);
+        } else {
+            require_once 'CRM/Core/BAO/LocationType.php';
+            $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
+            $primaryLocationType = $defaultLocationType->id;
         }
 
         $addCaptcha = array();
@@ -327,11 +331,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         
             if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
-                $cms = true;
-                $this->_mail = 'email-Primary';
-                if ( !$this->_mail ) {
-                    $this->_mail = 'email-' . $primaryLocationType;
-                }
+                $emailPresent = true;
+                $this->_mail = $name;
             }
         }
 
@@ -375,9 +376,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
 
-        if ( $this->_mode == self::MODE_CREATE && ! $cmsCid ) {
+        if ( $this->_mode == self::MODE_CREATE && ! $authUser ) {
             require_once 'CRM/Core/BAO/CMSUser.php';
-            CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $cms );
+            CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $emailPresent );
         } else {
             $this->assign( 'showCMS', false );
         }
@@ -613,7 +614,8 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
         
         //create CMS user (if CMS user option is selected in profile)
-        if ( $params['create_account']  && $this->_mode == self::MODE_CREATE ) {
+        if ( CRM_Utils_Array::value( 'cms_create_account', $params ) &&
+             $this->_mode == self::MODE_CREATE ) {
             require_once "CRM/Core/BAO/CMSUser.php";
             if ( ! CRM_Core_BAO_CMSUser::create( $params, $this->_mail ) ) {
                 CRM_Core_Session::setStatus( ts('Your profile is not saved and Account is not created.') );
