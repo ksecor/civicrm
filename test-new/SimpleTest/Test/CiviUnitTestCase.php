@@ -368,6 +368,14 @@ class CiviUnitTestCase extends UnitTestCase {
         
         return $result['id'];
     }
+    
+    function membershipDelete( $membershipID ) {
+        $result = civicrm_membership_delete( $membershipID );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not delete membership' );
+        }
+        return;
+    }
 }
 
 ?>
