@@ -137,12 +137,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $createCMSUser = false;
             if ( $this->_values['custom_pre_id'] ) {
                 $profileID = $this->_values['custom_pre_id'];
-                $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', 'is_cms_user', $profileID );
+                $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', $profileID, 'is_cms_user' );
             }
             if ( ! $createCMSUser &&
                  $this->_values['custom_post_id'] ) {
                 $profileID = $this->_values['custom_post_id'];
-                $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', 'is_cms_user', $profileID );
+                $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', $profileID , 'is_cms_user');
             }
 
             if ( $createCMSUser ) {

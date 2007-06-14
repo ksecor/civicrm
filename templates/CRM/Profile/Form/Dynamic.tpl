@@ -161,6 +161,13 @@
   {
      window.open(path,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,screenX=150,screenY=150,top=150,left=150')
   }
+
+  if ( document.getElementsByName("cms_create_account")[0].checked ) {
+     show('details');
+  } else {
+     hide('details');
+  }
+
  function showMessage( frm )
  {
    var cmsId = {/literal}'{$cmsCid}'{literal};

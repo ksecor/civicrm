@@ -134,6 +134,11 @@
 </div>
 <script type="text/javascript">
 {literal}
+ if ( document.getElementsByName("cms_create_account")[0].checked ) {
+     show('details');
+  } else {
+     hide('details');
+  }
  function showMessage( frm )
  {
    var cId = {/literal}'{$cId}'{literal};

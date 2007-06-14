@@ -180,22 +180,23 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
        
         //to create an cms user 
+        $session =& CRM_Core_Session::singleton( );
         $userID = $session->get( 'userID' );
         if ( ! $userID ) {
             $createCMSUser = false;
             if ( $this->_values['custom_pre_id'] ) {
                 $profileID = $this->_values['custom_pre_id'];
-                $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', 'is_cms_user', $profileID );
+                $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup',  $profileID,'is_cms_user' );
             }
             if ( ! $createCMSUser &&
                  $this->_values['custom_post_id'] ) {
                 $profileID = $this->_values['custom_post_id'];
-                $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', 'is_cms_user', $profileID );
+                $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', $profileID, 'is_cms_user' );
             }
 
             if ( $createCMSUser ) {
                 require_once 'CRM/Core/BAO/CMSUser.php';
-                CRM_Core_BAO_CMSUser::buildForm( $this, $profileID , $cms );
+                CRM_Core_BAO_CMSUser::buildForm( $this, $profileID , true );
             }
         }
         
