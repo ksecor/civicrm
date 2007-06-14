@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Participant.php';
 
-class TestOfParticipantPaymentDelete extends CiviUnitTestCase 
+class TestOfParticipantPaymentDeleteAPIV2 extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_participantID;
