@@ -4,8 +4,9 @@ if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
 	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 }
 
-// this rerun configure.php if it has not been run before
-// do we really need it?
+// this has been moved here from install.civicrm.php
+// because the 1.5 installer does not
+// run the below script at end iof install
 if ( ! file_exists( 'civicrm.settings.php' ) ) {
 	global $database;
     global $mosConfig_absolute_path;
