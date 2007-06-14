@@ -114,6 +114,16 @@ class CiviUnitTestCase extends UnitTestCase {
         return;
     }
    
+    function membershipStatusCreate( $name = 'test member status' ) 
+    {
+        $params['name'] = $name;
+        $result = civicrm_membership_status_create( $params );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not create membership status' );
+        }
+        return $result['id'];
+    }
+    
     function membershipStatusDelete( $membershipStatusID ) 
     {
         $params['id'] = $membershipStatusID;

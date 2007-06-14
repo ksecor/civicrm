@@ -10,7 +10,7 @@ class TestOfMembershipTypeGetAPIV2 extends CiviUnitTestCase
     function setUp() 
     {
         $this->_contactID           = $this->organizationCreate( ) ;
-        $this->_contributionTypeID  = $this->createContributeType();
+        $this->_contributionTypeID  = $this->contributionTypeCreate();
     }
        
     function testMembershipTypeGetEmpty()
@@ -23,7 +23,8 @@ class TestOfMembershipTypeGetAPIV2 extends CiviUnitTestCase
     {
         $params = array(
                         'name'                 => '60+ Membership',
-                        'description'          => 'people above 60 are given health instructions',                        'contribution_type_id' => $this->_contributionTypeID ,
+                        'description'          => 'people above 60 are given health instructions',
+                        'contribution_type_id' => $this->_contributionTypeID ,
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
                         'duration_interval'    => '10',
@@ -53,7 +54,7 @@ class TestOfMembershipTypeGetAPIV2 extends CiviUnitTestCase
     function tearDown() 
     {
         $this->contactDelete( $this->_contactID ) ;
-        $this->deleteContributeType( $this->_contributionTypeID );
+        $this->contributionTypeDelete( $this->_contributionTypeID );
     }
 }
 

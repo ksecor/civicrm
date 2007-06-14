@@ -265,16 +265,25 @@ class CRM_Profile_Form extends CRM_Core_Form
             $inactiveNeeded = false;
         }
         
+        $session  =& CRM_Core_Session::singleton( );
+
         // should we restrict what we display
         $admin = true;
         if ( $this->_mode == self::MODE_EDIT ) {
             $admin = false;
-            $session  =& CRM_Core_Session::singleton( );
             // show all fields that are visibile: if we are a admin or the same user or in registration mode
             if ( CRM_Core_Permission::check( 'administer users' ) ||
                  $this->_id == $session->get( 'userID' )                 ) {
                 $admin = true;
             }
+        }
+
+        $cId = $session->get( 'userID' );
+        $cmsCid = false;// if false, user is not logged-in. 
+        if ( $cId ) {
+            list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($cId);
+            $cmsCid = true; 
+            $this->assign('cmsCid', 1);
         }
 
         $addCaptcha = array();
@@ -316,14 +325,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( $field['add_captcha'] ) {
                 $addCaptcha[$field['group_id']] = $field['add_captcha'];
             }
-            $session =& CRM_Core_Session::singleton( );
-            $cId = $session->get( 'userID' );
-            $cmsCid = false;// if false, user is not logged-in. 
-            if ( $cId ) {
-                list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($cId);
-                $cmsCid = true; 
-                $this->assign('cmsCid', 1);
-            }
         
             if ( $name == 'email-Primary' || $name == 'email-' . $primaryLocationType ) {
                 $cms = true;
@@ -333,6 +334,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
+
         $setCaptcha = false;
         
         // do this only for CiviCRM created forms
@@ -373,7 +375,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
 
-        if ( ! $cmsCid ) {
+        if ( $this->_mode == self::MODE_CREATE && ! $cmsCid ) {
             require_once 'CRM/Core/BAO/CMSUser.php';
             CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $cms );
         } else {
