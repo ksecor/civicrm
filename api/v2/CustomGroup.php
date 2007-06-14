@@ -54,6 +54,73 @@ require_once 'api/v2/utils.php';
  *
  */
 
+/**
+ * Use this API to create a new group. See the CRM Data Model for custom_group property definitions
+ * $params['class_name'] is a required field, class being extended.
+ *
+ * @param $params     array   Associative array of property name/value pairs to insert in group.
+ *
+ *
+ * @return   Newly create custom_group object
+ *
+ * @access public 
+ */
+function civicrm_custom_group_create($params)
+{
+    _civicrm_initialize( );
+    if(! trim($params['class_name']) ) {
+        return civicrm_error( "class_name is not set" );
+    }
+    
+    if(! is_array($params) ) {
+        return civicrm_error( "params is not an array ");
+    }
+
+    $params['extends'] = $params['class_name'];
+    $error = _civicrm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
+    
+    if (is_a($error, 'CRM_Core_Error')) {
+        return civicrm_create_error( $error->_errors[0]['message'] );
+    }
+    require_once 'CRM/Core/BAO/CustomGroup.php';
+    $customGroup = CRM_Core_BAO_CustomGroup::create($params);
+
+    if ( is_a( $customGroup, 'CRM_Core_Error' ) ) {
+        return civicrm_create_error( $customGroup->_errors[0]['message'] );
+    } else {
+        $values = array( );
+        $values['custom_group_id'] = $customGroup->id;
+        $values['is_error']   = 0;
+    }
+    return $values;
+}
+
+
+/**
+ * Use this API to delete an existing group.
+ *
+ * @param array id of the group to be deleted
+ *
+ * @return Null if success
+ * @access public
+ **/
+function civicrm_custom_group_delete($params)
+{    
+    _civicrm_initialize( );
+    
+    if ( !is_array( $params ) ) {
+        return civicrm_create_error( 'Params is not an array' );
+    }
+
+    if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
+        return civicrm_create_error( 'Invalid or no value for Custom group ID' );
+    }
+    
+    require_once 'CRM/Core/BAO/CustomGroup.php';
+    $result = CRM_Core_BAO_CustomGroup::deleteGroup($params['id']);
+    return $result ? civicrm_create_success( ): civicrm_error('Error while deleting custom group');
+}
+
 
 /**
  *
