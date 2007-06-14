@@ -67,7 +67,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         if ( ! self::dataExists( $params, $locationId, $ids ) ) {
             return null;
         }
-        
+
         $location =& new CRM_Core_BAO_Location( );
         
         if (! isset($params['contact_id'])) {
@@ -79,6 +79,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             $location->entity_id    = $params['contact_id'];
         }
         $location->location_type_id = CRM_Utils_Array::value( 'location_type_id', $params['location'][$locationId] );
+
         // For backward compatibility, checking for name AND location_name. At some point, migrate to only using location_name.
         $location->name             = CRM_Utils_Array::value( 'location_name', $params['location'][$locationId] );
         if ( ! $location->name ) {

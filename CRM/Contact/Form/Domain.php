@@ -160,8 +160,12 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $params['entity_table'] = CRM_Core_BAO_Domain::getTableName();
         $domain = CRM_Core_BAO_Domain::edit($params, $this->_id);
 
+        require_once 'CRM/Core/BAO/LocationType.php';
+        $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
+
         $location = array();
         for ($locationId = 1; $locationId <= self::LOCATION_BLOCKS ; $locationId++) { // start of for loop for location
+            $params['location'][$locationId]['location_type_id'] = $defaultLocationType->id;
             $location[$locationId] = CRM_Core_BAO_Location::add($params, $this->_ids, $locationId);
         }
         
