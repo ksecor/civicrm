@@ -64,6 +64,11 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
 
     function preProcess( ) {
         
+        CRM_Utils_System::setTitle(ts('CiviMail Domain Information'));
+        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin', 'reset=1' );
+        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Administer CiviCRM') . '</a>';
+        CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+
         $this->_id = CRM_Core_Config::domainID();
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                       $this, false, 'view' );
@@ -115,10 +120,14 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $this->add('text', 'email_return_path', ts('Return-Path:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
         $this->addRule( "email_return_path", ts('Email is not valid.'), 'email' );
         
+        //blocks to be displayed
+        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);       
         require_once 'CRM/Contact/Form/Location.php';
-        $this->assign( 'locationCount', 2 );
-        $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
-        
+        $locationCompoments = array('Phone', 'Email');
+        CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS ,$locationCompoments);
+        $this->assign( 'index' , 1 );
+        $this->assign( 'blockCount'   , 1 );
+
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),

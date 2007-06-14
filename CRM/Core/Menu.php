@@ -636,18 +636,6 @@ class CRM_Core_Menu {
                            ),
                       
                      array(
-                           'path'    => 'civicrm/contact/domain',
-                           'title'   => ts('Domain Information'),
-                           'desc'    => ts('Configure primary contact name, email, and address information for this site. This information is used by CiviMail to identify the sending organization.'), 
-                           'query'  => 'reset=1&action=update',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/small/domain.png',
-                           'weight'  => 230
-                           ),
-
-                     array(
                            'path'    => 'civicrm/admin/dupematch',
                            'title'   => ts('Duplicate Matching'),
                            'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 

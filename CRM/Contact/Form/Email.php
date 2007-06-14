@@ -51,6 +51,7 @@ class CRM_Contact_Form_Email
      * @static
      */
     static function buildEmailBlock(&$form, &$location, $locationId, $count) {
+        require_once 'CRM/Core/ShowHideBlocks.php';
        
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? ts('Email (preferred)') : ts('Email');

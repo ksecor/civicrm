@@ -63,7 +63,7 @@ class CRM_Mailing_Menu {
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                                 'adminGroup' => 'CiviMail',
+                                 'adminGroup' => ts('CiviMail'),
                                  'icon'    => 'admin/small/07.png',
                                  'weight'  => 400
                                  ),
@@ -75,10 +75,24 @@ class CRM_Mailing_Menu {
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,  
-                                 'adminGroup' => 'CiviMail',
+                                 'adminGroup' => ts('CiviMail'),
                                  'icon'    => 'admin/small/Profile.png',
                                  'weight'  => 410,
                                  ),
+
+                           array(
+                                 'path'    => 'civicrm/contact/domain',
+                                 'title'   => ts('Domain Information'),
+                                 'desc'    => ts('Configure primary contact name, email, return-path and address information. This information is used by CiviMail to identify the sending organization.'), 
+                                 'query'  => 'reset=1&action=update',
+                                 'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,  
+                                 'adminGroup' => ts('CiviMail'),
+                                 'icon'    => 'admin/small/domain.png',
+                                 'weight'  => 420
+                                 ),
+                           
                            
                            );
             break;
