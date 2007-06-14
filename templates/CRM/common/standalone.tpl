@@ -43,6 +43,8 @@
     {include file=$tplFile}
   {/if}
 
-  {include file="CRM/common/footer.tpl"}
+  <div style="clear: both">
+    {include file="CRM/common/footer.tpl"}
+  </div>
 
 </div>
