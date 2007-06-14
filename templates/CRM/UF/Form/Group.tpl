@@ -55,11 +55,11 @@
     <dt>{$form.add_contact_to_group.label}</dt><dd>{$form.add_contact_to_group.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a group if you are using this profile for adding new contacts, AND you want the new contacts to be automatically assigned to a group.{/ts}</dd>
     <dt>{$form.notify.label}</dt><dd>{$form.notify.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}If you want member(s) of your organization to receive a notification email whenever this Profile form is used to enter or update contact information, enter one or more email addresses here. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>
+    <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}If you want member(s) of your organization to receive a notification email whenever this Profile form is used to enter or update contact information, enter one or more email addresses here. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>
     <dt></dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the profile title to be displayed when the page is initially loaded (form fields are hidden until the user expands the form by clicking on the "plus" icon).{/ts}</dd>
     <dt>{$form.post_URL.label}</dt><dd>{$form.post_URL.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL after they've submitted the form - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed with a generic status message - 'Your contact information has been saved.'{/ts}</dd>
+    <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL after they've submitted the form - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed with a generic status message - 'Your contact information has been saved.'{/ts}</dd>
     <dt>{$form.cancel_URL.label}</dt><dd>{$form.cancel_URL.html}</dd>  
     <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL if they click the Cancel button - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed.{/ts}</dd>
     <dt></dt><dd>{$form.add_captcha.html} {$form.add_captcha.label}</dd>
@@ -75,9 +75,13 @@
     <dt></dt><dd>{$form.is_edit_link.html} {$form.is_edit_link.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to include a link in the listings to Edit profile fields. Only users with permission to edit the contact will see this link.{/ts}</dd>
     <dt></dt><dd>{$form.is_update_dupe.html} {$form.is_update_dupe.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, the contact record is updated if a dupe match is found. Note that if there are multiple matches, the first match found is updated.{/ts}</dd>
-    <dt></dt><dd>{$form.is_cms_user.html} {$form.is_cms_user.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, Create a Drupal User from a Profile.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, the contact record is updated if a matching existing record is found. Note that if there are multiple matches, the first match found is updated.{/ts}</dd>
+
+    {if $config->userFramework == 'Drupal' AND $config->userFrameworkVersion >=5.1} {* Create CMS user only available for Drupal installs. *}
+        <dt></dt><dd>{$form.is_cms_user.html} {$form.is_cms_user.label}</dd>
+        <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup form OR using it in an online contribution page, anonymous users will be given the option to create a Drupal User Account as part of completing the form.
+                                                This feature requires the 'Email Verification' option to be checked (Drupal User Settings). In addition, you must include a Primary Email Address field in the profile.{/ts}</dd>
+    {/if}
     </dl>
     </div> 
     {/if}

@@ -1,4 +1,6 @@
 {if $showCMS }{*true if is_cms_user field is set *}
+ {* NOTE: We are currently not supporting the Drupal registration mode where user enters their password. But logic is left here for when we figure it out. *}
+
  {capture assign="loginUrl"}{$config->userFrameworkBaseURL}{/capture}
  <fieldset>
     <div class="messages help">

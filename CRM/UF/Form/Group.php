@@ -259,7 +259,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             $showAdvanced = 0;
             $advFields = array('group', 'collapse_display', 'post_URL', 'cancel_URL',
                                'add_captcha', 'is_map', 'is_uf_link', 'is_edit_link',
-                               'is_update_dupe');
+                               'is_update_dupe', 'is_cms_user');
             foreach($advFields as $key) {
                 if ( !empty($defaults[$key]) ) {
                     $showAdvanced = 1;
