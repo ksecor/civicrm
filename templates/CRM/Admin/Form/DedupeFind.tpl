@@ -10,8 +10,8 @@
   <table style="width: 45%; float: left; margin: 10px;">
     <tr class="columnheader"><th colspan="2">{ts}Potentially Duplicate Contacts{/ts}</th></tr>
     {foreach from=$main_contacts item=main_name key=main_id}
-      {capture assign=link}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$main_id"}">{$main_name}</a>{/capture}
-      {capture assign=select}<a href="{crmURL p='civicrm/admin/dedupefind' q="reset=1&action=update&rgid=$rgid&cid=$main_id"}">{ts}select{/ts}</a>{/capture}
+      {capture assign=link}<a href="{crmURL p='civicrm/contact/view' q="reset=1&gid=$gid&cid=$main_id"}">{$main_name}</a>{/capture}
+      {capture assign=select}<a href="{crmURL p='civicrm/admin/dedupefind' q="reset=1&action=update&rgid=$rgid&gid=$gid&cid=$main_id"}">{ts}select{/ts}</a>{/capture}
       {if $cid and $cid == $main_id}
         <tr class="columnheader"><td>{$main_name}</td><td style="text-align: right;">→</td></tr>
       {else}

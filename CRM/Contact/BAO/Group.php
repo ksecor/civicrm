@@ -152,6 +152,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @static
      */
     static function getMember ($lngGroupId) {
+        require_once 'CRM/Contact/DAO/GroupContact.php';
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         
         $strSql = "SELECT civicrm_contact.id as contact_id, civicrm_contact.sort_name as name  
@@ -162,6 +163,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
         $groupContact->query($strSql);
 
+        $aMembers = array();
         while ($groupContact->fetch()) {
             $aMembers[$groupContact->contact_id] = $groupContact->name;
         }

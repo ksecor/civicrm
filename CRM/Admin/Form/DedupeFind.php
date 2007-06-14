@@ -53,8 +53,10 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
      */
     function preProcess()
     {
-        // FIXME: move this to CRM_Dedupe_BAO_RuleGroup::getCriteriaArray()
+        // FIXME: move the civicrm_dedupe_rule* operations
+        // to CRM_Dedupe_BAO_RuleGroup::getCriteriaArray()
         $cid    = CRM_Utils_Request::retrieve('cid',  'Positive', $this, false, 0);
+        $gid    = CRM_Utils_Request::retrieve('gid',  'Positive', $this, false, 0);
         $rgid   = CRM_Utils_Request::retrieve('rgid', 'Positive', $this, false, 0);
         $rgDao =& new CRM_Dedupe_DAO_RuleGroup();
         $rgDao->id = $rgid;
@@ -73,7 +75,11 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
             );
         }
 
-        $foundDupes = CRM_Dedupe_Finder::findDupes($search, $rgDao->threshold, $rgDao->contact_type);
+        if ($gid) {
+            $foundDupes = CRM_Dedupe_Finder::findDupesInGroup($gid, $search, $rgDao->threshold, $rgDao->contact_type);
+        } else {
+            $foundDupes = CRM_Dedupe_Finder::findDupes($search, $rgDao->threshold, $rgDao->contact_type);
+        }
         if (!$foundDupes) {
             $this->assign('no_dupes', true);
             return;
@@ -107,6 +113,7 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
             $dupeContacts[$mainId] = $localDupes;
         }
         if ($cid) $this->_cid = $cid;
+        if ($gid) $this->_gid = $gid;
         $this->_rgid = $rgid;
         $this->_mainContacts = $mainContacts;
         $this->_dupeContacts = $dupeContacts;
@@ -123,11 +130,16 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         $this->assign('main_contacts', $this->_mainContacts);
         $this->assign('dupe_contacts', $this->_dupeContacts);
         if ($this->_cid) $this->assign('cid', $this->_cid);
+        if ($this->_gid) $this->assign('gid', $this->_gid);
         $this->assign('rgid', $this->_rgid);
     }
 
     function setDefaultValues()
     {
+        if ($this->_cid) {
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/dedupefind', "reset=1&action=update&rgid={$this->_rgid}&gid={$this->_gid}&cid={$this->_cid}"));
+        }
     }
 
     /**

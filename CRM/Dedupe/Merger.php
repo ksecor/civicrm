@@ -229,15 +229,19 @@ class CRM_Dedupe_Merger
         $mainId  = (int) $mainId;
         $otherId = (int) $otherId;
 
+        // use UPDATE IGNORE + DELETE query pair to skip on situations when 
+        // there's a UNIQUE restriction on ($field, some_other_field) pair
         foreach ($affected as $table) {
             if (isset($cidRefs[$table])) {
                 foreach ($cidRefs[$table] as $field) {
-                    $sqls[] = "UPDATE $table SET $field = $mainId WHERE $field = $otherId";
+                    $sqls[] = "UPDATE IGNORE $table SET $field = $mainId WHERE $field = $otherId";
+                    $sqls[] = "DELETE FROM $table WHERE $field = $otherId";
                 }
             }
             if (isset($eidRefs[$table])) {
                 foreach ($eidRefs[$table] as $entityTable => $entityId) {
-                    $sqls[] = "UPDATE $table SET $entityId = $mainId WHERE $entityId = $otherId AND $entityTable = 'civicrm_contact'";
+                    $sqls[] = "UPDATE IGNORE $table SET $entityId = $mainId WHERE $entityId = $otherId AND $entityTable = 'civicrm_contact'";
+                    $sqls[] = "DELETE FROM $table WHERE $entityId = $otherId AND $entityTable = 'civicrm_contact'";
                 }
             }
         }

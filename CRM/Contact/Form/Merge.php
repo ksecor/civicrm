@@ -220,6 +220,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
     public function buildQuickForm()
     {
+        CRM_Utils_System::setTitle(ts('Merge Contacts'));
         $this->addButtons(array(
             array('type' => 'next',   'name' => ts('Merge'), 'isDefault' => true),
             array('type' => 'cancel', 'name' => ts('Cancel')),

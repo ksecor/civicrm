@@ -97,9 +97,7 @@ class CRM_Dedupe_Finder
         // for each contact_id find its dupes, but 
         // intersect the result with this group's contacts
         foreach ($members as $cid) {
-            if (!$contactType or $dao->contact_type == $contactType) {
-                $dupes[$cid] = array_intersect(self::findDupesOfContact($cid, $params, $threshold, $contactType), $members);
-            }
+            $dupes[$cid] = array_intersect(self::findDupesOfContact($cid, $params, $threshold, $contactType), $members);
         }
         // return dropping empty matches
         return array_filter($dupes);
@@ -118,9 +116,7 @@ class CRM_Dedupe_Finder
         $dao->domain_id = CRM_Core_Config::domainID();
         $dao->find();
         while ($dao->fetch()) {
-            if (!$contactType or $dao->contact_type == $contactType) {
-                $dupes[$dao->id] = self::findDupesOfContact($dao->id, $params, $threshold, $contactType);
-            }
+            $dupes[$dao->id] = self::findDupesOfContact($dao->id, $params, $threshold, $contactType);
         }
         // return dropping empty matches
         return array_filter($dupes);
