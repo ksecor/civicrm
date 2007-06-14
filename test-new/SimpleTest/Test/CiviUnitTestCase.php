@@ -396,6 +396,58 @@ class CiviUnitTestCase extends UnitTestCase {
         return $result['id'];
     }
     
+    /**
+     * Function to create Group for a contact
+     * 
+     * @param int $contactId
+     */
+    function contactGroupCreate( $contactId )
+    {
+        $params = array(
+                        'contact_id.1' => $contactId,
+                        'group_id'     => 1 );
+        civicrm_group_contact_add( $params );
+    }
+    
+    /**
+     * Function to delete Group for a contact
+     * 
+     * @param array $params
+     */
+    function contactGroupDelete( $contactId )
+    {
+        $params = array(
+                        'contact_id.1' => $contactId,
+                        'group_id'     => 1 );
+       civicrm_group_contact_remove( $params );
+    }
+
+    /**
+     * Function to create Activity 
+     * 
+     * @param int $contactId
+     */
+    function activityCreate( $individualSourceID, $individualTargetID )
+    {
+        $params = array(
+                        'source_contact_id' => $individualSourceID,
+                        'target_entity_table' => 'civicrm_contact',
+                        'target_entity_id' => $individualTargetID ,
+                        'subject' => 'Disscussion on Apis for v2',
+                        'scheduled_date_time' => date('Ymd'),
+                        'duration_hours' =>30,
+                        'duration_minutes' => 20,
+                        'location' => 'Pensulvania',
+                        'details' => 'a meeting activity',
+                        'status' => 'Scheduled',
+                        'parent_id' => 1, 
+                        'activity_name' =>'Meeting',
+                        );
+        $activity =& civicrm_activity_create($params);
+        return $activity;
+    }
+
+    
 }
 
 ?>
