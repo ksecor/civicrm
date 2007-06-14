@@ -388,8 +388,16 @@ class CiviUnitTestCase extends UnitTestCase {
      */    
     function locationAdd( $contactID ) 
     {
-        $params['contact_id'] = $contactID;
-        
+        $params = array('contact_id'             => $contactID,
+                        'location_type'          => 'Main',
+                        'is_primary'             => 1,
+                        'name'                   => 'Saint Helier St',
+                        'county'                 => 'Marin',
+                        'country'                => 'India', 
+                        'state_province'         => 'Michigan',
+                        'supplemental_address_1' => 'Hallmark Ct', 
+                        'supplemental_address_2' => 'Jersey Village'
+                        );
         $result = civicrm_location_add( $params );
         
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
@@ -397,7 +405,7 @@ class CiviUnitTestCase extends UnitTestCase {
             CRM_Core_Error::fatal( 'Could not create location' );
         }
         
-        return $result['id'];
+        return $result;
     }
     
     /**
@@ -538,6 +546,7 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         return;
     }
+   
 }
 
 ?>

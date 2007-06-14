@@ -120,13 +120,15 @@ function civicrm_location_update( $params ) {
  * @access public
  *
  */
-function civicrm_location_delete( &$contact ) {
+function civicrm_location_delete( &$contact ) {     
     _civicrm_initialize( );
     
     if( ! isset( $contact['contact_id'] ) ) {
         return civicrm_create_error( ts('$contact is not valid contact datatype') );
     } 
-    $locationId = (int) $contact['location_type'];
+    $locationId = $contact['location_type'];
+
+
     if (! $locationId ) {
         return civicrm_create_error('missing or invalid $location_id');
     }
@@ -340,17 +342,17 @@ function &_civicrm_location_update( $params,$locationArray ) {
 }
 
 function &_civicrm_location_delete( $contact,$locationId ) {
-    
+    require_once "CRM/Core/DAO/Location.php";
     $locationDAO =& new CRM_Core_DAO_Location();
     $locationDAO->entity_table = 'civicrm_contact';
     $locationDAO->entity_id    = $contact['contact_id'];
-    $locationDAO->id           = $locationId;
+    $locationDAO->location_type_id = $locationId;
     if (!$locationDAO->find()) {
         return civicrm_create_error( ts('invalid $location_id') );
     }
     $locationDAO->fetch();
-    
-    CRM_Core_BAO_Location::deleteLocationBlocks($locationId);
+
+    CRM_Core_BAO_Location::deleteLocationBlocks($locationDAO->id);
     // if we're deleting primary, lets change another one to primary
     if ($locationDAO->is_primary) {
         $otherLocationDAO =& new CRM_Core_DAO_Location();

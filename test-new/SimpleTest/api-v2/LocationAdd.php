@@ -105,13 +105,11 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
     
     function testAddLocationOrganizationWithAddressEmail()
     {
-        //$workPhone  = & new CRM_Core_DAO_Phone();
+
         $workPhone = array( 'phone'      => '91-20-276048',
                             'phone_type' => 'Phone'
                             );
         
-             
-        //$workFax    =& new CRM_Core_DAO_Phone();
         $workFax = array('phone'      => '91-20-234-657686',
                          'phone_type' => 'Fax',
                          'is_primary' => TRUE
@@ -119,19 +117,16 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
         
         $phone     = array ($workPhone, $workFax);
         
-        //$workIMFirst  =& new CRM_Core_DAO_IM();
         $workIMFirst = array('name'        => 'abc',
                              'provider_id' => '1',
                              'is_primary'  => FALSE
                              );
         
-        //$workIMSecond =& new CRM_Core_DAO_IM();
         $workIMSecond = array('name'       => 'abc',
                              'provider_id' => '3',
                              'is_primary'  => FALSE
                               );
         
-        //$workIMThird  =& new CRM_Core_DAO_IM();
         $workIMThird = array('name'        => 'abc',
                              'provider_id' => '5',
                              'is_primary'  => TRUE
@@ -139,13 +134,10 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
         
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
         
-        //$workEmailFirst  =& new CRM_Core_DAO_Email();
         $workEmailFirst = array('email' => 'abc@def.com');
         
-        //$workEmailSecond =& new CRM_Core_DAO_Email();
         $workEmailSecond = array('email' => 'yash@hotmail.com');
         
-        //$workEmailThird =& new CRM_Core_DAO_Email();
         $workEmailThird = array('email' => 'yashi@yahoo.com');
         
         $email = array($workEmailFirst, $workEmailSecond, $workEmailThird);
