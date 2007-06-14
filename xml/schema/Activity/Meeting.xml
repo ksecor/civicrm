@@ -45,7 +45,42 @@
        <comment>Foreign key to the referenced item.</comment>
        <add>1.1</add>
   </field>
-
+  <field>
+       <name>activity_tag1_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>Foreign key to the referenced item.</comment>
+       <add>1.8</add>
+  </field>
+  <index>
+       <name>UI_activity_tag1_id</name>
+       <fieldName>activity_tag1_id</fieldName>
+       <add>1.8</add>
+  </index> 
+  <field>
+       <name>activity_tag2_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>Foreign key to the referenced item.</comment>
+       <add>1.8</add>
+  </field>
+  <index>
+       <name>UI_activity_tag2_id</name>
+       <fieldName>activity_tag2_id</fieldName>
+       <add>1.8</add>
+  </index> 
+  <field>
+       <name>activity_tag3_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>Foreign key to the referenced item.</comment>
+       <add>1.8</add>
+  </field>
+  <index>
+       <name>UI_activity_tag3_id</name>
+       <fieldName>activity_tag3_id</fieldName>
+       <add>1.8</add>
+  </index>
  <field>
       <name>subject</name>
       <type>varchar</type>

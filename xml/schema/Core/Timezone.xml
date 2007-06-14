@@ -31,6 +31,19 @@
        <add>1.8</add>
   </field>
   <field>
+      <name>gmt</name>
+      <type>varchar</type>
+       <length>64</length>
+      <comment>GMT name of the timezone</comment>
+       <add>1.8</add>
+  </field>
+  <field>
+      <name>offset</name>
+      <type>int</type>
+      <comment></comment>
+       <add>1.8</add>
+  </field>
+  <field>
       <name>country_id</name>
       <type>int unsigned</type>
       <required>true</required>
@@ -44,3 +57,4 @@
       <add>1.8</add>
   </foreignKey>
 </table>
+
