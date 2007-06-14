@@ -169,8 +169,10 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
             $location[$locationId] = CRM_Core_BAO_Location::add($params, $this->_ids, $locationId);
         }
         
-        CRM_Core_Session::setStatus( ts('The Domain "%1" has been saved.', array( 1 => $domain->name )) );
-        
+        CRM_Core_Session::setStatus( ts('Domain information for "%1" has been saved.', array( 1 => $domain->name )) );
+        $session =& CRM_Core_Session::singleton( );
+        $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin', 'reset=1' ) );
+
     }
     
 }
