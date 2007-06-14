@@ -2,7 +2,7 @@
 
 // Add the packages to the include path
 $include_path = ini_get('include_path');
-ini_set('include_path', "/data/drupal/modules/civicrm/packages:$include_path");
+ini_set('include_path', "/data/civicrm:/data/civicrm/packages:$include_path");
 
 // Pull in the settings file
 include_once 'civicrm.settings.php';
