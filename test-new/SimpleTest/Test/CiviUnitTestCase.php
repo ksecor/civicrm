@@ -92,7 +92,6 @@ class CiviUnitTestCase extends UnitTestCase {
         
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
-            CRM_Core_Error::debug( 'r', $r );
             CRM_Core_Error::fatal( 'Could not create membership type' );
         }
         
@@ -115,7 +114,6 @@ class CiviUnitTestCase extends UnitTestCase {
         
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
-            CRM_Core_Error::debug( 'result', $result );
             CRM_Core_Error::fatal( 'Could not create membership' );
         }
         
@@ -349,18 +347,20 @@ class CiviUnitTestCase extends UnitTestCase {
     
     function participantPaymentCreate( $participantID ) 
     {
+        require_once 'api/v2/Participant.php';
         //Create Participant Payment record With Values
         $params = array(
                         'participant_id'       => $participantID,
                         'payment_entity_table' => 'civicrm_contribute',           
-                        'payment_entity_id'    => 3
+                        'payment_entity_id'    => 5
                         );
         
-        $participantPayment = & civicrm_participant_create_payment( $params );
+        $participantPayment = & civicrm_participant_payment_create( $params );
         if ( CRM_Utils_Array::value( 'is_error', $participantPayment ) ||
              ! CRM_Utils_Array::value( 'id', $participantPayment ) ) {
             CRM_Core_Error::fatal( 'Could not create participant payment' );
         }
+        
         return $participantPayment['id'];
     }
 
@@ -373,7 +373,7 @@ class CiviUnitTestCase extends UnitTestCase {
     function participantPaymentDelete( $paymentID ) 
     {
         require_once 'api/v2/Participant.php';
-        $result = & civicrm_participant_delete_payment( $paymentID );
+        $result = & civicrm_participant_payment_delete( $paymentID );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete participant payment' );
         }
@@ -394,7 +394,6 @@ class CiviUnitTestCase extends UnitTestCase {
         
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
-            CRM_Core_Error::debug( 'r', $r );
             CRM_Core_Error::fatal( 'Could not create location' );
         }
         
@@ -470,7 +469,7 @@ class CiviUnitTestCase extends UnitTestCase {
                         'is_active'  => 1
                         );
 
-        $result =& civicrm_custom_group_create($params);crm_Core_error::Debug('$result',$result);
+        $result =& civicrm_custom_group_create($params);
          if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'custom_group_id', $result) ) {
              CRM_Core_Error::fatal( 'Could not create Custom Group' );

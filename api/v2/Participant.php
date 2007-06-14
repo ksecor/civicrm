@@ -275,7 +275,7 @@ function civicrm_participant_delete(&$participantID)
  * @return array of newly created payment property values.
  * @access public
  */
-function civicrm_participant_create_payment(&$params)
+function civicrm_participant_payment_create(&$params)
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
@@ -285,15 +285,20 @@ function civicrm_participant_create_payment(&$params)
     if ( !isset($params['participant_id']) || !isset($params['payment_entity_id']) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
+   
+    $ids= array();
 
-    require_once 'CRM/Event/DAO/ParticipantPayment.php';
-    $participantPaymentDAO =& new CRM_Event_DAO_ParticipantPayment();
-    $participantPaymentDAO->copyValues($params);
-    $participantPaymentDAO = $participantPaymentDAO->save();
-    
-    $participantPayment = array();
-    _civicrm_object_to_array($participantPaymentDAO, $participantPayment);
-    return $participantPayment;
+    require_once 'CRM/Event/BAO/ParticipantPayment.php';
+    $participantPayment = CRM_Event_BAO_ParticipantPayment::create($params, $ids);
+
+    if ( is_a( $participantPayment, 'CRM_Core_Error' ) ) {
+        return civicrm_create_error( "Participant payment could not be created" );
+    } else {
+        $payment = array( );
+        $payment['id'] = $participantPayment->id;
+        $payment['is_error']   = 0;
+    }
+    return $payment;
 }
 
 /**
@@ -307,7 +312,7 @@ function civicrm_participant_create_payment(&$params)
  * @return array of updated participant_payment property values
  * @access public
  */
-function civicrm_participant_update_payment(&$params)
+function civicrm_participant_payment_update( &$params )
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
@@ -317,23 +322,16 @@ function civicrm_participant_update_payment(&$params)
     if ( !isset($params['id']) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
-    
-    require_once 'CRM/Event/DAO/ParticipantPayment.php';
-    $participantPaymentBAO =& new CRM_Event_DAO_ParticipantPayment( );
-    $participantPaymentBAO->id = $params['id'];
-    $fields = $participantPaymentBAO->fields( );   
-    if ($participantPaymentBAO->find(true)) {
-        foreach ( $fields as $name => $field) {
-            if (array_key_exists($name, $params)) {                
-                $participantPaymentBAO->$name = $params[$name];
-            }
-        }
-        
-        $participantPaymentBAO->save();
-    }
-    
+
+    $ids = array();
+    $ids['id'] = $params['id'];
+
+    require_once 'CRM/Event/BAO/ParticipantPayment.php';
+    $payment = CRM_Event_BAO_ParticipantPayment::create( $params, $ids );
+   
     $participantPayment = array();
-    _civicrm_object_to_array( $participantPaymentBAO, $participantPayment );
+    _civicrm_object_to_array( $payment, $participantPayment );
+    
     return $participantPayment;
 }
 
@@ -347,7 +345,7 @@ function civicrm_participant_update_payment(&$params)
  * @return null if successfull, array with is_error=1 otherwise
  * @access public
  */
-function civicrm_participant_delete_payment(&$participantPaymentID)
+function civicrm_participant_payment_delete( &$participantPaymentID )
 {
     _civicrm_initialize();
     
@@ -356,8 +354,7 @@ function civicrm_participant_delete_payment(&$participantPaymentID)
     }
     require_once 'CRM/Event/BAO/ParticipantPayment.php';
     $participant = new CRM_Event_BAO_ParticipantPayment();
-    
-    $params = array( 'participant_id' => $participantPaymentID );
+    $params = array( 'id' => $participantPaymentID );
     
     return $participant->deleteParticipantPayment( $params ) ? null : civicrm_create_error('Error while deleting participantPayment');
 }
