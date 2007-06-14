@@ -4,14 +4,17 @@
 {* wrap in crm-container div so crm styles are used *}
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
 
-{if $mode eq 8 || $mode eq 1}
-{include file="CRM/Form/body.tpl"}
-{/if}
+    {if $mode eq 8 || $mode eq 1}
+        {include file="CRM/Form/body.tpl"}
+    {/if}
+    
     {strip}
     {if $help_pre && $action neq 4}
-    <div class="messages help">{$help_pre}
-    </div>
+    <div class="messages help">{$help_pre}</div>
     {/if}
+
+    {include file="CRM/common/CMSUser.tpl"}
+
     {assign var=zeroField value="Initial Non Existent Fieldset"}
     {assign var=fieldset  value=$zeroField}
     {foreach from=$fields item=field key=name}
@@ -109,8 +112,6 @@
         <div class="messages help">{$field.groupHelpPost}</div>
     {/if}
 
-{include file="CRM/common/CMSUser.tpl"}
-
     {if $mode eq 8}
         </fieldset>
     {else}
@@ -168,17 +169,6 @@
      hide('details');
   }
 
- function showMessage( frm )
- {
-   var cmsId = {/literal}'{$cmsCid}'{literal};
-   if ( cmsId ) {
-     alert("You are a logged-in user");
-     frm.checked = false;
-   } else {
-     var siteName = {/literal}'{$config->userFrameworkBaseURL}'{literal};
-     alert("Please login if you have an account on this site with the link " + siteName  );
-   }
- }
   {/literal}	
 </script>
 {/if} {* fields array is not empty *}

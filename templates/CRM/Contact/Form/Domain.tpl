@@ -23,13 +23,18 @@
     </dl>
     
     {* Display the address block *}
-    {include file="CRM/Contact/Form/Address.tpl"} 
+    {capture assign=introText}{ts}CiviMail mailings must include the sending organization's address. This is done by putting the {ldelim}domain.address{rdelim} token in either the body or footer of the mailing. The token is replaced by the address entered below when the mailing is sent.{/ts}{/capture}
+    {include file="CRM/Contact/Form/Address.tpl" introText=$introText} 
 
-    {* Display the email block(s) *}  
-    {include file="CRM/Contact/Form/Email.tpl" hold=1}
+    <fieldset><legend>{ts}Domain Contact Information{/ts}</legend>
+        <div class="description">{ts}You can also include email and/or phone contact information in mailings by filling in the fields below, and using the {ldelim}domain.email{rdelim} and {ldelim}domain.phone{rdelim} tokens in your mailings.{/ts}</div>
+        
+        {* Display the email block *}  
+        {include file="CRM/Contact/Form/Email.tpl" hold=1}
 
-    {* Display the phone block(s) *}
-    {include file="CRM/Contact/Form/Phone.tpl"} 
+        {* Display the phone block *}
+        {include file="CRM/Contact/Form/Phone.tpl"} 
+    </fieldset>
 
     <div class="spacer"></div>
     

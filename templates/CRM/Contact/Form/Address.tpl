@@ -7,7 +7,9 @@
 <script type="text/javascript" src="{$config->resourceBase}js/StateCountry.js"></script>*}
  
 <fieldset><legend>{ts}Address{/ts}</legend>
-
+{if $introText}
+    <div class="description">{$introText}</div>
+{/if}
 {php}
 $config =& CRM_Core_Config::singleton( );
 $addressSequence = $config->addressSequence();

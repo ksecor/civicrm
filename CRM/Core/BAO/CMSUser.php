@@ -166,8 +166,8 @@ class CRM_Core_BAO_CMSUser
             }
             // $cms is true when there is email(primary location) is set in the profile field.
             if ( $isCMSUser && $emailPresent) {
-                $extra = array('onclick' => "if (this.checked) showMessage(this); return showHideByValue('cms_create_account', '', 'details','block','radio',false );");
-                $form->addElement('checkbox', 'cms_create_account', ts('Create an account for CMS?'), null, $extra);
+                $extra = array('onclick' => "return showHideByValue('cms_create_account', '', 'details','block','radio',false );");
+                $form->addElement('checkbox', 'cms_create_account', ts('Create an account?'), null, $extra);
                 $session =& CRM_Core_Session::singleton( );
                 $userID = $session->get( 'userID' );
                 if( ! $userID ) {
