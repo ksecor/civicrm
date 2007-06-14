@@ -13,14 +13,14 @@ class TestOfContributionDeleteAPIV2 extends CiviUnitTestCase
     
     function setUp() 
     {
-        $this->_contributionTypeId = $this->CreateContributeType();  
+        $this->_contributionTypeId = $this->contributionTypeCreate();  
         $this->_individualId = $this->individualCreate();
     }
     
     function tearDown() 
     {
         $this->contactDelete($this->_individualId);
-        $this->deleteContributeType($this->_contributionTypeId);
+        $this->contributionTypeDelete($this->_contributionTypeId);
     }    
    
    

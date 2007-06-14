@@ -10,17 +10,23 @@ class TestOfContributionCreateAPIV2 extends CiviUnitTestCase
     protected $_individualId;    
     protected $_contribution;
     protected $_contributionTypeId;
+    protected $_customGroupId;
+    protected $_customFieldId;
     
     function setUp() 
     {
-        $this->_contributionTypeId = $this->CreateContributeType();  
+        $this->_contributionTypeId = $this->contributionTypeCreate();  
         $this->_individualId = $this->individualCreate();
+        $this->_customGroupId = $this->customGroupCreate('Contribution','C1');
+        $this->_customFieldId = $this->customFieldCreate($this->_customGroupId,'F1');
     }
     
     function tearDown() 
     {
+        $this->customFieldDelete($this->_customFieldId);
+        $this->customGroupDelete($this->_customGroupId);
         $this->contactDelete($this->_individualId);
-        $this->deleteContributeType($this->_contributionTypeId);
+        $this->contributionTypeDelete($this->_contributionTypeId);
     }
     
      
@@ -42,6 +48,7 @@ class TestOfContributionCreateAPIV2 extends CiviUnitTestCase
     
     function testCreateContribution()
     {
+        $customField = 'custom_' . $this->_customFieldId;
         $params = array(
                         'domain_id'              => 1,
                         'contact_id'             => $this->_individualId,                              
@@ -57,7 +64,7 @@ class TestOfContributionCreateAPIV2 extends CiviUnitTestCase
                         'source'                 => 'SSF',
                         'contribution_status_id' => 1,
                         'note'                   => 'Donating for Nobel Cause',
-                        'return.contact_id'      => 1
+                        $customField             => 'Custom Data for Contribution'
                         );
         
         $contribution =& civicrm_contribution_add($params);
@@ -98,7 +105,6 @@ class TestOfContributionCreateAPIV2 extends CiviUnitTestCase
                         'source'                 => 'WORLD',
                         'contribution_status_id' => 1,
                         'note'                   => 'Donating for Nobel Cause',
-                        'return.contact_id'      => 1
                         );
         
         $contribution =& civicrm_contribution_add($params);
