@@ -3,7 +3,9 @@
   // CiviCRM Front-end Profile - Logic Layer
   //////////////////////////////////////////////////
 
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
+	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
+}
 
 // PUT ALL YOUR BUSINESS LOGIC CODE HERE
 
@@ -45,7 +47,6 @@ function civicrm_invoke( ) {
             $_GET[$name] = $value;
         }
     }
-
     $task = CRM_Utils_Array::value( 'task', $_GET, '' );
     $args = explode( '/', trim( $task ) );
 

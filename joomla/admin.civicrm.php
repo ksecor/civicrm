@@ -1,8 +1,24 @@
 <?php
 
-// prevents direct access
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
+	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
+}
 
+// this rerun configure.php if it has not been run before
+// do we really need it?
+if ( ! file_exists( 'civicrm.settings.php' ) ) {
+	global $database;
+    global $mosConfig_absolute_path;
+    $path =
+        $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
+        'administrator'          . DIRECTORY_SEPARATOR .
+        'components'             . DIRECTORY_SEPARATOR .
+        'com_civicrm'            . DIRECTORY_SEPARATOR ;
+    
+    // this require actually runs the function needed
+    // bad code, but easier to debug on remote machines
+    require_once $path . 'configure.php';
+}
 
 include_once 'civicrm.settings.php';
 
