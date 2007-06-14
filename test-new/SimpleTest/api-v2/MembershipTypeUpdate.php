@@ -10,7 +10,7 @@ class TestOfMembershipTypeUpdateAPIV2 extends CiviUnitTestCase
     function setUp() 
     {
         $this->_contactID           = $this->organizationCreate( ) ;
-        $this->_contributionTypeID  = $this->createContributeType();
+        $this->_contributionTypeID  = $this->contributionTypeCreate( );
         
     }
  
@@ -63,7 +63,7 @@ class TestOfMembershipTypeUpdateAPIV2 extends CiviUnitTestCase
     function tearDown() 
     {
         $this->contactDelete( $this->_contactID ) ;
-        $this->deleteContributeType( $this->_contributionTypeID );
+        $this->contributionTypeDelete($this->_contributionTypeID);
     }
 }
 
