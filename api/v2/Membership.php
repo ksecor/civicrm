@@ -468,8 +468,10 @@ function civicrm_contact_memberships_get(&$contactID)
     $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership',$membershipId , false,$membershipValues[$membershipId][membership_type_id]);
     CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
     
-    foreach ( $defaults as $key => $val ) {
-      $members[$contactID][$membershipId][$key] = $val;
+    if ( is_array($defaults) ) {
+        foreach ( $defaults as $key => $val ) {
+            $members[$contactID][$membershipId][$key] = $val;
+        }
     }
 
 

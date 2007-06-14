@@ -99,6 +99,24 @@ class CiviUnitTestCase extends UnitTestCase {
         return $result['id'];
     }
 
+    function contactMembershipCreate( $params ) 
+    {
+        $params['join_date']   = '2007-01-21';
+        $params['start_date']  = '2007-01-21';
+        $params['end_date']    = '2007-12-21';
+        $params['source']      = 'Payment';
+        
+        $result = civicrm_contact_membership_create( $params );
+
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
+             ! CRM_Utils_Array::value( 'id', $result) ) {
+            CRM_Core_Error::debug( 'result', $result );
+            CRM_Core_Error::fatal( 'Could not create membership' );
+        }
+        
+        return $result['id'];
+    }
+
     /**
      * Function to delete Membership Type
      * 
@@ -114,6 +132,15 @@ class CiviUnitTestCase extends UnitTestCase {
         return;
     }
    
+    function membershipDelete( $membershipID )
+    {
+        $result = civicrm_membership_delete( $membershipID );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not delete membership' );
+        }
+        return;
+    }
+
     function membershipStatusCreate( $name = 'test member status' ) 
     {
         $params['name'] = $name;
@@ -369,13 +396,6 @@ class CiviUnitTestCase extends UnitTestCase {
         return $result['id'];
     }
     
-    function membershipDelete( $membershipID ) {
-        $result = civicrm_membership_delete( $membershipID );
-        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete membership' );
-        }
-        return;
-    }
 }
 
 ?>
