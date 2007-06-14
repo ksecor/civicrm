@@ -452,7 +452,93 @@ class CiviUnitTestCase extends UnitTestCase {
         return $activity;
     }
 
+     /**
+     * Function to create custom group
+     * 
+     * @param string $className
+     * @param string $title  name of custom group
+     */
     
+    function customGroupCreate( $className,$title ) 
+    {
+        require_once 'api/v2/CustomGroup.php';
+        $params = array(
+                        'title'      => $title,
+                        'class_name' => $className,
+                        'domain_id'  => 1,                       
+                        'style'      => 'Inline',
+                        'is_active'  => 1
+                        );
+
+        $result =& civicrm_custom_group_create($params);crm_Core_error::Debug('$result',$result);
+         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
+             ! CRM_Utils_Array::value( 'custom_group_id', $result) ) {
+             CRM_Core_Error::fatal( 'Could not create Custom Group' );
+        }
+        
+        return $result['custom_group_id'];    
+    }
+
+    /**
+     * Function to delete custom group
+     * 
+     * @param int    $customGroupID
+     */
+    
+    function customGroupDelete( $customGroupID ) 
+    {
+        $params['id'] = $customGroupID;
+        $result = & civicrm_custom_group_delete($params);
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not delete custom group' );
+        }
+        return;
+    }
+
+     /**
+     * Function to create custom field
+     * 
+     * @param int    $customGroupID
+     * @param string $name  name of custom field
+     */
+    
+    function customFieldCreate( $customGroupID, $name ) 
+    {
+        require_once 'api/v2/CustomGroup.php';
+        $params = array(
+                        'label'           => $name,
+                        'name'            => $name,
+                        'custom_group_id' => $customGroupID,
+                        'data_type'       => 'String',
+                        'html_type'       => 'Text',
+                        'is_searchable'   =>  1, 
+                        'is_active'        => 1,
+                        );
+
+        $result =& civicrm_custom_field_create($params);
+         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
+             ! CRM_Utils_Array::value( 'custom_field_id', $result) ) {
+             CRM_Core_Error::fatal( 'Could not create Custom Field' );
+        }
+        
+        return $result['custom_field_id'];    
+    }
+
+    /**
+     * Function to delete custom field
+     * 
+     * @param int $customFieldID
+     */
+    
+    function customFieldDelete( $customFieldID ) 
+    {
+        $params['id'] = $customFieldID;
+        $result = & civicrm_custom_field_delete($params);
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not delete custom field' );
+        }
+        return;
+    }
 }
 
 ?>
