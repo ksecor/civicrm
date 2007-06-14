@@ -279,15 +279,12 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         $userID = $session->get( 'userID' );
-        $authUser = false; // if false, user is not logged-in. 
-        if ( $userID ) {
-            list($locName, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
-            $authUser = true; 
-            $this->assign('authUser', 1);
-        } else {
+        $anonUser = false; // if false, user is not logged-in. 
+        if ( ! $userID ) {
             require_once 'CRM/Core/BAO/LocationType.php';
             $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
             $primaryLocationType = $defaultLocationType->id;
+            $anonUser = true; 
         }
 
         $addCaptcha = array();
@@ -376,7 +373,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
 
-        if ( $this->_mode == self::MODE_CREATE && ! $authUser ) {
+        if ( $this->_mode == self::MODE_CREATE && $anonUser ) {
             require_once 'CRM/Core/BAO/CMSUser.php';
             CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $emailPresent );
         } else {
