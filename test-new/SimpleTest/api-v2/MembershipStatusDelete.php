@@ -12,7 +12,7 @@ class TestOfMembershipStatusDelete extends CiviUnitTestCase {
         $this->assertEqual( $result['is_error'], 1 );
     }
 
-    function testMembershipStatusCreateMissingRequired( ) {
+    function testMembershipStatusDeleteMissingRequired( ) {
         $params = array( 'title' => 'Does not make sense' );
         $result = civicrm_membership_status_delete( $params );
         $this->assertEqual( $result['is_error'], 1 );

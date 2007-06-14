@@ -101,13 +101,18 @@ class CiviUnitTestCase extends UnitTestCase {
 
     function contactMembershipCreate( $params ) 
     {
-        $params['join_date']   = '2007-01-21';
-        $params['start_date']  = '2007-01-21';
-        $params['end_date']    = '2007-12-21';
-        $params['source']      = 'Payment';
+        $pre = array('join_date'   => '2007-01-21',
+                     'start_date'  => '2007-01-21',
+                     'end_date'    => '2007-12-21',
+                     'source'      => 'Payment'  );
+        foreach ( $pre as $key => $val ) {
+            if ( !$params[$key] ) {
+                $params[$key] = $val;
+            }
+        }
         
         $result = civicrm_contact_membership_create( $params );
-
+        
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
             CRM_Core_Error::debug( 'result', $result );
