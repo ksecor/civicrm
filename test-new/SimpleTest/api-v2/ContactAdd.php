@@ -54,7 +54,7 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
                 'email_to_household_id' => '',
                 'mail_to_household_id' => '',
                                                 
-                // civicrm_organisation
+                // civicrm_organization
                 'id' => '',
                 'contact_id' => '',
                 'organization_name' => '',
@@ -75,15 +75,18 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
     /**
      * Prepares environment for given testcase.
      */
-    function setUp() 
-    {
+    function setUp() {
     }
 
     /**
      * Cleans up environment after given testcase.
      */    
-    function tearDown() 
-    {
+    function tearDown() {
+        // tearing down all the contacts created
+        foreach ( $this->_createdContacts as $id ) {
+            $params = array( 'contact_id' => $id );
+            $result = civicrm_contact_delete( $params );
+        }
     }
 
 
@@ -91,138 +94,111 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
     // needs to start with "test", e.g. testCreateEmptyContact
 
 
-    /**
-     * Create contact without parameters.
-     */
-    function testCreateEmptyContact() 
-    {
-        $params = array();
-        $contact = &civicrm_contact_add( $params );
-        $this->assertEqual( $contact['is_error'], 1 );
-        $this->assertEqual( $contact['error_message'], 'Input Parameters empty' );
-    }
 
     /**
-     * Create contact with bad contact type.
-     */
-    function testCreateBadTypeContact()
-    {
-        $params = array('email' => 'man1@yahoo.com',
-                        'contact_type' => 'Does not Exist' );
-        $contact = &civicrm_contact_add($params);
-        $this->assertEqual( $contact['is_error'], 1 );
-        $this->assertEqual( $contact['error_message'], 'Invalid Contact Type: Does not Exist' );
-    }
-
-    /**
-     * Create Individual without required fields.
+     * Create Individual with minimal set of fields - email as a base.
+     * 
+     * Well commented example for other tests.
      */    
-    function testCreateBadRequiredFieldsIndividual() 
-    {
-        $params = array('middle_name' => 'This field is not required for Individual',
-                        'contact_type' => 'Individual' );
-        $contact = &civicrm_contact_add($params);
-        $this->assertEqual( $contact['is_error'], 1 );
-        $this->assertEqual( $contact['error_message'], 'Required fields not found for Individual first_name' );
-    }
-
-    /**
-     * Create Household without required fields.
-     */
-    function testCreateBadRequiredFieldsHousehold() 
-    {
-        $params = array('middle_name' => 'This field is not required for Household',
-                        'contact_type' => 'Household' );
-        $contact = &civicrm_contact_add($params);
-        $this->assertEqual( $contact['is_error'], 1 );
-        $this->assertEqual( $contact['error_message'], 'Required fields not found for Household ' );
-
-    }
-
-    /**
-     * Create Organisation without required fields.
-     */
-    function testCreateBadRequiredFieldsOrganization()
-    {
-        $params = array('middle_name' => 'This field is not required for Organisation',
-                        'contact_type' => 'Organization' );
-        $contact = &civicrm_contact_add($params);
-        $this->assertEqual( $contact['is_error'], 1 );
-        $this->assertEqual( $contact['error_message'], 'Required fields not found for Organization ' );
-    }
-
-
-    /**
-     * Create Individual with minimal set of fields.
-     */    
-    function testCreateEmailIndividual()
-    {
-        $email = 'man2@yahoo.com';
+    function testCreateIndividualMinimalWithEmail() {
         // FIXME: make sure this is minimal set of needed data
-        $params = array('email'            => $email,
+        $params = array('email'            => 'man23456@yahoo.com',
                         'contact_type'     => 'Individual',
                         );
-        $contact = &civicrm_contact_add( CRM_Utils_Array::array_deep_copy( $params ) );
 
+        // We want to make sure that we will be comparing
+        // created contact's attributes against parameters which
+        // are exactly the same. civicrm_contact_add modifies $params
+        // array through reference, so let's use a deep copy (totally
+        // separate variable, without any references.
+        $paramsCopy = CRM_Utils_Array::array_deep_copy( $params );
+
+        // Performing contact creation
+        $contact = &civicrm_contact_add( $paramsCopy );
+
+        // This is a kind of overkill (further tests would throw exceptions), but
+        // let's be paranoic. We have an assumption, that API methods return
+        // arrays - so let's make sure this requirement is met.
+        $this->assertIsA( $contact, 'Array' );
+
+        // Let's check obvious results of civicrm_contact_add:
+        // it should not be an error, and contact_id should be set.
         $this->assertEqual( $contact['is_error'], 0 );
         $this->assertNotNull( $contact['contact_id'] );
 
-        $retrieved = &civicrm_contact_get( CRM_Utils_Array::array_deep_copy( $params ) );
+        // Another paranoic check - let's see if $contact and $paramsCopy (modified 
+        // through reference by civicrm_contact_add) have the same contact_id
+        $this->assertIdentical( $contact['contact_id'], $paramsCopy['contact_id'] );
+
+        // Now we need to verify, whether created contact is correct. The best 
+        // way to do it would be to check directly in the database, but this would
+        // be pretty work intensive to do for every single test, so we'll do this 
+        // kind of check (database) only in one special test further down the road.
+        // For all other tests, we'll use civicrm_contact_get to retrieve created contact
+        // and verify whether all the attributes match.
+        // And of course, since we are paranoic, we're using copy again.
+
+        $retrievedId = array( 'contact_id' => $contact['contact_id'] );
+        $retrieved = &civicrm_contact_get( $retrievedId );
+
+        // Now it's time to start comparing return from civicrm_contact_add with 
+        // civicrm_contact_get result. Let's check if ids match first.
+        // FIXME: Wanted to use assertIdentical, but $retrieved['contact_id']
+        // is a string - is it intended?
         $this->assertEqual( $contact['contact_id'], $retrieved['contact_id'] );
-//        $this->_assertAttributesEqual( $params, $retrieved );
-        
-//        $this->_verifyContactAttributes( $params );
 
-        $this->_contacts[] = $contact['contact_id'];
+        // We will be comparing each attribute against original params, which didn't 
+        // get through any modifications through references.
+        foreach( $params as $paramName => $paramValue ) {
+            $this->assertEqual( $paramValue, $retrieved[$paramName] );
+        }
+
+        // Please note that many of the above assertions will be repeated many times
+        // in further tests in this test case. After you saw how does it work line
+        // by line, take a look at next method, which uses private functions to
+        // save ourselves a lot of time and copy-pasting, but does basically the same
+        // as above.
+
+        // Now storing created contact's id for further deletion in tearDown()
+        $this->_createdContacts[] = $contact['contact_id'];
     }
 
 
-
-    function testCreateNameIndividual()
-    {
+    /**
+     * Create Individual with minimal set of fields - name as a base.
+     */
+    function testCreateIndividualMinimalWithName() {
         $params = array('first_name' => 'abc1',
-                        'contact_type'     => 'Individual',
-                        'last_name' => 'xyz1'
+                        'last_name' => 'xyz1',
+                        'contact_type'     => 'Individual'
                         );
-        $contact = &civicrm_contact_add($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->_doCreateTest( $params );
     }
-    
-    function testCreateNameHousehold() 
-    {
-        $params = array('household_name' => 'The abc Household',
-                        'contact_type' => 'Household',
+
+    /**
+     * Create Household with minimal set of fields - name as a base.
+     */    
+    function testCreateHouseholdMinimalWithName() {
+        // FIXME: We have an inconsistency in API here:
+        // setting household_name, but not getting the same
+        // back - instead we get display_name and sort_name
+        $params = array( 'household_name' => 'The abc Household',
+                         'contact_type' => 'Household',
                         );
-        $contact =& civicrm_contact_add($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->_doCreateTest( $params );
     }
-    
-    function testCreateNameOrganization() 
-    {
+
+    /**
+     * Create Organization with minimal set of fields - name as a base.
+     */        
+    function testCreateOrganizationMinimalWithName() {
         $params = array('organization_name' => 'The abc Organization',
                         'contact_type' => 'Organization',
                         );
-        $contact =& civicrm_contact_add($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->_doCreateTest( $params );
     }
     
-    function testCreateIndividualwithEmail() 
-    {
-        $params = array('first_name' => 'abc3',
-                        'last_name'  => 'xyz3',
-                        'contact_type'     => 'Individual',
-                        'email'      => 'man3@yahoo.com'
-                        );
-        $contact =& civicrm_contact_add($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
-    }
-    
-    function testCreateIndividualwithEmailLocationType() 
-    {
+    function testCreateIndividualwithEmailLocationType() {
         $params = array('first_name'    => 'abc4',
                         'last_name'     => 'xyz4',
                         'email'         => 'man4@yahoo.com',
@@ -231,7 +207,7 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
                         );
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->_createdContacts[] = $contact['contact_id'];
     }
 
     
@@ -246,7 +222,7 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
                         );
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->_createdContacts[] = $contact['contact_id'];
     }
     
     function testCreateIndividualwithAll() 
@@ -266,7 +242,7 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
                         );
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->_createdContacts[] = $contact['contact_id'];
     }
     
     function testCreateHouseholdDetails() 
@@ -278,31 +254,108 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
                         );
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->_createdContacts[] = $contact['contact_id'];
     }
 
-    function testDeleteContacts() 
-    {
-        foreach ($this->_contacts as $id) {
-            $params = array( 'contact_id' => $id );
-            $result = civicrm_contact_delete( $params );
-            $this->assertEqual( $result['is_error'], 0 );
+
+    /**
+     * Create contact without parameters.
+     */
+    function testCreateContactEmpty() {
+        $params = array();
+        $contact = &civicrm_contact_add( $params );
+        $this->_verifyApiCallResult( $contact, $params, 'Input Parameters empty' );
+    }
+
+    /**
+     * Create contact with bad contact type.
+     */
+    function testCreateContactBadType() {
+        $params = array('email' => 'man1@yahoo.com',
+                        'contact_type' => 'Does not Exist' );
+        $contact = &civicrm_contact_add($params);
+        $this->_verifyApiCallResult( $contact, $params, 'Invalid Contact Type: Does not Exist' );
+    }
+
+    /**
+     * Create Individual without required fields.
+     */    
+    function testCreateIndividualBadRequiredFields() {
+        $params = array('middle_name' => 'This field is not required for Individual',
+                        'contact_type' => 'Individual' );
+        $contact = &civicrm_contact_add($params);
+        $this->_verifyApiCallResult( $contact, $params, 'Required fields not found for Individual first_name' );
+    }
+
+    /**
+     * Create Household without required fields.
+     */
+    function testCreateHouseholdBadRequiredFields() {
+        $params = array('middle_name' => 'This field is not required for Household',
+                        'contact_type' => 'Household' );
+        $contact = &civicrm_contact_add($params);
+        $this->_verifyApiCallResult( $contact, $params, 'Required fields not found for Household ' );
+    }
+
+    /**
+     * Create Organization without required fields.
+     */
+    function testCreateOrganizationBadRequiredFields() {
+        $params = array('middle_name' => 'This field is not required for Organization',
+                        'contact_type' => 'Organization' );
+        $contact = &civicrm_contact_add($params);
+        $this->_verifyApiCallResult( $contact, $params, 'Required fields not found for Organization ' );
+    }
+
+
+
+    // Private helper functions relevant only to this UnitTestCase
+
+    private function _doCreateTest( $params ) {
+        $paramsCopy = CRM_Utils_Array::array_deep_copy( $params );
+        $contact = &civicrm_contact_add( $paramsCopy );
+
+        $this->_verifyApiCallResult( $contact, $paramsCopy );
+        $this->_verifyContactAttributes( $paramsCopy['contact_id'], $params );
+
+        $this->_createdContacts[] = $contact['contact_id'];
+    }
+
+    private function _verifyApiCallResult( $returned, $modifiedParams, $error_message = false ) {
+        $this->assertIsA( $returned, 'Array' );
+        if( array_key_exists( 'contact_id', $modifiedParams ) && 
+            array_key_exists( 'contact_id', $modifiedParams ) ) {
+            $this->assertIdentical( $returned['contact_id'], $modifiedParams['contact_id'] );
         }
-        
-        // delete an unknown id
-        $params = array( 'contact_id' => 1000567 );
-        $result = civicrm_contact_delete( $params );
-        $this->assertEqual( $result['is_error'], 1 );
+        if( $error_message === false ) {
+            $this->assertEqual( $returned['is_error'], 0 );
+            $this->assertNotNull( $returned['contact_id'] );
+        } else {
+            $this->assertEqual( $returned['is_error'], 1 );
+            $this->assertEqual( $returned['error_message'], $error_message );
+        }
     }
 
-    private function _verifyContactAttributes( $params ) {
+    private function _verifyContactAttributes( $contactId, $params ) {
+        $retrievedId = array( 'contact_id' => $contactId );
+        $retrieved = &civicrm_contact_get( $retrievedId );
+
+//        CRM_Core_Error::debug( 'c', $retrieved );
+
+        // FIXME: Wanted to use assertIdentical, but $retrieved['contact_id']
+        // is a string - is it intended?
+        $this->assertEqual( $contactId, $retrieved['contact_id'] );
+        $this->_assertAttributesEqual( $params, $retrieved );
 
     }
 
     private function _assertAttributesEqual( $params, $target ) {
         foreach( $params as $paramName => $paramValue ) {
-            echo 'Comparing ' . $paramName . '<br>';
-            $this->assertEqual( $paramValue, $target[$paramName] );
+            if( isset( $target[$paramName] ) ) {
+                $this->assertEqual( $paramValue, $target[$paramName] );
+            } else {
+                $this->fail( "Attribute $paramName not available in results, but present in API call parameters."  );
+            }
         }        
     }
 
