@@ -304,8 +304,10 @@ function &_civicrm_location_update( $params,$locationArray ) {
             }
         } else {
             // setup current values so we dont lose them
-            foreach($locationArray[$name] as $key => $obj) {
-                $loc[$name][$key] = $obj;
+            if(is_array($locationArray[$name])){
+                foreach($locationArray[$name] as $key => $obj) {
+                    $loc[$name][$key] = $obj;
+                }
             }
         }
     }

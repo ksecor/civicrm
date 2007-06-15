@@ -44,6 +44,39 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase {
         $this->assertNotNull( $locationUpdate );
         $this->contactDelete( $contactID ) ;        
     }
+
+    function testLocationUpdate()
+    {
+        $contactID = $this->organizationCreate( );
+        
+        $location  = $this->locationAdd( $contactID ); 
+        $workPhone =array('phone' => '02327276048',
+                          'phone_type' => 'Phone');
+        
+        $phones = array ($workPhone);
+        
+        $workEmailFirst = array('email' => 'xyz@indiatimes.com');
+        
+        $workEmailSecond = array('email' => 'abcdef@hotmail.com');
+        
+        $emails = array($workEmailFirst,$workEmailSecond);
+        
+        $params = array(
+                        'phone'            => $phones,
+                        'city'             => 'Mumbai',
+                        'email'            => $emails,
+                        'contact_id'       => $contactID,
+                        'location_id'      => $location['id']
+                        );
+        
+        
+        $locationUpdate =& civicrm_location_update( $params );
+        
+        $this->assertEqual($locationUpdate['phone'][1]['phone'], '02327276048');
+        $this->assertEqual($locationUpdate['phone'][1]['phone_type'], 'Phone');
+        $this->assertEqual($locationUpdate['email'][1]['email'], 'xyz@indiatimes.com');
+        $this->assertEqual($locationUpdate['email'][2]['email'], 'abcdef@hotmail.com');
+    }
     
     function tearDown( ) 
     {
