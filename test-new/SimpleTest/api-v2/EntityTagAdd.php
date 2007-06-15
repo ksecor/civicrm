@@ -13,7 +13,9 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $params = array( );                             
         $individualEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $individualEntity['is_error'], 1 );
+        // FIXME: Please assert on proper error message instead
         $this->assertNotNull($individualEntity['error_message']);
+        $this->assertEqual( $individualEntity['error_message'], 'Proper error message' )
        
     }
     
