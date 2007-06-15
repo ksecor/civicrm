@@ -12,6 +12,8 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
     function tearDown() 
     {
     }
+
+    // FIXME: please add erraneous custom group adding assertions
    
     function testCustomGroupCreate()
     {
