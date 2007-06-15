@@ -1,11 +1,11 @@
 <?php
 
+// Pull in the settings file
+include_once '../civicrm.settings.php';
+
 // Add the packages to the include path
 $include_path = ini_get('include_path');
-ini_set('include_path', "/data/civicrm:/data/civicrm/packages:$include_path");
-
-// Pull in the settings file
-include_once 'civicrm.settings.php';
+ini_set('include_path', "$civicrm_root:$civicrm_root/packages:$include_path");
 
 // Get ready to fire it up
 require_once 'CRM/Core/Invoke.php';
