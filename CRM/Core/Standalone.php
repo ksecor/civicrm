@@ -74,7 +74,7 @@ class CRM_Core_Standalone {
         $sidebarLeft = $template->fetch( 'CRM/Block/blocks.tpl' );
         $template->assign_by_ref( 'sidebarLeft', $sidebarLeft );
 
-        $args = explode( '/', trim( $_GET['task'] ) );
+        $args = explode( '/', trim( $_GET[CIVICRM_UF_URLVAR] ) );
         require_once 'CRM/Core/Menu.php';
         $breadcrumb =& CRM_Core_Menu::breadcrumb( $args );
 
