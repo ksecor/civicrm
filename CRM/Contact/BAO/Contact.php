@@ -1960,6 +1960,11 @@ WHERE civicrm_contact.id IN $idString ";
                                           $addToGroupID = null, $ufGroupId = null,
                                           $ctype = null ) 
     {
+        // add ufGroupID to params array ( CRM-2012 )
+        if ( $ufGroupId ) {
+            $params['uf_group_id'] = $ufGroupId;
+        }
+
         require_once 'CRM/Utils/Hook.php';
         if ( $contactID ) {
             $editHook = true;
@@ -2309,7 +2314,7 @@ WHERE civicrm_contact.id IN $idString ";
             $params['contact_id'] = $contactID;
             CRM_TMF_BAO_Student::create( $params, $ids);
         }
- 
+
         if ( $editHook ) {
             CRM_Utils_Hook::post( 'edit'  , 'Profile', $contactID  , $params );
         } else {
