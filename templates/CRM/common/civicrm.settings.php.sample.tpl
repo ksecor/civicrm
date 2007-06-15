@@ -20,6 +20,13 @@
  *      define( 'CIVICRM_UF'        , 'Joomla' );
  *      define( 'CIVICRM_UF_VERSION', '1' );
  *      define( 'CIVICRM_UF_URLVAR' , 'task'  );
+ *
+ * Settings for Standalone:
+ *		define( 'CIVICRM_UF'	, 'Standalone');
+ *		(Leave out CIVICRM_UF_VERSION.)
+ *		define( 'CIVICRM_UF_URLVAR', 'q');
+ *
+ *
  */
 
 define( 'CIVICRM_UF'               , '%%cms%%'        );
@@ -29,7 +36,7 @@ define( 'CIVICRM_UF_URLVAR'        , '%%cmsURLVar%%'  );
 /**
  * Content Management System (CMS) Datasource:
  *
- * Update this setting with your CMS (Drupal or Joomla) database username, server and DB name.
+ * Update this setting with your CMS (Drupal or Joomla) database username, server and DB name. Comment it out if using CiviCRM standalone.
  * Datasource (DSN) format:
  *      define( 'CIVICRM_UF_DSN', 'mysql://cms_db_username:cms_db_password@db_server/cms_database?new_link=true');
  */
@@ -40,7 +47,7 @@ define( 'CIVICRM_UF_DSN'           , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%
  * Content Management System (CMS) User Table-name:
  *
  * Update the CIVICRM_UF_USERSTABLENAME if needed to match the name of the table
- * where the CMS user data is stored. Default for Drupal installs is 'users'.
+ * where the CMS user data is stored. Default for Drupal and Standalone installs is 'users'.
  * If you are using table-prefixing for the users table, you must enter the tablename
  * with the prefix. Default table name for Joomla - 'jos_users'. For Mambo - 'mos_users'.
  */
@@ -113,6 +120,13 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
  * the CIVICRM_TEMPLATE_COMPILEDIR would be:
  *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/joomla/media/civicrm/templates_c/' );
  *
+ * EXAMPLE - Standalone Installations:
+ * If the path to the Standalone home directory is /var/www/htdocs/civicrm
+ * the $civicrm_root setting would be:
+ *      $civicrm_root = '/var/www/htdocs/civicrm/';
+ *
+ * the CIVICRM_TEMPLATE_COMPILEDIR would be:
+ *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicrm/templates_c/' );
  */
 
 global $civicrm_root;
@@ -124,9 +138,10 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
  * Site URLs:
  *
  * This section defines absolute and relative URLs to access the host CMS (Drupal or Joomla)
- * resources.
+ * resources. Also you can use Standalone to access the host CMS resources. 
  *
  * IMPORTANT: Trailing slashes should be used on all URL settings.
+ * 
  *
  * EXAMPLE - Drupal Installations:
  * If your site's home url is http://www.example.com/drupal/
@@ -144,6 +159,11 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
  * Front-end site:
  *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/joomla/' );
  *
+ * EXAMPLE - Standalone Installations:
+ * If your site's home url is http://www.examle.com/civicrm/
+ *
+ * CIVICRM_UF_BASEURL - home URL for your site:
+ *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/civicrm/standalone/' );
  */
  
 define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
