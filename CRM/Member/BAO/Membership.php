@@ -891,6 +891,8 @@ civicrm_membership_status.is_current_member =1";
      **/
     static function renewMembership( $contactID, $membershipTypeID, $is_test, &$form, $changeToday = null, $ipnParams = null )
     {
+        require_once 'CRM/Utils/Hook.php';
+
         $statusFormat = '%Y-%m-%d';
         $format       = '%Y%m%d';
         
@@ -900,7 +902,6 @@ civicrm_membership_status.is_current_member =1";
         
         if ( $currentMembership = 
              CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID ) ) {
-            require_once 'CRM/Utils/Hook.php';
             
             if ( $form ) {
                 $form->set("renewal_mode", true );
