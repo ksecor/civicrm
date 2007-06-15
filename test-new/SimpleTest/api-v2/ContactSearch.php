@@ -1,8 +1,8 @@
 <?php
 
-require_once 'api/v2/crm.php';
+require_once 'api/v2/Contact.php';
 
-class testPublicCivicrmContactSearch extends UnitTestCase 
+class testPublicCivicrmContactSearch extends CiviUnitTestCase 
 
 {
 
@@ -15,19 +15,20 @@ class testPublicCivicrmContactSearch extends UnitTestCase
     /**
      * Prepares environment for given testcase.
      */
-    function setUp() 
-    {
+    function setUp() {
     }
 
     /**
      * Cleans up environment after given testcase.
      */    
-    function tearDown() 
-    {
+    function tearDown() {
     }
 
 
     // Put test functions below. Each function's name
     // needs to start with "test", e.g. testCreateEmptyContact
+
+
+}
 
 ?>
