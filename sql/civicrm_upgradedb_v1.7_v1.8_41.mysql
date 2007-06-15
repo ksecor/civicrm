@@ -27,13 +27,13 @@ CREATE TABLE civicrm_case (
 
 ,    PRIMARY KEY ( id )
 
-,    INDEX UI_casetag1_id(casetag1_id)
+,    INDEX index_casetag1_id(casetag1_id)
 
-,    INDEX UI_casetag2_id(casetag2_id)
+,    INDEX index_casetag2_id(casetag2_id)
 
-,    INDEX UI_casetag3_id(casetag3_id)
+,    INDEX index_casetag3_id(casetag3_id)
 
-,    INDEX UI_status_id(status_id)
+,    INDEX index_status_id(status_id)
 
 ,    CONSTRAINT FK_civicrm_case_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
   
@@ -149,9 +149,9 @@ CREATE TABLE civicrm_grant (
 
 ,    PRIMARY KEY ( id )
  
-,    INDEX UI_grant_type_id( grant_type_id )
+,    INDEX index_grant_type_id( grant_type_id )
 
-,    INDEX UI_status_id( status_id )
+,    INDEX index_status_id( status_id )
   
 ,    CONSTRAINT FK_civicrm_grant_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
   
@@ -314,7 +314,7 @@ CREATE TABLE civicrm_price_field (
 
 ,    PRIMARY KEY ( id )
 
-,    INDEX UI_name( name )
+,    INDEX index_name( name )
   
 ,    CONSTRAINT FK_civicrm_price_field_price_set_id FOREIGN KEY (price_set_id) REFERENCES civicrm_price_set(id)
   
@@ -421,9 +421,9 @@ CREATE TABLE civicrm_worldregion (
 	    ADD activity_tag1_id int(10) unsigned NOT NULL,
 	    ADD activity_tag2_id int(10) unsigned NOT NULL,
 	    ADD activity_tag3_id int(10) unsigned NOT NULL,
-	    ADD INDEX UI_activity_tag1_id (activity_tag1_id),
-	    ADD INDEX UI_activity_tag2_id (activity_tag2_id),
-	    ADD INDEX UI_activity_tag3_id (activity_tag3_id);
+	    ADD INDEX index_activity_tag1_id (activity_tag1_id),
+	    ADD INDEX index_activity_tag2_id (activity_tag2_id),
+	    ADD INDEX index_activity_tag3_id (activity_tag3_id);
 
 
 -- /*******************************************************
@@ -527,9 +527,9 @@ CREATE TABLE civicrm_worldregion (
 	    ADD activity_tag1_id int(10) unsigned NOT NULL,
 	    ADD activity_tag2_id int(10) unsigned NOT NULL, 
 	    ADD activity_tag3_id int(10) unsigned NOT NULL,
-	    ADD INDEX UI_activity_tag1_id (activity_tag1_id),
-	    ADD INDEX UI_activity_tag2_id (activity_tag2_id),
-	    ADD INDEX UI_activity_tag3_id (activity_tag3_id);
+	    ADD INDEX index_activity_tag1_id (activity_tag1_id),
+	    ADD INDEX index_activity_tag2_id (activity_tag2_id),
+	    ADD INDEX index_activity_tag3_id (activity_tag3_id);
    
   
 -- /*******************************************************
@@ -566,9 +566,9 @@ ALTER TABLE civicrm_phonecall
     ADD activity_tag1_id int(10) unsigned NOT NULL,
     ADD activity_tag2_id int(10) unsigned NOT NULL,
     ADD activity_tag3_id int(10) unsigned NOT NULL,
-    ADD INDEX UI_activity_tag1_id (activity_tag1_id),
-    ADD INDEX UI_activity_tag2_id (activity_tag2_id),
-    ADD INDEX UI_activity_tag3_id (activity_tag3_id);
+    ADD INDEX index_activity_tag1_id (activity_tag1_id),
+    ADD INDEX index_activity_tag2_id (activity_tag2_id),
+    ADD INDEX index_activity_tag3_id (activity_tag3_id);
     
 
 -- /*******************************************************

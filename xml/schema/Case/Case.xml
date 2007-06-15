@@ -37,7 +37,7 @@
        <add>1.8</add>
   </field>
   <index>
-       <name>UI_casetag1_id</name>
+       <name>index_casetag1_id</name>
        <fieldName>casetag1_id</fieldName>
        <add>1.8</add>
   </index>
@@ -49,7 +49,7 @@
        <add>1.8</add>
   </field>
   <index>
-       <name>UI_casetag2_id</name>
+       <name>index_casetag2_id</name>
        <fieldName>casetag2_id</fieldName>
        <add>1.8</add>
   </index>
@@ -61,7 +61,7 @@
        <add>1.8</add>
   </field>
   <index>
-       <name>UI_casetag3_id</name>
+       <name>index_casetag3_id</name>
        <fieldName>casetag3_id</fieldName>
        <add>1.8</add>
   </index>

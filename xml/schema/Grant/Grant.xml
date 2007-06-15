@@ -73,7 +73,7 @@
    <add>1.8</add>
   </field>
   <index>
-   <name>UI_grant_type_id</name>
+   <name>index_grant_type_id</name>
    <fieldName>grant_type_id</fieldName>
    <add>1.8</add>
   </index>
@@ -119,7 +119,7 @@
    <add>1.8</add>
   </field>
   <index> 
-   <name>UI_status_id</name>
+   <name>index_status_id</name>
    <fieldName>status_id</fieldName>
    <add>1.8</add>
   </index>
