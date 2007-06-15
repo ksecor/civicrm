@@ -558,7 +558,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                                 );
                         
                         $relationIds = array('contact' => $primaryContactId);
+                        
                         CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
+                        
+                        CRM_Contact_BAO_Relationship::relatedMemberships( $primaryContactId, 
+                                                                          $relationParams,
+                                                                          $relationIds );
                         
                         //check if the two contacts are related and of type individual
                         if ( $params[$key]['contact_type'] == 'Individual' && $this->_contactType  == 'Individual') {
