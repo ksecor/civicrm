@@ -230,7 +230,7 @@ class CRM_Utils_System_Standalone {
      * @static   
      */   
     static function setMessage( $message ) {
-        standalone_set_message( $message );
+    	return;
     }
 
 }
