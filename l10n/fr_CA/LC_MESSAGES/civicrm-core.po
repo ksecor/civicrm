@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-06-11 06:40-0700\n"
+"PO-Revision-Date: 2007-06-14 04:55-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr "Contact"
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_add_domain.tpl
 msgid "ACL Role"
-msgstr ""
+msgstr "Rôle ACL"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/ACL/Form/ACL.php
 #: CRM/ACL/Page/ACL.php CRM/Core/DAO/CustomGroup.php
@@ -71,9 +71,8 @@ msgid "Entity Table"
 msgstr "Table de l'entité"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Operation"
-msgstr "Actions"
+msgstr "Opération"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -100,7 +99,7 @@ msgstr "Supprimer"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "Date de modification"
 
 #: CRM/ACL/Form/ACL.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php
@@ -142,14 +141,12 @@ msgid "All Groups"
 msgstr "Tous les groupes"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Custom Groups"
-msgstr "Tous les groupes"
+msgstr "Tous les groupes personnalisés"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Profiles"
-msgstr "Profil"
+msgstr "Tous les profils"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -204,12 +201,12 @@ msgstr "Contrôle d'accès"
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
-msgstr ""
+msgstr "Groupe personnalisé"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Project/DAO/TaskStatus.php
 msgid "Target Entity Table"
-msgstr ""
+msgstr "Table de l'entité destinataire"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Meeting.php
@@ -406,7 +403,7 @@ msgstr "Type de correspondance"
 #: CRM/Custom/Form/Field.php templates/CRM/Admin/Page/Options.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Label"
-msgstr ""
+msgstr "Libellé"
 
 #: CRM/Admin/Form/Options.php CRM/Admin/Form/OptionValue.php
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
@@ -460,13 +457,12 @@ msgstr "Type de contact B"
 #: CRM/Admin/Form/Setting/Address.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Invoke.php
 msgid "Address Formatting"
-msgstr ""
+msgstr "Format de l'adresse"
 
 #: CRM/Admin/Form/Setting/Component.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Invoke.php
-#, fuzzy
 msgid "Components"
-msgstr "Terminé"
+msgstr "Composantes"
 
 #: CRM/Admin/Form/Setting/Localization.php CRM/Contact/Form/Address.php
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Criteria.php
@@ -481,7 +477,7 @@ msgstr "- choisir -"
 #: CRM/Admin/Form/Setting/Payment.php CRM/Contact/Form/Task/Email.php
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send Email"
-msgstr ""
+msgstr "Envoyer un courriel"
 
 #: CRM/Admin/Form/Setting.php CRM/Admin/Page/Setting.php CRM/Core/Menu.php
 msgid "Global Settings"
@@ -489,7 +485,7 @@ msgstr "Configuration globale"
 
 #: CRM/Admin/Form/Setting/Smtp.php CRM/Admin/Page/Setting.php
 msgid "SMTP Server"
-msgstr ""
+msgstr "Serveur SMTP"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Manage"
@@ -523,39 +519,37 @@ msgstr "Modifier %1"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "File System Paths"
-msgstr ""
+msgstr "Chemins d'accès aux fichiers"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Site URLs"
-msgstr ""
+msgstr "URLs du site"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Cartes et géocodage"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Localization"
-msgstr "Lieu"
+msgstr "Localisation"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Date Formatting"
-msgstr "Date de naissance"
+msgstr "Format des dates"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Varia"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Debugging"
-msgstr ""
+msgstr "Déverminage"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -656,7 +650,7 @@ msgstr "Visibilité"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Clause «où» (where)"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 #, fuzzy
@@ -736,9 +730,8 @@ msgid "Method"
 msgstr "Méthode"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Admin"
-msgstr "-min.-"
+msgstr "Admin"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php
 #: CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php
@@ -780,9 +773,8 @@ msgstr ""
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/County.php CRM/Core/Form.php
-#, fuzzy
 msgid "County"
-msgstr "Pays"
+msgstr "Région"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php
 #: CRM/Contact/Form/Test.php CRM/Core/Form.php
@@ -928,12 +920,11 @@ msgstr "Adhésions"
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php
 msgid "Events"
-msgstr ""
+msgstr "Événements"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Task"
-msgstr "Masque"
+msgstr "Tâche"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search.php
 msgid "Find..."
@@ -1015,7 +1006,7 @@ msgstr "(méthode préférée)"
 
 #: CRM/Contact/Form/Task/Email.php CRM/Contact/Page/View/Email.php
 msgid "Your user record does not have a valid email address"
-msgstr ""
+msgstr "Votre fiche d'utilisateur ne contient pas une adresse de courrier électronique valide."
 
 #: CRM/Contact/Form/Task/Email.php CRM/Core/DAO/EmailHistory.php
 #: CRM/SMS/DAO/History.php CRM/SMS/Form/Task/SMS.php
@@ -1074,7 +1065,7 @@ msgstr "Accueil CiviCRM"
 
 #: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
 msgid "Email Sent"
-msgstr ""
+msgstr "Courriel envoyé"
 
 #: CRM/Contact/Page/View/GroupContact.php
 #: CRM/Contact/Page/View/UserDashBoard/GroupContact.php
@@ -1083,7 +1074,7 @@ msgstr "Groupes du contact"
 
 #: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
 msgid "SMS Sent"
-msgstr ""
+msgstr "SMS envoyé"
 
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Menu.php
 #: CRM/Core/SelectValues.php
@@ -1125,15 +1116,14 @@ msgstr "Appel"
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
 #: CRM/History/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Event"
-msgstr "Date de début"
+msgstr "Événement"
 
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 msgid "CiviCRM Activity History"
@@ -1196,9 +1186,8 @@ msgstr "Note"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "File"
-msgstr "Remplir"
+msgstr "Fichier"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php CRM/Core/Form.php
 #: CRM/Custom/Form/Field.php templates/CRM/ACL/Page/ACL.tpl
@@ -1267,7 +1256,7 @@ msgstr "Impossible de trouver votre identifiant"
 msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
-msgstr ""
+msgstr "Ce profil n'a pas été configuré pour l'action demandée. Contactez l'administrateur de ce site si vous avez besoin d'assistance."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1288,16 +1277,15 @@ msgstr "CiviContribute"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviEvent"
-msgstr ""
+msgstr "CiviÉvénement"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "CiviMember"
-msgstr "Membres"
+msgstr "CiviMembres"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviCourriel"
 
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/UFJoin.php
 msgid "Module"
@@ -1374,9 +1362,8 @@ msgid "Inline"
 msgstr "En&nbsp;série"
 
 #: CRM/Core/DAO/EmailHistory.php CRM/SMS/DAO/History.php
-#, fuzzy
 msgid "Sent Date"
-msgstr "Choisir la date"
+msgstr "Date de l'envoi"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
@@ -1394,12 +1381,12 @@ msgstr "Recherches personalisées"
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "Option Label"
-msgstr ""
+msgstr "Libellé de l'option"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "Option Value"
-msgstr ""
+msgstr "Valeur de l'option"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
@@ -1416,7 +1403,7 @@ msgstr "Téléavertisseur"
 
 #: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
 msgid "Field Name"
-msgstr ""
+msgstr "Nom du champ"
 
 #: CRM/Core/DAO/UFGroup.php CRM/Core/Menu.php templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile"
@@ -7739,7 +7726,7 @@ msgid ""
 "'begins with any combination of letters').\n"
 "                To search by email address, use <a href=\"%1\">Advanced "
 "Search</a>."
-msgstr ""
+msgstr "Pour rechercher par prénom ET nom de famille, utiliser la forme 'nom, prénom'. Par exemple, «Doe, Jane».Pour effectuer une recherche sur une partie du nom, utiliser la syntaxe «%nompartiel» (où «%» signifie «commence par n'importe quelle combinaison de caractères»). Pour effectuer une recherche basée sur l'adresse de courriel, utiliser le formulaire de <a href=\"%1\">recherche avancée</a>."
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
 msgid ""
@@ -7749,16 +7736,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
-#, fuzzy
 msgid "Complete OR partial Contact Name."
-msgstr "Entrez un nom de contact (complet ou partiel) OU un courriel."
+msgstr "Entrez un nom de contact (complet ou partiel)."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
-#, fuzzy
 msgid "Complete OR partial Email Address."
-msgstr ""
-"Entrez un nom de contact (complet ou partiel) <strong>ou</strong> un "
-"courriel."
+msgstr "Entrez une adresse de courriel (complète ou partielle)."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Does the contact have a %1 Account?"
@@ -7766,7 +7749,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Exclude contacts who have these privacy option(s)."
-msgstr ""
+msgstr "Exclure les contacts qui ont demandé ces options de confidentialité."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
@@ -7783,9 +7766,8 @@ msgstr ""
 "ou travail), cochez une des cases ci-dessus."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
-#, fuzzy
 msgid "Complete OR partial contact name."
-msgstr "Entrez un nom de contact (complet ou partiel) OU un courriel."
+msgstr "Entrez un nom de contact (complet ou partiel)."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
@@ -7880,17 +7862,11 @@ msgstr ""
 "contacts'."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
-#, fuzzy
 msgid ""
 "Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
 "\"Volunteer%\" as your Activity Type to match any activity whose type is "
 "\"Volunteer\" + any other words (e.g. Volunteer for Open House)."
-msgstr ""
-"Vous pouvez utiliser le caractère <strong>%</strong> pour effectuer une "
-"recherche partielle (pour les champs autres que le nom et le courriel). Par "
-"exemple: dans le champ «Type d'activité» vous pouvez entrer «Bénévolat%» "
-"pour trouver toutes les entrées correspondant à «Bénévolat» + tout autre "
-"mot, tel que «Bénévolat pour les paniers de Noël»."
+msgstr "Vous pouvez utiliser le caractère <strong>%</strong> pour effectuer une recherche partielle. Par exemple: dans le champ «Type d'activité» vous pouvez entrer «Bénévolat%» pour trouver toutes les entrées correspondant à «Bénévolat» + tout autre mot, tel que «Bénévolat pour les paniers de Noël»."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
