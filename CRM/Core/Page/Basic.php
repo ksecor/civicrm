@@ -169,6 +169,9 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         return parent::run();
     }
 
+    function superRun( ) {
+        return parent::run( );
+    }
 
     /**
      * browse all entities.

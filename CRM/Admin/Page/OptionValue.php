@@ -115,16 +115,6 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
      */
     function run()
     {
-
-        // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', 'String',
-                                              $this, false, 'browse'); // default to 'browse'
-
-        // assign vars to templates
-        $this->assign('action', $action);
-        
-        $id = CRM_Utils_Request::retrieve('id', 'Positive',
-                                          $this, false, 0);
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this, false, 0);
         $this->assign('gid' , $this->_gid );
@@ -135,14 +125,6 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
             CRM_Utils_System::setTitle(ts('%1 - Option Values', array(1 => $groupTitle)));
         }
         
-        // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {
-            $this->edit($action, $id , null , false) ;
-        } 
-        // finally browse the  groups value
-        $this->browse();
-        
-        // parent run 
         parent::run();
     }
 

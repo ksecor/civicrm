@@ -114,31 +114,13 @@ class CRM_Admin_Page_PaymentProcessor extends CRM_Core_Page_Basic
      */
     function run()
     {
-        
-        // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', 'String',
-                                              $this, false, 'browse'); // default to 'browse'
-
         // set title and breadcrumb
         CRM_Utils_System::setTitle(ts('Settings - Payment Processor'));
         $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Global Settings') . '</a>';
         CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
 
-        // assign vars to templates
-        $this->assign('action', $action);
-        $id = CRM_Utils_Request::retrieve('id', 'Positive',
-                                          $this, false, 0);
-
-        // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD )) {
-            $this->edit($action, $id) ;
-        } 
-        // finally browse the custom groups
-        $this->browse();
-        
-        // parent run 
-        parent::run();
+        return parent::run();
     }
 
     /**
