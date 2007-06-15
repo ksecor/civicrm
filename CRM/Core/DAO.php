@@ -302,7 +302,7 @@ class CRM_Core_DAO extends DB_DataObject {
             $dbName = $value['name'];
             if ( array_key_exists( $dbName, $params ) ) {
                 // if there is no value then make the variable NULL
-                if ( $params[$dbName] == '' ) {
+                if ( $params[$dbName] === '' ) {
                     $this->$dbName = 'null';
                 } else {
                     $this->$dbName = $params[$dbName];

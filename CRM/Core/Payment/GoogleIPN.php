@@ -348,7 +348,7 @@ WHERE  v.option_group_id = g.id
                                        'register_date' => $now,
                                        'source'        => ts( 'Online Event Registration:' ) . ' ' . $values['event']['title'],
                                        'event_level'   => $contribution->amount_level,
-                                       'is_test'       => $contribution->is_test
+                                       'is_test'       => $contribution->is_test ? 1 : 0,
                                        );
             
             $ids = array();
