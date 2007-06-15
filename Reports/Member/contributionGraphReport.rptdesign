@@ -369,7 +369,7 @@ GROUP BY typeName</property>
                             <property name="color">#E6E6FA</property>
                             <property name="textAlign">center</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Total Contribution of Contribution]]></text-property>
+                            <text-property name="content"><![CDATA[Total Contribution]]></text-property>
                         </text>
                     </cell>
                 </row>

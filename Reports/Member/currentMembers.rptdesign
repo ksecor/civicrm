@@ -11,7 +11,7 @@
                 <scalar-parameter name="startDate" id="124">
                     <property name="valueType">static</property>
                     <property name="dataType">string</property>
-                    <text-property name="promptText">Enter Start Date</text-property>
+                    <text-property name="promptText">Enter Start Year</text-property>
                     <property name="controlType">text-box</property>
                     <property name="defaultValue">2000</property>
                     <structure name="format">
@@ -21,7 +21,7 @@
                 <scalar-parameter name="endDate" id="125">
                     <property name="valueType">static</property>
                     <property name="dataType">string</property>
-                    <text-property name="promptText">Enter End Date</text-property>
+                    <text-property name="promptText">Enter End Year</text-property>
                     <property name="controlType">text-box</property>
                     <property name="defaultValue">2007</property>
                     <structure name="format">
@@ -119,8 +119,8 @@ ON (memType.id=mem.membership_type_id
 AND memStatus.id=mem.status_id
 AND mem.contact_id=contact.id
 )
-WHERE mem.start_date >= ?
-AND mem.end_date &lt;= ?</property>
+WHERE year(mem.start_date) >= ?
+AND year(mem.end_date) &lt;= ?</property>
         </oda-data-set>
     </data-sets>
     <page-setup>
@@ -166,7 +166,7 @@ AND mem.end_date &lt;= ?</property>
                         <property name="color">#E6E6FA</property>
                         <property name="textAlign">center</property>
                         <property name="contentType">plain</property>
-                        <text-property name="content"><![CDATA[(based on Membership start date)]]></text-property>
+                        <text-property name="content"><![CDATA[(Membership between start & end year of Date)]]></text-property>
                     </text>
                 </cell>
             </row>
@@ -240,8 +240,9 @@ AND mem.end_date &lt;= ?</property>
                     <property name="color">#131B6D</property>
                     <cell id="8">
                         <text id="30">
+			    <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Member Name]]></text-property>
+                            <text-property name="content"><![CDATA[Name]]></text-property>
                         </text>
                     </cell>
                     <cell id="120">
@@ -271,7 +272,7 @@ AND mem.end_date &lt;= ?</property>
                     <cell id="122">
                         <text id="39">
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Membership Type]]></text-property>
+                            <text-property name="content"><![CDATA[Type]]></text-property>
                         </text>
                     </cell>
                 </row>
@@ -284,6 +285,7 @@ AND mem.end_date &lt;= ?</property>
                     <property name="color">#131B6D</property>
                     <cell id="14">
                         <data id="40">
+			    <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">display_name</property>
                         </data>
                     </cell>

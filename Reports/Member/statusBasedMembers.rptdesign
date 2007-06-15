@@ -15,11 +15,30 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <text-property name="promptText">Enter Membership Status</text-property>
-            <property name="controlType">text-box</property>
-            <property name="defaultValue">Expired</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <property name="defaultValue">Current</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
+	    <list-property name="selectionList">
+                <structure>
+                    <property name="value">New</property>
+                    <property name="label">New</property>
+                </structure>
+                <structure>
+                    <property name="value">Current</property>
+                    <property name="label">Current</property>
+                </structure>
+                <structure>
+                    <property name="value">Grace</property>
+                    <property name="label">Grace</property>
+                </structure>
+                <structure>
+                    <property name="value">Expired</property>
+                    <property name="label">Expired</property>
+                </structure>
+            </list-property>
         </scalar-parameter>
     </parameters>
     <data-sources>
@@ -145,7 +164,7 @@ where memStatus.name = ?</property>
                         <property name="color">#E6E6FA</property>
                         <property name="textAlign">center</property>
                         <property name="contentType">plain</property>
-                        <text-property name="content"><![CDATA[(based on Membership Type)]]></text-property>
+                        <text-property name="content"><![CDATA[(based on Membership Status)]]></text-property>
                     </text>
                 </cell>
             </row>
@@ -206,7 +225,7 @@ where memStatus.name = ?</property>
                     <cell id="8">
                         <text id="30">
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Member Name]]></text-property>
+                            <text-property name="content"><![CDATA[Name]]></text-property>
                         </text>
                     </cell>
                     <cell id="9">
@@ -236,7 +255,7 @@ where memStatus.name = ?</property>
                     <cell id="12">
                         <text id="39">
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Membership Type]]></text-property>
+                            <text-property name="content"><![CDATA[Type]]></text-property>
                         </text>
                     </cell>
                 </row>

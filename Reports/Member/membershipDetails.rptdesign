@@ -245,25 +245,25 @@ ORDER BY memStatus.name</property>
                         <property name="backgroundColor">#B3D1FF</property>
                         <text id="40">
                             <property name="marginLeft">5pt</property>
-                            <property name="textAlign">center</property>
+                            <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Membership Status]]></text-property>
+                            <text-property name="content"><![CDATA[Status]]></text-property>
                         </text>
                     </cell>
                     <cell id="42">
                         <property name="backgroundColor">#B3D1FF</property>
                         <text id="66">
                             <property name="marginLeft">5pt</property>
-                            <property name="textAlign">center</property>
+                            <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Membership Type]]></text-property>
+                            <text-property name="content"><![CDATA[Type]]></text-property>
                         </text>
                     </cell>
                     <cell id="52">
                         <property name="backgroundColor">#B3D1FF</property>
                         <text id="69">
                             <property name="marginLeft">5pt</property>
-                            <property name="textAlign">center</property>
+                            <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Join Date]]></text-property>
                         </text>
@@ -272,7 +272,7 @@ ORDER BY memStatus.name</property>
                         <property name="backgroundColor">#B3D1FF</property>
                         <text id="70">
                             <property name="marginLeft">5pt</property>
-                            <property name="textAlign">center</property>
+                            <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Start Date]]></text-property>
                         </text>

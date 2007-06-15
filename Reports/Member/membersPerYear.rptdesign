@@ -226,7 +226,7 @@ order by year</property>
                         <text id="34">
                             <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Member Name]]></text-property>
+                            <text-property name="content"><![CDATA[Name]]></text-property>
                         </text>
                     </cell>
                     <cell id="9">
