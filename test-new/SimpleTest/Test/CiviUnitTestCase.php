@@ -437,24 +437,39 @@ class CiviUnitTestCase extends UnitTestCase {
     /**
      * Function to create Activity 
      * 
-     * @param int $contactId
+     * Note: Please delete source and target contact when you call
+     * this function
+     *
+     * @param array $params
      */
-    function activityCreate( $individualSourceID, $individualTargetID )
+    function activityCreate( $params = null )
     {
-        $params = array(
-                        'source_contact_id' => $individualSourceID,
-                        'target_entity_table' => 'civicrm_contact',
-                        'target_entity_id' => $individualTargetID ,
-                        'subject' => 'Disscussion on Apis for v2',
-                        'scheduled_date_time' => date('Ymd'),
-                        'duration_hours' =>30,
-                        'duration_minutes' => 20,
-                        'location' => 'Pensulvania',
-                        'details' => 'a meeting activity',
-                        'status' => 'Scheduled',
-                        'parent_id' => 1, 
-                        'activity_name' =>'Meeting',
-                        );
+        if ( $params === null ) { 
+            $individualSourceID    = $this->individualCreate( );
+
+            $contactParams = array( 'first_name'       => 'Julia',
+                                    'Last_name'        => 'Anderson',
+                                    'prefix'           => 'Ms',
+                                    'email'            => 'julia_anderson@civicrm.org',
+                                    'contact_type'     => 'Individual');
+
+            $individualTargetID    = $this->individualCreate( $contactParams );
+
+            $params = array(
+                            'source_contact_id'   => $individualSourceID,
+                            'target_entity_table' => 'civicrm_contact',
+                            'target_entity_id'    => $individualTargetID ,
+                            'subject'             => 'Disscussion on Apis for v2',
+                            'scheduled_date_time' => date('Ymd'),
+                            'duration_hours'      => 30,
+                            'duration_minutes'    => 20,
+                            'location'            => 'Pensulvania',
+                            'details'             => 'a meeting activity',
+                            'status'              => 'Scheduled',
+                            'activity_name'       => 'Meeting',
+                            );
+        }
+        
         $activity =& civicrm_activity_create($params);
         return $activity;
     }
@@ -465,8 +480,7 @@ class CiviUnitTestCase extends UnitTestCase {
      * @param string $className
      * @param string $title  name of custom group
      */
-    
-    function customGroupCreate( $className,$title ) 
+    function customGroupCreate( $className, $title ) 
     {
         require_once 'api/v2/CustomGroup.php';
         $params = array(
@@ -478,7 +492,8 @@ class CiviUnitTestCase extends UnitTestCase {
                         );
 
         $result =& civicrm_custom_group_create($params);
-         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
+        
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'custom_group_id', $result) ) {
              CRM_Core_Error::fatal( 'Could not create Custom Group' );
         }
@@ -491,14 +506,15 @@ class CiviUnitTestCase extends UnitTestCase {
      * 
      * @param int    $customGroupID
      */
-    
     function customGroupDelete( $customGroupID ) 
     {
         $params['id'] = $customGroupID;
         $result = & civicrm_custom_group_delete($params);
+        
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete custom group' );
         }
+        
         return;
     }
 
@@ -508,7 +524,6 @@ class CiviUnitTestCase extends UnitTestCase {
      * @param int    $customGroupID
      * @param string $name  name of custom field
      */
-    
     function customFieldCreate( $customGroupID, $name ) 
     {
         require_once 'api/v2/CustomGroup.php';
@@ -523,7 +538,8 @@ class CiviUnitTestCase extends UnitTestCase {
                         );
 
         $result =& civicrm_custom_field_create($params);
-         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
+        
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'custom_field_id', $result) ) {
              CRM_Core_Error::fatal( 'Could not create Custom Field' );
         }
@@ -541,6 +557,7 @@ class CiviUnitTestCase extends UnitTestCase {
     {
         $params['id'] = $customFieldID;
         $result = & civicrm_custom_field_delete($params);
+
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete custom field' );
         }

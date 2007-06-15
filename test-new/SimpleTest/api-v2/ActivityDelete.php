@@ -7,14 +7,10 @@ class TestOfActivityDeleteAPIV2 extends CiviUnitTestCase {
     
     function setUp() 
     {
-        $this->individualSourceID    = $this->individualCreate( );
-        $this->individualTargetID    = $this->individualCreate( );
     }
     
     function tearDown() 
     {
-        $this->contactDelete( $this->individualSourceID );
-        $this->contactDelete( $this->individualTargetID );
     }
  
     function testDeleteActivityWithoutId()
@@ -26,20 +22,32 @@ class TestOfActivityDeleteAPIV2 extends CiviUnitTestCase {
 
     function testDeleteActivityWithoutName()
     {
-        $activity = $this->activityCreate( $this->individualSourceID, $this->individualTargetID);
-        $params = array( 'id' => $activity['id'] );
-        $activity =& civicrm_activity_delete($params);
-        $this->assertEqual( $activity['is_error'], 1 );
+        $activity = $this->activityCreate( );
+        
+        $params = array( 'id' => $createActivity['id'] );
+        $result =& civicrm_activity_delete($params);
+        $this->assertEqual( $result['is_error'], 1 );
+
+        //deleting contact created for adding activity
+        $this->contactDelete( $activity['source_contact_id'] );
+        $this->contactDelete( $activity['target_entity_id'] );
     }
+
     function testDeleteActivity()
     {
-        $activity = $this->activityCreate( $this->individualSourceID, $this->individualTargetID);
+        $activity = $this->activityCreate( );
+
         $params = array(
                         'id' => $activity['id'],
                         'activity_name' => 'Meeting',
                         );
-        $activity =& civicrm_activity_delete($params);
-        $this->assertEqual( $activity['is_error'], 0 );
+
+        $result =& civicrm_activity_delete($params);
+        $this->assertEqual( $result['is_error'], 0 );
+
+        //deleting contact created for adding activity
+        $this->contactDelete( $activity['source_contact_id'] );
+        $this->contactDelete( $activity['target_entity_id'] );
     }
     
 }
