@@ -96,7 +96,7 @@ class CiviUnitTestCase extends UnitTestCase {
         
         return $result['id'];
     }
-
+    
     function contactMembershipCreate( $params ) 
     {
         $pre = array('join_date'   => '2007-01-21',
@@ -113,7 +113,11 @@ class CiviUnitTestCase extends UnitTestCase {
         
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
-            CRM_Core_Error::fatal( 'Could not create membership' );
+            if ( CRM_Utils_Array::value( 'error_message', $result ) ) {
+                CRM_Core_Error::fatal( $result['error_message'] );
+            } else {
+                CRM_Core_Error::fatal( 'Could not create membership' );
+            }
         }
         
         return $result['id'];

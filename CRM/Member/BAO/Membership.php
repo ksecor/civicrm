@@ -152,17 +152,39 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     /**
      * takes an associative array and creates a membership object
      *
-     * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
-     *
+     * @param array    $params      (reference ) an assoc array of name/value pairs
+     * @param array    $ids         the array that holds all the db ids
+     * @param boolean  $callFromAPI Is this function called from API?
+     * 
      * @return object CRM_Member_BAO_Membership object 
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids) 
+    static function &create(&$params, &$ids, $callFromAPI = false ) 
     {
         require_once 'CRM/Utils/Date.php';
-
+        
+        if ( ! $params['is_override'] ) {
+            $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
+            $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
+            $joinDate    = CRM_Utils_Date::customFormat($params['join_date'],'%Y-%m-%d');
+            
+            $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
+            
+            if ( empty( $calcStatus ) ) {
+                if ( ! $callFromAPI ) {
+                    // Redirect the form in case of error
+                    CRM_Core_Session::setStatus( ts('The membership can not be saved.<br/> No valid membership status for given dates.') );
+                    return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&force=1&cid={$this->_contactID}&selectedChild=member"));
+                }
+                // Return the error message to the api
+                $error = array( );
+                $error['is_error'] = ts( 'The membership can not be saved. No valid membership status for given dates' );
+                return $error;
+            }
+            $params['status_id'] = $calcStatus['id'];
+        }
+        
         CRM_Core_DAO::transaction('BEGIN');
         
         $membership =& self::add($params, $ids);

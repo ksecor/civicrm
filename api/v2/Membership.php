@@ -371,8 +371,9 @@ function civicrm_contact_membership_create(&$params)
         return civicrm_create_error( 'Params is not an array' );
     }
     
-    if ( !isset($params['membership_type_id']) || !isset($params['status_id']) || !isset($params['contact_id'] )) {
-        return civicrm_create_error( 'Required parameter missing' );
+    if ( !isset($params['membership_type_id']) || !isset($params['contact_id'] ) ||
+         ( $params['is_override'] && ! $params['status_id'] )) {
+        return civicrm_create_error( ts('Required parameter missing') );
     }
     
     $values  = array( );   
@@ -385,10 +386,18 @@ function civicrm_contact_membership_create(&$params)
     require_once 'CRM/Member/BAO/Membership.php';
     //for edit membership id should be present
     if ( $params['id'] ) {
-      $ids = array( 'membership' => $params['id'],
-		    'user_id'=> $params['contact_id'] );
+        $ids = array( 'membership' => $params['id'],
+                      'user_id'    => $params['contact_id'] );
     }
-    $membershipBAO = CRM_Member_BAO_Membership::create($params, $ids);
+    
+    $membershipBAO = CRM_Member_BAO_Membership::create($params, $ids, true);
+    
+    if ( array_key_exists( 'is_error', $membershipBAO ) ) {
+        // In case of no valid status for given dates, $membershipBAO
+        // is going to contain 'is_error' => "Error Message"
+        return civicrm_create_error( ts( 'The membership can not be saved, no valid membership status for given dates' ) );
+    }
+    
     if ( ! is_a( $membershipBAO, 'CRM_Core_Error') ) {
       require_once 'CRM/Core/Action.php';
         $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
@@ -536,12 +545,16 @@ function civicrm_membership_delete(&$membershipID)
  * @return Array  Array of status id and status name 
  * @public
  */
-function civicrm_membership_status_calc( &$membershipID )
+function civicrm_membership_status_calc( $membershipParams )
 {
-    if ( empty( $membershipID ) ) {
-        return civicrm_create_error( 'Invalid value for membershipID' );
+    if ( ! is_array( $membershipParams ) ) {
+        return civicrm_create_error( ts( 'membershipParams is not an array' ) );
     }
-
+    
+    if ( ! ( $membershipID = CRM_Utils_Array::value( 'membership_id', $membershipParams ) ) ) {
+        return civicrm_create_error( 'membershipParams do not contain membership_id' );
+    }
+    
     $query = "
 SELECT start_date, end_date, join_date
   FROM civicrm_membership

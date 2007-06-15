@@ -40,7 +40,8 @@ class TestOfMembershipCreateAPIV2 extends CiviUnitTestCase {
                         'start_date'         => '2006-01-21',
                         'end_date'           => '2006-12-21',
                         'source'             => 'Payment',
-                        'status_id'          => '2'                       
+                        'is_override'        => 1,
+                        'status_id'          => 2                       
                         );
         $result = civicrm_contact_membership_create( $params );
         $this->assertEqual( $result['is_error'], 0 );

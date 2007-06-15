@@ -247,19 +247,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         }
         
-        if ( !$params['is_override'] ) {
-            $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
-            $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
-            $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
-
-            if (empty($calcStatus)){
-                CRM_Core_Session::setStatus( ts('The membership can not be saved.<br/> No valid membership status for given dates.') );
-                return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&force=1&cid={$this->_contactID}&selectedChild=member"));
-            }
-            $params['status_id'] = $calcStatus['id'];
-            
-        }
-        
         $ids['membership'] = $params['id'] = $this->_id;
         
         $session = CRM_Core_Session::singleton();
