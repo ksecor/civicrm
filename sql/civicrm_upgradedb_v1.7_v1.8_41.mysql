@@ -24,17 +24,20 @@ CREATE TABLE civicrm_case (
      end_date date COMMENT 'Date on which given case ends.',
      details text COMMENT 'Details about the meeting (agenda, notes, etc).',
      status_id int unsigned NOT NULL   COMMENT 'Id of case status.' 
-,
-    PRIMARY KEY ( id )
-,   INDEX UI_casetag1_id(casetag1_id)
-,   INDEX UI_casetag2_id(casetag2_id)
-,   INDEX UI_casetag3_id(casetag3_id)
-,   INDEX UI_status_id(status_id)
-,     
-    CONSTRAINT FK_civicrm_case_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
+
+,    PRIMARY KEY ( id )
+
+,    INDEX UI_casetag1_id(casetag1_id)
+
+,    INDEX UI_casetag2_id(casetag2_id)
+
+,    INDEX UI_casetag3_id(casetag3_id)
+
+,    INDEX UI_status_id(status_id)
+
+,    CONSTRAINT FK_civicrm_case_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
 
 
 -- /*******************************************************
@@ -48,13 +51,12 @@ CREATE TABLE civicrm_case_activity (
 
      id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique case-activity association id',
      case_id int unsigned NOT NULL COMMENT 'Case ID of case-activity association.',
-     activity_id int unsigned NOT NULL COMMENT 'Activity ID of case-activity association.' 
+     activity_entity_table varchar(64) NOT NULL COMMENT 'Name of table where item being referenced is stored (activity, phonecall or meeting).',
+     activity_entity_id int unsigned NOT NULL  COMMENT 'Entity (activity, phonecall or meeting) id for which the assigment is created' 
 
 ,    PRIMARY KEY ( id )
-
+ 
 ,    CONSTRAINT FK_civicrm_case_activity_case_id FOREIGN KEY (case_id) REFERENCES civicrm_case(id)
-
-,    CONSTRAINT FK_civicrm_case_activity_activity_id FOREIGN KEY (activity_id) REFERENCES civicrm_activity(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
@@ -69,14 +71,13 @@ CREATE TABLE civicrm_case_activity (
 CREATE TABLE civicrm_activity_assignment (
 
      id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Activity assignment id',
-     activity_id int unsigned NOT NULL COMMENT 'Activity id for which the assigment is created',
+     activity_entity_table varchar(64) NOT NULL COMMENT 'Name of table where item being referenced is stored (activity, phonecall or meeting).',
+     activity_entity_id int unsigned NOT NULL COMMENT 'Entity (activity, phonecall or meeting) id for which the assigment is created',
      target_entity_table varchar(64) NOT NULL COMMENT 'Name of table where item being referenced is stored (contact assigned to given activity).',
      target_entity_id int unsigned NOT NULL COMMENT 'Foreign key to the referenced item.' 
 
 ,    PRIMARY KEY ( id )
-
-,    CONSTRAINT FK_civicrm_activity_assignment_activity_id FOREIGN KEY (activity_id) REFERENCES civicrm_activity(id)
-  
+ 
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
 
@@ -89,14 +90,14 @@ CREATE TABLE civicrm_activity_assignment (
 -- *******************************************************/
 CREATE TABLE civicrm_dedupe_rule_group (
 
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique dedupe rule group id',
-     domain_id int unsigned NOT NULL   COMMENT 'The id of the domain this rule group belongs to',
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique dedupe rule group id',
+     domain_id int unsigned NOT NULL COMMENT 'The id of the domain this rule group belongs to',
      contact_type enum('Individual', 'Organization', 'Household')    COMMENT 'The type of contacts this group applies to',
-     threshold int NOT NULL   COMMENT 'The weight threshold the sum of the rule weights has to cross to consider two contacts the same' 
-,
-    PRIMARY KEY ( id )
-,      
-    CONSTRAINT FK_civicrm_dedupe_rule_group_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+     threshold int NOT NULL COMMENT 'The weight threshold the sum of the rule weights has to cross to consider two contacts the same' 
+
+,    PRIMARY KEY ( id )
+
+,    CONSTRAINT FK_civicrm_dedupe_rule_group_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
@@ -132,20 +133,19 @@ CREATE TABLE civicrm_dedupe_rule (
 -- *******************************************************/
 CREATE TABLE civicrm_grant (
 
-
      id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Grant id',
-     contact_id int unsigned NOT NULL   COMMENT 'Contact ID of contact record given grant belongs to.',
-     application_received_date date    COMMENT 'Date on which grant application was received by donor.',
-     decision_date date    COMMENT 'Date on which grant decision was made.',
-     money_transfer_date date    COMMENT 'Date on which grant money transfer was made.',
-     grant_due_date date    COMMENT 'Date on which grant report is due.',
-     grant_report_received tinyint    COMMENT 'Yes/No field stating whether grant report was received by donor.',
-     grant_type_id int unsigned NOT NULL   COMMENT 'Id of first case category.',
-     amount_total decimal(20,2) NOT NULL   COMMENT 'Total amount, in default currency.',
-     amount_requested decimal(20,2) NOT NULL   COMMENT 'Requested amount, in default currency.',
-     amount_granted decimal(20,2) NOT NULL   COMMENT 'Granted amount, in default currency.',
-     rationale text    COMMENT 'Grant rationale.',
-     status_id int unsigned NOT NULL   COMMENT 'Id of case status.' 
+     contact_id int unsigned NOT NULL COMMENT 'Contact ID of contact record given grant belongs to.',
+     application_received_date date COMMENT 'Date on which grant application was received by donor.',
+     decision_date date COMMENT 'Date on which grant decision was made.',
+     money_transfer_date date COMMENT 'Date on which grant money transfer was made.',
+     grant_due_date date COMMENT 'Date on which grant report is due.',
+     grant_report_received tinyint COMMENT 'Yes/No field stating whether grant report was received by donor.',
+     grant_type_id int unsigned NOT NULL COMMENT 'Id of first case category.',
+     amount_total decimal(20,2) NOT NULL COMMENT 'Total amount, in default currency.',
+     amount_requested decimal(20,2) NOT NULL COMMENT 'Requested amount, in default currency.',
+     amount_granted decimal(20,2) NOT NULL COMMENT 'Granted amount, in default currency.',
+     rationale text COMMENT 'Grant rationale.',
+     status_id int unsigned NOT NULL COMMENT 'Id of case status.' 
 
 ,    PRIMARY KEY ( id )
  
@@ -376,16 +376,19 @@ CREATE TABLE civicrm_line_item (
 CREATE TABLE civicrm_timezone (
 
 
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Timezone Id',
-     name varchar(64)    COMMENT 'Timezone full name',
-     abbreviation char(3)    COMMENT 'ISO Code for timezone abbreviation',
-     country_id int unsigned NOT NULL   COMMENT 'Country Id' 
+     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Timezone Id',
+     name varchar(64) COMMENT 'Timezone full name',
+     abbreviation char(3) COMMENT 'ISO Code for timezone abbreviation',
+     gmt varchar(64) COMMENT 'GMT name of the timezone',
+     offset int,
+     country_id int unsigned NOT NULL COMMENT 'Country Id' 
 
 ,    PRIMARY KEY ( id )
 
 ,    CONSTRAINT FK_civicrm_timezone_country_id FOREIGN KEY (country_id) REFERENCES civicrm_country(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
 
 
 -- /*******************************************************
@@ -497,6 +500,20 @@ CREATE TABLE civicrm_worldregion (
 	ALTER TABLE civicrm_location
 	    MODIFY location_type_id int(10) unsigned NULL DEFAULT NULL;
    
+
+-- /*******************************************************
+-- *
+-- * civicrm_meeting
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_meeting
+	    ADD activity_tag1_id int(10) unsigned NOT NULL,
+	    ADD activity_tag2_id int(10) unsigned NOT NULL, 
+	    ADD activity_tag3_id int(10) unsigned NOT NULL,
+	    ADD INDEX UI_activity_tag1_id (activity_tag1_id),
+	    ADD INDEX UI_activity_tag2_id (activity_tag2_id),
+	    ADD INDEX UI_activity_tag3_id (activity_tag3_id);
+   
   
 -- /*******************************************************
 -- *
@@ -513,6 +530,21 @@ CREATE TABLE civicrm_worldregion (
 -- *******************************************************/
 	ALTER TABLE civicrm_option_group
     	    ADD label varchar(255) NULL DEFAULT NULL;
+
+-- /*******************************************************
+-- *
+-- * civicrm_phonecall
+-- *
+-- *******************************************************/
+
+ALTER TABLE civicrm_phonecall
+    ADD activity_tag1_id int(10) unsigned NOT NULL,
+    ADD activity_tag2_id int(10) unsigned NOT NULL,
+    ADD activity_tag3_id int(10) unsigned NOT NULL,
+    ADD INDEX UI_activity_tag1_id (activity_tag1_id),
+    ADD INDEX UI_activity_tag2_id (activity_tag2_id),
+    ADD INDEX UI_activity_tag3_id (activity_tag3_id);
+    
 
 -- /*******************************************************
 -- *
