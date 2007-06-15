@@ -15,9 +15,10 @@ class TestOfTagCreateAPIV2 extends CiviUnitTestCase
                         'name'        => 'New Tag1',
                         'description' => 'This is description for New Tag 01'
                         );
-
+        
         $result =& civicrm_tag_create($params);
-        $this->assertEqual( $result['is_error'],1 );
+        $this->assertEqual( $result['is_error'],1 ); 
+        $this->assertNotNull($result['error_message']);
     }
     
     function testTagCreateEmptyParams()
@@ -25,6 +26,7 @@ class TestOfTagCreateAPIV2 extends CiviUnitTestCase
         $params = array( );
         $result =& civicrm_tag_create($params);
         $this->assertEqual( $result['is_error'],1 );
+        $this->assertNotNull($result['error_message']);
     }
     
     function testTagCreateWithDomainID()
@@ -35,8 +37,9 @@ class TestOfTagCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $tag =& civicrm_tag_create($params);
-        $this->assertEqual($tag['is_error'], 0);
-        civicrm_tag_delete($tag['tag_id']);
+        $this->assertEqual($tag['is_error'], 0); 
+        $this->assertNotNull($tag['tag_id']);
+        $this->tagDelete($tag['tag_id']);
     }
     
     function testTagCreate()
@@ -49,8 +52,9 @@ class TestOfTagCreateAPIV2 extends CiviUnitTestCase
         
         $tag =& civicrm_tag_create($params);
         $this->assertEqual($tag['is_error'], 0);
-        civicrm_tag_delete($tag['tag_id']);
-     }
+        $this->assertNotNull($tag['tag_id']);
+        $this->tagDelete($tag['tag_id']);
+    }
     
     function tearDown() 
     {  

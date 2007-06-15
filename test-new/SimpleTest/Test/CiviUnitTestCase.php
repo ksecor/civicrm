@@ -1,10 +1,9 @@
 <?php
 
-
 require_once '../../CRM/Contribute/BAO/ContributionType.php';
 
 class CiviUnitTestCase extends UnitTestCase {
-
+    
     /** 
      * Generic function to create Organisation, to be used in test cases
      * 
@@ -37,7 +36,7 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         return $this->_contactCreate( $params );
     }
-
+    
     /** 
      * Generic function to create Household, to be used in test cases
      * 
@@ -51,7 +50,7 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         return $this->_contactCreate( $params );
     }
-
+    
     /** 
      * Private helper function for calling civicrm_contact_add
      * 
@@ -67,7 +66,7 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         return $result['contact_id'];
     }
-        
+    
     function contactDelete( $contactID ) 
     {
         require_once 'api/v2/Contact.php';
@@ -87,7 +86,7 @@ class CiviUnitTestCase extends UnitTestCase {
                          'period_type'          => 'rolling',
                          'member_of_contact_id' => $contactID,
                          'contribution_type_id' => $contributionTypeID );
-
+        
         $result = civicrm_membership_type_create( $params );
         
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
@@ -119,7 +118,7 @@ class CiviUnitTestCase extends UnitTestCase {
         
         return $result['id'];
     }
-
+    
     /**
      * Function to delete Membership Type
      * 
@@ -134,7 +133,7 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         return;
     }
-   
+    
     function membershipDelete( $membershipID )
     {
         $result = civicrm_membership_delete( $membershipID );
@@ -143,7 +142,7 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         return;
     }
-
+    
     function membershipStatusCreate( $name = 'test member status' ) 
     {
         $params['name'] = $name;
@@ -182,14 +181,14 @@ class CiviUnitTestCase extends UnitTestCase {
                         'source'        => 'Wimbeldon',
                         'event_level'   => 'Payment'
                         );
-
+        
         $result = civicrm_participant_create( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not create participant' );
         }
         return $result['participant_id'];
     }
-
+    
     /** 
      * Function to create Contribution Type
      * 
@@ -204,12 +203,12 @@ class CiviUnitTestCase extends UnitTestCase {
                         'is_deductible'   => 0,
                         'is_active'       => 1
                         );
-       
+        
         $ids = null;
         $contributionType = CRM_Contribute_BAO_ContributionType::add($params, $ids);
         return $contributionType->id;
     }
-   
+    
     /**
      * Function to delete contribution Types 
      * 
@@ -263,7 +262,6 @@ class CiviUnitTestCase extends UnitTestCase {
      * @param  array  $params 
      *
      */
-    
     function entityTagAdd( $params )
     {
         $result = civicrm_entity_tag_add( $params );
@@ -271,8 +269,7 @@ class CiviUnitTestCase extends UnitTestCase {
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Error while creating entity tag' );
         }
-        
-        return;
+        return ;
     }
     
     /**
@@ -305,7 +302,7 @@ class CiviUnitTestCase extends UnitTestCase {
         
         $contribution =& civicrm_contribution_add($params);
         return $contribution['id'];
-
+        
     }
     
     /**
@@ -320,8 +317,8 @@ class CiviUnitTestCase extends UnitTestCase {
         $val =& civicrm_contribution_delete( $params );
         $this->assertEqual($val['is_error'], 0);
     }
-
-
+    
+    
     /**
      * Function to delete participant 
      * 
@@ -337,9 +334,9 @@ class CiviUnitTestCase extends UnitTestCase {
             CRM_Core_Error::fatal( 'Could not delete participant' );
         }
         return;
-    
+        
     }
-
+    
     /**
      * Function to create participant payment
      *
@@ -365,7 +362,7 @@ class CiviUnitTestCase extends UnitTestCase {
         
         return $participantPayment['id'];
     }
-
+    
     /**
      * Function to delete participant payment
      * 
@@ -380,10 +377,10 @@ class CiviUnitTestCase extends UnitTestCase {
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete participant payment' );
         }
+        
         return;
-    
     }
-
+    
     /** 
      * Function to add a Location
      * 
@@ -401,8 +398,8 @@ class CiviUnitTestCase extends UnitTestCase {
                         'supplemental_address_1' => 'Hallmark Ct', 
                         'supplemental_address_2' => 'Jersey Village'
                         );
-        $result = civicrm_location_add( $params );
         
+        $result = civicrm_location_add( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
             CRM_Core_Error::fatal( 'Could not create location' );
@@ -421,6 +418,7 @@ class CiviUnitTestCase extends UnitTestCase {
         $params = array(
                         'contact_id.1' => $contactId,
                         'group_id'     => 1 );
+        
         civicrm_group_contact_add( $params );
     }
     
@@ -434,56 +432,41 @@ class CiviUnitTestCase extends UnitTestCase {
         $params = array(
                         'contact_id.1' => $contactId,
                         'group_id'     => 1 );
-       civicrm_group_contact_remove( $params );
+        civicrm_group_contact_remove( $params );
     }
-
+    
     /**
      * Function to create Activity 
      * 
-     * Note: Please delete source and target contact when you call
-     * this function
-     *
-     * @param array $params
+     * @param int $contactId
      */
-    function activityCreate( $params = null )
+    function activityCreate( $individualSourceID, $individualTargetID )
     {
-        if ( $params === null ) { 
-            $individualSourceID    = $this->individualCreate( );
-
-            $contactParams = array( 'first_name'       => 'Julia',
-                                    'Last_name'        => 'Anderson',
-                                    'prefix'           => 'Ms',
-                                    'email'            => 'julia_anderson@civicrm.org',
-                                    'contact_type'     => 'Individual');
-
-            $individualTargetID    = $this->individualCreate( $contactParams );
-
-            $params = array(
-                            'source_contact_id'   => $individualSourceID,
-                            'target_entity_table' => 'civicrm_contact',
-                            'target_entity_id'    => $individualTargetID ,
-                            'subject'             => 'Disscussion on Apis for v2',
-                            'scheduled_date_time' => date('Ymd'),
-                            'duration_hours'      => 30,
-                            'duration_minutes'    => 20,
-                            'location'            => 'Pensulvania',
-                            'details'             => 'a meeting activity',
-                            'status'              => 'Scheduled',
-                            'activity_name'       => 'Meeting',
-                            );
-        }
-        
+        $params = array(
+                        'source_contact_id' => $individualSourceID,
+                        'target_entity_table' => 'civicrm_contact',
+                        'target_entity_id' => $individualTargetID ,
+                        'subject' => 'Disscussion on Apis for v2',
+                        'scheduled_date_time' => date('Ymd'),
+                        'duration_hours' =>30,
+                        'duration_minutes' => 20,
+                        'location' => 'Pensulvania',
+                        'details' => 'a meeting activity',
+                        'status' => 'Scheduled',
+                        'parent_id' => 1, 
+                        'activity_name' =>'Meeting',
+                        );
         $activity =& civicrm_activity_create($params);
         return $activity;
     }
-
-     /**
+    
+    /**
      * Function to create custom group
      * 
      * @param string $className
      * @param string $title  name of custom group
      */
-    function customGroupCreate( $className, $title ) 
+    function customGroupCreate( $className,$title ) 
     {
         require_once 'api/v2/CustomGroup.php';
         $params = array(
@@ -493,17 +476,15 @@ class CiviUnitTestCase extends UnitTestCase {
                         'style'      => 'Inline',
                         'is_active'  => 1
                         );
-
-        $result =& civicrm_custom_group_create($params);
         
+        $result =& civicrm_custom_group_create($params);
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'custom_group_id', $result) ) {
-             CRM_Core_Error::fatal( 'Could not create Custom Group' );
+            CRM_Core_Error::fatal( 'Could not create Custom Group' );
         }
-        
         return $result['custom_group_id'];    
     }
-
+    
     /**
      * Function to delete custom group
      * 
@@ -513,20 +494,19 @@ class CiviUnitTestCase extends UnitTestCase {
     {
         $params['id'] = $customGroupID;
         $result = & civicrm_custom_group_delete($params);
-        
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete custom group' );
         }
-        
         return;
     }
-
-     /**
+    
+    /**
      * Function to create custom field
      * 
      * @param int    $customGroupID
      * @param string $name  name of custom field
      */
+    
     function customFieldCreate( $customGroupID, $name ) 
     {
         require_once 'api/v2/CustomGroup.php';
@@ -539,34 +519,57 @@ class CiviUnitTestCase extends UnitTestCase {
                         'is_searchable'   =>  1, 
                         'is_active'        => 1,
                         );
-
-        $result =& civicrm_custom_field_create($params);
         
+        $result =& civicrm_custom_field_create($params);
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'custom_field_id', $result) ) {
-             CRM_Core_Error::fatal( 'Could not create Custom Field' );
+            CRM_Core_Error::fatal( 'Could not create Custom Field' );
         }
         
         return $result['custom_field_id'];    
     }
-
+    
     /**
      * Function to delete custom field
      * 
      * @param int $customFieldID
      */
-    
     function customFieldDelete( $customFieldID ) 
     {
         $params['id'] = $customFieldID;
         $result = & civicrm_custom_field_delete($params);
-
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete custom field' );
         }
         return;
     }
-   
+    
+    /**
+     * Function to create option values
+     * 
+     * @param int    $customFieldID
+     * @param string $name  name of custom field
+     */
+    function OptionValueCreate($customFieldID,$name )
+    {
+        $params = array('custom_field_id' => $customFieldID,
+                        'name'            => $name,
+                        'label'           => 'Name',
+                        'default_value'   => 'abc',
+                        'weight'          => 4,
+                        'is_optgroup'     => 0,
+                        'is_reserved'     => 1,
+                        'is_active'       => 1
+                        );
+        
+        $result =& civicrm_option_value_create($params); 
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
+             ! CRM_Utils_Array::value( 'custom_option_id', $result) ) {
+            CRM_Core_Error::fatal( 'Could not create Option Value' );
+        }    
+        return $result['custom_option_id'];
+    }    
+    
 }
 
 ?>

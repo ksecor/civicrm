@@ -11,8 +11,9 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
     function testIndividualEntityTagAddEmptyParams( ) 
     {
         $params = array( );                             
-        $individualEntity = civicrm_entity_tag_add( $params );
+        $individualEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $individualEntity['is_error'], 1 );
+        $this->assertNotNull($individualEntity['error_message']);
        
     }
     
@@ -24,7 +25,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
                         'contact_id' =>  $ContactId,
                         'tag_id'     =>  $tagID);
         
-        $individualEntity = civicrm_entity_tag_add( $params );
+        $individualEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $individualEntity['is_error'], 0 );
         $this->assertEqual( $individualEntity['added'], 1 );
         $this->contactDelete( $params['contact_id'] );
@@ -68,7 +69,6 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
                         'contact_id' =>  $ContactId,
                         'tag_id'     =>  $tagID );
                                            
-        
         $organizationEntity = civicrm_entity_tag_add( $params );
         $this->assertEqual( $organizationEntity['is_error'], 0 );
         $this->assertEqual( $organizationEntity['added'], 1 );
@@ -80,9 +80,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
     {
         $individualId   = $this->individualCreate( );
         $organizationId = $this->organizationCreate( );
-        
         $tagID = $this->tagCreate( );
-        
         $params = array(
                         'contact_id' =>  $individualId,
                         'tag_id'     =>  $tagID
@@ -107,7 +105,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         
         $this->contactDelete( $individualId   );
         $this->contactDelete( $organizationId );
-        $this->tagDelete(     $tagID          );
+        $this->tagDelete( $tagID );
     }
     
     function tearDown( ) 
@@ -115,5 +113,4 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
     }
 
 }
-
 ?>

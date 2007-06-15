@@ -13,23 +13,25 @@ class TestOfTagDeleteAPIV2 extends CiviUnitTestCase
         $tag = array( );
         $tagDelete =& civicrm_tag_delete( $tag );
         $this->assertEqual( $tagDelete['is_error'], 1 );
+        $this->assertNotNull($tagDelete['error_message']);
     }
     
-    function testDeleteTagError( )
+    function testTagDeleteError( )
     {
         $tag = "noID";
         
         $tagDelete =& civicrm_tag_delete($tag);
-        $this->assertEqual( $tagDelete['is_error'], 1 );
+        $this->assertEqual( $tagDelete['is_error'], 1 ); 
+        $this->assertNotNull($tagDelete['error_message']);
         
     }
     
     function testTagDelete( )
     {
-        $tagID = $this->tagCreate( ); 
-        $tagDelete =& civicrm_tag_delete( $tagID ); 
+        $tagID = $this->tagCreate(null); 
+        $params = array('tag_id'=> $tagID);
+        $tagDelete =& civicrm_tag_delete($params ); 
         $this->assertEqual( $tagDelete['is_error'], 0 );
-        $this->assertNull( $tagDelete );
     }
     
     function tearDown() 

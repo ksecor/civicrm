@@ -13,8 +13,9 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
     function testParticipantUpdateEmptyParams()
     {
         $params = array();        
-        $participant = & civicrm_participant_update($params);
+        $participant = & civicrm_participant_update($params); 
         $this->assertEqual( $participant['is_error'],1 );
+        $this->assertNotNull($participant['error_message']);
     }
 
     function testParticipantUpdateWithoutId()
@@ -30,8 +31,9 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
                         'source'        => 'US Open',
                         'event_level'   => 'Donation'                        
                         );
-        $participant = & civicrm_participant_update($params); 
+        $participant = & civicrm_participant_update($params);  
         $this->assertEqual( $participant['is_error'], 1 );
+        $this->assertNotNull($participant['error_message']);
     }
 
     function testParticipantUpdate()
@@ -49,7 +51,7 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
                         'event_level'   => 'Donation'                        
                         );
        
-        $participant = & civicrm_participant_update($params);
+        $participant = & civicrm_participant_update($params); 
         $this->assertEqual($participant['event_id'],2);
         $this->assertEqual($participant['status_id'],3);
         $this->assertEqual($participant['role_id'],3);
