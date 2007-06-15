@@ -17,8 +17,11 @@ $session =& CRM_Core_Session::singleton();
 // HACK: This is only here until we implement the login system
 $session->set('userID',102);
 
-// See if there are things we should output in the HTML <head> section first
-
-print CRM_Core_Invoke::invoke( explode('/', $_GET['q'] ) );
+// If we didn't get any parameters, we should default to the dashboard
+if ($_GET[CIVICRM_UF_URLVAR] == "") {
+  print CRM_Core_Invoke::invoke( array("civicrm","dashboard") );
+} else {
+  print CRM_Core_Invoke::invoke( explode('/', $_GET[CIVICRM_UF_URLVAR] ) );
+}
 
 ?>
