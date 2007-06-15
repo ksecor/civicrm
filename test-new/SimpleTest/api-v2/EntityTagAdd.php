@@ -15,7 +15,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $this->assertEqual( $individualEntity['is_error'], 1 );
         // FIXME: Please assert on proper error message instead
         $this->assertNotNull($individualEntity['error_message']);
-        $this->assertEqual( $individualEntity['error_message'], 'Proper error message' )
+        $this->assertEqual( $individualEntity['error_message'], 'Proper error message' );
        
     }
     
