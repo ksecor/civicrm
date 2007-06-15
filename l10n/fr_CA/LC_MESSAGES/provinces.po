@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-06-04 07:22-0700\n"
+"PO-Revision-Date: 2007-06-12 00:36-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -335,52 +335,52 @@ msgid "Pondicherry"
 msgstr "Pondicherry"
 
 msgid "mazowieckie"
-msgstr ""
+msgstr "Mazowieckie"
 
 msgid "pomorskie"
-msgstr ""
+msgstr "pomorskie"
 
 msgid "dolnośląskie"
-msgstr ""
+msgstr "dolnośląskie"
 
 msgid "kujawsko-pomorskie"
-msgstr ""
+msgstr "kujawsko-pomorskie"
 
 msgid "lubelskie"
-msgstr ""
+msgstr "lubelskie"
 
 msgid "lubuskie"
-msgstr ""
+msgstr "lubuskie"
 
 msgid "łódzkie"
-msgstr ""
+msgstr "łódzkie"
 
 msgid "małopolskie"
-msgstr ""
+msgstr "małopolskie"
 
 msgid "opolskie"
-msgstr ""
+msgstr "opolskie"
 
 msgid "podkarpackie"
-msgstr ""
+msgstr "podkarpackie"
 
 msgid "podlaskie"
-msgstr ""
+msgstr "podlaskie"
 
 msgid "śląskie"
-msgstr ""
+msgstr "śląskie"
 
 msgid "świętokrzyskie"
-msgstr ""
+msgstr "świętokrzyskie"
 
 msgid "warmińsko-mazurskie"
-msgstr ""
+msgstr "warmińsko-mazurskie"
 
 msgid "wielkopolskie"
-msgstr ""
+msgstr "wielkopolskie"
 
 msgid "zachodniopomorskie"
-msgstr ""
+msgstr "zachodniopomorskie"
 
 msgid "Abu Zaby"
 msgstr "Abu Zaby"
@@ -866,7 +866,7 @@ msgid "Agdam"
 msgstr "Agdam"
 
 msgid "Agdas"
-msgstr ""
+msgstr "Agdas"
 
 msgid "Agstafa"
 msgstr "Agstafa"
@@ -1223,10 +1223,10 @@ msgid "Sherpur zila"
 msgstr "Sherpur zila"
 
 msgid "Sirajganj zila"
-msgstr ""
+msgstr "Sirajganj zila"
 
 msgid "Sunamganj zila"
-msgstr ""
+msgstr "Sunamganj zila"
 
 msgid "Sylhet zila"
 msgstr "Sylhet zila"
@@ -1853,7 +1853,7 @@ msgid "Kweneng"
 msgstr "Kweneng"
 
 msgid "Ngamiland"
-msgstr ""
+msgstr "Ngamiland"
 
 msgid "North-East"
 msgstr "North-East"
@@ -1871,7 +1871,7 @@ msgid "Brèsckaja voblasc'"
 msgstr "Brèsckaja voblasc'"
 
 msgid "Homel'skaja voblasc'"
-msgstr ""
+msgstr "Homel'skaja voblasc'"
 
 msgid "Hrodzenskaja voblasc'"
 msgstr "Hrodzenskaja voblasc'"
@@ -1946,7 +1946,7 @@ msgid "Bamingui-Bangoran"
 msgstr "Bamingui-Bangoran"
 
 msgid "Basse-Kotto"
-msgstr ""
+msgstr "Basse-Kotto"
 
 msgid "Haute-Kotto"
 msgstr "Haute-Kotto"
@@ -2585,7 +2585,7 @@ msgid "Plzeňský kraj"
 msgstr "Plzensky kraj"
 
 msgid "Praha, hlavní město"
-msgstr ""
+msgstr "Praha, hlavní město"
 
 msgid "Středočeský kraj"
 msgstr "Stredocesky kraj"
@@ -2633,7 +2633,7 @@ msgid "Berlin"
 msgstr "Berlin"
 
 msgid "Brandenburg"
-msgstr ""
+msgstr "Brandenburg"
 
 msgid "Mecklenburg-Vorpommern"
 msgstr "Mecklenbourg-Poméranie occidentale"
@@ -2678,7 +2678,7 @@ msgid "Roskilde"
 msgstr "Roskilde"
 
 msgid "Western Zealand"
-msgstr ""
+msgstr "Western Zealand"
 
 msgid "Storstrøm"
 msgstr "Storstrom"
@@ -2723,7 +2723,7 @@ msgid "Barahona"
 msgstr "Barahona"
 
 msgid "Dajabón"
-msgstr ""
+msgstr "Dajabón"
 
 msgid "Duarte"
 msgstr "Duarte"
@@ -2753,10 +2753,10 @@ msgid "La Vega"
 msgstr "La Vega"
 
 msgid "Maroia Trinidad Sánchez"
-msgstr ""
+msgstr "Maroia Trinidad Sánchez"
 
 msgid "Monseñor Nouel"
-msgstr ""
+msgstr "Monseñor Nouel"
 
 msgid "Monte Cristi"
 msgstr "Monte Cristi"
@@ -2780,19 +2780,19 @@ msgid "Samaná"
 msgstr "Samana"
 
 msgid "San Cristóbal"
-msgstr ""
+msgstr "San Cristóbal"
 
 msgid "San Pedro de Macorís"
-msgstr ""
+msgstr "San Pedro de Macorís"
 
 msgid "Sánchez Ramírez"
-msgstr ""
+msgstr "Sánchez Ramírez"
 
 msgid "Santiago"
 msgstr "Santiago"
 
 msgid "Santiago Rodríguez"
-msgstr ""
+msgstr "Santiago Rodríguez"
 
 msgid "Valverde"
 msgstr "Valverde"
