@@ -64,26 +64,22 @@ require_once 'CRM/Core/DAO/OptionGroup.php';
  * @param string $activity_type Which class of contact is being created.
  *            Valid values = 'SMS', 'Meeting', 'Event', 'PhoneCall'.
  *                            '
- *
  * @return CRM_Activity|CRM_Error Newly created Activity object
  * 
  */
- 
-function &civicrm_activity_create( &$params) {
+function &civicrm_activity_create( &$params ) 
+{
     _civicrm_initialize( );
 
-    // return error if we do not get any params
-    if ( empty( $params ) ) {
-        return civicrm_create_error( ts( 'Input Parameters empty' ) );
-    }
-
-    if ( empty( $params['activity_name'] ) ) {
-        return civicrm_create_error( ts ( 'Missing Activity Name' ) );
-    }   
-
-    // Check for Activity name
-    _civicrm_activity_check_name( $params['activity_name'] );
+    $errors = array( );
     
+    //check for various error and required conditions
+    $errors = _civicrm_activity_check_params( $params, true ) ;
+
+    if ( !empty( $errors ) ) {
+        return $errors;
+    }
+ 
     //check the type of activity
     if ( strtolower($params['activity_name']) == 'meeting' ) {
         $activityType = 1;
@@ -109,9 +105,8 @@ function &civicrm_activity_create( &$params) {
  * @return  Array of $activity Values  
  *
  * @access public
- *
  */
-function &civicrm_activities_get_contact($contactID)
+function &civicrm_activities_get_contact( $contactID )
 {
     _civicrm_initialize( );
     
@@ -144,20 +139,16 @@ function &civicrm_activities_get_contact($contactID)
  * @access public
  *
  */
-function &civicrm_activity_update( &$params ) {
-    if ( ! is_array( $params ) ) {
-        return civicrm_create_error( ts( 'Params is not an array' ) );
-    }
+function &civicrm_activity_update( &$params ) 
+{
+    $errors = array( );
     
-    if ( ! isset($params['id'] ) ) {
-        return civicrm_create_error( ts( 'Required parameter "id" missing' ) );
-    }
+    //check for various error and required conditions
+    $errors = _civicrm_activity_check_params( $params ) ;
 
-    if ( empty( $params['activity_name'] ) )  {
-        return civicrm_create_error( ts( 'Missing Activity Name' ) );
-    }   
-    
-     _civicrm_activity_check_name( $params['activity_name'] );
+    if ( !empty( $errors ) ) {
+        return $errors;
+    }
   
     if ($params['activity_name']== 'Meeting' ) {
         $activity = _civicrm_activity_update( $params, 'CRM_Activity_DAO_Meeting'   );
@@ -169,6 +160,7 @@ function &civicrm_activity_update( &$params ) {
     
     return $activity;
 }
+
 /**
  * Delete a specified Activity.
  * @param CRM_Activity $activity Activity object to be deleted
@@ -179,17 +171,18 @@ function &civicrm_activity_update( &$params ) {
  * @access public
  *
  */
-function &civicrm_activity_delete( &$params ) {
+function &civicrm_activity_delete( &$params ) 
+{
     _civicrm_initialize( );
     
-    if ( ! isset( $params['id'] )) {
-        return civicrm_create_error( ts( 'Required parameter "id" not found' ) );
-    }
-    if ( empty( $params['activity_name'] ) ) {
-        return civicrm_create_error( ts( 'Missing Activity Name' ) );
-    }   
+    $errors = array( );
     
-    _civicrm_activity_check_name( $params['activity_name'] );
+    //check for various error and required conditions
+    $errors = _civicrm_activity_check_params( $params ) ;
+
+    if ( !empty( $errors ) ) {
+        return $errors;
+    }
     
     //check the type of activity
     if ( $params['activity_name'] == 'Meeting'  ) {
@@ -215,7 +208,8 @@ function &civicrm_activity_delete( &$params ) {
  * @access public
  *
  */
-function _civicrm_activity_update($params, $daoName) {
+function _civicrm_activity_update($params, $daoName) 
+{
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
     $dao =& new $daoName();
     $dao->id = $params['id'];
@@ -237,10 +231,9 @@ function _civicrm_activity_update($params, $daoName) {
  *                         permissions are insufficient, etc.
  *
  * @access public
- *
  */
-function &_civicrm_activities_get( $contactID, $daoName ) {
-
+function &_civicrm_activities_get( $contactID, $daoName ) 
+{
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
     eval('$dao =& new $daoName( );');
     $dao->target_entity_id = $contactID;
@@ -252,11 +245,18 @@ function &_civicrm_activities_get( $contactID, $daoName ) {
             $activities[$dao->id] = $activity;
         }
     }
-
     return $activities;
 }
 
-function _civicrm_activity_check_name( $activityName ) {
+/**
+ * function to check if activity name is valid
+ * 
+ * @param string $activityName activity name
+ *
+ * @return true for valid activity name else false
+ */
+function _civicrm_activity_check_name( $activityName ) 
+{
     require_once 'CRM/Core/DAO/OptionGroup.php';
     $grpDAO =& new CRM_Core_DAO_OptionGroup( );
     $grpDAO->name = 'activity_type';
@@ -266,10 +266,58 @@ function _civicrm_activity_check_name( $activityName ) {
     $dao       =& new CRM_Core_DAO_OptionValue( );
     $dao->label = $activityName;
     $dao->option_group_id = $grpDAO->id;
-    
+
     if (! $dao->find( true ) ) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Function to check for required params
+ *
+ * @param array   $params  associated array of fields
+ * @param boolean $addMode true for add mode
+ *
+ * @return array $error array with errors
+ */
+function _civicrm_activity_check_params ( &$params, $addMode = false ) 
+{
+    // return error if we do not get any params
+    if ( empty( $params ) ) {
+        return civicrm_create_error( ts( 'Input Parameters empty' ) );
+    }
+
+    if ( ! $addMode && ! isset( $params['id'] )) {
+        return $errors = civicrm_create_error( ts( 'Required parameter "id" not found' ) );
+    }
+    
+    // check if activity name is passed
+    if ( empty( $params['activity_name'] ) && $addMode ) {
+        return civicrm_create_error( ts ( 'Missing Activity Name' ) );
+    }
+
+    if ( $params['activity_name'] && ! _civicrm_activity_check_name( $params['activity_name'] ) ) {
         return civicrm_create_error( ts( "Invalid Activity Name" ) );
     }
 
-    return true;
+    // check for source contact id
+    if ( empty( $params['source_contact_id'] )  && $addMode ) {
+        return  civicrm_create_error( ts ( 'Missing Source Contact' ) );
+    } 
+    
+    if ( $params['source_contact_id'] && !is_numeric( $params['source_contact_id'] ) ) {
+        return  civicrm_create_error( ts ( 'Invalid Source Contact' ) );
+    }
+
+    // check for target contact id
+    if ( empty( $params['target_entity_id'] )  && $addMode ) {
+        return civicrm_create_error( ts ( 'Missing Target Contact Id' ) );
+    } 
+    
+    if ( $params['target_entity_id'] && !is_numeric( $params['target_entity_id'] ) ) {
+        return civicrm_create_error( ts ( 'Invalid Target Contact Id' ) );
+    }
+
+    return null;
 }

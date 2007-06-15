@@ -446,20 +446,32 @@ class CiviUnitTestCase extends UnitTestCase {
      */
     function activityCreate( $individualSourceID, $individualTargetID )
     {
-        $params = array(
-                        'source_contact_id' => $individualSourceID,
-                        'target_entity_table' => 'civicrm_contact',
-                        'target_entity_id' => $individualTargetID ,
-                        'subject' => 'Disscussion on Apis for v2',
-                        'scheduled_date_time' => date('Ymd'),
-                        'duration_hours' =>30,
-                        'duration_minutes' => 20,
-                        'location' => 'Pensulvania',
-                        'details' => 'a meeting activity',
-                        'status' => 'Scheduled',
-                        'parent_id' => 1, 
-                        'activity_name' =>'Meeting',
-                        );
+        if ( $params === null ) { 
+            $individualSourceID    = $this->individualCreate( );
+
+            $contactParams = array( 'first_name'       => 'Julia',
+                                    'Last_name'        => 'Anderson',
+                                    'prefix'           => 'Ms',
+                                    'email'            => 'julia_anderson@civicrm.org',
+                                    'contact_type'     => 'Individual');
+
+            $individualTargetID    = $this->individualCreate( $contactParams );
+
+            $params = array(
+                            'source_contact_id'   => $individualSourceID,
+                            'target_entity_table' => 'civicrm_contact',
+                            'target_entity_id'    => $individualTargetID ,
+                            'subject'             => 'Discussion on Apis for v2',
+                            'scheduled_date_time' => date('Ymd'),
+                            'duration_hours'      => 30,
+                            'duration_minutes'    => 20,
+                            'location'            => 'Pensulvania',
+                            'details'             => 'a meeting activity',
+                            'status'              => 'Scheduled',
+                            'activity_name'       => 'Meeting',
+                            );
+        }
+
         $activity =& civicrm_activity_create($params);
         return $activity;
     }
