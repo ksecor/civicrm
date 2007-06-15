@@ -186,6 +186,37 @@ class CRM_Utils_Array {
         }
         return $r;
     }
+
+
+    /**
+     * Array deep copy
+     *
+     * @params  array  $array
+     * @params  int    $maxdepth
+     * @params  int    $depth
+     * 
+     * @return  array  copy of the array
+     * 
+     * @static
+     * @access public
+     */
+    static function array_deep_copy( &$array, $maxdepth=50, $depth=0 ) {
+        if( $depth > $maxdepth ) { 
+            return $array; 
+        }
+        $copy = array();
+        foreach( $array as $key => &$value ) {
+            if( is_array( $value ) ) {
+                array_deep_copy( $value, $copy[$key], $maxdepth, ++$depth);
+            } else {
+                $copy[$key] = $value;
+            }
+        }
+        return $copy;
+    }
+
+
+
 }
 
 ?>
