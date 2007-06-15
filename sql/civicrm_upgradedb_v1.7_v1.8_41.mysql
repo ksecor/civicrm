@@ -7,82 +7,6 @@
 
 -- /*******************************************************
 -- *
--- * civicrm_case
--- *
--- * This table stores information about cases grouping activities.
--- *
--- *******************************************************/
-CREATE TABLE civicrm_case (
-
-     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique Case ID',
-     contact_id int unsigned NOT NULL COMMENT 'Contact ID of contact record given case belongs to.',
-     casetag1_id int unsigned NOT NULL COMMENT 'Id of first case category.',
-     casetag2_id int unsigned NOT NULL COMMENT 'Id of second case category.',
-     casetag3_id int unsigned NOT NULL COMMENT 'Id of third case category.',
-     subject varchar(128) COMMENT 'Short name of the case.',
-     start_date date COMMENT 'Date on which given case starts.',
-     end_date date COMMENT 'Date on which given case ends.',
-     details text COMMENT 'Details about the meeting (agenda, notes, etc).',
-     status_id int unsigned NOT NULL   COMMENT 'Id of case status.' 
-
-,    PRIMARY KEY ( id )
-
-,    INDEX index_casetag1_id(casetag1_id)
-
-,    INDEX index_casetag2_id(casetag2_id)
-
-,    INDEX index_casetag3_id(casetag3_id)
-
-,    INDEX index_status_id(status_id)
-
-,    CONSTRAINT FK_civicrm_case_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
-
--- /*******************************************************
--- *
--- * civicrm_case_activity
--- *
--- * Joining table for case-activity associations.
--- *
--- *******************************************************/
-CREATE TABLE civicrm_case_activity (
-
-     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique case-activity association id',
-     case_id int unsigned NOT NULL COMMENT 'Case ID of case-activity association.',
-     activity_entity_table varchar(64) NOT NULL COMMENT 'Name of table where item being referenced is stored (activity, phonecall or meeting).',
-     activity_entity_id int unsigned NOT NULL  COMMENT 'Entity (activity, phonecall or meeting) id for which the assigment is created' 
-
-,    PRIMARY KEY ( id )
- 
-,    CONSTRAINT FK_civicrm_case_activity_case_id FOREIGN KEY (case_id) REFERENCES civicrm_case(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
-
--- /*******************************************************
--- *
--- * civicrm_activity_assignment
--- *
--- * Activity assignments
--- *
--- *******************************************************/
-CREATE TABLE civicrm_activity_assignment (
-
-     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Activity assignment id',
-     activity_entity_table varchar(64) NOT NULL COMMENT 'Name of table where item being referenced is stored (activity, phonecall or meeting).',
-     activity_entity_id int unsigned NOT NULL COMMENT 'Entity (activity, phonecall or meeting) id for which the assigment is created',
-     target_entity_table varchar(64) NOT NULL COMMENT 'Name of table where item being referenced is stored (contact assigned to given activity).',
-     target_entity_id int unsigned NOT NULL COMMENT 'Foreign key to the referenced item.' 
-
-,    PRIMARY KEY ( id )
- 
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
-
--- /*******************************************************
--- *
 -- * civicrm_dedupe_rule_group
 -- *
 -- * Dedupe rule groups
@@ -124,38 +48,6 @@ CREATE TABLE civicrm_dedupe_rule (
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
--- /*******************************************************
--- *
--- * civicrm_grant
--- *
--- * This table stores information about grants given to a contact.
--- *
--- *******************************************************/
-CREATE TABLE civicrm_grant (
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Grant id',
-     contact_id int unsigned NOT NULL COMMENT 'Contact ID of contact record given grant belongs to.',
-     application_received_date date COMMENT 'Date on which grant application was received by donor.',
-     decision_date date COMMENT 'Date on which grant decision was made.',
-     money_transfer_date date COMMENT 'Date on which grant money transfer was made.',
-     grant_due_date date COMMENT 'Date on which grant report is due.',
-     grant_report_received tinyint COMMENT 'Yes/No field stating whether grant report was received by donor.',
-     grant_type_id int unsigned NOT NULL COMMENT 'Id of first case category.',
-     amount_total decimal(20,2) NOT NULL COMMENT 'Total amount, in default currency.',
-     amount_requested decimal(20,2) NOT NULL COMMENT 'Requested amount, in default currency.',
-     amount_granted decimal(20,2) NOT NULL COMMENT 'Granted amount, in default currency.',
-     rationale text COMMENT 'Grant rationale.',
-     status_id int unsigned NOT NULL COMMENT 'Id of case status.' 
-
-,    PRIMARY KEY ( id )
- 
-,    INDEX index_grant_type_id( grant_type_id )
-
-,    INDEX index_status_id( status_id )
-  
-,    CONSTRAINT FK_civicrm_grant_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
 
 -- /*******************************************************
@@ -414,20 +306,6 @@ CREATE TABLE civicrm_worldregion (
 
 -- /*******************************************************
 -- *
--- * civicrm_activity
--- *
--- *******************************************************/
-	ALTER TABLE civicrm_activity
-	    ADD activity_tag1_id int(10) unsigned NOT NULL,
-	    ADD activity_tag2_id int(10) unsigned NOT NULL,
-	    ADD activity_tag3_id int(10) unsigned NOT NULL,
-	    ADD INDEX index_activity_tag1_id (activity_tag1_id),
-	    ADD INDEX index_activity_tag2_id (activity_tag2_id),
-	    ADD INDEX index_activity_tag3_id (activity_tag3_id);
-
-
--- /*******************************************************
--- *
 -- * civicrm_activity_history
 -- *
 -- *******************************************************/
@@ -520,25 +398,12 @@ CREATE TABLE civicrm_worldregion (
 
 -- /*******************************************************
 -- *
--- * civicrm_meeting
--- *
--- *******************************************************/
-	ALTER TABLE civicrm_meeting
-	    ADD activity_tag1_id int(10) unsigned NOT NULL,
-	    ADD activity_tag2_id int(10) unsigned NOT NULL, 
-	    ADD activity_tag3_id int(10) unsigned NOT NULL,
-	    ADD INDEX index_activity_tag1_id (activity_tag1_id),
-	    ADD INDEX index_activity_tag2_id (activity_tag2_id),
-	    ADD INDEX index_activity_tag3_id (activity_tag3_id);
-   
-  
--- /*******************************************************
--- *
 -- * civicrm_membership
 -- *
 -- *******************************************************/
 	ALTER TABLE civicrm_membership
 	    ADD is_test tinyint(4) NULL DEFAULT '0';
+
 
 -- /*******************************************************
 -- *
@@ -548,6 +413,7 @@ CREATE TABLE civicrm_worldregion (
 	ALTER TABLE civicrm_option_group
     	    ADD label varchar(255) NULL DEFAULT NULL;
 
+
 -- /*******************************************************
 -- *
 -- * civicrm_organization
@@ -556,20 +422,75 @@ CREATE TABLE civicrm_worldregion (
 	ALTER TABLE civicrm_organization
 	    ADD INDEX index_organization_name (organization_name);
 
+
 -- /*******************************************************
 -- *
--- * civicrm_phonecall
+-- * civicrm_option_group and civicrm_option_value
 -- *
 -- *******************************************************/
+	SELECT @domain_id := id from civicrm_domain;
+	
+	INSERT INTO 
+	  civicrm_option_group (domain_id, name, description, is_reserved, is_active) 
+	VALUES 
+	  (@domain_id, 'contact_view_options', 'Contact View Options', 0, 1),
+	  (@domain_id, 'contact_edit_options', 'Contact Edit Options', 0, 1),
+ 	  (@domain_id, 'advanced_search_options', 'Advanced Search Options', 0, 1),
+	  (@domain_id, 'user_dashboard_options', 'User Dashboard Options', 0, 1),
+	  (@domain_id, 'address_options', 'Addressing Options', 0, 1);
+   
+	SELECT @option_group_id_cvOpt := max(id) from civicrm_option_group where name = 'contact_view_options';
+	SELECT @option_group_id_ceOpt := max(id) from civicrm_option_group where name = 'contact_edit_options';
+	SELECT @option_group_id_asOpt := max(id) from civicrm_option_group where name = 'advanced_search_options';
+	SELECT @option_group_id_udOpt := max(id) from civicrm_option_group where name = 'user_dashboard_options';
+	SELECT @option_group_id_adOpt := max(id) from civicrm_option_group where name = 'address_options';
 
-ALTER TABLE civicrm_phonecall
-    ADD activity_tag1_id int(10) unsigned NOT NULL,
-    ADD activity_tag2_id int(10) unsigned NOT NULL,
-    ADD activity_tag3_id int(10) unsigned NOT NULL,
-    ADD INDEX index_activity_tag1_id (activity_tag1_id),
-    ADD INDEX index_activity_tag2_id (activity_tag2_id),
-    ADD INDEX index_activity_tag3_id (activity_tag3_id);
-    
+	INSERT INTO 
+	   civicrm_option_value (option_group_id, label, value, name, grouping, filter, is_default, weight, description, is_optgroup, is_reserved, is_active) 
+	VALUES	
+	  (@option_group_id_cvOpt, 'Activities'   ,   1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
+	  (@option_group_id_cvOpt, 'Relationships',   2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
+	  (@option_group_id_cvOpt, 'Groups'       ,   3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
+	  (@option_group_id_cvOpt, 'Notes'        ,   4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
+	  (@option_group_id_cvOpt, 'Tags'         ,   5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
+	  (@option_group_id_cvOpt, 'Change Log'   ,   6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
+	  (@option_group_id_cvOpt, 'Contributions',   7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
+	  (@option_group_id_cvOpt, 'Memberships'  ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
+	  (@option_group_id_cvOpt, 'Events'       ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
+
+	  (@option_group_id_ceOpt, 'Communication Preferences',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+	  (@option_group_id_ceOpt, 'Demographics'             ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
+	  (@option_group_id_ceOpt, 'Tags and Groups'          ,   3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+	  (@option_group_id_ceOpt, 'Notes'                    ,   4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
+	
+	  (@option_group_id_asOpt, 'Address Fields'      ,   1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
+	  (@option_group_id_asOpt, 'Custom Fields'       ,   2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
+	  (@option_group_id_asOpt, 'Activity History'    ,   3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
+	  (@option_group_id_asOpt, 'Scheduled Activities',   4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
+	  (@option_group_id_asOpt, 'Relationships'       ,   5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
+	  (@option_group_id_asOpt, 'Notes'               ,   6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
+	  (@option_group_id_asOpt, 'Change Log'          ,   7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
+	  (@option_group_id_asOpt, 'Contributions'       ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
+	  (@option_group_id_asOpt, 'Memberships'         ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
+	  (@option_group_id_asOpt, 'Events'              ,  10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
+
+	  (@option_group_id_udOpt, 'Groups'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+	  (@option_group_id_udOpt, 'Contributions', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
+	  (@option_group_id_udOpt, 'Memberships'  , 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+	  (@option_group_id_udOpt, 'Events'       , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
+
+	  (@option_group_id_adOpt, 'Street Address'   ,  1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
+	  (@option_group_id_adOpt, 'Addt\'l Address 1' , 2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
+	  (@option_group_id_adOpt, 'Addt\'l Address 2' , 3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
+	  (@option_group_id_adOpt, 'City'             ,  4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
+	  (@option_group_id_adOpt, 'Zip / Postal Code',  5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
+	  (@option_group_id_adOpt, 'Postal Code Suffix', 6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
+	  (@option_group_id_adOpt, 'County'           ,  7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
+	  (@option_group_id_adOpt, 'State / Province' ,  8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
+	  (@option_group_id_adOpt, 'Country'          ,  9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
+	  (@option_group_id_adOpt, 'Latitude'         , 10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
+	  (@option_group_id_adOpt, 'Longitude'        , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 );
+
 
 -- /*******************************************************
 -- *
