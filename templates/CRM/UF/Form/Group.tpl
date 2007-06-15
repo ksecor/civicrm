@@ -68,20 +68,20 @@
     {if $config->userFramework EQ 'Drupal'} 
         <dt>&nbsp;</dt><dd class="description">{ts}<strong>CAPTCHA is also not available when a profile is used inside the User Registration and My Account screens.</strong>{/ts}</dd>
     {/if}
-    <dt></dt><dd>{$form.is_map.html} {$form.is_map.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, a Map link is included on the profile listings rows and detail screens for any contacts whose records include sufficient location data for your mapping provider.{/ts}</dd>
-    <dt></dt><dd>{$form.is_uf_link.html} {$form.is_uf_link.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to include a links in the listings to view contacts' Website Profiles (e.g. their 'My Account' page). This link will only be included for contacts who have a User Account on your website.{/ts}</dd>
-    <dt></dt><dd>{$form.is_edit_link.html} {$form.is_edit_link.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to include a link in the listings to Edit profile fields. Only users with permission to edit the contact will see this link.{/ts}</dd>
-    <dt></dt><dd>{$form.is_update_dupe.html} {$form.is_update_dupe.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, the contact record is updated if a matching existing record is found. Note that if there are multiple matches, the first match found is updated.{/ts}</dd>
-
     {if $config->userFramework == 'Drupal' AND $config->userFrameworkVersion >=5.1} {* Create CMS user only available for Drupal installs. *}
         <dt></dt><dd>{$form.is_cms_user.html} {$form.is_cms_user.label}</dd>
         <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup form OR using it in an online contribution page, anonymous users will be given the option to create a Drupal User Account as part of completing the form.
                                                 This feature requires the 'Email Verification' option to be checked (Drupal User Settings). In addition, you must include a Primary Email Address field in the profile.{/ts}</dd>
     {/if}
+    <dt></dt><dd>{$form.is_update_dupe.html} {$form.is_update_dupe.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, the contact record is updated if a matching existing record is found. Note that if there are multiple matches, the first match found is updated.{/ts}</dd>
+    <dt></dt><dd>{$form.is_map.html} {$form.is_map.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If enabled, a Map link is included on the profile listings rows and detail screens for any contacts whose records include sufficient location data for your mapping provider.{/ts}</dd>
+    <dt></dt><dd>{$form.is_edit_link.html} {$form.is_edit_link.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to include a link in the listings to Edit profile fields. Only users with permission to edit the contact will see this link.{/ts}</dd>
+    <dt></dt><dd>{$form.is_uf_link.html} {$form.is_uf_link.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts 1=$config->userFramework}Check this box if you want to include a links in the listings to view contacts' %1 user account information (e.g. their 'My Account' page). This link will only be included for contacts who have a user account on your website.{/ts}</dd>
+
     </dl>
     </div> 
     {/if}

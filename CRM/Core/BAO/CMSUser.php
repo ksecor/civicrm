@@ -175,7 +175,7 @@ class CRM_Core_BAO_CMSUser
                 $session =& CRM_Core_Session::singleton( );
                 $userID = $session->get( 'userID' );
                 if( ! $userID ) {
-                    $form->add('text', 'cms_name', ts('User Name') );
+                    $form->add('text', 'cms_name', ts('Username') );
                     if ( !variable_get('user_email_verification', TRUE )) {
                         $form->add('password', 'cms_pass', ts('Password') );
                         $form->add('password', 'cms_confirm_pass', ts('Confirm Password') );

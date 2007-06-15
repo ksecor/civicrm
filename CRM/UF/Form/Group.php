@@ -155,10 +155,10 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );
 
         // should mapping be enabled for this group
-        $this->addElement('checkbox', 'is_map', ts('Should mapping be enabled on this profile?') );
+        $this->addElement('checkbox', 'is_map', ts('Enable mapping for this profile?') );
 
         // should we allow updates on a exisitng contact
-        $this->addElement('checkbox', 'is_update_dupe', ts('Should we update the contact on a duplicate match?' ) );
+        $this->addElement('checkbox', 'is_update_dupe', ts('Update contact on a duplicate match?' ) );
 
         // we do not have any url checks to allow relative urls
         $this->addElement('text', 'post_URL', ts('Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'post_URL') );
@@ -166,13 +166,13 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
 
         // add select for groups
         $group               = array('' => ts('- select -')) + $this->_group;
-        $this->_groupElement =& $this->addElement('select', 'group', ts('Limit Listings to Group'), $group);
+        $this->_groupElement =& $this->addElement('select', 'group', ts('Limit listings to a specific Group?'), $group);
 
         //add notify field
-        $this->addElement('text','notify',ts('Notify When Submitted'));
+        $this->addElement('text','notify',ts('Notify when profile form is submitted?'));
 
         //group where new contacts are directed.
-        $this->addElement('select', 'add_contact_to_group', ts('Add Contacts to Group'), $group);
+        $this->addElement('select', 'add_contact_to_group', ts('Add new contacts to a Group?'), $group);
         
          // add CAPTCHA To this group ?
         $this->addElement('checkbox', 'add_captcha', ts('Include CAPTCHA?') );
@@ -181,10 +181,11 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->addElement('checkbox', 'collapse_display', ts('Collapse profile fieldset on initial display?'));
 
         // should we display an edit link
-        $this->addElement('checkbox', 'is_edit_link', ts('Include Edit Link in Search Results?'));
+        $this->addElement('checkbox', 'is_edit_link', ts('Include profile edit links in search results?'));
 
         // should we display a link to the website profile
-        $this->addElement('checkbox', 'is_uf_link', ts('Include Website Profile Link in Search Results?'));
+        $config =& CRM_Core_Config::singleton( );
+        $this->addElement('checkbox', 'is_uf_link', ts('Include %1 user account information links in search results?', array( 1 => $config->userFramework )));
 
         // want to create cms user
         $session =& CRM_Core_Session::singleton( );
@@ -192,7 +193,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         if ( $this->_cId = $session->get( 'userID' ) ){
             $this->_cmsId = true;
         }
-        $this->add('checkbox', 'is_cms_user', ts('Create CMS User?'));
+        $this->add('checkbox', 'is_cms_user', ts('%1 user account registration option?', array( 1=>$config->userFramework )));
         
         $this->addButtons(array(
                                 array ( 'type'      => 'next',

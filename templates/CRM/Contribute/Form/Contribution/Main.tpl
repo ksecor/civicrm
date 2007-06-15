@@ -60,6 +60,9 @@ function clearAmountOther() {
     </tr>
     </table>
 
+    {* User account registration option. Displays if enabled for one of the profiles on this page. *}
+    {include file="CRM/common/CMSUser.tpl"}
+    
     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="makeContribution"}
 
     {if $honor_block_is_active}
@@ -119,8 +122,6 @@ function clearAmountOther() {
 {/if}
 
 {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
-
-{include file="CRM/common/CMSUser.tpl"}
 
 {if $is_monetary}
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *}

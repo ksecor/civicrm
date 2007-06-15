@@ -64,6 +64,9 @@
     <tr><td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
  </table>
   
+{* User account registration option. Displays if enabled for one of the profiles on this page. *}
+{include file="CRM/common/CMSUser.tpl"}
+
 {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
 
 {if $paidEvent}   
@@ -109,8 +112,6 @@
 {/if}        
 
 {include file="CRM/UF/Form/Block.tpl" fields=$customPost}   
-
-{include file="CRM/common/CMSUser.tpl"}
 
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *}
 {if $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}
