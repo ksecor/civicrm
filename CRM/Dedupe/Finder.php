@@ -71,16 +71,22 @@ class CRM_Dedupe_Finder
         }
         // remove $cid from the results
         unset($cids[array_search($cid, $cids)]);
-        // remove other contact types from the results
-        if ($contactType) {
+        // screen out contacts from other domains - we can't do that
+        // in criteria, as some of the tables might not carry domain_id
+        static $validCids = array();
+        if (!$validCids) {
+            $domainId = CRM_Core_Config::domainID();
             $dao =& new CRM_Core_DAO();
-            $dao->query("SELECT id FROM civicrm_contact WHERE contact_type != '$contactType'");
+            $sql = "SELECT id FROM civicrm_contact WHERE domain_id = $domainId";
+            if ($contactType) {
+                $sql .= " AND contact_type = '$contactType'";
+            }
+            $dao->query($sql);
             while ($dao->fetch()) {
-                if (in_array($dao->id, $cids)) {
-                    unset($cids[array_search($dao->id, $cids)]);
-                }
+                $validCids[] = $dao->id;
             }
         }
+        $cids = array_intersect($cids, $validCids);
         return $cids;
     }
 

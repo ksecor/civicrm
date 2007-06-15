@@ -59,6 +59,7 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         $gid    = CRM_Utils_Request::retrieve('gid',  'Positive', $this, false, 0);
         $rgid   = CRM_Utils_Request::retrieve('rgid', 'Positive', $this, false, 0);
         $rgDao =& new CRM_Dedupe_DAO_RuleGroup();
+        $rgDao->domain_id = CRM_Core_Config::DomainID();
         $rgDao->id = $rgid;
         $rgDao->find(true);
 
