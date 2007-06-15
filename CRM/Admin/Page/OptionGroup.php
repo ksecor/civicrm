@@ -108,52 +108,6 @@ class CRM_Admin_Page_OptionGroup extends CRM_Core_Page_Basic
     }
 
     /**
-     * Browse all options  groups.
-     *  
-     * 
-     * @return void
-     * @access public
-     * @static
-     */
-    function browse()
-    {
-        // get all custom groups sorted by weight
-        $optionGroup = array();
-        require_once 'CRM/Core/DAO/OptionGroup.php';
-        $dao =& new CRM_Core_DAO_OptionGroup();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
-        $dao->orderBy('name');
-        $dao->find();
-
-        while ($dao->fetch()) {
-            $optionGroup[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $optionGroup[$dao->id]);
-            // form all action links
-            $action = array_sum(array_keys($this->links()));
-
-            // update enable/disable links depending on if it is is_reserved or is_active
-            if ($dao->is_reserved) {
-                continue;
-            } else {
-                if ($dao->is_active) {
-                    $action -= CRM_Core_Action::ENABLE;
-                } else {
-                    $action -= CRM_Core_Action::DISABLE;
-                }
-            }
-
-            $optionGroup[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $dao->id));
-        }
-        
-        $this->assign('rows', $optionGroup);
-    }
-
-    /**
      * Get name of edit form
      *
      * @return string Classname of edit form.

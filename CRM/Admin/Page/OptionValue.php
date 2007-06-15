@@ -138,11 +138,7 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
      */
     function browse()
     {
-        // get all group values sorted by weight
-        $optionValue = array();
         require_once 'CRM/Core/DAO/OptionValue.php';
-        
-
         $dao =& new CRM_Core_DAO_OptionValue();
         
         // set the domain_id parameter
@@ -153,6 +149,7 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
         $dao->orderBy('name');
         $dao->find();
 
+        $optionValue = array();
         while ($dao->fetch()) {
             $optionValue[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $optionValue[$dao->id]);
@@ -174,7 +171,7 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
             }
 
             $optionValue[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $dao->id,'gid' => $this->_gid ));
+                                                                         array('id' => $dao->id,'gid' => $this->_gid ));
         }
         
         $this->assign('rows', $optionValue);

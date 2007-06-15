@@ -102,50 +102,6 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
     }
 
     /**
-     * Browse all custom data groups.
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    function browse($action=null)
-    {
-        // get all custom groups sorted by weight
-        $locationType = array();
-        $dao =& new CRM_Core_DAO_LocationType();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-        $dao->orderBy('name');
-        $dao->find();
-
-        while ($dao->fetch()) {
-            $locationType[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $locationType[$dao->id]);
-            // form all action links
-            $action = array_sum(array_keys($this->links()));
-            
-            // update enable/disable links depending on custom_group properties.
-            if ($dao->is_reserved) {
-                $action -= CRM_Core_Action::ENABLE;
-                $action -= CRM_Core_Action::DISABLE;
-                $action -= CRM_Core_Action::DELETE;
-            } else {
-                if ($dao->is_active) {
-                    $action -= CRM_Core_Action::ENABLE;
-                } else {
-                    $action -= CRM_Core_Action::DISABLE;
-                }
-            }
-            
-            $locationType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $dao->id));
-        }
-        $this->assign('rows', $locationType);
-    }
-
-    /**
      * Get name of edit form
      *
      * @return string Classname of edit form.

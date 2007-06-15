@@ -82,38 +82,6 @@ class CRM_Admin_Page_DupeMatch extends CRM_Core_Page_Basic
     }
 
     /**
-     * Browse all dupematchs
-     *  
-     * 
-     * @return void
-     * @access public
-     * @static
-     */
-    function browse()
-    {
-        // get all dupematchs sorted by weight
-        $dupematch = array();
-        $dao =& new CRM_Core_DAO_DupeMatch();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
-        $dao->find();
-
-        while ($dao->fetch()) {
-            $dupematch[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $dupematch[$dao->id]);
-            // form all action links
-            $action = array_sum(array_keys($this->links()));
-
-            $dupematch[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $dao->id));
-        }
-        $this->assign('rows', $dupematch);
-    }
-
-    /**
      * Get name of edit form
      *
      * @return string Classname of edit form.
