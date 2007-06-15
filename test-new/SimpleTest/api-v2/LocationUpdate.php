@@ -22,6 +22,8 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase {
         
         $locationUpdate =& civicrm_location_update($location);
         $this->assertEqual( $locationUpdate['is_error'], 1 );
+        // FIXME: Please assert on error message, the same in other methods where possible
+        $this->assertEqual( $locationUpdate['error_message'], 'Proper error message' );        
         
     }
 
@@ -42,6 +44,7 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase {
 
         $this->assertEqual( $locationUpdate['is_error'], 1 );
         $this->assertNotNull( $locationUpdate );
+        // FIXME: please move this to tearDown(), the same in other methods where possible
         $this->contactDelete( $contactID ) ;        
     }
 
