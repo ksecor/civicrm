@@ -3,7 +3,7 @@
 require_once 'api/v2/Contact.php';
 require_once 'CRM/Utils/Array.php';
 
-class testPublicCivicrmContactAdd extends CiviUnitTestCase 
+class testContactAdd extends CiviUnitTestCase 
 
 {
 
@@ -11,60 +11,68 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
     // e.g protected $_participant;
     protected $_createdContacts   = array();
 
-    protected $allparams = array(
+    // civicrm_contact
+    protected $contactAllParams = array(
+//                'id' => '',
+                'nick_name' => 'This is nickname',
+                'domain_id' => '5',
+//                'contact_type' => '',
+                'do_not_email' => '1',
+                'do_not_phone' => '1',
+                'do_not_mail' => '1',
+                'contact_sub_type' => 'CertainSubType',
+                'legal_identifier' => 'ABC23853ZZ2235',
+                'external_identifier' => '1928837465',
+//                'sort_name' => '',
+//                'display_name' => '',
+                'home_URL' => 'http://some.url.com',
+                'image_URL' => 'http://some.url.com/image.jpg',
+                'preferred_communication_method' => 'Mail',
+                'preferred_mail_format' => 'HTML',
+                'do_not_trade' => '1',
+//                'hash' => '',
+                'is_opt_out' => '1',
+                'source' => 'Just some source.'
+                
+                );
 
-                // civicrm_contact
-                'id' => '',
-                'nick_name' => '',
-                'domain_id' => '',
-                'contact_type' => '',
-                'do_not_email' => '',
-                'do_not_phone' => '',
-                'do_not_mail' => '',
-                'contact_sub_type' => '',
-                'legal_identifier' => '',
-                'external_identifier' => '',
-                'sort_name' => '',
-                'display_name' => '',
-                'home_URL' => '',
-                'image_URL' => '',
-                'preferred_communication_method' => '',
-                'preferred_mail_format' => '',
-                'do_not_trade' => '',
-                'hash' => '',
-                'is_opt_out' => '',
-                'source' => '',
-
-                // civicrm_individual
-                'id' => '',
-                'contact_id' => '',
-                'first_name' => '',
-                'middle_name' => '',
-                'last_name' => '',
-                'prefix_id' => '',
-                'suffix_id' => '',
-                'greeting_type' => '',
-                'custom_greeting' => '',
-                'job_title' => '',
-                'gender_id' => '',
-                'birth_date' => '',
-                'is_deceased' => '',
-                'deceased_date' => '',
-                'phone_to_household_id' => '',
-                'email_to_household_id' => '',
-                'mail_to_household_id' => '',
-                                                
-                // civicrm_organization
-                'id' => '',
-                'contact_id' => '',
+    // civicrm_individual
+    protected $individualAllParams = array(
+//                'id' => '',
+//                'contact_id' => '',
+                'first_name' => 'Johny',
+                'middle_name' => 'Lorenzo',
+                'last_name' => 'TestSubject',
+                'prefix' => 'Mr',
+                'suffix' => 'VII',
+                'greeting_type' => 'Informal',
+                'custom_greeting' => 'Dear Pal',
+                'job_title' => 'President',
+                'gender_id' => '12',
+                'birth_date' => '1977-03-12',
+                'is_deceased' => '1',
+                'deceased_date' => '2499-12-12',
+//                'phone_to_household_id' => '',
+//                'email_to_household_id' => '',
+//                'mail_to_household_id' => ''
+                
+                );
+    
+    // civicrm_organization
+    protected $organizatonAllParams = array(
+//                'id' => '',
+//                'contact_id' => '',
                 'organization_name' => '',
                 'legal_name' => '',
                 'sic_code' => '',
                 'primary_contact_id' => '',                
+                
+                );
 
-                // civicrm_household
-                'id' => '',
-                'contact_id' => '',
+    // civicrm_household
+    protected $householdAllParams = array(
+//                'id' => '',
+//                'contact_id' => '',
                 'household_name' => '',
                 'primary_contact_id' => '',
                 
@@ -197,6 +205,28 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
                         );
         $this->_doCreateTest( $params );
     }
+
+    /**
+     * For each attribute defined in $this->*AllParams, set up a contact and
+     * verify whether you get correct value.
+     */
+     private function _testCreateContactForAllAttributes( $typeSpecificAttributes ) {
+         $allparams = array_merge( $this->contactAllParams, $typeSpecificAttributes );
+         $c = 10000;
+         foreach( $allparams as $key => $value ) {
+             $params = array( 'email' => "johny$c@mail.com", 
+                              'contact_type' => 'Individual',
+                              $key    => $value
+                            );
+             $this->_doCreateTest( $params );
+             $c = $c + 1;
+         }
+     }
+
+
+     function testCreateIndividualForAllAttributes() {
+         $this->_testCreateContactForAllAttributes( $this->individualAllParams );
+     }
     
     function testCreateIndividualwithEmailLocationType() {
         $params = array('first_name'    => 'abc4',
@@ -322,6 +352,9 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
     }
 
     private function _verifyApiCallResult( $returned, $modifiedParams, $error_message = false ) {
+
+//        CRM_Core_Error::debug( 'c', $returned );
+
         $this->assertIsA( $returned, 'Array' );
         if( array_key_exists( 'contact_id', $modifiedParams ) && 
             array_key_exists( 'contact_id', $modifiedParams ) ) {
@@ -350,6 +383,10 @@ class testPublicCivicrmContactAdd extends CiviUnitTestCase
     }
 
     private function _assertAttributesEqual( $params, $target ) {
+
+//            CRM_Core_Error::debug( 'p', $params );
+//            CRM_Core_Error::debug( 't', $target );
+
         foreach( $params as $paramName => $paramValue ) {
             if( isset( $target[$paramName] ) ) {
                 $this->assertEqual( $paramValue, $target[$paramName] );

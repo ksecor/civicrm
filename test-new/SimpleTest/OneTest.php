@@ -41,7 +41,7 @@ if ( TEST == __FILE__ ) {
         $test->run(new CiviTextReporter());
         exit();
     }
-    $test->run(new HtmlReporter());
+    $test->run(new CiviHtmlReporter());
 }
 
 ?>

@@ -44,8 +44,10 @@ class CiviHtmlReporter extends HtmlReporter {
         
     function paintFail($message) {
         echo "<div class=\"failed-assertion\">";
-        parent::paintFail($message);
+        echo "<span class=\"fail\">FAIL</span>: ";
+        echo $message;
         echo "</div>\n";
+        $this->_fails++;        
     }    
 
 

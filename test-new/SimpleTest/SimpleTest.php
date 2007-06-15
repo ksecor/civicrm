@@ -62,24 +62,24 @@ function module_list( ) {
 if ( TEST == __FILE__ ) {
 
     require_once 'CRM/Core/Config.php';
-    $test =& new ApiTests( );
+//    $test =& new ApiTests( );
     $test2 =& new ApiV2Tests( );
-    $test3 =& new IssueTests( );
-    $test4 =& new SnippetsTests( );
+//    $test3 =& new IssueTests( );
+//    $test4 =& new SnippetsTests( );
 
     $config =& CRM_Core_Config::singleton();
  
     if (SimpleReporter::inCli()) {
-        $test->run(new CiviTextReporter());
+//        $test->run(new CiviTextReporter());
         $test2->run(new CiviTextReporter());
-        $test3->run(new CiviTextReporter());        
-        $test4->run(new CiviTextReporter());                
+//        $test3->run(new CiviTextReporter());        
+//        $test4->run(new CiviTextReporter());                
         exit();
     }
-    $test->run(new HtmlReporter());
+//    $test->run(new HtmlReporter());
     $test2->run(new HtmlReporter());    
-    $test3->run(new HtmlReporter());    
-    $test4->run(new HtmlReporter());
+//    $test3->run(new HtmlReporter());    
+//    $test4->run(new HtmlReporter());
 }
 
 ?>
