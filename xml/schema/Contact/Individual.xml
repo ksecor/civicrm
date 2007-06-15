@@ -42,6 +42,11 @@
        <comment>First Name.</comment>
       <add>1.1</add>
   </field>
+  <index>
+      <name>index_first_name</name>
+      <fieldName>first_name</fieldName>      
+      <add>1.8</add>
+  </index>
   <field>
        <name>middle_name</name>
        <type>varchar</type>
@@ -64,6 +69,11 @@
        <fulltext/>
       <add>1.1</add>
   </field>
+  <index>
+      <name>index_last_name</name>
+      <fieldName>last_name</fieldName>      
+      <add>1.8</add>
+  </index>
   <field>
        <name>gender</name>
        <type>enum</type>

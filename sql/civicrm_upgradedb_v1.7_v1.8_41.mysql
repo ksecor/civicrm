@@ -484,6 +484,23 @@ CREATE TABLE civicrm_worldregion (
 
 -- /*******************************************************
 -- *
+-- * civicrm_household
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_household
+	    ADD INDEX index_household_name (household_name);
+
+-- /*******************************************************
+-- *
+-- * civicrm_individual
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_individual
+	    ADD INDEX index_first_name (first_name),
+	    ADD INDEX index_last_name (last_name);
+
+-- /*******************************************************
+-- *
 -- * civicrm_line_item
 -- *
 -- *******************************************************/
@@ -530,6 +547,14 @@ CREATE TABLE civicrm_worldregion (
 -- *******************************************************/
 	ALTER TABLE civicrm_option_group
     	    ADD label varchar(255) NULL DEFAULT NULL;
+
+-- /*******************************************************
+-- *
+-- * civicrm_organization
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_organization
+	    ADD INDEX index_organization_name (organization_name);
 
 -- /*******************************************************
 -- *

@@ -42,6 +42,11 @@
        <fulltext/>
        <add>1.1</add>
   </field>
+  <index>
+      <name>index_household_name</name>
+      <fieldName>household_name</fieldName>      
+      <add>1.8</add>
+  </index>
   <field>
       <name>primary_contact_id</name>
       <type>int unsigned</type>
