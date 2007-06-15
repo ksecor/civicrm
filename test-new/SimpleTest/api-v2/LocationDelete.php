@@ -13,6 +13,8 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
         $location = array( );
         $locationDelete =& civicrm_location_delete( $location );
         $this->assertEqual( $locationDelete['is_error'], 1 );
+        // FIXME: Please assert on error message
+        $this->assertEqual( $locationDelete['error_message'], 'Proper error message' );
     }
     
     function testLocationDeleteError( )
@@ -21,7 +23,8 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
         
         $locationDelete =& civicrm_location_delete($location);
         $this->assertEqual( $locationDelete['is_error'], 1 );
-        
+        // FIXME: Please assert on error message        
+        $this->assertEqual( $locationDelete['error_message'], 'Proper error message' );        
     }
 
     function testLocationDeleteWithMissingContactId( )
@@ -30,7 +33,8 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
         $locationDelete =& civicrm_location_delete( $params );
         
         $this->assertEqual( $locationDelete['is_error'], 1 );
-        $this->assertNotNull( $locationDelete );
+        // FIXME: Please assert on error message        
+        $this->assertEqual( $locationDelete['error_message'], 'Proper error message' );        
     }
    
     function testLocationDeleteWithMissingLocationTypeId( )
@@ -40,7 +44,8 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
         $locationDelete =& civicrm_location_delete( $params );
 
         $this->assertEqual( $locationDelete['is_error'], 1 );
-        $this->assertNotNull( $locationDelete );
+        $this->assertEqual( $locationDelete['error_message'], 'Proper error message' );                
+        // FIXME: please move this to tearDown()
         $this->contactDelete( $contactID ) ;        
     }
 
@@ -56,6 +61,7 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
 
         $this->assertEqual( $locationDelete['is_error'], 1 );
         $this->assertNotNull( $locationDelete );
+        // FIXME: please move this to tearDown()        
         $this->contactDelete( $contactID ) ;
     }
 
@@ -72,6 +78,7 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
         
         $this->assertEqual( $locationDelete['is_error'], 0 );
         $this->assertNull( $locationDelete );
+        // FIXME: please move this to tearDown()        
         $this->contactDelete( $contactID ) ;
     }
     
