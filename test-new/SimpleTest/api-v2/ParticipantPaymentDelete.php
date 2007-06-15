@@ -23,15 +23,17 @@ class TestOfParticipantPaymentDeleteAPIV2 extends CiviUnitTestCase
     
     function testParticipantPaymentDeleteWithWrongID()
     {
-        $id = -1;      
-        $deletePayment = & civicrm_participant_payment_delete( $id );
+        $params = array( 'id' => -1 );        
+        $deletePayment = & civicrm_participant_payment_delete( $params );
         $this->assertEqual( $deletePayment['is_error'], 1 );
     }
 
     function testParticipantPaymentDelete()
     {
         $this->_participantPaymentID = $this->participantPaymentCreate( $this->_participantID );
-        $deletePayment = & civicrm_participant_payment_delete( $this->_participantPaymentID );
+       
+        $params = array( 'id' => $this->_participantPaymentID );        
+        $deletePayment = & civicrm_participant_payment_delete( $params );
         $this->assertEqual( $deletePayment['is_error'], 0 );
     }
 

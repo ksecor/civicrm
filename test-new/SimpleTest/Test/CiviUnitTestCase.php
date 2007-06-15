@@ -331,7 +331,8 @@ class CiviUnitTestCase extends UnitTestCase {
     function participantDelete( $participantID ) 
     {
         require_once 'api/v2/Participant.php';
-        $result = & civicrm_participant_delete( $participantID );
+        $params = array( 'id' => $participantID );
+        $result = & civicrm_participant_delete( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete participant' );
         }
@@ -356,6 +357,7 @@ class CiviUnitTestCase extends UnitTestCase {
                         );
         
         $participantPayment = & civicrm_participant_payment_create( $params );
+        
         if ( CRM_Utils_Array::value( 'is_error', $participantPayment ) ||
              ! CRM_Utils_Array::value( 'id', $participantPayment ) ) {
             CRM_Core_Error::fatal( 'Could not create participant payment' );
@@ -373,7 +375,8 @@ class CiviUnitTestCase extends UnitTestCase {
     function participantPaymentDelete( $paymentID ) 
     {
         require_once 'api/v2/Participant.php';
-        $result = & civicrm_participant_payment_delete( $paymentID );
+        $params = array( 'id' => $paymentID );        
+        $result = & civicrm_participant_payment_delete( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete participant payment' );
         }

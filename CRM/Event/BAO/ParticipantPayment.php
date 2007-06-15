@@ -45,8 +45,8 @@ class CRM_Event_BAO_ParticipantPayment extends CRM_Event_DAO_ParticipantPayment
         $paymentParticipant->copyValues($params);
         $paymentParticipant->id = CRM_Utils_Array::value( 'id', $ids );
         $paymentParticipant->save();
-        
-        return $paymenParticipant;
+
+        return $paymentParticipant;
     }
 
     

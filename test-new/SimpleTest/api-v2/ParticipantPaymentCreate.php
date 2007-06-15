@@ -73,7 +73,7 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
         
         $participantPayment = & civicrm_participant_payment_create( $params );
         
-        $this->assertNotEqual( $participantPayment['is_error'], 1 );
+        $this->assertEqual( $participantPayment['is_error'], 0 );
         $this->assertTrue( array_key_exists( 'id', $participantPayment ) );
         
         //delete created contribution

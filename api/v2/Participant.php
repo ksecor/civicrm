@@ -249,18 +249,23 @@ function civicrm_participant_update(&$params)
  * @return boolean        true if success, else false
  * @access public
  */
-function civicrm_participant_delete(&$participantID)
+function civicrm_participant_delete( &$params )
 {
     _civicrm_initialize();
     
-    if (empty($participantID)) {
-        return civicrm_create_error('Invalid value for participantID');
+    if ( !is_array( $params ) ) {
+        return civicrm_create_error( 'Params is not an array' );
     }
+    
+    if ( !isset($params['id'])) {
+        return civicrm_create_error( 'Required parameter missing' );
+    }
+   
     require_once 'CRM/Event/BAO/Participant.php';
     $participant = new CRM_Event_BAO_Participant();
-    $result = $participant->deleteParticipant($participantID);
+    $result = $participant->deleteParticipant( $params['id'] );
     
-    return $result ? null : civicrm_create_error('Error while deleting participant');
+    return $result ? civicrm_create_success( ) : civicrm_create_error('Error while deleting participant');
 }
 
 
@@ -287,10 +292,10 @@ function civicrm_participant_payment_create(&$params)
     }
    
     $ids= array();
-
+    
     require_once 'CRM/Event/BAO/ParticipantPayment.php';
     $participantPayment = CRM_Event_BAO_ParticipantPayment::create($params, $ids);
-
+    
     if ( is_a( $participantPayment, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Participant payment could not be created" );
     } else {
@@ -299,6 +304,7 @@ function civicrm_participant_payment_create(&$params)
         $payment['is_error']   = 0;
     }
     return $payment;
+   
 }
 
 /**
@@ -345,18 +351,21 @@ function civicrm_participant_payment_update( &$params )
  * @return null if successfull, array with is_error=1 otherwise
  * @access public
  */
-function civicrm_participant_payment_delete( &$participantPaymentID )
+function civicrm_participant_payment_delete( &$params )
 {
     _civicrm_initialize();
     
-    if (empty($participantPaymentID)) {
-        return civicrm_create_error('Invalid value for participantPaymentID');
+    if ( !is_array( $params ) ) {
+        return civicrm_create_error( 'Params is not an array' );
+    }
+    
+    if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
+        return civicrm_create_error( 'Invalid or no value for Participant payment ID' );
     }
     require_once 'CRM/Event/BAO/ParticipantPayment.php';
     $participant = new CRM_Event_BAO_ParticipantPayment();
-    $params = array( 'id' => $participantPaymentID );
     
-    return $participant->deleteParticipantPayment( $params ) ? null : civicrm_create_error('Error while deleting participantPayment');
+    return $participant->deleteParticipantPayment( $params['id'] ) ? civicrm_create_success( ) : civicrm_create_error('Error while deleting participantPayment');
 }
 
 ?>
