@@ -18,7 +18,7 @@ class TestOfOptionValueCreateAPIV2 extends CiviUnitTestCase
         $params = array();
         $optionValue =& civicrm_option_value_create($params); 
         $this->assertEqual($optionValue['is_error'], 1);
-        $this->assertNotNull($optionValue['error_message']);
+        $this->assertEqual($optionValue['error_message'],'Missing required Field : Custom Field ID');
     }
      
     function testOptionValueCreateWithoutFieldID( )
@@ -35,7 +35,7 @@ class TestOfOptionValueCreateAPIV2 extends CiviUnitTestCase
 
         $optionValue =& civicrm_option_value_create($params); 
         $this->assertEqual($optionValue['is_error'], 1);
-        $this->assertNotNull($optionValue['error_message']);
+        $this->assertEqual($optionValue['error_message'],'Missing required Field : Custom Field ID');
     }
     
     function testOptionValueCreate( )

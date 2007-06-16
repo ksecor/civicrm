@@ -13,17 +13,16 @@ class TestOfTagDeleteAPIV2 extends CiviUnitTestCase
         $tag = array( );
         $tagDelete =& civicrm_tag_delete( $tag );
         $this->assertEqual( $tagDelete['is_error'], 1 );
-        $this->assertNotNull($tagDelete['error_message']);
+        $this->assertEqual( $tagDelete['error_message'],'Could not find tag_id in input parameters' );
     }
     
     function testTagDeleteError( )
     {
         $tag = "noID";
         
-        $tagDelete =& civicrm_tag_delete($tag);
+        $tagDelete =& civicrm_tag_delete($tag); 
         $this->assertEqual( $tagDelete['is_error'], 1 ); 
-        $this->assertNotNull($tagDelete['error_message']);
-        
+        $this->assertEqual( $tagDelete['error_message'],'Could not find tag_id in input parameters' );            
     }
     
     function testTagDelete( )

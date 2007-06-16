@@ -18,7 +18,7 @@ class TestOfCustomFieldDeleteAPIV2 extends CiviUnitTestCase
         $params = array( ); 
         $customField =& civicrm_custom_field_delete($params); 
         $this->assertEqual($customField['is_error'], 1);
-        $this->assertNotNull($customField['error_message']);
+        $this->assertEqual($customField['error_message'], 'Invalid or no value for Custom Field ID');
         $this->assertEqual($customGroup['result'], 0);
     }    
     
@@ -27,9 +27,8 @@ class TestOfCustomFieldDeleteAPIV2 extends CiviUnitTestCase
         $customGroupID = $this->customGroupCreate('Individual','test_group');
         $customFieldID = $this->customFieldCreate($customGroupID,'test_name');
         $params = array('id' => $customFieldID);
-        $customField =& civicrm_custom_field_delete($params); 
+        $customField =& civicrm_custom_field_delete($params);  
         $this->assertEqual($customField['is_error'], 0);
-        $this->assertEqual($customField['result'], 1);
         $this->customGroupDelete($customGroupID);
     } 
     

@@ -12,13 +12,22 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
     {
         $params = array( );                             
         $individualEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $individualEntity['is_error'], 1 );
-        // FIXME: Please assert on proper error message instead
-        $this->assertNotNull($individualEntity['error_message']);
-        $this->assertEqual( $individualEntity['error_message'], 'Proper error message' );
+        $this->assertEqual( $individualEntity['is_error'], 1 ); 
+        $this->assertEqual( $individualEntity['error_message'], 'contact_id is a required field' );
        
     }
-    
+
+    function testIndividualEntityTagAddWithoutTagID( ) 
+    {
+        $ContactId = $this->individualCreate( );
+        $params = array('contact_id' =>  $ContactId);
+        
+        $individualEntity = civicrm_entity_tag_add( $params ); 
+        $this->assertEqual( $individualEntity['is_error'], 1 );
+        $this->assertEqual( $individualEntity['error_message'], 'tag_id is a required field' );
+        $this->contactDelete( $params['contact_id'] );
+    }
+
     function testIndividualEntityTagAdd( ) 
     {
         $ContactId = $this->individualCreate( );
@@ -37,8 +46,19 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
     function testHouseholdEntityTagAddEmptyParams( ) 
     {
         $params = array( );
-        $householdEntity = civicrm_entity_tag_add( $params );
+        $householdEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $householdEntity['is_error'], 1 );
+        $this->assertEqual( $householdEntity['error_message'], 'contact_id is a required field' );
+    }
+
+    function testHouseholdEntityTagAddWithoutTagID( ) 
+    {
+        $ContactId = $this->houseHoldCreate( );
+        $params = array('contact_id' =>  $ContactId);
+        $householdEntity = civicrm_entity_tag_add( $params ); 
+        $this->assertEqual( $householdEntity['is_error'], 1 );
+        $this->assertEqual( $householdEntity['error_message'], 'tag_id is a required field' );
+        $this->contactDelete( $params['contact_id'] );
     }
 
     function testHouseholdEntityTagAdd( ) 
@@ -49,7 +69,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
                         'contact_id' =>  $ContactId,
                         'tag_id'     =>  $tagID );
                                
-        $householdEntity = civicrm_entity_tag_add( $params );
+        $householdEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $householdEntity['is_error'], 0 );
         $this->assertEqual( $householdEntity['added'], 1 );
         $this->contactDelete( $params['contact_id'] );
@@ -59,8 +79,19 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
     function testOrganizationEntityTagAddEmptyParams( ) 
     {
         $params = array( );
-        $organizationEntity = civicrm_entity_tag_add( $params );
+        $organizationEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $organizationEntity['is_error'], 1 );
+        $this->assertEqual( $organizationEntity['error_message'], 'contact_id is a required field' );
+    }
+    
+    function testOrganizationEntityTagAddWithoutTagID( ) 
+    {
+        $ContactId = $this->organizationCreate( );
+        $params = array('contact_id' =>  $ContactId);
+        $organizationEntity = civicrm_entity_tag_add( $params ); 
+        $this->assertEqual( $organizationEntity['is_error'], 1 );
+        $this->assertEqual( $organizationEntity['error_message'], 'tag_id is a required field' );
+        $this->contactDelete( $params['contact_id'] );
     }
 
     function testOrganizationEntityTagAdd( ) 
@@ -71,7 +102,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
                         'contact_id' =>  $ContactId,
                         'tag_id'     =>  $tagID );
                                            
-        $organizationEntity = civicrm_entity_tag_add( $params );
+        $organizationEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $organizationEntity['is_error'], 0 );
         $this->assertEqual( $organizationEntity['added'], 1 );
         $this->contactDelete( $params['contact_id'] );

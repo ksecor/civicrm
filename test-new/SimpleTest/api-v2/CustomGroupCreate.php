@@ -12,8 +12,31 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
     function tearDown() 
     {
     }
-
-    // FIXME: please add erraneous custom group adding assertions
+    
+    function testCustomGroupCreateNoParam()
+    {
+        $params = array( );
+        $customGroup =& civicrm_custom_group_create($params); 
+        $this->assertEqual($customGroup['is_error'],1);
+        $this->assertEqual($customGroup['error_message'],'params is not an array');
+    }
+   
+    function testCustomGroupCreateNoClassName()
+    {
+        $params = array( 'domain_id'        => 1,
+                         'title'            => 'Test Group 1 For Creating Custom Group',
+                         'name'             => 'test_group_1',
+                         'weight'           => 4,
+                         'collapse_display' => 1,
+                         'style'            => 'Tab',
+                         'help_pre'         => 'This is Pre Help For Test Group 1',
+                         'help_post'        => 'This is Post Help For Test Group 1',
+                         'is_active'        => 1
+                         );
+        $customGroup =& civicrm_custom_group_create($params);
+        $this->assertEqual($customGroup['error_message'],'class_name is not set');
+        $this->assertEqual($customGroup['is_error'],1);
+    }
    
     function testCustomGroupCreate()
     {
@@ -82,6 +105,7 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
                         'help_pre'         => 'This is Pre Help For Test Group 6',
                         'help_post'        => 'This is Post Help For Test Group 6'
                         );
+
         $customGroup =& civicrm_custom_group_create($params); 
         $this->assertEqual($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['custom_group_id']);

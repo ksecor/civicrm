@@ -16,9 +16,9 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
     function testCustomFieldCreateNoParam()
     {
         $params = array();
-        $customField =& civicrm_custom_field_create($params);
+        $customField =& civicrm_custom_field_create($params); 
         $this->assertEqual($customField['is_error'], 1);
-        $this->assertNotNull($customField['error_message']);
+        $this->assertEqual( $customField['error_message'],'Missing Required field :custom_group_id' );
     }
     
     function testCustomFieldCreateWithoutGroupID( )
@@ -34,9 +34,9 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                         'is_searchable'   => 0,
                         'is_active'       => 1
                         );
-        $customField =& civicrm_custom_field_create($params);
+        $customField =& civicrm_custom_field_create($params);  
         $this->assertEqual($customField['is_error'], 1);
-        $this->assertNotNull($customField['error_message']);
+        $this->assertEqual( $customField['error_message'],'Missing Required field :custom_group_id' );
     }    
     
     function testCustomTextFieldCreate( )
@@ -54,7 +54,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                         'is_active'       => 1
                         );
         
-        $customField =& civicrm_custom_field_create($params); 
+        $customField =& civicrm_custom_field_create($params);  
         $this->assertEqual($customField['is_error'],0);
         $this->assertNotNull($customField['custom_field_id']);
         $this->customFieldDelete($customField['custom_field_id']);
@@ -75,7 +75,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                         'is_active'       => 1
                         );
           
-        $customField =& civicrm_custom_field_create($params);
+        $customField =& civicrm_custom_field_create($params); 
         $this->assertEqual($customField['is_error'],0);
         $this->assertNotNull($customField['custom_field_id']);
         $this->customFieldDelete($customField['custom_field_id']);

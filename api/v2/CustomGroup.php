@@ -68,14 +68,14 @@ require_once 'api/v2/utils.php';
 function civicrm_custom_group_create($params)
 {
     _civicrm_initialize( );
+    if(! is_array($params) ) {
+        return civicrm_error( "params is not an array ");
+    }   
+ 
     if(! trim($params['class_name']) ) {
         return civicrm_error( "class_name is not set" );
     }
-    
-    if(! is_array($params) ) {
-        return civicrm_error( "params is not an array ");
-    }
-
+      
     $params['extends'] = $params['class_name'];
     $error = _civicrm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
     
@@ -109,11 +109,11 @@ function civicrm_custom_group_delete($params)
     _civicrm_initialize( );
     
     if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Params is not an array' );
+        return civicrm_error( 'Params is not an array' );
     }
 
     if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
-        return civicrm_create_error( 'Invalid or no value for Custom group ID' );
+        return civicrm_error( 'Invalid or no value for Custom group ID' );
     }
     
     require_once 'CRM/Core/BAO/CustomGroup.php';
