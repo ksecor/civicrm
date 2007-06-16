@@ -113,6 +113,13 @@
        <add>1.8</add>
   </field>
   <field>
+       <name>url_recur_default</name>
+       <title>Default Live Recurring Payments URL</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
        <name>url_button_default</name>
        <title>Default Live Button URL</title>
        <type>varchar</type>
@@ -122,6 +129,13 @@
   <field>
        <name>url_site_test_default</name>
        <title>Default Test Site URL</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
+       <name>url_recur_test_default</name>
+       <title>Default Test Recurring Payment URL</title>
        <type>varchar</type>
        <length>255</length>
        <add>1.8</add>

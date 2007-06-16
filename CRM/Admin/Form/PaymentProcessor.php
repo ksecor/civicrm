@@ -88,6 +88,8 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         }
         $this->assign( 'refreshURL', $refreshURL );
 
+        $this->assign( 'is_recur', $this->_ppDAO->is_recur );
+
         $this->_fields = array(
                                array( 'name'  => 'user_name',
                                       'label' => $this->_ppDAO->user_name_label ),
@@ -102,6 +104,13 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
                                       'rule'  => 'url',
                                       'msg'   => ts( 'Enter a valid URL' ) ),
                                );
+
+        if ( $this->_ppDAO->is_recur ) {
+            $this->_fields[] = array( 'name'  => 'url_recur',
+                                      'label' => ts( 'Recurring Payments URL' ),
+                                      'rule'  => 'url',
+                                      'msg'   => ts( 'Enter a valid URL' ) );
+        }
 
         if ( ! empty( $this->_ppDAO->url_button_default ) ) {
             $this->_fields[] = array( 'name'  => 'url_button',
@@ -206,8 +215,10 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         if ( ! $this->_id ) {
             $defaults['is_active'] = $defaults['is_default'] = 1;
             $defaults['url_site'] = $this->_ppDAO->url_site_default;
+            $defaults['url_recur'] = $this->_ppDAO->url_recur_default;
             $defaults['url_button'] = $this->_ppDAO->url_button_default;
             $defaults['test_url_site'] = $this->_ppDAO->url_site_test_default;
+            $defaults['test_url_recur'] = $this->_ppDAO->url_recur_test_default;
             $defaults['test_url_button'] = $this->_ppDAO->url_button_test_default;
             return $defaults;
         }
