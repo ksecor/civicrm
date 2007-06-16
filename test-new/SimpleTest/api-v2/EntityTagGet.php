@@ -12,7 +12,7 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     function testIndividualEntityTagGetWithoutContactID()
     {
         $paramsEntity = array( );
-        $entity =& civicrm_entity_tag_get($paramsEntity); crm_core_error::debug('$entity',$entity);
+        $entity =& civicrm_entity_tag_get($paramsEntity); 
         $this->assertEqual( $entity['is_error'], 1 );
         $this->assertNotNull($entity['error_message']);
     }
@@ -21,7 +21,7 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     {
         $contactId = $this->individualCreate( );
         $paramsEntity = array('contact_id' =>  $ContactId);
-        $entity =& civicrm_entity_tag_get($paramsEntity); crm_core_error::debug('$entity',$entity);
+        $entity =& civicrm_entity_tag_get($paramsEntity); 
         $this->assertEqual( $entity['is_error'], 0 );
         $this->assertNotNull($entity['tag_id']);
     }
@@ -29,7 +29,7 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     function testHouseholdEntityGetWithoutContactID()
     {
         $paramsEntity = array( );
-        $entity =& civicrm_entity_tag_get($paramsEntity); crm_core_error::debug('$entity',$entity);
+        $entity =& civicrm_entity_tag_get($paramsEntity);
         $this->assertEqual( $entity['is_error'], 1 );
         $this->assertNotNull($entity['error_message']);
     }
@@ -38,7 +38,7 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     {
         $contactId = $this->householdCreate( );
         $paramsEntity = array('contact_id' => $contactId); 
-        $entity =& civicrm_entity_tag_get($paramsEntity); crm_core_error::debug('$entity',$entity);
+        $entity =& civicrm_entity_tag_get($paramsEntity);
         $this->assertEqual( $entity['is_error'], 0 );
         $this->assertNotNull($entity['tag_id']);
     }
@@ -46,7 +46,7 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     function testOrganizationEntityGetWithoutContactID()
     {
         $paramsEntity = array( );
-        $entity =& civicrm_entity_tag_get($paramsEntity); crm_core_error::debug('$entity',$entity);
+        $entity =& civicrm_entity_tag_get($paramsEntity); 
         $this->assertEqual( $entity['is_error'], 1 );
         $this->assertNotNull($entity['error_message']);
     }
@@ -55,7 +55,7 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     {
         $contactId = $this->organizationCreate( );
         $paramsEntity = array('contact_id' => $contactId);
-        $entity =& civicrm_entity_tag_get($paramsEntity); crm_core_error::debug('$entity',$entity);
+        $entity =& civicrm_entity_tag_get($paramsEntity); 
         $this->assertEqual( $entity['is_error'], 0 ); 
         $this->assertNotNull($entity['tag_id']);
     }
