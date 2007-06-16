@@ -1265,7 +1265,16 @@ WHERE civicrm_contact.id IN $idString ";
         if ( ! self::permissionedContact( $id, CRM_Core_Permission::EDIT ) ) {
             return false;
         }
-            
+
+        // make sure this contact_id does not have any membership types
+        $membershipTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
+                                                         $id,
+                                                         'member_of_contact_id',
+                                                         'id' );
+        if ( $membershipTypeID ) {
+            return false;
+        }
+                                                         
         require_once 'CRM/Utils/Hook.php';
 
         $contact =& new CRM_Contact_DAO_Contact();
