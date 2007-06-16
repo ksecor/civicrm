@@ -219,6 +219,7 @@ class CRM_Core_BAO_CMSUser
                 if ( empty( $fields[ $emailName ] ) ) {
                     $errors[$emailName] = ts( 'Please specify a valid email address' );
                 }
+
                 if ( ! variable_get('user_email_verification', TRUE ) ) {
                     if ( empty( $fields['cms_pass'] ) ||
                          empty( $fields['cms_confirm_pass'] ) ) {
@@ -234,26 +235,51 @@ class CRM_Core_BAO_CMSUser
                 }
 
                 // now check that the drupal db does not have the user name and/or email
-                $params = array( 'name' => $fields['name'],
+                $params = array( 'name' => $fields['cms_name'],
                                  'mail' => $fields[$emailName] );
                 _user_edit_validate(null, $params );
                 $errors = form_get_errors( );
+
                 if ( $errors ) {
                     if ( CRM_Utils_Array::value( 'name', $errors ) ) {
                         $errors['cms_name'] = $errors['name'];
-                    } else if ( CRM_Utils_Array::value( 'mail', $errors ) ) {
+                    } 
+
+                    if ( CRM_Utils_Array::value( 'mail', $errors ) ) {
                         $errors[$emailName] = $errors['mail'];
-                    } else {
-                        $errors['cms_name'] = $errors[$emailName] = implode( '<br/>', array_values( $errors ) );
-                    }
+                    } 
+
                     // also unset drupal messages to avoid twice display of errors
                     unset( $_SESSION['messages'] );
                 }
+                
+                // drupal api sucks
+                // do the name check manually
+                $nameError = user_validate_name( $fields['cms_name'] );
+                if ( $nameError ) {
+                    $errors['cms_name'] = $nameError;
+                }
 
+                $dao =& new CRM_Core_DAO( );
+                $name = $dao->escape( $fields['cms_name'] );
+                $sql = "
+SELECT count(*)
+  FROM {$config->userFrameworkUsersTableName}
+ WHERE LOWER(name) = LOWER('$name')
+";
+                $db_drupal = DB::connect($config->userFrameworkDSN);
+                if ( DB::isError( $db_drupal ) ) { 
+                    die( "Cannot connect to UF db via $dsn, " . $db_drupal->getMessage( ) ); 
+                }
+                $query = $db_drupal->query( $sql );
+                $row = $query->fetchRow( );
+                if ( $row[0] >= 1 ) {
+                    $errors['cms_name'] = ts( 'Please select another user name' );
+                }
+                
                 if ( ! empty( $errors ) ) {
                     return $errors;
                 }
-
 
             }
         }
