@@ -1,8 +1,7 @@
 <?php
 
-ini_set( 'include_path', ".:../packages:.." );
-ini_set( 'memory_limit', '16M'              );
-
+ini_set( 'include_path', '.' . PATH_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'packages' . PATH_SEPARATOR . '..' );
+ini_set( 'memory_limit', '32M'              );
 
 $versionFile = "version.xml";
 $versionXML = & parseInput( $versionFile );
@@ -26,9 +25,6 @@ require_once 'Smarty/Smarty.class.php';
 require_once 'PHP/Beautifier.php';
 
 require_once '../civicrm.config.php';
-
-// lets use our own include path
-ini_set( 'include_path', ".:../packages:.." );
 
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/I18n.php';
