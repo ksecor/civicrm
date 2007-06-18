@@ -12,15 +12,14 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
     function tearDown() 
     {
     }
-    
+      
     function testCustomGroupCreateNoParam()
     {
-        $params = array( );
         $customGroup =& civicrm_custom_group_create($params); 
-        $this->assertEqual($customGroup['is_error'],1);
-        $this->assertEqual($customGroup['error_message'],'params is not an array');
+        $this->assertEqual($customGroup['is_error'], 1); 
+        $this->assertEqual($customGroup['error_message'], 'params is not an array');
     }
-   
+    
     function testCustomGroupCreateNoClassName()
     {
         $params = array( 'domain_id'        => 1,
@@ -33,11 +32,12 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
                          'help_post'        => 'This is Post Help For Test Group 1',
                          'is_active'        => 1
                          );
-        $customGroup =& civicrm_custom_group_create($params);
+        
+        $customGroup =& civicrm_custom_group_create($params); 
         $this->assertEqual($customGroup['error_message'],'class_name is not set');
         $this->assertEqual($customGroup['is_error'],1);
     }
-   
+    
     function testCustomGroupCreate()
     {
         $params = array( 'domain_id'        => 1,
@@ -52,12 +52,12 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
                          'is_active'        => 1
                          );
         
-        $customGroup =& civicrm_custom_group_create($params);  
+        $customGroup =& civicrm_custom_group_create($params);   
         $this->assertEqual($customGroup['is_error'],0);
         $this->assertNotNull($customGroup['custom_group_id']);
         $this->customGroupDelete($customGroup['custom_group_id']);
     } 
-     
+    
     function testCustomGroupCreateNoTitle()
     {
         $params = array('domain_id'        => 1,
@@ -68,8 +68,8 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
                         'help_pre'         => 'This is Pre Help For Test Group 2',
                         'help_post'        => 'This is Post Help For Test Group 2'
                         );
-       
-        $customGroup =& civicrm_custom_group_create($params); 
+        
+        $customGroup =& civicrm_custom_group_create($params);  
         $this->assertEqual($customGroup['is_error'],0);
         $this->assertNotNull($customGroup['custom_group_id']);
         $this->customGroupDelete($customGroup['custom_group_id']);
@@ -105,8 +105,8 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
                         'help_pre'         => 'This is Pre Help For Test Group 6',
                         'help_post'        => 'This is Post Help For Test Group 6'
                         );
-
-        $customGroup =& civicrm_custom_group_create($params); 
+        
+        $customGroup =& civicrm_custom_group_create($params);  
         $this->assertEqual($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['custom_group_id']);
         $this->customGroupDelete($customGroup['custom_group_id']);
@@ -125,7 +125,7 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
                         'help_post'        => 'This is Post Help For Test Group 8'
                         );
         
-        $customGroup =& civicrm_custom_group_create($params); 
+        $customGroup =& civicrm_custom_group_create($params);  
         $this->assertEqual($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['custom_group_id']);
         $this->customGroupDelete($customGroup['custom_group_id']);
