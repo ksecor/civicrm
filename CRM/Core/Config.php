@@ -1014,7 +1014,6 @@ class CRM_Core_Config
                 foreach( $value as $val ) {
                     $country[] = $countryIsoCodes[$val]; 
                 }
-
                 $value = $country;
             } else if ( $key == 'defaultContactCountry' ) {
                 $value =  $countryIsoCodes[$value];

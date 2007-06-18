@@ -32,9 +32,4 @@
        <comment>Currency Symbol</comment>
        <add>1.7</add>
   </field>
-  <index>
-    <name>index_name</name>
-    <fieldName>name</fieldName>
-    <add>1.8</add>
-  </index>
 </table>
