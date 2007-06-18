@@ -10,7 +10,7 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Currency Id</comment>
-       <add>1.7</add>
+      <add>1.7</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -32,4 +32,9 @@
        <comment>Currency Symbol</comment>
        <add>1.7</add>
   </field>
+  <index>
+    <name>index_name</name>
+    <fieldName>name</fieldName>
+    <add>1.8</add>
+  </index>
 </table>
