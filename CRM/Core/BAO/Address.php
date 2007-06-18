@@ -204,10 +204,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
                     // make sure its different from the default country
                     $config =& CRM_Core_Config::singleton( );
                     if ( $config->defaultContactCountry ) {
-                        $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode( );
-                        $defaultID = array_search( $config->defaultContactCountry,
-                                                   $countryIsoCodes );
-                        if ( $value != $defaultID ) {
+                        if ( $value != $config->defaultContactCountry ) {
                             return true;
                         }
                     } else {

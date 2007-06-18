@@ -1001,37 +1001,11 @@ class CRM_Core_Config
             CRM_Core_BAO_Setting::add($variables);
         }
         
-        $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
-
-        $specialArray = array('countryLimit', 'provinceLimit');
-        $paymentArray = array('paymentCertPath', 'paymentUsername', 'merchantID', 'googleCheckoutButton');
         $urlArray     = array('userFrameworkResourceURL', 'imageUploadURL');
         $dirArray     = array('uploadDir','customFileUploadDir');
         
         foreach($variables as $key => $value) {
-            if ( in_array($key, $specialArray) && is_array($value) ) {
-                $country = array();
-                foreach( $value as $val ) {
-                    $country[] = $countryIsoCodes[$val]; 
-                }
-                $value = $country;
-            } else if ( $key == 'defaultContactCountry' ) {
-                $value =  $countryIsoCodes[$value];
-            } else if (strpos($key, '_')) {
-                list($v, $p) = explode("_", $key);
-                if (in_array($v, $paymentArray)) {
-                    $key = $v;
-                    
-                    if ( isset( $this->$key ) &&
-                         is_array( $this->$key ) ) {
-                        $d = $this->$key;
-                    } else {
-                        $d = array( );
-                    }
-                    $d[$p] = $value;
-                    $value = $d;
-                }
-            } else if ( in_array($key, $urlArray) ) {
+            if ( in_array($key, $urlArray) ) {
                 $value = self::addTrailingSlash( $value, '/' );
             } else if ( in_array($key, $dirArray) ) {
                 $value = self::addTrailingSlash( $value );
@@ -1086,6 +1060,50 @@ class CRM_Core_Config
         }
         return $cachedSymbol;
     }
+
+    function defaultContactCountry( ) {
+        static $cachedContactCountry = null;
+        if ( ! $cachedContactCountry ) {
+            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
+            $cachedContactCountry = $countryIsoCodes[$this->defaultContactCountry];
+        }
+        return $cachedContactCountry;
+    }
+
+    function countryLimit( ) {
+        static $cachedCountryLimit = null;
+        if ( ! $cachedCountryLimit ) {
+            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
+            $country = array();
+            if ( is_array( $this->countryLimit ) ) {
+                foreach( $this->countryLimit as $val ) {
+                    $country[] = $countryIsoCodes[$val]; 
+                }
+            } else {
+                $country[] = $countryIsoCodes[$this->countryLimit];
+            }
+            $cachedCountryLimit = $country;
+        }
+        return $cachedCountryLimit;
+    }
+
+    function provinceLimit( ) {
+        static $cachedProvinceLimit = null;
+        if ( ! $cachedProvinceLimit ) {
+            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
+            $country = array();
+            if ( is_array( $this->provinceLimit ) ) {
+                foreach( $this->provinceLimit as $val ) {
+                    $country[] = $countryIsoCodes[$val]; 
+                }
+            } else {
+                $country[] = $countryIsoCodes[$this->provinceLimit];
+            }
+            $cachedProvinceLimit = $country;
+        }
+        return $cachedProvinceLimit;
+    }
+
 
 } // end CRM_Core_Config
 

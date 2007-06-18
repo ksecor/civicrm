@@ -1002,9 +1002,7 @@ ORDER BY civicrm_custom_group.weight,
                         $defaults[$elementName] = $value;
                     } else {
                         $config          =& CRM_Core_Config::singleton( );
-                        $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                        $defaultCountryId = array_search($config->defaultContactCountry, $countryIsoCodes);
-                        $defaults[$elementName] = $defaultCountryId;
+                        $defaults[$elementName] = $config->defaultContactCountry;
                     }
                     break;
 

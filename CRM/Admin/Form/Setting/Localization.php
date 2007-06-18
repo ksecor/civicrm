@@ -87,6 +87,8 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
     
         $this->addElement('select','defaultContactCountry', ts('Default Country'), array('' => ts('- select -')) + $country);
 
+        // we do this only to initialize currencySymbols, kinda hackish but works!
+        $config->defaultCurrencySymbol( );
         $symbol = $config->currencySymbols;
         foreach($symbol as $key=>$value) {
             $currencySymbols[$key] = "$key ($value)";

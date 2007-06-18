@@ -266,10 +266,7 @@ SELECT count( l.id )
                     }
                     $defaults['location'][$i+1]['address'] = array( );
                     if( $config->defaultContactCountry ) {
-                        $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                        $defaultID = array_search($config->defaultContactCountry,
-                                                  $countryIsoCodes);
-                        $defaults['location'][$i+1]['address']['country_id'] = $defaultID;
+                        $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
                     }
                 }
                 $defaults['location'][1]['is_primary'] = true;

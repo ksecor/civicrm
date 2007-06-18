@@ -1627,10 +1627,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                     if ( ! isset($value['country_id']) || ! $value['country_id'] ) {
                                         $config =& CRM_Core_Config::singleton();
                                         if ( $config->defaultContactCountry ) {
-                                            $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                                            $defaultID = array_search($config->defaultContactCountry,
-                                                                      $countryIsoCodes);
-                                            $defaults[$fldName] = $defaultID;
+                                            $defaults[$fldName] = $config->defaultContactCountry;
                                         }
                                     }
                                 }
@@ -1749,10 +1746,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             if ( substr( $name, 0, 8 ) == 'country-' ) {
                 $config =& CRM_Core_Config::singleton();
                 if ( $config->defaultContactCountry ) {
-                    $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                    $defaultID = array_search($config->defaultContactCountry,
-                                              $countryIsoCodes);
-                    $defaults[$name] = $defaultID;
+                    $defaults[$name] = $config->defaultContactCountry;
                 }
             }
         }

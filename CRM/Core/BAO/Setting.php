@@ -66,8 +66,7 @@ class CRM_Core_BAO_Setting
         // the username and certpath are stored flat with _test and _live
         // check CRM-1470
         $skipVars = array( 'dsn', 'templateCompileDir', 'userFrameworkBaseURL',
-                           'paymentUsername', 'paymentCertPath', 'qfKey',
-                           'gettextResourceDir' );
+                           'qfKey', 'gettextResourceDir' );
         foreach ( $skipVars as $var ) {
             unset( $params[$var] );
         }
@@ -92,7 +91,6 @@ class CRM_Core_BAO_Setting
         $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
         
         $specialArray = array('countryLimit', 'provinceLimit');
-        $paymentArray = array('paymentCertPath', 'paymentUsername');
         
         foreach($params as $key => $value) {
             if ( in_array($key, $specialArray) && is_array($value) ) {
@@ -105,9 +103,6 @@ class CRM_Core_BAO_Setting
                 if ( !is_numeric($value) ) {
                     $params[$key] =  array_search($value, $countryIsoCodes); 
                 }
-            } else if (in_array($key, $paymentArray)) {
-                $params[$key . "_test"] = $value['test'];
-                $params[$key . "_live"] = $value['live'];
             }
         }
     }
@@ -147,6 +142,8 @@ class CRM_Core_BAO_Setting
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
         $domain->id = CRM_Core_Config::domainID( );
+        $domain->selectAdd( );
+        $domain->selectAdd( 'config_backend' );
 
         $domain->find(true);
         if ($domain->config_backend) {
