@@ -262,44 +262,6 @@ CREATE TABLE civicrm_line_item (
 
 -- /*******************************************************
 -- *
--- * civicrm_timezone
--- *
--- *******************************************************/
-CREATE TABLE civicrm_timezone (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Timezone Id',
-     name varchar(64) COMMENT 'Timezone full name',
-     abbreviation char(3) COMMENT 'ISO Code for timezone abbreviation',
-     gmt varchar(64) COMMENT 'GMT name of the timezone',
-     offset int,
-     country_id int unsigned NOT NULL COMMENT 'Country Id' 
-
-,    PRIMARY KEY ( id )
-
-,    CONSTRAINT FK_civicrm_timezone_country_id FOREIGN KEY (country_id) REFERENCES civicrm_country(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
-
-
--- /*******************************************************
--- *
--- * civicrm_worldregion
--- *
--- *******************************************************/
-CREATE TABLE civicrm_worldregion (
-
-     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Country Id',
-     name varchar(128) COMMENT 'Region name to be associated with countries' 
-
-,    PRIMARY KEY ( id )
- 
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
-
--- /*******************************************************
--- *
 -- * Modifying Tables
 -- *
 -- *******************************************************/
@@ -324,16 +286,6 @@ CREATE TABLE civicrm_worldregion (
 	    ADD payment_processor_id int(10) unsigned NULL DEFAULT NULL,
 	    ADD INDEX FK_civicrm_contribution_page_payment_processor_id ( payment_processor_id );
 
-
--- /*******************************************************
--- *
--- * civicrm_country
--- *
--- *******************************************************/
-	ALTER TABLE civicrm_country
-	    ADD region_id int(10) unsigned NOT NULL,
-	    ADD INDEX FK_civicrm_country_region_id ( region_id );
-   
 
 -- /*******************************************************
 -- *
