@@ -6,6 +6,7 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
 {
     protected $_contactID;
     protected $_createdParticipants = array();
+
     
     function setUp() 
     {
@@ -70,16 +71,16 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
 
         // Use civicrm_participant_get to retrieve created record, then compare stored values.
         $params = array(
-                        'participant_id' => $participant['participant_id']
+                        'event_participant_id' => $participant['participant_id']
                         );
         $result = &civicrm_participant_get( $params );
         CRM_Core_Error::debug('result',$result);
         $this->assertEqual($result['event_id'],2);
-        $this->assertEqual($result['status_id'],3);
-        $this->assertEqual($result['role_id'],3);
-        $this->assertEqual($result['register_date'],20070721);
-        $this->assertEqual($result['source'],'Online Event Registration');
-        $this->assertEqual($result['event_level'],'Donation');
+        $this->assertEqual($result['event_status_id'],1);
+        $this->assertEqual($result['role_id'],1);
+        $this->assertEqual($result['event_register_date'], '2007-07-21 00:00:00');
+        $this->assertEqual($result['event_source'],'Online Event Registration: API Testing');
+        $this->assertEqual($result['event_level'],'Tenor');
     }
     
 }
