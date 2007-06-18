@@ -444,7 +444,7 @@ class CiviUnitTestCase extends UnitTestCase {
      * 
      * @param int $contactId
      */
-    function activityCreate( $individualSourceID, $individualTargetID )
+    function activityCreate( $params = null )
     {
         if ( $params === null ) { 
             $individualSourceID    = $this->individualCreate( );
