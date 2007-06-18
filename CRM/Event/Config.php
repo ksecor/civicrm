@@ -40,11 +40,17 @@ require_once 'CRM/Core/Config.php';
 class CRM_Event_Config {
 
     /**
-     * verify that the needed parameters have been set of SMS to work
+     * Function to add additional config paramters to the core Config class
+     * if CiviEvent is enabled
      *
+     * Note that this config class prevent code bloat in the Core Config class,
+     * however we declare all the variables assigned here, more for documentation
+     * than anything else, at some point, we'll figure out how to extend a class
+     * and properties dynamically in PHP (like Ruby)
+     * 
      * @param CRM_Core_Config (reference ) the system config object
      *
-     * @return boolean
+     * @return void
      * @static
      * @access public
      */
