@@ -1269,8 +1269,8 @@ WHERE civicrm_contact.id IN $idString ";
         // make sure this contact_id does not have any membership types
         $membershipTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                          $id,
-                                                         'member_of_contact_id',
-                                                         'id' );
+                                                         'id',
+                                                         'member_of_contact_id' );
         if ( $membershipTypeID ) {
             return false;
         }
