@@ -234,7 +234,7 @@ class CRM_Core_Config
         * Format for monetary amounts
      * @var string
      */
-    public $defaultCurrencySymbol = '$';
+    public $defaultCurrencySymbol = null;
     
     /**
      * Default encoding of strings returned by gettext
@@ -1054,16 +1054,6 @@ class CRM_Core_Config
             $this->customFileUploadDir = $this->uploadDir;
         }
         
-        if ( $this->defaultCurrency ) {
-            require_once "CRM/Core/PseudoConstant.php";
-            $currencySymbolName = CRM_Core_PseudoConstant::currencySymbols( 'name' );
-            $currencySymbol     = CRM_Core_PseudoConstant::currencySymbols( );
-            
-            $this->currencySymbols = CRM_Utils_Array::combine( $currencySymbolName, $currencySymbol );
-            
-            $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
-        }
-        
         if ( $this->mapProvider ) {
             $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
         }
@@ -1079,6 +1069,24 @@ class CRM_Core_Config
         return CRM_Core_BAO_Preferences::value( 'address_sequence' );
     }
 
+
+    function defaultCurrencySymbol( ) {
+        static $cachedSymbol = null;
+        if ( ! $cachedSymbol ) {
+            if ( $this->defaultCurrency ) {
+                require_once "CRM/Core/PseudoConstant.php";
+                $currencySymbolName = CRM_Core_PseudoConstant::currencySymbols( 'name' );
+                $currencySymbol     = CRM_Core_PseudoConstant::currencySymbols( );
+                
+                $this->currencySymbols = CRM_Utils_Array::combine( $currencySymbolName, $currencySymbol );
+                
+                $cachedSymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
+            } else {
+                $cachedSymbol = '$';
+            }
+        }
+        return $cachedSymbol;
+    }
 
 } // end CRM_Core_Config
 

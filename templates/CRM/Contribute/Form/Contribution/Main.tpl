@@ -41,7 +41,7 @@ function clearAmountOther() {
         <td class="label nowrap">{$form.amount.label}</td><td>{$form.amount.html}</td>
     </tr>
     {if $is_allow_other_amount}
-        <tr><td class="label">{$form.amount_other.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.amount_other.html}</td></tr>
+        <tr><td class="label">{$form.amount_other.label}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.amount_other.html}</td></tr>
     {/if}
     {if $form.is_recur}  
         <tr>

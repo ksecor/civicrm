@@ -22,7 +22,7 @@
         {/if}
         </td></tr> 
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</td></tr>
-        <tr><td class="label">{$form.total_amount.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.total_amount.html}</td></tr>
+        <tr><td class="label">{$form.total_amount.label}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.total_amount.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by contributor.{/ts}</td></tr>
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
         {if $hideCalender neq true}
@@ -58,11 +58,11 @@
         <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
         <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
-        <tr><td class="label">{$form.non_deductible_amount.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.non_deductible_amount.html}</td></tr>
+        <tr><td class="label">{$form.non_deductible_amount.label}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.non_deductible_amount.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Non-deductible portion of this contribution.{/ts}</td></tr>
-        <tr><td class="label">{$form.fee_amount.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.fee_amount.html}</td></tr>
+        <tr><td class="label">{$form.fee_amount.label}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.fee_amount.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Processing fee for this transaction (if applicable).{/ts}</td></tr>
-        <tr><td class="label">{$form.net_amount.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.net_amount.html}</td></tr>
+        <tr><td class="label">{$form.net_amount.label}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.net_amount.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Net value of the contribution (Total Amount minus Fee).{/ts}</td></tr>
         <tr><td class="label">{$form.invoice_id.label}</td><td>{$form.invoice_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Unique internal reference ID for this contribution.{/ts}</td></tr>
