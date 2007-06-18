@@ -39,7 +39,7 @@ class CRM_Member_BAO_MembershipLog extends CRM_Member_DAO_MembershipLog
 {
 
     /**
-     * function to add the membership types
+     * function to add the membership log record
      *
      * @param array $params reference array contains the values submitted by the form
      * @param array $ids    reference array contains the id
@@ -60,17 +60,28 @@ class CRM_Member_BAO_MembershipLog extends CRM_Member_DAO_MembershipLog
     }
     
     /**
-     * Function to delete membership Types 
+     * Function to delete membership log record 
      * 
      * @param int $membershipTypeId
      * @static
      */
     
-    static function del( $membershiID ) 
+    static function del( $membershipID, $contactID ) 
     {
         $membershipLog  =& new CRM_Member_DAO_MembershipLog( );
-        $membershipLog->membership_id = $membershiID ;
+        $membershipLog->membership_id = $membershipID ;
         return $membershipLog->delete();
     }
+
+    static function resetModifedID( $contactID ) {
+        $query = "
+UPDATE civicrm_membership_log
+   SET modified_id = null
+ WHERE modified_id = %1";
+
+        $params = array( 1 => array( $contactID, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $params );
+    }
+
 }
 ?>

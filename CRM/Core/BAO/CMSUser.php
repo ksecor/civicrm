@@ -208,25 +208,25 @@ class CRM_Core_BAO_CMSUser
                 }
 
                 if ( $emailName == null ) {
-                    $errors['_qf_default'] == ts( 'Could not find an email address' );
+                    $errors['_qf_default'] == ts( 'Could not find an email address.' );
                     return $errors;
                 }
 
                 if ( empty( $fields['cms_name'] ) ) {
-                    $errors['cms_name'] = ts( 'Please specify a CMS user name' );
+                    $errors['cms_name'] = ts( 'Please specify a username.' );
                 }
 
                 if ( empty( $fields[ $emailName ] ) ) {
-                    $errors[$emailName] = ts( 'Please specify a valid email address' );
+                    $errors[$emailName] = ts( 'Please specify a valid email address.' );
                 }
 
                 if ( ! variable_get('user_email_verification', TRUE ) ) {
                     if ( empty( $fields['cms_pass'] ) ||
                          empty( $fields['cms_confirm_pass'] ) ) {
-                        $errors['cms_pass'] = ts( 'Please enter a password' );
+                        $errors['cms_pass'] = ts( 'Please enter a password.' );
                     }
                     if ( $fields['cms_pass'] != $fields['cms_confirm_pass'] ) {
-                        $errors['cms_pass'] = ts( 'The password fields do not match' );
+                        $errors['cms_pass'] = ts( 'Password and Confirm Password values are not the same.' );
                     }
                 }
 
@@ -274,7 +274,7 @@ SELECT count(*)
                 $query = $db_drupal->query( $sql );
                 $row = $query->fetchRow( );
                 if ( $row[0] >= 1 ) {
-                    $errors['cms_name'] = ts( 'Please select another user name' );
+                    $errors['cms_name'] = ts( 'The username %1 is already taken. Please select another username.', array( 1 => $name) );
                 }
                 
                 if ( ! empty( $errors ) ) {

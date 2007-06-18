@@ -27,10 +27,10 @@ class CiviUnitTestCase extends UnitTestCase {
     function individualCreate( $params = null ) {
         if ( $params === null ) {
             $params = array( 'first_name'       => 'Anthony',
-                             'middle_name'      => 'john',
-                             'Last_name'        => 'Anderson',
-                             'prefix'           => 'Mr.',
-                             'suffix'           => 'Jr',
+                             'middle_name'      => 'J.',
+                             'last_name'        => 'Anderson',
+                             'prefix_id'        => 3,
+                             'suffix_id'        => 3,
                              'email'            => 'anthony_anderson@civicrm.org',
                              'contact_type'     => 'Individual');
         }
@@ -62,7 +62,7 @@ class CiviUnitTestCase extends UnitTestCase {
         $result = civicrm_contact_add( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'contact_id', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not create test household contact' );
+            CRM_Core_Error::fatal( 'Could not create test contact.' );
         }
         return $result['contact_id'];
     }

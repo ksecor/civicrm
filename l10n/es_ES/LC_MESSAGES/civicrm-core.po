@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-06-14 18:47-0700\n"
+"PO-Revision-Date: 2007-06-15 04:26-0700\n"
 "Last-Translator: Dario Norberto Ruiz <ayelgoth@yahoo.com.ar>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5734,11 +5734,11 @@ msgstr "Contraer este grupo en la vista inicial"
 
 #: CRM/UF/Form/Group.php
 msgid "Include Edit Link in Search Results?"
-msgstr ""
+msgstr "¿Incluir correccion de links en resultados de la búsqueda?"
 
 #: CRM/UF/Form/Group.php
 msgid "Include Website Profile Link in Search Results?"
-msgstr ""
+msgstr "¿Incluir el Sitio Web del perfil  en resultados de la búsqueda?"
 
 #: CRM/UF/Form/Group.php
 msgid "This profile cannot be deleted since it is used for other modules."
@@ -5848,15 +5848,15 @@ msgstr "Previsualización de Grupo de Perfil CiviCRM"
 
 #: CRM/Utils/Address/USPS.php
 msgid "Address not found in USPS database."
-msgstr ""
+msgstr "Dirección no encontrada en base de datos de USPS."
 
 #: CRM/Utils/CAPTCHA.php
 msgid "Error initializing CAPTCHA library"
-msgstr ""
+msgstr "Error al iniciar la biblioteca CAPTCHA"
 
 #: CRM/Utils/CAPTCHA.php
 msgid "Error generating CAPTCHA image"
-msgstr ""
+msgstr "Error al generar imagen CAPTCHA"
 
 #: CRM/Utils/CAPTCHA.php
 #, fuzzy
@@ -5867,7 +5867,7 @@ msgstr "Por Favor, introduce un entero válido."
 msgid ""
 "Input text must match the phrase in the image. Please review the image and "
 "re-enter matching text."
-msgstr ""
+msgstr "El texto ingresado debe emparejar la frase en la imagen. Vea de nuevo por favor la imagen y vuelva a ingresar el texto que empareje."
 
 #: CRM/Utils/Pager.php
 msgid "Contacts %%StatusMessage%%"
@@ -5899,33 +5899,31 @@ msgstr "Último &gt;&gt; "
 
 #: CRM/Utils/REST.php
 msgid "Could not authenticate user, invalid name / password"
-msgstr ""
+msgstr "No se puede autentificar el usuario, nombre/contraseña inválido"
 
 #: CRM/Utils/REST.php
 msgid "Could not interpert return values from function"
-msgstr ""
+msgstr "No se puede interpretar los valores de vuelta de la función"
 
 #: CRM/Utils/REST.php
 msgid "Unknown function invocation"
-msgstr ""
+msgstr "Invocación a la función desconocida"
 
 #: CRM/Utils/REST.php
-#, fuzzy
 msgid "Invalid name and password"
-msgstr "Dirección de Email no válida"
+msgstr "Nombre y clave inválidos"
 
 #: CRM/Utils/REST.php
 msgid "session keys do not match, please re-auth"
-msgstr ""
+msgstr "las llaves de la sesión no coinciden, por favor vuelva a identificarse"
 
 #: CRM/Utils/REST.php
-#, fuzzy
 msgid "Unknown error"
-msgstr "Desconocido"
+msgstr "Error desconocido"
 
 #: CRM/Utils/REST.php
 msgid "Unknown function called"
-msgstr ""
+msgstr "Llamada a función desconocida"
 
 #: CRM/Utils/Token.php
 #, fuzzy
@@ -6054,7 +6052,7 @@ msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid "What type of operation (action) is being permitted?"
-msgstr ""
+msgstr "¿Qué tipo de operación (acción) se está permitiendo?"
 
 #: templates/CRM/ACL/Form/ACL.tpl
 #, fuzzy
@@ -6070,39 +6068,39 @@ msgid ""
 "for custom field groups and profiles respectively. Do not enable those "
 "Drupal permissions for a Drupal role if you want to use CiviCRM ACL's to "
 "control access."
-msgstr ""
+msgstr "IMPORTANTE: Los permisos de Drupal para el \"acceso todos los datos personalizados\" y los \"listados y formularios del perfil\" eliminan e inhabilitan los ajustes específicos del ACL para los grupos y los perfiles personalizados del campo respectivamente. No permita esos permisos de Drupal para un rol de Drupal si usted desea utilizar CiviCRM ACL's para controlar el acceso."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
 "Select a specific group of contacts, OR apply this permission to ALL groups."
-msgstr ""
+msgstr "Seleccione un grupo específico de contactos, O aplique este permiso a TODOS LOS grupos."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid "Select a specific profile, OR apply this permission to ALL profiles."
-msgstr ""
+msgstr "Seleccione un perfil específico, O aplique este permiso a TODOS LOS perfiles."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
 "Select a specific group of custom fields, OR apply this permission to ALL "
 "custom fields."
-msgstr ""
+msgstr "Seleccione un grupo específico de campos personalizados, O aplique este permiso a TODOS LOS campos personalizados."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
 "Select a Role to assign (grant) this permission to. Select the special role "
 "\"Everyone\" if you want to grant this permission to ALL users. \"Anyone\" "
 "includes anonymous (i.e. not logged in) users."
-msgstr ""
+msgstr "Seleccione un rol para asignar este permiso a (concesión). Seleccione el rol especial \"cada uno\", si usted desea conceder este permiso a TODOS LOS usuarios. \"Cualquier persona\" incluye (es decir no entrado) a usuarios anónimos."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
 "Enter a descriptive name for this permission (e.g. \"Edit Advisory Board "
 "Contacts\")."
-msgstr ""
+msgstr "Incorpore un nombre descriptivo para este permiso (e.g. \"Corrector de tablas de contactos consultivos \")."
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Assign ACL Role"
-msgstr ""
+msgstr "Asignar Rol ACL"
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 #, fuzzy
@@ -6113,13 +6111,13 @@ msgstr ""
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Select an ACL Role to assign."
-msgstr ""
+msgstr "Seleccionar un Rol ACL para asignar."
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid ""
 "Select a group of contacts who should have this role when logged in to your "
 "site."
-msgstr ""
+msgstr "Seleccione un grupo de los contactos que deben tener este rol cuando están entrados a su sitio."
 
 #: templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl
 #: templates/CRM/Admin/Form/Setting/Payment.tpl
@@ -6129,7 +6127,7 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/Builder.tpl
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Opens online documentation in a new window."
-msgstr ""
+msgstr "Abre la documentación en línea en una ventana nueva."
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid ""
@@ -6139,7 +6137,7 @@ msgid ""
 "profile or a set of custom fields), and a <strong>Role</strong> that has "
 "permission to do this operation. Refer to the <a href=\"%1\" target=\"_blank"
 "\" title=\"%2\">Access Control Documentation</a> for more info."
-msgstr ""
+msgstr "ACL's no le prohíben el acceso del control a los datos de CiviCRM. ACL consiste en una <strong>operación</strong> (ej. ' ver ' o ' editar '), un <strong>sistema de los datos</strong> que la operación se puede realizar en (ej. un grupo de contactos, de un perfil o de un sistema de campos personalizados), y un <strong>rol</strong que tenga permiso de hacer esta operación. Valla a la <a href=\"%1\" target=\"_blank\" title=\"%2\">documentación del control de acceso</a> para más Informacion."
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid ""

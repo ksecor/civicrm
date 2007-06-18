@@ -442,14 +442,16 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
 
         $query = "
 UPDATE civicrm_membership_type
-  SET  member_of_contact_id = %1
+   SET member_of_contact_id = %1
  WHERE member_of_contact_id = %2
 ";
         $params = array( 1 => array( $userID, 'Integer' ), 2 => array( $contactID, 'Integer' ) );
         CRM_Core_DAO::executeQuery( $query, $params );
+
+        // also reset any entries from membership log which this contact has an FK
+        require_once 'CRM/Member/BAO/MembershipLog.php';
+        CRM_Core_BAO_MembershipLog::resetModifiedID( $contactID );
     }
-
-
 
     /** 
      * Function to obtain active/inactive memberships from the list of memberships passed to it.
