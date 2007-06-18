@@ -97,7 +97,8 @@ VALUES
    (@domain_id, 'contact_edit_options'          , '{ts}Contact Edit Options{/ts}'               , 0, 1),
    (@domain_id, 'advanced_search_options'       , '{ts}Advanced Search Options{/ts}'            , 0, 1),
    (@domain_id, 'user_dashboard_options'        , '{ts}User Dashboard Options{/ts}'             , 0, 1),
-   (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1);
+   (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1),
+   (@domain_id, 'grant_status'                  , '{ts}Grant status{/ts}'                       , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -118,6 +119,7 @@ SELECT @option_group_id_ceOpt          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group where name = 'advanced_search_options';
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
 SELECT @option_group_id_adOpt          := max(id) from civicrm_option_group where name = 'address_options';
+SELECT @option_group_id_grantSt        := max(id) from civicrm_option_group where name = 'grant_status';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -241,7 +243,11 @@ VALUES
   (@option_group_id_adOpt, '{ts}State / Province{/ts}' ,  8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}Country{/ts}'          ,  9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, '{ts}Latitude{/ts}'         , 10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, '{ts}Longitude{/ts}'        , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 );
+  (@option_group_id_adOpt, '{ts}Longitude{/ts}'        , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
+
+  (@option_group_id_grantSt, '{ts}Pending{/ts}',  1, 'Pending',  NULL, 0, 1,    1, NULL, 0, 0, 1),
+  (@option_group_id_grantSt, '{ts}Granted{/ts}',  2, 'Granted',  NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_grantSt, '{ts}Rejected{/ts}', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1);
 
 -- sample membership status entries
 INSERT INTO
@@ -304,3 +310,4 @@ INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, r
 VALUES
   (@dedupe_rule_group_id, 'civicrm_household', 'household_name', 5),
   (@dedupe_rule_group_id, 'civicrm_email',     'email',          5);
+
