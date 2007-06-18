@@ -667,7 +667,7 @@ class CRM_Core_Menu {
                              'type'       => self::CALLBACK,
                              'crmType'    => self::LOCAL_TASK,
                              'adminGroup' => ts('Configure'),
-                             'icon'       => 'admin/import_export_map.png',
+                             'icon'       => 'admin/small/import_export_map.png',
                              'weight'     => 250
                              ),
                        
@@ -679,7 +679,7 @@ class CRM_Core_Menu {
                              'type'       => self::CALLBACK,
                              'crmType'    => self::LOCAL_TASK,
                              'adminGroup' => ts('Configure'),
-                             'icon'       => 'admin/template.png',
+                             'icon'       => 'admin/small/template.png',
                              'weight'     => 260
                              ),
                        
