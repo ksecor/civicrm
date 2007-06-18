@@ -4,7 +4,7 @@ if( isset( $GLOBALS['_SERVER']['DM_SOURCEDIR'] ) ) {
     $sourceCheckoutDir = $GLOBALS['_SERVER']['DM_SOURCEDIR'];
 } else {
     // backward compatibility
-    $sourceCheckoutDir = $GLOBALS['_SERVER']['HOME'] . '/svn/crm_v1.7';
+    $sourceCheckoutDir = $GLOBALS['_SERVER']['HOME'] . '/svn/crm_v1.8';
 }
 
 if( isset( $GLOBALS['_SERVER']['DM_GENFILESDIR'] ) ) {

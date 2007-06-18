@@ -13,12 +13,11 @@ class TestOfCustomGroupDeleteAPIV2 extends CiviUnitTestCase
     {
     }
    
-    function testCustomGroupDeleteWithoutFieldID( )
+    function testCustomGroupDeleteWithoutGroupID( )
     {
-        $params = array( ); 
-        $customGroup =& civicrm_custom_group_delete($params); 
+        $customGroup =& civicrm_custom_group_delete($params);
         $this->assertEqual($customGroup['is_error'], 1);
-        $this->assertNotNull($customGroup['error_message']);
+        $this->assertEqual($customGroup['error_message'],'Params is not an array');
     }    
     
     function testCustomGroupDelete( )

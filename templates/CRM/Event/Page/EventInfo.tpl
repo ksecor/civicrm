@@ -72,7 +72,7 @@
         	    {assign var=idx value=$smarty.section.loop.index}
             	    {if $custom.value.$idx}
                 	<tr><td>{$custom.label.$idx}</td><td>
-			{$config->defaultCurrencySymbol}{$custom.value.$idx}</td></tr>
+			{$config->defaultCurrencySymbol()}{$custom.value.$idx}</td></tr>
             	    {/if}
          	 {/section}
          	</table>

@@ -67,7 +67,7 @@ class CRM_Member_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviMember',
-                                 'icon'    => 'admin/membership_type.png',
+                                 'icon'    => 'admin/small/membership_type.png',
                                  'weight'  => 370
                                  ),
                       
@@ -79,7 +79,7 @@ class CRM_Member_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
                                  'adminGroup' => 'CiviMember',
-                                 'icon'    => 'admin/membership_status.png',
+                                 'icon'    => 'admin/small/membership_status.png',
                                  'weight'  => 380
                                  ),
                        

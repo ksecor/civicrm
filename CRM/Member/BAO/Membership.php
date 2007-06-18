@@ -386,7 +386,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     static function deleteMembership( $membershipId ) 
     {
         require_once 'CRM/Member/BAO/MembershipLog.php';
-        CRM_Member_BAO_MembershipLog::del($membershipId);
+        CRM_Member_BAO_MembershipLog::del( $membershipId );
 
         //delete Custom Data, if any
         require_once 'CRM/Core/BAO/CustomValue.php';
@@ -450,7 +450,7 @@ UPDATE civicrm_membership_type
 
         // also reset any entries from membership log which this contact has an FK
         require_once 'CRM/Member/BAO/MembershipLog.php';
-        CRM_Core_BAO_MembershipLog::resetModifiedID( $contactID );
+        CRM_Member_BAO_MembershipLog::resetModifiedID( $contactID );
     }
 
     /** 

@@ -55,6 +55,9 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         require_once 'CRM/Core/BAO/CustomGroup.php';
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Core/OptionValue.php';
+        if (!CRM_Core_Permission::check('administer CiviCRM')) {
+            CRM_Core_Error::fatal('You do not have access to this page');
+        }
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);

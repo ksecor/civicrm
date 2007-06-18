@@ -809,14 +809,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 if ( ! $value ) {
                     $config =& CRM_Core_Config::singleton();
                     if ( $config->defaultContactCountry ) {
-                        $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                        $defaultID = array_search($config->defaultContactCountry,
-                                                  $countryIsoCodes);
-                        $value = $defaultID;
+                        $value = $config->defaultContactCountry( );
                     }
                 }
             }
-            
+
         }
         
         //set defaults if mode is registration / edit

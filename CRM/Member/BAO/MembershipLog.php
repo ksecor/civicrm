@@ -66,14 +66,14 @@ class CRM_Member_BAO_MembershipLog extends CRM_Member_DAO_MembershipLog
      * @static
      */
     
-    static function del( $membershipID, $contactID ) 
+    static function del( $membershipID ) 
     {
         $membershipLog  =& new CRM_Member_DAO_MembershipLog( );
         $membershipLog->membership_id = $membershipID ;
         return $membershipLog->delete();
     }
 
-    static function resetModifedID( $contactID ) {
+    static function resetModifiedID( $contactID ) {
         $query = "
 UPDATE civicrm_membership_log
    SET modified_id = null

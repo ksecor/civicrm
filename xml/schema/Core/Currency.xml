@@ -10,7 +10,7 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Currency Id</comment>
-       <add>1.7</add>
+      <add>1.7</add>
   </field>
   <primaryKey>
        <name>id</name>

@@ -33,10 +33,10 @@ ed list of amounts. For fixed amounts, you can enter a label for each 'level' of
 
     <div id="minMaxFields">
     <tr><th scope="row" class="label">{$form.min_amount.label}</th>
-        <td>{$config->defaultCurrencySymbol}&nbsp;{$form.min_amount.html}</td></tr> 
+        <td>{$config->defaultCurrencySymbol()}&nbsp;{$form.min_amount.html}</td></tr> 
     <tr><th scope="row" class="label">{$form.max_amount.label}</th>
-        <td>{$config->defaultCurrencySymbol}&nbsp;{$form.max_amount.html}<br />
-            <span class="description">{ts 1=$config->defaultCurrencySymbol}If you have chosen to <strong>Allow Other Amounts</strong>, you can use the fields above to control minimum and/or maximum acceptable values (e.g. don't allow contribution amounts less than %15.00).{/ts}</span></td></tr>
+        <td>{$config->defaultCurrencySymbol()}&nbsp;{$form.max_amount.html}<br />
+            <span class="description">{ts 1=$config->defaultCurrencySymbol()}If you have chosen to <strong>Allow Other Amounts</strong>, you can use the fields above to control minimum and/or maximum acceptable values (e.g. don't allow contribution amounts less than %15.00).{/ts}</span></td></tr>
     </div>
 
     </table>
@@ -46,7 +46,7 @@ ed list of amounts. For fixed amounts, you can enter a label for each 'level' of
     <tr class="columnheader"><th scope="column">{ts}Contribution Label{/ts}</th><th scope="column">{ts}Amount{/ts}</th><th scope="column">{ts}Default?{/ts}</th></tr>
     {section name=loop start=1 loop=11}
        {assign var=idx value=$smarty.section.loop.index}
-       <tr><td class="even-row">{$form.label.$idx.html}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.value.$idx.html}</td><td class="even-row">{$form.default.$idx.html}</td></tr>
+       <tr><td class="even-row">{$form.label.$idx.html}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.value.$idx.html}</td><td class="even-row">{$form.default.$idx.html}</td></tr>
     {/section}
     </table>
     </td></tr></table>

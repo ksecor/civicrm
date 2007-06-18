@@ -1,6 +1,6 @@
 <?php
 /**
- * CiviCRM Configuration File - v1.7
+ * CiviCRM Configuration File - v1.8
  */
 
 /**
@@ -210,7 +210,7 @@ $include_path = '.'        . PATH_SEPARATOR .
 set_include_path( $include_path );
 
 define( 'CIVICRM_SMARTYDIR'  , $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR );
-define( 'CIVICRM_TEST_DIR'   , $civicrm_root . DIRECTORY_SEPARATOR . 'test'   . DIRECTORY_SEPARATOR );
+define( 'CIVICRM_TEST_DIR'   , $civicrm_root . DIRECTORY_SEPARATOR . 'test-new'   . DIRECTORY_SEPARATOR );
 define( 'CIVICRM_DAO_DEBUG'  , 0 );
 define( 'CIVICRM_TEMPLATEDIR', $civicrm_root . DIRECTORY_SEPARATOR . 'templates'   );
 define( 'CIVICRM_PLUGINSDIR' , $civicrm_root . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR . 'plugins' );

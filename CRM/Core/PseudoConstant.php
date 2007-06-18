@@ -462,7 +462,7 @@ class CRM_Core_PseudoConstant
                 // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
                 $config =& CRM_Core_Config::singleton();
                 $countryIsoCodes =& self::countryIsoCode();
-                $limitCodes = $config->provinceLimit;
+                $limitCodes = $config->provinceLimit( );
                 $limitIds = array();
                 foreach ($limitCodes as $code) {
                     $limitIds = array_merge($limitIds, array_keys($countryIsoCodes, $code));
@@ -510,7 +510,7 @@ class CRM_Core_PseudoConstant
             if ( $limit ) {
                 $config =& CRM_Core_Config::singleton();
                 $countryIsoCodes =& self::countryIsoCode();
-                $limitCodes = $config->provinceLimit;
+                $limitCodes = $config->provinceLimit( );
                 $limitIds = array();
                 foreach ($limitCodes as $code) {
                     $tmpArray   = array_keys($countryIsoCodes, $code);
@@ -562,7 +562,7 @@ class CRM_Core_PseudoConstant
             // limit the country list to the countries specified in CIVICRM_COUNTRY_LIMIT
             // (ensuring it's a subset of the legal values)
             // K/P: We need to fix this, i dont think it works with new setting files
-            $limitCodes = $config->countryLimit;
+            $limitCodes = $config->countryLimit( );
             if ( ! is_array( $limitCodes ) ) {
                 $limitCodes = array( $config->countryLimit => 1);
             }
@@ -577,9 +577,9 @@ class CRM_Core_PseudoConstant
             self::populate( self::$country, 'CRM_Core_DAO_Country', true, 'name', 'is_active', $whereClause );
 
             // if default country is set, percolate it to the top
-            if ( $config->defaultContactCountry ) {
+            if ( $config->defaultContactCountry( ) ) {
                 $countryIsoCodes =& self::countryIsoCode();
-                $defaultID = array_search($config->defaultContactCountry, $countryIsoCodes); 
+                $defaultID = array_search($config->defaultContactCountry( ), $countryIsoCodes); 
                 if ( $defaultID !== false ) {
                     $default[$defaultID] = self::$country[$defaultID];
                     self::$country = $default + self::$country;
