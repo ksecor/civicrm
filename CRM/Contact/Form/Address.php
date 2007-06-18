@@ -102,7 +102,7 @@ class CRM_Contact_Form_Address
                                                                                     "s=%{searchString}&node=root",
                                                                                     true, null, false ),
                                          'onValueChanged' => 'checkParamChildren',
-                                         'id'             => 'wizCardDefGroupId' );
+                                         'id'             => 'country'.$locationId );
 
                     $stateURL = CRM_Utils_System::url( "civicrm/ajax/state","s=%{searchString}",
                                                        true, null, false );

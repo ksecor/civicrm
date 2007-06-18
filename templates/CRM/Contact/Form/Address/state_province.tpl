@@ -4,7 +4,7 @@
     {ts}State / Province{/ts}
     {*$form.location.$index.address.state_province_id.label*}
     </span>
-    <span id="wizCardDefGroupId_children" class="fields">
+    <span id="country{$index}_children" class="fields">
     {*$form.location.$index.address.state_province_id.html*}
     </span>
 </div>
