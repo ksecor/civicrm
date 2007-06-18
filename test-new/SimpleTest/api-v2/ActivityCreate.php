@@ -2,14 +2,18 @@
 
 require_once 'api/v2/Activity.php';
 
+/**
+ * Class contains api test cases for "civicrm_activity_create"
+ *
+ */
 class TestOfActivityCreateAPIV2 extends CiviUnitTestCase 
 {
-    protected $_individualSourceID;
-    protected $_individualTargetID;
+    protected $_individualSourceId;
+    protected $_individualTargetId;
     
     function setUp() 
     {
-        $this->_individualSourceID = $this->individualCreate( );
+        $this->_individualSourceId = $this->individualCreate( );
         
         $contactParams = array( 'first_name'       => 'Julia',
                                 'Last_name'        => 'Anderson',
@@ -17,7 +21,7 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
                                 'email'            => 'julia_anderson@civicrm.org',
                                 'contact_type'     => 'Individual');
         
-        $this->_individualTargetID = $this->individualCreate( $contactParams );
+        $this->_individualTargetId = $this->individualCreate( $contactParams );
     }
     
     /**
@@ -26,8 +30,8 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
     function testActivityCreateEmpty( )
     {
         $params = array( );
-        $activity = & civicrm_activity_create($params);
-        $this->assertEqual( $activity['is_error'], 1 );
+        $result = & civicrm_activity_create($params);
+        $this->assertEqual( $result['is_error'], 1 );
     }
 
     /**
@@ -40,8 +44,8 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
                         'scheduled_date_time' => date('Ymd')
                         );
         
-        $activity = & civicrm_activity_create($params);
-        $this->assertEqual( $activity['is_error'], 1 );
+        $result = & civicrm_activity_create($params);
+        $this->assertEqual( $result['is_error'], 1 );
     }
 
     /**
@@ -55,9 +59,8 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
                         'scheduled_date_time' => date('Ymd')
                         );
 
-// FIXME PLEASE!
-//        $activity = & civicrm_activity_create($params);
-//        $this->assertEqual( $activity['is_error'], 1 );
+        $result = & civicrm_activity_create($params);
+        $this->assertEqual( $result['is_error'], 1 );
     }
 
     /**
@@ -67,25 +70,24 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
     {
         $params = array(
                         'activity_name'       => 'Meeting',
-                        'source_contact_id'   => 101,
+                        'source_contact_id'   => $this->_individualSourceId,
                         'subject'             => 'this case should fail',
                         'scheduled_date_time' => date('Ymd')
                         );
 
-        $activity = & civicrm_activity_create($params);
-        $this->assertEqual( $activity['is_error'], 1 );
+        $result = & civicrm_activity_create($params);
+        $this->assertEqual( $result['is_error'], 1 );
     }
 
-          
     /**
      * this should create activity
      */
     function testActivityCreate( )
     {
         $params = array(
-                        'source_contact_id'   => $this->_individualSourceID,
+                        'source_contact_id'   => $this->_individualSourceId,
                         'target_entity_table' => 'civicrm_contact',
-                        'target_entity_id'    => $this->_individualTargetID,
+                        'target_entity_id'    => $this->_individualTargetId,
                         'subject'             => 'Discussion on Apis for v2',
                         'scheduled_date_time' => date('Ymd'),
                         'duration_hours'      => 30,
@@ -96,20 +98,41 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
                         'activity_name'       => 'Phone Call',
                         );
 
-        $activity = & civicrm_activity_create( $params );
-        $this->assertEqual( $activity['is_error'], 0 );
+        $result = & civicrm_activity_create( $params );
+        $this->assertEqual( $result['is_error'], 0 );
     }
 
+    /**
+     * check other activity creation
+     */
     function testOtherActivityCreate( )
     {
-        //create activity type
-        //create other activity
+        $params = array(
+                        'source_contact_id'   => $this->_individualSourceId,
+                        'target_entity_table' => 'civicrm_contact',
+                        'target_entity_id'    => $this->_individualTargetId,
+                        'subject'             => 'let test other activities',
+                        'status'              => 'Scheduled',
+                        'activity_name'       => 'Event',
+                        );
+
+        $result = & civicrm_activity_create( $params );
+        $this->assertEqual( $result['is_error'], 0 );
+    }
+
+    /**
+     * create activity with custom data 
+     * ( fix this once custom * v2 api are ready  )
+     */
+    function testActivityCreateWithCustomData( )
+    {
+        
     }
     
     function tearDown() 
     {
-      $this->contactDelete( $this->_individualSourceID );
-      $this->contactDelete( $this->_individualTargetID );
+      $this->contactDelete( $this->_individualSourceId );
+      $this->contactDelete( $this->_individualTargetId );
     }
 }
  

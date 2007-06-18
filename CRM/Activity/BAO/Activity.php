@@ -163,7 +163,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         eval ('$activity =& new CRM_Activity_DAO_' .$activityType. '( );');
         $activity->id = $id;
-        $activity->delete();
+        return $activity->delete();
     }
 
 

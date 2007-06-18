@@ -465,15 +465,15 @@ class CiviUnitTestCase extends UnitTestCase {
                             'scheduled_date_time' => date('Ymd'),
                             'duration_hours'      => 30,
                             'duration_minutes'    => 20,
-                            'location'            => 'Pensulvania',
-                            'details'             => 'a meeting activity',
+                            'location'            => 'Baker Street',
+                            'details'             => 'Lets schedule a meeting',
                             'status'              => 'Scheduled',
                             'activity_name'       => 'Meeting',
                             );
         }
 
-        $activity =& civicrm_activity_create($params);
-        return $activity;
+        $result =& civicrm_activity_create($params, true);
+        return $result;
     }
     
     /**

@@ -106,20 +106,25 @@ function &civicrm_activity_create( &$params )
  *
  * @access public
  */
-function &civicrm_activities_get_contact( $contactID )
+function &civicrm_activities_get_contact( $params )
 {
     _civicrm_initialize( );
     
-    if ( empty( $contactID ) ) {
+    $contactId = $params['contact_id']; 
+    if ( empty( $contactId ) ) {
         return civicrm_create_error( ts ( "Required parameter not found" ) );
+    }
+
+    if ( !is_numeric( $contactId ) ) {
+        return civicrm_create_error( ts ( "Invalid contact Id" ) );
     }
 
     $activity = array( );
 
     // get all the activities of a contact with $contactID
-    $activity['meeting'  ]  =& _civicrm_activities_get( $contactID, 'CRM_Activity_DAO_Meeting'   );
-    $activity['phonecall']  =& _civicrm_activities_get( $contactID, 'CRM_Activity_DAO_Phonecall' );
-    $activity['activity' ]  =& _civicrm_activities_get( $contactID, 'CRM_Activity_DAO_Activity'  );
+    $activity['meeting'  ]  =& _civicrm_activities_get( $contactId, 'CRM_Activity_DAO_Meeting'   );
+    $activity['phonecall']  =& _civicrm_activities_get( $contactId, 'CRM_Activity_DAO_Phonecall' );
+    $activity['activity' ]  =& _civicrm_activities_get( $contactId, 'CRM_Activity_DAO_Activity'  );
     
     return $activity;
 }
@@ -152,7 +157,7 @@ function &civicrm_activity_update( &$params )
   
     if ($params['activity_name']== 'Meeting' ) {
         $activity = _civicrm_activity_update( $params, 'CRM_Activity_DAO_Meeting'   );
-    } elseif ( $params['activity_name'] == 'Phonecall'  ) {
+    } elseif ( $params['activity_name'] == 'Phone Call'  ) {
         $activity = _civicrm_activity_update( $params, 'CRM_Activity_DAO_Phonecall' );
     } else {
         $activity = _civicrm_activity_update($params, 'CRM_Activity_DAO_Activity');
@@ -187,15 +192,17 @@ function &civicrm_activity_delete( &$params )
     //check the type of activity
     if ( $params['activity_name'] == 'Meeting'  ) {
         $activityType = 'Meeting';
-    } elseif ( $params['activity_name'] == 'Phonecall' ) {
+    } elseif ( $params['activity_name'] == 'Phone Call' ) {
         $activityType = 'Phonecall';
     } else {
         $activityType = 'Activity';
     }
     
-    $activity = CRM_Activity_BAO_Activity::del( $params['id'], $activityType );
-
-    return $activity;
+    if ( CRM_Activity_BAO_Activity::del( $params['id'], $activityType ) ) {
+        return civicrm_create_success( );
+    } else {
+        return civicrm_create_error( ts( 'Could not delete activity' ) );
+    }
 }
 
 /**
@@ -291,18 +298,22 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
     if ( ! $addMode && ! isset( $params['id'] )) {
         return $errors = civicrm_create_error( ts( 'Required parameter "id" not found' ) );
     }
+
+    if ( ! $addMode && $params['id'] && ! is_numeric ( $params['id'] )) {
+        return $errors = civicrm_create_error( ts( 'Invalid activity "id"' ) );
+    }
     
     // check if activity name is passed
-    if ( empty( $params['activity_name'] ) && $addMode ) {
+    if ( empty( $params['activity_name'] ) ) {
         return civicrm_create_error( ts ( 'Missing Activity Name' ) );
     }
 
-    if ( $params['activity_name'] && ! _civicrm_activity_check_name( $params['activity_name'] ) ) {
+    if ( ! _civicrm_activity_check_name( $params['activity_name'] ) ) {
         return civicrm_create_error( ts( "Invalid Activity Name" ) );
     }
 
     // check for source contact id
-    if ( empty( $params['source_contact_id'] )  && $addMode ) {
+    if ( $addMode && empty( $params['source_contact_id'] ) ) {
         return  civicrm_create_error( ts ( 'Missing Source Contact' ) );
     } 
     
@@ -311,7 +322,7 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
     }
 
     // check for target contact id
-    if ( empty( $params['target_entity_id'] )  && $addMode ) {
+    if ( $addMode && empty( $params['target_entity_id'] ) ) {
         return civicrm_create_error( ts ( 'Missing Target Contact Id' ) );
     } 
     
