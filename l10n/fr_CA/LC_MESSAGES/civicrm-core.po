@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-06-14 04:55-0700\n"
+"PO-Revision-Date: 2007-06-15 00:25-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1273,7 +1273,7 @@ msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviContribute"
-msgstr "CiviContribute"
+msgstr "CiviContributions"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviEvent"
@@ -6713,7 +6713,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid "Enter your Google API Key OR your Yahoo Application ID."
-msgstr ""
+msgstr "Entrer votre clé pour le «Google API» ou votre identifiant pour «Yahoo Application»."
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid ""
