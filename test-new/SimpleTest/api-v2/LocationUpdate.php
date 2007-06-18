@@ -2,10 +2,13 @@
 
 require_once 'api/v2/Location.php';
 
-class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase {
+class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase 
+{
+    protected $_contactID;
     
     function setup( ) 
     {
+        $this->_contactID = $this->organizationCreate( ) ;
     }
 
     function testLocationUpdateEmpty( ) 
@@ -22,8 +25,7 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase {
         
         $locationUpdate =& civicrm_location_update($location);
         $this->assertEqual( $locationUpdate['is_error'], 1 );
-        // FIXME: Please assert on error message, the same in other methods where possible
-        $this->assertEqual( $locationUpdate['error_message'], 'Proper error message' );        
+        $this->assertEqual( $locationUpdate['error_message'], 'missing or invalid $location_id' );        
         
     }
 
@@ -33,26 +35,24 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase {
         $locationUpdate =& civicrm_location_update( $params );
         
         $this->assertEqual( $locationUpdate['is_error'], 1 );
+        $this->assertEqual( $locationUpdate['error_message'], '$contact is not valid contact datatype' );        
         $this->assertNotNull( $locationUpdate );
     }
    
     function testLocationUpdateWithMissingLocationTypeId( )
     {
-        $contactID = $this->organizationCreate( );
-        $params    = array( 'contact_id'    => $contactID );
+        $params    = array( 'contact_id'    => $this->_contactID );
         $locationUpdate =& civicrm_location_update( $params );
 
         $this->assertEqual( $locationUpdate['is_error'], 1 );
         $this->assertNotNull( $locationUpdate );
-        // FIXME: please move this to tearDown(), the same in other methods where possible
-        $this->contactDelete( $contactID ) ;        
+        $this->assertEqual( $locationUpdate['error_message'], 'missing or invalid $location_id' );        
     }
 
     function testLocationUpdate()
     {
-        $contactID = $this->organizationCreate( );
-        
-        $location  = $this->locationAdd( $contactID ); 
+        $location  = $this->locationAdd( $this->_contactID ); 
+       
         $workPhone =array('phone' => '02327276048',
                           'phone_type' => 'Phone');
         
@@ -68,13 +68,13 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase {
                         'phone'            => $phones,
                         'city'             => 'Mumbai',
                         'email'            => $emails,
-                        'contact_id'       => $contactID,
+                        'contact_id'       => $this->_contactID,
                         'location_id'      => $location['id']
                         );
         
         
         $locationUpdate =& civicrm_location_update( $params );
-        
+       
         $this->assertEqual($locationUpdate['phone'][1]['phone'], '02327276048');
         $this->assertEqual($locationUpdate['phone'][1]['phone_type'], 'Phone');
         $this->assertEqual($locationUpdate['email'][1]['email'], 'xyz@indiatimes.com');
@@ -83,6 +83,7 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase {
     
     function tearDown( ) 
     {
+        $this->contactDelete( $this->_contactID ) ;        
     }
     
 }
