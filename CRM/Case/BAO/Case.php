@@ -64,6 +64,12 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      */
     static function add(&$params, &$ids) 
     {
+        $caseDAO =& new CRM_Case_DAO_Case();
+        $caseDAO->copyValues($params);
+        
+        $result = $caseDAO->save();
+        
+        return $result;
     }
 
     /**
@@ -107,6 +113,18 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      */
     static function &create(&$params, &$ids) 
     {
+        CRM_Core_DAO::transaction('BEGIN');
+        
+        $case = self::add($params, $ids);
+        
+        if ( is_a( $case, 'CRM_Core_Error') ) {
+            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            return $case;
+        }
+        CRM_Core_DAO::transaction('COMMIT');
+        
+        return $case;
+
     }
 
     /**

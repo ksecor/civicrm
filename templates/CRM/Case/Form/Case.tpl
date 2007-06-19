@@ -4,10 +4,10 @@
     <div class="form-item">
         <table class="form-layout">  
             <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td></tr>
-            <tr><td class="label">{$form.status.label}</td><td>{$form.status.html}</td></tr>   
-            <tr><td class="label">{$form.case_type_id.label}</td><td>{$form.case_type_id.html}</td></tr>            
-            <tr><td class="label">{$form.case_sub_type_id.label}</td><td>{$form.case_sub_type_id.html}</td></tr>            
-            <tr><td class="label">{$form.case_violation_type_id.label}</td><td>{$form.case_violation_type_id.html}</td></tr>            
+            <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>   
+            <tr><td class="label">{$form.casetag1_id.label}</td><td>{$form.casetag1_id.html}</td></tr>            
+            <tr><td class="label">{$form.casetag2_id.label}</td><td>{$form.casetag2_id.html}</td></tr>            
+            <tr><td class="label">{$form.casetag3_id.label}</td><td>{$form.casetag3_id.html}</td></tr>            
             
             <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
 	        {if $hideCalender neq true}<br />
@@ -21,7 +21,7 @@
     	        {include file="CRM/common/calendar/body.tpl" dateVar=end_date  offset=3 doTime=1  trigger=trigger_case2}       
             {/if}</td></tr>
             
-            <tr><td class="label">{$form.description.label}</td><td>{$form.description.html}</td></tr>
+            <tr><td class="label">{$form.details.label}</td><td>{$form.details.html}</td></tr>
             <tr> {* <tr> for add / edit form buttons *}
       	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 
     	    </tr> 

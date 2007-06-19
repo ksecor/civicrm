@@ -67,12 +67,13 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
-        
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
     }
 
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        $defaults = parent::setDefaultValues();
         return $defaults;
     }
     
@@ -88,24 +89,33 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
         }
-        $this->add('select', 'status',  ts( 'Case Status' ),  
-                   array( '' => ts( '-select-' ) ) , true);
-        $this->add('select', 'case_type_id',  ts( 'Case Type' ),  
-                   array( '' => ts( '-select-' ) ) , true);
-        $this->add('select', 'case_sub_type_id',  ts( 'Case Sub Type' ),  
-                   array( '' => ts( '-select-' ) ) , true);
-        $this->add('select', 'case_violation_type_id',  ts( 'Violation' ),  
-                   array( '' => ts( '-select-' ) ) , true);
+       
+
+        $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
+        $this->add('select', 'status_id',  ts( 'Case Status' ),  
+                   array( '' => ts( '-select-' ) ) + $caseStatus , true);
+        require_once 'CRM/Core/OptionGroup.php';
+        $caseType = CRM_Core_OptionGroup::values('f1_case_type');
+        $this->add('select', 'casetag1_id',  ts( 'Case Type' ),  
+                   array( '' => ts( '-select-' ) ) + $caseType , true);
+
+        $caseSubType = CRM_Core_OptionGroup::values('f1_case_sub_type');
+        $this->add('select', 'casetag2_id',  ts( 'Case Sub Type' ),  
+                   array( '' => ts( '-select-' ) ) + $caseSubType , true);
+
+        $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
+        $this->add('select', 'casetag3_id',  ts( 'Violation' ),  
+                   array( '' => ts( '-select-' ) ) + $caseViolation , true);
         $this->add( 'text', 'subject', ts('Subject') );
         $this->add( 'date', 'start_date', ts('Start Date'),
-                    CRM_Core_SelectValues::date('datetime' ),
+                    CRM_Core_SelectValues::date('date' ),
                     true);   
         $this->add( 'date', 'end_date', ts('End Date'),
-                    CRM_Core_SelectValues::date('datetime' ),
+                    CRM_Core_SelectValues::date('date' ),
                     false); 
-        $this->add('textarea', 'description', ts('Regarding'));
+        $this->add('textarea', 'details', ts('Notes'));
         $this->addButtons(array( 
-                                array ( 'type'      => $buttonType, 
+                                array ( 'type'      => 'next',
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'isDefault' => true   ), 
@@ -139,13 +149,18 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      * @return None 
      */ 
     public function postProcess( )  
-    { 
+     { 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
+        $formValues['contact_id'] = $this->_contactID;
+        $formValues['start_date'] = CRM_Utils_Date::format($formValues['start_date']);
+        $formValues['end_date'] = CRM_Utils_Date::format($formValues['end_date']);
+        require_once 'CRM/Case/BAO/Case.php';
+        $case =  CRM_Case_BAO_Case::create($formValues ,$ids);
         
     }
 }
