@@ -126,7 +126,7 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor {
         $dao =& new CRM_Core_DAO_PaymentProcessor( );
 
         if ( ! $paymentProcessorID ) {
-            CRM_Core_Error::fatal( ts( 'Invalid value passed to getPayment function' );
+            CRM_Core_Error::fatal( ts( 'Invalid value passed to getPayment function' ) );
         }
 
         $dao->id        = $paymentProcessorID;
