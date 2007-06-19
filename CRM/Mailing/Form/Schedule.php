@@ -136,7 +136,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      */
     public function getTitle( ) 
     {
-        return ts( 'Schedule / Send' );
+        return ts( 'Schedule or Send' );
     }
 
 }

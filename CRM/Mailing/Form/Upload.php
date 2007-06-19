@@ -221,7 +221,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&
              ( ! isset( $files['htmlFile'] ) || ! file_exists( $files['htmlFile']['tmp_name'] ) ) ) {
             if ( ! ( $skipTextFile || $skipHtmlFile ) ) {
-                $errors['textFile'] = ts('Please provide either the text or HTML message.');
+                $errors['textFile'] = ts('Please provide either a Text or HTML formatted message - or both.');
             }
         }
 

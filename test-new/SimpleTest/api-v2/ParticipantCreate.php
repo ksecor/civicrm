@@ -63,7 +63,6 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $participant = & civicrm_participant_create($params);
-        CRM_Core_Error::debug('p',$participant);
         if ( CRM_Utils_Array::value('participant_id', $participant) ) {
             $this->_createdParticipants[] = $participant['participant_id'];
         }
@@ -74,7 +73,7 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
                         'event_participant_id' => $participant['participant_id']
                         );
         $result = &civicrm_participant_get( $params );
-        CRM_Core_Error::debug('result',$result);
+//        CRM_Core_Error::debug('result',$result);
         $this->assertEqual($result['event_id'],2);
         $this->assertEqual($result['event_status_id'],1);
         $this->assertEqual($result['role_id'],1);

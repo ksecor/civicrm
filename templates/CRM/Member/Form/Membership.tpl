@@ -54,19 +54,19 @@
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}If <strong>Status Hold?</strong> is checked, the selected status will be in in force (it will NOT be modified by the automated status update script).{/ts}</dd>
         </dl>
     </div>
-
-     <br clear="all" />
-    {   include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1} 
-    <dl> 
+    
+    {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1} 
      
-  {/if}
+   {/if}
 
-
-   <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
-</dl>
+   <dl>
+     <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
+   </dl>
+   <div class="spacer"></div>
 
 </fieldset>
- </div>
+</div>
+
 {literal}
 <script type="text/javascript">
 showHideMemberStatus();
