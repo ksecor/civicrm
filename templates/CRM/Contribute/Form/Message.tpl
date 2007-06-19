@@ -13,9 +13,13 @@
 ===========================================================
 {ts}Contribution Type{/ts}: {$formValues.contributionType_name}
 {ts}Total Amount{/ts}: {$formValues.total_amount|crmMoney}
-{ts}Received Date{/ts}: {$receive_date|crmDate}
+{ts}Received Date{/ts}: {$receive_date|truncate:10:''|crmDate}
+{if $formValues.paidBy}
 {ts}Paid By{/ts}: {$formValues.paidBy}
+{/if}
+{if $formValues.trxn_id}
 {ts}Transaction ID{/ts}: {$formValues.trxn_id}
+{/if}
 {if $showCustom}
 
 ===========================================================

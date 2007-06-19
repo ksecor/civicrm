@@ -355,9 +355,9 @@ ORDER BY
         
         if ($contact->contact_type == 'Individual') {
             $sortName = "";
-            $firstName  = CRM_Utils_Array::value('first_name', $params, '');
-            $middleName = CRM_Utils_Array::value('middle_name', $params, '');
-            $lastName   = CRM_Utils_Array::value('last_name' , $params, '');
+            $firstName  = CRM_Utils_Array::value('first_name'   , $params, '');
+            $middleName = CRM_Utils_Array::value('middle_name'  , $params, '');
+            $lastName   = CRM_Utils_Array::value('last_name'    , $params, '');
             $prefix_id  = CRM_Utils_Array::value('prefix_id'    , $params, '');
             $suffix_id  = CRM_Utils_Array::value('suffix_id'    , $params, '');
 
@@ -1269,8 +1269,8 @@ WHERE civicrm_contact.id IN $idString ";
         // make sure this contact_id does not have any membership types
         $membershipTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                          $id,
-                                                         'member_of_contact_id',
-                                                         'id' );
+                                                         'id',
+                                                         'member_of_contact_id' );
         if ( $membershipTypeID ) {
             return false;
         }

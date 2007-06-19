@@ -262,44 +262,6 @@ CREATE TABLE civicrm_line_item (
 
 -- /*******************************************************
 -- *
--- * civicrm_timezone
--- *
--- *******************************************************/
-CREATE TABLE civicrm_timezone (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Timezone Id',
-     name varchar(64) COMMENT 'Timezone full name',
-     abbreviation char(3) COMMENT 'ISO Code for timezone abbreviation',
-     gmt varchar(64) COMMENT 'GMT name of the timezone',
-     offset int,
-     country_id int unsigned NOT NULL COMMENT 'Country Id' 
-
-,    PRIMARY KEY ( id )
-
-,    CONSTRAINT FK_civicrm_timezone_country_id FOREIGN KEY (country_id) REFERENCES civicrm_country(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
-
-
--- /*******************************************************
--- *
--- * civicrm_worldregion
--- *
--- *******************************************************/
-CREATE TABLE civicrm_worldregion (
-
-     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Country Id',
-     name varchar(128) COMMENT 'Region name to be associated with countries' 
-
-,    PRIMARY KEY ( id )
- 
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
-
--- /*******************************************************
--- *
 -- * Modifying Tables
 -- *
 -- *******************************************************/
@@ -324,16 +286,6 @@ CREATE TABLE civicrm_worldregion (
 	    ADD payment_processor_id int(10) unsigned NULL DEFAULT NULL,
 	    ADD INDEX FK_civicrm_contribution_page_payment_processor_id ( payment_processor_id );
 
-
--- /*******************************************************
--- *
--- * civicrm_country
--- *
--- *******************************************************/
-	ALTER TABLE civicrm_country
-	    ADD region_id int(10) unsigned NOT NULL,
-	    ADD INDEX FK_civicrm_country_region_id ( region_id );
-   
 
 -- /*******************************************************
 -- *
@@ -422,6 +374,15 @@ CREATE TABLE civicrm_worldregion (
 	ALTER TABLE civicrm_organization
 	    ADD INDEX index_organization_name (organization_name);
 
+-- /*******************************************************
+-- *
+-- * civicrm_uf_group
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_uf_group 
+  	    ADD is_cms_user tinyint(4) NULL DEFAULT '0',
+	    ADD notify varchar(255) NULL DEFAULT NULL COMMENT 'If you want member(s) of your organization to receive a notification email whenever this Profile form is used to enter or update contact information, enter one or more email addresses here separated by a comma';
+
 
 -- /*******************************************************
 -- *
@@ -494,10 +455,12 @@ CREATE TABLE civicrm_worldregion (
 
 -- /*******************************************************
 -- *
--- * civicrm_uf_group
+-- * civicrm_preferences
 -- *
 -- *******************************************************/
-	ALTER TABLE civicrm_uf_group 
-  	    ADD is_cms_user tinyint(4) NULL DEFAULT '0',
-	    ADD notify varchar(255) NULL DEFAULT NULL COMMENT 'If you want member(s) of your organization to receive a notification email whenever this Profile form is used to enter or update contact information, enter one or more email addresses here separated by a comma';
+
+        INSERT INTO 
+          civicrm_preferences(domain_id, contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url )
+        VALUES 
+          (@domain_id,NULL,1,1,'123456789','1234','12345678910','1234','123456891011','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}',NULL,NULL,NULL);
       

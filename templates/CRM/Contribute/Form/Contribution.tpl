@@ -38,7 +38,7 @@
         <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
 {/if}
-        <tr><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
+        <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
 {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}
 </td></tr>
@@ -212,6 +212,15 @@
     target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_email_receipt"
+    trigger_value       =""
+    target_element_id   ="receiptDate" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 1
 }
 
 

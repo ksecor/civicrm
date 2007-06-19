@@ -69,7 +69,7 @@ class CRM_Mailing_Menu {
                                  ),
                            array(
                                  'path'    => 'civicrm/admin/component',
-                                 'title'   => ts('Header/ Footer/ Automated Messages'),
+                                 'title'   => ts('Headers, Footers, and Automated Messages'),
                                  'desc'    => ts('Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, and Opt-out messages.'), 
                                  'query'   => 'reset=1',
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
@@ -122,7 +122,7 @@ class CRM_Mailing_Menu {
                            array(
                                  'path'    => 'civicrm/mailing/component',
                                  'query'   => 'reset=1',
-                                 'title'   => ts('Mailing Header / Footer'),
+                                 'title'   => ts('Headers, Footers, and Automated Messages'),
                                  'access'  => CRM_Core_Permission::check( 'administer CiviCRM' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  

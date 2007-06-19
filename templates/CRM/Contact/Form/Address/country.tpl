@@ -7,10 +7,12 @@
 var active_levels = Array();
 
 function checkParamChildren(value) {
-    checkChildren(this, 'wizCardDefGroupId', value, checkParamChildren);
+    var  countryId = 'country'+{/literal}{$index}{literal};
+    checkChildren(this, countryId, value, checkParamChildren);
 }
 
 function checkChildren(obj, element, value, src_func) {
+
     if (!active_levels[element]) {
         active_levels[element] = Array();
     }        
@@ -60,14 +62,23 @@ function checkChildren(obj, element, value, src_func) {
                       name : state,
                       mode: 'remote'
                     }, 
-                   
+
                dojo.byId (element+'_container_'+node));
+
+               /* start of code to set defaults for state */
+               var lno = {/literal}{$index}{literal};
+               var countryId  = 'country'+lno;
+               var stateId    = countryId+'_'+lno;
+               var stateValue = {/literal}"{$state1_value}"{literal};
+
+               dojo.widget.byId( stateId ).setAllValues( stateValue, stateValue )
+               /* end of code to set defaults for state */
            }
         }            
     };            
             
     bindArgs.content = { node: value };
-                        
+             
     // Get all preparations
     dojo.io.bind(bindArgs);        
 }
@@ -93,6 +104,30 @@ function removeChildren(element, value) {
     {$form.location.$index.address.country.html}
     </span>
 </div>
+
+
+{literal}
+<script type="text/javascript">
+
+    /* start of code to set defaults for country */
+
+    var lno = {/literal}{$index}{literal};
+    var countryId = 'country'+lno;
+    var stateId   = countryId+'_'+lno;
+
+    var countryValue = {/literal}"{$country1_value}"{literal};
+
+    dojo.addOnLoad( function( ) 
+        {
+            dojo.widget.byId( countryId ).setAllValues( countryValue, countryValue )
+        }          
+    );
+
+     /* end of code to set defaults for country*/
+
+</script>
+
+{/literal}
 
 {/if}
 

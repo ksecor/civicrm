@@ -348,7 +348,26 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 }
             }
         }
-      
+
+        //set defaults for country-state dojo widget
+        if ( ! empty ( $defaults['location'] ) ) {
+            $countries      =& CRM_Core_PseudoConstant::country( );
+            $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
+            
+            foreach ( $defaults['location'] as $key => $value ) {
+                $countryId = $value['address']['country_id'];
+                if ( $countryId ) {
+                    $this->assign( "country{$key}_value",  $countries[$countryId] );
+                }
+                
+                $stateProvinceId = $value['address']['state_province_id'];
+
+                if ( $stateProvinceId ) {
+                    $this->assign( "state{$key}_value",  $stateProvinces[$stateProvinceId] );
+                }
+            }
+        }
+
         CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         return $defaults;
     }

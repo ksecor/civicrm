@@ -150,7 +150,7 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
                     $display_name = CRM_Contact_BAO_Contact::displayName($currentUserId);
                     $status[] = ts('This contact record is linked to the currently logged in user account - "%1" - and can not be deleted.', array(1 => $display_name));
                 } else {
-                    $status[] = ts( 'The contact might be the Membership Organization of a Membership Type. Please change the Membership Type first' );
+                    $status[] = ts( 'The contact might be the Membership Organization of a Membership Type. You will need to edit the Membership Type and change the Membership Organization before you can delete this contact.' );
                 }
             }
         }

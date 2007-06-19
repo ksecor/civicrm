@@ -387,7 +387,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
         
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
-        $this->addElement('checkbox','is_email_receipt', ts('Send Receipt?'),null );
+
+        $this->addElement('checkbox','is_email_receipt', ts('Send Receipt?'),null, array('onclick' =>"return showHideByValue('is_email_receipt','','receiptDate','table-row','radio',true);") );
+
         $this->addElement('checkbox','contribution_honor', ts('Contribution is In Honor Of'),null, array('onclick' =>"return showHideByValue('contribution_honor','','showHonorOfDetailsPrefix|showHonorOfDetailsFname|showHonorOfDetailsLname|showHonorOfDetailsEmail','table-row','radio',false);"));
         $this->add('select','honor_prefix',ts('Prefix') ,array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
         $this->add('text','honor_firstname',ts(' First Name'));
@@ -557,7 +559,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $params[$d] = null;
             }
         }
-
+        if ( $formValues['is_email_receipt'] ) {
+            $params['receipt_date'] = date("Y-m-d");
+        }
         if ( ( CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) && 
              ($params["contribution_status_id"] == 3) ){
             $params['cancel_date'] = date("Y-m-d");
@@ -604,10 +608,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if (! empty($customData) ) {
             $params['custom'] = $customData;
         }
-
+        
         //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution' );
-
+        
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {
                 if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
@@ -617,7 +621,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 }
             }
         }
-      
+        
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
         

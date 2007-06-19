@@ -183,9 +183,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
             }
 
+            $ppID = CRM_Utils_Array::value( 'payment_processor_id',
+                                            $this->_values['event'] );
+            if ( ! $ppID ) {
+                CRM_Core_Error::fatal( ts( 'Please set a payment processor in your event registration page' ) );
+            }
+
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
             $this->_paymentProcessor =
-                CRM_Core_BAO_PaymentProcessor::getPayment( CRM_Utils_Array::value( 'payment_processor_id',$this->_values['event'] ),
+                CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
                                                            $this->_mode );
             
             // make sure we have a valid payment class, else abort
