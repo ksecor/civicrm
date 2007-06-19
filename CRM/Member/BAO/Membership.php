@@ -687,7 +687,9 @@ UPDATE civicrm_membership_type
                     $tmpConatctField[trim($value)]['title'] = $title;
                 }
             }
-	    $tmpConatctField['external_identifier'] = $contactFields['external_identifier'];
+            $tmpConatctField['external_identifier'] = $contactFields['external_identifier'];
+            $tmpConatctField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
+            
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));

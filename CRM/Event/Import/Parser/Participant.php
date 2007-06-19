@@ -101,6 +101,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
+             
             switch ($key) {
             case 'participant_contact_id':
                 $this->_contactIdIndex           = $index;
@@ -274,7 +275,11 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             
             $values[$key] = $field;
         }
-        _crm_format_participant_params( $values, $formatted, true);
+        $formatError = _crm_format_participant_params( $values, $formatted, true);
+        if ( $formatError ) {
+            array_unshift($values, $formatError->_errors[0]['message']);
+            return CRM_Event_Import_Parser::ERROR;
+        }
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
