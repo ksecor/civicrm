@@ -355,9 +355,9 @@ ORDER BY
         
         if ($contact->contact_type == 'Individual') {
             $sortName = "";
-            $firstName  = CRM_Utils_Array::value('first_name', $params, '');
-            $middleName = CRM_Utils_Array::value('middle_name', $params, '');
-            $lastName   = CRM_Utils_Array::value('last_name' , $params, '');
+            $firstName  = CRM_Utils_Array::value('first_name'   , $params, '');
+            $middleName = CRM_Utils_Array::value('middle_name'  , $params, '');
+            $lastName   = CRM_Utils_Array::value('last_name'    , $params, '');
             $prefix_id  = CRM_Utils_Array::value('prefix_id'    , $params, '');
             $suffix_id  = CRM_Utils_Array::value('suffix_id'    , $params, '');
 

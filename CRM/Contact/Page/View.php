@@ -40,7 +40,6 @@ require_once 'CRM/Core/BAO/CustomOption.php';
 require_once 'CRM/Utils/Recent.php';
 
 require_once 'CRM/Contact/BAO/Contact.php';
-require_once 'CRM/Core/BAO/UFMatch.php';
 require_once 'CRM/Core/Menu.php';
 
 /**
@@ -173,6 +172,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         
         $config =& CRM_Core_Config::singleton( );
         
+        require_once 'CRM/Core/BAO/UFMatch.php';
         if ( $uid = CRM_Core_BAO_UFMatch::getUFId( $this->_contactId ) ) {
             if ($config->userFramework == 'Drupal') {
                 $url = CRM_Utils_System::url( 'user/' . $uid );
