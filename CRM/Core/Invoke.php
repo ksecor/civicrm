@@ -242,6 +242,11 @@ class CRM_Core_Invoke
                 $view =& new CRM_Contact_Page_View_Participant( );
                 break;
 
+            case 'case':
+                require_once 'CRM/Contact/Page/View/Case.php';
+                $view =& new CRM_Contact_Page_View_Case( );
+                break;
+
             case 'note':
                 require_once 'CRM/Contact/Page/View/Note.php';
                 $view =& new CRM_Contact_Page_View_Note( );

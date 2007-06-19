@@ -189,7 +189,9 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                        'group'         => ts( 'Groups'        ),
                        'note'          => ts( 'Notes'         ),
                        'tag'           => ts( 'Tags'          ),
-                       'log'           => ts( 'Change Log'    ) );
+                       'log'           => ts( 'Change Log'    ),
+                       'case'          => ts( 'Case'          )
+                       );
 
         foreach ( $rest as $k => $v ) {
             if ( ! $this->_viewOptions[$v] ) {
