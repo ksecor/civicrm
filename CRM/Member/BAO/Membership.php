@@ -892,7 +892,7 @@ civicrm_membership_status.is_current_member =1";
             require_once "CRM/Contribute/BAO/ContributionPage.php";
             CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
                                                            $form->_values,
-                                                           self::getContributionPageId( $membership->id ) );
+                                                           $contribution[$index]->id );
         }
     }
     
