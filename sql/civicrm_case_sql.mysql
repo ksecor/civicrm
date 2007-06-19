@@ -1,0 +1,35 @@
+-- When invoked by itself, includes logic to insert data for next available domain_id.
+
+    set @domain_id = 1;
+
+
+INSERT INTO 
+   civicrm_option_group (domain_id, name, description, is_reserved, is_active) 
+VALUES 
+ (@domain_id, 'f1_case_type', 'Case Type'     , 1, 1),
+ (@domain_id, 'f1_case_sub_type', 'Case Sub Type'     , 1, 1),
+ (@domain_id, 'f1_case_violation', 'Violation Type'     , 1, 1);
+
+SELECT @option_group_id_case_type        := max(id) from civicrm_option_group where name = 'f1_case_type';
+SELECT @option_group_id_case_stype       := max(id) from civicrm_option_group where name = 'f1_case_sub_type';
+SELECT @option_group_id_case_viol        := max(id) from civicrm_option_group where name = 'f1_case_violation';
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
+VALUES
+(@option_group_id_case_type, 'Civil & Political'          , 1, NULL, NULL, 0, 1, 1, NULL, 0, 1, 1),
+(@option_group_id_case_type, 'Economic, Social & Cultural', 2, NULL, NULL, 0, 0, 2, NULL, 0, 1, 1),
+(@option_group_id_case_type, 'Gender Issues'              , 3, NULL, NULL, 0, 0, 3, NULL, 0, 1, 1),
+(@option_group_id_case_stype,'Labour Rights'              , 1, NULL, NULL, 0, 1, 1, NULL, 0, 1, 1),
+(@option_group_id_case_stype,'Land Rights'                , 2, NULL, NULL, 0, 0, 2, NULL, 0, 1, 1),
+(@option_group_id_case_stype,'LGTB Rights'                , 3, NULL, NULL, 0, 0, 3, NULL, 0, 1, 1),
+(@option_group_id_case_stype,'State Corruption'           , 4, NULL, NULL, 0, 0, 4, NULL, 0, 1, 1),
+(@option_group_id_case_stype,'Working with IDPs'          , 5, NULL, NULL, 0, 0, 5, NULL, 0, 1, 1),
+(@option_group_id_case_viol, 'Arrested / Detained'        , 1, NULL, NULL, 0, 1, 1, NULL, 0, 1, 1),
+(@option_group_id_case_viol, 'Disappeared'                , 2, NULL, NULL, 0, 0, 2, NULL, 0, 1, 1),
+(@option_group_id_case_viol, 'Harassment'                 , 3, NULL, NULL, 0, 0, 3, NULL, 0, 1, 1),
+(@option_group_id_case_viol, 'Killed'                     , 4, NULL, NULL, 0, 0, 4, NULL, 0, 1, 1),
+(@option_group_id_case_viol, 'Legal Action'               , 5, NULL, NULL, 0, 0, 5, NULL, 0, 1, 1),
+(@option_group_id_case_viol, 'Threats'                    , 6, NULL, NULL, 0, 0, 6, NULL, 0, 1, 1),
+(@option_group_id_case_viol, 'Tortured / Ill-treatment'   , 7, NULL, NULL, 0, 0, 7, NULL, 0, 1, 1),
+(@option_group_id_case_viol, 'Violence Against Women'     , 8, NULL, NULL, 0, 0, 8, NULL, 0, 1, 1);

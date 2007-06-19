@@ -982,7 +982,16 @@ class CRM_Core_Menu {
                              'crmType' => self::CALLBACK,
                              'weight'  => 7
                              ),
-
+                       
+                       array(
+                             'path'    => 'civicrm/contact/view/case',
+                             'query'   => 'reset=1&cid=%%cid%%',
+                             'title'   => ts('Case'),
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::CALLBACK,
+                             'weight'  => 8
+                             ),
+                       
                        array(
                              'path'    => 'civicrm/contact/view/cd',
                              'type'    => self::CALLBACK,

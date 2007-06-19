@@ -75,8 +75,16 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      * return null
      * @access public
      */
-    function edit( ) {
-       
+    function edit( ) 
+    {
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case', 
+                                                       'Create Case', 
+                                                       $this->_action );
+        $controller->setEmbedded( true ); 
+        $controller->set( 'id' , $this->_id ); 
+        $controller->set( 'cid', $this->_contactId ); 
+        
+        return $controller->run( );
     }
 
     /**

@@ -85,12 +85,36 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     public function buildQuickForm( )  
     {         
 
-
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
         }
+        $this->add('select', 'status',  ts( 'Case Status' ),  
+                   array( '' => ts( '-select-' ) ) , true);
+        $this->add('select', 'case_type_id',  ts( 'Case Type' ),  
+                   array( '' => ts( '-select-' ) ) , true);
+        $this->add('select', 'case_sub_type_id',  ts( 'Case Sub Type' ),  
+                   array( '' => ts( '-select-' ) ) , true);
+        $this->add('select', 'case_violation_type_id',  ts( 'Violation' ),  
+                   array( '' => ts( '-select-' ) ) , true);
+        $this->add( 'text', 'subject', ts('Subject') );
+        $this->add( 'date', 'start_date', ts('Start Date'),
+                    CRM_Core_SelectValues::date('datetime' ),
+                    true);   
+        $this->add( 'date', 'end_date', ts('End Date'),
+                    CRM_Core_SelectValues::date('datetime' ),
+                    false); 
+        $this->add('textarea', 'description', ts('Regarding'));
+        $this->addButtons(array( 
+                                array ( 'type'      => $buttonType, 
+                                        'name'      => ts('Save'), 
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                        'isDefault' => true   ), 
+                                array ( 'type'      => 'cancel', 
+                                        'name'      => ts('Cancel') ), 
+                                ) 
+                          );
     }
-
+    
     /**  
      * global form rule  
      *  
@@ -106,8 +130,8 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $errors = array( ); 
         return $errors;
     }
-
-
+    
+    
     /** 
      * Function to process the form 
      * 
@@ -122,7 +146,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-
+        
     }
 }
 
