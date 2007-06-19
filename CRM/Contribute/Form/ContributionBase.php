@@ -180,8 +180,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             }
             $this->set   ( 'bltID', $this->_bltID );
 
+            $ppID = CRM_Utils_Array::value( 'payment_processor_id', $this->_values );
+            if ( ! $ppID ) {
+                CRM_Core_Error::fatal( ts( 'Please set a payment processor in your contribution page' ) );
+            }
+
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
-            $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_values['payment_processor_id'],
+            $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
                                                                                   $this->_mode );
             $this->set( 'paymentProcessor', $this->_paymentProcessor );
 
