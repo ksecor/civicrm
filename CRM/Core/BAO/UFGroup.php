@@ -1428,14 +1428,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once "CRM/Contribute/PseudoConstant.php";
             $form->add('select', $name, ts( 'Contribution Type' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
-        } else if ($fieldName == 'event_register_date' ) {
+        } else if ($fieldName == 'participant_register_date' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
-        } else if ($fieldName == 'event_status_id' ) {
+        } else if ($fieldName == 'participant_status_id' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $form->add('select', $name, ts( 'Participant Status' ),
                        array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantStatus( ), $required);
-        } else if ($fieldName == 'role_id' ) {
+        } else if ($fieldName == 'participant_role_id' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $form->add('select', $name, ts( 'Participant Role' ),
                        array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantRole( ), $required);

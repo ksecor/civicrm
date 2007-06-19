@@ -514,7 +514,7 @@ function _crm_format_participant_params( &$params, &$values, $create=false)
             $values['contact_id'] = $values['participant_contact_id'];
             unset ($values['participant_contact_id']);
             break;
-        case 'event_register_date':
+        case 'participant_register_date':
             if (!CRM_Utils_Rule::date($value)) {
                 return _crm_error("$key not a valid date: $value");
             }
@@ -523,11 +523,11 @@ function _crm_format_participant_params( &$params, &$values, $create=false)
             $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $value, 'id', 'title' );
             $values['event_id'] = $id;
             break;
-        case 'event_status_id':
+        case 'participant_status_id':
             $id = CRM_Core_OptionGroup::getValue('participant_status', $value);
             $values[$key] = $id;
             break;
-        case 'role_id':
+        case 'participant_role_id':
             $id = CRM_Core_OptionGroup::getValue('participant_role', $value);
             $values[$key] = $id;
             break;
@@ -545,11 +545,12 @@ function _crm_format_participant_params( &$params, &$values, $create=false)
     if ( $create ) {
         // CRM_Event_BAO_Participant::create() handles register_date,
         // status_id and source. So, if $values contains
-        // participant_register_date, event_status_id or event_source,
+        // participant_register_date, participant_status_id or participant_source,
         // convert it to register_date, status_id or source
-        $changes = array('event_register_date' => 'register_date',
-                         'event_source'        => 'source',
-                         'event_status_id'     => 'status_id'
+        $changes = array('participant_register_date' => 'register_date',
+                         'participant_source'        => 'source',
+                         'participant_status_id'     => 'status_id',
+                         'participant_role_id'       => 'role_id'
                          );
         
         foreach ($changes as $orgVal => $changeVal) {

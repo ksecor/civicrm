@@ -107,7 +107,8 @@ class CRM_Event_BAO_Query
     static function where( &$query ) 
     {
         foreach ( array_keys( $query->_params ) as $id ) {
-            if ( substr( $query->_params[$id][0], 0, 6) == 'event_' ) {
+            if ( substr( $query->_params[$id][0], 0, 6) == 'event_' ||
+                 substr( $query->_params[$id][0], 0, 12) == 'participant_') {
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
@@ -156,7 +157,7 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
             return;
           
-        case 'event_participant_test':
+        case 'participant_test':
             $query->_where[$grouping][] = "civicrm_participant.is_test $op $value";
             if ( $value ) {
                 $query->_qill[$grouping][]  = "Test Participants Only";
@@ -165,7 +166,7 @@ class CRM_Event_BAO_Query
             
             return;
 
-        case 'event_participant_status':
+        case 'participant_status':
             
             foreach ($value as $k => $v) {
                 if ($v) {
@@ -193,8 +194,7 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
 
-        case 'event_participant_role':
-            
+        case 'participant_role':
             foreach ($value as $k => $v) {
                 if ($v) {
                     $val[$k] = $k;
@@ -205,7 +205,7 @@ class CRM_Event_BAO_Query
 
             if (count($val) > 1) {
                 $op = 'IN';
-                $status = "({$role})";
+                $role = "({$role})";
             }     
 
             require_once 'CRM/Event/PseudoConstant.php';
@@ -221,7 +221,7 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
 
-        case 'event_participant_id':
+        case 'participant_id':
             $query->_where[$grouping][] = "civicrm_participant.id $op $value";
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
@@ -231,7 +231,7 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
             return;
 
-        case 'event_contact_id':
+        case 'participant_contact_id':
             $query->_where[$grouping][] = "civicrm_participant.contact_id $op $value";
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
@@ -280,19 +280,19 @@ class CRM_Event_BAO_Query
         $properties = null;
         if ( $mode & CRM_Contact_BAO_Query::MODE_EVENT ) {
             $properties = array(  
-                                'contact_type'        => 1, 
-                                'sort_name'           => 1, 
-                                'display_name'        => 1,
-                                'event_title'         => 1,
-                                'event_start_date'    => 1,
-                                'event_end_date'      => 1,
-                                'participant_id'      => 1,
-                                'event_status_id'     => 1,
-                                'role_id'             => 1,
-                                'event_register_date' => 1,
-                                'event_source'        => 1,
-                                'event_level'         => 1,
-                                'event_is_test'       => 1
+                                'contact_type'              => 1, 
+                                'sort_name'                 => 1, 
+                                'display_name'              => 1,
+                                'event_title'               => 1,
+                                'event_start_date'          => 1,
+                                'event_end_date'            => 1,
+                                'participant_id'            => 1,
+                                'participant_status_id'     => 1,
+                                'participant_role_id'       => 1,
+                                'participant_register_date' => 1,
+                                'participant_source'        => 1,
+                                'event_level'               => 1,
+                                'participant_is_test'       => 1
                                 );
        
             // also get all the custom participant properties
@@ -361,16 +361,16 @@ class CRM_Event_BAO_Query
         foreach ( $statusValues as $k => $v ) {
             $status[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
         }
-        $form->addGroup($status, 'event_participant_status', ts('Participant Status'));
+        $form->addGroup($status, 'participant_status', ts('Participant Status'));
         
         //adding participant role
         $roleValues = CRM_Event_PseudoConstant::participantRole();
         foreach ( $roleValues as $k => $v ) {
             $role[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
         }
-        $form->addGroup($role, 'event_participant_role', ts('Participant Role'));
+        $form->addGroup($role, 'participant_role', ts('Participant Role'));
 
-        $form->addElement( 'checkbox', 'event_participant_test' , ts( 'Find Test Participants Only?' ) );
+        $form->addElement( 'checkbox', 'participant_test' , ts( 'Find Test Participants Only?' ) );
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

@@ -899,6 +899,7 @@ class CRM_Contact_BAO_Query {
              ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ||
              ( substr( $values[0], 0, 13 ) == 'contribution_' ) ||
              ( substr( $values[0], 0, 6  ) == 'event_' ) ||
+             ( substr( $values[0], 0, 6  ) == 'participant_' ) ||
              ( substr( $values[0], 0, 6  ) == 'quest_' ) ||
              ( substr( $values[0], 0, 4  ) == 'tmf_' )) {
             return;

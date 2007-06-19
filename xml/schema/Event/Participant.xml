@@ -49,7 +49,7 @@
   </foreignKey>
   <field> 
       <name>status_id</name> 
-      <uniqueName>event_status_id</uniqueName>
+      <uniqueName>participant_status_id</uniqueName>
       <title>Participant Status</title>
       <headerPattern>/^status$/i</headerPattern>
       <import>true</import>
@@ -60,6 +60,7 @@
   </field>
   <field> 
       <name>role_id</name> 
+      <uniqueName>participant_role_id</uniqueName>
       <title>Participant Role</title>
       <headerPattern>/^role$/i</headerPattern>
       <import>true</import>
@@ -70,7 +71,7 @@
   </field>
   <field>        
       <name>register_date</name>
-      <uniqueName>event_register_date</uniqueName>
+      <uniqueName>participant_register_date</uniqueName>
       <title>Register date</title>
       <headerPattern>/^(r(egister\s)?date)$/i</headerPattern>
       <import>true</import>
@@ -80,7 +81,7 @@
   </field>
   <field>
       <name>source</name>
-      <uniqueName>event_source</uniqueName>
+      <uniqueName>participant_source</uniqueName>
       <title>Participant Source</title>  
       <headerPattern>/^source$/i</headerPattern>
       <import>true</import>
@@ -101,7 +102,7 @@
   </field> 
   <field>     
       <name>is_test</name>  
-      <uniqueName>event_is_test</uniqueName> 
+      <uniqueName>participant_is_test</uniqueName> 
       <title>Test</title>
       <type>boolean</type>
       <default>0</default>
