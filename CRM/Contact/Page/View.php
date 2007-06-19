@@ -40,6 +40,7 @@ require_once 'CRM/Core/BAO/CustomOption.php';
 require_once 'CRM/Utils/Recent.php';
 
 require_once 'CRM/Contact/BAO/Contact.php';
+require_once 'CRM/Core/BAO/UFMatch.php';
 require_once 'CRM/Core/Menu.php';
 
 /**
