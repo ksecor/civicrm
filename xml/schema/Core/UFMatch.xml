@@ -25,6 +25,13 @@
       <add>1.1</add>
   </field>
   <field>
+			<name>uf_name</name>
+			<type>varchar</type>
+			<length>128</length>
+			<comment>UF Name</comment>
+			<add>2.0</add>
+	</field>
+  <field>
        <name>contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
@@ -72,6 +79,13 @@
      <unique>true</unique>
      <add>1.7</add>
   </index>
+  <index>
+	   <name>UI_uf_name_domain_id</name>
+		 <fieldName>uf_name</fieldName>
+		 <fieldName>domain_id</fieldName>
+		 <unique>true</unique>
+		 <add>2.0</add>
+	</index>
   <index>
     <name>UI_contact</name>
     <fieldName>contact_id</fieldName>

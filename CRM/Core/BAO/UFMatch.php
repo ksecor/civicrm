@@ -67,9 +67,8 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $key  = 'id';
             $mail = 'email';
         } else if ( $uf == 'Standalone' ) {
-            // There is no CMS to synchronize with in the standalone version,
-            //  so just return.
-            return;
+            $key = 'identity_url';
+            $mail = 'email';
         } else {
             CRM_Core_Error::statusBounce(ts('Please set the user framework variable'));
         }
@@ -78,13 +77,21 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         // return.
         $userID = $session->get( 'userID' );
         $ufID   = $session->get( 'ufID'   );
-        if ( ! $update && $ufID == $user->$key ) {
+        $ufName = $session->get( 'ufName' );
+        if ( ! $update && ( ( $ufID == $user->$key ) || ( $ufName == $user->$key ) ) ) {
+            print "Already processed this user<br/>";
             return;
         }
 
         // reset the session if we are a different user
-        if ( $ufID && $ufID != $user->$key ) {
-            $session->reset( );
+        if ( $uf != 'Standalone') {
+            if ( $ufID && $ufID != $user->$key ) {
+                $session->reset( );
+            }
+        } else {
+            if ( $ufName && $ufName != $user->$key ) {
+                $session->reset( );
+            }
         }
 
         // make sure we load the joomla object to get valid information
@@ -94,7 +101,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
 
         // if the id of the object is zero (true for anon users in drupal)
         // return early
-        if ( $user->$key == 0 ) {
+        if ( $uf != 'Standalone' && $user->$key == 0 ) {
             return;
         }
         
@@ -103,7 +110,8 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             return;
         }
 
-        $session->set( 'ufID'    , $ufmatch->uf_id       );
+        $session->set( 'ufID'    , $ufmatch->uf_id  );
+        $session->set( 'ufName'  , $ufmatch->uf_name  );
         $session->set( 'userID'  , $ufmatch->contact_id );
         $session->set( 'domainID', $ufmatch->domain_id  ); 
         $session->set( 'ufEmail' , $ufmatch->email      );
@@ -158,6 +166,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
         // make sure that a contact id exists for this user id
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->uf_id = $userKey;
+        $ufmatch->uf_name = $userKey;
         $ufmatch->domain_id = CRM_Core_Config::domainID( );
         if ( ! $ufmatch->find( true ) ) {
             require_once 'CRM/Contact/BAO/Contact.php';

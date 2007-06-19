@@ -180,45 +180,20 @@ class CRM_Utils_System_Standalone {
     }
 
     /**
-     * Authenticate the user against the standalone db
+     * Get the userID (contact_id) for an already-authorized OpenID login
      *
-     * @param string $name     the user name
-     * @param string $password the password for the above user name
+     * @param mix $user the user object holding OpenID auth info
      *
-     * @return mixed false if no auth
-     *               array( contactID, ufID, unique string ) if success
+     * @return void
      * @access public
      * @static
      */
-    static function authenticate( $name, $password ) {
-        require_once 'DB.php';
-
-        $config =& CRM_Core_Config::singleton( );
-        
-	/* TODO: Figure out how to replace this. */
-        $dbDrupal = DB::connect( $config->userFrameworkDSN );
-        if ( DB::isError( $dbDrupal ) ) {
-            CRM_Core_Error::fatal( "Cannot connect to drupal db via $config->userFrameworkDSN, " . $dbDrupal->getMessage( ) ); 
-        }                                                      
-
-        $password  = md5( $password );
-        $name      = strtolower( $name );
-        $sql = 'SELECT u.* FROM ' . $config->userFrameworkUsersTableName .
-            " u WHERE LOWER(u.name) = '$name' AND u.pass = '$password'";
-        $query = $dbDrupal->query( $sql );
-
-        $user = null;
-        // need to change this to make sure we matched only one row
-        require_once 'CRM/Core/BAO/UFMatch.php';
-        while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) { 
-            CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row['uid'], $row['mail'], 'Standalone' );
-            $contactID = CRM_Core_BAO_UFMatch::getContactId( $row['uid'] );
-            if ( ! $contactID ) {
-                return false;
-            }
-            return array( $contactID, $row['uid'], mt_rand() ); //$_COOKIE['PHPSESSID'] );
-        }
-        return false;
+    static function getUserID( $user ) {
+      require 'CRM/Core/BAO/UFMatch.php';
+      
+      // this puts the appropriate values in the session, so
+      // no need to return anything
+      CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Standalone', 'Individual' );
     }
 
     /**   
