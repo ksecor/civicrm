@@ -79,7 +79,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         $ufID   = $session->get( 'ufID'   );
         $ufName = $session->get( 'ufName' );
         if ( ! $update && ( ( $ufID == $user->$key ) || ( $ufName == $user->$key ) ) ) {
-            print "Already processed this user<br/>";
+            //print "Already processed this user<br/>";
             return;
         }
 
