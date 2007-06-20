@@ -1,5 +1,6 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
 {include file="CRM/common/WizardHeader.tpl"}
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
     {if $action eq 0}
         <p>{ts}This is the first step in creating a new online Contribution Page. You can create one or more different Contribution Pages for different purposes, audiences, campaigns, etc. Each page can have it's own introductory message, pre-configured contribution amounts, custom data collection fields, etc.{/ts}</p>
@@ -17,7 +18,7 @@
     <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</dd>
     <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select the payment processor that handles this contribution page.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}You must create an account with a Payment Processor and configure that processor in CiviCRM before you can use this Online Contribution Page (unless you are soliciting non-monetary / in-kind contributions only). (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}</dd>
     <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
