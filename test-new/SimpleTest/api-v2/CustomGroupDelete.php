@@ -4,12 +4,11 @@ require_once 'api/v2/CustomGroup.php';
 
 class TestOfCustomGroupDeleteAPIV2 extends CiviUnitTestCase 
 {
-    
-    function setUp() 
+    function setUp( ) 
     {
     }
     
-    function tearDown() 
+    function tearDown( ) 
     {
     }
    
@@ -22,9 +21,7 @@ class TestOfCustomGroupDeleteAPIV2 extends CiviUnitTestCase
     
     function testCustomGroupDelete( )
     {
-        $title = 'test_group';
-        $className= 'Individual';
-        $customGroupID = $this->customGroupCreate($className , $title); 
+        $customGroupID = $this->customGroupCreate('Individual', 'test_group'); 
         $params = array('id' => $customGroupID); 
         $customGroup =& civicrm_custom_group_delete($params);
         $this->assertEqual($customGruup['is_error'], 0);

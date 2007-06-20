@@ -136,11 +136,11 @@ class CRM_Event_Form_Task_Export extends CRM_Event_Form_Task
             $row   = array( );
             $valid = false;
             foreach ( $properties as $property ) {
-                if ($property == "event_is_test") {
+                if ($property == "participant_is_test") {
                     $row[] = $result->$property ? "Yes" : "No";
-                } else if ($property == 'event_status_id') {
+                } else if ($property == 'participant_status_id') {
                     $row[] = $statusTypes[$result->$property];
-                } else if ($property == 'role_id') {
+                } else if ($property == 'participant_role_id') {
                     $row[] = $roleTypes[$result->$property];
                 } else {
                     $row[] = $result->$property;

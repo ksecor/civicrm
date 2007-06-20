@@ -101,6 +101,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
+             
             switch ($key) {
             case 'participant_contact_id':
                 $this->_contactIdIndex           = $index;
@@ -108,10 +109,10 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             case 'event_id':
                 $this->_eventIndex               = $index;
                 break;
-            case 'event_status_id':
+            case 'participant_status_id':
                 $this->_participantStatusIndex   = $index;
                 break;
-            case 'role_id':
+            case 'participant_role_id':
                 $this->_participantRoleIndex     = $index;
                 break;
             case 'event_title':
@@ -190,7 +191,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $dateType = $session->get( "dateTypes" );
                 
         foreach ( $params as $key => $val ) {
-            if( $val && ( $key == 'event_register_date' ) ) {
+            if( $val && ( $key == 'participant_register_date' ) ) {
                 if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
                     if (! CRM_Utils_Rule::date($params[$key])) {
                         CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
@@ -198,11 +199,11 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 } else {
                     CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
                 }
-            } else if( $val && ( $key == 'role_id' ) ){
+            } else if( $val && ( $key == 'participant_role_id' ) ){
                 if (!CRM_Import_Parser_Contact::in_value($val,CRM_Event_PseudoConstant::participantRole())) {
                     CRM_Import_Parser_Contact::addToErrorMsg('Participant Role', $errorMessage);
                 }   
-            } else if( $val && ( $key == 'event_status_id' ) ){
+            } else if( $val && ( $key == 'participant_status_id' ) ){
                 if (!CRM_Import_Parser_Contact::in_value($val,CRM_Event_PseudoConstant::participantStatus())) {
                     CRM_Import_Parser_Contact::addToErrorMsg('Participant Status', $errorMessage);
                 }   
@@ -245,7 +246,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $dateType = $session->get( 'dateTypes' );
         foreach ($params as $key => $val) {
             if( $val ) {
-                if ( $key == 'event_register_date' ) {
+                if ( $key == 'participant_register_date' ) {
                     if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
                         if (! CRM_Utils_Rule::date($params[$key])) {
                             CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
@@ -274,7 +275,11 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             
             $values[$key] = $field;
         }
-        _crm_format_participant_params( $values, $formatted, true);
+        $formatError = _crm_format_participant_params( $values, $formatted, true);
+        if ( $formatError ) {
+            array_unshift($values, $formatError->_errors[0]['message']);
+            return CRM_Event_Import_Parser::ERROR;
+        }
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {

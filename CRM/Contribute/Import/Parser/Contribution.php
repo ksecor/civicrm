@@ -295,8 +295,13 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $values[$key] = $field;
         }
         
-        _crm_format_contrib_params($values, $formatted, true);
-
+        $formatError = _crm_format_contrib_params($values, $formatted, true);
+        
+        if ( $formatError ) {
+            array_unshift($values, $formatError->_errors[0]['message']);
+            return CRM_Contribute_Import_Parser::ERROR;
+       }
+        
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
@@ -396,7 +401,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     return CRM_Contribute_Import_Parser::ERROR;
                 }
             }
-            
             $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
             if ( is_a( $newContribution, CRM_Core_Error ) ) {
                 array_unshift($values, $newContribution->_errors[0]['message']);

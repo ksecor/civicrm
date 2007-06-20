@@ -296,7 +296,11 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             $values[$key] = $field;
         }
         
-        _crm_format_membership_params( $values, $formatted, true);
+        $formatError = _crm_format_membership_params( $values, $formatted, true);
+        if ( $formatError ) {
+            array_unshift($values, $formatError->_errors[0]['message']);
+            return CRM_Member_Import_Parser::ERROR;
+        }
                          
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;

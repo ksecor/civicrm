@@ -601,7 +601,21 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                                                              $value, $params['contact_type'], null, $this->_contactId);
             }
         }
+    
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
         
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                     ! CRM_Utils_Array::value( $k, $customData ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
+                                                                 '', $params['contact_type'], null, $this->_contactId);
+                }
+            }
+        }
+
+    
         if (! empty($customData) ) {
             $params['custom'] = $customData;
         }

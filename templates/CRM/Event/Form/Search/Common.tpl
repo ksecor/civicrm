@@ -36,13 +36,13 @@
 
  <tr>
     <td class="label">{ts}Status{/ts}</td> 
-    <td>{$form.event_participant_status.html}</td>
-    <td class="label">{$form.event_participant_test.html}</td>
-    <td>{$form.event_participant_test.label}</td>
+    <td>{$form.participant_status.html}</td>
+    <td class="label">{$form.participant_test.html}</td>
+    <td>{$form.participant_test.label}</td>
  </tr> 
  <tr>
-    <td class="label">{ts}{$form.event_participant_role.label}{/ts}</td> 
-    <td>{$form.event_participant_role.html}</td>
+    <td class="label">{ts}{$form.participant_role.label}{/ts}</td> 
+    <td>{$form.participant_role.html}</td>
  </tr> 
  <tr>
     <td colspan="4">

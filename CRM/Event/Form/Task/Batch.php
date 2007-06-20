@@ -152,7 +152,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
     public function postProcess() 
     {
         $params     = $this->exportValues( );
-        $dates = array( 'event_register_date' );
+        $dates = array( 'participant_register_date' );
         foreach ( $params['field'] as $key => $value ) {
             foreach ( $dates as $d ) {
                 if ( ! CRM_Utils_System::isNull( $value[$d] ) ) {
@@ -164,19 +164,19 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             }
 
             $ids['participant'] = $key;
-            if ( $value['event_register_date'] ) {
-                $value['register_date'] = $value['event_register_date'];
+            if ( $value['participant_register_date'] ) {
+                $value['register_date'] = $value['participant_register_date'];
             } 
             
-            if ( $value['event_status_id'] ) {
-                $value['status_id'] = $value['event_status_id'];
+            if ( $value['participant_status_id'] ) {
+                $value['status_id'] = $value['participant_status_id'];
             } 
-            if ( $value['event_source'] ) {
-                $value['source'] = $value['event_source'];
+            if ( $value['participant_source'] ) {
+                $value['source'] = $value['participant_source'];
             }            
-            unset($value['event_register_date']);
-            unset($value['event_status_id']);
-            unset($value['event_source']);
+            unset($value['participant_register_date']);
+            unset($value['participant_status_id']);
+            unset($value['participant_source']);
             
             CRM_Event_BAO_Participant::add( $value ,$ids );   
         }

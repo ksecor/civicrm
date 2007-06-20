@@ -4,10 +4,30 @@ require_once 'api/v2/EntityTag.php';
 
 class TestOfEntityTagAdd extends CiviUnitTestCase 
 {
+    protected $_individualID;
+
+    protected $_householdID;
+
+    protected $_organizationID;
+
+    protected $_tagID;
+    
     function setup( ) 
     {
-    } 
+        $this->_individualID = $this->individualCreate( );
+        $this->_tagID = $this->tagCreate( ); 
+        $this->_householdID = $this->houseHoldCreate( );
+        $this->_organizationID = $this->organizationCreate( );
+    }
     
+    function tearDown( ) 
+    {
+        $this->contactDelete( $this->_individualID );
+        $this->contactDelete( $this->_householdID );
+        $this->contactDelete( $this->_organizationID );
+        $this->tagDelete( $this->_tagID );
+    }
+
     function testIndividualEntityTagAddEmptyParams( ) 
     {
         $params = array( );                             
@@ -16,22 +36,20 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $this->assertEqual( $individualEntity['error_message'], 'contact_id is a required field' );
        
     }
-
+    
     function testIndividualEntityTagAddWithoutTagID( ) 
     {
-        $ContactId = $this->individualCreate( );
-        $params = array('contact_id' =>  $ContactId);
-        
+        $ContactId =  $this->_individualID;
+        $params = array('contact_id' =>  $ContactId);              
         $individualEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $individualEntity['is_error'], 1 );
         $this->assertEqual( $individualEntity['error_message'], 'tag_id is a required field' );
-        $this->contactDelete( $params['contact_id'] );
     }
-
+    
     function testIndividualEntityTagAdd( ) 
     {
-        $ContactId = $this->individualCreate( );
-        $tagID = $this->tagCreate( );
+        $ContactId = $this->_individualID; 
+        $tagID = $this->_tagID ;  
         $params = array(
                         'contact_id' =>  $ContactId,
                         'tag_id'     =>  $tagID);
@@ -39,10 +57,8 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $individualEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $individualEntity['is_error'], 0 );
         $this->assertEqual( $individualEntity['added'], 1 );
-        $this->contactDelete( $params['contact_id'] );
-        $this->tagDelete( $tagID );
     }
-      
+    
     function testHouseholdEntityTagAddEmptyParams( ) 
     {
         $params = array( );
@@ -50,21 +66,21 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $this->assertEqual( $householdEntity['is_error'], 1 );
         $this->assertEqual( $householdEntity['error_message'], 'contact_id is a required field' );
     }
-
+    
     function testHouseholdEntityTagAddWithoutTagID( ) 
     {
-        $ContactId = $this->houseHoldCreate( );
+        $ContactId = $_householdID;
         $params = array('contact_id' =>  $ContactId);
         $householdEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $householdEntity['is_error'], 1 );
         $this->assertEqual( $householdEntity['error_message'], 'tag_id is a required field' );
-        $this->contactDelete( $params['contact_id'] );
+        
     }
-
+    
     function testHouseholdEntityTagAdd( ) 
     {
-        $ContactId = $this->householdCreate( );
-        $tagID = $this->tagCreate( );
+        $ContactId = $this->_householdID;
+        $tagID = $this->_tagID;
         $params = array(
                         'contact_id' =>  $ContactId,
                         'tag_id'     =>  $tagID );
@@ -72,8 +88,6 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $householdEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $householdEntity['is_error'], 0 );
         $this->assertEqual( $householdEntity['added'], 1 );
-        $this->contactDelete( $params['contact_id'] );
-        $this->tagDelete( $tagID );
     }
     
     function testOrganizationEntityTagAddEmptyParams( ) 
@@ -86,34 +100,31 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
     
     function testOrganizationEntityTagAddWithoutTagID( ) 
     {
-        $ContactId = $this->organizationCreate( );
+        $ContactId = $this->_organizationID;
         $params = array('contact_id' =>  $ContactId);
         $organizationEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $organizationEntity['is_error'], 1 );
         $this->assertEqual( $organizationEntity['error_message'], 'tag_id is a required field' );
-        $this->contactDelete( $params['contact_id'] );
     }
-
+        
     function testOrganizationEntityTagAdd( ) 
     {
-        $ContactId = $this->organizationCreate( );
-        $tagID = $this->tagCreate( );
+        $ContactId = $this->_organizationID;
+        $tagID = $this->_tagID;
         $params = array(
                         'contact_id' =>  $ContactId,
                         'tag_id'     =>  $tagID );
-                                           
+        
         $organizationEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $organizationEntity['is_error'], 0 );
         $this->assertEqual( $organizationEntity['added'], 1 );
-        $this->contactDelete( $params['contact_id'] );
-        $this->tagDelete( $tagID );
     }
     
     function testEntityTagAddIndividualDouble( ) 
     {
-        $individualId   = $this->individualCreate( );
-        $organizationId = $this->organizationCreate( );
-        $tagID = $this->tagCreate( );
+        $individualId   = $this->_individualID;
+        $organizationId = $this->_organizationID;
+        $tagID = $this->_tagID;
         $params = array(
                         'contact_id' =>  $individualId,
                         'tag_id'     =>  $tagID
@@ -131,19 +142,12 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
                         );
         
         $result = civicrm_entity_tag_add( $params );
-        
         $this->assertEqual( $result['is_error'],  0 );
         $this->assertEqual( $result['added'],     1 );
         $this->assertEqual( $result['not_added'], 1 );
-        
-        $this->contactDelete( $individualId   );
-        $this->contactDelete( $organizationId );
-        $this->tagDelete( $tagID );
     }
     
-    function tearDown( ) 
-    {
-    }
-
 }
 ?>
+
+

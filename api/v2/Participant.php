@@ -104,7 +104,7 @@ function civicrm_participant_create(&$params)
  */
 function &civicrm_participant_get( &$params ) {
     _civicrm_initialize( );
-
+ 
     $values = array( );
     if ( empty( $params ) ) {
         return civicrm_create_error( ts( 'No input parameters present' ) );
@@ -213,14 +213,14 @@ function civicrm_participant_update(&$params)
     $participantBAO->id = $params['id'];
     $fields = $participantBAO->fields( );
     $datefields = array("register_date" => "register_date");    
-    foreach ( array('source','status_id','register_date') as $v) {    
-        $fields[$v] = $fields['event_'.$v];
-        unset( $fields['event_'.$v] );
+    foreach ( array('source','status_id','register_date','role_id') as $v) {    
+        $fields[$v] = $fields['participant_'.$v];
+        unset( $fields['participant_'.$v] );
     }
-
+    
     if ($participantBAO->find(true)) {
         foreach ( $fields as $name => $field) {
-            if (array_key_exists($name, $params)) {                
+            if (array_key_exists($name, $params)) {
                 $participantBAO->$name = $params[$name];
             }
         }
