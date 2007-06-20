@@ -170,10 +170,10 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
 
             self::$_links = array(
                                   CRM_Core_Action::VIEW    => array(
-                                                                    'name'  => ts('View'),
+                                                                    'name'  => ts('Show Case'),
                                                                     'url'   => 'civicrm/contact/view/case',
                                                                     'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
-                                                                    'title' => ts('View Case')
+                                                                    'title' => ts('Show Case')
                                                                     ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
@@ -183,11 +183,11 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                                     'title' => ts('Edit Case')
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Delete'),
+                                                                    'name'  => ts('Remove'),
                                                                     'url'   => 'civicrm/contact/view/case',
                                                                     'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
                                                                     'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',                                                                    
-                                                                    'title' => ts('Delete Case')
+                                                                    'title' => ts('Remove')
                                                                     ),
                                   );
         }
