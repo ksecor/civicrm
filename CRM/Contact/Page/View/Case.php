@@ -50,14 +50,22 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
     static $_links = null;
 
     /**
-     * View details of a note
+     * View details of a case
      *
      * @return void
      * @access public
      */
     function view( ) {
-      
-       
+
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case',  
+                                                       'View Case',  
+                                                       $this->_action ); 
+        $controller->setEmbedded( true );  
+        $controller->set( 'id' , $this->_id );  
+        $controller->set( 'cid', $this->_contactId );  
+        
+        return $controller->run( ); 
+
     }
 
     /**
@@ -67,6 +75,28 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      * @access public
      */
     function browse( ) {
+
+        $links  =& self::links( );
+        $action = array_sum(array_keys($links));
+        $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
+        $caseType = CRM_Core_OptionGroup::values('f1_case_type');
+
+        require_once 'CRM/Case/DAO/Case.php';
+        $case = new CRM_Case_DAO_Case( );
+        $case->contact_id = $this->_contactId;
+        $case->find();
+        while ( $case->fetch() ) {
+            CRM_Core_DAO::storeValues( $case, $values[$case->id] );
+            $values[$case->id]['action'] = CRM_Core_Action::formLink( $links,
+                                                                      $action,
+                                                                      array( 'id'  => $case->id,
+                                                                             'cid' => $this->_contactId ) );
+            $values[$case->id]['casetag1_id'] = $caseType[$values[$case->id]['casetag1_id']];
+            $values[$case->id]['status_id']   = $caseStatus[$values[$case->id]['status_id']];
+
+        } 
+        
+        $this->assign( 'cases', $values );
     }
 
     /**
@@ -81,6 +111,12 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                        'Create Case', 
                                                        $this->_action );
         $controller->setEmbedded( true ); 
+
+        // set the userContext stack
+        $session =& CRM_Core_Session::singleton();
+        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
+        $session->pushUserContext( $url );
+
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
         
@@ -102,8 +138,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
             $this->edit( );
         } else if ( $this->_action & CRM_Core_Action::DELETE ) {
-            // we use the edit screen the confirm the delete
-            $this->edit( );
+            $this->delete( );
         }
 
         $this->browse( );
@@ -111,13 +146,15 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
     }
 
     /**
-     * delete the note object from the db
+     * delete the case object from the db
      *
      * @return void
      * @access public
      */
     function delete( ) {
-
+        require_once 'CRM/Case/BAO/Case.php';
+        CRM_Case_BAO_Case::deleteCase( $this->_id );
+        
     }
 
     /**

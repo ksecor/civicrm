@@ -65,8 +65,9 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     static function add(&$params, &$ids) 
     {
         $caseDAO =& new CRM_Case_DAO_Case();
-        $caseDAO->copyValues($params);
         
+        $caseDAO->copyValues($params);
+        $caseDAO->id = CRM_Utils_Array::value( 'case', $ids );
         $result = $caseDAO->save();
         
         return $result;
@@ -89,12 +90,12 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $case =& new CRM_Case_BAO_Case( );
 
         $case->copyValues( $params );
-
+        
         if ( $case->find(true) ) {
             $ids['case']    = $case->id;
             $ids['domain' ] = $case->domain_id;
 
-            CRM_Core_DAO::storeValues( $cases, $values );
+            CRM_Core_DAO::storeValues( $case, $values );
 
             return $cases;
         }
@@ -113,7 +114,6 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      */
     static function &create(&$params, &$ids) 
     {
-       
         CRM_Core_DAO::transaction('BEGIN');
         
         $case = self::add($params, $ids);
@@ -122,21 +122,6 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             CRM_Core_DAO::transaction( 'ROLLBACK' );
             return $case;
         }
-        $session = & CRM_Core_Session::singleton();
-        $id = $session->get('userID');
-        if ( !$id ) {
-            $id = $params['contact_id'];
-        } 
-        // Log the information on successful add/edit of Event
-        require_once 'CRM/Core/BAO/Log.php';
-        $logParams = array(
-                        'entity_table'  => 'civicrm_case',
-                        'entity_id'     => $case->id,
-                        'modified_id'   => $id,
-                        'modified_date' => date('Ymd')
-                        );
-        
-        CRM_Core_BAO_Log::add( $logParams );
         CRM_Core_DAO::transaction('COMMIT');
         
         return $case;
@@ -219,6 +204,15 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      */ 
     static function deleteCase( $id ) 
     {
+        require_once 'CRM/Case/DAO/Case.php';
+        $case     = & new CRM_Case_DAO_Case( );
+        $case->id = $id; 
+        
+        $case->find();
+        while ($case->fetch() ) {
+            return $case->delete();
+        }
+        return false;
     }
 }
 

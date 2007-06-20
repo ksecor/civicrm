@@ -1,6 +1,11 @@
 {* this template is used for adding/editing/deleting case *} 
 <fieldset>
+{if $action eq 1}
     <legend>{ts}New Case Registration{/ts}</legend>
+{/if}
+{if $action eq 2}
+    <legend>{ts}Edit Case Registration{/ts}</legend>
+{/if}
     <div class="form-item">
         <table class="form-layout">  
             <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td></tr>

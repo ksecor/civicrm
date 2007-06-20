@@ -68,12 +68,19 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     public function preProcess()  
     {  
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
     }
 
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        $defaults = parent::setDefaultValues();
+       
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
+            require_once 'CRM/Case/BAO/Case.php' ;
+            CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
+        }
+
         return $defaults;
     }
     
@@ -86,10 +93,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     public function buildQuickForm( )  
     {         
 
-        if ( $this->_action & CRM_Core_Action::VIEW ) {
-            $this->freeze( );
-        }
-       
+ 
 
         $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
         $this->add('select', 'status_id',  ts( 'Case Status' ),  
@@ -114,6 +118,11 @@ class CRM_Case_Form_Case extends CRM_Core_Form
                     CRM_Core_SelectValues::date('date' ),
                     false); 
         $this->add('textarea', 'details', ts('Notes'));
+       
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+            $this->freeze( );
+        }
+       
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'), 
@@ -123,6 +132,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
+
     }
     
     /**  
@@ -151,9 +161,12 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     public function postProcess( )  
      { 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
+            CRM_Case_BAO_Case::deleteCase( $this->_id );
             return;
         }
-        
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $ids['case'] = $this->_id ;
+        }
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
         $formValues['contact_id'] = $this->_contactID;
