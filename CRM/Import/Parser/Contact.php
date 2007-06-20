@@ -442,6 +442,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         } else {
             $newContact = crm_create_contact_formatted( $formatted, $onDuplicate, $doGeocodeAddress );
             $relationship = true;
+            $this->_newContacts[] = $newContact->id;
         }
        
         // $newContact is a crm_core_error object, due to some wierd behavior
@@ -465,6 +466,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             
             if ( ( self::isDuplicate($newContact)  || is_a( $newContact,CRM_Contact_BAO_Contact ) ) 
                  && $primaryContactId ) {
+
                 //relationship contact insert
                 foreach ($params as $key => $field) {
                     list($id, $first, $second) = explode('_', $key);
@@ -562,17 +564,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         //fix for CRM-1993.Checks for duplicate related contacts
                         $matchedIDs= explode(',',$relatedNewContact->_errors[0]['params'][0]);
                         if (count($matchedIDs) > 1) {
-                            if ( $newContact && ! is_a( $newContact, 'CRM_Core_Error' ) ) {
-                                $this->_newContacts[] = $newContact->id;
-                            }
                             foreach ($matchedIDs as $cid) {
                                 $urls[] = CRM_Utils_System::url('civicrm/contact/view',
                                                                 'reset=1&cid=' . $cid, true);
                             }
                         
                             $url_string = implode("\n", $urls);
-                            array_unshift($values, $url_string);                             
-                            return CRM_Import_Parser::DUPLICATE;                             
+                            array_unshift($values, $url_string);
+                            return CRM_Import_Parser::DUPLICATE;
                         }
 
                         $relationIds = array('contact' => $primaryContactId);
