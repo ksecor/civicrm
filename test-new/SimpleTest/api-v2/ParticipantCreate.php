@@ -50,6 +50,28 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
         $this->assertNotNull($participant['error_message']);
     }
 
+    function testParticipantCreateEventIdOnly()
+    {
+        $params = array(
+                        'contact_id'    => $this->_contactID,
+                        'event_id'      => 1,
+                        );
+        $participant = & civicrm_participant_create($params); 
+        if ( CRM_Utils_Array::value('id', $participant) ) {
+            $this->_createdParticipants[] = $participant['id'];
+        }
+        $this->assertNotEqual( $participant['is_error'],1 );
+        
+        // Use civicrm_participant_get to retrieve created record, then compare stored values.
+        $params = array(
+                        'participant_id' => $participant['participant_id']
+                        );
+        $result = &civicrm_participant_get( $params );
+//        CRM_Core_Error::debug('result',$result);
+        $this->assertEqual($result['event_id'],1);
+        $this->assertEqual($result['participant_status_id'],1);
+    }
+    
     function testParticipantCreateAllParams()
     {  
         $params = array(
@@ -73,7 +95,6 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
                         'participant_id' => $participant['participant_id']
                         );
         $result = &civicrm_participant_get( $params );
-        // CRM_Core_Error::debug('result',$result);
         $this->assertEqual($result['event_id'],2);
         $this->assertEqual($result['participant_status_id'],1);
         $this->assertEqual($result['participant_role_id'],1);
