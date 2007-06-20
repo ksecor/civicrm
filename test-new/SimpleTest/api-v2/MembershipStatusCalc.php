@@ -29,9 +29,9 @@ class TestOfMembershipStatusCalcAPIV2 extends CiviUnitTestCase {
     function testMembershipStatusCalcNoMembershipid( ) 
     {
         $calcParams = array( 'title' => 'Does not make sense' );
-// FIXME PLEASE!
-//        $result = civicrm_membership_status_calc( $calcParams );
-//        $this->assertEqual( $result['is_error'], 1 );
+        
+        $result = civicrm_membership_status_calc( $calcParams );
+        $this->assertEqual( $result['is_error'], 1 );
     }
     
     function testMembershipStatusCalc( ) 
@@ -43,31 +43,30 @@ class TestOfMembershipStatusCalcAPIV2 extends CiviUnitTestCase {
                         'start_date'  => '2007-06-14',
                         'end_date'    => '2008-06-13'
                         );
-// FIXME PLEASE!
-//        $membershipID = $this->contactMembershipCreate( $params );
+        $membershipID = $this->contactMembershipCreate( $params );
         
-//        $membershipStatusID = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership',$membershipID,'status_id');
+        $membershipStatusID = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership',$membershipID,'status_id');
         
-//        $calcParams = array( 'membership_id' => $membershipID );
-//        $result = civicrm_membership_status_calc( $calcParams );
+        $calcParams = array( 'membership_id' => $membershipID );
+        $result = civicrm_membership_status_calc( $calcParams );
         
-//        $this->assertEqual( $result['is_error'], 0 );
-//        $this->assertEqual( $membershipStatusID,$result['id'] );
-//        $this->assertNotNull( $result['id'] );
+        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEqual( $membershipStatusID,$result['id'] );
+        $this->assertNotNull( $result['id'] );
         
-//        $this->membershipDelete( $membershipID );
+        $this->membershipDelete( $membershipID );
     }
     
     function tearDown( ) 
     {
         $this->membershipStatusDelete( $this->_membershipStatusID ); 
         $this->membershipTypeDelete  ( $this->_membershipTypeID   );
-
+        
         $this->contactDelete         ( $this->_contactID          ) ;
         
         $this->contributionTypeDelete( $this->_contributionTypeID );
     }
-
+    
 }
 
 ?>
