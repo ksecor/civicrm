@@ -573,9 +573,10 @@ class CRM_Core_SelectValues
                                 'CiviContribute'  => ts('CiviContribute'),
                                 'CiviMember'      => ts('CiviMember'),
                                 'CiviEvent'       => ts('CiviEvent'),
+                                'CiviGrant'       => ts('CiviGrant'),                                
                                 // 'Quest'           => ts('Quest'),
                                 // 'TMF'             => ts('TMF'),
-                                'Gcc'             => ts('Gcc')
+                                // 'Gcc'             => ts('Gcc')
                                 );
             if (version_compare(phpversion(), '5') >= 0) {
                 $components['CiviMail'] = ts('CiviMail');

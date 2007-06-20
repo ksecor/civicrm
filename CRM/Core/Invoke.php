@@ -225,6 +225,13 @@ class CRM_Core_Invoke
                 $view =& new CRM_Contact_Page_View_Contribution( );
                 break;
 
+            case 'grant':
+                if ( ! CRM_Core_Permission::check('access CiviGrant') ) {
+                    CRM_Core_Error::fatal( 'You do not have access to this page' );
+                }
+                require_once 'CRM/Contact/Page/View/Grant.php'; 
+                $view =& new CRM_Contact_Page_View_Grant( );
+                break;
            
             case 'membership':
                 if ( ! CRM_Core_Permission::check('access CiviMember') ) {

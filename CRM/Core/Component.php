@@ -77,6 +77,14 @@ class CRM_Core_Component
                        'url'     => 'mailing',
                        'perm'    => array( 'access CiviMail' ),
                        'search'  => 0 );
+                       
+            self::$_info['CiviGrant'] = 
+                array( 'title'   => 'CiviCRM Grant Management Engine',
+                       'path'    => 'CRM_Grant_',
+                       'url'     => 'grant',
+                       'perm'    => array( 'access CiviGrant' ),
+                       'search'  => 0 );                       
+                       
 
             self::$_info['Quest'] =
                 array( 'title'   => 'Quest Application Process',

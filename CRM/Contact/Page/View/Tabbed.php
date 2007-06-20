@@ -171,6 +171,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                                  'weight' => $weight );
             $weight += 10;
         }
+        
+
 
         // get the events, new style of doing stuff
         // do the below only if the person has access to events
@@ -183,7 +185,19 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                                              'weight' => $weight );
             $weight += 10;
         }
-        
+
+        // get the grants, new style of doing stuff
+        // do the below only if the person has access to grants
+        if ( CRM_Core_Permission::access( 'CiviGrant' ) ) {
+        // FIXME! FIXME! FIXME! && $this->_viewOptions[ts('Grants')] ) {
+            $allTabs[] = array ( 'id'  => 'grant',
+                                 'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/grant',
+                                                                  "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
+                                 'title'  => ts('Grants'),
+                                 'weight' => $weight );
+            $weight += 10;
+        }
+
         $rest = array( 'activity'      => ts( 'Activities'    ),
                        'rel'           => ts( 'Relationships' ),
                        'group'         => ts( 'Groups'        ),
@@ -192,6 +206,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                        'log'           => ts( 'Change Log'    ),
                        'case'          => ts( 'Case'          )
                        );
+
 
         foreach ( $rest as $k => $v ) {
             if ( ! $this->_viewOptions[$v] ) {
