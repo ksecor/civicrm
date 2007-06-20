@@ -228,6 +228,8 @@ VALUES
   (@option_group_id_asOpt, '{ts}Contributions{/ts}'       ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Memberships{/ts}'         ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Events{/ts}'              ,  10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts}Case{/ts}'                ,  11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
+
 
   (@option_group_id_udOpt, '{ts}Groups{/ts}'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, '{ts}Contributions{/ts}', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
