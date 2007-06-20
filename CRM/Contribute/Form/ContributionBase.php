@@ -182,7 +182,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
             $ppID = CRM_Utils_Array::value( 'payment_processor_id', $this->_values );
             if ( ! $ppID ) {
-                CRM_Core_Error::fatal( ts( 'Please set a payment processor in your contribution page' ) );
+                CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this contribution page (contact the site administrator for assistance).' ) );
             }
 
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
