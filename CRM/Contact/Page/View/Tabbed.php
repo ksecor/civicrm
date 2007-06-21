@@ -199,12 +199,13 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
 
         $rest = array( 'activity'      => ts( 'Activities'    ),
+                       'case'          => ts( 'Cases'         ),
                        'rel'           => ts( 'Relationships' ),
                        'group'         => ts( 'Groups'        ),
                        'note'          => ts( 'Notes'         ),
                        'tag'           => ts( 'Tags'          ),
-                       'log'           => ts( 'Change Log'    ),
-                       'case'          => ts( 'Case'          )
+                       'log'           => ts( 'Change Log'    )
+
                        );
 
 
