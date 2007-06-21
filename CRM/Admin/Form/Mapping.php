@@ -52,7 +52,7 @@ class CRM_Admin_Form_Mapping extends CRM_Admin_Form
         $mapping =& new CRM_Core_DAO_Mapping(); 
         $mapping->id = $this->_id;
         $mapping->find(true);
-        $this->assign('mappingType', $mapping->mapping_type);
+        $this->assign('mappingName', $mapping->name);
     }
     
     public function buildQuickForm( ) 
