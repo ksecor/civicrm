@@ -44,9 +44,9 @@
 require_once 'api/v2/utils.php';
 
 /**
- * Create a Event Participants
+ * Create an Event Participant
  *  
- * This API is used for creating a Participants of Event.
+ * This API is used for creating a participants in an event.
  * Required parameters : event_id AND contact_id.
  * 
  * @param   array  $params     an associative array of name/value property values of civicrm_participant
@@ -118,7 +118,7 @@ function &civicrm_participant_get( &$params ) {
     
 
     if ( count( $participant ) != 1 &&
-         ! $participant['returnFirst'] ) {
+         ! CRM_Utils_Array::value( 'returnFirst', $params ) ) {
         return civicrm_create_error( ts( '%1 participant matching input params', array( 1 => count( $participant ) ) ) );
     }
 
