@@ -5,7 +5,7 @@
 <table class="report"> 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/component' q='reset=1'}" id="idComponents">&raquo; {ts}Enable Components{/ts}</a></td>
-    <td>{ts}Enable CiviContribute, CiviEvent, CiviMember and/or CiviMail components.{/ts}</td>
+    <td>{ts}Enable CiviContribute, CiviEvent, CiviMember, CiviGrant and/or CiviMail components.{/ts}</td>
 </tr>
 
 <tr>
