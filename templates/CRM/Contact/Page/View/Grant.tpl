@@ -9,9 +9,46 @@
     {/if}
 </div>
 
-{if $rows}
+{if $grants}
+
+blaha
+
+<div id="grant">
+    <div class="form-item" id=grant_id>
+
+    {strip}
+       
+        <table  dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">   
+       <thread> 
+        <tr class="columnheader">
+            <th field="Status" dataType="String">{ts}Grant Status{/ts}</th>
+            <th field="Type" dataType="String">{ts}Grant Type{/ts}</th>
+            <th field="Subject" dataType="String">{ts}Amount requested{/ts}</th>
+            <th field="Start Date" dataType="String">{ts}Application received date{/ts}</th>
+            <th datatype="html"></th>
+
+	        <th scope="col" title="Action Links"></th>
+        </tr>
+       </thread>
+       <tbody> 
+        {foreach from=$grants item=grant}
+        <tr class="{cycle values="odd-row,even-row"}">
+
+            <td>{$grant.status_id}</td>
+            <td>{$grant.grant_type_id}</td>  
+            <td>{$grant.amount_requested}</td> 
+            <td>{$grant.application_received_date|crmDate}</td>
+
+            <td class="nowrap">{$grant.action}</td>
+        </tr>
+        {/foreach}
+        </tbody>
+        </table>
+    {/strip}
 
 
+    </div>
+ </div>
     
 {else}
    <div class="messages status">

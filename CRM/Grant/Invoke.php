@@ -72,7 +72,7 @@ class CRM_Grant_Invoke
         if ( $args[1] !== 'grant' ) {  
             return;  
         }
-       
+
         $session =& CRM_Core_Session::singleton( );
         $config  =& CRM_Core_Config::singleton ( );
 

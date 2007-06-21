@@ -143,9 +143,19 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
             $statuses[$dao->id] = $dao->label;
         }
 
-
-        
         return $statuses;
+    }
+
+
+    /**
+     * Function to retrieve grant types.
+     * 
+     * @static
+     * @return array Array of grant summary statistics
+     */
+    static function getGrantTypes( ) {
+        require_once 'CRM/Core/BAO/OptionValue.php';
+        return CRM_Core_OptionGroup::values( CRM_Grant_BAO_Grant::$typeGroupName );
     }
 
     /**

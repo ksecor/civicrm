@@ -66,15 +66,29 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
      * @access public
      */
     function browse( ) {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Search', 
-                                                       ts('Show grants'), 
-                                                       $this->_action );
-                                                       
-        $controller->setEmbedded( true ); 
-        $controller->set( 'id' , $this->_id ); 
-        $controller->set( 'cid', $this->_contactId ); 
-        
-        return $controller->run( );
+        $links  =& self::links( );
+        $action = array_sum(array_keys($links));
+
+        require_once 'CRM/Grant/BAO/Grant.php';
+
+        $grantStatus = CRM_Grant_BAO_Grant::getGrantStatuses();
+
+        $grantType = CRM_Grant_BAO_Grant::getGrantTypes();
+                                
+        require_once 'CRM/Grant/DAO/Grant.php';
+        $grant = new CRM_Grant_DAO_Grant( );
+        $grant->contact_id = $this->_contactId;
+        $grant->find();
+        while ( $grant->fetch() ) { 
+            CRM_Core_DAO::storeValues( $grant, $values[$grant->id] );
+            $values[$grant->id]['action'] = CRM_Core_Action::formLink( $links,
+                                                                       $action,
+                                                                       array( 'id'  => $grant->id,
+                                                                       'cid' => $this->_contactId ) );
+            $values[$grant->id]['status_id'] = $grantStatus[$values[$grant->id]['status_id']];
+        }
+
+        $this->assign( 'grants', $values );
 
     }
 
@@ -87,7 +101,7 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
     function edit( ) 
     {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant', 
-                                                       'Create Grant', 
+                                                       'Create grant', 
                                                        $this->_action );
         $controller->setEmbedded( true ); 
         $controller->set( 'id' , $this->_id ); 

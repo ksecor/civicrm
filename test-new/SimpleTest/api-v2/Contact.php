@@ -16,6 +16,7 @@ class TestOfContactAPIV2 extends CiviUnitTestCase
     
     function tearDown() 
     {
+        // all created contacts torn down in testDeleteContacts() method
     }
     
     function testCreateEmptyContact() 
@@ -49,7 +50,7 @@ class TestOfContactAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $contact['is_error'], 1 );
     }
     
-    function testCreateBadRequiredFieldsOrganization() 
+    function testCreateBadRequiredFieldsOrganization()
     {
         $params = array('middle_name' => 'This field is not required',
                         'contact_type' => 'Organization' );
@@ -123,6 +124,7 @@ class TestOfContactAPIV2 extends CiviUnitTestCase
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
+
     
     function testCreateIndividualwithPhone() 
     {
