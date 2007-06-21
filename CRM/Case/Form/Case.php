@@ -74,7 +74,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     function setDefaultValues( ) 
     {
         $defaults = array( );
-       
+        
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
             require_once 'CRM/Case/BAO/Case.php' ;
@@ -90,11 +90,8 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      * @return None 
      * @access public 
      */ 
-    public function buildQuickForm( )  
-    {         
-
- 
-
+    public function buildQuickForm( )
+    {
         $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
         $this->add('select', 'status_id',  ts( 'Case Status' ),  
                    array( '' => ts( '-select-' ) ) + $caseStatus , true);
@@ -102,11 +99,11 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $caseType = CRM_Core_OptionGroup::values('f1_case_type');
         $this->add('select', 'casetag1_id',  ts( 'Case Type' ),  
                    array( '' => ts( '-select-' ) ) + $caseType , true);
-
+        
         $caseSubType = CRM_Core_OptionGroup::values('f1_case_sub_type');
         $this->add('select', 'casetag2_id',  ts( 'Case Sub Type' ),  
                    array( '' => ts( '-select-' ) ) + $caseSubType , true);
-
+        
         $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
         $this->add('select', 'casetag3_id',  ts( 'Violation' ),  
                    array( '' => ts( '-select-' ) ) + $caseViolation , true);
@@ -118,21 +115,28 @@ class CRM_Case_Form_Case extends CRM_Core_Form
                     CRM_Core_SelectValues::date('date' ),
                     false); 
         $this->add('textarea', 'details', ts('Notes'));
-       
+        
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
-        }
-       
-        $this->addButtons(array( 
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Save'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ), 
-                                array ( 'type'      => 'cancel', 
-                                        'name'      => ts('Cancel') ), 
-                                ) 
-                          );
+            $this->addButtons(array(  
+                                    array ( 'type'      => 'next',  
+                                            'name'      => ts('Done'),  
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',  
 
+                                            'isDefault' => true   )
+                                    )
+                              );
+        }else {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next',
+                                            'name'      => ts('Save'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
+        }
     }
     
     /**  
@@ -158,15 +162,15 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      * @access public 
      * @return None 
      */ 
-    public function postProcess( )  
-     { 
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
-            CRM_Case_BAO_Case::deleteCase( $this->_id );
+    public function postProcess( )
+    {
+        if( $this->_action & CRM_Core_Action::VIEW ) {
             return;
         }
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $ids['case'] = $this->_id ;
         }
+       
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
         $formValues['contact_id'] = $this->_contactID;
@@ -174,7 +178,6 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $formValues['end_date'] = CRM_Utils_Date::format($formValues['end_date']);
         require_once 'CRM/Case/BAO/Case.php';
         $case =  CRM_Case_BAO_Case::create($formValues ,$ids);
-        
     }
 }
 

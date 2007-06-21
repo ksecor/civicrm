@@ -60,12 +60,15 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case',  
                                                        'View Case',  
                                                        $this->_action ); 
-        $controller->setEmbedded( true );  
+        $controller->setEmbedded( true ); 
+        // set the userContext stack
+        $session =& CRM_Core_Session::singleton();
+        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
+        $session->pushUserContext( $url ); 
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );  
         
         return $controller->run( ); 
-
     }
 
     /**
@@ -116,6 +119,13 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $session =& CRM_Core_Session::singleton();
         $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
         $session->pushUserContext( $url );
+        
+        if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
+                                        CRM_Core_DAO::$_nullObject )) {
+            require_once 'CRM/Case/BAO/Case.php';
+            CRM_Case_BAO_Case::deleteCase( $this->_id );
+            CRM_Utils_System::redirect($url);
+        }
 
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
@@ -135,27 +145,14 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
 
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
-        } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
+        } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
             $this->edit( );
-        } else if ( $this->_action & CRM_Core_Action::DELETE ) {
-            $this->delete( );
         }
-
+        
         $this->browse( );
         return parent::run( );
     }
 
-    /**
-     * delete the case object from the db
-     *
-     * @return void
-     * @access public
-     */
-    function delete( ) {
-        require_once 'CRM/Case/BAO/Case.php';
-        CRM_Case_BAO_Case::deleteCase( $this->_id );
-        
-    }
 
     /**
      * Get action links

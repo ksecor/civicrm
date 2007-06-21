@@ -1,7 +1,6 @@
 <div class="view-content">
-{if $action eq 1 or $action eq 2} {* add, update or delete *}            
+{if $action eq 1 or $action eq 2 or $action eq 4} {* add, update,View or delete *}            
     {include file="CRM/Case/Form/Case.tpl"}
-{elseif $action eq 4}
 
 {else}
 <div id="help">
