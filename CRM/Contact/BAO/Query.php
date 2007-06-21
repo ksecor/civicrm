@@ -1049,6 +1049,11 @@ class CRM_Contact_BAO_Query {
 
             require_once 'CRM/Core/Component.php';
             CRM_Core_Component::alterQuery( $this, 'where' );
+            
+            if ( substr ($this->_params[$id][0], 0 , 5) == 'case_') {
+                require_once 'CRM/Case/BAO/Query.php';
+                CRM_Case_BAO_Query::where( $this );
+            }
         }
         
         if ( $this->_customQuery ) {
