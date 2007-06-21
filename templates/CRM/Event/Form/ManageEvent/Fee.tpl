@@ -4,18 +4,26 @@
 
 <div class="form-item">
 <fieldset><legend>{ts}Event Fees{/ts}</legend>
+    {if !$paymentProcessor}
+        {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
+        <div class="status message">
+                {ts 1=$ppUrl 2=$docURLTitle 3="http://wiki.civicrm.org/confluence//x/ihk"}No Payment Processor has been configured / enabled for your site. If this is a Paid Event, you will need to <a href="%1">configure a Payment Processor</a> first. Then return to this screen and assign the processor to this Event. (<a href="%3" target="_blank" title="%2">read more...</a>){/ts}
+        </div>
+    {/if}
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     <dt>{$form.is_monetary.label}</dt><dd>{$form.is_monetary.html}</dd>
     </dl>
-  								
+
     <div id="event-fees">
-	<div id="paymentProcessor">
+        {if $paymentProcessor}
+        <div id="paymentProcessor">
             <dl>
               <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts}This payment processor will be used to process payments.{/ts}
+              <dt>&nbsp;</dt><dd class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Select the payment processor to be used to process Event Registration fees for this event. (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}</dd>
             </dl>
         </div>
+        {/if}
            
         <div id="contributionType">
             <dl>

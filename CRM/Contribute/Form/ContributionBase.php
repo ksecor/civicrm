@@ -168,34 +168,48 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 // form is inactive, die a fatal death
                 CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
             }
-            if(isset( $this->_values['is_thermometer'] ) )
+
+            if (isset( $this->_values['is_thermometer'] ) ) {
                 $session->set( 'pastContributionThermometer', $this->_values['is_thermometer'] );
-
-            // also check for billing informatin
-            // get the billing location type
-            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-            $this->_bltID = array_search( ts('Billing'),  $locationTypes );
-            if ( ! $this->_bltID ) {
-                CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
-            }
-            $this->set   ( 'bltID', $this->_bltID );
-
-            $ppID = CRM_Utils_Array::value( 'payment_processor_id', $this->_values );
-            if ( ! $ppID ) {
-                CRM_Core_Error::fatal( ts( 'Please set a payment processor in your contribution page' ) );
             }
 
-            require_once 'CRM/Core/BAO/PaymentProcessor.php';
-            $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
-                                                                                  $this->_mode );
-            $this->set( 'paymentProcessor', $this->_paymentProcessor );
+            // check for is_monetary status
+            $isMonetary = CRM_Utils_Array::value( 'is_monetary', $this->_values );
 
-            if ( ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) &&
-                 CRM_Utils_Array::value('is_monetary', $this->_values) ) {
-                require_once 'CRM/Core/Payment/Form.php';
-                CRM_Core_Payment_Form::setCreditCardFields( $this );
-            }
 
+            if ( $isMonetary ) {
+                $ppID = CRM_Utils_Array::value( 'payment_processor_id', $this->_values );
+                if ( ! $ppID ) {
+                    CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this contribution page (contact the site administrator for assistance).' ) );
+                }
+                
+                // also check for billing informatin
+                // get the billing location type
+                $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+                $this->_bltID = array_search( ts('Billing'),  $locationTypes );
+                if ( ! $this->_bltID ) {
+                    CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+                }
+                $this->set   ( 'bltID', $this->_bltID );
+                
+                $ppID = CRM_Utils_Array::value( 'payment_processor_id', $this->_values );
+                
+                if ( !$ppID ) {
+                    CRM_Core_Error::fatal( ts( 'Please set a payment processor in your contribution page' ) );
+                }
+                
+                require_once 'CRM/Core/BAO/PaymentProcessor.php';
+                $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
+                                                                                      $this->_mode );
+                $this->set( 'paymentProcessor', $this->_paymentProcessor );
+                
+                if ( ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) &&
+                     CRM_Utils_Array::value('is_monetary', $this->_values) ) {
+                    require_once 'CRM/Core/Payment/Form.php';
+                    CRM_Core_Payment_Form::setCreditCardFields( $this );
+                }
+            }                
+            
             // this avoids getting E_NOTICE errors in php
             $setNullFields = array( 'amount_block_is_active',
                                     'honor_block_is_active' ,
@@ -206,7 +220,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                     $this->_values[$f] = null;
                 }
             }
-
+            
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
 

@@ -55,7 +55,7 @@ class TestOfActivityDeleteAPIV2 extends CiviUnitTestCase
     /**
      * check activity deletion with incorrect data
      */
-    function testDeleteActivityWithoutIncorrectActivityType( )
+    function testDeleteActivityWithIncorrectActivityType( )
     {
         $params = array( 'id' => $this->_activityId,
                          'activity_name' => 'Phone Call'

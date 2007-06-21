@@ -259,7 +259,14 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         $roles  = CRM_Event_PseudoConstant::participantRole( );
         $status = CRM_Event_PseudoConstant::participantStatus( );
 
-        $activitySummary = $event[$participant->event_id].' - '.$roles[$participant->role_id].' - ' .$status[$participant->status_id];
+        $activitySummary = $event[$participant->event_id];
+        if ( CRM_Utils_Array::value( $participant->role_id, $roles ) ) {
+            $activitySummary .= ' - ' . $roles[$participant->role_id]; 
+        }
+        if ( CRM_Utils_Array::value( $participant->status_id, $status ) ) {
+            $activitySummary .= ' - ' . $status[$participant->status_id]; 
+        }
+
         $activityHistory = array('entity_table'     => 'civicrm_contact',
                                  'entity_id'        => $participant->contact_id,
                                  'activity_type'    => 'Event Registration',

@@ -1,5 +1,6 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
 {include file="CRM/common/WizardHeader.tpl"}
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
     {if $action eq 0}
         <p>{ts}This is the first step in creating a new online Contribution Page. You can create one or more different Contribution Pages for different purposes, audiences, campaigns, etc. Each page can have it's own introductory message, pre-configured contribution amounts, custom data collection fields, etc.{/ts}</p>
@@ -11,13 +12,21 @@
  
 <div class="form-item">
     <fieldset><legend>{ts}Title and Settings{/ts}</legend>
+    {if !$paymentProcessor}
+        {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
+        <div class="status message">
+                {ts 1=$ppUrl 2=$docURLTitle 3="http://wiki.civicrm.org/confluence//x/ihk"}No Payment Processor has been configured / enabled for your site. Unless you are only using CiviContribute to solicit non-monetary / in-kind contributions, you will need to <a href="%1">configure a Payment Processor</a>. Then return to this screen and assign the processor to this Contribution Page. (<a href="%3" target="_blank" title="%2">read more...</a>){/ts}
+        </div>
+    {/if}
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}This title will be displayed at the top of the page.{/ts}</dd>
     <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</dd>
-    <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select the payment processor that handles this contribution page.{/ts}</dd>
+    {if $paymentProcessor}
+        <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Select the payment processor to be used for contributions submitted from this contribution page (unless you are soliciting non-monetary / in-kind contributions only). (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}</dd>
+    {/if}
     <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
