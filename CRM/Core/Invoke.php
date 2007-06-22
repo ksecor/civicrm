@@ -633,12 +633,12 @@ class CRM_Core_Invoke
             
         case 'deduperules':
             require_once 'CRM/Admin/Page/DedupeRules.php';
-            $view =& new CRM_Admin_Page_DedupeRules(ts('Duplicate Matching Rules'));
+            $view =& new CRM_Admin_Page_DedupeRules(ts('Duplicate Contact Rules'));
             break;
             
         case 'dupematch':
             require_once 'CRM/Admin/Page/DupeMatch.php';
-            $view =& new CRM_Admin_Page_DupeMatch(ts('Duplicate Matching'));
+            $view =& new CRM_Admin_Page_DupeMatch(ts('Contact Matching'));
             break;
             
         case 'optionGroup':

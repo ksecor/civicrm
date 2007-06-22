@@ -45,11 +45,11 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
 
     static function &add( &$params ) {
         $email =& new CRM_Core_DAO_EmailHistory( );
-        
+                
         //Replace Tokens Before Saving to the DB
         $contactId  = array( 'contact_id' => $params['contact_id'] );
         $contact =& crm_fetch_contact( $contactId );
-
+        require_once 'CRM/Utils/Token.php';
         $params['message'] = CRM_Utils_Token::replaceContactTokens( $params['message'],
                                                                     $contact, false );
 

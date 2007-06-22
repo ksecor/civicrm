@@ -6,28 +6,35 @@
 </div>
 
 <div class="form-item">
-<fieldset>
-  <legend>{ts}Settings and Content{/ts}</legend>
-  <dl>
+  <fieldset><legend>{ts}Content{/ts}</legend>
+    <dl>
     <dt class="label">{$form.from_name.label}</dt><dd>{$form.from_name.html}</dd>
     <dt class="label">{$form.from_email.label}</dt><dd>{$form.from_email.html}</dd>
-    <dt class="label">{$form.forward_reply.label}</dt><dd>{$form.forward_reply.html}</dd>
-    <dt class="label">{$form.track_urls.label}</dt><dd>{$form.track_urls.html}</dd>
-    <dt class="label">{$form.track_opens.label}</dt><dd>{$form.track_opens.html}</dd>
-    <dt class="label">{$form.auto_responder.label}</dt><dd>{$form.auto_responder.html}</dd>
     <dt class="label">{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
     <dt class="label">{$form.header_id.label}</dt><dd>{$form.header_id.html}</dd>
-    <dt class="label">{$form.footer_id.label}</dt><dd>{$form.footer_id.html}</dd>
-    <dt class="label">{$form.reply_id.label}</dt><dd>{$form.reply_id.html}</dd>
-    <dt class="label">{$form.unsubscribe_id.label}</dt><dd>{$form.unsubscribe_id.html}</dd>
-    <dt class="label">{$form.optout_id.label}</dt><dd>{$form.optout_id.html}</dd>
     <dt class="label">{$form.textFile.label}</dt><dd>{$form.textFile.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Browse to the <strong>TEXT</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></dd>
     <dt class="label">{$form.htmlFile.label}</dt><dd>{$form.htmlFile.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Browse to the <strong>HTML</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></dd>
-  </dl>
+    <dt class="label">{$form.footer_id.label}</dt><dd>{$form.footer_id.html}</dd>
+    </dl>
+  </fieldset>
+  <fieldset><legend>{ts}Tracking{/ts}</legend> 
+    <dl>
+    <dt class="label">{$form.track_urls.label}</dt><dd>{$form.track_urls.html}</dd>
+    <dt class="label">{$form.track_opens.label}</dt><dd>{$form.track_opens.html}</dd>
+    </dl>
+  </fieldset>
+  <fieldset><legend>{ts}Responding{/ts}</legend> 
+    <dl>
+    <dt class="label">{$form.forward_reply.label}</dt><dd>{$form.forward_reply.html}</dd>
+    <dt class="label">{$form.auto_responder.label}</dt><dd>{$form.auto_responder.html}</dd>
+    <dt class="label">{$form.reply_id.label}</dt><dd>{$form.reply_id.html}</dd>
+    <dt class="label">{$form.unsubscribe_id.label}</dt><dd>{$form.unsubscribe_id.html}</dd>
+    <dt class="label">{$form.optout_id.label}</dt><dd>{$form.optout_id.html}</dd>
+   </dl>
+  </fieldset>
   <dl>
     <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
   </dl>
-</fieldset>
 </div>
