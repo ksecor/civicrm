@@ -105,7 +105,6 @@ class CRM_Case_BAO_Query
         case 'case_subject':
             
             $value = strtolower(addslashes(trim($value)));
-            
             $query->_where[$grouping][] = "civicrm_case.subject $op '{$value}'";
             $query->_qill[$grouping ][] = ts( 'Case Subject %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
@@ -114,8 +113,10 @@ class CRM_Case_BAO_Query
         case 'case_casetag1_id':
             
             $value = strtolower(addslashes(trim($value)));
-            
             $query->_where[$grouping][] = "civicrm_case.casetag1_id $op '{$value}'";
+            require_once 'CRM/Core/OptionGroup.php' ;
+            $caseType = CRM_Core_OptionGroup::values('f1_case_type');
+            $value = $caseType[$value];
             $query->_qill[$grouping ][] = ts( 'Case Type %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
@@ -123,8 +124,10 @@ class CRM_Case_BAO_Query
         case 'case_casetag2_id':
             
             $value = strtolower(addslashes(trim($value)));
-            
             $query->_where[$grouping][] = "civicrm_case.casetag2_id $op '{$value}'";
+            require_once 'CRM/Core/OptionGroup.php' ;
+            $caseSubtype = CRM_Core_OptionGroup::values('f1_case_sub_type');
+            $value = $caseSubtype[$value];
             $query->_qill[$grouping ][] = ts( 'Case SubType %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
@@ -132,8 +135,10 @@ class CRM_Case_BAO_Query
         case 'case_casetag3_id':
             
             $value = strtolower(addslashes(trim($value)));
-            
             $query->_where[$grouping][] = "civicrm_case.casetag3_id $op '{$value}'";
+            require_once 'CRM/Core/OptionGroup.php' ;
+            $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
+            $value = $caseViolation[$value];
             $query->_qill[$grouping ][] = ts( 'Case Voilation %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
@@ -141,8 +146,9 @@ class CRM_Case_BAO_Query
         case 'case_status_id':
             
             $value = strtolower(addslashes(trim($value)));
-            
             $query->_where[$grouping][] = "civicrm_case.status_id $op '{$value}'";
+            $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
+            $value  = $caseStatus[$value];
             $query->_qill[$grouping ][] = ts( 'Case Status %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
