@@ -3,6 +3,61 @@
 require_once '../../CRM/Contribute/BAO/ContributionType.php';
 
 class CiviUnitTestCase extends UnitTestCase {
+
+    /** 
+    * Generic function to compare expected values after an api call to retrieved
+    * DB values.
+    * 
+    * @daoName  string   DAO Name of object we're evaluating.
+    * @id       int      Id of object
+    * @match    array    Associative array of field name => expected value. Empty if asserting 
+    *                      that a DELETE occurred
+    * @delete   boolean  True if we're checking that a DELETE action occurred.
+    */
+    function assertDBState( $daoName, $id, $match, $delete=false ) {
+        if ( empty( $id ) ) {
+            // adding this year since developers forget to check for an id
+            // and hence we get the first value in the db
+            CRM_Core_Error::fatal( 'Please file an issue with the backtrace.' );
+            return null;
+        }
+        
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object   =& new ' . $daoName . '( );' );
+        $object->id =  $id;
+        $matchedCount = 0;
+        
+        // If we're asserting successful record deletion, make sure object is NOT found.
+        if ( $delete ) {
+            if ( $object->find( true ) ) {
+                $this->assertTrue("Could not retrieve object: $daoName, $id", false);
+            }
+            return;
+        }
+        
+        // Otherwise check matches of DAO field values against expected values in $match.
+        if ( $object->find( true ) ) {
+            $fields =& $object->fields( );
+            foreach ( $fields as $name => $value ) {
+                  $dbName = $value['name'];
+                  if ( isset( $match[$name] ) ) {
+                    $matchedCount++;
+                    $this->assertEqual( $object->$dbName, $match[$name] );
+                  } 
+                  if ( isset( $match[$dbName] ) ) {
+                    $matchedCount++;
+                    $this->assertEqual( $object->$dbName, $match[$dbName] );
+                  }
+            }
+        } else {
+            $this->assertTrue("Could not retrieve object: $daoName, $id", false);
+        }
+        $object->free( );
+        if ( $matchedCount != count( $match ) ) {
+            $this->assertTrue("Did not match all fields in match array: $daoName, $id", false);
+        }
+    }
+
     
     /** 
      * Generic function to create Organisation, to be used in test cases

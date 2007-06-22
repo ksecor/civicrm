@@ -54,25 +54,27 @@ require_once 'api/v2/utils.php';
  * @return array participant id if participant is created otherwise is_error = 1
  * @access public
  */
-function civicrm_participant_create(&$params)
+function &civicrm_participant_create(&$params)
 {
     _civicrm_initialize();
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
 
     if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Parameters is not an array' );
+        $error = civicrm_create_error( 'Parameters is not an array' );
+        return $error;
     }
     
 
     if ( !isset($params['event_id']) || !isset($params['contact_id'])) {
-        return civicrm_create_error( 'Required parameter missing' );
+        $error = civicrm_create_error( 'Required parameter missing' );
+        return $error;
     }
     if ( !isset($params['status_id'] )) {
         $params['status_id'] = 1;
     } 
     
     if ( !isset($params['register_date'] )) {
-             $params['register_date']= date( 'YmdHis' );
+        $params['register_date']= date( 'YmdHis' );
     }
 
     $ids= array();
@@ -81,10 +83,11 @@ function civicrm_participant_create(&$params)
     $participant = CRM_Event_BAO_Participant::create($params, $ids);
 
     if ( is_a( $participant, 'CRM_Core_Error' ) ) {
-        return civicrm_create_error( "Participant is not created" );
+        $error = civicrm_create_error( "Participant is not created" );
+        return $error;
     } else {
         $values = array( );
-        $values['participant_id'] = $participant->id;
+        $values['id'] = $participant->id;
         $values['is_error']   = 0;
     }
     return $values;
@@ -107,19 +110,27 @@ function &civicrm_participant_get( &$params ) {
  
     $values = array( );
     if ( empty( $params ) ) {
-        return civicrm_create_error( ts( 'No input parameters present' ) );
+        $error = civicrm_create_error( ts( 'No input parameters present' ) );
+        return $error;
     }
     
     if ( ! is_array( $params ) ) {
-        return civicrm_create_error( ts( 'Input parameters is not an array' ) );
+        $error = civicrm_create_error( ts( 'Input parameters is not an array' ) );
+        return $error;
     }
 
+    if ( isset ( $params['id'] ) ) {
+        $params['participant_id' ] = $params['id'];
+        unset( $params['id'] );
+    }
+    
     $participant  =& civicrm_participant_search( $params );
     
 
     if ( count( $participant ) != 1 &&
          ! CRM_Utils_Array::value( 'returnFirst', $params ) ) {
-        return civicrm_create_error( ts( '%1 participant matching input params', array( 1 => count( $participant ) ) ) );
+        $error = civicrm_create_error( ts( '%1 participant matching input params', array( 1 => count( $participant ) ) ) );
+        return $error;
     }
 
     if ( civicrm_error( $participant ) ) {
@@ -141,7 +152,7 @@ function &civicrm_participant_get( &$params ) {
  * @access public
  */  
 
-function civicrm_participant_search( &$params ) {
+function &civicrm_participant_search( &$params ) {
 
     $inputParams      = array( );
     $returnProperties = array( );
@@ -197,15 +208,17 @@ function civicrm_participant_search( &$params ) {
  * @return array of updated participant property values
  * @access public
  */
-function civicrm_participant_update(&$params)
+function &civicrm_participant_update(&$params)
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Parameters is not an array' );
+        $error = civicrm_create_error( 'Parameters is not an array' );
+        return $error;
     }
     
     if ( !isset($params['id']) ) {
-        return civicrm_create_error( 'Required parameter missing' );
+        $error = civicrm_create_error( 'Required parameter missing' );
+        return $error;
     }
     
     require_once 'CRM/Event/BAO/Participant.php';
@@ -249,23 +262,30 @@ function civicrm_participant_update(&$params)
  * @return boolean        true if success, else false
  * @access public
  */
-function civicrm_participant_delete( &$params )
+function &civicrm_participant_delete( &$params )
 {
     _civicrm_initialize();
     
     if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Params is not an array' );
+        $error = civicrm_create_error( 'Params is not an array' );
+        return $error;
     }
     
     if ( !isset($params['id'])) {
-        return civicrm_create_error( 'Required parameter missing' );
+        $error = civicrm_create_error( 'Required parameter missing' );
+        return $error;
     }
-   
+
     require_once 'CRM/Event/BAO/Participant.php';
     $participant = new CRM_Event_BAO_Participant();
     $result = $participant->deleteParticipant( $params['id'] );
     
-    return $result ? civicrm_create_success( ) : civicrm_create_error('Error while deleting participant');
+    if ( $result ) {
+        $values = civicrm_create_success( );
+    } else {
+        $values = civicrm_create_error('Error while deleting participant');
+    }
+    return $values;
 }
 
 
@@ -280,15 +300,17 @@ function civicrm_participant_delete( &$params )
  * @return array of newly created payment property values.
  * @access public
  */
-function civicrm_participant_payment_create(&$params)
+function &civicrm_participant_payment_create(&$params)
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Params is not an array' );
+        $error = civicrm_create_error( 'Params is not an array' );
+        return $error;
     }
     
     if ( !isset($params['participant_id']) || !isset($params['payment_entity_id']) ) {
-        return civicrm_create_error( 'Required parameter missing' );
+        $error = civicrm_create_error( 'Required parameter missing' );
+        return $error;
     }
    
     $ids= array();
@@ -297,7 +319,8 @@ function civicrm_participant_payment_create(&$params)
     $participantPayment = CRM_Event_BAO_ParticipantPayment::create($params, $ids);
     
     if ( is_a( $participantPayment, 'CRM_Core_Error' ) ) {
-        return civicrm_create_error( "Participant payment could not be created" );
+        $error = civicrm_create_error( "Participant payment could not be created" );
+        return $error;
     } else {
         $payment = array( );
         $payment['id'] = $participantPayment->id;
@@ -311,22 +334,24 @@ function civicrm_participant_payment_create(&$params)
  * Update an existing contact participant payment
  *
  * This api is used for updating an existing contact participant payment
- * Required parrmeters : id of a participant_payment
+ * Required parameters : id of a participant_payment
  * 
  * @param  Array   $params  an associative array of name/value property values of civicrm_participant_payment
  * 
  * @return array of updated participant_payment property values
  * @access public
  */
-function civicrm_participant_payment_update( &$params )
+function &civicrm_participant_payment_update( &$params )
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Params is not an array' );
+        $error = civicrm_create_error( 'Params is not an array' );
+        return $error;
     }
     
     if ( !isset($params['id']) ) {
-        return civicrm_create_error( 'Required parameter missing' );
+        $error = civicrm_create_error( 'Required parameter missing' );
+        return $error;
     }
 
     $ids = array();
@@ -356,11 +381,13 @@ function civicrm_participant_payment_delete( &$params )
     _civicrm_initialize();
     
     if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Params is not an array' );
+        $error = civicrm_create_error( 'Params is not an array' );
+        return $error;
     }
     
     if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
-        return civicrm_create_error( 'Invalid or no value for Participant payment ID' );
+        $error = civicrm_create_error( 'Invalid or no value for Participant payment ID' );
+        return $error;
     }
     require_once 'CRM/Event/BAO/ParticipantPayment.php';
     $participant = new CRM_Event_BAO_ParticipantPayment();

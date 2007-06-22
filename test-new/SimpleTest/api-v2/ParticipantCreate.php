@@ -5,12 +5,13 @@ require_once 'api/v2/Participant.php';
 class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase 
 {
     protected $_contactID;
-    protected $_createdParticipants = array();
+    protected $_createdParticipants;
 
     
     function setUp() 
     {
         $this->_contactID = $this->individualCreate( ) ;
+	$this->_createdParticipants = array( );
     }
 
     function tearDown()
@@ -57,19 +58,19 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
                         'event_id'      => 1,
                         );
         $participant = & civicrm_participant_create($params); 
-        if ( CRM_Utils_Array::value('id', $participant) ) {
-            $this->_createdParticipants[] = $participant['id'];
-        }
         $this->assertNotEqual( $participant['is_error'],1 );
-        
-        // Use civicrm_participant_get to retrieve created record, then compare stored values.
-        $params = array(
-                        'participant_id' => $participant['participant_id']
-                        );
-        $result = &civicrm_participant_get( $params );
-//        CRM_Core_Error::debug('result',$result);
-        $this->assertEqual($result['event_id'],1);
-        $this->assertEqual($result['participant_status_id'],1);
+
+        if ( ! $participant['is_error'] ) {
+            $this->_createdParticipants[] = CRM_Utils_Array::value('id', $participant);
+            
+            // Create $match array with DAO Field Names and expected values
+            $match = array(
+                           'event_id'                   => 1,
+                           'participant_status_id'      => 1,
+                           );
+            // assertDBState compares expected values in $match to actual values in the DB              
+            $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['id'], $match ); 
+        }
     }
     
     function testParticipantCreateAllParams()
@@ -85,22 +86,23 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $participant = & civicrm_participant_create($params);
-        if ( CRM_Utils_Array::value('participant_id', $participant) ) {
-            $this->_createdParticipants[] = $participant['participant_id'];
-        }
         $this->assertNotEqual( $participant['is_error'],1 );
 
-        // Use civicrm_participant_get to retrieve created record, then compare stored values.
-        $params = array(
-                        'participant_id' => $participant['participant_id']
-                        );
-        $result = &civicrm_participant_get( $params );
-        $this->assertEqual($result['event_id'],2);
-        $this->assertEqual($result['participant_status_id'],1);
-        $this->assertEqual($result['participant_role_id'],1);
-        $this->assertEqual($result['participant_register_date'], '2007-07-21 00:00:00');
-        $this->assertEqual($result['participant_source'],'Online Event Registration: API Testing');
-        $this->assertEqual($result['event_level'],'Tenor');
+        if ( ! $participant['is_error'] ) {
+            $this->_createdParticipants[] = CRM_Utils_Array::value('id', $participant);
+
+            // Create $match array with DAO Field Names and expected values
+            $match = array(
+                       'event_id'                   => 2,
+                       'participant_status_id'      => 1,
+                       'participant_role_id'        => 1,
+                       'participant_register_date'  => '2007-07-21 00:00:00',
+                       'participant_source'         => 'Online Event Registration: API Testing',
+                       'event_level'                => 'Tenor',
+                       );
+            // assertDBState compares expected values in $match to actual values in the DB              
+            $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['id'], $match ); 
+        }
     }
     
 }
