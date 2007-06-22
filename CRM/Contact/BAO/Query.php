@@ -39,7 +39,7 @@ require_once 'CRM/Core/DAO/Phone.php';
 require_once 'CRM/Core/DAO/Email.php';
 
 
-class CRM_Contact_BAO_Query {
+class CRM_ontact_BAO_Query {
   
     /**
      * The various search modes
@@ -1422,7 +1422,10 @@ class CRM_Contact_BAO_Query {
         // to handle table dependencies of components
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::tableNames( $tables );
-
+ 
+        require_once 'CRM/Case/BAO/Query.php';
+        CRM_Case_BAO_Query::tableNames( $tables );
+       
         //format the table list according to the weight
         require_once 'CRM/Core/TableHierarchy.php';
         $info =& CRM_Core_TableHierarchy::info( );
@@ -1475,7 +1478,7 @@ class CRM_Contact_BAO_Query {
                 }
                 continue;
             }
-
+            
             switch ( $name ) {
 
             case 'civicrm_individual':
@@ -1638,6 +1641,10 @@ class CRM_Contact_BAO_Query {
                 $from .= " $side JOIN civicrm_task_status ON ( civicrm_task_status.responsible_entity_table = 'civicrm_contact'
                                                           AND contact_a.id = civicrm_task_status.responsible_entity_id )";
                 continue;
+
+            case 'civicrm_case':
+                $from .= CRM_Case_BAO_Query::from( $name, $mode, $side );
+                continue; 
 
             default:
                 $from .= CRM_Core_Component::from( $name, $mode, $side );

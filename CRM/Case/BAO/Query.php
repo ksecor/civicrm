@@ -38,7 +38,11 @@ class CRM_Case_BAO_Query
     
     static function &getFields( ) 
     {
-       
+        $fields = array( );
+        require_once 'CRM/Case/DAO/Case.php';
+        $fields = array_merge( $fields, CRM_Case_DAO_Case::import( ) );
+        
+        return $fields;  
     }
 
     /** 
@@ -49,8 +53,18 @@ class CRM_Case_BAO_Query
      */
     static function select( &$query ) 
     {
-        $query->_select['casetag1_id'] = "civicrm_case.casetag1_id as case_type";
+        $query->_select['casetag1_id'] = "civicrm_case.casetag1_id as Case type";
         $query->_element['casetag1_id'] = 1;
+        $query->_tables['civicrm_case'] = 1;
+        $query->_whereTables['civicrm_case'] = 1;
+ 
+        $query->_select['casetag2_id'] = "civicrm_case.casetag2_id as case subtype";
+        $query->_element['casetag2_id'] = 1;
+        $query->_tables['civicrm_case'] = 1;
+        $query->_whereTables['civicrm_case'] = 1;
+
+        $query->_select['casetag3_id'] = "civicrm_case.casetag3_id as case violation";
+        $query->_element['casetag3_id'] = 1;
         $query->_tables['civicrm_case'] = 1;
         $query->_whereTables['civicrm_case'] = 1;
         
@@ -60,7 +74,13 @@ class CRM_Case_BAO_Query
         $query->_whereTables['civicrm_case'] = 1;
     }
 
- 
+     /** 
+     * Given a list of conditions in query generate the required
+     * where clause
+     * 
+     * @return void 
+     * @access public 
+     */ 
     static function where( &$query ) 
     {
         foreach ( array_keys( $query->_params ) as $id ) {
@@ -70,7 +90,12 @@ class CRM_Case_BAO_Query
         }
     }
     
-  
+    /** 
+     * where clause for a single field
+     * 
+     * @return void 
+     * @access public 
+     */ 
     static function whereClauseSingle( &$values, &$query ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
@@ -82,11 +107,53 @@ class CRM_Case_BAO_Query
             $value = strtolower(addslashes(trim($value)));
             
             $query->_where[$grouping][] = "civicrm_case.subject $op '{$value}'";
-            $query->_qill[$grouping ][] = ts( 'Case %2 %1', array( 1 => $value, 2 => $op) );
-            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 
-                " LEFT JOIN civicrm_case ON ( contact_a.id = civicrm_case.contact_id ) ";;
-            
+            $query->_qill[$grouping ][] = ts( 'Case Subject %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
+
+        case 'case_casetag1_id':
+            
+            $value = strtolower(addslashes(trim($value)));
+            
+            $query->_where[$grouping][] = "civicrm_case.casetag1_id $op '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Case Type %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            return;
+
+        case 'case_casetag2_id':
+            
+            $value = strtolower(addslashes(trim($value)));
+            
+            $query->_where[$grouping][] = "civicrm_case.casetag2_id $op '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Case SubType %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            return;
+
+        case 'case_casetag3_id':
+            
+            $value = strtolower(addslashes(trim($value)));
+            
+            $query->_where[$grouping][] = "civicrm_case.casetag3_id $op '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Case Voilation %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            return;
+        
+        case 'case_status_id':
+            
+            $value = strtolower(addslashes(trim($value)));
+            
+            $query->_where[$grouping][] = "civicrm_case.status_id $op '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Case Status %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            return;
+
+        case 'case_start_date_low':
+        case 'case_start_date_high':
+            
+             $query->dateQueryBuilder( $values,
+                                      'civicrm_case', 'case_start_date', 'start_date', 'Start Date' );
+            return;
+
         }
     }
 
@@ -132,12 +199,16 @@ class CRM_Case_BAO_Query
     
     static function tableNames( &$tables ) 
     {
-        if ( !CRM_Utils_Array::value( 'civicrm_case', $tables ) ) {
-            $tables = array_merge( array( 'civicrm_case' => 1), $tables );
-        }
+        $tables = array_merge( array( 'civicrm_case' => 1), $tables );
     }
     
-    
+    /**
+     * add all the elements shared between case search and advanaced search
+     *
+     * @access public 
+     * @return void
+     * @static
+     */  
     static function buildSearchForm( &$form ) 
     {
         $config =& CRM_Core_Config::singleton( );
