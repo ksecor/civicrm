@@ -34,7 +34,8 @@
 
             <td>{$case.status_id}</td>
             <td>{$case.casetag1_id}</td>  
-            <td>{$case.subject}</td> 
+            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">{$case.subject|mb_truncate:33:"...":true}</a></td>
+
             <td>{$case.start_date|crmDate}</td>
 
             <td class="nowrap">{$case.action}</td>

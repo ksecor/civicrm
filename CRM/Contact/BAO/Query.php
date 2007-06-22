@@ -39,7 +39,7 @@ require_once 'CRM/Core/DAO/Phone.php';
 require_once 'CRM/Core/DAO/Email.php';
 
 
-class CRM_ontact_BAO_Query {
+class CRM_Contact_BAO_Query {
   
     /**
      * The various search modes
