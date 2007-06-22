@@ -29,5 +29,36 @@
         </table>        
     </div>
   </fieldset>
+
+<script type="text/javascript">
+{literal}
+ if ( document.getElementsByName("cms_create_account")[0].checked ) {
+     show('details');
+  } else {
+     hide('details');
+  }
+ function showMessage( frm )
+ {
+   var cId = {/literal}'{$cId}'{literal};
+   if ( cId ) {
+     alert("You are logged-in user");
+     frm.checked = false;
+   } else {
+     var siteName = {/literal}'{$config->userFrameworkBaseURL}'{literal};
+     alert("Please login if you have an account on this site with the link " + siteName  );
+   }
+ }
+  {/literal}	
+</script>
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+trigger_field_id    ="create_account"
+trigger_value       =""
+target_element_id   ="details" 
+target_element_type ="block"
+field_type          ="radio"
+invert              = 0
+}
+
 {/if}
 

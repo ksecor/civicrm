@@ -35,9 +35,11 @@
 
 require_once 'CRM/Contribute/DAO/ContributionPage.php';
 
+/**
+ * This class contains Contribution Page related functions.
+ */
 class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_ContributionPage 
 {
-
     /**
      * takes an associative array and creates a contribution page object
      *
@@ -76,11 +78,15 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         $values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
     }
 
-     /**
-     * Process that send e-mails
-     *
+    /**
+     * Function to send the emails
+     * 
+     * @param int   $contactID        contact id 
+     * @param array $values           associated array of fields
+     * @paran int    $contributionId  contribution id
      * @return void
      * @access public
+     * @static
      */
     static function sendMail( $contactID, &$values, $contributionId ) 
     { 
@@ -121,15 +127,20 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                                   CRM_Utils_Array::value( 'cc_receipt' , $values ),
                                   CRM_Utils_Array::value( 'bcc_receipt', $values )
                                   );
-            
         }
     }
     
     /**  
-     * Function to add the custom fields
-     *  
-     * @return None  
-     * @access public  
+     * Function to add the custom fields for contribution page (ie profile)
+     * 
+     * @param int    $gid            uf group id
+     * @param string $name 
+     * @param int    $cid            contact id
+     * @param int    $contributionId Contribution Id
+     *   
+     * @return void  
+     * @access public
+     * @static  
      */ 
     function buildCustomDisplay( $gid, $name, $cid, &$template, $contributionId ) 
     {
@@ -165,6 +176,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
      *
      * @return the copy object 
      * @access public
+     * @static
      */
     static function copy( $id ) 
     {
@@ -204,7 +216,6 @@ WHERE entity_table = 'civicrm_contribution_page'
                 $copyPremiumProduct =& CRM_Core_DAO::copyGeneric( 'CRM_Contribute_DAO_PremiumsProduct', 
                                                                   array( 'premiums_id' => $premiumDao->id ), 
                                                                   array( 'premiums_id' => $copyPremium->id ) );
-                
             }
         }
         
@@ -264,6 +275,33 @@ WHERE first.id=%1 AND second.entity_id=%2
         $ids[] = $object->id;
         return $ids;
     }
-}
 
+    /**
+     * Function to check if contribution page contains payment
+     * processor that supports recurring payment
+     *
+     * @param int $contributionPageId Contribution Page Id
+     * 
+     * @return boolean true if payment processor supports recurring
+     *                 else false
+     *
+     * @access public
+     * @static
+     */
+    static function checkRecurPaymentProcessor( $contributionPageId ) 
+    {
+        $sql = "
+  SELECT pp.is_recur
+  FROM   civicrm_contribution_page  cp,
+         civicrm_payment_processor  pp
+  WHERE  cp.payment_processor_id = pp.id
+    AND  cp.id = {$contributionPageId}
+";
+        
+        if ( $recurring =& CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ) ) {
+            return true;
+        }
+        return false;
+    }
+}
 ?>
