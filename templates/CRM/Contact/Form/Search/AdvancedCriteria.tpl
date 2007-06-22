@@ -15,9 +15,9 @@
 
 {foreach from=$allPanes key=paneName item=paneValue}
 {if $paneValue.open eq 'true'}
-  <div id="{$paneValue.id}" href="{$paneValue.url}" dojoType="TitlePane" labelNodeClass="label-pane" label="&raquo; {$paneName}" open="{$paneValue.open}" adjustPaths="false" containerNodeClass="content-pane"></div>
+  <div id="{$paneValue.id}" href="{$paneValue.url}" dojoType="TitlePane" labelNodeClass="label-pane" label="&raquo; {$paneName}" open="{$paneValue.open}" adjustPaths="false" containerNodeClass="content-pane" executeScripts="true"></div>
 {else}
-  <div id="{$paneValue.id}" onDownloadEnd= "this.setLabel('&raquo; {$paneName}'); this.containerNode.style.height = 'auto'" onDownloadStart = "this.setLabel('&raquo; Loading');" onLabelClick="if (this.href != '{$paneValue.url}') this.setUrl('{$paneValue.url}');; " dojoType="TitlePane" labelNodeClass="label-pane" label="&raquo; {$paneName}" open="{$paneValue.open}" adjustPaths="false" containerNodeClass="content-pane"></div>
+  <div id="{$paneValue.id}" onDownloadEnd= "this.setLabel('&raquo; {$paneName}'); this.containerNode.style.height = 'auto'" onDownloadStart = "this.setLabel('&raquo; Loading');" onLabelClick="if (this.href != '{$paneValue.url}') this.setUrl('{$paneValue.url}');; " dojoType="TitlePane" labelNodeClass="label-pane" label="&raquo; {$paneName}" open="{$paneValue.open}" adjustPaths="false" containerNodeClass="content-pane" executeScripts="true"></div>
 {/if}
 {/foreach}
 
