@@ -276,15 +276,14 @@ SELECT count( l.id )
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $ids = array();
-            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids , false, $this->_maxLocationBlocks );
             $this->set( 'ids', $ids );
-            
+
             $locationExists = array();
             foreach( $contact->location as $loc) {
                 $locationExists[] = $loc->location_type_id;
             }
             $this->assign( 'locationExists' , $locationExists );
-            $this->_maxLocationBlocks = count( $contact->location );
 
             $this->assign( 'contactId' , $this->_contactId );
             // also set contact_type, since this is used in showHide routines 
