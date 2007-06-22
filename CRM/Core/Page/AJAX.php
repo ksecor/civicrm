@@ -35,15 +35,25 @@
 
 require_once 'CRM/Core/Page.php';
 
-class CRM_Core_Page_AJAX extends CRM_Core_Page {
-
-    function run( &$args ) {
+/**
+ * This class contains all the function that are called using AJAX (dojo)
+ */
+class CRM_Core_Page_AJAX extends CRM_Core_Page 
+{
+    /**
+     * Run the page
+     */
+    function run( &$args ) 
+    {
         $this->invoke( $args );
         exit( );
     }
 
-    // build the query
-    function invoke( &$args ) {
+    /**
+     * Invoke function that redirects to respective functions
+     */
+    function invoke( &$args ) 
+    {
         // intialize the system
         $config =& CRM_Core_Config::singleton( );
 
@@ -79,12 +89,14 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page {
 
         default:
             return;
-
         }
-
     }
 
-    function help( &$config ) {
+    /**
+     * Function to get help messages
+     */
+    function help( &$config ) 
+    {
         $id   = urldecode( $_GET['id'] );
         $file = urldecode( $_GET['file'] );
 
@@ -95,7 +107,11 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page {
         echo $template->fetch( $file );
     }
 
-    function search( &$config ) {
+    /**
+     * Function for building contact combo box
+     */
+    function search( &$config ) 
+    {
         require_once 'CRM/Utils/Type.php';
         $domainID  = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
         $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
@@ -139,7 +155,11 @@ ORDER BY sort_name LIMIT 6";
         echo $json->encode( $elements );
     }
 
-    function event( &$config ) {
+    /**
+     * Function for building Event combo box
+     */
+    function event( &$config ) 
+    {
         require_once 'CRM/Utils/Type.php';
         $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
         $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
@@ -167,7 +187,11 @@ LIMIT 6";
         echo $json->encode( $elements );
     }
 
-    function eventType( &$config ) {
+    /**
+     * Function for building Event Type combo box
+     */
+    function eventType( &$config ) 
+    {
         require_once 'CRM/Utils/Type.php';
         $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
         $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
@@ -194,7 +218,11 @@ AND  g.name = 'event_type'";
         echo $json->encode( $elements );
     }
 
-    function status( &$config ) {
+    /**
+     * Function to show import status
+     */
+    function status( &$config ) 
+    {
         // make sure we get an id
         if ( ! isset( $_GET['id'] ) ) {
             return;
@@ -212,7 +240,11 @@ AND  g.name = 'event_type'";
         }
     }
 
-    function message( &$config ) {
+    /**
+     * Function to build message template combo box
+     */
+    function message( &$config ) 
+    {
         require_once 'CRM/Utils/Type.php';
         $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
 
@@ -240,7 +272,11 @@ LIMIT 6";
         echo $json->encode( $elements );
     }
 
-    function state( &$config ) {
+    /**
+     * Function to build state province combo box
+     */
+    function state( &$config ) 
+    {
         require_once 'CRM/Utils/Type.php';
         $countryName  = strtolower( CRM_Utils_Type::escape( $_GET['node'], 'String'  ) );
         $stateName    = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
@@ -273,7 +309,24 @@ SELECT civicrm_state_province.name name
         echo $json->encode( $elements );
     }
 
-    function country( &$config ) {
+    /**
+     * Function to build country combo box
+     */
+    function country( &$config ) 
+    {
+        //get the country limit and restrict the combo select options
+        $limitCodes = $config->countryLimit( );
+        if ( ! is_array( $limitCodes ) ) {
+            $limitCodes = array( $config->countryLimit => 1);
+        }
+        
+        $limitCodes = array_intersect( CRM_Core_PseudoConstant::countryIsoCode(), $limitCodes);
+        if ( count($limitCodes) ) {
+            $whereClause = " iso_code IN ('" . implode("', '", $limitCodes) . "')";
+        } else {
+            $whereClause = " 1";
+        }
+
         require_once 'CRM/Utils/Type.php';
         $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
 
@@ -281,6 +334,7 @@ SELECT civicrm_state_province.name name
 SELECT civicrm_country.name name
   FROM civicrm_country
  WHERE civicrm_country.name LIKE '$name%'
+   AND {$whereClause} 
 ORDER BY name";
 
         $nullArray = array( );
@@ -297,7 +351,6 @@ ORDER BY name";
         $json =& new Services_JSON( );
         echo $json->encode( $elements );
     }
-
 }
 
 ?>
