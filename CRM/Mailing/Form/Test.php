@@ -91,7 +91,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
     public function &testMail($params, &$files, &$options) 
     {
         if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
-            ! $params['test']) {
+            !$params['_qf_Test_next'] or !$params['test']) {
             return true;
         }
         
