@@ -1008,6 +1008,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                                      'entity_table' => self::getTableName());
        
         if ( ! $locationCount ) {
+            require_once "CRM/Core/BAO/Preferences.php";
             $locationCount = CRM_Core_BAO_Preferences::value('location_count' );
         } 
         require_once "CRM/Core/BAO/Preferences.php";
