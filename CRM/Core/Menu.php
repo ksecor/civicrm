@@ -637,7 +637,7 @@ class CRM_Core_Menu {
                       
                      array(
                            'path'    => 'civicrm/admin/dupematch',
-                           'title'   => ts('Duplicate Matching'),
+                           'title'   => ts('Contact Matching'),
                            'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 
                            'query'  => 'reset=1',
                            'type'    => self::CALLBACK,
@@ -649,7 +649,7 @@ class CRM_Core_Menu {
 
                      array(
                            'path'    => 'civicrm/admin/deduperules',
-                           'title'   => ts('Duplicate Matching Rules'),
+                           'title'   => ts('Duplicate Contact Rules'),
                            'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 
                            'query'  => 'reset=1',
                            'type'    => self::CALLBACK,
