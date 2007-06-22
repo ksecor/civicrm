@@ -179,9 +179,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $this->_contributionType);
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $this->_contributionType);       
     }
 
     function setDefaultValues( ) {
@@ -452,7 +450,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         } else {
             $buttonType = 'next';
         }
-        
+     
+        //build custom data
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+   
         $this->addButtons(array( 
                                 array ( 'type'      => $buttonType, 
                                         'name'      => ts('Save'), 
