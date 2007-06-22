@@ -33,8 +33,6 @@
  *
  */
 
-require_once 'CRM/Utils/System/Drupal.php';
-
 /**
  * System wide utilities.
  *
