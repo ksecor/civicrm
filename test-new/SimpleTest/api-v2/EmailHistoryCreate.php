@@ -42,7 +42,7 @@ class TestOfEmailHistoryCreateAPIV2 extends CiviUnitTestCase
         $params = array( 'subject' => 'Test CiviCRM v2 API',
                          'message' => 'test without recipients, should return error',
                          'contact_id' => $this->_contactId,
-                         'from_name'  => 'anthony_anderson@civicrm.org',
+                         'from_name'  => 'anthony_anderson@civicrm.org'
                          );
                          
         $result = civicrm_email_history_add( $params );
@@ -58,9 +58,9 @@ class TestOfEmailHistoryCreateAPIV2 extends CiviUnitTestCase
                          'recipient_id_1' => 1,
                          'recipient_name_1' => 'Anthony Aderson',
                          );
-// FIXME PLEASE!
-//        $result = civicrm_email_history_add( $params );
-//        $this->assertEqual( $result['is_error'], 0 );
+
+        $result = civicrm_email_history_add( $params );
+        $this->assertEqual( $result['is_error'], 0 );
         
     }
 }
