@@ -33,6 +33,8 @@
  *
  */
 
+require_once 'CRM/Core/Form.php';
+
 class CRM_Custom_Form_DeleteFile extends CRM_Core_Form {
 
     /**
