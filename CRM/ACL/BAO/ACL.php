@@ -654,10 +654,14 @@ SELECT $acl.*
         $aclKeys = array_keys( $acls );
         $aclKeys = implode( ',', $aclKeys );
 
+         if ( empty ( $aclKeys) ) {
+          return false;
+        }
+        
         $params  = array( 1 => array( $str, 'String' ) );
 
         $query = "
-SELECT count( id )
+SELECT count( a.id )
   FROM civicrm_acl_cache c, civicrm_acl a
  WHERE c.acl_id    =  a.id
    AND a.is_active =  1
