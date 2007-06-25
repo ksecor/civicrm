@@ -30,21 +30,21 @@
   </fieldset>
   <fieldset><legend>{ts}Tracking{/ts}</legend> 
     <dl>
-    <dt class="label extra-long-fourty">{$form.track_urls.label}</dt>
+    <dt class="label extra-long-sixty">{$form.track_urls.label}</dt>
         <dd>{$form.track_urls.html}<br />
             <span class="description">{ts}Track the number of times recipients click each link in this mailing. NOTE: When this feature is enabled, all links in the message body will be automaticallly re-written to route through your CiviCRM server prior to redirecting to the target page.{/ts}</span>
         </dd>
     <dt class="label">{$form.track_opens.label}</dt>
         <dd>{$form.track_opens.html}<br />
-            <span class="description">{ts}Track the number of times recipients open this mailing in their Email software.{/ts}</span>
+            <span class="description">{ts}Track the number of times recipients open this mailing in their email software.{/ts}</span>
         </dd>
     </dl>
   </fieldset>
   <fieldset><legend>{ts}Responding{/ts}</legend> 
     <dl>
-        <dt class="label">{$form.forward_reply.label}</dt>
+        <dt class="label extra-long-fourty">{$form.forward_reply.label}</dt>
             <dd>{$form.forward_reply.html}<br />
-                <span class="description">{ts}If a recipient replies to this mailing, forward the reply to the FROM Email Address specified above.{/ts}</span>
+                <span class="description">{ts}If a recipient replies to this mailing, forward the reply to the FROM Email address specified above.{/ts}</span>
             </dd>
     <dt class="label">{$form.auto_responder.label}</dt>
         <dd>{$form.auto_responder.html} &nbsp; {$form.reply_id.html}<br />
@@ -54,7 +54,7 @@
         <dd>{$form.unsubscribe_id.html}<br />
             <span class="description">{ts}Select the automated message to be sent when a recipient unsubscribes from this mailing.{/ts}</span>
         </dd>
-    <dt class="label">{$form.optout_id.label}</dt>
+    <dt class="label extra-long-fourty">{$form.optout_id.label}</dt>
         <dd>{$form.optout_id.html}<br />
             <span class="description">{ts}Select the automated message to be sent when a recipient opts out of all mailings from your site.{/ts}</span>
         </dd>
