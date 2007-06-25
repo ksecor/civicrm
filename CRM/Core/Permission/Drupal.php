@@ -93,14 +93,14 @@ class CRM_Core_Permission_Drupal {
             require_once 'CRM/ACL/API.php';
 
             $ids = CRM_ACL_API::group( CRM_Core_Permission::VIEW, null, 'civicrm_saved_search', $groups );
-            foreach ( $ids as $id => $dontCare ) {
+            foreach ( array_values( $ids ) as $id ) {
                 $title = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $id, 'title' );
                 self::$_viewPermissionedGroups[$id] = $title;
                 self::$_viewPermission              = true; 
             }
 
             $ids = CRM_ACL_API::group( CRM_Core_Permission::EDIT, null, 'civicrm_saved_search', $groups );
-            foreach ( $ids as $id => $dontCare ) {
+            foreach ( array_values( $ids ) as $id ) {
                 $title = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $id, 'title' );
                 self::$_editPermissionedGroups[$id] = $title;
                 self::$_viewPermissionedGroups[$id] = $title;
