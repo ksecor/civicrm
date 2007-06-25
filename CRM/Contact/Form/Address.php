@@ -35,10 +35,11 @@
 
 require_once 'CRM/Contact/Form/StateCountry.php';
 
+/**
+ * This class is used to build address block
+ */
 class CRM_Contact_Form_Address
 {
-
-
     /**
      * build form for address input fields 
      *
@@ -117,8 +118,6 @@ class CRM_Contact_Form_Address
             }
         }
     }
-    
-    
     
     /**
      * check for correct state / country mapping.

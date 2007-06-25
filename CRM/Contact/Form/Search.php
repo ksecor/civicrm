@@ -275,7 +275,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
             $this->addGroup($group_contact_status,
                             'group_contact_status', ts('Group Status'));
-            $this->addGroupRule('group_contact_status', ts('Please select at least one membership status.'), 'required', null, 1);
+            $this->addGroupRule('group_contact_status', ts('Please select at least Group Status value.'), 'required', null, 1);
             // Set dynamic page title for 'Show Members of Group'
             CRM_Utils_System::setTitle( ts('Group Members: %1', array(1 => $this->_group[$this->_groupID])) );
 

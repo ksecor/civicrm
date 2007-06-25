@@ -317,6 +317,17 @@ class CRM_Utils_Token {
             if (! empty($groups)) {
                 $config =& CRM_Core_Config::singleton();
                 $base = CRM_Utils_System::baseURL();
+
+                // FIXME: an ugly hack for CRM-2035, to be dropped once CRM-1799 is implemented
+                require_once 'CRM/Contact/DAO/Group.php';
+                $dao =& new CRM_Contact_DAO_Group();
+                $dao->domain_id = $config->domainID();
+                $dao->find();
+                while ($dao->fetch()) {
+                    if (substr($dao->visibility, 0, 6) == 'Public') {
+                        $visibleGroups[] = $dao->id;
+                    }
+                }
                 
                 if ($html) {
                     $value = '<ul>';
@@ -325,7 +336,11 @@ class CRM_Utils_Token {
                                                 array( 'subscribe',
                                                        $domain->id,
                                                        $gid ) ) . "@{$domain->email_domain}";
-                        $value .= "<li>$name (<a href=\"mailto:$verpAddress\">" . ts("re-subscribe") . "</a>)</li>\n";
+                        $resub = '';
+                        if (in_array($gid, $visibleGroups)) {
+                            $resub = "(<a href=\"mailto:$verpAddress\">" . ts("re-subscribe") . "</a>)";
+                        }
+                        $value .= "<li>$name $resub</li>\n";
                     }
                     $value .= '</ul>';
                 } else {
@@ -335,7 +350,11 @@ class CRM_Utils_Token {
                                                 array( 'subscribe',
                                                        $domain->id,
                                                        $gid ) ) . "@{$domain->email_domain}";
-                        $value .= "\t* $name " . ts("(re-subscribe: %1)", array( 1 => "$verpAddress")) . "\n";
+                        $resub = '';
+                        if (in_array($gid, $visibleGroups)) {
+                            $resub = ts("(re-subscribe: %1)", array( 1 => "$verpAddress"));
+                        }
+                        $value .= "\t* $name $resub\n";
                     }
                     $value .= "\n";
                 }

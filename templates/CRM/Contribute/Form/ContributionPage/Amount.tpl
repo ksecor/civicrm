@@ -33,7 +33,7 @@
             </tr>
             {/if}    
 
-            <tr><th scope="row" class="label">{$form.is_allow_other_amount.label}</th>
+            <tr><th scope="row" class="label" width="20%">{$form.is_allow_other_amount.label}</th>
             <td>{$form.is_allow_other_amount.html}<br />
             <span class="description">{ts}Check this box if you want to give users the option to enter their own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>.{/ts}</td></tr>
 

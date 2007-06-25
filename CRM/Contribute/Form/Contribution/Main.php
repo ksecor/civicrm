@@ -40,8 +40,8 @@ require_once 'CRM/Core/Payment.php';
  * This class generates form components for processing a ontribution 
  * 
  */
-class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_ContributionBase {
-
+class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_ContributionBase 
+{
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -60,7 +60,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         CRM_Core_BAO_CustomGroup::extractGetParams( $this, 'Contribution' );
     }
 
-    function setDefaultValues( ) {
+    function setDefaultValues( ) 
+    {
         // check if the user is registered and we have a contact ID
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
@@ -123,11 +124,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         // hack to simplify credit card entry for testing
-        // $this->_defaults['credit_card_type']     = 'Visa';
-        // $this->_defaults['amount']               = 5.00;
-        // $this->_defaults['credit_card_number']   = '4807731747657838';
-        // $this->_defaults['cvv2']                 = '000';
-        // $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
+        $this->_defaults['credit_card_type']     = 'Visa';
+        //$this->_defaults['amount']               = 5.00;
+        $this->_defaults['credit_card_number']   = '4807731747657838';
+        $this->_defaults['cvv2']                 = '000';
+        $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
 
         return $this->_defaults;
     }
@@ -162,7 +163,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->buildAmount( $this->_separateMembershipPayment );
 
             if ( $this->_values['is_monetary'] &&
-                 isset($this->_values['is_recur'])    &&
+                 $this->_values['is_recur']    &&
                  $this->_paymentProcessor['is_recur'] ) {
                 $this->buildRecur( );
             }
@@ -170,7 +171,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
               
         require_once 'CRM/Contribute/BAO/Premium.php';
         CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
-        
 
         if ( $this->_values['honor_block_is_active'] ) {
             $this->buildHonorBlock( );
@@ -200,7 +200,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
         
-        
         // if payment is via a button only, dont display continue
         if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
              ! $this->_values['is_monetary']) {
@@ -222,7 +221,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      * @return void
      * @access private
      */
-    function buildAmount( $separateMembershipPayment = false ) {
+    function buildAmount( $separateMembershipPayment = false ) 
+    {
         $elements = array( );
 
         // first build the radio boxes
@@ -336,13 +336,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      * @access public 
      * @static 
      */ 
-    static function formRule( &$fields, &$files, &$self ) { 
+    static function formRule( &$fields, &$files, &$self ) 
+    { 
         $errors = array( ); 
 
         $amount = self::computeAmount( $fields, $self );
-        if( isset( $fields['selectProduct'] )       &&
-            $fields['selectProduct'] != 'no_thanks' &&
-            $self->_values['amount_block_is_active'] ) {
+
+        if ( isset( $fields['selectProduct'] ) &&
+             $fields['selectProduct'] != 'no_thanks' &&
+             $self->_values['amount_block_is_active'] ) {
             require_once 'CRM/Contribute/DAO/Product.php';
             require_once 'CRM/Utils/Money.php';
             $productDAO =& new CRM_Contribute_DAO_Product();
@@ -376,12 +378,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
-        if( CRM_Utils_Array::value('selectMembership',$fields) && $fields['selectMembership'] != 'no_thanks') {
+        if ( CRM_Utils_Array::value('selectMembership',$fields) && $fields['selectMembership'] != 'no_thanks') {
             require_once 'CRM/Member/BAO/Membership.php';
             require_once 'CRM/Member/BAO/MembershipType.php';
             $memBlock       = CRM_Member_BAO_Membership::getMembershipBlock( $self->_id );
             $memTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $fields['selectMembership']);
-            if ( $self->_values['amount_block_is_active'] && (! isset($memBlock['is_separate_payment']) || ! $memBlock['is_separate_payment']) ) {
+            if ( $self->_values['amount_block_is_active'] && ( !isset($memBlock['is_separate_payment']) || ! $memBlock['is_separate_payment']) ) {
                 require_once 'CRM/Utils/Money.php';
                 if ( $amount < CRM_Utils_Array::value('minimum_fee',$memTypeDetails) ) {
                     $errors['selectMembership'] = ts(' The Membership you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'])));
@@ -397,6 +399,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
 
             if ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' ) {
+                
+                if ( !$amount ) {
+                    $errors['amount_other'] = ts('Amount is required field.');
+                }
+
                 if ( CRM_Utils_Array::value('min_amount',$self->_values) > 0 ) {
                     $min = $self->_values['min_amount'];
                     if ( $fields['amount_other'] < $min ) {

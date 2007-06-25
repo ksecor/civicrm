@@ -66,7 +66,7 @@ class CRM_ACL_API {
         }
 
         require_once 'CRM/ACL/BAO/ACL.php';
-        CRM_ACL_BAO_ACL::check( $str, $contactID );
+        return CRM_ACL_BAO_ACL::check( $str, $contactID );
     }
 
     /**

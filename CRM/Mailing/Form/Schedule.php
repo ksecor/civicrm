@@ -48,7 +48,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      */
     public function buildQuickform() 
     {
-        $this->addElement('date', 'start_date', ts('Start Date'),
+        $this->addElement('date', 'start_date', ts('Schedule Mailing'),
             CRM_Core_SelectValues::date('mailing'));
         $this->addElement('checkbox', 'now', ts('Send Immediately'));
         
@@ -84,7 +84,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
             return true;
         }
         if (! CRM_Utils_Rule::qfDate($params['start_date'])) {
-            return array('start_date' => ts('Start date is not valid.'));
+            return array('start_date' => ts('Scheduled date is not valid.'));
         }
         if (CRM_Utils_Date::format($params['start_date']) < date('YmdHi00')) {
             return array('start_date' => 

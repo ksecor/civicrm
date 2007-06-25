@@ -125,6 +125,7 @@ class CRM_Utils_SoapServer
      * @static
      */
     public function authenticate($name, $pass) {
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $this->ufClass ) . '.php' );
         eval ('$result =& ' . $this->ufClass . '::authenticate($name, $pass);');
 
         if (empty($result)) {

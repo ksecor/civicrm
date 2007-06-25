@@ -126,8 +126,6 @@ class html2text
         '/(<tr[^>]*>|<\/tr>)/i',                 // <tr> and </tr>
         '/<td[^>]*>(.+?)<\/td>/i',               // <td> and </td>
         '/<th[^>]*>(.+?)<\/th>/i',               // <th> and </th>
-        '/<style[^>]*>.*?<\/style>/i',           // <style> and </style>
-        '/<head[^>]*>.*?<\/head>/i',             // <head> and </head>
         '/&nbsp;/i',
         '/&quot;/i',
         '/&gt;/i',
@@ -179,8 +177,6 @@ class html2text
         "\n",                                   // <tr> and </tr>
         "\t\t\\1\n",                            // <td> and </td>
         "strtoupper(\"\t\t\\1\n\")",            // <th> and </th>
-        '',                                     // <style> and </style>
-        '',                                     // <head> and </head>
         ' ',
         '"',
         '>',

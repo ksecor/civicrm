@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-06-15 00:25-0700\n"
+"PO-Revision-Date: 2007-06-21 07:20-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -814,7 +814,7 @@ msgstr "Confidentialité"
 
 #: CRM/Contact/Form/Email.php CRM/Core/DAO/Email.php
 msgid "On Hold"
-msgstr "Problème technique"
+msgstr "Adresse à vérifier (problème technique)"
 
 #: CRM/Contact/Form/GroupTag.php CRM/Contact/Form/Task/Email.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Core/Form.php
@@ -3019,7 +3019,7 @@ msgstr "Adresse"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Custom Fields"
-msgstr "Champs personalisés"
+msgstr "Champs personnalisés"
 
 #: CRM/Contact/Form/Search/Advanced.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -4032,7 +4032,7 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
-msgstr ""
+msgstr "Type de donnée"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -4403,7 +4403,7 @@ msgstr "Sélectionner"
 
 #: CRM/Core/DAO/UFField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Field Type"
-msgstr ""
+msgstr "Type de champ"
 
 #: CRM/Core/DAO/UFGroup.php
 #, fuzzy
@@ -5265,7 +5265,7 @@ msgstr "Énumérer les options personnalisées"
 
 #: CRM/Custom/Page/Field.php
 msgid "Preview Field Display"
-msgstr ""
+msgstr "Prévisualiser le champ"
 
 #: CRM/Custom/Page/Field.php
 msgid "Preview Custom Field"
@@ -9062,13 +9062,13 @@ msgstr "Désactivé"
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "New Custom Field"
-msgstr ""
+msgstr "Nouveau champ personnalisé"
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid ""
 "There are no custom fields for custom group \"%1\", <a href=\"%2\">add one</"
 "a>."
-msgstr ""
+msgstr "Il n'y a pas de champs personnalisés pour ce groupe \"%1\", vous pouvez <a href=\"%2>en ajouter un</a>."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid ""

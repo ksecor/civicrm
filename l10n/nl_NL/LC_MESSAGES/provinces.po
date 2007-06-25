@@ -6,11 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-03-27 00:48+0200\n"
-"Last-Translator: Freek de Kruijf <f.de.kruijf@hetnet.nl>\n"
+"PO-Revision-Date: 2007-06-23 07:44-0700\n"
+"Last-Translator: Martin Niewzwaag <ma-ni@home.nl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 msgid "Alabama"
 msgstr "Alabama"
@@ -3648,7 +3649,7 @@ msgid "Angus"
 msgstr "Angus"
 
 msgid "Co Antrim"
-msgstr ""
+msgstr "Co Antrim"
 
 msgid "Ards"
 msgstr "Ards"
@@ -3657,7 +3658,7 @@ msgid "Argyll and Bute"
 msgstr "Argyll en Bute"
 
 msgid "Co Armagh"
-msgstr ""
+msgstr "Co Armagh"
 
 msgid "Ballymena"
 msgstr "Ballymena"
@@ -3723,7 +3724,7 @@ msgid "Brighton and Hove"
 msgstr "Brighton en Hove"
 
 msgid "Bristol"
-msgstr ""
+msgstr "Bristol"
 
 msgid "Bromley"
 msgstr "Bromley"
@@ -3819,7 +3820,7 @@ msgid "Dorset"
 msgstr "Dorset"
 
 msgid "Co Down"
-msgstr ""
+msgstr "Co Down"
 
 msgid "Dudley"
 msgstr "Dudley"
@@ -3834,7 +3835,7 @@ msgid "Dungannon"
 msgstr "Dungannon"
 
 msgid "Co Durham"
-msgstr ""
+msgstr "Co Durham"
 
 msgid "Ealing"
 msgstr "Ealing"
@@ -3873,7 +3874,7 @@ msgid "Falkirk"
 msgstr "Falkirk"
 
 msgid "Co Fermanagh"
-msgstr ""
+msgstr "Co Fermanagh"
 
 msgid "Fife"
 msgstr "Fife"
@@ -3885,7 +3886,7 @@ msgid "Gateshead"
 msgstr "Gateshead"
 
 msgid "Glasgow"
-msgstr ""
+msgstr "Glasgow"
 
 msgid "Gloucestershire"
 msgstr "Gloucestershire"
@@ -3924,7 +3925,7 @@ msgid "Havering"
 msgstr "Havering"
 
 msgid "Herefordshire"
-msgstr ""
+msgstr "Herefordshire"
 
 msgid "Hertfordshire"
 msgstr "Hertfordshire"
@@ -3963,7 +3964,7 @@ msgid "Kent"
 msgstr "Kent"
 
 msgid "Kingston upon Hull"
-msgstr ""
+msgstr "Kingston upon Hull"
 
 msgid "Kingston upon Thames"
 msgstr "Kingston a/d Thames"
@@ -4068,7 +4069,7 @@ msgid "Norfolk"
 msgstr "Norfolk"
 
 msgid "North Ayrshire"
-msgstr ""
+msgstr "North Ayrshire"
 
 msgid "North Down"
 msgstr "North Down"
@@ -4146,10 +4147,10 @@ msgid "Cleveland"
 msgstr "Cleveland"
 
 msgid "Renfrewshire"
-msgstr ""
+msgstr "Renfrewshire"
 
 msgid "Rhondda Cynon Taff"
-msgstr ""
+msgstr "Rhondda Cynon Taff"
 
 msgid "Richmond upon Thames"
 msgstr "Richmond a/d Thames"
@@ -4173,7 +4174,7 @@ msgid "Sandwell"
 msgstr "Sandwell"
 
 msgid "Scottish Borders"
-msgstr ""
+msgstr "Scottish Borders"
 
 msgid "Sefton"
 msgstr "Sefton"
@@ -4275,7 +4276,7 @@ msgid "Trafford"
 msgstr "Trafford"
 
 msgid "Vale of Glamorgan"
-msgstr ""
+msgstr "Vale of Glamorgan"
 
 msgid "Bro Morgannwg"
 msgstr "Bro Morgannwg"
@@ -5966,7 +5967,7 @@ msgid "Banteay Mean Chey"
 msgstr "Provincie Banteay Mean Cheay"
 
 msgid "Rampong Chaam"
-msgstr ""
+msgstr "Rampong Chaam"
 
 msgid "Kampong Chhnang"
 msgstr "Provincie Kampong Chhnang"
@@ -7319,7 +7320,7 @@ msgid "Michoacin"
 msgstr "Michoacin"
 
 msgid "Morelos"
-msgstr ""
+msgstr "Morelos"
 
 msgid "Nayarit"
 msgstr "Nayarit"
@@ -9791,7 +9792,7 @@ msgid "Kalasin"
 msgstr "Kalasin"
 
 msgid "Kamphasng Phet"
-msgstr ""
+msgstr "Kamphasng Phet"
 
 msgid "Kanchanaburi"
 msgstr "Kanchanaburi"
@@ -9890,7 +9891,7 @@ msgid "Phra Nakhon Si Ayutthaya"
 msgstr "Phra Nakhon Si Ayutthaya"
 
 msgid "Phaket"
-msgstr ""
+msgstr "Phaket"
 
 msgid "Prachin Buri"
 msgstr "Prachin Buri"
@@ -10857,7 +10858,7 @@ msgid "Treinta y Tres"
 msgstr "Treinta y Tres"
 
 msgid "Toshkent (city)"
-msgstr ""
+msgstr "Toshkent (city)"
 
 msgid "Qoraqalpogiston Respublikasi"
 msgstr "Republiek Ķoraķalpogiston"
@@ -11358,13 +11359,13 @@ msgid "Kymenlaakso"
 msgstr "Kymenlaakso"
 
 msgid "Lapland"
-msgstr ""
+msgstr "Lapland"
 
 msgid "Tampere Region"
 msgstr "Regio Tampere"
 
 msgid "Ostrobothnia"
-msgstr ""
+msgstr "Ostrobothnia"
 
 msgid "North Karelia"
 msgstr "Noord-Karelia"
@@ -11382,7 +11383,7 @@ msgid "Satakunta"
 msgstr "Satakunta"
 
 msgid "Uusimaa"
-msgstr ""
+msgstr "Uusimaa"
 
 msgid "South-West Finland"
 msgstr "Zuid-West Finland"
@@ -11391,46 +11392,46 @@ msgid "Åland"
 msgstr "Åland"
 
 msgid "North West"
-msgstr ""
+msgstr "North West"
 
 msgid "Tyne and Wear"
-msgstr ""
+msgstr "Tyne and Wear"
 
 msgid "Isle of Man"
-msgstr "Man-eiland"
+msgstr "Isle of Man"
 
 msgid "Greater Manchester"
-msgstr ""
+msgstr "Greater Manchester"
 
 msgid "Co Tyrone"
-msgstr ""
+msgstr "Co Tyrone"
 
 msgid "West Yorkshire"
-msgstr ""
+msgstr "West Yorkshire"
 
 msgid "South Yorkshire"
-msgstr ""
+msgstr "South Yorkshire"
 
 msgid "Merseyside"
-msgstr ""
+msgstr "Merseyside"
 
 msgid "Berkshire"
 msgstr "Berkshire"
 
 msgid "West Midlands"
-msgstr ""
+msgstr "West Midlands"
 
 msgid "Inverness"
-msgstr ""
+msgstr "Inverness"
 
 msgid "Avon"
-msgstr ""
+msgstr "Avon"
 
 msgid "Middlesex"
 msgstr "Middlesex"
 
 msgid "West Glamorgan"
-msgstr ""
+msgstr "West Glamorgan"
 
 msgid "London"
-msgstr ""
+msgstr "Londen"

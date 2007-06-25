@@ -87,14 +87,14 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     {
         $session =& CRM_Core_Session::singleton();
         
-        $this->add('text', 'from_name', ts('From Name'));
-        $this->add('text', 'from_email', ts('From Email'));
+        $this->add('text', 'from_name', ts('FROM Name'));
+        $this->add('text', 'from_email', ts('FROM Email'), NULL, true);
         $defaults['from_email'] = $session->get('ufEmail');
         
         $this->add('checkbox', 'forward_reply', ts('Forward Replies?'));
         $defaults['forward_reply'] = true;
         
-        $this->add('checkbox', 'track_urls', ts('Track URLs?'));
+        $this->add('checkbox', 'track_urls', ts('Track Click-throughs?'));
         $defaults['track_urls'] = true;
         
         $this->add('checkbox', 'track_opens', ts('Track Opens?'));
@@ -103,10 +103,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add('checkbox', 'auto_responder', ts('Auto-respond to Replies?'));
         $defaults['auto_responder'] = false;
         
-        $this->addElement('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60');
+        $this->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
         $defaults['subject'] = $this->get('mailing_name');
         
-        $this->addElement( 'file', 'textFile', ts('Upload Text Message'), 'size=30 maxlength=60' );
+        $this->addElement( 'file', 'textFile', ts('Upload TEXT Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'textFile', ts('File must be in UTF-8 encoding'), 'utf8File' );

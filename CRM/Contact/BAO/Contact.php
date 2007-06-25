@@ -980,16 +980,18 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * of time. This is the inverse function of create. It also stores all the retrieved
      * values in the default array
      *
-     * @param array $params   (reference ) an assoc array of name/value pairs
-     * @param array $defaults (reference ) an assoc array to hold the name / value pairs
+     * @param array   $params   (reference ) an assoc array of name/value pairs
+     * @param array   $defaults (reference ) an assoc array to hold the name / value pairs
      *                        in a hierarchical manner
-     * @param array $ids      (reference) the array that holds all the db ids
+     * @param array   $ids      (reference) the array that holds all the db ids
+     * @param boolean $microformat  for location in microformat
+     * @param int     $locationCount location count
      *
      * @return object CRM_Contact_BAO_Contact object
      * @access public
      * @static
      */
-    static function &retrieve( &$params, &$defaults, &$ids, $microformat = false) 
+    static function &retrieve( &$params, &$defaults, &$ids, $microformat = false, $locationCount = null) 
     {
         if ( array_key_exists( 'contact_id', $params ) ) {
             $params['id'] = $params['contact_id'];
@@ -1005,11 +1007,15 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $locParams = $params + array('entity_id' => $params['contact_id'],
                                      'entity_table' => self::getTableName());
        
+        if ( ! $locationCount ) {
+            require_once "CRM/Core/BAO/Preferences.php";
+            $locationCount = CRM_Core_BAO_Preferences::value('location_count' );
+        } 
         require_once "CRM/Core/BAO/Preferences.php";
         $contact->location     =& CRM_Core_BAO_Location::getValues( $locParams, 
                                                                     $defaults, 
                                                                     $ids, 
-                                                                    CRM_Core_BAO_Preferences::value('location_count' ), 
+                                                                    $locationCount, 
                                                                     $microformat );
         
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );

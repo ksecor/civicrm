@@ -276,15 +276,14 @@ SELECT count( l.id )
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $ids = array();
-            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids , false, $this->_maxLocationBlocks );
             $this->set( 'ids', $ids );
-            
+
             $locationExists = array();
             foreach( $contact->location as $loc) {
                 $locationExists[] = $loc->location_type_id;
             }
             $this->assign( 'locationExists' , $locationExists );
-            $this->_maxLocationBlocks = count( $contact->location );
 
             $this->assign( 'contactId' , $this->_contactId );
             // also set contact_type, since this is used in showHide routines 
@@ -355,15 +354,18 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
             
             foreach ( $defaults['location'] as $key => $value ) {
-                $countryId = $value['address']['country_id'];
-                if ( $countryId ) {
-                    $this->assign( "country{$key}_value",  $countries[$countryId] );
+                if ( $value['address']['country_id'] ) {
+                    $countryId = $value['address']['country_id'];
+                    if ( $countryId ) {
+                        $this->assign( "country{$key}_value",  $countries[$countryId] );
+                    }
                 }
                 
-                $stateProvinceId = $value['address']['state_province_id'];
-
-                if ( $stateProvinceId ) {
-                    $this->assign( "state{$key}_value",  $stateProvinces[$stateProvinceId] );
+                if ( $value['address']['state_province_id'] ) {
+                    $stateProvinceId = $value['address']['state_province_id'];
+                    if ( $stateProvinceId ) {
+                        $this->assign( "state{$key}_value",  $stateProvinces[$stateProvinceId] );
+                    }
                 }
             }
         }

@@ -96,7 +96,7 @@ function removeChildren(element, value) {
 </script>
 {/literal}
 
-<div id="select_root" class="form-item">
+<div id="select_root{$index}" class="form-item">
     <span class="labels">
     {$form.location.$index.address.country.label}
     </span>
@@ -123,7 +123,7 @@ function removeChildren(element, value) {
         }          
     );
 
-     /* end of code to set defaults for country*/
+    /* end of code to set defaults for country*/
 
 </script>
 

@@ -76,8 +76,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
         //get the group Tree
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $this->_id, false,$this->_memType);
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-
+ 
         parent::preProcess( );
     }
 
@@ -153,6 +152,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->addElement('checkbox', 'is_override', ts('Status Hold?'), null, array( 'onChange' => 'showHideMemberStatus()'));
 
         $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
+
+        //build custom data
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
     }
 
     /**

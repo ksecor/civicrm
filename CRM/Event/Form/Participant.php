@@ -251,10 +251,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
     { 
         $this->applyFilter('__ALL__', 'trim');
 
-        if ($this->_action == CRM_Core_Action::VIEW) { 
-            $this->freeze();
-        }
-
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
@@ -360,11 +356,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $buttonType = 'next';
         }
         
-        if ($this->_action & CRM_Core_Action::VIEW ) {
-            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
-        } else {
-            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        }
+        //build custom data
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
         $this->addButtons(array( 
                                 array ( 'type'      => $buttonType, 
@@ -375,6 +368,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
+
+        if ($this->_action == CRM_Core_Action::VIEW) { 
+            $this->freeze();
+        }
+
     }
     
     /**
