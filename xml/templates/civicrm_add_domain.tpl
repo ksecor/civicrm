@@ -135,6 +135,7 @@ VALUES
    (@option_group_id_act, '{ts}Email{/ts}', 3, 'Email', NULL, 0, NULL, 3, 'Email Sent', 0, 1, 1),
    (@option_group_id_act, '{ts}SMS{/ts}', 4, 'SMS', NULL, 0, NULL, 4, 'SMS', 0, 1, 1),
    (@option_group_id_act, '{ts}Event{/ts}', 5,'Event', NULL, 0, NULL, 5, 'Event', 0, 0, 1),
+   (@option_group_id_act, '{ts}Video Conference{/ts}', 6,'Video Conference', NULL, 0, NULL, 5, 'video conference', 0, 0, 1),
 
    (@option_group_id_gender, '{ts}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_gender, '{ts}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),

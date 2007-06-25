@@ -8,11 +8,15 @@ INSERT INTO
 VALUES 
  (@domain_id, 'f1_case_type', 'Case Type'     , 1, 1),
  (@domain_id, 'f1_case_sub_type', 'Case Sub Type'     , 1, 1),
- (@domain_id, 'f1_case_violation', 'Violation Type'     , 1, 1);
+ (@domain_id, 'f1_case_violation', 'Violation Type'     , 1, 1),
+ (@domain_id, 'case_activity_type', 'Type'     , 1, 1);
+
+
 
 SELECT @option_group_id_case_type        := max(id) from civicrm_option_group where name = 'f1_case_type';
 SELECT @option_group_id_case_stype       := max(id) from civicrm_option_group where name = 'f1_case_sub_type';
 SELECT @option_group_id_case_viol        := max(id) from civicrm_option_group where name = 'f1_case_violation';
+SELECT @option_group_id_case_atype       := max(id) from civicrm_option_group where name = 'case_activity_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -32,4 +36,14 @@ VALUES
 (@option_group_id_case_viol, 'Legal Action'               , 5, NULL, NULL, 0, 0, 5, NULL, 0, 1, 1),
 (@option_group_id_case_viol, 'Threats'                    , 6, NULL, NULL, 0, 0, 6, NULL, 0, 1, 1),
 (@option_group_id_case_viol, 'Tortured / Ill-treatment'   , 7, NULL, NULL, 0, 0, 7, NULL, 0, 1, 1),
-(@option_group_id_case_viol, 'Violence Against Women'     , 8, NULL, NULL, 0, 0, 8, NULL, 0, 1, 1);
+(@option_group_id_case_viol, 'Violence Against Women'     , 8, NULL, NULL, 0, 0, 8, NULL, 0, 1, 1),
+(@option_group_id_case_atype,'Source(incoming)'           , 1, NULL, NULL, 0, 1, 1, NULL, 0, 1, 1),
+(@option_group_id_case_atype,'Incoming correspondence'    , 2, NULL, NULL, 0, 0, 2, NULL, 0, 1, 1),
+(@option_group_id_case_atype,'Incoming Press Release'     , 3, NULL, NULL, 0, 0, 3, NULL, 0, 1, 1),
+(@option_group_id_case_atype,'Complaint'                  , 4, NULL, NULL, 0, 0, 4, NULL, 0, 1, 1),
+(@option_group_id_case_atype,'Urgent Action(incoming)'    , 5, NULL, NULL, 0, 0, 5, NULL, 0, 1, 1),
+(@option_group_id_case_atype,'Outgoing correspondence'    , 6, NULL, NULL, 0, 0, 6, NULL, 0, 1, 1),
+(@option_group_id_case_atype,'Outgoing Press Release'     , 7, NULL, NULL, 0, 0, 7, NULL, 0, 1, 1),
+(@option_group_id_case_atype,'FL Action(outgoing)'        , 8, NULL, NULL, 0, 0, 8, NULL, 0, 1, 1),
+(@option_group_id_case_atype,'FL Urgent Action(outgoing)' , 9, NULL, NULL, 0, 0, 9, NULL, 0, 1, 1),
+(@option_group_id_case_atype,'Lobbying(outgoing)'         , 10, NULL, NULL, 0, 0, 10, NULL, 0, 1, 1);
