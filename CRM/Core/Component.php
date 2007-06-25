@@ -143,6 +143,16 @@ class CRM_Core_Component
                        'task'    => array( ) 
                        );
 
+            self::$_info['Kabissa'] =
+                array( 'title'   => 'Kabissa Application Process',
+                       'path'    => 'CRM_Kabissa_',
+                       'url'     => 'kabissa',
+                       'perm'    => array( 'access Kabissa' ),
+                       'search'  => 0,
+                       'metaTpl' => 'quest',
+                       'formTpl' => 'quest',
+                       'task'    => array( ) 
+                       );
         }
         return self::$_info;
     }
