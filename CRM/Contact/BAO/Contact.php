@@ -1231,9 +1231,10 @@ WHERE civicrm_contact.id IN $idString ";
                                       array(   $dao->state, $dao->postal_code ) );
             CRM_Utils_String::append( $address, '<br /> ',
                                       array( $dao->country ) );
-            $location['address'      ] = $address;
-            $location['url'          ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
-            $location['location_type'] = $dao->location_type;
+            $location['address'       ] = $address;
+            $location['displayAddress'] = str_replace( '<br />', ', ', $address );
+            $location['url'           ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
+            $location['location_type' ] = $dao->location_type;
             
             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($dao->contact_type) {
