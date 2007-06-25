@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-05-10 00:46-0700\n"
-"Last-Translator: Piotr Szotkowski <shot@civicrm.org>\n"
+"PO-Revision-Date: 2007-06-24 19:12-0700\n"
+"Last-Translator: Martin Niewzwaag <ma-ni@home.nl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,7 +22,7 @@ msgstr "Contact"
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_add_domain.tpl
 msgid "ACL Role"
-msgstr ""
+msgstr "ACL rol"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/ACL/Form/ACL.php
 #: CRM/ACL/Page/ACL.php CRM/Core/DAO/CustomGroup.php
@@ -37,7 +37,7 @@ msgstr "Groep"
 #: CRM/ACL/BAO/ACL.php CRM/Core/Block.php CRM/Core/DAO/Mapping.php
 #: CRM/Core/Menu.php
 msgid "Import"
-msgstr "import"
+msgstr "Importeer"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Admin/Page/RelationshipType.php
 #: CRM/Contact/Page/View/Contribution.php CRM/Contact/Page/View/Membership.php
@@ -71,7 +71,6 @@ msgid "Entity Table"
 msgstr "Entiteitentabel"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Operation"
 msgstr "Bewerking"
 
@@ -129,7 +128,6 @@ msgid "Description"
 msgstr "Beschrijving"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
-#, fuzzy
 msgid " -select- "
 msgstr "-selecteer-"
 
@@ -139,19 +137,16 @@ msgid "-select-"
 msgstr "-selecteer-"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Groups"
-msgstr "Groepen"
+msgstr "Alle groepen"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Custom Groups"
-msgstr "Specifieke groep"
+msgstr "Alle specifieke groepen"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Profiles"
-msgstr "Profiel"
+msgstr "Alle profielen"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -202,7 +197,7 @@ msgstr "Inschakelen"
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Admin/Page/Options.php
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Access Control"
-msgstr "Toegangs controle"
+msgstr "Toegangscontrole"
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
@@ -227,17 +222,17 @@ msgstr "Onderwerp"
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
 msgid "Scheduled Date Time"
-msgstr "Uur van de geplande datum"
+msgstr "Geplande datum en tijd"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
 msgid "Duration Hours"
-msgstr "Uren Tijdsduur"
+msgstr "Tijdsduur in uren"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
 msgid "Duration Minutes"
-msgstr "Minuten Tijdsduur"
+msgstr "Tijdsduur in minuten"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
@@ -288,7 +283,7 @@ msgstr "Telefoonnummer"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Left Message"
-msgstr "Achtergelaten Bericht"
+msgstr "Achtergelaten bericht"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Unreachable"
@@ -312,7 +307,7 @@ msgstr "Duur"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 msgid "Selected Meeting is deleted sucessfully."
-msgstr "Geselecteerde bijeenkomst is succesvol verwijderd."
+msgstr "De geselecteerde bijeenkomst is succesvol verwijderd."
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
@@ -320,7 +315,7 @@ msgstr "Geselecteerde bijeenkomst is succesvol verwijderd."
 #: CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Activity Type"
-msgstr "Type activiteit"
+msgstr "Activiteit"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/RelationshipType.php
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/Map.php
@@ -396,12 +391,12 @@ msgstr "Naam"
 #: CRM/Custom/Form/Group.php CRM/Group/Form/Edit.php
 #: CRM/Import/Form/Preview.php
 msgid "Name already exists in Database."
-msgstr "Naam bestaat al in Database."
+msgstr "De naam bestaat al in de database."
 
 #: CRM/Admin/Form/Mapping.php CRM/Core/DAO/Mapping.php
 #: templates/CRM/Admin/Page/Mapping.tpl
 msgid "Mapping Type"
-msgstr "karteertype"
+msgstr "Karteertype"
 
 #: CRM/Admin/Form/Options.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/CustomOption.php CRM/Core/DAO/UFField.php
@@ -445,30 +440,28 @@ msgid "Value"
 msgstr "Waarde"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Option Grouping Name"
-msgstr "Groepsnaam"
+msgstr "Optie groepsnaam"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type A"
-msgstr "Contact Type A"
+msgstr "Contact type A"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type B"
-msgstr "Contact Type B"
+msgstr "Contact type B"
 
 #: CRM/Admin/Form/Setting/Address.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Invoke.php
 msgid "Address Formatting"
-msgstr ""
+msgstr "Adres opmaak"
 
 #: CRM/Admin/Form/Setting/Component.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Invoke.php
-#, fuzzy
 msgid "Components"
-msgstr "Volledig"
+msgstr "Componenten"
 
 #: CRM/Admin/Form/Setting/Localization.php CRM/Contact/Form/Address.php
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Criteria.php
@@ -483,16 +476,15 @@ msgstr "- selecteer -"
 #: CRM/Admin/Form/Setting/Payment.php CRM/Contact/Form/Task/Email.php
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send Email"
-msgstr "Stuur email"
+msgstr "Stuur e-mail"
 
 #: CRM/Admin/Form/Setting.php CRM/Admin/Page/Setting.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Global Settings"
-msgstr "Instellingen voor groepen"
+msgstr "Algemene instellingen"
 
 #: CRM/Admin/Form/Setting/Smtp.php CRM/Admin/Page/Setting.php
 msgid "SMTP Server"
-msgstr ""
+msgstr "SMTP Server"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Manage"
@@ -504,12 +496,12 @@ msgstr "Configureer"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Setup"
-msgstr "Opstelling"
+msgstr "Instelling"
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
-msgstr "Backup Database"
+msgstr "Backup database"
 
 #: CRM/Admin/Page/OptionGroup.php CRM/Group/Page/Group.php
 msgid "Edit Group"
@@ -526,39 +518,37 @@ msgstr "Bewerk %1"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "File System Paths"
-msgstr ""
+msgstr "File systeem pad"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Site URLs"
-msgstr ""
+msgstr "Site URLs"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Mapping en Geocoding"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Localization"
-msgstr "Locatie"
+msgstr "Lokalisatie"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Date Formatting"
-msgstr "datum gegevens"
+msgstr "Datum gegevens"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diversen"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Debugging"
-msgstr ""
+msgstr "Debugging"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -573,7 +563,7 @@ msgstr "Individu"
 #: CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
-msgstr "Gezin"
+msgstr "Huishouden"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -603,17 +593,17 @@ msgstr "Kaartje(s)"
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
-msgstr "CiviCRM Contact Zoeken"
+msgstr "CiviCRM contact zoeken"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 msgid "Nick Name"
-msgstr "Nickname"
+msgstr "Roepnaam"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/MappingField.php CRM/Import/Form/UploadFile.php
 msgid "Contact Type"
-msgstr "Contact Type"
+msgstr "Contact type"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
@@ -662,9 +652,8 @@ msgid "Where Clause"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Selecteer datum"
+msgstr "Selecteer tabellen"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
@@ -683,11 +672,11 @@ msgstr "Openbare gebruikerspagina's"
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "Public User Pages and Listings"
-msgstr "Openbare gebruikerspagina's en gegevens"
+msgstr "Openbare gebruikerspagina's en overzichten"
 
 #: CRM/Contact/DAO/Household.php CRM/Contact/Form/Household.php
 msgid "Household Name"
-msgstr "Naam Gezin"
+msgstr "Naam huishouden"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "First Name"
@@ -695,7 +684,7 @@ msgstr "Voornaam"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "Middle Name"
-msgstr "Tweede naam"
+msgstr "Tussenvoegsel"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "Last Name"
@@ -740,7 +729,7 @@ msgstr "methode"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/SelectValues.php
 msgid "Admin"
-msgstr "Admin"
+msgstr "Beheerder"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php
 #: CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php
@@ -754,12 +743,12 @@ msgstr "Admin"
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Address.php
 msgid "Street Address"
-msgstr "Straat en nummer"
+msgstr "Straatadres en nummer"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Selector.php CRM/Core/DAO/Address.php CRM/Core/Form.php
@@ -778,18 +767,17 @@ msgstr "Zip / Postcode"
 
 #: CRM/Contact/Form/Address.php CRM/Core/Form.php
 msgid "Add-on Code"
-msgstr "add-on code"
+msgstr "toegevoegde code"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/County.php CRM/Core/Form.php
-#, fuzzy
 msgid "County"
-msgstr "Land"
+msgstr "Streek"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php
 #: CRM/Contact/Form/Test.php CRM/Core/Form.php
 msgid "State / Province"
-msgstr "Staat/Provincie"
+msgstr "Provincie"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Simple.php CRM/Contact/Form/StateCountry.php
@@ -812,26 +800,25 @@ msgstr "Beschrijving:"
 #: CRM/Contact/Form/Domain.php CRM/Contact/Form/Email.php
 #: CRM/Contact/Form/Task/Email.php CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
-msgstr "Emailadres is niet geldig."
+msgstr "E-mailadres is niet geldig."
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "New %1"
-msgstr "Voorvertoning %1"
+msgstr "Nieuw %1"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Criteria.php
 msgid "Privacy"
-msgstr "privacy"
+msgstr "Privacy"
 
 #: CRM/Contact/Form/Email.php CRM/Core/DAO/Email.php
 msgid "On Hold"
-msgstr "gepauzeerd"
+msgstr "Gepauzeerd"
 
 #: CRM/Contact/Form/GroupTag.php CRM/Contact/Form/Task/Email.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Core/Form.php
 #: CRM/UF/Form/Preview.php
 msgid "%1 is a required field."
-msgstr "%1 is een vereist veld"
+msgstr "%1 is een vereist veld."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
@@ -841,12 +828,8 @@ msgid ""
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Duplicate Contact button below."
-msgstr[0] ""
-"EnkelEr werd één overeenkomstig contact gevonden.Je kan het hier bewerken: %"
-"1, of klik op de 'bewaar dubbel contact' knop onderaan."
-msgstr[1] ""
-"MeerdereEr werden meerdere overeenkomstige contacten gevonden.Je kan ze hier "
-"bewerken: %1, of klik op de 'bewaar dubbel contact' knop onderaan."
+msgstr[0] "EnkelEr werd één overeenkomstig contact gevonden. Je kan het hier bewerken: %1 of klik op de 'bewaar dubbel contact' knop onderaan."
+msgstr[1] "MeerdereEr werden meerdere overeenkomstige contacten gevonden. Je kan ze hier bewerken: %1 of klik op de 'bewaar dubbel contact' knop onderaan."
 
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
@@ -859,9 +842,8 @@ msgstr "Website"
 
 #: CRM/Contact/Form/Location.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Location.php
-#, fuzzy
 msgid "Location Name"
-msgstr "lokatie type"
+msgstr "Lokatie naam"
 
 #: CRM/Contact/Form/Note.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Menu.php CRM/Note/Form/Note.php
@@ -886,7 +868,7 @@ msgstr "Telefoon"
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Relationship Type"
-msgstr "Type Relatie"
+msgstr "Type relatie"
 
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search.php
 #: CRM/Contact/Form/Search/Simple.php CRM/Contact/Form/Task/AddToHousehold.php
@@ -908,12 +890,11 @@ msgstr "Activiteitengeschiedenis"
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Relationships"
-msgstr "relaties"
+msgstr "Relaties"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#, fuzzy
 msgid "Change Log"
-msgstr "bereik"
+msgstr "Change Log"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Contribution.php CRM/Contact/Page/View/Tabbed.php
@@ -925,22 +906,19 @@ msgstr "Bijdragen"
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Memberships"
-msgstr "Vorige lidmaatschappen"
+msgstr "Lidmaatschappen"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Participant.php
 #: CRM/Contact/Page/View/Tabbed.php
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Events"
-msgstr "Evenement"
+msgstr "Evenementen"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Task"
-msgstr "Verberg"
+msgstr "Taak"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search.php
 msgid "Find..."
@@ -948,12 +926,12 @@ msgstr "Vind..."
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search/Simple.php
 msgid "- any state/province -"
-msgstr "- elke staat/provincie -"
+msgstr "- alle provincies -"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search/Simple.php
 #: CRM/Core/BAO/CustomField.php
 msgid "State/Province"
-msgstr "Staat/Provincie"
+msgstr "Provincie"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search/Simple.php
 msgid "- any country -"
@@ -968,7 +946,7 @@ msgstr "Postcode"
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "To"
-msgstr "Aan"
+msgstr "Tot"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomQuery.php
 msgid "and"
@@ -993,7 +971,7 @@ msgstr "Selecteer een groep"
 #: CRM/Contact/Form/Task/Delete.php CRM/Contact/Form/Task/Email.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php CRM/SMS/Form/Task/SMS.php
 msgid "Total Selected Contact(s): %1"
-msgstr "Totaal aantal geselecteerde contacten: %1"
+msgstr "Aantal geselecteerde contacten: %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
@@ -1004,13 +982,13 @@ msgstr "Nieuwe relatie aangemaakt: %1"
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created due to invalid target contact type: %1."
-msgstr "Relatie niet aangemaakt wegens ongeldig type doelcontact: %1"
+msgstr "Relatie niet aangemaakt wegens ongeldig doelcontact type: %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created - duplicate of existing relationship: %1."
-msgstr "Relatie niet aangemaakt - dubbel van bestaande relatie: %1."
+msgstr "Relatie niet aangemaakt - dublikaat van bestaande relatie: %1."
 
 #: CRM/Contact/Form/Task/Delete.php CRM/Contact/Task.php
 msgid "Delete Contacts"
@@ -1018,11 +996,11 @@ msgstr "Verwijder contacten"
 
 #: CRM/Contact/Form/Task/Email.php CRM/SMS/Form/Task/SMS.php
 msgid "(preferred)"
-msgstr "(prefereer)"
+msgstr "(voorkeur)"
 
 #: CRM/Contact/Form/Task/Email.php CRM/Contact/Page/View/Email.php
 msgid "Your user record does not have a valid email address"
-msgstr "Uw gebruikers record heeft geen geldig emailadres"
+msgstr "Uw gebruikers record heeft geen geldig e-mailadres"
 
 #: CRM/Contact/Form/Task/Email.php CRM/Core/DAO/EmailHistory.php
 #: CRM/SMS/DAO/History.php CRM/SMS/Form/Task/SMS.php
@@ -1045,9 +1023,8 @@ msgid "Continue >>"
 msgstr "Ga Verder >>"
 
 #: CRM/Contact/Form/Task/Label.php CRM/Core/BAO/Mapping.php
-#, fuzzy
 msgid "Primary"
-msgstr "privacy"
+msgstr "Hoofd"
 
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Task.php
 msgid "Record Activity for Contacts"
@@ -1055,11 +1032,11 @@ msgstr "Activiteitenlijst voor contacten"
 
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
 msgid "Update Smart Group"
-msgstr "Werk Slimme Groep bij"
+msgstr "Werk Smart Groep bij"
 
 #: CRM/Contact/Page/SavedSearch.php CRM/Group/Page/Group.php
 msgid "Do you really want to remove this Smart Group?"
-msgstr "Wil je deze Slimme Groep echt verwijderen?"
+msgstr "Wil je deze Smart Groep echt verwijderen?"
 
 #: CRM/Contact/Page/View/Activity.php CRM/History/Selector/Activity.php
 #: templates/CRM/History/Form/Activity.tpl
@@ -1076,22 +1053,21 @@ msgid "We could not find a contact id."
 msgstr "Er is geen contact ID gevonden"
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Core/Menu.php
-#, fuzzy
 msgid "CiviCRM Home"
-msgstr "CiviCRM Menu"
+msgstr "CiviCRM Home"
 
 #: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
 msgid "Email Sent"
-msgstr "Email verstuurd"
+msgstr "E-mail verzonden"
 
 #: CRM/Contact/Page/View/GroupContact.php
 #: CRM/Contact/Page/View/UserDashBoard/GroupContact.php
 msgid "Contact's Groups"
-msgstr "contact groepen"
+msgstr "Contact groepen"
 
 #: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
 msgid "SMS Sent"
-msgstr ""
+msgstr "SMS verzonden"
 
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Menu.php
 #: CRM/Core/SelectValues.php
@@ -1107,7 +1083,7 @@ msgstr "Groepen"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
 msgid "Tags"
-msgstr "markeringen"
+msgstr "Markeringen"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/Menu.php
 #: templates/CRM/Activity/Form/OtherActivity.tpl
@@ -1133,7 +1109,7 @@ msgstr "Telefoonoproep"
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
 #: CRM/History/Selector/Activity.php
@@ -1144,11 +1120,11 @@ msgstr "Evenement"
 
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 msgid "CiviCRM Activity History"
-msgstr "CiviCRM activiteitsgeschiedenis"
+msgstr "CiviCRM activiteitengeschiedenis"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
 msgid "Activity"
-msgstr "activiteit"
+msgstr "Activiteit"
 
 #: CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php
 #: CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php
@@ -1161,7 +1137,7 @@ msgstr "Kaart"
 
 #: CRM/Contact/Selector.php CRM/Core/Invoke.php
 msgid "Map Contact"
-msgstr "Map contact"
+msgstr "Kaart contact"
 
 #: CRM/Contact/Selector.php CRM/Profile/Selector/Listings.php
 msgid "Contact %%StatusMessage%%"
@@ -1203,9 +1179,8 @@ msgstr "Notitie"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "File"
-msgstr "Vul"
+msgstr "File"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php CRM/Core/Form.php
 #: CRM/Custom/Form/Field.php templates/CRM/ACL/Page/ACL.tpl
@@ -1232,7 +1207,7 @@ msgstr "Nee"
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomGroup.php
 #: CRM/Core/BAO/File.php
 msgid "Could not move custom file to custom upload directory"
-msgstr ""
+msgstr "Kan de file niet verplaatsen naar de upload directory"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
@@ -1272,7 +1247,7 @@ msgstr "We hebben uw ingelogde gebruikers ID niet kunnen vinden"
 msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
-msgstr ""
+msgstr "Dit profiel is niet aangemaakt voor de gevraagde aktie. Neem kontakt op met de site beheerder als u hulp nodig heeft."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1292,14 +1267,12 @@ msgid "CiviContribute"
 msgstr "CiviContribute"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "CiviEvent"
-msgstr "Evenement"
+msgstr "CiviEvent"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "CiviMember"
-msgstr "Leden"
+msgstr "CiviMember"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviMail"
@@ -1316,12 +1289,12 @@ msgstr "Standaardwaarde"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/UFGroup.php
 msgid "Help Pre"
-msgstr "Help pre"
+msgstr "Help (voor)"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
 msgid "Help Post"
-msgstr "Help Post"
+msgstr "Help (na)"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1349,11 +1322,11 @@ msgstr "Selecteer meerdere"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Radio"
-msgstr "Radio"
+msgstr "Radioknop"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "CheckBox"
-msgstr "AanVinkVakje"
+msgstr "Aanvink vak"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Date"
@@ -1369,7 +1342,7 @@ msgstr "Selecteer Land"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
 msgid "Collapse Display"
-msgstr "scherm uitklappen"
+msgstr "Scherm uitklappen"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
@@ -1386,15 +1359,13 @@ msgstr "verzenddatum"
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
 msgid "Phone Type"
-msgstr "Type Telefoon"
+msgstr "Telefoontype"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "Import Activity History"
-msgstr "Activiteitengeschiedenis"
+msgstr "Importeer activiteitengeschiedenis"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Search Builder"
 msgstr "Zoek Profiel"
 
@@ -1423,7 +1394,7 @@ msgstr "Bieper"
 
 #: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
 msgid "Field Name"
-msgstr "veldnaam"
+msgstr "Veldnaam"
 
 #: CRM/Core/DAO/UFGroup.php CRM/Core/Menu.php templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile"
@@ -1434,14 +1405,12 @@ msgid "Search Results"
 msgstr "Zoekresultaten"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
-#, fuzzy
 msgid "Domain Information Page"
-msgstr "Informatie mbt. de bijdrage"
+msgstr "Domein informatie bladzijde"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Map Event Location"
-msgstr "Verwijder Type Locatie"
+msgstr "Map evenement locatie"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
@@ -1450,9 +1419,8 @@ msgid "Advanced Search"
 msgstr "Geavanceerde zoekopdracht"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "New Contact"
-msgstr "Toon contact"
+msgstr "Nieuw contact"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Custom Data Fields"
@@ -1468,7 +1436,7 @@ msgstr "CiviCRM Profiel Veld"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Duplicate Matching"
-msgstr "Match Dubbels"
+msgstr "Match duplicaten"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -1483,22 +1451,20 @@ msgid "Group Members"
 msgstr "Groepsleden"
 
 #: CRM/Core/Page/File.php CRM/Custom/Form/DeleteFile.php
-#, fuzzy
 msgid "The attached file has been deleted."
-msgstr "Specifiek veld \"%1\" is verwijderd"
+msgstr "Het toegevoegde bestand is verwijdert"
 
 #: CRM/Core/Payment/AuthorizeNet.php CRM/Core/Payment/Google.php
 #: CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; "
 "Payment Processor."
-msgstr ""
+msgstr "%1 is niet ingesteld in het Administer CiviCRM &raquo; Algemene instellingen &raquo; Payment Processor."
 
 #: CRM/Core/Payment/AuthorizeNet.php CRM/Core/Payment/Google.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
-#, fuzzy
 msgid "%1 is not set in the config file."
-msgstr "CIVICRM_PAYMENT_KEY is niet ingesteld in het configuratiebestand."
+msgstr "%1 is niet ingesteld in de config file."
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
@@ -1511,12 +1477,11 @@ msgstr "Groep \"%1\" is verwijderd."
 #: CRM/Custom/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Field Label"
-msgstr "Label veld"
+msgstr "Veld label"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid value for this field."
-msgstr "Voer een geldig bedrag in, bv 99.99"
+msgstr "Voer in dit veld een geldige waarde in a.u.b."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php CRM/UF/Form/Field.php
@@ -1534,7 +1499,7 @@ msgstr "Veld Hulp"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Please enter a valid number value."
-msgstr "Voer een geldige numerieke waarde in"
+msgstr "Voer een geldige numerieke waarde in a.u.b."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Invalid default value for country."
@@ -1547,11 +1512,11 @@ msgstr "Gebruikt voor"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 msgid "Pre-form Help"
-msgstr "Pre-form hulp"
+msgstr "Help voor het formulier"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 msgid "Post-form Help"
-msgstr "Post-form hulp"
+msgstr "Help achter het formulier"
 
 #: CRM/Custom/Form/Preview.php CRM/UF/Form/Preview.php
 msgid "Done with Preview"
@@ -1579,18 +1544,15 @@ msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
 "before continuing."
-msgstr ""
-"De gegevens kolommen in dit import-bestand blijken te verschillen van de "
-"bewaarde mapping. Gelieve te controleren dat je de juiste bewaarde mapping "
-"heb geselecteerd vooraleer verder te gaan."
+msgstr "De kolom gegevens van dit import-bestand verschillen van de bewaarde mapping. Controleer of u de juiste mapping heeft geselecteerd, voor u verder gaat."
 
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
-msgstr "Naam is vereist om Import mapping te bewaren"
+msgstr "Om import mapping te bewaren is de naam vereist"
 
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Duplicate Import Mapping Name"
-msgstr "Dupliceer import mapping naam"
+msgstr "Kopiëer de mport mapping naam"
 
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"
@@ -1622,11 +1584,11 @@ msgstr "Importeer gegevensbestand"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
-msgstr "Een geldig bestand moet worden upgeload"
+msgstr "U moet een geldig bestand uploaden."
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
-msgstr "Bestandsgroottes moeten kleiner zijn dan %1 MB (%2 bytes)"
+msgstr "Bestandsgrootte moet kleiner zijn dan %1 MB (%2 bytes)"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
@@ -1650,7 +1612,7 @@ msgstr "Vul"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
-msgstr "Upload data"
+msgstr "Upload gegevens"
 
 #: CRM/History/Import/Parser/ActivityHistory.php CRM/Import/Parser/Contact.php
 msgid "Missing required fields"
@@ -1665,24 +1627,20 @@ msgid "Reason"
 msgstr "Reden"
 
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
-#, fuzzy
 msgid "Owner Entity Table"
-msgstr "Entiteitentabel"
+msgstr "Entiteitentabel eigenaar"
 
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Contact Group"
-msgstr "contact groepen"
+msgstr "Contact groep"
 
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Administer"
-msgstr "Beheer CiviCRM"
+msgstr "Beheer"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "Achternaam"
+msgstr "ACL Naam"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
@@ -1709,140 +1667,120 @@ msgid "Revoke"
 msgstr "Herroepen"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A group of contacts"
-msgstr "%count contact gevonden"
+msgstr "A contacten groep"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A profile"
-msgstr "Profiel"
+msgstr "Een profiel"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A set of custom data fields"
-msgstr "Specifieke Gegevensvelden"
+msgstr "Een set specifieke gegevensvelden"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Type of Data"
-msgstr "memo gegevens"
+msgstr "Type gegevens"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Role"
-msgstr "regel"
+msgstr "Rol"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid " -select role- "
-msgstr "- selecteer -"
+msgstr "-selecteer rol-"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Everyone"
-msgstr "Herkansing"
+msgstr "Iedereen"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please assign this permission to a Role."
-msgstr ""
+msgstr "Wijs deze bevoegdheid aan een rol toe."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Group (or ALL Groups)."
-msgstr "Selecteer een groep om te mailen"
+msgstr "Selecteer een groep (of alle)."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Profile (or ALL Profiles)."
-msgstr "Selecteer een groep om te mailen"
+msgstr "Selecteer een profiel (of alle)."
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a set of Custom Data (or ALL Custom Data)."
-msgstr ""
+msgstr "Selecteer een set specifieke gegevens (of alle)."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Selected ACL has been deleted."
-msgstr "Geselecteerde type geslacht is verwijderd."
+msgstr "De geselecteerde ACL is verwijdert."
 
 #: CRM/ACL/Form/EntityRole.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr ""
+msgstr "Toewijzen aan"
 
 #: CRM/ACL/Form/EntityRole.php
-#, fuzzy
 msgid "Selected Entity Role has been deleted."
-msgstr "Geselecteerde type activiteit is verwijderd."
+msgstr "De geselecteerde rol is verwijdert."
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Are you sure you want to disable this ACL?"
-msgstr "Wet U zeker, dat u deze groep wilt disablen?"
+msgstr "Weet u zeker dat u deze ACL wilt uitschakelen?"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Edit ACL"
-msgstr "Wijzig"
+msgstr "Wijzig ACL"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Disable ACL"
-msgstr "Uitschakelen"
+msgstr "ACL uitschakelen"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Enable ACL"
-msgstr "Inschakelen"
+msgstr "ACL inschakelen"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Delete ACL"
-msgstr "Verwijder"
+msgstr "ACL verwijderen"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Any Role"
-msgstr "regel"
+msgstr "Willekeurige rol"
 
 #: CRM/ACL/Page/EntityRole.php
-#, fuzzy
 msgid "Are you sure you want to disable this ACL Role Assignment?"
-msgstr "Weet u zeker, dat u dit onderdeel wilt disablen ?"
+msgstr "Weet u zeker dat u deze ACL opdracht wilt uitschakelen?"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Edit ACL Role Assignment"
-msgstr ""
+msgstr "ACL opdracht bewerken"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Disable ACL Role Assignment"
-msgstr ""
+msgstr "ACL opdracht uitzetten"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Enable ACL Role Assignment"
-msgstr ""
+msgstr "ACL opdracht aanzetten"
 
 #: CRM/ACL/Page/EntityRole.php templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Delete ACL Role Assignment"
-msgstr ""
+msgstr "ACL opdracht verwijderen"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Assign Users to Roles"
-msgstr ""
+msgstr "Koppel gebruikers aan rollen"
 
 #: CRM/Activity/BAO/Activity.php
-#, fuzzy
 msgid "\"%1\" has been logged to Activity History."
-msgstr "Bijeenkomst \"%1\" is gelogd naar de activiteitengeschiedenis."
+msgstr "\"%1\" is toegevoegd aan de Activiteiten geschiedenis."
 
 #: CRM/Activity/BAO/Activity.php
-#, fuzzy
 msgid "\"%1\" has been saved."
-msgstr "Bijeenkomst \"%1\" is bewaard."
+msgstr "\"%1\" is bewaard"
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "- select activity type -"
-msgstr "- selecteer type activiteit -"
+msgstr "-selecteer activiteit type-"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Select Phone Number"
@@ -1850,7 +1788,7 @@ msgstr "Selecteer telefoonnummer."
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "OR New Phone"
-msgstr "OF nieuwe Telefoon"
+msgstr "OF nieuwe telefoon"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Selected Phone Call is deleted sucessfully."
@@ -1858,23 +1796,21 @@ msgstr "Geselecteerde Telefoonoproep is succesvol verwijderd."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "Match On:"
-msgstr "Match op:"
+msgstr "Vergelijk op:"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid ""
 "The Duplicate Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
-msgstr ""
-"De dubbele matching-regel is niet bewaard, omdat de regel ongeldig is. "
-"Regels mogen alleen geldige veldnamen bevatten, 'AND', 'OR' of haakjes."
+msgstr "De gekopieerde vergelijkingsregel is niet bewaard omdat de regel ongeldig is. Regels mogen alleen geldige veldnamen , 'AND', 'OR' of haakjes bevatten."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Duplicate Matching rule has been saved."
-msgstr "De dubbels matching-regel is bewaard."
+msgstr "De gekopieerde vergelijkingsregel is bewaard."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Name can only consist of alpha-numeric characters"
-msgstr ""
+msgstr "Naam dient te bestaan uit alpha-numerieke karakters"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "vCard Name"
@@ -1893,49 +1829,40 @@ msgid "The location type \"%1\" has been saved."
 msgstr "Het locatietype \"%1\" is bewaard."
 
 #: CRM/Admin/Form/OptionGroup.php
-#, fuzzy
 msgid "Selected option group has been deleted."
-msgstr "Geselecteerde locatietype is verwijderd."
+msgstr "Geselecteerd optie groep is verwjdert."
 
 #: CRM/Admin/Form/OptionGroup.php
-#, fuzzy
 msgid "The Option Group \"%1\" has been saved."
-msgstr "Groep \"%1\" is opgeslagen"
+msgstr "De optie groep \"%1\" is bewaard."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "Selected %1 type has been deleted."
-msgstr "Geselecteerde type geslacht is verwijderd."
+msgstr "Geselecteerde %1 type is verwijdert."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "Selected %1 type has not been deleted."
-msgstr "Geselecteerde type geslacht is niet verwijderd."
+msgstr "Geselecteerde %1 type is niet verwijdert."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "The %1 \"%2\" has been saved."
-msgstr "Markering \"%1\" is opgeslagen"
+msgstr "De %1 \"%2\" zijn bewaard."
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Default Option?"
-msgstr "Kies opties"
+msgstr "Standaard opties?"
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Option Group?"
-msgstr "Wijzig groep"
+msgstr "Optie groep?"
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Selected option value has been deleted."
-msgstr "Geselecteerde locatietype is verwijderd."
+msgstr "Geselecteerde optie waarde is verwijdert."
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "The Option Value \"%1\" has been saved."
-msgstr "Markering \"%1\" is opgeslagen"
+msgstr "De optie waarde \"%1\" is bewaard."
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-A to B"
@@ -1954,338 +1881,300 @@ msgid "The Relationship Type has been saved."
 msgstr "Het Relatietype is bewaard."
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Settings - Addresses"
-msgstr "Straat en nummer"
+msgstr "Instellingen - Adressen"
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Maximum Locations"
-msgstr "Primaire lokatie"
+msgstr "Maximaal aantal Locaties"
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Include County?"
-msgstr "inclusief groep(en)"
+msgstr "Inclusief County?"
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Provider"
-msgstr "IM provider"
+msgstr "Provider"
 
 #: CRM/Admin/Form/Setting/Address.php
 msgid "User ID"
-msgstr ""
+msgstr "Gebruikers ID"
 
 #: CRM/Admin/Form/Setting/Address.php
 msgid "Web Service URL"
-msgstr ""
+msgstr "Web Service URL"
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Individual Name Format"
-msgstr "Individu"
+msgstr "Individuele Naam opmaak"
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Mailing Label Format"
-msgstr "Naam mailing"
+msgstr "Mailing Label opmaak"
 
 #: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
 msgid "Settings - Enable Components"
-msgstr "Instellingen en inhoud"
+msgstr "Instellingen - Inschakelen Komponenten"
 
 #: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
 msgid "Enable >>"
-msgstr "Inschakelen"
+msgstr "Inschakelen >>"
 
 #: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
 msgid "<< Disable"
-msgstr "Uitschakelen"
+msgstr "<< Uitschakelen"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Settings - Date Formatting"
-msgstr "Instellingen en inhoud"
+msgstr "Instellingen - Datum opmaak"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Complete Date and Time"
-msgstr "Datum en tijd"
+msgstr "Voltooi Datum en Tijd"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Complete Date"
-msgstr "Datum compleet"
+msgstr "Voltooi Datum"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Month and Year"
-msgstr ""
+msgstr "Maand en Jaar"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Year Only"
-msgstr "Alleen bekijken"
+msgstr "Alleen Jaar"
 
 #: CRM/Admin/Form/Setting/Debugging.php
-#, fuzzy
 msgid "Settings - Debugging"
-msgstr "Instellingen en inhoud"
+msgstr "Instellingen - Debugging"
 
 #: CRM/Admin/Form/Setting/Debugging.php
-#, fuzzy
 msgid "Enable Debugging"
-msgstr "Schakel geslacht in"
+msgstr "Debugging aanzetten"
 
 #: CRM/Admin/Form/Setting/Debugging.php
-#, fuzzy
 msgid "Display Backtrace"
-msgstr "Toon stijl"
+msgstr "Toon Backtrace"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Template"
-msgstr ""
+msgstr "Fatal Error Template"
 
 #: CRM/Admin/Form/Setting/Debugging.php
-#, fuzzy
 msgid "Fatal Error Handler"
-msgstr "Database foutcode :"
+msgstr "Fatal Error Handler"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Settings - Localization"
-msgstr "Verwijder Type Locatie"
+msgstr "Istellingen - Localisatie"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "User Language"
-msgstr "Standaardwaarde"
+msgstr "Gebruikerstaal"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Monetary Locale"
-msgstr ""
+msgstr "Locaal muntstelsel"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Monetary Display"
-msgstr "scherm uitklappen"
+msgstr "Toon muntstelsel"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Available Countries"
-msgstr "Bedrag tarief"
+msgstr "Beschikbare landen"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Add >>"
-msgstr "Voeg toe>>"
+msgstr "Voeg toe >>"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "<< Remove"
-msgstr "<<Verwijder"
+msgstr "<< Verwijder"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Available States and Provinces"
-msgstr "Staat/Provincie"
+msgstr "Beschikbare Staten/Provincies"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Default Country"
-msgstr "Standaard bedrag"
+msgstr "Standaard land"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Default Currency"
-msgstr "Standaardwaarde"
+msgstr "Standaard munteenheid"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Legacy Encoding"
-msgstr ""
+msgstr "Legacy Encoding"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Settings - CiviMail"
-msgstr ""
+msgstr "Instellingen - CiviMail"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Period"
-msgstr ""
+msgstr "Mail Spool periode"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid " VERP Separator"
-msgstr ""
+msgstr "VERP scheidingsteken"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Batch Limit"
-msgstr ""
+msgstr "Mail Batch limiet"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Settings - Mapping Provider"
-msgstr ""
+msgstr "Instellingen - Mapping Provider"
 
 #: CRM/Admin/Form/Setting/Mapping.php
-#, fuzzy
 msgid "Map Provider"
-msgstr "IM provider"
+msgstr "Map Provider"
 
 #: CRM/Admin/Form/Setting/Mapping.php
-#, fuzzy
 msgid "Provider Key"
-msgstr "IM naam provider"
+msgstr "Provider Key"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Settings - Miscellaneous"
-msgstr ""
+msgstr "Instellingen - Diversen"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
-#, fuzzy
 msgid "CiviCRM Version Check"
-msgstr "CiviCRM zoeken"
+msgstr "CiviCRM Versie Check"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font Path"
-msgstr ""
+msgstr "Captcha Font Pad"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font"
-msgstr ""
+msgstr "Captcha Font"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Settings - Upload Directories"
-msgstr ""
+msgstr "Instellingen - Upload Directories"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Temporary Files"
-msgstr "Importeer gegevensbestand"
+msgstr "Tijdelijke bestanden"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Images"
-msgstr "Afbeelding URL"
+msgstr "Afbeeldingen"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Custom Files"
-msgstr "Specifieke velden"
+msgstr "Specifieke bestanden"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Custom Templates"
-msgstr "Specifieke velden"
+msgstr "Specifieke templates"
 
 #: CRM/Admin/Form/Setting/Payment.php
-#, fuzzy
 msgid "Settings - Payment Processor"
-msgstr "Betalings Bemiddelaar"
+msgstr "Instellingen - Payment Processor"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Force Secure URLs (SSL)"
-msgstr ""
+msgstr "Forceer Secure URLs (SSL)"
 
 #: CRM/Admin/Form/Setting/Payment.php templates/CRM/Admin/Page/Setting.tpl
 msgid "Payment Processor"
-msgstr "Betalings Bemiddelaar"
+msgstr "Payment Processor"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "PayPal Express Button"
-msgstr ""
+msgstr "PayPal Express Button"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Username - TEST"
-msgstr ""
+msgstr "Gebruikersnaam - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Certificate Path - TEST"
-msgstr ""
+msgstr "Certificaat Pad - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Paypal Url - TEST"
-msgstr ""
+msgstr "Paypal Url - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Username - LIVE"
-msgstr ""
+msgstr "Gebruikersnaam - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Certificate Path - LIVE"
-msgstr ""
+msgstr "Certificaat Pad - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Paypal Url - LIVE"
-msgstr ""
+msgstr "Paypal Url - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Checkout Button - TEST"
-msgstr ""
+msgstr "Controle knop - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Checkout Button - LIVE"
-msgstr ""
+msgstr "Controle knop - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Merchant ID  - TEST"
-msgstr ""
+msgstr "Merchant ID  - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Checkout URL - TEST"
-msgstr ""
+msgstr "Controle URL - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Merchant ID - LIVE"
-msgstr ""
+msgstr "Merchant ID - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Checkout URL - LIVE"
-msgstr ""
+msgstr "Controle URL - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Authorize.Net API Login"
-msgstr ""
+msgstr "Authorize.Net API Login"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "MD5 Hash Key"
-msgstr ""
+msgstr "MD5 Hash Key"
 
 #: CRM/Admin/Form/Setting.php
-#, fuzzy
 msgid "Your changes have been saved."
-msgstr "Uw wijziging is opgeslagen."
+msgstr "Uw wijzigingen zijn opgeslagen."
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Settings - SMTP Configuration"
-msgstr "Instellingen en inhoud"
+msgstr "Instellingen - SMTP Configuratie"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Port"
-msgstr ""
+msgstr "SMTP Port"
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Authentication?"
-msgstr "andere lokatie"
+msgstr "Authenticatie?"
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "SMTP Username"
-msgstr "API gebruikersnaam"
+msgstr "SMTP gebruikersnaam"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Settings - Resource URLs"
-msgstr ""
+msgstr "Instellingen - Bron URLs"
 
 #: CRM/Admin/Form/Setting/Url.php
-#, fuzzy
 msgid "CiviCRM Resource URL"
-msgstr "CiviCRM zoeken"
+msgstr "CiviCRM Bron URL"
 
 #: CRM/Admin/Form/Setting/Url.php
-#, fuzzy
 msgid "Image Upload URL"
-msgstr "Afbeelding URL"
+msgstr "Afbeelding Upload URL"
 
 #: CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
@@ -2293,290 +2182,246 @@ msgstr "Bewerk Regel"
 
 #: CRM/Admin/Page/DupeMatch.php
 msgid "Edit DupeMatch"
-msgstr "Bewerk DubbelMatch"
+msgstr ""
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Are you sure you want to disable this location type?"
-msgstr "Ben je er zeker van dat je dit type locatie wil uitschakelen?"
+msgstr "Weet je zeker dat je dit locatietype wilt uitschakelen?"
 
 #: CRM/Admin/Page/LocationType.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact locations."
-msgstr ""
-"Gebruikers zullen deze waarde niet langer kunnen selecteren bij het "
-"toevoegen of wijzigen van contact locaties."
+msgstr "Gebruikers zullen deze waarde niet langer kunnen selecteren bij het toevoegen of wijzigen van contact locaties."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
-msgstr "Wijzig Type Locatie"
+msgstr "Wijzig Locatietype "
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Disable Location Type"
-msgstr "Schakel Type Locatie Uit"
+msgstr "Locatietype uitschakelen"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Enable Location Type"
-msgstr "Schakel Type Locatie In"
+msgstr "Locatietype inschakelen"
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Delete Location Type"
-msgstr "Verwijder Type Locatie"
+msgstr "Locatietype verwijderen"
 
 #: CRM/Admin/Page/Mapping.php
-#, fuzzy
 msgid ""
 "Are you sure you want to delete this mapping? This operation can not be "
 "undone"
-msgstr ""
-"Weet u zeker, dat u deze geselecteerde cotnacten wilt verwijderen? Deze "
-"actie kan niet hersteld woden."
+msgstr "Weet u zeker dat u deze mapping wilt verwijderen? Deze actie kan niet worden hersteld."
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
-#, fuzzy
 msgid "Edit Mapping"
-msgstr "Laad mapping"
+msgstr "Wijzig Mapping"
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
-#, fuzzy
 msgid "Delete Mapping"
-msgstr "Verwijder bijeenkomst"
+msgstr "Verwijder Mapping"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "Are you sure you want to disable this Option?"
-msgstr "Weet u zeker, dat u dit onderdeel wilt disablen ?"
+msgstr "Weet je zeker dat je deze optie wilt uitschakelen?"
 
 #: CRM/Admin/Page/OptionGroup.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Multiple Choice Options"
 msgstr "Meerkeuze opties"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "View and Edit Multiple Choice Options"
-msgstr "Toon/wijzig de meerkeuze opties"
+msgstr "Toon en wijzig meerkeuze opties"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "Disable Option"
-msgstr "Disable relatie"
+msgstr "Optie uitschakelen"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "Enable Option"
-msgstr "Enable relatie"
+msgstr "Optie inschakelen"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "Delete Option"
-msgstr "Kies opties"
+msgstr "Optie verwijderen"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Manage ACL Roles"
-msgstr "Groepsbeheer"
+msgstr "Beheer ACL rolllen"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "%1 Options"
-msgstr "Bewerking"
+msgstr "%1 Opties"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Are you sure you want to disable this %1?"
-msgstr "Wet U zeker, dat u deze groep wilt disablen?"
+msgstr "Weet je zeker dat je deze %1 wilt uitschakelen?"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing %1."
-msgstr ""
-"Gebruikers zullen deze waarde niet langer kunnen selecteren als ze Geslacht "
-"toevoegen of wijzigen."
+msgstr "Gebruikers zullen deze waarde niet langer kunnen selecteren bij het toevoegen of wijzigen van %1"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Disable %1"
-msgstr "Uitschakelen"
+msgstr "%1 uitschakelen"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Enable %1"
-msgstr "Inschakelen"
+msgstr "%1 inschakelen"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Delete %1 Type"
-msgstr "Verwijder %1"
+msgstr "Verwijder %1 Type"
 
 #: CRM/Admin/Page/OptionValue.php
-#, fuzzy
 msgid "Are you sure you want to disable this Option Value?"
-msgstr "Ben je er zeker van dat je dit type locatie wil uitschakelen?"
+msgstr "Weet je zeker dat je deze Optie waarde wilt uitschakelen?"
 
 #: CRM/Admin/Page/OptionValue.php templates/CRM/Admin/Form/OptionValue.tpl
-#, fuzzy
 msgid "Edit Option Value"
-msgstr "Optie waarde"
+msgstr "Optie waarde wijzigen"
 
 #: CRM/Admin/Page/OptionValue.php
-#, fuzzy
 msgid "Disable Option Value"
-msgstr "Optie waarde"
+msgstr "Optie waarde uitschakelen"
 
 #: CRM/Admin/Page/OptionValue.php
-#, fuzzy
 msgid "Enable Option Value"
-msgstr "Optie waarde"
+msgstr "Optie waarde inschakelen"
 
 #: CRM/Admin/Page/OptionValue.php templates/CRM/Admin/Form/OptionValue.tpl
-#, fuzzy
 msgid "Delete Option Value"
-msgstr "Optie waarde"
+msgstr "Optie waarde verwijderen"
 
 #: CRM/Admin/Page/OptionValue.php
-#, fuzzy
 msgid "%1 - Option Values"
-msgstr "Optie waarde"
+msgstr "%1 - Optie waardes"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Are you sure you want to disable this relationship type?"
-msgstr "Ben je er zeker van dat je dit type relatie wil uitschakelen?"
+msgstr "Weet je zeker dat je deze relatie wilt uitschakelen?"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "relationships between contacts."
-msgstr ""
-"Gebruikers zullen deze waarde niet langer kunnen selecteren bij het "
-"toevoegen of wijzigen van relaties tussen contacten."
+msgstr "Gebruikers zullen deze waarde niet langer kunnen selecteren bij het toevoegen of wijzigen van relaties tussen contacten "
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "View Relationship Type"
-msgstr "Toon Type Relatie"
+msgstr "Relatietype tonen"
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "Edit Relationship Type"
-msgstr "Wijzig Type Relatie"
+msgstr "Relatietype wijzigen"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Disable Relationship Type"
-msgstr "Schakel Type Relatie Uit"
+msgstr "Relatietype uitschakelen"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Enable Relationship Type"
-msgstr "Schakel Type Relatie In"
+msgstr "Relatietype inschakelen"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Delete Reletionship Type"
-msgstr "Verwijder Type Relatie"
+msgstr "Relatietype  verwijderen"
 
 #: CRM/Admin/Page/Setting.php
 msgid "Online Payment"
-msgstr ""
+msgstr "Online betaling"
 
 #: CRM/Admin/Page/Tag.php
 msgid "Are you sure you want to delete this tag?"
-msgstr "Ben je er zeker van dat je dit kaartje wil verwijderen?"
+msgstr "Weet je zeker dat je deze markering wilt verwijderen?"
 
 #: CRM/Admin/Page/Tag.php
 msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
-msgstr ""
-"Dit kaartje zal verwijderd worden van alle momenteel gemarkeerde contacten, "
-"en gebruikers zullen niet langer contacten kunnen toewijzen aan dit kaartje."
+msgstr "Deze markering zal alle momenteel gemarkeerde contacten worden verwijdert. Gebruikers zullen geen contacten meer kunnen markeren met deze markering."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
-msgstr "Wijzig kaartje"
+msgstr "Markering wijzigen"
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Delete Tag"
-msgstr "Verwijder kaartje"
+msgstr "Markering verwijderen"
 
 #: CRM/Contact/BAO/Contact.php
 msgid "- Contact Fields -"
 msgstr "- Contact Velden -"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "Note(s)"
-msgstr "Notities"
+msgstr "Notitie(s)"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "Could not find location id"
-msgstr "Er is geen contact ID gevonden"
+msgstr "Locatie ID niet gevonden"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "State %2 \"%1\""
-msgstr "Staat - \"%1\""
+msgstr "Provincie %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "State (%2) %3 \"%1\""
-msgstr "Staat (%2) - \"%1\""
+msgstr "Provincie (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Country %2 \"%1\""
-msgstr "Land - \"%1\""
+msgstr "Land %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Country (%2) %3 \"%1\""
-msgstr "Land (%2) - \"%1\""
+msgstr "Land (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "County %2 \"%1\""
-msgstr "Land - \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-#, fuzzy
-msgid "County (%2) %3 \"%1\""
-msgstr "Land (%2) - \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-#, fuzzy
-msgid "Individual Prefix %2 \"%1\""
-msgstr "Individueel Voorvoegsel - \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-#, fuzzy
-msgid "Individual Suffix %2 \"%1\""
-msgstr "Individueel Achtervoegsel - \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-#, fuzzy
-msgid "Gender %2 \"%1\""
-msgstr "Geslacht - \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "This is an unexpected place to be in, contact support"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
+msgid "County (%2) %3 \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Individual Prefix %2 \"%1\""
+msgstr "Individueel Voorvoegsel %2 \"%1\""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Individual Suffix %2 \"%1\""
+msgstr "Individueel Achtervoegsel %2 \"%1\""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Gender %2 \"%1\""
+msgstr "Geslacht %2 \"%1\""
+
+#: CRM/Contact/BAO/Query.php
+msgid "This is an unexpected place to be in, contact support"
+msgstr "Dit is een onverwachte plek om te zijn: neem contakt op met de web beheerder"
+
+#: CRM/Contact/BAO/Query.php
 msgid "phone"
-msgstr "Telefoon"
+msgstr "telefoon"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contact Type -"
-msgstr "Type Contact -"
+msgstr "Contact type -"
 
 #: CRM/Contact/BAO/Query.php
 msgid "or"
 msgstr "of"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Member of Group %1"
-msgstr "Lid van Groep -"
+msgstr "Lid van groep %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Group Status -"
@@ -2584,31 +2429,27 @@ msgstr "Groepsstatus -"
 
 #: CRM/Contact/BAO/Query.php
 msgid "CMS User"
-msgstr ""
+msgstr "CMS gebruiker"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Not a CMS User"
-msgstr ""
+msgstr "Geen CMS gebruiker"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Tagged %1"
-msgstr "gemarkeerd"
+msgstr "Gemarkeerd %1"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Note %2 - \"%1\""
-msgstr "Staat - \"%1\""
+msgstr "Notitie %2 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Name like - \"%1\""
-msgstr "Naam of Email zoals - \"%1\""
+msgstr "Naam zoals - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Email %2 - \"%1\""
-msgstr "email %1"
+msgstr "E-mail %2 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Restricted to Contacts starting with: \"%1\""
@@ -2619,93 +2460,82 @@ msgid "Postal code - \"%1\""
 msgstr "Postcode - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Postal code greater than \"%1\""
-msgstr "groter dan \"%1\""
+msgstr "Postcode groter dan \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Postal code less than \"%1\""
-msgstr "Postcode - \"%1\""
+msgstr "Postcode kleiner dan \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Location type -"
-msgstr "Type Locatie -"
+msgstr "Locatie type -"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Location name %1 '%2'"
-msgstr "Type Activiteit zoals -\"%1\""
+msgstr "Locatie naam %1 '%2'"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Activity Type %2 '%1'"
-msgstr "Type activiteit"
+msgstr "Activiteit type %2 '%1'"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Changed by: %1"
-msgstr "Aangemaakt door"
+msgstr "Aangepast door: %1"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "%1 %2 %3"
-msgstr "%1 - %2 van %3"
+msgstr "%1 %2 %3"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Task: %1"
-msgstr ""
+msgstr "Taak: %1"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Task Status: %1"
-msgstr "Status:"
+msgstr "Taak Status: %1"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
-msgstr "Geselecteerde Relatie is Succesvol Verwijderd."
+msgstr "Geselecteerde Relatie is succesvol verwijderd."
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Email"
-msgstr "Email Niet"
+msgstr "Niet e-mailen"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Phone"
-msgstr "Telefoneer Niet"
+msgstr "Niet bellen"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Mail"
 msgstr "Stuur geen post"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Contact Sub Type"
-msgstr "Contact Type"
+msgstr "Contact Sub type"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr "Wettelijke identifieerder"
+msgstr "Wettelijke identificatie"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "External Identifier"
-msgstr "Externe Identifieerder"
+msgstr "Externe identificatie"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Sort Name"
-msgstr "Soortnaam"
+msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Toon stijl"
+msgstr "Toon naam"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Home URL"
 msgstr "Thuis URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
 msgstr "Afbeelding URL"
 
@@ -2714,13 +2544,12 @@ msgid "Preferred Communication Method"
 msgstr "Voorkeur Communicatiemethode"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "Email van voorkeur:"
+msgstr "Voorkeur e-mail format:"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Trade"
-msgstr "Verhandel niet"
+msgstr "Niet handelen"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Hash"
@@ -2728,29 +2557,28 @@ msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "Geen Bulk E-mail (Opted-out)"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Internal Contact ID"
 msgstr "Intern Contact ID"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Source of Contact Data"
-msgstr "Toon contact details"
+msgstr "Bron/referentie Contact gegevens"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Greeting Type"
-msgstr "Type Begroeting"
+msgstr "Wijze van begroeting"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Custom Greeting"
-msgstr "Aangepaste Begroeting"
+msgstr "Aangepaste begroeting"
 
 #: CRM/Contact/DAO/Individual.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Job Title"
-msgstr "Job Titel"
+msgstr "Functie"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Birth Date"
@@ -2761,9 +2589,8 @@ msgid "Is Deceased"
 msgstr "Is Overleden"
 
 #: CRM/Contact/DAO/Individual.php
-#, fuzzy
 msgid "Deceased Date"
-msgstr "Ontvangstdatum"
+msgstr "Overlijdingsdatum"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Formal"
@@ -2795,7 +2622,7 @@ msgstr "naam B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
-msgstr "Opgegeven formuliergegevens"
+msgstr "Opgegeven formulier gegevens"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
@@ -2803,7 +2630,7 @@ msgstr "Volgen"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Web"
-msgstr "web"
+msgstr "Web"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "API"
@@ -2826,23 +2653,20 @@ msgid "Longitude"
 msgstr "lengtegraad"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Contact Name:"
-msgstr "naam contact"
+msgstr "Contact Naam:"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Email Domain:"
-msgstr "email-domein"
+msgstr "E-mail Domein:"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Send Emails RETURN-PATH:"
-msgstr ""
+msgstr "Verzonden E-mails RETURN-PATH:"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "The Domain \"%1\" has been saved."
-msgstr "Markering \"%1\" is opgeslagen"
+msgstr "Het domein \"%1\" is bewaard."
 
 #: CRM/Contact/Form/Edit.php
 msgid "contact does not exist: %1"
@@ -2866,16 +2690,15 @@ msgstr "Bewaar dubbel contact"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save and New"
-msgstr "bewaar en nieuw"
+msgstr "Bewaar en nieuw"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
 msgstr "Je %1 contact gegeven is bewaard."
 
 #: CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Mail Format"
-msgstr "Voorkeur Mailformaat"
+msgstr "E-mail instelling"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
@@ -2889,7 +2712,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 msgid "Two locations cannot have same location type"
-msgstr ""
+msgstr "Twee locaties kunnen niet dezelfde locatie type hebben"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
@@ -2957,16 +2780,15 @@ msgstr "Aanspreking"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Job title"
-msgstr "Job titel"
+msgstr "Functie"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Contact is deceased"
 msgstr "Contact is overleden"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid "Deceased date"
-msgstr "Is Overleden"
+msgstr "Datum van overlijden"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Date of birth"
@@ -2976,41 +2798,36 @@ msgstr "Geboortedatum"
 msgid ""
 "Enter a valid web location beginning with \"http://\" or \"https://\". "
 "EXAMPLE: http://www.mysite.org"
-msgstr ""
+msgstr "Voer een juiste websitenaam in, beginnende met \"http://\" of \"https://\". Vb.: http://www.mysite.org"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid "Current Employer"
-msgstr "Werkgever van"
+msgstr "Huidige werknemer"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid "External Id"
-msgstr "Externe Identifieerder"
+msgstr "Externe Id"
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
 "First Name and Last Name OR an email in the Primary Location should be set."
-msgstr ""
-"Voornaam en achternaam OF een emailadres in de primaire locatie zouden "
-"ingesteld moeten zijn."
+msgstr "In de primaire locatie moeten voornaam en achternaam OF een e-mailadres worden ingevoerd."
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
-msgstr "Hoofdverblijfplaats voor dit contact"
+msgstr "Primaire locatie van dit contact"
 
 #: CRM/Contact/Form/Organization.php
 msgid "SIC Code"
 msgstr "SIC code"
 
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid "Enter a valid Website."
-msgstr "Voer een geldige integer in"
+msgstr "Voer een juiste websitenaam in."
 
 #: CRM/Contact/Form/Phone.php
 msgid "Phone (preferred)"
-msgstr "Telefoon (bij voorkeur)"
+msgstr "Telefoon (voorkeur)"
 
 #: CRM/Contact/Form/Phone.php
 msgid "another phone"
@@ -3022,7 +2839,7 @@ msgstr "verberg deze telefoon"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Please select a relationship type."
-msgstr "Gelieve een relatie-type te selecteren."
+msgstr "Selecteer een relatie type."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Start date is not valid."
@@ -3037,13 +2854,12 @@ msgid "Find Target Contact"
 msgstr "Vind doelcontact"
 
 #: CRM/Contact/Form/Relationship.php
-#, fuzzy
 msgid "Search Again"
-msgstr "Zoek"
+msgstr "Zoek opnieuw"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Save Relationship"
-msgstr "bewaar relatie"
+msgstr "Relatie bewaren"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "%count new relationship record created."
@@ -3056,56 +2872,46 @@ msgid ""
 "%count relationship record not created due to invalid target contact type."
 msgid_plural ""
 "%count relationship records not created due to invalid target contact type."
-msgstr[0] ""
-"Enkel%count relatie niet aangemaakt omwille van ongeldig type doelcontact."
-msgstr[1] ""
-"Meerdere%count relaties niet aangemaakt omwille van ongeldig type "
-"doelcontact."
+msgstr[0] "Enkel%count relatie niet aangemaakt vanwege een ongeldig type doelcontact."
+msgstr[1] "Meerdere%count relaties niet aangemaakt vanwege een ongeldig type doelcontact."
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
 "%count relationship record not created - duplicate of existing relationship."
 msgid_plural ""
 "%count relationship records not created - duplicate of existing relationship."
-msgstr[0] ""
-"Er is %count relatie record niet aangemaakt, doordat er een duplicaat "
-"aanwezig is."
-msgstr[1] ""
-"Er zijn %count relatie records niet aangemaakt, doordat er duplicaten "
-"aanwezig zijn"
+msgstr[0] "Enkel%count relatie niet aangemaakt  - duplicaat van de bestaande relatie"
+msgstr[1] "Meerdere%count relaties niet aangemaakt - duplicaat van de bestaande relatie"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Relationship record has been updated."
-msgstr "relatie is bijgewerkt"
+msgstr "Relatie is bijgewerkt"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Please select at least one contact."
-msgstr "Selecteer minimaal een contact"
+msgstr "Selecteer minimaal één contact."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "The relationship end date cannot be prior to the start date."
-msgstr "de einddatum kan niet voor de begindatum zijn"
+msgstr "De einddatum van de relatie kan niet voor de begindatum liggen"
 
 #: CRM/Contact/Form/Search/Advanced.php
-#, fuzzy
 msgid "Address Fields"
-msgstr "Adres"
+msgstr "Adres vekden"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Custom Fields"
-msgstr "Specifieke velden"
+msgstr "Aangepaste velden"
 
 #: CRM/Contact/Form/Search/Advanced.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
-#, fuzzy
 msgid "Scheduled Activities"
-msgstr "Plan een activiteit"
+msgstr "Geplande activiteiten"
 
 #: CRM/Contact/Form/Search/Advanced.php
-#, fuzzy
 msgid "Quest"
-msgstr "Tekst"
+msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "TMF"
@@ -3114,73 +2920,63 @@ msgstr ""
 #: CRM/Contact/Form/Search/Criteria.php
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Contact Type(s)"
-msgstr "type contact"
+msgstr "Contact type(n)"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Email"
-msgstr "gesprekken met contacten"
+msgstr "Contact e-mail"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Source"
-msgstr "zoeken in contacten"
+msgstr "Contact bron"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "CMS User?"
-msgstr ""
+msgstr "CMS gebruiker?"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Search Views"
-msgstr "Zoek Profiel"
+msgstr "Zoek profiel"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "- default view -"
-msgstr "Standaardwaarde"
+msgstr "- standaard -"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "- any county -"
-msgstr "- elk land -"
+msgstr "- alle landen -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
-msgstr "bereik van"
+msgstr "Bereik - van"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Location Types"
-msgstr "type locatie"
+msgstr "Locatie types"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Activity Dates - From"
-msgstr "evenementendata van"
+msgstr "Datum activiteit - van"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Modified By"
-msgstr "Wijzigingsdatum"
+msgstr "Aangepast door"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Modified Between"
-msgstr "Wijzigingsdatum"
+msgstr "Aangepast tussen"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Task Status"
-msgstr "Status"
+msgstr "Status taak"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Target Contact"
-msgstr "Vind doelcontact"
+msgstr "Doel contact"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Note Text"
-msgstr "Nieuwe markering"
+msgstr "Notitie tekst"
 
 #: CRM/Contact/Form/Search.php
 msgid "- more actions -"
@@ -3188,19 +2984,19 @@ msgstr "- meer acties -"
 
 #: CRM/Contact/Form/Search.php
 msgid "Group Status"
-msgstr "groep status"
+msgstr "Groep status"
 
 #: CRM/Contact/Form/Search.php
 msgid "Please select at least one membership status."
-msgstr "selecteer minimaal een lidmaatschap status"
+msgstr "Selecteer minimaal één lidmaatschap status"
 
 #: CRM/Contact/Form/Search.php
 msgid "Group Members: %1"
-msgstr "groepsleden : %1"
+msgstr "Groepsleden : %1"
 
 #: CRM/Contact/Form/Search.php
 msgid "Add Contacts to %1"
-msgstr "voeg contacten toe aan %1"
+msgstr "Voeg contacten toe aan %1"
 
 #: CRM/Contact/Form/Search.php
 msgid "Actions:"
@@ -3224,99 +3020,89 @@ msgstr "in"
 
 #: CRM/Contact/Form/Search.php
 msgid "- any tag -"
-msgstr "-elke markering-"
+msgstr "- elke markering -"
 
 #: CRM/Contact/Form/Search.php
 msgid "Tagged"
-msgstr "gemarkeerd"
+msgstr "Gemarkeerd"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add Members to A Group"
 msgstr "Voeg leden toe aan een groep"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
-#, fuzzy
 msgid "Add to Group"
 msgstr "Voeg aan een groep toe"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Added Contact(s) to %1"
-msgstr "Aantal contacten toegevoegd aan %1"
+msgstr "Contact(en) toegevoegd aan %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Total Contact(s) added to group: %1"
-msgstr "Totaal aantal contacten toegevoegd aan %1"
+msgstr "Totaal aantal contacten toegevoegd aan: %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Total Contact(s) already in group: %1"
 msgstr "Totaal aantal reeds aanwezige contacten in groep %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
-#, fuzzy
 msgid "Add Members to Household"
-msgstr "Voeg leden aan huishouding toe"
+msgstr "Voeg leden aan huishouden toe"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Find Target Household"
 msgstr "Zoek doel huishouden"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
-#, fuzzy
 msgid "Add to Household"
 msgstr "Voeg toe aan huishouden"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Added Contact(s) to Household"
-msgstr "Toegevoegde contacten aan huishouden"
+msgstr "Toegevoegd(e) contact(en) aan huishouden"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
-#, fuzzy
 msgid "Add Members to Organization"
-msgstr "Toevoegen leden aan organisatie"
+msgstr "Voeg leden toe aan organisatie"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Find Target Organization"
 msgstr "Zoek doel organisatie"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
-#, fuzzy
 msgid "Add to Organization"
 msgstr "Voeg toe aan organisatie"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Added Contact(s) to Organization"
-msgstr "Toegevoegde contacten aan organisatie"
+msgstr "Toegevoegd(e) contact(en) aan organisatie"
 
 #: CRM/Contact/Form/Task/AddToTag.php
 msgid "Tag Contacts"
 msgstr "Markeer contacten"
 
 #: CRM/Contact/Form/Task/BatchUpdateProfile.php
-#, fuzzy
 msgid "Batch Update"
-msgstr "Werk bij"
+msgstr "Alles bijwerken"
 
 #: CRM/Contact/Form/Task/BatchUpdateProfile.php
-#, fuzzy
 msgid "Update Contact(s)"
-msgstr "Markeer contact(en)"
+msgstr "Contact(en) bijwerken"
 
 #: CRM/Contact/Form/Task/BatchUpdateProfile.php
-#, fuzzy
 msgid "Update Contacts"
-msgstr "Markeer contacten"
+msgstr "Contact(en) bijwerken"
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Deleted Contact(s): %1"
-msgstr "Verwijderde contacten : %1"
+msgstr "Verwijderde contacten: %1"
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "\"%1\" - can not be deleted."
-msgstr ""
-"Het contact record gelinked aan dit actuele gebruikersaccount -\"%1\" -kan "
-"niet verwijderd worden"
+msgstr "Het contact record is gekoppeld aan het huidig ingelogde gebruikersaccount -\"%1\" -en kan niet worden verwijderd."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact was deleted sucessfully."
@@ -3324,40 +3110,33 @@ msgstr "Geselecteerd contact succesvol verwijderd"
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact cannot be deleted."
-msgstr "Geselecteerd contact kan niet worden verwijderd"
+msgstr "Geselecteerd contact kan niet worden verwijderd."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid ""
 "This contact record is linked to the currently logged in user account - \"%1"
 "\" - and can not be deleted."
-msgstr ""
-"Het contact record is gelinked aan het actieve huidige gebruikers account - "
-"\"%1\" - , en kan derhalve niet worden verwijderd."
+msgstr "Dit contact record is gekoppeld aan het huidig ingelogde gebruikersaccount -\"%1\" -en kan niet worden verwijderd. "
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Selected contact(s) does not have a valid email address"
-msgstr "Uw gebruikers record heeft geen geldig emailadres"
+msgstr "Geselecteerde contacten hebben geen geldig e-mail adres"
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Select Template"
-msgstr "Selecteer datum"
+msgstr "Template selecteren"
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Update Template"
-msgstr "Bijwerken markeringen"
+msgstr "Template bijwerken"
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Save as New Template"
-msgstr "Template voor de mailing?"
+msgstr "Bwaar als nieuwe template"
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Template Title"
-msgstr "Profieltitel"
+msgstr "Template naam"
 
 #: CRM/Contact/Form/Task/Email.php
 msgid ""
@@ -3366,36 +3145,33 @@ msgid ""
 "address is resolved, you can take the address off Hold by editing the "
 "contact record. Otherwise, you will need to try an different email address "
 "for this contact."
-msgstr ""
+msgstr "Het geselecteerde e-mail adres is 'in de wacht' omdat het maximaal aantal verzendingsfouten is bereikt. Als het probleem met het adres is hersteld kunt u het e-mail adres vrijgeven in het contact record. Anders moet u een ander e-mail adres van dit contact gebruiken. "
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Enter name to save message template"
-msgstr "Verwijder type Geslacht"
+msgstr "Toets een naam in om de template van het bericht te bewaren"
 
 #: CRM/Contact/Form/Task/Email.php
 msgid "Email was not sent to %1 because primary email address (%2) is On Hold."
-msgstr ""
+msgstr "E-mail is niet verzonden naar %1 omdat het primaire e-mail address (%2) ín de wacht staat."
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Email sent to Contact(s): %1"
-msgstr "Email verstuurd naar de(het) contact(en) :%1"
+msgstr "E-mail verstuurd naar contact(en): %1"
 
 #: CRM/Contact/Form/Task/Email.php
 msgid ""
 "Email not sent to contact(s) (no email address on file or communication "
 "preferences specify DO NOT EMAIL): %1  <br />Details : "
-msgstr ""
+msgstr "E-mail is niet verzonden (geen e-mail adres beschikbaar voorkeur communicate staat op 'Niet e-mailen': %1  <br />Details : "
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Export >>"
-msgstr "Exporteer>>"
+msgstr "Exporteer >>"
 
 #: CRM/Contact/Form/Task/Export/Map.php
-#, fuzzy
 msgid "Duplicate Export Mapping Name"
-msgstr "Dupliceer import mapping naam"
+msgstr "Kopieer Export Mapping Naam"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Select Fields to Export"
@@ -3418,66 +3194,54 @@ msgid "Export All or Selected Fields"
 msgstr "Exporteer alles of geselecteerde velden"
 
 #: CRM/Contact/Form/Task/Label.php
-#, fuzzy
 msgid "Make Mailing Labels"
-msgstr "Naam mailing"
+msgstr "Maak mail labels aan"
 
 #: CRM/Contact/Form/Task/Label.php
-#, fuzzy
 msgid "Select Label"
-msgstr "Selecteer datum"
+msgstr "Selecteer label"
 
 #: CRM/Contact/Form/Task/Label.php
-#, fuzzy
 msgid "- select label -"
-msgstr "- selecteer -"
+msgstr "- selecteer label -"
 
 #: CRM/Contact/Form/Task/Label.php
-#, fuzzy
 msgid "Select Location"
-msgstr "Verwijder Type Locatie"
+msgstr "Selecteer Locatie"
 
 #: CRM/Contact/Form/Task/Map.php
-#, fuzzy
 msgid "Map Location(s)"
-msgstr "Primaire lokatie"
+msgstr "Map Locatie(s)"
 
 #: CRM/Contact/Form/Task/Map.php
 msgid ""
 "This contact's primary address does not contain latitude/longitude "
 "information and can not be mapped."
-msgstr ""
-"Het adres bevat geen geografische informatie( hoogte/breedtegraden), en kan "
-"derhalve niet worden gemapt."
+msgstr "Het adres bevat geen geografische informatie (hoogte-/breedtegraden) en kan derhalve niet worden gemapt."
 
 #: CRM/Contact/Form/Task/Map.php
-#, fuzzy
 msgid "Event Info"
-msgstr "Evenement"
+msgstr "Evenement informatie"
 
 #: CRM/Contact/Form/Task.php
 msgid "Confirm Action"
 msgstr "Bevestig uw actie"
 
 #: CRM/Contact/Form/Task/PickProfile.php
-#, fuzzy
 msgid "Batch Profile Update"
-msgstr "Zoek Profiel"
+msgstr ""
 
 #: CRM/Contact/Form/Task/PickProfile.php
-#, fuzzy
 msgid "- select profile -"
-msgstr "- selecteer dienst -"
+msgstr "- selecteer profiel -"
 
 #: CRM/Contact/Form/Task/PickProfile.php
-#, fuzzy
 msgid "Select Profile"
-msgstr "Selecteer datum"
+msgstr "Selecteer profiel"
 
 #: CRM/Contact/Form/Task/Print.php
-#, fuzzy
 msgid "CiviCRM Contact Listing"
-msgstr "CiviCRM Bijdragen"
+msgstr "CiviCRM contactenlijst"
 
 #: CRM/Contact/Form/Task/Print.php
 msgid "Print Contact List"
@@ -3492,7 +3256,6 @@ msgid "Remove Members from Group"
 msgstr "Verwijder leden uit de groep"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
-#, fuzzy
 msgid "Remove from Group"
 msgstr "Verwijder uit de groep"
 
@@ -3502,16 +3265,15 @@ msgstr "Verwijderde contacten uit %1"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Total Contact(s) removed from group: %1"
-msgstr "Aantal verwijderde contacten uit groep :%1"
+msgstr "Aantal verwijderde contacten uit groep:%1"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Total Contact(s) not in group: %1"
-msgstr "Aantal contacten niet in groep :%1"
+msgstr "Aantal contacten niet in groep: %1"
 
 #: CRM/Contact/Form/Task/RemoveFromTag.php
-#, fuzzy
 msgid "Remove Tag Contacts"
-msgstr "Markeer contacten"
+msgstr "Verwijderd markering van contacten"
 
 #: CRM/Contact/Form/Task/SaveSearch.php
 msgid "Save Smart Group"
@@ -3523,7 +3285,7 @@ msgstr "Uw Smart groep is opgeslagen als \"%1\"."
 
 #: CRM/Contact/Form/Test.php
 msgid "State / Province Id"
-msgstr "Staat/ provincie ID"
+msgstr "Staat / Provincie ID"
 
 #: CRM/Contact/Page/View/Contribution.php
 msgid "View Contribution"
@@ -3543,22 +3305,19 @@ msgstr "Verwijder contact"
 
 #: CRM/Contact/Page/View/Meeting.php
 msgid "Contact Meetings"
-msgstr "contact bijeenkomsten"
+msgstr "Contact bijeenkomsten"
 
 #: CRM/Contact/Page/View/Membership.php
-#, fuzzy
 msgid "View Membership"
-msgstr "Nieuw groeplidmaatschap"
+msgstr "Toon lidmaatschap"
 
 #: CRM/Contact/Page/View/Membership.php
-#, fuzzy
 msgid "Edit Membership"
-msgstr "Vorige lidmaatschappen"
+msgstr "Wijzig lidmaatschap"
 
 #: CRM/Contact/Page/View/Membership.php
-#, fuzzy
 msgid "Delete Membership"
-msgstr "Vorige lidmaatschappen"
+msgstr "Verwijder lidmaatschap"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Contact Notes"
@@ -3566,7 +3325,7 @@ msgstr "Contact notities"
 
 #: CRM/Contact/Page/View/Note.php
 msgid "Are you sure you want to delete this note?"
-msgstr "Wilt U deze notitie verwijderen ?"
+msgstr "Weet u zeker dat u deze notitie wilt verwijderen?"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
 msgid "View Note"
@@ -3582,11 +3341,11 @@ msgstr "Verwijder notitie"
 
 #: CRM/Contact/Page/View/OtherActivity.php
 msgid "Contact Other Activity"
-msgstr "leg contact met een andere activiteit"
+msgstr "Contact andere activiteiten"
 
 #: CRM/Contact/Page/View/Phonecall.php
 msgid "Contact Calls"
-msgstr "gesprekken met contacten"
+msgstr "Contact telefoongesprekken"
 
 #: CRM/Contact/Page/View.php
 msgid "You do not have the necessary permission to view this contact."
@@ -3594,64 +3353,62 @@ msgstr "U heeft geen toestemming om dit contact te bekijken"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Contact Relationships"
-msgstr "contact relaties"
+msgstr "Contact relaties"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Are you sure you want to delete this relationship?"
-msgstr "Wilt u deze relatie verwijderen ?"
+msgstr "Weet u zeker dat u deze relatie wilt verwijderen?"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Are you sure you want to disable this relationship?"
-msgstr "Wilt u deze relatie disablen ?"
+msgstr "Weet u zeker dat u deze relatie wilt uitschakelen?"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Are you sure you want to re-enable this relationship?"
-msgstr "Wilt u deze relatie weer enablen ?"
+msgstr "Weet u zeker dat u deze relatie wilt inschakelen?"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "View Relationship"
-msgstr "Toon relatie"
+msgstr "Relatie tonen"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Edit Relationship"
-msgstr "Wijzig relatie"
+msgstr "Relatie wijzigen"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Enable Relationship"
-msgstr "Enable relatie"
+msgstr "Relatie inschakelen"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Disable Relationship"
-msgstr "Disable relatie"
+msgstr "Relatie uitschakelen"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Delete Relationship"
-msgstr "Verwijder relatie"
+msgstr "Relatie verwijderen"
 
 #: CRM/Contact/Page/View/Tag.php
 msgid "Contact Tags"
 msgstr "Contact markeringen"
 
 #: CRM/Contact/Page/View/UserDashBoard.php
-#, fuzzy
 msgid "You do not have permission to view this contact"
-msgstr "Je hebt de nodige toegangsrechten niet om dit contact te bewerken."
+msgstr "Je hebt niet de nodige toegangsrechten niet om dit contact te zien"
 
 #: CRM/Contact/Page/View/UserDashBoard.php
-#, fuzzy
 msgid "Dashboard - %1"
-msgstr "Dashboard"
+msgstr ""
 
 #: CRM/Contact/Selector/Activity.php
 msgid "Are you sure you want to delete this activity record?"
-msgstr "Wilt u deze activiteits-record verwijderen ?"
+msgstr "Weet u zeker dat u deze activiteit wilt verwijderen?"
 
 #: CRM/Contact/Selector/Activity.php
 msgid "View Activity"
-msgstr "Toon activiteit"
+msgstr "Activiteit tonen"
 
 #: CRM/Contact/Selector/Activity.php
 msgid "Open Activities %%StatusMessage%%"
@@ -3670,7 +3427,7 @@ msgstr "Aangemaakt door"
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "With Contact"
-msgstr "met contact"
+msgstr "Met contact"
 
 #: CRM/Contact/Selector.php
 msgid "View Contact Details"
@@ -3682,7 +3439,7 @@ msgstr "Wijzig contact details"
 
 #: CRM/Contact/Selector.php
 msgid "Contact Id"
-msgstr "contact id"
+msgstr "Contact Id"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
@@ -3690,7 +3447,7 @@ msgstr "Smart"
 
 #: CRM/Contact/Selector.php templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
-msgstr "per post"
+msgstr "Per post"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to a Group"
@@ -3705,187 +3462,167 @@ msgid "Tag Contacts (assign tags)"
 msgstr "Markeer contacten (voeg markeringen toe)"
 
 #: CRM/Contact/Task.php
-#, fuzzy
 msgid "Untag Contacts (remove tags)"
-msgstr "Markeer contacten (voeg markeringen toe)"
+msgstr "Démarkeer contacten (verwijder markeringen)"
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
 msgstr "Stuur email naar contacten"
 
 #: CRM/Contact/Task.php
-#, fuzzy
 msgid "Send SMS to Contacts"
-msgstr "Stuur email naar contacten"
+msgstr "Stuur SMS naar contacten"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Household"
-msgstr "Voeg contacten aan een huishouden toe"
+msgstr "Voeg contacten toe aan een huishouden"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Organization"
-msgstr "Voeg contacten aan een organisatie toe"
+msgstr "Voeg contacten toe aan een organisatie"
 
 #: CRM/Contact/Task.php
 msgid "Map Contacts"
-msgstr "Karteer contacten"
+msgstr "Map contacten"
 
 #: CRM/Contact/Task.php
 msgid "New Smart Group"
 msgstr "Nieuwe Smart groep"
 
 #: CRM/Contact/Task.php
-#, fuzzy
 msgid "Print Contacts"
 msgstr "Druk contactenlijst af"
 
 #: CRM/Contact/Task.php templates/CRM/Admin/Form/Setting/Address.tpl
-#, fuzzy
 msgid "Mailing Labels"
-msgstr "Naam mailing"
+msgstr "Mailing labels"
 
 #: CRM/Contact/Task.php templates/CRM/Contact/Form/Task/PickProfile.tpl
 msgid "Batch Update via Profile"
-msgstr ""
+msgstr "Update alles via profiel"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Alphanumeric"
-msgstr "Alfabetisch"
+msgstr "Alfanumeriek"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Number"
-msgstr "getal"
+msgstr "Getal"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Yes or No"
-msgstr "ja of nee"
+msgstr "Ja of Nee"
 
 #: CRM/Core/BAO/CustomField.php templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "From"
-msgstr "van"
+msgstr "Van"
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 From must be an integer (whole number)."
-msgstr "%1 moet een geheel getal zijn"
+msgstr "%1 Van moet een integer zijn (geheel getal)"
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 To must be an integer (whole number)."
-msgstr "%1 moet een geheel getal zijn"
+msgstr "%1 Tot moet een integer zijn (geheel getal)"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 must be an integer (whole number)."
-msgstr "%1 moet een geheel getal zijn"
+msgstr "%1 moet een integer zijn (geheel getal)"
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 From is not a valid date."
-msgstr "%1 is een niet-geldige datum"
+msgstr "%1 Van is een niet geldige datum."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 To is not a valid date."
-msgstr "%1 is een niet-geldige datum"
+msgstr "%1 Tot is een niet geldige datum."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 is not a valid date."
-msgstr "%1 is een niet-geldige datum"
+msgstr "%1 is een niet geldige datum."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 From must be a number (with or without decimal point)."
-msgstr "%1 moet een getal zijn (met of zonder punt)"
+msgstr "%1 Van moet een getal zijn (eventueel met decimaal teken)"
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 To must be a number (with or without decimal point)."
-msgstr "%1 moet een getal zijn (met of zonder punt)"
+msgstr "%1 Tot moet een getal zijn (eventueel met decimaal teken)"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 must be a number (with or without decimal point)."
-msgstr "%1 moet een getal zijn (met of zonder punt)"
+msgstr "%1 moet een getal zijn (eventueel met decimaal teken)"
 
 #: CRM/Core/BAO/CustomField.php
 msgid ""
 "%1 From must in proper money format. (decimal point/comma/space is allowed)."
-msgstr ""
+msgstr "%1 Van moet in de juiste valuta opmaak zijn (decimale punt/lomma/spatie is toegestaan)."
 
 #: CRM/Core/BAO/CustomField.php
 msgid ""
 "%1 To must in proper money format. (decimal point/comma/space is allowed)."
-msgstr ""
+msgstr "%1 Tot moet in de juiste valuta opmaak zijn (decimale punt/lomma/spatie is toegestaan)."
 
 #: CRM/Core/BAO/CustomField.php
 msgid ""
 "%1 must be in proper money format. (decimal point/comma/space is allowed)."
-msgstr ""
+msgstr "%1 moet in de juiste valuta opmaak zijn (decimale punt/lomma/spatie is toegestaan)."
 
 #: CRM/Core/BAO/CustomGroup.php
-#, fuzzy
 msgid "Are you sure you want to delete attached file."
-msgstr "Wilt U deze notitie verwijderen ?"
+msgstr "Weet u zeker dat u het bijgevoegde bestand wilt verwijderen."
 
 #: CRM/Core/BAO/CustomGroup.php templates/CRM/Custom/Form/DeleteFile.tpl
-#, fuzzy
 msgid "Delete Attached File"
-msgstr "Verwijder specifiek veld"
+msgstr "Verwijder bijgevoegd bestand."
 
 #: CRM/Core/BAO/CustomQuery.php
-#, fuzzy
 msgid "greater than or equal to \"%1\""
-msgstr "groter dan \"%1\""
+msgstr "groter dan of gelijk aan \"%1\""
 
 #: CRM/Core/BAO/CustomQuery.php
-#, fuzzy
 msgid "less than or equal to \"%1\""
-msgstr "minder dan \"%1\""
+msgstr "kleiner dan of gelijk aan \"%1\""
 
 #: CRM/Core/BAO/DomainDump.php
-#, fuzzy
 msgid ""
 "We could not find the backup sql script. Check %1 exists and is readable by "
 "the webserver."
-msgstr ""
-"Het backup sql script kon niet gevonden worden. Verifieer %1 in de CiviCRM "
-"root folder."
+msgstr "Het sql backup script is niet gevonden. Kontroleer of %1 bestaat en kan worden gelezen door de webserver."
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
 "We could not find the mysqldump program. Check the configuration variable "
 "CIVICRM_MYSQL_PATH in your CiviCRM config file."
-msgstr ""
-"Het mysqldump programma kon niet gevonden worden. Verifieer de variabele "
-"CIVICRM_MYSQL_PATH in het CiviCRM configuratie bestand"
+msgstr "Het mysql dump programma is niet gevonden. Kontroleer de configuratie variabele CIVICRM_MYSQL_PATH in het CiviCRM config bestand."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Synchronize Users to Contacts completed."
-msgstr "Snchroniseren gebruikers naar contacten compleet."
+msgstr "Synchroniseren gebruikers naar contacten uitgevoerd."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Checked one user record."
 msgid_plural "Checked %count user records."
-msgstr[0] "Een gebruikers record geverifieerd"
-msgstr[1] "%count gebruikerrecords geverifieerd"
+msgstr[0] "Eén geebruiker record geverifieerd."
+msgstr[1] "%count gebruiker records geverifieerd."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Found one matching contact record."
 msgid_plural "Found %count matching contact records."
-msgstr[0] "Er is een passend contact record gevonden"
-msgstr[1] "Er zijn %count passende records gevonden"
+msgstr[0] "Er is één contact record gevonden die overeenkomt."
+msgstr[1] "Er zijn %count contact records gevonden die overeenkomen."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Created one new contact record."
 msgid_plural "Created %count new contact records."
-msgstr[0] "Een nieuw contact record aangemaakt"
-msgstr[1] "%count nieuwe contact records aangemaakt"
+msgstr[0] "Eén nieuw contact record aangemaakt."
+msgstr[1] "%count nieuwe contact records aangemaakt."
 
 #: CRM/Core/BAO/EmailHistory.php
-#, fuzzy
 msgid "From: %1; Subject: %2"
-msgstr "Aan: %1; Onderwerp: %2"
+msgstr "Van: %1; Onderwerp: %2"
 
 #: CRM/Core/BAO/EmailHistory.php
 msgid "To: %1; Subject: %2"
@@ -3893,21 +3630,19 @@ msgstr "Aan: %1; Onderwerp: %2"
 
 #: CRM/Core/BAO/History.php
 msgid "- Contribution Fields -"
-msgstr "- Donatie velden -"
+msgstr "- Bijdrage velden -"
 
 #: CRM/Core/BAO/Mapping.php
-#, fuzzy
 msgid "Selected Mapping has been Deleted Successfuly."
-msgstr "De geselecteerde markering is succesvol verwijderd"
+msgstr "De geselecteerde Mapping is succesvol verwijderd."
 
 #: CRM/Core/BAO/Mapping.php
-#, fuzzy
 msgid "Another search field"
-msgstr "andere email"
+msgstr "Volgend zoek veld"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Select more fields"
-msgstr "Selecteer meerdere velden"
+msgstr "Selecteer meer velden"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Cannot have two clauses with different types: %1, %2"
@@ -3915,15 +3650,15 @@ msgstr ""
 
 #: CRM/Core/BAO/Note.php
 msgid "Selected Note has been Deleted Successfuly."
-msgstr "De geselecteerde notitie is succesvol verwijderd"
+msgstr "De geselecteerde notitie is succesvol verwijderd."
 
 #: CRM/Core/BAO/Tag.php
 msgid "Selected Tag has been Deleted Successfuly."
-msgstr "De geselecteerde markering is succesvol verwijderd"
+msgstr "De geselecteerde markering is succesvol verwijderd."
 
 #: CRM/Core/BAO/Tag.php
 msgid "The tag \"%1\" has been saved."
-msgstr "Markering \"%1\" is opgeslagen"
+msgstr "Markering \"%1\" is opgeslagen."
 
 #: CRM/Core/BAO/UFField.php
 msgid "Cannot enable this UF field since the used custom field is disabled."
@@ -3934,13 +3669,12 @@ msgid "Dynamic Form Creator"
 msgstr "Aanmaken Dynamisch Formulier "
 
 #: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Participant Status"
-msgstr "Status?"
+msgstr "Status deelnemer"
 
 #: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_add_domain.tpl
 msgid "Participant Role"
-msgstr ""
+msgstr "Rol deelnemer"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid amount."
@@ -3948,15 +3682,15 @@ msgstr "Voer een geldig bedrag in"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid %1"
-msgstr "Gelieve een geldig(e) %1 in te vullen"
+msgstr "Voer een geldig %1 in"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Copy of "
-msgstr ""
+msgstr "Kopie van"
 
 #: CRM/Core/BAO/UFMatch.php
 msgid "Please set the user framework variable"
-msgstr "Voer de variabelenaam in, van het gebruikers raamwerk"
+msgstr ""
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Shortcuts"
@@ -3976,16 +3710,15 @@ msgstr "CiviCRM zoeken"
 
 #: CRM/Core/Block.php
 msgid "Contact Search"
-msgstr "zoeken in contacten"
+msgstr "Contact zoeken"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Menu"
 msgstr "CiviCRM Menu"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "CiviContribute Progress Meter"
-msgstr "CiviContribute"
+msgstr "CiviContribute voortgangsmeter"
 
 #: CRM/Core/Block.php
 msgid "New Organization"
@@ -3993,65 +3726,61 @@ msgstr "Nieuwe organisatie"
 
 #: CRM/Core/Block.php
 msgid "New Household"
-msgstr "Nieuw gezin"
+msgstr "Nieuw huishouden"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "Quest Search"
-msgstr "Zoek"
+msgstr ""
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
 msgstr "Nieuwe groep"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "My Contact Dashboard"
-msgstr "Contact markeringen"
+msgstr "Mijn contact overzicht"
 
 #: CRM/Core/Block.php
 msgid "Send Mailing"
-msgstr "Verstuur Mailing"
+msgstr "Verstuur mailing"
 
 #: CRM/Core/Block.php
 msgid "Browse Sent Mailings"
-msgstr "Doorblader Verstuurde Mailings"
+msgstr "Doorblader verstuurde mailings"
 
 #: CRM/Core/Config.php
 msgid ""
 "CIVICRM_SMTP_SERVER is not set. Click <a href=\"%1\">Administer CiviCRM >> "
 "Global Settings</a> to set the Server."
-msgstr ""
+msgstr "CIVICRM_SMTP_SERVER is onbekend. Klik <a href=\"%1\">Administer CiviCRM >> Global Settings</a> om de gegevens van de server in te vullen."
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "Contact ID (overeenkomend met contact)"
 
 #: CRM/Core/DAO/ActivityHistory.php
-#, fuzzy
 msgid "Callback Method"
-msgstr "Terugbellen"
+msgstr "Reactie methode"
 
 #: CRM/Core/DAO/ActivityHistory.php
-#, fuzzy
 msgid "Activity ID"
-msgstr "activiteit"
+msgstr "Activiteiten ID"
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Activity Summary"
-msgstr "Overzicht activiteiten"
+msgstr "Activiteiten overzicht"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number"
-msgstr "Straatnaam"
+msgstr "Straat nummer"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Suffix"
-msgstr "Straatnaam toevoeging"
+msgstr "Achtervoegsel straat nummer"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
-msgstr "Straatnaam 2de toevoeging"
+msgstr ""
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Name"
@@ -4059,28 +3788,27 @@ msgstr "Straatnaam"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Type"
-msgstr "Type straat"
+msgstr "Straat type"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
-msgstr "Straatnaam 3de toevoeging"
+msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Unit"
 msgstr "Wijk"
 
 #: CRM/Core/DAO/Address.php
 msgid "Supplemental Address 1"
-msgstr "Adres toevoeging"
+msgstr "Toegevoegd adres 1"
 
 #: CRM/Core/DAO/Address.php
 msgid "Supplemental Address 2"
-msgstr "Adres 2de toevoeging"
+msgstr "Toegevoegd adres 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Supplemental Address 3"
-msgstr "Adres 3de toevoeging "
+msgstr "Toegevoegd adres 3"
 
 #: CRM/Core/DAO/Address.php
 msgid "Postal Code Suffix"
@@ -4088,7 +3816,7 @@ msgstr "Postcode"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
-msgstr "Usps ADC"
+msgstr ""
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
@@ -4108,84 +3836,79 @@ msgstr "ISO code"
 
 #: CRM/Core/DAO/Country.php
 msgid "Country Code"
-msgstr "landcode"
+msgstr "Land code"
 
 #: CRM/Core/DAO/Country.php
 msgid "Idd Prefix"
-msgstr "IDD code"
+msgstr ""
 
 #: CRM/Core/DAO/Country.php
 msgid "Ndd Prefix"
-msgstr "Ndd code"
+msgstr ""
 
 #: CRM/Core/DAO/County.php
-#, fuzzy
 msgid "County Abbreviation"
 msgstr "Afkorting landsnaam"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Currency"
-msgstr "Munt"
+msgstr "Valuta"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Symbol"
-msgstr ""
+msgstr "Symbool"
 
 #: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
-msgstr "type data"
+msgstr "Gegevenstype"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Html Type"
-msgstr "type html"
+msgstr "Html type"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Attributes"
-msgstr "attributen"
+msgstr "Attributen"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Javascript"
 msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Start Date Years"
-msgstr "Startdatum"
+msgstr "Startdatum jaren"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "End Date Years"
-msgstr "Einddatum"
+msgstr "Einddatum jaren"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Date Parts"
-msgstr "datum gegevens"
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Note Columns"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
+msgid "Note Columns"
+msgstr "Notitie kolommen"
+
+#: CRM/Core/DAO/CustomField.php
 msgid "Note Rows"
-msgstr "Aantal rijen"
+msgstr "Notitie rijen"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "String"
-msgstr "string"
+msgstr "String"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Int"
-msgstr "int"
+msgstr "Int"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Float"
-msgstr "float"
+msgstr "Float"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Boolean"
-msgstr "boolean"
+msgstr "Boolean"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "StateProvince"
@@ -4193,7 +3916,7 @@ msgstr "Provincie"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends"
-msgstr "extensie"
+msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Name"
@@ -4205,7 +3928,7 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Custom/Page/Group.tpl
 msgid "Style"
-msgstr "stijl"
+msgstr "Stijl"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Contribution"
@@ -4217,20 +3940,17 @@ msgid "Relationship"
 msgstr "Relatie"
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Phonecall"
-msgstr "Telefoonoproep"
+msgstr "Telefoongesprek"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Membership.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
-#, fuzzy
 msgid "Membership"
-msgstr "Leden"
+msgstr "Lidmaadschap"
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Participant"
-msgstr "Print"
+msgstr "Deelnemer"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Int Data"
@@ -4238,93 +3958,83 @@ msgstr "int data"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Float Data"
-msgstr "float data"
+msgstr "Float gegevens"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Decimal Data"
-msgstr "decimale data"
+msgstr "Decimale gegevens"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Char Data"
-msgstr "char data"
+msgstr "Char gegevens"
 
 #: CRM/Core/DAO/CustomValue.php
-#, fuzzy
 msgid "Date Data"
-msgstr "float data"
+msgstr "Datum gegevens"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Memo Data"
-msgstr "memo gegevens"
+msgstr "Memo gegevens"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Contact Name"
-msgstr "naam contact"
+msgstr "Contact naam"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Domain"
-msgstr "email-domein"
+msgstr "E-mail domein"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Return Path"
-msgstr "Email verstuurd"
+msgstr "E-mail retour pad"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Config Backend"
-msgstr "Configureer"
+msgstr "Configureer achterkant"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Config Frontend"
-msgstr "Configureer"
+msgstr "Configureer voorkant"
 
 #: CRM/Core/DAO/DupeMatch.php
 msgid "Rule"
-msgstr "regel"
+msgstr "Regel"
 
 #: CRM/Core/DAO/Email.php
 msgid "Hold Date"
-msgstr "pauzeer datum"
+msgstr "Wacht datum"
 
 #: CRM/Core/DAO/Email.php
 msgid "Reset Date"
-msgstr "herstel datum"
+msgstr "Herstel datum"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Mime Type"
-msgstr "Veld type"
+msgstr "Mime Type"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Uri"
-msgstr "Url"
+msgstr "Uri"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Document"
-msgstr "Volledig"
+msgstr "Dokument"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Upload Date"
-msgstr "Upload data"
+msgstr "Upload datum"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Coord Type"
-msgstr "coordinaten type"
+msgstr "Coördinaten type"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Coord Units"
-msgstr "coordinaten eenheden"
+msgstr "Coördinaten eenheden"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Coord Ogc Wkt String"
-msgstr "coord Ogc Wkt string"
+msgstr ""
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "LatLong"
@@ -4359,81 +4069,76 @@ msgid "IM Screen Name"
 msgstr "IM scherm naam"
 
 #: CRM/Core/DAO/LocationType.php
-#, fuzzy
 msgid "Location Type"
-msgstr "type locatie"
+msgstr "Locatie type"
 
 #: CRM/Core/DAO/LocationType.php
 msgid "vCard Location Type"
 msgstr "vCard lokatie type"
 
 #: CRM/Core/DAO/Log.php
-#, fuzzy
 msgid "Data"
-msgstr "Datum"
+msgstr "Gegevens"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "Column Number"
-msgstr "kolum nummer"
+msgstr "Kolom nummer"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Relationship Direction"
-msgstr "Relatie van B naar A"
+msgstr "Relatie richting"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Grouping"
-msgstr "Groep"
+msgstr ""
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Operator"
-msgstr "Bewerking"
+msgstr "Operator"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "="
-msgstr ""
+msgstr "="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "!="
-msgstr ""
+msgstr "!="
 
 #: CRM/Core/DAO/MappingField.php
 msgid ">"
-msgstr ""
+msgstr ">"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "<"
-msgstr ""
+msgstr "<"
 
 #: CRM/Core/DAO/MappingField.php
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "IN"
-msgstr ""
+msgstr "IN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT IN"
-msgstr ""
+msgstr "NOT IN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "LIKE"
-msgstr ""
+msgstr "LIKE"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT LIKE"
-msgstr ""
+msgstr "NOT LIKE"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Export"
-msgstr "export"
+msgstr "Export"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Export Contributions"
@@ -4444,38 +4149,32 @@ msgid "Import Contributions"
 msgstr "Importeer Bijdragen"
 
 #: CRM/Core/DAO/Mapping.php
-#, fuzzy
 msgid "Import Memberships"
-msgstr "Vorige lidmaatschappen"
+msgstr "Importeer leden"
 
 #: CRM/Core/DAO/Mapping.php
-#, fuzzy
 msgid "Import Participants"
-msgstr "Importeer Contacten"
+msgstr "Importeer deelnemers"
 
 #: CRM/Core/DAO/OptionGroup.php
-#, fuzzy
 msgid "Option Group Name"
-msgstr "Groepsnaam"
+msgstr "Optie Groep Naam"
 
 #: CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Option Name"
-msgstr "Optie label"
+msgstr "Optie Naam"
 
 #: CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Filter"
-msgstr "Voet"
+msgstr "Filter"
 
 #: CRM/Core/DAO.php
 msgid "Unhandled transaction type: %1"
-msgstr ""
+msgstr "Onverwerkt transactie type: %1"
 
 #: CRM/Core/DAO.php
-#, fuzzy
 msgid "Could not retrieve object name: %1, id: %2"
-msgstr "Kon geen contact_id en/of contact_type vinden"
+msgstr "Geen objekt naam ontvangen: %1, id: %2"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
@@ -4483,7 +4182,7 @@ msgstr "Afkorting staat"
 
 #: CRM/Core/DAO/UFField.php
 msgid "In Selector"
-msgstr "in selectie"
+msgstr "In selectie"
 
 #: CRM/Core/DAO/UFField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Field Type"
@@ -4491,21 +4190,19 @@ msgstr "Veld type"
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Form Type"
-msgstr "type formulier"
+msgstr "Formulier type"
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Post Url"
-msgstr "per post"
-
-#: CRM/Core/DAO/UFGroup.php
-msgid "Add Captcha"
 msgstr ""
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
+msgid "Add Captcha"
+msgstr "Voeg Captcha toe"
+
+#: CRM/Core/DAO/UFGroup.php
 msgid "Cancel Url"
-msgstr "Annuleer"
+msgstr "Annuleer Url"
 
 #: CRM/Core/DAO/Validation.php templates/CRM/Custom/Page/Group.tpl
 msgid "Type"
@@ -4513,11 +4210,11 @@ msgstr "Type"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Parameters"
-msgstr "parameters"
+msgstr "Parameters"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Function Name"
-msgstr "functienaam"
+msgstr "Functienaam"
 
 #: CRM/Core/DAO/Validation.php
 msgid "URL"
@@ -4525,71 +4222,67 @@ msgstr "URL"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Positive Integer"
-msgstr "positief geheel getal"
+msgstr "Positief geheel getal"
 
 #: CRM/Core/DAO/Validation.php
-#, fuzzy
 msgid "Variable Name"
-msgstr "Profielnaam"
+msgstr "Variabele Naam"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Range"
-msgstr "bereik"
+msgstr "Bereik"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Regular Expression Match"
-msgstr "regular expression match"
+msgstr ""
 
 #: CRM/Core/DAO/Validation.php
 msgid "Regular Expression No Match"
-msgstr "regular expression no match"
+msgstr ""
 
 #: CRM/Core/Form/Date.php
 msgid "yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)"
-msgstr ""
+msgstr "yyyy-mm-dd OF yyyymmdd (1998-12-25 OF 19981225)"
 
 #: CRM/Core/Form/Date.php
 msgid "mm/dd/yy OR mm-dd-yy (12/25/98 OR 12-25-98)"
-msgstr ""
+msgstr "mm/dd/yy OF mm-dd-yy (12/25/98 OF 12-25-98)"
 
 #: CRM/Core/Form/Date.php
 msgid "mm/dd/yyyy OR mm-dd-yyyy (12/25/1998 OR 12-25-1998)"
-msgstr ""
+msgstr "mm/dd/yyyy OF mm-dd-yyyy (12/25/1998 OF 12-25-1998)"
 
 #: CRM/Core/Form/Date.php
 msgid "Month dd, yyyy (December 12, 1998)"
-msgstr ""
+msgstr "Maand dd, yyyy (December 12, 1998)"
 
 #: CRM/Core/Form/Date.php
 msgid "dd-mon-yy (25-Dec-98)"
-msgstr ""
+msgstr "dd-mnd-yy (25-Dec-98)"
 
 #: CRM/Core/Form/Date.php
-#, fuzzy
 msgid "Date Format"
-msgstr "datum gegevens"
+msgstr "Datum opmaak"
 
 #: CRM/Core/Form.php
 msgid "ERROR: Title is not Set"
-msgstr ""
+msgstr "FOUT: Titel niet aanwezig"
 
 #: CRM/Core/Form.php
 msgid "Don't Know"
-msgstr ""
+msgstr "Onbekend"
 
 #: CRM/Core/Form.php
-#, fuzzy
 msgid "Previous"
-msgstr "<< Vorige"
+msgstr "Vorige"
 
 #: CRM/Core/Form.php
 msgid "Processing"
-msgstr "Afhandeling"
+msgstr "Voortgang"
 
 #: CRM/Core/Form.php
-#, fuzzy
 msgid "Please select %1"
-msgstr "Gelieve een status te selecteren."
+msgstr "Selecteer %1"
 
 #: CRM/Core/Form.php
 #, fuzzy
