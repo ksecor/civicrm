@@ -1021,6 +1021,10 @@ class CRM_Core_Config
         
         if ( $this->userFrameworkResourceURL ) {
             $this->resourceBase = $this->userFrameworkResourceURL;
+            // we need to do this here so all blocks also load from an ssl server
+            if ( isset( $_SERVER['HTTPS'] ) ) {
+                CRM_Utils_System::mapConfigToSSL( );
+            }
         } 
             
         if ( !$this->customFileUploadDir ) {
