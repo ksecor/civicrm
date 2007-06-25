@@ -69,7 +69,10 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      */
     function preProcess( ) {
         $this->_id    = $this->get( 'id' );
-
+        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/group', 'reset=1' );
+        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Manage Groups') . '</a>';
+        CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+        
         if ($this->_action == CRM_Core_Action::DELETE) {    
             if ( isset($this->_id) ) {
                 $params   = array( 'id' => $this->_id );
