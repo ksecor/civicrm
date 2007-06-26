@@ -86,7 +86,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         case 'message':
             return $this->message( $config );
-
+        
+        case 'caseSubject':
+             return $this->caseSubject( $config );
         default:
             return;
         }
@@ -346,6 +348,34 @@ ORDER BY name";
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
             $elements[] = array( $dao->name, $dao->name );
+            $count++;
+        }
+
+        require_once 'Services/JSON.php';
+        $json =& new Services_JSON( );
+        echo $json->encode( $elements );
+    }
+    /**
+     * Function for Case Subject combo box
+     */
+    function caseSubject( &$config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $contactID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
+        $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+
+        $query = "
+SELECT subject
+FROM civicrm_case
+WHERE contact_id = $contactID
+ORDER BY subject LIMIT 6";
+        $nullArray = array( );
+        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+
+        $count = 0;
+        $elements = array( );
+        while ( $dao->fetch( ) && $count < 5 ) {
+            $elements[] = array( $dao->subject, $dao->subject );
             $count++;
         }
 

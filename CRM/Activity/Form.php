@@ -131,10 +131,11 @@ class CRM_Activity_Form extends CRM_Core_Form
             }
 
             $sourceName = CRM_Contact_BAO_Contact::displayName($defaults['source_contact_id']);
+       
             $targetName = CRM_Contact_BAO_Contact::displayName($defaults['target_entity_id']);
 
-            $this->assign('sourceName', $sourceName);
-            $this->assign('targetName', $targetName);
+            // $this->assign('sourceName', $sourceName);
+            // $this->assign('targetName', $targetName);
 
             // change _contactId to be the target of the activity
             $this->_sourceCID = $defaults['source_contact_id'];
@@ -193,6 +194,41 @@ class CRM_Activity_Form extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+     
+        $config =& CRM_Core_Config::singleton( );
+        $contactID = $this->_contactId;
+        $domainID = CRM_Core_Config::domainID( );
+        $attributes = array( 'dojoType'       => 'ComboBox',
+                             'mode'           => 'remote',
+                             'style'          => 'width: 100px;',
+                             'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/search",
+                                                                           "d={$domainID}&s=%{$searchString}",
+                                                                           true, null, false ),
+                                );
+        $this->add( 'text','from_contact',ts('From'),$attributes );
+        $this->add( 'text','to_contact',ts('To'),$attributes );
+        $this->add( 'text','regarding_contact',ts('Regarding'),$attributes );
+        $attributeCase = array( 'dojoType'       => 'ComboBox',
+                                'mode'           => 'remote',
+                                'style'          => 'width: 300px;',
+                                'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/caseSubject",
+                                                                           "d={$contactID}&s=%{searchString}",
+                                                                           true, null, false ),
+                                );
+        $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase );
+        require_once 'CRM/Core/OptionGroup.php';
+        $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
+        $this->add('select', 'activitytag1_id',  ts( 'Case Activity Type' ),  
+                   array( '' => ts( '-select-' ) ) + $caseActivityType );
+        
+        $comunicationMedium = CRM_Core_OptionGroup::values('communication_medium'); 
+        $this->add('select', 'activitytag2_id',  ts( 'Communication Medium' ),  
+                   array( '' => ts( '-select-' ) ) + $comunicationMedium );
+
+        $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
+        $this->add('select', 'activitytag3_id',  ts( 'Violation Type' ),  
+                          array( '' => ts( '-select-' ) ) + $caseViolation);
+
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
         }

@@ -10,15 +10,10 @@
     {else}{ts}View Scheduled Call{/ts}{/if}
   </legend>
   <dl>
-     {if $action eq 1 or $action eq 2  or $action eq 4}	
-        {if $action eq 1}
-          <dt>{ts}With Contact{/ts}</dt><dd>{$displayName}&nbsp;</dd>
-        {else}
-  	  <dt>{ts}With Contact{/ts}</dt><dd>{$targetName}&nbsp;</dd>
-	  <dt>{ts}Created By{/ts}</dt><dd>{$sourceName}&nbsp;</dd>
-        {/if}
+    {if $action eq 1 or $action eq 2  or $action eq 4}	
+    {include file="CRM/Activity/Form/Activity.tpl"}
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
-	<dt>{$form.phone_id.label}</dt><dd>{$form.phone_id.html}
+   	<dt>{$form.phone_id.label}</dt><dd>{$form.phone_id.html}
         {edit}
                 {*if $action neq 4*}{* Commented for crm-914*}
         &nbsp;{$form.phone_number.label}&nbsp;
