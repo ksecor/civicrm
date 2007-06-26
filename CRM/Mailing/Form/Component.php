@@ -126,17 +126,20 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
      * @access public
      * @return None
      */
-    public function postProcess() 
+    public function postProcess( ) 
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         
-        $params['id']     = $this->_id;
-        $params['action'] = $this->_action;
+        $ids = array( );
+        
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $ids['id'] = $this->_id;
+        }
         
         require_once 'CRM/Mailing/BAO/Component.php';
-        CRM_Mailing_BAO_Component::add( $params );
-
+        CRM_Mailing_BAO_Component::add( $params, $ids );
+        
     }//end of function
 
 }
