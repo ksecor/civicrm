@@ -57,6 +57,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $id      = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, false, 0);
         $action  = CRM_Utils_Request::retrieve( 'action', 'String'  , $this, false );
         $context = CRM_Utils_Request::retrieve( 'context', 'String'  , $this, false, 'register' );
+        $this->assign( 'context', $context );
 
         // set breadcrumb to append to 2nd layer pages
         $breadCrumbPath = CRM_Utils_System::url( "civicrm/event/info", "id={$id}&reset=1" );

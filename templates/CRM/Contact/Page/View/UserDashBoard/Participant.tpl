@@ -13,7 +13,7 @@
      {counter start=0 skip=1 print=false}
      {foreach from=$event_rows item=row}
         <tr id='rowid{$row.participant_id}' class="{cycle values="odd-row,even-row"}{if $row.status eq Cancelled} disabled{/if}">
-           <td><a href="{crmURL p='civicrm/event/info' q="reset=1&id=`$row.event_id`"}">{$row.event_title}</a></td>
+           <td><a href="{crmURL p='civicrm/event/info' q="reset=1&id=`$row.event_id`&context=dashboard"}">{$row.event_title}</a></td>
            <td>
                 {$row.start_date|crmDate}
                 {if $row.event_end_date}

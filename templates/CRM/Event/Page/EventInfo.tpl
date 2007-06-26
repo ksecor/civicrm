@@ -2,7 +2,7 @@
 
 <div class="vevent">
 	<h2><span class="summary">{$event.title}</span></h2>	
-    	<div class="display-block">
+    <div class="display-block">
 	<table class="form-layout">
       	{if $event.summary}
 		<tr><td colspan="2" class="report">{$event.summary}</td></tr>
@@ -67,27 +67,29 @@
     
 	{if $event.is_monetary eq 1 && $custom.value} 
       	<tr><td style="vertical-align:top;"><label>{$event.fee_label}</label></td>
-            <td><table class="form-layout-compressed">
+            <td>
+            <table class="form-layout-compressed">
 	         {section name=loop start=1 loop=11}
         	    {assign var=idx value=$smarty.section.loop.index}
-            	    {if $custom.value.$idx}
-                	<tr><td>{$custom.label.$idx}</td><td>
-			{$config->defaultCurrencySymbol()}{$custom.value.$idx}</td></tr>
-            	    {/if}
+                {if $custom.value.$idx}
+                	<tr><td>{$custom.label.$idx}</td>
+                        <td>{$config->defaultCurrencySymbol()}{$custom.value.$idx}</td>
+                    </tr>
+                {/if}
          	 {/section}
          	</table>
             </td>
         </tr>
-        {/if}
+    {/if}
 	</table>
 
-    	{include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1} 
+    {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1} 
 
-      		{if $is_online_registration }
-        	<div class="action-link">
-        		<strong><a href="{$registerURL}" title="{$registerText}">
-			{$registerText}</a></strong>
-        	</div>
-      		{/if}
+    {* Show link to Event Registration page if event if configured for online reg AND we are NOT coming from Contact Dashboard (CRM-2046) *}
+    {if $is_online_registration AND $context NEQ 'dashboard'}
+        <div class="action-link">
+            <strong><a href="{$registerURL}" title="{$registerText}">{$registerText}</a></strong>
+        </div>
+    {/if}
 	</div>	
 </div>
