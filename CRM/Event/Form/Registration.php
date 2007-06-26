@@ -266,10 +266,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->assign_by_ref( 'paymentProcessor', $this->_paymentProcessor );
 
         // check if this is a paypal auto return and redirect accordingly
-        if ( isset( $_GET['payment_date'] )                                       &&
-             isset( $_GET['merchant_return_link'] )                               &&
-             CRM_Utils_Array::value( 'payment_status', $_GET ) == 'Completed'     &&
-             $this->_paymentProcessor['payment_processor_type'] == "PayPal_Standard" ) {
+        if ( CRM_Utils_System::paypalRedirect( $this->_paymentProcessor ) ) {
             $url = CRM_Utils_System::url( 'civicrm/event/register',
                                           "_qf_ThankYou_display=1&qfKey={$this->controller->_key}" );
             CRM_Utils_System::redirect( $url );
