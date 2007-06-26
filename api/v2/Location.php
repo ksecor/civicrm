@@ -38,11 +38,9 @@ require_once 'api/v2/utils.php';
 /**
  * Create an additional location for an existing contact
  *
- * @param CRM_Contact $contact     Contact object to be deleted
- * @param array       $params      input properties
- * @param enum        context_name Name of a valid Context
+ * @param array $params  input properties
  *  
- * @return CRM_Location or CRM_Error (db error or contact was not valid)
+ * @return array  the created location's params
  *
  * @access public
  */
@@ -140,15 +138,11 @@ function civicrm_location_delete( &$contact ) {
 /**
  * Returns array of location(s) for a contact
  * 
-
- * @param  object  $contact               A valid Contact object (passed by reference).
- * @param  Array   $location_type         Valid location_type label Array. If NULL, all locations are returned.
+ * @param array $contact  a valid array of contact parameters
  *
- *
- * @return  An array of Location objects. 'location_id' and 'location_type' are always returned.
+ * @return array  an array of location parameters arrays
  *
  * @acces public
- *
  */
 function civicrm_location_get( $contact ) {
     _civicrm_initialize( );
