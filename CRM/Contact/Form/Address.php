@@ -111,7 +111,7 @@ class CRM_Contact_Form_Address
                 }
 
                 $location[$locationId]['address'][$name] =
-                    $form->addElement( 'select',
+                    $form->addElement( 'text',
                                        "location[$locationId][address][$name]",
                                        $title,
                                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ), $attributes );

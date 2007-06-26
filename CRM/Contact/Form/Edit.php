@@ -552,10 +552,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
         
         // store the submitted values in an array
-        //$params = $this->controller->exportValues( $this->_name );
-        $params = $_POST;
-
-        $params['contact_type'] = $this->_contactType;
+        $params = $this->controller->exportValues( $this->_name );
+        //$params = $_POST;
 
         if ( $this->_showDemographics ) {
             if( ! isset( $params['is_deceased'] ) || $params['is_deceased'] != 1 ) { 
