@@ -553,7 +553,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        //$params = $_POST;
+
+        $params['contact_type'] = $this->_contactType;
 
         if ( $this->_showDemographics ) {
             if( ! isset( $params['is_deceased'] ) || $params['is_deceased'] != 1 ) { 
@@ -635,7 +636,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $this->_maxLocationBlocks, true, false );
-        
+
         // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
         if ( $this->_contactType == 'Individual' ) {
             CRM_Contact_Form_Individual::handleSharedRelation( $contact->id, $params );
