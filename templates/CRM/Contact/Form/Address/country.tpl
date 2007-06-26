@@ -16,6 +16,8 @@ function checkChildren(obj, element, value, src_func) {
     str_arr = obj.widgetId.split('_');
 
     element = str_arr;
+    var cname = String(element);
+    var lno = cname.substring(cname.length, 7 );
 
     if (!active_levels[element]) {
         active_levels[element] = Array();

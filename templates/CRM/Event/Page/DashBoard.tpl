@@ -65,6 +65,6 @@
 {if $pager->_totalItems}
     <h3>{ts}Recent Registrations{/ts}</h3>
     <div class="form-item">
-        {include file="CRM/Event/Form/Selector.tpl" context="DashBoard"}
+        {include file="CRM/Event/Form/Selector.tpl" context="dashboard"}
     </div>
 {/if}
