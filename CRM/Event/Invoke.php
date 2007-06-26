@@ -87,8 +87,6 @@ class CRM_Event_Invoke
                  CRM_Core_Invoke::onlySSL( $args ) ) {
                 if ( !isset($_SERVER['HTTPS'] ) ) {
                     CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-                } else {
-                    CRM_Utils_System::mapConfigToSSL( );
                 }
             }
 

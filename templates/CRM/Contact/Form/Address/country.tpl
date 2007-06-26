@@ -7,11 +7,15 @@
 var active_levels = Array();
 
 function checkParamChildren(value) {
-    var  countryId = 'country'+{/literal}{$index}{literal};
-    checkChildren(this, countryId, value, checkParamChildren);
+    checkChildren(this, 'country', value, checkParamChildren);
 }
 
 function checkChildren(obj, element, value, src_func) {
+
+    // first we delete existing elements
+    str_arr = obj.widgetId.split('_');
+
+    element = str_arr;
 
     if (!active_levels[element]) {
         active_levels[element] = Array();
@@ -30,6 +34,7 @@ function checkChildren(obj, element, value, src_func) {
         removeChildren(element, 0);
         active_levels[element] = 0;
     }        
+
 
     var res = {/literal}"{$stateURL}"{literal};
     
@@ -64,12 +69,14 @@ function checkChildren(obj, element, value, src_func) {
                     }, 
 
                dojo.byId (element+'_container_'+node));
-
+	       //alert(111);
                /* start of code to set defaults for state */
-               var lno = {/literal}{$index}{literal};
-               var countryId  = 'country'+lno;
-               var stateId    = countryId+'_'+lno;
-               var stateValue = {/literal}"{$state1_value}"{literal};
+               //var lno = element.substring(1, 3 )
+               var lno = 1;
+               //alert(lno);
+               var stateId    = element+'_'+lno;
+
+               var stateValue = {/literal}"{$country1_state_value}"{literal};
 
                dojo.widget.byId( stateId ).setAllValues( stateValue, stateValue )
                /* end of code to set defaults for state */
@@ -110,10 +117,9 @@ function removeChildren(element, value) {
 <script type="text/javascript">
 
     /* start of code to set defaults for country */
-
     var lno = {/literal}{$index}{literal};
+
     var countryId = 'country'+lno;
-    var stateId   = countryId+'_'+lno;
 
     var countryValue = {/literal}"{$country1_value}"{literal};
 

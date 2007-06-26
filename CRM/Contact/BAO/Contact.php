@@ -985,13 +985,12 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      *                        in a hierarchical manner
      * @param array   $ids      (reference) the array that holds all the db ids
      * @param boolean $microformat  for location in microformat
-     * @param int     $locationCount location count
      *
      * @return object CRM_Contact_BAO_Contact object
      * @access public
      * @static
      */
-    static function &retrieve( &$params, &$defaults, &$ids, $microformat = false, $locationCount = null) 
+    static function &retrieve( &$params, &$defaults, &$ids, $microformat = false ) 
     {
         if ( array_key_exists( 'contact_id', $params ) ) {
             $params['id'] = $params['contact_id'];
@@ -1007,10 +1006,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $locParams = $params + array('entity_id' => $params['contact_id'],
                                      'entity_table' => self::getTableName());
        
-        if ( ! $locationCount ) {
-            require_once "CRM/Core/BAO/Preferences.php";
-            $locationCount = CRM_Core_BAO_Preferences::value('location_count' );
-        } 
+        $locationCount = CRM_Contact_BAO_Contact::getContactLocations( $params['contact_id'] ); 
+
         require_once "CRM/Core/BAO/Preferences.php";
         $contact->location     =& CRM_Core_BAO_Location::getValues( $locParams, 
                                                                     $defaults, 
@@ -1231,9 +1228,10 @@ WHERE civicrm_contact.id IN $idString ";
                                       array(   $dao->state, $dao->postal_code ) );
             CRM_Utils_String::append( $address, '<br /> ',
                                       array( $dao->country ) );
-            $location['address'      ] = $address;
-            $location['url'          ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
-            $location['location_type'] = $dao->location_type;
+            $location['address'       ] = $address;
+            $location['displayAddress'] = str_replace( '<br />', ', ', $address );
+            $location['url'           ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
+            $location['location_type' ] = $dao->location_type;
             
             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($dao->contact_type) {
@@ -2621,6 +2619,37 @@ WHERE     civicrm_contact.id = %1";
         }
         
     }
+
+    /**
+     * Function to get the count of  contact loctions
+     * 
+     * @param int $contactId contact id
+     *
+     * @return int $locationCount max locations for the contact
+     * @static
+     * @access public
+     */
+    static function getContactLocations( $contactId )
+    {
+        // find the system config related location blocks
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $locationCount = CRM_Core_BAO_Preferences::value( 'location_count' );
+        
+        // find number of location blocks for this contact and adjust value accordinly
+        $query = "
+SELECT count( l.id )
+  FROM civicrm_location l
+ WHERE l.entity_table = 'civicrm_contact'
+   AND l.entity_id    = {$contactId}
+";
+        $locCount = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+        if ( $locCount && $locationCount < $locCount ) {
+            $locationCount = $locCount;
+        }
+        
+        return $locationCount;
+    }
+
 }
 
 ?>

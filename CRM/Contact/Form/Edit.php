@@ -46,14 +46,6 @@ require_once 'CRM/Core/SelectValues.php';
 class CRM_Contact_Form_Edit extends CRM_Core_Form
 {
     /**
-     * how many locationBlocks should we display?
-     *
-     * @var int
-     * @const
-     */
-    const LOCATION_BLOCKS = 2;
-
-    /**
      * The contact type of the form
      *
      * @var string
@@ -202,17 +194,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
                 CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
 
-                // find number of location blocks for this contact and adjust value accordinly
-                $query = "
-SELECT count( l.id )
-  FROM civicrm_location l
- WHERE l.entity_table = 'civicrm_contact'
-   AND l.entity_id    = {$this->_contactId}
-";
-                $locCount = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
-                if ( $locCount && $this->_maxLocationBlocks < $locCount ) {
-                    $this->_maxLocationBlocks = $locCount;
-                }
+                //get the no of locations for the contact
+                $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
+
                 return;
             }
 
@@ -276,7 +260,7 @@ SELECT count( l.id )
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $ids = array();
-            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids , false, $this->_maxLocationBlocks );
+            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
             $this->set( 'ids', $ids );
 
             $locationExists = array();
@@ -364,7 +348,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 if ( $value['address']['state_province_id'] ) {
                     $stateProvinceId = $value['address']['state_province_id'];
                     if ( $stateProvinceId ) {
-                        $this->assign( "state{$key}_value",  $stateProvinces[$stateProvinceId] );
+                        $this->assign( "country{$key}_state_value",  $stateProvinces[$stateProvinceId] );
                     }
                 }
             }
@@ -484,9 +468,19 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             self::buildCommunicationBlock($this);
         }
 
+        //hack the address sequence so that state province always comes after country
+        $addressSequence = $config->addressSequence();
+        $key = array_search( 'country', $addressSequence);
+        unset($addressSequence[$key]);
+
+        $key = array_search( 'state_province', $addressSequence);
+        unset($addressSequence[$key]);
+
+        $addressSequence = array_merge( $addressSequence, array ( 'country', 'state_province' ) );
+        $this->assign( 'addressSequence', $addressSequence );
+
         /* Entering the compact location engine */ 
         $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, $this->_maxLocationBlocks );
-
         /* End of locations */
         
         // add note block
@@ -558,8 +552,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
         
         // store the submitted values in an array
-        //$params = $this->controller->exportValues( $this->_name );
-        $params = $_POST;
+        $params = $this->controller->exportValues( $this->_name );
 
         $params['contact_type'] = $this->_contactType;
 
@@ -643,7 +636,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $this->_maxLocationBlocks, true, false );
-        
+
         // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
         if ( $this->_contactType == 'Individual' ) {
             CRM_Contact_Form_Individual::handleSharedRelation( $contact->id, $params );
