@@ -126,34 +126,20 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
      * @access public
      * @return None
      */
-    public function postProcess() 
+    public function postProcess( ) 
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
-        // action is taken depending upon the mode
-        $component                 =& new CRM_Mailing_DAO_Component( );
-        $component->domain_id      =  CRM_Core_Config::domainID( );
-        $component->name           =  $params['name'];
-        $component->component_type =  $params['component_type'];
-        $component->subject        =  $params['subject'];
-        if ($params['body_text']) {
-            $component->body_text  =  $params['body_text'];
-        } else {
-            $component->body_text  =  CRM_Utils_String::htmlToText($params['body_html']);
+        
+        $ids = array( );
+        
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $ids['id'] = $this->_id;
         }
-        $component->body_html      =  $params['body_html'];
-        $component->is_active      =  CRM_Utils_Array::value( 'is_active' , $params, false );
-        $component->is_default     =  CRM_Utils_Array::value( 'is_default', $params, false );
-
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $component->id = $this->_id;
-        }
-
-        $component->save( );
-
-        CRM_Core_Session::setStatus( ts('The mailing component "%1" has been saved.',
-                                        array( 1 => $component->name )) );
+        
+        require_once 'CRM/Mailing/BAO/Component.php';
+        CRM_Mailing_BAO_Component::add( $params, $ids );
+        
     }//end of function
 
 }

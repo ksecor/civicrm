@@ -479,9 +479,9 @@ class CRM_Utils_System {
      */ 
     static function mapConfigToSSL( ) {
         $config   =& CRM_Core_Config::singleton( ); 
-
-        $config->userFrameworkBaseURL = str_replace( 'http://', 'https://', $config->userFrameworkBaseURL );
-        $config->resourceBase = $config->userFrameworkBaseURL; 
+        $config->userFrameworkResourceURL = str_replace( 'http://', 'https://', 
+                                                         $config->userFrameworkResourceURL );
+        $config->resourceBase = $config->userFrameworkResourceURL;
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return eval( 'return ' . $config->userFrameworkClass . '::mapConfigToSSL( ); ' );
     }

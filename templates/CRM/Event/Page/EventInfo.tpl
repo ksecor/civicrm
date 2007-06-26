@@ -82,6 +82,7 @@
 	</table>
 
     	{include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1} 
+
       		{if $is_online_registration }
         	<div class="action-link">
         		<strong><a href="{$registerURL}" title="{$registerText}">

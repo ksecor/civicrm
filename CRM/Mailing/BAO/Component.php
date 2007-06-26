@@ -79,7 +79,46 @@ class CRM_Mailing_BAO_Component extends CRM_Mailing_DAO_Component {
     static function setIsActive( $id, $is_active ) {
         return CRM_Core_DAO::setFieldValue( 'CRM_Mailing_DAO_Component', $id, 'is_active', $is_active );
     }
+    
+    /**
+     * Create and Update mailing component 
+     * 
+     * @params array $params (reference ) an assoc array of name/value pairs
+     * @return object CRM_Mailing_BAO_Component object
+     *
+     * @access public
+     * @static
+     */
 
+    static function add( &$params, &$ids )
+    {
+        // action is taken depending upon the mode
+        $component                 =& new CRM_Mailing_DAO_Component( );
+        $component->domain_id      =  CRM_Core_Config::domainID( );
+        $component->name           =  $params['name'];
+        $component->component_type =  $params['component_type'];
+        $component->subject        =  $params['subject'];
+        if ($params['body_text']) {
+            $component->body_text  =  $params['body_text'];
+        } else {
+            $component->body_text  =  CRM_Utils_String::htmlToText( $params['body_html'] );
+        }
+        $component->body_html      =  $params['body_html'];
+        $component->is_active      =  CRM_Utils_Array::value( 'is_active' , $params, false );
+        $component->is_default     =  CRM_Utils_Array::value( 'is_default', $params, false );
+        
+        if ( $component->is_default ) {
+            $query = "UPDATE civicrm_mailing_component SET is_default = 0 WHERE domain_id = {$component->domain_id} AND component_type ='{$component->component_type}'";
+            CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        }
+        
+        $component->id = CRM_Utils_Array::value( 'id', $ids );
+        
+        $component->save( );
+        
+        CRM_Core_Session::setStatus( ts('The mailing component "%1" has been saved.',
+                                        array( 1 => $component->name )) );
+    }
 }
 
 ?>

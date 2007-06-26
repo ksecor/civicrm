@@ -38,7 +38,7 @@
     {assign var=cbName value=$row.checkbox}
     <td>{$form.$cbName.html}</td> 
 {/if}
-{if ( $contribute_context eq dashboard ) or ( $contribute_context eq search ) }
+{if ( $contribute_context eq 'dashboard' ) or ( $contribute_context eq 'search' ) }
     <td>{$row.contact_type}</td>	
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
 {/if}
@@ -67,7 +67,7 @@
     <td colspan="8"><a href="{crmURL p='civicrm/contact/view' q="reset=1&force=1&selectedChild=contribute&cid=$contactId"}">&raquo; {ts}View all contributions from this contact{/ts}... </a></td>
   </tr>
 {/if}
-{if ($context EQ 'DashBoard') AND $pager->_totalItems GT $limit}
+{if ($context EQ 'dashboard') AND $pager->_totalItems GT $limit}
   <tr class="even-row">
     <td colspan="10"><a href="{crmURL p='civicrm/contribute/search' q='reset=1&force=1'}">&raquo; {ts}List more contributions{/ts}... </a></td>
   </tr>

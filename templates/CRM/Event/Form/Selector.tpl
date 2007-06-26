@@ -67,7 +67,7 @@
     <td colspan="7"><a href="{crmURL p='civicrm/contact/view' q="reset=1&force=1&selectedChild=participant&cid=$contactId"}">&raquo; {ts}View all events for this contact{/ts}...</a></td></tr>
   </tr>
 {/if}
-{if ($context EQ 'DashBoard') AND $pager->_totalItems GT $limit}
+{if ($context EQ 'dashboard') AND $pager->_totalItems GT $limit}
   <tr class="even-row">
     <td colspan="9"><a href="{crmURL p='civicrm/event/search' q='reset=1&force=1'}">&raquo; {ts}List more Event Participants{/ts}...</a></td></tr>
   </tr>
