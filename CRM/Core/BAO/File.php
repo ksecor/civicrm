@@ -117,7 +117,7 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         }
 
         // to get id's 
-        if ($overwrite) {
+        if ( $overwrite && $fileID ) {
             $sql = "
 SELECT    CF.id as fID, CF.uri as uri, CEF.id as feID
 FROM      civicrm_file AS CF
