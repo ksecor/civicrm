@@ -8,27 +8,22 @@ require_once 'bootstrap_common.php';
 require_once "Auth/OpenID/Consumer.php";
 
 /**
- * Require the "file store" module, which we'll need to store OpenID
+ * Require the "MySQL store" module, which we'll need to store OpenID
  * information.
  */
-require_once "Auth/OpenID/FileStore.php";
+require_once "Auth/OpenID/MySQLStore.php";
 
 /**
- * This is where the example will store its OpenID information.  You
- * should change this path if you want the example store to be created
- * elsewhere.  After you're done playing with the example script,
- * you'll have to remove this directory manually.
+ * Setup the database store for the OpenID sessions.
  */
-$store_path = "/tmp/_php_consumer_test";
+$dao =& new CRM_Core_DAO();
+$connection =& $dao->getDatabaseConnection();
+$settings_table = "civicrm_openid_settings";
+$associations_table = "civicrm_openid_associations";
+$nonces_table = "civicrm_openid_nonces";
 
-if (!file_exists($store_path) &&
-    !mkdir($store_path)) {
-    print "Could not create the FileStore directory '$store_path'. ".
-        " Please check the effective permissions.";
-    exit(0);
-}
-
-$store = new Auth_OpenID_FileStore($store_path);
+$store = new Auth_OpenID_MySQLStore($connection,
+    $settings_table,$associations_table,$nonces_table);
 
 /**
  * Create a consumer object using the store object created earlier.

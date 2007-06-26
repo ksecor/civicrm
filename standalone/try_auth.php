@@ -1,7 +1,6 @@
 <?php
 
 require_once "auth_common.php";
-session_start();
 
 // Render a default page if we got a submission without an openid
 // value.
@@ -43,6 +42,7 @@ $auth_request->addExtensionArg('sreg', 'optional', 'email');
 $redirect_url = $auth_request->redirectURL($trust_root,
                                            $process_url);
 
+//print "Redirect: $redirect_url<br/>";
 header("Location: ".$redirect_url);
 
 ?>

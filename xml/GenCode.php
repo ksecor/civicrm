@@ -722,6 +722,10 @@ function getIndex(&$indexXML, &$fields, &$indices)
     // populate fields
     foreach ($indexXML->fieldName as $v) {
         $fieldName = (string)($v);
+	$length = (string)($v['length']);
+	if (strlen($length) > 0) {
+	  $fieldName = "$fieldName($length)";
+	}
         $index['field'][] = $fieldName;
     }
 
@@ -745,6 +749,10 @@ function getIndex(&$indexXML, &$fields, &$indices)
             echo "Invalid field defination for index $indexName\n";
             return;
         }
+	$parenOffset = strpos($fieldName,'(');
+	if ($parenOffset > 0) {
+	  $fieldName = substr($fieldName,0,$parenOffset);
+	}
         if (!array_key_exists($fieldName, $fields)) {
             echo "Table does not contain $fieldName\n";
             print_r( $fields );

@@ -30,4 +30,5 @@ if ($_GET[CIVICRM_UF_URLVAR] == "") {
     print CRM_Core_Invoke::invoke( explode('/', $_GET[CIVICRM_UF_URLVAR] ) );
 }
 
+
 ?>
