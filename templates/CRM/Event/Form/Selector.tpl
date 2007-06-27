@@ -49,7 +49,7 @@
         {/foreach}
     </td>
     {else}
-    <td>{$row.event_level}</td>
+    <td>{if !$row.paid && !$row.event_level} {ts}(no fee){/ts}{else} {$row.event_level}{/if}</td>
     {/if}
     <td>{$row.start_date|truncate:10:''|crmDate}
         {if $row.end_date && $row.end_date|date_format:"%Y%m%d" NEQ $row.start_date|date_format:"%Y%m%d"}
