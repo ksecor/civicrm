@@ -30,7 +30,7 @@ class CiviUnitTestCase extends UnitTestCase {
         // If we're asserting successful record deletion, make sure object is NOT found.
         if ( $delete ) {
             if ( $object->find( true ) ) {
-                $this->assertTrue("Could not retrieve object: $daoName, $id", false);
+                $this->fail("Could not retrieve object ( DAO: $daoName, ID: $id )" );
             }
             return;
         }
@@ -50,11 +50,12 @@ class CiviUnitTestCase extends UnitTestCase {
                   }
             }
         } else {
-            $this->assertTrue("Could not retrieve object: $daoName, $id", false);
+            $this->fail("Could not retrieve object ( DAO: $daoName, ID: $id )");
         }
         $object->free( );
-        if ( $matchedCount != count( $match ) ) {
-            $this->assertTrue("Did not match all fields in match array: $daoName, $id", false);
+        $c = count( $match );
+        if ( $matchedCount != $c ) {
+            $this->fail("Did not match all fields in match array ( DAO: $daoName, ID: $id, matched: $matchedCount, given: $c /// )");
         }
     }
 
