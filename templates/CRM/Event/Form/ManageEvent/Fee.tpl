@@ -68,5 +68,10 @@
 if ( document.getElementById('price_set_id').options[document.getElementById('price_set_id').selectedIndex].value == '' ) {
     show( 'map-field' );
 }
+
+if ( document.getElementsByName('is_monetary')[0].checked ) {
+    show( 'event-fees', 'block' );
+}
 </script>
-{/literal}
+{/literal} 
+
