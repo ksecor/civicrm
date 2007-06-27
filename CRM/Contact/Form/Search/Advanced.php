@@ -73,7 +73,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             ts('Relationships')         => 'relationship'   ,
                             ts('Notes')                 => 'notes'          ,
                             ts('Change Log')            => 'changeLog'      ,
-                            ts('Cases')                 => 'caseSearch'    );
+                            ts('Cases')                 => 'caseSearch'     ,
+                            ts('Case Activities')       => 'caseActivity'   );
 
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $paneNames[ts('Contributions')] = 'contribute';

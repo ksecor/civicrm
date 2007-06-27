@@ -202,7 +202,7 @@ class CRM_Activity_Form extends CRM_Core_Form
                              'mode'           => 'remote',
                              'style'          => 'width: 100px;',
                              'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/search",
-                                                                           "d={$domainID}&s=%{$searchString}",
+                                                                           "d={$domainID}&s=%{searchString}",
                                                                            true, null, false ),
                                 );
         $this->add( 'text','from_contact',ts('From'),$attributes );
@@ -212,7 +212,7 @@ class CRM_Activity_Form extends CRM_Core_Form
                                 'mode'           => 'remote',
                                 'style'          => 'width: 300px;',
                                 'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-                                                                           "d={$contactID}&s=%{searchString}",
+                                                                           "c={$contactID}&s=%{searchString}",
                                                                            true, null, false ),
                                 );
         $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase );

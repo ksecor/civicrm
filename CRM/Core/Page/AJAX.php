@@ -361,7 +361,7 @@ ORDER BY name";
     function caseSubject( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $contactID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
+        $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
         $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
 
         $query = "
