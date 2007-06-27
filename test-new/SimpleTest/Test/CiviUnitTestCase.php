@@ -55,7 +55,7 @@ class CiviUnitTestCase extends UnitTestCase {
         $object->free( );
         $c = count( $match );
         if ( $matchedCount != $c ) {
-            $this->fail("Did not match all fields in match array ( DAO: $daoName, ID: $id, matched: $matchedCount, given: $c /// )");
+            $this->fail("Did not match all fields in match array ( DAO: $daoName, ID: $id, matched: $matchedCount, given: $c )");
         }
     }
 
