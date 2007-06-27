@@ -34,15 +34,16 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}This field is blank for non-monetary contributions.{/ts}</td></tr>
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
-{if $email}
-        <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
-{/if}
+        {if $email}
+            <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
+            <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
+        {/if}
         <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
-{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
-{include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}
-</td></tr>
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
+            {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}
+        </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</td></tr>
+        <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
       </table>
       {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
 
@@ -50,13 +51,9 @@
         <a href="#" onclick="hide('id-additional-show'); show('id-additional'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Details{/ts}</label><br />
  </div>
  <div id="id-additional" class="section-shown">
-<fieldset>
-<dl>
-
-<legend><a href="#" onclick="hide('id-additional'); show('id-additional-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Details{/ts}</legend>
+    <fieldset>
+      <legend><a href="#" onclick="hide('id-additional'); show('id-additional-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Details{/ts}</legend>
       <table class="form-layout-compressed">
-        <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
         <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
         <tr><td class="label">{$form.non_deductible_amount.label}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.non_deductible_amount.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Non-deductible portion of this contribution.{/ts}</td></tr>
@@ -69,9 +66,9 @@
         <tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.{/ts}<br />{ts}For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>
         <tr><td class="label">{$form.thankyou_date.label}</td><td>{$form.thankyou_date.html}
-{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_3}
-{include file="CRM/common/calendar/body.tpl" dateVar=thankyou_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_3}
-</td></tr>
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_3}
+            {include file="CRM/common/calendar/body.tpl" dateVar=thankyou_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_3}
+        </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a thank-you message was sent to the contributor.{/ts}</td></tr>
 
         
@@ -82,8 +79,7 @@
         <tr id="showHonorOfDetailsLname"><td class="label">{$form.honor_lastname.label}</td><td>{$form.honor_lastname.html}</td>
         <tr id="showHonorOfDetailsEmail"><td class="label">{$form.honor_email.label}</td><td>{$form.honor_email.html}</td>
     </table>
-</dl>
-</fieldset>
+  </fieldset>
 </div>     
 
     {literal}

@@ -97,6 +97,21 @@ abstract class CRM_Core_Payment {
      */
     abstract function checkConfig( $mode );
 
+    static function paypalRedirect( &$paymentProcessor ) {
+        if ( ! $paymentProcessor ) {
+            return false;
+        }
+
+        if ( isset( $_GET['payment_date'] )                                       &&
+             isset( $_GET['merchant_return_link'] )                               &&
+             CRM_Utils_Array::value( 'payment_status', $_GET ) == 'Completed'     &&
+             $paymentProcessor['payment_processor_type'] == "PayPal_Standard" ) {
+            return true;
+        }
+        
+        return false;
+    }
+
 }
 
 ?>

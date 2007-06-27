@@ -229,15 +229,12 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->assign_by_ref( 'paymentProcessor', $this->_paymentProcessor );
 
         // check if this is a paypal auto return and redirect accordingly
-        if ( $this->_paymentProcessor['payment_processor_type'] == "PayPal_Standard" &&
-             isset( $_GET['payment_date'] )                                       &&
-             isset( $_GET['merchant_return_link'] )                               &&
-             CRM_Utils_Array::value( 'payment_status', $_GET ) == 'Completed' ) {
+        if ( CRM_Core_Payment::paypalRedirect( $this->_paymentProcessor ) ) {
             $url = CRM_Utils_System::url( 'civicrm/contribute/transact',
                                           "_qf_ThankYou_display=1&qfKey={$this->controller->_key}" );
             CRM_Utils_System::redirect( $url );
         }
-
+        
         // make sure we have a valid payment class, else abort
         if ( CRM_Utils_Array::value('is_monetary',$this->_values) &&
              ! $this->_paymentProcessor['class_name'] ) {
