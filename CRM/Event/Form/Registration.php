@@ -183,23 +183,29 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
             }
 
-            $ppID = CRM_Utils_Array::value( 'payment_processor_id',
-                                            $this->_values['event'] );
-            if ( ! $ppID ) {
-                CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this event registration page (contact the site administrator for assistance).' ) );
-            }
 
-            require_once 'CRM/Core/BAO/PaymentProcessor.php';
-            $this->_paymentProcessor =
-                CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
-                                                           $this->_mode );
-            
-            // make sure we have a valid payment class, else abort
-            if ( $this->_values['event']['is_monetary'] && ! $this->_paymentProcessor ) {
-                CRM_Core_Error::fatal( ts( 'Payment Processor is not set.' ) );
-            }
+            // check for is_monetary status
+            $isMonetary = CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] );
 
-            $this->set( 'paymentProcessor', $this->_paymentProcessor );
+            if ( $isMonetary ) {
+                $ppID = CRM_Utils_Array::value( 'payment_processor_id',
+                                                $this->_values['event'] );
+                if ( ! $ppID ) {
+                    CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this event registration page (contact the site administrator for assistance).' ) );
+                }
+                
+                require_once 'CRM/Core/BAO/PaymentProcessor.php';
+                $this->_paymentProcessor =
+                    CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
+                                                               $this->_mode );
+                
+                // make sure we have a valid payment class, else abort
+                if ( $this->_values['event']['is_monetary'] && ! $this->_paymentProcessor ) {
+                    CRM_Core_Error::fatal( ts( 'Payment Processor is not set.' ) );
+                }
+                
+                $this->set( 'paymentProcessor', $this->_paymentProcessor );
+            }
 
             //retrieve custom information
             $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
