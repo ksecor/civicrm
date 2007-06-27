@@ -109,10 +109,10 @@ class CRM_Case_Form_Case extends CRM_Core_Form
                    array( '' => ts( '-select-' ) ) + $caseViolation , true);
         $this->add( 'text', 'subject', ts('Subject') );
         $this->add( 'date', 'start_date', ts('Start Date'),
-                    CRM_Core_SelectValues::date('date' ),
+                    CRM_Core_SelectValues::date('manual',20,10 ),
                     true);   
         $this->add( 'date', 'end_date', ts('End Date'),
-                    CRM_Core_SelectValues::date('date' ),
+                    CRM_Core_SelectValues::date('manual',20,10 ),
                     false); 
         $this->add('textarea', 'details', ts('Notes'));
         

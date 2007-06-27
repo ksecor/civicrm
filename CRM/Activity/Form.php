@@ -183,6 +183,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
+      
         return $defaults;
     }
 
@@ -197,17 +198,21 @@ class CRM_Activity_Form extends CRM_Core_Form
      
         $config =& CRM_Core_Config::singleton( );
         $contactID = $this->_contactId;
+        $fromName = CRM_Contact_BAO_Contact::displayName( $this->_userId );
+        $regardName = CRM_Contact_BAO_Contact::displayName(  $contactID );
         $domainID = CRM_Core_Config::domainID( );
         $attributes = array( 'dojoType'       => 'ComboBox',
                              'mode'           => 'remote',
-                             'style'          => 'width: 100px;',
+                             'style'          => 'width: 160px;',
                              'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/search",
                                                                            "d={$domainID}&s=%{searchString}",
                                                                            true, null, false ),
                                 );
         $this->add( 'text','from_contact',ts('From'),$attributes );
+        $this->assign('from_contact_val',$fromName );
         $this->add( 'text','to_contact',ts('To'),$attributes );
         $this->add( 'text','regarding_contact',ts('Regarding'),$attributes );
+        $this->assign('regard_contact_val',$regardName );
         $attributeCase = array( 'dojoType'       => 'ComboBox',
                                 'mode'           => 'remote',
                                 'style'          => 'width: 300px;',
@@ -216,6 +221,7 @@ class CRM_Activity_Form extends CRM_Core_Form
                                                                            true, null, false ),
                                 );
         $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase );
+       
         require_once 'CRM/Core/OptionGroup.php';
         $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
         $this->add('select', 'activitytag1_id',  ts( 'Case Activity Type' ),  
