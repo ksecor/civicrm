@@ -202,13 +202,65 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults, &$ids ) {
+    static function retrieve( &$params, &$defaults, &$ids ) 
+    {
         $case = CRM_Case_BAO_Case::getValues( $params, $defaults, $ids );
         return $case;
     }
 
+    /** 
+     * To fetch the contact id when display name is given
+     * 
+     * @param  display name of the contact
+     * @return id id of the corresponding display name
+     *
+     */ 
+    static function retrieveCid( &$params ) 
+    {
+        require_once 'CRM/Contact/DAO/Contact.php';
+        $cid = new CRM_Contact_DAO_Contact();
+        $cid->display_name = $params;
+        $cid->find(true);
+       
+        return $cid->id;
+    }
+
     
-    /**                                                           
+    /**
+     * takes an associative array and
+     *
+     * @param array $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids
+     *
+     * @access public
+     * @static
+     */
+    static function &createCaseActivity(&$params , $ids = null) 
+    {
+        $params['target_entity_table'] = 'civicrm_contact';
+        $params['target_entity_id']    = $params['to_contact'];
+        require_once 'CRM/Activity/DAO/ActivityAssignment.php';
+        $activityDAO =& new CRM_Activity_DAO_ActivityAssignment;
+        $activityDAO->copyValues($params);
+        // $activityDAO->id = CRM_Utils_Array::value( 'activity', $ids );
+        $result = $activityDAO->save();
+
+        require_once 'CRM/Case/DAO/Case.php';
+        $caseDAO =& new CRM_Case_DAO_Case();
+        $caseDAO->subject = $params['case_subject'];
+        $caseDAO->find(true);
+        $params['case_id'] = $caseDAO->id;
+
+        require_once 'CRM/Case/DAO/CaseActivity.php';
+        $caseActivityDAO =& new CRM_Case_DAO_CaseActivity();
+        $caseActivityDAO->copyValues($params);
+        // $caseActivityDAO->id = CRM_Utils_Array::value( 'activity', $ids );
+        $result = $caseActivityDAO->save();
+
+    }   
+
+
+   /**                                                           
      * Delete the record that are associated with this case 
      * record are deleted from case 
      * @param  int  $id id of the case to delete

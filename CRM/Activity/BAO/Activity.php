@@ -323,6 +323,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } else {
             CRM_Core_Session::setStatus("$title " . ts('"%1" has been saved.', array(1 => $activity->subject)));
         }
+        return $activity;
         
     }
 

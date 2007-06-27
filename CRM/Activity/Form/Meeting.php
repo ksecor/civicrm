@@ -99,6 +99,11 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+        
+        require_once 'CRM/Case/BAO/Case.php';
+        $this->_sourceCID = CRM_Case_BAO_Case::retrieveCid($params['from_contact']);
+        $this->_targetCID = CRM_Case_BAO_Case::retrieveCid($params['regarding_contact']);
+
 
         $ids = array();
         
@@ -127,7 +132,13 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         $ids['target_entity_id' ] = $this->_targetCID;
         
         require_once "CRM/Activity/BAO/Activity.php";
-        CRM_Activity_BAO_Activity::createActivity($params, $ids, $this->_activityType);
+        $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids, $this->_activityType);
+  
+        $caseParams['to_contact'] = CRM_Case_BAO_Case::retrieveCid($params['to_contact']);
+        $caseParams['activity_entity_table'] = 'civicrm_meeting';
+        $caseParams['activity_entity_id']    = $activity->id;
+        $caseParams['subject']               = $params['case_subject'];
+        CRM_Case_BAO_Case::createCaseActivity( &$caseParams);
     }
 
 }
