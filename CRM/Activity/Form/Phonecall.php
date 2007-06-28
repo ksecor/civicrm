@@ -131,7 +131,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         $caseParams['to_contact'] = CRM_Case_BAO_Case::retrieveCid($params['to_contact']);
         $caseParams['activity_entity_table'] = 'civicrm_phonecall';
         $caseParams['activity_entity_id']    = $activity->id;
-        
+        $caseParams['subject']               = $params['case_subject'];
         CRM_Case_BAO_Case::createCaseActivity( &$caseParams);
 
     }
