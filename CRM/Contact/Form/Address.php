@@ -132,41 +132,30 @@ class CRM_Contact_Form_Address
      */
     static function formRule(&$fields, &$errors)
     {
-        // check for state/country match if not report error to user.
+        // check for state/county match if not report error to user.
         for ($i=1; $i<=CRM_Contact_Form_Location::BLOCKS; $i++) {
             if ( ! CRM_Utils_Array::value( $i, $fields['location'] ) &&
                  ! CRM_Utils_Array::value( 'address', $fields['location'][$i] ) ) {
                 continue;
             }
+
+            $stateProvinces  = array( );
+            $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
+
+            $stateProvinceId = array_search ( CRM_Utils_Array::value( 'state_province',
+                                                                      $fields['location'][$i]['address'] ) , $stateProvinces );
+            $countyId        = CRM_Utils_Array::value( 'county_id', $fields['location'][$i]['address'] );
             
-//             $stateProvinceId = CRM_Utils_Array::value( 'state_province_id',$fields['location'][$i]['address'] );
-//             $countryId       = CRM_Utils_Array::value( 'country_id',$fields['location'][$i]['address'] );
-//             $countyId        = CRM_Utils_Array::value( 'county_id', $fields['location'][$i]['address'] );
-
-//             if ($stateProvinceId && $countryId) {
-//                 $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
-//                 $stateProvinceDAO->id = $stateProvinceId;
-//                 $stateProvinceDAO->find(true);
-
-//                 if ($stateProvinceDAO->country_id != $countryId) {
-//                     // countries mismatch hence display error
-//                     $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-//                     $countries =& CRM_Core_PseudoConstant::country();
-//                     $errors["location[$i][address][state_province_id]"] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
-//                 }
-//             }
-            
-//             if ($stateProvinceId && $countyId) {
-//                 $countyDAO =& new CRM_Core_DAO_County();
-//                 $countyDAO->id = $countyId;
-//                 $countyDAO->find(true);
-
-//                 if ($countyDAO->state_province_id != $stateProvinceId) {
-//                     $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-//                     $counties =& CRM_Core_PseudoConstant::county();
-//                     $errors["location[$i][address][county_id]"] = "County " . $counties[$countyId] . " is not part of ". $stateProvinces[$stateProvinceId] . ". It belongs to " . $stateProvinces[$countyDAO->state_province_id] . "." ;
-//                 }
-//             }
+            if ( $stateProvinceId && $countyId ) {
+                $countyDAO =& new CRM_Core_DAO_County();
+                $countyDAO->id = $countyId;
+                $countyDAO->find(true);
+                
+                if ($countyDAO->state_province_id != $stateProvinceId) {
+                    $counties =& CRM_Core_PseudoConstant::county();
+                    $errors["location[$i][address][county_id]"] = "County " . $counties[$countyId] . " is not part of ". $stateProvinces[$stateProvinceId] . ". It belongs to " . $stateProvinces[$countyDAO->state_province_id] . "." ;
+                }
+            }
         }
     }
 }
