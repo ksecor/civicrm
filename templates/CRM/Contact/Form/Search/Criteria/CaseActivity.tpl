@@ -1,3 +1,4 @@
+<fieldset class="collapsible">
  <table class="form-layout">  
             <tr><td class="label">{$form.activity_activitytag1_id.label}</td><td>{$form.activity_activitytag1_id.html}</td></tr>
             <tr><td class="label">{$form.activity_activitytag2_id.label}</td><td>{$form.activity_activitytag2_id.html}</td>
@@ -19,3 +20,4 @@
             
            
  </table>
+</fieldset>

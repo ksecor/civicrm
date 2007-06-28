@@ -329,15 +329,23 @@ class CRM_Activity_Form extends CRM_Core_Form
         $toCID     = CRM_Case_BAO_Case::retrieveCid($fields['to_contact']);
     
         if(!$sourceCID){
-           
             $errors['from_contact'] = ts('Invalid From Contact');
         }
         if(!$targetCID){
             $errors['regarding_contact'] = ts('Invalid Regarding Contact');
         }
-         if(!$toCID){
+        if(!$toCID){
             $errors['to_contact'] = ts('Invalid To Contact');
         }
+        require_once 'CRM/Case/DAO/Case.php';
+        $caseDAO =& new CRM_Case_DAO_Case();
+        $caseDAO->subject = $fields['case_subject'];
+        $caseDAO->find(true);
+       
+        if(!$caseDAO->id){
+            $errors['case_subject'] = ts('Invalid Case Subject');
+        }
+
         return $errors;
     }
 }

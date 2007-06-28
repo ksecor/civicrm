@@ -61,14 +61,23 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                        'View Case',  
                                                        $this->_action ); 
         $controller->setEmbedded( true ); 
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
-        $session->pushUserContext( $url ); 
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );  
-        
-        return $controller->run( ); 
+        $controller->run();
+
+        // set the userContext stack
+        $session =& CRM_Core_Session::singleton();
+        require_once 'CRM/Contact/Selector/Activity.php' ;
+        require_once 'CRM/Core/Selector/Controller.php';
+        $output = CRM_Core_Selector_Controller::SESSION;
+        $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, 1 );
+        $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
+                                                        $sortID, CRM_Core_Action::VIEW, $this, $output);
+        $controller->setEmbedded(true);
+        $controller->run();
+
+        $controller->moveFromSessionToTemplate( );
+ 
     }
 
     /**

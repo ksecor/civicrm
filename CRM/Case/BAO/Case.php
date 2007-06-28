@@ -246,7 +246,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
 
         require_once 'CRM/Case/DAO/Case.php';
         $caseDAO =& new CRM_Case_DAO_Case();
-        $caseDAO->subject = $params['case_subject'];
+        $caseDAO->subject = $params['subject'];
         $caseDAO->find(true);
         $params['case_id'] = $caseDAO->id;
 
