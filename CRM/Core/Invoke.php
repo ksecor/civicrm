@@ -1027,9 +1027,6 @@ class CRM_Core_Invoke
         case 'localization' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Localization', ts('Localization'), null); 
             break;
-        case 'address' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Address', ts('Address Formatting'), null); 
-            break;
         case 'date' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Date', ts('Date Formatting'), null); 
             break;
