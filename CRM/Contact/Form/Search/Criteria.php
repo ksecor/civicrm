@@ -286,6 +286,13 @@ class CRM_Contact_Form_Search_Criteria {
         require_once 'CRM/TMF/BAO/Query.php';
         CRM_TMF_BAO_Query::buildSearchForm( $form );
     }
+
+    static function kabissa( &$form ) {
+        $form->add( 'hidden', 'hidden_Kabissa', 1 );
+        require_once 'CRM/Kabissa/BAO/Query.php';
+        CRM_Kabissa_BAO_Query::buildSearchForm( $form );
+    }
+
     static function caseSearch( &$form ) {
         $form->add( 'hidden', 'hidden_caseSearch', 1 );
         require_once 'CRM/Case/BAO/Query.php';

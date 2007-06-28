@@ -141,6 +141,7 @@ function civicrm_perm()
             $cPerm = array_merge( $cPerm, $perm );
         }
     }
+    
 	return $cPerm;
 }
 

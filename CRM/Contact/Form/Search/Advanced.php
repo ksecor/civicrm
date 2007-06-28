@@ -56,7 +56,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     function buildQuickForm( ) 
     {
-
         require_once 'CRM/Contact/Form/Search/Criteria.php';
 
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
@@ -95,6 +94,10 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         if ( CRM_Core_Permission::access( 'TMF' ) ) {
             $paneNames[ts('TMF')] = 'TMF';
             $paneNames[ts('Task' )] = 'task';                
+        }
+
+        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
+            $paneNames[ts('Kabissa')] = 'kabissa';
         }
 
         require_once 'CRM/Core/BAO/Preferences.php';

@@ -577,7 +577,7 @@ class CRM_Core_SelectValues
                                 // 'Quest'           => ts('Quest'),
                                 // 'TMF'             => ts('TMF'),
                                 // 'Gcc'             => ts('Gcc'),
-                                // 'Kabissa'         => ts('Kabissa')
+                                'Kabissa'         => ts('Kabissa')
                                 );
             if (version_compare(phpversion(), '5') >= 0) {
                 $components['CiviMail'] = ts('CiviMail');
