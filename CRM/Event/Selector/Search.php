@@ -330,8 +330,14 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                  $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
                  break;
              }
+             
              $row['contact_type' ] = $contact_type;
-             $row['modified_date'] = CRM_Event_BAO_Participant::getModifiedDate( $result->contact_id, $result->participant_id );
+             $row['modified_date'] = CRM_Event_BAO_Participant::getModifiedDate( $result->contact_id, 
+                                                                                 $result->participant_id );
+             
+             $row['paid'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
+                                                         $row['event_id'], 
+                                                         'is_monetary');
              $rows[] = $row;
          }
          return $rows;

@@ -16,8 +16,6 @@ function checkChildren(obj, element, value, src_func) {
     str_arr = obj.widgetId.split('_');
 
     element = str_arr;
-    var cname = String(element);
-    var lno = cname.substring(cname.length, 7 );
 
     if (!active_levels[element]) {
         active_levels[element] = Array();
@@ -37,10 +35,14 @@ function checkChildren(obj, element, value, src_func) {
         active_levels[element] = 0;
     }        
 
+ 
+    var cname = String(element);
+
+    var lno = cname.substring(cname.length, 7 );
 
     var res = {/literal}"{$stateURL}"{literal};
     
-    var state = {/literal}"location[{$index}][address][state_province]"{literal};
+    var state = 'location[' + lno + '][address][state_province]';
 
     var bindArgs = {
         url: res,
@@ -49,7 +51,7 @@ function checkChildren(obj, element, value, src_func) {
         load: function(type, data)
         {          
             eval("var decoded_data = "+data);            
-            if(data.length > 2) {
+            if ( data.length > 2) {
                 tmp = active_levels[element];
                 tmp++;
                 active_levels[element] = tmp;
@@ -71,17 +73,51 @@ function checkChildren(obj, element, value, src_func) {
                     }, 
 
                dojo.byId (element+'_container_'+node));
-	       //alert(111);
-               /* start of code to set defaults for state */
-               //var lno = element.substring(1, 3 )
-               var lno = 1;
-               //alert(lno);
-               var stateId    = element+'_'+lno;
 
-               var stateValue = {/literal}"{$country1_state_value}"{literal};
+               /* start of code to set defaults for state. Note: Code cleanup required  */
 
-               dojo.widget.byId( stateId ).setAllValues( stateValue, stateValue )
-               /* end of code to set defaults for state */
+               if ( lno == 1) {
+                 {/literal}{if $country1_state_value } {literal}
+                 var stateValue1 = {/literal}"{$country1_state_value}"{literal};
+                 dojo.addOnLoad( function( ) 
+                   {
+                      dojo.widget.byId( 'country1_1' ).setAllValues( stateValue1, stateValue1 );
+                   }            
+                 );
+                 {/literal}{/if }{literal}
+
+              } else if ( lno == 2) {
+                 {/literal}{if $country2_state_value } {literal}
+                 var stateValue2 = {/literal}"{$country2_state_value}"{literal};
+                 dojo.addOnLoad( function( ) 
+                   {
+                      dojo.widget.byId( 'country2_1' ).setAllValues( stateValue2, stateValue2 );
+                   }            
+                 );
+                 {/literal}{/if }{literal}
+
+              } else if ( lno == 3) {
+                 {/literal}{if $country3_state_value } {literal}
+                 var stateValue3 = {/literal}"{$country3_state_value}"{literal};
+                 dojo.addOnLoad( function( ) 
+                   {
+                      dojo.widget.byId( 'country3_1' ).setAllValues( stateValue3, stateValue3 );
+                   }            
+                 );
+                 {/literal}{/if }{literal}
+
+              } else if ( lno == 4) {
+                 {/literal}{if $country4_state_value } {literal}
+                 var stateValue4 = {/literal}"{$country4_state_value}"{literal};
+                 dojo.addOnLoad( function( ) 
+                   {
+                      dojo.widget.byId( 'country4_1' ).setAllValues( stateValue4, stateValue4 );
+                   }            
+                 );
+                 {/literal}{/if }{literal}
+              }
+   
+              /* end of code to set defaults for state */
            }
         }            
     };            
@@ -105,7 +141,7 @@ function removeChildren(element, value) {
 </script>
 {/literal}
 
-<div id="select_root{$index}" class="form-item">
+<div id="select_root" class="form-item">
     <span class="labels">
     {$form.location.$index.address.country.label}
     </span>
@@ -118,18 +154,57 @@ function removeChildren(element, value) {
 {literal}
 <script type="text/javascript">
 
-    /* start of code to set defaults for country */
+    /* start of code to set defaults for country. Note: Code cleanup required */
     var lno = {/literal}{$index}{literal};
 
-    var countryId = 'country'+lno;
+    switch ( lno ) {
+       case 1:
+             {/literal}{if $country1_value } {literal}
+             var countryValue1 = {/literal}"{$country1_value}"{literal};
+             dojo.addOnLoad( function( ) 
+               {
+                  dojo.widget.byId( 'country1' ).setAllValues( countryValue1, countryValue1 );
+               }            
+             );
 
-    var countryValue = {/literal}"{$country1_value}"{literal};
+             break;
+             {/literal}{/if }{literal}
+       case 2:
+             {/literal} {if $country2_value } {literal}
+             var countryValue2 = {/literal}"{$country2_value}"{literal};
+             dojo.addOnLoad( function( ) 
+               {
+                  dojo.widget.byId( 'country2' ).setAllValues( countryValue2, countryValue2 );            
+               }          
+             );
 
-    dojo.addOnLoad( function( ) 
-        {
-            dojo.widget.byId( countryId ).setAllValues( countryValue, countryValue )
-        }          
-    );
+             break;
+             {/literal}{/if }{literal}
+       case 3: 
+             {/literal} {if $country3_value } {literal}
+             var countryValue3 = {/literal}"{$country3_value}"{literal};
+
+             dojo.addOnLoad( function( ) 
+               {
+                  dojo.widget.byId( 'country3' ).setAllValues( countryValue3, countryValue3 );            
+               }          
+             );
+
+             break;
+             {/literal}{/if }{literal}
+       case 4: 
+             {/literal} {if $country4_value } {literal}
+             var countryValue4 = {/literal}"{$country4_value}"{literal};
+
+             dojo.addOnLoad( function( ) 
+               {
+                  dojo.widget.byId( 'country4' ).setAllValues( countryValue4, countryValue4 );            
+               }          
+             );
+
+             break;
+             {/literal}{/if }{literal}
+    }
 
     /* end of code to set defaults for country*/
 

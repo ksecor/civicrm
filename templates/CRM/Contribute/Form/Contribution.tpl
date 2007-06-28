@@ -30,6 +30,8 @@
             {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_1}
         {/if}    
         </td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
+
         <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}This field is blank for non-monetary contributions.{/ts}</td></tr>
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
@@ -43,7 +45,17 @@
             {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}
         </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</td></tr>
+
         <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
+        {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
+        <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
+        {if $hideCalendar neq true}
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
+            {include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_4}
+        {/if}
+        </td></tr>
+        <tr id="cancelDescription"><td class="label">&nbsp;</td><td class="description">{ts}Enter the cancellation date, or you can skip this field and the cancellation date will be automatically set to TODAY.{/ts}</td></tr>
+        <tr id="cancelReason"><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
       </table>
       {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
 
@@ -140,25 +152,6 @@
       {/if} 
 </div>
 
- <div id="id-cancel-show" class="section-hidden section-hidden-border" style="clear: both;">
-        <a href="#" onclick="hide('id-cancel-show'); show('id-cancel'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Cancellation{/ts}</label><br />
- </div>
- <div id="id-cancel" class="section-shown">
-      <fieldset>
-<legend><a href="#" onclick="hide('id-cancel'); show('id-cancel-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Cancellation{/ts}</legend>
-<table class="form-layout-compressed">
-        <tr><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
-{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
-{include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_4}
-</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</td></tr>
-        <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
-</table>
-</fieldset>
-</div>
-
-
-
       {literal}
         <script type="text/javascript">
             var min_amount = document.getElementById("min_amount");
@@ -219,11 +212,18 @@
     invert              = 1
 }
 
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="contribution_status_id"
+    trigger_value       = '3'
+    target_element_id   ="cancelDate|cancelReason|cancelDescription" 
+    target_element_type ="table-row"
+    field_type          ="select"
+    invert              = 0
+}
 
 {if $action eq 1 or $action eq 2 }
     <script type="text/javascript">
-    showMinContrib( );
-
+       showMinContrib( );
     </script>            
 {/if}
 

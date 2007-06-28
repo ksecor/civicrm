@@ -1,4 +1,4 @@
-{* This template is used for adding/editing/deleting offlin Event Registrations *}
+{* This template is used for adding/editing/deleting offline Event Registrations *}
 {if $action eq 1}
     <div id="help">
         {ts}Use this form to register contacts for an event. If this is a paid event and you are accepting payment offline - you should also enter a contribution record.{/ts}
@@ -45,7 +45,8 @@
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
 
-        <tr><td class="label">{$form.amount.label}</td><td>{$form.amount.html}</td></tr>
+        <tr><td class="label">{$form.amount.label}</td><td>
+		{if $paid} {$form.amount.html}{else}{ts}(no fee){/ts}{/if}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Event Fee Level (if applicable).{/ts}</td></tr>
         <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
         <tr><td colspan=2>

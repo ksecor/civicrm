@@ -286,13 +286,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $showHide->addShow( "id-premium-show" );
             $showHide->addHide( "id-premium" );
         }
-        if ( $showCancel ) {
-            $showHide->addShow( "id-cancel" );
-            $showHide->addHide( "id-cancel-show" );
-        } else {
-            $showHide->addShow( "id-cancel-show" );
-            $showHide->addHide( "id-cancel" );
-        }
         
         // Don't assign showHide elements to template in DELETE mode (fields to be shown and hidden don't exist)
         if ( !( $this->_action & CRM_Core_Action::DELETE )&& !( $this->_action & CRM_Core_Action::DISABLE )  ) {
@@ -358,7 +351,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->add('select', 'contribution_status_id',
                    ts('Contribution Status'), 
                    CRM_Contribute_PseudoConstant::contributionStatus( ),
-                   false, array('onChange' => "if (this.value != 3) status(); else return false"));
+                   false, array(
+                                'onClick' => "if (this.value != 3) status(); else return false",
+                                'onChange' => "return showHideByValue('contribution_status_id','3','cancelDate|cancelReason|cancelDescription','table-row','select',false);"));
         $element =& $this->add('select', 'payment_instrument_id', 
                                ts( 'Paid By' ), 
                                array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
@@ -381,7 +376,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->addElement('date', 'thankyou_date', ts('Thank-you Sent'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('thankyou_date', ts('Select a valid date.'), 'qfDate');
 
-        $this->addElement('date', 'cancel_date', ts('Cancelled'), CRM_Core_SelectValues::date('manual', 3, 1)); 
+        $this->addElement('date', 'cancel_date', ts('Cancelled Date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
         
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );

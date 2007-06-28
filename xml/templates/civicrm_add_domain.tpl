@@ -283,7 +283,7 @@ VALUES
  (@domain_id,'PayPal_Express','{ts}PayPal - Express{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
  (@domain_id,'Google_Checkout','{ts}Google Checkout{/ts}',NULL,1,0,'{ts}Merchant ID{/ts}','{ts}Key{/ts}',NULL,NULL,'Payment_Google','https://checkout.google.com/',NULL,'http://checkout.google.com/buttons/checkout.gif','https://sandbox.google.com/checkout',NULL,'http://sandbox.google.com/checkout/buttons/checkout.gif',4,NULL),
  (@domain_id,'Moneris','{ts}Moneris{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_Moneris',NULL,NULL,NULL,NULL,NULL,NULL,1,1),
- (@domain_id,'AuthNet_AIM','{ts}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts}API Login{/ts}','{ts}Payment Key{/ts}','{ts}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll','https://api.authorize.net/xml/v1/request.api',NULL,'https://secure.authorize.net/gateway/transact.dll','https://apitest.authorize.net/xml/v1/request.api',NULL,1,NULL);
+ (@domain_id,'AuthNet_AIM','{ts}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts}API Login{/ts}','{ts}Payment Key{/ts}','{ts}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll','https://api.authorize.net/xml/v1/request.api',NULL,'https://secure.authorize.net/gateway/transact.dll','https://apitest.authorize.net/xml/v1/request.api',NULL,1,1);
 
 -- the default dedupe rules
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Individual', 20);

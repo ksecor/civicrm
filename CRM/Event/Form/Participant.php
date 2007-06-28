@@ -344,7 +344,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         } else {
             $this->add( 'text', 'amount', ts('Event Fee(s)') );
         }
-        
+        $this->assign("paid", $this->_event['is_monetary'] );
+
         $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
         $this->add('textarea', 'note', ts('Notes'), $noteAttributes['note']);
         
@@ -433,9 +434,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
         
-        if( ! $this->_event['is_monetary'] ) {
-            $params['event_level']    = $params['amount'];
-        } else {
+        if(  $this->_event['is_monetary'] ) {
             require_once "CRM/Core/BAO/CustomOption.php";
             $eventPage = array( 'id' => $params['amount'] );
             CRM_Core_BAO_CustomOption::retrieve( $eventPage, $pageInfo);
@@ -514,6 +513,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $params['contact_id'] = $contactID;
                 CRM_Event_BAO_Participant::create( $params, $ids );   
             }
+
+            CRM_Core_Session::setStatus( ts('Total Participant(s) added to event: %1', 
+                                            array(1 => count($this->_contactIds)))  );
+            
         }
     }
 }

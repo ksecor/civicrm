@@ -26,9 +26,6 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
     const
         CHARSET = 'iso-8859-1';
 
-    const
-        AUTHORIZE_NET_SUBMIT = 'https://secure.authorize.net/gateway/transact.dll';
-
     const AUTH_APPROVED = 1;
     const AUTH_DECLINED = 2;
     const AUTH_ERROR = 3;
@@ -68,12 +65,16 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
      * @public
      */
     function doDirectPayment ( &$params ) {
-        if ( ! function_exists('curl_init') ) {
-            return self::error( );
+        if ( ! defined( 'CURLOPT_SSLCERT' ) ) {
+            return self::error( 9001, 'Authorize.Net requires curl with SSL support' );
         }
 
         foreach ( $params as $field => $value ) {
             $this->_setParam( $field, $value );
+        }
+
+        if ( $params['is_recur'] && $params['installments'] > 1 ) {
+            return $this->doRecurPayment( $params );
         }
 
         $postFields = array( );
@@ -82,7 +83,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
             $postFields[] = $field . '=' . urlencode( $value );
         }
 
-        $submit = curl_init( self::AUTHORIZE_NET_SUBMIT );
+        $submit = curl_init( $this->_paymentProcessor['url_site'] );
 
         if ( !$submit ) {
             return self::error(9002, 'Could not initiate connection to payment gateway');
@@ -124,7 +125,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
             $trxn_id = strval( CRM_Core_Dao::singleValueQuery( $query, $p ) );
             $trxn_id = str_replace( 'test', '', $trxn_id );
             $trxn_id = intval($trxn_id) + 1;
-            $params['trxn_id'] = sprintf('test%d', $trxn_id);
+            $params['trxn_id'] = sprintf('test%08d', $trxn_id);
         }
         else {
             $params['trxn_id'] = $response_fields[6];
@@ -133,6 +134,109 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         // TODO: include authorization code?
         return $params;
 
+    }
+
+    /**
+     * Submit an Automated Recurring Billing subscription
+     *
+     * @param  array $params assoc array of input parameters for this transaction
+     * @return array the result in a nice formatted array (or an error object)
+     * @public
+     */
+    function doRecurPayment( &$params ) {
+        $session =& CRM_Core_Session::singleton( );
+        $template =& CRM_Core_Smarty::singleton( );
+
+        $intervalLength = $this->_getParam('frequency_interval');
+        $intervalUnit = $this->_getParam('frequency_unit');
+        if ( $intervalUnit == 'week' ) {
+            $intervalLength *= 7;
+            $intervalUnit = 'days';
+        } elseif ( $intervalUnit == 'year' ) {
+            $intervalLength *= 12;
+            $intervalUnit = 'months';
+        } elseif ( $intervalUnit == 'day' ) {
+            $intervalUnit = 'days';
+        } elseif ( $intervalUnit == 'month' ) {
+            $intervalUnit = 'months';
+        }
+
+        // interval cannot be less than 7 days or more than 1 year
+        if ( $intervalUnit == 'days' ) {
+            if ( $intervalLength < 7 ) {
+                return self::error( 9001, 'Payment interval must be at least one week' );
+            } elseif ( $intervalLength > 365 ) {
+                return self::error( 9001, 'Payment interval may not be longer than one year' );
+            }
+        }
+        elseif ( $intervalUnit == 'months' ) {
+            if ( $intervalLength < 1 ) {
+                return self::error( 9001, 'Payment interval must be at least one week' );
+            } elseif ( $intervalLength > 12 ) {
+                return self::error( 9001, 'Payment interval may not be longer than one year' );
+            }
+        }
+
+        $template->assign( 'intervalLength', $intervalLength );
+        $template->assign( 'intervalUnit', $intervalUnit );
+
+        $template->assign( 'apiLogin', $this->_getParam( 'apiLogin' ) );
+        $template->assign( 'paymentKey', $this->_getParam( 'paymentKey' ) );
+        $template->assign( 'refId', substr( $this->_getParam( 'invoiceID' ), 0, 20 ) );
+        // insert page title as name
+
+        $template->assign( 'startDate', date('Y-m-d') );
+        $template->assign( 'totalOccurrences', $this->_getParam('installments') );
+
+        $template->assign( 'amount', $this->_getParam('amount') );
+
+        $template->assign( 'cardNumber', $this->_getParam('credit_card_number') );
+        $exp_month = str_pad( $this->_getParam( 'month' ), 2, '0', STR_PAD_LEFT );
+        $exp_year = $this->_getParam( 'year' );
+        $template->assign( 'expirationDate', $exp_year . '-' . $exp_month );
+
+        $template->assign( 'description', $session->get( 'title' ) );
+
+        $template->assign( 'email', $this->_getParam('email') );
+        $template->assign( 'billingFirstName', $this->_getParam('billing_first_name') );
+        $template->assign( 'billingLastName', $this->_getParam('billing_last_name') );
+        $template->assign( 'billingAddress', $this->_getParam('street_address') );
+        $template->assign( 'billingCity', $this->_getParam('city') );
+        $template->assign( 'billingState', $this->_getParam('state_province') );
+        $template->assign( 'billingZip', $this->_getParam('postal_code') );
+        $template->assign( 'billingCountry', $this->_getParam('country') );
+
+        $arbXML = $template->fetch( 'CRM/Contribute/Form/Contribution/AuthorizeNetARB.tpl' );
+
+        // submit to authorize.net
+        $submit = curl_init( $this->_paymentProcessor['url_recur'] );
+        if ( !$submit ) {
+            return self::error(9002, 'Could not initiate connection to payment gateway');
+        }
+
+        curl_setopt($submit, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($submit, CURLOPT_HTTPHEADER, Array("Content-Type: text/xml"));
+        curl_setopt($submit, CURLOPT_HEADER, 1);
+        curl_setopt($submit, CURLOPT_POSTFIELDS, $arbXML);
+        curl_setopt($submit, CURLOPT_POST, 1);
+        curl_setopt($submit, CURLOPT_SSL_VERIFYPEER, 0);
+        
+        $response = curl_exec($submit);
+
+        if ( !$response ) {
+            return self::error( curl_errno($submit), curl_error($submit) );
+        }
+
+        curl_close( $submit );
+
+        $responseFields = $this->_ParseArbReturn( $response );
+
+        if ( $responseFields['resultCode'] == 'Error' ) {
+            return self::error( $responseFields['code'], $responseFields['text'] );
+        }
+
+        $params['trxn_id'] = $responseFields['subscriptionId'];
+        return $params;
     }
 
     function _getAuthorizeNetFields ( ) {
@@ -287,6 +391,41 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
 
         return $fields;
     }
+
+    /**
+     * Extract variables from returned XML
+     *
+     * Function is from Authorize.Net sample code, and used for PHP4
+     * compatibility, to prevent the requirement of XML functions.
+     *
+     * @param string $content XML reply from Authorize.Net
+     * @return array refId, resultCode, code, text, subscriptionId
+     */
+    function _parseArbReturn( $content ) {
+        $refId = $this->_substring_between($content,'<refId>','</refId>');
+        $resultCode = $this->_substring_between($content,'<resultCode>','</resultCode>');
+        $code = $this->_substring_between($content,'<code>','</code>');
+        $text = $this->_substring_between($content,'<text>','</text>');
+        $subscriptionId = $this->_substring_between($content,'<subscriptionId>','</subscriptionId>');
+        return array ($refId, $resultCode, $code, $text, $subscriptionId);
+    }
+
+    /**
+     * Helper function for _parseArbReturn
+     *
+     * Function is from Authorize.Net sample code, and used for PHP4
+     * compatibility
+     */
+    function _substring_between( &$haystack, $start, $end ) {
+        if (strpos($haystack,$start) === false || strpos($haystack,$end) === false) {
+            return false;
+        } else {
+            $start_position = strpos($haystack,$start)+strlen($start);
+            $end_position = strpos($haystack,$end);
+            return substr($haystack,$start_position,$end_position-$start_position);
+        }
+    }
+
 
     /**
      * Get the value of a field if set
