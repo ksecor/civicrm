@@ -65,8 +65,8 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
      * @public
      */
     function doDirectPayment ( &$params ) {
-        if ( ! function_exists('curl_init') ) {
-            return self::error( );
+        if ( ! defined( 'CURLOPT_SSLCERT' ) ) {
+            return self::error( 9001, 'Authorize.Net requires curl with SSL support' );
         }
 
         foreach ( $params as $field => $value ) {
@@ -125,7 +125,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
             $trxn_id = strval( CRM_Core_Dao::singleValueQuery( $query, $p ) );
             $trxn_id = str_replace( 'test', '', $trxn_id );
             $trxn_id = intval($trxn_id) + 1;
-            $params['trxn_id'] = sprintf('test%d', $trxn_id);
+            $params['trxn_id'] = sprintf('test%08d', $trxn_id);
         }
         else {
             $params['trxn_id'] = $response_fields[6];
