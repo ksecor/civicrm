@@ -107,7 +107,9 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
         $this->add('select', 'casetag3_id',  ts( 'Violation' ),  
                    array( '' => ts( '-select-' ) ) + $caseViolation , true);
-        $this->add( 'text', 'subject', ts('Subject') );
+        $this->add( 'text', 'subject', ts('Subject'),null, true);
+        $this->addRule( 'subject', ts('Case subject already exists in Database.'), 
+                        'objectExists', array( 'CRM_Case_DAO_Case', $this->_id, 'subject' ) );
         $this->add( 'date', 'start_date', ts('Start Date'),
                     CRM_Core_SelectValues::date('manual',20,10 ),
                     true);   

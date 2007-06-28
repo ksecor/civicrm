@@ -183,7 +183,6 @@ class CRM_Activity_Form extends CRM_Core_Form
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
-      
         return $defaults;
     }
 
@@ -198,8 +197,8 @@ class CRM_Activity_Form extends CRM_Core_Form
      
         $config =& CRM_Core_Config::singleton( );
         $contactID = $this->_contactId;
-        $fromName = CRM_Contact_BAO_Contact::displayName( $this->_userId );
-        $regardName = CRM_Contact_BAO_Contact::displayName(  $contactID );
+        $fromName = CRM_Contact_BAO_Contact::sortName( $this->_userId );
+        $regardName = CRM_Contact_BAO_Contact::sortName(  $contactID );
         $domainID = CRM_Core_Config::domainID( );
         $attributes = array( 'dojoType'       => 'ComboBox',
                              'mode'           => 'remote',
@@ -208,11 +207,26 @@ class CRM_Activity_Form extends CRM_Core_Form
                                                                            "d={$domainID}&s=%{searchString}",
                                                                            true, null, false ),
                                 );
-        $this->add( 'text','from_contact',ts('From'),$attributes );
-        $this->assign('from_contact_val',$fromName );
-        $this->add( 'text','to_contact',ts('To'),$attributes );
-        $this->add( 'text','regarding_contact',ts('Regarding'),$attributes );
-        $this->assign('regard_contact_val',$regardName );
+        $from = $this->add( 'text','from_contact',ts('From'),$attributes,true );
+
+        if ( $from->getValue( ) ) {
+            $this->assign( 'from_contact_value',  $from->getValue( ) );
+        } else {
+            $this->assign('from_contact_value',$fromName );
+        }
+
+        $to = $this->add( 'text','to_contact',ts('To'),$attributes,true );
+        if ( $to->getValue( ) ) {
+            $this->assign( 'to_contact_value',  $to->getValue( ) );
+        }
+        
+        $regard = $this->add( 'text','regarding_contact',ts('Regarding'),$attributes,true );
+        if ( $regard->getValue( ) ) {
+            $this->assign( 'regard_contact_value',  $regard->getValue( ) );
+        } else {
+            $this->assign('regard_contact_value',$regardName );
+        }
+        
         $attributeCase = array( 'dojoType'       => 'ComboBox',
                                 'mode'           => 'remote',
                                 'style'          => 'width: 300px;',
@@ -220,8 +234,11 @@ class CRM_Activity_Form extends CRM_Core_Form
                                                                            "c={$contactID}&s=%{searchString}",
                                                                            true, null, false ),
                                 );
-        $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase );
-       
+        $subject = $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase,true );
+        if ( $subject->getValue( ) ) {
+            $this->assign( 'subject_value',  $subject->getValue( ) );
+        }
+          
         require_once 'CRM/Core/OptionGroup.php';
         $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
         $this->add('select', 'activitytag1_id',  ts( 'Case Activity Type' ),  
@@ -289,7 +306,41 @@ class CRM_Activity_Form extends CRM_Core_Form
         } else {
             CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }
+        $this->addFormRule( array( 'CRM_Activity_Form', 'formRule' ), $this );
+    }
+    
+    /**  
+     * global form rule  
+     *  
+     * @param array $fields  the input form values  
+     * @param array $files   the uploaded files if any  
+     * @param array $options additional user data  
+     *  
+     * @return true if no errors, else array of errors  
+     * @access public  
+     * @static  
+     */  
+    static function formRule( &$fields ) 
+    {  
+        $errors = array( ); 
+        require_once 'CRM/Case/BAO/Case.php';
+        $sourceCID = CRM_Case_BAO_Case::retrieveCid($fields['from_contact']);
+        $targetCID = CRM_Case_BAO_Case::retrieveCid($fields['regarding_contact']);
+        $toCID     = CRM_Case_BAO_Case::retrieveCid($fields['to_contact']);
+    
+        if(!$sourceCID){
+           
+            $errors['from_contact'] = ts('Invalid From Contact');
+        }
+        if(!$targetCID){
+            $errors['regarding_contact'] = ts('Invalid Regarding Contact');
+        }
+         if(!$toCID){
+            $errors['to_contact'] = ts('Invalid To Contact');
+        }
+        return $errors;
     }
 }
+
 
 ?>

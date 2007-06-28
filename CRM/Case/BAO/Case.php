@@ -211,17 +211,16 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     /** 
      * To fetch the contact id when display name is given
      * 
-     * @param  display name of the contact
+     * @param  sort name of the contact
      * @return id id of the corresponding display name
      *
      */ 
-    static function retrieveCid( &$params ) 
+    static function retrieveCid( $params ) 
     {
         require_once 'CRM/Contact/DAO/Contact.php';
         $cid = new CRM_Contact_DAO_Contact();
-        $cid->display_name = $params;
+        $cid->sort_name = $params;
         $cid->find(true);
-       
         return $cid->id;
     }
 

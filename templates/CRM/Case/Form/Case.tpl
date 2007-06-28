@@ -21,7 +21,7 @@
             <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
 	        {if $action neq 4 AND $hideCalender neq true}<br />
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
-    	        {include file="CRM/common/calendar/body.tpl" dateVar=start_date trigger=trigger_case_1}       
+    	        {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=3 doTime=1 trigger=trigger_case_1}       
             {/if}</td></tr>
            
             <tr><td class="label">{$form.end_date.label}</td><td>{$form.end_date.html}
