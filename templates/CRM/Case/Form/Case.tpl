@@ -35,9 +35,7 @@
       	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 
     	    </tr> 
          </table>
-        { if $action eq 4 }
-         {include file="CRM/History/Selector/Activity.tpl"}   
-        {/if}
+
     </div>
 </fieldset>
       
