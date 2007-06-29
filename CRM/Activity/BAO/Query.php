@@ -35,8 +35,139 @@
 
 class CRM_Activity_BAO_Query 
 {
+
+
+    /** 
+     * build select for Case 
+     * 
+     * @return void  
+     * @access public  
+     */
+    static function select( &$query ) 
+    {
+        $query->_select['activity_tag1_id'] = "civicrm_meeting.activity_tag1_id as Activity type OR  civicrm_phonecall.activity_tag1_id as Activity type OR civicrm_activity.activity_tag1_id as Activity type";
+        $query->_element['activity_tag1_id'] = 1;
+ 
+        $query->_select['activity_tag2_id'] = "civicrm_meeting.activity_tag2_id as Communication Medium OR  civicrm_phonecall.activity_tag2_id as Communication Medium OR civicrm_activity.activity_tag2_id as Communication Medium";
+        $query->_element['activity_tag2_id'] = 1;
+
+        $query->_select['activity_tag3_id'] = "civicrm_meeting.activity_tag3_id as Violation OR civicrm_phonecall.activity_tag3_id as Violation OR civicrm_activity.activity_tag3_id as Violation";
+        $query->_element['activity_tag3_id'] = 1;
+
+        $query->_select['subject'] = "civicrm_meeting.subject as Subject OR  civicrm_phonecall.subject as Subject OR civicrm_activity.subject as Subject";
+        $query->_element['subject'] = 1;
+    }
+
+     /** 
+     * Given a list of conditions in query generate the required
+     * where clause
+     * 
+     * @return void 
+     * @access public 
+     */ 
+    static function where( &$query ) 
+    {
+        foreach ( array_keys( $query->_params ) as $id ) {
+            if ( substr( $query->_params[$id][0], 0, 9) == 'activity_' ) {
+                self::whereClauseSingle( $query->_params[$id], $query );
+            }
+        }
+    }
     
-       
+    /** 
+     * where clause for a single field
+     * 
+     * @return void 
+     * @access public 
+     */ 
+    static function whereClauseSingle( &$values, &$query ) 
+    {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        
+        switch( $name ) {
+            
+        case 'activity_activitytag1_id':
+            $value = strtolower(addslashes(trim($value)));
+            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag1_id $op {$value} OR civicrm_activity.activity_tag1_id $op {$value} OR civicrm_phonecall.activity_tag1_id $op {$value})";
+
+            require_once 'CRM/Core/OptionGroup.php' ;
+            $activityType = CRM_Core_OptionGroup::values('case_activity_type');
+            $value = $activityType[$value];
+
+            $query->_qill[$grouping ][]          = ts( 'Case Activity %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
+            $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
+            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
+            return;
+
+        case 'activity_activitytag2_id':
+            $value = strtolower(addslashes(trim($value)));
+            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag2_id $op {$value} OR civicrm_activity.activity_tag2_id $op {$value} OR civicrm_phonecall.activity_tag2_id $op {$value})";
+
+            require_once 'CRM/Core/OptionGroup.php' ;
+            $communicationMedium = CRM_Core_OptionGroup::values('communication_medium');
+            $value = $communicationMedium[$value];
+
+            $query->_qill[$grouping ][] = ts( 'Communication Medium %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
+            $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
+            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
+            return;
+
+        case 'activity_activitytag3_id':
+            $value = strtolower(addslashes(trim($value)));
+            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag3_id $op {$value} OR civicrm_activity.activity_tag3_id $op {$value} OR civicrm_phonecall.activity_tag3_id $op {$value})";
+
+            require_once 'CRM/Core/OptionGroup.php' ;
+            $violation = CRM_Core_OptionGroup::values('f1_case_violation');
+            $value = $violation[$value];
+            $query->_qill[$grouping ][] = ts( 'Violation Type %2 %1', array( 1 => $value, 2 => $op) );
+
+            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
+            $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
+            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
+            return;
+
+        case 'activity_subject':
+            
+            $value = strtolower(addslashes(trim($value)));
+            $query->_where[$grouping][] = "(civicrm_meeting.subject $op '{$value}' OR civicrm_activity.subject $op '{$value}' OR civicrm_phonecall.subject $op '{$value}')";
+            $query->_qill[$grouping ][] = ts( 'Case Activity Subject %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
+            $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
+            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
+            return;
+
+        case 'activity_start_date_low':
+        case 'activity_start_date_high':
+            
+             $query->dateQueryBuilder( $values,
+                                      'civicrm_meeting', 'activity_start_date', 'scheduled_date_time', 'Start Date' );
+            return;
+        }
+    }
+
+    /*
+    static function from( $name, $mode, $side ) 
+    {
+        $from = null;
+ 
+        return $from;
+        
+    }
+    */
+    
+    /**
+     * getter for the qill object
+     *
+     * @return string
+     * @access public
+     */
+    function qill( ) {
+        return (isset($this->_qill)) ? $this->_qill : "";
+    }
+    
+    
     /**
      * add all the elements shared between case activity search  and advanaced search
      *

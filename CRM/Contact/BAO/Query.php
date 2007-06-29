@@ -904,7 +904,7 @@ class CRM_Contact_BAO_Query {
              ( substr( $values[0], 0, 4  ) == 'tmf_' )) {
             return;
         }
-
+ 
         switch ( $values[0] ) {
             
         case 'contact_type':
@@ -1054,6 +1054,11 @@ class CRM_Contact_BAO_Query {
                 require_once 'CRM/Case/BAO/Query.php';
                 CRM_Case_BAO_Query::where( $this );
             }
+            if ( substr ($this->_params[$id][0], 0 , 9) == 'activity_') {
+                require_once 'CRM/Activity/BAO/Query.php';
+                CRM_Activity_BAO_Query::where( $this );
+            }
+           
         }
         
         if ( $this->_customQuery ) {
@@ -1370,8 +1375,8 @@ class CRM_Contact_BAO_Query {
      * @access public
      * @static
      */
-    static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) {
-
+    static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) 
+    {
         $from = ' FROM civicrm_contact contact_a';
         if ( empty( $tables ) ) {
             return $from;
@@ -1425,7 +1430,7 @@ class CRM_Contact_BAO_Query {
  
         require_once 'CRM/Case/BAO/Query.php';
         CRM_Case_BAO_Query::tableNames( $tables );
-       
+
         //format the table list according to the weight
         require_once 'CRM/Core/TableHierarchy.php';
         $info =& CRM_Core_TableHierarchy::info( );
@@ -1478,7 +1483,6 @@ class CRM_Contact_BAO_Query {
                 }
                 continue;
             }
-            
             switch ( $name ) {
 
             case 'civicrm_individual':
@@ -1617,11 +1621,11 @@ class CRM_Contact_BAO_Query {
                 continue;
                 
             case 'civicrm_meeting':
-                $from .= " RIGHT JOIN civicrm_meeting ON (civicrm_meeting.target_entity_table = 'civicrm_contact' AND contact_a.id = civicrm_meeting.target_entity_id )";
+                $from .= " $side JOIN civicrm_meeting ON (civicrm_meeting.target_entity_table = 'civicrm_contact' AND contact_a.id = civicrm_meeting.target_entity_id )";
                 continue;
                 
             case 'civicrm_phonecall':
-                $from .= " RIGHT JOIN civicrm_phonecall ON (civicrm_phonecall.target_entity_table = 'civicrm_contact' AND contact_a.id = civicrm_phonecall.target_entity_id )";
+                $from .= " $side JOIN civicrm_phonecall ON (civicrm_phonecall.target_entity_table = 'civicrm_contact' AND contact_a.id = civicrm_phonecall.target_entity_id )";
                 continue;
 
             case 'civicrm_email_history':
