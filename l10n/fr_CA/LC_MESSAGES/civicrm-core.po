@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-06-21 07:20-0700\n"
+"PO-Revision-Date: 2007-06-26 14:54-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -699,7 +699,7 @@ msgstr "Autre"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Organization Name"
-msgstr "Organisation"
+msgstr "Nom de l'organisation"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Legal Name"
@@ -1806,9 +1806,8 @@ msgid "Assign Users to Roles"
 msgstr ""
 
 #: CRM/Activity/BAO/Activity.php
-#, fuzzy
 msgid "\"%1\" has been logged to Activity History."
-msgstr "La rencontre \"%1\" a été enregistrée à l'historique."
+msgstr "«%1» a été enregistré à l'historique des activités."
 
 #: CRM/Activity/BAO/Activity.php
 msgid "\"%1\" has been saved."
