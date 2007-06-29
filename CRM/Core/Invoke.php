@@ -1021,9 +1021,6 @@ class CRM_Core_Invoke
         case 'mapping' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Mapping', ts('Mapping and Geocoding'), null); 
             break;
-        case 'payment' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Payment', ts('Online Payments'), null); 
-            break;
         case 'localization' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Localization', ts('Localization'), null); 
             break;

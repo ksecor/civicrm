@@ -25,12 +25,12 @@ class CiviUnitTestCase extends UnitTestCase {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object   =& new ' . $daoName . '( );' );
         $object->id =  $id;
-        $matchedCount = 0;
+        $verifiedCount = 0;
         
         // If we're asserting successful record deletion, make sure object is NOT found.
         if ( $delete ) {
             if ( $object->find( true ) ) {
-                $this->assertTrue("Could not retrieve object: $daoName, $id", false);
+                $this->fail("Object not deleted by delete operation: $daoName, $id");
             }
             return;
         }
@@ -41,20 +41,21 @@ class CiviUnitTestCase extends UnitTestCase {
             foreach ( $fields as $name => $value ) {
                   $dbName = $value['name'];
                   if ( isset( $match[$name] ) ) {
-                    $matchedCount++;
+                    $verifiedCount++;
                     $this->assertEqual( $object->$dbName, $match[$name] );
                   } 
-                  if ( isset( $match[$dbName] ) ) {
-                    $matchedCount++;
+                  else if ( isset( $match[$dbName] ) ) {
+                    $verifiedCount++;
                     $this->assertEqual( $object->$dbName, $match[$dbName] );
                   }
             }
         } else {
-            $this->assertTrue("Could not retrieve object: $daoName, $id", false);
+            $this->fail("Could not retrieve object: $daoName, $id");
         }
         $object->free( );
-        if ( $matchedCount != count( $match ) ) {
-            $this->assertTrue("Did not match all fields in match array: $daoName, $id", false);
+        $matchSize = count( $match );
+        if ( $verifiedCount != $matchSize ) {
+            $this->fail("Did not verify all fields in match array: $daoName, $id. Verified count = $verifiedCount. Match array size = $matchSize");
         }
     }
 
@@ -245,7 +246,7 @@ class CiviUnitTestCase extends UnitTestCase {
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not create participant' );
         }
-        return $result['participant_id'];
+        return $result['id'];
     }
     
     /** 

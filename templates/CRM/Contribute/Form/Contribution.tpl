@@ -49,8 +49,9 @@
         <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
         {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
         <tr id="cancelInfo"> 
-           <td class="label">Cancellation Information</td> 
-           <td><table>
+           <td>&nbsp;</td> 
+           <td><fieldset><legend>{ts}Cancellation Information{/ts}</legend>
+                <table class="form-layout-compressed">
                   <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
                    {if $hideCalendar neq true}
                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
@@ -60,6 +61,7 @@
                   <tr id="cancelDescription"><td class="label">&nbsp;</td><td class="description">{ts}Enter the cancellation date, or you can skip this field and the cancellation date will be automatically set to TODAY.{/ts}</td></tr>
                   <tr id="cancelReason"><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
                </table>
+               </fieldset>
            </td>
         </tr>
       </table>

@@ -65,6 +65,7 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
             
             // Create $match array with DAO Field Names and expected values
             $match = array(
+                           'id'                         => CRM_Utils_Array::value('id', $participant),
                            'event_id'                   => 1,
                            'participant_status_id'      => 1,
                            );
@@ -93,6 +94,7 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
 
             // Create $match array with DAO Field Names and expected values
             $match = array(
+                       'id'                         => CRM_Utils_Array::value('id', $participant),
                        'event_id'                   => 2,
                        'participant_status_id'      => 1,
                        'participant_role_id'        => 1,
