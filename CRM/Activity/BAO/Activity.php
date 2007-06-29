@@ -208,6 +208,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     public static function createActivity( &$params, &$ids, $activityType = 'Meeting', $record = false ) 
     {
         $activity = self::add($params, $ids, $activityType);
+        
 
         // do the updates/inserts
         if ( $activityType == 1) {
@@ -285,6 +286,18 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( $record ) {
             return $activity;
         }
+        // Log the information on successful add/edit of Activity
+        $session = & CRM_Core_Session::singleton();
+        $id = $session->get('userID');
+        require_once 'CRM/Core/BAO/Log.php';
+        $logParams = array(
+                           'entity_table'  => 'civicrm_' .strtolower($activityType) ,
+                           'entity_id'     => $activity->id,
+                           'modified_id'   => $id,
+                           'modified_date' => date('Ymd')
+                           );
+        
+        CRM_Core_BAO_Log::add( $logParams );
 
         if ( $activityType == 'Phonecall' ) {
             $title = 'Phone Call';

@@ -33,9 +33,13 @@
             <tr><td class="label">{$form.details.label}</td><td>{$form.details.html}</td></tr>
             <tr> {* <tr> for add / edit form buttons *}
       	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 
-    	    </tr> 
+    	    </tr>
+             {if $action eq 4 }
+            {include file="CRM/Case/Form/CaseActivity.tpl"} 
+            {/if}
+ 
          </table>
-
+           
     </div>
 </fieldset>
       
