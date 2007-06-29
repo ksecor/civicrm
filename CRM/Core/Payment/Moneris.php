@@ -55,21 +55,21 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
         $this->_profile['mode'] = $mode; // live or test
         $this->_profile['storeid']  = $this->_paymentProcessor['signature'];
         $this->_profile['apitoken'] = $this->_paymentProcessor['password' ];
-        if ('CAD' != $config->currencyID) {
-          return self::error(); // Configuration error: default currency must be CAD
+        $currencyID = $config->defaultCurrency;
+        if ('CAD' != $currencyID) {
+          return self::error('Invalid configuration:'.$currencyID.', you must use currency $CAD with Moneris'); // Configuration error: default currency must be CAD
         }
     }
 
     function doDirectPayment( &$params ) {
-
+      
       # make sure i've been called correctly ...
       if ( ! $this->_profile ) {
-          return self::error( );
+          return self::error('Unexpected error, missing profile');
       }
       if ($params['currencyID'] != 'CAD') {
-         return self::error();
+         return self::error('Invalid currency selection, must be $CAD');
       }
-
       /* unused params: cvv not yet implemented, payment action ingored (should test for 'Sale' value?)
       [cvv2] => 000
       [ip_address] => 192.168.0.103
@@ -211,10 +211,14 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
 
     function &error( $error = null ) {
         $e =& CRM_Core_Error::singleton( );
-        if ( $error ) {
+        if ( is_object($error) ) {
             $e->push( $error->getResponseCode( ),
                       0, null,
                       $error->getMessage( ) );
+        } elseif ( is_string($error) ) {
+            $e->push( 9002,
+                      0, null,
+                      $error );
         } else {
             $e->push( 9001, 0, null, "Unknown System Error." );
         }
@@ -233,11 +237,11 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
         $error = array( );
         
         if ( empty( $this->_paymentProcessor['signature'] ) ) {
-            $error[] = ts( 'signature is not set in the Administer CiviCRM &raquo; Payment Processor.' );
+            $error[] = ts( 'Store ID is not set in the Administer CiviCRM &raquo; Payment Processor.' );
         }
             
         if ( empty( $this->_paymentProcessor['password'] ) ) {
-            $error[] = ts( 'password is not set in the Administer CiviCRM &raquo; Payment Processor.' );
+            $error[] = ts( 'Password is not set in the Administer CiviCRM &raquo; Payment Processor.' );
         }
 
         if ( ! empty( $error ) ) {
