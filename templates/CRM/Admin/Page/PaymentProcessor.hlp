@@ -27,3 +27,11 @@ account information. Then you are ready to activate and promote your contributio
 <p>Also make sure, you have Merchant-Key set in your civicrm settings file.</p>
 {/ts}
 {/htxt}
+
+{htxt id='Moneris-test-user-name'}
+{ts}
+<strong>Moneris</strong>
+<p>Your Moneris username is not currently used, in either the normal or test account, so you can fill in 'ignoreme' (it can't be left blank) . You can leave the recurring payments url blank, it's not used. Use 'yesguy' as your test password, and 'store3' as your test store ID. 'store1' and 'store2' also work, but only 'store3' accepts recurring payments.</p>
+{/ts}
+{/htxt}
+
