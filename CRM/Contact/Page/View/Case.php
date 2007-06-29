@@ -69,6 +69,8 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $session->pushUserContext( $url ); 
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );
+        $links  =& self::caseViewLinks( );
+        $action = array_sum(array_keys($links));
         $params['contact_id'] = $this->_contactId;
         $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params);
         
@@ -90,6 +92,15 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                 
                 if (($caseActivity->activity_entity_table == $entityTable) && ($caseActivity->activity_entity_id == $row['id'])){
                     $values[$k] = $row;
+                    
+                    $values[$k]['action'] = CRM_Core_Action::formLink( $links,
+                                                                      $action,
+                                                                      array( 'aid'  => $caseActivity->id,
+                                                                             'atype'=> $row['activity_type_id'],
+                                                                             'rid'  => $row['id'],
+                                                                             'id'   => $this->_id,
+                                                                             'cid' => $this->_contactId ) );
+                    
                     require_once 'CRM/Activity/DAO/ActivityAssignment.php';
                     $activityAssign = new CRM_Activity_DAO_ActivityAssignment( );
                     $activityAssign->activity_entity_table =  $entityTable;
@@ -162,7 +173,9 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case', 
                                                        'Create Case', 
                                                        $this->_action );
-        $controller->setEmbedded( true ); 
+        $controller->setEmbedded( true );
+        $this->_id = CRM_Utils_Request::retrieve('id', 'Integer',
+                                              $this);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
@@ -171,17 +184,30 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject )) {
-            require_once 'CRM/Case/BAO/Case.php';
-            CRM_Case_BAO_Case::deleteCase( $this->_id );
-            CRM_Utils_System::redirect($url);
+            if (CRM_Utils_Request::retrieve('mode', 'String',
+                                            CRM_Core_DAO::$_nullObject)){
+                
+                $url = CRM_Utils_System::url('civicrm/contact/view/case', 'action=view&cid=' . $this->_contactId.'&id='.$this->_id .'&selectedChild=case');
+                $session->pushUserContext( $url );
+                $id = CRM_Utils_Request::retrieve('aid','Integer', CRM_Core_DAO::$_nullObject);
+                require_once 'CRM/Case/BAO/Case.php';
+                CRM_Case_BAO_Case::deleteCaseActivity( $id );
+                CRM_Utils_System::redirect($url);
+                return;
+                
+            } else {
+                require_once 'CRM/Case/BAO/Case.php';
+                CRM_Case_BAO_Case::deleteCase( $this->_id );
+                CRM_Utils_System::redirect($url);
+            }
         }
-
+        
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
         
         return $controller->run( );
     }
-
+    
     /**
      * This function is the main function that is called when the page loads,
      * it decides the which action has to be taken for the page.
@@ -239,7 +265,34 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         }
         return self::$_links;
     }
-                                  
+    
+    static function &caseViewLinks()
+    {
+        if (!(self::$_links)) {
+            $deleteExtra = ts('Are you sure you want to detach this case?');
+            
+            self::$_links = array(
+                                 
+                                  CRM_Core_Action::UPDATE  => array(
+                                                                    'name'  => ts('Edit'),
+                                                                    'url'   => 'civicrm/contact/view/activity',
+                                                                    
+                                                                    'qs'    => 'activity_id=%%atype%%&action=update&reset=1&id=%%rid%%&cid=%%cid%%&subType=%%atype%%',
+                                                                    'title' => ts('Edit Activity')
+                                                                    ),
+                                  CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Detach'),
+                                                                    'url'   => 'civicrm/contact/view/case',
+                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&aid=%%aid%%&id=%%id%%&selectedChild=case&mode=view',
+                                                                    'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',                                                                    
+                                                                    'title' => ts('Detach Activity')
+                                                                    ),
+                                  );
+        }
+        return self::$_links;
+    }
+    
+
 
 }
 

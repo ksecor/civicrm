@@ -9,9 +9,10 @@
             <th field="Subject" dataType="String">{ts}Case{/ts}</th>
             <th field="Type" dataType="String">{ts}Type{/ts}</th>
             <th field="Start Date" dataType="String">{ts}Start Date{/ts}</th>
+           
             <th datatype="html"></th>
 
-	      {*  <th scope="col" title="Action Links"></th>*}
+	        <th scope="col" title="Action Links"></th>
         </tr>
        </thread>
        <tbody> 
@@ -26,6 +27,7 @@
         <td>{$form.subject.html}</td>
         <td>{$activity.case_activity_type}</td> 
         <td>{$activity.start_date|crmDate}</td>
+         <td class="nowrap">{$activity.action}</td>
         </tr>
        
        {/foreach}

@@ -234,7 +234,7 @@ class CRM_Activity_Form extends CRM_Core_Form
                                                                            "c={$contactID}&s=%{searchString}",
                                                                            true, null, false ),
                                 );
-        $subject = $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase,true );
+        $subject = $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase );
         if ( $subject->getValue( ) ) {
             $this->assign( 'subject_value',  $subject->getValue( ) );
         }
@@ -337,15 +337,16 @@ class CRM_Activity_Form extends CRM_Core_Form
         if(!$toCID){
             $errors['to_contact'] = ts('Invalid To Contact');
         }
-        require_once 'CRM/Case/DAO/Case.php';
-        $caseDAO =& new CRM_Case_DAO_Case();
-        $caseDAO->subject = $fields['case_subject'];
-        $caseDAO->find(true);
-       
-        if(!$caseDAO->id){
-            $errors['case_subject'] = ts('Invalid Case Subject');
+        if ( $fields['case_subject'] ){
+            require_once 'CRM/Case/DAO/Case.php';
+            $caseDAO =& new CRM_Case_DAO_Case();
+            $caseDAO->subject = $fields['case_subject'];
+            $caseDAO->find(true);
+            
+            if(!$caseDAO->id){
+                $errors['case_subject'] = ts('Invalid Case Subject');
+            }
         }
-
         return $errors;
     }
 }

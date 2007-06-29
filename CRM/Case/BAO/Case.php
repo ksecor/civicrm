@@ -243,19 +243,19 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $activityDAO->copyValues($params);
         // $activityDAO->id = CRM_Utils_Array::value( 'activity', $ids );
         $result = $activityDAO->save();
-
-        require_once 'CRM/Case/DAO/Case.php';
-        $caseDAO =& new CRM_Case_DAO_Case();
-        $caseDAO->subject = $params['subject'];
-        $caseDAO->find(true);
-        $params['case_id'] = $caseDAO->id;
-
-        require_once 'CRM/Case/DAO/CaseActivity.php';
-        $caseActivityDAO =& new CRM_Case_DAO_CaseActivity();
-        $caseActivityDAO->copyValues($params);
-        // $caseActivityDAO->id = CRM_Utils_Array::value( 'activity', $ids );
-        $result = $caseActivityDAO->save();
-
+        
+        if($params['subject']){ 
+            require_once 'CRM/Case/DAO/Case.php';
+            $caseDAO =& new CRM_Case_DAO_Case();
+            $caseDAO->subject = $params['subject'];
+            $caseDAO->find(true);
+            $params['case_id'] = $caseDAO->id;
+            require_once 'CRM/Case/DAO/CaseActivity.php';
+            $caseActivityDAO =& new CRM_Case_DAO_CaseActivity();
+            $caseActivityDAO->copyValues($params);
+            // $caseActivityDAO->id = CRM_Utils_Array::value( 'activity', $ids );
+            $result = $caseActivityDAO->save();
+        }
     }   
 
 
@@ -280,6 +280,27 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         }
         return false;
     }
+
+    /**                                                           
+     * Delete the record that are associated with this case Activity 
+     * record are deleted from case activity
+     * @param  int  $id id of the caseActivity to delete
+     * 
+     * @return boolean  true if deleted, false otherwise
+     * @access public 
+     * @static 
+     */ 
+     static function deleteCaseActivity( $id ) 
+     {
+         require_once 'CRM/Case/DAO/CaseActivity.php';
+         $caseActivity     = & new CRM_Case_DAO_CaseActivity( );
+         $caseActivity->id = $id; 
+         $caseActivity->find();
+         while ($caseActivity->fetch() ) {
+             return $caseActivity->delete();
+         }
+         return false;
+     }
 }
 
 ?>
