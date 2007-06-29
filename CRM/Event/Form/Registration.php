@@ -380,7 +380,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
             if ( $contactID ) {
-                if ( CRM_Core_BAO_UFGroup::filterUFGroups($id)  ) {
+                if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
                     $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
                     $this->assign( $name, $fields );
                     foreach($fields as $key => $field) {

@@ -48,14 +48,22 @@
 
         <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
         {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
-        <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
-        {if $hideCalendar neq true}
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
-            {include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_4}
-        {/if}
-        </td></tr>
-        <tr id="cancelDescription"><td class="label">&nbsp;</td><td class="description">{ts}Enter the cancellation date, or you can skip this field and the cancellation date will be automatically set to TODAY.{/ts}</td></tr>
-        <tr id="cancelReason"><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
+        <tr id="cancelInfo"> 
+           <td>&nbsp;</td> 
+           <td><fieldset><legend>{ts}Cancellation Information{/ts}</legend>
+                <table class="form-layout-compressed">
+                  <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
+                   {if $hideCalendar neq true}
+                     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
+                     {include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_4}
+                   {/if}
+                   </td></tr>
+                  <tr id="cancelDescription"><td class="label">&nbsp;</td><td class="description">{ts}Enter the cancellation date, or you can skip this field and the cancellation date will be automatically set to TODAY.{/ts}</td></tr>
+                  <tr id="cancelReason"><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
+               </table>
+               </fieldset>
+           </td>
+        </tr>
       </table>
       {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
 
@@ -118,6 +126,7 @@
        document.getElementById("cancel_date[M]").value = "";
        document.getElementById("cancel_date[d]").value = "";
        document.getElementById("cancel_date[Y]").value = "";
+       document.getElementById("cancel_reason").value = "";
      }
 
     </script>
@@ -215,7 +224,7 @@
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="contribution_status_id"
     trigger_value       = '3'
-    target_element_id   ="cancelDate|cancelReason|cancelDescription" 
+    target_element_id   ="cancelInfo" 
     target_element_type ="table-row"
     field_type          ="select"
     invert              = 0

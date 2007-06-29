@@ -353,7 +353,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                    CRM_Contribute_PseudoConstant::contributionStatus( ),
                    false, array(
                                 'onClick' => "if (this.value != 3) status(); else return false",
-                                'onChange' => "return showHideByValue('contribution_status_id','3','cancelDate|cancelReason|cancelDescription','table-row','select',false);"));
+                                'onChange' => "return showHideByValue('contribution_status_id','3','cancelInfo','table-row','select',false);"));
         $element =& $this->add('select', 'payment_instrument_id', 
                                ts( 'Paid By' ), 
                                array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
@@ -558,9 +558,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $formValues['is_email_receipt'] ) {
             $params['receipt_date'] = date("Y-m-d");
         }
-        if ( ( CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) && 
-             ($params["contribution_status_id"] == 3) ){
-            $params['cancel_date'] = date("Y-m-d");
+        if ( $params["contribution_status_id"] == 3 ) {
+            if ( CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) {
+                $params['cancel_date'] = date("Y-m-d");
+            }
+        } else { 
+            $params['cancel_date']   = 'null';
+            $params['cancel_reason'] = 'null';
         }
         
         $ids['contribution'] = $params['id'] = $this->_id;
@@ -620,7 +624,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
-        
+
         //process note
         require_once 'CRM/Core/BAO/Note.php';
         $noteParams = array('entity_table' => 'civicrm_contribution', 'note' => $formValues['note'], 'entity_id' => $contribution->id,

@@ -94,12 +94,36 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
                                                          'id' );
             
         }
-         $defaults['is_show_location'] = $isShowLocation;
+        
+        $defaults['is_show_location'] = $isShowLocation;
         if ( ! empty( $params ) ) {
             $this->setShowHide( $params, true );
         } else {
             $this->setShowHide( $defaults, false );
         }
+
+        //set defaults for country-state dojo widget
+        if ( ! empty ( $defaults['location'] ) ) {
+            $countries      =& CRM_Core_PseudoConstant::country( );
+            $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
+            
+            foreach ( $defaults['location'] as $key => $value ) {
+                if ( $value['address']['country_id'] ) {
+                    $countryId = $value['address']['country_id'];
+                    if ( $countryId ) {
+                        $this->assign( "country{$key}_value",  $countries[$countryId] );
+                    }
+                }
+                
+                if ( $value['address']['state_province_id'] ) {
+                    $stateProvinceId = $value['address']['state_province_id'];
+                    if ( $stateProvinceId ) {
+                        $this->assign( "country{$key}_state_value",  $stateProvinces[$stateProvinceId] );
+                    }
+                }
+            }
+        }
+
         return $defaults;
     }       
 
@@ -140,6 +164,18 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     { 
         $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);
         
+        //hack the address sequence so that state province always comes after country
+        $config =& CRM_Core_Config::singleton( );
+        $addressSequence = $config->addressSequence();
+        $key = array_search( 'country', $addressSequence);
+        unset($addressSequence[$key]);
+
+        $key = array_search( 'state_province', $addressSequence);
+        unset($addressSequence[$key]);
+
+        $addressSequence = array_merge( $addressSequence, array ( 'country', 'state_province' ) );
+        $this->assign( 'addressSequence', $addressSequence );
+
         require_once 'CRM/Contact/Form/Location.php';
 
         //blocks to be displayed

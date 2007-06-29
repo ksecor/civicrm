@@ -116,7 +116,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
         require_once 'CRM/Core/BAO/UFGroup.php';
         //this condition is added, since same contact can have
         //multiple event registrations..       
-        $params = array( array( 'event_participant_id', '=', $participantId, 0, 0 ) );
+        $params = array( array( 'participant_id', '=', $participantId, 0, 0 ) );
         $gIds = array(
                     'custom_pre_id' => $values['custom_pre_id'],
                     'custom_post_id'=> $values['custom_post_id']
@@ -179,7 +179,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                 $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
 
                 //this condition is added, since same contact can have multiple event registrations..
-                $params = array( array( 'event_participant_id', '=', $participantId, 0, 0 ) );
+                $params = array( array( 'participant_id', '=', $participantId, 0, 0 ) );
 
                 CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
                 foreach( $fields as $v  ) {

@@ -97,8 +97,30 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
             unset($params['id']);
             $locParams = $params + array('entity_id' => $this->_id, 'entity_table' => 'civicrm_domain');
             require_once 'CRM/Core/BAO/Location.php';
-            CRM_Core_BAO_Location::getValues( $locParams, $defaults, $ids, 3);
+            CRM_Core_BAO_Location::getValues( $locParams, $defaults, $ids, self::LOCATION_BLOCKS);
             $this->_ids = $ids;
+
+            //set defaults for country-state dojo widget
+            if ( ! empty ( $defaults['location'] ) ) {
+                $countries      =& CRM_Core_PseudoConstant::country( );
+                $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
+                
+                foreach ( $defaults['location'] as $key => $value ) {
+                    if ( $value['address']['country_id'] ) {
+                        $countryId = $value['address']['country_id'];
+                        if ( $countryId ) {
+                            $this->assign( "country{$key}_value",  $countries[$countryId] );
+                        }
+                    }
+                    
+                    if ( $value['address']['state_province_id'] ) {
+                        $stateProvinceId = $value['address']['state_province_id'];
+                        if ( $stateProvinceId ) {
+                            $this->assign( "country{$key}_state_value",  $stateProvinces[$stateProvinceId] );
+                        }
+                    }
+                }
+            }
         }
         return $defaults;
     }
@@ -121,12 +143,25 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $this->addRule( "email_return_path", ts('Email is not valid.'), 'email' );
         
         //blocks to be displayed
-        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);       
+        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);    
+   
         require_once 'CRM/Contact/Form/Location.php';
         $locationCompoments = array('Phone', 'Email');
         CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS ,$locationCompoments);
         $this->assign( 'index' , 1 );
         $this->assign( 'blockCount'   , 1 );
+
+        //hack the address sequence so that state province always comes after country
+        $config =& CRM_Core_Config::singleton( );
+        $addressSequence = $config->addressSequence();
+        $key = array_search( 'country', $addressSequence);
+        unset($addressSequence[$key]);
+
+        $key = array_search( 'state_province', $addressSequence);
+        unset($addressSequence[$key]);
+
+        $addressSequence = array_merge( $addressSequence, array ( 'country', 'state_province' ) );
+        $this->assign( 'addressSequence', $addressSequence );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
