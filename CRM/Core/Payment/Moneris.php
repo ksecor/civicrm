@@ -62,7 +62,6 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
     }
 
     function doDirectPayment( &$params ) {
-      
       # make sure i've been called correctly ...
       if ( ! $this->_profile ) {
           return self::error('Unexpected error, missing profile');
@@ -82,15 +81,14 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
       ## call set methods of the mpgCustinfo object
       $mpgCustInfo->setEmail($params['email']);
       ## get text representations of province/country to send to moneris for billing info #
-      $province = CRM_Core_PseudoConstant::stateProvince( $params['state_province_id'] );
-      $country = CRM_Core_PseudoConstant::country($params['country_id']);
       $billing = array( first_name => $params['first_name'],
          last_name => $params['last_name'],
          address => $params['street_address'],
          city => $params['city'],
-         province => $province,
+         province => $params['state_province'],
          postal_code => $params['postal_code'],
-         country => $country);
+         country => $params['country']
+      );
       $mpgCustInfo->setBilling($billing);
       $my_orderid = $params['invoiceID']; // set orderid as invoiceID to help match things up with Moneris later
       $expiry_string = sprintf('%04d%02d',$params['year'],$params['month']);
@@ -160,7 +158,12 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
       $mpgResponse=$mpgHttpPost->getMpgResponse();
       $params['trxn_result_code'] = $mpgResponse->getResponseCode(); 
       if ( self::isError( $mpgResponse ) ) {
-          return self::error( $mpgResponse );
+         if ($params['trxn_result_code']) {
+           return self::error( $mpgResponse );
+         }
+         else {
+           return self::error('No reply from server - check your settings &/or try again');
+         }
       }
       /* Check for application errors */
       $result =& self::checkResult( $mpgResponse );
