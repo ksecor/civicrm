@@ -36,7 +36,7 @@
     </script>
     {/if}  
     <dd>{$form.case_subject.html}</dd>
-    <dt>{$form.activitytag1_id.label}</dt><dd>{$form.activitytag1_id.html}</dd>
-	<dt>{$form.activitytag2_id.label}</dt><dd>{$form.activitytag2_id.html}</dd>
-	<dt>{$form.activitytag3_id.label}</dt><dd>{$form.activitytag3_id.html}</dd>
+    <dt>{$form.activity_tag1_id.label}</dt><dd>{$form.activity_tag1_id.html}</dd>
+	<dt>{$form.activity_tag2_id.label}</dt><dd>{$form.activity_tag2_id.html}</dd>
+	<dt>{$form.activity_tag3_id.label}</dt><dd>{$form.activity_tag3_id.html}</dd>
    </dl>

@@ -241,15 +241,15 @@ class CRM_Activity_Form extends CRM_Core_Form
           
         require_once 'CRM/Core/OptionGroup.php';
         $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
-        $this->add('select', 'activitytag1_id',  ts( 'Case Activity Type' ),  
+        $this->add('select', 'activity_tag1_id',  ts( 'Case Activity Type' ),  
                    array( '' => ts( '-select-' ) ) + $caseActivityType );
         
         $comunicationMedium = CRM_Core_OptionGroup::values('communication_medium'); 
-        $this->add('select', 'activitytag2_id',  ts( 'Communication Medium' ),  
+        $this->add('select', 'activity_tag2_id',  ts( 'Communication Medium' ),  
                    array( '' => ts( '-select-' ) ) + $comunicationMedium );
 
         $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
-        $this->add('select', 'activitytag3_id',  ts( 'Violation Type' ),  
+        $this->add('select', 'activity_tag3_id',  ts( 'Violation Type' ),  
                           array( '' => ts( '-select-' ) ) + $caseViolation);
 
         if ($this->_action == CRM_Core_Action::VIEW) { 
