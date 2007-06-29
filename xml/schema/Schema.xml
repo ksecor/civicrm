@@ -21,5 +21,4 @@
 <xi:include href="Dedupe/files.xml"            parse="xml" />  
 <xi:include href="Case/files.xml"              parse="xml" />  
 <xi:include href="Grant/files.xml"             parse="xml" />
-<xi:include href="Standalone/OpenID/files.xml" parse="xml" />
 </database>
