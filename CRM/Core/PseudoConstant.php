@@ -458,9 +458,10 @@ class CRM_Core_PseudoConstant
     public static function &stateProvince($id = false, $limit = true)
     {
         if (!self::$stateProvince) {
+            $whereClause = 'false';
+            $config =& CRM_Core_Config::singleton();
             if ( $limit ) {
                 // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
-                $config =& CRM_Core_Config::singleton();
                 $countryIsoCodes =& self::countryIsoCode();
                 $limitCodes = $config->provinceLimit( );
                 $limitIds = array();
@@ -486,7 +487,8 @@ class CRM_Core_PseudoConstant
             if (array_key_exists("$id", self::$stateProvince)) {
                 return self::$stateProvince[$id];
             } else {
-                return null;
+                $result = null;
+                return $result;
             }
         }
         return self::$stateProvince;
@@ -507,6 +509,8 @@ class CRM_Core_PseudoConstant
         if (!self::$stateProvinceAbbreviation) {
 
             // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
+            $whereClause = 'false';
+
             if ( $limit ) {
                 $config =& CRM_Core_Config::singleton();
                 $countryIsoCodes =& self::countryIsoCode();
@@ -530,7 +534,8 @@ class CRM_Core_PseudoConstant
             if (array_key_exists($id, self::$stateProvinceAbbreviation)) {
                 return self::$stateProvinceAbbreviation[$id];
             } else {
-                return null;
+                $result = null;
+                return $result;
             }
         }
         return self::$stateProvinceAbbreviation;

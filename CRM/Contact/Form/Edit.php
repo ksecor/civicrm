@@ -137,7 +137,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options' );
         $configItems = array( '_showCommBlock'     => ts( 'Communication Preferences' ),
-                              '_showLocation'      => ts( 'Location' ),
                               '_showDemographics'  => ts( 'Demographics' ),
                               '_showTagsAndGroups' => ts( 'Tags and Groups' ),
                               '_showNotes'         => ts( 'Notes' ) );
@@ -282,7 +281,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
             
             // set the default for 'use_household_address' checkbox and Select-Household.
-            if ( $defaults['mail_to_household_id'] ) {
+            if ( CRM_Utils_Array::value('mail_to_household_id', $defaults) ) {
                 $defaults['use_household_address'] = true;
                 $domainID      =  CRM_Core_Config::domainID( );   
                 $query         =  "
