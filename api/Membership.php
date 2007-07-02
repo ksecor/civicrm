@@ -450,7 +450,7 @@ function crm_update_contact_membership($params)
     $relatedContacts =
         CRM_Member_BAO_Membership::checkMembershipRelationship( 
                                                                $membershipBAO->id,
-                                                               $membershipBAO->contact_id,
+                                                               (int) $membershipBAO->contact_id,
                                                                CRM_Core_Action::UPDATE
                                                                );
     
