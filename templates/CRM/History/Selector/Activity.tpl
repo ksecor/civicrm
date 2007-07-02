@@ -95,7 +95,11 @@
              </td>
              <td>{$row.date|crmDate}</td>
              <td>{$row.status_display}</td>
-             <td>{$row.action}</td>
+             {if $caseActivity}
+             <td>{$caseAction}</td>
+            {else}
+             <td>{$row.action}</td>    
+            {/if}
            </tr>
         {/if}
 
