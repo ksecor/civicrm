@@ -69,66 +69,29 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $session->pushUserContext( $url ); 
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );
+        
+        $controller->run();
+        $session =& CRM_Core_Session::singleton();
+
+        require_once 'CRM/Contact/Selector/Activity.php' ;
+        require_once 'CRM/Core/Selector/Controller.php';
+        $output = CRM_Core_Selector_Controller::SESSION;
+        $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, 1 );
+        // crm_core_error::debug('$this->_id ',$this->_id );
+        $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
+                                                        $sortID, CRM_Core_Action::VIEW, $this,  $output, null, $this->_id);
+        
+        
+        $controller->setEmbedded(true);
         $links  =& self::caseViewLinks( );
         $action = array_sum(array_keys($links));
-        $params['contact_id'] = $this->_contactId;
-        $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params);
+
+        $controller->run();
         
-        foreach ($rows as $k => $row ){
-            $row= & $rows[$k];
-            require_once 'CRM/Case/DAO/CaseActivity.php';
-            $caseActivity = new CRM_Case_DAO_CaseActivity( );
-            $caseActivity->case_id = $this->_id;
-            $caseActivity->find();
-         
-            while( $caseActivity->fetch() ) {
-                if ( $row['activity_type'] == 'Meeting'){
-                    $entityTable = 'civicrm_meeting';
-                } else if ( $row['activity_type'] == 'Phone Call'){
-                    $entityTable = 'civicrm_phonecall';
-                } else { 
-                    $entityTable = 'civicrm_activity';
-                }
-                
-                if (($caseActivity->activity_entity_table == $entityTable) && ($caseActivity->activity_entity_id == $row['id'])){
-                    $values[$k] = $row;
-                    
-                    $values[$k]['action'] = CRM_Core_Action::formLink( $links,
-                                                                      $action,
-                                                                      array( 'aid'  => $caseActivity->id,
-                                                                             'atype'=> $row['activity_type_id'],
-                                                                             'rid'  => $row['id'],
-                                                                             'id'   => $this->_id,
-                                                                             'cid' => $this->_contactId ) );
-                    
-                    require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-                    $activityAssign = new CRM_Activity_DAO_ActivityAssignment( );
-                    $activityAssign->activity_entity_table =  $entityTable;
-                    $activityAssign->activity_entity_id;
-                    $activityAssign->find(true);
-                    $values[$k]['to_contact'] = CRM_Contact_BAO_Contact::displayName( $activityAssign->target_entity_id );
-                    if ( $entityTable == 'civicrm_meeting' ){
-                        require_once 'CRM/Activity/DAO/Meeting.php';
-                        $object = new CRM_Activity_DAO_Meeting( );
-                    } else if( $entityTable == 'civicrm_phonecall' ){
-                        require_once 'CRM/Activity/DAO/Phonecall.php';
-                        $object = new CRM_Activity_DAO_Phonecall( );
-                    } else {
-                        require_once 'CRM/Activity/DAO/Activity.php';
-                        $object = new CRM_Activity_DAO_Activity( );
-                    }
-                    $object->id = $row['id'];
-                    $object->find(true);
-                    $values[$k]['start_date'] = $object->scheduled_date_time;
-                    
-                    require_once 'CRM/Core/OptionGroup.php' ;
-                    $caseActivityTypeID = CRM_Core_OptionGroup::values('case_activity_type');
-                    $values[$k]['case_activity_type']= $caseActivityTypeID[$object->activity_tag1_id];
-                }
-            }
-        }
-        $this->assign( 'activities', $values );
-        return $controller->run();
+        $controller->moveFromSessionToTemplate( );
+
+
+
     }
 
     /**
@@ -175,7 +138,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                        $this->_action );
         $controller->setEmbedded( true );
         $this->_id = CRM_Utils_Request::retrieve('id', 'Integer',
-                                              $this);
+                                                 $this);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();

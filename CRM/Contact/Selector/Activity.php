@@ -202,10 +202,11 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      *
      * @return int   the total number of rows for this action
      */
-    function &getRows($action, $offset, $rowCount, $sort, $output = null) {
+    function &getRows($action, $offset, $rowCount, $sort, $output = null, $case = null) {
         $params['contact_id'] = $this->_contactId;
-        $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin);
-        //  print_r($rows);
+        
+        $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin, $case);
+        //print_r($rows);
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
 
@@ -229,9 +230,11 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             }
 
             $actionLinks =& self::actionLinks($row['activity_type_id']);
-                     
+            require_once 'CRM/Contact/Page/View/Case.php';
+            $caseLinks = CRM_Contact_Page_View_Case::caseViewLinks();     
+            $caseAction = array_sum(array_keys($caseLinks));
             $actionMask  =  array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
-
+            
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
                 if ( CRM_Utils_Array::value( 'callback', $row ) ) {
@@ -243,17 +246,27 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                      'activity_id'=>$row['activity_id'],
                                                                      'cid' => $this->_contactId,
                                                                      'cxt' => $this->_context ) );
-                } else {
+                } elseif( $case) {
+                    $row['action'] = CRM_Core_Action::formLink($caseLinks,
+                                                               $caseAction,
+                                                               array('aid'  => $row['case_id'],
+                                                                     'atype'=> $row['activity_type_id'],
+                                                                     'rid'  => $row['id'],
+                                                                     'id'  =>  $row['id'],
+                                                                     'cid' => $this->_contactId
+                                                                      ));
+                }else {
                     $row['action'] = CRM_Core_Action::formLink($actionLinks,
                                                                $actionMask,
                                                                array('id'  => $row['id'],
                                                                      'cid' => $this->_contactId,
                                                                      'cxt' => $this->_context ) );
+
                 }
+ 
             }
             unset($row);
         }
-    
         return $rows;
     }
     

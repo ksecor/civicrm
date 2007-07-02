@@ -192,7 +192,7 @@ class CRM_Core_Selector_Controller {
      * @return Object
      * @access public
      */
-    function __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE, $prefix = null)
+    function __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE, $prefix = null, $case = null)
     {
         
         $this->_object = $object;
@@ -202,7 +202,8 @@ class CRM_Core_Selector_Controller {
         $this->_store  = $store;
         $this->_output = $output;
         $this->_prefix = $prefix;
-
+        $this->_case   = $case;
+       
         // fix sortID
         if ( $this->_sortID && strpos( $this->_sortID, '_' ) === false ) {
             $this->_sortID .= '_u';
@@ -366,7 +367,7 @@ class CRM_Core_Selector_Controller {
             return $form->_object->getRows( $form->_action, 0, 0, $form->_sort, $form->_output );
         } else {
             return $form->_object->getRows( $form->_action, $form->_pagerOffset, $form->_pagerRowCount,
-                                            $form->_sort, $form->_output );
+                                            $form->_sort, $form->_output, $form->_case );
         }
     }
 
@@ -414,6 +415,7 @@ class CRM_Core_Selector_Controller {
         self::$_template->assign_by_ref( "{$this->_prefix}pager"  , $this->_pager   );
 
         $rows = $this->_store->get( "{$this->_prefix}rows" );
+        
         if ( $rows ) {
             self::$_template->assign( "{$this->_prefix}aToZ"  ,
                                       $this->_store->get( "{$this->_prefix}AToZBar" ) );

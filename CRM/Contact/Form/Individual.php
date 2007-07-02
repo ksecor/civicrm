@@ -102,6 +102,7 @@ class CRM_Contact_Form_Individual {
         // Declare javascript methods to be used, for use-household-address checkbox.
         // Also set label to be used for 'select-household' combo-box.
         if ( $action & CRM_Core_Action::UPDATE ) {
+            $extraOnAddFlds = '';
             $addressFlds = array('location_1_address_street_address',
                                  'location_1_address_supplemental_address_1',
                                  'location_1_address_supplemental_address_2',
@@ -128,6 +129,7 @@ resetByValue('use_household_address',         '', $extraOnAddFlds,         'text
                                                               $form->_contactId, 
                                                               'mail_to_household_id', 
                                                               'contact_id' );
+            $selHouseholdLabel = 'Select Household';
             if ( $mailToHouseholdID ) {
                 $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
                 $selHouseholdLabel = "Change Household"; // select-household label to be used.
@@ -159,7 +161,6 @@ showHideSharedOptions();
 
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
 
-        $selHouseholdLabel = $selHouseholdLabel ? $selHouseholdLabel : "Select Household";
         $form->add( 'text', 'shared_household', ts( $selHouseholdLabel ), $attributes );
         // shared address element-block Ends.
         
@@ -174,7 +175,7 @@ showHideSharedOptions();
         $form->addElement('text', 'contact_source', ts('Source'));
         $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
         $this->addRule( 'external_identifier', ts('External ID already exists in Database.'), 
-                        'objectExists', array( 'CRM_Contact_DAO_Contact', $this->_id, 'external_identifier' ) );
+                        'objectExists', array( 'CRM_Contact_DAO_Contact', $this->_contactId, 'external_identifier' ) );
         $config =& CRM_Core_Config::singleton();
         CRM_Core_ShowHideBlocks::links($this, 'demographics', '' , '');
     }

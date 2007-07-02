@@ -1553,7 +1553,7 @@ WHERE civicrm_contact.id IN $idString ";
                   AND civicrm_option_value.value = civicrm_activity.activity_type_id 
                   AND civicrm_option_value.is_active = 1  AND status != 'Completed'";
         $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
-       
+        
         return  $rowMeeting + $rowPhonecall + $rowActivity;
     }
 
@@ -1571,8 +1571,9 @@ WHERE civicrm_contact.id IN $idString ";
      * @access public
      * @static
      */
-    static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity', $admin = false) 
+    static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity', $admin = false, $case = null) 
     {
+        
         $dao =& new CRM_Core_DAO();
         if ( $admin ) {
             $clause = null;
@@ -1581,7 +1582,14 @@ WHERE civicrm_contact.id IN $idString ";
             $clause = " AND ( target_entity_id = %1 OR source_contact_id = %1 ) ";
             $params = array( 1 => array( $params['contact_id'], 'Integer' ) );
         }
-        
+        // $case = null;
+        if ( $case ) {
+            $case = "AND civicrm_case_activity.case_id = $case ";
+
+        } else {
+            $case = null;
+        }
+
         $query = "
 ( SELECT
     civicrm_phonecall.id as id,
@@ -1593,18 +1601,23 @@ WHERE civicrm_contact.id IN $idString ";
     source.display_name as sourceName,
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
-    civicrm_option_value.label  as activity_type
+    civicrm_option_value.label  as activity_type,
+    civicrm_case_activity.id as case_id 
   FROM civicrm_phonecall 
        LEFT JOIN civicrm_option_value ON (civicrm_option_value.value = 2) 
        LEFT JOIN civicrm_contact source ON (civicrm_phonecall.source_contact_id = source.id) 
        LEFT JOIN civicrm_contact target ON (civicrm_phonecall.target_entity_id = target.id) 
        LEFT JOIN civicrm_option_group ON  (civicrm_option_group.id = civicrm_option_value.option_group_id)
+       LEFT JOIN civicrm_case_activity ON  (civicrm_case_activity.activity_entity_id = civicrm_phonecall.id
+                                             AND  civicrm_case_activity.activity_entity_table = 'civicrm_phonecall')
+
        
   WHERE
-     civicrm_phonecall.status != 'Completed' AND 
+   
      civicrm_phonecall.target_entity_table = 'civicrm_contact' AND
      civicrm_phonecall.target_entity_id = target.id $clause AND
-     civicrm_option_group.name = 'activity_type'
+     civicrm_option_group.name = 'activity_type' $case
+
  ) UNION
 ( SELECT   
     civicrm_meeting.id as id,
@@ -1616,18 +1629,21 @@ WHERE civicrm_contact.id IN $idString ";
     source.display_name as sourceName,
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
-    civicrm_option_value.label  as activity_type
+    civicrm_option_value.label  as activity_type,
+    civicrm_case_activity.id as case_id
   FROM civicrm_meeting
        LEFT JOIN civicrm_option_value ON (civicrm_option_value.value = 1) 
        LEFT JOIN civicrm_contact source ON (civicrm_meeting.source_contact_id = source.id) 
        LEFT JOIN civicrm_contact target ON (civicrm_meeting.target_entity_id = target.id) 
        LEFT JOIN  civicrm_option_group ON  (civicrm_option_group.id = civicrm_option_value.option_group_id)
+       LEFT JOIN  civicrm_case_activity ON  (civicrm_case_activity.activity_entity_id = civicrm_meeting.id
+                                             AND  civicrm_case_activity.activity_entity_table = 'civicrm_meeting')
 
   WHERE
-    civicrm_meeting.status != 'Completed' AND 
+  
     civicrm_meeting.target_entity_table = 'civicrm_contact' AND
     civicrm_meeting.target_entity_id = target.id $clause AND
-    civicrm_option_group.name = 'activity_type'
+    civicrm_option_group.name = 'activity_type' $case
 ) UNION
 ( SELECT   
     civicrm_activity.id as id,
@@ -1639,19 +1655,22 @@ WHERE civicrm_contact.id IN $idString ";
     source.display_name as sourceName,
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
-    civicrm_option_value.label  as activity_type
+    civicrm_option_value.label  as activity_type,
+    civicrm_case_activity.id as case_id
   FROM civicrm_activity
        LEFT JOIN civicrm_option_value   ON (civicrm_option_value.value = civicrm_activity.activity_type_id)   
        LEFT JOIN civicrm_contact source ON (civicrm_activity.source_contact_id = source.id) 
        LEFT JOIN civicrm_contact target ON (civicrm_activity.target_entity_id = target.id) 
        LEFT JOIN  civicrm_option_group  ON (civicrm_option_group.id = civicrm_option_value.option_group_id)
+       LEFT JOIN  civicrm_case_activity ON  (civicrm_case_activity.activity_entity_id = civicrm_activity.id
+                                             AND  civicrm_case_activity.activity_entity_table = 'civicrm_activity')
 
   WHERE 
-   civicrm_activity.status != 'Completed' AND 
+ 
    civicrm_activity.source_contact_id = source.id AND
    civicrm_activity.target_entity_table = 'civicrm_contact' AND
    civicrm_activity.target_entity_id = target.id $clause AND  
-   civicrm_option_group.name = 'activity_type'
+   civicrm_option_group.name = 'activity_type' $case
             )
 ";
 
@@ -1671,22 +1690,25 @@ WHERE civicrm_contact.id IN $idString ";
             $limit = " LIMIT $offset, $rowCount ";
         }
 
-        $queryString = $query . $order . $limit;
+        $queryString = $query . $order . $limit; 
         $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
         $values =array();
         $rowCnt = 0;
         while($dao->fetch()) {
-            $values[$rowCnt]['activity_type_id'] = $dao->activity_type_id;       
-            $values[$rowCnt]['activity_type'] = $dao->activity_type;
-            $values[$rowCnt]['id']      = $dao->id;
-            $values[$rowCnt]['subject'] = $dao->subject;
-            $values[$rowCnt]['date']    = $dao->date;
-            $values[$rowCnt]['status']  = $dao->status;
-            $values[$rowCnt]['sourceName'] = $dao->sourceName;
-            $values[$rowCnt]['targetName'] = $dao->targetName;
-            $values[$rowCnt]['sourceID'] = $dao->source_contact_id;
-            $values[$rowCnt]['targetID'] = $dao->target_contact_id;
-            $rowCnt++;
+            if ( $dao->case_id || $dao->status == 'Scheduled') {
+                $values[$rowCnt]['activity_type_id'] = $dao->activity_type_id;       
+                $values[$rowCnt]['activity_type'] = $dao->activity_type;
+                $values[$rowCnt]['id']      = $dao->id;
+                $values[$rowCnt]['subject'] = $dao->subject;
+                $values[$rowCnt]['date']    = $dao->date;
+                $values[$rowCnt]['status']  = $dao->status;
+                $values[$rowCnt]['sourceName'] = $dao->sourceName;
+                $values[$rowCnt]['targetName'] = $dao->targetName;
+                $values[$rowCnt]['sourceID'] = $dao->source_contact_id;
+                $values[$rowCnt]['targetID'] = $dao->target_contact_id;
+                $values[$rowCnt]['case_id']  = $dao->case_id;
+                $rowCnt++;
+            }
         }
 
         foreach ($values as $key => $array) {
@@ -2411,7 +2433,9 @@ WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
      */
     static function sortName( $id ) 
     {
-        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'sort_name' );
+        if ( $id ) {
+            return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'sort_name' );
+        }
     }
 
     /**

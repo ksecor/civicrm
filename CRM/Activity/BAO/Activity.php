@@ -160,13 +160,24 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         while( $cutomDAO->fetch( )) {
             $cutomDAO->delete();
         }
+       
+        if ( $activityType == 'Meeting'){
+            $entityTable= 'civicrm_meeting';
+        } else if ($activityType == 'PhoneCall'){
+            $entityTable = 'civicrm_phonecall';
+        }else{
+            $entityTable = 'civicrm_activity';
+        }
         
         eval ('$activity =& new CRM_Activity_DAO_' .$activityType. '( );');
         $activity->id = $id;
+        require_once 'CRM/Case/BAO/Case.php';
+        CRM_Case_BAO_Case::deleteCaseActivity( $entityTable,$activity->id );
+        self::deleteActivityAssignment( $entityTable,$activity->id );
         return $activity->delete();
     }
-
-
+    
+    
     /**
      * delete all records for this contact id
      *
@@ -299,6 +310,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         CRM_Core_BAO_Log::add( $logParams );
 
+        if ( $params['case_subject'] ) {
+            return $activity;
+        }
+ 
+      
         if ( $activityType == 'Phonecall' ) {
             $title = 'Phone Call';
         } else if ( $activityType == 'Activity' ) {
@@ -377,7 +393,75 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             return CRM_Utils_System::url('civicrm' ); 
         } 
     }
+   
+     /*
+     * @param Integer $activityType activity type id
+     * @param Integer $id activity id
+     * @return Integer target_entity_id of CRM_Activity_DAO_ActivityAssignment
+     * @access public
+     * @static
+     */
+    static function retrieveActivityAssign( $activityType, $id) 
+    {
+        if ( $activityType == 1) {
+            $entityTable = "civicrm_meeting";
+        } else if($activityType == 2) {
+            $entityTable = "civicrm_phonecall";
+        } else {
+            $entityTable = "civicrm_activity";
+        }
+        require_once 'CRM/Activity/DAO/ActivityAssignment.php';
+        $activityAssign =  new CRM_Activity_DAO_ActivityAssignment();
+        $activityAssign->activity_entity_table = $entityTable;
+        $activityAssign->activity_entity_id = $id;
+        if ($activityAssign->find(true)){
+            return $activityAssign->target_entity_id;
+        }
+        return null;
+    }
+    
 
+    /**
+     * takes an associative array and creates a Activity Assignment object
+     *
+     * @param array $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids
+     *
+     * @access public
+     * @static
+     */
+    static function &createActivityAssignment(&$params , $ids ) 
+    { 
+        $params['target_entity_table'] = 'civicrm_contact';
+        $params['target_entity_id']    = $params['to_contact'];
+        require_once 'CRM/Activity/DAO/ActivityAssignment.php';
+        $activityDAO =& new CRM_Activity_DAO_ActivityAssignment;
+        $activityDAO->copyValues($params);
+        $activityDAO->id = CRM_Utils_Array::value( 'aid', $ids );
+        $result = $activityDAO->save();
+        
+    }
+    /**
+     * delete record for activity id in activity_assignment
+     *
+     * @param int    $id  ID of the activity for which the records needs to be deleted.
+     * @param string $entityTable entity table name 
+     * 
+     * @return void
+     * 
+     * @access public
+     * @static
+     */
+    public static function deleteActivityAssignment( $entityTable,$id )
+    {
+      require_once 'CRM/Activity/DAO/ActivityAssignment.php';
+        $activityAssign =  new CRM_Activity_DAO_ActivityAssignment();
+        $activityAssign->activity_entity_table = $entityTable;
+        $activityAssign->activity_entity_id = $id;
+        if ($activityAssign->find(true)){
+            return $activityAssign->delete();
+        }
+    }
 }
 
 ?>
