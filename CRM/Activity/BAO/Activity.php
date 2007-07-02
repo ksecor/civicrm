@@ -299,6 +299,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         CRM_Core_BAO_Log::add( $logParams );
 
+        if ( $params['case_subject'] ) {
+            return $activity;
+        }
+ 
+      
         if ( $activityType == 'Phonecall' ) {
             $title = 'Phone Call';
         } else if ( $activityType == 'Activity' ) {
