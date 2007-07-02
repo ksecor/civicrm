@@ -126,6 +126,18 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['id'] = $this->_id;
+            require_once 'CRM/Case/DAO/CaseActivity.php';
+            $caseActivity = new CRM_Case_DAO_CaseActivity();
+            $caseActivity->activity_entity_table = 'civicrm_meeting';
+            $caseActivity->activity_entity_id = $ids['id'];
+            $caseActivity->find(true);
+            $ids['cid'] = $caseActivity->id;
+            require_once 'CRM/Activity/DAO/ActivityAssignment.php';
+            $ActivityAssignment = new CRM_Activity_DAO_ActivityAssignment();
+            $ActivityAssignment->activity_entity_table = 'civicrm_meeting';
+            $ActivityAssignment->activity_entity_id = $ids['id'];
+            $ActivityAssignment->find(true);
+            $ids['aid'] = $ActivityAssignment->id;
         }
 
         $ids['source_contact_id'] = $this->_sourceCID;
@@ -138,7 +150,8 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         $caseParams['activity_entity_table'] = 'civicrm_meeting';
         $caseParams['activity_entity_id']    = $activity->id;
         $caseParams['subject']               = $params['case_subject'];
-        CRM_Case_BAO_Case::createCaseActivity( &$caseParams);
+        CRM_Activity_BAO_Activity::createActivityAssignment( &$caseParams,$ids );
+        CRM_Case_BAO_Case::createCaseActivity( &$caseParams,$ids );
     }
 
 }

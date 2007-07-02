@@ -127,7 +127,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         if ( !$id ) {
             $id = $params['contact_id'];
         } 
-        // Log the information on successful add/edit of Event
+        // Log the information on successful add/edit of Case
         require_once 'CRM/Core/BAO/Log.php';
         $logParams = array(
                            'entity_table'  => 'civicrm_case',
@@ -234,16 +234,8 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @access public
      * @static
      */
-    static function &createCaseActivity(&$params , $ids = null) 
+    static function &createCaseActivity(&$params , $ids ) 
     {
-        $params['target_entity_table'] = 'civicrm_contact';
-        $params['target_entity_id']    = $params['to_contact'];
-        require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-        $activityDAO =& new CRM_Activity_DAO_ActivityAssignment;
-        $activityDAO->copyValues($params);
-        // $activityDAO->id = CRM_Utils_Array::value( 'activity', $ids );
-        $result = $activityDAO->save();
-        
         if($params['subject']){ 
             require_once 'CRM/Case/DAO/Case.php';
             $caseDAO =& new CRM_Case_DAO_Case();
@@ -253,7 +245,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             require_once 'CRM/Case/DAO/CaseActivity.php';
             $caseActivityDAO =& new CRM_Case_DAO_CaseActivity();
             $caseActivityDAO->copyValues($params);
-            // $caseActivityDAO->id = CRM_Utils_Array::value( 'activity', $ids );
+            $caseActivityDAO->id = CRM_Utils_Array::value( 'cid', $ids );
             $result = $caseActivityDAO->save();
         }
     } 
@@ -318,7 +310,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @access public 
      * @static 
      */ 
-     static function deleteCaseActivity( $id ) 
+    /*   static function deleteCaseActivity( $id ) 
      {
          require_once 'CRM/Case/DAO/CaseActivity.php';
          $caseActivity     = & new CRM_Case_DAO_CaseActivity( );
@@ -328,7 +320,29 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
              return $caseActivity->delete();
          }
          return false;
-     }
+     }*/
+      /**
+     * delete record for activity id in case_activity
+     *
+     * @param int    $id  ID of the activity for which the records needs to be deleted.
+     * @param string $entityTable entity table name 
+     * 
+     * @return void
+     * 
+     * @access public
+     * @static
+     */
+    public static function deleteCaseActivity( $entityTable,$id )
+    {
+        require_once 'CRM/Case/DAO/CaseActivity.php';
+        $caseActivity =  new CRM_Case_DAO_CaseActivity();
+        $caseActivity->activity_entity_table = $entityTable;
+        $caseActivity->activity_entity_id = $id; 
+        if ($caseActivity->find(true)){
+            return $caseActivity->delete();
+        }
+        
+    }
      
 }
 
