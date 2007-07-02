@@ -314,7 +314,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $relationship->id = $id;
         
         $relationship->find(true);
-                
+        
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             // create $params array which isrequired to delete memberships
             // of the related contacts.
@@ -827,6 +827,23 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      */
     static function relatedMemberships( $contactId, &$params, $ids, $action = CRM_Core_Action::ADD )
     {
+        // Check the end date and set the status of the relationship
+        // accrodingly.
+        $status = self::CURRENT;
+        if ( isset( $params['end_date']['Y'] ) &&
+             isset( $params['end_date']['M'] ) &&
+             isset( $params['end_date']['d'] ) ) {
+            $endDate = date( 'Ymd', mktime( 0, 0, 0, 
+                                            $params['end_date']['M'],
+                                            $params['end_date']['d'],
+                                            $params['end_date']['Y'] ) );
+            $today = CRM_Utils_Date::customFormat( CRM_Utils_Date::getToday( ), '%Y%m%d' );
+            
+            if ( $today > $endDate ) {
+                $status = self::PAST;
+            }
+        }
+        
         $rel = explode( "_", $params['relationship_type_id'] );
         
         $relTypeId    = $rel[0];
@@ -904,11 +921,13 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             
             require_once 'CRM/Member/BAO/MembershipType.php';
             foreach ( $details['memberships'] as $membershipId => $membershipValues ) {
-                if ( $action & CRM_Core_Action::DELETE ) {
+                if ( ( $action & CRM_Core_Action::DELETE ) ||
+                     ( $status & self::PAST              ) ) {
                     // delete memberships of the related contacts.
                     CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
                     continue;
                 }
+                
                 // add / edit the memberships for related
                 // contacts.
                 
