@@ -27,8 +27,8 @@ Paid events require that you have configured a <a href="%1" target="_blank" titl
     </dl>
     <dl>
         <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}<br/>
-          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
-          {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_1}
+          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2}
+          {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2}
         </dd>
     </dl>
     <div id="registration" class="form-item">

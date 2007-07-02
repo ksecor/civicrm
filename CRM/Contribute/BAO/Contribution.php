@@ -869,6 +869,9 @@ SELECT count(*) as count,
             $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
         }
         
+        //fix for CRM-2062
+        $now = date( 'YmdHis' );
+        
         if ( $form->_contributeMode == 'express' ) {
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
                 $result =& $payment->doExpressCheckout( $paymentParams );
