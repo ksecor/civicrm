@@ -236,6 +236,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         }
 
         $params['trxn_id'] = $responseFields['subscriptionId'];
+        
         return $params;
     }
 
@@ -270,13 +271,6 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
             $exp_year = $this->_getParam( 'year' );
             $fields['x_exp_date'] = "$exp_month/$exp_year";
         }
-
-        //elseif ( $this->_getParam( 'paymentType' ) == 'SIM' ) {
-        //    $fields['x_relay_response'] = 'TRUE';
-        //    $fields['x_fp_hash'] = '';
-        //    $fields['x_fp_sequence'] = '';
-        //    $fields['x_fp_timestamp'] = '';
-        //}
 
         if ( $this->_mode != 'live' ) {
             $fields['x_test_request'] = 'TRUE';
@@ -407,7 +401,13 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         $code = $this->_substring_between($content,'<code>','</code>');
         $text = $this->_substring_between($content,'<text>','</text>');
         $subscriptionId = $this->_substring_between($content,'<subscriptionId>','</subscriptionId>');
-        return array ($refId, $resultCode, $code, $text, $subscriptionId);
+        return array(
+            'refId' => $refId,
+            'resultCode' => $resultCode,
+            'code' => $code,
+            'text' => $text,
+            'subscriptionId' => $subscriptionId
+        );
     }
 
     /**
