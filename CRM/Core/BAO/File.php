@@ -93,7 +93,8 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
     public function filePostProcess($data, $fileID, 
                                     $entityTable, $entityId,
                                     $entitySubtype, $overwrite = true,
-                                    $fileParams = null) {
+                                    $fileParams = null,
+                                    $uploadName = 'uploadFile' ) {
 
         require_once 'CRM/Core/DAO/File.php';
         $config = & CRM_Core_Config::singleton();
@@ -130,7 +131,7 @@ WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND C
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
         $dao->fetch();
        
-        $mimeType = $_FILES['uploadFile']['type'];
+        $mimeType = $_FILES[$uploadName]['type'];
         
         require_once "CRM/Core/DAO/File.php";
         $fileDAO =& new CRM_Core_DAO_File();
