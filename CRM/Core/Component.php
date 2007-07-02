@@ -148,7 +148,7 @@ class CRM_Core_Component
                        'path'    => 'CRM_Kabissa_',
                        'url'     => 'kabissa',
                        'perm'    => array( 'access Kabissa' ),
-                       'search'  => 0,
+                       'search'  => 1,
                        'metaTpl' => 'quest',
                        'formTpl' => 'quest',
                        'task'    => array( ) 

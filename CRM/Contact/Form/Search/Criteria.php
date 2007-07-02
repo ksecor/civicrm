@@ -288,7 +288,7 @@ class CRM_Contact_Form_Search_Criteria {
     }
 
     static function kabissa( &$form ) {
-        $form->add( 'hidden', 'hidden_Kabissa', 1 );
+        $form->add( 'hidden', 'hidden_kabissa', 1 );
         require_once 'CRM/Kabissa/BAO/Query.php';
         CRM_Kabissa_BAO_Query::buildSearchForm( $form );
     }
