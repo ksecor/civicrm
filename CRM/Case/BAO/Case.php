@@ -256,7 +256,35 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             // $caseActivityDAO->id = CRM_Utils_Array::value( 'activity', $ids );
             $result = $caseActivityDAO->save();
         }
-    }   
+    } 
+    /*
+     * @param Integer $activityType activity type id
+     * @param Integer $id activity id
+     * @return Integer case_id of CRM_Case_DAO_CaseActivity
+     * @access public
+     * @static
+     */
+     
+    static function &getCaseID($activityType, $id)
+    {
+         if ( $activityType == 1) {
+            $entityTable = "civicrm_meeting";
+        } else if($activityType == 2) {
+            $entityTable = "civicrm_phonecall";
+        } else {
+            $entityTable = "civicrm_activity";
+        }
+         
+        require_once 'CRM/Case/DAO/CaseActivity.php';
+        $caseActivity =  new CRM_Case_DAO_CaseActivity();
+        $caseActivity->activity_entity_table = $entityTable;
+        $caseActivity->activity_entity_id = $id;
+        if ($caseActivity->find(true)){
+            return $caseActivity->case_id;
+        }
+        return null;
+         
+    }
 
 
    /**                                                           
@@ -301,6 +329,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
          }
          return false;
      }
+     
 }
 
 ?>

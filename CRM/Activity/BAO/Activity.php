@@ -382,6 +382,32 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             return CRM_Utils_System::url('civicrm' ); 
         } 
     }
+   
+     /*
+     * @param Integer $activityType activity type id
+     * @param Integer $id activity id
+     * @return Integer target_entity_id of CRM_Activity_DAO_ActivityAssignment
+     * @access public
+     * @static
+     */
+    static function retrieveActivityAssign( $activityType, $id) 
+    {
+        if ( $activityType == 1) {
+            $entityTable = "civicrm_meeting";
+        } else if($activityType == 2) {
+            $entityTable = "civicrm_phonecall";
+        } else {
+            $entityTable = "civicrm_activity";
+        }
+        require_once 'CRM/Activity/DAO/ActivityAssignment.php';
+        $activityAssign =  new CRM_Activity_DAO_ActivityAssignment();
+        $activityAssign->activity_entity_table = $entityTable;
+        $activityAssign->activity_entity_id = $id;
+        if ($activityAssign->find(true)){
+            return $activityAssign->target_entity_id;
+        }
+        return null;
+    }
 
 }
 

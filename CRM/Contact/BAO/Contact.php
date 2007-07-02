@@ -2424,7 +2424,9 @@ WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
      */
     static function sortName( $id ) 
     {
-        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'sort_name' );
+        if ( $id ) {
+            return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'sort_name' );
+        }
     }
 
     /**

@@ -107,6 +107,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         }
         
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_id, 0,$this->_activityType);
+        $this->setDefaultValues();
     }
 
     /**
@@ -123,19 +124,17 @@ class CRM_Activity_Form extends CRM_Core_Form
 
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-
+           
             require_once "CRM/Activity/BAO/Activity.php";
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityType );
+            $this->_assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $this->_activityType,$defaults['id']);
+            require_once "CRM/Case/BAO/Case.php";
+            $subjectID = CRM_Case_BAO_Case::getCaseID($this->_activityType, $defaults['id']);
+            $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $subjectID,'subject' );
+
             if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
                 $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
             }
-
-            $sourceName = CRM_Contact_BAO_Contact::displayName($defaults['source_contact_id']);
-       
-            $targetName = CRM_Contact_BAO_Contact::displayName($defaults['target_entity_id']);
-
-            // $this->assign('sourceName', $sourceName);
-            // $this->assign('targetName', $targetName);
 
             // change _contactId to be the target of the activity
             $this->_sourceCID = $defaults['source_contact_id'];
@@ -197,8 +196,9 @@ class CRM_Activity_Form extends CRM_Core_Form
      
         $config =& CRM_Core_Config::singleton( );
         $contactID = $this->_contactId;
-        $fromName = CRM_Contact_BAO_Contact::sortName( $this->_userId );
-        $regardName = CRM_Contact_BAO_Contact::sortName(  $contactID );
+        $fromName = CRM_Contact_BAO_Contact::sortName( $this->_sourceCID );
+        $regardName = CRM_Contact_BAO_Contact::sortName( $this->_targetCID );
+        $toname     = CRM_Contact_BAO_Contact::sortName( $this->_assignCID );
         $domainID = CRM_Core_Config::domainID( );
         $attributes = array( 'dojoType'       => 'ComboBox',
                              'mode'           => 'remote',
@@ -218,6 +218,8 @@ class CRM_Activity_Form extends CRM_Core_Form
         $to = $this->add( 'text','to_contact',ts('To'),$attributes,true );
         if ( $to->getValue( ) ) {
             $this->assign( 'to_contact_value',  $to->getValue( ) );
+        } else {
+            $this->assign( 'to_contact_value', $toname );
         }
         
         $regard = $this->add( 'text','regarding_contact',ts('Regarding'),$attributes,true );
@@ -237,6 +239,8 @@ class CRM_Activity_Form extends CRM_Core_Form
         $subject = $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase );
         if ( $subject->getValue( ) ) {
             $this->assign( 'subject_value',  $subject->getValue( ) );
+        } else {
+            $this->assign( 'subject_value',  $this->_subject );
         }
           
         require_once 'CRM/Core/OptionGroup.php';
