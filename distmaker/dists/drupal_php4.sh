@@ -11,7 +11,7 @@ if [ ! -f $CFFILE ] ; then
 	echo "NO DISTMAKER.CONF FILE!"
 	exit 1
 else
-	for l in `cat $CFFILE`; do export $l; done
+	. $CFFILE
 fi
 
 RSYNCOPTIONS="-avC --exclude=svn"
