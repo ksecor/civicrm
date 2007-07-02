@@ -41,7 +41,7 @@ class CRM_Core_BAO_Block {
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param Object $block         typically a Phone|Email|IM object
+     * @param Object $block         typically a Phone|Email|IM|OpenID object
      * @param string $blockName     name of the above object
      * @param array  $params        input parameters to find object
      * @param array  $values        output values of the object

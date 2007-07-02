@@ -59,39 +59,57 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             CRM_Core_Error::fatal( 'wow, session is not an object?' );
             return;
         }
+        
+        //print "synchronize called with uniq_id " . $user->identity_url . "<br/>";
 
         if ( $uf == 'Drupal' ) {
             $key  = 'uid';
-            $mail = 'mail';
+            $login = 'login';
+            // TODO: Someone who uses Drupal should get the site domain into
+            // the $user object
+            $domain = 'domain';
         } else if ( $uf == 'Joomla' ) {
             $key  = 'id';
-            $mail = 'email';
+            $login = 'username';
+            // TODO: Someone who uses Joomla should get the site domain into
+            // the $user object
+            $domain = 'domain';
         } else if ( $uf == 'Standalone' ) {
-            $key = 'identity_url';
-            $mail = 'email';
+            $key = 'id';
+            $uniqId = $user->identity_url;
+            $query = "SELECT uf_id FROM civicrm_uf_match WHERE user_unique_id = %1";
+            $p = array( 1 => array( $uniqId, 'String' ) );
+            $user->$key = CRM_Core_DAO::singleValueQuery( $query, $p );
+            if ( ! $user->$key ) {
+                // Let's get the next uf_id since we don't actually have one
+                $query = "SELECT MAX(uf_id)+1 FROM civicrm_uf_match";
+                $p = array();
+                $user->$key = CRM_Core_DAO::singleValueQuery( $query, $p );
+                if ( ! $user->$key ) {
+                    $user->$key = 1;
+                }
+                //print "Got new uf_id " . $user->$key . "<br/>";
+            }
         } else {
             CRM_Core_Error::statusBounce(ts('Please set the user framework variable'));
+        }
+        
+        if ( ! $uniqId ) {
+            $uniqId = 'http://' . $user->$login . '.' . $user->$domain . '/';
         }
 
         // have we already processed this user, if so early
         // return.
         $userID = $session->get( 'userID' );
         $ufID   = $session->get( 'ufID'   );
-        $ufName = $session->get( 'ufName' );
-        if ( ! $update && ( ( $ufID == $user->$key ) || ( $ufName == $user->$key ) ) ) {
+        if ( ! $update && $ufID == $user->$key ) {
             //print "Already processed this user<br/>";
             return;
         }
 
         // reset the session if we are a different user
-        if ( $uf != 'Standalone') {
-            if ( $ufID && $ufID != $user->$key ) {
-                $session->reset( );
-            }
-        } else {
-            if ( $ufName && $ufName != $user->$key ) {
-                $session->reset( );
-            }
+        if ( $ufID && $ufID != $user->$key ) {
+            $session->reset( );
         }
 
         // make sure we load the joomla object to get valid information
@@ -101,39 +119,34 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
 
         // if the id of the object is zero (true for anon users in drupal)
         // return early
-        if ( $uf != 'Standalone' && $user->$key == 0 ) {
+        if ( $user->$key == 0 ) {
             return;
         }
         
-        $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $user->$mail, $uf, null, $ctype );
+        //print "Calling synchronizeUFMatch...<br/>";
+        $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $uniqId, $uf, null, $ctype );
         if ( ! $ufmatch ) {
             return;
         }
 
         $session->set( 'ufID'    , $ufmatch->uf_id  );
-        $session->set( 'ufName'  , $ufmatch->uf_name  );
         $session->set( 'userID'  , $ufmatch->contact_id );
         $session->set( 'domainID', $ufmatch->domain_id  ); 
         $session->set( 'ufEmail' , $ufmatch->email      );
 
         if ( $update ) {
-            // the only information we care about is email, so lets check that
-            if ( $user->$mail != $ufmatch->email ) {
-                // email has changed, so we need to change all our primary email also
-                $ufmatch->email = $user->$mail;
+            // the only information we care about is uniqId, so lets check that
+            if ( $uniqId != $ufmatch->user_unique_id ) {
+                // uniqId has changed, so we need to update that everywhere
+                $ufmatch->user_unique_id = $uniqId;
                 $ufmatch->save( );
 
                 $query = "
 UPDATE  civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                civicrm_contact.id  = civicrm_location.entity_id  AND
-                                civicrm_location.is_primary = 1 )
-LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
-                                civicrm_email.is_primary = 1    )
-SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
+SET civicrm_contact.user_unique_id = %1 WHERE civicrm_contact.id = %2 ";
 
-                $p = array( 1 => array( $user->$mail        , 'String'  ),
-                            2 => array( $ufmatch->contact_id, 'Integer' ) );
+                $p = array( 1 => array( $uniqId               , 'String'  ),
+                            2 => array( $ufmatch->contact_id  , 'Integer' ) );
                 CRM_Core_DAO::executeQuery( $query, $p );
             }
         }
@@ -153,11 +166,13 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
      * @access public
      * @static
      */
-    static function &synchronizeUFMatch( &$user, $userKey, $mail, $uf, $status = null, $ctype = null ) {
-        // validate that mail is a valid email address. hopefully there is
-        // not too many conflicting emails between the CMS and CiviCRM
+    static function &synchronizeUFMatch( &$user, $userKey, $uniqId, $uf, $status = null, $ctype = null ) {
+        // validate that uniqId is a valid url. it will either be
+        // an OpenID (which should always be a valid url) or a
+        // http://uf_username.domain/ construction (so that it can
+        // be used as an OpenID in the future)
         require_once 'CRM/Utils/Rule.php';
-        if ( ! CRM_Utils_Rule::email( $mail ) ) {
+        if ( ! CRM_Utils_Rule::url( $uniqId ) ) {
             return $status ? null : false;
         }
         
@@ -166,23 +181,23 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
         // make sure that a contact id exists for this user id
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->uf_id = $userKey;
-        $ufmatch->uf_name = $userKey;
         $ufmatch->domain_id = CRM_Core_Config::domainID( );
         if ( ! $ufmatch->find( true ) ) {
             require_once 'CRM/Contact/BAO/Contact.php';
-            $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $mail, $ctype );
+            $dao =& CRM_Contact_BAO_Contact::matchContactOnUniqId( $uniqId, $ctype );
             if ( $dao ) {
-                $ufmatch->contact_id = $dao->contact_id;
-                $ufmatch->domain_id  = $dao->domain_id ;
-                $ufmatch->email      = $mail;
+                //print "Found contact with uniqId $uniqId<br/>";
+                $ufmatch->contact_id    = $dao->contact_id;
+                $ufmatch->domain_id     = $dao->domain_id ;
+                $ufmatch->user_unique_id = $uniqId;
             } else {
                 require_once 'CRM/Core/BAO/LocationType.php';
                 $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
-                $params = array( 'email' => $mail, 'location_type' => $locationType->name );
+                $params = array( 'user_unique_id' => $uniqId, 'location_type' => $locationType->name );
                 if ( $ctype == 'Organization' ) {
-                    $params['organization_name'] = $mail;
+                    $params['organization_name'] = $uniqId;
                 } else if ( $ctype == 'Household' ) {
-                    $params['household_name'] = $mail;
+                    $params['household_name'] = $uniqId;
                 }
                 if ( ! $ctype ) {
                     $ctype = "Individual";
@@ -213,9 +228,9 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                     CRM_Core_Error::debug( 'error', $contact );
                     exit(1);
                 }
-                $ufmatch->contact_id = $contact->id;
-                $ufmatch->domain_id  = $contact->domain_id ;
-                $ufmatch->email      = $mail;
+                $ufmatch->contact_id    = $contact->id;
+                $ufmatch->domain_id     = $contact->domain_id ;
+                $ufmatch->user_unique_id = $uniqId;
             }
             $ufmatch->save( );
             $newContact   = true;
@@ -229,36 +244,31 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
     }
 
     /**
-     * update the email in the user object
+     * update the user_unique_id in the user object
      *
-     * @param int    $contactId id of the contact to delete
+     * @param int    $contactId id of the contact to update
      *
      * @return void
      * @access public
      * @static
      */
-    static function updateUFEmail( $contactId ) {
-        $email = CRM_Contact_BAO_Contact::getPrimaryEmail( $contactId );
-        if ( ! $email ) {
+    static function updateUFUserUniqueId( $contactId ) {
+        $openId = CRM_Contact_BAO_Contact::getPrimaryOpenId( $contactId );
+        if ( ! $openId ) {
             return;
         }
 
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->contact_id = $contactId;
-        if ( ! $ufmatch->find( true ) || $ufmatch->email == $email ) {
-            // if object does not exist or the email has not changed
+        if ( ! $ufmatch->find( true ) || $ufmatch->user_unique_id == $openId ) {
+            // if object does not exist or the OpenID has not changed
             return;
         }
 
         // save the updated ufmatch object
-        $ufmatch->email = $email;
+        $ufmatch->user_unique_id = $openId;
         $ufmatch->save( );
-        $config =& CRM_Core_Config::singleton( ); 
-        if ( $config->userFramework == 'Drupal' ) { 
-            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
-            user_save( $user, array( 'mail' => $email ) );
-            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
-        }
+        $config =& CRM_Core_Config::singleton( );
     }
     
     /**
@@ -392,6 +402,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
         }
         return null;
     }
+    
     /**
      * get the list of contact_id
      *
@@ -408,6 +419,24 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
             $id[] = $dao->contact_id;
         }
         return $id;
+    }
+    
+    /**
+     * see if this user exists, and if so, if they're allowed to login
+     *
+     *
+     * @return int    contact_id on success, null otherwise
+     * @access public
+     * @static
+     */
+    static function getAllowedToLogin( $user ) {
+        $ufmatch =& new CRM_Core_DAO_UFMatch();
+        $ufmatch->user_unique_id = $user->identity_url;
+        $ufmatch->allowed_to_login = 1;
+        if ( $ufmatch->find( true ) ) {
+            return true;
+        }
+        return false;
     }
 }
 ?>

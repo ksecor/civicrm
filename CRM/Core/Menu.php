@@ -275,7 +275,16 @@ class CRM_Core_Menu {
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0, 
                             ),
-                      
+		      array(
+                            'path'    => 'civicrm/logout',
+                            'title'   => ts('Log Out'),
+                            'query'   => 'reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
+                            'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
+                            'weight'  => 10000,
+                            )
+		      
                       );                     
             
             require_once 'CRM/Core/Component.php';

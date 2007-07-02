@@ -18,6 +18,12 @@ if ( $response->status == Auth_OpenID_CANCEL ) {
     require_once 'CRM/Utils/System/Standalone.php';
     $user = new Standalone_User( $openid, $email );
     require_once 'CRM/Core/Session.php';
+    $allow_login = CRM_Utils_System_Standalone::getAllowedToLogin( $user );
+    if ( !$allow_login && !CIVICRM_ALLOW_ALL) {
+      $msg = 'Login failed.';	
+      header( "Location: index.php?bad=true" );
+      exit ( 0 );
+    }
     $session =& CRM_Core_Session::singleton( );
     CRM_Utils_System_Standalone::getUserID( $user );
     $userID = $session->get( 'userID' );
