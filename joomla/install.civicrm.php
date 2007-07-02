@@ -11,7 +11,7 @@ function com_install() {
 <center>
   <table width="100%" border="0">
     <tr>
-      <td><strong>Files uploaded<font color="green">Succesful</font></strong><br/>
+      <td><strong>Files uploaded <font color="green">succesfully</font></strong><br/>
       </td>
     </tr>
     <tr>
