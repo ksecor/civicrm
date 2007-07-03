@@ -65,7 +65,6 @@ abstract class CRM_Core_Payment {
      *  
      */  
     static function &singleton( $mode = 'test', $component, &$paymentProcessor ) {
-        CRM_Core_Error::backtrace( );
         if ( self::$_singleton === null ) {
             $config       =& CRM_Core_Config::singleton( );
             $paymentClass = "CRM_{$component}_" . $paymentProcessor['class_name'];
