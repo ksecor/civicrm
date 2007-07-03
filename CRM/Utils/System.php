@@ -59,6 +59,7 @@ class CRM_Utils_System {
                                                 'activitytype'       => 'ActivityType',
                                                 'bao'                => 'BAO',
                                                 'basiccriteria'      => 'BasicCriteria',
+                                                'batchupdateprofile' => 'BatchUpdateProfile',
                                                 'createppd'          => 'CreatePPD',
                                                 'customdata'         => 'CustomData',
                                                 'customfield'        => 'CustomField',
@@ -79,7 +80,9 @@ class CRM_Utils_System {
                                                 'emailhistory'       => 'EmailHistory',
                                                 'entitycategory'     => 'EntityCategory',
                                                 'entitytag'          => 'EntityTag',
+                                                'entityrole'         => 'EntityRole',
                                                 'emptyresults'       => 'EmptyResults',
+                                                'eventinfo'          => 'EventInfo',
                                                 'geocoord'           => 'GeoCoord',
                                                 'groupcontact'       => 'GroupContact',
                                                 'gmapsinput'         => 'GMapsInput',
@@ -88,16 +91,22 @@ class CRM_Utils_System {
                                                 'individualprefix'   => 'IndividualPrefix',
                                                 'individualsuffix'   => 'IndividualSuffix',
                                                 'locationtype'       => 'LocationType',
+                                                'manageevent'        => 'ManageEvent',
+                                                'manageeventedit'    => 'ManageEventEdit',
                                                 'managepremiums'     => 'ManagePremiums',
                                                 'mapfield'           => 'MapField',
                                                 'membershipblock'    => 'MembershipBlock',
                                                 'membershiptype'     => 'MembershipType',
                                                 'membershipstatus'   => 'MembershipStatus',
+                                                'messagetemplates'   => 'MessageTemplates',
                                                 'mobileprovider'     => 'MobileProvider',
                                                 'otheractivity'      => 'OtherActivity',
                                                 'pseudoconstant'     => 'PseudoConstant',
                                                 'pagerAToZ'          => 'pagerAToZ',//not needed here 
                                                 'paymentinstrument'  => 'PaymentInstrument',
+                                                'paymentprocessor'   => 'PaymentProcessor', 
+                                                'paymentprocessortype'=> 'PaymentProcessorType', 
+                                                'pickprofile'        => 'PickProfile',
                                                 'relationshiptype'   => 'RelationshipType',
                                                 'removefromgroup'    => 'RemoveFromGroup',
                                                 'removefromtag'      => 'RemoveFromTag',
@@ -117,15 +126,8 @@ class CRM_Utils_System {
                                                 'versioncheck'       => 'VersionCheck',
                                                 'optiongroup'        => 'OptionGroup',
                                                 'optionvalue'        => 'OptionValue',
-                                                'messagetemplates'   => 'MessageTemplates',
-                                                'entityrole'         => 'EntityRole',
-                                                'manageevent'        => 'ManageEvent',
-                                                'manageeventedit'    => 'ManageEventEdit',
-                                                'pickprofile'        => 'PickProfile',
-                                                'userdashboard'      => 'UserDashBoard',
-                                                'eventinfo'          => 'EventInfo',
-                                                'batchupdateprofile' => 'BatchUpdateProfile',
                                                 'systemconfig'       => 'SystemConfig',
+                                                'userdashboard'      => 'UserDashBoard',
                                                 );
     
     static $_callbacks = null;
@@ -736,15 +738,15 @@ class CRM_Utils_System {
         return $request->getResponseCode( ) == 200 ? true : false;
     }
 
-    static function checkPHPVersion( $version = 5, $abort = true ) {
+    static function checkPHPVersion( $ver = 5, $abort = true ) {
         $phpVersion = substr( PHP_VERSION, 0, 1 );
-        if ( $phpVersion >= $version ) {
+        if ( $phpVersion >= $ver ) {
             return true;
         }
 
         if ( $abort ) {
             CRM_Core_Error::fatal( ts( 'This feature requires PHP Version %1 or greater',
-                                       array( 1 => $version ) ) );
+                                       array( 1 => $ver ) ) );
         }
         return false;
     }

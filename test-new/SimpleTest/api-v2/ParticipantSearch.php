@@ -73,19 +73,18 @@ class TestOfParticipantSearchAPIV2 extends CiviUnitTestCase
         $this->assertEqual($participant[$this->_participantID]['last_name'],'Anderson');
         $this->assertEqual($participant[$this->_participantID]['event_title'],'Fall Fundraiser Dinner');        
     }
-
+    
 
     function testParticipantSearchByEventWithLimit()
     {
         // Should 2 participant records since we're passing rowCount = 2.
         $params = array(
                         'event_id'      => 1,
-                        'rowCount'      => 2,
+                        'rowCount'      => 6,
                         );
         $participant = & civicrm_participant_search($params);
-//        CRM_Core_Error::debug('p',$participant);
         
-//        $this->assertEqual( count( $participant ), 2 );
+        $this->assertEqual( count( $participant ), 6 );
     }
     
 }

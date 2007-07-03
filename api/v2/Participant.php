@@ -164,7 +164,7 @@ function &civicrm_participant_search( &$params ) {
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = $v;
-        } elseif ( array_key_exists( $n, $otherVars ) ) {
+        } elseif ( in_array ( $n, $otherVars ) ) {
             $$n = $v;
         } else {
             $inputParams[$n] = $v;
@@ -185,6 +185,7 @@ function &civicrm_participant_search( &$params ) {
     if ( ! empty( $sort ) ) {
         $sql .= " ORDER BY $sort ";
     }
+    $sql .= " LIMIT $offset, $rowCount ";
     $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
     
     $participant = array( );

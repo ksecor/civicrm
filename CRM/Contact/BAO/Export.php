@@ -51,6 +51,7 @@ class CRM_Contact_BAO_Export {
         $headerRows       = array();
         $primary          = false;
         $returnProperties = array( );
+        $origFields       = $fields;
 
          if ($fields) {
              //construct return properties 
@@ -115,8 +116,11 @@ class CRM_Contact_BAO_Export {
         }
         
         list( $select, $from, $where ) = $query->query( );
-
-        if ( CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
+        // make sure the groups stuff is included only if specifically specified
+        // by the fields param (CRM-1969), else we limit the contacts outputted to only
+        // ones that are part of a group
+        if ( $origFields &&
+             CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
             $groupClause = " ( civicrm_group_contact.status = 'Added' OR civicrm_group_contact.status is NULL ) ";
             if ( empty( $where ) ) {
                 $where = "WHERE $groupClause";
@@ -152,9 +156,8 @@ class CRM_Contact_BAO_Export {
             $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
             $multipleSelectFields = array_merge( $multipleSelectFields, $studentFields );
         }
-      
-        $temp = array( );
-        $dao =& CRM_Core_DAO::executeQuery($queryString, $temp);
+
+        $dao =& CRM_Core_DAO::executeQuery( $queryString, CRM_Core_DAO::$_nullArray );
         $header = false;
 
         //fix for location type name having spaces in it.

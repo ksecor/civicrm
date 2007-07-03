@@ -173,6 +173,15 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 $session->set( 'pastContributionThermometer', $this->_values['is_thermometer'] );
             }
 
+            // also check for billing informatin
+            // get the billing location type
+            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+            $this->_bltID = array_search( ts('Billing'),  $locationTypes );
+            if ( ! $this->_bltID ) {
+                CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+            }
+            $this->set   ( 'bltID', $this->_bltID );
+
             // check for is_monetary status
             $isMonetary = CRM_Utils_Array::value( 'is_monetary', $this->_values );
 
@@ -183,14 +192,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                     CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this contribution page (contact the site administrator for assistance).' ) );
                 }
                 
-                // also check for billing informatin
-                // get the billing location type
-                $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-                $this->_bltID = array_search( ts('Billing'),  $locationTypes );
-                if ( ! $this->_bltID ) {
-                    CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
-                }
-                $this->set   ( 'bltID', $this->_bltID );
                 
                 $ppID = CRM_Utils_Array::value( 'payment_processor_id', $this->_values );
                 

@@ -164,10 +164,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     {
         require_once 'CRM/Utils/Date.php';
         
-        if ( ! $params['status_id'] ) {
+        if ( ! isset( $params['is_override'] ) ) {
             $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
             $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
-            $joinDate    = CRM_Utils_Date::customFormat($params['join_date'],'%Y-%m-%d');
+            $joinDate   = CRM_Utils_Date::customFormat($params['join_date'],'%Y-%m-%d');
             
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );

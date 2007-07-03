@@ -6,7 +6,8 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 }
 
 global $mosConfig_absolute_path;
-global $civicrmUpgrade = false;
+global $civicrmUpgrade;
+$civicrmUpgrade = false;
 
 // $mosConfig_absolute_path = "/tmp/mos";
 

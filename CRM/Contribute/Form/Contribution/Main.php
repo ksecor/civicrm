@@ -534,8 +534,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         $this->set( 'invoiceID', $invoiceID );
 
-        // not required if is_monetary=FALSE or amount is less than 0
-        if ( $this->_values['is_monetary'] ||(float ) $params['amount'] <= 0.0 ) {
+        // required only if is_monetary and valid postive amount 
+        if ( $this->_values['is_monetary'] && (float ) $params['amount'] > 0.0 ) {
             
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor ); 
 

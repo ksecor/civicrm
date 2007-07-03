@@ -303,11 +303,22 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                                                       $this->_action
                                                                                       );
         }
-
+        
         if ( ! empty($relatedContacts) ) {
-            //delete all the related membership records before creating
+            // delete all the related membership records before creating
             CRM_Member_BAO_Membership::deleteRelatedMemberships( $membership->id );
             
+            // Edit the params array
+            unset( $params['id'] );
+            // Reminder should be sent only to the direct membership
+            unset( $params['reminder_date'] );
+            // unset the custom value ids
+            if ( is_array( $params['custom'] ) ) {
+                foreach ( $params['custom'] as $k => $v ) {
+                    unset( $params['custom'][$k]['id'] );
+                }
+            }
+                        
             foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
                 $params['contact_id'         ] = $contactId;
                 $params['owner_membership_id'] = $membership->id;
@@ -328,22 +339,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     // But this wont work exactly if there will be
                     // more than one status having is_current_member = 0.
                     $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
-                }
-                
-                unset( $params['id'] );
-
-                // unset the custom value ids
-                if ( is_array( $params['custom'] ) ) {
-                    foreach ( $params['custom'] as $k => $v ) {
-                        unset( $params['custom'][$k]['id'] );
-                    }
-                }
-                
-                // unset the custom value ids
-                if ( is_array( $params['custom'] ) ) {
-                    foreach ( $params['custom'] as $k => $v ) {
-                        unset( $params['custom'][$k]['id'] );
-                    }
                 }
                 
                 CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );

@@ -71,6 +71,12 @@ class CRM_Core_Page_File extends CRM_Core_Page {
                 return $wrapper->run( 'CRM_Custom_Form_DeleteFile', ts('Domain Information Page'), null);
             }
         } else {
+            if ( CRM_Core_Permission::access( 'Gcc' ) ) {
+                // hack file name for gcc
+                require_once 'CRM/Gcc/Form/File.php';
+                $path = CRM_Gcc_Form_File::getFileName($path);
+            }
+
             CRM_Utils_System::download( basename( $path ), $mimeType, $buffer );
         }
     }
