@@ -350,6 +350,9 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                         $this->assign( "country{$key}_state_value",  $stateProvinces[$stateProvinceId] );
                     }
                 }
+                
+                $this->assign( "location_{$key}_address_display", 
+                               str_replace("\n", "<br/>", $value['address']['display']) );
             }
         }
 
@@ -622,10 +625,9 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         // copy household address, if use_household_address option (for individual form) is checked
         if ( $this->_contactType == 'Individual' ) {
             if ( $params['use_household_address'] ) {
-                if ( ( $this->_action & CRM_Core_Action::ADD ) && !$params['shared_option'] && $params['create_household'] ) {
+                if ( !$params['shared_option'] && $params['create_household'] ) {
                     CRM_Contact_Form_Individual::createSharedHousehold( $params );
-                } elseif ( ( $params['shared_option'] && ( $this->_action & CRM_Core_Action::ADD ) ) || 
-                           ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+                } elseif ( $params['shared_option'] ) {
                     CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
                 }
             } else {
