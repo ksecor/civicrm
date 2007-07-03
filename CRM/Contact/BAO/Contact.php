@@ -228,6 +228,22 @@ ORDER BY
         return $emails;
     }
 
+    static function updatePrimaryEmail( $contactID, $email ) {
+        $query = "
+UPDATE  civicrm_contact
+LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                civicrm_contact.id  = civicrm_location.entity_id  AND
+                                civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
+                                civicrm_email.is_primary = 1    )
+SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
+        
+        $p = array( 1 => array( $email    , 'String'  ),
+                    2 => array( $contactID, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $p );
+    }
+
+
     /**
      * Get all the mobile numbers for a specified contact_id, with the primary mobile being first
      *
