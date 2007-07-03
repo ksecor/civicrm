@@ -175,7 +175,8 @@ class CRM_Utils_Array {
      * @static
      * @access public
      */
-    static function combine( &$keyList, &$valueList ) {
+    static function combine( &$keyList, &$valueList ) 
+    {
         $keys = array_values( (array) $keyList );
         $vals = array_values( (array) $valueList );
         
@@ -200,12 +201,13 @@ class CRM_Utils_Array {
      * @static
      * @access public
      */
-    static function array_deep_copy( &$array, $maxdepth=50, $depth=0 ) {
+    static function array_deep_copy( &$array, $maxdepth=50, $depth=0 ) 
+    {
         if( $depth > $maxdepth ) { 
             return $array; 
         }
         $copy = array();
-        foreach( $array as $key => &$value ) {
+        foreach( $array as $key => $value ) {
             if( is_array( $value ) ) {
                 array_deep_copy( $value, $copy[$key], $maxdepth, ++$depth);
             } else {
