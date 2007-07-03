@@ -7,7 +7,7 @@ if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
 // this has been moved here from install.civicrm.php
 // because the 1.5 installer does not
 // run the below script at end iof install
-if ( ! file_exists( 'civicrm.settings.php' ) ) {
+if ( ! file_exists( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'civicrm.settings.php' ) ) {
 	global $database;
     global $mosConfig_absolute_path;
     $path =
