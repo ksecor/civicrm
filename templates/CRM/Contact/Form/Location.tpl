@@ -77,11 +77,20 @@
         <div class="spacer"></div>
     {/if}
 
-
     {* Display the address block *}
     <div id="id_location_{$index}_address">
         {include file="CRM/Contact/Form/Address.tpl"} 
     </div>
+
+    {* Display the address block in view-mode *}
+    {if $contact_type eq 'Individual' and $index eq 1 and $action eq 2 and $form.use_household_address.value}
+        <div id="id_location_1_address_shared_view">
+            <fieldset><legend>{ts}Shared Household Address{/ts}</legend>
+                {$location_1_address_display}
+            </fieldset>
+        </div>
+    {/if}
+
 
     </fieldset>
 </div> {* End of Location block div *}
@@ -90,6 +99,11 @@
 {* -- Javascript for showing/hiding the shared household options -- *}
 {literal}
 <script type="text/javascript">
+
+{/literal}{if $contact_type EQ 'Individual' AND $action eq 2 AND !$form.errors}{literal}
+    document.getElementsByName("shared_option")[1].checked = true; 
+{/literal}{/if}{literal}
+
     function showHideSharedOptions()
     {
         if (document.getElementsByName("use_household_address")[0].checked) {
@@ -114,7 +128,7 @@
 {/literal}
 
 {if $contact_type EQ 'Individual'}
-   {if $action eq 1}
+   {if $form.use_household_address.value}
        {include file="CRM/common/showHideByFieldValue.tpl" 
          trigger_field_id    ="shared_option"
          trigger_value       =""
@@ -122,6 +136,31 @@
          target_element_type ="block"
          field_type          ="radio"
          invert              = "1"
+       }
+       {include file="CRM/common/showHideByFieldValue.tpl" 
+         trigger_field_id    ="shared_option"
+         trigger_value       =""
+         target_element_id   ="create_household" 
+         target_element_type ="block"
+         field_type          ="radio"
+         invert              = "0"
+       }
+       {include file="CRM/common/showHideByFieldValue.tpl" 
+         trigger_field_id    ="shared_option"
+         trigger_value       =""
+         target_element_id   ="id_location_1_address" 
+         target_element_type ="block"
+         field_type          ="radio"
+         invert              = "0"
+       }
+   {else}
+       {include file="CRM/common/showHideByFieldValue.tpl" 
+         trigger_field_id    ="use_household_address"
+         trigger_value       =""
+         target_element_id   ="confirm_shared_option" 
+         target_element_type ="block"
+         field_type          ="radio"
+         invert              = "0"
        }
        {include file="CRM/common/showHideByFieldValue.tpl" 
          trigger_field_id    ="use_household_address"
@@ -134,20 +173,12 @@
        {include file="CRM/common/showHideByFieldValue.tpl" 
          trigger_field_id    ="use_household_address"
          trigger_value       =""
-         target_element_id   ="confirm_shared_option" 
+         target_element_id   ="shared_household" 
          target_element_type ="block"
          field_type          ="radio"
          invert              = "0"
        }
    {/if} 
-   {include file="CRM/common/showHideByFieldValue.tpl" 
-       trigger_field_id    ="use_household_address"
-       trigger_value       =""
-       target_element_id   ="shared_household" 
-       target_element_type ="block"
-       field_type          ="radio"
-       invert              = "0"
-   }
    {if $form.errors and $form.use_household_address.value}
        {include file="CRM/common/showHideByFieldValue.tpl" 
          trigger_field_id    ="shared_option"
@@ -157,6 +188,16 @@
          field_type          ="radio"
          invert              = "0"
        }
+       {if $action eq 2} 
+           {include file="CRM/common/showHideByFieldValue.tpl" 
+             trigger_field_id    ="shared_option"
+             trigger_value       =""
+             target_element_id   ="id_location_1_address_shared_view" 
+             target_element_type ="block"
+             field_type          ="radio"
+             invert              = "1"
+           }
+       {/if} 
        {include file="CRM/common/showHideByFieldValue.tpl" 
          trigger_field_id    ="shared_option"
          trigger_value       =""
@@ -174,14 +215,4 @@
          invert              = "0"
        }
    {/if}
-   {if $action eq 2}
-      {include file="CRM/common/enableDisableByFieldValue.tpl" 
-         trigger_field_id    ="use_household_address"
-         trigger_value       =""
-         target_element_id   ="location_1_address_street_address|location_1_address_supplemental_address_1|location_1_address_supplemental_address_2|location_1_address_city|location_1_address_postal_code|location_1_address_postal_code_suffix|location_1_address_county_id|location_1_address_state_province_id|location_1_address_country_id|location_1_address_geo_code_1|location_1_address_geo_code_2" 
-         target_element_type ="block"
-         field_type          ="radio"
-         invert              = 1
-      }
-   {/if} 
 {/if}
