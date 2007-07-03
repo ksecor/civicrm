@@ -104,7 +104,6 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         $this->_sourceCID = CRM_Case_BAO_Case::retrieveCid($params['from_contact']);
         $this->_targetCID = CRM_Case_BAO_Case::retrieveCid($params['regarding_contact']);
 
-
         $ids = array();
         
         $dateTime = $params['scheduled_date_time'];

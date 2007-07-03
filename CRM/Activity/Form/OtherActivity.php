@@ -136,6 +136,11 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         //$params = $_POST;
+
+        require_once 'CRM/Case/BAO/Case.php';
+        $this->_sourceCID = CRM_Case_BAO_Case::retrieveCid($params['from_contact']);
+        $this->_targetCID = CRM_Case_BAO_Case::retrieveCid($params['regarding_contact']);
+
         $ids = array();
         
         // store the date with proper format

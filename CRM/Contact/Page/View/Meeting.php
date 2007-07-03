@@ -60,6 +60,11 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
         $session =& CRM_Core_Session::singleton();
         if ( $context == 'Home' ) {
             $url = CRM_Utils_System::url('civicrm', 'reset=1' );
+        }else if ($context == 'case'){
+            $caseID = CRM_Utils_Request::retrieve( 'caseid', 'Integer',
+                                                $this );
+            $url = CRM_Utils_System::url('civicrm/contact/view/case',
+                                         "show=1&action=view&reset=1&cid={$this->_contactId}&id={$caseID}&selectedChild=case" );
         } else {
             $url = CRM_Utils_System::url('civicrm/contact/view',
                                          "show=1&action=browse&reset=1&history={$history}&cid={$this->_contactId}&selectedChild=activity" );

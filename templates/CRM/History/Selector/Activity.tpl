@@ -74,10 +74,18 @@
              <td>{$row.action}</td>
            </tr>
         {else}
+    {debug}
            <tr class="{cycle values="odd-row,even-row"}">
-             <td>{$row.activity_type}</td>
-             <td>
-               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}">{$row.case|mb_truncate:33:"...":true}</a>
+            <td>{$row.activity_type}</td>
+            {if $caseview eq 1}
+                
+                {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=case&caseid=`$row.case_subjectID`"}{/capture}
+                 {assign var="caseId" value=$row.case_subjectID}
+            {else}
+                {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}{/capture}
+            {/if}
+
+            <td><a href="{$viewURL}">{$row.case|mb_truncate:33:"...":true}</a>
              </td>
              <td>
              {if $contactId  NEQ $row.sourceID} 
@@ -110,6 +118,9 @@
 
     {include file="CRM/common/pager.tpl" location="bottom"}
     </form>
+    {if $caseview eq 1}
+      {ts}<a href="{crmURL p='civicrm/contact/view/activity/' q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`"}">Record a new Activity</a>{/ts}
+    {/if}
     </fieldset>
     </div>
 {/if}

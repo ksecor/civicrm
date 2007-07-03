@@ -35,8 +35,8 @@
       	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 
     	    </tr>
             {if $action eq 4 }
-              {include file="CRM/History/Selector/Activity.tpl"}   
-            {/if}
+              {include file="CRM/History/Selector/Activity.tpl" caseview=1}
+            {/if} 
          </table>
     </div>
 </fieldset>

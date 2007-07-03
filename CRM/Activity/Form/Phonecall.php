@@ -101,7 +101,12 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         }
 
         // store the submitted values in an array
-        $params = $this->controller->exportValues( $this->_name );       
+        $params = $this->controller->exportValues( $this->_name );  
+
+        require_once 'CRM/Case/BAO/Case.php';
+        $this->_sourceCID = CRM_Case_BAO_Case::retrieveCid($params['from_contact']);
+        $this->_targetCID = CRM_Case_BAO_Case::retrieveCid($params['regarding_contact']);
+
         $ids = array();
         
         $dateTime = $params['scheduled_date_time'];
@@ -120,7 +125,6 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         if ($this->_pid) {
             $params['parent_id'] = $this->_pid;            
         }
-        
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['id'] = $this->_id;
             require_once 'CRM/Case/DAO/CaseActivity.php';
@@ -135,7 +139,6 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
             $ActivityAssignment->activity_entity_id = $ids['id'];
             $ActivityAssignment->find(true);
             $ids['aid'] = $ActivityAssignment->id;
-            
         }
       
         require_once "CRM/Activity/BAO/Activity.php";

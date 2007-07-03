@@ -222,8 +222,8 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             
             //for case subject
             if ($row['case_id']){
-                $case_subjectID = CRM_Core_DAO::getFieldValue('CRM_Case_DAO_CaseActivity', $row['case_id'],'case_id' );
-                $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case',$case_subjectID ,'subject'); 
+                $row['case_subjectID'] = CRM_Core_DAO::getFieldValue('CRM_Case_DAO_CaseActivity', $row['case_id'],'case_id' );
+                $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case',$row['case_subjectID'],'subject'); 
             }
 
             // retrieve to_contact
@@ -264,7 +264,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                array('aid'  => $row['case_id'],
                                                                      'atype'=> $row['activity_type_id'],
                                                                      'rid'  => $row['id'],
-                                                                     'id'  =>  $row['id'],
+                                                                     'id'  =>  $row['case_subjectID'],
                                                                      'cid' => $this->_contactId
                                                                       ));
                 }else {

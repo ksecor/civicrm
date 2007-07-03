@@ -13,8 +13,8 @@
   <dl>
     {if $action eq 1 or $action eq 2  or $action eq 4 }
       {if $action eq 1  or $form.activity_type_id.value }
+         <dt>{$form.activity_type_id.label}</dt><dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd>
         {include file="CRM/Activity/Form/Activity.tpl"}
-    	<dt>{$form.activity_type_id.label}</dt><dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd>
 	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 	    <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
         {if $action eq 4}
