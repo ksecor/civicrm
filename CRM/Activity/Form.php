@@ -128,10 +128,13 @@ class CRM_Activity_Form extends CRM_Core_Form
             require_once "CRM/Activity/BAO/Activity.php";
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityType );
             $this->_assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $this->_activityType,$defaults['id']);
+            
             require_once "CRM/Case/BAO/Case.php";
             $subjectID = CRM_Case_BAO_Case::getCaseID($this->_activityType, $defaults['id']);
+            if ($subjectID){
             $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $subjectID,'subject' );
-
+            }
+        
             if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
                 $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
             }
@@ -208,7 +211,6 @@ class CRM_Activity_Form extends CRM_Core_Form
                                                                            true, null, false ),
                                 );
         $from = $this->add( 'text','from_contact',ts('From'),$attributes,true );
-
         if ( $from->getValue( ) ) {
             $this->assign( 'from_contact_value',  $from->getValue( ) );
         } else {

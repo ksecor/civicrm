@@ -219,8 +219,20 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 case 'SMS':        $row['activity_type'] = ts('SMS');        break;
                 case 'Event':      $row['activity_type'] = ts('Event');      break;
             }
+            
+            //for case subject
+            if ($row['case_id']){
+                $case_subjectID = CRM_Core_DAO::getFieldValue('CRM_Case_DAO_CaseActivity', $row['case_id'],'case_id' );
+                $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case',$case_subjectID ,'subject'); 
+            }
 
-            // add class to this row if overdue
+            // retrieve to_contact
+            require_once "CRM/Activity/BAO/Activity.php";
+            $assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $row['activity_type_id'],$row['id']);
+            require_once "CRM/Contact/BAO/Contact.php";
+            $row['to_contact'] = CRM_Contact_BAO_Contact::displayName( $assignCID );
+
+                // add class to this row if overdue
             if ( CRM_Utils_Date::overdue( $row['date'] ) ) {
                 $row['overdue'] = 1;
                 $row['class']   = 'status-overdue';
@@ -296,9 +308,10 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                 'sort'      => 'activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name' => ts('Subject')),
-                                          array('name' => ts('Created By')),
-                                          array('name' => ts('With Contact')),
+                                          array('name' => ts('Case')),
+                                          array('name' => ts('From Contact')),
+                                          array('name' => ts('Regarding Contact')),
+                                          array('name' => ts('To Contact')),
                                           array(
                                                 'name'      => ts('Scheduled'),
                                                 'sort'      => 'date',

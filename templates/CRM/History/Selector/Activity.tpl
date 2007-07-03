@@ -77,7 +77,7 @@
            <tr class="{cycle values="odd-row,even-row"}">
              <td>{$row.activity_type}</td>
              <td>
-               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}">{$row.subject|mb_truncate:33:"...":true}</a>
+               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}">{$row.case|mb_truncate:33:"...":true}</a>
              </td>
              <td>
              {if $contactId  NEQ $row.sourceID} 
@@ -87,12 +87,13 @@
              {/if}			
              </td>
              <td>
-                {if $$contactId NEQ $row.targetID and $contactId  EQ $row.sourceID }
+                {if $contactId NEQ $row.targetID and $contactId  EQ $row.sourceID }
                     <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.targetID`"}">{$row.targetName}</a>
                 {else}
                     {$row.targetName} 
                 {/if}	
              </td>
+             <td>{$row.to_contact}</td>
              <td>{$row.date|crmDate}</td>
              <td>{$row.status_display}</td>
              {if $caseActivity}
