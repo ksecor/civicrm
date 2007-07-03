@@ -79,15 +79,18 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $uniqId = $user->identity_url;
             $query = "SELECT uf_id FROM civicrm_uf_match WHERE user_unique_id = %1";
             $p = array( 1 => array( $uniqId, 'String' ) );
-            $user->$key = CRM_Core_DAO::singleValueQuery( $query, $p );
+            $dao = CRM_Core_DAO::executeQuery( $query, $p );
+            $result = $dao->getDatabaseResult( );
+            if ( $result ) {
+                $row = $result->fetchRow( );
+                if ( $row ) {
+                    $user->$key = $row['uf_id'];
+                }
+            }
+            print "got uf_id " . $user->$key . " for OpenID $uniqId<br/>";
             if ( ! $user->$key ) {
                 // Let's get the next uf_id since we don't actually have one
-                $query = "SELECT MAX(uf_id)+1 FROM civicrm_uf_match";
-                $p = array();
-                $user->$key = CRM_Core_DAO::singleValueQuery( $query, $p );
-                if ( ! $user->$key ) {
-                    $user->$key = 1;
-                }
+                $user->$key = self::getNextUfIdValue( );
                 //print "Got new uf_id " . $user->$key . "<br/>";
             }
         } else {
@@ -129,7 +132,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             return;
         }
 
-        $session->set( 'ufID'    , $ufmatch->uf_id  );
+        $session->set( 'ufID'    , $ufmatch->uf_id      );
         $session->set( 'userID'  , $ufmatch->contact_id );
         $session->set( 'domainID', $ufmatch->domain_id  ); 
         $session->set( 'ufEmail' , $ufmatch->email      );
@@ -260,13 +263,44 @@ SET civicrm_contact.user_unique_id = %1 WHERE civicrm_contact.id = %2 ";
 
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->contact_id = $contactId;
-        if ( ! $ufmatch->find( true ) || $ufmatch->user_unique_id == $openId ) {
+        if ( ! $ufmatch->find( true ) ||
+             $ufmatch->user_unique_id == $openId ) {
             // if object does not exist or the OpenID has not changed
             return;
         }
 
         // save the updated ufmatch object
         $ufmatch->user_unique_id = $openId;
+        $ufmatch->save( );
+        $config =& CRM_Core_Config::singleton( );
+    }
+    
+    /**
+     * set whether this user is allowed to login or not
+     *
+     * @param int    $contactId id of the contact to update
+     * @param bool   $allowedToLogin whether or not this user should be 
+     *                  allowed to login
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function setAllowedToLogin( $contactId, $allowedToLogin ) {
+        $ufmatch =& new CRM_Core_DAO_UFMatch( );
+        $ufmatch->contact_id = $contactId;
+        
+        $allowedToLoginValue = $allowedToLogin ? 1 : 0;
+        
+        if ( ! $ufmatch->find( true ) ||
+             $ufmatch->allowed_to_login == $allowedToLoginValue ) {
+            // if object does not exist or the login permission
+            // has not changed
+            return;
+        }
+        
+        // save the updated ufmatch object
+        $ufmatch->allowed_to_login = $allowedToLoginValue;
         $ufmatch->save( );
         $config =& CRM_Core_Config::singleton( );
     }
@@ -425,18 +459,44 @@ SET civicrm_contact.user_unique_id = %1 WHERE civicrm_contact.id = %2 ";
      * see if this user exists, and if so, if they're allowed to login
      *
      *
-     * @return int    contact_id on success, null otherwise
+     * @return bool     true if allowed to login, false otherwise
      * @access public
      * @static
      */
-    static function getAllowedToLogin( $user ) {
-        $ufmatch =& new CRM_Core_DAO_UFMatch();
-        $ufmatch->user_unique_id = $user->identity_url;
+    static function getAllowedToLogin( $openId ) {
+        $ufmatch =& new CRM_Core_DAO_UFMatch( );
+        $ufmatch->user_unique_id = $openId;
         $ufmatch->allowed_to_login = 1;
         if ( $ufmatch->find( true ) ) {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * get the next unused uf_id value, since the standalone UF doesn't
+     * have id's (it uses OpenIDs, which go in a different field)
+     *
+     *
+     * @return int     next highest unused value for uf_id
+     * @access public
+     * @static
+     */
+    static function getNextUfIdValue( ) {
+        $query = "SELECT MAX(uf_id)+1 AS next_uf_id FROM civicrm_uf_match";
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $query );
+        $result = $dao->getDatabaseResult( );
+        if ( $result ) {
+            $row = $result->fetchRow( );
+            if ( $row ) {
+                $ufId = $row['next_uf_id'];
+            }
+        }
+        if ( ! $ufId ) {
+            $ufId = 1;
+        }
+        return $ufId;
     }
 }
 ?>

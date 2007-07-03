@@ -13,10 +13,15 @@ if ( $response->status == Auth_OpenID_CANCEL ) {
     $openid = $response->identity_url;
     $sreg = $response->extensionResponse('sreg');
     $email = @$sreg['email'];
+    $fullname = @$sreg['fullname'];
+    $matches = array( );
+    preg_match("/^([\w ]+) (\w+)$/", $fullname, $matches);
+    $firstname = $matches[1];
+    $lastname = $matches[2];
   
     require_once 'user.php';
     require_once 'CRM/Utils/System/Standalone.php';
-    $user = new Standalone_User( $openid, $email );
+    $user = new Standalone_User( $openid, $email, $firstname, $lastname );
     require_once 'CRM/Core/Session.php';
     $allow_login = CRM_Utils_System_Standalone::getAllowedToLogin( $user );
     if ( !$allow_login && !CIVICRM_ALLOW_ALL) {
@@ -25,6 +30,9 @@ if ( $response->status == Auth_OpenID_CANCEL ) {
       exit ( 0 );
     }
     $session =& CRM_Core_Session::singleton( );
+    print "<pre>";
+    print_r($user);
+    print "</pre>";
     CRM_Utils_System_Standalone::getUserID( $user );
     $userID = $session->get( 'userID' );
     if ( empty( $userID ) ) {

@@ -14,7 +14,7 @@ require_once 'bootstrap_common.php';
 require_once 'CRM/Core/BAO/UFMatch.php';
 require_once 'user.php';
 require_once 'CRM/Utils/System/Standalone.php';
-$user &= new Standalone_User($ufname, $email, $firstname, $lastname);
+$user =& new Standalone_User($ufname, $email, $firstname, $lastname);
 CRM_Core_BAO_UFMatch::synchronize($user, true, "Standalone", "Individual");
 header("Location:try_auth.php?openid_url=$ufname");
 exit(0);

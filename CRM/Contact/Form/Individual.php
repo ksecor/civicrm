@@ -195,7 +195,7 @@ showHideSharedOptions();
         $errors = array( );
 
         $primaryOpenId = CRM_Contact_Form_Edit::formRule( $fields, $errors );
-        print "Primary OpenID: $primaryOpenId<br/>";
+        //print "Primary OpenID: $primaryOpenId<br/>";
         
         // check for state/country mapping
         CRM_Contact_Form_Address::formRule($fields, $errors);

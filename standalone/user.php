@@ -2,11 +2,11 @@
 
 class Standalone_User {
   
-  function Standalone_User( $identity_url, $email, $first_name = null, $last_name = null ) {
-    $this->identity_url = $identity_url;
+  function Standalone_User( $identityUrl, $email = null, $firstName = null, $lastName = null ) {
+    $this->identity_url = $identityUrl;
     $this->email = $email;
-    $this->first_name = $first_name;
-    $this->last_name = $last_name;
+    $this->first_name = $firstName;
+    $this->last_name = $lastName;
   }
 }
 

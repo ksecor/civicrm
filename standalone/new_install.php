@@ -6,9 +6,10 @@
 require_once 'auth_common.php';
 require_once "CRM/Core/BAO/UFMatch.php";
 $ar = CRM_Core_BAO_UFMatch::getContactIDs();
-if (!empty($ar[0]))
+if (count($ar) > 0) {
   header("Location:login.php");
   exit(0);
+}
 ?>
 <html>
 <head><title>New Installation-Add User</title></head>

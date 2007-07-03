@@ -1034,6 +1034,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                                           'data'       => self::getOpenActivities( $activityParam, 0, 3 ),
                                           'totalCount' => self::getNumOpenActivity( $params['contact_id'] ),
                                           );
+        
         return $contact;
     }
 

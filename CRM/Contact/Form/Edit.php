@@ -260,6 +260,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $ids = array();
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+
             $this->set( 'ids', $ids );
 
             $locationExists = array();
@@ -784,9 +785,9 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 }
                 require_once 'CRM/Core/BAO/Location.php';
                 //  for checking duplicate location type.
-                print "\$ids:";
-                print_r($ids);
-                print "<br/>";
+                //print "\$ids:";
+                //print_r($ids);
+                //print "<br/>";
                 if (CRM_Core_BAO_Location::dataExists( $fields, $locationId, $ids )) {
                     if ($locTypeId == $fields['location'][$locationId]['location_type_id']) {
                         $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type');

@@ -209,7 +209,7 @@ class CRM_Utils_System_Standalone {
       require_once 'CRM/Core/BAO/UFMatch.php';
       
       // this returns true if the user is allowed to log in, false o/w
-      $allow_login = CRM_Core_BAO_UFMatch::getAllowedToLogin( $user );
+      $allow_login = CRM_Core_BAO_UFMatch::getAllowedToLogin( $user->identity_url );
 	  return $allow_login;
     }
 

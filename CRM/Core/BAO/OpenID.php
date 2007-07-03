@@ -58,6 +58,7 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
      * @static
      */
     static function add( &$params, &$ids, $locationId, $openIdId, &$isPrimary ) {
+        /*
         print "adding an OpenID to the database<br/>";
         print "\$params:";
         print_r($params);
@@ -65,6 +66,7 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
         print "\$ids:";
         print_r($ids);
         print "<br/>";
+        */
         // if no data and we are not updating an exisiting record
         if ( ! self::dataExists( $params, $locationId, $openIdId, $ids ) ) {
             return null;
@@ -75,7 +77,6 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
         $openId->openid = $params['location'][$locationId]['openid'][$openIdId]['openid'];
         if ( empty( $openId->openid ) ) {
             $openId->delete( );
-            print "D'OH!<br/>";
             return null;
         }
         
@@ -91,12 +92,18 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
         
         if ( array_key_exists( 'allowed_to_login', $params['location'][$locationId]['openid'][$openIdId]) ) {
             
-            self::setAllowedToLogin( $openId,
+            if ( !empty( $params['contact_id'] ) ) {
+                $contactId = $params['contact_id'];
+
+                self::setAllowedToLogin( $openId, $contactId,
                 CRM_Utils_Array::value( 'allowed_to_login', $params['location'][$locationId]['openid'][$openIdId], false));
-            
-            return $openId;
+                
+                // Copied from Email.php, but I don't think we want to do
+                // this here (i.e. return)
+                //return $openId;
+            }
         }
-        print "saving OpenID<br/>";
+        //print "saving OpenID<br/>";
         return $openId->save();
     }
     
@@ -105,14 +112,14 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param int    $locationId
-     * @param int    $emailId
+     * @param int    $openIdId
      * @param array  $ids            the array that holds all the db ids
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function dataExists( &$params, $openIdId, &$ids) {
+    static function dataExists( &$params, $locationId, $openIdId, &$ids) {
         if ( CRM_Utils_Array::value( $openIdId, $ids['location'][$locationId]['openid'] ) ) {
             return true;
         }
@@ -135,7 +142,12 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
      */
     static function &getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
         $openId =& new CRM_Core_BAO_OpenID( );
-        return CRM_Core_BAO_Block::getValues( $openId, 'openid', $params, $values, $ids, $blockCount );
+        $blocks = CRM_Core_BAO_Block::getValues( $openId, 'openid', $params, $values, $ids, $blockCount );
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        foreach ( $values['openid'] as $idx => $oid ) {
+            $values['openid'][$idx]['allowed_to_login'] = CRM_Core_BAO_UFMatch::getAllowedToLogin( $oid['openid'] ) ? 1 : 0;
+        }
+        return $blocks;
     }
 
     /**
@@ -169,49 +181,27 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
     /**
      * Method to set whether or not an OpenID is allowed to login or not
      * 
-     * This method is used to set the allowed_to_login bit on the OpenID(s) 
-     * according to the 'allowedToLogin' value provided.
-     * 'Values' array contains values required to search for required
-     * OpenID record in update mode.
-     * An example Values array looks like : 
-     * 
-     * Values
-     *
-     * Array
-     * (
-     * [location] => Array
-     *      (
-     *       [2] => 92
-     *      )
-     *
-     * [openid] => Array
-     *      (
-     *       [1] => 170
-     *       [2] => 171
-     *       [3] => 172
-     *      )
-     *
-     * )
+     * This method is used to set the allowed_to_login bit on the UFMatch
+     * record according to the 'allowedToLogin' value provided.
      * 
      * @param object  $openIdDAO         (reference) OpenID dao object
-     * @param array   $values
-     * @param int     $locationBlockId   Location Block Number
-     * @param int     $openIDBlockId     OpenID Block Number
+     * @param int     $contactId         id of the contact to update
      * @param boolean $allowedToLogin    flag to indicate whether this
      *                                   OpenID can be used for login
      *
      */
-    public static function setAllowedToLogin( &$openIdDAO, $allowedToLogin = false) {
-        require_once 'CRM/Core/DAO/UFMatch.php';
-        $ufmatch =& new CRM_Core_DAO_UFMatch();
-        $ufmatch->user_unique_id = $openIdDAO->openid;
-        if ($allowedToLogin) {
-            $ufmatch->allowed_to_login = 1;
+    public static function setAllowedToLogin( &$openIdDAO, $contactId, $allowedToLogin = false ) {
+        // first make sure a ufmatch record exists, if not,
+        // this will create one
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        require_once 'standalone/user.php';
+        $user =& new Standalone_User( $openIdDAO->openid );
+        CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Standalone', 'Individual' );
+        if ( $allowedToLogin ) {
+            CRM_Core_BAO_UFMatch::setAllowedToLogin( $contactId, 1 );
         } else {
-            $ufmatch->allowed_to_login = 0;
+            CRM_Core_BAO_UFMatch::setAllowedToLogin( $contactId, 0 );
         }
-        
-        $ufmatch->save();
         return true;
     }
 }
