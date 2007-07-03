@@ -34,12 +34,10 @@
             <tr> {* <tr> for add / edit form buttons *}
       	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 
     	    </tr>
-             {if $action eq 4 }
-            {include file="CRM/Case/Form/CaseActivity.tpl"} 
+            {if $action eq 4 }
+              {include file="CRM/History/Selector/Activity.tpl"}   
             {/if}
- 
          </table>
-           
     </div>
 </fieldset>
       
