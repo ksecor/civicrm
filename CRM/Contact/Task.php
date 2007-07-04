@@ -113,9 +113,6 @@ class CRM_Contact_Task {
                                   11    => array( 'title'  => ts( 'Record Activity for Contacts'  ),
                                                   'class'  => 'CRM_Contact_Form_Task_Record',
                                                   'result' => true ),
-                                  12    => array( 'title'  => ts( 'Map Contacts'                  ),
-                                                  'class'  => 'CRM_Contact_Form_Task_Map',
-                                                  'result' => false ),
                                   13    => array( 'title'  => ts( 'New Smart Group'               ),
                                                   'class'  => 'CRM_Contact_Form_Task_SaveSearch',
                                                   'result' => true ),
@@ -133,7 +130,17 @@ class CRM_Contact_Task {
                                                                      'CRM_Contact_Form_Task_BatchUpdateProfile' ),
                                                   'result' => true ),
                                   );
-            
+           
+            //show map action only if map provider and key is set
+            $config =& CRM_Core_Config::singleton( );
+
+            if ( $config->mapProvider && $config->mapAPIKey ) {
+                self::$_tasks[12] = array( 'title'  => ts( 'Map Contacts'),
+                                           'class'  => 'CRM_Contact_Form_Task_Map',
+                                           'result' => false );
+            }
+
+ 
             if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
                 self::$_tasks[18] = array( 'title'  => ts( 'Add Contacts to Event' ),
                                            'class'  => 'CRM_Event_Form_Participant',
