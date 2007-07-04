@@ -52,36 +52,41 @@ class CRM_Contact_BAO_Export {
         $primary          = false;
         $returnProperties = array( );
         $origFields       = $fields;
-
-         if ($fields) {
-             //construct return properties 
-             $locationTypes =& CRM_Core_PseudoConstant::locationType();
-
-             foreach ( $fields as $key => $value) {
-                 $contactType = CRM_Utils_Array::value( 0, $value );
-                 $fieldName   = CRM_Utils_Array::value( 1, $value );
-                 $locTypeId   = CRM_Utils_Array::value( 2, $value );
-                 $phoneTypeId = CRM_Utils_Array::value( 3, $value );
-
-                 if (is_numeric($locTypeId)) {
-                     if ($phoneTypeId) {
-                         $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
-                     } else {
-                         $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
-                     }
-                 } else {
-                     $returnProperties[$fieldName] = 1;
-                 }
-             }
-         } else {
-             $primary = true;
-             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
-             foreach ($fields as $key => $var) { 
-                 if ( $key &&
-                      ( substr($key,0, 6) !=  'custom' ) ) { //for CRM=952
-                     $returnProperties[$key] = 1;
-                 }
-             }
+        
+        if ( $fields ) {
+            //construct return properties 
+            $locationTypes =& CRM_Core_PseudoConstant::locationType();
+            
+            foreach ( $fields as $key => $value) {
+                $fieldName   = CRM_Utils_Array::value( 1, $value );
+                
+                if ( ! $fieldName ) {
+                    continue;
+                }
+                
+                $contactType = CRM_Utils_Array::value( 0, $value );
+                $locTypeId   = CRM_Utils_Array::value( 2, $value );
+                $phoneTypeId = CRM_Utils_Array::value( 3, $value );
+                
+                if ( is_numeric($locTypeId) ) {
+                    if ($phoneTypeId) {
+                        $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
+                    } else {
+                        $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
+                    }
+                } else {
+                    $returnProperties[$fieldName] = 1;
+                }
+            }
+        } else {
+            $primary = true;
+            $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
+            foreach ($fields as $key => $var) { 
+                if ( $key &&
+                     ( substr($key,0, 6) !=  'custom' ) ) { //for CRM=952
+                    $returnProperties[$key] = 1;
+                }
+            }
         }
         
         if ($primary) {
@@ -93,7 +98,6 @@ class CRM_Contact_BAO_Export {
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
-
 
         $session =& CRM_Core_Session::singleton( );
 
@@ -160,9 +164,6 @@ class CRM_Contact_BAO_Export {
         $dao =& CRM_Core_DAO::executeQuery( $queryString, CRM_Core_DAO::$_nullArray );
         $header = false;
 
-        //fix for location type name having spaces in it.
-        //print_r($returnProperties);
-
         $contactDetails = array( );
         while ($dao->fetch()) {
             $row = array( );
@@ -222,11 +223,18 @@ class CRM_Contact_BAO_Export {
                             $headerRows[] = $query->_fields['id']['title'];
                         } else {
                             $keyArray = explode('-', $key);
-                            $hdr      = $keyArray[0] . "-" . $query->_fields[$keyArray[1]]['title'];
+                            
+                            $hdr      = $keyArray[0];
+
+                            if ( CRM_Utils_Array::value( 1, $keyArray ) ) {
+                                $hdr .= "-" . $query->_fields[$keyArray[1]]['title'];
+                            }
+
                             if ( CRM_Utils_Array::value( 2, $keyArray ) ) {
                                 $hdr .= " " . $keyArray[2];
                             }
                             $headerRows[] = $hdr;
+                        
                         }
                     }
                 }
