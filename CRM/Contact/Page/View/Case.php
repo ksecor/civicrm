@@ -74,6 +74,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $session =& CRM_Core_Session::singleton();
         $this->assign( 'totalCountOpenActivity',
                        CRM_Contact_BAO_Contact::getNumOpenActivity( $this->_contactId ) );
+        $this->assign( 'caseId',$this->_id);
         require_once 'CRM/Contact/Selector/Activity.php' ;
         require_once 'CRM/Core/Selector/Controller.php';
         $output = CRM_Core_Selector_Controller::SESSION;
@@ -87,6 +88,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $action = array_sum(array_keys($links));
         $controller->run();
         $controller->moveFromSessionToTemplate( );
+        
     }
 
     /**

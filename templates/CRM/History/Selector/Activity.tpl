@@ -1,10 +1,11 @@
 {* Open Activities table and Activity History are toggled on this page for now because we don't have a solution for including 2 'selectors' on one page. *}
 {if $history NEQ 1}
     {* Showing Open Activities *}
-    {if $totalCountOpenActivity}
+    {if $totalCountOpenActivity and $caseview NEQ 1}
         <div class="section-shown">
         <fieldset><legend><a href="{crmURL p='civicrm/contact/view' q="show=1&action=browse&history=1&selectedChild=activity&cid=$contactId"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Open Activities{/ts}</legend>
-    {else}
+    
+    {elseif !$totalCountOpenActivity and $caseview NEQ 1} 
         <div class="section-hidden section-hidden-border">
         <dl><dt>{ts}Open Activities{/ts}</dt>
         {if $permission EQ 'edit'}
@@ -74,8 +75,7 @@
              <td>{$row.action}</td>
            </tr>
         {else}
-    {debug}
-           <tr class="{cycle values="odd-row,even-row"}">
+            <tr class="{cycle values="odd-row,even-row"}">
             <td>{$row.activity_type}</td>
             {if $caseview eq 1}
                 
@@ -123,9 +123,12 @@
     {/if}
     </fieldset>
     </div>
+{elseif $caseview EQ 1 AND !$rows}
+    <div class="section-hidden section-hidden-border">
+    <dl>{ts}No Activites Recorded for this case. <a href="{crmURL p='civicrm/contact/view/activity/' q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`"}"> Record a new Activity. </a>{/ts}</dl>
+    </div>
 {/if}
-
-{if $history NEQ 1}
+{if $history NEQ 1 AND $caseview NEQ 1}
     {* Showing Open Activities - give link for History toggle *}
     <div id="activityHx_show" class="section-hidden section-hidden-border">
         {if $totalCountActivity}
