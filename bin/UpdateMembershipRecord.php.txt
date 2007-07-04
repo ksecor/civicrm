@@ -40,7 +40,7 @@ require_once 'CRM/Core/Config.php';
 require_once 'api/crm.php';
 require_once 'CRM/Member/BAO/Membership.php';
 require_once 'CRM/Contact/DAO/Contact.php';
-require_once "CRM/Member/BAO/MessageTemplates.php";
+require_once "CRM/Core/BAO/MessageTemplates.php";
 require_once "CRM/Member/BAO/MembershipType.php";
 require_once 'CRM/Member/BAO/MembershipLog.php';
 require_once "CRM/Utils/Date.php";
@@ -113,7 +113,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                         // Set the FROM email address for reminder emails here.
                         // This must be a valid account for your SMTP service.
                         $from = "EMAIL@FIXME.ORG";
-                        CRM_Member_BAO_MessageTemplates::sendReminder( $dao->contact_id,
+                        CRM_Core_BAO_MessageTemplates::sendReminder( $dao->contact_id,
                                                                        $toEmail,
                                                                        $domainID,
                                                                        $memType->renewal_msg_id,
