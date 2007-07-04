@@ -39,12 +39,12 @@
   <administration>
     <menu>CiviCRM</menu>
                 <submenu>
-                        <menu task="civicrm/dashboard&reset=1">CiviCRM Home</menu>
-                        <menu task="civicrm/contact/search&reset=1">Find Contacts</menu>
-                        <menu task="civicrm/group&reset=1">Manage Groups</menu>
-                        <menu task="civicrm/import&reset=1">Import Contacts</menu>
-                        <menu task="civicrm/contribute&reset=1">CiviContribute</menu>
-                        <menu task="civicrm/admin&reset=1">Administer CiviCRM</menu>
+                        <menu task="civicrm/dashboard&amp;reset=1">CiviCRM Home</menu>
+                        <menu task="civicrm/contact/search&amp;reset=1">Find Contacts</menu>
+                        <menu task="civicrm/group&amp;reset=1">Manage Groups</menu>
+                        <menu task="civicrm/import&amp;reset=1">Import Contacts</menu>
+                        <menu task="civicrm/contribute&amp;reset=1">CiviContribute</menu>
+                        <menu task="civicrm/admin&amp;reset=1">Administer CiviCRM</menu>
                 </submenu>
     <files>
       <filename>admin.civicrm.php</filename>
