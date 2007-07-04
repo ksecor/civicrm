@@ -147,9 +147,24 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
      */
     public function postProcess( ) {
         $params = $this->controller->exportValues( $this->_name );
+        
+        $advanced = null;
+        $builder  = null;
+        $session =& CRM_Core_Session::singleton();
+        $advanced = $session->get('isAdvanced');
+        $builder  = $session->get('isSearchBuilder');
+        
+        $redirectPage = 'basic';
+        
+        if ( $advanced == 1 ) {
+            $redirectPage = 'advanced';
+        } else if ( $advanced == 2 && $builder = 1) {
+            $redirectPage = 'builder';
+        }
+
         //To Refresh the Page 
         //updated for CRM-965
-        
+
         //get the button name
         $buttonName = $this->controller->getButtonName('done');
         $buttonName1 = $this->controller->getButtonName('next');
@@ -160,7 +175,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                 $this->set('savedMapping', null);
             }
             $this->controller->resetPage( $this->_name );
-            return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'force=1') );
+            return CRM_Utils_System::redirect( CRM_Utils_System::url("civicrm/contact/search/{$redirectPage}", 'force=1') );
         }
 
 
@@ -189,7 +204,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         if (!$checkEmpty ) {
             $this->set('savedMapping', null);
             require_once 'CRM/Utils/System.php';            
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', '_qf_Map_display=true' ) );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( "civicrm/contact/search/{$redirectPage}", '_qf_Map_display=true' ) );
         }
 
         //when Export button is clicked then save the details 

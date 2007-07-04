@@ -58,12 +58,9 @@
             {$form.shared_option.html}
         </div>
         <div id="shared_household" class="form-item">
-            <span class="labels">
-                {$form.shared_household.label}
-            </span>
-            <span class="fields">
-                {$form.shared_household.html}
-            </span>
+            {$form.shared_household.html}
+            <br />
+            <span class="description">{ts}Enter the first letters of the name of the household to see available households with their addresses.{/ts}</span> 
         </div>
         <div id="create_household" class="form-item">
             <span class="labels">
