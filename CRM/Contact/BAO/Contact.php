@@ -1550,23 +1550,23 @@ WHERE civicrm_contact.id IN $idString ";
             $clause = null;
             $params = array( );
         } else {
-            $clause = " target_entity_id = %1 OR source_contact_id = %1 ";
+            $clause = " target_entity_id = %1 OR source_contact_id = %1 AND  ";
             $params = array( 1 => array( $id, 'Integer' ) );
         } 
 
         $query = "SELECT count(*) FROM civicrm_meeting
-                  WHERE   ( $clause )  AND (civicrm_meeting.id 
+                  WHERE  $clause ( civicrm_meeting.id 
                   NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Meeting'))  ";
         
         $rowMeeting = CRM_Core_DAO::singleValueQuery( $query, $params );
         
         $query = "SELECT count(*) FROM civicrm_phonecall
-                  WHERE   ( $clause ) AND (civicrm_phonecall.id 
+                  WHERE  $clause  (civicrm_phonecall.id 
                   NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Phonecall'))";
         $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query, $params ); 
 
         $query = "SELECT count(*) FROM civicrm_activity
-                  WHERE   ( $clause ) AND (civicrm_activity.id 
+                  WHERE $clause (civicrm_activity.id 
                   NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Activity'))";
         $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
         
