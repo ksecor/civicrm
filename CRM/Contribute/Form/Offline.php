@@ -75,7 +75,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         // also check for billing information
         // get the billing location type
         $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-        $this->_bltID = array_search( ts('Billing'),  $locationTypes );
+        $this->_bltID = array_search( 'Billing',  $locationTypes );
         if ( ! $this->_bltID ) {
             CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
         }
