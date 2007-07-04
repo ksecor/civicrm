@@ -286,7 +286,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
             $this->assign("pastURL", $url);
         } else {
-            $url = CRM_Utils_System::url( 'civicrm/contact/search',
+            $currentPath = CRM_Utils_System::currentPath( );
+            $url = CRM_Utils_System::url( $currentPath,
                                           '_qf_Participant_display=true' );
             $this->assign("refreshURL",$url);
         }
