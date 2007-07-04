@@ -457,8 +457,8 @@ class CRM_Core_PseudoConstant
      */
     public static function &stateProvince($id = false, $limit = true)
     {
-        if (!self::$stateProvince) {
-            $whereClause = 'false';
+        if ( !self::$stateProvince ) {
+            $whereClause = false;
             $config =& CRM_Core_Config::singleton();
             if ( $limit ) {
                 // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
@@ -471,7 +471,7 @@ class CRM_Core_PseudoConstant
                 if ( !empty($limitIds) ) {
                     $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
                 } else {
-                    $whereClause = 'false';
+                    $whereClause = false;
                 }
             }
             self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true, 'name', 'is_active', $whereClause );
@@ -509,7 +509,7 @@ class CRM_Core_PseudoConstant
         if (!self::$stateProvinceAbbreviation) {
 
             // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
-            $whereClause = 'false';
+            $whereClause = false;
 
             if ( $limit ) {
                 $config =& CRM_Core_Config::singleton();
