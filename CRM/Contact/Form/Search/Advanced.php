@@ -73,7 +73,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             ts('Notes')                 => 'notes'          ,
                             ts('Change Log')            => 'changeLog'      ,
                             ts('Cases')                 => 'caseSearch'     ,
-                            ts('Case Activities')       => 'caseActivity'   );
+                            ts('Case Activities')       => 'caseActivity'   ,
+                            ts('Grants')                => 'grant'          );
 
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $paneNames[ts('Contributions')] = 'contribute';
@@ -101,7 +102,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
+        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );  
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$name] ) {
                 continue;

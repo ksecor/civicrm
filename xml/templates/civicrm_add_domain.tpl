@@ -99,7 +99,8 @@ VALUES
    (@domain_id, 'advanced_search_options'       , '{ts}Advanced Search Options{/ts}'            , 0, 1),
    (@domain_id, 'user_dashboard_options'        , '{ts}User Dashboard Options{/ts}'             , 0, 1),
    (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1),
-   (@domain_id, 'grant_status'                  , '{ts}Grant status{/ts}'                       , 0, 1);
+   (@domain_id, 'grant_status'                  , '{ts}Grant status{/ts}'                       , 0, 1),
+   (@domain_id, 'grant_type'                    , '{ts}Grant Type{/ts}'                         , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -121,6 +122,7 @@ SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
 SELECT @option_group_id_adOpt          := max(id) from civicrm_option_group where name = 'address_options';
 SELECT @option_group_id_grantSt        := max(id) from civicrm_option_group where name = 'grant_status';
+SELECT @option_group_id_grantTyp       := max(id) from civicrm_option_group where name = 'grant_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -232,6 +234,8 @@ VALUES
   (@option_group_id_asOpt, '{ts}Cases{/ts}'               ,  11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Case Activities{/ts}'     ,  12, NULL, NULL, 0, NULL, 12, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Kabissa{/ts}'             ,  13, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts}Grants{/ts}'              ,  14, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1 ),
+
 
   (@option_group_id_udOpt, '{ts}Groups{/ts}'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, '{ts}Contributions{/ts}', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
@@ -252,8 +256,11 @@ VALUES
 
   (@option_group_id_grantSt, '{ts}Pending{/ts}',  1, 'Pending',  NULL, 0, 1,    1, NULL, 0, 0, 1),
   (@option_group_id_grantSt, '{ts}Granted{/ts}',  2, 'Granted',  NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_grantSt, '{ts}Rejected{/ts}', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1);
-
+  (@option_group_id_grantSt, '{ts}Rejected{/ts}', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_grantTyp, '{ts}Emergency{/ts}'          , 1, 'Emergency'         , NULL, 0, 1,    1, NULL, 0, 0, 1),    
+  (@option_group_id_grantTyp, '{ts}Family Support{/ts}'     , 2, 'Family Support'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_grantTyp, '{ts}General Protection{/ts}' , 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_grantTyp, '{ts}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1);
 -- sample membership status entries
 INSERT INTO
     civicrm_membership_status(domain_id, name, start_event, start_event_adjust_unit, start_event_adjust_interval, end_event, end_event_adjust_unit, end_event_adjust_interval, is_current_member, is_admin, weight, is_default, is_active)
