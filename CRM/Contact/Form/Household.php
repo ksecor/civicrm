@@ -133,7 +133,7 @@ class CRM_Contact_Form_Household
         require_once 'api/v2/Location.php';
         $locParams = array( 'contact_id' => $householdContactID );
         $values =& _civicrm_location_get( $locParams, $location_types );
-        
+
         $query =  "SELECT contact_id from civicrm_individual where mail_to_household_id=$householdContactID";
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
@@ -142,18 +142,31 @@ class CRM_Contact_Form_Household
             $params = array();
             
             $idParams = array( 'id' => $dao->contact_id, 'contact_id' => $dao->contact_id );
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+            $ids =& _civicrm_location_get( $idParams, $dnc );
             
             $params['contact_id']                      = $dao->contact_id;
             $params['location'][1]['address']          = $values[1]['address'];
             $params['location'][1]['location_type_id'] = $values[1]['location_type_id'];
+            $params['location'][1]['is_primary']       = 1;
             
+            // removing unwanted ids from the params array
             $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
             foreach ( $unsetFields as $fld ) {
                 unset( $params['location'][1]['address'][$fld] );
             }
-            CRM_Core_BAO_Location::add( $params, $ids, 1 );
-            unset($params);
+            
+            // building new ids array of only those ids which needs to
+            // be updated
+            $releventIDs                  = array();
+            $releventIDs['contact']       = $dao->contact_id;
+            $releventIDs['location']      = array();
+            $releventIDs['location']['1'] = array();
+            
+            $releventIDs['location']['1']['id']      = $ids['1']['id'];
+            $releventIDs['location']['1']['address'] = $ids['1']['address']['id'];
+            
+            CRM_Core_BAO_Location::add( $params, $releventIDs, 1 );
+            unset($params, $ids);
         }
     }
 }

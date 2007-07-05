@@ -2640,11 +2640,10 @@ WHERE     civicrm_contact.id = %1";
             $newOrg['contact_type'     ] = 'Organization';
             $newOrg['organization_name'] = $organizationName ;
 
-            require_once "CRM/Contact/Form/Edit.php";
-            $orgName = CRM_Contact_BAO_Contact::create($newOrg, 
-                                                       $orgId, 
-                                                       CRM_Contact_Form_Edit::LOCATION_BLOCKS );
-            
+            require_once 'CRM/Core/BAO/Preferences.php';
+            $orgName = self::create($newOrg, 
+                                    $orgId, 
+                                    CRM_Core_BAO_Preferences::value( 'location_count' ) );
             //create relationship
             $relationshipParams['contact_check'][$orgName->id] = 1;
 

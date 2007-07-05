@@ -116,10 +116,10 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
        
-        $urlParams = '_qf_Record_display=true&qfKey=6992f19490a5565333dc843ed6438ed2';
-        $url = CRM_Utils_System::url( 'civicrm/contact/search/basic',
-                                      $urlParams );
+        $currentPath = CRM_Utils_System::currentPath( );
+        $url = CRM_Utils_System::url( $currentPath, '_qf_Record_display=true', true, null, false  );
         $this->assign("refreshURL",$url); 
+        
         $session =& CRM_Core_Session::singleton( ); 
         $this->_userID  =  $session->get( 'userID' ); 
         list( $this->_displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_userID ); 

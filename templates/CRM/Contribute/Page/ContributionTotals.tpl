@@ -14,7 +14,8 @@
       <tr>
       {if $contributionSummary.total.amount}
         <th class="right">{ts}Total Amount{/ts} - {$contributionSummary.total.amount|crmMoney}</th>
-        <th class="right" {if $mode eq 'view'}width="138px" {/if}> &nbsp; {ts}# Contributions{/ts} - {$contributionSummary.total.count}</th>
+        <th class="right" width="39px"> &nbsp; </th>
+        <th class="right"> &nbsp; {ts}# Contributions{/ts} - {$contributionSummary.total.count}</th>
         <th class="right"> &nbsp; {ts}Avg Amount{/ts} - {$contributionSummary.total.avg|crmMoney}</th>
       {/if}
       {if $contributionSummary.cancel.amount}

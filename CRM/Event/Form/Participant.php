@@ -105,12 +105,38 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }
         
-        // action
-        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
-            
-        $this->assign( 'action'  , $this->_action   ); 
-        
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+
+        //check the mode when this form is called either single or as
+        //search task action
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        if ( $this->_id || $this->_contactID ) {
+            $this->_single = true;
+        } else {
+            //set the appropriate action
+            $advanced = null;
+            $builder  = null;
+
+            $session =& CRM_Core_Session::singleton();
+            $advanced = $session->get('isAdvanced');
+            $builder  = $session->get('isSearchBuilder');
+            
+            if ( $advanced == 1 ) {
+                $this->_action = CRM_Core_Action::ADVANCED;
+            } else if ( $advanced == 2 && $builder = 1) {
+                $this->_action = CRM_Core_Action::PROFILE;
+            }
+            
+            parent::preProcess( );
+            $this->_single    = false;
+            $this->_contactID = null;
+        }
+        
+        $this->assign( 'single', $this->_single );
+        
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
+
+        $this->assign( 'action'  , $this->_action   ); 
 
         if ( $this->_id ) {
             $ids = array( );
@@ -120,7 +146,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->_eId = $defaults[$this->_id]['event_id'];
         }
 
-        if( CRM_Utils_Request::retrieve( 'eid', 'Positive', $this ) ) {
+        if ( CRM_Utils_Request::retrieve( 'eid', 'Positive', $this ) ) {
             $this->_eId       = CRM_Utils_Request::retrieve( 'eid', 'Positive', $this );            
         }
 
@@ -147,18 +173,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->_roleId = 'Role';
             }
         }
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Participant", $this->_id, 0, $this->_roleId );
 
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-        if ( $this->_id || $this->_contactID ) {
-            $this->_single = true;
-        } else {
-            parent::preProcess( );
-            $this->_single    = false;
-            $this->_contactID = null;
-        }
-        
-        $this->assign( 'single', $this->_single );
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Participant", $this->_id, 0, $this->_roleId );
     }
 
     
@@ -286,8 +302,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
             $this->assign("pastURL", $url);
         } else {
-            $url = CRM_Utils_System::url( 'civicrm/contact/search',
-                                          '_qf_Participant_display=true' );
+            $currentPath = CRM_Utils_System::currentPath( );
+            $url = CRM_Utils_System::url( $currentPath, '_qf_Participant_display=true',
+                                          true, null, false  );
             $this->assign("refreshURL",$url);
         }
         
