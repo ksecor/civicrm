@@ -189,11 +189,11 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
      */
     static function retrieve( &$params, &$defaults ) 
     {
-        $event  = new CRM_Grant_DAO_Grant( );
-        $event->copyValues( $params );
-        if ( $event->find( true ) ) {
-            CRM_Core_DAO::storeValues( $event, $defaults );
-            return $event;
+        $grant  = new CRM_Grant_DAO_Grant( );
+        $grant->copyValues( $params );
+        if ( $grant->find( true ) ) {
+            CRM_Core_DAO::storeValues( $grant, $defaults );
+            return $grant;
         }
         return null;
     }
@@ -260,7 +260,18 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         if ( !$id ) {
             $id = $params['contact_id'];
         } 
-                
+        if ( CRM_Utils_Array::value('note', $params) ) {
+            require_once 'CRM/Core/BAO/Note.php';
+            $noteParams = array(
+                                'entity_table'  => 'civicrm_grant',
+                                'note'          => $params['note'],
+                                'entity_id'     => $grant->id,
+                                'contact_id'    => $id,
+                                'modified_date' => date('Ymd')
+                                );
+            
+            CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
+        }        
         // Log the information on successful add/edit of Grant
         require_once 'CRM/Core/BAO/Log.php';
         $logParams = array(

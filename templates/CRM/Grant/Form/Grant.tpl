@@ -56,6 +56,8 @@
 
             <tr><td class="label">{$form.amount_total.label}</td><td>{$form.amount_total.html}</td></tr>
 
+            <tr><td class="label">{$form.note.label}</td><td>{$form.note.html}</td></tr>
+
             <tr> {* <tr> for add / edit form buttons *}
       	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 
     	    </tr> 

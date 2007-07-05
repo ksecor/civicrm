@@ -68,12 +68,28 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
     public function preProcess()  
     {  
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-    }
+        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
 
+        if ( $this->_id) {
+            require_once 'CRM/Core/BAO/Note.php';
+            $noteDAO               = & new CRM_Core_BAO_Note();
+            $noteDAO->entity_table = 'civicrm_grant';
+            $noteDAO->entity_id    = $this->_id;
+            if ( $noteDAO->find(true) ) {
+                $this->_noteId = $noteDAO->id;
+            }
+        }
+    }
+    
     function setDefaultValues( ) 
     {
         $defaults = array( );
         $defaults = parent::setDefaultValues();
+        $params['id'] =  $this->_id;
+        if ( $this->_noteId ) {
+            $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
+        }
+        CRM_Grant_BAO_Grant::retrieve( $params, $defaults);
         return $defaults;
     }
     
@@ -93,11 +109,11 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Grant/BAO/Grant.php';        
-        $caseSubType = CRM_Core_OptionGroup::values( CRM_Grant_BAO_Grant::$typeGroupName );
+        $caseSubType = CRM_Core_OptionGroup::values( 'grant_type' );
         $this->add('select', 'grant_type_id',  ts( 'Grant Type' ),
                    array( '' => ts( '-select-' ) ) + $caseSubType , false);
 
-        $caseSubType = CRM_Core_OptionGroup::values( CRM_Grant_BAO_Grant::$statusGroupName );
+        $caseSubType = CRM_Core_OptionGroup::values( 'grant_status' );
         $this->add('select', 'status_id',  ts( 'Grant Status' ),
                    array( '' => ts( '-select-' ) ) + $caseSubType , true);
 
@@ -122,11 +138,17 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         $this->add('textarea', 'rationale', ts('Rationale'));
         
-        $this->add( 'text', 'amount_total', ts('Amount total') ); 
+        $this->add( 'text', 'amount_total', ts('Amount total') );
+        $this->addRule('amount_total', ts('Please enter a valid amount.'), 'money'); 
         
-        $this->add( 'text', 'amount_granted', ts('Amount granted') );         
+        $this->add( 'textarea', 'amount_granted', ts('Amount granted') );         
+        $this->addRule('amount_granted', ts('Please enter a valid amount.'), 'money'); 
 
         $this->add( 'text', 'amount_requested', ts('Amount requested') );
+        $this->addRule('amount_requested', ts('Please enter a valid amount.'), 'money'); 
+
+        $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
+        $this->add( 'textarea', 'note', ts('Notes'), $noteAttributes['note'] );
 
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
@@ -175,6 +197,12 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $formValues['decision_date'] = CRM_Utils_Date::format($formValues['decision_date']);
         $formValues['money_transfer_date'] = CRM_Utils_Date::format($formValues['money_transfer_date']);
         $formValues['grant_due_date'] = CRM_Utils_Date::format($formValues['grant_due_date']);
+       
+        $ids['note'] = array( );
+        if ( $this->_noteId ) {
+            $ids['note']['id']   = $this->_noteId;
+        }
+
         require_once 'CRM/Grant/BAO/Grant.php';
         $case =  CRM_Grant_BAO_Grant::create($formValues ,$ids);
         
