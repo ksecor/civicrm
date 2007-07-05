@@ -220,7 +220,7 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         
         $grant =& new CRM_Grant_DAO_Grant( );
         $grant->domain_id = CRM_Core_Config::domainID( );
-        $grant->id = CRM_Utils_Array::value( 'event_id', $ids );
+        $grant->id = CRM_Utils_Array::value( 'grant', $ids );
         
         $grant->copyValues( $params );
         $result = $grant->save( );
@@ -308,9 +308,9 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
     }
      
     /**
-     * Function to delete the event
+     * Function to delete the grant
      *
-     * @param int $id  event id
+     * @param int $id  grant id
      *
      * @access public
      * @static
@@ -318,65 +318,13 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
      */
     static function del( $id )
     { 
-        require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::deleteContact( $id, 'civicrm_event' );
-        
-        $dependencies = array(
-                  'CRM_Core_DAO_CustomValue'   =>
-                             array(
-                                   'entity_id'      => $id,
-                                   'entity_table'   => 'civicrm_event' ),
-                  'CRM_Core_DAO_CustomOption'  => 
-                             array( 
-                                   'event_id'       => $id,
-                                   'entity_table'   => 'civicrm_event_page' ),
-                  'CRM_Grant_DAO_GrantPage'    => 
-                             array( 
-                                   'event_id'       => $id ),
-                  'CRM_Core_DAO_UFJoin'        => 
-                             array(
-                                   'entity_id'      => $id,
-                                   'entity_table'   => 'civicrm_event' ),
-                  );
-        
-        foreach ( $dependencies as $daoName => $values ) {
-            require_once (str_replace( '_', DIRECTORY_SEPARATOR, $daoName ) . ".php");
-            eval('$dao =& new ' . $daoName . '( );');
-
-            if ( $daoName == 'CRM_Core_DAO_CustomOption' ) {
-                require_once 'CRM/Grant/DAO/GrantPage.php';
-                $eventPage = new CRM_Grant_DAO_GrantPage( );
-                $eventPage->event_id = $values['event_id'];
-                $eventPage->find( );
-                while ( $eventPage->fetch( ) ) {
-                    eval('$dao =& new ' . $daoName . '( );');
-                    $dao->entity_id    = $eventPage->id;
-                    $dao->entity_table = $values['entity_table'];
-                    $dao->find( );
-                    while ( $dao->fetch( ) ) {
-                        $dao->delete( );
-                    }
-                }
-            } else {
-                foreach ( $values as $fieldName => $fieldValue ) {
-                    $dao->$fieldName = $fieldValue;
-                }
-                
-                $dao->find();
-                
-                while ( $dao->fetch() ) {
-                    $dao->delete();
-                }
-            }
-        }
-        
         require_once 'CRM/Grant/DAO/Grant.php';
-        $event     = & new CRM_Grant_DAO_Grant( );
-        $event->id = $id; 
+        $grant     = & new CRM_Grant_DAO_Grant( );
+        $grant->id = $id; 
         
-        $event->find();
-        while ($event->fetch() ) {
-            return $event->delete();
+        $grant->find();
+        while ($grant->fetch() ) {
+            return $grant->delete();
         }
         return false;
     }

@@ -78,18 +78,27 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             if ( $noteDAO->find(true) ) {
                 $this->_noteId = $noteDAO->id;
             }
-        }
+        } 
     }
     
     function setDefaultValues( ) 
     {
         $defaults = array( );
         $defaults = parent::setDefaultValues();
+        
         $params['id'] =  $this->_id;
         if ( $this->_noteId ) {
             $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
         }
-        CRM_Grant_BAO_Grant::retrieve( $params, $defaults);
+        if ( $this->_id){
+            CRM_Grant_BAO_Grant::retrieve( $params, $defaults);
+        } else {
+            $now = date("Y-m-d");
+            $defaults['decision_date']             = $now;
+            $defaults['application_received_date'] = $now;
+            $defaults['grant_due_date']            = $now;
+            $defaults['money_transfer_date']       = $now;
+        }
         return $defaults;
     }
     
@@ -109,30 +118,34 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Grant/BAO/Grant.php';        
-        $caseSubType = CRM_Core_OptionGroup::values( 'grant_type' );
+        $grantType = CRM_Core_OptionGroup::values( 'grant_type' );
         $this->add('select', 'grant_type_id',  ts( 'Grant Type' ),
-                   array( '' => ts( '-select-' ) ) + $caseSubType , false);
+                   array( '' => ts( '-select-' ) ) + $grantType , false);
 
-        $caseSubType = CRM_Core_OptionGroup::values( 'grant_status' );
+        $grantStatus = CRM_Core_OptionGroup::values( 'grant_status' );
         $this->add('select', 'status_id',  ts( 'Grant Status' ),
-                   array( '' => ts( '-select-' ) ) + $caseSubType , true);
+                   array( '' => ts( '-select-' ) ) + $grantStatus , true);
 
 
         $this->add( 'date', 'application_received_date', ts('Application Received date'),
-                    CRM_Core_SelectValues::date('date' ),
+                    CRM_Core_SelectValues::date( 'manual',20,10 ),
                     false);
+        $this->addRule('application_received_date', ts('Select a valid date.'), 'qfDate'); 
 
         $this->add( 'date', 'decision_date', ts('Grant decision date'),
-                    CRM_Core_SelectValues::date('date' ),
+                    CRM_Core_SelectValues::date( 'manual',20,10 ),
                     false);
+        $this->addRule('decision_date', ts('Select a valid date.'), 'qfDate');
                     
         $this->add( 'date', 'money_transfer_date', ts('Money transfer date'),
-                    CRM_Core_SelectValues::date('date' ),
+                    CRM_Core_SelectValues::date( 'manual',20,10 ),
                     false);
+        $this->addRule('money_transfer_date', ts('Select a valid date.'), 'qfDate');  
 
         $this->add( 'date', 'grant_due_date', ts('Grant report due date'),
-                    CRM_Core_SelectValues::date('date' ),
+                    CRM_Core_SelectValues::date('manual',20,10 ),
                     false);
+        $this->addRule('grant_due_date', ts('Select a valid date.'), 'qfDate');
 
         $this->addElement('checkbox','grant_report_received', ts('Grant report received?'),null );
 
@@ -149,19 +162,32 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
         $this->add( 'textarea', 'note', ts('Notes'), $noteAttributes['note'] );
+        
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+            $this->freeze( );
+            $this->addButtons(array(  
+                                    array ( 'type'      => 'next',  
+                                            'name'      => ts('Done'),  
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',  
 
-        $this->addButtons(array( 
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Save'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ), 
-                                array ( 'type'      => 'cancel', 
-                                        'name'      => ts('Cancel') ), 
-                                ) 
-                          );
-    }
-    
-    /**  
+                                            'isDefault' => true   )
+                                    )
+                              );
+        
+        }else {
+
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next',
+                                            'name'      => ts('Save'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
+        }
+    }   
+        /**  
      * global form rule  
      *  
      * @param array $fields  the input form values  
@@ -185,9 +211,15 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      * @return None 
      */ 
     public function postProcess( )  
-     { 
+    { 
+        if( $this->_action & CRM_Core_Action::VIEW ) {
+            return;
+        }
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
+        }
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $ids['grant'] = $this->_id ;
         }
         
         // get the submitted form values.  

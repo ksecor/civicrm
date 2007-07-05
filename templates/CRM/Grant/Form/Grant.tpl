@@ -2,7 +2,7 @@
 <fieldset>
     <legend>{ts}New Grant Registration{/ts}</legend>
     <div class="form-item">
-        <table class="form-layout">  
+        <table class="form-layout-compressed">  
 
 
             <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>   
@@ -12,7 +12,7 @@
 
             <tr><td class="label">{$form.application_received_date.label}</td>
                 <td>{$form.application_received_date.html}
-	        {if $hideCalender neq true}<br />
+	        {if $hideCalender neq true and $action neq 4}<br />
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case1}
     	            {include file="CRM/common/calendar/body.tpl" 
                              dateVar=application_received_date offset=3 doTime=1 trigger=trigger_case1}
@@ -20,8 +20,8 @@
             </td></tr>
 
             <tr><td class="label">{$form.decision_date.label}</td>
-                <td>{$form.decision_date.html}
-	        {if $hideCalender neq true}<br />
+                <td>{$form.decision_date.html }
+	        {if $hideCalender neq true and $action neq 4}<br />
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case1}
     	            {include file="CRM/common/calendar/body.tpl" 
                              dateVar=decision_date offset=3 doTime=1 trigger=trigger_case1}
@@ -30,7 +30,7 @@
 
             <tr><td class="label">{$form.money_transfer_date.label}</td>
                 <td>{$form.money_transfer_date.html}
-	        {if $hideCalender neq true}<br />
+	        {if $hideCalender neq true and $action neq 4}<br />
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case1}
     	            {include file="CRM/common/calendar/body.tpl" 
                              dateVar=money_transfer_date offset=3 doTime=1 trigger=trigger_case1}
@@ -39,7 +39,7 @@
 
             <tr><td class="label">{$form.grant_due_date.label}</td>
                 <td>{$form.grant_due_date.html}
-	        {if $hideCalender neq true}<br />
+	        {if $hideCalender neq true and $action neq 4}<br />
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case1}
     	            {include file="CRM/common/calendar/body.tpl" 
                              dateVar=grant_due_date offset=3 doTime=1 trigger=trigger_case1}

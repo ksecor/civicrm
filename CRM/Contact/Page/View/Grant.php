@@ -50,12 +50,26 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
     static $_links = null;
 
     /**
-     * View details of a note
+     * View details of a grant
      *
      * @return void
      * @access public
      */
-    function view( ) {
+    function view( ) 
+    {
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant',  
+                                                       'View Grant', 
+                                                        $this->_action );
+        $controller->setEmbedded( true ); 
+
+        // set the userContext stack
+        $session =& CRM_Core_Session::singleton();
+        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=grant&cid=' . $this->_contactId );
+        $session->pushUserContext( $url ); 
+        $controller->set( 'id' , $this->_id );  
+        $controller->set( 'cid', $this->_contactId );
+        
+        $controller->run();                                            
        
     }
 
@@ -68,12 +82,10 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
     function browse( ) {
         $links  =& self::links( );
         $action = array_sum(array_keys($links));
+       
+        $grantStatus = CRM_Core_OptionGroup::values('grant_status');
 
-        require_once 'CRM/Grant/BAO/Grant.php';
-
-        $grantStatus = CRM_Grant_BAO_Grant::getGrantStatuses();
-
-        $grantType = CRM_Grant_BAO_Grant::getGrantTypes();
+        $grantType = CRM_Core_OptionGroup::values('grant_type');
                                 
         require_once 'CRM/Grant/DAO/Grant.php';
         $grant = new CRM_Grant_DAO_Grant( );
@@ -84,12 +96,11 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
             $values[$grant->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                        $action,
                                                                        array( 'id'  => $grant->id,
-                                                                       'cid' => $this->_contactId ) );
-            $values[$grant->id]['status_id'] = $grantStatus[$values[$grant->id]['status_id']];
+                                                                              'cid' => $this->_contactId ) );
+            $values[$grant->id]['status_id']     = $grantStatus[$values[$grant->id]['status_id']];
+            $values[$grant->id]['grant_type_id'] = $grantType[$values[$grant->id]['grant_type_id']];
         }
-
         $this->assign( 'grants', $values );
-
     }
 
     /**
@@ -104,6 +115,18 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
                                                        'Create grant', 
                                                        $this->_action );
         $controller->setEmbedded( true ); 
+        $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
+       
+        $session =& CRM_Core_Session::singleton();
+        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=grant&cid=' . $this->_contactId );
+        $session->pushUserContext( $url );
+
+        if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
+                                        CRM_Core_DAO::$_nullObject )) {
+            require_once 'CRM/Grant/BAO/Grant.php';
+            CRM_Grant_BAO_Grant::del( $this->_id );
+            CRM_Utils_System::redirect($url);
+        }
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
         
@@ -122,12 +145,9 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
 
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
-        } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
+        } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
             $this->edit( );
-        } else if ( $this->_action & CRM_Core_Action::DELETE ) {
-            // we use the edit screen the confirm the delete
-            $this->edit( );
-        }
+        } 
 
         $this->browse( );
         return parent::run( );
