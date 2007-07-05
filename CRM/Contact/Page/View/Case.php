@@ -78,7 +78,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         require_once 'CRM/Contact/Selector/Activity.php' ;
         require_once 'CRM/Core/Selector/Controller.php';
         $output = CRM_Core_Selector_Controller::SESSION;
-        $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, 1 );
+        $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, $this->_permission );
         $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
                                                         $sortID, CRM_Core_Action::VIEW, $this,  $output, null, $this->_id);
         
