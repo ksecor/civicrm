@@ -117,7 +117,7 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
     function buildQuickForm( ) {
        
         $currentPath = CRM_Utils_System::currentPath( );
-        $url = CRM_Utils_System::url( $currentPath, '_qf_Record_display=true' );
+        $url = CRM_Utils_System::url( $currentPath, '_qf_Record_display=true', true, null, false  );
         $this->assign("refreshURL",$url); 
         
         $session =& CRM_Core_Session::singleton( ); 

@@ -303,8 +303,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->assign("pastURL", $url);
         } else {
             $currentPath = CRM_Utils_System::currentPath( );
-            $url = CRM_Utils_System::url( $currentPath,
-                                          '_qf_Participant_display=true' );
+            $url = CRM_Utils_System::url( $currentPath, '_qf_Participant_display=true',
+                                          true, null, false  );
             $this->assign("refreshURL",$url);
         }
         
