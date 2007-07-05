@@ -108,12 +108,21 @@
                 show("create_household");
                 hide("shared_household");
                 show("id_location_1_address");
+                {/literal}{if $action eq 2 AND $old_mail_to_household_id}{literal}
+                    hide("id_location_1_address_shared_view");
+                {/literal}{/if}{literal}
             } else {
                 hide("create_household");
                 show("shared_household");
                 hide("id_location_1_address");
+                {/literal}{if $action eq 2 AND $old_mail_to_household_id}{literal}
+                    show("id_location_1_address_shared_view");
+                {/literal}{/if}{literal}
             }
         } else {
+            {/literal}{if $action eq 2 AND $old_mail_to_household_id}{literal}
+                hide("id_location_1_address_shared_view");
+            {/literal}{/if}{literal}
             hide("create_household");
             hide("shared_household");
             if (document.getElementsByName("shared_option")[1].checked) {
