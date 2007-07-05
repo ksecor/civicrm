@@ -427,7 +427,48 @@ SELECT count( civicrm_location.id )
         $count = CRM_Core_DAO::singleValueQuery( $sql, $sqlParams );
         return ( $count == 0 ) ? true : false;
     }
-
+    /**
+     * get default values for the location block
+     *
+     */
+    static function getLocationDefaultValues( $action, $maxLocationBlock, &$ids, &$defaults, $contactID = null )
+    {
+        if ( $action & CRM_Core_Action::ADD ) {
+            if ( $maxLocationBlocks >= 1 ) {
+                // set the is_primary location for the first location
+                $defaults['location']    = array( );
+                
+                $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), 'is_int' );
+                sort( $locationTypeKeys );
+                
+                // also set the location types for each location block
+                for ( $i = 0; $i < $maxLocationBlocks; $i++ ) {
+                    $defaults['location'][$i+1] = array( );
+                    if ( $i == 0 ) {
+                        require_once 'CRM/Core/BAO/LocationType.php';
+                        $defaultLocation =& new CRM_Core_BAO_LocationType();
+                        $locationType = $defaultLocation->getDefault();
+                        $defaults['location'][$i+1]['location_type_id'] = $locationType->id;
+                        
+                    } else {
+                        $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
+                    }
+                    $defaults['location'][$i+1]['address'] = array( );
+                    $config =& CRM_Core_Config::singleton( );
+                    if( $config->defaultContactCountry ) {
+                        $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
+                    }
+                }
+                $defaults['location'][1]['is_primary'] = true;
+                return true;
+            }
+        } else {
+            $params   = array( );
+            $params['id'] = $params['contact_id'] = $contactID;
+            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+            return $contact;
+        }
+    }
 }
 
 ?>

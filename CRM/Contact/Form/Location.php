@@ -64,17 +64,28 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @static 
      * @access public
      */
-    static function &buildLocationBlock(&$form, $maxLocationBlocks, $locationCompoments = null) 
+    static function &buildLocationBlock( &$form, $maxLocationBlocks, $locationType = null, $locationCompoments = null, $addressOnly = false ) 
     {
+        
+        if ( ! $locationType ) {
+            $locationType = CRM_Core_PseudoConstant::locationType( );
+        }
         $location = array();
         
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
-            $location[$locationId]['location_type_id'] =& $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_Core_PseudoConstant::locationType());
+            $location[$locationId]['location_type_id'] =& $form->addElement('select'  , "location[$locationId][location_type_id]", null, $locationType );
             $location[$locationId]['is_primary']       =& $form->addElement('checkbox', "location[$locationId][is_primary]", ts('Primary location for this contact'),  ts('Primary location for this contact'), array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks);" ) );
             $location[$locationId]['name']    =& $form->addElement('text', "location[$locationId][name]",ts('Location Name'),CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name'));
 
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
             
+            if ( $addressOnly ) {
+                continue;
+            }
+            
+            require_once 'CRM/Core/ShowHideBlocks.php';
+            CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '' );
+                        
             if ( ! $locationCompoments ) {
                 CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, self::BLOCKS); 
                 CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS); 
@@ -85,8 +96,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                     eval('CRM_Contact_Form_' . $key . '::build' . $key . 'Block( $form ,$location , $locationId , $blockCount );');
                 }
             }
-            require_once 'CRM/Core/ShowHideBlocks.php';
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '');
+            
         }
         return $location;
     }

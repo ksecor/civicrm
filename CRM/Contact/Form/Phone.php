@@ -50,17 +50,23 @@ class CRM_Contact_Form_Phone
      * @access public
      * @static
      */
-    static function buildPhoneBlock(&$form, &$location, $locationId, $count) {
+    static function buildPhoneBlock( &$form, &$location, $locationId, $count, $phoneType = null ) {
         require_once 'CRM/Core/ShowHideBlocks.php';
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? ts('Phone (preferred)') : ts('Phone');
 
             CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", ts('another phone'), ts('hide this phone'));
-
+            
+            if ( ! $phoneType ) {
+                $phoneType = CRM_Core_SelectValues::phoneType( );
+            }
+            
             $location[$locationId]['phone'][$i]['phone_type'] = $form->addElement('select',
                                                                                   "location[$locationId][phone][$i][phone_type]",
-                                                                                  null,
-                                                                                  CRM_Core_SelectValues::phoneType());
+                                                                                  ts('Phone'),
+                                                                                  $phoneType,
+                                                                                  null
+                                                                                  );
 
             $location[$locationId]['phone'][$i]['phone']      = $form->addElement('text',
                                                                                   "location[$locationId][phone][$i][phone]", 
