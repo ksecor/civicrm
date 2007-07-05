@@ -106,14 +106,14 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
                 $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
                 
                 foreach ( $defaults['location'] as $key => $value ) {
-                    if ( $value['address']['country_id'] ) {
+                    if ( isset($value['address']['country_id']) ) {
                         $countryId = $value['address']['country_id'];
                         if ( $countryId ) {
                             $this->assign( "country{$key}_value",  $countries[$countryId] );
                         }
                     }
                     
-                    if ( $value['address']['state_province_id'] ) {
+                    if ( isset($value['address']['state_province_id']) ) {
                         $stateProvinceId = $value['address']['state_province_id'];
                         if ( $stateProvinceId ) {
                             $this->assign( "country{$key}_state_value",  $stateProvinces[$stateProvinceId] );
