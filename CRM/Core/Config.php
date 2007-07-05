@@ -618,6 +618,12 @@ class CRM_Core_Config
             $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
         }
 
+        if ( defined( 'CIVICRM_SUNLIGHT' ) ) {
+            $this->sunlight = true;
+        } else {
+            $this->sunlight = false;
+        }
+
         $size = trim( ini_get( 'upload_max_filesize' ) );
         if ( $size ) {
             $last = strtolower($size{strlen($size)-1});

@@ -283,6 +283,11 @@ class CRM_Core_Invoke
                 require_once 'CRM/Contact/Page/View/Log.php';
                 $view =& new CRM_Contact_Page_View_Log( );
                 break;
+
+            case 'sunlight':
+                require_once 'CRM/Contact/Page/View/Sunlight.php';
+                $view =& new CRM_Contact_Page_View_Sunlight( );
+                break;
             
             case 'cd':
                 require_once 'CRM/Contact/Page/View/CustomData.php';

@@ -1234,6 +1234,9 @@ WHERE civicrm_contact.id IN $idString ";
         while ( $dao->fetch( ) ) {
             $location = array( );
             $location['displayName'] = $dao->display_name ;
+            $location['city'       ] = $dao->city;
+            $location['state'      ] = $dao->state;
+            $location['postal_code'] = $dao->postal_code;
             $location['lat'        ] = $dao->latitude;
             $location['lng'        ] = $dao->longitude;
             $address = '';
