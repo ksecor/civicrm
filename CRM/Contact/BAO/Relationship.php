@@ -830,13 +830,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         // Check the end date and set the status of the relationship
         // accrodingly.
         $status = self::CURRENT;
-        if ( isset( $params['end_date']['Y'] ) &&
-             isset( $params['end_date']['M'] ) &&
-             isset( $params['end_date']['d'] ) ) {
-            $endDate = date( 'Ymd', mktime( 0, 0, 0, 
-                                            $params['end_date']['M'],
-                                            $params['end_date']['d'],
-                                            $params['end_date']['Y'] ) );
+                
+        if ( ! empty( $params['end_date']['Y'] ) &&
+             ! empty( $params['end_date']['M'] ) &&
+             ! empty( $params['end_date']['d'] ) ) {
+            $endDate = date( 'Ymd', mktime( 0, 0, 0, $params['end_date']['M'], $params['end_date']['d'], $params['end_date']['Y'] ) );
             $today = CRM_Utils_Date::customFormat( CRM_Utils_Date::getToday( ), '%Y%m%d' );
             
             if ( $today > $endDate ) {
