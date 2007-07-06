@@ -1,25 +1,42 @@
-{* Contact Summary template for new tabbed interface. Replaces Basic.tpl *}
-{if $action eq 2}
-  {include file="CRM/Contact/Form/Edit.tpl"}
-{else}
-<div id="mainTabContainer" dojoType="TabContainer" style="width: 100%; height: 600px; overflow-y: auto;" selectedTab="{$selectedChild}">
+{* Contact Summary template to print contact information *}
 
-<div id="summary" dojoType="ContentPane" style="overflow: auto; width: 100%; height: 100%;" label="Summary">
+{literal}
+<style type="text/css" media="screen, print">
+<!--
+  #crm-container .action-icon {
+    border:0pt none;
+  }
+
+  #crm-container div {
+    font-size: 12px;
+  }
+-->
+</style>
+
+<style type="text/css" media="print">
+<!--
+  #crm-container input {
+    display: none;
+  }
+-->
+</style>
+{/literal}
+
+{* Dojo is required for the blocs. *}
+{literal}<script type="text/javascript">var djConfig = { isDebug: false };</script>{/literal}
+<script type="text/javascript" src="{$config->resourceBase}/packages/dojo/dojo.js"></script>
+<script type="text/javascript" src="{$config->resourceBase}/js/Common.js"></script>
+
+<form action="{crmURL p='civicrm/contact/view' q="&cid=`$contactId`&reset=1"}" method="post" id="Print1" >
+  <div class="form-item">
+       <span class="element-right"><input onclick="window.print()" class="form-submit default" name="_qf_Print_next" value="{ts}Print{/ts}" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-submit" name="_qf_Print_back" value="{ts}Done{/ts}" type="submit" /></span>
+  </div>
+</form>
 
 {* View Contact Summary *}
-<div id="contact-name" class="section-hidden section-hidden-border">
+<div id="contact-name" class="section-hidden">
    <div>
     <label><span class="font-size12pt">{$displayName}</span></label>{if $nick_name}&nbsp;&nbsp;({$nick_name}){/if}
-    {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
-    {/if}
-    &nbsp; &nbsp; <input type="button" value="{ts}vCard{/ts}" name="vCard_export" onclick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';"/>
-    &nbsp; &nbsp; <input type="button" value="{ts}Print{/ts}" name="contact_print" onclick="window.location='{crmURL p='civicrm/contact/view/print' q="reset=1&print=1&cid=$contactId"}';"/>
-    {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
-    {/if}
-    {if $dashboardURL } &nbsp; &nbsp; <a href="{$dashboardURL}">&raquo; {ts}View Contact Dashboard{/ts}</a> {/if}
-    {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
     <table class="form-layout-compressed">
     <tr>
         {if $source}<td><label>{ts}Source{/ts}:</label></td><td>{$source}</td>{/if}
@@ -37,11 +54,6 @@
    </div>
 </div>
 
-{* Include links to enter Activities if session has 'edit' permission *}
-
-{if $permission EQ 'edit'}
-    {include file="CRM/Contact/Page/View/ActivityLinks.tpl"}
-{/if}
 
 {* Display populated Locations. Primary location expanded by default. *}
 {foreach from=$location item=loc key=locationIndex}
@@ -105,7 +117,7 @@
 
 <div id="commPrefs_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('commPrefs_show'); show('commPrefs'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Communications Preferences{/ts}</label><br />
- </div>
+</div>
 
 <div id="commPrefs" class="section-shown">
  <fieldset>
@@ -122,7 +134,7 @@
     </span>
   </div>
   <div class="col2">
-    <label>{ts}Method:{/ts}</label> {$preferred_communication_method_display}
+    <label>{ts}Method{/ts}:</label> {$preferred_communication_method_display}
   </div>
   <div class="col2">
     <label>{ts}Mail Format Preference:{/ts}</label> {$preferred_mail_format_display}
@@ -135,7 +147,7 @@
 {if $contact_type eq 'Individual'}
 <div id="demographics_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('demographics_show'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Demographics{/ts}</label><br />
- </div>
+</div>
 
 <div id="demographics" class="section-shown">
   <fieldset>
@@ -154,16 +166,16 @@
    </div>
    <div class="spacer"></div>
   </fieldset>
- </div>
- {/if}
-
- {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
 </div>
+{/if}
 
-{foreach from=$allTabs key=tabName item=tabValue}
-  <div id="{$tabValue.id}" dojoType="ContentPane" href="{$tabValue.url}" label="{$tabValue.title}" style="display: none; overflow: auto; width: 100%; height: 100%;" adjustPaths="false" executeScripts="true"></div>
-{/foreach}
-</div>
+{include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+
+<form action="{crmURL p='civicrm/contact/view' q="&cid=`$contactId`&reset=1"}" method="post" id="Print2" >
+  <div class="form-item">
+       <span class="element-right"><input onclick="window.print()" class="form-submit default" name="_qf_Print_next" value="{ts}Print{/ts}" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-submit" name="_qf_Print_back" value="{ts}Done{/ts}" type="submit" /></span>
+  </div>
+</form>
 
 {literal}
  <script type="text/javascript">
@@ -179,5 +191,3 @@
   dojo.addOnLoad( init_blocks );
  </script>
 {/literal}
-
-{/if}
