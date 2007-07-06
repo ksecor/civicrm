@@ -38,18 +38,18 @@
  * used by the search forms
  *
  */
-class CRM_Event_Task
+class CRM_Grant_Task
 {
     const
-        DELETE_EVENTS                     =     1,
-        PRINT_EVENTS                      =     2,
+        DELETE_GRANTS                     =     1;
+        /*   PRINT_EVENTS                      =     2,
         EXPORT_EVENTS                     =     3,
         BATCH_EVENTS                      =     4,
         CANCEL_REGISTRATION               =     5,
         EMAIL_CONTACTS                    =     6,
         // Value for SAVE_SEARCH is set as 13 in accordance with CRM_Contact_Task::SAVE_SEARCH
         SAVE_SEARCH                       =     13,
-        SAVE_SEARCH_UPDATE                =     14;
+        SAVE_SEARCH_UPDATE                =     14;*/
 
     /**
      * the task array
@@ -79,13 +79,13 @@ class CRM_Event_Task
     {
         if (!(self::$_tasks)) {
             self::$_tasks = array(
-                                  1     => ts( 'Delete Participants'                   ),
-                                  3     => ts( 'Export Participants'                   ),
+                                  1     => ts( 'Delete Participants'   ),                );
+                                  /*  3     => ts( 'Export Participants'                   ),
                                   4     => ts( 'Batch Update Participants Via Profile' ),
                                   5     => ts( 'Cancel Registration'                   ),
                                   13    => ts( 'New Smart Group'                       ),
                                   6     => ts( 'Send Email to Contacts'                ), 
-                                  );
+                                  );*/
         }
 
         asort(self::$_tasks);        
@@ -99,13 +99,13 @@ class CRM_Event_Task
      * @static
      * @access public
      */
-    static function &optionalTaskTitle()
+        /*   static function &optionalTaskTitle()
     {
         $tasks = array(
                        14    => ts( 'Update Smart Group')
                        );
         return $tasks;
     }
-
+        */
 }
 ?>

@@ -1,51 +1,28 @@
- <tr>
-    <td class="label">{$form.event_title.label}</td> 
-{if $event_title_value}
-<script type="text/javascript">
-  dojo.addOnLoad( function( ) {ldelim}
-    dojo.widget.byId( 'event_title' ).setAllValues( '{$event_title_value}', '{$event_title_value}' )
-  {rdelim} );
-</script>
-{/if}
-    <td>{$form.event_title.html}</td>
+            <tr><td class="label">{$form.grant_status_id.label}</td><td>{$form.grant_status_id.html}</td>
 
-    <td class="label">{$form.event_type.label}</td> 
-{if $event_type_value}
-<script type="text/javascript">
-  dojo.addOnLoad( function( ) {ldelim}
-    dojo.widget.byId( 'event_type' ).setAllValues( '{$event_type_value}', '{$event_type_value}' )
-  {rdelim} );
-</script>
-{/if}
-    <td>{$form.event_type.html}</td>
-
- </tr>     
- <tr> 
-    <td class="label"> {$form.event_start_date_low.label} </td>
-    <td>
-       {$form.event_start_date_low.html}&nbsp;<br />
-       {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_event_1}
-       {include file="CRM/common/calendar/body.tpl" dateVar=event_start_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_event_1}
-    </td>
-    <td colspan="2"> 
-       {$form.event_end_date_high.label} {$form.event_end_date_high.html}<br />
-             &nbsp; &nbsp; {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_event_2}
-       {include file="CRM/common/calendar/body.tpl" dateVar=event_end_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_event_2}
-    </td> 
- </tr>
-
- <tr>
-    <td class="label">{ts}Status{/ts}</td> 
-    <td>{$form.event_participant_status.html}</td>
-    <td class="label">{$form.event_participant_test.html}</td>
-    <td>{$form.event_participant_test.label}</td>
- </tr> 
- <tr>
-    <td class="label">{ts}{$form.event_participant_role.label}{/ts}</td> 
-    <td>{$form.event_participant_role.html}</td>
- </tr> 
- <tr>
-    <td colspan="4">
-       {include file="CRM/Custom/Form/Search.tpl" groupTree=$participantGroupTree showHideLinks=false}
-    </td>
- </tr>
+                <td class="label">{$form.grant_type_id.label}</td><td>{$form.grant_type_id.html}</td> </tr>
+            <tr><td class="label">{$form.grant_amount_total.label}</td><td>{$form.grant_amount_total.html}</td> 
+                <td class="label">{$form.grant_report_received.label}</td><td>{$form.grant_report_received.html}</td></tr>
+                
+           <tr><td class="label"> {$form.grant_application_received_date_low.label} </td>
+                <td> {$form.grant_application_received_date_low.html}&nbsp;<br />
+                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_grant_1}
+                {include file="CRM/common/calendar/body.tpl" dateVar=grant_application_received_date_low  offset=3  doTime=1 trigger=trigger_search_grant_1}
+                </td>
+              <td colspan="2"> {$form.grant_application_received_date_high.label} {$form.grant_application_received_date_high.html}<br /> &nbsp; &nbsp; 
+                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_grant_2}
+                {include file="CRM/common/calendar/body.tpl" dateVar=grant_application_received_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_grant_2}
+                </td>          
+            </tr>
+            
+         <tr><td class="label"> {$form.grant_money_transfer_date_low.label} </td>
+                <td> {$form.grant_money_transfer_date_low.html}&nbsp;<br />
+                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_grant_3}
+                {include file="CRM/common/calendar/body.tpl" dateVar=grant_money_transfer_date_low offset=5  doTime=1 trigger=trigger_search_grant_3}
+                </td>
+                <td colspan="2"> {$form.grant_money_transfer_date_high.label} {$form.grant_money_transfer_date_high.html}<br /> &nbsp; &nbsp; 
+                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_grant_4}
+                {include file="CRM/common/calendar/body.tpl" dateVar=grant_money_transfer_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_grant_4}
+                </td>          
+            </tr>
+            

@@ -72,16 +72,10 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
     static $_properties = array( 'contact_id', 
                                  'contact_type',
                                  'sort_name',
-                                 'event_id',
+                                 'grant_id',
                                  'status_id',
-                                 'event_title',
-                                 'event_level',
-                                 'participant_id',
-                                 'start_date',
-                                 'end_date',
-                                 'modified_date',
-                                 'event_is_test',
-                                 'role_id'
+                                 'grant_type_id',
+                                 'amount_total',
                                  );
 
     /** 
@@ -130,7 +124,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      * 
      * @var string 
      */ 
-    protected $_eventClause = null;
+    protected $_grantClause = null;
 
     /** 
      * The query object
@@ -144,7 +138,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      *
      * @param array   $queryParams array of parameters for query
      * @param int     $action - action of search basic or advanced.
-     * @param string  $eventClause if the caller wants to further restrict the search (used in participations)
+     * @param string  $grantClause if the caller wants to further restrict the search 
      * @param boolean $single are we dealing only with one contact?
      * @param int     $limit  how many participations do we want returned
      *
@@ -153,25 +147,26 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      */
     function __construct(&$queryParams,
                          $action = CRM_Core_Action::NONE,
-                         $eventClause = null,
+                         $grantClause = null,
                          $single = false,
                          $limit = null,
                          $context = 'search' ) 
     {
         // submitted form values
         $this->_queryParams =& $queryParams;
+        
 
         $this->_single  = $single;
         $this->_limit   = $limit;
         $this->_context = $context;
 
-        $this->_eventClause = $eventClause;
+        $this->_grantClause = $grantClause;
 
         // type of selector
         $this->_action = $action;
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
-                                                    CRM_Contact_BAO_Query::MODE_EVENT );
+                                                    CRM_Contact_BAO_Query::MODE_GRANT );
         //CRM_Core_Error::debug( 'q', $this->_query );
         
 
@@ -196,21 +191,21 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
-                                                                   'url'      => 'civicrm/contact/view/participant',
-                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=event',
-                                                                   'title'    => ts('View Participation'),
+                                                                   'url'      => 'civicrm/contact/view/grant',
+                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=grant',
+                                                                   'title'    => ts('View Grant'),
                                                                    ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
-                                                                   'url'      => 'civicrm/contact/view/participant',
+                                                                   'url'      => 'civicrm/contact/view/grant',
                                                                    'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Edit Participation'),
+                                                                   'title'    => ts('Edit Grant'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
-                                                                   'url'      => 'civicrm/contact/view/participant',
+                                                                   'url'      => 'civicrm/contact/view/grant',
                                                                    'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Delete Participation'),
+                                                                   'title'    => ts('Delete Grant'),
                                                                   ),
                                   );
         }
@@ -251,13 +246,12 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                            true, false, 
                                            false, false, 
                                            false, 
-                                           $this->_eventClause );
+                                           $this->_grantClause );
     }
 
     
     /**
-     * returns all the rows in the given offset and rowCount
-     *
+     * returns all the rows in the given offset and rowCount     *
      * @param enum   $action   the action being performed
      * @param int    $offset   the row number to start from
      * @param int    $rowCount the number of rows to return
@@ -268,18 +262,20 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      */
      function &getRows($action, $offset, $rowCount, $sort, $output = null) 
      {
+
+
          $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
                                                false, false, 
                                                false, false, 
                                                false, 
-                                               $this->_eventClause );
+                                               $this->_grantClause );
 
          // process the result of the query
          $rows = array( );
          
-         // check is the user has view/edit participation permission
+         // check is the user has view/edit  permission
          $permission = CRM_Core_Permission::VIEW;
-         if ( CRM_Core_Permission::check( 'edit event participants' ) ) {
+         if ( CRM_Core_Permission::check( 'edit grants' ) ) {
              $permission = CRM_Core_Permission::EDIT;
          }
 
@@ -308,13 +304,12 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              if ( $row["event_is_test"] ) {
                  $row['status'] = $row['status'] . " (test)";
             }
-
              if ($this->_context == 'search') {
-                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->participant_id;
+                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->grant_id;
              }
              
              $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                           array( 'id'  => $result->participant_id,
+                                                           array( 'id'  => $result->grant_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
              $config =& CRM_Core_Config::singleton( );
@@ -362,32 +357,29 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      */ 
     public function &getColumnHeaders( $action = null, $output = null ) 
     {
+       
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array(
-                                          array('name'      => ts('Grant'),
+                                          array('name'      => ts('Grant Status'),
                                                 'sort'      => 'title',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Fee Level'),
+                                                'name'      => ts('Grant Type'),
                                                 'sort'      => 'event_level',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Grant Date(s)'),
+                                                'name'      => ts('Application received date'),
                                                 'sort'      => 'start_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Status'),
+                                                'name'      => ts('Amount Requested'),
                                                 'sort'      => 'status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array(
-                                                'name'      => ts('Role'),
-                                                'sort'      => 'role_id',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
+                                         
                                           array('desc' => ts('Actions') ),
                                           );
 
@@ -395,7 +387,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                 $pre = array( 
                              array('desc' => ts('Contact Type') ), 
                              array( 
-                                   'name'      => ts('Participant'), 
+                                   'name'      => ts('Name'), 
                                    'sort'      => 'sort_name', 
                                    'direction' => CRM_Utils_Sort::ASCENDING, 
                                    )

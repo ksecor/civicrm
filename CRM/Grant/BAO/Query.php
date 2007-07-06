@@ -41,7 +41,6 @@ class CRM_Grant_BAO_Query
         $fields = array( );
         require_once 'CRM/Grant/DAO/Grant.php';
         $fields = array_merge( $fields, CRM_Grant_DAO_Grant::import( ) );
-       
         return $fields;
     }
    

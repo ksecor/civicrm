@@ -1,8 +1,8 @@
 {* Search form and results for Events *}
 <div id="help">
-    {ts}Use this form to find participant(s) by participant name, event name, event start and end dates.{/ts}
+    {ts}Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, Total Amount , etc .{/ts}
 </div>
-<fieldset><legend>{ts}Find Participants{/ts}</legend>
+<fieldset><legend>{ts}Find Grants{/ts}</legend>
 <div class="form-item">
 {strip} 
         <table class="form-layout">
@@ -16,7 +16,7 @@
             <td class="label">{$form.buttons.html}</td>       
         </tr>
 
-        {include file="CRM/Event/Form/Search/Common.tpl"}
+        {include file="CRM/Grant/Form/Search/Common.tpl"}
 
         </table>
     {/strip}
