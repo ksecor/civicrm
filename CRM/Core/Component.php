@@ -83,7 +83,7 @@ class CRM_Core_Component
                        'path'    => 'CRM_Grant_',
                        'url'     => 'grant',
                        'perm'    => array( 'access CiviGrant' ),
-                       'search'  => 0 );                       
+                       'search'  => 1 );                       
                        
 
             self::$_info['Quest'] =

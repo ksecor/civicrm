@@ -54,7 +54,8 @@ class CRM_Contact_BAO_Query {
         MODE_EVENT      =  16,
         MODE_TMF        =  32,
         MODE_KABISSA    =  64,
-        MODE_ALL        = 127;
+        MODE_GRANT      = 128,
+        MODE_ALL        = 255;
     
     /**
      * the default set of return properties

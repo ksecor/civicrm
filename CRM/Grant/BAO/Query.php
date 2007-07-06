@@ -36,10 +36,42 @@
 class CRM_Grant_BAO_Query 
 {
    
+    static function &getFields( ) 
+    {
+        $fields = array( );
+        require_once 'CRM/Grant/DAO/Grant.php';
+        $fields = array_merge( $fields, CRM_Grant_DAO_Grant::import( ) );
+       
+        return $fields;
+    }
+   
+    /** 
+     * build select for CiviGrant 
+     * 
+     * @return void  
+     * @access public  
+     */
+    static function select( &$query ) 
+    {
+        if ( $query->_mode & CRM_Contact_BAO_Query::MODE_GRANT ) {
+
+            $query->_select['grant_type_id'] = "civicrm_grant.grant_type_id as grant_type";
+            $query->_element['grant_type_id'] = 1;
+            $query->_tables['civicrm_grant'] = 1;
+            $query->_whereTables['civicrm_grant'] = 1;
+           
+            //add status
+            $query->_select['status_id' ]  = "civicrm_grant.status_id as status_id";
+            $query->_element['status_id']  = 1;
+            
+        }
+    }
+
     static function where( &$query ) 
     {
+        //CRM_CORE_ERROR::BACKTRACE();
         foreach ( array_keys( $query->_params ) as $id ) {
-            if ( substr( $query->_params[$id][0], 0, 7) == 'grant_' ) {
+            if ( substr( $query->_params[$id][0], 0, 6) == 'grant_' ) {
                 
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
@@ -49,7 +81,7 @@ class CRM_Grant_BAO_Query
     static function whereClauseSingle( &$values, &$query ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
+        
         switch( $name ) {
             
         case 'grant_money_transfer_date_low':
@@ -71,8 +103,8 @@ class CRM_Grant_BAO_Query
             $query->_where[$grouping][] = "civicrm_grant.grant_type_id $op '{$value}'";
             
             require_once 'CRM/Core/OptionGroup.php';
-            $grantTypes  = CRM_Core_OptionGroup::values("grant_type" );
-           
+            $grantTypes  = CRM_Core_OptionGroup::values('grant_type' );
+            $value = $grantTypes[$value];
             $query->_qill[$grouping ][] = ts( 'Grant Type %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
 
@@ -82,12 +114,13 @@ class CRM_Grant_BAO_Query
             
             $value = strtolower(addslashes(trim($value)));
 
-            $query->_where[$grouping][] = "civicrm_grant.grant_status_id $op '{$value}'";
+            $query->_where[$grouping][] = "civicrm_grant.status_id $op '{$value}'";
             
             require_once 'CRM/Core/OptionGroup.php';
-            $grantTypes  = CRM_Core_OptionGroup::values("grant_status" );
-           
-            $query->_qill[$grouping ][] = ts( 'Grant Type %2 %1', array( 1 => $value, 2 => $op) );
+            $grantStatus  = CRM_Core_OptionGroup::values('grant_status' );
+            $value = $grant[$value];
+
+            $query->_qill[$grouping ][] = ts( 'Grant Status %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
 
             return;
@@ -98,9 +131,28 @@ class CRM_Grant_BAO_Query
             $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
             
             return;
+     
+        case 'grant_amount_total':
+            $query->_where[$grouping][] = "civicrm_grant.amount_total $op $value";
+            $query->_qill[$grouping][]  =  ts( 'Total Amount %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
+            
+            return;
         }
     }
 
+    static function from( $name, $mode, $side ) 
+    {
+        $from = null;
+        switch ( $name ) {
+        
+        case 'civicrm_grant':
+            $from = " LEFT JOIN civicrm_grant ON civicrm_grant.contact_id = contact_a.id ";
+            break;
+    
+        }
+        return $from;
+    }
 
     /**
      * getter for the qill object
@@ -112,6 +164,21 @@ class CRM_Grant_BAO_Query
         return (isset($this->_qill)) ? $this->_qill : "";
     }
    
+    static function defaultReturnProperties( $mode ) 
+    {
+        $properties = null;
+        if ( $mode & CRM_Contact_BAO_Query::MODE_GRANT ) {
+            $properties = array(  
+                                'grant_type_id'             => 1, 
+                                'status_id'                 => 1, 
+                                );
+       
+ 
+        }
+
+        return $properties;
+    }
+
     /**
      * add all the elements shared between grant search and advanaced search
      *
@@ -160,7 +227,17 @@ class CRM_Grant_BAO_Query
         $showHide->addHide( 'grantForm' );
         $showHide->addShow( 'grantForm_show' );
     }
-   
+    
+    static function searchAction( &$row, $id ) 
+    {
+    }
+    static function tableNames( &$tables ) 
+    {
+        //add grant table 
+      
+        $tables = array_merge( array( 'civicrm_grant' => 1), $tables );
+        
+    }  
 }
 
 ?>
