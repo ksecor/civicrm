@@ -66,10 +66,15 @@ class CRM_Grant_BAO_Query
             
         }
     }
-
+    /** 
+     * Given a list of conditions in params generate the required
+     * where clause
+     * 
+     * @return void 
+     * @access public 
+     */ 
     static function where( &$query ) 
     {
-        //CRM_CORE_ERROR::BACKTRACE();
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 6) == 'grant_' ) {
                 
@@ -87,7 +92,7 @@ class CRM_Grant_BAO_Query
         case 'grant_money_transfer_date_low':
         case 'grant_money_transfer_date_high':
             $query->dateQueryBuilder( $values,
-                                      'civicrm_grant', 'grant_money_transfer_date_low', 'money_transfer_date', 'Money Transfer Date' );
+                                      'civicrm_grant', 'grant_money_transfer_date', 'money_transfer_date', 'Money Transfer Date' );
             return;
 
         case 'grant_application_received_date_low':
@@ -118,7 +123,7 @@ class CRM_Grant_BAO_Query
             
             require_once 'CRM/Core/OptionGroup.php';
             $grantStatus  = CRM_Core_OptionGroup::values('grant_status' );
-            $value = $grant[$value];
+            $value = $grantStatus[$value];
 
             $query->_qill[$grouping ][] = ts( 'Grant Status %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
@@ -127,7 +132,7 @@ class CRM_Grant_BAO_Query
    
         case 'grant_report_received':
             $query->_where[$grouping][] = "civicrm_grant.grant_report_received $op $value";
-            $query->_qill[$grouping][]  = "Grant Report Received?";
+            $query->_qill[$grouping][]  = "Grant Report Received";
             $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
             
             return;
@@ -171,6 +176,7 @@ class CRM_Grant_BAO_Query
             $properties = array(  
                                 'grant_type_id'             => 1, 
                                 'status_id'                 => 1, 
+                                'amoun_total'               => 1
                                 );
        
  
