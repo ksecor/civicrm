@@ -291,7 +291,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membership->membership_type_id ); 
         
         $relationships = array( );
-        if ( $membershipType['relationship_type_id'] ) {
+        if ( isset( $membershipType['relationship_type_id'] ) ) {
             $relationships =
                 CRM_Contact_BAO_Relationship::getRelationship( $contactId,
                                                                CRM_Contact_BAO_Relationship::CURRENT

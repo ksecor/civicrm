@@ -118,8 +118,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         $domainID  = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
         $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
         
-        if ( $_GET['sh'] ) {
-            $shared    = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
+        $shared = null;
+        if ( isset($_GET['sh']) ) {
+            $shared = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
         }
 
         if ( $shared ) {
@@ -284,7 +285,11 @@ LIMIT 6";
         require_once 'CRM/Utils/Type.php';
         $countryName  = strtolower( CRM_Utils_Type::escape( $_GET['node'], 'String'  ) );
         $stateName    = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
-        $includeState = strtolower( CRM_Utils_Type::escape( $_GET['sc'], 'String'  ) );
+        
+        $includeState = null;
+        if ( isset($_GET['sc']) ) {
+            $includeState = strtolower( CRM_Utils_Type::escape( $_GET['sc'], 'String'  ) );
+        }
 
         $query = "
 SELECT civicrm_state_province.name name

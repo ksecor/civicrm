@@ -67,9 +67,9 @@ class CRM_Contact_Form_Address
                           'postal_code'            => array( ts('Zip / Postal Code'), null, null ),
                           'postal_code_suffix'     => array(ts('Postal Code Suffix')       ,
                                                             array( 'size' => 4, 'maxlength' => 12 ), null ),
-                          'county'                 => array( ts('County')           , null, county        ),
-                          'state_province'         => array( ts('State / Province') , null, stateProvince ),
-                          'country'                => array( ts('Country')          , null, country       ), 
+                          'county_id'              => array( ts('County')           , null, 'county' ),
+                          'state_province'         => array( ts('State / Province') , null, null ),
+                          'country'                => array( ts('Country')          , null, null ), 
                           'geo_code_1'             => array( ts('Latitude')         ,
                                                              array( 'size' => 4, 'maxlength' => 8 ), null ),
                           'geo_code_2'             => array( ts('Longitude')         ,
@@ -88,14 +88,8 @@ class CRM_Contact_Form_Address
             }
              
             if ( ! $select ) {
-                $location[$locationId]['address'][$name] =
-                    $form->addElement( 'text',
-                                       "location[$locationId][address][$name]",
-                                       $title,
-                                       $attributes );
-            } else {
-                $attributes = null;
                 if ( $name == 'country' ) {
+                    $attributes = null;
                     $attributes = array( 'dojoType'       => 'ComboBox',
                                          'mode'           => 'remote',
                                          'style'          => 'width: 300px;',
@@ -111,10 +105,16 @@ class CRM_Contact_Form_Address
                 }
 
                 $location[$locationId]['address'][$name] =
-                    $form->add( 'text',
-                                "location[$locationId][address][$name]",
-                                $title,
-                                $attributes );
+                    $form->addElement( 'text',
+                                       "location[$locationId][address][$name]",
+                                       $title,
+                                       $attributes );
+            } else {
+                $location[$locationId]['address'][$name] =
+                    $form->addElement( 'select',
+                                       "location[$locationId][address][$name]",
+                                       $title,
+                                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
             }
         }
     }

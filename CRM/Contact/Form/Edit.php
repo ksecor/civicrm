@@ -313,22 +313,24 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
             
             foreach ( $defaults['location'] as $key => $value ) {
-                if ( $value['address']['country_id'] ) {
+                if ( isset($value['address']['country_id']) ) {
                     $countryId = $value['address']['country_id'];
                     if ( $countryId ) {
                         $this->assign( "country{$key}_value",  $countries[$countryId] );
                     }
                 }
                 
-                if ( $value['address']['state_province_id'] ) {
+                if ( isset($value['address']['state_province_id']) ) {
                     $stateProvinceId = $value['address']['state_province_id'];
                     if ( $stateProvinceId ) {
                         $this->assign( "country{$key}_state_value",  $stateProvinces[$stateProvinceId] );
                     }
                 }
                 
-                $this->assign( "location_{$key}_address_display", 
-                               str_replace("\n", "<br/>", $value['address']['display']) );
+                if ( isset( $value['address']['display']) ) {
+                    $this->assign( "location_{$key}_address_display", 
+                                   str_replace("\n", "<br/>", $value['address']['display']) );
+                }
             }
         }
 
