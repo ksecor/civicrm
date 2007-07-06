@@ -359,6 +359,15 @@ CREATE TABLE civicrm_line_item (
 
 -- /*******************************************************
 -- *
+-- * civicrm_membership_type
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_membership_type ALTER fixed_period_start_day    DROP DEFAULT;
+	ALTER TABLE civicrm_membership_type ALTER fixed_period_rollover_day DROP DEFAULT;
+
+
+-- /*******************************************************
+-- *
 -- * civicrm_option_group
 -- *
 -- *******************************************************/
