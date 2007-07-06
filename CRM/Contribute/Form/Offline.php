@@ -152,7 +152,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
                     $attributes['total_amount'], true );
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
 
-        $this->add( 'text', 'contribution_source', ts('Contribution Source'), $attributes['source'] );
+        $this->add( 'text', 'contribution_source', ts('Contribution Source'), CRM_Utils_Array::value('source',$attributes));
 
         $this->addElement('checkbox', 'is_email_receipt', ts('Send Receipt?'), null );
 

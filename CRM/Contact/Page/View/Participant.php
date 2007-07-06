@@ -150,7 +150,7 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
         case 'participant':
             if ( CRM_Utils_Request::retrieve( 'history', 'Boolean', $this ) ) {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                              "reset=1&force=1&selectedChild=activity&cid={$this->_contactId}&history=1&aid={$activityId}" );     
+                                              "reset=1&force=1&selectedChild=activity&cid={$this->_contactId}&history=1" );     
             } else {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                               "reset=1&force=1&cid={$this->_contactId}&selectedChild=participant" );

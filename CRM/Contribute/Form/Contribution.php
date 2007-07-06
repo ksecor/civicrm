@@ -210,7 +210,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if($this->_noteId) {
             $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
         }
-        if (  $defaults['is_test'] ){
+        if (  CRM_Utils_Array::value('is_test',$defaults) ){
             $this->assign( "is_test" , true);
         } 
         if (isset ( $defaults["honor_contact_id"] ) ) {
@@ -220,9 +220,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             CRM_Contact_BAO_Contact::retrieve( $idParams, $honorDefault, $ids );
             
             $defaults["honor_prefix"]    = $honorDefault["prefix_id"];
-            $defaults["honor_firstname"] = $honorDefault["first_name"];
-            $defaults["honor_lastname"]  = $honorDefault["last_name"];
-            $defaults["honor_email"]     = $honorDefault["location"][1]["email"][1]["email"];
+            $defaults["honor_firstname"] = CRM_Utils_Array::value("first_name",$honorDefault);
+            $defaults["honor_lastname"]  = CRM_Utils_Array::value("last_name",$honorDefault);
+            $defaults["honor_email"]     = CRM_Utils_Array::value("email",$honorDefault["location"][1]["email"][1]);
             $defaults["contribution_honor"]    = 1;
         }
         
@@ -238,7 +238,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $dao->id = $this->_premiumId;
             $dao->find(true);
             //if($this->_options[$dao->product_id];)
-            $options = $this->_options[$dao->product_id];
+            $options = isset($this->_options[$dao->product_id]) ? $this->_options[$dao->product_id] : "";
             if ( ! $options ) {
                 $this->assign('showOption',true);
             }
@@ -265,10 +265,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                     break;
                 }
             }
-            if ( $defaults['product_name'][0] || $defaults['fulfilled_date'] ) {
+            if ( CRM_Utils_Array::value('0',$defaults['product_name']) || CRM_Utils_Array::value('fulfilled_date',$defaults) ) {
                 $showPremium = 1;
             }
-            if ( $defaults['cancel_date'] || $defaults['cancel_reason'] ) {
+            if ( CRM_Utils_Array::value('cancel_date',$defaults) || CRM_Utils_Array::value('cancel_reason',$defaults) ) {
                 $showCancel = 1;
             }
         }
@@ -430,7 +430,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $this->_online ) {
             $element->freeze( );
         }
-        $element =& $this->add( 'text', 'source', ts('Source'), $attributes['source'] );
+        $element =& $this->add( 'text', 'source', ts('Source'), CRM_Utils_Array::value('source',$attributes) );
         if ( $this->_online ) {
             $element->freeze( );
         }
