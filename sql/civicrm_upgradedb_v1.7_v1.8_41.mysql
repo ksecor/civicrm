@@ -133,11 +133,11 @@ CREATE TABLE civicrm_preferences (
      contact_id int unsigned COMMENT 'FK to Contact ID',
      is_domain tinyint COMMENT 'Is this the record for the domain setting?',
      location_count int unsigned COMMENT 'Number of locations to be displayed on edit page?',
-     contact_view_options varchar(32) COMMENT 'What tabs are displayed in the contact summary',
-     contact_edit_options varchar(32) COMMENT 'What tabs are displayed in the contact edit',
-     advanced_search_options varchar(32) COMMENT 'What tabs are displayed in the advanced search screen',
-     user_dashboard_options varchar(32) COMMENT 'What tabs are displayed in the contact edit',
-     address_options varchar(32) COMMENT 'What fields are displayed from the address table',
+     contact_view_options varchar(128) COMMENT 'What tabs are displayed in the contact summary',
+     contact_edit_options varchar(128) COMMENT 'What tabs are displayed in the contact edit',
+     advanced_search_options varchar(128) COMMENT 'What tabs are displayed in the advanced search screen',
+     user_dashboard_options varchar(128) COMMENT 'What tabs are displayed in the contact edit',
+     address_options varchar(128) COMMENT 'What fields are displayed from the address table',
      address_format text COMMENT 'Format to display the address',
      mailing_format text COMMENT 'Format to display a mailing label',
      individual_name_format text COMMENT 'Format to display a individual name',
@@ -470,3 +470,40 @@ CREATE TABLE civicrm_line_item (
 -- *
 -- *******************************************************/
 UPDATE civicrm_location_type SET name = 'Billing' WHERE name IN ('Facturering', 'Facturation', 'Faturamento');
+
+
+-- /*******************************************************
+-- *
+-- * dupe rule defaults
+-- *
+-- *******************************************************/
+
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Individual', 20);
+
+SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
+
+INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
+ VALUES 
+ (@dedupe_rule_group_id, 'civicrm_individual', 'first_name', 5),
+ (@dedupe_rule_group_id, 'civicrm_individual', 'last_name',  7),
+ (@dedupe_rule_group_id, 'civicrm_email',      'email',     10);
+
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Organization', 10);
+
+SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
+
+INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
+VALUES
+  (@dedupe_rule_group_id, 'civicrm_organization', 'organization_name', 5),
+  (@dedupe_rule_group_id, 'civicrm_email',        'email',             5);
+
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Household', 10);
+
+SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
+
+INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
+VALUES
+  (@dedupe_rule_group_id, 'civicrm_household', 'household_name', 5),
+  (@dedupe_rule_group_id, 'civicrm_email',     'email',          5);
+
+
