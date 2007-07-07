@@ -280,8 +280,10 @@ $smarty->assign('civicrmDomainId', 1);
 $smarty->assign('build_version',$build_version);
 
 $config =& CRM_Core_Config::singleton( 'crm', false );
-
-$locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
+$locales = array( );
+if ( file_exists( $config->gettextResourceDir ) ) {
+  $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
+}
 if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
 
 foreach ($locales as $locale) {
