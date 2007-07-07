@@ -86,22 +86,35 @@ class CRM_Contact_Form_Address
             if ( ! $attributes ) {
                 $attributes = $attributes[$name];
             }
-             
+            
+            //build normal select if country is not present in address block
+            if ( $name == 'state_province' && ! $addressOptions[ $elements['country'][0] ] ) {
+                $select = 'stateProvince';
+            }
+            
             if ( ! $select ) {
-                if ( $name == 'country' ) {
-                    $attributes = null;
+                if ( $name == 'country' || $name == 'state_province' ) {
+                    $onValueChanged = null;
+                    $dataUrl = null;
+
+                    if ( $name == 'country') {
+                        $dataUrl=  CRM_Utils_System::url( "civicrm/ajax/country", "s=%{searchString}&node=root", true, null, false );
+                        
+                        //when only country is enable, don't call function to build state province
+                        if ( $addressOptions[ $elements['state_province'][0] ] ) {
+                            $onValueChanged = 'checkParamChildren';
+                        }
+                    } else {
+                        $stateUrl = CRM_Utils_System::url( "civicrm/ajax/state","s=%{searchString}", true, null, false );
+                        $form->assign( 'stateURL', $stateUrl );
+                    }
+
                     $attributes = array( 'dojoType'       => 'ComboBox',
                                          'mode'           => 'remote',
-                                         'style'          => 'width: 300px;',
-                                         'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/country",
-                                                                                    "s=%{searchString}&node=root",
-                                                                                    true, null, false ),
-                                         'onValueChanged' => 'checkParamChildren',
-                                         'id'             => 'country'.$locationId );
-
-                    $stateURL = CRM_Utils_System::url( "civicrm/ajax/state","s=%{searchString}",
-                                                       true, null, false );
-                    $form->assign( 'stateURL', $stateURL);
+                                         'style'          => 'width: 230px;',
+                                         'dataUrl'        => $dataUrl,
+                                         'onValueChanged' => $onValueChanged,
+                                         'id'             => 'location_'.$locationId.'_address_'.$name );
                 }
 
                 $location[$locationId]['address'][$name] =
