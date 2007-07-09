@@ -206,7 +206,8 @@ UPDATE civicrm_location
         }
         
         //if location name exists return true
-        // For backward compatibility, checking for name AND location_name. At some point, migrate to only using location_name.
+        // For backward compatibility, checking for name AND location_name.
+        // At some point, migrate to only using location_name.
         if ( CRM_Utils_Array::value( 'location_name', $params['location'][$locationId] ) ||
              CRM_Utils_Array::value( 'name', $params['location'][$locationId] )) {
             return  true;
@@ -346,6 +347,7 @@ UPDATE civicrm_location
                 $locations[$i + 1] = clone($location);
             }
         }
+
         if ( empty( $values['location'] ) ) {
             // mark the first location as primary if none exists
             $values['location'][1] = array( );
