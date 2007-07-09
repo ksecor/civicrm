@@ -354,6 +354,10 @@ ORDER BY name";
             $count++;
         }
 
+        if ( empty( $elements ) ) {
+            $elements[] = array( $name, $name );
+        }
+
         require_once 'Services/JSON.php';
         $json =& new Services_JSON( );
         echo $json->encode( $elements );
