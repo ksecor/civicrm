@@ -109,14 +109,14 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
                     if ( isset($value['address']['country_id']) ) {
                         $countryId = $value['address']['country_id'];
                         if ( $countryId ) {
-                            $this->assign( "country{$key}_value",  $countries[$countryId] );
+                            $this->assign( "country_{$key}_value",  $countries[$countryId] );
                         }
                     }
                     
                     if ( isset($value['address']['state_province_id']) ) {
                         $stateProvinceId = $value['address']['state_province_id'];
                         if ( $stateProvinceId ) {
-                            $this->assign( "country{$key}_state_value",  $stateProvinces[$stateProvinceId] );
+                            $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateProvinceId] );
                         }
                     }
                 }

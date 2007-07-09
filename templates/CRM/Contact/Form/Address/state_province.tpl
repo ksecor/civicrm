@@ -43,10 +43,6 @@
 
                      if ( stateValue1 && stateEnabled ) {
                        dojo.widget.byId( 'location_1_address_state_province' ).setAllValues( stateValue1, stateValue1 );
-                       if ( ! dojo.widget.byId('location_1_address_state_province').dataProvider.searchUrl ) {  
-                            //dojo.widget.byId('location_1_address_state_province').dataProvider.searchUrl
-                       //= res + '&node=' + countryValue1 + '&sc=child';
-                       }
                      }
                   }
                }            
