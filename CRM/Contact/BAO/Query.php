@@ -827,6 +827,7 @@ class CRM_Contact_BAO_Query {
                 return $values;
             }
         }
+        
         return $result;
     }
 
@@ -1379,6 +1380,7 @@ class CRM_Contact_BAO_Query {
      */
     static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) 
     {
+
         $from = ' FROM civicrm_contact contact_a';
         if ( empty( $tables ) ) {
             return $from;
@@ -1430,9 +1432,6 @@ class CRM_Contact_BAO_Query {
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::tableNames( $tables );
  
-        require_once 'CRM/Case/BAO/Query.php';
-        CRM_Case_BAO_Query::tableNames( $tables );
-
         //format the table list according to the weight
         require_once 'CRM/Core/TableHierarchy.php';
         $info =& CRM_Core_TableHierarchy::info( );
@@ -1650,13 +1649,18 @@ class CRM_Contact_BAO_Query {
 
             case 'civicrm_case':
                 $from .= CRM_Case_BAO_Query::from( $name, $mode, $side );
-                continue; 
-
+                continue;
+                
+            case 'civicrm_grant':
+                $from .= CRM_Grant_BAO_Query::from( $name, $mode, $side );
+                continue;    
+            
             default:
                 $from .= CRM_Core_Component::from( $name, $mode, $side );
                 continue;
             }
         }
+       
         return $from;
     }
 

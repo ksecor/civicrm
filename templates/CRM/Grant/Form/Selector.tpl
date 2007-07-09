@@ -4,9 +4,8 @@
 
 {if $context EQ 'Contact Summary'}
     {assign var='columnHeaders' value=$event_columnHeaders}
-    {assign var='rows' value=$event_rows}
-    {assign var='single' value=$event_single}
-    {assign var='limit' value=$event_limit}
+    {assign var='rows' value=$_rows}
+   
 {/if}
 {strip}
 <table class="selector">
@@ -32,26 +31,16 @@
 
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr id='rowid{$row.participant_id}' class="{cycle values="odd-row,even-row"}{*if $row.cancel_date} disabled{/if*}">
-     {if ! $event_single and ! $limit}
-       {assign var=cbName value=$row.checkbox}
-       <td>{$form.$cbName.html}</td> 
-       <td>{$row.contact_type}</td>	
-       <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td> 
-    {/if}
-    <td>{$row.event_title}</td>
-    {assign var="participant_id" value=$row.participant_id}
-    {if $lineItems.$participant_id}
-    <td>
-        {foreach from=$lineItems.$participant_id item=line name=lineItemsIter}
-        {$line.label}: {$line.qty}
-        {if ! $smarty.foreach.lineItemsIter.last}<br>{/if}
-        {/foreach}
-    </td>
-    {else}
-    <td>{$row.event_level}</td>
-    {/if}
-    <td>{$row.start_date|truncate:10:''|crmDate}
+  <tr id='rowid{$row.grant_id}' class="{cycle values="odd-row,even-row"}
+     
+       
+       <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.contact_name}</a></td> 
+  
+    <td>{$row.grant_status}</td>
+   
+    <td>{$row.grant_type}</td>
+    <td>{$row.grant_amount_total}</td>
+    <td>{$row.application_received_date|truncate:10:''|crmDate}
         {if $row.end_date && $row.end_date|date_format:"%Y%m%d" NEQ $row.start_date|date_format:"%Y%m%d"}
             <br/>- {$row.end_date|truncate:10:''|crmDate}
         {/if}

@@ -73,9 +73,10 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'contact_type',
                                  'sort_name',
                                  'grant_id',
-                                 'status_id',
+                                 'grant_status_id',
                                  'grant_type_id',
-                                 'amount_total',
+                                 'grant_amount_total',
+                                 'grant_application_received_date',
                                  );
 
     /** 
@@ -109,7 +110,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      * @var array
      * @access protected
      */
-    public $_queryParams;
+    public $_queryParams; 
 
     /**
      * represent the type of selector
@@ -269,6 +270,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                false, false, 
                                                false, 
                                                $this->_grantClause );
+       
 
          // process the result of the query
          $rows = array( );
@@ -280,13 +282,15 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
          }
 
          require_once 'CRM/Grant/PseudoConstant.php';
-         $statusTypes  = array( );
-//         $statusTypes  = CRM_Grant_PseudoConstant::participantStatus( );
-         $roles        = array( );
-//         $roles        = CRM_Grant_PseudoConstant::participantrole( );
+         $grantStatus  = array();
+         $grantStatus  = CRM_Core_OptionGroup::values( 'grant_status' );
+         $grantType    = array( );
+         $grantType    = CRM_Core_OptionGroup::values( 'grant_type' );
+
 
          $mask = CRM_Core_Action::mask( $permission );
          while ($result->fetch()) {
+           
              $row = array();
              // the columns we are interested in
              foreach (self::$_properties as $property) {
@@ -296,14 +300,12 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              }
 
              //fix status display
-             $row['status']   = $statusTypes[$row['status_id']];
+             $row['grant_status'] = $grantStatus[$row['grant_status_id']];
              
-             //fix role display
-             $row['role'] =  $roles[$row['role_id']];
+             $row['grant_type']   = $grantType[$row['grant_type_id']];
+             $row['contact_name'] = CRM_Contact_BAO_Contact::displayName($row['contact_id']);
             
-             if ( $row["event_is_test"] ) {
-                 $row['status'] = $row['status'] . " (test)";
-            }
+           
              if ($this->_context == 'search') {
                  $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->grant_id;
              }
@@ -329,6 +331,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 //             $row['modified_date'] = CRM_Grant_BAO_Participant::getModifiedDate( $result->contact_id, $result->participant_id );
              $rows[] = $row;
          }
+         
          return $rows;
      }
      
@@ -361,12 +364,12 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array(
                                           array('name'      => ts('Grant Status'),
-                                                'sort'      => 'title',
+                                                'sort'      => 'grant_status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Grant Type'),
-                                                'sort'      => 'event_level',
+                                                'sort'      => 'grant_type_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(

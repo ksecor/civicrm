@@ -40,7 +40,7 @@ class CRM_Grant_BAO_Query
     {
         $fields = array( );
         require_once 'CRM/Grant/DAO/Grant.php';
-        $fields = array_merge( $fields, CRM_Grant_DAO_Grant::import( ) );
+        $fields = array_merge( $fields, CRM_Grant_DAO_Grant::export( ) );
         return $fields;
     }
    
@@ -54,14 +54,18 @@ class CRM_Grant_BAO_Query
     {
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_GRANT ) {
 
-            $query->_select['grant_type_id'] = "civicrm_grant.grant_type_id as grant_type";
+            $query->_select['grant_type_id'] = "civicrm_grant.grant_type_id as grant_type_id";
+            $query->_select['grant_status_id' ]  = "civicrm_grant.status_id as grant_status_id";
+            $query->_select['grant_amount_total']  = "civicrm_grant.amount_total as grant_amount_total";
+            $query->_select['grant_application_received_date']  = "civicrm_grant.application_received_date as grant_application_received_date ";
             $query->_element['grant_type_id'] = 1;
+            $query->_element['grant_status_id'] = 1;
             $query->_tables['civicrm_grant'] = 1;
             $query->_whereTables['civicrm_grant'] = 1;
            
             //add status
-            $query->_select['status_id' ]  = "civicrm_grant.status_id as status_id";
-            $query->_element['status_id']  = 1;
+            //$query->_select['status_id' ]  = "civicrm_grant.grant_status_id as status_id";
+            //$query->_element['status_id']  = 1;
             
         }
     }
@@ -85,7 +89,6 @@ class CRM_Grant_BAO_Query
     static function whereClauseSingle( &$values, &$query ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        
         switch( $name ) {
             
         case 'grant_money_transfer_date_low':
@@ -151,7 +154,7 @@ class CRM_Grant_BAO_Query
         switch ( $name ) {
         
         case 'civicrm_grant':
-            $from = " LEFT JOIN civicrm_grant ON civicrm_grant.contact_id = contact_a.id ";
+            $from = " RIGHT JOIN civicrm_grant ON civicrm_grant.contact_id = contact_a.id ";
             break;
     
         }
@@ -173,9 +176,10 @@ class CRM_Grant_BAO_Query
         $properties = null;
         if ( $mode & CRM_Contact_BAO_Query::MODE_GRANT ) {
             $properties = array(  
-                                'grant_type_id'             => 1, 
-                                'status_id'                 => 1, 
-                                'amoun_total'               => 1
+                                'grant_type_id'                     => 1, 
+                                'grant_status_id'                   => 1, 
+                                'grant_amount_total'                => 1,
+                                'grant_application_received_date'   => 1,
                                 );
        
  

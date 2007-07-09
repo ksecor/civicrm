@@ -1,4 +1,4 @@
-{* Search form and results for Events *}
+{* Search form and results for Grants *}
 <div id="help">
     {ts}Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, Total Amount , etc .{/ts}
 </div>
@@ -36,7 +36,7 @@
 
        {* This section displays the rows along and includes the paging controls *}
        <p></p>
-       {include file="CRM/Event/Form/Selector.tpl" context="Search"}
+       {include file="CRM/Grant/Form/Selector.tpl" context="Search"}
        
     </fieldset>
     {* END Actions/Results section *}

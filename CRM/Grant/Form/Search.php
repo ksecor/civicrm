@@ -42,7 +42,7 @@ require_once 'CRM/Core/Selector/Controller.php';
 require_once 'CRM/Contact/BAO/SavedSearch.php';
 
 /**
- * This file is for civievent search
+ * This file is for civigrant search
  */
 class CRM_Grant_Form_Search extends CRM_Core_Form
 {
@@ -130,7 +130,7 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
      * prefix for the controller
      * 
      */
-    protected $_prefix = "event_";
+    protected $_prefix = "grant_";
 
     protected $_defaults;
 
@@ -145,7 +145,8 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
     { 
         /** 
          * set the button names 
-         */ 
+         */   
+
         $this->_searchButtonName = $this->getButtonName( 'refresh' ); 
         $this->_printButtonName  = $this->getButtonName( 'next'   , 'print' ); 
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' ); 
@@ -202,7 +203,7 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
         if ( $this->_context == 'basic' || $this->_context == 'user' ) {
             $prefix = $this->_prefix;
         }
-        
+  
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
                                                         $sortID,  
@@ -221,10 +222,10 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
      *
      * @access public
      * @return void
-     */
+ */
     function buildQuickForm( ) 
     {
-        $this->addElement('text', 'sort_name', ts('Participant'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->addElement('text', 'sort_name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         
         require_once 'CRM/Grant/BAO/Query.php';
         CRM_Grant_BAO_Query::buildSearchForm( $this );
@@ -234,9 +235,11 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
          * of all elements being declared in builQuickForm 
          */ 
         $rows = $this->get( 'rows' ); 
+        // CRm_Core_Error::debug("rows",$rows);
+      
         if ( is_array( $rows ) ) {
             $lineItems = array( );
-            //require_once 'CRM/Grant/BAO/Participant.php';
+            //require_once 'CRM/Grant/BAO/Grant.php';
             if ($this->_context == 'search') {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
                 foreach ($rows as $row) { 
@@ -246,27 +249,21 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
                                        ); 
 
                     // add line item details if applicable
-                    $participant_id = $row['participant_id'];
-                    $lineItems[$participant_id] = CRM_Grant_BAO_Participant::getLineItems( $participant_id );
+                    $grant_id = $row['grant_id'];
+                    //$lineItems[$grant_id] = CRM_Grant_BAO_Grant::getLineItems( $participant_id );
                 }
             }
 
-            $this->assign( 'lineItems', $lineItems );
+            //$this->assign( 'lineItems', $lineItems );
 
             $total = $cancel = 0;
             $this->assign( "{$this->_prefix}single", $this->_single );
             
             // also add the action and radio boxes
             require_once 'CRM/Grant/Task.php';
-            $tasks = array( '' => ts('- more actions -') );// + CRM_Grant_Task::tasks( );
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Grant_Task::tasks( );
             if ( isset( $this->_ssID ) ) {
-                require_once "CRM/Core/Permission.php";
-                $permission = CRM_Core_Permission::getPermission( );
-                if ( $permission == CRM_Core_Permission::EDIT ) {
-                    require_once "CRM/Contact/Task.php";
-                    $tasks = $tasks + CRM_Grant_Task::optionalTaskTitle();
-                }
-                    
+                                    
                 $savedSearchValues = array( 'id' => $this->_ssID,
                                             'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID, 'title' ) );
                 $this->assign_by_ref( 'savedSearch', $savedSearchValues );
@@ -295,6 +292,7 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
                                          'isDefault' => true     ) 
                                  )    );
     }
+
     
     /**
      * The post processing of the form gets done here.
@@ -329,13 +327,6 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
 
-        // we don't show test registrations in Contact Summary / User Dashboard
-        // in Search mode by default we hide test registrations
-        if ( ! CRM_Utils_Array::value( 'event_participant_test',
-                                       $this->_formValues ) ) {
-            $this->_formValues["event_participant_test"] = 0;
-        }
-        
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
         
@@ -360,7 +351,8 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
         } 
       
         require_once 'CRM/Contact/BAO/Query.php';
-        $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
+     
+     
         
         $selector =& new CRM_Grant_Selector_Search( $this->_queryParams,
                                                     $this->_action,
@@ -372,7 +364,7 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
         if ( $this->_context == 'basic' || $this->_context == 'user') {
             $prefix = $this->_prefix;
         }
-        
+     
         $controller =& new CRM_Core_Selector_Controller($selector , 
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ), 
                                                         $sortID, 
@@ -403,20 +395,19 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
         return $defaults;
     }
 
-
     function fixFormValues( )
     {
         // if this search has been forced
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
         
-        $event = CRM_Utils_Request::retrieve( 'event', 'Positive',
+        $grant = CRM_Utils_Request::retrieve( 'grant', 'Positive',
                                               CRM_Core_DAO::$_nullObject );
-        if ( $event ) {
+        /*  if ( $event ) {
             $this->_formValues['event_title'] = CRM_Grant_PseudoConstant::event( $event );
             $this->assign( 'event_title_value', $this->_formValues['event_title'] );
         }
-        
+        */
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
         if ( $cid ) {
