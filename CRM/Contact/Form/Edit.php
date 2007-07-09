@@ -639,7 +639,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type_display)));
 
         $buttonName = $this->controller->getButtonName( );
-        if ( ($buttonName == $this->getButtonName( 'next', 'new' )) || ($buttonName == $this->getButtonName( 'upload', 'new' ))) {
+        if ( ($buttonName == $this->getButtonName( 'next', 'new' ) ) ||
+             ($buttonName == $this->getButtonName( 'upload', 'new' ) ) ) {
             require_once 'CRM/Utils/Recent.php';
 
             // add the recently viewed contact

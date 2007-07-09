@@ -340,7 +340,12 @@ class CRM_Core_Invoke
                 
             case 'vcard':
                 require_once 'CRM/Contact/Page/View/Vcard.php';
-                $view =& new CRM_Contact_Page_View_Vcard();
+                $view =& new CRM_Contact_Page_View_Vcard( );
+                break;
+
+            case 'print':
+                require_once 'CRM/Contact/Page/View/Print.php';
+                $view =& new CRM_Contact_Page_View_Print( );
                 break;
 
             case 'delete':

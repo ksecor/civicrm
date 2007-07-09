@@ -78,7 +78,7 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         $form->addElement('text', 'contact_source', ts('Source'));
         $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
         $this->addRule( 'external_identifier', ts('External ID already exists in Database.'), 
-                        'objectExists', array( 'CRM_Contact_DAO_Contact', $this->_id, 'external_identifier' ) );
+                        'objectExists', array( 'CRM_Contact_DAO_Contact', isset($this->_id) ? $this->_id : "", 'external_identifier' ) );
         
     }
 

@@ -103,14 +103,12 @@
   <field>  
       <name>fixed_period_start_day</name>  
       <type>int</type>   
-      <default>0101</default>
       <comment>For fixed period memberships, month and day (mmdd) on which subscription/membership will start. Period start is back-dated unless after rollover day.</comment>  
       <add>1.5</add>  
   </field> 
   <field>  
       <name>fixed_period_rollover_day</name>  
       <type>int</type>
-      <default>1231</default>
       <comment>For fixed period memberships, signups after this day (mmdd) rollover to next period.</comment>  
       <add>1.5</add>  
   </field> 

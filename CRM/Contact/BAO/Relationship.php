@@ -830,18 +830,24 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         // Check the end date and set the status of the relationship
         // accrodingly.
         $status = self::CURRENT;
-        if ( isset( $params['end_date']['Y'] ) &&
-             isset( $params['end_date']['M'] ) &&
-             isset( $params['end_date']['d'] ) ) {
-            $endDate = date( 'Ymd', mktime( 0, 0, 0, 
-                                            $params['end_date']['M'],
-                                            $params['end_date']['d'],
-                                            $params['end_date']['Y'] ) );
+        
+        if ( ! empty( $params['end_date']['Y'] ) &&
+             ! empty( $params['end_date']['M'] ) &&
+             ! empty( $params['end_date']['d'] ) ) {
+            $endDate = date( 'Ymd', mktime( 0, 0, 0, $params['end_date']['M'], $params['end_date']['d'], $params['end_date']['Y'] ) );
             $today = CRM_Utils_Date::customFormat( CRM_Utils_Date::getToday( ), '%Y%m%d' );
             
             if ( $today > $endDate ) {
                 $status = self::PAST;
             }
+        }
+        
+        if ( ( $action & CRM_Core_Action::ADD ) &&
+             ( $status & self::PAST           ) ) {
+            // if relationship is PAST and action is ADD, no qustion
+            // of creating RELATED membership and return back to
+            // calling method
+            return;
         }
         
         $rel = explode( "_", $params['relationship_type_id'] );
@@ -921,10 +927,18 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             
             require_once 'CRM/Member/BAO/MembershipType.php';
             foreach ( $details['memberships'] as $membershipId => $membershipValues ) {
-                if ( ( $action & CRM_Core_Action::DELETE ) ||
-                     ( $status & self::PAST              ) ) {
+                if ( $action & CRM_Core_Action::DELETE ) {
                     // delete memberships of the related contacts.
                     CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
+                    continue;
+                }
+                if ( ( $action & CRM_Core_Action::UPDATE        ) && 
+                     ( $status & self::PAST                     ) &&
+                     ( $membershipValues['owner_membership_id'] ) ) {
+                    // If relationship is PAST and action is UPDATE
+                    // then delete the RELATED membership
+                    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipValues['owner_membership_id'],
+                                                                         $membershipValues['membership_contact_id'] );
                     continue;
                 }
                 

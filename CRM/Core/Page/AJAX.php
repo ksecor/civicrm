@@ -292,7 +292,7 @@ LIMIT 6";
         }
 
         $query = "
-SELECT civicrm_state_province.name name
+SELECT id, name
   FROM civicrm_state_province, civicrm_country
  WHERE civicrm_state_province.country_id = civicrm_country.id
   AND  civicrm_country.name LIKE '$countryName%'";
@@ -340,7 +340,7 @@ SELECT civicrm_state_province.name name
         $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
 
         $query = "
-SELECT civicrm_country.name name
+SELECT id, name
   FROM civicrm_country
  WHERE civicrm_country.name LIKE '$name%'
    AND {$whereClause} 

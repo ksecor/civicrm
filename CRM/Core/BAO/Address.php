@@ -121,7 +121,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         }
 
         // add country id if not set
-        if ( isset( $params['country_id'] ) && ! is_numeric( $params['country_id'] ) &&
+        if ( ( ! isset( $params['country_id'] ) || ! is_numeric( $params['country_id'] ) ) &&
              isset( $params['country'] ) ) {
             $country       = & new CRM_Core_DAO_Country( );
             $country->name = $params['country'];
@@ -187,7 +187,9 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
     static function dataExists(&$params, $locationId, &$ids)
     {
         // if we should not overwrite, then the id is not relevant.
-        if ( self::$_overwrite && is_array( $ids ) && CRM_Utils_Array::value('address', $ids['location'][$locationId]) ) {
+        if ( self::$_overwrite &&
+             is_array( $ids )  &&
+             CRM_Utils_Array::value('address', $ids['location'][$locationId]) ) {
             return true;
         }
 
@@ -196,17 +198,22 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             return false;
         }
 
+        $config =& CRM_Core_Config::singleton( );
         foreach ($params['location'][$locationId]['address'] as $name => $value) {
             if (! empty($value) ) {
                 if ( $name !='country' ) {
                     return true;
                 } else {
                     // make sure its different from the default country
-                    $config =& CRM_Core_Config::singleton( );
-                    if ( $config->defaultContactCountry ) {
-                        if ( $value != $config->defaultContactCountry ) {
-                            return true;
+                    // iso code
+                    $defaultCountry     =& $config->defaultContactCountry( );
+                    // full name
+                    $defaultCountryName =& $config->defaultContactCountryName( );
+                    if ( $defaultCountry ) {
+                        if ( $value == $defaultCountry || $value == $defaultCountryName ) {
+                            return false;
                         }
+                        return true;
                     } else {
                         // return if null default
                         return true;
@@ -287,8 +294,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      */
     function addDisplay( $microformat = false )
     {
-
-
         require_once 'CRM/Utils/Address.php';
         $fields = array(
             'address_id'             => $this->id, // added this for CRM 1200
@@ -296,11 +301,11 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             'supplemental_address_1' => $this->supplemental_address_1,
             'supplemental_address_2' => $this->supplemental_address_2,
             'city'                   => $this->city,
-            'state_province_name'    => $this->state_name,
-            'state_province'         => $this->state,
-            'postal_code'            => $this->postal_code,
-            'postal_code_suffix'     => $this->postal_code_suffix,
-            'country'                => $this->country
+            'state_province_name'    => isset($this->state_name) ? $this->state_name : "",
+            'state_province'         => isset($this->state) ? $this->state : "",
+            'postal_code'            => isset($this->postal_code) ? $this->postal_code : "",
+            'postal_code_suffix'     => isset($this->postal_code_suffix) ? $this->postal_code_suffix : "",
+            'country'                => isset($this->country) ? $this->country : ""
             );
 
         if( isset( $this->county_id ) && $this->county_id ) {

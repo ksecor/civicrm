@@ -1080,6 +1080,15 @@ class CRM_Core_Config
         return $cachedContactCountry;
     }
 
+    function defaultContactCountryName( ) {
+        static $cachedContactCountryName = null;
+        if ( ! $cachedContactCountryName ) {
+            $countryCodes = CRM_Core_PseudoConstant::country( );
+            $cachedContactCountryName = $countryCodes[$this->defaultContactCountry];
+        }
+        return $cachedContactCountryName;
+    }
+
     function countryLimit( ) {
         static $cachedCountryLimit = null;
         if ( ! $cachedCountryLimit ) {

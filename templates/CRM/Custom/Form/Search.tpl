@@ -44,7 +44,7 @@
             <tr>
                 <td> 
                 {if $element.html_type eq 'Radio'}
-                  &nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >unselect</a>
+                  &nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>
                 {/if}
                 </td>
             </tr>
@@ -64,7 +64,7 @@
 			<dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}
 		  {/if}
 		  {if $element.html_type eq 'Radio'}
-	 	     &nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >unselect</a>
+	 	     &nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>
                    {/if}
                    </dd>
 	    {/if}
