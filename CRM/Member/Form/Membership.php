@@ -130,6 +130,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             return;
         }
 
+        $selOrgMemType[0][0] = $selMemTypeOrg[0] = ts('-- select --');
+
         $dao =& new CRM_Member_DAO_MembershipType();
         $dao->find();
         while ($dao->fetch()) {
@@ -146,6 +148,12 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
                 }
             }
+        }
+        
+        // show organization by default, if only one organization in
+        // the list 
+        if ( count($selMemTypeOrg) == 2 ) {
+            unset($selMemTypeOrg[0], $selOrgMemType[0][0]);
         }
 
         $sel =& $this->addElement('hierselect', 
