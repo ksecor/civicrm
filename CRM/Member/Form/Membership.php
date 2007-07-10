@@ -130,8 +130,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             return;
         }
 
-        $selOrgMemType[0][0] = $selMemTypeOrg[0] = ts('-- select --');
-
         $dao =& new CRM_Member_DAO_MembershipType();
         $dao->find();
         while ($dao->fetch()) {

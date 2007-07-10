@@ -70,7 +70,6 @@
 {literal}
 <script type="text/javascript">
 showHideMemberStatus();
-hideSecondSelect();
     
 function showHideMemberStatus() {
 	if (document.getElementsByName("is_override")[0].checked == true) {
@@ -80,12 +79,6 @@ function showHideMemberStatus() {
 	   hide('memberStatus');
        show('memberStatus_show');
 	}
-}
-
-function hideSecondSelect() {
-    if (!document.getElementsByName("membership_type_id[0]")[0].selectedIndex) {
-        document.getElementsByName("membership_type_id[1]")[0].style.display = "none";
-    }
 }
 
 function reload(refresh) {
