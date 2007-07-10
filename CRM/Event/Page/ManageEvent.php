@@ -137,7 +137,6 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         
         // set breadcrumb to append to 2nd layer pages
         $breadCrumbPath = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' );
-        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Manage Events') . '</a>';
 
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD ) {
@@ -145,14 +144,16 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             
             $title = "New Event Wizard";
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' ) );
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            CRM_Utils_System::appendBreadCrumb( ts('Manage Events'),
+                                                $breadCrumbPath );
             CRM_Utils_System::setTitle( $title );
             
             require_once 'CRM/Event/Controller/ManageEvent.php';
             $controller =& new CRM_Event_Controller_ManageEvent( );
             return $controller->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            CRM_Utils_System::appendBreadCrumb( ts('Manage Events'),
+                                                $breadCrumbPath );
 
             require_once 'CRM/Event/Page/ManageEventEdit.php';
             $page =& new CRM_Event_Page_ManageEventEdit( );
