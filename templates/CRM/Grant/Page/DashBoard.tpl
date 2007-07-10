@@ -19,15 +19,15 @@ You have {$grantSummary.total_grants} grant(s) registered in your database.
     <th scope="col">{ts}Grant status{/ts}</th>
     <th scope="col">{ts}Number of grants{/ts}</th>
 </tr>
-</tr>
+
 {foreach from=$grantSummary.per_status item=status key=id}
 <tr>
-    <td><a href="{crmURL p="civicrm/grant/search" q="reset=1&status=`$id`"}">{$status.label}</a></td>
+    <td><a href="{crmURL p="civicrm/grant/search" q="reset=1&status=`$id`&force=1"}">{$status.label}</a></td>
     <td>{$status.total}</td>
 </tr>
 {/foreach}
 <tr class="columnheader-dark">
-    <td>TOTAL:</td>
+    <th>TOTAL:</td>
     <th>{$grantSummary.total_grants}</th>
 </tr>
 </table>

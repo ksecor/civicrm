@@ -81,20 +81,20 @@ class CRM_Grant_Form_Task_Delete extends CRM_Grant_Form_Task
     public function postProcess( ) 
     {
         $session =& CRM_Core_Session::singleton();
-
-        /*  $deletedGrants = 0;
-        require_once 'CRM/Grant/BAO/Grant.php';
-        foreach ( $this->_participantIds as $participantId ) {
-            if ( CRM_Event_BAO_Participant::deleteParticipant( $participantId ) ) {
-                $deletedParticipants++;
+       
+        $deletedGrants = 0;
+         require_once 'CRM/Grant/BAO/Grant.php';
+        foreach ( $this->_grantIds as $grantId ) {
+            if ( CRM_Grant_BAO_Grant::del( $grantId ) ) {
+                $deletedGrants++;
             }
         }
 
         $status = array(
-                        ts( 'Deleted Participation(s): %1',        array( 1 => $deletedParticipants ) ),
-                        ts( 'Total Selected Participation(s): %1', array( 1 => count($this->_participantIds ) ) ),
+                        ts( 'Deleted Grant(s): %1',        array( 1 => $deletedGrants ) ),
+                        ts( 'Total Selected Grant(s): %1', array( 1 => count($this->_grantIds ) ) ),
                         );
-        CRM_Core_Session::setStatus( $status );*/
+        CRM_Core_Session::setStatus( $status );
     }
 }
 

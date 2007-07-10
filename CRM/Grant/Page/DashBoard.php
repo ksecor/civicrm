@@ -53,7 +53,7 @@ class CRM_Grant_Page_DashBoard extends CRM_Core_Page
 
         require_once 'CRM/Grant/BAO/Grant.php';
         $grantSummary = CRM_Grant_BAO_Grant::getGrantSummary( $admin );
-
+        
         $this->assign( 'grantAdmin'  , $admin );
         $this->assign( 'grantSummary' , $grantSummary);
     }

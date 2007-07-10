@@ -280,9 +280,9 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 
          require_once 'CRM/Grant/PseudoConstant.php';
          $grantStatus  = array( );
-         $grantStatus  = CRM_Core_OptionGroup::values( 'grant_status' );
+         $grantStatus  = CRM_Grant_PseudoConstant::grantStatus( );
          $grantType    = array( );
-         $grantType    = CRM_Core_OptionGroup::values( 'grant_type' );
+         $grantType    = CRM_Grant_PseudoConstant::grantType( );
 
 
          $mask = CRM_Core_Action::mask( $permission );

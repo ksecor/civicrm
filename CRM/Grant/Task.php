@@ -79,7 +79,7 @@ class CRM_Grant_Task
     {
         if (!(self::$_tasks)) {
             self::$_tasks = array(
-                                  1     => ts( 'Delete Participants'   ),                );
+                                  1     => ts( 'Delete Grants'   ),                );
                                   /*  3     => ts( 'Export Participants'                   ),
                                   4     => ts( 'Batch Update Participants Via Profile' ),
                                   5     => ts( 'Cancel Registration'                   ),

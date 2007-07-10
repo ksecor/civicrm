@@ -75,20 +75,23 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
   FROM civicrm_grant  GROUP BY status_id";
         
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        
-        require_once 'CRM/Core/OptionGroup.php';
+               
+        require_once 'CRM/Grant/PseudoConstant.php';
         $status = array( );
-        $status = CRM_Core_OptionGroup::values( 'grant_status' );
+        $status = CRM_Grant_PseudoConstant::grantStatus( );
+     
+        foreach( $status as $id => $name ) {
+            $stats[$id] = array( 'label' => $name,
+                                 'total' => 0 );
+        }
 
         while ( $dao->fetch( ) ) {
             $stats[$dao->status_id] = array( 'label' => $status[$dao->status_id],
                                              'total' => $dao->status_total );
             $summary['total_grants'] += $dao->status_total;
         }
-
-        $summary['per_status'] = $stats;
-//        $summary['total_grants'] = array_sum( $stats );
         
+        $summary['per_status'] = $stats;
         return $summary;
     }
 
