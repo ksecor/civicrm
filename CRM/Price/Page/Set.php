@@ -180,8 +180,8 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
                 } else {
                     // add breadcrumb
                     $url = CRM_Utils_System::url( 'civicrm/admin/price', 'reset=1' );
-                    $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Price Sets') . '</a>';
-                    CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+                    CRM_Utils_System::appendBreadCrumb( ts('Price Sets'),
+                                                        $url );
                     $this->assign( 'usedPriceSetTitle', CRM_Core_BAO_PriceSet::getTitle( $id ) );
                     $this->assign( 'usedBy', $usedBy );
                 }

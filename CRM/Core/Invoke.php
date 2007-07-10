@@ -68,11 +68,11 @@ class CRM_Core_Invoke
 
         if ( $config->userFramework == 'Joomla' ) {
             require_once 'CRM/Core/Joomla.php';
-            CRM_Core_Joomla::sidebarLeft( );
+            Crm_Core_Joomla::sidebarLeft( );
         } else if ( $config->userFramework == 'Standalone' ) {
-	    require_once 'CRM/Core/Standalone.php';
-	    CRM_Core_Standalone::sidebarLeft( );
-	}
+            require_once 'CRM/Core/Standalone.php';
+            CRM_Core_Standalone::sidebarLeft( );
+        }
 
         // set active Component
         $template =& CRM_Core_Smarty::singleton( );
@@ -171,8 +171,6 @@ class CRM_Core_Invoke
             $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' );
         }
         
-        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Search Results') . '</a>';
-       
         if ( $args[1] !== 'contact' ) {
             return;
         }
@@ -211,8 +209,7 @@ class CRM_Core_Invoke
         }
 
         if ($args[2] == 'view') {
-            
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            CRM_Utils_System::appendBreadCrumb( ts('Search Results'), $breadCrumbPath );
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
             $fourthArg = CRM_Utils_Array::value(4, $args, 0);
             
@@ -587,8 +584,8 @@ class CRM_Core_Invoke
                         require_once 'CRM/Custom/Page/Option.php';
                         $view =& new CRM_Custom_Page_Option(ts('Custom Data Field'));
                         $url  = CRM_Utils_System::url( 'civicrm/admin/custom/group/field' );
-                        $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Custom Data Fields') . '</a>';
-                        CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+                        CRM_Utils_System::appendBreadCrumb( ts('Custom Data Fields'),
+                                                            $url );
                     }
                 }
             }
@@ -661,26 +658,26 @@ class CRM_Core_Invoke
             $view =& new CRM_Admin_Page_OptionValue(ts('View Option Values'));
             
             $url  = CRM_Utils_System::url( 'civicrm/admin' );
-            $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Administer CiviCRM') . '</a>';
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            CRM_Utils_System::appendBreadCrumb( ts('Administer CiviCRM'),
+                                                $url );
             
             $url  = CRM_Utils_System::url( 'civicrm/admin/optionGroup' );
-            $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Options') . '</a>';
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            CRM_Utils_System::appendBreadCrumb( ts('Options'),
+                                                $url );
             break;
 
         case 'price':
             if ( CRM_Utils_Array::value( 3, $args ) == 'field' ) {
                 $url = CRM_Utils_System::url( 'civicrm/admin/price', 'action=browse&reset=1' );
-                $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Price Sets') . '</a>';
-                CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+                CRM_Utils_System::appendBreadCrumb( ts('Price Sets'),
+                                                    $url );
                 if ( CRM_Utils_Array::value ( 4, $args ) == 'option' ) {
                     // price field options
                     require_once 'CRM/Price/Page/Option.php';
                     $view =& new CRM_Price_Page_Option(ts('Price Field'));
                     $url = CRM_Utils_System::url( 'civicrm/admin/price/field', 'action=browse&reset=1' );
-                    $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Price Field') . '</a>';
-                    CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+                    CRM_Utils_System::appendBreadCrumb( ts('Price Field'),
+                                                        $url );
                 } else {
                     // price fields
                     require_once 'CRM/Price/Page/Field.php';

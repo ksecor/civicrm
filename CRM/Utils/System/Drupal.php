@@ -53,14 +53,16 @@ class CRM_Utils_System_Drupal {
     /**
      * Append an additional breadcrumb tag to the existing breadcrumb
      *
-     * @param string $bc the new breadcrumb to be appended
+     * @param string $title
+     * @param string $url   
      *
      * @return void
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $bc ) {
+    static function appendBreadCrumb( $title, $url ) {
         $breadCrumb   = drupal_get_breadcrumb( );
+        $bc = "<a href=\"$url\">$title</a>";
         $breadCrumb[] = $bc;
         drupal_set_breadcrumb( $breadCrumb );
     }

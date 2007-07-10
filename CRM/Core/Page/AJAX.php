@@ -292,7 +292,7 @@ LIMIT 6";
         }
 
         $query = "
-SELECT id, name
+SELECT civicrm_state_province.name name
   FROM civicrm_state_province, civicrm_country
  WHERE civicrm_state_province.country_id = civicrm_country.id
   AND  civicrm_country.name LIKE '$countryName%'";
@@ -354,6 +354,10 @@ ORDER BY name";
         while ( $dao->fetch( ) && $count < 5 ) {
             $elements[] = array( $dao->name, $dao->name );
             $count++;
+        }
+
+        if ( empty( $elements ) ) {
+            $elements[] = array( $name, $name );
         }
 
         require_once 'Services/JSON.php';

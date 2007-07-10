@@ -417,16 +417,17 @@ class CRM_Utils_System {
     /**
      * Append an additional breadcrumb tag to the existing breadcrumb
      *
-     * @param string $bc the new breadcrumb to be appended
+     * @param string $title
+     * @param string $url   
      *
      * @return void
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $bc ) {
+    static function appendBreadCrumb( $title, $url ) {
         $config   =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
-        return eval( 'return ' . $config->userFrameworkClass . '::appendBreadCrumb( $bc );' );
+        return eval( 'return ' . $config->userFrameworkClass . '::appendBreadCrumb( $title, $url );' );
     }
 
     /**

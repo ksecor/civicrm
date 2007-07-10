@@ -101,9 +101,8 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
             CRM_Utils_System::setTitle(ts('Manage ACL Roles'));
             // set breadcrumb to append to admin/access
             $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/access', 'reset=1' );
-            $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Access Control') . '</a>';
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-        } else {
+            CRM_Utils_System::appendBreadCrumb( ts('Access Control'), $breadCrumbPath ); 
+       } else {
             CRM_Utils_System::setTitle(ts('%1 Options', array(1 => self::$_GName)));
         }
     }

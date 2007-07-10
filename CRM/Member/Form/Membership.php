@@ -51,15 +51,14 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
 
         // action
-        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
-                                                      $this, false, 'add' );
-        $this->_id     = CRM_Utils_Request::retrieve( 'id', 'Positive',
-                                                      $this );
+        $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
+                                                         $this, false, 'add' );
+        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                                         $this );
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
-       
-        $this->_memType = CRM_Utils_Request::retrieve( 'subType', 'Positive',
-                                                       $this );
+        $this->_memType   = CRM_Utils_Request::retrieve( 'subType', 'Positive',
+                                                         $this );
 
         if ( ! $this->_memType ) {
             if ( $this->_id ) {
@@ -101,7 +100,19 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
-        $defaults["membership_type_id"] =  $this->_memType;
+
+        if (is_numeric($this->_memType)) {
+            $defaults["membership_type_id"] = array();
+            $defaults["membership_type_id"][0] =  
+                CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                             $this->_memType, 
+                                             'member_of_contact_id', 
+                                             'id' );
+            $defaults["membership_type_id"][1] = $this->_memType;
+        } else {
+            $defaults["membership_type_id"]    =  $this->_memType;
+        }
+
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
         return $defaults;
     }
@@ -119,6 +130,31 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             return;
         }
 
+        $selOrgMemType[0][0] = $selMemTypeOrg[0] = ts('-- select --');
+
+        $dao =& new CRM_Member_DAO_MembershipType();
+        $dao->find();
+        while ($dao->fetch()) {
+            if ( !$selMemTypeOrg[$dao->member_of_contact_id] ) {
+                $selMemTypeOrg[$dao->member_of_contact_id] = 
+                    CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                 $dao->member_of_contact_id, 
+                                                 'display_name', 
+                                                 'id' );
+                $selOrgMemType[$dao->member_of_contact_id][0] = ts('-- select --');
+            }
+
+            if ( !$selOrgMemType[$dao->member_of_contact_id][$dao->id] ) {
+                $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
+            }
+        }
+
+        $sel =& $this->addElement('hierselect', 
+                                  'membership_type_id', 
+                                  ts('Membership Type'), 
+                                  array('onChange' => "if (this.value) reload(true); else return false") );  
+        $sel->setOptions(array($selMemTypeOrg,  $selOrgMemType));
+
         $urlParams = "reset=1&cid={$this->_contactID}&context=membership";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
@@ -132,11 +168,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->add('select', 'membership_type_id',ts( 'Membership Type' ), 
-                   array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ), true,
-                   array('onChange' => "if (this.value) reload(true); else return false")
-                   );
-               
         $this->add('date', 'join_date', ts('Join Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );         
         $this->addRule('join_date', ts('Select a valid date.'), 'qfDate');
         $this->add('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );         
@@ -201,22 +232,23 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-        
+
         $params = array( );
         $ids    = array( );
 
         $params['contact_id'] = $this->_contactID;
         
-        $fields = array( 'membership_type_id',
-                         'status_id',
-                         'source',
-                         'is_override'
-                         );
+        $fields = array( 
+                        'status_id',
+                        'source',
+                        'is_override'
+                        );
         
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
-            
         }
+        
+        $params['membership_type_id'] = $formValues['membership_type_id'][1];
        
         $joinDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
         $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['membership_type_id'], $joinDate);

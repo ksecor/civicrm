@@ -275,8 +275,7 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         // set breadcrumb to append to 2nd layer pages
         if ( !$check ) {
             $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
-            $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Global Settings') . '</a>';
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            CRM_Utils_System::appendBreadCrumb( ts('Global Settings'), $breadCrumbPath );
         }
         
         $this->addButtons( array(

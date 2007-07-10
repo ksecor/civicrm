@@ -242,6 +242,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $params = $this->_params;
         $fields = array( );
 
+        unset($params['note']);
         $this->fixLocationFields( $params, $fields );
 
         $contactID =& $this->updateContactFields( $contactID, $params, $fields );
@@ -347,7 +348,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         require_once "CRM/Event/BAO/EventPage.php";
 
         $this->assign('action',$this->_action);
-
         CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
 
     }//end of function
@@ -361,7 +361,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
     public function addParticipant( $params, $contactID ) 
     {
         CRM_Core_DAO::transaction( 'BEGIN' );
-
+        
         $domainID = CRM_Core_Config::domainID( );
         $groupName = "participant_role";
         $query = "
@@ -375,7 +375,7 @@ WHERE  v.option_group_id = g.id
   AND  g.is_active       = 1  
 ";
         $p = array( 1 => array( $groupName , 'String' ) );
-
+               
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
         if ( $dao->fetch( ) ) {
             $roleID = $dao->value;
@@ -383,8 +383,8 @@ WHERE  v.option_group_id = g.id
         
         $participantParams = array('contact_id'    => $contactID,
                                    'event_id'      => $this->_id,
-                                   'status_id'     => 1,
-                                   'role_id'       => $roleID,
+                                   'status_id'     => $params['participant_status_id'] ? $params['participant_status_id'] : 1,
+                                   'role_id'       => $params['participant_role_id'] ? $params['participant_role_id'] : $roleID,
                                    'register_date' => date( 'YmdHis' ),
                                    'source'        => ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'],
                                    'event_level'   => $params['amount_level']
@@ -394,6 +394,9 @@ WHERE  v.option_group_id = g.id
             $participantParams['is_test'] = 1;
         }
         
+        if( $this->_params['note'] ) {
+            $participantParams['note'] = $this->_params['note'];
+        }
         $ids = array();
         $participant = CRM_Event_BAO_Participant::create($participantParams, $ids);
         

@@ -118,8 +118,7 @@ class CRM_Admin_Page_PaymentProcessor extends CRM_Core_Page_Basic
         CRM_Utils_System::setTitle(ts('Settings - Payment Processor'));
         $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Global Settings') . '</a>';
-        CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-
+        CRM_Utils_System::appendBreadCrumb( ts('Global Settings'), $breadCrumbPath );
         return parent::run();
     }
 

@@ -23,13 +23,14 @@
   <script type="text/javascript">
 
     var lno = {/literal}{$index}{literal};
-
+    //data url for state
+    var res = {/literal}"{$stateURL}"{literal};
     /* start of code to set defaults for state - country. Note: Code cleanup required  */
 
     switch ( lno ) {
        case 1:
-             var countryValue1 = {/literal}"{$country1_value}"{literal};
-             var stateValue1   = {/literal}"{$country1_state_value}"{literal};
+             var countryValue1 = {/literal}"{$country_1_value}"{literal};
+             var stateValue1   = {/literal}"{$state_province_1_value}"{literal};
 
              dojo.addOnLoad( function( ) 
                {
@@ -50,8 +51,9 @@
              break;
 
        case 2:
-             var countryValue2 = {/literal}"{$country2_value}"{literal};
-             var stateValue2   = {/literal}"{$country2_state_value}"{literal};
+             var countryValue2 = {/literal}"{$country_2_value}"{literal};
+             var stateValue2   = {/literal}"{$state_province_2_value}"{literal};
+
              dojo.addOnLoad( function( ) 
                {
                   if ( !stateValue2 && !countryValue2 && stateEnabled ) { 
@@ -71,8 +73,9 @@
              break;
 
        case 3:
-             var countryValue3 = {/literal}"{$country3_value}"{literal};
-             var stateValue3   = {/literal}"{$country3_state_value}"{literal};
+             var countryValue3 = {/literal}"{$country_3_value}"{literal};
+             var stateValue3   = {/literal}"{$state_province_3_value}"{literal};
+
              dojo.addOnLoad( function( ) 
                {
                   if ( !stateValue3 && !countryValue3 && stateEnabled ) { 
@@ -92,8 +95,9 @@
              break;
 
        case 4:
-             var countryValue4 = {/literal}"{$country4_value}"{literal};
-             var stateValue4   = {/literal}"{$country4_state_value}"{literal};
+             var countryValue4 = {/literal}"{$country_4_value}"{literal};
+             var stateValue4   = {/literal}"{$state_province_4_value}"{literal};
+
              dojo.addOnLoad( function( ) 
                {
                   if ( !stateValue4 && !countryValue4 && stateEnabled ) { 
