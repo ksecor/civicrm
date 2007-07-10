@@ -69,6 +69,7 @@ class CRM_Utils_System {
                                                 'contributionpage'   => 'ContributionPage',
                                                 'contributionpageedit'=> 'ContributionPageEdit',
                                                 'contributiontype'   => 'ContributionType',
+                                                'deduperules'        => 'DedupeRules',
                                                 'dupematch'          => 'DupeMatch', 
                                                 'cmsuser'            => 'CMSUser', 
                                                 'dashboard'          => 'DashBoard',
