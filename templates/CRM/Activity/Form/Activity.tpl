@@ -1,3 +1,4 @@
+{* this template is used for caseactivity  *}
 
    <dl>     
     <dt>{$form.from_contact.label}</dt>

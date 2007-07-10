@@ -40,7 +40,6 @@ require_once 'CRM/Core/BAO/Address.php';
 require_once 'CRM/Core/BAO/Phone.php';
 require_once 'CRM/Core/BAO/Email.php';
 require_once 'CRM/Core/BAO/IM.php';
-require_once 'CRM/Core/BAO/OpenID.php';
 
 
 require_once 'CRM/Contact/Form/Location.php';
@@ -134,11 +133,11 @@ UPDATE civicrm_location
         $location->address = $address_object;
         // set this to true if this has been made the primary IM.
         // the rule is the first entered value is the primary object
-        $isPrimaryPhone = $isPrimaryEmail = $isPrimaryIm = $isPrimaryOpenid = true;
+        $isPrimaryPhone = $isPrimaryEmail = $isPrimaryIm = true;
 
         // Check if no two values of a field has is_primary=1. 
         // If yes then make sure only one has is_primary=1 and set rest to false.
-        $locElements = array('email', 'phone', 'im', 'openid');
+        $locElements = array('email', 'phone', 'im');
         foreach ($locElements as $element) {
             $varName = 'isPrimary' . ucfirst($element);
             $primarySet = false;
@@ -155,17 +154,14 @@ UPDATE civicrm_location
             }
         }
 
-        $location->phone  = array( );
-        $location->email  = array( );
-        $location->im     = array( );
-        $location->openid = array( );
+        $location->phone = array( );
+        $location->email = array( );
+        $location->im    = array( );
         
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
-            $location->phone [$i] = CRM_Core_BAO_Phone::add ( $params, $ids, $locationId, $i, $isPrimaryPhone  );
-            $location->email [$i] = CRM_Core_BAO_Email::add ( $params, $ids, $locationId, $i, $isPrimaryEmail  );
-            $location->im    [$i] = CRM_Core_BAO_IM::add    ( $params, $ids, $locationId, $i, $isPrimaryIm     );
-            //print "about to add OpenID<br/>";
-            $location->openid[$i] = CRM_Core_BAO_OpenID::add( $params, $ids, $locationId, $i, $isPrimaryOpenid );
+            $location->phone[$i] = CRM_Core_BAO_Phone::add( $params, $ids, $locationId, $i, $isPrimaryPhone );
+            $location->email[$i] = CRM_Core_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
+            $location->im   [$i] = CRM_Core_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIm    );
         }
 
         if ( isset( $ids['location'] ) ) {
@@ -222,11 +218,9 @@ UPDATE civicrm_location
 
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
            
-            if ( CRM_Core_BAO_Phone::dataExists ( $params, $locationId, $i, $ids ) ||
-                 CRM_Core_BAO_Email::dataExists ( $params, $locationId, $i, $ids ) ||
-                 CRM_Core_BAO_IM::dataExists    ( $params, $locationId, $i, $ids ) ||
-                 CRM_Core_BAO_OpenID::dataExists( $params, $locationId, $i,
-$ids ) ) {
+            if ( CRM_Core_BAO_Phone::dataExists( $params, $locationId, $i, $ids ) ||
+                 CRM_Core_BAO_Email::dataExists( $params, $locationId, $i, $ids ) ||
+                 CRM_Core_BAO_IM::dataExists   ( $params, $locationId, $i, $ids ) ) {
                 return true;
             }
         }
@@ -282,15 +276,6 @@ $ids ) ) {
         $im->find( );
         while( $im->fetch( ) ) {
             $values[$lid]['im'][] = $im->name;
-        }
-        
-        // get the OpenID values
-        $openId =& new CRM_Core_BAO_OpenID( );
-        $openId->location_id = $lid;
-        
-        $openId->find( );
-        while( $openId->fetch( ) ) {
-            $values[$lid]['openid'][] = $openId->openid;
         }
         
         // get the address values
@@ -375,10 +360,9 @@ $ids ) ) {
     static function getBlocks( &$params, &$values, &$ids, $blockCount = 0, &$parent, $microformat = false ) {
         $parent->address =& CRM_Core_BAO_Address::getValues( $params, $values, $ids, $blockCount, $microformat );
 
-        $parent->phone   =& CRM_Core_BAO_Phone::getValues ( $params, $values, $ids, $blockCount );
-        $parent->email   =& CRM_Core_BAO_Email::getValues ( $params, $values, $ids, $blockCount );
-        $parent->im      =& CRM_Core_BAO_IM::getValues    ( $params, $values, $ids, $blockCount );
-        $parent->openid  =& CRM_Core_BAO_OpenID::getValues( $params, $values, $ids, $blockCount );
+        $parent->phone   =& CRM_Core_BAO_Phone::getValues( $params, $values, $ids, $blockCount );
+        $parent->email   =& CRM_Core_BAO_Email::getValues( $params, $values, $ids, $blockCount );
+        $parent->im      =& CRM_Core_BAO_IM::getValues   ( $params, $values, $ids, $blockCount );
     }
 
     /**
@@ -415,7 +399,7 @@ $ids ) ) {
      * @static
      */
     static function deleteLocationBlocks( $locationId ) {
-        static $blocks = array( 'Address', 'Phone', 'IM', 'OpenID' );
+        static $blocks = array( 'Address', 'Phone', 'IM' );
         foreach ($blocks as $name) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $name) . ".php");
             eval( '$object =& new CRM_Core_DAO_' . $name . '( );' );

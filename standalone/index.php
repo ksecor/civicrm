@@ -8,20 +8,19 @@ require_once 'CRM/Core/Session.php';
 
 $session =& CRM_Core_Session::singleton();
 
-if ( !empty( $error ) ) {
-    print "<div class=\"error\">$error</div>\n";
-}
-if ($_GET['bad'])
-  $msg = "Login failed.";
-if ( !empty( $msg ) ) {
-    print "<div class=\"msg\">$msg</div>\n";
-}
-
 //print "userID: " . $session->get('userID') . "<br/>";
 //print "ufName: " . $session->get('ufName') . "<br/>";
 if ( $session->get('userID') == null || $session->get('userID') == '' ) {
     include 'login.php';
     exit(0);
+}
+
+if ( !empty( $error ) ) {
+    print "<div class=\"error\">$error</div>\n";
+}
+
+if ( !empty( $msg ) ) {
+    print "<div class=\"msg\">$msg</div>\n";
 }
 
 // If we didn't get any parameters, we should default to the dashboard

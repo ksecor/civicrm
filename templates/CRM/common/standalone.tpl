@@ -8,15 +8,13 @@
 {include file="CRM/common/dojo.tpl"}
 
 
-<table border="0" cellpadding="0" cellspacing="0" id="content">
-  <tr>
-    {if $sidebarLeft}
-    <td id="sidebar-left" valign="top">
+<div id="crm-content">
+  {if $sidebarLeft}
+    <div id="crm-sidebar-left" style="float: left">
          {$sidebarLeft}
-    </td>
-    {/if}
-    <td valign="top">
-    {if $breadcrumb}
+    </div>
+  {/if}
+  {if $breadcrumb}
     <div class="breadcrumb">
       {foreach from=$breadcrumb item=crumb key=key}
         {if $key != 0}
@@ -24,29 +22,29 @@
         {/if}
         <a href="{$crumb.url}">{$crumb.title}</a>
       {/foreach}
-      </div>
-      {/if}
-      {if $displayRecent and $recentlyViewed}
-        {include file="CRM/common/recentlyViewed.tpl"}
-      {/if}
+    </div>
+  {/if}
+  {if $displayRecent and $recentlyViewed}
+    {include file="CRM/common/recentlyViewed.tpl"}
+  {/if}
     
-      <h1 class="title">{$pageTitle}</h1>
+  <h1 class="title">{$pageTitle}</h1>
     
-      {if $localTasks}
-        {include file="CRM/common/localNav.tpl"}
-      {/if}
+  {if $localTasks}
+    {include file="CRM/common/localNav.tpl"}
+  {/if}
 
-      {include file="CRM/common/status.tpl"}
+  {include file="CRM/common/status.tpl"}
 
-      <!-- .tpl file invoked: {$tplFile}. Call via form.tpl if we have a form in the page. -->
-      {if $isForm}
-        {include file="CRM/Form/$formTpl.tpl"}
-      {else}
-        {include file=$tplFile}
-      {/if}
+  <!-- .tpl file invoked: {$tplFile}. Call via form.tpl if we have a form in the page. -->
+  {if $isForm}
+    {include file="CRM/Form/$formTpl.tpl"}
+  {else}
+    {include file=$tplFile}
+  {/if}
 
-      {include file="CRM/common/footer.tpl"}
-    </td>
+  <div style="clear: both">
+    {include file="CRM/common/footer.tpl"}
+  </div>
 
-  </tr>
-</table>
+</div>
