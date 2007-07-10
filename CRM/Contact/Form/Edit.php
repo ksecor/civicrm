@@ -341,6 +341,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                     $countryId = $value['address']['country_id'];
                     if ( $countryId ) {
                         $this->assign( "country_{$key}_value",  $countries[$countryId] );
+                        $this->assign( "country_{$key}_id"   ,  $countryId );
                     }
                 }
                 
@@ -348,6 +349,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                     $stateProvinceId = $value['address']['state_province_id'];
                     if ( $stateProvinceId ) {
                         $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateProvinceId] );
+                        $this->assign( "state_province_{$key}_id"   ,  $stateProvinceId );
                     }
                 }
 
@@ -557,7 +559,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
+        crm_core_error::debug('$params', $params); exit();
         $params['contact_type'] = $this->_contactType;
 
         if ( $this->_showDemographics ) {
