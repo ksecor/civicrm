@@ -199,7 +199,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
      */
     public function formRule( &$params ) {
         $errors = array( );
-
+        if (!$params['membership_type_id'][1]) {
+            $errors['membership_type_id'] = "Please select a Membership Type.";
+        }
         if ( !($params['join_date']['M'] && $params['join_date']['d'] && $params['join_date']['Y']) ) {
             $errors['join_date'] = "Please enter the Join Date.";
         }
