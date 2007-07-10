@@ -151,7 +151,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
         $sel =& $this->addElement('hierselect', 
                                   'membership_type_id', 
-                                  ts('Membership Type'), 
+                                  ts('Membership Organization and Type'), 
                                   array('onChange' => "if (this.value) reload(true); else return false") );  
         $sel->setOptions(array($selMemTypeOrg,  $selOrgMemType));
 
