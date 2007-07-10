@@ -24,7 +24,7 @@
 </fieldset>
 
 {if $rowsEmpty}
-    {include file="CRM/Event/Form/Search/EmptyResults.tpl"}
+    {include file="CRM/Grant/Form/Search/EmptyResults.tpl"}
 {/if}
 
 {if $rows}
@@ -32,7 +32,7 @@
     <fieldset>
     
        {* This section handles form elements for action task select and submit *}
-       {include file="CRM/Event/Form/Search/ResultTasks.tpl"}
+       {include file="CRM/Grant/Form/Search/ResultTasks.tpl"}
 
        {* This section displays the rows along and includes the paging controls *}
        <p></p>

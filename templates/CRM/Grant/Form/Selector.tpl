@@ -2,17 +2,13 @@
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
-{if $context EQ 'Contact Summary'}
-    {assign var='columnHeaders' value=$event_columnHeaders}
-    {assign var='rows' value=$_rows}
-   
-{/if}
+
 {strip}
 <table class="selector">
   <tr class="columnheader">
-{if ! $event_single and ! $limit}
+  {if ! $grant_single and ! $limit}
   <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th> 
-{/if}
+  {/if}
   {foreach from=$columnHeaders item=header}
     <th scope="col">
     {if $header.sort}
@@ -21,7 +17,7 @@
          {$event_sort->_response.$key.link}
       {else}
          {$sort->_response.$key.link}
-      {/if}  
+      {/if} 
     {else}
       {$header.name}
     {/if}
@@ -31,22 +27,15 @@
 
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr id='rowid{$row.grant_id}' class="{cycle values="odd-row,even-row"}
-     
-       
-       <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.contact_name}</a></td> 
-  
+  <tr id='rowid{$row.grant_id}' class="{cycle values="odd-row,even-row"}">
+    {assign var=cbName value=$row.checkbox}
+    <td>{$form.$cbName.html}</td> 
+    <td>{$row.contact_type}</td>	
+    <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td> 
     <td>{$row.grant_status}</td>
-   
     <td>{$row.grant_type}</td>
-    <td>{$row.grant_amount_total}</td>
-    <td>{$row.application_received_date|truncate:10:''|crmDate}
-        {if $row.end_date && $row.end_date|date_format:"%Y%m%d" NEQ $row.start_date|date_format:"%Y%m%d"}
-            <br/>- {$row.end_date|truncate:10:''|crmDate}
-        {/if}
-   </td>
-    <td>{$row.status}</td>
-    <td>{$row.role}</td>
+    <td>{$row.grant_amount_total|crmMoney}</td>
+    <td>{$row.grant_application_received_date|truncate:10:''|crmDate}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}

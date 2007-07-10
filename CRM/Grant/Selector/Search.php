@@ -263,14 +263,11 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      */
      function &getRows($action, $offset, $rowCount, $sort, $output = null) 
      {
-
-
          $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
                                                false, false, 
                                                false, false, 
                                                false, 
                                                $this->_grantClause );
-       
 
          // process the result of the query
          $rows = array( );
@@ -282,7 +279,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
          }
 
          require_once 'CRM/Grant/PseudoConstant.php';
-         $grantStatus  = array();
+         $grantStatus  = array( );
          $grantStatus  = CRM_Core_OptionGroup::values( 'grant_status' );
          $grantType    = array( );
          $grantType    = CRM_Core_OptionGroup::values( 'grant_type' );
@@ -290,7 +287,6 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 
          $mask = CRM_Core_Action::mask( $permission );
          while ($result->fetch()) {
-           
              $row = array();
              // the columns we are interested in
              foreach (self::$_properties as $property) {
@@ -301,11 +297,8 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 
              //fix status display
              $row['grant_status'] = $grantStatus[$row['grant_status_id']];
-             
              $row['grant_type']   = $grantType[$row['grant_type_id']];
-             $row['contact_name'] = CRM_Contact_BAO_Contact::displayName($row['contact_id']);
-            
-           
+
              if ($this->_context == 'search') {
                  $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->grant_id;
              }
@@ -328,7 +321,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                  break;
              }
              $row['contact_type' ] = $contact_type;
-//             $row['modified_date'] = CRM_Grant_BAO_Participant::getModifiedDate( $result->contact_id, $result->participant_id );
+
              $rows[] = $row;
          }
          
@@ -359,36 +352,36 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      * @access public 
      */ 
     public function &getColumnHeaders( $action = null, $output = null ) 
-    {
-       
+    {       
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array(
-                                          array('name'      => ts('Grant Status'),
+                                          array('name'      => ts('Status'),
                                                 'sort'      => 'grant_status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Grant Type'),
+                                                'name'      => ts('Type'),
                                                 'sort'      => 'grant_type_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Application received date'),
-                                                'sort'      => 'start_date',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
-                                                'name'      => ts('Amount Requested'),
-                                                'sort'      => 'status_id',
+                                                'name'      => ts('Total Amount'),
+                                                'sort'      => 'grant_amount_total',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                          
+                                          array(
+                                                'name'      => ts('Application received date'),
+                                                'sort'      => 'grant_application_received_date',                                                
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          
                                           array('desc' => ts('Actions') ),
                                           );
-
+            
             if ( ! $this->_single ) {
                 $pre = array( 
-                             array('desc' => ts('Contact Type') ), 
+                             array('desc' => ts('Contact Type') ),   
                              array( 
                                    'name'      => ts('Name'), 
                                    'sort'      => 'sort_name', 

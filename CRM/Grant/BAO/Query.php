@@ -35,7 +35,6 @@
 
 class CRM_Grant_BAO_Query 
 {
-   
     static function &getFields( ) 
     {
         $fields = array( );
@@ -62,13 +61,9 @@ class CRM_Grant_BAO_Query
             $query->_element['grant_status_id'] = 1;
             $query->_tables['civicrm_grant'] = 1;
             $query->_whereTables['civicrm_grant'] = 1;
-           
-            //add status
-            //$query->_select['status_id' ]  = "civicrm_grant.grant_status_id as status_id";
-            //$query->_element['status_id']  = 1;
-            
         }
     }
+    
     /** 
      * Given a list of conditions in params generate the required
      * where clause
@@ -80,7 +75,6 @@ class CRM_Grant_BAO_Query
     {
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 6) == 'grant_' ) {
-                
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
@@ -93,14 +87,16 @@ class CRM_Grant_BAO_Query
             
         case 'grant_money_transfer_date_low':
         case 'grant_money_transfer_date_high':
-            $query->dateQueryBuilder( $values,
-                                      'civicrm_grant', 'grant_money_transfer_date', 'money_transfer_date', 'Money Transfer Date' );
+            $query->dateQueryBuilder( $values, 'civicrm_grant',
+                                      'grant_money_transfer_date', 'money_transfer_date',
+                                      'Money Transfer Date' );
             return;
 
         case 'grant_application_received_date_low':
         case 'grant_application_received_date_high':
-            $query->dateQueryBuilder( $values,
-                                       'civicrm_grant', 'grant_application_received_date', 'application_received_date', 'Application Received Date' );
+            $query->dateQueryBuilder( $values, 'civicrm_grant',
+                                      'grant_application_received_date',
+                                      'application_received_date', 'Application Received Date' );
             return;
 
         case 'grant_type_id':
@@ -124,6 +120,7 @@ class CRM_Grant_BAO_Query
             $query->_where[$grouping][] = "civicrm_grant.status_id $op '{$value}'";
             
             require_once 'CRM/Core/OptionGroup.php';
+
             $grantStatus  = CRM_Core_OptionGroup::values('grant_status' );
             $value = $grantStatus[$value];
 
@@ -154,7 +151,7 @@ class CRM_Grant_BAO_Query
         switch ( $name ) {
         
         case 'civicrm_grant':
-            $from = " RIGHT JOIN civicrm_grant ON civicrm_grant.contact_id = contact_a.id ";
+            $from = " INNER JOIN civicrm_grant ON civicrm_grant.contact_id = contact_a.id ";
             break;
     
         }
@@ -175,11 +172,13 @@ class CRM_Grant_BAO_Query
     {
         $properties = null;
         if ( $mode & CRM_Contact_BAO_Query::MODE_GRANT ) {
-            $properties = array(  
-                                'grant_type_id'                     => 1, 
-                                'grant_status_id'                   => 1, 
-                                'grant_amount_total'                => 1,
-                                'grant_application_received_date'   => 1,
+            $properties = array(
+                                'contact_type'                    => 1,
+                                'sort_name'                       => 1,   
+                                'grant_type_id'                   => 1, 
+                                'grant_status_id'                 => 1, 
+                                'grant_amount_total'              => 1,
+                                'grant_application_received_date' => 1
                                 );
        
  
@@ -240,12 +239,9 @@ class CRM_Grant_BAO_Query
     static function searchAction( &$row, $id ) 
     {
     }
+
     static function tableNames( &$tables ) 
     {
-        //add grant table 
-      
-        $tables = array_merge( array( 'civicrm_grant' => 1), $tables );
-        
     }  
 }
 

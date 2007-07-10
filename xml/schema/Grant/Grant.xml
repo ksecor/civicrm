@@ -6,121 +6,120 @@
   <comment>This table stores information about grants given to a contact.</comment>
   <add>1.8</add>
   <field>
-   <name>id</name>
-   <type>int unsigned</type>
-   <required>true</required>
-   <comment>Unique Grant id</comment>
-   <add>1.8</add>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Grant id</comment>
+      <add>1.8</add>
   </field>
   <primaryKey>
-   <name>id</name>
-   <autoincrement>true</autoincrement>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-   <name>contact_id</name>
-   <type>int unsigned</type>
-   <required>true</required>
-   <comment>Contact ID of contact record given grant belongs to.</comment>
-   <add>1.8</add>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <uniqueName>grant_contact_id</uniqueName>
+      <export>true</export>
+      <required>true</required>
+      <comment>Contact ID of contact record given grant belongs to.</comment>
+      <add>1.8</add>
   </field>
   <foreignKey>
-   <name>contact_id</name>
-   <table>civicrm_contact</table>
-   <key>id</key>
-   <add>1.8</add>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.8</add>
   </foreignKey>  
   <field>
-   <name>application_received_date</name>
-   <type>date</type>
-   <comment>Date on which grant application was received by donor.</comment>
-   <add>1.8</add>
+      <name>application_received_date</name>
+      <type>date</type>
+      <export>true</export>
+      <comment>Date on which grant application was received by donor.</comment>
+      <add>1.8</add>
   </field>
   <field>
-   <name>application_received_date</name>
-   <type>date</type>
-   <comment>Date on which grant application was received by donor.</comment>
-   <add>1.8</add>
+      <name>decision_date</name>
+      <type>date</type>
+      <comment>Date on which grant decision was made.</comment>
+      <add>1.8</add>
   </field>
   <field>
-   <name>decision_date</name>
-   <type>date</type>
-   <comment>Date on which grant decision was made.</comment>
-   <add>1.8</add>
+      <name>money_transfer_date</name>
+      <type>date</type>
+      <comment>Date on which grant money transfer was made.</comment>
+      <add>1.8</add>
   </field>
   <field>
-   <name>money_transfer_date</name>
-   <type>date</type>
-   <comment>Date on which grant money transfer was made.</comment>
-   <add>1.8</add>
+      <name>grant_due_date</name>
+      <type>date</type>
+      <comment>Date on which grant report is due.</comment>
+      <add>1.8</add>
   </field>
   <field>
-   <name>grant_due_date</name>
-   <type>date</type>
-   <comment>Date on which grant report is due.</comment>
-   <add>1.8</add>
+      <name>grant_report_received</name>
+      <type>boolean</type>
+      <comment>Yes/No field stating whether grant report was received by donor.</comment>
+      <add>1.8</add>
   </field>
   <field>
-   <name>grant_report_received</name>
-   <type>boolean</type>
-   <comment>Yes/No field stating whether grant report was received by donor.</comment>
-   <add>1.8</add>
-  </field>
-  <field>
-   <name>grant_type_id</name>
-   <type>int unsigned</type>
-   <required>true</required>
-   <comment>Id of first case category.</comment>
-   <add>1.8</add>
+      <name>grant_type_id</name>
+      <type>int unsigned</type>
+      <export>true</export>
+      <required>true</required>
+      <comment>Id of first case category.</comment>
+      <add>1.8</add>
   </field>
   <index>
-   <name>index_grant_type_id</name>
-   <fieldName>grant_type_id</fieldName>
-   <add>1.8</add>
+      <name>index_grant_type_id</name>
+      <fieldName>grant_type_id</fieldName>
+      <add>1.8</add>
   </index>
   <field>     
-   <name>amount_total</name>
-   <type>decimal</type>
-   <required>true</required>
-   <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
-   <comment>Total amount, in default currency.</comment>
-   <add>1.8</add>
+      <name>amount_total</name>
+      <type>decimal</type>
+      <required>true</required>
+      <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
+      <comment>Total amount, in default currency.</comment>
+      <add>1.8</add>
   </field>
   <field>
-   <name>amount_requested</name>
-   <type>decimal</type>
-   <required>true</required>
-   <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
-   <comment>Requested amount, in default currency.</comment>
-   <add>1.8</add>
+      <name>amount_requested</name>
+      <type>decimal</type>
+      <required>true</required>
+      <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
+      <comment>Requested amount, in default currency.</comment>
+      <add>1.8</add>
   </field>
   <field>
-   <name>amount_granted</name>
-   <type>decimal</type>
-   <required>true</required>
-   <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
-   <comment>Granted amount, in default currency.</comment>
-   <add>1.8</add>
+      <name>amount_granted</name>
+      <type>decimal</type>
+      <required>true</required>
+      <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
+      <comment>Granted amount, in default currency.</comment>
+      <add>1.8</add>
   </field>
   <field> 
-   <name>rationale</name>
-   <type>text</type>
-   <comment>Grant rationale.</comment>
-   <htmlType>textarea</htmlType>
-   <rows>4</rows>
-   <cols>60</cols>
-   <import>true</import>
-   <add>1.8</add>
+      <name>rationale</name>
+      <type>text</type>
+      <comment>Grant rationale.</comment>
+      <htmlType>textarea</htmlType>
+      <rows>4</rows>
+      <cols>60</cols>
+      <import>true</import>
+      <add>1.8</add>
   </field>
   <field> 
-   <name>status_id</name>
-   <type>int unsigned</type>
-   <required>true</required>
-   <comment>Id of case status.</comment>
-   <add>1.8</add>
+      <name>status_id</name>
+      <type>int unsigned</type>
+      <uniqueName>grant_status_id</uniqueName>
+      <required>true</required>
+      <comment>Id of Grant status.</comment>
+      <add>1.8</add>
   </field>
   <index> 
-   <name>index_status_id</name>
-   <fieldName>status_id</fieldName>
-   <add>1.8</add>
+      <name>index_status_id</name>
+      <fieldName>status_id</fieldName>
+      <add>1.8</add>
   </index>
 </table>

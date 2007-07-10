@@ -19,6 +19,7 @@
   <field>
       <name>contact_id</name>
       <type>int unsigned</type>
+      <uniqueName>case_contact_id</uniqueName>
       <required>true</required>
       <comment>Contact ID of contact record given case belongs to.</comment>
        <add>1.8</add>
@@ -93,6 +94,7 @@
   <field>
        <name>status_id</name>
        <type>int unsigned</type>
+       <uniqueName>case_status_id</uniqueName>
        <required>true</required>
        <comment>Id of case status.</comment>
        <add>1.8</add>

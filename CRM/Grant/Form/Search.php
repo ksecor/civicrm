@@ -351,9 +351,7 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
         } 
       
         require_once 'CRM/Contact/BAO/Query.php';
-     
-     
-        
+
         $selector =& new CRM_Grant_Selector_Search( $this->_queryParams,
                                                     $this->_action,
                                                     null,
@@ -389,10 +387,9 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
      * @access protected
      * @return array the default array reference
      */
-    function &setDefaultValues() {
-        $defaults = array();
-        $defaults = $this->_formValues;
-        return $defaults;
+    function &setDefaultValues( ) 
+    {
+        return $this->_formValues;
     }
 
     function fixFormValues( )
@@ -401,13 +398,17 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
         
-        $grant = CRM_Utils_Request::retrieve( 'grant', 'Positive',
-                                              CRM_Core_DAO::$_nullObject );
-        /*  if ( $event ) {
-            $this->_formValues['event_title'] = CRM_Grant_PseudoConstant::event( $event );
-            $this->assign( 'event_title_value', $this->_formValues['event_title'] );
+        if ( ! $this->_force ) {
+            return;
         }
-        */
+
+        $status = CRM_Utils_Request::retrieve( 'status', 'String',
+                                               CRM_Core_DAO::$_nullObject );
+        if ( $status ) {
+            $this->_formValues['grant_status_id'] = $status;
+            $this->_defaults  ['grant_status_id'] = $status;
+        }
+
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
         if ( $cid ) {
