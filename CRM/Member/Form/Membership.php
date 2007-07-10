@@ -135,17 +135,18 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $dao =& new CRM_Member_DAO_MembershipType();
         $dao->find();
         while ($dao->fetch()) {
-            if ( !$selMemTypeOrg[$dao->member_of_contact_id] ) {
-                $selMemTypeOrg[$dao->member_of_contact_id] = 
-                    CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                 $dao->member_of_contact_id, 
-                                                 'display_name', 
-                                                 'id' );
-                $selOrgMemType[$dao->member_of_contact_id][0] = ts('-- select --');
-            }
-
-            if ( !$selOrgMemType[$dao->member_of_contact_id][$dao->id] ) {
-                $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
+            if ($dao->is_active) {
+                if ( !$selMemTypeOrg[$dao->member_of_contact_id] ) {
+                    $selMemTypeOrg[$dao->member_of_contact_id] = 
+                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                     $dao->member_of_contact_id, 
+                                                     'display_name', 
+                                                     'id' );
+                    $selOrgMemType[$dao->member_of_contact_id][0] = ts('-- select --');
+                }
+                if ( !$selOrgMemType[$dao->member_of_contact_id][$dao->id] ) {
+                    $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
+                }
             }
         }
 
