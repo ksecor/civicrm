@@ -70,6 +70,7 @@
 {literal}
 <script type="text/javascript">
 showHideMemberStatus();
+hideSecondSelect();
     
 function showHideMemberStatus() {
 	if (document.getElementsByName("is_override")[0].checked == true) {
@@ -81,15 +82,20 @@ function showHideMemberStatus() {
 	}
 }
 
-    
-   function reload(refresh) {
-        var membershipType = document.getElementById("membership_type_id");
-        var url = {/literal}"{$refreshURL}"{literal}
-        var post = url + "&subType=" + membershipType.value;
-        if ( refresh ) {
-            window.location= post; 
-        }
-     }
+function hideSecondSelect() {
+    if (!document.getElementsByName("membership_type_id[0]")[0].selectedIndex) {
+        document.getElementsByName("membership_type_id[1]")[0].style.display = "none";
+    }
+}
+
+function reload(refresh) {
+    var membershipTypeValue = document.getElementsByName("membership_type_id[1]")[0].options[document.getElementsByName("membership_type_id[1]")[0].selectedIndex].value;
+    var url = {/literal}"{$refreshURL}"{literal}
+    var post = url + "&subType=" + membershipTypeValue;
+    if ( refresh ) {
+        window.location= post; 
+    }
+}
 
 </script>
 {/literal}
