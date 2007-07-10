@@ -34,8 +34,8 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/paymentProcessor' q='reset=1'}" id="idPayments">&raquo; {ts}Payment Processor{/ts}</a></td>
-    <td>{ts}Select and configure a payment processing service for online contributions and / or membership fees.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/paymentProcessor' q='reset=1'}" id="idPayments">&raquo; {ts}Payment Processors{/ts}</a></td>
+    <td>{ts}Select and configure one or more payment processing services for online contributions, events and / or membership fees.{/ts}</td>
 </tr>
 
 <tr>
