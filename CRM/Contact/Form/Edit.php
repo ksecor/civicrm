@@ -337,15 +337,22 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
             
             foreach ( $defaults['location'] as $key => $value ) {
-                if ( isset($value['address']['country_id']) ) {
+
+                if ( $this->getElementValue( "location[$key][address][country_id]" ) ) {
+                    $this->assign( "country_{$key}_value", 
+                                   $this->getElementValue( "location[$key][address][country_id]" ) );
+                } else if ( isset($value['address']['country_id']) ) {
                     $countryId = $value['address']['country_id'];
                     if ( $countryId ) {
                         $this->assign( "country_{$key}_value",  $countries[$countryId] );
                         $this->assign( "country_{$key}_id"   ,  $countryId );
                     }
                 }
-                
-                if ( isset($value['address']['state_province_id']) ) {
+
+                if ( $this->getElementValue( "location[$key][address][state_province_id]" ) ) {
+                    $this->assign( "state_province_{$key}_value", 
+                                   $this->getElementValue( "location[$key][address][state_province_id]" ) );
+                } else  if ( isset($value['address']['state_province_id']) ) {
                     $stateProvinceId = $value['address']['state_province_id'];
                     if ( $stateProvinceId ) {
                         $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateProvinceId] );
@@ -559,7 +566,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        crm_core_error::debug('$params', $params); exit();
+
         $params['contact_type'] = $this->_contactType;
 
         if ( $this->_showDemographics ) {
