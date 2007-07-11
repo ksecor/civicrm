@@ -235,8 +235,7 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
          * of all elements being declared in builQuickForm 
          */ 
         $rows = $this->get( 'rows' ); 
-        // CRm_Core_Error::debug("rows",$rows);
-      
+            
         if ( is_array( $rows ) ) {
             $lineItems = array( );
             //require_once 'CRM/Grant/BAO/Grant.php';
@@ -250,11 +249,9 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
 
                     // add line item details if applicable
                     $grant_id = $row['grant_id'];
-                    //$lineItems[$grant_id] = CRM_Grant_BAO_Grant::getLineItems( $participant_id );
+                    
                 }
             }
-
-            //$this->assign( 'lineItems', $lineItems );
 
             $total = $cancel = 0;
             $this->assign( "{$this->_prefix}single", $this->_single );

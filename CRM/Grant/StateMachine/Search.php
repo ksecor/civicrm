@@ -90,7 +90,7 @@ class CRM_Grant_StateMachine_Search extends CRM_Core_StateMachine
         // total hack, check POST vars and then session to determine stuff
         // fix value if print button is pressed
         if ( CRM_Utils_Array::value( '_qf_' . $formName . '_next_print', $_POST ) ) {
-            $value = CRM_Event_Task::PRINT_EVENTS;
+            $value = CRM_Grant_Task::PRINT_GRANTS;
         } else {
             $value = CRM_Utils_Array::value( 'task', $_POST );
         }
@@ -105,36 +105,9 @@ class CRM_Grant_StateMachine_Search extends CRM_Core_StateMachine
         case CRM_Grant_Task::DELETE_GRANTS:
             $task   = 'CRM_Grant_Form_Task_Delete';
             break;
-            
-            /*case CRM_Event_Task::EXPORT_EVENTS:
-            $task   = 'CRM_Event_Form_Task_Export';
-            break;
-            
-       /* case CRM_Event_Task::BATCH_EVENTS:
-            $task   = array( 'CRM_Event_Form_Task_PickProfile',
-                             'CRM_Event_Form_Task_Batch' );
-            break;
-
-        case CRM_Event_Task::CANCEL_REGISTRATION:
-            $task   = 'CRM_Event_Form_Task_Cancel';
-            break;
-
-        case CRM_Event_Task::EMAIL_CONTACTS:
-            $task   = 'CRM_Event_Form_Task_Email';
-            break;
-
-        case CRM_Event_Task::SAVE_SEARCH:
-            $task   = 'CRM_Event_Form_Task_SaveSearch';
-            $result = true;
-            break;
-
-        case CRM_Event_Task::SAVE_SEARCH_UPDATE:
-            $task   = 'CRM_Event_Form_Task_SaveSearch_Update';
-            $result = true;
-            break;*/
-            
+                    
         default: // the print task is the default and catch=all task
-            $task = 'CRM_Grant_Form_Task_Delete';
+            $task = 'CRM_Grant_Form_Task_Print';
             break;
         }
         

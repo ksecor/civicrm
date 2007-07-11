@@ -69,9 +69,11 @@ class CRM_Grant_Page_DashBoard extends CRM_Core_Page
     {
         $this->preProcess( );
         
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant', ts('grants'), null );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Search', ts('grants'), null );
         $controller->setEmbedded( true ); 
-        $controller->reset( ); 
+        $controller->reset( );
+        $controller->set( 'limit', 10 );
+        $controller->set( 'force', 1 );
         $controller->set( 'context', 'dashboard' ); 
         $controller->process( ); 
         $controller->run( ); 

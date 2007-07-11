@@ -111,28 +111,41 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
      */
     function edit( ) 
     {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant', 
-                                                       'Create grant', 
-                                                       $this->_action );
-        $controller->setEmbedded( true ); 
-        $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
-       
-        $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=grant&cid=' . $this->_contactId );
-        $session->pushUserContext( $url );
+        
+        $context = CRM_Utils_Request::retrieve( 'context', 'String',$this );
 
+       
+        $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
+                   
+        // set the userContext stack
+        $session =& CRM_Core_Session::singleton();
+        if ( $context == 'search' ) {
+            $url = CRM_Utils_System::url('civicrm/grant/search','reset=1&force=1');
+        } else if ( $context == 'dashboard' ){
+            $url = CRM_Utils_System::url('civicrm/grant','reset=1');
+        } else {
+            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=grant&cid=' . $this->_contactId );
+        }
+        $session->pushUserContext( $url );
+        
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject )) {
             require_once 'CRM/Grant/BAO/Grant.php';
             CRM_Grant_BAO_Grant::del( $this->_id );
             CRM_Utils_System::redirect($url);
         }
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant', 
+                                                       'Create grant', 
+                                                       $this->_action );
+        $controller->reset( ); 
+        $controller->setEmbedded( true ); 
+        
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
         
         return $controller->run( );
     }
-
+    
     /**
      * This function is the main function that is called when the page loads,
      * it decides the which action has to be taken for the page.
@@ -142,17 +155,15 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
      */
     function run( ) {
         $this->preProcess( );
-
-        if ( $this->_action & CRM_Core_Action::VIEW ) {
-            $this->view( );
-        } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
+        
+        if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE | CRM_Core_Action::VIEW  ) ) {
             $this->edit( );
         } 
-
+        
         $this->browse( );
         return parent::run( );
     }
-
+    
     /**
      * delete the note object from the db
      *
