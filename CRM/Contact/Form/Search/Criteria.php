@@ -288,7 +288,7 @@ class CRM_Contact_Form_Search_Criteria {
     }
 
     static function kabissa( &$form ) {
-        $form->add( 'hidden', 'hidden_Kabissa', 1 );
+        $form->add( 'hidden', 'hidden_kabissa', 1 );
         require_once 'CRM/Kabissa/BAO/Query.php';
         CRM_Kabissa_BAO_Query::buildSearchForm( $form );
     }
@@ -302,6 +302,11 @@ class CRM_Contact_Form_Search_Criteria {
         $form->add( 'hidden', 'hidden_caseActivity', 1 );
         require_once 'CRM/Activity/BAO/Query.php';
         CRM_Activity_BAO_Query::buildSearchForm( $form );
+    }
+    static function grant( &$form ) {
+        $form->add( 'hidden', 'hidden_grant', 1 );
+        require_once 'CRM/Grant/BAO/Query.php';
+        CRM_Grant_BAO_Query::buildSearchForm( $form );
     }
     
 }

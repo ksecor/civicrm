@@ -310,40 +310,17 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @access public 
      * @static 
      */ 
-    /*   static function deleteCaseActivity( $id ) 
-     {
-         require_once 'CRM/Case/DAO/CaseActivity.php';
-         $caseActivity     = & new CRM_Case_DAO_CaseActivity( );
-         $caseActivity->id = $id; 
-         $caseActivity->find();
-         while ($caseActivity->fetch() ) {
-             return $caseActivity->delete();
-         }
-         return false;
-     }*/
-      /**
-     * delete record for activity id in case_activity
-     *
-     * @param int    $id  ID of the activity for which the records needs to be deleted.
-     * @param string $entityTable entity table name 
-     * 
-     * @return void
-     * 
-     * @access public
-     * @static
-     */
-    public static function deleteCaseActivity( $entityTable,$id )
+    static function deleteCaseActivity( $id ) 
     {
         require_once 'CRM/Case/DAO/CaseActivity.php';
-        $caseActivity =  new CRM_Case_DAO_CaseActivity();
-        $caseActivity->activity_entity_table = $entityTable;
-        $caseActivity->activity_entity_id = $id; 
-        if ($caseActivity->find(true)){
+        $caseActivity     = & new CRM_Case_DAO_CaseActivity( );
+        $caseActivity->id = $id; 
+        $caseActivity->find();
+        while ($caseActivity->fetch() ) {
             return $caseActivity->delete();
         }
-        
+        return false;
     }
-     
 }
 
 ?>

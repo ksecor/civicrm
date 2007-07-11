@@ -252,31 +252,6 @@ class CRM_Core_SelectValues
         return $customHtmlType;
     }
     
-    // /**
-//      * various pre defined extensions for dynamic properties and groups
-//      *
-//      * @static
-//      */
-//     static function &customGroupExtends()
-//     {
-//         static $customGroupExtends = null;
-//         if (!$customGroupExtends) {
-//             $customGroupExtends = array(
-//                 'Contact'      => ts('- All Contacts -'),
-//                 'Individual'   => ts('Individuals'),
-//                 'Household'    => ts('Households'),
-//                 'Organization' => ts('Organizations'),
-//                 'Activity'     => ts('Activities'),
-//                 'Relationship' => ts('Relationships'),
-//                 'Phonecall'    => ts('Phonecalls'),
-//                 'Meeting'      => ts('Meetings'),
-//                 'Group'        => ts('Groups'),
-//                 'Contribution' => ts('Contributions'),
-//             );
-//         }
-//         return $customGroupExtends;
-//     }
-
     /**
      * various pre defined extensions for dynamic properties and groups
      *

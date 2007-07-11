@@ -70,13 +70,13 @@ function civicrm_check_permission( $args ) {
 
     // all profile and file urls are valid
     $arg1 = CRM_Utils_Array::value( 1, $args );
-    $validPaths = array( 'profile', 'path', 'user', 'dashboard' );
+    $validPaths = array( 'profile', 'user', 'dashboard' );
     if ( in_array( $arg1 , $validPaths ) ) {
         return true;
     }
 
     $config = CRM_Core_Config::singleton( );
-    
+
     // a transaction page is also valid
     if ( in_array( 'CiviContribute', $config->enableComponents ) &&
          CRM_Utils_Array::value( 1, $args ) == 'contribute' &&
@@ -85,11 +85,18 @@ function civicrm_check_permission( $args ) {
     }
 
     // an event registration page is also valid
-    if ( in_array( 'CiviEvent', $config->enableComponents ) &&
-         CRM_Utils_Array::value( 1, $args ) == 'event' &&
-         ( ( CRM_Utils_Array::value( 2, $args ) == 'register' ) || 
-           ( CRM_Utils_Array::value( 2, $args ) == 'info' ) ) ) {
-        return true;
+    if ( in_array( 'CiviEvent', $config->enableComponents ) ) {
+        if ( CRM_Utils_Array::value( 1, $args ) == 'event' &&
+             ( ( CRM_Utils_Array::value( 2, $args ) == 'register' ) || 
+               ( CRM_Utils_Array::value( 2, $args ) == 'info' ) ) ) {
+            return true;
+        }
+        // also allow events to be mapped
+        if ( CRM_Utils_Array::value( 1, $args ) == 'contact' &&
+             CRM_Utils_Array::value( 2, $args ) == 'map'     &&
+             CRM_Utils_Array::value( 3, $args ) == 'event'   ) {
+            return true;
+        }
     }
     
     return false;

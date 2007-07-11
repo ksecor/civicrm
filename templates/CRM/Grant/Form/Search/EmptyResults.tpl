@@ -11,7 +11,7 @@
         <br />
         {ts}Suggestions:{/ts}
         <ul>
-        <li>{ts}if you are searching by participant name, check your spelling{/ts}</li>
+        <li>{ts}if you are searching by Contact name, check your spelling{/ts}</li>
         <li>{ts}try a different spelling or use fewer letters{/ts}</li>
         <li>{ts}if you are searching within a date range, try a wider range of values{/ts}</li>
         <li>{ts}make sure you have enough privileges in the access control system{/ts}</li>

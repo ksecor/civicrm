@@ -2,7 +2,7 @@
 
  <div id="search-status">
     {if $savedSearch.name}{$savedSearch.name} ({ts}smart group{/ts}) - {/if}
-    {ts count=$pager->_totalItems plural='Found %count participants.'}Found %count participant.{/ts}
+    {ts count=$pager->_totalItems plural='Found %count Grants.'}Found %count Grant.{/ts}
 
     {* Search criteria are passed to tpl in the $qill array *}
     {if $qill}

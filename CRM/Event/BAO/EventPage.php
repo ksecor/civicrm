@@ -134,7 +134,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
 
             // get the billing location type
             $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-            $bltID = array_search( ts('Billing'),  $locationTypes );
+            $bltID = array_search( 'Billing',  $locationTypes );
 
             list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID, $bltID );
             self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId );

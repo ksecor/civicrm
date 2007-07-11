@@ -6,7 +6,7 @@
      
         <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
-        dojo.widget.byId( 'from_contact' ).setAllValues( '{$from_contact_value}', '{$from_contact_value}' )
+        dojo.widget.byId( 'from_contact' ).setAllValues( "{$from_contact_value}", "{$from_contact_value}" )
         {rdelim} );
         </script>
    
@@ -16,7 +16,7 @@
     {if $to_contact_value}
     <script type="text/javascript">
     dojo.addOnLoad( function( ) {ldelim}
-    dojo.widget.byId( 'to_contact' ).setAllValues( '{$to_contact_value}', '{$to_contact_value}' )
+    dojo.widget.byId( 'to_contact' ).setAllValues( "{$to_contact_value}", "{$to_contact_value}" )
     {rdelim} );
     </script>
     {/if}
@@ -25,7 +25,7 @@
     {if $regard_contact_value}
     <script type="text/javascript">
     dojo.addOnLoad( function( ) {ldelim}
-    dojo.widget.byId( 'regarding_contact' ).setAllValues( '{$regard_contact_value}', '{$regard_contact_value}' )
+    dojo.widget.byId( 'regarding_contact' ).setAllValues( "{$regard_contact_value}", "{$regard_contact_value}" )
     {rdelim} );
     </script>
     {/if}  

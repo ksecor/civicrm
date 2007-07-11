@@ -164,10 +164,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     {
         require_once 'CRM/Utils/Date.php';
         
-        if ( ! $params['status_id'] ) {
+        if ( ! isset( $params['is_override'] ) ) {
             $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
             $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
-            $joinDate    = CRM_Utils_Date::customFormat($params['join_date'],'%Y-%m-%d');
+            $joinDate   = CRM_Utils_Date::customFormat($params['join_date'],'%Y-%m-%d');
             
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
@@ -291,7 +291,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membership->membership_type_id ); 
         
         $relationships = array( );
-        if ( $membershipType['relationship_type_id'] ) {
+        if ( isset( $membershipType['relationship_type_id'] ) ) {
             $relationships =
                 CRM_Contact_BAO_Relationship::getRelationship( $contactId,
                                                                CRM_Contact_BAO_Relationship::CURRENT
@@ -476,7 +476,7 @@ UPDATE civicrm_membership_type
             return $actives;
         } elseif ( $status == 'inactive' ) {
             foreach ($memberships as $f => $v) {
-                if ( ! $v['active'] ) {
+                if ( ! CRM_Utils_Array::value('active',$v) ) {
                     $actives[$f] = $v;
                 }
             }

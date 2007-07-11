@@ -78,12 +78,10 @@ class CRM_Mailing_Invoke {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(
                 CRM_Utils_System::url('civicrm/mailing/browse'));
-            CRM_Utils_System::appendBreadCrumb(
-                                               '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
-                                               );
-            CRM_Utils_System::appendBreadCrumb(
-                                               '<a href="' . CRM_Utils_System::url('civicrm/mailing/report') . '">' . ts('Report') . '</a>'
-                                               );
+            CRM_Utils_System::appendBreadCrumb( ts( 'Mailings' ),
+                                                CRM_Utils_System::url( 'civicrm/mailing/browse' ) );
+            CRM_Utils_System::appendBreadCrumb( ts( 'Report' ),
+                                                CRM_Utils_System::url( 'civicrm/mailing/report' ) );
             $wrapper =& new CRM_Utils_Wrapper();
             return $wrapper->run( 'CRM_Mailing_Form_Retry', 
                                   ts('Retry Mailing'), null);
@@ -108,15 +106,15 @@ class CRM_Mailing_Invoke {
         if ( $secondArg == 'report' ) {
             $thirdArg  = CRM_Utils_Array::value( 3, $args, '' ); 
             if  ( $thirdArg  == 'event' ) {
-                CRM_Utils_System::appendBreadCrumb(
-                                                   '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>' );
-                CRM_Utils_System::appendBreadCrumb(
-                                                   '<a href="' . CRM_Utils_System::url('civicrm/mailing/report') . '">' . ts('Report') . '</a>'   );
+                CRM_Utils_System::appendBreadCrumb( ts( 'Mailings' ),
+                                                    CRM_Utils_System::url( 'civicrm/mailing/browse' ) );
+                CRM_Utils_System::appendBreadCrumb( ts( 'Report' ),
+                                                    CRM_Utils_System::url( 'civicrm/mailing/report' ) );
                 require_once 'CRM/Mailing/Page/Event.php';
                 $view =& new CRM_Mailing_Page_Event( );
             } else {
-                CRM_Utils_System::appendBreadCrumb(
-                                                   '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>' );
+                CRM_Utils_System::appendBreadCrumb( ts( 'Mailings' ),
+                                                    CRM_Utils_System::url( 'civicrm/mailing/browse' ) );
                 require_once 'CRM/Mailing/Page/Report.php';
                 $view =& new CRM_Mailing_Page_Report( );
             }

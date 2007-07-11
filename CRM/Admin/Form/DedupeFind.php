@@ -131,7 +131,7 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         $this->assign('main_contacts', $this->_mainContacts);
         $this->assign('dupe_contacts', $this->_dupeContacts);
         if ($this->_cid) $this->assign('cid', $this->_cid);
-        if ($this->_gid) $this->assign('gid', $this->_gid);
+        if (isset($this->_gid) || $this->_gid) $this->assign('gid', $this->_gid);
         $this->assign('rgid', $this->_rgid);
     }
 

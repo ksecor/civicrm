@@ -1,8 +1,8 @@
-{* Search form and results for Events *}
+{* Search form and results for Grants *}
 <div id="help">
-    {ts}Use this form to find participant(s) by participant name, event name, event start and end dates.{/ts}
+    {ts}Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, Total Amount , etc .{/ts}
 </div>
-<fieldset><legend>{ts}Find Participants{/ts}</legend>
+<fieldset><legend>{ts}Find Grants{/ts}</legend>
 <div class="form-item">
 {strip} 
         <table class="form-layout">
@@ -16,7 +16,7 @@
             <td class="label">{$form.buttons.html}</td>       
         </tr>
 
-        {include file="CRM/Event/Form/Search/Common.tpl"}
+        {include file="CRM/Grant/Form/Search/Common.tpl"}
 
         </table>
     {/strip}
@@ -24,7 +24,7 @@
 </fieldset>
 
 {if $rowsEmpty}
-    {include file="CRM/Event/Form/Search/EmptyResults.tpl"}
+    {include file="CRM/Grant/Form/Search/EmptyResults.tpl"}
 {/if}
 
 {if $rows}
@@ -32,11 +32,11 @@
     <fieldset>
     
        {* This section handles form elements for action task select and submit *}
-       {include file="CRM/Event/Form/Search/ResultTasks.tpl"}
+       {include file="CRM/Grant/Form/Search/ResultTasks.tpl"}
 
        {* This section displays the rows along and includes the paging controls *}
        <p></p>
-       {include file="CRM/Event/Form/Selector.tpl" context="Search"}
+       {include file="CRM/Grant/Form/Selector.tpl" context="Search"}
        
     </fieldset>
     {* END Actions/Results section *}

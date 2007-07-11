@@ -286,6 +286,42 @@ SELECT count(*)
         return true;
     }
 
+    /**
+     * Function to check if a drupal user already exists.
+     *  
+     * @param  Array $contact array of contact-details
+     *
+     * @return uid if user exists, false otherwise
+     * 
+     * @access public
+     * @static
+     */
+    static function userExists( &$contact ) 
+    {
+        $config =& CRM_Core_Config::singleton( );
+        
+        $db_drupal = DB::connect($config->userFrameworkDSN);
+        
+        if ( DB::isError( $db_drupal ) ) { 
+            die( "Cannot connect to UF db via $dsn, " . $db_drupal->getMessage( ) ); 
+        } 
+        
+        if ( $config->userFramework != 'Drupal' ) { 
+            die( "Unknown user framework" ); 
+        }
+        
+        $sql   = "SELECT uid FROM {$config->userFrameworkUsersTableName} where mail='" . $contact['email'] . "'";
+        $query = $db_drupal->query( $sql );
+        
+        while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
+            $contact['user_exists'] = true;
+            return $row['uid'];
+        }
+        
+        $db_drupal->disconnect( );
+        return false;
+    }
+
 }
 
 ?>

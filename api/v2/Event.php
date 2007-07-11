@@ -114,12 +114,10 @@ function civicrm_event_create( &$params )
 function civicrm_event_get( &$params ) 
 {
     _civicrm_initialize();
-    if ( ! is_array($params) ) {
+    if ( ! is_array( $params ) || empty( $params ) ) {
         return civicrm_create_error('Params is not an array');
     }
-    if ( ! isset($params['event_id'])) {
-        return civicrm_create_error('Required id (event ID) parameter is missing.');
-    }
+    
     $event  =& civicrm_event_search( $params );
     
     if ( count( $event ) != 1 &&
@@ -146,55 +144,35 @@ function civicrm_event_get( &$params )
 
 function civicrm_event_search( &$params ) 
 {
-    $inputParams      = array( );
-    $returnProperties = array( );
-    $otherVars = array( 'sort', 'offset', 'rowCount' );
     
-    $sort     = null;
-    $offset   = 0;
-    $rowCount = 25;
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = 1;
-        } elseif ( array_key_exists( $n, $otherVars ) ) {
-            $$n = $v;
-        } else {
-            $inputParams[$n] = $v;
         }
     }
-    require_once 'CRM/Contact/BAO/Query.php';
-    require_once 'CRM/Event/BAO/Query.php';  
-    if ( empty( $returnProperties ) ) {
-        $returnProperties = CRM_Event_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_EVENT );
-    }
-
-    $newParams =& CRM_Contact_BAO_Query::convertFormValues( $params);
-
-    $query =& new CRM_Contact_BAO_Query( $newParams, $returnProperties, null );
-    list( $select, $from, $where ) = $query->query( );
     
-    $sql = "$select $from $where"; 
-
-    if ( ! empty( $sort ) ) {
-        $sql .= " ORDER BY $sort ";
-    }
-    $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+    require_once 'CRM/Event/BAO/Event.php';
+    $eventDAO = new CRM_Event_BAO_Event( );
+    $eventDAO->copyValues( $params );
+    
+    $eventDAO->find( );
     
     $event = array( );
-    while ( $dao->fetch( ) ) {
-        $event[$dao->event_id] = $query->store( $dao );
+    while ( $eventDAO->fetch( ) ) {
+        $event[$eventDAO->id] = array( );
+        CRM_Core_DAO::storeValues( $eventDAO, $event[$eventDAO->id] );
     }
     
     require_once 'CRM/Core/BAO/CustomGroup.php';
-    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $dao->event_id, false,1);
+    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $eventDAO->id, false, 1 );
     CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false ); 
     if ( is_array( $defaults ) ) {
-      foreach ( $defaults as $key => $val ) {
-	$event[$dao->event_id][$key] = $val;
-      }
+        foreach ( $defaults as $key => $val ) {
+            $event[$eventDAO->id][$key] = $val;
+        }
     }
     
-    $dao->free( );
+    $eventDAO->free( );
     return $event;
 }
 

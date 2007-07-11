@@ -19,16 +19,16 @@ You have {$grantSummary.total_grants} grant(s) registered in your database.
     <th scope="col">{ts}Grant status{/ts}</th>
     <th scope="col">{ts}Number of grants{/ts}</th>
 </tr>
-</tr>
+
 {foreach from=$grantSummary.per_status item=status key=id}
 <tr>
-    <td><a href="{crmURL p="civicrm/grant/list" q="reset=1&status=`$id`"}">{$status.label}</a></td>
+    <td><a href="{crmURL p="civicrm/grant/search" q="reset=1&status=`$id`&force=1"}">{$status.label}</a></td>
     <td>{$status.total}</td>
 </tr>
 {/foreach}
-<tr class="columnheader-dark">
+<tr class="columnfooter">
     <td>TOTAL:</td>
-    <th>{$grantSummary.total_grants}</th>
+    <td>{$grantSummary.total_grants}</td>
 </tr>
 </table>
 
@@ -36,8 +36,9 @@ You have {$grantSummary.total_grants} grant(s) registered in your database.
 
 
 {if $pager->_totalItems}
-    <h3>{ts}Recent Registrations{/ts}</h3>
+    
+    <h3>{ts}Recent Grants{/ts}</h3>
     <div class="form-item">
-        {include file="CRM/Event/Form/Selector.tpl" context="DashBoard"}
+        {include file="CRM/Grant/Form/Selector.tpl" context="DashBoard"}
     </div>
 {/if}

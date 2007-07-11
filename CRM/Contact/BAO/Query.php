@@ -47,13 +47,15 @@ class CRM_Contact_BAO_Query {
      * @var int
      */
     const
-        MODE_CONTACTS   =  1,
-        MODE_CONTRIBUTE =  2,
-        MODE_QUEST      =  4,
-        MODE_MEMBER     =  8,
-        MODE_EVENT      = 16,
-        MODE_TMF        = 32,
-        MODE_ALL        = 63;
+        MODE_CONTACTS   =   1,
+        MODE_CONTRIBUTE =   2,
+        MODE_QUEST      =   4,
+        MODE_MEMBER     =   8,
+        MODE_EVENT      =  16,
+        MODE_TMF        =  32,
+        MODE_KABISSA    =  64,
+        MODE_GRANT      = 128,
+        MODE_ALL        = 255;
     
     /**
      * the default set of return properties
@@ -825,6 +827,7 @@ class CRM_Contact_BAO_Query {
                 return $values;
             }
         }
+        
         return $result;
     }
 
@@ -899,7 +902,7 @@ class CRM_Contact_BAO_Query {
              ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ||
              ( substr( $values[0], 0, 13 ) == 'contribution_' ) ||
              ( substr( $values[0], 0, 6  ) == 'event_' ) ||
-             ( substr( $values[0], 0, 6  ) == 'participant_' ) ||
+             ( substr( $values[0], 0, 12 ) == 'participant_' ) ||
              ( substr( $values[0], 0, 6  ) == 'quest_' ) ||
              ( substr( $values[0], 0, 4  ) == 'tmf_' )) {
             return;
@@ -1377,6 +1380,7 @@ class CRM_Contact_BAO_Query {
      */
     static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) 
     {
+
         $from = ' FROM civicrm_contact contact_a';
         if ( empty( $tables ) ) {
             return $from;
@@ -1428,9 +1432,6 @@ class CRM_Contact_BAO_Query {
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::tableNames( $tables );
  
-        require_once 'CRM/Case/BAO/Query.php';
-        CRM_Case_BAO_Query::tableNames( $tables );
-
         //format the table list according to the weight
         require_once 'CRM/Core/TableHierarchy.php';
         $info =& CRM_Core_TableHierarchy::info( );
@@ -1648,13 +1649,18 @@ class CRM_Contact_BAO_Query {
 
             case 'civicrm_case':
                 $from .= CRM_Case_BAO_Query::from( $name, $mode, $side );
-                continue; 
-
+                continue;
+                
+            case 'civicrm_grant':
+                $from .= CRM_Grant_BAO_Query::from( $name, $mode, $side );
+                continue;    
+            
             default:
                 $from .= CRM_Core_Component::from( $name, $mode, $side );
                 continue;
             }
         }
+       
         return $from;
     }
 

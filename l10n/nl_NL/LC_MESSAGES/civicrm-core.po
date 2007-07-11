@@ -6,13 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-06-29 01:30+0100\n"
+"PO-Revision-Date: 2007-07-03 13:40+0100\n"
 "Last-Translator: Martin Niewzwaag <ma-ni@home.nl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
 "X-Generator: Pootle 0.10\n"
+"Language-Team: \n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -129,12 +130,12 @@ msgstr "Beschrijving"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 msgid " -select- "
-msgstr "-selecteer-"
+msgstr "- selecteer -"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/BAO/UFGroup.php
 #: CRM/Core/SelectValues.php CRM/UF/Form/Preview.php
 msgid "-select-"
-msgstr "-selecteer-"
+msgstr "- selecteer -"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Groups"
@@ -555,7 +556,7 @@ msgstr "Debugging"
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Individual"
-msgstr "Individu"
+msgstr "persoon"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -621,7 +622,7 @@ msgstr "Beide"
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/SelectValues.php
 msgid "Added"
-msgstr "Toegevoegd"
+msgstr "Added"
 
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/SelectValues.php
@@ -918,7 +919,7 @@ msgstr "Taak"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search.php
 msgid "Find..."
-msgstr "Vind..."
+msgstr "Zoek..."
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search/Simple.php
 msgid "- any state/province -"
@@ -1022,7 +1023,7 @@ msgstr "Hoofd"
 
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Task.php
 msgid "Record Activity for Contacts"
-msgstr "Activiteitenlijst voor contacten"
+msgstr "Activiteit  toevoegen aan contact"
 
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
 msgid "Update Smart Group"
@@ -1035,7 +1036,7 @@ msgstr "Wil je deze Smart Groep echt verwijderen?"
 #: CRM/Contact/Page/View/Activity.php CRM/History/Selector/Activity.php
 #: templates/CRM/History/Form/Activity.tpl
 msgid "Delete Activity History"
-msgstr "Verwijder activiteiten geschiedenis"
+msgstr "Verwijder logfile"
 
 #: CRM/Contact/Page/View/Basic.php CRM/Contact/Page/View/Tabbed.php
 msgid "Contact Page"
@@ -1150,7 +1151,7 @@ msgstr "Adres"
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "State"
-msgstr "Staat"
+msgstr "Prov."
 
 #: CRM/Contact/Task.php CRM/Core/Menu.php
 msgid "Export Contacts"
@@ -1359,7 +1360,7 @@ msgstr "Importeer logfile"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
-msgstr "Zoek Profiel"
+msgstr "Zoeken opbouwen"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
@@ -1390,7 +1391,7 @@ msgstr "Veldnaam"
 
 #: CRM/Core/DAO/UFGroup.php CRM/Core/Menu.php templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile"
-msgstr "CiviCRM Profiel"
+msgstr "CiviCRM profiel"
 
 #: CRM/Core/Invoke.php CRM/Core/SelectValues.php
 msgid "Search Results"
@@ -1408,11 +1409,11 @@ msgstr "Map evenement locatie"
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Advanced Search"
-msgstr "Geavanceerde zoekopdracht"
+msgstr "Geavanceerd zoeken"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "New Contact"
-msgstr "Nieuw contact"
+msgstr "Nieuwe persoon"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Custom Data Fields"
@@ -1420,15 +1421,15 @@ msgstr "Specifieke Gegevensvelden"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group"
-msgstr "CiviCRM Profiel Groep"
+msgstr "CiviCRM profielgroep"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Field.php templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
-msgstr "CiviCRM Profiel Veld"
+msgstr "CiviCRM profielveld"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Duplicate Matching"
-msgstr "Match duplicaten"
+msgstr "Duplicaten controle"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -1675,7 +1676,7 @@ msgstr "Rol"
 
 #: CRM/ACL/Form/ACL.php
 msgid " -select role- "
-msgstr "-selecteer rol-"
+msgstr "- selecteer rol -"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Everyone"
@@ -1759,7 +1760,7 @@ msgstr "Koppel gebruikers aan rollen"
 
 #: CRM/Activity/BAO/Activity.php
 msgid "\"%1\" has been logged to Activity History."
-msgstr "\"%1\" is toegevoegd aan de Activiteiten geschiedenis."
+msgstr "\"%1\" is toegevoegd aan de logfile"
 
 #: CRM/Activity/BAO/Activity.php
 msgid "\"%1\" has been saved."
@@ -1767,7 +1768,7 @@ msgstr "\"%1\" is bewaard"
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "- select activity type -"
-msgstr "-selecteer activiteit type-"
+msgstr "- selecteer activiteit type -"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Select Phone Number"
@@ -1807,7 +1808,7 @@ msgstr "Standaard?"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Selected Location type has been deleted."
-msgstr "Geselecteerde locatietype is verwijderd."
+msgstr "Geselecteerde locatietype is verwijdert."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "The location type \"%1\" has been saved."
@@ -1895,7 +1896,7 @@ msgstr "Individuele Naam opmaak"
 
 #: CRM/Admin/Form/Setting/Address.php
 msgid "Mailing Label Format"
-msgstr "Mailing Label opmaak"
+msgstr "Opmaak verzendetiketten"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Settings - Enable Components"
@@ -2297,7 +2298,7 @@ msgstr "Relatietype tonen"
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "Edit Relationship Type"
-msgstr "Relatietype wijzigen"
+msgstr "Wijzigen relatietype"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Disable Relationship Type"
@@ -2325,7 +2326,7 @@ msgstr "Deze markering zal alle momenteel gemarkeerde contacten worden verwijder
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
-msgstr "Markering wijzigen"
+msgstr "Wijzig markering "
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Delete Tag"
@@ -2369,11 +2370,11 @@ msgstr "Graafschap (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Prefix %2 \"%1\""
-msgstr "Individueel Voorvoegsel %2 \"%1\""
+msgstr "voorvoegsel %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix %2 \"%1\""
-msgstr "Individueel Achtervoegsel %2 \"%1\""
+msgstr "Achtervoegsel %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Gender %2 \"%1\""
@@ -2401,7 +2402,7 @@ msgstr "Lid van groep %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Group Status -"
-msgstr "Groepsstatus -"
+msgstr "Groepsstatus:"
 
 #: CRM/Contact/BAO/Query.php
 msgid "CMS User"
@@ -2694,7 +2695,7 @@ msgstr "Eén locatie zou aangeduid moeten zijn als primair."
 
 #: CRM/Contact/Form/Email.php
 msgid "Email (preferred)"
-msgstr "Email (bij voorkeur)"
+msgstr "E-mail (voorkeur)"
 
 #: CRM/Contact/Form/Email.php
 msgid "another email"
@@ -2774,7 +2775,7 @@ msgstr "Voer een juiste websitenaam in, beginnende met \"http://\" of \"https://
 
 #: CRM/Contact/Form/Individual.php
 msgid "Current Employer"
-msgstr "Huidige werknemer"
+msgstr "Huidige werkgever"
 
 #: CRM/Contact/Form/Individual.php
 msgid "External Id"
@@ -2903,7 +2904,7 @@ msgstr "CMS gebruiker?"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Search Views"
-msgstr "Zoek profiel"
+msgstr "Zoek overzichten"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- default view -"
@@ -2971,7 +2972,7 @@ msgstr "Acties:"
 
 #: CRM/Contact/Form/Search.php templates/CRM/common/pager.tpl
 msgid "Go"
-msgstr "Ga"
+msgstr "Uitvoeren"
 
 #: CRM/Contact/Form/Search.php
 msgid "Print"
@@ -2979,19 +2980,19 @@ msgstr "Print"
 
 #: CRM/Contact/Form/Search.php
 msgid "- any group -"
-msgstr "- elke groep -"
+msgstr "- alle groepen -"
 
 #: CRM/Contact/Form/Search.php
 msgid "in"
-msgstr "in"
+msgstr "In groep"
 
 #: CRM/Contact/Form/Search.php
 msgid "- any tag -"
-msgstr "- elke markering -"
+msgstr "- alle markeringen -"
 
 #: CRM/Contact/Form/Search.php
 msgid "Tagged"
-msgstr "Gemarkeerd"
+msgstr "Kenmerk"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add Members to A Group"
@@ -3151,15 +3152,15 @@ msgstr "Exporteer alles of geselecteerde velden"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Make Mailing Labels"
-msgstr "Maak mail labels aan"
+msgstr "Verzendetiketten aanmaken"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Select Label"
-msgstr "Selecteer label"
+msgstr "Selecteer etiket"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "- select label -"
-msgstr "- selecteer label -"
+msgstr "- selecteer etiket -"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Select Location"
@@ -3329,7 +3330,7 @@ msgstr "Relatie tonen"
 #: CRM/Contact/Page/View/Relationship.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Edit Relationship"
-msgstr "Relatie wijzigen"
+msgstr "Wijzig relatie "
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Enable Relationship"
@@ -3366,7 +3367,7 @@ msgstr "Activiteit tonen"
 
 #: CRM/Contact/Selector/Activity.php
 msgid "Open Activities %%StatusMessage%%"
-msgstr "Toon Activiteiten %%StatusMessage%%"
+msgstr "Openstaande activiteiten %%StatusMessage%%"
 
 #: CRM/Contact/Selector/Activity.php templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
@@ -3401,7 +3402,7 @@ msgstr "Smart"
 
 #: CRM/Contact/Selector.php templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
-msgstr "per post"
+msgstr "Postcode"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to a Group"
@@ -3413,11 +3414,11 @@ msgstr "Verwijder contacten uit een groep"
 
 #: CRM/Contact/Task.php
 msgid "Tag Contacts (assign tags)"
-msgstr "Markeer contacten (voeg markeringen toe)"
+msgstr "Markeer contacten"
 
 #: CRM/Contact/Task.php
 msgid "Untag Contacts (remove tags)"
-msgstr "Démarkeer contacten (verwijder markeringen)"
+msgstr "Verwijder contactmarkeringen"
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
@@ -3449,11 +3450,11 @@ msgstr "Druk contactenlijst af"
 
 #: CRM/Contact/Task.php templates/CRM/Admin/Form/Setting/Address.tpl
 msgid "Mailing Labels"
-msgstr "Mailing labels"
+msgstr "verzendetiketten"
 
 #: CRM/Contact/Task.php templates/CRM/Contact/Form/Task/PickProfile.tpl
 msgid "Batch Update via Profile"
-msgstr "Update alles via profiel"
+msgstr "Bewerk met een profiel"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Alphanumeric"
@@ -3649,7 +3650,7 @@ msgstr "CiviCRM Snel toevoegen"
 
 #: CRM/Core/Block.php
 msgid "New Individual"
-msgstr "Nieuw contact"
+msgstr "Nieuwe persoon"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Search"
@@ -4451,11 +4452,11 @@ msgstr "Mobiele telefoon providers"
 
 #: CRM/Core/Menu.php
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr "Persoonlijke titels (Dhr, Mevr...)"
+msgstr "Titels (Dhr, Mevr...)"
 
 #: CRM/Core/Menu.php
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr "Persoonlijke achtervoegsels (jr,sr,..)"
+msgstr "Achtervoegsels (jr,sr,..)"
 
 #: CRM/Core/Menu.php
 msgid "Preferred Communication Options"
@@ -4483,7 +4484,7 @@ msgstr "Aanmaken nieuwe groep"
 
 #: CRM/Core/Menu.php
 msgid "Activity Detail"
-msgstr "details activiteit"
+msgstr "Details activiteit"
 
 #: CRM/Core/Menu.php templates/CRM/Contact/Page/View/Email.tpl
 msgid "Sent Email Message"
@@ -4535,7 +4536,7 @@ msgstr "Niet handelen"
 
 #: CRM/Core/SelectValues.php
 msgid "- all contacts -"
-msgstr "-alle contacten-"
+msgstr "- alle contacten -"
 
 #: CRM/Core/SelectValues.php
 msgid "Individuals"
@@ -4567,11 +4568,11 @@ msgstr "levenslang"
 
 #: CRM/Core/SelectValues.php
 msgid "rolling"
-msgstr "in behandeling"
+msgstr "Vanaf - tot"
 
 #: CRM/Core/SelectValues.php
 msgid "fixed"
-msgstr "Gereed"
+msgstr "Vast"
 
 #: CRM/Core/SelectValues.php
 msgid "Public"
@@ -4936,7 +4937,7 @@ msgstr "Toon specifieke opties"
 
 #: CRM/Custom/Page/Field.php
 msgid "Preview Field Display"
-msgstr "Voorvertoning veld scherm"
+msgstr "Voorvertoning"
 
 #: CRM/Custom/Page/Field.php
 msgid "Preview Custom Field"
@@ -4964,7 +4965,7 @@ msgstr "Weet u zeker dat u deze specifieke gegevensgroep wilt uitzetten? Profiel
 
 #: CRM/Custom/Page/Group.php
 msgid "View and Edit Custom Fields"
-msgstr "Toon en wijzig specifieke velden"
+msgstr "Toon/wijzig specifieke velden"
 
 #: CRM/Custom/Page/Group.php
 msgid "Preview Custom Data Group"
@@ -4984,7 +4985,7 @@ msgstr "Specifieke groep aanzetten"
 
 #: CRM/Custom/Page/Group.php
 msgid "-- Any --"
-msgstr "-elke -"
+msgstr "alle"
 
 #: CRM/Custom/Page/Option.php
 msgid "Are you sure you want to disable this custom data multiple choice option?"
@@ -5077,7 +5078,7 @@ msgstr "Bij dubbele invoeringen"
 
 #: CRM/History/Import/Parser.php
 msgid "View Activity History URL"
-msgstr "Toon Activiteiten geschiedenis URL"
+msgstr "Toon URL logfile"
 
 #: CRM/History/Page/Activity.php
 msgid "Could not find callback %1"
@@ -5085,7 +5086,7 @@ msgstr "Kan reactie %1 niet vinden"
 
 #: CRM/History/Selector/Activity.php
 msgid "Are you sure you want to delete this Activity History record?"
-msgstr "Weet u zeker dat u deze activiteiten geschiedenis wilt verwijderen?"
+msgstr "Weet u zeker dat u dit logfile item wilt verwijderen?"
 
 #: CRM/History/Selector/Activity.php
 msgid "View Activity Details"
@@ -5481,7 +5482,7 @@ msgstr "Wet U zeker dat u dit profiel wilt kopiëren?"
 
 #: CRM/UF/Page/Group.php
 msgid "View and Edit Fields"
-msgstr "Toon en wijzig velden"
+msgstr "Toon/wijzig velden"
 
 #: CRM/UF/Page/Group.php
 msgid "List CiviCRM Profile Group Fields"
@@ -5513,11 +5514,11 @@ msgstr "Standalone formulier voor profielgroep"
 
 #: CRM/UF/Page/Group.php
 msgid "Copy Profile"
-msgstr "Profiel kipiëren"
+msgstr "Kopiëren"
 
 #: CRM/UF/Page/Group.php
 msgid "Make a Copy of CiviCRM Profile Group"
-msgstr "Maak een kopie van CiviCRM Profielgroep"
+msgstr "Maak een kopie van CiviCRM profielgroep"
 
 #: CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group Preview"
@@ -5621,19 +5622,19 @@ msgstr "(her-inschrijven: %1)"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day of week-"
-msgstr "-dag van de week-"
+msgstr "- dag van de wee k-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day-"
-msgstr "-dag-"
+msgstr "- dag -"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-month-"
-msgstr "-maand-"
+msgstr "- maand -"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-year-"
-msgstr "-jaar-"
+msgstr "- jaar -"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-hour-"
@@ -5802,12 +5803,12 @@ msgstr "Er zijn geen rol verbindingen. U kunt nu één<a href=\"%1\">toevoegen</
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Log a Meeting"
-msgstr "Registreer een bijeenkomst"
+msgstr "Bijeenkomst registreren"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule a Meeting"
-msgstr "Plan een bijeenkomst"
+msgstr "Bijeenkomst plannen"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 msgid "Edit Scheduled Meeting"
@@ -5846,7 +5847,7 @@ msgstr "Weet u zeker dat u \"%1' wilt verwijderen?"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "Schedule an Activity"
-msgstr "Plan een activiteit"
+msgstr "Activiteit plannen"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "Edit Scheduled Activity"
@@ -5858,7 +5859,7 @@ msgstr "Toon gereed zijnde activiteiten"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "View Scheduled Activity"
-msgstr "Toon een geplande activiteit"
+msgstr "Toon geplande activiteit"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Contact/Form/Task/Record.tpl
@@ -5871,11 +5872,11 @@ msgstr "Kan de logfile niet tonen omdat het type activiteit voor deze activiteit
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Log a Phone Call"
-msgstr "Registreer een telefoongesprek"
+msgstr "Telefoongesprek registreren"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Schedule a Phone Call"
-msgstr "Plan een telefoongesprek"
+msgstr "Telefoongesprek plannen"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Edit Scheduled Call"
@@ -5895,15 +5896,15 @@ msgstr "Het telefoongesprek wordt naar de logfile verplaatst als de status 'Afge
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "New Activity Type"
-msgstr "Nieuw type activiteit"
+msgstr "Nieuw activiteit type"
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Edit Activity Type"
-msgstr "Bewerk Type Activiteit"
+msgstr "Bewerk activiteit type"
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Delete Activity Type"
-msgstr "Verwijder Type Activiteit"
+msgstr "Verwijder activiteit type"
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "WARNING: Deleting this option will result in the loss of all activity type records which use the option."
@@ -5944,7 +5945,7 @@ msgstr "Selecteer tot 5 contactvelden om nieuwe contacten te vergelijken met bes
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "For example, using the default matching rule of <strong>Email AND First Name AND Last Name</strong>... Jane Doe jane.doe@example.org exists in your database. Now someone tries to add a new contact with the same email address and leaves the first and last name blank. The new contact will be flagged as a potential duplicate."
-msgstr "bv, de overeenkomstregel voor <strong>email AND voornaam AND achternaam</strong>.Jane Doe jane.doe@examle.org bestaat al in de gegevens. Nu probeert iemand een nieuw contact toe te voegen met hetzelfde emailadres, maar laat de velden voor voornaam en achternaam leeg. Het nieuwe contact zal nu gemarkeerd worden, als een mogelijke dubbele."
+msgstr "bv, de overeenkomstregel voor <strong>email AND voornaam AND achternaam</strong>.Jane Doe jane.doe@examle.org bestaat al in de gegevens. Nu probeert iemand een nieuwe persoon toe te voegen met hetzelfde emailadres, maar laat de velden voor voornaam en achternaam leeg. Het nieuwe contact zal nu gemarkeerd worden, als een mogelijke dubbele."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Configuration"
@@ -6021,7 +6022,7 @@ msgstr "Naam van de relatie van contact B naar contact A. Vb.: contact B is een 
 
 #: templates/CRM/Admin/Form/Setting/Address.tpl
 msgid "Address Display and Editing"
-msgstr "Toon en wijzig adres"
+msgstr "Toon/wijzig adres"
 
 #: templates/CRM/Admin/Form/Setting/Address.tpl
 msgid "Maximum number of different locations/addresses that can be entered for a contact."
@@ -7146,7 +7147,7 @@ msgstr "U instellingen gebruiken SMTP authentificatie terwijl er geen SMTP gebru
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send an Email"
-msgstr "Stuur een e-email"
+msgstr "E-mail versturen"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid "Email will NOT be sent to %count contact - communication preferences specify DO NOT EMAIL."
@@ -7251,7 +7252,7 @@ msgstr "Er zijn momenteel geen bewaarde zoekopdrachten. Om een bewaarde zoekopdr
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Use <a href=\"%1\">Find</a> or <a href=\"%2\"> Advanced Search</a> form to enter search criteria"
-msgstr "Gebruik het <a href=\"%1\">Zoeken</a> of <a href=\"%2\"> Geavanceerd zoeken</a> formulier om zoekcriteria in te voeren"
+msgstr "Gebruik <a href=\"%1\">Snel zoeken</a> of <a href=\"%2\"> Geavanceerd zoeken</a> om zoekcriteria in te voeren"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Run and refine the search criteria as necessary"
@@ -7267,7 +7268,7 @@ msgstr "Voer een naam en beschrijving in voor je bewaarde zoekopdracht"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule Meeting"
-msgstr "Plan een afspraak"
+msgstr "Afspraak plannen"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule Call"
@@ -7275,11 +7276,11 @@ msgstr "Plan telefoongesprek"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule a Call"
-msgstr "Plan een telefoongesprek"
+msgstr "Telefoongesprek plannen"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Log a Call"
-msgstr "Registreer een telefoongesprek"
+msgstr "Telefoongesprek registreren"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
@@ -7697,7 +7698,7 @@ msgstr "Weet u zeker dat u notitie \"%1\" wilt verwijderen?"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "There are no Notes for this contact. You can <a href=\"%1\">add one</a>."
-msgstr "Er zijn geen notities opgeslagen voor dit contact. U kunt er éé href=\"%1\">aanmaken</a>."
+msgstr "Er zijn geen notities opgeslagen voor dit contact. U kunt er één  <a href=\"%1\">aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "This page lists all event registrations for %1 since inception."
@@ -8056,7 +8057,7 @@ msgstr "Alle typen contact"
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "New Group of Custom Fields"
-msgstr "Nieuwe groep specifieke veld"
+msgstr "Nieuwe groep specifieke velden"
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "No custom data groups have been created yet. You can <a href=\"%1\">add one</a>."
@@ -8585,7 +8586,7 @@ msgstr "Terug naar Overzichten"
 
 #: templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "Send an SMS"
-msgstr "Stuur een SMS"
+msgstr "SMS versturen"
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Current tags for <strong>%1</strong> are highlighted. You can add or remove tags from <a href=\"%2\">Edit Tags</a>."
@@ -8605,7 +8606,7 @@ msgstr "Wijzig markeringen"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Delete CiviCRM Profile Field"
-msgstr "Verwijder CiviCRM Profielveld"
+msgstr "Verwijder CiviCRM profielveld"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "WARNING: Deleting this profile field will remove it from Profile forms and listings. If this field is used in any 'stand-alone' Profile forms, you will need to update those forms to remove this field."
@@ -8665,7 +8666,7 @@ msgstr "Vink <strong>Toon/Wijzig Gebruiker</strong> aan, om het op te nemen in d
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Check <strong>Profile</strong> if you want it to use it for customized listings and view screens for the civicrm/profile path."
-msgstr "Vink <strong>Profiel</strong> aan als dit opgenomen moet worden in de specifieke overzichten en schermen voor het CiviCRM profiel pad."
+msgstr "Vink <strong>profiel</strong> aan als dit opgenomen moet worden in de specifieke overzichten en schermen voor het CiviCRM profiel pad."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Check <strong>Search Results</strong> to use this profile to display an alternate set of results columns for CiviCRM Basic and Advanced Search."
@@ -8733,7 +8734,7 @@ msgstr "Indien aangezet zal het contact record worden venieuwd als een passende 
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "View or Edit Fields for this Profile"
-msgstr "Toon of Wijzig velden van dit profiel"
+msgstr "Toon/wijzig velden van dit profiel"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "Profile Field Preview"
@@ -8777,7 +8778,7 @@ msgstr "Terug naar Profieloverzichten"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "CiviCRM Profile(s) allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features. They provide a powerful set of tools for you to collect information from constituents and selectively share contact information."
-msgstr "MEt CiviCRM is het mogelijk, om velden te groeperen, en in de website te tonen als invoerformulieren, overzichtspaginas, en zoekopties. Op deze manier is het een sterk stuk gereedschap, om informatie in te winnen, en deze op een selectieve manier te delen."
+msgstr "Met CiviCRM is het mogelijk om velden te groeperen en in de website te tonen als invoerformulieren, overzichtspaginas en zoek';ijstens. Op deze manier is het een sterk stuk gereedschap om informatie in te winnen en deze op een selectieve manier te delen."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
@@ -8829,11 +8830,11 @@ msgstr "Andere lokatie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Billing"
-msgstr "Facturering"
+msgstr "Billing"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Billing Address location"
-msgstr "Locatie factuur adres"
+msgstr "Billing Address location"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Child of"

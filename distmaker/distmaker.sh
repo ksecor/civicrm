@@ -31,9 +31,9 @@ ORIGPWD=`pwd`
 # Set no actions by default 
 PHP4CONV=0
 D5PACK=0
-M5PACK=0
+J5PACK=0
 D4PACK=0
-M4PACK=0
+J4PACK=0
 
 # Display usage
 display_usage()
@@ -46,8 +46,8 @@ display_usage()
 	echo "  all - generate all available tarballs"
 	echo "  d5  - generate Drupal PHP5 module"
 	echo "  d4  - generate Drupal PHP4 module"
-	echo "  m5  - generate Joomla PHP5 module"
-	echo "  m4  - generate Joomla PHP4 module"
+	echo "  j5  - generate Joomla PHP5 module"
+	echo "  j4  - generate Joomla PHP4 module"
 	echo
 	echo "You also need to have distmaker.conf file in place."
 	echo "See distmaker.conf.dist for example contents."
@@ -96,9 +96,9 @@ case $1 in
 	;;
 
 	# JOOMLA PHP5
-	m5)
+	j5)
 	echo; echo "Generating Joomla PHP5 module"; echo;
-	M5PACK=1
+	J5PACK=1
 	;;
 
 	# DRUPAL PHP4
@@ -109,9 +109,9 @@ case $1 in
 	;;
 
 	# JOOMLA PHP4
-	m4)
+	j4)
 	echo; echo "Generating Joomla PHP4 module"; echo;
-	M4PACK=1
+	J4PACK=1
 	PHP4CONV=1
 	;;
 
@@ -120,9 +120,9 @@ case $1 in
 	echo; echo "Generating all we've got."; echo;
 	PHP4CONV=1
 	D5PACK=1
-	M5PACK=1
+	J5PACK=1
 	D4PACK=1
-	M4PACK=1
+	J4PACK=1
 	;;
 
 	# USAGE
@@ -153,7 +153,7 @@ if [ $D5PACK = 1 ]; then
 	sh $P/dists/drupal_php5.sh
 fi
 
-if [ $M5PACK = 1 ]; then
+if [ $J5PACK = 1 ]; then
 	echo; echo "Packaging for Joomla, PHP5 version"; echo;
 	sh $P/dists/joomla_php5.sh
 fi
@@ -165,7 +165,7 @@ if [ $D4PACK = 1 ]; then
 	sh $P/dists/drupal_php4.sh
 fi
 
-if [ $M4PACK = 1 ]; then
+if [ $J4PACK = 1 ]; then
 	echo; echo "Packaging for Joomla, PHP4 version"; echo;
 	check_php4
 	sh $P/dists/joomla_php4.sh

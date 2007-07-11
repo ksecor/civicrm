@@ -113,6 +113,14 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
 
+        // unset locations if empty
+        if ( ( count( $defaults['location'] ) == 1 ) &&
+             ( count( $defaults['location'][1] ) == 1 ) ) {
+            // this means this is only one element in the first location
+            // which is is_primary, so we ignore it in view mode
+            unset( $defaults['location'] );
+        }
+
         if (CRM_Utils_Array::value( 'gender_id',  $defaults )) {
             $gender =CRM_Core_PseudoConstant::gender();
             $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
@@ -204,10 +212,14 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                        'group'         => ts( 'Groups'        ),
                        'note'          => ts( 'Notes'         ),
                        'tag'           => ts( 'Tags'          ),
-                       'log'           => ts( 'Change Log'    )
-
+                       'log'           => ts( 'Change Log'    ),
                        );
-
+        
+        if ( $config->sunlight ) {
+            $title = ts( 'Elected Officials' );
+            $rest['sunlight'] = $title;
+            $this->_viewOptions[$title] = true;
+        }
 
         foreach ( $rest as $k => $v ) {
             if ( ! $this->_viewOptions[$v] ) {

@@ -19,7 +19,8 @@ INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Work{/ts}', 'WORK', '{ts}Work location{/ts}', 0, 1 );
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Main{/ts}', NULL, '{ts}Main office location{/ts}', 0, 1 );
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Other{/ts}', NULL, '{ts}Other location{/ts}', 0, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Billing{/ts}', NULL, '{ts}Billing Address location{/ts}', 1, 1 );
+-- the following location must stay with the untranslated Billing name, CRM-2064
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, 'Billing', NULL, '{ts}Billing Address location{/ts}', 1, 1 );
 
 -- Sample relationship types
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
@@ -98,7 +99,8 @@ VALUES
    (@domain_id, 'advanced_search_options'       , '{ts}Advanced Search Options{/ts}'            , 0, 1),
    (@domain_id, 'user_dashboard_options'        , '{ts}User Dashboard Options{/ts}'             , 0, 1),
    (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1),
-   (@domain_id, 'grant_status'                  , '{ts}Grant status{/ts}'                       , 0, 1);
+   (@domain_id, 'grant_status'                  , '{ts}Grant status{/ts}'                       , 0, 1),
+   (@domain_id, 'grant_type'                    , '{ts}Grant Type{/ts}'                         , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -120,6 +122,7 @@ SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
 SELECT @option_group_id_adOpt          := max(id) from civicrm_option_group where name = 'address_options';
 SELECT @option_group_id_grantSt        := max(id) from civicrm_option_group where name = 'grant_status';
+SELECT @option_group_id_grantTyp       := max(id) from civicrm_option_group where name = 'grant_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -231,6 +234,8 @@ VALUES
   (@option_group_id_asOpt, '{ts}Cases{/ts}'               ,  11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Case Activities{/ts}'     ,  12, NULL, NULL, 0, NULL, 12, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, '{ts}Kabissa{/ts}'             ,  13, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts}Grants{/ts}'              ,  14, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1 ),
+
 
   (@option_group_id_udOpt, '{ts}Groups{/ts}'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, '{ts}Contributions{/ts}', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
@@ -251,8 +256,11 @@ VALUES
 
   (@option_group_id_grantSt, '{ts}Pending{/ts}',  1, 'Pending',  NULL, 0, 1,    1, NULL, 0, 0, 1),
   (@option_group_id_grantSt, '{ts}Granted{/ts}',  2, 'Granted',  NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_grantSt, '{ts}Rejected{/ts}', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1);
-
+  (@option_group_id_grantSt, '{ts}Rejected{/ts}', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_grantTyp, '{ts}Emergency{/ts}'          , 1, 'Emergency'         , NULL, 0, 1,    1, NULL, 0, 0, 1),    
+  (@option_group_id_grantTyp, '{ts}Family Support{/ts}'     , 2, 'Family Support'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_grantTyp, '{ts}General Protection{/ts}' , 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_grantTyp, '{ts}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1);
 -- sample membership status entries
 INSERT INTO
     civicrm_membership_status(domain_id, name, start_event, start_event_adjust_unit, start_event_adjust_interval, end_event, end_event_adjust_unit, end_event_adjust_interval, is_current_member, is_admin, weight, is_default, is_active)
@@ -267,7 +275,7 @@ VALUES
 INSERT INTO 
      civicrm_preferences(domain_id, contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url )
 VALUES 
-     (@domain_id,NULL,1,1,'12345678910','1234','12345678910111213','1234','123456891011','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}',NULL,NULL,NULL);
+     (@domain_id,NULL,1,1,'12345678910','1234','1234567891011121314','1234','123456891011','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}',NULL,NULL,NULL);
 {/literal}
 
 -- various processor options

@@ -83,7 +83,7 @@ class CRM_Core_Component
                        'path'    => 'CRM_Grant_',
                        'url'     => 'grant',
                        'perm'    => array( 'access CiviGrant' ),
-                       'search'  => 0 );                       
+                       'search'  => 1 );                       
                        
 
             self::$_info['Quest'] =
@@ -147,8 +147,9 @@ class CRM_Core_Component
                 array( 'title'   => 'Kabissa Application Process',
                        'path'    => 'CRM_Kabissa_',
                        'url'     => 'kabissa',
-                       'perm'    => array( 'access Kabissa' ),
-                       'search'  => 0,
+                       'perm'    => array( 'access Kabissa',
+                                           'access Kabissa Application' ),
+                       'search'  => 1,
                        'metaTpl' => 'quest',
                        'formTpl' => 'quest',
                        'task'    => array( ) 

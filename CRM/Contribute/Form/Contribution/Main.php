@@ -124,11 +124,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         // hack to simplify credit card entry for testing
-        $this->_defaults['credit_card_type']     = 'Visa';
-        //$this->_defaults['amount']               = 5.00;
-        $this->_defaults['credit_card_number']   = '4807731747657838';
-        $this->_defaults['cvv2']                 = '000';
-        $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
+        // $this->_defaults['credit_card_type']     = 'Visa';
+        // $this->_defaults['amount']               = 5.00;
+        // $this->_defaults['credit_card_number']   = '4807731747657838';
+        // $this->_defaults['cvv2']                 = '000';
+        // $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
 
         return $this->_defaults;
     }
@@ -534,8 +534,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         $this->set( 'invoiceID', $invoiceID );
 
-        // not required if is_monetary=FALSE or amount is less than 0
-        if ( $this->_values['is_monetary'] ||(float ) $params['amount'] <= 0.0 ) {
+        // required only if is_monetary and valid postive amount 
+        if ( $this->_values['is_monetary'] && (float ) $params['amount'] > 0.0 ) {
             
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor ); 
 

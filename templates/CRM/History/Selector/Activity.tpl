@@ -1,10 +1,11 @@
 {* Open Activities table and Activity History are toggled on this page for now because we don't have a solution for including 2 'selectors' on one page. *}
 {if $history NEQ 1}
     {* Showing Open Activities *}
-    {if $totalCountOpenActivity}
+    {if $totalCountOpenActivity and $caseview NEQ 1}
         <div class="section-shown">
         <fieldset><legend><a href="{crmURL p='civicrm/contact/view' q="show=1&action=browse&history=1&selectedChild=activity&cid=$contactId"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Open Activities{/ts}</legend>
-    {else}
+    
+    {elseif !$totalCountOpenActivity and $caseview NEQ 1} 
         <div class="section-hidden section-hidden-border">
         <dl><dt>{ts}Open Activities{/ts}</dt>
         {if $permission EQ 'edit'}
@@ -74,10 +75,17 @@
              <td>{$row.action}</td>
            </tr>
         {else}
-           <tr class="{cycle values="odd-row,even-row"}">
-             <td>{$row.activity_type}</td>
-             <td>
-               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}">{$row.subject|mb_truncate:33:"...":true}</a>
+            <tr class="{cycle values="odd-row,even-row"}">
+            <td>{$row.activity_type}</td>
+            {if $caseview eq 1}
+                
+                {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=case&caseid=`$row.case_subjectID`"}{/capture}
+                 {assign var="caseId" value=$row.case_subjectID}
+            {else}
+                {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}{/capture}
+            {/if}
+
+            <td><a href="{$viewURL}">{$row.case|mb_truncate:33:"...":true}</a>
              </td>
              <td>
              {if $contactId  NEQ $row.sourceID} 
@@ -87,12 +95,13 @@
              {/if}			
              </td>
              <td>
-                {if $$contactId NEQ $row.targetID and $contactId  EQ $row.sourceID }
+                {if $contactId NEQ $row.targetID and $contactId  EQ $row.sourceID }
                     <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.targetID`"}">{$row.targetName}</a>
                 {else}
                     {$row.targetName} 
                 {/if}	
              </td>
+             <td>{$row.to_contact}</td>
              <td>{$row.date|crmDate}</td>
              <td>{$row.status_display}</td>
              {if $caseActivity}
@@ -109,11 +118,17 @@
 
     {include file="CRM/common/pager.tpl" location="bottom"}
     </form>
+    {if $caseview eq 1}
+      {ts}<a href="{crmURL p='civicrm/contact/view/activity/' q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`"}">Record a new Activity</a>{/ts}
+    {/if}
     </fieldset>
     </div>
+{elseif $caseview EQ 1 AND !$rows}
+    <div class="section-hidden section-hidden-border">
+    <dl>{ts}No Activites Recorded for this case. <a href="{crmURL p='civicrm/contact/view/activity/' q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`"}"> Record a new Activity. </a>{/ts}</dl>
+    </div>
 {/if}
-
-{if $history NEQ 1}
+{if $history NEQ 1 AND $caseview NEQ 1}
     {* Showing Open Activities - give link for History toggle *}
     <div id="activityHx_show" class="section-hidden section-hidden-border">
         {if $totalCountActivity}

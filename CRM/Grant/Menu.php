@@ -76,7 +76,7 @@ class CRM_Grant_Menu {
                                  'weight'  => 1010,  
                                  ),
                        
-                             array(
+                           /*           array(
                                  'path'    => 'civicrm/grant/add',
                                  'query'   => 'action=add&reset=1',
                                  'title'   => ts( 'New Grant' ),
@@ -94,7 +94,7 @@ class CRM_Grant_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,  
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                                  'weight'  => 1040,  
-                                 ),
+                                 ),*/
                            
                            );
             break;

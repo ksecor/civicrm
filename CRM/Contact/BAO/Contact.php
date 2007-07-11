@@ -228,6 +228,22 @@ ORDER BY
         return $emails;
     }
 
+    static function updatePrimaryEmail( $contactID, $email ) {
+        $query = "
+UPDATE  civicrm_contact
+LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                civicrm_contact.id  = civicrm_location.entity_id  AND
+                                civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
+                                civicrm_email.is_primary = 1    )
+SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
+        
+        $p = array( 1 => array( $email    , 'String'  ),
+                    2 => array( $contactID, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $p );
+    }
+
+
     /**
      * Get all the mobile numbers for a specified contact_id, with the primary mobile being first
      *
@@ -1225,6 +1241,9 @@ WHERE civicrm_contact.id IN $idString ";
         while ( $dao->fetch( ) ) {
             $location = array( );
             $location['displayName'] = $dao->display_name ;
+            $location['city'       ] = $dao->city;
+            $location['state'      ] = $dao->state;
+            $location['postal_code'] = $dao->postal_code;
             $location['lat'        ] = $dao->latitude;
             $location['lng'        ] = $dao->longitude;
             $address = '';
@@ -1324,11 +1343,19 @@ WHERE civicrm_contact.id IN $idString ";
             require_once 'CRM/TMF/BAO/Student.php';
             CRM_TMF_BAO_Student::deleteStudent($id);
         }
+        
         //delete Gcc Applicant Record
         if ( CRM_Core_Permission::access( 'Gcc' ) ) {
             require_once 'CRM/Gcc/BAO/Applicant.php';
             CRM_Gcc_BAO_Applicant::deleteApp($id);
         }
+        
+        //delete Kabissa Details Record
+        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
+            require_once 'CRM/Kabissa/BAO/Details.php';
+            CRM_Kabissa_BAO_Details::deleteDetails( $id );
+        }
+        
         require_once 'CRM/Core/DAO/Log.php';
         $logDAO =& new CRM_Core_DAO_Log(); 
         $logDAO->modified_id = $id;
@@ -1542,24 +1569,24 @@ WHERE civicrm_contact.id IN $idString ";
             $clause = null;
             $params = array( );
         } else {
-            $clause = " AND target_entity_id = %1 OR source_contact_id = %1 ";
+            $clause = " ( target_entity_id = %1 OR source_contact_id = %1 ) AND  ";
             $params = array( 1 => array( $id, 'Integer' ) );
         } 
 
-        $query = "SELECT count(*) FROM civicrm_meeting 
-                  WHERE ( civicrm_meeting.target_entity_table = 'civicrm_contact' $clause )
-                  AND status != 'Completed'";
+        $query = "SELECT count(civicrm_meeting.id) FROM civicrm_meeting
+                  WHERE  $clause ( civicrm_meeting.id 
+                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Meeting'))  ";
+        
         $rowMeeting = CRM_Core_DAO::singleValueQuery( $query, $params );
         
-        $query = "SELECT count(*) FROM civicrm_phonecall 
-                  WHERE ( civicrm_phonecall.target_entity_table = 'civicrm_contact' $clause )
-                  AND status != 'Completed'";
+        $query = "SELECT count(civicrm_phonecall.id) FROM civicrm_phonecall
+                  WHERE  $clause  (civicrm_phonecall.id 
+                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Phonecall'))";
         $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query, $params ); 
 
-        $query = "SELECT count(Distinct(civicrm_activity.id)) FROM civicrm_activity,civicrm_option_value 
-                  WHERE ( civicrm_activity.target_entity_table = 'civicrm_contact' $clause )
-                  AND civicrm_option_value.value = civicrm_activity.activity_type_id 
-                  AND civicrm_option_value.is_active = 1  AND status != 'Completed'";
+        $query = "SELECT count(civicrm_activity.id) FROM civicrm_activity
+                  WHERE $clause (civicrm_activity.id 
+                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Activity'))";
         $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
         
         return  $rowMeeting + $rowPhonecall + $rowActivity;
@@ -2701,11 +2728,10 @@ WHERE     civicrm_contact.id = %1";
             $newOrg['contact_type'     ] = 'Organization';
             $newOrg['organization_name'] = $organizationName ;
 
-            require_once "CRM/Contact/Form/Edit.php";
-            $orgName = CRM_Contact_BAO_Contact::create($newOrg, 
-                                                       $orgId, 
-                                                       CRM_Contact_Form_Edit::LOCATION_BLOCKS );
-            
+            require_once 'CRM/Core/BAO/Preferences.php';
+            $orgName = self::create($newOrg, 
+                                    $orgId, 
+                                    CRM_Core_BAO_Preferences::value( 'location_count' ) );
             //create relationship
             $relationshipParams['contact_check'][$orgName->id] = 1;
 

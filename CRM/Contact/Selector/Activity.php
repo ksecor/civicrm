@@ -116,12 +116,20 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         $deleteExtra = ts('Are you sure you want to delete this activity record?');
 
         self::$_actionLinks = array(
+                                   
                                     CRM_Core_Action::UPDATE => array(
                                                                      'name'     => ts('Edit'),
                                                                      'url'      => 'civicrm/contact/view/activity',
                                                                      'qs'       => "activity_id={$activityType}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&subType={$activityType}",
                                                                      'title'    => ts('View Activity'),
                                                                      ),
+                                    CRM_Core_Action::VIEW   => array(
+                                                                     'name'     => ts('View'),
+                                                                     'url'      => 'civicrm/contact/view/activity',
+                                                                     'qs'       => "activity_id={$activityType}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&subType={$activityType}",
+                                                                     'title'    => ts('View Activity'),
+                                                                     ),
+                                   
                                     CRM_Core_Action::DELETE => array(
                                                                      'name'     => ts('Delete'),
                                                                      'url'      => 'civicrm/contact/view/activity',
@@ -219,8 +227,20 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 case 'SMS':        $row['activity_type'] = ts('SMS');        break;
                 case 'Event':      $row['activity_type'] = ts('Event');      break;
             }
+            
+            //for case subject
+            if ($row['case_id']){
+                $row['case_subjectID'] = CRM_Core_DAO::getFieldValue('CRM_Case_DAO_CaseActivity', $row['case_id'],'case_id' );
+                $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case',$row['case_subjectID'],'subject'); 
+            }
 
-            // add class to this row if overdue
+            // retrieve to_contact
+            require_once "CRM/Activity/BAO/Activity.php";
+            $assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $row['activity_type_id'],$row['id']);
+            require_once "CRM/Contact/BAO/Contact.php";
+            $row['to_contact'] = CRM_Contact_BAO_Contact::displayName( $assignCID );
+
+                // add class to this row if overdue
             if ( CRM_Utils_Date::overdue( $row['date'] ) ) {
                 $row['overdue'] = 1;
                 $row['class']   = 'status-overdue';
@@ -252,7 +272,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                array('aid'  => $row['case_id'],
                                                                      'atype'=> $row['activity_type_id'],
                                                                      'rid'  => $row['id'],
-                                                                     'id'  =>  $row['id'],
+                                                                     'id'  =>  $row['case_subjectID'],
                                                                      'cid' => $this->_contactId
                                                                       ));
                 }else {
@@ -296,9 +316,10 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                 'sort'      => 'activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name' => ts('Subject')),
-                                          array('name' => ts('Created By')),
-                                          array('name' => ts('With Contact')),
+                                          array('name' => ts('Case')),
+                                          array('name' => ts('From Contact')),
+                                          array('name' => ts('Regarding Contact')),
+                                          array('name' => ts('To Contact')),
                                           array(
                                                 'name'      => ts('Scheduled'),
                                                 'sort'      => 'date',

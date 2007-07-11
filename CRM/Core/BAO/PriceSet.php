@@ -194,26 +194,30 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
                 $crmDAO = CRM_Core_DAO::executeQuery( $queryString, $params );
 
                 while ( $crmDAO->fetch() ) {
+                    $is_past = false;
                     $eventInfo = array();
                     $eventDAO =& new CRM_Event_DAO_Event( );
                     $eventDAO->id = $crmDAO->event_id;
                     if ( $eventDAO->find() ) {
                         $eventDAO->fetch();
-                        if ( $getInactive && $eventDAO->is_active ) {
-                            // ignore active events if searching for inactive
-                            continue;
-                        } elseif ( ! $getInactive && ! $eventDAO->is_active ) {
-                            // ignore inactive events if searching for active
-                            continue;
-                        }
+
                         // we only care about the end date, not time.
                         // note that in less than 8000 years, dates will be
                         // longer than 10 characters.
                         $endDate = substr( $eventDAO->end_date, 0, 10 );
-                        if ( $endDate < $today && ! $checkPast) {
-                            // event is in the past and we don't care
+                        if ( $checkpast && $endDate < $today ) {
+                            $is_past = true;
+                        }
+
+                        // past events count as active
+                        $is_inactive = ! $eventDAO->is_active || $is_past;
+
+                        // ignore active events if searching for inactive
+                        // and ignore inactive events if searching for active
+                        if ( $getInactive xor $is_inactive) {
                             continue;
                         }
+
                         $eventInfo['title'] = $eventDAO->title;
                         $eventInfo['eventType'] = CRM_Utils_Array::value( $eventDAO->event_type_id, $eventTypes );
                         $eventInfo['isPublic'] = $eventDAO->is_public;
@@ -268,6 +272,20 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      */
     public static function deleteSet($id)
     {
+        // remove from all inactive forms
+        $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id, true, true );
+        if ( isset( $usedBy['civicrm_event_page'] ) ) {
+            require_once 'CRM/Event/DAO/EventPage.php';
+            foreach ( $usedBy['civicrm_event_page'] as $eventId => $unused ) {
+                $eventPageDAO =& new CRM_Event_DAO_EventPage( );
+                $eventPageDAO->event_id = $eventId;
+                $eventPageDAO->find();
+                while ( $eventPageDAO->fetch() ) {
+                    CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event_page', $eventPageDAO->id );
+                }
+            }
+        }
+
         // delete price fields
         require_once 'CRM/Core/DAO/PriceField.php';
         require_once 'CRM/Core/DAO/CustomOption.php';

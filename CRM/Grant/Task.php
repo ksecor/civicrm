@@ -38,19 +38,12 @@
  * used by the search forms
  *
  */
-class CRM_Event_Task
+class CRM_Grant_Task
 {
     const
-        DELETE_EVENTS                     =     1,
-        PRINT_EVENTS                      =     2,
-        EXPORT_EVENTS                     =     3,
-        BATCH_EVENTS                      =     4,
-        CANCEL_REGISTRATION               =     5,
-        EMAIL_CONTACTS                    =     6,
-        // Value for SAVE_SEARCH is set as 13 in accordance with CRM_Contact_Task::SAVE_SEARCH
-        SAVE_SEARCH                       =     13,
-        SAVE_SEARCH_UPDATE                =     14;
-
+        DELETE_GRANTS                     =     1,
+        PRINT_GRANTS                      =     2;
+     
     /**
      * the task array
      *
@@ -79,32 +72,12 @@ class CRM_Event_Task
     {
         if (!(self::$_tasks)) {
             self::$_tasks = array(
-                                  1     => ts( 'Delete Participants'                   ),
-                                  3     => ts( 'Export Participants'                   ),
-                                  4     => ts( 'Batch Update Participants Via Profile' ),
-                                  5     => ts( 'Cancel Registration'                   ),
-                                  13    => ts( 'New Smart Group'                       ),
-                                  6     => ts( 'Send Email to Contacts'                ), 
-                                  );
+                                  1     => ts( 'Delete Grants'   ),                );
+                                 
         }
 
         asort(self::$_tasks);        
         return self::$_tasks;
-    }
-
-    /**
-     * These tasks get added based on the context the user is in
-     *
-     * @return array the set of optional tasks for a group of contacts
-     * @static
-     * @access public
-     */
-    static function &optionalTaskTitle()
-    {
-        $tasks = array(
-                       14    => ts( 'Update Smart Group')
-                       );
-        return $tasks;
     }
 
 }

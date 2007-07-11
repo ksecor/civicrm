@@ -76,6 +76,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $domain = 'domain';
         } else if ( $uf == 'Standalone' ) {
             $key = 'id';
+	    $mail = 'email';
             $uniqId = $user->identity_url;
             $query = "SELECT uf_id FROM civicrm_uf_match WHERE user_unique_id = %1";
             $p = array( 1 => array( $uniqId, 'String' ) );
@@ -143,13 +144,8 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
                 $ufmatch->user_unique_id = $uniqId;
                 $ufmatch->save( );
 
-                $query = "
-UPDATE  civicrm_contact
-SET civicrm_contact.user_unique_id = %1 WHERE civicrm_contact.id = %2 ";
-
-                $p = array( 1 => array( $uniqId               , 'String'  ),
-                            2 => array( $ufmatch->contact_id  , 'Integer' ) );
-                CRM_Core_DAO::executeQuery( $query, $p );
+                CRM_Contact_BAO_Contact::updatePrimaryEmail( $ufmatch->contact_id,
+                                                             $user->$mail );
             }
         }
     }

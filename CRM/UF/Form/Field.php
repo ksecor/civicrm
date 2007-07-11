@@ -130,6 +130,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             require_once 'CRM/TMF/BAO/Student.php';
             $this->_fields = array_merge (CRM_TMF_BAO_Student::exportableFields(), $this->_fields);
         }
+        
+        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
+            require_once 'CRM/Kabissa/BAO/Details.php';
+            $this->_fields = array_merge (CRM_Kabissa_BAO_Details::exportableFields(), $this->_fields);
+        }
 
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
@@ -228,7 +233,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
 
         $config =& CRM_Core_Config::singleton( );
-        if ( !$config->includeCounty ) {
+        if ( !isset($config->includeCounty) || !$config->includeCounty ) {
             unset( $fields['Individual'  ]['county']);
             unset( $fields['Household'   ]['county']);
             unset( $fields['Organization']['county']);
@@ -251,9 +256,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             require_once 'CRM/Event/BAO/Query.php';
             $participantFields =& CRM_Event_BAO_Query::getParticipantFields( true );
             if ( ! empty( $participantFields ) ) {
+                unset($participantFields['external_identifier']);
                 unset($participantFields['event_id']);
                 unset($participantFields['participant_contact_id']);
-                unset($participantFields['event_is_test']);
+                unset($participantFields['participant_is_test']);
                 $fields['Participant'] =& $participantFields;
             }
         }
@@ -261,6 +267,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         if ( CRM_Core_Permission::access( 'TMF' ) ) {
             require_once 'CRM/TMF/BAO/Student.php';
             $fields['TMF']      =& CRM_TMF_BAO_Student::exportableFields();
+        }
+
+        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
+            require_once 'CRM/Kabissa/BAO/Details.php';
+            $fields['Kabissa']  =& CRM_Kabissa_BAO_Details::exportableFields();
         }
 
 //         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
@@ -322,6 +333,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $sel1['TMF'] = 'TMF';
         }
         
+        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
+            $sel1['Kabissa'] = 'Kabissa Details';
+        }
+
         if ( ! empty( $contribFields ) ) {
             $sel1['Contribution'] = 'Contributions';
         }

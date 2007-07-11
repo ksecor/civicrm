@@ -1,5 +1,5 @@
 <div class="view-content">
-{if $action eq 1 or $action eq 2 or $action eq 8} {* add, update or delete *}
+{if $action eq 1 or $action eq 2 or $action eq 8 or $action eq 4} {* add, update or delete *}
     {include file="CRM/Grant/Form/Grant.tpl"}
 {else}
 <div id="help">
@@ -10,8 +10,6 @@
 </div>
 
 {if $grants}
-
-blaha
 
 <div id="grant">
     <div class="form-item" id=grant_id>

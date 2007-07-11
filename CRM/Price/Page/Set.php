@@ -149,19 +149,6 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
             if ($action & (CRM_Core_Action::DISABLE | CRM_Core_Action::DELETE)) {
                 $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id );
                 if ( empty( $usedBy ) ) {
-                    // remove from all inactive forms
-                    $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id, true, true );
-                    if ( isset( $usedBy['civicrm_event_page'] ) ) {
-                        require_once 'CRM/Event/DAO/EventPage.php';
-                        foreach ( $usedBy['civicrm_event_page'] as $eventId => $unused ) {
-                            $eventPageDAO =& new CRM_Event_DAO_EventPage( );
-                            $eventPageDAO->event_id = $eventId;
-                            $eventPageDAO->find();
-                            while ( $eventPageDAO->fetch() ) {
-                                CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event_page', $eventPageDAO->id );
-                            }
-                        }
-                    }
                     if ( $action & CRM_Core_Action::DISABLE) {
                         // disable price set
                         CRM_Core_BAO_PriceSet::setIsActive( $id, 0 );
@@ -180,8 +167,8 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
                 } else {
                     // add breadcrumb
                     $url = CRM_Utils_System::url( 'civicrm/admin/price', 'reset=1' );
-                    $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Price Sets') . '</a>';
-                    CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+                    CRM_Utils_System::appendBreadCrumb( ts('Price Sets'),
+                                                        $url );
                     $this->assign( 'usedPriceSetTitle', CRM_Core_BAO_PriceSet::getTitle( $id ) );
                     $this->assign( 'usedBy', $usedBy );
                 }

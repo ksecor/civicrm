@@ -101,55 +101,62 @@ class CRM_Contact_Form_Individual {
         
         // Declare javascript methods to be used, for use-household-address checkbox.
         // Also set label to be used for 'select-household' combo-box.
+        $extraOnAddFlds = '';
+        $addressFlds = array('location_1_address_street_address',
+                             'location_1_address_supplemental_address_1',
+                             'location_1_address_supplemental_address_2',
+                             'location_1_address_city',
+                             'location_1_address_postal_code',
+                             'location_1_address_postal_code_suffix',
+                             'location_1_address_county_id',
+                             'location_1_address_state_province_id',
+                             'location_1_address_country_id',
+                             'location_1_address_geo_code_1',
+                             'location_1_address_geo_code_2');
+
+        foreach ( $addressFlds as $addFld ) {
+            $extraOnAddFlds = $extraOnAddFlds ? ($extraOnAddFlds . "|" . $addFld) : $addFld;
+        }
+        $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
+        
         if ( $action & CRM_Core_Action::UPDATE ) {
-            $extraOnAddFlds = '';
-            $addressFlds = array('location_1_address_street_address',
-                                 'location_1_address_supplemental_address_1',
-                                 'location_1_address_supplemental_address_2',
-                                 'location_1_address_city',
-                                 'location_1_address_postal_code',
-                                 'location_1_address_postal_code_suffix',
-                                 'location_1_address_county_id',
-                                 'location_1_address_state_province_id',
-                                 'location_1_address_country_id',
-                                 'location_1_address_geo_code_1',
-                                 'location_1_address_geo_code_2');
-            foreach ( $addressFlds as $addFld ) {
-                $extraOnAddFlds = $extraOnAddFlds ? ($extraOnAddFlds . "|" . $addFld) : $addFld;
-            }
-            $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
-            
-            $useHouseholdExtra = array( 'onclick' => "
-showHideByValue('use_household_address',      '', 'shared_household',      'block', 'radio', false);
-showHideByValue('use_household_address',      '', 'id_location_1_address', 'block', 'radio', true);
-enableDisableByValue('use_household_address', '', $extraOnAddFlds,         'block', 'radio', true);
-resetByValue('use_household_address',         '', $extraOnAddFlds,         'text',  'radio', false);   " );
+            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
+resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
+" );        
             
             $mailToHouseholdID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Individual', 
                                                               $form->_contactId, 
                                                               'mail_to_household_id', 
                                                               'contact_id' );
-            $selHouseholdLabel = 'Select Household';
             if ( $mailToHouseholdID ) {
                 $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
-                $selHouseholdLabel = "Change Household"; // select-household label to be used.
+                $this->assign('old_mail_to_household_id', $mailToHouseholdID);
             }
         } elseif ( $action & CRM_Core_Action::ADD ) {
+            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
+        }
+        
+        if ( isset( $mailToHouseholdID ) ) {
+            $useHouseholdExtra = array( 'onclick' => "
+showHideByValue('use_household_address', 'true', 'confirm_shared_option', 'block', 'radio', false);
+resetByValue('use_household_address',        '', $extraOnAddFlds,          'text', 'radio', false);
+showHideSharedOptions();
+" );
+        } else {
             $useHouseholdExtra = array( 'onclick' => "
 showHideByValue('use_household_address', 'true', 'confirm_shared_option', 'block', 'radio', false);
 showHideSharedOptions();
 " );
-            $selectHouseholdExtra = array( 'onclick' => "showHideSharedOptions();" );
-            
-            $sharedOptions = array( '0' => ts('Create new household'), '1' => ts('Select existing household') );
-            $form->addRadio('shared_option', ts('shared options'),  $sharedOptions, $selectHouseholdExtra);
-            
-            $form->add( 'text', 'create_household', ts( 'Household Name' ), 
-                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' ) );
         }
         
+        $sharedOptions = array( '0' => ts('Create new household'), '1' => ts('Select existing household') );
+        $form->addRadio('shared_option', ts('shared options'),  $sharedOptions, $sharedOptionsExtra);
+        
+        $form->add( 'text', 'create_household', ts( 'Household Name' ), 
+                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' ) );
+        
         // shared address element block
-        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'),     $useHouseholdExtra);
+        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
         
         $domainID      =  CRM_Core_Config::domainID( );   
         $attributes    = array( 'dojoType'     => 'ComboBox',
@@ -161,7 +168,7 @@ showHideSharedOptions();
 
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
 
-        $form->add( 'text', 'shared_household', ts( $selHouseholdLabel ), $attributes );
+        $form->add( 'text', 'shared_household', ts( 'Select Household' ), $attributes );
         // shared address element-block Ends.
         
         $form->addElement('text', 'home_URL', ts('Website'),
@@ -333,7 +340,11 @@ showHideSharedOptions();
         $householdParams['household_name'] = $params['create_household'];
         $householdParams['location']       = $params['location'];
         
-        unset( $householdParams['location'][2] );
+        unset( $householdParams['location']['2'], 
+               $householdParams['location']['1']['phone'], 
+               $householdParams['location']['1']['email'], 
+               $householdParams['location']['1']['im']
+               );
         
         $contact = CRM_Contact_BAO_Contact::create( $householdParams, $ids, 1 );
         

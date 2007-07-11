@@ -118,8 +118,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         $domainID  = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
         $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
         
-        if ( $_GET['sh'] ) {
-            $shared    = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
+        $shared = null;
+        if ( isset($_GET['sh']) ) {
+            $shared = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
         }
 
         if ( $shared ) {
@@ -284,10 +285,14 @@ LIMIT 6";
         require_once 'CRM/Utils/Type.php';
         $countryName  = strtolower( CRM_Utils_Type::escape( $_GET['node'], 'String'  ) );
         $stateName    = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
-        $includeState = strtolower( CRM_Utils_Type::escape( $_GET['sc'], 'String'  ) );
+        
+        $includeState = null;
+        if ( isset($_GET['sc']) ) {
+            $includeState = strtolower( CRM_Utils_Type::escape( $_GET['sc'], 'String'  ) );
+        }
 
         $query = "
-SELECT civicrm_state_province.name name
+SELECT civicrm_state_province.name name, civicrm_state_province.id id
   FROM civicrm_state_province, civicrm_country
  WHERE civicrm_state_province.country_id = civicrm_country.id
   AND  civicrm_country.name LIKE '$countryName%'";
@@ -304,8 +309,12 @@ SELECT civicrm_state_province.name name
         $count = 0;
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->name, $dao->name );
+            $elements[] = array( $dao->name, $dao->id );
             $count++;
+        }
+
+        if ( empty( $elements ) ) {
+            $elements[] = array( $stateName, $stateName );
         }
 
         require_once 'Services/JSON.php';
@@ -335,7 +344,7 @@ SELECT civicrm_state_province.name name
         $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
 
         $query = "
-SELECT civicrm_country.name name
+SELECT id, name
   FROM civicrm_country
  WHERE civicrm_country.name LIKE '$name%'
    AND {$whereClause} 
@@ -347,8 +356,12 @@ ORDER BY name";
         $count = 0;
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->name, $dao->name );
+            $elements[] = array( $dao->name, $dao->id );
             $count++;
+        }
+
+        if ( empty( $elements ) ) {
+            $elements[] = array( $name, $name );
         }
 
         require_once 'Services/JSON.php';

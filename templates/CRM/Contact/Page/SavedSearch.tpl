@@ -1,6 +1,6 @@
 {strip}
 <p>
-{if $rows}
+{if $rows}hhhh
     <table>
     <tr class="columnheader">
         <th>{ts}Saved Search{/ts}</th>

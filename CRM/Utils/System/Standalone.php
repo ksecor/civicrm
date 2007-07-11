@@ -56,13 +56,14 @@ class CRM_Utils_System_Standalone {
     /**
      * Append an additional breadcrumb tag to the existing breadcrumb
      *
-     * @param string $bc the new breadcrumb to be appended
+     * @param string $title
+     * @param string $url   
      *
      * @return void
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $bc ) {
+    static function appendBreadCrumb( $title, $url ) {
         return;
     }
 

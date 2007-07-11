@@ -127,8 +127,7 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
         
         // set breadcrumb to append to admin/access
         $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/access', 'reset=1' );
-        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Access Control') . '</a>';
-        CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+        CRM_Utils_System::appendBreadCrumb( ts('Access Control'), $breadCrumbPath );
         CRM_Utils_System::setTitle( ts('Assign Users to Roles') );
 
         // what action to take ?

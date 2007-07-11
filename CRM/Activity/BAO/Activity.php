@@ -160,10 +160,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         while( $cutomDAO->fetch( )) {
             $cutomDAO->delete();
         }
-       
+              
         if ( $activityType == 'Meeting'){
             $entityTable= 'civicrm_meeting';
-        } else if ($activityType == 'PhoneCall'){
+        } else if ($activityType == 'Phonecall'){
             $entityTable = 'civicrm_phonecall';
         }else{
             $entityTable = 'civicrm_activity';
@@ -171,8 +171,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         eval ('$activity =& new CRM_Activity_DAO_' .$activityType. '( );');
         $activity->id = $id;
-        require_once 'CRM/Case/BAO/Case.php';
-        CRM_Case_BAO_Case::deleteCaseActivity( $entityTable,$activity->id );
+        require_once 'CRM/Case/DAO/CaseActivity.php';
+        $caseActivity =  new CRM_Case_DAO_CaseActivity();
+        $caseActivity->activity_entity_table = $entityTable;
+        $caseActivity->activity_entity_id = $activity->id ;
+        if ($caseActivity->find(true)){
+            require_once 'CRM/Case/BAO/Case.php';
+            CRM_Case_BAO_Case::deleteCaseActivity( $caseActivity->id );
+        }
         self::deleteActivityAssignment( $entityTable,$activity->id );
         return $activity->delete();
     }

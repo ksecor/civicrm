@@ -429,7 +429,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                     }
                 }
             }
-            $tmpConatctField['external_identifier'] = $contactFields['external_identifier'];
+            $tmpConatctField['external_identifier'] = CRM_Utils_Array::value('external_identifier',$contactFields);
             $tmpConatctField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
             
             $fields = array_merge($fields, $tmpConatctField);

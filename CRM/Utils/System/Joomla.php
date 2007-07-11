@@ -62,13 +62,19 @@ class CRM_Utils_System_Joomla {
     /**
      * Append an additional breadcrumb tag to the existing breadcrumb
      *
-     * @param string $bc the new breadcrumb to be appended
+     * @param string $title
+     * @param string $url   
      *
      * @return void
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $bc ) {
+    static function appendBreadCrumb( $title, $url ) {
+        $template =& CRM_Core_Smarty::singleton( );
+        $bc = $template->get_template_vars( 'breadcrumb' );
+        $bc[] = array( 'title' => $title,
+                       'url'   => $url );
+        $template->assign_by_ref( 'breadcrumb', $bc );
         return;
     }
 

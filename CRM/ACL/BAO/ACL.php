@@ -808,6 +808,10 @@ ORDER BY a.object_id
      */
     static function del($aclId) 
     {
+        // delete all entries from the acl cache
+        require_once 'CRM/ACL/BAO/Cache.php';
+        CRM_ACL_BAO_Cache::resetCache( );
+
         $acl = & new CRM_ACL_DAO_ACL();
         $acl->id = $aclId;
         $acl->delete();

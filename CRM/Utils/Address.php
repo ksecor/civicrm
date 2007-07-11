@@ -63,7 +63,7 @@ class CRM_Utils_Address
         $formatted = $format;
 
         $fullPostalCode = CRM_Utils_Array::value( 'postal_code', $fields );
-        if (isset( $fields['postal_code_suffix'] ) ) {
+        if (!empty( $fields['postal_code_suffix'] ) ) {
             $fullPostalCode .= "-$fields[postal_code_suffix]";
         }
 

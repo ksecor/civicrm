@@ -72,12 +72,13 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         
         $controller->run();
         $session =& CRM_Core_Session::singleton();
-
+        $this->assign( 'totalCountOpenActivity',
+                       CRM_Contact_BAO_Contact::getNumOpenActivity( $this->_contactId ) );
+        $this->assign( 'caseId',$this->_id);
         require_once 'CRM/Contact/Selector/Activity.php' ;
         require_once 'CRM/Core/Selector/Controller.php';
         $output = CRM_Core_Selector_Controller::SESSION;
-        $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, 1 );
-        // crm_core_error::debug('$this->_id ',$this->_id );
+        $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, $this->_permission );
         $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
                                                         $sortID, CRM_Core_Action::VIEW, $this,  $output, null, $this->_id);
         
@@ -85,13 +86,9 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $controller->setEmbedded(true);
         $links  =& self::caseViewLinks( );
         $action = array_sum(array_keys($links));
-
         $controller->run();
-        
         $controller->moveFromSessionToTemplate( );
-
-
-
+        
     }
 
     /**
@@ -139,7 +136,6 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $controller->setEmbedded( true );
         $this->_id = CRM_Utils_Request::retrieve('id', 'Integer',
                                                  $this);
-
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
         $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
@@ -160,11 +156,18 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                 
             } else {
                 require_once 'CRM/Case/BAO/Case.php';
+                require_once 'CRM/Case/DAO/CaseActivity.php';
+                $caseAcitivity = new CRM_Case_DAO_CaseActivity();
+                $caseAcitivity->case_id = $this->_id;
+                $caseAcitivity->find();
+                while ( $caseAcitivity->fetch() ) {
+                    $caseAcitivity->delete();
+                }
+
                 CRM_Case_BAO_Case::deleteCase( $this->_id );
                 CRM_Utils_System::redirect($url);
             }
         }
-        
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
         
@@ -178,15 +181,15 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      * return null
      * @access public
      */
-    function run( ) {
+    function run( ) 
+    {
         $this->preProcess( );
-
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
             $this->edit( );
         }
-        
+                
         $this->browse( );
         return parent::run( );
     }
@@ -240,7 +243,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/contact/view/activity',
                                                                     
-                                                                    'qs'    => 'activity_id=%%atype%%&action=update&reset=1&id=%%rid%%&cid=%%cid%%&subType=%%atype%%',
+                                                                    'qs'    => 'activity_id=%%atype%%&action=update&reset=1&id=%%rid%%&cid=%%cid%%&subType=%%atype%%&context=case&caseid=%%id%%',
                                                                     'title' => ts('Edit Activity')
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(

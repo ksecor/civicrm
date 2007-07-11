@@ -139,12 +139,12 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
             $session =& CRM_Core_Session::singleton(); 
             $redirect = $session->readUserContext(); 
             if ( $type == 'Contact') {
-                $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Contact') . '</a>';
+                $bcTitle = ts('Contact');
             } else {
-                $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Event Info') . '</a>';
+                $bcTitle = ts('Event Info');
                 $session->pushUserContext( CRM_Utils_System::url('civicrm/event/info', 'reset=1&action=preview&id='. $ids ) );
             }
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            CRM_Utils_System::appendBreadCrumb( $bcTitle, $redirect );
         }
 
         $page->assign_by_ref( 'locations', $locations );

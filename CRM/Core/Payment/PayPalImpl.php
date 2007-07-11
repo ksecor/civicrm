@@ -554,7 +554,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                        );
         } else {
             $paypalParams +=
-                array( 'cmd'                => 'xclick',
+                array( 'cmd'                => '_xclick',
                        'amount'             => $params['amount'],
                        );
         }

@@ -494,6 +494,7 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      */
     static function objectExists( $value, $daoName, $daoID, $fieldName = 'name' ) {
+        $args = func_get_args( );
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object =& new ' . $daoName . '( );' );
         $object->$fieldName = $value;

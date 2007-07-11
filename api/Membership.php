@@ -450,22 +450,25 @@ function crm_update_contact_membership($params)
     $relatedContacts =
         CRM_Member_BAO_Membership::checkMembershipRelationship( 
                                                                $membershipBAO->id,
-                                                               $membershipBAO->contact_id,
+                                                               (int) $membershipBAO->contact_id,
                                                                CRM_Core_Action::UPDATE
                                                                );
     
     //delete all the related membership records before creating
     CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipBAO->id );
-
+    
     $params['membership_type_id'] = $membershipBAO->membership_type_id;
-    foreach ( $relatedContacts as $contactId ) {
-        $params['contact_id'         ] = $contactId;
-        $params['owner_membership_id'] = $membershipBAO->id;
-        unset( $params['id'] );
-        
-        CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+    
+    foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
+        if ( $relationshipStatus & CRM_Contact_BAO_Relationship::CURRENT ) {
+            $params['contact_id'         ] = $contactId;
+            $params['owner_membership_id'] = $membershipBAO->id;
+            unset( $params['id'] );
+            
+            CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+        }
     }
-        
+    
     $membership = array();
     _crm_object_to_array( $membershipBAO, $membership );
     $membershipBAO->free( );

@@ -77,9 +77,9 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $this->_columnCount = $this->get('columnCount');
         
         for ( $i = 1; $i < $this->_blockCount; $i++ ){
-                    if ( (! isset ($_columnCount[$i] ) ) || (! $this->_columnCount[$i]) )  {
-                        $this->_columnCount[$i] = 1;
-                    }
+            if ( (! isset ($this->_columnCount[$i] ) ) || (! $this->_columnCount[$i]) )  {
+                $this->_columnCount[$i] = 1;
+            }
         }
         
         $this->_loadedMappingId =  $this->get('savedMapping');

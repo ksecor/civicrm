@@ -51,36 +51,42 @@ class CRM_Contact_BAO_Export {
         $headerRows       = array();
         $primary          = false;
         $returnProperties = array( );
-
-         if ($fields) {
-             //construct return properties 
-             $locationTypes =& CRM_Core_PseudoConstant::locationType();
-
-             foreach ( $fields as $key => $value) {
-                 $contactType = CRM_Utils_Array::value( 0, $value );
-                 $fieldName   = CRM_Utils_Array::value( 1, $value );
-                 $locTypeId   = CRM_Utils_Array::value( 2, $value );
-                 $phoneTypeId = CRM_Utils_Array::value( 3, $value );
-
-                 if (is_numeric($locTypeId)) {
-                     if ($phoneTypeId) {
-                         $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
-                     } else {
-                         $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
-                     }
-                 } else {
-                     $returnProperties[$fieldName] = 1;
-                 }
-             }
-         } else {
-             $primary = true;
-             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
-             foreach ($fields as $key => $var) { 
-                 if ( $key &&
-                      ( substr($key,0, 6) !=  'custom' ) ) { //for CRM=952
-                     $returnProperties[$key] = 1;
-                 }
-             }
+        $origFields       = $fields;
+        
+        if ( $fields ) {
+            //construct return properties 
+            $locationTypes =& CRM_Core_PseudoConstant::locationType();
+            
+            foreach ( $fields as $key => $value) {
+                $fieldName   = CRM_Utils_Array::value( 1, $value );
+                
+                if ( ! $fieldName ) {
+                    continue;
+                }
+                
+                $contactType = CRM_Utils_Array::value( 0, $value );
+                $locTypeId   = CRM_Utils_Array::value( 2, $value );
+                $phoneTypeId = CRM_Utils_Array::value( 3, $value );
+                
+                if ( is_numeric($locTypeId) ) {
+                    if ($phoneTypeId) {
+                        $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
+                    } else {
+                        $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
+                    }
+                } else {
+                    $returnProperties[$fieldName] = 1;
+                }
+            }
+        } else {
+            $primary = true;
+            $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
+            foreach ($fields as $key => $var) { 
+                if ( $key &&
+                     ( substr($key,0, 6) !=  'custom' ) ) { //for CRM=952
+                    $returnProperties[$key] = 1;
+                }
+            }
         }
         
         if ($primary) {
@@ -92,7 +98,6 @@ class CRM_Contact_BAO_Export {
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
-
 
         $session =& CRM_Core_Session::singleton( );
 
@@ -115,8 +120,11 @@ class CRM_Contact_BAO_Export {
         }
         
         list( $select, $from, $where ) = $query->query( );
-
-        if ( CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
+        // make sure the groups stuff is included only if specifically specified
+        // by the fields param (CRM-1969), else we limit the contacts outputted to only
+        // ones that are part of a group
+        if ( $origFields &&
+             CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
             $groupClause = " ( civicrm_group_contact.status = 'Added' OR civicrm_group_contact.status is NULL ) ";
             if ( empty( $where ) ) {
                 $where = "WHERE $groupClause";
@@ -152,13 +160,9 @@ class CRM_Contact_BAO_Export {
             $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
             $multipleSelectFields = array_merge( $multipleSelectFields, $studentFields );
         }
-      
-        $temp = array( );
-        $dao =& CRM_Core_DAO::executeQuery($queryString, $temp);
-        $header = false;
 
-        //fix for location type name having spaces in it.
-        //print_r($returnProperties);
+        $dao =& CRM_Core_DAO::executeQuery( $queryString, CRM_Core_DAO::$_nullArray );
+        $header = false;
 
         $contactDetails = array( );
         while ($dao->fetch()) {
@@ -219,11 +223,18 @@ class CRM_Contact_BAO_Export {
                             $headerRows[] = $query->_fields['id']['title'];
                         } else {
                             $keyArray = explode('-', $key);
-                            $hdr      = $keyArray[0] . "-" . $query->_fields[$keyArray[1]]['title'];
+                            
+                            $hdr      = $keyArray[0];
+
+                            if ( CRM_Utils_Array::value( 1, $keyArray ) ) {
+                                $hdr .= "-" . $query->_fields[$keyArray[1]]['title'];
+                            }
+
                             if ( CRM_Utils_Array::value( 2, $keyArray ) ) {
                                 $hdr .= " " . $keyArray[2];
                             }
                             $headerRows[] = $hdr;
+                        
                         }
                     }
                 }

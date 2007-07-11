@@ -128,8 +128,7 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
         
         // set breadcrumb to append to admin/access
         $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/access', 'reset=1' );
-        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Access Control') . '</a>';
-        CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+        CRM_Utils_System::appendBreadCrumb( ts('Access Control'), $breadCrumbPath );
 
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {

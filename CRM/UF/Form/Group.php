@@ -243,8 +243,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             foreach ($ufJoinRecords as $key => $value ) {
                 $checked[$value] = 1;
             }
-            $defaults['uf_group_type'] = $checked;
-            
+            $defaults['uf_group_type'] = isset($checked) ? $checked : "";            
             
             //get the uf join records for current uf group other than default modules
             $otherModules = array( );
