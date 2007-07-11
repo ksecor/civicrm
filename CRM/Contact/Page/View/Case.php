@@ -156,6 +156,14 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                 
             } else {
                 require_once 'CRM/Case/BAO/Case.php';
+                require_once 'CRM/Case/DAO/CaseActivity.php';
+                $caseAcitivity = new CRM_Case_DAO_CaseActivity();
+                $caseAcitivity->case_id = $this->_id;
+                $caseAcitivity->find();
+                while ( $caseAcitivity->fetch() ) {
+                    $caseAcitivity->delete();
+                }
+
                 CRM_Case_BAO_Case::deleteCase( $this->_id );
                 CRM_Utils_System::redirect($url);
             }
