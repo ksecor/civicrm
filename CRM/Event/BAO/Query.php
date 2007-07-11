@@ -46,7 +46,6 @@ class CRM_Event_BAO_Query
         return $fields;
     }
 
-
     static function &getParticipantFields( $onlyParticipant = false ) 
     {
         require_once 'CRM/Event/BAO/Participant.php';
@@ -69,38 +68,45 @@ class CRM_Event_BAO_Query
             $query->_element['participant_id'] = 1;
             $query->_tables['civicrm_participant'] = 1;
             $query->_whereTables['civicrm_participant'] = 1;
-           
-            //add status
-            $query->_select['status_id' ]  = "civicrm_participant.status_id as status_id";
-            $query->_element['status_id']  = 1;
-            
-            //add role
-            $query->_select['role_id' ]  = "civicrm_participant.role_id as role_id";
-            $query->_element['role_id']  = 1;
-            
-            //add register date
-            $query->_select['register_date' ]  = "civicrm_participant.register_date as register_date";
-            $query->_element['register_date']  = 1;
-            
-            //add source
-            $query->_select['source' ]  = "civicrm_participant.source as event_source";
-            $query->_element['source']  = 1;
-            
-            //add event level
-            $query->_select['event_level' ]  = "civicrm_participant.event_level as event_level";
-            $query->_element['event_level']  = 1;
-            
-            //add event title
-            $query->_select['title'] = "civicrm_event.title as event_title";
-            $query->_element['title'] = 1;
-            $query->_tables['civicrm_event'] = 1;
-            $query->_whereTables['civicrm_event'] = 1;
-            
-            //add start date / end date
-            $query->_select['start_date']  = "civicrm_event.start_date as start_date";
-            $query->_element['start_date'] = 1;
-            $query->_select['end_date']  = "civicrm_event.end_date as end_date";
-            $query->_element['end_date'] = 1;
+        }   
+        
+        //add status
+        $query->_select['status_id' ]  = "civicrm_participant.status_id as status_id";
+        $query->_element['status_id']  = 1;
+        
+        //add role
+        $query->_select['role_id' ]  = "civicrm_participant.role_id as role_id";
+        $query->_element['role_id']  = 1;
+        
+        //add register date
+        $query->_select['register_date' ]  = "civicrm_participant.register_date as register_date";
+        $query->_element['register_date']  = 1;
+        
+        //add source
+        $query->_select['source' ]  = "civicrm_participant.source as event_source";
+        $query->_element['source']  = 1;
+        
+        //add event level
+        $query->_select['event_level' ]  = "civicrm_participant.event_level as event_level";
+        $query->_element['event_level']  = 1;
+        
+        //add event title
+        $query->_select['title'] = "civicrm_event.title as event_title";
+        $query->_element['title'] = 1;
+        $query->_tables['civicrm_event'] = 1;
+        $query->_whereTables['civicrm_event'] = 1;
+        
+        //add start date / end date
+        $query->_select['start_date']  = "civicrm_event.start_date as start_date";
+        $query->_element['start_date'] = 1;
+        $query->_select['end_date']  = "civicrm_event.end_date as end_date";
+        $query->_element['end_date'] = 1;
+        
+        if ( CRM_Utils_Array::value( 'participant_note', $query->_returnProperties ) ) {
+            $query->_select['participant_note' ] = "civicrm_note.note as participant_note";
+            $query->_element['participant_note'] = 1;
+            $query->_tables['participant_note' ] = 1;
+            $query->_whereTables['civicrm_note'] = 1;
         }
     }
 
@@ -261,6 +267,12 @@ class CRM_Event_BAO_Query
         case 'civicrm_event':
             $from = " INNER JOIN civicrm_event ON civicrm_participant.event_id = civicrm_event.id ";
             break;
+
+        case 'participant_note':
+            $from .= " $side JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_participant' AND
+                                                        civicrm_participant.id = civicrm_note.entity_id )";
+            break;
+
         }
         return $from;
     }

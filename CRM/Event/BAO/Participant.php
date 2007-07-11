@@ -400,8 +400,8 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             
             require_once 'CRM/Core/DAO/Note.php';
             $tmpFields     = CRM_Event_DAO_Participant::import( );
-            $note          = CRM_Core_DAO_Note::import( );
-            
+            $note          = array( 'participant_note' => array('title' => 'Participant Note')  );
+
             $tmpConatctField = array( );
             if ( !$onlyParticipant ) {
                 $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
