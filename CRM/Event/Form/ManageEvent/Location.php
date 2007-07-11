@@ -108,28 +108,49 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
             
             foreach ( $defaults['location'] as $key => $value ) {
-                if ( $this->getElementValue( "location[$key][address][country_id]" ) ) {
-                    $this->assign( "country_{$key}_value", 
-                                   $this->getElementValue( "location[$key][address][country_id]" ) );
+                $countryValue = null;
+                $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
+                
+                if ( $countryValue ) {
+                    if ( ! is_numeric( $countryValue ) ) {
+                        $this->assign( "country_{$key}_value", 
+                                       $this->getElementValue( "location[$key][address][country_id]" ) );
+                        $this->assign( "country_{$key}_id", 
+                                       $this->getElementValue( "location[$key][address][country_id]" ) );
+                    } else {
+                        $this->assign( "country_{$key}_value",  $countries[$countryValue] );
+                        $this->assign( "country_{$key}_id"   ,  $countryValue );
+                    }
                 } else if ( isset($value['address']['country_id']) ) {
                     $countryId = $value['address']['country_id'];
                     if ( $countryId ) {
                         $this->assign( "country_{$key}_value",  $countries[$countryId] );
+                        $this->assign( "country_{$key}_id"   ,  $countryId );
                     }
                 }
                 
-                if ( $this->getElementValue( "location[$key][address][state_province_id]" ) ) {
-                    $this->assign( "state_province_{$key}_value", 
-                                   $this->getElementValue( "location[$key][address][state_province_id]" ) );
-                } else if ( isset($value['address']['state_province_id']) ) {
+                $stateValue = null;
+                $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
+                
+                if ( $stateValue ) {
+                    if ( ! is_numeric( $stateValue ) ) {
+                        $this->assign( "state_province_{$key}_value", 
+                                       $this->getElementValue( "location[$key][address][state_province_id]" ) );
+                        $this->assign( "state_province_{$key}_id", 
+                                       $this->getElementValue( "location[$key][address][state_province_id]" ) );
+                    } else {
+                        $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateValue] );
+                        $this->assign( "state_province_{$key}_id"   ,  $stateValue );
+                    }
+                } else  if ( isset($value['address']['state_province_id']) ) {
                     $stateProvinceId = $value['address']['state_province_id'];
                     if ( $stateProvinceId ) {
                         $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateProvinceId] );
+                        $this->assign( "state_province_{$key}_id"   ,  $stateProvinceId );
                     }
                 }
             }
         }
-
         return $defaults;
     }       
 
@@ -159,7 +180,36 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         
         $this->_showHide->addToTemplate( );
     }
+
+    /**
+     * Add local and global form rules
+     *
+     * @access protected
+     * @return void
+     */
+    function addRules( ) 
+    {
+        $this->addFormRule( array( 'CRM_Event_Form_ManageEvent_Location', 'formRule' ) );
+    }
     
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields ) 
+    {
+        $errors = array( );
+        // check for state/country mapping
+        CRM_Contact_Form_Address::formRule($fields, $errors);
+
+        return empty($errors) ? true : $errors;
+    }    
+
     /** 
      *  function to build location block 
      * 
