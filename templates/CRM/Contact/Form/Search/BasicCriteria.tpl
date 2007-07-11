@@ -34,9 +34,7 @@
         <tr><td>&nbsp;</td>
             <td colspan={if $context EQ 'smog'}"6"{else}"4" class="report"{/if}>
                 <div class="description font-italic">
-                {ts 1=$advSearchURL}To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'.
-                For partial name search, use '%partialname' ('%' equals 'begins with any combination of letters').
-                To search by email address, use <a href="%1">Advanced Search</a>.{/ts}
+                {ts 1=$advSearchURL}To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'. For partial name search, use '%partialname' ('%' equals 'begins with any combination of letters'). To search by email address, use <a href="%1">Advanced Search</a>.{/ts}
                 </div></td>
             <td class="label">{$form.buttons.html}</td>
         </tr>
