@@ -441,14 +441,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->assign('contact_email',$dao->premiums_contact_email);
             
             //create Premium record
-            
-            require_once 'CRM/Contribute/DAO/Product.php';
-            $productDAO =& new CRM_Contribute_DAO_Product();
-            $productDAO->id = $premiumParams['selectProduct'];
-            $productDAO->find(true);
-            
-            $periodType = $productDAO->period_type;
-            
             require_once 'CRM/Utils/Date.php';
             $params = array(
                             'product_id'         => $premiumParams['selectProduct'],
