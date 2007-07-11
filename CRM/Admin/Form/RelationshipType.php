@@ -76,8 +76,6 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'description' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
-       
-
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
             $url = CRM_Utils_System::url('civicrm/admin/reltype&reset=1'); 
@@ -86,7 +84,6 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
         }
   
     }
-
        
     /**
      * Function to process the form

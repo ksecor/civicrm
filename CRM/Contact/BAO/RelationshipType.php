@@ -121,13 +121,29 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
     
     static function del($relationshipTypeId) 
     {
+        // make sure relationshipTypeId is an integer
+        if ( ! CRM_Utils_Rule::positiveInteger( $relationshipTypeId ) ) {
+            CRM_Core_Error::fatal( ts( 'Invalid relationship type' ) );
+        }
+
         require_once 'CRM/Contact/DAO/Relationship.php';
+
         //check dependencies
+
+        // delete all relationships
         $relationship = & new CRM_Contact_DAO_Relationship();
         $relationship->relationship_type_id = $relationshipTypeId;
         $relationship->delete();
 
-        
+        // set all membership_type to null
+        $query = "
+UPDATE civicrm_membership_type
+  SET  relationship_type_id = NULL
+ WHERE relationship_type_id = %1
+";
+        $params = array( 1 => array( $relationshipTypeId, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $params );
+                         
         $relationshipType = & new CRM_Contact_DAO_RelationshipType();
         $relationshipType->id = $relationshipTypeId;
         $relationshipType->delete();
