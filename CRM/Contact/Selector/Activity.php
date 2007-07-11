@@ -116,12 +116,20 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         $deleteExtra = ts('Are you sure you want to delete this activity record?');
 
         self::$_actionLinks = array(
+                                   
                                     CRM_Core_Action::UPDATE => array(
                                                                      'name'     => ts('Edit'),
                                                                      'url'      => 'civicrm/contact/view/activity',
                                                                      'qs'       => "activity_id={$activityType}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&subType={$activityType}",
                                                                      'title'    => ts('View Activity'),
                                                                      ),
+                                    CRM_Core_Action::VIEW   => array(
+                                                                     'name'     => ts('View'),
+                                                                     'url'      => 'civicrm/contact/view/activity',
+                                                                     'qs'       => "activity_id={$activityType}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&subType={$activityType}",
+                                                                     'title'    => ts('View Activity'),
+                                                                     ),
+                                   
                                     CRM_Core_Action::DELETE => array(
                                                                      'name'     => ts('Delete'),
                                                                      'url'      => 'civicrm/contact/view/activity',

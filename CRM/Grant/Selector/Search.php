@@ -202,12 +202,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                                    'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
                                                                    'title'    => ts('Edit Grant'),
                                                                   ),
-                                  CRM_Core_Action::DELETE => array(
-                                                                   'name'     => ts('Delete'),
-                                                                   'url'      => 'civicrm/contact/view/grant',
-                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Delete Grant'),
-                                                                  ),
+
                                   );
         }
         return self::$_links;
