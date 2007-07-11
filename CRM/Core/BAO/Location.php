@@ -143,10 +143,10 @@ UPDATE civicrm_location
             $primarySet = false;
             if ( is_array($params['location'][$locationId][$element]) ) {
                 foreach ($params['location'][$locationId][$element] as $eleKey => $eleVal) {
-                    if ($eleVal['is_primary'] && !$primarySet) {
+                    if ( CRM_Utils_Array::value( 'is_primary', $eleVal ) && !$primarySet) {
                         $$varName   = false;
                         $primarySet = true;
-                    } elseif ($eleVal['is_primary'] && $primarySet) {
+                    } elseif ( CRM_Utils_Array::value( 'is_primary', $eleVal ) && $primarySet ) {
                         //set is_primary to zero if already set.
                         $params['location'][$locationId][$element][$eleKey]['is_primary'] = 0;
                     }

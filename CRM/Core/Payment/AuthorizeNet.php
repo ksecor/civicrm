@@ -112,7 +112,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         // TODO:
         // AVS, CVV2, CAVV, and other verification results
         if ( $response_fields[0] != self::AUTH_APPROVED ) {
-            $errormsg = $result_fields[2] . ' ' . $response_fields[3];
+            $errormsg = $response_fields[2] . ' ' . $response_fields[3];
             return self::error( $response_fields[1], $errormsg );
         }
 
@@ -249,7 +249,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         $fields['x_last_name'] = $this->_getParam( 'billing_last_name' );
         $fields['x_address'] = $this->_getParam( 'street_address' );
         $fields['x_city'] = $this->_getParam( 'city' );
-        $fields['x_state'] = $this->_getParam( 'state' );
+        $fields['x_state'] = $this->_getParam( 'state_province' );
         $fields['x_zip'] = $this->_getParam( 'postal_code' );
         $fields['x_country'] = $this->_getParam( 'country' );
         $fields['x_customer_ip'] = $this->_getParam( 'ip_address' );

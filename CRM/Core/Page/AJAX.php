@@ -292,7 +292,7 @@ LIMIT 6";
         }
 
         $query = "
-SELECT civicrm_state_province.name name
+SELECT civicrm_state_province.name name, civicrm_state_province.id id
   FROM civicrm_state_province, civicrm_country
  WHERE civicrm_state_province.country_id = civicrm_country.id
   AND  civicrm_country.name LIKE '$countryName%'";
@@ -309,8 +309,12 @@ SELECT civicrm_state_province.name name
         $count = 0;
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->name, $dao->name );
+            $elements[] = array( $dao->name, $dao->id );
             $count++;
+        }
+
+        if ( empty( $elements ) ) {
+            $elements[] = array( $stateName, $stateName );
         }
 
         require_once 'Services/JSON.php';
@@ -352,7 +356,7 @@ ORDER BY name";
         $count = 0;
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->name, $dao->name );
+            $elements[] = array( $dao->name, $dao->id );
             $count++;
         }
 

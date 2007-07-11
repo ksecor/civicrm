@@ -136,7 +136,7 @@ resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
             $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
         }
         
-        if ( $mailToHouseholdID ) {
+        if ( isset( $mailToHouseholdID ) ) {
             $useHouseholdExtra = array( 'onclick' => "
 showHideByValue('use_household_address', 'true', 'confirm_shared_option', 'block', 'radio', false);
 resetByValue('use_household_address',        '', $extraOnAddFlds,          'text', 'radio', false);

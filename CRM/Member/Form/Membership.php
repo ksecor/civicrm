@@ -135,23 +135,30 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $dao =& new CRM_Member_DAO_MembershipType();
         $dao->find();
         while ($dao->fetch()) {
-            if ( !$selMemTypeOrg[$dao->member_of_contact_id] ) {
-                $selMemTypeOrg[$dao->member_of_contact_id] = 
-                    CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                 $dao->member_of_contact_id, 
-                                                 'display_name', 
-                                                 'id' );
-                $selOrgMemType[$dao->member_of_contact_id][0] = ts('-- select --');
+            if ($dao->is_active) {
+                if ( !$selMemTypeOrg[$dao->member_of_contact_id] ) {
+                    $selMemTypeOrg[$dao->member_of_contact_id] = 
+                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                     $dao->member_of_contact_id, 
+                                                     'display_name', 
+                                                     'id' );
+                    $selOrgMemType[$dao->member_of_contact_id][0] = ts('-- select --');
+                }
+                if ( !$selOrgMemType[$dao->member_of_contact_id][$dao->id] ) {
+                    $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
+                }
             }
-
-            if ( !$selOrgMemType[$dao->member_of_contact_id][$dao->id] ) {
-                $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
-            }
+        }
+        
+        // show organization by default, if only one organization in
+        // the list 
+        if ( count($selMemTypeOrg) == 2 ) {
+            unset($selMemTypeOrg[0], $selOrgMemType[0][0]);
         }
 
         $sel =& $this->addElement('hierselect', 
                                   'membership_type_id', 
-                                  ts('Membership Type'), 
+                                  ts('Membership Organization and Type'), 
                                   array('onChange' => "if (this.value) reload(true); else return false") );  
         $sel->setOptions(array($selMemTypeOrg,  $selOrgMemType));
 
@@ -199,7 +206,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
      */
     public function formRule( &$params ) {
         $errors = array( );
-
+        if (!$params['membership_type_id'][1]) {
+            $errors['membership_type_id'] = "Please select a Membership Type.";
+        }
         if ( !($params['join_date']['M'] && $params['join_date']['d'] && $params['join_date']['Y']) ) {
             $errors['join_date'] = "Please enter the Join Date.";
         }

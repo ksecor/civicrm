@@ -1,4 +1,4 @@
-{if $form.location.$index.address.country}
+{if $form.location.$index.address.country_id}
 
 {literal}
 
@@ -15,14 +15,14 @@ function checkParamChildren(value) {
     var res = {/literal}"{$stateURL}"{literal};
     
     //enable state province
-    dojo.widget.byId('location_'+ lno + '_address_state_province').enable( );
+    dojo.widget.byId('location_'+ lno + '_address_state_province_id').enable( );
 
     //check if state exist for country
     var stateExist = false;
     
     //clear state combo
-    dojo.widget.byId('location_' + lno + '_address_state_province').selectedResult = '';
-    dojo.widget.byId('location_' + lno + '_address_state_province').setAllValues('- select -','');
+    dojo.widget.byId('location_' + lno + '_address_state_province_id').selectedResult = '';
+    dojo.widget.byId('location_' + lno + '_address_state_province_id').setAllValues('- select -','');
 
     var bindArgs = {
         url: res,
@@ -33,8 +33,8 @@ function checkParamChildren(value) {
             stateExist = true;
             eval("var decoded_data = "+data);            
             if ( data.length > 2) {
-                dojo.widget.byId('location_' + lno + '_address_state_province').dataProvider.searchUrl 
-		  = res + '&node='+value+'&sc=child';
+                dojo.widget.byId('location_' + lno + '_address_state_province_id').dataProvider.searchUrl 
+		  = res + '&node=' + value + '&sc=child';
            }
         }            
     };            
@@ -53,10 +53,10 @@ function checkParamChildren(value) {
 
 <div class="form-item">
     <span class="labels">
-    {$form.location.$index.address.country.label}
+    {$form.location.$index.address.country_id.label}
     </span>
     <span class="fields">
-    {$form.location.$index.address.country.html}
+    {$form.location.$index.address.country_id.html}
     </span>
 </div>
 

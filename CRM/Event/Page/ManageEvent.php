@@ -239,7 +239,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                     if ( isset ( $defaults['location'][1]['address']['city'] ) ) {
                         $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
                     }
-                    if ( $defaults['location'][1]['address']['state_province_id'] ) {
+                    if ( isset( $defaults['location'][1]['address']['state_province_id'] )) {
                         $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
                     }
                 }

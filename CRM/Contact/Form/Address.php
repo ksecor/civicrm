@@ -68,8 +68,8 @@ class CRM_Contact_Form_Address
                           'postal_code_suffix'     => array(ts('Postal Code Suffix')       ,
                                                             array( 'size' => 4, 'maxlength' => 12 ), null ),
                           'county_id'              => array( ts('County')           , null, 'county' ),
-                          'state_province'         => array( ts('State / Province') , null, null ),
-                          'country'                => array( ts('Country')          , null, null ), 
+                          'state_province_id'      => array( ts('State / Province') , null, null ),
+                          'country_id'             => array( ts('Country')          , null, null ), 
                           'geo_code_1'             => array( ts('Latitude')         ,
                                                              array( 'size' => 4, 'maxlength' => 8 ), null ),
                           'geo_code_2'             => array( ts('Longitude')         ,
@@ -88,20 +88,20 @@ class CRM_Contact_Form_Address
             }
             
             //build normal select if country is not present in address block
-            if ( $name == 'state_province' && ! $addressOptions[ $elements['country'][0] ] ) {
+            if ( $name == 'state_province_id' && ! $addressOptions[ $elements['country_id'][0] ] ) {
                 $select = 'stateProvince';
             }
             
             if ( ! $select ) {
-                if ( $name == 'country' || $name == 'state_province' ) {
+                if ( $name == 'country_id' || $name == 'state_province_id' ) {
                     $onValueChanged = null;
                     $dataUrl = null;
 
-                    if ( $name == 'country') {
-                        $dataUrl=  CRM_Utils_System::url( "civicrm/ajax/country", "s=%{searchString}&node=root", true, null, false );
+                    if ( $name == 'country_id') {
+                        $dataUrl=  CRM_Utils_System::url( "civicrm/ajax/country", "s=%{searchString}", true, null, false );
                         
                         //when only country is enable, don't call function to build state province
-                        if ( $addressOptions[ $elements['state_province'][0] ] ) {
+                        if ( $addressOptions[ $elements['state_province_id'][0] ] ) {
                             $onValueChanged = 'checkParamChildren';
                         }
                     } else {
@@ -153,28 +153,25 @@ class CRM_Contact_Form_Address
             }
 
             //state country validation
-            $countries       = CRM_Core_PseudoConstant::country( );
-            if ( CRM_Utils_Array::value( 'country', $fields['location'][$i]['address'] ) ) {
-                $countryId       = array_search ( CRM_Utils_Array::value( 'country',
-                                                                          $fields['location'][$i]['address'] ) , $countries );
-                
+            if ( CRM_Utils_Array::value( 'country_id', $fields['location'][$i]['address'] ) ) {
+                $countries = CRM_Core_PseudoConstant::country( );
+                $countryId = array_key_exists( CRM_Utils_Array::value( 'country_id',
+                                                                       $fields['location'][$i]['address'] ) , $countries );
                 if ( ! $countryId ) {
-                    $errors["location[$i][address][country]"] = "Enter the valid Country name.";
+                    $errors["location[$i][address][country_id]"] = "Enter the valid Country name.";
                 }
             }
 
-            $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
-            if ( CRM_Utils_Array::value( 'state_province', $fields['location'][$i]['address'] ) ) {
-                $stateProvinceId = array_search ( CRM_Utils_Array::value( 'state_province',
-                                                                          $fields['location'][$i]['address'] ) , $stateProvinces );
+            if ( CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] ) ) {
+                $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
+                $stateProvinceId = array_key_exists( CRM_Utils_Array::value( 'state_province_id',
+                                                                             $fields['location'][$i]['address'] ) , $stateProvinces );
                 if ( ! $stateProvinceId ) {
-                    $errors["location[$i][address][state_province]"] = "Enter the valid State/Province name.";
+                    $errors["location[$i][address][state_province_id]"] = "Enter the valid State/Province name.";
                 }
-                
             }
 
             $countyId = CRM_Utils_Array::value( 'county_id', $fields['location'][$i]['address'] );
-
 
             if ( $stateProvinceId && $countryId ) {
                 $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();

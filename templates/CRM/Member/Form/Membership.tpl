@@ -15,7 +15,7 @@
     <dl>
  	<dt>{$form.membership_type_id.label}</dt><dd class="html-adjust">{$form.membership_type_id.html}
     {if $member_is_test} {ts}(test){/ts}{/if}</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership type for this membership.{/ts}</dd> 	
+	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select Membership Organization and then Membership Type.{/ts}</dd> 	
         <dt>{$form.source.label}</dt><dd class="html-adjust">&nbsp;{$form.source.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Source of this membership. This value is searchable.{/ts}</dd>
 	<dt>{$form.join_date.label}</dt><dd class="html-adjust">{$form.join_date.html}
@@ -70,7 +70,6 @@
 {literal}
 <script type="text/javascript">
 showHideMemberStatus();
-hideSecondSelect();
     
 function showHideMemberStatus() {
 	if (document.getElementsByName("is_override")[0].checked == true) {
@@ -80,12 +79,6 @@ function showHideMemberStatus() {
 	   hide('memberStatus');
        show('memberStatus_show');
 	}
-}
-
-function hideSecondSelect() {
-    if (!document.getElementsByName("membership_type_id[0]")[0].selectedIndex) {
-        document.getElementsByName("membership_type_id[1]")[0].style.display = "none";
-    }
 }
 
 function reload(refresh) {
