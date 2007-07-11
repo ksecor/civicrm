@@ -17,6 +17,10 @@ require_once "Auth/OpenID/MySQLStore.php";
  * Setup the database store for the OpenID sessions.
  */
 $dao =& new CRM_Core_DAO();
+if (defined('CIVICRM_DSN')) {
+    $dsn = CIVICRM_DSN;
+}
+$dao->init($dsn);
 $connection =& $dao->getDatabaseConnection();
 $settings_table = "civicrm_openid_settings";
 $associations_table = "civicrm_openid_associations";

@@ -97,6 +97,10 @@ class CRM_Core_Invoke
             self::dashboard($args);
             break;
             
+	case 'logout':
+	    self::logout($args);
+	    break;
+	  
         case 'history'  : 
             self::history ( $args );
             break;
@@ -406,6 +410,22 @@ class CRM_Core_Invoke
         $view =& new CRM_Contact_Page_View_DashBoard( );
         return $view->run();
     }
+
+    /**
+     * This function for CiviCRM logout
+     *
+     *
+     * @static
+     * @access public
+     *
+     */
+
+    static function logout($args)
+    {
+        session_destroy();
+        header("Location:index.php");
+    }
+
 
     /**
      * This function for CiviCRM ajax

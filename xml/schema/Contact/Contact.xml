@@ -241,4 +241,16 @@
        <comment>where domain_id contact come from, e.g. import, donate module insert...</comment>
        <add>1.1</add>
   </field>
+  <field>
+       <name>user_unique_id</name>
+       <rule>url</rule>
+       <title>Unique ID (OpenID)</title>
+       <type>varchar</type>
+       <length>255</length>
+       <import>true</import>
+       <headerPattern>/^Open\s?ID|u(niq\w*)?\s?ID/i</headerPattern>
+       <dataPattern>/^[\w\/\:\.]+$/</dataPattern>
+       <comment>the OpenID (or OpenID-style http://username.domain/) unique identifier for this contact; mainly used for logging in to CiviCRM</comment>
+       <add>2.0</add>
+  </field>
 </table>

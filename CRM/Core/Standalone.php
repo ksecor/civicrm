@@ -53,12 +53,12 @@ class CRM_Core_Standalone {
 
         // intialize the menu and set the default title
         CRM_Core_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
-				// Not sure we want this for the standalone version
-				/*
+	// Not sure we want this for the standalone version
+	/*
         if ( $config->userFrameworkFrontend ) {
             return;
         }
-				*/
+	*/
 
         $blockIds = array( 1, 2, 4, 8 );
 
