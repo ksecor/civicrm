@@ -1573,14 +1573,15 @@ WHERE civicrm_contact.id IN $idString ";
         
         $query = "SELECT count(civicrm_phonecall.id) FROM civicrm_phonecall
                   WHERE  $clause  (civicrm_phonecall.id 
-                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Phonecall'))";
+                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Phone Call'))";
         $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query, $params ); 
-
+           
+ 
         $query = "SELECT count(civicrm_activity.id) FROM civicrm_activity
                   WHERE $clause (civicrm_activity.id 
-                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Activity'))";
+                  NOT IN ( SELECT activity_id FROM civicrm_activity_history  INNER JOIN civicrm_option_value ON (civicrm_activity_history.activity_type = civicrm_option_value.label AND civicrm_option_value.value > 4 AND civicrm_option_value.option_group_id=2)))";
         $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
-        
+     
         return  $rowMeeting + $rowPhonecall + $rowActivity;
     }
 
