@@ -82,7 +82,8 @@ class CRM_Core_Component
                 array( 'title'   => 'CiviCRM Grant Management Engine',
                        'path'    => 'CRM_Grant_',
                        'url'     => 'grant',
-                       'perm'    => array( 'access CiviGrant' ),
+                       'perm'    => array( 'access CiviGrant', 
+                                           'edit grants'),
                        'search'  => 1 );                       
                        
 
