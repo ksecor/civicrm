@@ -1,0 +1,191 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>new_individual</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">new_individual</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+
+<!-- CREATING A CONTACT -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=New Individual</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>New Individual | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>first_name</td>
+	<td>aaditya</td>
+</tr>
+
+<tr>
+	<td>type</td>
+	<td>last_name</td>
+	<td>aamir</td>
+</tr>
+
+<tr>
+	<td>click</td>
+	<td>__privacy[do_not_phone]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>preferred_mail_format</td>
+	<td>label=Both</td>
+</tr>
+
+<tr>
+	<td>select</td>
+	<td>custom_3[M]</td>
+	<td>label=Jan</td>
+</tr>
+
+<tr>
+	<td>select</td>
+	<td>custom_3[d]</td>
+	<td>label=01</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>custom_3[Y]</td>
+	<td>label=2006</td>
+</tr>
+
+<!-- SAVING A CONTACT -->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Edit_next_view</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>aaditya aamir</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your Individual contact record has been saved.</td>
+	<td></td>
+</tr>
+
+<!-- CHECKING A CONTACT -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>edit_contact_info</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>first_name</td>
+	<td>aaditya</td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>aaditya aamir | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertSelectOptions</td>
+	<td>custom_3[Y]</td>
+	<td>-year-,2006</td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>custom_3[Y]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifySelected</td>
+	<td>custom_3[M]</td>
+	<td>value=1</td>
+</tr>
+<tr>
+	<td>assertAttribute</td>
+	<td>__privacy[do_not_phone]@type</td>
+	<td>checkbox</td>
+</tr>
+<tr>
+	<td>assertNotAttribute</td>
+	<td>__privacy[do_not_phone]@type</td>
+	<td>radio</td>
+</tr>
+<tr>
+	<td>uncheck</td>
+	<td>__privacy[do_not_phone]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyEditable</td>
+	<td>custom_3[Y]</td>
+	<td></td>
+</tr>
+
+
+<!-- SAVING EDITED CONTACT -->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Edit_next_view</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>aaditya aamir</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your Individual contact record has been saved.</td>
+	<td></td>
+</tr>
+
+<!-- DELETING A CONTACT -->
+<tr>
+	<td>clickAndWait</td>
+	<td>contact_delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Are you sure you want to Delete the selected contacts? A Delete operation cannot be undone.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Delete_done</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Selected contact was deleted sucessfully.</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

@@ -1,0 +1,36 @@
+Index: amavisd
+===================================================================
+RCS file: /cvsroot/amavisd-new/amavisd-new/amavisd,v
+retrieving revision 1.1.1.15
+retrieving revision 1.44
+diff -u -r1.1.1.15 -r1.44
+--- amavisd	21 Aug 2005 23:46:15 -0000	1.1.1.15
++++ amavisd	25 Feb 2006 15:59:35 -0000	1.44
+@@ -3778,17 +3801,23 @@
+   $str =~ s/\n([ \t]*\n)+/\n/g;    # remove empty lines
+   chomp($str);                     # chop off trailing NL if present
+   if ($structured) {
++    $str =~ s/[ \t]+/ /g;       # collapse spaces and tabs to a single space
+     my(@sublines) = split(/\n/, $str, -1);
+-    $str = ''; my($s) = ''; my($s_l) = 0;
++    $str = ''; my($s) = ''; my($s_l) = 0; my($s_il)=0;
+     for (@sublines) {              # join shorter field sections
+-      if ($s !~ /^\s*\z/ && $s_l + length($_) > 78) {
+-        $str .= "\n"  if $str ne '';
++      if ($s !~ /^\s*\z/ && $s_l + $s_il + length($_) > 78) {
++        $s_il = 8; # length of the initial tab
++        $str .= "\n\t"  if $str ne '';
++        $s =~ s/^[ \t]+//g; # remove leading and trailing whitespace
++        $s =~ s/[ \t]+$//g;
+         $str .= $s; $s = ''; $s_l = 0;
+       }
+       $s .= $_; $s_l += length($_);
+     }
+     if ($s !~ /^\s*\z/) {
+-      $str .= "\n"  if $str ne '';
++      $str .= "\n\t"  if $str ne '';
++      $s =~ s/^[ \t]+//g; # remove leading and trailing whitespace
++      $s =~ s/[ \t]+$//g;
+       $str .= $s;
+     }
+   } elsif (length($str) > 998) {

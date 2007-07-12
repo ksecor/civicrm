@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Member</base>
+  <class>Membership</class>
+  <name>civicrm_membership</name>
+  <comment>Contact Membership records.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Membership Id</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+      <name>id</name>
+      <autoincrement>true</autoincrement>
+  </primaryKey>
+
+  <field>
+      <name>contact_id</name>
+      <uniqueName>membership_contact_id</uniqueName>
+      <type>int unsigned</type>
+      <required>true</required>
+      <title>Contact ID (match to contact)</title>
+      <headerPattern>/contact(.?id)?/i</headerPattern>
+      <dataPattern>/^\d+$/</dataPattern>
+      <import>true</import>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>contact_id</name> 
+      <table>civicrm_contact</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>membership_type_id</name>
+      <type>int unsigned</type>
+      <title>Membership Type</title>
+      <import>true</import>
+      <headerPattern>/^membership|(m(embership\s)?type)$/i</headerPattern>
+      <required>true</required>
+      <comment>FK to Membership Type</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>membership_type_id</name> 
+      <table>civicrm_membership_type</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>  
+      <name>join_date</name>  
+      <title>Member Since</title>
+      <type>date</type>
+      <import>true</import>
+      <headerPattern>/^member|(m(ember\s)?since)$/i</headerPattern>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Beginning of initial membership period (member since...).</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>start_date</name>  
+      <uniqueName>membership_start_date</uniqueName>
+      <title>Membership Start Date</title>
+      <type>date</type>
+      <import>true</import>
+       <headerPattern>/^start|(s(tart\s)?date)$/i</headerPattern>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Beginning of current uninterrupted membership period.</comment>
+      <add>1.5</add>  
+  </field>
+  <field> 
+      <name>end_date</name>  
+      <uniqueName>membership_end_date</uniqueName>
+      <title>Membership Expiration Date</title>
+      <type>date</type>
+      <import>true</import>
+      <headerPattern>/^end|(e(nd\s)?date)$/i</headerPattern>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>
+      <comment>Current membership period expire date.</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>source</name>     
+      <uniqueName>membership_source</uniqueName>
+      <title>Source</title>
+      <import>true</import>
+       <headerPattern>/^source$/i</headerPattern>
+      <type>varchar</type>
+      <length>128</length>
+      <add>1.5</add>  
+  </field> 
+  <field>
+      <name>status_id</name>
+      <title>Membership Status</title>
+      <import>true</import>
+      <headerPattern>/^status$/i</headerPattern>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Membership Status</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>status_id</name> 
+      <table>civicrm_membership_status</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>  
+      <name>is_override</name>     
+      <title>Status Override</title>
+      <import>true</import>
+      <type>boolean</type>
+      <comment>Admin users may set a manual status which overrides the calculated status. When this flag is true, automated status update scripts should NOT modify status for the record.</comment>
+      <add>1.5</add>  
+  </field> 
+  <field> 
+      <name>reminder_date</name>  
+      <type>date</type>
+      <comment>When should a reminder be sent.</comment>  
+      <add>1.6</add>  
+  </field> 
+  <field>
+      <name>owner_membership_id</name>
+      <type>int unsigned</type>
+      <comment>Optional FK to Parent Membership.</comment>
+      <add>1.7</add>
+  </field>
+  <foreignKey>
+       <name>owner_membership_id</name>
+       <table>civicrm_membership</table>
+       <key>id</key>
+       <add>1.7</add>
+  </foreignKey>
+  <index>
+    <name>index_owner_membership_id</name>
+    <fieldName>owner_membership_id</fieldName>
+    <add>1.7</add>
+  </index>
+  <field>     
+      <name>is_test</name>  
+      <title>Test</title>
+      <uniqueName>member_is_test</uniqueName> 
+      <type>boolean</type>
+      <default>0</default>
+      <import>true</import>
+  </field>
+</table>

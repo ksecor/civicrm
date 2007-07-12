@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <parameters>
+        <scalar-parameter name="fromDate" id="45">
+            <text-property name="helpText">Enter date in mmddyyyy format</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <text-property name="promptText">Enter activity Date :</text-property>
+            <property name="allowBlank">true</property>
+            <property name="allowNull">true</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">01012005</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="toDate" id="46">
+            <text-property name="helpText">Enter the date in mmddyyyy format</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <text-property name="promptText">Enter activity Date :</text-property>
+            <property name="allowBlank">true</property>
+            <property name="allowNull">true</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">12312007</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="moduleHistory" id="51">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <text-property name="promptText">Enter Module Name :</text-property>
+            <property name="allowBlank">false</property>
+            <property name="allowNull">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">Module1</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="civicrm" id="4">
+            <text-property name="displayName">civicrm</text-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
+            <property name="odaUser">civicrm</property>
+            <encrypted-property name="odaPassword">Y2l2aWNybTEyMzQ1</encrypted-property>
+            <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="historyDataSet" id="5">
+            <text-property name="displayName">historyDataSet</text-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">activity_type</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">module</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">activity_summary</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">actDate</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">activity_type</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">module</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">activity_summary</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">actDate</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">civicrm</property>
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " where date_format(h.activity_date,'%d%c%Y') >= " + params["fromDate"] + " and date_format(h.activity_date,'%d%c%Y') <= " + params["toDate"] + " and h.module = '" + params["moduleHistory"] +"' ";]]></method>
+            <property name="queryText">select h.id, h.activity_type,
+h.module, h.activity_summary, date_format(h.activity_date,'%d/%c/%Y') as actDate
+from civicrm_activity_history as h</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="7">
+            <property name="height">100%</property>
+            <property name="width">100%</property>
+            <property name="dataSet">historyDataSet</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">activity_type</property>
+                    <expression name="expression">dataSetRow["activity_type"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">activity_summary</property>
+                    <expression name="expression">dataSetRow["activity_summary"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">actDate</property>
+                    <expression name="expression">dataSetRow["actDate"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="26">
+                <property name="width">1.421in</property>
+            </column>
+            <column id="27">
+                <property name="width">1.736in</property>
+            </column>
+            <column id="28">
+                <property name="width">0.894in</property>
+            </column>
+            <column id="29">
+                <property name="width">1.039in</property>
+            </column>
+            <column id="30">
+                <property name="width">0.921in</property>
+            </column>
+            <header>
+                <row id="8">
+                    <property name="backgroundColor">#8FCBD8</property>
+                    <cell id="9">
+                        <property name="colSpan">5</property>
+                        <property name="rowSpan">1</property>
+                        <text id="37">
+                            <property name="fontFamily">sans-serif</property>
+                            <property name="fontSize">medium</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="color">#1B3337</property>
+                            <property name="textAlign">center</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Activity History Details]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+                <row id="31">
+                    <property name="backgroundColor">#BAE0E8</property>
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="fontSize">smaller</property>
+                    <property name="color">#1B3337</property>
+                    <cell id="32">
+                        <text id="38">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Activity Type]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="33">
+                        <text id="39">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Activity Date]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="34">
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <text id="40">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Summary]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="14">
+                    <property name="backgroundColor">#EBFDFF</property>
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="fontSize">x-small</property>
+                    <property name="color">#1B3337</property>
+                    <cell id="15">
+                        <data id="48">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">activity_type</property>
+                        </data>
+                    </cell>
+                    <cell id="16">
+                        <data id="50">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">actDate</property>
+                        </data>
+                    </cell>
+                    <cell id="17">
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <data id="49">
+                            <property name="marginLeft">5pt</property>
+                            <property name="resultSetColumn">activity_summary</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="20">
+                    <property name="height">0.1in</property>
+                    <property name="backgroundColor">#8FCBD8</property>
+                    <cell id="21">
+                        <property name="colSpan">5</property>
+                        <property name="rowSpan">1</property>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
