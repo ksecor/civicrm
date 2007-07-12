@@ -166,21 +166,25 @@ class CRM_Event_BAO_Query
         case 'participant_test':
             $query->_where[$grouping][] = "civicrm_participant.is_test $op $value";
             if ( $value ) {
-                $query->_qill[$grouping][]  = "Test Participants Only";
+                $query->_qill[$grouping][]  = ts("Test Participants Only");
             }
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             
             return;
 
-        case 'participant_status':
-            
-            foreach ($value as $k => $v) {
-                if ($v) {
-                    $val[$k] = $k;
-                }
-            } 
+        case 'participant_status_id':
 
-            $status = implode (',' ,$val);
+            $val = array( );
+            if ( is_array( $value ) ) {
+                foreach ($value as $k => $v) {
+                    if ($v) {
+                        $val[$k] = $k;
+                    }
+                } 
+                $status = implode (',' ,$val);
+            } else {
+                $status = $value;
+            }
 
             if (count($val) > 1) {
                 $op = 'IN';
@@ -191,23 +195,34 @@ class CRM_Event_BAO_Query
             $statusTypes  = CRM_Event_PseudoConstant::participantStatus( );
 
             $names = array( );
-            foreach ( $val as $id => $dontCare ) {
-                $names[] = $statusTypes[$id];
+
+            if ( !empty($val) ) {
+                foreach ( $val as $id => $dontCare ) {
+                    $names[] = $statusTypes[$id];
+                }
+            } else {
+                $names[] = $statusTypes[$value];
             }
+
             $query->_qill[$grouping][]  = ts('Participant Status %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
             
             $query->_where[$grouping][] = "civicrm_participant.status_id {$op} {$status}";
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
 
-        case 'participant_role':
-            foreach ($value as $k => $v) {
-                if ($v) {
-                    $val[$k] = $k;
-                }
-            } 
+        case 'participant_role_id':
 
-            $role = implode (',' ,$val);
+            $val = array( );
+            if ( is_array( $value ) ) {
+                foreach ($value as $k => $v) {
+                    if ($v) {
+                        $val[$k] = $k;
+                    }
+                } 
+                $role = implode (',' ,$val);
+            } else {
+                $role = $value;
+            }
 
             if (count($val) > 1) {
                 $op = 'IN';
@@ -218,13 +233,29 @@ class CRM_Event_BAO_Query
             $roleTypes  = CRM_Event_PseudoConstant::participantRole( );
 
             $names = array( );
-            foreach ( $val as $id => $dontCare ) {
-                $names[] = $roleTypes[$id];
+            if ( !empty($val) ) {
+                foreach ( $val as $id => $dontCare ) {
+                    $names[] = $roleTypes[$id];
+                }
+            } else {
+                $names[] = $roleTypes[$value];
             }
+
             $query->_qill[$grouping][]  = ts('Participant Role %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
             
             $query->_where[$grouping][] = "civicrm_participant.role_id {$op} {$role}";
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+            return;
+
+        case 'participant_source':
+            $query->_where[$grouping][] = "civicrm_participant.source $op '$value'";
+            $query->_qill[$grouping][]  = ts("Participant Source $op $value" );
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+            return;
+
+        case 'participant_register_date':
+            $query->dateQueryBuilder( $values,
+                                       'civicrm_participant', 'participant_register_date', 'register_date', 'Register Date' );
             return;
 
         case 'participant_id':
@@ -373,14 +404,14 @@ class CRM_Event_BAO_Query
         foreach ( $statusValues as $k => $v ) {
             $status[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
         }
-        $form->addGroup($status, 'participant_status', ts('Participant Status'));
+        $form->addGroup($status, 'participant_status_id', ts('Participant Status'));
         
         //adding participant role
         $roleValues = CRM_Event_PseudoConstant::participantRole();
         foreach ( $roleValues as $k => $v ) {
             $role[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
         }
-        $form->addGroup($role, 'participant_role', ts('Participant Role'));
+        $form->addGroup($role, 'participant_role_id', ts('Participant Role'));
 
         $form->addElement( 'checkbox', 'participant_test' , ts( 'Find Test Participants Only?' ) );
 
