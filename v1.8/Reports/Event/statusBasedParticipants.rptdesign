@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <parameters>
+        <scalar-parameter name="statusType" id="69">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <text-property name="promptText">Enter the Status Type</text-property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">true</property>
+            <property name="defaultValue">Registered</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">Registered</property>
+                    <property name="label">Registered</property>
+                </structure>
+                <structure>
+                    <property name="value">Attended</property>
+                    <property name="label">Attended</property>
+                </structure>
+                <structure>
+                    <property name="value">No-show</property>
+                    <property name="label">No-show</property>
+                </structure>
+                <structure>
+                    <property name="value">Cancelled</property>
+                    <property name="label">Cancelled</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="civicrm" id="4">
+            <text-property name="displayName">civicrm</text-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
+            <property name="odaUser">civicrm</property>
+            <encrypted-property name="odaPassword">Y2l2aWNybTEyMzQ1</encrypted-property>
+            <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="statusBasedData" id="62">
+            <text-property name="displayName">statusBasedData</text-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">statusType</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">'Registered'</expression>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">id_12</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">contact_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">event_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">status_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">role_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">source</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">event_level</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">status</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">display_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">register_date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">title</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">id_12</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">value</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">civicrm</property>
+            <property name="queryText">SELECT p.contact_id,p.event_id,
+p.status_id,p.role_id,p.source,p.event_level,
+op.name as status,c.display_name,c.id,p.register_date,e.title,
+op.id,op.value
+FROM civicrm_participant as p
+LEFT JOIN (civicrm_contact as c,
+civicrm_option_group as grp,
+civicrm_option_value as op, 
+civicrm_event as e)
+ON (
+op.option_group_id=grp.id
+AND op.value=p.status_id
+AND p.contact_id=c.id
+AND p.event_id=e.id)
+WHERE grp.name="participant_status"
+AND op.name = ?</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="6">
+            <property name="backgroundColor">#E8F2FF</property>
+            <property name="fontFamily">sans-serif</property>
+            <property name="width">100%</property>
+            <property name="dataSet">statusBasedData</property>
+            <list-property name="paramBindings">
+                <structure>
+                    <property name="paramName">statusType</property>
+                    <expression name="expression">params["statusType"]</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">register_date</property>
+                    <expression name="expression">dataSetRow["register_date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">display_name</property>
+                    <expression name="expression">dataSetRow["display_name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">title</property>
+                    <expression name="expression">dataSetRow["title"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">name</property>
+                    <expression name="expression">dataSetRow["name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">source</property>
+                    <expression name="expression">dataSetRow["source"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">event_level</property>
+                    <expression name="expression">dataSetRow["event_level"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">status</property>
+                    <expression name="expression">dataSetRow["status"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">contact_id</property>
+                    <expression name="expression">dataSetRow["contact_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">event_id</property>
+                    <expression name="expression">dataSetRow["event_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">status_id</property>
+                    <expression name="expression">dataSetRow["status_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">role_id</property>
+                    <expression name="expression">dataSetRow["role_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">id</property>
+                    <expression name="expression">dataSetRow["id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">id_12</property>
+                    <expression name="expression">dataSetRow["id_12"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">value</property>
+                    <expression name="expression">dataSetRow["value"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <column id="25"/>
+            <column id="26"/>
+            <column id="27"/>
+            <column id="28"/>
+            <column id="59"/>
+            <column id="29"/>
+            <header>
+                <row id="30">
+                    <property name="backgroundColor">#318AD9</property>
+                    <property name="color">#E6E6FA</property>
+                    <cell id="31">
+                        <property name="colSpan">6</property>
+                        <property name="rowSpan">1</property>
+                        <text id="36">
+                            <property name="fontFamily">sans-serif</property>
+                            <property name="fontSize">larger</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Participant Report]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+                <row id="37">
+                    <property name="backgroundColor">#318AD9</property>
+                    <property name="color">#E6E6FA</property>
+                    <cell id="38">
+                        <property name="colSpan">6</property>
+                        <property name="rowSpan">1</property>
+                        <text id="43">
+                            <property name="fontSize">smaller</property>
+                            <property name="textAlign">center</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[(based on event status)]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+                <row id="7">
+                    <property name="backgroundColor">#B3D1FF</property>
+                    <property name="fontSize">small</property>
+                    <property name="color">#318AD9</property>
+                    <property name="textAlign">justify</property>
+                    <cell id="8">
+                        <text id="44">
+                            <property name="marginLeft">5pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Participant Name]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="9">
+                        <text id="45">
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Event]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="10">
+                        <text id="46">
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Status]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="11">
+                        <text id="47">
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Source]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="56">
+                        <text id="60">
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Event Level]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="12">
+                        <text id="48">
+                            <property name="textAlign">left</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Register Date]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="13">
+                    <property name="backgroundColor">#E8F2FF</property>
+                    <property name="fontSize">x-small</property>
+                    <property name="color">#131B6D</property>
+                    <cell id="14">
+                        <data id="63">
+                            <property name="resultSetColumn">display_name</property>
+                        </data>
+                    </cell>
+                    <cell id="15">
+                        <data id="64">
+                            <property name="resultSetColumn">title</property>
+                        </data>
+                    </cell>
+                    <cell id="16">
+                        <data id="65">
+                            <property name="resultSetColumn">status</property>
+                        </data>
+                    </cell>
+                    <cell id="17">
+                        <data id="66">
+                            <property name="resultSetColumn">source</property>
+                        </data>
+                    </cell>
+                    <cell id="57">
+                        <data id="67">
+                            <property name="resultSetColumn">event_level</property>
+                        </data>
+                    </cell>
+                    <cell id="18">
+                        <data id="68">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Long Date</property>
+                                <property name="pattern">Long Date</property>
+                            </structure>
+                            <property name="resultSetColumn">register_date</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="19">
+                    <property name="height">0.1in</property>
+                    <property name="backgroundColor">#318AD9</property>
+                    <property name="color">#B3D1FF</property>
+                    <cell id="20"/>
+                    <cell id="21"/>
+                    <cell id="22"/>
+                    <cell id="23"/>
+                    <cell id="58"/>
+                    <cell id="24"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
