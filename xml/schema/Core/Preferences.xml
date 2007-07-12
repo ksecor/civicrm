@@ -60,6 +60,11 @@
        <comment>What tabs are displayed in the contact summary</comment>
        <add>1.8</add>
   </field>
+  <index>
+    <name>index_contact_view_options</name>
+    <fieldName>contact_view_options</fieldName>
+    <add>1.8</add>
+  </index>
   <field>
        <name>contact_edit_options</name>
        <type>varchar</type>
@@ -67,6 +72,11 @@
        <comment>What tabs are displayed in the contact edit</comment>
        <add>1.8</add>
   </field>
+  <index>
+    <name>index_contact_edit_options</name>
+    <fieldName>contact_edit_options</fieldName>
+    <add>1.8</add>
+  </index>
   <field>
        <name>advanced_search_options</name>
        <type>varchar</type>
@@ -74,6 +84,11 @@
        <comment>What tabs are displayed in the advanced search screen</comment>
        <add>1.8</add>
   </field>
+  <index>
+    <name>index_advanced_search_options</name>
+    <fieldName>advanced_search_options</fieldName>
+    <add>1.8</add>
+  </index>
   <field>
        <name>user_dashboard_options</name>
        <type>varchar</type>
@@ -81,6 +96,11 @@
        <comment>What tabs are displayed in the contact edit</comment>
        <add>1.8</add>
   </field>
+  <index>
+    <name>index_user_dashboard_options</name>
+    <fieldName>user_dashboard_options</fieldName>
+    <add>1.8</add>
+  </index>
   <field>
        <name>address_options</name>
        <type>varchar</type>
@@ -88,6 +108,11 @@
        <comment>What fields are displayed from the address table</comment>
        <add>1.8</add>
   </field>
+ <index>
+    <name>index_address_options</name>
+    <fieldName>address_options</fieldName>
+    <add>1.8</add>
+  </index>
   <field>
        <name>address_format</name>
        <type>text</type>
