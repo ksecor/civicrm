@@ -124,7 +124,20 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
      * @static 
      * @return object
      */
-    static function del( $messageTemplatesID ) {
+    static function del( $messageTemplatesID ) 
+    {
+        // make sure messageTemplatesID is an integer
+        if ( ! CRM_Utils_Rule::positiveInteger( $messageTemplatesID ) ) {
+            CRM_Core_Error::fatal( ts( 'Invalid Message template' ) );
+        }
+
+        // set membership_type to null
+        $query = "UPDATE civicrm_membership_type
+                  SET renewal_msg_id = NULL
+                  WHERE renewal_msg_id = %1";
+        $params = array( 1 => array( $messageTemplatesID, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $params );
+
         $messageTemplates =& new CRM_Core_DAO_MessageTemplates( );
         $messageTemplates->id = $messageTemplatesID;
         $messageTemplates->delete();
