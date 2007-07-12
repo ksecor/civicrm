@@ -1,12 +1,8 @@
 {capture assign="customURL"}{crmURL p='civicrm/admin/custom/group' q="reset=1"}{/capture}
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
-    <p>{ts 1="http://wiki.civicrm.org/confluence//x/UCU" 2=$docURLTitle}Relationship types describe relationships between people, households and organizations. Relationship types labels describe the relationship
-        from the perspective of each of the two entities (e.g. Parent <-> Child, Employer <-> Employee). For some types of relationships, the labels
-        may be the same in both directions (e.g. Spouse <-> Spouse) (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}</p>
-    <p>{ts 1=$customURL}You can define as many additional relationships types as needed to cover the types of relationships you want to track.
-        Once a relationship type is created, you may also define custom fields to extend relationship information for that type
-        from <a href="%1">Administer CiviCRM &raquo; Custom Data</a>.{/ts}</p>
+    <p>{ts 1="http://wiki.civicrm.org/confluence//x/UCU" 2=$docURLTitle}Relationship types describe relationships between people, households and organizations. Relationship types labels describe the relationship from the perspective of each of the two entities (e.g. Parent <-> Child, Employer <-> Employee). For some types of relationships, the labels may be the same in both directions (e.g. Spouse <-> Spouse) (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}</p>
+    <p>{ts 1=$customURL}You can define as many additional relationships types as needed to cover the types of relationships you want to track. Once a relationship type is created, you may also define custom fields to extend relationship information for that type from <a href="%1">Administer CiviCRM &raquo; Custom Data</a>.{/ts}</p>
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8}

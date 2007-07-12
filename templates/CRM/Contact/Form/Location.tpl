@@ -50,8 +50,7 @@
         <div class="form-item">
             {$form.use_household_address.html}{$form.use_household_address.label}<br />
             <span class="description">
-                {ts}Check this option if you want to use a shared household address for this individual. You can
-                either select an existing household, or create a new one.{/ts}
+                {ts}Check this option if you want to use a shared household address for this individual. You can either select an existing household, or create a new one.{/ts}
             </span>
         </div>
         <div id="confirm_shared_option" class="form-item">
