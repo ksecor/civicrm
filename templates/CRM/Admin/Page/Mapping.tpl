@@ -27,7 +27,7 @@
         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
             <td>{$row.name}</td>	
             <td>{$row.description}</td>
-            <td>{$row.mapping_type}</td>
+            <td>{$row.mapping_type_display}</td>
             <td>{$row.action}</td>
         </tr>
         {/foreach}

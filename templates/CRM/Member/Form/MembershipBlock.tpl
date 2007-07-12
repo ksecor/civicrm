@@ -31,9 +31,9 @@
     <dd>
         {assign var="count" value="1"}
            {strip}
-             <table border="1">
-            <tr><th>Which membership option(s) should be displayed on this signup form?</th><th>Default option?<br />
-            <a href="#" title="unselect" onclick="unselectRadio('membership_type_default', 'MembershipBlock'); return false;" >unselect</a></th></tr>
+            <table class="report">
+            <tr class="columnheader" style="vertical-align:top;"><th style="border-right: 1px solid #4E82CF;">Include these membership types:</th><th>Default:<br />
+            (&nbsp;<a href="#" title="unselect" onclick="unselectRadio('membership_type_default', 'MembershipBlock'); return false;" >unselect</a>&nbsp;)</th></tr>
             {assign var="index" value="1"}
                {foreach name=outer key=key item=item from=$form.membership_type}
                   {if $index < 10}
@@ -56,7 +56,9 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Display the minimum membership fee along with the membership name and description for each membership option?{/ts}</dd>
 
     <dt></dt><dd>{$form.is_separate_payment.html}&nbsp;{$form.is_separate_payment.label} </dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Should the membership fee be processed as a separate transaction? If this option is checked AND the contribution page includes a separate contribution amount block - two transactions will be generated: one for the membership fee amount; and one for the selected contribution amount.{/ts}</dd>
+    <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Should the membership fee be processed as a separate transaction? If this option is checked
+        AND the contribution page includes a separate contribution amount block - two transactions will be generated: one for the membership fee amount; and one for
+        the selected contribution amount. (This option is NOT available for PayPal Website Payments Standard.){/ts}</dd>
     </dl>
    </div>
   </fieldset>

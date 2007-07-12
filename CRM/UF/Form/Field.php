@@ -260,6 +260,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 unset($participantFields['event_id']);
                 unset($participantFields['participant_contact_id']);
                 unset($participantFields['participant_is_test']);
+                unset($participantFields['event_level']);
                 $fields['Participant'] =& $participantFields;
             }
         }

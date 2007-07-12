@@ -346,7 +346,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $form->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
             $form->addFormRule( array( 'CRM_Contact_Form_Task_Export_Map', 'formRule' ) );
         } else  if ($mappingType == 'Search Builder') { 
-            $form->addElement('submit', "addBlock", "Also include contacts where", 
+            $form->addElement('submit', 'addBlock', ts('Also include contacts where'), 
                               array( 'class' => 'submit-link')
                               );
         }
