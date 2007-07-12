@@ -63,44 +63,54 @@ class CRM_Event_BAO_Query
     static function select( &$query ) 
     {
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_EVENT ) {
-
             $query->_select['participant_id'] = "civicrm_participant.id as participant_id";
-            $query->_element['participant_id'] = 1;
-            $query->_tables['civicrm_participant'] = 1;
-            $query->_whereTables['civicrm_participant'] = 1;
+            $query->_element['participant_id'         ] = 1;
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+
+            //add event level
+            $query->_select['event_level' ]  = "civicrm_participant.event_level as event_level";
+            $query->_element['event_level']  = 1;
+        
+            //add event title
+            $query->_select['title'] = "civicrm_event.title as event_title";
+            $query->_element['title'] = 1;
+            $query->_tables['civicrm_event'] = 1;
+            $query->_whereTables['civicrm_event'] = 1;
+        
+            //add start date / end date
+            $query->_select['start_date']  = "civicrm_event.start_date as start_date";
+            $query->_element['start_date'] = 1;
+            $query->_select['end_date']  = "civicrm_event.end_date as end_date";
+            $query->_element['end_date'] = 1;
         }   
         
         //add status
-        $query->_select['status_id' ]  = "civicrm_participant.status_id as participant_status_id";
-        $query->_element['status_id']  = 1;
+        if ( CRM_Utils_Array::value( 'status_id', $query->_returnProperties ) ) {
+            $query->_select['status_id' ]  = "civicrm_participant.status_id as participant_status_id";
+            $query->_element['status_id']  = 1;
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+        }
         
         //add role
-        $query->_select['role_id' ]  = "civicrm_participant.role_id as participant_role_id";
-        $query->_element['role_id']  = 1;
+        if ( CRM_Utils_Array::value( 'role_id', $query->_returnProperties ) ) {
+            $query->_select['role_id' ]  = "civicrm_participant.role_id as participant_role_id";
+            $query->_element['role_id']  = 1;
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+        }
         
         //add register date
-        $query->_select['register_date' ]  = "civicrm_participant.register_date as participant_register_date";
-        $query->_element['register_date']  = 1;
-        
+        if ( CRM_Utils_Array::value( 'register_date', $query->_returnProperties ) ) {
+            $query->_select['register_date' ]  = "civicrm_participant.register_date as participant_register_date";
+            $query->_element['register_date']  = 1;
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+        }
+
         //add source
-        $query->_select['source' ]  = "civicrm_participant.source as participant_source";
-        $query->_element['source']  = 1;
-        
-        //add event level
-        $query->_select['event_level' ]  = "civicrm_participant.event_level as event_level";
-        $query->_element['event_level']  = 1;
-        
-        //add event title
-        $query->_select['title'] = "civicrm_event.title as event_title";
-        $query->_element['title'] = 1;
-        $query->_tables['civicrm_event'] = 1;
-        $query->_whereTables['civicrm_event'] = 1;
-        
-        //add start date / end date
-        $query->_select['start_date']  = "civicrm_event.start_date as start_date";
-        $query->_element['start_date'] = 1;
-        $query->_select['end_date']  = "civicrm_event.end_date as end_date";
-        $query->_element['end_date'] = 1;
+        if ( CRM_Utils_Array::value( 'source', $query->_returnProperties ) ) {
+            $query->_select['source' ]  = "civicrm_participant.source as participant_source";
+            $query->_element['source']  = 1;
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+        }
         
         if ( CRM_Utils_Array::value( 'participant_note', $query->_returnProperties ) ) {
             $query->_select['participant_note' ] = "civicrm_note.note as participant_note";
