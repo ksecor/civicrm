@@ -71,19 +71,19 @@ class CRM_Event_BAO_Query
         }   
         
         //add status
-        $query->_select['status_id' ]  = "civicrm_participant.status_id as status_id";
+        $query->_select['status_id' ]  = "civicrm_participant.status_id as participant_status_id";
         $query->_element['status_id']  = 1;
         
         //add role
-        $query->_select['role_id' ]  = "civicrm_participant.role_id as role_id";
+        $query->_select['role_id' ]  = "civicrm_participant.role_id as participant_role_id";
         $query->_element['role_id']  = 1;
         
         //add register date
-        $query->_select['register_date' ]  = "civicrm_participant.register_date as register_date";
+        $query->_select['register_date' ]  = "civicrm_participant.register_date as participant_register_date";
         $query->_element['register_date']  = 1;
         
         //add source
-        $query->_select['source' ]  = "civicrm_participant.source as event_source";
+        $query->_select['source' ]  = "civicrm_participant.source as participant_source";
         $query->_element['source']  = 1;
         
         //add event level
