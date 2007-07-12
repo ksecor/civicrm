@@ -197,7 +197,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
 
                 if ( $values[$fields['participant_register_date']['title']] ) {
                     $values[$fields['participant_register_date']['title']] = 
-                        CRM_Utils_Date::mysqlToIso($values[$fields['participant_register_date']['title']]);
+                        CRM_Utils_Date::customFormat($values[$fields['participant_register_date']['title']]);
                 }
 
                 foreach( $fields as $v  ) {
