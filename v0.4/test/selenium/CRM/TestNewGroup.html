@@ -1,0 +1,126 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>new_group</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">new_group</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+
+<!-- CREATING A GROUP -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=New Group</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Create New Group | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>title</td>
+	<td>aa1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>description</td>
+	<td>my new group</td>
+</tr>
+
+
+<tr>
+	<td>select</td>
+	<td>visibility</td>
+	<td>label=User and User Admin Only</td>
+</tr>
+
+
+
+<!-- SAVING A GROUP -->
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='_qf_Edit_next' and @value='Continue']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Add Members: aa1 | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Group "aa1" has been saved.</td>
+	<td></td>
+</tr>
+
+
+
+<!-- DELETING A GROUP -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Manage Groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Manage Groups | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Confirm Group Delete | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Are you sure you want to delete the group aa1?</td>
+	<td></td>
+</tr>
+
+
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='_qf_Edit_next' and @value='Delete Group']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Manage Groups | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Group "aa1" has been deleted.</td>
+	<td></td>
+</tr>
+
+
+</tbody></table>
+</body>
+</html>

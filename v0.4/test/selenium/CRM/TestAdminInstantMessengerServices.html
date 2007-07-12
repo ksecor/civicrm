@@ -1,0 +1,155 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>admin_instant_messenger_services</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">admin_instant_messenger_services</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+<!-- CREATING AN IM SERVICE PROVIDER -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administer CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idInstant Messenger Services</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Instant Messenger Services | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>newIMProvider</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Instant Messenger Services | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>New IM Service Provider</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>Absicus</td>
+</tr>
+
+<!-- SAVING A IM SERVICE PROVIDER -->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_IMProvider_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Instant Messenger Services | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The IM Provider "Absicus" has been saved.</td>
+	<td></td>
+</tr>
+
+
+
+
+<!-- EDITING IM SERVICE PROVIDER -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Edit IM Service Provider</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>Absicus1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_IMProvider_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Instant Messenger Services | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The IM Provider "Absicus1" has been saved.</td>
+	<td></td>
+</tr>
+
+
+
+<!-- DELETING IM SERVICE PROVIDER -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>WARNING: Deleting this option will result in the loss of all IM Service Provider type records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_IMProvider_next</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td>assertTextPresent</td>
+	<td>Selected IMProvider has been deleted.</td>
+	<td></td>
+</tr>
+
+
+</tbody></table>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{htxt id='map-key'}
+{ts}
+<p>
+    <strong>For GOOGLE mapping</strong> - request an API key for your site at <a href="http://www.google.com/apis/maps/signup.html" target="_blank">http://www.google.com/apis/maps/signup.html</a>
+</p>
+<p>
+    When prompted for 'My Web Site URL' - enter the base URL for your site followed by
+    the path '/civicrm'. Your API Key will be generated and displayed on the next page.
+</p>
+
+<p>EXAMPLE: if your Drupal site url is http://www.example.com/ you would enter
+<div class="font-italic description">
+ &nbsp; http://www.example.com/civicrm/
+</div>
+</p>
+
+<p>
+    <strong>For YAHOO mapping</strong> - request an Application ID for your site at <a href="http://api.search.yahoo.com/webservices/register_application" target="_blank">http://api.search.yahoo.com/webservices/register_application</a>
+</p>
+{/ts}
+{/htxt}
+{htxt id='map-key2'}
+{ts}
+<p>
+    <strong>For GOOGLE mapping</strong> - request an API key for your site at <a href="http://www.google.com/apis/maps/signup.html" target="_blank">http://www.google.com/apis/maps/signup.html</a>
+</p>
+<p>
+    When prompted for 'My Web Site URL' - enter the base URL for your site followed by
+    the path '/civicrm'. Your API Key will be generated and displayed on the next page.
+</p>
+
+<p>EXAMPLE: if your Drupal site url is http://www.example.com/ you would enter
+<div class="font-italic description">
+ &nbsp; http://www.example.com/civicrm/
+</div>
+</p>
+
+<p>
+    <strong>For YAHOO mapping</strong> - request an Application ID for your site at <a href="http://api.search.yahoo.com/webservices/register_application" target="_blank">http://api.search.yahoo.com/webservices/register_application</a>
+</p>
+{/ts}
+{/htxt}
