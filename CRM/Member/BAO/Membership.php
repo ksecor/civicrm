@@ -1082,7 +1082,6 @@ civicrm_membership_status.is_current_member =1";
 
         } else {
             require_once 'CRM/Member/BAO/MembershipStatus.php';
-            
             $memParams                       = array( );
             $memParams['contact_id']         = $contactID;
             $memParams['membership_type_id'] = $membershipTypeID;

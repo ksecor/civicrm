@@ -2257,7 +2257,7 @@ WHERE civicrm_contact.id IN $idString ";
             $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
             $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
         }
-
+        
         // contact is null if the profile does not have any contact fields
         if ( $contact ) {
           $contactID = $contact->id;
@@ -2334,7 +2334,7 @@ WHERE civicrm_contact.id IN $idString ";
             $params['contact_id'] = $contactID;
             CRM_TMF_BAO_Student::create( $params, $ids);
         }
-
+        
         if ( $editHook ) {
             CRM_Utils_Hook::post( 'edit'  , 'Profile', $contactID  , $params );
         } else {
