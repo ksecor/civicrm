@@ -1,0 +1,299 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>admin_profile</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">admin_profile</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+<!-- CREATING A PROFILE-->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administer CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idCiviCRM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>CiviCRM Profile | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>newCiviCRMProfile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>New CiviCRM Profile Group | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>CiviCRM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>title</td>
+	<td>MyProfile</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>weight</td>
+	<td>0</td>
+</tr>
+
+<!-- SAVING A PROFILE-->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Group_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>CiviCRM Profile | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your CiviCRM Profile Group "MyProfile" has been added. You can add fields to this group now.</td>
+	<td></td>
+</tr>
+
+<!-- ADDING FIELD TO PROFILE-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=add fields</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>MyProfile - CiviCRM Profile Fields | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>CiviCRM Profile Field</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>field_name[0]</td>
+	<td>label=Households</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>field_name[0]</td>
+	<td></td>
+</tr>
+
+<!-- SAVING FIELD TO PROFILE-->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Field_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>MyProfile - CiviCRM Profile Fields | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your civicrm profile field "Household Name" has been saved.</td>
+	<td></td>
+</tr>
+
+
+<!-- EDITING FIELD TO PROFILE-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>MyProfile - CiviCRM Profile Fields | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>check</td>
+	<td>is_required</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Field_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>MyProfile - CiviCRM Profile Fields | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your civicrm profile field "Household Name" has been saved.</td>
+	<td></td>
+</tr>
+
+<!-- DISABLING FIELD TO PROFILE  clickAndWait  	link=Disable   -->
+
+ 
+	
+	
+
+<tr>
+	<td>assertTitle</td>
+	<td>MyProfile - CiviCRM Profile Fields | drupal</td>
+	<td></td>
+</tr> 
+
+<!-- DELETING FIELD TO PROFILE -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>WARNING: Deleting this profile field will remove it from Profile forms and listings. If this field is used in any 'stand-alone' Profile forms, you will need to update those forms to remove this field. Do you want to continue?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Field_next</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td>assertTextPresent</td>
+	<td>Selected Profile Field has been deleted.</td>
+	<td></td>
+</tr>
+
+<!-- EDITING  PROFILE-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administer CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idCiviCRM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>CiviCRM Profile | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Settings</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Profile Settings - MyProfile | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>help_pre</td>
+	<td>Help in the Profile Section</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Group_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>CiviCRM Profile | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your CiviCRM Profile Group "MyProfile" has been saved.</td>
+	<td></td>
+</tr>
+
+
+
+<!-- DELETING PROFILE -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Delete MyProfile Profile?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Group_next</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your CiviCRM Profile Group "MyProfile" has been deleted.</td>
+	<td></td>
+</tr>
+
+
+</tbody></table>
+</body>
+</html>

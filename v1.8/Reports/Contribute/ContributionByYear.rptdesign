@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.2.v20070205-1728 Build &lt;20070205-1728></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <property name="theme">civicrm.Blue</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">civicrm.rptlibrary</property>
+            <property name="namespace">civicrm</property>
+        </structure>
+    </list-property>
+    <parameters>
+        <scalar-parameter name="year" id="6">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <text-property name="promptText">Year</text-property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">2005</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="CiviCRM" id="4"
+ extends="civicrm.CiviCRM"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Contribution By Date Range" id="5"
+ extends="civicrm.Contribution By Date Range">
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " where d.receive_date >= '" + params["year"] + "0101' and d.receive_date <= '" + params["year"] + "1231'";]]></method>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="7">
+            <property name="width">100%</property>
+            <property name="dataSet">Contribution By Date Range</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">display_name</property>
+                    <expression name="expression">dataSetRow["display_name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">total_amount</property>
+                    <expression name="expression">dataSetRow["total_amount"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <column id="17"/>
+            <column id="18"/>
+            <header>
+                <row id="8">
+                    <cell id="9">
+                        <label id="19">
+                            <text-property name="text">Name	</text-property>
+                        </label>
+                    </cell>
+                    <cell id="10">
+                        <label id="21">
+                            <text-property name="text">Amount</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="11">
+                    <cell id="12">
+                        <data id="20">
+                            <property name="resultSetColumn">display_name</property>
+                        </data>
+                    </cell>
+                    <cell id="13">
+                        <data id="22">
+                            <property name="resultSetColumn">total_amount</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="14">
+                    <cell id="15"/>
+                    <cell id="16"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

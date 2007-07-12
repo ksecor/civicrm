@@ -1,0 +1,39 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH AMAVISD-NEW-CRONJOB 8 "2006-08-10"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+amavisd-new-cronjob \- Cronjobs for the Debian amavisd-new package
+.SH SYNOPSIS
+.B amavisd-new-cronjob 
+.I sa-sync
+|
+.I sa-clean
+.br
+.SH DESCRIPTION
+.B amavisd-new-cronjob
+is a helper script that contains the cron job routines used by the
+amavisd-new Debian package.  It exists to help deployment in high-security
+environments, such as SE-Linux.
+.PP
+This helper script is called by entries in the system crontab directories,
+as usual.
+.SH SEE ALSO
+.BR /usr/share/doc/amavisd-new/*
+.br
+.SH AUTHOR
+This manual page was written by Henrique de Moraes Holschuh <hmh@debian.org>,
+for the Debian GNU/Linux system (but may be used by others).
