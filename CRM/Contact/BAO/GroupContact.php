@@ -474,14 +474,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ( $includeChildGroups ) {
             require_once 'CRM/Core/BAO/GroupNesting.php';
             $groupIds = CRM_Core_BAO_GroupNesting::getChildGroupIds( array( $group->id ) );
-            $groupIdsParam = array( );
-            foreach ( $groupIds as $groupId ) {
-                $groupIdsParam[] = array( $groupId => true );
-            }
         } else {
-            $groupIdsParam = array( $group->id => true );
+            $groupIds = array( $group->id );
         }
-        $params[] = array( 'group', '=', $groupIdsParam, 0, 0 );
+        $params[] = array( 'group', 'IN', $groupIds, 0, 0 );
         #$params[] = array( 'group', '=', array($group->id => true), 0, 0 );
 
         if ( $status ) {
