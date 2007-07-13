@@ -283,6 +283,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
+        
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
         $now = date( 'YmdHis' );
         $fields = array( );
@@ -314,8 +315,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $params["location_name-{$this->_bltID}"] = trim( $params["location_name-{$this->_bltID}"] );
         $fields["location_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
-
-        if ( ! $contactID ) {
+        
+        if ( ! isset( $contactID ) ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)
             // so now we have a confirmed financial transaction
@@ -330,9 +331,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->set( 'contactID', $contactID );
         } else {
             $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact",$contactID,"contact_type");
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID,null,null,$ctype);
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, null, null, $ctype);
         }
-
+        
         // store the fact that this is a membership and membership type is selected
         $processMembership = false;
         if ( CRM_Utils_Array::value( 'selectMembership', $membershipParams ) &&

@@ -84,7 +84,6 @@ class CRM_Admin_Form_Mapping extends CRM_Admin_Form
     {
         $defaults = parent::setDefaultValues();
         $defaults['mapping_type'] = CRM_Core_DAO_Mapping::tsEnum('mapping_type', $defaults['mapping_type']);
-        CRM_Core_Error::debug('$defaults', $defaults);
         return $defaults;
     }
     

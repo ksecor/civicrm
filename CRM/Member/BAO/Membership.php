@@ -496,7 +496,9 @@ UPDATE civicrm_membership_type
      *
      * @static
      */
-    function buildMembershipBlock( &$form , $pageID , $formItems = false, $selectedMembershipID = null ,$thankPage = false )
+    function buildMembershipBlock( &$form , $pageID , $formItems = false,
+                                   $selectedMembershipID = null ,$thankPage = false,
+                                   $isTest = null )
     {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
 
@@ -553,6 +555,11 @@ UPDATE civicrm_membership_type
                                 $membership = &new CRM_Member_DAO_Membership();
                                 $membership->contact_id         = $cid;
                                 $membership->membership_type_id = $memType->id;
+                                
+                                if ( ! is_null( $isTest ) ) {
+                                    $membership->is_test        = $isTest;
+                                }
+                                
                                 if ( $membership->find(true) ) {
                                     $form->assign("renewal_mode", true );
                                     $mem['current_membership'] =  $membership->end_date;
@@ -796,7 +803,7 @@ civicrm_membership_status.is_current_member =1";
     public function postProcessMembership( $membershipParams, $contactID ,&$form, &$premiumParams)
     {
         $tempParams = $membershipParams;
-        $paymemtDone = false;
+        $paymentDone = false;
         $form->assign('membership_assign' , true );
         // WE NEED TO FIX THIS BAD NAMING
         $form->set('membershipID' , $membershipParams['selectMembership']);
@@ -814,7 +821,7 @@ civicrm_membership_status.is_current_member =1";
         if ( $form->_values['amount_block_is_active']) {
             $contributionTypeId = $form->_values['contribution_type_id'];
         } else {
-            $paymemtDone  = true ;
+            $paymentDone  = true ;
             $params['amount'] = $minimumFee;
             $contributionTypeId = $membershipDetails['contribution_type_id']; 
         }
@@ -832,7 +839,7 @@ civicrm_membership_status.is_current_member =1";
         }
         
         $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $form->_id );
-        if ( $memBlockDetails['is_separate_payment']  && ! $paymemtDone ) {
+        if ( $memBlockDetails['is_separate_payment']  && ! $paymentDone ) {
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
             $contributionType->id = $membershipDetails['contribution_type_id']; 
             if ( ! $contributionType->find( true ) ) {
@@ -1075,7 +1082,6 @@ civicrm_membership_status.is_current_member =1";
 
         } else {
             require_once 'CRM/Member/BAO/MembershipStatus.php';
-
             $memParams                       = array( );
             $memParams['contact_id']         = $contactID;
             $memParams['membership_type_id'] = $membershipTypeID;

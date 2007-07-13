@@ -70,8 +70,7 @@
     {/if}
     {if $config->userFramework == 'Drupal' AND $config->userFrameworkVersion >=5.1} {* Create CMS user only available for Drupal installs. *}
         <dt></dt><dd>{$form.is_cms_user.html} {$form.is_cms_user.label}</dd>
-        <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup form OR using it in an online contribution page, anonymous users will be given the option to create a Drupal User Account as part of completing the form.
-                                                This feature requires the 'Email Verification' option to be checked (Drupal User Settings). In addition, you must include a Primary Email Address field in the profile.{/ts}</dd>
+        <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup form OR using it in an online contribution page, anonymous users will be given the option to create a Drupal User Account as part of completing the form. This feature requires the 'Email Verification' option to be checked (Drupal User Settings). In addition, you must include a Primary Email Address field in the profile.{/ts}</dd>
     {/if}
     <dt></dt><dd>{$form.is_update_dupe.html} {$form.is_update_dupe.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If enabled, the contact record is updated if a matching existing record is found. Note that if there are multiple matches, the first match found is updated.{/ts}</dd>

@@ -73,7 +73,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'contact_type',
                                  'sort_name',
                                  'event_id',
-                                 'status_id',
+                                 'participant_status_id',
                                  'event_title',
                                  'event_level',
                                  'participant_id',
@@ -81,7 +81,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'end_date',
                                  'modified_date',
                                  'participant_is_test',
-                                 'role_id'
+                                 'participant_role_id'
                                  );
 
     /** 
@@ -300,14 +300,14 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              }
 
              //fix status display
-             $row['status']   = $statusTypes[$row['status_id']];
+             $row['status']   = $statusTypes[$row['participant_status_id']];
              
              //fix role display
-             $row['role'] =  $roles[$row['role_id']];
+             $row['role'] =  $roles[$row['participant_role_id']];
 
              if ( $row["participant_is_test"] ) {
                  $row['status'] = $row['status'] . " (test)";
-            }
+             }
 
              if ($this->_context == 'search') {
                  $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->participant_id;

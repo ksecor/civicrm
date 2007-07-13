@@ -1,15 +1,11 @@
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
-    <p>{ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2=$docURLTitle}ACL&rsquo;s (Access Control Lists) allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong>
-        (e.g. 'View' or 'Edit'), a <strong>set of Data</strong> that the operation can be performed on (e.g. a group of contacts),
-        and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1" target="_blank" title="%2">Access Control Documentation</a> for more info. Note that a CiviCRM ACL Role is not related to the Drupal Role.{/ts}</p>
-    <p>{ts}<strong>EXAMPLE:</strong> &quot;Team Leaders&quot; (<em>ACL Role</em>) can &quot;Edit&quot; (<em>Operation</em>) all contacts in the &quot;Active Volunteers Group&quot; (<em>Data</em>).{/ts}</p>
+    <p>{ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2=$docURLTitle}ACLs (Access Control Lists) allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of Data</strong> that the operation can be performed on (e.g. a group of contacts), and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1" target="_blank" title="%2">Access Control Documentation</a> for more info. Note that a CiviCRM ACL Role is not related to the Drupal Role.{/ts}</p>
+    <p>{ts}<strong>EXAMPLE:</strong> "Team Leaders" (<em>ACL Role</em>) can "Edit" (<em>Operation</em>) all contacts in the "Active Volunteers Group" (<em>Data</em>).{/ts}</p>
     {if $config->userFramework EQ 'Drupal'}
-        <p>{ts 1=$ufAccessURL}Use <a href="%1">Drupal Access Control</a> to manage basic access to CiviCRM components and menu items. Use CiviCRM ACL&rsquo;s to control access to
-        specific CiviCRM contact groups. You can also configure ACL&rsquo;s to grant or deny access to specific Profiles, and/or Custom Data Fields.{/ts}</p>
+        <p>{ts 1=$ufAccessURL}Use <a href="%1">Drupal Access Control</a> to manage basic access to CiviCRM components and menu items. Use CiviCRM ACLs to control access to specific CiviCRM contact groups. You can also configure ACLs to grant or deny access to specific Profiles, and/or Custom Data Fields.{/ts}</p>
     {elseif $config->userFramework EQ 'Joomla'}
-        <p>{ts}ACL&rsquo;s can be used to control access to contacts in CiviCRM "static" or "smart" groups. You can also configure ACL&rsquo;s to grant or deny access to specific Profiles,
-         and/or Custom Data Fields.{/ts}</p>
+        <p>{ts}ACLs can be used to control access to contacts in CiviCRM "static" or "smart" groups. You can also configure ACLs to grant or deny access to specific Profiles, and/or Custom Data Fields.{/ts}</p>
     {/if}
 </div>
 
@@ -26,11 +22,11 @@
     <td>{ts}Each CiviCRM ACL Role is assigned a set of permissions. Use this link to create or edit the different roles needed for your site.{/ts}</td>
 </tr>
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/acl' q="reset=1"}" id="editACLs">&raquo; {ts}2. Manage ACL&rsquo;s{/ts}</a></td>
-    <td>{ts}ACL&rsquo;s define permission to do an operation on a set of data, and grant that permission to a CiviCRM ACL Role. Use this link to create or edit the ACL&rsquo;s for your site.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/acl' q="reset=1"}" id="editACLs">&raquo; {ts}2. Manage ACLs{/ts}</a></td>
+    <td>{ts}ACLs define permission to do an operation on a set of data, and grant that permission to a CiviCRM ACL Role. Use this link to create or edit the ACLs for your site.{/ts}</td>
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/acl/entityrole' q="reset=1"}" id="editRoleAssignments">&raquo; {ts}3. Assign Users to CiviCRM ACL Roles{/ts}</a></td>
-    <td>{ts}Once you have defined CiviCRM ACL Roles and granted ACL&rsquo;s to those Roles, use this link to assign users to role(s).{/ts}</td>
+    <td>{ts}Once you have defined CiviCRM ACL Roles and granted ACLs to those Roles, use this link to assign users to role(s).{/ts}</td>
 </tr>
 </table>

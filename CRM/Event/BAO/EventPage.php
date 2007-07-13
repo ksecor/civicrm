@@ -182,17 +182,22 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                 $params = array( array( 'participant_id', '=', $participantId, 0, 0 ) );
 
                 CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
-         
-                if ( $values['status_id'] ) {
+
+                if ( $values[$fields['participant_status_id']['title']] ) {
                     $status = array( );
                     $status = CRM_Event_PseudoConstant::participantStatus( );
-                    $values['participant_status_id'] = $status[$values['status_id']];
+                    $values[$fields['participant_status_id']['title']] = $status[$values[$fields['participant_status_id']['title']]];
                 }
 
-                if ( $values['role_id'] ) {
+                if ( $values[$fields['participant_role_id']['title']] ) {
                     $roles = array( );
                     $roles = CRM_Event_PseudoConstant::participantRole( );
-                    $values['participant_role_id'] = $roles[$values['role_id']];
+                    $values[$fields['participant_role_id']['title']] = $roles[$values[$fields['participant_role_id']['title']]];
+                }
+
+                if ( $values[$fields['participant_register_date']['title']] ) {
+                    $values[$fields['participant_register_date']['title']] = 
+                        CRM_Utils_Date::customFormat($values[$fields['participant_register_date']['title']]);
                 }
 
                 foreach( $fields as $v  ) {

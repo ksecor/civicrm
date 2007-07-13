@@ -43,6 +43,8 @@
                 <td>
                 {if $key EQ "household_income_total" }
                     {$value|crmMoney}
+		{elseif strpos( $key, '_date' ) !== false }
+                    {$value|crmDate}
                 {else}
                     {$value}
                 {/if}
