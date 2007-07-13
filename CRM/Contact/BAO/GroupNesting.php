@@ -38,6 +38,13 @@ require_once 'CRM/Contact/DAO/GroupNesting.php';
 class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
 
     /**
+     * class constructor
+     */
+    function __construct( ) {
+        parent::__construct( );
+    }
+
+    /**
      * Returns array of contacts who are members of the specified group.
      *
      * @param CRM_Contact $groupIds               An array of valid group ids (passed by reference)
