@@ -1,10 +1,10 @@
-  <script src="http://maps.google.com/maps?file=api&v=2&key={$mapKey}" type="text/javascript"></script>
+<script src="http://maps.google.com/maps?file=api&v=2&key={$mapKey}" type="text/javascript"></script>
   {literal}
   <script type="text/javascript">
     function initMap() {
 
       //<![CDATA[
-      var map     = new GMap2(document.getElementById("map"));
+      var map     = new GMap2(document.getElementById("google_map"));
       var span    = new GSize({/literal}{$span.lng},{$span.lat}{literal});
       var center  = new GLatLng({/literal}{$center.lat},{$center.lng}{literal});
 
@@ -65,4 +65,4 @@
   </script>
 {/literal}
 
-  <div id="map" style="width: 600px; height: 400px"></div>
+  <div id="google_map" style="width: 600px; height: 400px"></div>
