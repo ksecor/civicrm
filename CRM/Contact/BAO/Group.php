@@ -132,14 +132,23 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @return int count of members in the group with above status
      * @access public
      */
-    static function memberCount( $id, $status = 'Added' ) {
+    static function memberCount( $id, $status = 'Added', $countChildGroups = true ) {
         require_once 'CRM/Contact/DAO/GroupContact.php';
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
-        $groupContact->group_id = $id;
-        if ( isset( $status ) ) {
-            $groupContact->status   = $status;
+        $groupIds = array( $id );
+        if ( $countChildGroups ) {
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            $groupIds = CRM_Contact_BAO_GroupNesting::getChildGroupIds( $groupIds );
         }
-        return $groupContact->count( );
+        $count = 0;
+        foreach ( $groupIds as $groupId ) {
+            $groupContact->group_id = $groupId;
+            if ( isset( $status ) ) {
+                $groupContact->status   = $status;
+            }
+            $count += $groupContact->count( );
+        }
+        return $count;
     }
 
     /**
@@ -151,15 +160,21 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @access public
      * @static
      */
-    static function getMember ($lngGroupId) {
+    static function getMember ($lngGroupId, $includeChildGroups = true) {
         require_once 'CRM/Contact/DAO/GroupContact.php';
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
+        
+        $groupIds = array( $lngGroupId );
+        if ( $includeChildGroups ) {
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            $groupIds = CRM_Contact_BAO_GroupNesting::getChildGroupIds( $groupIds );
+        }
         
         $strSql = "SELECT civicrm_contact.id as contact_id, civicrm_contact.sort_name as name  
                    FROM civicrm_contact, civicrm_group_contact
                    WHERE civicrm_contact.id = civicrm_group_contact.contact_id 
-                     AND civicrm_group_contact.group_id =" 
-                . CRM_Utils_Type::escape($lngGroupId, 'Integer');
+                     AND civicrm_group_contact.group_id IN (" 
+                . implode( $groupIds, "," ) . ")";
 
         $groupContact->query($strSql);
 

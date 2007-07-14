@@ -54,18 +54,20 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
      * @access public
      */
      
-    static function getChildGroupIds(&$groupIds) {
+    static function getChildGroupIds($groupIds) {
         $numGroupIds = count( $groupIds );
         $dao = new CRM_Contact_BAO_GroupNesting( );
-        $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (" . implode( $groupIds, ',' ) . ")";
+        $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (" . implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $tmpGroupIds = array( );
         while ( $dao->fetch( ) ) {
             $tmpGroupIds[] = $dao->child_group_id;
         }
+        $childGroupIds = $groupIds;
         if ( ! empty( $tmpGroupIds ) ) {
-            $groupIds += getChildGroupIds( $tmpGroupIds );
+            $newChildGroupIds = self::getChildGroupIds( $tmpGroupIds );
+            $childGroupIds = array_merge($childGroupIds,$newChildGroupIds);
         }
-        return $groupIds;
+        return $childGroupIds;
     }
 }

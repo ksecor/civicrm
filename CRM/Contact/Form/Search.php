@@ -464,7 +464,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->assign( 'context', $this->_context );
 	
-         // get user submitted values 
+        // get user submitted values 
         // get it from controller only if form has been submitted, else preProcess has set this 
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name); 
@@ -600,6 +600,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
         $this->_returnProperties =& $this->returnProperties( );
         
+        //CRM_Core_Error::debug( 'f', $this->_formValues );
+        //CRM_Core_Error::debug( 'p', $this->_params );
         $this->postProcessCommon( );
     }
 

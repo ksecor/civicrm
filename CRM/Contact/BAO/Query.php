@@ -1696,7 +1696,7 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    function group( &$values ) {
+    function group( &$values, $includeChildGroups = true ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         if ( count( $value ) > 1 ) {
@@ -1717,11 +1717,20 @@ class CRM_Contact_BAO_Query {
         // if ( isset($group->saved_search_id) && $context == "smog" ) {
         //   return;
         // }
+        
+        // add child group ids to the query, if requested
+        if ( $includeChildGroups ) {
+            $groupIds = array_keys($value);
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            $groupIds = CRM_Contact_BAO_GroupNesting::getChildGroupIds( $groupIds );
+        } else {
+            $groupIds = array_keys($value);
+        }
 
         $gcTable = "`civicrm_group_contact-" .implode( ',', array_keys($value) ) ."`";
         $this->_tables[$gcTable] = $this->_whereTables[$gcTable] = " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
        
-        $groupClause = "{$gcTable}.group_id $op (" . implode( ',', array_keys($value) ) . ')'; 
+        $groupClause = "{$gcTable}.group_id $op (" . implode( ',', $groupIds ) . ')'; 
 
         $names = array( );
         $groupNames =& CRM_Core_PseudoConstant::group();

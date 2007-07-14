@@ -97,9 +97,9 @@ class CRM_Core_Invoke
             self::dashboard($args);
             break;
             
-	case 'logout':
-	    self::logout($args);
-	    break;
+	    case 'logout':
+	        self::logout($args);
+	        break;
 	  
         case 'history'  : 
             self::history ( $args );
