@@ -385,7 +385,7 @@ LIMIT      0, 10
                         require_once 'CRM/Core/BAO/Location.php';
                         CRM_Core_BAO_Location::getValues($params, $values, $ids, 1 );
                         
-                        if ( is_numeric( $values['location'][1]['address']['geo_code_1'] ) ||
+                        if ( is_numeric( CRM_Utils_Array::value('geo_code_1',$values['location'][1]['address']) ) ||
                              ( $config->mapGeoCoding &&
                                $values['location'][1]['address']['city'] && 
                                $values['location'][1]['address']['state_province_id']
