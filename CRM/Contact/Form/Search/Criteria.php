@@ -72,10 +72,18 @@ class CRM_Contact_Form_Search_Criteria {
 
         // add search profiles
         require_once 'CRM/Core/BAO/UFGroup.php';
+        $types = array( 'Participant', 'Contribution' );
+
+        // get component profiles
+        $componentProfiles = array( );
+        $componentProfiles = CRM_Core_BAO_UFGroup::getProfiles($types);
+
         $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Search Profile', 1);
         $searchProfiles = array ( );
         foreach ($ufGroups as $key => $var) {
-            $searchProfiles[$key] = $var['title'];
+            if ( ! array_key_exists($key, $componentProfiles) ) {
+                $searchProfiles[$key] = $var['title'];
+            }
         }
         
         $form->addElement('select', 'uf_group_id', ts('Search Views'),  array('' => ts('- default view -')) + $searchProfiles);

@@ -94,6 +94,7 @@ $w = isset( $_GET['w'] ) ? $_GET['w'] :  60;
 $h = isset( $_GET['h'] ) ? $_GET['h'] : 150;
 $f = isset( $_GET['f'] ) ? $_GET['f'] :   1;
 
+require_once 'CRM/Utils/Array.php';
 CRM_GD_Thermometer::draw( CRM_Utils_Array::value( 'c', $_GET ),
                           CRM_Utils_Array::value( 'g', $_GET ),
                           $w, $h, $f );

@@ -178,7 +178,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             unset($value['participant_status_id']);
             unset($value['participant_source']);
             
-            CRM_Event_BAO_Participant::add( $value ,$ids );   
+            CRM_Event_BAO_Participant::create( $value ,$ids );   
         }
         CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function
