@@ -79,13 +79,6 @@ class CRM_Admin_Form_Mapping extends CRM_Admin_Form
             }
         }
     }
-
-    function setDefaultValues()
-    {
-        $defaults = parent::setDefaultValues();
-        $defaults['mapping_type'] = CRM_Core_DAO_Mapping::tsEnum('mapping_type', $defaults['mapping_type']);
-        return $defaults;
-    }
     
     /**
      * Function to process the form

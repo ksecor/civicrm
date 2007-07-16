@@ -108,11 +108,10 @@ class CRM_Contact_Form_Address
                         $stateUrl = CRM_Utils_System::url( "civicrm/ajax/state","s=%{searchString}", true, null, false );
                         $form->assign( 'stateURL', $stateUrl );
                     }
-                    
+
                     $attributes = array( 'dojoType'       => 'ComboBox',
                                          'mode'           => 'remote',
                                          'style'          => 'width: 230px;',
-                                         'value'          => '',
                                          'dataUrl'        => $dataUrl,
                                          'onValueChanged' => $onValueChanged,
                                          'id'             => 'location_'.$locationId.'_address_'.$name );
@@ -156,32 +155,24 @@ class CRM_Contact_Form_Address
             //state country validation
             if ( CRM_Utils_Array::value( 'country_id', $fields['location'][$i]['address'] ) ) {
                 $countries = CRM_Core_PseudoConstant::country( );
-                
-                $countryExists = null;
-                $countryExists = array_key_exists( CRM_Utils_Array::value( 'country_id',
-                                                                           $fields['location'][$i]['address'] ), $countries );
-                if ( $countryExists ) {
-                    $countryId =  CRM_Utils_Array::value( 'country_id', $fields['location'][$i]['address'] );
-                } else {
+                $countryId = array_key_exists( CRM_Utils_Array::value( 'country_id',
+                                                                       $fields['location'][$i]['address'] ) , $countries );
+                if ( ! $countryId ) {
                     $errors["location[$i][address][country_id]"] = "Enter the valid Country name.";
                 }
             }
 
             if ( CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] ) ) {
                 $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
-
-                $stateProvinceExists = null;
-                $stateProvinceExists = array_key_exists( CRM_Utils_Array::value( 'state_province_id',
+                $stateProvinceId = array_key_exists( CRM_Utils_Array::value( 'state_province_id',
                                                                              $fields['location'][$i]['address'] ) , $stateProvinces );
-                if ( $stateProvinceExists ) {
-                    $stateProvinceId = CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] );
-                } else {
+                if ( ! $stateProvinceId ) {
                     $errors["location[$i][address][state_province_id]"] = "Enter the valid State/Province name.";
                 }
             }
 
             $countyId = CRM_Utils_Array::value( 'county_id', $fields['location'][$i]['address'] );
-            
+
             if ( $stateProvinceId && $countryId ) {
                 $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
                 $stateProvinceDAO->id = $stateProvinceId;
@@ -190,7 +181,7 @@ class CRM_Contact_Form_Address
                     // countries mismatch hence display error
                     $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
                     $countries =& CRM_Core_PseudoConstant::country();
-                    $errors["location[$i][address][state_province_id]"] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+                    $errors["location[$i][address][state_province]"] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
                 }
             }
 
@@ -205,7 +196,7 @@ class CRM_Contact_Form_Address
                     $errors["location[$i][address][county_id]"] = "County " . $counties[$countyId] . " is not part of ". $stateProvinces[$stateProvinceId] . ". It belongs to " . $stateProvinces[$countyDAO->state_province_id] . "." ;
                 }
             }
-        }             
+        }
     }
 }
 

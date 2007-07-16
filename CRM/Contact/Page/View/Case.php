@@ -84,7 +84,8 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         
         
         $controller->setEmbedded(true);
-
+        $links  =& self::caseViewLinks( );
+        $action = array_sum(array_keys($links));
         $controller->run();
         $controller->moveFromSessionToTemplate( );
         

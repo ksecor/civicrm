@@ -486,7 +486,7 @@ UPDATE civicrm_membership_type
     }
 
     /**
-     * Function to build Membership  Block in Contribution Pages 
+     * Function to build Membership  Block im Contribution Pages 
      * 
      * @param object  $form                  form object
      * @param int     $pageId                contribution page id
@@ -496,9 +496,7 @@ UPDATE civicrm_membership_type
      *
      * @static
      */
-    function buildMembershipBlock( &$form , $pageID , $formItems = false,
-                                   $selectedMembershipID = null ,$thankPage = false,
-                                   $isTest = null )
+    function buildMembershipBlock( &$form , $pageID , $formItems = false, $selectedMembershipID = null ,$thankPage = false )
     {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
 
@@ -555,11 +553,6 @@ UPDATE civicrm_membership_type
                                 $membership = &new CRM_Member_DAO_Membership();
                                 $membership->contact_id         = $cid;
                                 $membership->membership_type_id = $memType->id;
-                                
-                                if ( ! is_null( $isTest ) ) {
-                                    $membership->is_test        = $isTest;
-                                }
-                                
                                 if ( $membership->find(true) ) {
                                     $form->assign("renewal_mode", true );
                                     $mem['current_membership'] =  $membership->end_date;
@@ -627,24 +620,27 @@ UPDATE civicrm_membership_type
      * @param int $contactID  contact id
      * @static
      */
-    static function getContactMembership( $contactID , $memType, $isTest ) 
+    static function getContactMembership( $contactID , $memType ) 
     {
-        $dao = &new CRM_Member_DAO_Membership( );
+        require_once 'CRM/Member/DAO/MembershipStatus.php';
+        $membership = array();
+        $dao = &new CRM_Member_DAO_Membership();
         $dao->contact_id         = $contactID;
         $dao->membership_type_id = $memType;
-        $dao->is_test            = $isTest;
-        if ( $dao->find( true ) ) {
-            $membership = array( );
-            CRM_Core_DAO::storeValues( $dao, $membership );
-            
-            $membership['is_current_member'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus', 
-                                                                            $membership['status_id'],
-                                                                            'is_current_member', 'id' );
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues($dao, $membership );
+            $statusID = $membership['status_id'];
+            $dao = &new CRM_Member_DAO_MembershipStatus();
+            $dao->id = $statusID;
+            $dao->find(true);
+            $status = array();
+            CRM_Core_DAO::storeValues($dao, $status );
+            $membership['is_current_member'] = $status['is_current_member'];
             return $membership;
         }
         return false;
     }
-    
+
     /**
      * Combine all the importable fields from the lower levels object
      *
@@ -803,7 +799,7 @@ civicrm_membership_status.is_current_member =1";
     public function postProcessMembership( $membershipParams, $contactID ,&$form, &$premiumParams)
     {
         $tempParams = $membershipParams;
-        $paymentDone = false;
+        $paymemtDone = false;
         $form->assign('membership_assign' , true );
         // WE NEED TO FIX THIS BAD NAMING
         $form->set('membershipID' , $membershipParams['selectMembership']);
@@ -821,7 +817,7 @@ civicrm_membership_status.is_current_member =1";
         if ( $form->_values['amount_block_is_active']) {
             $contributionTypeId = $form->_values['contribution_type_id'];
         } else {
-            $paymentDone  = true ;
+            $paymemtDone  = true ;
             $params['amount'] = $minimumFee;
             $contributionTypeId = $membershipDetails['contribution_type_id']; 
         }
@@ -839,7 +835,7 @@ civicrm_membership_status.is_current_member =1";
         }
         
         $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $form->_id );
-        if ( $memBlockDetails['is_separate_payment']  && ! $paymentDone ) {
+        if ( $memBlockDetails['is_separate_payment']  && ! $paymemtDone ) {
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
             $contributionType->id = $membershipDetails['contribution_type_id']; 
             if ( ! $contributionType->find( true ) ) {
@@ -900,6 +896,8 @@ civicrm_membership_status.is_current_member =1";
         }
     }
     
+    // seperated the renewal function from the postProcess so that it
+    // can be used for membership test plan.
     /**
      * Renew the membership
      * 
@@ -918,11 +916,10 @@ civicrm_membership_status.is_current_member =1";
      * @access public
      * 
      **/
-    static function renewMembership( $contactID, $membershipTypeID, $is_test,
-                                     &$form, $changeToday = null, $ipnParams = null )
+    static function renewMembership( $contactID, $membershipTypeID, $is_test, &$form, $changeToday = null, $ipnParams = null )
     {
         require_once 'CRM/Utils/Hook.php';
-        
+
         $statusFormat = '%Y-%m-%d';
         $format       = '%Y%m%d';
         
@@ -931,7 +928,7 @@ civicrm_membership_status.is_current_member =1";
         }
         
         if ( $currentMembership = 
-             CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test ) ) {
+             CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID ) ) {
             
             if ( $form ) {
                 $form->set("renewal_mode", true );
@@ -1082,6 +1079,7 @@ civicrm_membership_status.is_current_member =1";
 
         } else {
             require_once 'CRM/Member/BAO/MembershipStatus.php';
+
             $memParams                       = array( );
             $memParams['contact_id']         = $contactID;
             $memParams['membership_type_id'] = $membershipTypeID;

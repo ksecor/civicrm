@@ -405,8 +405,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $config =& CRM_Core_Config::singleton( );
 
-        if ( ( $output == CRM_Core_Selector_Controller::EXPORT || 
-               $output == CRM_Core_Selector_Controller::SCREEN ) &&
+        if ( ( $output == CRM_Core_Selector_Controller::EXPORT || $output == CRM_Core_Selector_Controller::SCREEN ) &&
              $this->_formValues['radio_ts'] == 'ts_sel' ) {
             $includeContactIds = true;
         } else {
@@ -418,7 +417,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // note that the default action is basic
         $result = $this->_query->searchQuery($offset, $rowCount, $sort,
                                              false, $includeContactIds );
-        
         // process the result of the query
         $rows = array( );
 
@@ -504,11 +502,11 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 if ( $property == 'status' ) {
                     continue;
                 }
+                
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($property)) {
                     $row[$property] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$property, $cfID, $this->_options );
                 }  else if ( $multipleSelectFields &&
-                             array_key_exists($property, $multipleSelectFields ) ) {
-                    //fix to display student checkboxes
+                             array_key_exists($property, $multipleSelectFields ) ) { //fix to display student checkboxes
                     $key = $property;
                     $paramsNew = array($key => $result->$property );
 
@@ -521,8 +519,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                     $row[$key] = $paramsNew[$key]; 
-                } else if ( isset( $tmfFields ) && $tmfFields && array_key_exists($property, $tmfFields )
-                            || substr( $property, 0, 12 ) == 'participant_' ) { 
+                } else if ( isset( $tmfFields ) && $tmfFields && array_key_exists($property, $tmfFields )){ 
                     if ( substr($property, -3) == '_id') {
                         $key = substr($property, 0, -3);
                         $paramsNew = array($key => $result->$property );

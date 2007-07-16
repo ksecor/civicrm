@@ -248,9 +248,6 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $caseActivityDAO->id = CRM_Utils_Array::value( 'cid', $ids );
             $result = $caseActivityDAO->save();
         }
-        if (!$params['subject'] && $ids['cid']){
-            self::deleteCaseActivity( $ids['cid'] );
-        }
     } 
     /*
      * @param Integer $activityType activity type id

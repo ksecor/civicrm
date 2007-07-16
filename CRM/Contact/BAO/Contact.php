@@ -1581,15 +1581,14 @@ WHERE civicrm_contact.id IN $idString ";
         
         $query = "SELECT count(civicrm_phonecall.id) FROM civicrm_phonecall
                   WHERE  $clause  (civicrm_phonecall.id 
-                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Phone Call'))";
+                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Phonecall'))";
         $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query, $params ); 
-           
- 
+
         $query = "SELECT count(civicrm_activity.id) FROM civicrm_activity
                   WHERE $clause (civicrm_activity.id 
-                  NOT IN ( SELECT activity_id FROM civicrm_activity_history  INNER JOIN civicrm_option_value ON (civicrm_activity_history.activity_type = civicrm_option_value.label AND civicrm_option_value.value > 4 AND civicrm_option_value.option_group_id=2)))";
+                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Activity'))";
         $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
-     
+        
         return  $rowMeeting + $rowPhonecall + $rowActivity;
     }
 
@@ -2319,7 +2318,7 @@ WHERE civicrm_contact.id IN $idString ";
             $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
             $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
         }
-        
+
         // contact is null if the profile does not have any contact fields
         if ( $contact ) {
           $contactID = $contact->id;
@@ -2396,7 +2395,7 @@ WHERE civicrm_contact.id IN $idString ";
             $params['contact_id'] = $contactID;
             CRM_TMF_BAO_Student::create( $params, $ids);
         }
-        
+
         if ( $editHook ) {
             CRM_Utils_Hook::post( 'edit'  , 'Profile', $contactID  , $params );
         } else {

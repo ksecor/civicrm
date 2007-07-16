@@ -1,14 +1,10 @@
 {* this template is used for adding/editing/deleting case *} 
 <fieldset>
-{if $action eq 1}
-    <legend>{ts}New Grant{/ts}</legend>
-{elseif $action eq 2}
-    <legend>{ts}Edit Grant{/ts}</legend>
-{elseif $action eq 4 }
-    <legend>{ts} View Grant {/ts}</legend>
-{/if}
+    <legend>{ts}New Grant Registration{/ts}</legend>
     <div class="form-item">
         <table class="form-layout-compressed">  
+
+
             <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>   
 
             <tr><td class="label">{$form.grant_type_id.label}</td><td>{$form.grant_type_id.html}</td></tr>   
