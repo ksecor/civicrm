@@ -5,8 +5,8 @@
 {else}
 <div id="help">
  
-     {capture assign=newContribURL}{crmURL p="civicrm/contact/view/case" q="reset=1&action=add&cid=`$contactId`&context=case"}{/capture}
-     {ts 1=$newContribURL}Click <a href="%1">Register Case</a> for this contact.{/ts}
+     {capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="reset=1&action=add&cid=`$contactId`&context=case"}{/capture}
+     {ts 1=$newCaseURL}Click <a href="%1">Register Case</a> for this contact.{/ts}
 
 </div>
 

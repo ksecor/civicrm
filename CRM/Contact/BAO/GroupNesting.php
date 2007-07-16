@@ -36,27 +36,56 @@
 require_once 'CRM/Contact/DAO/GroupNesting.php';
 
 class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
-
+    
     /**
-     * class constructor
+     * Returns true if if the given groupId has 1 or more child groups,
+     * false otherwise.
+     *
+     * @param            $groupId               The id of the group to check for child groups
+     *
+     * @return           boolean                True if 1 or more child groups are found, false otherwise.
+     *
+     * @access public
      */
-    function __construct( ) {
-        parent::__construct( );
+    
+    static function hasChildGroups( $groupId ) {
+        $dao = new CRM_Contact_DAO_GroupNesting( );
+        $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id = $groupId LIMIT 1";
+        $dao->query( $query );
+        return $dao->fetch( );
+    }
+    
+    /**
+     * Returns true if if the given groupId has 1 or more parent groups,
+     * false otherwise.
+     *
+     * @param            $groupId               The id of the group to check for parent groups
+     *
+     * @return           boolean                True if 1 or more parent groups are found, false otherwise.
+     *
+     * @access public
+     */
+    
+    static function hasParentGroups( $groupId ) {
+        $dao = new CRM_Contact_DAO_GroupNesting( );
+        $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id = $groupId LIMIT 1";
+        $dao->query( $query );
+        return $dao->fetch( );
     }
 
     /**
      * Returns array of contacts who are members of the specified group.
      *
-     * @param CRM_Contact $groupIds               An array of valid group ids (passed by reference)
+     * @param             $groupIds               An array of valid group ids (passed by reference)
      *
      * @return            $groupIdArray         List of groupIds that represent the requested group and its children
      *
      * @access public
      */
      
-    static function getChildGroupIds($groupIds) {
+    static function getChildGroupIds( $groupIds ) {
         $numGroupIds = count( $groupIds );
-        $dao = new CRM_Contact_BAO_GroupNesting( );
+        $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (" . implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $tmpGroupIds = array( );

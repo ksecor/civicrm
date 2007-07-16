@@ -64,6 +64,11 @@
       <comment>Event Type ID.Implicit FK to civicrm_option_value where option_group = event_type.</comment> 
       <add>1.7</add> 
   </field> 
+  <index>
+    <name>index_event_type_id</name>
+    <fieldName>event_type_id</fieldName>
+    <add>1.8</add>
+  </index>
   <field> 
       <name>is_public</name> 
       <type>boolean</type> 

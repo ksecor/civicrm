@@ -288,6 +288,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $importableFields =& CRM_Contact_BAO_Contact::importableFields("All", false, true );
             }
             
+            require_once 'CRM/Core/Component.php';
+            $importableFields = array_merge($importableFields, 
+                                            CRM_Core_Component::getQueryFields( ));
+            
             $importableFields['group']['title'] = ts('Group(s)');
             $importableFields['group']['where'] = null;
             $importableFields['tag'  ]['title'] = ts('Tag(s)');

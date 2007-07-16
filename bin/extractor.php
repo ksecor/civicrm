@@ -17,8 +17,8 @@
 
 $modules = array('Contribute', 'Event', 'Mailing', 'Member');
 
-$phpModifier    = '';
-$smartyModifier = '';
+$phpModifier    = "-iname '*.php'";
+$smartyModifier = "-iname '*.tpl'";
 
 switch ($argv[1]) {
 case '':
@@ -41,13 +41,17 @@ case 'modules':
     $phpModifier    .= ' \)';
     $smartyModifier .= ' \)';
     break;
+case 'helpfiles':
+    $phpModifier    = '';
+    $smartyModifier = "-iname '*.hlp'";
+    break;
 default:
-    exit("Wrong parameter specified. Choose one of full, core, modules.\n");
+    exit("Wrong parameter specified. Choose one of full, core, modules or helpfiles.\n");
     break;
 }
 
-$phpPot = `find CRM packages/HTML/QuickForm -iname '*.php' $phpModifier -not -wholename 'CRM/Core/I18n.php' -not -wholename 'CRM/Core/Smarty/plugins/block.ts.php' | sort | xargs ./bin/php-extractor.php`;
-$smartyPot = `find templates xml -iname '*.tpl' $smartyModifier | sort | xargs ./bin/smarty-extractor.php`;
+if ($phpModifier) $phpPot = `find CRM packages/HTML/QuickForm $phpModifier -not -wholename 'CRM/Core/I18n.php' -not -wholename 'CRM/Core/Smarty/plugins/block.ts.php' | sort | xargs ./bin/php-extractor.php`;
+$smartyPot = `find templates xml $smartyModifier | sort | xargs ./bin/smarty-extractor.php`;
 
 $originalArray = explode("\n", $phpPot . $smartyPot);
 

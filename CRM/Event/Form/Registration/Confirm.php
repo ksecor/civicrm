@@ -385,18 +385,21 @@ WHERE  v.option_group_id = g.id
                                    'event_id'      => $this->_id,
                                    'status_id'     => $params['participant_status_id'] ? $params['participant_status_id'] : 1,
                                    'role_id'       => $params['participant_role_id'] ? $params['participant_role_id'] : $roleID,
-                                   'register_date' => date( 'YmdHis' ),
-                                   'source'        => ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'],
+                                   'register_date' => $params['participant_register_date'] ? CRM_Utils_Date::format( $params['participant_register_date'] ) : date( 'YmdHis' ),
+                                   'source'        => $params['participant_source'] ? $params['participant_source'] : ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'],
                                    'event_level'   => $params['amount_level']
                                    );
         
-        if( $this->_action & CRM_Core_Action::PREVIEW ) {
+        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
             $participantParams['is_test'] = 1;
         }
-        
-        if( $this->_params['note'] ) {
+
+        if ( $this->_params['note'] ) {
             $participantParams['note'] = $this->_params['note'];
+        } else if ( $this->_params['participant_note'] ) {
+            $participantParams['note'] = $this->_params['participant_note'];
         }
+        
         $ids = array();
         $participant = CRM_Event_BAO_Participant::create($participantParams, $ids);
         

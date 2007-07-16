@@ -239,6 +239,8 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
                     require_once 'CRM/Contact/DAO/RelationshipType.php';
                     CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
+                    require_once 'CRM/Core/DAO/Mapping.php';
+                    CRM_Core_DAO_Mapping::addDisplayEnums($values[$object->id]);
                     
                     // populate action links
                     self::action( $object, $action, $values[$object->id], $links, $permission );

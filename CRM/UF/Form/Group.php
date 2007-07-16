@@ -115,7 +115,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             }
             $this->addButtons(array(
                                     array ( 'type'      => 'next',
-                                            'name'      => ts($display),
+                                            'name'      => $display,
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                             'isDefault' => true   ),
                                     array ( 'type'      => 'cancel',

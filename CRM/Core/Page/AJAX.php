@@ -283,22 +283,22 @@ LIMIT 6";
     function state( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $countryName  = strtolower( CRM_Utils_Type::escape( $_GET['node'], 'String'  ) );
-        $stateName    = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+        $countryName  = CRM_Utils_Type::escape( $_GET['node'], 'String');
+        $stateName    = CRM_Utils_Type::escape( $_GET['s'], 'String');
         
         $includeState = null;
         if ( isset($_GET['sc']) ) {
-            $includeState = strtolower( CRM_Utils_Type::escape( $_GET['sc'], 'String'  ) );
+            $includeState = CRM_Utils_Type::escape( $_GET['sc'], 'String');
         }
 
         $query = "
 SELECT civicrm_state_province.name name, civicrm_state_province.id id
   FROM civicrm_state_province, civicrm_country
  WHERE civicrm_state_province.country_id = civicrm_country.id
-  AND  civicrm_country.name LIKE '$countryName%'";
+  AND  civicrm_country.name LIKE LOWER('$countryName%')";
 
         if ( $includeState ) {
-            $query .= " AND  civicrm_state_province.name LIKE '$stateName%' ";
+            $query .= " AND  civicrm_state_province.name LIKE LOWER('$stateName%') ";
         }
 
         $query .= " ORDER BY name";
@@ -341,12 +341,12 @@ SELECT civicrm_state_province.name name, civicrm_state_province.id id
         }
 
         require_once 'CRM/Utils/Type.php';
-        $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+        $name     = CRM_Utils_Type::escape( $_GET['s'], 'String'  );
 
         $query = "
 SELECT id, name
   FROM civicrm_country
- WHERE civicrm_country.name LIKE '$name%'
+ WHERE civicrm_country.name LIKE LOWER('$name%')
    AND {$whereClause} 
 ORDER BY name";
 

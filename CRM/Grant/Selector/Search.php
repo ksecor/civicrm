@@ -75,7 +75,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'grant_id',
                                  'grant_status_id',
                                  'grant_type_id',
-                                 'grant_amount_total',
+                                 'grant_amount_requested',
                                  'grant_application_received_date',
                                  );
 
@@ -186,8 +186,9 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      *
      */
     static function &links()
-    {
-
+    {       
+        $cid = CRM_Utils_Request::retrieve('cid', 'Integer', $this);
+        
         if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
@@ -202,13 +203,25 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                                    'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
                                                                    'title'    => ts('Edit Grant'),
                                                                   ),
-
                                   );
+            
+              if ( $cid ) {
+                  $deleteExtra = ts('Are you sure you want to delete this grant?');
+                  
+                  $delLink = array( 
+                                 CRM_Core_Action::DELETE => array( 'name'  => ts('Delete'),
+                                                                   'url'   => 'civicrm/contact/view/grant',
+                                                                   'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=grant',
+                                                                   'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',
+                                                                   'title' => ts('Delete Grant')
+                                                                   )
+                                 );
+                  self::$_links =  self::$_links +  $delLink ;
+              }
         }
         return self::$_links;
     } //end of function
-
-
+        
     /**
      * getter for array of the parameters required for creating pager.
      *
@@ -272,7 +285,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
          if ( CRM_Core_Permission::check( 'edit grants' ) ) {
              $permission = CRM_Core_Permission::EDIT;
          }
-
+         
          require_once 'CRM/Grant/PseudoConstant.php';
          $grantStatus  = array( );
          $grantStatus  = CRM_Grant_PseudoConstant::grantStatus( );
@@ -319,7 +332,6 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 
              $rows[] = $row;
          }
-         
          return $rows;
      }
      
@@ -360,8 +372,8 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Total Amount'),
-                                                'sort'      => 'grant_amount_total',
+                                                'name'      => ts('Amount Requested'),
+                                                'sort'      => 'grant_amount_requested',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                          
