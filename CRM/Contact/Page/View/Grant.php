@@ -48,59 +48,22 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
      * @static
      */
     static $_links = null;
-
-    /**
-     * View details of a grant
-     *
-     * @return void
-     * @access public
-     */
-    function view( ) 
-    {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant',  
-                                                       'View Grant', 
-                                                        $this->_action );
-        $controller->setEmbedded( true ); 
-
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=grant&cid=' . $this->_contactId );
-        $session->pushUserContext( $url ); 
-        $controller->set( 'id' , $this->_id );  
-        $controller->set( 'cid', $this->_contactId );
-        
-        $controller->run();                                            
-       
-    }
-
+   
     /**
      * This function is called when action is browse
      *
      * return null
      * @access public
      */
-    function browse( ) {
-        $links  =& self::links( );
-        $action = array_sum(array_keys($links));
-       
-        $grantStatus = CRM_Core_OptionGroup::values('grant_status');
-
-        $grantType = CRM_Core_OptionGroup::values('grant_type');
-                                
-        require_once 'CRM/Grant/DAO/Grant.php';
-        $grant = new CRM_Grant_DAO_Grant( );
-        $grant->contact_id = $this->_contactId;
-        $grant->find();
-        while ( $grant->fetch() ) { 
-            CRM_Core_DAO::storeValues( $grant, $values[$grant->id] );
-            $values[$grant->id]['action'] = CRM_Core_Action::formLink( $links,
-                                                                       $action,
-                                                                       array( 'id'  => $grant->id,
-                                                                              'cid' => $this->_contactId ) );
-            $values[$grant->id]['status_id']     = $grantStatus[$values[$grant->id]['status_id']];
-            $values[$grant->id]['grant_type_id'] = $grantType[$values[$grant->id]['grant_type_id']];
-        }
-        $this->assign( 'grants', $values );
+    function browse( )
+    {
+         $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Search', ts('Grants'), $this->_action );
+         $controller->setEmbedded( true );
+         $controller->reset( );
+         $controller->set( 'cid'  , $this->_contactId );
+         $controller->set( 'context', 'grant' ); 
+         $controller->process( );
+         $controller->run( );
     }
 
     /**
@@ -111,12 +74,15 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
      */
     function edit( ) 
     {
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant', 
+                                                       'Create grant', 
+                                                       $this->_action );
         
         $context = CRM_Utils_Request::retrieve( 'context', 'String',$this );
-
-       
+        
+        
         $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
-                   
+        
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
         if ( $context == 'search' ) {
@@ -134,9 +100,7 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
             CRM_Grant_BAO_Grant::del( $this->_id );
             CRM_Utils_System::redirect($url);
         }
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant', 
-                                                       'Create grant', 
-                                                       $this->_action );
+
         $controller->reset( ); 
         $controller->setEmbedded( true ); 
         
@@ -153,64 +117,19 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
      * return null
      * @access public
      */
-    function run( ) {
+    function run( )
+    {
         $this->preProcess( );
+        
+        if ( $this->_action &  CRM_Core_Action::BROWSE ){
+            $this->browse( ); 
+        }
         
         if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE | CRM_Core_Action::VIEW  ) ) {
             $this->edit( );
         } 
-        
-        $this->browse( );
         return parent::run( );
     }
-    
-    /**
-     * delete the note object from the db
-     *
-     * @return void
-     * @access public
-     */
-    function delete( ) {
-
-    }
-
-    /**
-     * Get action links
-     *
-     * @return array (reference) of action links
-     * @static
-     */
-    static function &links()
-    {
-        if (!(self::$_links)) {
-            $deleteExtra = ts('Are you sure you want to delete this grant?');
-
-            self::$_links = array(
-                                  CRM_Core_Action::VIEW    => array(
-                                                                    'name'  => ts('View'),
-                                                                    'url'   => 'civicrm/contact/view/grant',
-                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=grant',
-                                                                    'title' => ts('View Grant')
-                                                                    ),
-                                  CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/contact/view/grant',
-                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=grant',
-                                                                    'title' => ts('Edit Grant')
-                                                                    ),
-                                  CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/contact/view/grant',
-                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=grant',
-                                                                    'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',
-                                                                    'title' => ts('Delete Grant')
-                                                                    ),
-                                  );
-        }
-        return self::$_links;
-    }
-                                  
-
 }
 
 ?>

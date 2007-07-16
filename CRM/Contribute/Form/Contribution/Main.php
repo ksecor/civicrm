@@ -154,8 +154,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $this->_separateMembershipPayment = false;
         if ( in_array("CiviMember", $config->enableComponents) ) {
+            $isTest = 0;
+            if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+                $isTest = 1;
+            }
+            
             require_once 'CRM/Member/BAO/Membership.php';
-            $this->_separateMembershipPayment = CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,true );
+            $this->_separateMembershipPayment = CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id , 
+                                                                                                 true, null, false, 
+                                                                                                 $isTest );
         }
         $this->set( 'separateMembershipPayment', $this->_separateMembershipPayment );
 

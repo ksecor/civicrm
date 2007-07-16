@@ -158,12 +158,20 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $error['type']        = $pearError->getType();
         $error['user_info']   = $pearError->getUserInfo();
         $error['to_string']   = $pearError->toString();
-        if ( mysql_error( ) ) {
+        if ( function_exists( 'mysql_error' ) &&
+             mysql_error( ) ) {
             $mysql_error = mysql_error( ) . ', ' . mysql_errno( );
             $template->assign_by_ref( 'mysql_code', $mysql_error );
 
             // execute a dummy query to clear error stack
             mysql_query( 'select 1' );
+        } else if ( function_exists( 'mysqli_error' ) &&
+                    mysqli_error( ) ) {
+            $mysql_error = mysqli_error( ) . ', ' . mysqli_errno( );
+            $template->assign_by_ref( 'mysql_code', $mysql_error );
+
+            // execute a dummy query to clear error stack
+            mysqli_query( 'select 1' );
         }
 
         $template->assign_by_ref('error', $error);

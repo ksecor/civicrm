@@ -66,7 +66,6 @@
   <field>
       <name>filter</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Bitwise logic can be used to create subsets of options within an option_group for different uses.</comment>
       <add>1.5</add>
   </field>

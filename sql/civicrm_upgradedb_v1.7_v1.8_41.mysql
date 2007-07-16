@@ -374,6 +374,13 @@ CREATE TABLE civicrm_line_item (
 	ALTER TABLE civicrm_option_group
     	    ADD label varchar(255) NULL DEFAULT NULL;
 
+-- /*******************************************************
+-- *
+-- * civicrm_option_value
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_option_value
+             MODIFY filter int(10) unsigned DEFAULT NULL;
 
 -- /*******************************************************
 -- *

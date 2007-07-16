@@ -133,11 +133,11 @@ VALUES
    (@option_group_id_pcm, '{ts}SMS{/ts}', 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1),
    (@option_group_id_pcm, '{ts}Fax{/ts}', 5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1),
  
-   (@option_group_id_act, '{ts}Meeting{/ts}', 1, 'Meeting',NULL, 0, NULL, 1, 'Schedule a meeting', 0, 1, 1),
-   (@option_group_id_act, '{ts}Phone Call{/ts}', 2, 'Phone Call', NULL,  0, NULL, 2, 'Schedule a Phone Call', 0, 1, 1),
-   (@option_group_id_act, '{ts}Email{/ts}', 3, 'Email', NULL, 0, NULL, 3, 'Email Sent', 0, 1, 1),
-   (@option_group_id_act, '{ts}SMS{/ts}', 4, 'SMS', NULL, 0, NULL, 4, 'SMS', 0, 1, 1),
-   (@option_group_id_act, '{ts}Event{/ts}', 5,'Event', NULL, 0, NULL, 5, 'Event', 0, 0, 1),
+   (@option_group_id_act, '{ts}Meeting{/ts}',    1, 'Meeting',    NULL, 0, NULL, 1, '{ts}Schedule a meeting{/ts}',    0, 1, 1),
+   (@option_group_id_act, '{ts}Phone Call{/ts}', 2, 'Phone Call', NULL, 0, NULL, 2, '{ts}Schedule a Phone Call{/ts}', 0, 1, 1),
+   (@option_group_id_act, '{ts}Email{/ts}',      3, 'Email',      NULL, 0, NULL, 3, '{ts}Email Sent{/ts}',            0, 1, 1),
+   (@option_group_id_act, '{ts}SMS{/ts}',        4, 'SMS',        NULL, 0, NULL, 4, '{ts}SMS{/ts}',                   0, 1, 1),
+   (@option_group_id_act, '{ts}Event{/ts}',      5, 'Event',      NULL, 0, NULL, 5, '{ts}Event{/ts}',                 0, 0, 1),
   
    (@option_group_id_gender, '{ts}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_gender, '{ts}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),

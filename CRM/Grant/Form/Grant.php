@@ -120,7 +120,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         require_once 'CRM/Grant/BAO/Grant.php';        
         $grantType = CRM_Core_OptionGroup::values( 'grant_type' );
         $this->add('select', 'grant_type_id',  ts( 'Grant Type' ),
-                   array( '' => ts( '-select-' ) ) + $grantType , false);
+                   array( '' => ts( '-select-' ) ) + $grantType , true);
 
         $grantStatus = CRM_Core_OptionGroup::values( 'grant_status' );
         $this->add('select', 'status_id',  ts( 'Grant Status' ),
@@ -151,10 +151,10 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         $this->add('textarea', 'rationale', ts('Rationale'));
         
-        $this->add( 'text', 'amount_total', ts('Amount total') );
+        $this->add( 'text', 'amount_total', ts('Amount total'), null, true );
         $this->addRule('amount_total', ts('Please enter a valid amount.'), 'money'); 
         
-        $this->add( 'textarea', 'amount_granted', ts('Amount granted') );         
+        $this->add( 'text', 'amount_granted', ts('Amount granted') );         
         $this->addRule('amount_granted', ts('Please enter a valid amount.'), 'money'); 
 
         $this->add( 'text', 'amount_requested', ts('Amount requested') );

@@ -1,6 +1,5 @@
 <div id="help">
-    {ts}If you are sending emails to contacts using CiviCRM - then you need to enter settings for your SMTP server. If
-    you're unsure of the correct values, check with your system administrator, ISP or hosting provider.{/ts}
+    {ts}If you are sending emails to contacts using CiviCRM - then you need to enter settings for your SMTP server. If you're unsure of the correct values, check with your system administrator, ISP or hosting provider.{/ts}
 </div>
 <div class="form-item">
 <fieldset><legend>{ts}SMTP Configuration{/ts}</legend>
@@ -12,8 +11,7 @@
             <dt>{$form.smtpAuth.label}</dt><dd>{$form.smtpAuth.html}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}Does your SMTP server require authentication (user name + password)?{/ts}</dd>    
             <dt>{$form.smtpUsername.label}</dt><dd>{$form.smtpUsername.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}If your SMTP server requires authentication, enter your Username here. You must also enter you SMTP password in the CiviCRM
-            settings file (civicrm.settings.php).{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}If your SMTP server requires authentication, enter your Username here. You must also enter you SMTP password in the CiviCRM settings file (civicrm.settings.php).{/ts}</dd>
         </dl>
         <dl>
             <dt></dt><dd>{$form.buttons.html}</dd>

@@ -177,8 +177,8 @@ showHideSharedOptions();
                                        ));
         $form->addRule('home_URL', ts('Enter a valid web location beginning with "http://" or "https://". EXAMPLE: http://www.mysite.org'), 'url');
         
-        $form->addElement('text', 'current_employer', ts('Current Employer'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'current_employer') );
-        
+        $form->addElement('text', 'current_employer', ts('Current Employer'), array( 'maxlength' => 128 ) );
+
         $form->addElement('text', 'contact_source', ts('Source'));
         $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
         $this->addRule( 'external_identifier', ts('External ID already exists in Database.'), 

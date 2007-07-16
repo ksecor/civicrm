@@ -12,7 +12,7 @@
     <th>{ts}Name{/ts}</th>
     <th>{ts}Status{/ts}</th>
     <th>{ts}Type{/ts}</th>
-    <th>{ts}Total Amount{/ts}</th>
+    <th>{ts}Amount Requested{/ts}</th>
     <th>{ts}Application Recieved Date{/ts}</th>
   </tr>
 {foreach from=$rows item=row}
@@ -20,7 +20,7 @@
         <td>{$row.sort_name}</td>
         <td>{$row.grant_status}</td>  
         <td>{$row.grant_type}</td> 
-        <td>{$row.grant_amount_total|crmMoney}</td>
+        <td>{$row.grant_amount_requested|crmMoney}</td>
            
         <td>{$row.grant_application_received_date |truncate:10:''|crmDate}
        

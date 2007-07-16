@@ -466,7 +466,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             } else {
                 continue;
             }
-
+           
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                     $idName = "custom_value_{$cfID}_id";
@@ -480,19 +480,22 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     $url = CRM_Utils_System::fixURL( $result->$name );
                     $row[] = "<a href=\"$url\">{$result->$name}</a>";
                 }  else if ( $multipleSelectFields &&
-                             array_key_exists($name, $multipleSelectFields ) ) { //fix to display student checkboxes
+                             array_key_exists($name, $multipleSelectFields ) ) { 
+                    //fix to display student checkboxes
                     $key = $name;
                     $paramsNew = array($key => $result->$name );
                     if ( $key == 'test_tutoring') {
                         $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
                     }  else if (substr( $key, 0, 4) == 'cmr_') { //for  readers group
-                        $name = array( $key => array('newName' => $key, 'groupName' => substr($key, 0, -3) ));
+                        $name = array( $key => array('newName' => $key, 
+                                                     'groupName' => substr($key, 0, -3) ));
                     } else {
                         $name = array( $key => array('newName' => $key ,'groupName' => $key ));
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                     $row[] = $paramsNew[$key]; 
-                } else if ( $tmfFields && array_key_exists($name, $tmfFields )){ 
+                } else if ( $tmfFields && array_key_exists($name, $tmfFields )
+                            || substr( $name, 0, 12 ) == 'participant_' ) { 
                     if ( substr($name, -3) == '_id') {
                         $key = substr($name, 0, -3);
                         $paramsNew = array($key => $result->$name );

@@ -1,6 +1,6 @@
 {if $membershipBlock}
 <div id="membership">
- {if $context EQ "makeContribution"}
+  {if $context EQ "makeContribution"}
   <fieldset>    
       {if $renewal_mode }
         {if $membershipBlock.renewal_title}
