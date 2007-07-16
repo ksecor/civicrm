@@ -393,7 +393,7 @@ function civicrm_participant_payment_delete( &$params )
     require_once 'CRM/Event/BAO/ParticipantPayment.php';
     $participant = new CRM_Event_BAO_ParticipantPayment();
     
-    return $participant->deleteParticipantPayment( $params['id'] ) ? civicrm_create_success( ) : civicrm_create_error('Error while deleting participantPayment');
+    return $participant->deleteParticipantPayment( $params ) ? civicrm_create_success( ) : civicrm_create_error('Error while deleting participantPayment');
 }
 
 ?>
