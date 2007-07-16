@@ -181,24 +181,30 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                 //this condition is added, since same contact can have multiple event registrations..
                 $params = array( array( 'participant_id', '=', $participantId, 0, 0 ) );
 
+                //add participant id
+                $fields['participant_id'] = array ( 'name' => 'participant_id',
+                                                    'title'=> 'Participant Id');
+
                 CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
 
-                if ( $values[$fields['participant_status_id']['title']] ) {
+                if ( isset($values[$fields['participant_status_id']['title']]) ) {
                     $status = array( );
                     $status = CRM_Event_PseudoConstant::participantStatus( );
                     $values[$fields['participant_status_id']['title']] = $status[$values[$fields['participant_status_id']['title']]];
                 }
 
-                if ( $values[$fields['participant_role_id']['title']] ) {
+                if ( isset($values[$fields['participant_role_id']['title']]) ) {
                     $roles = array( );
                     $roles = CRM_Event_PseudoConstant::participantRole( );
                     $values[$fields['participant_role_id']['title']] = $roles[$values[$fields['participant_role_id']['title']]];
                 }
 
-                if ( $values[$fields['participant_register_date']['title']] ) {
+                if ( isset($values[$fields['participant_register_date']['title']]) ) {
                     $values[$fields['participant_register_date']['title']] = 
                         CRM_Utils_Date::customFormat($values[$fields['participant_register_date']['title']]);
                 }
+                
+                unset( $values[$fields['participant_id']['title']] );
 
                 foreach( $fields as $v  ) {
                     $groupTitle = $v["groupTitle"];

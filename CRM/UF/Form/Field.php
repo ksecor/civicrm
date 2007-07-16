@@ -121,6 +121,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $this->_fields = array_merge (CRM_Member_BAO_Membership::getMembershipFields(), $this->_fields); 
         }
 
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+            require_once 'CRM/Event/BAO/Query.php';
+            $this->_fields = array_merge (CRM_Event_BAO_Query::getParticipantFields( true ), $this->_fields); 
+        }
+
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $this->_fields = array_merge (CRM_Quest_BAO_Student::exportableFields(), $this->_fields);

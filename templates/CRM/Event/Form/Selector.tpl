@@ -51,9 +51,9 @@
     {else}
     <td>{if !$row.paid && !$row.event_level} {ts}(no fee){/ts}{else} {$row.event_level}{/if}</td>
     {/if}
-    <td>{$row.start_date|truncate:10:''|crmDate}
-        {if $row.end_date && $row.end_date|date_format:"%Y%m%d" NEQ $row.start_date|date_format:"%Y%m%d"}
-            <br/>- {$row.end_date|truncate:10:''|crmDate}
+    <td>{$row.event_start_date|truncate:10:''|crmDate}
+        {if $row.event_end_date && $row.event_end_date|date_format:"%Y%m%d" NEQ $row.event_start_date|date_format:"%Y%m%d"}
+            <br/>- {$row.event_end_date|truncate:10:''|crmDate}
         {/if}
    </td>
     <td>{$row.status}</td>
