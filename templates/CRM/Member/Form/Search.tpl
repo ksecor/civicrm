@@ -14,14 +14,14 @@
                     {ts}Complete OR partial name OR email.{/ts}
                 </div>
             </td>
-            <td class="label">{$form.buttons.html}</td>       
+            <td>{$form.buttons.html}</td>       
         </tr>
 
         {include file="CRM/Member/Form/Search/Common.tpl"}
 
         <tr>
             <td colspan="2">&nbsp;</td>
-            <td class="label">{$form.buttons.html}</td>
+            <td>{$form.buttons.html}</td>
         </tr>
     </table>
 {/strip} 
