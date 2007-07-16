@@ -215,7 +215,12 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             } else {
                 $note = CRM_Utils_Array::value('participant_note', $params);
             }
-            
+        
+            if ( ! isset($ids['note']) ) {
+                $noteDetails = CRM_Core_BAO_Note::getNote( $participant->id, 'civicrm_participant' );
+                $ids['note']['id'] = array_pop( array_flip( $noteDetails ) );
+            }
+
             require_once 'CRM/Core/BAO/Note.php';
             $noteParams = array(
                                 'entity_table'  => 'civicrm_participant',
