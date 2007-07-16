@@ -63,7 +63,7 @@ function smarty_function_help( $params, &$smarty ) {
     $url = CRM_Utils_System::url( 'civicrm/ajax/help', "id=$id&file=$file" );
     return <<< EOT
 <img id="{$id}_help" class="action-icon" src="{$smarty->_tpl_vars[ 'config']->resourceBase}/i/Help.png">
-<span dojoType="tooltip" connectId="{$id}_help" href="$url" style="width: 480px; padding: 1em;">
+<span dojoType="tooltip" connectId="{$id}_help" href="$url" style="width: 620px; padding: 1em;">
 </span>
 EOT;
 

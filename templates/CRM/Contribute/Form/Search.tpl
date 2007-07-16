@@ -7,7 +7,7 @@
         <table class="form-layout">
 		<tr>
             <td class="font-size12pt label">{$form.sort_name.label}</td>
-            <td colspan="2">{$form.sort_name.html}
+            <td>{$form.sort_name.html|crmReplace:class:'twenty'}
                 <div class="description font-italic">
                     {ts}Complete OR partial name OR email.{/ts}
                 </div>
@@ -17,6 +17,10 @@
 
         {include file="CRM/Contribute/Form/Search/Common.tpl"}
 
+        <tr>
+            <td colspan="2">&nbsp;</td>
+            <td class="label">{$form.buttons.html}</td>
+        </tr>
         </table>
     {/strip}
 </fieldset>

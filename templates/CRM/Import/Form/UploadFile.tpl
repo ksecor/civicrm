@@ -3,6 +3,7 @@
 
  {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
  {include file="CRM/common/WizardHeader.tpl"}
+ {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
  
  <div id="help">
     <p>
@@ -29,7 +30,7 @@
         <dt> </dt><dd>{$form.doGeocodeAddress.html} {$form.doGeocodeAddress.label}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
-            {ts}This option is not recommended for large imports. Use the command-line geocoding script instead.{/ts}
+            {ts 1="http://wiki.civicrm.org/confluence//x/YDY" 2=$docURLTitle}This option is not recommended for large imports. Use the command-line geocoding script instead (<a href="%1" target="_blank" title="%2">read more...</a>).{/ts}
         </dd> 
 {/if}
         {include file="CRM/Core/Date.tpl"}
