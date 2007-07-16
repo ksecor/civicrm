@@ -268,7 +268,7 @@ class CRM_Event_BAO_Query
 
         case 'participant_source':
             $query->_where[$grouping][] = "civicrm_participant.source $op '$value'";
-            $query->_qill[$grouping][]  = ts("Participant Source $op $value" );
+            $query->_qill[$grouping][]  = ts("Participant Source" ) . " $op $value";
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
 
