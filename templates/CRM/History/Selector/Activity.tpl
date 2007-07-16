@@ -76,7 +76,7 @@
            </tr>
         {else}
             <tr class="{cycle values="odd-row,even-row"}">
-            <td>{$row.activity_type}</td>
+            
             {if $caseview eq 1}
                 
                 {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=case&caseid=`$row.case_subjectID`"}{/capture}
@@ -84,8 +84,8 @@
             {else}
                 {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}{/capture}
             {/if}
-
-            <td><a href="{$viewURL}">{$row.case|mb_truncate:33:"...":true}</a>
+            <td><a href="{$viewURL}">{$row.activity_type|mb_truncate:33:"...":true}</td>
+            <td>{$row.case}</a>
              </td>
              <td>
              {if $contactId  NEQ $row.sourceID} 
