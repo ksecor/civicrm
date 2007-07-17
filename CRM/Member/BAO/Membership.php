@@ -922,7 +922,6 @@ civicrm_membership_status.is_current_member =1";
                                      &$form, $changeToday = null, $ipnParams = null )
     {
         require_once 'CRM/Utils/Hook.php';
-        
         $statusFormat = '%Y-%m-%d';
         $format       = '%Y%m%d';
         
@@ -1042,7 +1041,16 @@ civicrm_membership_status.is_current_member =1";
                 $params['join_date']  = CRM_Utils_Date::isoToMysql( $membership->join_date );
                 $params['start_date'] = CRM_Utils_Date::isoToMysql( $membership->start_date );
                 $params['end_date']   = CRM_Utils_Date::customFormat( $dates['end_date'], $format );
-
+                
+                if ( empty( $membership->source ) ) {
+                    if ( $form ) {
+                        $params['source'  ]  = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+                    }
+                    if ( is_array($ipnParams) ) {
+                        $params['source']    = $ipnParams['source'];
+                    }
+                }
+                
                 CRM_Utils_Hook::pre('edit', 'Membership', $currentMembership['id'], $params );
                 $membership->copyValues( $params );
                 $membership->save( );
