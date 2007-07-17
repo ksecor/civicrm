@@ -64,11 +64,16 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $fixAddress = true ) {
-        if ( ! self::dataExists( $params, $locationId, $ids ) ) {
+  static function add( &$params, &$ids, $locationId, $fixAddress = true, $new_install = false ) {
+      print "\'ello! \n <br>";
+print "We're in Location.php.";
+	foreach  ($params as $key => $value){
+	print $key . "\t => " . $value . "\n<br>";
+      }
+        if (!$new_install && ! self::dataExists( $params, $locationId, $ids ) ) {
             return null;
         }
-
+	print "more";
         $location =& new CRM_Core_BAO_Location( );
         
         if (! isset($params['contact_id'])) {
@@ -159,12 +164,14 @@ UPDATE civicrm_location
         $location->email  = array( );
         $location->im     = array( );
         $location->openid = array( );
-        
+	//	print "About to loop.";        
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
             $location->phone [$i] = CRM_Core_BAO_Phone::add ( $params, $ids, $locationId, $i, $isPrimaryPhone  );
+	    print "About to add email";
+	    //	    header("Location: http://www.google.com");
             $location->email [$i] = CRM_Core_BAO_Email::add ( $params, $ids, $locationId, $i, $isPrimaryEmail  );
             $location->im    [$i] = CRM_Core_BAO_IM::add    ( $params, $ids, $locationId, $i, $isPrimaryIm     );
-            //print "about to add OpenID<br/>";
+            print "about to add OpenID<br/>";
             $location->openid[$i] = CRM_Core_BAO_OpenID::add( $params, $ids, $locationId, $i, $isPrimaryOpenid );
         }
 
@@ -184,6 +191,7 @@ UPDATE civicrm_location
                 }
             }
         }
+    
         return $location;
     }
 
@@ -199,14 +207,29 @@ UPDATE civicrm_location
      * @static
      */
     static function dataExists( &$params, $locationId, &$ids ) {
-        if ( CRM_Utils_Array::value( 'id', $ids['location'][$locationId] ) ) {
+       
+      foreach ($params as $key => $value){
+	print $key . "\t" . $value . "\n <br>";
+      }
+      foreach($params['location'] as $key => $value){
+	//	print $key . "\t=>" . $value . "\t";
+      }
+      print "ids";
+      $i = 0;
+      while ($ids[$i]){
+	print $ids[$i];
+	$i++;
+      }
+      print $locationId;
+ if ( CRM_Utils_Array::value( 'id', $ids['location'][$locationId] ) ) {
             return true;
         }
 
         // return if no data present
         if ( ! array_key_exists( 'location' , $params ) ||
              ! array_key_exists( $locationId, $params['location'] ) ) {
-            return false;
+	  print "it's here";
+	  return false;
         }
         
         //if location name exists return true
@@ -214,11 +237,13 @@ UPDATE civicrm_location
         // At some point, migrate to only using location_name.
         if ( CRM_Utils_Array::value( 'location_name', $params['location'][$locationId] ) ||
              CRM_Utils_Array::value( 'name', $params['location'][$locationId] )) {
+	  print "actually here";
             return  true;
         }
         
         if ( CRM_Core_BAO_Address::dataExists( $params, $locationId, $ids ) ) {
-            return true;
+	  print "here instead";
+	  return true;
         }
 
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
@@ -228,9 +253,11 @@ UPDATE civicrm_location
                  CRM_Core_BAO_IM::dataExists    ( $params, $locationId, $i, $ids ) ||
                  CRM_Core_BAO_OpenID::dataExists( $params, $locationId, $i,
 $ids ) ) {
+	 print      "no, here";
                 return true;
             }
         }
+	print "here!";
         return false;
     }
     

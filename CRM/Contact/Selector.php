@@ -173,7 +173,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                                      false, $this->_ufGroupID );
             self::$_columnHeaders = null;
 
-            //CRM_Core_Error::debug( 'f', $this->_fields );
+            CRM_Core_Error::debug( 'f', $this->_fields );
             
             $this->_customFields =& CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
 

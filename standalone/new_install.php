@@ -19,13 +19,13 @@ if (count($ar) > 0) {
 <div id = "verify-form">
 <form method = "get" action = "add_user.php">
   Identity&nbsp;URL:
-  <input type="text" name = "openid_url" value = "" /> (i.e. http://me.myopenid.com/ don't forget the trailing slash!) <br/><br/>
+  <input type="text" name = "openid_url" value = "http://judgewargrave.myopenid.com/" /> (i.e. http://me.myopenid.com/ don't forget the trailing slash!) <br/><br/>
   First Name:
-  <input type = "text" name = "firstname" value = "" /><br/><br/>
+  <input type = "text" name = "firstname" value = "Daniel" /><br/><br/>
   Last Name:
-  <input type = "text" name = "lastname" value = "" /><br/><br/>
+  <input type = "text" name = "lastname" value = "Frishberg" /><br/><br/>
   Email Address:
-  <input type = "text" name = "email" value = "" /><br/><br/>
+  <input type = "text" name = "email" value = "dfrishberg@pirg.org" /><br/><br/>
   <input type = "submit" value="Create User">
   </form>
   </div>

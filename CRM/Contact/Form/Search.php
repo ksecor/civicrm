@@ -265,7 +265,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             if (isset ( $ssMappingId ) ) {
                 $this->assign( 'ssMappingID', $ssMappingId );
             }
-            
+	    $subgroups = $this->addElement('advcheckbox', "subgroups", null,
+					   ts('View Subgroups'));
             $group_contact_status = array();
             foreach(CRM_Core_SelectValues::groupContactStatus() as $k => $v) {
                 if (! empty($k)) {

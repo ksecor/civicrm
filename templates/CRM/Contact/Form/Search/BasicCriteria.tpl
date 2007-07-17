@@ -19,7 +19,9 @@
                 {/if}
             </td>
             <td>
-                {if $context EQ 'smog'}
+                {$form.subgroups.html}
+               </td>
+<td> {if $context EQ 'smog'}
                     {$form.group_contact_status.html}
                 {else}
                     {$form.group.html}

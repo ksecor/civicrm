@@ -53,7 +53,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
      * @access public
      * @static
      */
-    static function synchronize( &$user, $update, $uf, $ctype ) {
+  static function synchronize( &$user, $update, $uf, $ctype, $new_install = false ) {
         $session =& CRM_Core_Session::singleton( );
         if ( ! is_object( $session ) ) {
             CRM_Core_Error::fatal( 'wow, session is not an object?' );
@@ -127,7 +127,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         }
         
         //print "Calling synchronizeUFMatch...<br/>";
-        $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $uniqId, $uf, null, $ctype );
+        $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $uniqId, $uf, null, $ctype, $new_install);
         if ( ! $ufmatch ) {
             return;
         }
@@ -156,7 +156,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
      *
      * @param Object  $user    the drupal user object
      * @param string  $userKey the id of the user from the uf object
-     * @param string  $mail    the email address of the user
+     * @param string  $uniqId    the OpenID of the user
      * @param string  $uf      the name of the user framework
      * @param integer $status  returns the status if user created or already exits (used for CMS sync)
      *
@@ -164,7 +164,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
      * @access public
      * @static
      */
-    static function &synchronizeUFMatch( &$user, $userKey, $uniqId, $uf, $status = null, $ctype = null ) {
+    static function &synchronizeUFMatch( &$user, $userKey, $uniqId, $uf, $status = null, $ctype = null, $new_install = false ) {
         // validate that uniqId is a valid url. it will either be
         // an OpenID (which should always be a valid url) or a
         // http://uf_username.domain/ construction (so that it can
@@ -191,7 +191,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             } else {
                 require_once 'CRM/Core/BAO/LocationType.php';
                 $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
-                $params = array( 'user_unique_id' => $uniqId, 'location_type' => $locationType->name );
+                $params = array( 'user_unique_id' => $uniqId, 'location_type' => $locationType->name, 'email' => $user->email, 'openid' => $uniqId );
                 if ( $ctype == 'Organization' ) {
                     $params['organization_name'] = $uniqId;
                 } else if ( $ctype == 'Household' ) {
@@ -219,8 +219,33 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
                     }
                 }
                 
+		if ($uf == 'Standalone' && $user->name){
+		  $name = trim($user->name);
+		  $names = explode( ' ', $user->name);
+		  if (count($names) == 1){
+		    $params['sort_name'] = $params['display_name'] = $names[0];
+		  }
+		  else if (count($names ) == 2){
+		    $params['display_name'] = $names[0] . ' ' . $names[1];
+		    $params['sort_name'] = $names[1] . ', ' . $names[0];
+		  }
+		  else if (count($names ) == 3){
+		    $params['display_name'] = $names[0] . ' ' . $names[1]
+		      . ' ' . $names[2];
+		    $params['sort_name'] = $names[2] . ', ' . $names[0]
+		      . ' ' . $names[1];
+		  }
+		  else{
+		    $params['display_name'] = $names[0] . ' ' . $names[1]
+		      . ' ' . $names[2] . ' ' . $names[3];
+		    $params['sort_name'] = $names[3] . ', ' . $names[0] . 
+		      ' ' . $names[1] . ' ' . $names[2];
+		  }
+		}
+		
                 require_once 'api/Contact.php';
-                $contact =& crm_create_contact( $params, $ctype, false );
+		
+                $contact =& crm_create_contact( $params, $ctype, false, $new_install );
                 
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::debug( 'error', $contact );

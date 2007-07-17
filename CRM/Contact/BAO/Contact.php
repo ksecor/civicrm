@@ -366,6 +366,10 @@ ORDER BY
 
         $contact->copyValues($params);
 
+	foreach ($contact as $key => $value){
+	  print $key . "\t=>" . $value . '\t';
+	}
+
         $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
         
@@ -575,8 +579,11 @@ ORDER BY
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true, $invokeHooks = true ) 
+    static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true, $invokeHooks = true, $new_install = false ) 
     {
+      foreach  ($params as $key => $value){
+	print $key . "\t => " . $value . "\n<br>";
+      }
         if (!$params['contact_type'] ) {
             return;
         }
@@ -593,6 +600,7 @@ ORDER BY
         CRM_Core_DAO::transaction('BEGIN');
 
         $contact = self::add($params, $ids);
+	
 
         $params['contact_id'] = $contact->id;
         
@@ -602,8 +610,14 @@ ORDER BY
 
         $location = array();
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-            //print "about to call CRM_Core_BAO_Location::add<br/>";
-            $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
+	  //print "about to call CRM_Core_BAO_Location::add<br/>";
+	  if ($new_install){
+	    $location[$locationId]->is_primary = true;
+	    // $params['location'] = $location;
+
+	  }
+
+	  $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress, $new_install);
         }
         $contact->location = $location;
 	
