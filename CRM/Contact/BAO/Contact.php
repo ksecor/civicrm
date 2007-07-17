@@ -366,9 +366,9 @@ ORDER BY
 
         $contact->copyValues($params);
 
-	foreach ($contact as $key => $value){
-	  print $key . "\t=>" . $value . '\t';
-	}
+	//	foreach ($contact as $key => $value){
+	//print $key . "\t=>" . $value . '\t';
+	//}
 
         $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
@@ -581,9 +581,9 @@ ORDER BY
      */
     static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true, $invokeHooks = true, $new_install = false ) 
     {
-      foreach  ($params as $key => $value){
-	print $key . "\t => " . $value . "\n<br>";
-      }
+      //      foreach  ($params as $key => $value){
+      //print $key . "\t => " . $value . "\n<br>";
+      //}
         if (!$params['contact_type'] ) {
             return;
         }

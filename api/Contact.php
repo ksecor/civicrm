@@ -114,9 +114,9 @@ require_once 'CRM/Contact/BAO/Contact.php';
  */
 function &crm_create_contact( &$params, $contact_type = 'Individual', $dupeCheck = true, $new_install = false ) {
 
-  foreach ($params as $key => $value){
-    print $key . "\t =>" . $value . "\n <br>";
-  }
+  //  foreach ($params as $key => $value){
+  //print $key . "\t =>" . $value . "\n <br>";
+  //}
     _crm_initialize( );
 
     // return error if we do not get any params
@@ -145,23 +145,23 @@ function &crm_create_contact( &$params, $contact_type = 'Individual', $dupeCheck
     if (is_a($error, 'CRM_Core_Error') ) {
         return $error;
     }
-    print "\n<br>";
-  foreach ($values as $key => $value){
-    print $key . "\t =>" . $value . "\n <br>";
-  }
+    //print "\n<br>";
+    //foreach ($values as $key => $value){
+    //print $key . "\t =>" . $value . "\n <br>";
+    //  }
 
 
     $ids     = array( );
     $contact = CRM_Contact_BAO_Contact::create( $values, $ids, 1,null, null, $new_install );
     $contact->contact_id = $contact->id;
-    echo "here we are";
+//echo "here we are";
     $session =& CRM_Core_Session::singleton();
-    foreach ($values as $key){
-      echo $key;
-    }
+//  foreach ($values as $key){
+//    echo $key;
+//  }
     //    header("Location: http://www.google.com");
 
-    exit(0);
+//  exit(0);
     return $contact;
     
 }
