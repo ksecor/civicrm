@@ -823,8 +823,12 @@ class CRM_Core_Invoke
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url('civicrm/profile' ) );
 
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Task_Map',
+                                                           ts('Map Contact'),
+                                                           null, false, false, true );
+            $controller->set( 'profile', 1 );
+            $controller->process( );
+            return $controller->run( );
         }
 
         if ( $secondArg == 'edit' || $secondArg == 'create' ) {

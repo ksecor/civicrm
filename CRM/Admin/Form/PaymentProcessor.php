@@ -135,7 +135,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         $this->add( 'text', 'description', ts( 'Description' ),
                     $attributes['description'] );
 
-        $types = array('select' => '- select -') + CRM_Core_PseudoConstant::paymentProcessorType( );
+        $types = CRM_Core_PseudoConstant::paymentProcessorType( );
         $this->add( 'select', 'payment_processor_type', ts( 'Payment Processor Type' ), $types, true,
                     array('onchange' => "reload(true)") );
                    

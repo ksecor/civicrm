@@ -42,7 +42,7 @@
  </tr> 
  <tr>
     <td class="label">{ts}{$form.participant_role_id.label}{/ts}</td> 
-    <td>{$form.participant_role_id.html}</td>
+    <td colspan="3">{$form.participant_role_id.html}</td>
  </tr> 
  <tr>
     <td colspan="4">

@@ -68,7 +68,11 @@ class CRM_Utils_Wrapper
      * @access public
      */
     function run($formName, $formLabel, $mode, $addSequence = false, $ignoreKey = false ) {
-        $this->_controller =& new CRM_Core_Controller_Simple( $formName, $formLabel, $mode, false, $addSequence, $ignoreKey );
+        $this->_controller =& new CRM_Core_Controller_Simple( $formName, $formLabel,
+                                                              $mode,
+                                                              false,
+                                                              $addSequence,
+                                                              $ignoreKey );
         $this->_controller->process();
         $this->_controller->run();
     }

@@ -1697,18 +1697,23 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         //Handling Event Participation Part of the batch profile 
         if ( CRM_Core_Permission::access( 'CiviEvent' ) && $component == 'Event' ) {
-               $params = $ids = $values = array();
-               $params = array( 'id' => $componentId );
-               
-               require_once "CRM/Event/BAO/Participant.php";
-               CRM_Event_BAO_Participant::getValues( $params, $values,  $ids );
-
-               foreach ($fields as $name => $field ) {
-                   $fldName = "field[$componentId][$name]";
-                   if ( array_key_exists($name,$values[$componentId]) ) {
-                       $defaults[$fldName] = $values[$componentId][$name];
-                   } 
-               }
+            $params = $ids = $values = array( );
+            $params = array( 'id' => $componentId );
+            
+            require_once "CRM/Core/BAO/Note.php";
+            require_once "CRM/Event/BAO/Participant.php";
+            CRM_Event_BAO_Participant::getValues( $params, $values,  $ids );
+            
+            foreach ($fields as $name => $field ) {
+                $fldName = "field[$componentId][$name]";
+                if ( array_key_exists($name,$values[$componentId]) ) {
+                    $defaults[$fldName] = $values[$componentId][$name];
+                } else if ( $name == 'participant_note' ) {
+                    $noteDetails = array( );
+                    $noteDetails = CRM_Core_BAO_Note::getNote( $componentId, 'civicrm_participant' );
+                    $defaults[$fldName] = array_pop($noteDetails);
+                }
+            }
         }
         
     }

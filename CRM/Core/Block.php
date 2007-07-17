@@ -333,8 +333,9 @@ class CRM_Core_Block {
 
             $shortCuts = array();
 
-            if ( $role == 'csr'   ||
-                 $role == 'admin' ) {
+            if ( $role == 'csr'        ||
+                 $role == 'admin'      ||
+                 $role == 'superadmin' ) {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
                                       'query' => 'action=add&reset=1',
                                       'title' => ts('New Participant')

@@ -118,7 +118,7 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addElement('select', 'country', ts('Country'), $country);
 
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->includeCounty ) {
+        if ( isset($config->includeCounty) ) {
             // select for county
             $county = array('' => ts('- any county -')) + CRM_Core_PseudoConstant::county( );
             $form->addElement('select', 'county', ts('County'), $county);
