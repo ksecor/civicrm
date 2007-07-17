@@ -11,8 +11,9 @@ $session =& CRM_Core_Session::singleton();
 if ( !empty( $error ) ) {
     print "<div class=\"error\">$error</div>\n";
 }
-if ( !empty( $msg ) ) {
+if ( !empty( $session->get['msg'] ) ) {
     print "<div class=\"msg\">$msg</div>\n";
+    //header("Location:login.php");
 }
 
 //print "userID: " . $session->get('userID') . "<br/>";
@@ -21,16 +22,17 @@ if ( $session->get('userID') == null || $session->get('userID') == '' ) {
     include 'login.php';
     exit(0);
 }
-//if ($session->get('goahead') != "no"){
+if ($session->get('goahead') != "no"){
 // If we didn't get any parameters, we should default to the dashboard
 if ($_GET[CIVICRM_UF_URLVAR] == "") {
     print CRM_Core_Invoke::invoke( array("civicrm","dashboard") );
 } else {
     print CRM_Core_Invoke::invoke( explode('/', $_GET[CIVICRM_UF_URLVAR] ) );
 }
-//}
-//else{
-// print "One or more errors occurred.";
-// }
+}
+else{
+header("Location:login.php");
+print "One or more errors occurred.";
+ }
 
 ?>
