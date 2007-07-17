@@ -355,9 +355,15 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $hasLocationTypes= array();
         $fields          = array();
         
-        $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual', false, true);
-        $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household', false, true);
-        $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization', false, true);
+        if ( $mappingType == 'Export' ) {
+            $required = true;
+        } else if ($mappingType == 'Search Builder') {
+            $required = false;
+        }
+
+        $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual', false, $required);
+        $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household', false, $required);
+        $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization', false, $required);
         
         // add component fields
         $compArray = array();

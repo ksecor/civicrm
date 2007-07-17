@@ -1798,7 +1798,8 @@ WHERE civicrm_contact.id IN $idString ";
                                                         'notes'  => array( 'title'  => ts( 'Note(s)' ) ) ) );
             } else { 
                 $fields = array_merge( $fields, array ( 'group'  => array( 'title' => ts( 'Group(s)' ) ),
-                                                        'tag'    => array( 'title'  => ts( 'Tag(s)'  ) ) ) );
+                                                        'tag'    => array( 'title'  => ts( 'Tag(s)'  ) ),
+                                                        'note'   => array( 'title'  => ts( 'Note(s)' ) ) ) );
             }
             
             self::$_exportableFields[$contactType] = $fields;
