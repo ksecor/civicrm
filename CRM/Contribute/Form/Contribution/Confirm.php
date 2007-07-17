@@ -347,8 +347,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
    
         if ( $processMembership && $this->_contributeMode != 'notify' ) {
-            //require_once 'CRM/Core/Payment/Form.php';
-            //CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
 
             require_once "CRM/Member/BAO/Membership.php";
             CRM_Member_BAO_Membership::postProcessMembership( $membershipParams, $contactID,

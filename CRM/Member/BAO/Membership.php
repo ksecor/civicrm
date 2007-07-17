@@ -849,6 +849,9 @@ civicrm_membership_status.is_current_member =1";
             $invoiceID = md5(uniqid(rand(), true));
             $tempParams['invoiceID'] = $invoiceID;
             if ($form->_values['is_monetary']) {
+                require_once 'CRM/Core/Payment.php';
+                $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
+                
                 if ( $form->_contributeMode == 'express' ) {
                     $result =& $payment->doExpressCheckout( $tempParams );
                 } else {
