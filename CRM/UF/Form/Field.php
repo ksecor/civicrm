@@ -237,6 +237,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
 
+        //unset note field
+        unset( $fields['Individual'  ]['note']);
+        unset( $fields['Household'   ]['note']);
+        unset( $fields['Organization']['note']);
+
         $config =& CRM_Core_Config::singleton( );
         if ( !isset($config->includeCounty) || !$config->includeCounty ) {
             unset( $fields['Individual'  ]['county']);
