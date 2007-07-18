@@ -255,7 +255,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
 
         if ( ! empty($membership) &&
-             isset( $membership["is_separate_payment"] ) &&
+             $membership["is_separate_payment"] &&
              $this->_paymentProcessor['payment_processor_type'] == "PayPal_Standard" ) {
             CRM_Core_Error::fatal( ts( 'This contribution page is configured to support separate contribution and membership payments. The PayPal Website Payments Standard plugin does not currently support multiple simultaneous payments. Please contact the site administrator and notify them of this error' ) );
         }
