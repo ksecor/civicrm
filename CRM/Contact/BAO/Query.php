@@ -1696,7 +1696,16 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    function group( &$values, $includeChildGroups = true ) {
+    function group( &$values, $includeChildGroups = false ) {
+      //print_r ($this->_paramLookup);
+      //print "\n<br>";
+      //print_r($this->_params);
+      //print "\n<br>";
+      //print_r( $this->_paramLookup['subgroups'][0][0]);
+      //echo "asdf";
+      //header("Location:http://www.google.com");
+      if ($this->_paramLookup['subgroups'][0][0])
+	$includeChildGroups = true;
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         if ( count( $value ) > 1 ) {
