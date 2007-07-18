@@ -921,15 +921,6 @@ class CRM_Core_Menu {
                              ),
                 
                        array(
-                             'path'    => 'civicrm/contact/view',
-                             'query'   => 'reset=1&cid=%%cid%%',
-                             'title'   => ts('View Contact'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'   => 0,
-                             ),
-
-                       array(
                              'path'    => 'civicrm/contact/view/basic',
                              'query'   => 'reset=1&cid=%%cid%%',
                              'title'   => ts('Contact Summary'),
