@@ -43,6 +43,9 @@ class CRM_Contribute_Import_Controller extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
         parent::__construct( $title, $modal );
 
+        // lets get around the time limit issue if possible, CRM-2113
+        set_time_limit( 0 );
+
         require_once 'CRM/Contribute/Import/StateMachine.php';
         $this->_stateMachine =& new CRM_Contribute_Import_StateMachine( $this, $action );
 
