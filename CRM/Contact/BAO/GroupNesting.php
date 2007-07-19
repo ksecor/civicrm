@@ -110,6 +110,73 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
         return $dao->fetch( );
     }
     
+
+/**
+     * Returns true if checkGroupId is a parent of one of the groups in
+     * groupIds, false otherwise.
+     *
+     * @param            $groupIds              Array of group ids (or one group id) to serve as the starting point
+     * @param            $checkGroupId         The group id to check if it is a parent of the $groupIds group(s)
+     *
+     * @return           boolean                True if $checkGroupId points to a group that is a parent of one of the $groupIds groups, false otherwise.
+     *
+     * @access public
+     */
+
+    static function isParentGroup($groupId, $checkGroupId){
+        if ( ! is_array( $groupIds ) ) {
+            $groupIds = array( $groupIds );
+        }
+        $dao = new CRM_Contact_DAO_GroupNesting( );
+        $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id IN (". implode( ',', $groupIds ) . ")";
+        $dao->query( $query );
+        while ( $dao->fetch( ) ) {
+            $parentGroupId = $dao->parent_group_id;
+            if ( $parentGroupId == $checkGroupId ) {
+                /* print "One of these: <pre>";
+                print_r($groupIds);
+                print "</pre> has groupId $checkGroupId as an ancestor.<br/>"; */
+                return true;
+            }
+        }
+	return false;
+
+
+    }
+
+
+    /**
+     * Returns true if checkGroupId is a child of one of the groups in
+     * groupIds, false otherwise.
+     *
+     * @param            $groupIds              Array of group ids (or one group id) to serve as the starting point
+     * @param            $checkGroupId         The group id to check if it is a child of the $groupIds group(s)
+     *
+     * @return           boolean                True if $checkGroupId points to a group that is a child of one of the $groupIds groups, false otherwise.
+     *
+     * @access public
+     */
+    static function isChildGroup($groupId, $checkGroupId){
+
+if ( ! is_array( $groupIds ) ) {
+            $groupIds = array( $groupIds );
+        }
+        $dao = new CRM_Contact_DAO_GroupNesting( );
+        $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (". implode( ',', $groupIds ) . ")";
+        $dao->query( $query );
+        while ( $dao->fetch( ) ) {
+            $childGroupId = $dao->child_group_id;
+            if ( $childGroupId == $checkGroupId ) {
+                /* print "One of these: <pre>";
+                print_r($groupIds);
+                print "</pre> has groupId $checkGroupId as a descendent.<br/><br/>"; */
+                return true;
+            }
+        }
+	return false;
+    }
+
+
     /**
      * Returns true if checkGroupId is an ancestor of one of the groups in
      * groupIds, false otherwise.
@@ -121,6 +188,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
      *
      * @access public
      */
+    
     
     static function isAncestorGroup( $groupIds, $checkGroupId ) {
         if ( ! is_array( $groupIds ) ) {
@@ -246,6 +314,33 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
      *
      * @access public
      */
+
+
+  
+    static function getParentGroupIds( $groupIds ) {
+        if ( ! is_array( $groupIds ) ) {
+            $groupIds = array( $groupIds );
+        }
+        $dao = new CRM_Contact_DAO_GroupNesting( );
+        $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id IN (" . implode( ',', $groupIds ) . ")";
+        $dao->query( $query );
+        $parentGroupIds = array( );
+        while ( $dao->fetch( ) ) {
+            $parentGroupIds[] = $dao->parent_group_id;
+        }
+        return $parentGroupIds;
+    }
+
+    /**
+     * Returns array of group ids of parent groups of the specified group.
+     *
+     * @param             $groupIds               An array of valid group ids (passed by reference)
+     *
+     * @return            $groupIdArray         List of groupIds that represent the requested group and its parents
+     *
+     * @access public
+     */
+
 
     static function getDescendentGroupIds( $groupIds, $includeSelf = true ) {
         if ( ! is_array( $groupIds ) ) {
