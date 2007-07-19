@@ -67,7 +67,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $session->set('skipTextFile', true);
             }
 
-            if ($defaults['body_html']) {
+            if (CRM_Utils_Array::value('body_html',$defaults)) {
                 $this->set('htmlFile', $defaults['body_html'] );
                 $session->set('skipHtmlFile', true);
             }
@@ -226,7 +226,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         }
 
         foreach (array('textFile', 'htmlFile') as $file) {
-            if (!file_exists($files[$file]['tmp_name'])) {
+            if (!file_exists(CRM_Utils_Array::value('tmp_name',$files[$file]))) {
                 continue;
             }
             $str = file_get_contents($files[$file]['tmp_name']);
