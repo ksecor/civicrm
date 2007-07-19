@@ -209,6 +209,9 @@ class CRM_Core_Invoke
         }
 
         if ($args[2] == 'view') {
+            $contactId = CRM_Utils_Request::retrieve( 'cid' , 'Positive', $this );
+            $path = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contactId );
+            CRM_Utils_System::appendBreadCrumb( ts('View Contact'), $path );
             CRM_Utils_System::appendBreadCrumb( ts('Search Results'), $breadCrumbPath );
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
             $fourthArg = CRM_Utils_Array::value(4, $args, 0);

@@ -487,20 +487,24 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         if ( empty( $this->_formValues ) ) {
-	    //check if group is a smart group (fix for CRM-1255)
+            //check if group is a smart group (fix for CRM-1255)
             if ($this->_groupID) {
                 if ($ssId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $this->_groupID, 'saved_search_id' ) ) {
                     $this->_ssID = $ssId;
                 }
             }
 
-	    // added check for smog CRM-1907
-            if ( isset( $this->_ssID ) && $this->_context != 'smog') {
+            if ( isset( $this->_ssID ) ) {
                 // we only retrieve the saved search values if out current values are null
                 $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
                 
+                // fix for CRM-1907
+                if ( $this->_groupID ) {
+                    $this->_formValues['group'][$this->_groupID] = 1;
+                }
+               
                 //fix for CRM-1505
-                if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' ) ) {
+                if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' ) ) {
                     $this->_params =& CRM_Contact_BAO_SavedSearch::getSearchParams( $this->_ssID );
                 } else {
                     $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
@@ -576,9 +580,16 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
             $this->_formValues['group'][$this->_groupID] = 1;
-        } else if ( isset( $this->_ssID ) && empty( $_POST ) ) {
+        } 
+        
+        if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
+            
+            //actual fix for CRM-1907 
+            if ( $this->_groupID ) {
+                $this->_formValues['group'][$this->_groupID] = 1;
+            }
 
             //fix for CRM-1505
             if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' ) ) {

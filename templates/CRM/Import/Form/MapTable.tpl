@@ -21,6 +21,7 @@
 		    return false;
 		} else {
 		    show('savedMappingOption');
+            document.getElementById("loadMapping").disabled = true; 
 		    document.getElementById("savedMapping").disabled = false;
 		    return false;
 		}
