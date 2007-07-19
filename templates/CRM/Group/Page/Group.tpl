@@ -9,8 +9,9 @@
 
 {assign var="showBlock" value = "'group'"}
 {assign var = "hideBlock" value = "'group_show'"}
- 
-<div id = "group_show" class="form-item">
+
+
+<div id = "group_show" class="hide-row">
 <a href = "#" onclick="hide('group_show'); show('group'); return false;"><img src = "{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt = "{ts}open section{/ts}" /></a>
 </div>  
 <div id="group" >

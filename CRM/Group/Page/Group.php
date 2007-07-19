@@ -244,7 +244,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
     function setShowHide($values ) 
     {
-      $this->assign('showRowBlock', $this->_showRowBlock);
+      /*      $this->assign('showRowBlock', $this->_showRowBlock);
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
 
 	print_r($values);
@@ -256,7 +256,8 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         if ( $this->_showRowBlock ) {
             $this->_showHide->addShow( 'rows' );
         }
-	/*
+      */	
+/*
         // first do the defaults showing
         $config =& CRM_Core_Config::singleton( );
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
