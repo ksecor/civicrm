@@ -24,11 +24,18 @@
 </div>
 <div class="form-item">
 <fieldset><legend>{ts}Child Groups{/ts}</legend>
+    {if $child_groups|@count > 0}
     <dl>
-    {foreach from=$form.child_groups item=cgroup}
-        <dt>{$cgroup.html}</dt><dd>{$cgroup.label}</dd>
-    {/foreach}
-        <dt>{$form.add_child_group.label}</dt><dd>{$form.add_child_group.html}</dd>
+        <dt>Remove?</dt><dd>Child Group</dd>
+        {foreach from=$child_groups item=cgroup key=group_id}
+            {assign var="element_name" value="remove_child_group_"|cat:$group_id}
+            <dt>{$form.$element_name.html}</dt><dd>{$form.$element_name.label}</dd>
+        {/foreach}
+    </dl><br/><br/>
+    {/if}
+    <dl>
+    <dt>{$form.add_child_group.label}</dt>
+    <dd>{$form.add_child_group.html}</dd>
     </dl>
 </fieldset>
 </div>

@@ -37,9 +37,40 @@ require_once 'CRM/Contact/DAO/GroupNesting.php';
 
 class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
     
+    /**
+     * Adds a new child group identified by $childGroupId to the group
+     * identified by $groupId
+     *
+     * @param            $groupId               The id of the group to add the child to
+     * @param            $childGroupId          The id of the new child group
+     *
+     * @return           void
+     *
+     * @access public
+     */
+    
     static function addChildGroup( $groupId, $childGroupId ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "REPLACE INTO civicrm_group_nesting (child_group_id, parent_group_id) VALUES ($childGroupId,$groupId)";
+        $dao->query( $query );
+    }
+    
+    /**
+     * Removes a child group identified by $childGroupId from the group
+     * identified by $groupId; does not delete child group, just the
+     * association between the two
+     *
+     * @param            $groupId               The id of the group to remove the child from
+     * @param            $childGroupId          The id of the child group being removed
+     *
+     * @return           void
+     *
+     * @access public
+     */
+    
+    static function removeChildGroup( $groupId, $childGroupId ) {
+        $dao = new CRM_Contact_DAO_GroupNesting( );
+        $query = "DELETE FROM civicrm_group_nesting WHERE child_group_id = $childGroupId AND parent_group_id = $groupId";
         $dao->query( $query );
     }
     
@@ -171,9 +202,8 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
-        $numGroupIds = count( $groupIds );
         $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id IN (" . implode( ',', $groupIds ) . ")";
+        $query = "SELECT parent_group_id, child_group_id FROM civicrm_group_nesting WHERE child_group_id IN (" . implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $tmpGroupIds = array( );
         $parentGroupIds = array( );
@@ -192,6 +222,20 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
         }
         return $parentGroupIds;
     }
+    
+    static function getChildGroupIds( $groupIds ) {
+        if ( ! is_array( $groupIds ) ) {
+            $groupIds = array( $groupIds );
+        }
+        $dao = new CRM_Contact_DAO_GroupNesting( );
+        $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (" . implode( ',', $groupIds ) . ")";
+        $dao->query( $query );
+        $childGroupIds = array( );
+        while ( $dao->fetch( ) ) {
+            $childGroupIds[] = $dao->child_group_id;
+        }
+        return $childGroupIds;
+    }
 
     /**
      * Returns array of group ids of child groups of the specified group.
@@ -207,9 +251,8 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
-        $numGroupIds = count( $groupIds );
         $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (" . implode( ',', $groupIds ) . ")";
+        $query = "SELECT child_group_id, parent_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (" . implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $tmpGroupIds = array( );
         $childGroupIds = array( );

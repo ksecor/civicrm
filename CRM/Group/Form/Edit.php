@@ -174,11 +174,16 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                     $childGroupInfo = array( );
                     $params = array( 'id' => $childGroupId );
                     CRM_Contact_BAO_Group::retrieve( $params, $childGroupInfo );
-                    $childGroups[] = $childGroupInfo;
+                    $childGroups[$childGroupId] = $childGroupInfo['title'];
+                    $this->addElement( 'checkbox', "remove_child_group_$childGroupId", $childGroupInfo['title'] );
                 }
             }
             
-            $this->assign( 'child_groups', $childGroups );
+            /* print "<pre>";
+            print_r($childGroups);
+            print "</pre>"; */
+            
+            $this->assign_by_ref( 'child_groups', $childGroups );
             
             $childGroupSelectValues = array( '' => '' );
             if ( isset( $this->_id ) ) {
@@ -273,6 +278,16 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             
             require_once 'CRM/Contact/BAO/Group.php';
             $group =& CRM_Contact_BAO_Group::create( $params );
+            
+            /*
+             * Remove any child groups requested to be removed
+             */
+            $childGroupIds = CRM_Contact_BAO_GroupNesting::getChildGroupIds( $group->id );
+            foreach ( $childGroupIds as $childGroupId ) {
+                if ( isset( $params["remove_child_group_$childGroupId"] ) ) {
+                    CRM_Contact_BAO_GroupNesting::removeChildGroup( $group->id, $childGroupId );
+                }
+            }
             
             /*
              * Add child group, if that was requested
