@@ -138,7 +138,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $groupIds = array( $id );
         if ( $countChildGroups ) {
             require_once 'CRM/Contact/BAO/GroupNesting.php';
-            $groupIds = CRM_Contact_BAO_GroupNesting::getChildGroupIds( $groupIds );
+            $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds );
         }
         $count = 0;
         foreach ( $groupIds as $groupId ) {
@@ -167,7 +167,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $groupIds = array( $lngGroupId );
         if ( $includeChildGroups ) {
             require_once 'CRM/Contact/BAO/GroupNesting.php';
-            $groupIds = CRM_Contact_BAO_GroupNesting::getChildGroupIds( $groupIds );
+            $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds );
         }
         
         $strSql = "SELECT civicrm_contact.id as contact_id, civicrm_contact.sort_name as name  

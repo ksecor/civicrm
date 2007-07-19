@@ -35,6 +35,7 @@
 
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/BAO/CustomGroup.php';
+require_once 'CRM/Contact/BAO/GroupNesting.php';
 /**
  * This class is to build the form for adding Group
  */
@@ -166,6 +167,33 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 $buttonType = 'next';
             }
             
+            $childGroups = array( );
+            if ( isset( $this->_id ) ) {
+                $childGroupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $this->_id, false );
+                foreach ( $childGroupIds as $childGroupId ) {
+                    $childGroupInfo = array( );
+                    $params = array( 'id' => $childGroupId );
+                    CRM_Contact_BAO_Group::retrieve( $params, $childGroupInfo );
+                    $childGroups[] = $childGroupInfo;
+                }
+            }
+            
+            $this->assign( 'child_groups', $childGroups );
+            
+            $childGroupSelectValues = array( '' => '' );
+            if ( isset( $this->_id ) ) {
+                $potentialChildGroupIds = CRM_Contact_BAO_GroupNesting::getPotentialChildGroupIds( $this->_id );
+                foreach ( $potentialChildGroupIds as $potentialChildGroupId ) {
+                    $potentialChildGroupInfo = array( );
+                    $params = array( 'id' => $potentialChildGroupId );
+                    CRM_Contact_BAO_Group::retrieve( $params, $potentialChildGroupInfo );
+                    $childGroupSelectValues[$potentialChildGroupId] = $potentialChildGroupInfo['title'];
+                }
+            }
+            
+            if ( count( $childGroupSelectValues ) > 1 ) {
+                $this->add( 'select', 'add_child_group', ts('Add Child Group'), $childGroupSelectValues );
+            }
             
             $this->addButtons( array(
                                      array ( 'type'      => $buttonType,
@@ -245,6 +273,13 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             
             require_once 'CRM/Contact/BAO/Group.php';
             $group =& CRM_Contact_BAO_Group::create( $params );
+            
+            /*
+             * Add child group, if that was requested
+             */
+            if ( ! empty( $params['add_child_group'] ) ) {
+                CRM_Contact_BAO_GroupNesting::addChildGroup( $group->id, $params['add_child_group']);
+            }
             
             CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        
             

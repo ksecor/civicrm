@@ -43,10 +43,4 @@
     <key>id</key>
     <add>2.0</add>
   </foreignKey>
-  <index>
-    <name>UI_parent_group_id</name>
-    <fieldName>parent_group_id</fieldName>
-    <unique>false</unique>
-    <add>2.0</add>
-  </index>
 </table>

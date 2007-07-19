@@ -20,11 +20,21 @@
         <dd class="description">{ts}Select 'User and User Admin Only' if membership in this group is controlled by authorized CiviCRM users only. If you want to allow contacts to join and remove themselves from this group via the Registration and Account Profile forms, select 'Public User Pages'. If you also want to include group membership search and sharing in the Profile screens, select 'Public User Pages and Listings'.{/ts}</dd> 
     </dl>
     {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+</fieldset>
+</div>
+<div class="form-item">
+<fieldset><legend>{ts}Child Groups{/ts}</legend>
     <dl>
-       <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
+    {foreach from=$form.child_groups item=cgroup}
+        <dt>{$cgroup.html}</dt><dd>{$cgroup.label}</dd>
+    {/foreach}
+        <dt>{$form.add_child_group.label}</dt><dd>{$form.add_child_group.html}</dd>
     </dl>
 </fieldset>
 </div>
+
+{$form.buttons.html}
+
 {if $action neq 1}
 <div class="action-link">
     <a href="{$crmURL}">&raquo; {ts}Show Group Members{/ts}</a>
