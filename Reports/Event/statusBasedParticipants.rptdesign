@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
@@ -9,9 +8,9 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <text-property name="promptText">Enter the Status Type</text-property>
-            <property name="allowBlank">false</property>
+            <property name="isRequired">true</property>
             <property name="controlType">list-box</property>
-            <property name="mustMatch">false</property>
+            <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
             <property name="defaultValue">Registered</property>
             <structure name="format">
@@ -50,23 +49,6 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="statusBasedData" id="62">
             <text-property name="displayName">statusBasedData</text-property>
-            <list-property name="parameters">
-                <structure>
-                    <property name="name">statusType</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                    <property name="position">1</property>
-                    <expression name="defaultValue">'Registered'</expression>
-                    <property name="isOptional">false</property>
-                    <property name="isInput">true</property>
-                </structure>
-            </list-property>
-            <list-property name="resultSetHints">
-                <structure>
-                    <property name="position">12</property>
-                    <property name="name">id_12</property>
-                </structure>
-            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -137,6 +119,24 @@
                 </list-property>
             </structure>
             <property name="dataSource">civicrm</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">statusType</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">'Registered'</expression>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">id_12</property>
+                    <property name="dataType">any</property>
+                </structure>
+            </list-property>
             <property name="queryText">SELECT p.contact_id,p.event_id,
 p.status_id,p.role_id,p.source,p.event_level,
 op.name as status,c.display_name,c.id,p.register_date,e.title,
@@ -169,6 +169,7 @@ AND op.name = ?</property>
         <table id="6">
             <property name="backgroundColor">#E8F2FF</property>
             <property name="fontFamily">sans-serif</property>
+            <property name="marginTop">0pt</property>
             <property name="width">100%</property>
             <property name="dataSet">statusBasedData</property>
             <list-property name="paramBindings">
@@ -178,41 +179,6 @@ AND op.name = ?</property>
                 </structure>
             </list-property>
             <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">register_date</property>
-                    <expression name="expression">dataSetRow["register_date"]</expression>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="name">display_name</property>
-                    <expression name="expression">dataSetRow["display_name"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">title</property>
-                    <expression name="expression">dataSetRow["title"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">name</property>
-                    <expression name="expression">dataSetRow["name"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">source</property>
-                    <expression name="expression">dataSetRow["source"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">event_level</property>
-                    <expression name="expression">dataSetRow["event_level"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">status</property>
-                    <expression name="expression">dataSetRow["status"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
                 <structure>
                     <property name="name">contact_id</property>
                     <expression name="expression">dataSetRow["contact_id"]</expression>
@@ -234,9 +200,39 @@ AND op.name = ?</property>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
+                    <property name="name">source</property>
+                    <expression name="expression">dataSetRow["source"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">event_level</property>
+                    <expression name="expression">dataSetRow["event_level"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">status</property>
+                    <expression name="expression">dataSetRow["status"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">display_name</property>
+                    <expression name="expression">dataSetRow["display_name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
                     <property name="name">id</property>
                     <expression name="expression">dataSetRow["id"]</expression>
                     <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">register_date</property>
+                    <expression name="expression">dataSetRow["register_date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">title</property>
+                    <expression name="expression">dataSetRow["title"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">id_12</property>
@@ -295,35 +291,45 @@ AND op.name = ?</property>
                         <text id="44">
                             <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Participant Name]]></text-property>
+                            <text-property name="content"><![CDATA[Name]]></text-property>
                         </text>
                     </cell>
                     <cell id="9">
                         <text id="45">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Event]]></text-property>
                         </text>
                     </cell>
                     <cell id="10">
                         <text id="46">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Status]]></text-property>
                         </text>
                     </cell>
                     <cell id="11">
                         <text id="47">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Source]]></text-property>
                         </text>
                     </cell>
                     <cell id="56">
                         <text id="60">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Event Level]]></text-property>
                         </text>
                     </cell>
                     <cell id="12">
                         <text id="48">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Register Date]]></text-property>
@@ -337,36 +343,44 @@ AND op.name = ?</property>
                     <property name="fontSize">x-small</property>
                     <property name="color">#131B6D</property>
                     <cell id="14">
-                        <data id="63">
+                        <data id="70">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">display_name</property>
                         </data>
                     </cell>
                     <cell id="15">
-                        <data id="64">
+                        <data id="71">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">title</property>
                         </data>
                     </cell>
                     <cell id="16">
-                        <data id="65">
+                        <data id="72">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">status</property>
                         </data>
                     </cell>
                     <cell id="17">
-                        <data id="66">
+                        <data id="73">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">source</property>
                         </data>
                     </cell>
                     <cell id="57">
-                        <data id="67">
+                        <data id="74">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">event_level</property>
                         </data>
                     </cell>
                     <cell id="18">
-                        <data id="68">
-                            <structure name="dateTimeFormat">
-                                <property name="category">Long Date</property>
-                                <property name="pattern">Long Date</property>
-                            </structure>
+                        <data id="75">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">register_date</property>
                         </data>
                     </cell>

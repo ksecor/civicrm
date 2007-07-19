@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
@@ -42,29 +41,8 @@
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="currentMember" id="5"
- >
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="currentMember" id="5">
             <text-property name="displayName">currentMember</text-property>
-            <list-property name="parameters">
-                <structure>
-                    <property name="name">startDate</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                    <property name="position">1</property>
-                    <expression name="defaultValue">params["startDate"]</expression>
-                    <property name="isOptional">false</property>
-                    <property name="isInput">true</property>
-                </structure>
-                <structure>
-                    <property name="name">endDate</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                    <property name="position">2</property>
-                    <expression name="defaultValue">params["endDate"]</expression>
-                    <property name="isOptional">false</property>
-                    <property name="isInput">true</property>
-                </structure>
-            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -75,17 +53,17 @@
                     <structure>
                         <property name="position">2</property>
                         <property name="name">join_date</property>
-                        <property name="dataType">date-time</property>
+                        <property name="dataType">date</property>
                     </structure>
                     <structure>
                         <property name="position">3</property>
                         <property name="name">start_date</property>
-                        <property name="dataType">date-time</property>
+                        <property name="dataType">date</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
                         <property name="name">end_date</property>
-                        <property name="dataType">date-time</property>
+                        <property name="dataType">date</property>
                     </structure>
                     <structure>
                         <property name="position">5</property>
@@ -110,6 +88,84 @@
                 </list-property>
             </structure>
             <property name="dataSource">civicrm</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">startDate</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">params["startDate"]</expression>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                </structure>
+                <structure>
+                    <property name="name">endDate</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">2</property>
+                    <expression name="defaultValue">params["endDate"]</expression>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">join_date</property>
+                    <property name="nativeName">join_date</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">start_date</property>
+                    <property name="nativeName">start_date</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">end_date</property>
+                    <property name="nativeName">end_date</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">source</property>
+                    <property name="nativeName">source</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">type</property>
+                    <property name="nativeName">type</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">status</property>
+                    <property name="nativeName">status</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">display_name</property>
+                    <property name="nativeName">display_name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
             <property name="queryText">SELECT mem.id,mem.join_date,mem.start_date,
 mem.end_date,mem.source,memType.name as type,
 memStatus.name as status,contact.display_name
@@ -120,7 +176,8 @@ AND memStatus.id=mem.status_id
 AND mem.contact_id=contact.id
 )
 WHERE year(mem.start_date) >= ?
-AND year(mem.end_date) &lt;= ?</property>
+AND year(mem.end_date) &lt;= ?
+ORDER BY mem.start_date</property>
         </oda-data-set>
     </data-sets>
     <page-setup>
@@ -240,37 +297,48 @@ AND year(mem.end_date) &lt;= ?</property>
                     <property name="color">#131B6D</property>
                     <cell id="8">
                         <text id="30">
-			    <property name="marginLeft">5pt</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Name]]></text-property>
                         </text>
                     </cell>
                     <cell id="120">
                         <text id="31">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Join Date]]></text-property>
                         </text>
                     </cell>
                     <cell id="33">
                         <text id="37">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Start Date]]></text-property>
                         </text>
                     </cell>
                     <cell id="121">
                         <text id="32">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[End Date]]></text-property>
                         </text>
                     </cell>
                     <cell id="11">
                         <text id="38">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Source]]></text-property>
                         </text>
                     </cell>
                     <cell id="122">
                         <text id="39">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Type]]></text-property>
                         </text>
@@ -285,32 +353,42 @@ AND year(mem.end_date) &lt;= ?</property>
                     <property name="color">#131B6D</property>
                     <cell id="14">
                         <data id="40">
-			    <property name="marginLeft">5pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">display_name</property>
                         </data>
                     </cell>
                     <cell id="15">
                         <data id="41">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">join_date</property>
                         </data>
                     </cell>
                     <cell id="34">
                         <data id="42">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">start_date</property>
                         </data>
                     </cell>
                     <cell id="16">
                         <data id="43">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">end_date</property>
                         </data>
                     </cell>
                     <cell id="17">
                         <data id="44">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">source</property>
                         </data>
                     </cell>
                     <cell id="18">
                         <data id="45">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">type</property>
                         </data>
                     </cell>
