@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Core/Page/Basic.php';
+require_once 'CRM/Core/ShowHideBlocks.php';
 
 class CRM_Group_Page_Group extends CRM_Core_Page_Basic 
 {
@@ -51,6 +52,9 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
     static $_savedSearchLinks = null;
     
+    protected $_showCommBlock = true;
+
+
     function getBAOName( ) 
     {
         return 'CRM_Contact_BAO_Group';
@@ -228,6 +232,83 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      * @return void
      * @access public
      */
+
+
+
+    /**
+     * Fix what blocks to show/hide based on the default values set
+     *
+     * param $values: holds the values set in function browse()
+     *
+     * @return void
+     */
+    function setShowHide($values ) 
+    {
+      $this->assign('showRowBlock', $this->_showRowBlock);
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+
+	print_r($values);
+
+	foreach($values as $value){
+	  if ($this->_showHideShow[$value['id']]);
+	}
+
+        if ( $this->_showRowBlock ) {
+            $this->_showHide->addShow( 'rows' );
+        }
+	/*
+        // first do the defaults showing
+        $config =& CRM_Core_Config::singleton( );
+        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
+                                                        $this->_maxLocationBlocks );
+ 
+        if ( $this->_showNotes && 
+             ( $this->_action & CRM_Core_Action::ADD ) ) {
+            // notes are only included in the template for New Contact
+            $this->_showHide->addShow( 'id_notes_show' );
+            $this->_showHide->addHide( 'id_notes' );
+        }
+
+        if ( $this->_showTagsAndGroups ) {
+            //add group and tags
+            $contactGroup = $contactTag = array( );
+            if ($this->_contactId) {
+                $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $this->_contactId, 'Added' );
+                $contactTag   =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
+            }
+            
+            if ( empty($contactGroup) || empty($contactTag) ) {
+                $this->_showHide->addShow( 'group_show' );
+                $this->_showHide->addHide( 'group' );
+            } else {
+                $this->_showHide->addShow( 'group' );
+                $this->_showHide->addHide( 'group_show' );
+            }
+        }
+
+        // is there any demographic data?
+        if ( $this->_showDemographics ) {
+            if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
+                 CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
+                 CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
+                $this->_showHide->addShow( 'id_demographics' );
+                $this->_showHide->addHide( 'id_demographics_show' );
+            }
+        }
+
+        if ( $force ) {
+            $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
+            $config =& CRM_Core_Config::singleton( );
+            CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
+                                                       $locationDefaults,
+                                                       $this->_maxLocationBlocks );
+        }
+        
+        $this->_showHide->addToTemplate( );
+	*/
+    }
+
+
     function browse($action = null) 
     {
         $config =& CRM_Core_Config::singleton( );
@@ -272,8 +353,12 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         }
         
         $this->assign( 'rows', $values );
+	$this->assign('show_rows', $this->_showHideShow);
+	$this->setShowHide($values);
     }           
     
 }
+
+
 
 ?>
