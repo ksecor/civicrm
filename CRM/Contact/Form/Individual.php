@@ -199,7 +199,7 @@ showHideSharedOptions();
      * @static
      */
     static function formRule( &$fields, &$files, $options ) {
-        $errors = array( );
+      $errors = array( );
 
         $primaryOpenId = CRM_Contact_Form_Edit::formRule( $fields, $errors );
         //print "Primary OpenID: $primaryOpenId<br/>";
@@ -211,6 +211,7 @@ showHideSharedOptions();
         if (! ( (CRM_Utils_Array::value( 'first_name', $fields ) && 
                  CRM_Utils_Array::value( 'last_name' , $fields )    ) ||
                 ! empty( $primaryOpenId ) ) ) {
+	 
             $errors['_qf_default'] = ts('First Name and Last Name OR an OpenID in the Primary Location should be set.');
         }
 
