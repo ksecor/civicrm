@@ -269,7 +269,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $subTypes['Membership']   = CRM_Member_BAO_MembershipType::getMembershipTypes( false );
         $subTypes['Event']        = CRM_Core_OptionGroup::values('event_type');
         $subTypes['Participant']  = CRM_Core_OptionGroup::values('participant_role');
-        
+               
         require_once "CRM/Contact/BAO/Relationship.php";
         
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
@@ -279,9 +279,8 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $allRelationshipType = array( );
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
-        
         $subTypes['Relationship'] = $allRelationshipType;
-
+        
         require_once "CRM/Core/Component.php";
         $cSubTypes = CRM_Core_Component::contactSubTypes();
         $contactSubTypes = array();
@@ -292,8 +291,11 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $subTypes['Contact']  =  $contactSubTypes;
         foreach ($customGroup as $key => $values ) {
             $sub  = CRM_Utils_Array::value( 'extends_entity_column_value', $customGroup[$key] );
+            if( $customGroup[$key]['extends'] == 'Relationship' && $customGroup[$key]['extends_entity_column_value']){
+                $sub = $sub.'_a_b';
+            }
             $type = CRM_Utils_Array::value( 'extends', $customGroup[$key] );
-            
+                        
             if ( $sub ) {
                 $customGroup[$key]["extends_entity_column_value"] = $subTypes[$type][$sub];
             } else {
