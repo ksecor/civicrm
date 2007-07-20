@@ -88,7 +88,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
     static function hasChildGroups( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id = $groupId LIMIT 1";
-	print $query . "\n<br><br>";
+	//print $query . "\n<br><br>";
 	$dao->query( $query );
         if ( $dao->fetch( ) ) {
             return true;
@@ -110,7 +110,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
     static function hasParentGroups( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id = $groupId LIMIT 1";
-	print $query . "\n<br><br>";
+	//print $query . "\n<br><br>";
 	$dao->query( $query );
         if ( $dao->fetch( ) ) {
             return true;
@@ -171,7 +171,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
         }
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (". implode( ',', $groupIds ) . ")";
-	print $query;
+	//print $query;
 	$dao->query( $query );
         while ( $dao->fetch( ) ) {
             $childGroupId = $dao->child_group_id;
