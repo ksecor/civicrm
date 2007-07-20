@@ -5,7 +5,7 @@
 {ts}Record an Activity{/ts}
 </legend>
 <dl>
-<dt>{ts}With Contact{/ts}</dt><dd>{$displayName}&nbsp;</dd>
+<dt>{ts}Created By{/ts}</dt><dd>{$displayName}&nbsp;</dd>
 <dt>{$form.activity_type_id.label}</dt> <dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd>
 <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>

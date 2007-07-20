@@ -4,32 +4,24 @@
 {ts}Choose Relationship Type and Target Household{/ts}
 </legend>
 <br />
-         <div class="form-item">
-            <dl>
-            <dt></dt>
-            <dd>{include file="CRM/Contact/Form/Task.tpl"}</dd> 
-            <dt></dt>   
+<div class="form-item">
+    <table class="form-layout-compressed"> 
+        <tr><td></td><td>{include file="CRM/Contact/Form/Task.tpl"}</td></tr>
             {if $action EQ 2} {* action = update *}
-              <dd><label>{$sort_name}</label></dd>
-          	</dl>
+                <tr><td><label>{$sort_name}</label></td></tr>
             {else} {* action = add *}
-                <dt>{$form.relationship_type_id.label}</dt><dd>{$form.relationship_type_id.html}</dd>
-                <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
-                <dt> </dt>
-                  <dd>
-                    {$form._qf_AddToHousehold_refresh.html}
-                    {$form._qf_AddToHousehold_cancel.html}
-		    {*$form.relationship_type_id.html*}	
-                  </dd>
-                </dl>
-
-              {if $searchDone } {* Search button clicked *}
-                {if $searchCount}
-                    {if $searchRows} {* we've got rows to display *}
-                        <fieldset><legend>{ts}Mark Target Contact(s) for this Relationship{/ts}</legend>
-                        <div class="description">
-                            {ts}Mark the target contact(s) for this relationship if it appears below. Otherwise you may modify the search name above and click Search again.{/ts}
-                        </div>
+                <tr><td>{$form.relationship_type_id.label}</td><td>{$form.relationship_type_id.html}</td></tr>   
+                <tr><td></td></tr>
+                <tr><td>{$form.name.label}</td><td>{$form.name.html}</td></tr>
+                <tr><td></td><td>{$form._qf_AddToHousehold_refresh.html}&nbsp;&nbsp;{$form._qf_AddToHousehold_cancel.html}</td></tr>
+     </table>
+         {if $searchDone } {* Search button clicked *}
+             {if $searchCount}
+                 {if $searchRows} {* we've got rows to display *}
+                     <fieldset><legend>{ts}Mark Target Contact(s) for this Relationship{/ts}</legend>
+                         <div class="description">
+                         {ts}Mark the target contact(s) for this relationship if it appears below. Otherwise you may modify the search name above and click Search again.{/ts}
+                         </div>
                         {strip}
                         <table>
                         <tr class="columnheader">

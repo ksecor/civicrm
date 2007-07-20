@@ -59,7 +59,7 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
        
         $params           = $this->get( 'queryParams' );
         $returnProperties = $this->get( 'returnProperties' );
-
+        
         $sortID = null;
         if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -71,7 +71,7 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
             $includeContactIds = true;
         }
 
-        $selector   =& new CRM_Contact_Selector($fv, $params, $returnPropeties, $this->_action, $includeContactIds );
+        $selector   =& new CRM_Contact_Selector($fv, $params, isset($returnPropeties) ? $returnPropeties : "", $this->_action, $includeContactIds );
         $controller =& new CRM_Core_Selector_Controller($selector ,
                                                         null,
                                                         $sortID,

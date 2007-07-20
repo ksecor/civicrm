@@ -1335,7 +1335,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
 
         $config =& CRM_Core_Config::singleton( );
-
         if ( substr($fieldName,0,14) === 'state_province' ) {
             $form->add('select', $name, $title,
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
@@ -1432,6 +1431,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once "CRM/Contribute/PseudoConstant.php";
             $form->add('select', $name, ts( 'Contribution Type' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+        } else if ($fieldName == 'contribution_status_id' ) {
+            require_once "CRM/Contribute/PseudoConstant.php";
+            $form->add('select', $name, ts( 'Contribution Status' ),
+                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionStatus( ), $required);
         } else if ($fieldName == 'participant_register_date' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  

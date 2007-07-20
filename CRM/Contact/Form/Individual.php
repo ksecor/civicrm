@@ -240,7 +240,7 @@ showHideSharedOptions();
         }
 
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
-        if ( $fields['use_household_address'] && !$fields['shared_household_selected'] ) {
+        if ( CRM_Utils_Array::value('use_household_address',$fields) && !$fields['shared_household_selected'] ) {
             if ( ! $fields['create_household'] ) {
                 if ( !array_key_exists( 'shared_option', $fields ) || $fields['shared_option'] ) {
                     if ( !$fields['old_mail_to_household_id'] || $fields['shared_household'] ) {

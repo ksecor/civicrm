@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
@@ -17,6 +16,56 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="membersdataset" id="5">
             <text-property name="displayName">membersdataset</text-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">total</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">join_date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">start_date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">end_date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">source</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">type</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">status</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">display_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">year</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">civicrm</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
@@ -73,56 +122,6 @@
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">total</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">join_date</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">start_date</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">end_date</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">source</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">type</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">status</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">display_name</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">year</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
-            <property name="dataSource">civicrm</property>
             <property name="queryText">SELECT count(distinct(mem.id)) as total,mem.join_date,mem.start_date,
 mem.end_date,mem.source,memType.name as type,
 memStatus.name as status,contact.display_name, date_format(mem.start_date, '%Y') as year
@@ -231,42 +230,56 @@ order by year</property>
                     </cell>
                     <cell id="9">
                         <text id="35">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Join Date]]></text-property>
                         </text>
                     </cell>
                     <cell id="10">
                         <text id="36">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Start Date]]></text-property>
                         </text>
                     </cell>
                     <cell id="11">
                         <text id="37">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[End Date]]></text-property>
                         </text>
                     </cell>
                     <cell id="12">
                         <text id="38">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Source]]></text-property>
                         </text>
                     </cell>
                     <cell id="13">
                         <text id="39">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Membership Type]]></text-property>
                         </text>
                     </cell>
                     <cell id="40">
                         <text id="44">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Membership Status]]></text-property>
                         </text>
                     </cell>
                     <cell id="45">
                         <text id="49">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Joined Year]]></text-property>
                         </text>
@@ -278,496 +291,65 @@ order by year</property>
                     <property name="backgroundColor">#E8F2FF</property>
                     <property name="fontSize">x-small</property>
                     <cell id="15">
-                        <data id="50">
+                        <data id="73">
+                            <property name="marginTop">0pt</property>
                             <property name="marginLeft">5pt</property>
-                            <property name="dataSet">membersdataset</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">id</property>
-                                    <expression name="expression">dataSetRow["id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">join_date</property>
-                                    <expression name="expression">dataSetRow["join_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">start_date</property>
-                                    <expression name="expression">dataSetRow["start_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">end_date</property>
-                                    <expression name="expression">dataSetRow["end_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">source</property>
-                                    <expression name="expression">dataSetRow["source"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">type</property>
-                                    <expression name="expression">dataSetRow["type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">status</property>
-                                    <expression name="expression">dataSetRow["status"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">display_name</property>
-                                    <expression name="expression">dataSetRow["display_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">year</property>
-                                    <expression name="expression">dataSetRow["year"]</expression>
-                                    <property name="dataType">decimal</property>
-                                </structure>
-                            </list-property>
                             <property name="resultSetColumn">display_name</property>
                         </data>
                     </cell>
                     <cell id="16">
-                        <data id="51">
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
-                            <property name="dataSet">membersdataset</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">id</property>
-                                    <expression name="expression">dataSetRow["id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">join_date</property>
-                                    <expression name="expression">dataSetRow["join_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">start_date</property>
-                                    <expression name="expression">dataSetRow["start_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">end_date</property>
-                                    <expression name="expression">dataSetRow["end_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">source</property>
-                                    <expression name="expression">dataSetRow["source"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">type</property>
-                                    <expression name="expression">dataSetRow["type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">status</property>
-                                    <expression name="expression">dataSetRow["status"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">display_name</property>
-                                    <expression name="expression">dataSetRow["display_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">year</property>
-                                    <expression name="expression">dataSetRow["year"]</expression>
-                                    <property name="dataType">decimal</property>
-                                </structure>
-                            </list-property>
+                        <data id="74">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">join_date</property>
                         </data>
                     </cell>
                     <cell id="17">
-                        <data id="52">
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
-                            <property name="dataSet">membersdataset</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">id</property>
-                                    <expression name="expression">dataSetRow["id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">join_date</property>
-                                    <expression name="expression">dataSetRow["join_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">start_date</property>
-                                    <expression name="expression">dataSetRow["start_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">end_date</property>
-                                    <expression name="expression">dataSetRow["end_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">source</property>
-                                    <expression name="expression">dataSetRow["source"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">type</property>
-                                    <expression name="expression">dataSetRow["type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">status</property>
-                                    <expression name="expression">dataSetRow["status"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">display_name</property>
-                                    <expression name="expression">dataSetRow["display_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">year</property>
-                                    <expression name="expression">dataSetRow["year"]</expression>
-                                    <property name="dataType">decimal</property>
-                                </structure>
-                            </list-property>
+                        <data id="75">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">start_date</property>
                         </data>
                     </cell>
                     <cell id="18">
-                        <data id="53">
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
-                            <property name="dataSet">membersdataset</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">id</property>
-                                    <expression name="expression">dataSetRow["id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">join_date</property>
-                                    <expression name="expression">dataSetRow["join_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">start_date</property>
-                                    <expression name="expression">dataSetRow["start_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">end_date</property>
-                                    <expression name="expression">dataSetRow["end_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">source</property>
-                                    <expression name="expression">dataSetRow["source"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">type</property>
-                                    <expression name="expression">dataSetRow["type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">status</property>
-                                    <expression name="expression">dataSetRow["status"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">display_name</property>
-                                    <expression name="expression">dataSetRow["display_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">year</property>
-                                    <expression name="expression">dataSetRow["year"]</expression>
-                                    <property name="dataType">decimal</property>
-                                </structure>
-                            </list-property>
+                        <data id="76">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">end_date</property>
                         </data>
                     </cell>
                     <cell id="19">
-                        <data id="54">
-                            <property name="dataSet">membersdataset</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">id</property>
-                                    <expression name="expression">dataSetRow["id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">join_date</property>
-                                    <expression name="expression">dataSetRow["join_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">start_date</property>
-                                    <expression name="expression">dataSetRow["start_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">end_date</property>
-                                    <expression name="expression">dataSetRow["end_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">source</property>
-                                    <expression name="expression">dataSetRow["source"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">type</property>
-                                    <expression name="expression">dataSetRow["type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">status</property>
-                                    <expression name="expression">dataSetRow["status"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">display_name</property>
-                                    <expression name="expression">dataSetRow["display_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">year</property>
-                                    <expression name="expression">dataSetRow["year"]</expression>
-                                    <property name="dataType">decimal</property>
-                                </structure>
-                            </list-property>
+                        <data id="77">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">source</property>
                         </data>
                     </cell>
                     <cell id="20">
-                        <data id="55">
-                            <property name="dataSet">membersdataset</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">id</property>
-                                    <expression name="expression">dataSetRow["id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">join_date</property>
-                                    <expression name="expression">dataSetRow["join_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">start_date</property>
-                                    <expression name="expression">dataSetRow["start_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">end_date</property>
-                                    <expression name="expression">dataSetRow["end_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">source</property>
-                                    <expression name="expression">dataSetRow["source"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">type</property>
-                                    <expression name="expression">dataSetRow["type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">status</property>
-                                    <expression name="expression">dataSetRow["status"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">display_name</property>
-                                    <expression name="expression">dataSetRow["display_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">year</property>
-                                    <expression name="expression">dataSetRow["year"]</expression>
-                                    <property name="dataType">decimal</property>
-                                </structure>
-                            </list-property>
+                        <data id="78">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">type</property>
                         </data>
                     </cell>
                     <cell id="41">
-                        <data id="56">
-                            <property name="dataSet">membersdataset</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">id</property>
-                                    <expression name="expression">dataSetRow["id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">join_date</property>
-                                    <expression name="expression">dataSetRow["join_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">start_date</property>
-                                    <expression name="expression">dataSetRow["start_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">end_date</property>
-                                    <expression name="expression">dataSetRow["end_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">source</property>
-                                    <expression name="expression">dataSetRow["source"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">type</property>
-                                    <expression name="expression">dataSetRow["type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">status</property>
-                                    <expression name="expression">dataSetRow["status"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">display_name</property>
-                                    <expression name="expression">dataSetRow["display_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">year</property>
-                                    <expression name="expression">dataSetRow["year"]</expression>
-                                    <property name="dataType">decimal</property>
-                                </structure>
-                            </list-property>
+                        <data id="79">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">status</property>
                         </data>
                     </cell>
                     <cell id="46">
-                        <data id="57">
-                            <property name="dataSet">membersdataset</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">id</property>
-                                    <expression name="expression">dataSetRow["id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">join_date</property>
-                                    <expression name="expression">dataSetRow["join_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">start_date</property>
-                                    <expression name="expression">dataSetRow["start_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">end_date</property>
-                                    <expression name="expression">dataSetRow["end_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">source</property>
-                                    <expression name="expression">dataSetRow["source"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">type</property>
-                                    <expression name="expression">dataSetRow["type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">status</property>
-                                    <expression name="expression">dataSetRow["status"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">display_name</property>
-                                    <expression name="expression">dataSetRow["display_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">year</property>
-                                    <expression name="expression">dataSetRow["year"]</expression>
-                                    <property name="dataType">decimal</property>
-                                </structure>
-                            </list-property>
+                        <data id="80">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5pt</property>
                             <property name="resultSetColumn">year</property>
                         </data>
                     </cell>
                 </row>
             </detail>
         </table>
-        <extended-item extensionName="Chart" id="72">
-            <property name="height">2.759in</property>
-            <property name="width">5.987in</property>
-            <property name="dataSet">membersdataset</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">total</property>
-                    <expression name="expression">dataSetRow["total"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="name">join_date</property>
-                    <expression name="expression">dataSetRow["join_date"]</expression>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="name">start_date</property>
-                    <expression name="expression">dataSetRow["start_date"]</expression>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="name">end_date</property>
-                    <expression name="expression">dataSetRow["end_date"]</expression>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="name">source</property>
-                    <expression name="expression">dataSetRow["source"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">type</property>
-                    <expression name="expression">dataSetRow["type"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">status</property>
-                    <expression name="expression">dataSetRow["status"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">display_name</property>
-                    <expression name="expression">dataSetRow["display_name"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">year</property>
-                    <expression name="expression">dataSetRow["year"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
+        <extended-item extensionName="Chart" name="NewChart" id="72">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
@@ -996,8 +578,8 @@ order by year</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>430.26506024096386</Width>
-      <Height>197.78313253012047</Height>
+      <Width>431.05263157894734</Width>
+      <Height>198.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -1821,6 +1403,56 @@ order by year</property>
 </model:ChartWithAxes>
 ]]></xml-property>
             <property name="outputFormat">SVG</property>
+            <property name="dataSet">membersdataset</property>
+            <property name="height">2.759in</property>
+            <property name="width">5.987in</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">total</property>
+                    <expression name="expression">dataSetRow["total"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">join_date</property>
+                    <expression name="expression">dataSetRow["join_date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">start_date</property>
+                    <expression name="expression">dataSetRow["start_date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">end_date</property>
+                    <expression name="expression">dataSetRow["end_date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">source</property>
+                    <expression name="expression">dataSetRow["source"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">type</property>
+                    <expression name="expression">dataSetRow["type"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">status</property>
+                    <expression name="expression">dataSetRow["status"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">display_name</property>
+                    <expression name="expression">dataSetRow["display_name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">year</property>
+                    <expression name="expression">dataSetRow["year"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
         </extended-item>
     </body>
 </report>
