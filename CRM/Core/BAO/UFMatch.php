@@ -53,7 +53,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
      * @access public
      * @static
      */
-  static function synchronize( &$user, $update, $uf, $ctype, $new_install = false ) {
+  static function synchronize( &$user, $update, $uf, $ctype ) {
         $session =& CRM_Core_Session::singleton( );
         if ( ! is_object( $session ) ) {
             CRM_Core_Error::fatal( 'wow, session is not an object?' );
@@ -127,7 +127,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         }
         
         //print "Calling synchronizeUFMatch...<br/>";
-        $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $uniqId, $uf, null, $ctype, $new_install);
+        $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $uniqId, $uf, null, $ctype );
         if ( ! $ufmatch ) {
             return;
         }
@@ -164,7 +164,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
      * @access public
      * @static
      */
-    static function &synchronizeUFMatch( &$user, $userKey, $uniqId, $uf, $status = null, $ctype = null, $new_install = false ) {
+    static function &synchronizeUFMatch( &$user, $userKey, $uniqId, $uf, $status = null, $ctype = null ) {
         // validate that uniqId is a valid url. it will either be
         // an OpenID (which should always be a valid url) or a
         // http://uf_username.domain/ construction (so that it can
@@ -219,40 +219,21 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
                     }
                 }
                 
-		if ($uf == 'Standalone' && $user->name){
-		  $name = trim($user->name);
-		  $names = explode( ' ', $user->name);
-		  if (count($names) == 1){
-		    $params['sort_name'] = $params['display_name'] = $names[0];
-		  }
-		  else if (count($names ) == 2){
-		    $params['display_name'] = $names[0] . ' ' . $names[1];
-		    $params['sort_name'] = $names[1] . ', ' . $names[0];
-		  }
-		  else if (count($names ) == 3){
-		    $params['display_name'] = $names[0] . ' ' . $names[1]
-		      . ' ' . $names[2];
-		    $params['sort_name'] = $names[2] . ', ' . $names[0]
-		      . ' ' . $names[1];
-		  }
-		  else{
-		    $params['display_name'] = $names[0] . ' ' . $names[1]
-		      . ' ' . $names[2] . ' ' . $names[3];
-		    $params['sort_name'] = $names[3] . ', ' . $names[0] . 
-		      ' ' . $names[1] . ' ' . $names[2];
-		  }
-		}
+		        if ( $uf == 'Standalone' && ($user->first_name || $user->last_name ) ) {
+		            $params['first_name'] = $user->first_name;
+		            $params['last_name'] = $user->last_name;
+	            }
 		
                 require_once 'api/Contact.php';
 		
-                $contact =& crm_create_contact( $params, $ctype, false, $new_install );
+                $contact =& crm_create_contact( $params, $ctype, false );
                 
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::debug( 'error', $contact );
                     exit(1);
                 }
-                $ufmatch->contact_id    = $contact->id;
-                $ufmatch->domain_id     = $contact->domain_id ;
+                $ufmatch->contact_id     = $contact->id;
+                $ufmatch->domain_id      = $contact->domain_id;
                 $ufmatch->user_unique_id = $uniqId;
             }
             $ufmatch->save( );

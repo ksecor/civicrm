@@ -141,9 +141,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
         
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
-	print_r($defaults['location']);
-	print "\n<br><br>";        
-	$this->assign( $defaults );
+     
+	    $this->assign( $defaults );
         $this->setShowHide( $defaults );        
         
         // also assign the last modifed details

@@ -6,6 +6,8 @@ class Standalone_User {
     $this->identity_url = $identityUrl;
     $this->email = $email;
     $this->name = $firstName . ' ' . $lastName;
+    $this->first_name = $firstName;
+    $this->last_name = $lastName;
   }
 }
 

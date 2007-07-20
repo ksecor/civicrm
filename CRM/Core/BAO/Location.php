@@ -64,12 +64,12 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      * @access public
      * @static
      */
-  static function add( &$params, &$ids, $locationId, $fixAddress = true, $new_install = false ) {
+  static function add( &$params, &$ids, $locationId, $fixAddress = true ) {
 
-        if ( ! $new_install && ! self::dataExists( $params, $locationId, $ids ) ) {
+        if ( ! self::dataExists( $params, $locationId, $ids ) ) {
             return null;
         }
-        
+
         $location =& new CRM_Core_BAO_Location( );
         
         if (! isset($params['contact_id'])) {
@@ -160,7 +160,7 @@ UPDATE civicrm_location
         $location->email  = array( );
         $location->im     = array( );
         $location->openid = array( );
-
+        
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
             $location->phone [$i] = CRM_Core_BAO_Phone::add ( $params, $ids, $locationId, $i, $isPrimaryPhone  );
             $location->email [$i] = CRM_Core_BAO_Email::add ( $params, $ids, $locationId, $i, $isPrimaryEmail  );
@@ -218,7 +218,7 @@ UPDATE civicrm_location
         }
         
         if ( CRM_Core_BAO_Address::dataExists( $params, $locationId, $ids ) ) {
-	  return true;
+	        return true;
         }
 
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
