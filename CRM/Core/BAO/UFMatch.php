@@ -219,10 +219,24 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
                     }
                 }
                 
-		        if ( $uf == 'Standalone' && ($user->first_name || $user->last_name ) ) {
-		            $params['first_name'] = $user->first_name;
-		            $params['last_name'] = $user->last_name;
-	            }
+                if ( $uf == 'Standalone' ) {
+		            if ( ( ! empty( $user->first_name ) ) || ( ! empty( $user->last_name ) ) ) {
+		                $params['first_name'] = $user->first_name;
+		                $params['last_name'] = $user->last_name;
+	                } elseif ( ! empty( $user->name ) ) {
+	                    $name = trim( $user->name );
+	                    $names = explode( ' ', $user->name );
+	                    if ( count( $names ) == 1 ) {
+	                        $params['first_name'] = $names[0];
+	                    } else if ( count ( $names ) == 2 ) {
+	                        $params['first_name'] = $names[0];
+	                        $params['last_name' ] = $names[1];
+	                    } else {
+	                        $params['first_name' ] = $names[0];
+	                        $params['middle_name'] = $names[1];
+	                        $params['last_name'  ] = $names[2];
+	                    }
+	                }
 		
                 require_once 'api/Contact.php';
 		
