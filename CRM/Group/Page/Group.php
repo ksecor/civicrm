@@ -278,8 +278,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         }
         
         $this->assign( 'rows', $values );
-	$this->assign('show_rows', $this->_showHideShow);
-	$this->setShowHide($values);
+	print_r 
     }           
     
 }
@@ -296,19 +295,19 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      * $object: object to be added
      * $level: depth of traversal
      */
-    function browse_r(&$values, $pre_values, $object, $action = null, $level = 0){
-
-	require_once 'CRM/Contact/BAO/GroupNesting.php';
+    function browse_r(&$values, $pre_values, $object, $action = null, $level = 0, &$nextIndex = 0){
+      
+      require_once 'CRM/Contact/BAO/GroupNesting.php';
 	
       $permission = $this->checkPermission( $object['id'], $object['title'] );
       print "\n<br><br>";
       //      print_r($pre_values);     
       if ( $permission ) {
-
+	
 	if (!CRM_Contact_BAO_GroupNesting::hasParentGroups($object['id'])
 	    || $level > 0){
 	  // print "Recurring on id #" . $object['id'];	  
-	  $values[$object['id']] = $object;
+	  $values[$nextIndex] = $object;
 	  //print "\n<br><br>VALUES<br><br>";
 	  //print_r($values);
 	  //print_r($object);
@@ -318,11 +317,11 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
 	    $links =& $this->links( );
 	  } else {
 	    $links =& $this->links( );
-	      }
+	  }
 	  $action = array_sum(array_keys($links));
-	  if ( array_key_exists( 'is_active', $object ) ) {
+          if ( array_key_exists( 'is_active', $object ) ) {
 	    if ( $object->is_active ) {
-	      $action -= CRM_Core_Action::ENABLE;
+              $action -= CRM_Core_Action::ENABLE;
 	    } else {
 	      $action -= CRM_Core_Action::VIEW;
 	      $action -= CRM_Core_Action::DISABLE;
@@ -343,7 +342,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
 		  		  if (CRM_Contact_BAO_GroupNesting::isChildGroup($object['id'], $childObj['id'])){
 
 
-				    $this->browse_r($values, $pre_values, $pre_values[$childObj['id']], $action, $level + 1);
+				    $this->browse_r($values, $pre_values, $pre_values[$childObj['id']], $action, $level + 1, $nextIndex + 1);
 		  		  }
 		}
 	      }
