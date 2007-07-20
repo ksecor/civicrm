@@ -38,124 +38,124 @@ require_once 'CRM/Core/ShowHideBlocks.php';
 
 class CRM_Group_Page_Group extends CRM_Core_Page_Basic 
 {
-    /**
-     * The action links that we need to display for the browse screen
-     *
-     * @var array
-     */
-    static $_links = null;
-    
-    /**
-     * The action links that we need to display for saved search items
-     *
-     * @var array
-     */
-    static $_savedSearchLinks = null;
-    
-    protected $_showCommBlock = true;
-
-
-    function getBAOName( ) 
+  /**
+   * The action links that we need to display for the browse screen
+   *
+   * @var array
+   */
+  static $_links = null;
+  
+  /**
+   * The action links that we need to display for saved search items
+   *
+   * @var array
+   */
+  static $_savedSearchLinks = null;
+  
+  protected $_showCommBlock = true;
+  
+  
+  function getBAOName( ) 
+  {
+    return 'CRM_Contact_BAO_Group';
+  }
+  
+  /**
+   * Function to define action links
+   *
+   * @return array self::$_links array of action links
+   * @access public
+   */
+  function &links()
     {
-        return 'CRM_Contact_BAO_Group';
-    }
-
-    /**
-     * Function to define action links
-     *
-     * @return array self::$_links array of action links
-     * @access public
-     */
-    function &links()
-    {
-        $disableExtra = ts('Are you sure you want to disable this Group?');
-        
-        if (!(self::$_links)) {
-            self::$_links = array(
-                                  CRM_Core_Action::VIEW => array(
-                                                                 'name'  => ts('Members'),
-                                                                 'url'   => 'civicrm/group/search',
-                                                                 'qs'    => 'reset=1&force=1&context=smog&gid=%%id%%',
-                                                                 'title' => ts('Group Members')
+      $disableExtra = ts('Are you sure you want to disable this Group?');
+      
+      if (!(self::$_links)) {
+	self::$_links = array(
+			      CRM_Core_Action::VIEW => array(
+							     'name'  => ts('Members'),
+							     'url'   => 'civicrm/group/search',
+							     'qs'    => 'reset=1&force=1&context=smog&gid=%%id%%',
+							     'title' => ts('Group Members')
+							     ),
+			      CRM_Core_Action::UPDATE => array(
+							       'name'  => ts('Settings'),
+							       'url'   => 'civicrm/group',
+							       'qs'    => 'reset=1&action=update&id=%%id%%',
+							       'title' => ts('Edit Group')
+							       ),
+			      CRM_Core_Action::DISABLE => array( 
+								'name'  => ts('Disable'),
+                                                                'url'   => 'civicrm/group',
+                                                                'qs'    => 'reset=1&action=disable&id=%%id%%',
+                                                                'extra' => 'onclick = "return confirm(\''. $disableExtra . '\');"',
+                                                                'title' => ts('Disable Group') 
                                                                  ),
-                                  CRM_Core_Action::UPDATE => array(
-                                                                   'name'  => ts('Settings'),
-                                                                   'url'   => 'civicrm/group',
-                                                                   'qs'    => 'reset=1&action=update&id=%%id%%',
-                                                                   'title' => ts('Edit Group')
-                                                                   ),
-                                  CRM_Core_Action::DISABLE => array( 
-                                                                    'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/group',
-                                                                    'qs'    => 'reset=1&action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\''. $disableExtra . '\');"',
-                                                                    'title' => ts('Disable Group') 
-                                                                    ),
-                                  CRM_Core_Action::ENABLE  => array( 
-                                                                    'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/group',
-                                                                    'qs'    => 'reset=1&action=enable&id=%%id%%',
-                                                                    'title' => ts( 'Enable Group' ) 
-                                                                    ),
-                                  CRM_Core_Action::DELETE => array(
-                                                                   'name'  => ts('Delete'),
-                                                                   'url'   => 'civicrm/group',
-                                                                   'qs'    => 'reset=1&action=delete&id=%%id%%',
-                                                                   'title' => ts('Delete Group')
+                              CRM_Core_Action::ENABLE  => array( 
+                                                                'name'  => ts('Enable'),
+                                                                'url'   => 'civicrm/group',
+                                                                'qs'    => 'reset=1&action=enable&id=%%id%%',
+                                                                'title' => ts( 'Enable Group' ) 
+                                                                 ),
+                              CRM_Core_Action::DELETE => array(
+                                                               'name'  => ts('Delete'),
+                                                               'url'   => 'civicrm/group',
+                                                               'qs'    => 'reset=1&action=delete&id=%%id%%',
+                                                               'title' => ts('Delete Group')
                                                                    )
-                                  
-                                  );
-        }
-        return self::$_links;
+                              
+                              );
+      }
+      return self::$_links;
     }
     
-    /**
-     * Function to define action links for saved search
-     *
+  /**
+   * Function to define action links for saved search
+   *
      * @return array self::$_savedSearchLinks array of action links
      * @access public
      */
-    function &savedSearchLinks( ) 
+  function &savedSearchLinks( ) 
     {
-        if ( ! self::$_savedSearchLinks ) {
+      if ( ! self::$_savedSearchLinks ) {
             $deleteExtra = ts('Do you really want to remove this Smart Group?');
             self::$_savedSearchLinks =
-                array(
-                      CRM_Core_Action::VIEW   => array(
-                                                       'name'  => ts('Show Group Members'),
-                                                       'url'   => 'civicrm/contact/search/advanced',
-                                                       'qs'    => 'reset=1&force=1&ssID=%%ssid%%',
+              array(
+                    CRM_Core_Action::VIEW   => array(
+                                                     'name'  => ts('Show Group Members'),
+                                                     'url'   => 'civicrm/contact/search/advanced',
+                                                     'qs'    => 'reset=1&force=1&ssID=%%ssid%%',
                                                        'title' => ts('Search')
-                                                       ),
-                      CRM_Core_Action::UPDATE => array(
-                                                       'name'  => ts('Edit'),
-                                                       'url'   => 'civicrm/group',
-                                                       'qs'    => 'reset=1&action=update&id=%%id%%',
-                                                       'title' => ts('Edit Group')
-                                                       ),
-                      CRM_Core_Action::DELETE => array(
-                                                       'name'  => ts('Delete'),
-                                                       'url'   => 'civicrm/contact/search/saved',
-                                                       'qs'    => 'action=delete&id=%%ssid%%',
-                                                       'extra' => 'onclick="return confirm(\'' . $deleteExtra . '\');"',
-                                                       ),
+                                                     ),
+                    CRM_Core_Action::UPDATE => array(
+                                                     'name'  => ts('Edit'),
+                                                     'url'   => 'civicrm/group',
+                                                     'qs'    => 'reset=1&action=update&id=%%id%%',
+                                                     'title' => ts('Edit Group')
+                                                     ),
+                    CRM_Core_Action::DELETE => array(
+                                                     'name'  => ts('Delete'),
+                                                     'url'   => 'civicrm/contact/search/saved',
+                                                     'qs'    => 'action=delete&id=%%ssid%%',
+                                                     'extra' => 'onclick="return confirm(\'' . $deleteExtra . '\');"',
+                                                     ),
                       );
-        }
-        return self::$_savedSearchLinks;
+      }
+      return self::$_savedSearchLinks;
     }
-
-    /**
-     * return class name of edit form
+  
+  /**
+   * return class name of edit form
      *
      * @return string
      * @access public
      */
-    function editForm( ) 
-    {
+  function editForm( ) 
+  {
         return 'CRM_Group_Form_Edit';
-    }
-    
-    /**
+  }
+  
+  /**
      * return name of edit form
      *
      * @return string
@@ -234,58 +234,6 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
 
     /*
-    function browse($action = null) 
-    {
-        $config =& CRM_Core_Config::singleton( );
-        $values =  array( );
-        
-        $object =& new CRM_Contact_BAO_Group( );
-        $object->domain_id = $config->domainID( );
-        $object->orderBy ( 'title asc' );
-        $object->find();
-        
-        $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
-        $this->assign( 'groupPermission', $groupPermission );
-        
-        while ($object->fetch()) {
-            $permission = $this->checkPermission( $object->id, $object->title );
-            if ( $permission ) {
-                $values[$object->id] = array( );
-                CRM_Core_DAO::storeValues( $object, $values[$object->id]);
-                if ( $object->saved_search_id ) {
-                    $values[$object->id]['title'] = $values[$object->id]['title'] . ' (' . ts('Smart Group') . ')';
-                    $links =& $this->links( );
-                } else {
-                    $links =& $this->links( );
-                }
-                $action = array_sum(array_keys($links));
-                if ( array_key_exists( 'is_active', $object ) ) {
-                    if ( $object->is_active ) {
-                        $action -= CRM_Core_Action::ENABLE;
-                    } else {
-                        $action -= CRM_Core_Action::VIEW;
-                        $action -= CRM_Core_Action::DISABLE;
-                    }
-                }
-                $action = $action & CRM_Core_Action::mask( $groupPermission );
-                
-                $values[$object->id]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility', $values[$object->id]['visibility']);
-                $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
-                                                                            $action,
-                                                                            array( 'id'   => $object->id,
-                                                                                   'ssid' => $object->saved_search_id ) );
-            }
-        }
-        
-        $this->assign( 'rows', $values );
-	print_r 
-    }           
-    
-}
-    */
-
-
-    /*
      * Recursive function to add descendant groups to $values in function
      * browse()
      *
@@ -298,12 +246,12 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
     function browse_r(&$values, $pre_values, $object, $action = null, $level = 0, &$nextIndex = 0){
       
       require_once 'CRM/Contact/BAO/GroupNesting.php';
-	
+      
       $permission = $this->checkPermission( $object['id'], $object['title'] );
       print "\n<br><br>";
       //      print_r($pre_values);     
       if ( $permission ) {
-	
+        
 	if (!CRM_Contact_BAO_GroupNesting::hasParentGroups($object['id'])
 	    || $level > 0){
 	  // print "Recurring on id #" . $object['id'];	  
@@ -336,13 +284,14 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
 										 'ssid' => $object['saved_search_id'] ) );
 	      $values[$object['id']]['level'] = $level;
 	      // print "\n<br><br>" .  "ID is: " . $object['id'] . "\n<br><br>";
-	      if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object['id'])){
+              $nextIndex++;
+
+              if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object['id'])){
 		foreach ($pre_values as $childObj){
 		  
 		  		  if (CRM_Contact_BAO_GroupNesting::isChildGroup($object['id'], $childObj['id'])){
 
-
-				    $this->browse_r($values, $pre_values, $pre_values[$childObj['id']], $action, $level + 1, $nextIndex + 1);
+				    $this->browse_r($values, $pre_values, $pre_values[$childObj['id']], $action, $level + 1, $nextIndex);
 		  		  }
 		}
 	      }
