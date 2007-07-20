@@ -21,17 +21,18 @@ if ( $response->status == Auth_OpenID_CANCEL ) {
     $user = new Standalone_User( $openid, $email );
     require_once 'CRM/Core/Session.php';
     $allow_login = CRM_Utils_System_Standalone::getAllowedToLogin( $user );
-    if ( !$allow_login && !CIVICRM_ALLOW_ALL) {
+    if ( !$allow_login && !CIVICRM_ALLOW_ALL ) {
       $session->set( 'msg' , 'Login failed.');	
       $session->set('goahead', "no");
     }
     CRM_Utils_System_Standalone::getUserID( $user );
     $userID = $session->get( 'userID' );
     if ( empty( $userID ) ) {
-      $session->set( 'msg' , 'You are not authorized to login.');
-	$session->set('goahead', "no");
+        $session->set( 'msg' , 'You are not authorized to login.');
+	    $session->set('goahead', "no");
     }
     header("Location: index.php");
     exit(0);
 }
 
+?>

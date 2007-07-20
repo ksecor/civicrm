@@ -22,17 +22,16 @@ if ( $session->get('userID') == null || $session->get('userID') == '' ) {
     include 'login.php';
     exit(0);
 }
-if ($session->get('goahead') != "no"){
-// If we didn't get any parameters, we should default to the dashboard
-if ($_GET[CIVICRM_UF_URLVAR] == "") {
-    print CRM_Core_Invoke::invoke( array("civicrm","dashboard") );
+if ($session->get('goahead') != "no") {
+    // If we didn't get any parameters, we should default to the dashboard
+    if ($_GET[CIVICRM_UF_URLVAR] == "") {
+        print CRM_Core_Invoke::invoke( array("civicrm","dashboard") );
+    } else {
+        print CRM_Core_Invoke::invoke( explode('/', $_GET[CIVICRM_UF_URLVAR] ) );
+    }
 } else {
-    print CRM_Core_Invoke::invoke( explode('/', $_GET[CIVICRM_UF_URLVAR] ) );
+    header("Location:login.php");
+    print "One or more errors occurred.";
 }
-}
-else{
-header("Location:login.php");
-print "One or more errors occurred.";
- }
 
 ?>
