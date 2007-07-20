@@ -1335,7 +1335,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
 
         $config =& CRM_Core_Config::singleton( );
-
         if ( substr($fieldName,0,14) === 'state_province' ) {
             $form->add('select', $name, $title,
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
@@ -1432,6 +1431,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once "CRM/Contribute/PseudoConstant.php";
             $form->add('select', $name, ts( 'Contribution Type' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+        } else if ($fieldName == 'contribution_status_id' ) {
+            require_once "CRM/Contribute/PseudoConstant.php";
+            $form->add('select', $name, ts( 'Contribution Status' ),
+                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionStatus( ), $required);
         } else if ($fieldName == 'participant_register_date' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
@@ -1697,18 +1700,23 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         //Handling Event Participation Part of the batch profile 
         if ( CRM_Core_Permission::access( 'CiviEvent' ) && $component == 'Event' ) {
-               $params = $ids = $values = array();
-               $params = array( 'id' => $componentId );
-               
-               require_once "CRM/Event/BAO/Participant.php";
-               CRM_Event_BAO_Participant::getValues( $params, $values,  $ids );
-
-               foreach ($fields as $name => $field ) {
-                   $fldName = "field[$componentId][$name]";
-                   if ( array_key_exists($name,$values[$componentId]) ) {
-                       $defaults[$fldName] = $values[$componentId][$name];
-                   } 
-               }
+            $params = $ids = $values = array( );
+            $params = array( 'id' => $componentId );
+            
+            require_once "CRM/Core/BAO/Note.php";
+            require_once "CRM/Event/BAO/Participant.php";
+            CRM_Event_BAO_Participant::getValues( $params, $values,  $ids );
+            
+            foreach ($fields as $name => $field ) {
+                $fldName = "field[$componentId][$name]";
+                if ( array_key_exists($name,$values[$componentId]) ) {
+                    $defaults[$fldName] = $values[$componentId][$name];
+                } else if ( $name == 'participant_note' ) {
+                    $noteDetails = array( );
+                    $noteDetails = CRM_Core_BAO_Note::getNote( $componentId, 'civicrm_participant' );
+                    $defaults[$fldName] = array_pop($noteDetails);
+                }
+            }
         }
         
     }

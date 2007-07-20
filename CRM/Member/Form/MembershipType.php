@@ -312,7 +312,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                     $dat = ( $dat < 9) ? '0'.$dat : $dat; 
                     $params[$per] = $mon . $dat;
                 } else {
-                    $params[$per] = null;
+                    $params[$per] = 'null';
                 }
             }
             $ids['memberOfContact'] = $params['contact_check'];

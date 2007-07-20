@@ -56,7 +56,11 @@ function checkParamChildren(value) {
     {$form.location.$index.address.country_id.label}
     </span>
     <span class="fields">
-    {$form.location.$index.address.country_id.html}
+        {$form.location.$index.address.country_id.html}
+        <br class="spacer"/>
+        <span class="description font-italic">
+            {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}
+        </span>
     </span>
 </div>
 

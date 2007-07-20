@@ -199,8 +199,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import');
 
         $this->assign('savedMapping',$mappingArray);
-        $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
-        $this->addElement('submit','loadMapping',ts('Load Mapping'), null, array('onclick'=>'checkSelect()'));
+        $this->addElement('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray, array('onchange' =>  "if (this.value) document.getElementById('loadMapping').disabled = false; else document.getElementById('loadMapping').disabled = true;"));
+        $this->addElement('submit','loadMapping',ts('Load Mapping') );
 
         //to save the current mappings
         if ( !$this->get('savedMapping') ) {

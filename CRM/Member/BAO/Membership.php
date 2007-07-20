@@ -176,7 +176,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 if ( ! $callFromAPI ) {
                     // Redirect the form in case of error
                     CRM_Core_Session::setStatus( ts('The membership can not be saved.<br/> No valid membership status for given dates.') );
-                    return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&force=1&cid={$this->_contactID}&selectedChild=member"));
+                    return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&force=1&cid={$params['contact_id']}&selectedChild=member"));
                 }
                 // Return the error message to the api
                 $error = array( );
@@ -849,6 +849,9 @@ civicrm_membership_status.is_current_member =1";
             $invoiceID = md5(uniqid(rand(), true));
             $tempParams['invoiceID'] = $invoiceID;
             if ($form->_values['is_monetary']) {
+                require_once 'CRM/Core/Payment.php';
+                $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
+                
                 if ( $form->_contributeMode == 'express' ) {
                     $result =& $payment->doExpressCheckout( $tempParams );
                 } else {
@@ -922,7 +925,6 @@ civicrm_membership_status.is_current_member =1";
                                      &$form, $changeToday = null, $ipnParams = null )
     {
         require_once 'CRM/Utils/Hook.php';
-        
         $statusFormat = '%Y-%m-%d';
         $format       = '%Y%m%d';
         
@@ -1042,7 +1044,16 @@ civicrm_membership_status.is_current_member =1";
                 $params['join_date']  = CRM_Utils_Date::isoToMysql( $membership->join_date );
                 $params['start_date'] = CRM_Utils_Date::isoToMysql( $membership->start_date );
                 $params['end_date']   = CRM_Utils_Date::customFormat( $dates['end_date'], $format );
-
+                
+                if ( empty( $membership->source ) ) {
+                    if ( $form ) {
+                        $params['source'  ]  = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+                    }
+                    if ( is_array($ipnParams) ) {
+                        $params['source']    = $ipnParams['source'];
+                    }
+                }
+                
                 CRM_Utils_Hook::pre('edit', 'Membership', $currentMembership['id'], $params );
                 $membership->copyValues( $params );
                 $membership->save( );

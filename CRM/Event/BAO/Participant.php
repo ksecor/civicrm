@@ -209,11 +209,22 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             }
         }
         
-        if ( CRM_Utils_Array::value('note', $params) ) {
+        if ( CRM_Utils_Array::value('note', $params) || CRM_Utils_Array::value('participant_note', $params)) {
+            if ( CRM_Utils_Array::value('note', $params) ) {
+                $note = CRM_Utils_Array::value('note', $params);
+            } else {
+                $note = CRM_Utils_Array::value('participant_note', $params);
+            }
+        
+            if ( ! isset($ids['note']) ) {
+                $noteDetails = CRM_Core_BAO_Note::getNote( $participant->id, 'civicrm_participant' );
+                $ids['note']['id'] = array_pop( array_flip( $noteDetails ) );
+            }
+
             require_once 'CRM/Core/BAO/Note.php';
             $noteParams = array(
                                 'entity_table'  => 'civicrm_participant',
-                                'note'          => $params['note'],
+                                'note'          => $note,
                                 'entity_id'     => $participant->id,
                                 'contact_id'    => $id,
                                 'modified_date' => date('Ymd')
@@ -221,8 +232,8 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             
             CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
         }
-        // Log the information on successful add/edit of Participant
-        // data.
+
+        // Log the information on successful add/edit of Participant data.
         require_once 'CRM/Core/BAO/Log.php';
         require_once 'CRM/Event/PseudoConstant.php' ;
         $logParams = array(
@@ -400,7 +411,8 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             
             require_once 'CRM/Core/DAO/Note.php';
             $tmpFields     = CRM_Event_DAO_Participant::import( );
-            $note          = array( 'participant_note' => array('title' => 'Participant Note')  );
+            $note          = array( 'participant_note' => array( 'title' => 'Participant Note',
+                                                                 'name'  => 'participant_note'));
 
             $tmpConatctField = array( );
             if ( !$onlyParticipant ) {

@@ -71,9 +71,9 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             }
             
             $defaults['includeGroups'] = $mailingGroups['civicrm_group']['Include'];
-            $defaults['excludeGroups'] = $mailingGroups['civicrm_group']['Exclude'];
+            $defaults['excludeGroups'] = CRM_Utils_Array::value('Exclude',$mailingGroups['civicrm_group']);
 
-            $defaults['includeMailings'] = $mailingGroups['civicrm_mailing']['Include'];
+            $defaults['includeMailings'] = CRM_Utils_Array::value('Include',$mailingGroups['civicrm_mailing']);
             $defaults['excludeMailings'] = $mailingGroups['civicrm_mailing']['Exclude'];
         }
         

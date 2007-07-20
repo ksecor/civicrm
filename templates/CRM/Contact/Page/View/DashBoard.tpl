@@ -24,10 +24,8 @@
          {counter start=0 skip=1 print=false}
          {foreach from=$rows item=row}  
             <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-                 <td>{$row.activity_type}</td>
-                 <td>
-                   <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=`$row.targetID`&history=0&context=Home"}">{$row.case|mb_truncate:33:"...":true}</a>
-                 </td>
+                 <td><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=`$row.targetID`&history=0&context=Home"}">{$row.activity_type|mb_truncate:33:"...":true}</a></td>
+                 <td>{$row.case}</td>
                  <td>
                    <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.sourceID`"}">{$row.sourceName}</a>
                  </td>

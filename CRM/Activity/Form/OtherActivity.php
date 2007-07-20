@@ -171,12 +171,12 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
             $ActivityAssignment->find(true);
             $ids['aid'] = $ActivityAssignment->id;
         }
-        
+        $caseParams['to_contact'] = CRM_Case_BAO_Case::retrieveCid($params['to_contact']);
+
         require_once "CRM/Activity/BAO/Activity.php";
         $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
 
         require_once 'CRM/Case/BAO/Case.php';
-        $caseParams['to_contact'] = CRM_Case_BAO_Case::retrieveCid($params['to_contact']);
         $caseParams['activity_entity_table'] = 'civicrm_activity';
         $caseParams['activity_entity_id']    = $activity->id;
         $caseParams['subject']               = $params['case_subject'];

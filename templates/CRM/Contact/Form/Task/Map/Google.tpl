@@ -26,9 +26,14 @@
       
       {/literal}
       {foreach from=$locations item=location}
+{if $location.url and ! $isProfile}
       {literal}
-
-	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions TO:&nbsp;<input type=text id=to size=20>&nbsp;<a href=\"javascript:popUp();\">&raquo; Go</a>{literal}";
+	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions TO:&nbsp;<input type=text id=to size=20>&nbsp;<a href=\"javascript:popUp();\">&raquo; Go</a>";
+{else}
+      {literal}
+	 var data = "{/literal}{$location.displayName}<br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions TO:&nbsp;<input type=text id=to size=20>&nbsp;<a href=\"javascript:popUp();\">&raquo; Go</a>";
+{/if}
+{literal}
 	 var address = "{/literal}{$location.address}{literal}";
 {/literal}
 {if $location.lat}

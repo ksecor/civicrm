@@ -143,9 +143,10 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         $ids['target_entity_id' ] = $this->_targetCID;
         
         require_once "CRM/Activity/BAO/Activity.php";
-        $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids, $this->_activityType);
-  
         $caseParams['to_contact'] = CRM_Case_BAO_Case::retrieveCid($params['to_contact']);
+  
+        $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids, $this->_activityType);
+        
         $caseParams['activity_entity_table'] = 'civicrm_meeting';
         $caseParams['activity_entity_id']    = $activity->id;
         $caseParams['subject']               = $params['case_subject'];

@@ -62,7 +62,7 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
         $defaults['address_standardization_url'] = $this->_config->address_standardization_url;
 
         
-        $this->addressSequence = $newSequence;
+        $this->addressSequence = isset($newSequence) ? $newSequence : "";
 
         if ( empty( $this->_config->address_format ) ) {
             $defaults['address_format'] = "

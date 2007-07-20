@@ -77,8 +77,8 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'event_title',
                                  'event_level',
                                  'participant_id',
-                                 'start_date',
-                                 'end_date',
+                                 'event_start_date',
+                                 'event_end_date',
                                  'modified_date',
                                  'participant_is_test',
                                  'participant_role_id'
@@ -305,7 +305,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              //fix role display
              $row['role'] =  $roles[$row['participant_role_id']];
 
-             if ( $row["participant_is_test"] ) {
+             if ( CRM_Utils_Array::value("participant_is_test",$row) ) {
                  $row['status'] = $row['status'] . " (test)";
              }
 

@@ -63,6 +63,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     protected $_updateWithId;
     protected $_retCode;
 
+    protected $_externalIdentifierIndex;
+    protected $_allExternalIdentifiers;
+
     /**
      * Array of succesfully imported contact id's
      *
@@ -147,7 +150,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         $this->_lastNameIndex = -1;
         $this->_householdNameIndex = -1;
         $this->_organizationNameIndex = -1;
-
+        $this->_externalIdentifierIndex = -1;
+        
         $index = 0 ;
         foreach ( $this->_mapperKeys as $key ) {
             if ( $key == 'email' ) {
@@ -168,6 +172,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
             if ( $key == 'organization_name' ) { 
                 $this->_organizationNameIndex = $index;
+            }
+            
+            if ( $key == 'external_identifier' ) {
+                $this->_externalIdentifierIndex = $index;
+                $this->_allExternalIdentifiers  = array( );
             }
             $index++;
         }
@@ -272,7 +281,21 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             return CRM_Import_Parser::ERROR;
         }
         
-        //checking error in custom data
+        //check for duplicate external Identifier
+        $externalID = CRM_Utils_Array::value( $this->_externalIdentifierIndex, $values );
+        if ( $externalID ) {
+            /* If it's a dupe,external Identifier  */
+            if ( $externalDupe = CRM_Utils_Array::value( $externalID, 
+                                                         $this->_allExternalIdentifiers ) ) {
+                array_unshift($values, ts('External Identifier conflicts with record %1', 
+                                          array(1 => $externalDupe)));
+                return CRM_Import_Parser::ERROR;
+            }
+            //otherwise, count it and move on
+            $this->_allExternalIdentifiers[$externalID] = $this->_lineCount;
+        }
+
+        //Checking error in custom data
         $params =& $this->getActiveFieldParams( );
         $params['contact_type'] =  $this->_contactType;
         //date-format part ends

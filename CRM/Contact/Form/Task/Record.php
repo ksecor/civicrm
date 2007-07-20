@@ -184,7 +184,10 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
 
         if ( $fields['activity_type_id'] == 3 && $fields['status'] == 'Scheduled' ) {
             $errorMsg['status'] = ts('You cannot record scheduled email activity.');
+        } else if ( $fields['activity_type_id'] == 4 && $fields['status'] == 'Scheduled' ) {
+            $errorMsg['status'] = ts('You cannot record scheduled SMS activity.');
         }
+
 
         if ( !empty($errorMsg) ) {
             return $errorMsg;

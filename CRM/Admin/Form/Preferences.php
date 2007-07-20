@@ -58,8 +58,9 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
                                                          $this, false, true );
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
                                                          $this, false, 'update' );
-        $this->assign( 'action', $action );
-
+        if ( isset($action) ) {
+            $this->assign( 'action', $action );
+        }
         require_once 'CRM/Core/DAO/Preferences.php';
         $this->_config =& new CRM_Core_DAO_Preferences( );
 

@@ -66,6 +66,11 @@
                             </dd>        
                          {* <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a></dd>*}
                             {/if}
+                          {elseif $groupTree.$group_id.fields.$field_id.data_type == 'Link'}
+                            <dd>
+                            {if $groupTree.$group_id.fields.$field_id.customValue.data}                                                <a href="{$groupTree.$group_id.fields.$field_id.customValue.data}">{$groupTree.$group_id.fields.$field_id.customValue.data}</a>
+                            {/if}  
+                            </dd> 
                          {else}
                            <dd class="html-adjust">{$form.$element_name.html}&nbsp;</dd>
                          {/if}

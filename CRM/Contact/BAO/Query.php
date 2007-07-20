@@ -303,7 +303,7 @@ class CRM_Contact_BAO_Query {
         
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        //CRM_Core_Error::debug( 'q', $this );
+        // CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -394,6 +394,12 @@ class CRM_Contact_BAO_Query {
         // CRM_Core_Error::debug( 'p', $this->_params );
         
         foreach ($this->_fields as $name => $field) {
+
+            //skip component fields
+            if (substr( $name, 0, 12  ) == 'participant_' ) {
+                continue;
+            }
+
             // if this is a hierarchical name, we ignore it
             $names = explode( '-', $name );
             if ( count( $names > 1 ) && isset( $names[1] ) && is_numeric( $names[1] ) ) {

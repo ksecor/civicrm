@@ -259,8 +259,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( $error ) {
                 $errors['_qf_default'] = $error;
             }
-        }
         
+            foreach ( $self->_fields as $name => $fld ) {
+                if ( $fld['is_required'] &&
+                     CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
+                    $errors[$name] = ts( '%1 is a required field.', array( 1 => $fld['title'] ) );
+                }
+            }
+        }
+       
         // make sure that credit card number and cvv are valid
         require_once 'CRM/Utils/Rule.php';
         if ( CRM_Utils_Array::value( 'credit_card_type', $fields ) ) {

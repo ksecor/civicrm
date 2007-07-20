@@ -15,7 +15,7 @@
 
 {/if}
 ===========================================================
-{ts}Contribution Information{/ts}
+{if $membershipBlock AND !$is_separate_payment}{ts}Membership Fee{/ts}{else}{ts}Contribution Information{/ts}{/if}
 
 ===========================================================
 {if $membership_amount } 

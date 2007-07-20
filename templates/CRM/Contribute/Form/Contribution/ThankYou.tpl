@@ -29,7 +29,7 @@
 
     {if $amount GT 0 OR $minimum_fee GT 0}
     <div class="header-dark">
-        {ts}Contribution Information{/ts}
+        {if $membershipBlock AND !$is_separate_payment}{ts}Membership Fee{/ts}{else}{ts}Contribution Information{/ts}{/if}
     </div>
     <div class="display-block">
         {if $membership_amount } 

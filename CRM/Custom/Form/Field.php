@@ -404,7 +404,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 if( !empty($default) ) {
                     $fieldCountry = addslashes( $fields['default_value'] );
                     $query = "SELECT count(*) FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
-                    if ( CRM_Core_DAO::singleValueQuery( $query ) <= 0 ) {
+                    if ( CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) <= 0 ) {
                         $errors['default_value'] = ts( 'Invalid default value for country.' );
                     }
                 }
@@ -414,7 +414,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 if( !empty($default) ) {
                     $fieldStateProvince = addslashes( $fields['default_value'] );
                     $query = "SELECT count(*) FROM civicrm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
-                    if ( CRM_Core_DAO::singleValueQuery( $query ) <= 0 ) {
+                    if ( CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) <= 0 ) {
                         $errors['default_value'] = ts( 'The invalid default value for State/Province data type' );
                     }
                 }
