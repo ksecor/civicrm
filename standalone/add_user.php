@@ -17,12 +17,6 @@ require_once 'CRM/Utils/System/Standalone.php';
 $user =& new Standalone_User($openid, $email, $firstname, $lastname);
 
 $session =& CRM_Core_Session::singleton();
-/*
-$session->set('openID', $openid);
-$session->set('email', $email);
-$session->set('fname', $firstname);
-$session->set('lname', $lastname);
-*/
 
 CRM_Core_BAO_UFMatch::synchronize($user, true, "Standalone", "Individual", true);
 $contactId = $session->get('userID');
