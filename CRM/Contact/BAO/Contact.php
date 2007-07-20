@@ -2288,10 +2288,16 @@ WHERE civicrm_contact.id IN $idString ";
         } 
         
         //to add profile in default group
-        if ($addToGroupID ) {
+        if ( is_array ($addToGroupID) ) {
+            $contactIds = array($contactID);
+            foreach ( $addToGroupID as $groupId ) {
+                CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $groupId );
+            }
+        } else if ( $addToGroupID ) {
             $contactIds = array($contactID);
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $addToGroupID );
         }
+
 
         //to update student record
         if ( CRM_Core_Permission::access( 'Quest' ) && $studentFieldPresent ) {

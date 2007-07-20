@@ -291,10 +291,18 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // set email for primary location.
         $fields["email-Primary"] = 1;
         $params["email-Primary"] = $params["email-{$this->_bltID}"];
+
+        // get the add to groups
+        $addToGroups = array( );
         
         // now set the values for the billing location.
-        foreach ( $this->_fields as $name => $dontCare ) {
+        foreach ( $this->_fields as $name => $value ) {
             $fields[$name] = 1;
+
+            // get the add to groups for uf fields
+            if ( $value['add_to_group_id'] ) {
+                $addToGroups[$value['add_to_group_id']] = $value['add_to_group_id'];
+            }
         }
         
         if ( ! array_key_exists( 'first_name', $fields ) ) {
@@ -315,7 +323,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $params["location_name-{$this->_bltID}"] = trim( $params["location_name-{$this->_bltID}"] );
         $fields["location_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
-        
+ 
         if ( ! isset( $contactID ) ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)
@@ -327,11 +335,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             // if we find more than one contact, use the first one
             $contact_id  = $contactsIDs[0];
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id );
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
             $this->set( 'contactID', $contactID );
         } else {
             $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact",$contactID,"contact_type");
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, null, null, $ctype);
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups, null, $ctype);
         }
         
         // store the fact that this is a membership and membership type is selected
