@@ -237,7 +237,8 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
 	                        $params['last_name'  ] = $names[2];
 	                    }
 	                }
-		
+		        }
+		    
                 require_once 'api/Contact.php';
 		
                 $contact =& crm_create_contact( $params, $ctype, false );
