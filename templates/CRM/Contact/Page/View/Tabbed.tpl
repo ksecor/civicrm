@@ -88,6 +88,15 @@
         <br />
      {/if}
    {/foreach}
+
+  {foreach from=$loc.user_unique_id item=user_unique_id}
+    {if $user_unique_id.user_unique_id}
+      {if $user_unique_id.is_primary eq 1}<strong>{/if}
+      {ts}User_Unique_Id:{/ts} {if $user_unique_id.user_unique_id}{$user_unique_id.user_unique_id}{/if}
+      {if $user_unique_id.is_primary eq 1}</strong>{/if}
+     </br>
+    {/if}
+  {/foreach}
    </div>
 
    <div class="col2">

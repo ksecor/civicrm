@@ -25,7 +25,8 @@
    <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
 	<thead>  
      <tr class="columnheader">
-      <th field="Name" dataType="String" scope="col">{ts}Name{/ts}</th>
+<th field = "Ancestry" dataType="Integer" scope="col">{ts}Ancestry{/ts}</th>
+<th field="Name" dataType="String" scope="col">{ts}Name{/ts}</th>
       <th field="ID" dataType="Integer" scope="col">{ts}ID{/ts}</th>
       <th field="Description" dataType="String" scope="col">{ts}Description{/ts}</th>
       <th field="Visibility" dataType="String" scope="col">{ts}Visibility{/ts}</th>
@@ -34,18 +35,17 @@
 	</thead>
 
 	<tbody>
-
-   {foreach from=$rows item=row}
-     <tr class="{cycle values="odd-row,even-row"}{if NOT $row.is_active} disabled{/if}">
-        <td>{$row.title}</td>	
-        <td>{$row.id}</td>
-        <td>
-            {$row.description|mb_truncate:80:"...":true}
-        </td>
-        <td>{$row.visibility}</td>	
-        <td>{$row.action}</td>
-     </tr>
-   {/foreach}
+{assign var = counter value = 1}
+{$counter}
+{assign var = current_rows[] value = '[]'}
+{foreach from=$rows item=row}
+{if $row.level EQ 0}
+{assign var = current_rows[$counter] value = $row}
+{$current_rows.$counter.title}
+{assign var = counter value = counter+1}
+{/if}
+{/foreach}
+{include file = "CRM/Group/Page/GroupRows.tpl"}
 </div>
 	</tbody>
    </table>

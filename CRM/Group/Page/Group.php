@@ -233,83 +233,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      * @access public
      */
 
-
-
-    /**
-     * Fix what blocks to show/hide based on the default values set
-     *
-     * param $values: holds the values set in function browse()
-     *
-     * @return void
-     */
-    function setShowHide($values ) 
-    {
-      /*      $this->assign('showRowBlock', $this->_showRowBlock);
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-
-	print_r($values);
-
-	foreach($values as $value){
-	  if ($this->_showHideShow[$value['id']]);
-	}
-
-        if ( $this->_showRowBlock ) {
-            $this->_showHide->addShow( 'rows' );
-        }
-      */	
-/*
-        // first do the defaults showing
-        $config =& CRM_Core_Config::singleton( );
-        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
-                                                        $this->_maxLocationBlocks );
- 
-        if ( $this->_showNotes && 
-             ( $this->_action & CRM_Core_Action::ADD ) ) {
-            // notes are only included in the template for New Contact
-            $this->_showHide->addShow( 'id_notes_show' );
-            $this->_showHide->addHide( 'id_notes' );
-        }
-
-        if ( $this->_showTagsAndGroups ) {
-            //add group and tags
-            $contactGroup = $contactTag = array( );
-            if ($this->_contactId) {
-                $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $this->_contactId, 'Added' );
-                $contactTag   =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
-            }
-            
-            if ( empty($contactGroup) || empty($contactTag) ) {
-                $this->_showHide->addShow( 'group_show' );
-                $this->_showHide->addHide( 'group' );
-            } else {
-                $this->_showHide->addShow( 'group' );
-                $this->_showHide->addHide( 'group_show' );
-            }
-        }
-
-        // is there any demographic data?
-        if ( $this->_showDemographics ) {
-            if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
-                 CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
-                 CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
-                $this->_showHide->addShow( 'id_demographics' );
-                $this->_showHide->addHide( 'id_demographics_show' );
-            }
-        }
-
-        if ( $force ) {
-            $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
-            $config =& CRM_Core_Config::singleton( );
-            CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
-                                                       $locationDefaults,
-                                                       $this->_maxLocationBlocks );
-        }
-        
-        $this->_showHide->addToTemplate( );
-	*/
-    }
-
-
+    /*
     function browse($action = null) 
     {
         $config =& CRM_Core_Config::singleton( );
@@ -359,7 +283,124 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
     }           
     
 }
+    */
 
 
+    /*
+     * Recursive function to add descendant groups to $values in function
+     * browse()
+     *
+     * params:
+     * $values: array $values passed from browse() function, holds
+     * group objects
+     * $object: object to be added
+     * $level: depth of traversal
+     */
+    function browse_r(&$values, $pre_values, $object, $action = null, $level = 0){
 
+	require_once 'CRM/Contact/BAO/GroupNesting.php';
+	
+      $permission = $this->checkPermission( $object['id'], $object['title'] );
+      print "\n<br><br>";
+      //      print_r($pre_values);     
+      if ( $permission ) {
+
+	if (!CRM_Contact_BAO_GroupNesting::hasParentGroups($object['id'])
+	    || $level > 0){
+	  // print "Recurring on id #" . $object['id'];	  
+	  $values[$object['id']] = $object;
+	  //print "\n<br><br>VALUES<br><br>";
+	  //print_r($values);
+	  //print_r($object);
+	  //	  CRM_Core_DAO::storeValues( $object, $values[$object->id]);
+	  if ( $object['saved_search_id'] ) {
+	    $values[$object['id']]['title'] = $values[$object['id']]['title'] . ' (' . ts('Smart Group') . ')';
+	    $links =& $this->links( );
+	  } else {
+	    $links =& $this->links( );
+	      }
+	  $action = array_sum(array_keys($links));
+	  if ( array_key_exists( 'is_active', $object ) ) {
+	    if ( $object->is_active ) {
+	      $action -= CRM_Core_Action::ENABLE;
+	    } else {
+	      $action -= CRM_Core_Action::VIEW;
+	      $action -= CRM_Core_Action::DISABLE;
+	    }
+	      }
+	  $action = $action & CRM_Core_Action::mask( $groupPermission );
+          
+	  $values[$object['id']]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility', $values[$object['id']]['visibility']);
+	      $values[$object['id']]['action'] = CRM_Core_Action::formLink( $links,
+									  $action,
+									  array( 'id'   => $object['id'],
+										 'ssid' => $object['saved_search_id'] ) );
+	      $values[$object['id']]['level'] = $level;
+	      // print "\n<br><br>" .  "ID is: " . $object['id'] . "\n<br><br>";
+	      if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object['id'])){
+		foreach ($pre_values as $childObj){
+		  
+		  		  if (CRM_Contact_BAO_GroupNesting::isChildGroup($object['id'], $childObj['id'])){
+
+
+				    $this->browse_r($values, $pre_values, $pre_values[$childObj['id']], $action, $level + 1);
+		  		  }
+		}
+	      }
+	}
+      }
+      
+      
+
+      
+      
+    }
+    
+    
+    /**
+     * We need to do slightly different things for groups vs saved search groups, hence we
+     * reimplement browse from Page_Basic
+     * @param int $action
+     *
+     * @return void
+     * @access public
+     */
+
+    function browse($action = null) 
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $values =  array( );
+	$pre_values = array();        
+        $object =& new CRM_Contact_BAO_Group( );
+        $object->domain_id = $config->domainID( );
+        $object->orderBy ( 'title asc' );
+        $object->find();
+        
+        $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
+        $this->assign( 'groupPermission', $groupPermission );
+
+        
+        while ($object->fetch()) {
+	  
+	  $permission = $this->checkPermission( $object->id, $object->title );
+	  
+	  if ( $permission ) {
+	      $pre_values[$object->id] = array( );
+	      CRM_Core_DAO::storeValues( $object, $pre_values[$object->id]);
+	   
+	  }
+	}
+	//	       print_r($pre_values);
+	foreach ($pre_values as $object){
+	  $this->browse_r($values, $pre_values, $object, $action); 
+	}
+    
+	//	print "\n<br><br><br>";
+	//print_r($values);        
+	//print "\n<br><br>Five:";
+	//print_r($values[5]);
+        $this->assign( 'rows', $values );
+	$this->assign( 'current_rows', array());
+    }           
+}        
 ?>

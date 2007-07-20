@@ -88,7 +88,8 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
     static function hasChildGroups( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id = $groupId LIMIT 1";
-        $dao->query( $query );
+	print $query . "\n<br><br>";
+	$dao->query( $query );
         if ( $dao->fetch( ) ) {
             return true;
         }
@@ -109,7 +110,8 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
     static function hasParentGroups( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id = $groupId LIMIT 1";
-        $dao->query( $query );
+	print $query . "\n<br><br>";
+	$dao->query( $query );
         if ( $dao->fetch( ) ) {
             return true;
         }
@@ -129,7 +131,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
      * @access public
      */
 
-    static function isParentGroup($groupId, $checkGroupId){
+    static function isParentGroup($groupIds, $checkGroupId){
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
@@ -162,14 +164,15 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
      *
      * @access public
      */
-    static function isChildGroup($groupId, $checkGroupId){
+    static function isChildGroup($groupIds, $checkGroupId){
 
-if ( ! is_array( $groupIds ) ) {
-            $groupIds = array( $groupIds );
+      if ( ! is_array( $groupIds ) ) {
+	$groupIds = array( $groupIds );
         }
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (". implode( ',', $groupIds ) . ")";
-        $dao->query( $query );
+	print $query;
+	$dao->query( $query );
         while ( $dao->fetch( ) ) {
             $childGroupId = $dao->child_group_id;
             if ( $childGroupId == $checkGroupId ) {
