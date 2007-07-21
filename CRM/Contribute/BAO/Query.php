@@ -79,16 +79,16 @@ class CRM_Contribute_BAO_Query
             if ( !empty ( $optionFields ) ) {
                 $fields =  array_merge( $fields ,$optionFields );
             }
-            // add field to get recurent_id
-            $fields["contribution_recur_id"] = array("name"  => "contribution_recur_id",
-                                                     "title" => "Recurring Contributions ID",
-                                                     "where" => "civicrm_contribution.contribution_recur_id"
+            // add field to get recur_id
+            $fields['contribution_recur_id'] = array('name'  => 'contribution_recur_id',
+                                                     'title' => 'Recurring Contributions ID',
+                                                     'where' => 'civicrm_contribution.contribution_recur_id'
                                                      );
-            $fields["contribution_note"]     = array("name"  => "contribution_note",
-                                                     "title" => "Contribution Note"
+            $fields['contribution_note']     = array('name'  => 'contribution_note',
+                                                     'title' => 'Contribution Note'
                                                      );
             unset( $fields['contact_id']);
-            //unset( $fields['note'] ); 
+            // unset( $fields['note'] ); 
             self::$_contributionFields = $fields;
         }
         return self::$_contributionFields;
@@ -123,8 +123,7 @@ class CRM_Contribute_BAO_Query
         if ( CRM_Utils_Array::value( 'contribution_note', $query->_returnProperties ) ) {
             $query->_select['contribution_note']  = "civicrm_note.note as contribution_note";
             $query->_element['contribution_note'] = 1;
-            $query->_tables['contribution_note'] = 1;
-            $query->_whereTables['civicrm_note'] = 1;
+            $query->_tables['contribution_note']  = 1;
         }
     }
 
