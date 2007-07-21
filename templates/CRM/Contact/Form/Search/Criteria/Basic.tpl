@@ -48,7 +48,7 @@
 	    </tr>
         <tr>
             <td><br />{$form.privacy.label}</td>
-            <td><br />{$form.privacy.html}
+            <td colspan="2"><br />{$form.privacy.html}
                  <div class="description font-italic">
                     {ts}Exclude contacts who have these privacy option(s).{/ts}
                  </div>
