@@ -60,26 +60,27 @@ class CRM_Contact_Form_Address
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
 
         $elements = array( 
-                          'street_address'         => array( ts('Street Address')   , null, null ),
-                          'supplemental_address_1' => array( ts('Addt\'l Address 1'), null, null ),
-                          'supplemental_address_2' => array( ts('Addt\'l Address 2'), null, null ),
-                          'city'                   => array( ts('City')             , null, null ),
-                          'postal_code'            => array( ts('Zip / Postal Code'), null, null ),
-                          'postal_code_suffix'     => array(ts('Postal Code Suffix')       ,
+                          'street_address'         => array( 'Street Address'   , null, null ),
+                          'supplemental_address_1' => array( 'Addt\'l Address 1', null, null ),
+                          'supplemental_address_2' => array( 'Addt\'l Address 2', null, null ),
+                          'city'                   => array( 'City'             , null, null ),
+                          'postal_code'            => array( 'Zip / Postal Code', null, null ),
+                          'postal_code_suffix'     => array('Postal Code Suffix'       ,
                                                             array( 'size' => 4, 'maxlength' => 12 ), null ),
-                          'county_id'              => array( ts('County')           , null, 'county' ),
-                          'state_province_id'      => array( ts('State / Province') , null, null ),
-                          'country_id'             => array( ts('Country')          , null, null ), 
-                          'geo_code_1'             => array( ts('Latitude')         ,
+                          'county_id'              => array( 'County'           , null, 'county' ),
+                          'state_province_id'      => array( 'State / Province' , null, null ),
+                          'country_id'             => array( 'Country'          , null, null ), 
+                          'geo_code_1'             => array( 'Latitude'         ,
                                                              array( 'size' => 4, 'maxlength' => 8 ), null ),
-                          'geo_code_2'             => array( ts('Longitude')         ,
+                          'geo_code_2'             => array( 'Longitude'         ,
                                                              array( 'size' => 4, 'maxlength' => 8 ), null ),
                           );
 
         foreach ( $elements as $name => $v ) {
-            list( $title, $attributes, $select ) = $v;
+            list( $unTSTitle, $attributes, $select ) = $v;
+            $title = ts( $unTSTitle );
 
-            if ( ! $addressOptions[$title] ) {
+            if ( ! $addressOptions[$unTSTitle] ) {
                 continue;
             }
 

@@ -136,6 +136,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->_maxLocationBlocks = CRM_Core_BAO_Preferences::value( 'location_count' );
 
         $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options' );
+
         $configItems = array( '_showCommBlock'     => 'Communication Preferences',
                               '_showDemographics'  => 'Demographics',
                               '_showTagsAndGroups' => 'Tags and Groups',
