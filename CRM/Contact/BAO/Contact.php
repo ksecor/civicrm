@@ -2588,6 +2588,7 @@ WHERE     civicrm_contact.id = %1";
         while ($org->fetch()) {
             $dupeIds[] = $org->contact_id;
         }
+
         //get the relationship id
         require_once "CRM/Contact/DAO/RelationshipType.php";
         $relType =& new CRM_Contact_DAO_RelationshipType();

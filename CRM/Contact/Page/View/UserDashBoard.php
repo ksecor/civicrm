@@ -119,7 +119,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_userOptions  = CRM_Core_BAO_Preferences::valueOptions( 'user_dashboard_options' );
 
-        if ( $this->_userOptions[ts('Contributions')] &&
+        if ( $this->_userOptions['Contributions'] &&
              in_array( 'CiviContribute', $config->enableComponents ) &&
              ( CRM_Core_Permission::access( 'CiviContribute' ) ||
                CRM_Core_Permission::check('make online contributions') )
@@ -130,7 +130,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $contribution->run( );
         }
         
-        if ( $this->_userOptions[ts('Memberships')] &&
+        if ( $this->_userOptions['Memberships'] &&
              in_array( 'CiviMember', $config->enableComponents ) &&
              ( CRM_Core_Permission::access( 'CiviMember' ) ||
                CRM_Core_Permission::check('make online contributions') )
@@ -141,7 +141,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $membership->run( );
         }
 
-        if ( $this->_userOptions[ts('Events')] &&
+        if ( $this->_userOptions['Events'] &&
              in_array( 'CiviEvent', $config->enableComponents ) &&
              ( CRM_Core_Permission::access( 'CiviEvent' ) ||
                CRM_Core_Permission::check('register for events') )
@@ -154,7 +154,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
 
         $this->assign ( 'components', $components );
 
-        if ( $this->_userOptions[ts('Groups')] ) {
+        if ( $this->_userOptions['Groups'] ) {
             $this->assign( 'showGroup', true );
             //build group selector
             require_once "CRM/Contact/Page/View/UserDashBoard/GroupContact.php";
