@@ -198,8 +198,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             return false;
         }
 
-        CRM_Core_Error::debug( 'p', $params['location'][$locationId]['address'] );
-
         $config =& CRM_Core_Config::singleton( );
         foreach ($params['location'][$locationId]['address'] as $name => $value) {
             if (! empty($value) ) {
