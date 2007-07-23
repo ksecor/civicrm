@@ -1006,7 +1006,9 @@ msgstr "(méthode préférée)"
 
 #: CRM/Contact/Form/Task/Email.php CRM/Contact/Page/View/Email.php
 msgid "Your user record does not have a valid email address"
-msgstr "Votre fiche d'utilisateur ne contient pas une adresse de courrier électronique valide."
+msgstr ""
+"Votre fiche d'utilisateur ne contient pas une adresse de courrier "
+"électronique valide."
 
 #: CRM/Contact/Form/Task/Email.php CRM/Core/DAO/EmailHistory.php
 #: CRM/SMS/DAO/History.php CRM/SMS/Form/Task/SMS.php
@@ -1256,7 +1258,9 @@ msgstr "Impossible de trouver votre identifiant"
 msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
-msgstr "Ce profil n'a pas été configuré pour l'action demandée. Contactez l'administrateur de ce site si vous avez besoin d'assistance."
+msgstr ""
+"Ce profil n'a pas été configuré pour l'action demandée. Contactez "
+"l'administrateur de ce site si vous avez besoin d'assistance."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -3643,7 +3647,7 @@ msgstr "Imprimer des contacts"
 
 #: CRM/Contact/Task.php templates/CRM/Admin/Form/Setting/Address.tpl
 msgid "Mailing Labels"
-msgstr ""
+msgstr "Étiquettes pour la poste"
 
 #: CRM/Contact/Task.php templates/CRM/Contact/Form/Task/PickProfile.tpl
 msgid "Batch Update via Profile"
@@ -5055,7 +5059,9 @@ msgstr "Supprimer le groupe personnalisé"
 msgid ""
 "The Group \"%1\" has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
-msgstr "Le groupe «%1» n'a pas été supprimé! Vous devez supprimer tous ses champs personnalisés avant de supprimer le groupe."
+msgstr ""
+"Le groupe «%1» n'a pas été supprimé! Vous devez supprimer tous ses champs "
+"personnalisés avant de supprimer le groupe."
 
 #: CRM/Custom/Form/Field.php
 msgid "Select File"
@@ -5202,7 +5208,9 @@ msgstr "Votre groupe «%1» a été enregistré."
 msgid ""
 "Your Group \"%1\" has been added. You can <a href=\"%2\">add custom fields</"
 "a> to this group now."
-msgstr "Votre groupe «%1» a été ajouté. Vous pouvez maintenant y <a href=\"%2\">ajouter des champs personnalisés</a>."
+msgstr ""
+"Votre groupe «%1» a été ajouté. Vous pouvez maintenant y <a href=\"%2"
+"\">ajouter des champs personnalisés</a>."
 
 #: CRM/Custom/Form/Option.php templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Page/Option.tpl
@@ -5220,7 +5228,9 @@ msgstr "Veuillez entrer une valeur valide."
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter a valid date using YYYY-MM-DD format. Example: 2004-12-31."
-msgstr "Veuillez entrer une date ayant le format «AAAA-MM-DD». Par exemple: 2004-12-31."
+msgstr ""
+"Veuillez entrer une date ayant le format «AAAA-MM-DD». Par exemple: 2004-12-"
+"31."
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter 1 or 0 as value."
@@ -6712,7 +6722,9 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid "Enter your Google API Key OR your Yahoo Application ID."
-msgstr "Entrer votre clé pour le «Google API» ou votre identifiant pour «Yahoo Application»."
+msgstr ""
+"Entrer votre clé pour le «Google API» ou votre identifiant pour «Yahoo "
+"Application»."
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid ""
@@ -7477,7 +7489,12 @@ msgid ""
 "\">Affero General Public License (AGPL)</a>. <a href=\"%3\">Download source</"
 "a>. <a href=\"%4\">View issues and report bugs</a>. <a href=\"%5\">Online "
 "documentation</a>."
-msgstr "Le logiciel CiviCRM est librement disponible sous les termes de la <a href=\"%2\">Affero General Public License (AGPL)</a>. <br/><a href=\"%3\">Télécharger le code source</a>. <a href=\"%4\">Consulter la liste de requêtes ou soumettre un bogue</a>. <a href=\"%5\">Documentation en-ligne</a>. "
+msgstr ""
+"Le logiciel CiviCRM est librement disponible sous les termes de la <a href="
+"\"%2\">Affero General Public License (AGPL)</a>. <br/><a href=\"%3"
+"\">Télécharger le code source</a>. <a href=\"%4\">Consulter la liste de "
+"requêtes ou soumettre un bogue</a>. <a href=\"%5\">Documentation en-ligne</"
+"a>. "
 
 #: templates/CRM/common/pager.tpl
 msgid "Rows per page:"
@@ -7725,7 +7742,13 @@ msgid ""
 "'begins with any combination of letters').\n"
 "                To search by email address, use <a href=\"%1\">Advanced "
 "Search</a>."
-msgstr "Pour rechercher par prénom ET nom de famille, utiliser la forme 'nom, prénom'. Par exemple, «Doe, Jane».Pour effectuer une recherche sur une partie du nom, utiliser la syntaxe «%nompartiel» (où «%» signifie «commence par n'importe quelle combinaison de caractères»). Pour effectuer une recherche basée sur l'adresse de courriel, utiliser le formulaire de <a href=\"%1\">recherche avancée</a>."
+msgstr ""
+"Pour rechercher par prénom ET nom de famille, utiliser la forme 'nom, "
+"prénom'. Par exemple, «Doe, Jane».Pour effectuer une recherche sur une "
+"partie du nom, utiliser la syntaxe «%nompartiel» (où «%» signifie «commence "
+"par n'importe quelle combinaison de caractères»). Pour effectuer une "
+"recherche basée sur l'adresse de courriel, utiliser le formulaire de <a href="
+"\"%1\">recherche avancée</a>."
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
 msgid ""
@@ -7865,7 +7888,11 @@ msgid ""
 "Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
 "\"Volunteer%\" as your Activity Type to match any activity whose type is "
 "\"Volunteer\" + any other words (e.g. Volunteer for Open House)."
-msgstr "Vous pouvez utiliser le caractère <strong>%</strong> pour effectuer une recherche partielle. Par exemple: dans le champ «Type d'activité» vous pouvez entrer «Bénévolat%» pour trouver toutes les entrées correspondant à «Bénévolat» + tout autre mot, tel que «Bénévolat pour les paniers de Noël»."
+msgstr ""
+"Vous pouvez utiliser le caractère <strong>%</strong> pour effectuer une "
+"recherche partielle. Par exemple: dans le champ «Type d'activité» vous "
+"pouvez entrer «Bénévolat%» pour trouver toutes les entrées correspondant à "
+"«Bénévolat» + tout autre mot, tel que «Bénévolat pour les paniers de Noël»."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -8940,14 +8967,24 @@ msgid ""
 "select determines whether this group is edited and displayed on the same "
 "screens as the standard contact field ('Inline' style), or has it's own menu "
 "tab ('Tab' style)."
-msgstr "Vous pouvez utiliser ce formulaire pour configurer le titre, les informations d'aide et pour afficher les caractéristiques de chaque groupe de champs personnalisés. Le «mode d'affichage» que vous choisirez détermine si le groupe peut être modifié et affiché sur le même écran que les autres champs par défaut («en série») ou si le groupe est affiché dans un écran séparé («onglet»)."
+msgstr ""
+"Vous pouvez utiliser ce formulaire pour configurer le titre, les "
+"informations d'aide et pour afficher les caractéristiques de chaque groupe "
+"de champs personnalisés. Le «mode d'affichage» que vous choisirez détermine "
+"si le groupe peut être modifié et affiché sur le même écran que les autres "
+"champs par défaut («en série») ou si le groupe est affiché dans un écran "
+"séparé («onglet»)."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
 "For 'inline' display custom groups, this name will appear as the fieldset "
 "legend. If this group uses the 'tab' display style, this name will be used "
 "for the navigation tab."
-msgstr "Pour les groupes de champs personnalisés affichés «en série», ce nom sera affiché dans la légende de la bordure du groupe de champs (fieldset). Si ce groupe est affiché dans un «onglet», ce nom sera affiché dans l'étiquette de l'onglet."
+msgstr ""
+"Pour les groupes de champs personnalisés affichés «en série», ce nom sera "
+"affiché dans la légende de la bordure du groupe de champs (fieldset). Si ce "
+"groupe est affiché dans un «onglet», ce nom sera affiché dans l'étiquette de "
+"l'onglet."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -8955,7 +8992,12 @@ msgid ""
 "for. You can configure custom data for a specific type of contact (e.g. "
 "Individuals but NOT Organizations), ANY type of contact, or other record "
 "types such as activities and contributions."
-msgstr "Choisir le type de fiches sur lequel ce groupe de champs personnalisé peut être utilisé. Vous pouvez configurer ce groupe pour qu'il puisse être appliqué à un type de contact spécifique (i.e. «individus» mais pas «organisations»), n'importe quel type de contact, ou sur d'autres types, tels que les activités ou les contributions."
+msgstr ""
+"Choisir le type de fiches sur lequel ce groupe de champs personnalisé peut "
+"être utilisé. Vous pouvez configurer ce groupe pour qu'il puisse être "
+"appliqué à un type de contact spécifique (i.e. «individus» mais pas "
+"«organisations»), n'importe quel type de contact, ou sur d'autres types, "
+"tels que les activités ou les contributions."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -9067,7 +9109,9 @@ msgstr "Nouveau champ personnalisé"
 msgid ""
 "There are no custom fields for custom group \"%1\", <a href=\"%2\">add one</"
 "a>."
-msgstr "Il n'y a pas de champs personnalisés pour ce groupe \"%1\", vous pouvez <a href=\"%2>en ajouter un</a>."
+msgstr ""
+"Il n'y a pas de champs personnalisés pour ce groupe \"%1\", vous pouvez <a "
+"href=\"%2>en ajouter un</a>."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid ""
@@ -9076,7 +9120,12 @@ msgid ""
 "fields to collect and store custom data which is not included in the "
 "standard CiviCRM forms. You can create one or many groups of custom fields "
 "(<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
-msgstr "Des informations supplémentaires peuvent être saisies dans des champs personnalisés. Ces champs sont organisés en groupes de champs (ex: «Informations de bénévoles»). Avec les formulaires suivants, vous pouvez créer un ou plusieurs groupes de champs personnalisés (<a href=\"%1\" target=\"_blank\" title=\"%2\">lire la suite...</a>)."
+msgstr ""
+"Des informations supplémentaires peuvent être saisies dans des champs "
+"personnalisés. Ces champs sont organisés en groupes de champs (ex: "
+"«Informations de bénévoles»). Avec les formulaires suivants, vous pouvez "
+"créer un ou plusieurs groupes de champs personnalisés (<a href=\"%1\" target="
+"\"_blank\" title=\"%2\">lire la suite...</a>)."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Group Title"

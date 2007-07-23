@@ -37,15 +37,14 @@ msgstr "Acceso a archivos subidos"
 msgid "profile listings and forms"
 msgstr "Perfil de formularios y listados"
 
-#, fuzzy
 msgid "access all custom data"
-msgstr "datos personalizados"
+msgstr "acceder a datos personalizados"
 
 msgid "access CiviCRM"
 msgstr "acceso a CiviCRM"
 
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "acceder al Dashboard de Contacto"
 
 #: drupal/civicrm.module
 msgid ""
