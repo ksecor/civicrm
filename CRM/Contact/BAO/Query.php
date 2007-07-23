@@ -1727,9 +1727,7 @@ class CRM_Contact_BAO_Query {
         // }
         
         // add child group ids to the query, if requested
-        print "check<br/>";
         if ( $includeChildGroups ) {
-            print "ok<br/>";
             $groupIds = array_keys($value);
             require_once 'CRM/Contact/BAO/GroupNesting.php';
             $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds );
