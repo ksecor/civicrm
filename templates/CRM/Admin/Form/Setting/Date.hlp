@@ -1,15 +1,14 @@
 {htxt id='date-format'}
 <p>{ts}Use this screen to configure formats for date display and date input fields. Defaults are provided for standard United States formats. Settings use standard POSIX specifiers. Available specifiers and the values produced will vary based on your operating system and locale.{/ts}</p>
 <p>
-{ts}<strong>Commonly Used Specifiers</strong>
+}<strong>{ts}Commonly Used Specifiers{/ts}</strong>
 <ul>
-<li>%B - The full month name according to the current locale.</li>
-<li>%e or %d - The day of the month as an integer.</li>
-<li>%Y - The year as a decimal number, including the century.</li>
-<li>%I - The hour as a decimal number, using a 12-hour clock (range 01 to 12).</li>
-<li>%M - The minute as a decimal number.</li>
-<li>%P - Either `am' or `pm', according to the given time value; or the corresponding strings for the current locale.</li>
+<li>%B - {ts}the full month name according to the current locale,{/ts}</li>
+<li>%e {ts}or{/ts} %d - {ts}the day of the month as an integer,{/ts}</li>
+<li>%Y - {ts}the year as a decimal number, including the century,{/ts}</li>
+<li>%I - {ts}the hour as a decimal number, using a 12-hour clock (range 01 to 12),{/ts}</li>
+<li>%M - {ts}the minute as a decimal number,{/ts}</li>
+<li>%P - {ts}either 'am' or 'pm', according to the given time value; or the corresponding strings for the current locale.{/ts}</li>
 </ul>
-{/ts}
 </p>
 {/htxt}

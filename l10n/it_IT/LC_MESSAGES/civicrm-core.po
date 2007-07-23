@@ -830,7 +830,11 @@ msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Duplicate Contact button below."
 msgstr[0] ""
+"E' stato trovato un contatto corrispondente. Lo puoi modificare qui: %1, o "
+"cliccare Salva contatto duplicato sotto."
 msgstr[1] ""
+"Sono stati trovati %count contatti corrispondenti. Li puoi modificare qui: %"
+"1, o cliccare Salva contatto duplicato sotto."
 
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
@@ -1464,7 +1468,9 @@ msgstr "Il file allegato è stato eliminato."
 msgid ""
 "%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; "
 "Payment Processor."
-msgstr "%1 non è impostato in Amministra CiviCRM &raquo; Impostazioni globali &raquo; Modalità di pagamento"
+msgstr ""
+"%1 non è impostato in Amministra CiviCRM &raquo; Impostazioni globali "
+"&raquo; Modalità di pagamento"
 
 #: CRM/Core/Payment/AuthorizeNet.php CRM/Core/Payment/Google.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
@@ -1813,7 +1819,10 @@ msgstr "Compara Su:"
 msgid ""
 "The Duplicate Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
-msgstr "La regola di corrispondenza di duplicati non è stata salvata, in quanto non valida. Le regole dovrebbero contenere solo nomi di campi validi, \"AND\", \"OR\" o parentesi."
+msgstr ""
+"La regola di corrispondenza di duplicati non è stata salvata, in quanto non "
+"valida. Le regole dovrebbero contenere solo nomi di campi validi, \"AND\", "
+"\"OR\" o parentesi."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Duplicate Matching rule has been saved."
@@ -2364,7 +2373,9 @@ msgstr "Sei sicuro di voler cancellare questa etichetta?"
 msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
-msgstr "Questa etichetta sarà rimossa da tutti i contatti correnti, e gli utenti non potranno più collegare contatti ad essa."
+msgstr ""
+"Questa etichetta sarà rimossa da tutti i contatti correnti, e gli utenti non "
+"potranno più collegare contatti ad essa."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
@@ -2424,7 +2435,8 @@ msgstr "Sesso %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "This is an unexpected place to be in, contact support"
-msgstr "Non ci si dovrebbe mai trovare qui, si prega di contattare il supporto."
+msgstr ""
+"Non ci si dovrebbe mai trovare qui, si prega di contattare il supporto."
 
 #: CRM/Contact/BAO/Query.php
 msgid "phone"
@@ -2817,7 +2829,9 @@ msgstr "Data di Nascita"
 msgid ""
 "Enter a valid web location beginning with \"http://\" or \"https://\". "
 "EXAMPLE: http://www.mysite.org"
-msgstr "Inserire un indirizzo Web valido che inizi con \"http://\" o \"https://\". ESEMPIO: http://www.miosito.it"
+msgstr ""
+"Inserire un indirizzo Web valido che inizi con \"http://\" o \"https://\". "
+"ESEMPIO: http://www.miosito.it"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Current Employer"
@@ -8515,93 +8529,83 @@ msgid "You are not currently subscribed to any Groups."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Are you sure you want to unsubscribe from %1?"
-msgstr "Vuoi davvero disabilitare questo %1??"
+msgstr "Vuoi davvero disiscriverti da  %1??"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Unsubscribe"
 msgstr "Cancella sottoscrizione"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Pending Subscriptions"
-msgstr "Descrizione"
+msgstr "Iscrizioni in attesa"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Your subscription to these group(s) is pending confirmation."
-msgstr ""
+msgstr "La tua iscrizione a questo/i gruppo/i è in attesa di conferma."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Are you sure you want to remove from %1?"
-msgstr "Vuoi davvero rimuovere questo Smart Group?"
+msgstr "Vuoi davvero rimuovere i contatti da %1?"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Confirm"
-msgstr "Configura"
+msgstr "Conferma"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Unsubscribed Groups"
-msgstr "Cancella sottoscrizione"
+msgstr "Sottoscrizioni ai gruppi cancellate"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid ""
 "You are no longer subscribed to these group(s). Click Rejoin Group if you "
 "want to re-subscribe."
 msgstr ""
+"Non sei più iscritto a questo/i gruppo/i. Clicca su XXX se vuoi reiscriverti."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Are you sure you want to add back into %1?"
-msgstr "Vuoi davvero disabilitare questo %1??"
+msgstr "Vuoi davvero aggiungere di nuovo a %1??"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "Renew Now"
-msgstr ""
+msgstr "Rinnova ora"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
-#, fuzzy
 msgid "Expired / Inactive Memberships"
-msgstr "Membri del Gruppo"
+msgstr "Membri del gruppo scaduti/non attivi"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "There are no memberships on record for you."
-msgstr ""
+msgstr "Non sono registrate iscrizioni per il tuo utente."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 msgid "Click on the event name for more information."
-msgstr ""
+msgstr "Clicca sul nome dell'evento per avere ulteriori informazioni."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
-#, fuzzy
 msgid "Event Date(s)"
-msgstr "Data di Spedizione"
+msgstr "Data/e dell'evento"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 msgid "You are not registered for any current or upcoming Events."
-msgstr ""
+msgstr "Non sei registrato in nessun evento corrente o futuro."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
-#, fuzzy
 msgid "Your Group(s)"
-msgstr "Gruppo(i)"
+msgstr "I tuoi gruppi"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
-#, fuzzy
 msgid "Your Contribution(s)"
-msgstr "Esporta Contributi"
+msgstr "I tuoi contributi"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
-#, fuzzy
 msgid "Your Membership(s)"
-msgstr "Membri del Gruppo"
+msgstr "Le tue iscrizioni"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 msgid "Your Event(s)"
-msgstr ""
+msgstr "I tuoi eventi"
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid ""
@@ -8609,22 +8613,26 @@ msgid ""
 "data. Any Profile form and listings field(s) linked with \"%1\" will also be "
 "deleted."
 msgstr ""
+"ATTENZIONE: Cancellare questo campo personalizzato provocherà la perdita di "
+"tutti i dati di \"%1\". Verranno cancellati anche i form di profilo e gli "
+"elenchi di campi collegati con \"%1\"."
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
 #: templates/CRM/Custom/Form/Option.tpl
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Questa azione non può essere annullata."
 
 #: templates/CRM/Custom/Form/DeleteFile.tpl
-#, fuzzy
 msgid "WARNING: Are you sure you want to delete the attached file ?"
-msgstr "Vuoi davvero rimuovere questo Smart Group?"
+msgstr "ATTTENZIONE: Vuoi davvero cancellare il file allegato?"
 
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
 msgid ""
 "WARNING: Deleting this custom group will result in the loss of all %1 data."
 msgstr ""
+"ATTENZIONE: Cancellare questo gruppo personalizzato provocherà la perdita di "
+"tutti i dati di %1."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
@@ -8632,14 +8640,17 @@ msgid ""
 "select from the available HTML input field types (choices are based on the "
 "type of data being collected)."
 msgstr ""
+"Seleziona il tipo di dati che vuoi raccogliere e memorizzare per questo "
+"contatto, poi scegli dai tipi di campi di input HTML disponibili (si hanno "
+"scelte diverse in base al tipo di campo)."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid "years prior to current date."
-msgstr ""
+msgstr "anni prima della data odierna."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid "years after the current date."
-msgstr ""
+msgstr "anni dopo la data odierna."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
@@ -10260,7 +10271,7 @@ msgstr "L'indirizzo email non è valido"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Mail routing error"
-msgstr ""
+msgstr "Errore di instradamento dell'email"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User inbox is full"

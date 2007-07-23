@@ -89,7 +89,6 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
     }
 
     function cbsDefaultValues( &$defaults ) {
-
         require_once 'CRM/Core/BAO/CustomOption.php';
         foreach ( $this->_cbs as $name => $title ) {
             if ( isset( $this->_config->$name ) &&
@@ -124,8 +123,13 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
         
         require_once 'CRM/Core/OptionGroup.php';
         foreach ( $this->_cbs as $name => $title ) {
+            $options = array_flip( CRM_Core_OptionGroup::values( $name ) );
+            $newOptions = array( );
+            foreach ( $options as $key => $val ) {
+                $newOptions[ ts( $key ) ] = $val;
+            }
             $this->addCheckBox( $name, $title, 
-                                array_flip( CRM_Core_OptionGroup::values( $name ) ),
+                                $newOptions,
                                 null, null, null, null,
                                 array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ) );
         }

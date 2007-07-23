@@ -165,13 +165,18 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
             // execute a dummy query to clear error stack
             mysql_query( 'select 1' );
-        } else if ( function_exists( 'mysqli_error' ) &&
-                    mysqli_error( ) ) {
-            $mysql_error = mysqli_error( ) . ', ' . mysqli_errno( );
-            $template->assign_by_ref( 'mysql_code', $mysql_error );
+        } else if ( function_exists( 'mysqli_error' ) ) {
+            $dao  =& new CRM_Core_DAO( );
+            $conn =  $dao->getDatabaseConnection( );
+            $link = $conn->connection;
 
-            // execute a dummy query to clear error stack
-            mysqli_query( 'select 1' );
+            if ( mysqli_error( $link ) ) {
+                $mysql_error = mysqli_error( $link ) . ', ' . mysqli_errno( $link );
+                $template->assign_by_ref( 'mysql_code', $mysql_error );
+                
+                // execute a dummy query to clear error stack
+                mysqli_query( $link, 'select 1' );
+            }
         }
 
         $template->assign_by_ref('error', $error);

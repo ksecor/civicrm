@@ -36,7 +36,7 @@
                     {/foreach}
                 </div>
             </td>
-            <td><label>{ts}Tag(s){/ts}</label><br />
+            <td colspan="2"><label>{ts}Tag(s){/ts}</label><br />
                 <div class="listing-box">
                     {foreach from=$form.tag item="tag_val"} 
                     <div class="{cycle values="odd-row,even-row"}">
@@ -48,7 +48,7 @@
 	    </tr>
         <tr>
             <td><br />{$form.privacy.label}</td>
-            <td><br />{$form.privacy.html}
+            <td colspan="3"><br />{$form.privacy.html}
                  <div class="description font-italic">
                     {ts}Exclude contacts who have these privacy option(s).{/ts}
                  </div>
@@ -56,6 +56,6 @@
         </tr>
         <tr>
             <td>{$form.contact_source.label}</td>
-            <td colspan="2">{$form.contact_source.html}</td>
+            <td colspan="3">{$form.contact_source.html}</td>
         </tr>
     </table>

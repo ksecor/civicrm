@@ -1,18 +1,20 @@
 # CiviCRM core POT file
 # Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-02-18 17:32+0200\n"
-"Last-Translator: Claudiu Cristea <clau.cristea@gmail.com>\n"
+"PO-Revision-Date: 2007-07-22 22:11+0200\n"
+"Last-Translator: Claudiu Cristea <claudiu@cristea.info>\n"
+"Language-Team: Romanian <clau.cristea@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || ((n%100) > 0 && (n%"
 "100) < 20)) ? 1 : 2);\n"
+"X-Generator: Pootle 1.0.1\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -141,14 +143,12 @@ msgid "All Groups"
 msgstr "Toate Grupurile"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Custom Groups"
-msgstr "Grup personalizat"
+msgstr "Toate grupurile personalizate"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Profiles"
-msgstr "Toate Rolurile"
+msgstr "Toate profilele"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -535,9 +535,8 @@ msgstr "Cartografie şi Geocoding"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Localization"
-msgstr "Locaţie"
+msgstr "Localizare"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -655,9 +654,8 @@ msgid "Where Clause"
 msgstr "Clauză Where"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Selectează etichetă"
+msgstr "Selectează tabelele"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
@@ -776,9 +774,8 @@ msgstr "Cod Add-on"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/County.php CRM/Core/Form.php
-#, fuzzy
 msgid "County"
-msgstr "Ţara"
+msgstr "Judeţ"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php
 #: CRM/Contact/Form/Test.php CRM/Core/Form.php
@@ -926,9 +923,8 @@ msgstr "Membrii"
 #: CRM/Contact/Page/View/Tabbed.php
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Events"
-msgstr "Sfârşit Eveniment"
+msgstr "Evenimente"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
 msgid "Task"
@@ -1068,7 +1064,7 @@ msgstr "Nu pot găsi identificator contact."
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Core/Menu.php
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM Home"
 
 #: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
 msgid "Email Sent"
@@ -1123,15 +1119,14 @@ msgstr "Apel telefon"
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
 #: CRM/History/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Event"
-msgstr "Sfârşit Eveniment"
+msgstr "Eveniment"
 
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 msgid "CiviCRM Activity History"
@@ -1263,6 +1258,8 @@ msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
 msgstr ""
+"Acest profil nu este configurat pentru acţiunea solicitată. Contacţaţi "
+"administratorul sitului dacă aveţi nevoie de asistenţă."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1283,7 +1280,7 @@ msgstr "CiviContribute"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviEvent"
-msgstr ""
+msgstr "CiviEvent"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviMember"
@@ -1424,9 +1421,8 @@ msgid "Domain Information Page"
 msgstr "Pagină Informaţii Domeniu"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Map Event Location"
-msgstr "Selectaţi locaţia"
+msgstr "Harta locaţiei evenimentului"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
@@ -1467,9 +1463,8 @@ msgid "Group Members"
 msgstr "Membrii Grup"
 
 #: CRM/Core/Page/File.php CRM/Custom/Form/DeleteFile.php
-#, fuzzy
 msgid "The attached file has been deleted."
-msgstr "Contribuţia selectată a fost ştearsă."
+msgstr "Fişierul ataşat a fost şters."
 
 #: CRM/Core/Payment/AuthorizeNet.php CRM/Core/Payment/Google.php
 #: CRM/Core/Payment/PayPalImpl.php
@@ -1477,6 +1472,8 @@ msgid ""
 "%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo; "
 "Payment Processor."
 msgstr ""
+"%1 nu este configurat în Adminitrare CiviCRM &raquo; Configurare Globală "
+"&raquo; Procesor plăţi."
 
 #: CRM/Core/Payment/AuthorizeNet.php CRM/Core/Payment/Google.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
@@ -1650,19 +1647,16 @@ msgid "Owner Entity Table"
 msgstr "Tabel Entitate Proprietar"
 
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Contact Group"
-msgstr "Tip contact"
+msgstr "Grup contacte"
 
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Administer"
-msgstr "Admin"
+msgstr "Administrare"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "Nume"
+msgstr "Nume ACL"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
@@ -1689,99 +1683,86 @@ msgid "Revoke"
 msgstr "revocă"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A group of contacts"
-msgstr "Zona"
+msgstr "Un grup de contacte"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A profile"
-msgstr "Profil"
+msgstr "Un profil"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A set of custom data fields"
-msgstr "Câmpuri Date Personalizate"
+msgstr "Un set de câmpuri personalizate"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Type of Data"
-msgstr "Tip Venit"
+msgstr "Tip date"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Role"
 msgstr "Rol"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid " -select role- "
-msgstr "- selectaţi -"
+msgstr "-selectaţi rol-"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Everyone"
-msgstr "Fiecare"
+msgstr "Oricine"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please assign this permission to a Role."
-msgstr ""
+msgstr "Vă rugăm atribuţi această permisiune unui rol."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Group (or ALL Groups)."
-msgstr "Vă rugăm selectaţi un rang pentru %1"
+msgstr "Vă rugăm selectaţi un grup (sau toate grupurile)."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Profile (or ALL Profiles)."
-msgstr "Vă rugăm selectaţi un rang pentru %1"
+msgstr "Vă rugăm selectaţi un profil (sau toate profilele)."
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a set of Custom Data (or ALL Custom Data)."
 msgstr ""
+"Vă rugăm selectaţi un set de Date Personalizate (sau toate datele "
+"personalizate)."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Selected ACL has been deleted."
-msgstr "Contribuţia selectată a fost ştearsă."
+msgstr "ACL selectat a fost şters."
 
 #: CRM/ACL/Form/EntityRole.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
 msgstr "Atribuit lui"
 
 #: CRM/ACL/Form/EntityRole.php
-#, fuzzy
 msgid "Selected Entity Role has been deleted."
-msgstr "Contribuţia selectată a fost ştearsă."
+msgstr "Entitatea rol selectată a fost ştearsă."
 
 #: CRM/ACL/Page/ACL.php
 msgid "Are you sure you want to disable this ACL?"
 msgstr "Sunteţi sigut că doriţi dezactivarea acestui ACL?"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Edit ACL"
-msgstr "Editează"
+msgstr "Modifică ACL"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Disable ACL"
-msgstr "Dezactivează"
+msgstr "Dezactivează ACL"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Enable ACL"
-msgstr "Activează"
+msgstr "Activează ACL"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Delete ACL"
-msgstr "Şterge"
+msgstr "Şterge ACL"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Any Role"
-msgstr "Rol ACL"
+msgstr "Orice rol"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Are you sure you want to disable this ACL Role Assignment?"
@@ -1850,7 +1831,7 @@ msgstr "Regula de potrivire duplicată a fost salvată."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Name can only consist of alpha-numeric characters"
-msgstr ""
+msgstr "Numele poate să conţină doar caractere alfanumerice."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "vCard Name"
@@ -1877,28 +1858,24 @@ msgid "The Option Group \"%1\" has been saved."
 msgstr "Frupul de Opţiuni \"%1\" a fost salvat."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "Selected %1 type has been deleted."
-msgstr "Contribuţia selectată a fost ştearsă."
+msgstr "Tipul selectat %1 a fost şters."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "Selected %1 type has not been deleted."
-msgstr "Contribuţia selectată a fost ştearsă."
+msgstr "Tipul selectat %1 nu a fost şters."
 
 #: CRM/Admin/Form/Options.php
 msgid "The %1 \"%2\" has been saved."
 msgstr "%1 \"%2\" a fost salvat."
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Default Option?"
-msgstr "Implicit?"
+msgstr "Opţiune implicită?"
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Option Group?"
-msgstr "Nume Grup Opţiuni"
+msgstr "Opţiune grup?"
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "Selected option value has been deleted."
@@ -1925,23 +1902,20 @@ msgid "The Relationship Type has been saved."
 msgstr "Tipul de Relaţie a fost salvat."
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Settings - Addresses"
-msgstr "Adresa"
+msgstr "Configuraţie - Adrese"
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Maximum Locations"
-msgstr "Locaţie"
+msgstr "Locaţii maxime"
 
 #: CRM/Admin/Form/Setting/Address.php
 msgid "Include County?"
 msgstr "Includeţi Ţara?"
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Provider"
-msgstr "Previzualizare"
+msgstr "Furnizor"
 
 #: CRM/Admin/Form/Setting/Address.php
 msgid "User ID"
@@ -1952,42 +1926,36 @@ msgid "Web Service URL"
 msgstr "URL Serviciu Web"
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Individual Name Format"
-msgstr "Individ"
+msgstr "Format nume persoană"
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Mailing Label Format"
-msgstr "Etichete mailing"
+msgstr "Format etichete mailing"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Settings - Enable Components"
 msgstr "Configura'ie - Activare Componente"
 
 #: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
 msgid "Enable >>"
-msgstr "Activează"
+msgstr "Activează >>"
 
 #: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
 msgid "<< Disable"
-msgstr "Dezactivează"
+msgstr "<< Dezactivează"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Settings - Date Formatting"
 msgstr "Configuraţie - Format Dată"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Complete Date and Time"
-msgstr "Data şi ora"
+msgstr "Data şi ora finalizării"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Complete Date"
-msgstr "Finalizat"
+msgstr "Dată finalizare"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Month and Year"
@@ -2006,9 +1974,8 @@ msgid "Enable Debugging"
 msgstr "Activează Depanarea"
 
 #: CRM/Admin/Form/Setting/Debugging.php
-#, fuzzy
 msgid "Display Backtrace"
-msgstr "Nume afişat"
+msgstr "Afişează lista de mesaje"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Template"
@@ -2048,14 +2015,12 @@ msgid "<< Remove"
 msgstr "<< Şterge"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Available States and Provinces"
-msgstr "Judeţ/Provincie/Regiune"
+msgstr "Judeţe/Regiuni disponibile "
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Default Country"
-msgstr "Ţara"
+msgstr "Ţara implicită"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Default Currency"
@@ -2114,23 +2079,20 @@ msgid "Settings - Upload Directories"
 msgstr "Configuraţie - Directoare de Încărcare"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Temporary Files"
-msgstr "Fişier date de import"
+msgstr "Fişiere temporare"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Images"
 msgstr "Imagini"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Custom Files"
-msgstr "Date personalizate"
+msgstr "Fişiere personalizat"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Custom Templates"
-msgstr "Date personalizate"
+msgstr "Şabloane personalizate"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Settings - Payment Processor"
@@ -2174,42 +2136,39 @@ msgstr "Paypal Url - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Checkout Button - TEST"
-msgstr ""
+msgstr "Buton chackout - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Checkout Button - LIVE"
-msgstr ""
+msgstr "Buton chackout - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
-#, fuzzy
 msgid "Merchant ID  - TEST"
-msgstr "Cale Certificat - TEST"
+msgstr "Merchant ID - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Checkout URL - TEST"
-msgstr ""
+msgstr "URL checkout - TEST"
 
 #: CRM/Admin/Form/Setting/Payment.php
-#, fuzzy
 msgid "Merchant ID - LIVE"
-msgstr "Cale Certificat - LIVE"
+msgstr "Merchant ID - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Checkout URL - LIVE"
-msgstr ""
+msgstr "URL checkout - LIVE"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "Authorize.Net API Login"
-msgstr ""
+msgstr "Login API Authorize.Net"
 
 #: CRM/Admin/Form/Setting/Payment.php
 msgid "MD5 Hash Key"
-msgstr ""
+msgstr "Cheie MD5"
 
 #: CRM/Admin/Form/Setting.php
-#, fuzzy
 msgid "Your changes have been saved."
-msgstr "Modificările configuraţiei au fost salvate."
+msgstr "Modificările au fost salvate."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Settings - SMTP Configuration"
@@ -2320,9 +2279,8 @@ msgid "Manage ACL Roles"
 msgstr "Gestionează Roluri ACL"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "%1 Options"
-msgstr "Opţiuni"
+msgstr "Opţiuni %1"
 
 #: CRM/Admin/Page/Options.php
 msgid "Are you sure you want to disable this %1?"
@@ -2336,19 +2294,16 @@ msgstr ""
 "editează %1."
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Disable %1"
-msgstr "Dezactivează"
+msgstr "Dezactivează %1"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Enable %1"
-msgstr "Activează"
+msgstr "Activează %1"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Delete %1 Type"
-msgstr "Şterge"
+msgstr "Şterge tipul %1"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "Are you sure you want to disable this Option Value?"
@@ -2442,9 +2397,8 @@ msgid "Note(s)"
 msgstr "Note"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "Could not find location id"
-msgstr "Nu se gaseşte un ID contact valid"
+msgstr "Nu găsim ID-ul locaţiei"
 
 #: CRM/Contact/BAO/Query.php
 msgid "State %2 \"%1\""
@@ -2508,29 +2462,27 @@ msgstr "Stare Grup -"
 
 #: CRM/Contact/BAO/Query.php
 msgid "CMS User"
-msgstr ""
+msgstr "Utilizator CMS"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Not a CMS User"
-msgstr ""
+msgstr "Nu e utilizator CMS"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Tagged %1"
 msgstr "Etichetat %1"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Note %2 - \"%1\""
-msgstr "Stare %2 \"%1\""
+msgstr "Note %2 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name like - \"%1\""
 msgstr "Nume ca - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Email %2 - \"%1\""
-msgstr "Email %1"
+msgstr "Email %2 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Restricted to Contacts starting with: \"%1\""
@@ -2878,6 +2830,8 @@ msgid ""
 "Enter a valid web location beginning with \"http://\" or \"https://\". "
 "EXAMPLE: http://www.mysite.org"
 msgstr ""
+"Introduceţi o locaţie web validă care începe cu \"http://\" sau \"https://"
+"\". Exemplu: http://www.mysite.org"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Current Employer"
@@ -2982,9 +2936,8 @@ msgid "The relationship end date cannot be prior to the start date."
 msgstr "Data de încheiere a relaţiei nu poate fi mai mică decât cea de start."
 
 #: CRM/Contact/Form/Search/Advanced.php
-#, fuzzy
 msgid "Address Fields"
-msgstr "Adresă"
+msgstr "Câmpuri adresă"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Custom Fields"
@@ -3002,7 +2955,7 @@ msgstr "Caută"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "TMF"
-msgstr ""
+msgstr "TMF"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
@@ -3014,13 +2967,12 @@ msgid "Contact Email"
 msgstr "Email contact"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Source"
-msgstr "Comentarii contact"
+msgstr "Sursă contact"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "CMS User?"
-msgstr ""
+msgstr "Utilizator CMS?"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Search Views"
@@ -3031,9 +2983,8 @@ msgid "- default view -"
 msgstr "- view implicit -"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "- any county -"
-msgstr "- orice ţară -"
+msgstr "- orice judeţ/provincie/regiune -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
@@ -3064,9 +3015,8 @@ msgid "Target Contact"
 msgstr "Contact Ţintă"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Note Text"
-msgstr "Text nou"
+msgstr "Text notă"
 
 #: CRM/Contact/Form/Search.php
 msgid "- more actions -"
@@ -3173,19 +3123,16 @@ msgid "Tag Contacts"
 msgstr "Etichetează Contacte"
 
 #: CRM/Contact/Form/Task/BatchUpdateProfile.php
-#, fuzzy
 msgid "Batch Update"
-msgstr "Actualizează"
+msgstr "Actualizare programată"
 
 #: CRM/Contact/Form/Task/BatchUpdateProfile.php
-#, fuzzy
 msgid "Update Contact(s)"
-msgstr "Sterge contacte"
+msgstr "Actualizare contacte"
 
 #: CRM/Contact/Form/Task/BatchUpdateProfile.php
-#, fuzzy
 msgid "Update Contacts"
-msgstr "Sterge contacte"
+msgstr "Actualizează contacte"
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Deleted Contact(s): %1"
@@ -3220,24 +3167,20 @@ msgid "Selected contact(s) does not have a valid email address"
 msgstr "Contactele selectat nu au o adresă validă de email"
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Select Template"
-msgstr "Selectează Dată"
+msgstr "Selectează şablon"
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Update Template"
-msgstr "Şablon Mesaj"
+msgstr "Actualizare şablon"
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Save as New Template"
-msgstr "Şablon Mesaj"
+msgstr "Salvează ca şablon nou"
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Template Title"
-msgstr "Titlu Termometru"
+msgstr "Titlu şablon"
 
 #: CRM/Contact/Form/Task/Email.php
 msgid ""
@@ -3254,9 +3197,8 @@ msgstr ""
 "diferit pentru acest contact."
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Enter name to save message template"
-msgstr "Sigur ştergeţi acest Grup Inteligent?"
+msgstr "Indicaţi un nume pentru a salva şablonul mesajului"
 
 #: CRM/Contact/Form/Task/Email.php
 msgid "Email was not sent to %1 because primary email address (%2) is On Hold."
@@ -3265,9 +3207,8 @@ msgstr ""
 "aşteptare."
 
 #: CRM/Contact/Form/Task/Email.php
-#, fuzzy
 msgid "Email sent to Contact(s): %1"
-msgstr "Total contacte selectate: %1"
+msgstr "Email trimis contactelor: %1"
 
 #: CRM/Contact/Form/Task/Email.php
 msgid ""
@@ -3320,9 +3261,8 @@ msgid "Select Location"
 msgstr "Selectaţi locaţia"
 
 #: CRM/Contact/Form/Task/Map.php
-#, fuzzy
 msgid "Map Location(s)"
-msgstr "Locaţie"
+msgstr "Hartă locaţii"
 
 #: CRM/Contact/Form/Task/Map.php
 msgid ""
@@ -3334,7 +3274,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Map.php
 msgid "Event Info"
-msgstr ""
+msgstr "Info eveniment"
 
 #: CRM/Contact/Form/Task.php
 msgid "Confirm Action"
@@ -3345,19 +3285,16 @@ msgid "Batch Profile Update"
 msgstr "Actualizare profil în serie"
 
 #: CRM/Contact/Form/Task/PickProfile.php
-#, fuzzy
 msgid "- select profile -"
-msgstr "- selectaţi grup -"
+msgstr "- selectaţi profil -"
 
 #: CRM/Contact/Form/Task/PickProfile.php
-#, fuzzy
 msgid "Select Profile"
-msgstr "Selectează grup"
+msgstr "Selectează profil"
 
 #: CRM/Contact/Form/Task/Print.php
-#, fuzzy
 msgid "CiviCRM Contact Listing"
-msgstr "Căutare Contacte CiviCRM"
+msgstr "Afişare contacte CiviCRM"
 
 #: CRM/Contact/Form/Task/Print.php
 msgid "Print Contact List"
@@ -3405,15 +3342,15 @@ msgstr "ID judeţ/provincie"
 
 #: CRM/Contact/Page/View/Contribution.php
 msgid "View Contribution"
-msgstr ""
+msgstr "Vizualizare contribuţie"
 
 #: CRM/Contact/Page/View/Contribution.php
 msgid "Edit Contribution"
-msgstr ""
+msgstr "Modifică contribuţie"
 
 #: CRM/Contact/Page/View/Contribution.php
 msgid "Delete Contribution"
-msgstr ""
+msgstr "Şterge contribuţie"
 
 #: CRM/Contact/Page/View/Delete.php
 msgid "Contact Delete"
@@ -3516,9 +3453,8 @@ msgid "You do not have permission to view this contact"
 msgstr "Nu aveţi suficiente drepturi pentru a vizualiza acest contact."
 
 #: CRM/Contact/Page/View/UserDashBoard.php
-#, fuzzy
 msgid "Dashboard - %1"
-msgstr "Tablou de Bord"
+msgstr "Panou de control - %1"
 
 #: CRM/Contact/Selector/Activity.php
 msgid "Are you sure you want to delete this activity record?"
@@ -3621,15 +3557,15 @@ msgstr "Actualizare în serie prin profil"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Alphanumeric"
-msgstr ""
+msgstr "Alfanumeric"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Number"
-msgstr ""
+msgstr "Număr"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Yes or No"
-msgstr ""
+msgstr "Da sau Nu"
 
 #: CRM/Core/BAO/CustomField.php templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/Email.tpl
@@ -3639,115 +3575,125 @@ msgstr "De la"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 From must be an integer (whole number)."
-msgstr ""
+msgstr "%1 de la trebuie să fie un întreg."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 To must be an integer (whole number)."
-msgstr ""
+msgstr "%1 la trebuie să fie un întreg."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 must be an integer (whole number)."
-msgstr ""
+msgstr "%1 trebuie să fie un întreg."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 From is not a valid date."
-msgstr ""
+msgstr "% de la nu este o dată validă."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 To is not a valid date."
-msgstr ""
+msgstr "%1 la nu este o dată validă."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 is not a valid date."
-msgstr ""
+msgstr "%1 nu este o dată validă."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 From must be a number (with or without decimal point)."
-msgstr ""
+msgstr "%1 de la trebuie să fie un număr (cu sau fărpă punct zecimal)."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 To must be a number (with or without decimal point)."
-msgstr ""
+msgstr "%1 la trebuie să fie un număr (cu sau fără punct zecimal)."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 must be a number (with or without decimal point)."
-msgstr ""
+msgstr "%1 trebuie să fie un număr (cu sau fără punct zecimal)."
 
 #: CRM/Core/BAO/CustomField.php
 msgid ""
 "%1 From must in proper money format. (decimal point/comma/space is allowed)."
 msgstr ""
+"%1 de la trebuie să fie un format corect de monedă (punct zecimal/virgulă/"
+"spaţiu sunt acceptate)."
 
 #: CRM/Core/BAO/CustomField.php
 msgid ""
 "%1 To must in proper money format. (decimal point/comma/space is allowed)."
 msgstr ""
+"%1 la trebuie să fie un format corect de monedă (punct zecimal/virgulă/"
+"spaţiu sunt acceptate)."
 
 #: CRM/Core/BAO/CustomField.php
 msgid ""
 "%1 must be in proper money format. (decimal point/comma/space is allowed)."
 msgstr ""
+"%1 trebuie să fie un format corect de monedă (punct zecimal/virgulă/spaţiu "
+"sunt acceptate)."
 
 #: CRM/Core/BAO/CustomGroup.php
 msgid "Are you sure you want to delete attached file."
-msgstr ""
+msgstr "Sigur ştergeţi fişierul ataşat?"
 
 #: CRM/Core/BAO/CustomGroup.php templates/CRM/Custom/Form/DeleteFile.tpl
 msgid "Delete Attached File"
-msgstr ""
+msgstr "Şterge fişierul ataşat"
 
 #: CRM/Core/BAO/CustomQuery.php
 msgid "greater than or equal to \"%1\""
-msgstr ""
+msgstr "mai mare sau egal cu \"%1\""
 
 #: CRM/Core/BAO/CustomQuery.php
 msgid "less than or equal to \"%1\""
-msgstr ""
+msgstr "mai mic sau egal cu \"%1\""
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
 "We could not find the backup sql script. Check %1 exists and is readable by "
 "the webserver."
 msgstr ""
+"Nu găsim scriptul backup SQL. Verificaţi %1 există şi poate fi citit de "
+"webserver."
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
 "We could not find the mysqldump program. Check the configuration variable "
 "CIVICRM_MYSQL_PATH in your CiviCRM config file."
 msgstr ""
+"Nu găsim programul mysqldump. Verificaţi variabilele de configurare "
+"CIVICRM_MYSQL_PATH din dişierul de configurare CiviCRM."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Synchronize Users to Contacts completed."
-msgstr ""
+msgstr "Sincronizarea Utilizatorilor cu Contactele este terminată."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Checked one user record."
 msgid_plural "Checked %count user records."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "A fost verificată înregistrarea unui utilizator."
+msgstr[1] "Au fost verificate înregistrările a %count utilizatori."
 msgstr[2] ""
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Found one matching contact record."
 msgid_plural "Found %count matching contact records."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "A fost găsit un contact care se potriveşte."
+msgstr[1] "Au fost găsite %count contacte care se potrivesc."
 msgstr[2] ""
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Created one new contact record."
 msgid_plural "Created %count new contact records."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "A fost creat un contact nou."
+msgstr[1] "Au fost create %count contacte noi."
 msgstr[2] ""
 
 #: CRM/Core/BAO/EmailHistory.php
 msgid "From: %1; Subject: %2"
-msgstr ""
+msgstr "De la: %1; Subiect: %2"
 
 #: CRM/Core/BAO/EmailHistory.php
 msgid "To: %1; Subject: %2"
-msgstr ""
+msgstr "Către: %1; Subiect: %2"
 
 #: CRM/Core/BAO/History.php
 msgid "- Contribution Fields -"
@@ -3755,11 +3701,11 @@ msgstr "- Câmpuri contribuţie -"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Selected Mapping has been Deleted Successfuly."
-msgstr ""
+msgstr "Maparea selectată a fost ştearsă cu succes."
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Another search field"
-msgstr ""
+msgstr "Încă un câmp de căutare"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Select more fields"
@@ -3767,36 +3713,37 @@ msgstr "Selectaţi mai multe câmpuri"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Cannot have two clauses with different types: %1, %2"
-msgstr ""
+msgstr "Nu pot exista două clauze cu tipuri diferite: %1, %2"
 
 #: CRM/Core/BAO/Note.php
 msgid "Selected Note has been Deleted Successfuly."
-msgstr ""
+msgstr "Nota selectată a fost ştearsă cu succes."
 
 #: CRM/Core/BAO/Tag.php
 msgid "Selected Tag has been Deleted Successfuly."
-msgstr ""
+msgstr "Eticheta selectată a fost ştearsă cu succes."
 
 #: CRM/Core/BAO/Tag.php
 msgid "The tag \"%1\" has been saved."
-msgstr ""
+msgstr "Eticheta \"%1\" a fost salvată."
 
 #: CRM/Core/BAO/UFField.php
 msgid "Cannot enable this UF field since the used custom field is disabled."
 msgstr ""
+"Nu se poate activa acest câmp UF cât timp câmpul personalizat  utilizat este "
+"dezactivat."
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Dynamic Form Creator"
-msgstr ""
+msgstr "Creator de formular dinamic"
 
 #: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Participant Status"
-msgstr "Stare Civilă?"
+msgstr "Stare participant"
 
 #: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_add_domain.tpl
 msgid "Participant Role"
-msgstr ""
+msgstr "Rol participant"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid amount."
@@ -3804,15 +3751,15 @@ msgstr "Vă rugăm introduceţi o cantitate validă."
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid %1"
-msgstr ""
+msgstr "Introduceţi un %1 valid"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Copy of "
-msgstr ""
+msgstr "Copie a "
 
 #: CRM/Core/BAO/UFMatch.php
 msgid "Please set the user framework variable"
-msgstr ""
+msgstr "Vă rugăm atribuiţi variabila cadru a utilizatorului"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Shortcuts"
@@ -3820,11 +3767,11 @@ msgstr "Scurtături CiviCRM"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Quick Add"
-msgstr ""
+msgstr "Adăugare rapidă CiviCRM"
 
 #: CRM/Core/Block.php
 msgid "New Individual"
-msgstr ""
+msgstr "Individ nou"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Search"
@@ -3840,7 +3787,7 @@ msgstr "Meniu CiviCRM"
 
 #: CRM/Core/Block.php
 msgid "CiviContribute Progress Meter"
-msgstr ""
+msgstr "Indicator de progresie CiviContribute "
 
 #: CRM/Core/Block.php
 msgid "New Organization"
@@ -3860,9 +3807,8 @@ msgid "New Group"
 msgstr "Grup nou"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "My Contact Dashboard"
-msgstr "Etichete contact"
+msgstr "Panou de control contacte"
 
 #: CRM/Core/Block.php
 msgid "Send Mailing"
@@ -3877,6 +3823,9 @@ msgid ""
 "CIVICRM_SMTP_SERVER is not set. Click <a href=\"%1\">Administer CiviCRM >> "
 "Global Settings</a> to set the Server."
 msgstr ""
+"CIVICRM_SMTP_SERVER nu este configurat. Faceţi click pe <a href=\"%1"
+"\">Administrare CiviCRM >> Configurări globale</a> pentru a configura "
+"serverul."
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Contact ID (match to contact)"
@@ -3884,7 +3833,7 @@ msgstr "ID Contact (potrivit la contact)"
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Callback Method"
-msgstr ""
+msgstr "Metodă apel invers"
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Activity ID"
@@ -3904,23 +3853,23 @@ msgstr "Sufix număr stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
-msgstr ""
+msgstr "Predirecţional număr stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Name"
-msgstr ""
+msgstr "Nume stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Type"
-msgstr ""
+msgstr "Tip stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
-msgstr ""
+msgstr "Postdirecţional număr stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Unit"
-msgstr ""
+msgstr "Unitate stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Supplemental Address 1"
@@ -3932,7 +3881,7 @@ msgstr "Adresă Suplimentară 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Supplemental Address 3"
-msgstr ""
+msgstr "Adresă suplimentară 3"
 
 #: CRM/Core/DAO/Address.php
 msgid "Postal Code Suffix"
@@ -3940,7 +3889,7 @@ msgstr "Sufix Cod Poştal"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
-msgstr ""
+msgstr "Usps Adc"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
@@ -3952,28 +3901,27 @@ msgstr "Geo Cod 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "Fus orar"
 
 #: CRM/Core/DAO/Country.php
 msgid "Iso Code"
-msgstr ""
+msgstr "Cod ISO"
 
 #: CRM/Core/DAO/Country.php
 msgid "Country Code"
-msgstr ""
+msgstr "Cod ţară"
 
 #: CRM/Core/DAO/Country.php
 msgid "Idd Prefix"
-msgstr ""
+msgstr "Prefix IDD"
 
 #: CRM/Core/DAO/Country.php
 msgid "Ndd Prefix"
-msgstr ""
+msgstr "Prefix NDD"
 
 #: CRM/Core/DAO/County.php
-#, fuzzy
 msgid "County Abbreviation"
-msgstr "Contribu'ie"
+msgstr "Abreviere ţată"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Currency"
@@ -3981,43 +3929,43 @@ msgstr "Monedă"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Symbol"
-msgstr ""
+msgstr "Simbol"
 
 #: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
-msgstr ""
+msgstr "Tip date"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Html Type"
-msgstr ""
+msgstr "Tip HTML"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Attributes"
-msgstr ""
+msgstr "Atribute"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Javascript"
-msgstr ""
+msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Start Date Years"
-msgstr ""
+msgstr "Ani dată start"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "End Date Years"
-msgstr ""
+msgstr "Ani dată sfârşit"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Date Parts"
-msgstr ""
+msgstr "Părţi dată"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Columns"
-msgstr ""
+msgstr "Coloane note"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Rows"
-msgstr ""
+msgstr "Rânduri note"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "String"
@@ -4037,19 +3985,19 @@ msgstr "Logic"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "StateProvince"
-msgstr ""
+msgstr "Provoncie/judeţ"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends"
-msgstr ""
+msgstr "Extinde"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Name"
-msgstr ""
+msgstr "Extinde numele coloanei entităţii"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Value"
-msgstr ""
+msgstr "Extinde valoarea coloanei entităţii"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Custom/Page/Group.tpl
 msgid "Style"
@@ -4074,37 +4022,36 @@ msgid "Membership"
 msgstr "Membru"
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Participant"
-msgstr "Imprimare"
+msgstr "Participant"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Int Data"
-msgstr ""
+msgstr "întreg (int)"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Float Data"
-msgstr ""
+msgstr "punct flotant (float)"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Decimal Data"
-msgstr ""
+msgstr "zecimale (decimal)"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Char Data"
-msgstr ""
+msgstr "caracter (char)"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Date Data"
-msgstr ""
+msgstr "dată (date)"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Memo Data"
-msgstr ""
+msgstr "text (memo)"
 
 #: CRM/Core/DAO/Domain.php
 msgid "Contact Name"
-msgstr ""
+msgstr "Nume contact"
 
 #: CRM/Core/DAO/Domain.php
 msgid "Email Domain"
@@ -4112,17 +4059,15 @@ msgstr "Domeniu email"
 
 #: CRM/Core/DAO/Domain.php
 msgid "Email Return Path"
-msgstr ""
+msgstr "Cale întoarce e-mail"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Config Backend"
-msgstr "Configurează"
+msgstr "Configurează backend"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Config Frontend"
-msgstr "Configurează"
+msgstr "Configurează frontend"
 
 #: CRM/Core/DAO/DupeMatch.php
 msgid "Rule"
@@ -4130,7 +4075,7 @@ msgstr "Regulă"
 
 #: CRM/Core/DAO/Email.php
 msgid "Hold Date"
-msgstr ""
+msgstr "Dată"
 
 #: CRM/Core/DAO/Email.php
 msgid "Reset Date"
@@ -4213,9 +4158,8 @@ msgid "Column Number"
 msgstr "Număr coloană"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Relationship Direction"
-msgstr "Relaţia cu tine"
+msgstr "Direcţia relaţiei"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "Grouping"
@@ -4251,23 +4195,23 @@ msgstr "<="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "IN"
-msgstr ""
+msgstr "ÎN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT IN"
-msgstr ""
+msgstr "NU ESTE ÎN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "LIKE"
-msgstr ""
+msgstr "CA ŞI"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT LIKE"
-msgstr ""
+msgstr "NU ESTE CA ŞI"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Export"
-msgstr ""
+msgstr "Export"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Export Contributions"
@@ -4278,22 +4222,20 @@ msgid "Import Contributions"
 msgstr "Importă Contribuţie"
 
 #: CRM/Core/DAO/Mapping.php
-#, fuzzy
 msgid "Import Memberships"
-msgstr "Membrii"
+msgstr "Importă membrii"
 
 #: CRM/Core/DAO/Mapping.php
-#, fuzzy
 msgid "Import Participants"
-msgstr "Import contacte"
+msgstr "Import participanţi"
 
 #: CRM/Core/DAO/OptionGroup.php
 msgid "Option Group Name"
-msgstr ""
+msgstr "Nume grup opţiuni"
 
 #: CRM/Core/DAO/OptionValue.php
 msgid "Option Name"
-msgstr ""
+msgstr "Nume opţiune"
 
 #: CRM/Core/DAO/OptionValue.php
 msgid "Filter"
@@ -4301,11 +4243,11 @@ msgstr "Filtru"
 
 #: CRM/Core/DAO.php
 msgid "Unhandled transaction type: %1"
-msgstr ""
+msgstr "Tip tranzacţie neutilizat: %1"
 
 #: CRM/Core/DAO.php
 msgid "Could not retrieve object name: %1, id: %2"
-msgstr ""
+msgstr "Nu se poate obşine numele obiectului: %1, id: %2"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
@@ -4313,7 +4255,7 @@ msgstr "Abreviere judeţ"
 
 #: CRM/Core/DAO/UFField.php
 msgid "In Selector"
-msgstr ""
+msgstr "Selector în"
 
 #: CRM/Core/DAO/UFField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Field Type"
@@ -4321,19 +4263,19 @@ msgstr "Tip câmp"
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Form Type"
-msgstr ""
+msgstr "Tip formular"
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Post Url"
-msgstr ""
+msgstr "URL post"
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Add Captcha"
-msgstr ""
+msgstr "Adaugă captcha"
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Cancel Url"
-msgstr ""
+msgstr "URL abandon"
 
 #: CRM/Core/DAO/Validation.php templates/CRM/Custom/Page/Group.tpl
 msgid "Type"
@@ -4341,7 +4283,7 @@ msgstr "Tip"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Parameters"
-msgstr ""
+msgstr "Parametrii"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Function Name"
@@ -4353,11 +4295,11 @@ msgstr "URL"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Positive Integer"
-msgstr ""
+msgstr "Intreg pozitiv"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Variable Name"
-msgstr ""
+msgstr "Nume variabilă"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Range"
@@ -4365,43 +4307,43 @@ msgstr "Rang"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Regular Expression Match"
-msgstr ""
+msgstr "Potrivire expresie regulară"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Regular Expression No Match"
-msgstr ""
+msgstr "Neportrivire expresie regulară"
 
 #: CRM/Core/Form/Date.php
 msgid "yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)"
-msgstr ""
+msgstr "yyyy-mm-dd sau yyyymmdd (1998-12-25 sau 19981225)"
 
 #: CRM/Core/Form/Date.php
 msgid "mm/dd/yy OR mm-dd-yy (12/25/98 OR 12-25-98)"
-msgstr ""
+msgstr "mm/dd/yy sau mm-dd-yy (12/25/98 sau 12-25-98)"
 
 #: CRM/Core/Form/Date.php
 msgid "mm/dd/yyyy OR mm-dd-yyyy (12/25/1998 OR 12-25-1998)"
-msgstr ""
+msgstr "mm/dd/yyyy sau mm-dd-yyyy (12/25/1998 sau 12-25-1998)"
 
 #: CRM/Core/Form/Date.php
 msgid "Month dd, yyyy (December 12, 1998)"
-msgstr ""
+msgstr "Luna dd, yyyy (Decembrie12, 1998)"
 
 #: CRM/Core/Form/Date.php
 msgid "dd-mon-yy (25-Dec-98)"
-msgstr ""
+msgstr "dd-mon-yy (25-Dec-98)"
 
 #: CRM/Core/Form/Date.php
 msgid "Date Format"
-msgstr ""
+msgstr "Format dată"
 
 #: CRM/Core/Form.php
 msgid "ERROR: Title is not Set"
-msgstr ""
+msgstr "Eroare: Titlul nu este configurat"
 
 #: CRM/Core/Form.php
 msgid "Don't Know"
-msgstr ""
+msgstr "Nu ştiu"
 
 #: CRM/Core/Form.php
 msgid "Previous"
@@ -4413,51 +4355,51 @@ msgstr "Procesare"
 
 #: CRM/Core/Form.php
 msgid "Please select %1"
-msgstr ""
+msgstr "Selectaţi %1"
 
 #: CRM/Core/Form.php
 msgid "Please enter the Street Address for %1."
-msgstr ""
+msgstr "Vă rugăm specificaţi strada pentru %1."
 
 #: CRM/Core/Form.php
 msgid "Additional Address 1"
-msgstr ""
+msgstr "Adresă adiţională 1"
 
 #: CRM/Core/Form.php
 msgid "Additional Address 2"
-msgstr ""
+msgstr "Adresă adiţională 2"
 
 #: CRM/Core/Form.php
 msgid "Please enter the City for %1."
-msgstr ""
+msgstr "Introduceţi oraşul pentru %1."
 
 #: CRM/Core/Form.php
 msgid "Please enter the Zip/Postal Code for %1."
-msgstr ""
+msgstr "Introduceţi codul poştal pentru %1."
 
 #: CRM/Core/Form.php
 msgid "Zip/Postal Code not valid for %1."
-msgstr ""
+msgstr "Cod poştal invalid pentru %1."
 
 #: CRM/Core/Form.php
 msgid "Zip-Plus not valid."
-msgstr ""
+msgstr "Zip-Plus nu este valid."
 
 #: CRM/Core/Form.php
 msgid "Please select the Country for %1."
-msgstr ""
+msgstr "Selectaţi ţara pentru %1."
 
 #: CRM/Core/Form.php
 msgid "Please enter a value for %1"
-msgstr ""
+msgstr "Introduceţi o valoare pentru %1."
 
 #: CRM/Core/Form.php
 msgid "Please enter a valid number for %1"
-msgstr ""
+msgstr "Introduceţi un număr valid pentru %1"
 
 #: CRM/Core/Invoke.php
 msgid "Email a Contact"
-msgstr ""
+msgstr "Trimiteţi un e-mail unui contact"
 
 #: CRM/Core/Invoke.php
 msgid "Delete Contact"
@@ -4465,7 +4407,7 @@ msgstr "Şterge contact"
 
 #: CRM/Core/Invoke.php
 msgid "Could not retrieve a valid contact"
-msgstr ""
+msgstr "Nu se poate găsi un contact valid"
 
 #: CRM/Core/Invoke.php
 msgid "Simple Search"
@@ -4473,19 +4415,19 @@ msgstr "Cautare simplă"
 
 #: CRM/Core/Invoke.php
 msgid "View Location Types"
-msgstr ""
+msgstr "Vizualizează tipuri de locaţii"
 
 #: CRM/Core/Invoke.php
 msgid "View Relationship Types"
-msgstr ""
+msgstr "Vizualizează tipuri de relaţii"
 
 #: CRM/Core/Invoke.php templates/CRM/Custom/Form/Group.tpl
 msgid "Custom Data Group"
-msgstr ""
+msgstr "Grup date personalizat"
 
 #: CRM/Core/Invoke.php templates/CRM/Custom/Form/Field.tpl
 msgid "Custom Data Field"
-msgstr ""
+msgstr "Câmp date personalizat"
 
 #: CRM/Core/Invoke.php
 msgid "View Tags"
@@ -4493,24 +4435,23 @@ msgstr "Vizualizare etichete"
 
 #: CRM/Core/Invoke.php
 msgid "View Mapping"
-msgstr ""
+msgstr "Vizualizează mapare"
 
 #: CRM/Core/Invoke.php
-#, fuzzy
 msgid "View Options"
-msgstr "Opţiuni"
+msgstr "Opţiuni vizualizare"
 
 #: CRM/Core/Invoke.php
 msgid "Sync Drupal Users"
-msgstr ""
+msgstr "Sincronizează utilizatori Drupal"
 
 #: CRM/Core/Invoke.php
 msgid "View Option Groups"
-msgstr ""
+msgstr "Vizualizează grupuri opţiuni"
 
 #: CRM/Core/Invoke.php
 msgid "View Option Values"
-msgstr ""
+msgstr "Vizualizează valori opţiune"
 
 #: CRM/Core/Invoke.php
 msgid "Options"
@@ -4546,16 +4487,15 @@ msgstr "Gestionează grupuri"
 
 #: CRM/Core/Menu.php
 msgid "Browse Uploaded files"
-msgstr ""
+msgstr "Răsfoieşte fişierele încărcate"
 
 #: CRM/Core/Menu.php
 msgid "Contact Information"
 msgstr "Informaţii contact"
 
 #: CRM/Core/Menu.php
-#, fuzzy
 msgid "Contact Dashboard"
-msgstr "Etichete contact"
+msgstr "Panou control contacte"
 
 #: CRM/Core/Menu.php templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Users to Contacts:"
@@ -4566,6 +4506,9 @@ msgid ""
 "CiviCRM will check each user record for a contact record. A new contact "
 "record will be created for each user where one does not already exist."
 msgstr ""
+"CiviCRM va verifica existenţa unei înregistrări de contact la fiecare "
+"înregistrare utilizator. O nouă înregistrare de contact va fi creată atunci "
+"când ea lipseşte."
 
 #: CRM/Core/Menu.php templates/CRM/ACL/Form/ACL.tpl
 #: templates/CRM/ACL/Form/EntityRole.tpl
@@ -4585,7 +4528,7 @@ msgstr "Doriţi să continuaţi?"
 
 #: CRM/Core/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Your Data:"
-msgstr ""
+msgstr "Backup date:"
 
 #: CRM/Core/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
 msgid ""
@@ -4594,6 +4537,10 @@ msgid ""
 "long time and generate a very large file if you have a large number of "
 "records."
 msgstr ""
+"CiviCRM va crea un fişier SQL dump care va cuprinde toate informaţiile din "
+"baza de date şi vă permite să-l descărcaţi pe calculatorul local. Acest "
+"proces poate să ia mai mult timp şi poate genera un fişier foarte mare dacă "
+"aveţi multe înregistrări."
 
 #: CRM/Core/Menu.php
 msgid "Backup Data"
@@ -4601,7 +4548,7 @@ msgstr "Backup date"
 
 #: CRM/Core/Menu.php
 msgid "Synchronize Users-to-Contacts"
-msgstr ""
+msgstr "Sincronizare utilizatori-în-contacte"
 
 #: CRM/Core/Menu.php
 msgid "Activity Types"
@@ -4613,7 +4560,7 @@ msgstr "Câmpuri profil CiviCRM"
 
 #: CRM/Core/Menu.php
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "Tipuri locaţii (Acasă, Servici, ...)"
 
 #: CRM/Core/Menu.php
 msgid "Tags (Categories)"
@@ -4621,11 +4568,11 @@ msgstr "Etichete (categorii)"
 
 #: CRM/Core/Menu.php
 msgid "Import/Export Mappings"
-msgstr ""
+msgstr "Mapări import/export"
 
 #: CRM/Core/Menu.php templates/CRM/Contact/Form/Domain.tpl
 msgid "Edit Domain Information"
-msgstr ""
+msgstr "Modifică informaţii domeniu"
 
 #: CRM/Core/Menu.php
 msgid "Relationship Types"
@@ -4633,36 +4580,35 @@ msgstr "Tipuri relaţii"
 
 #: CRM/Core/Menu.php
 msgid "Gender Options (Male, Female...)"
-msgstr ""
+msgstr "Opţiuni gen (bărbat, femeie...)"
 
 #: CRM/Core/Menu.php
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Servicii Instant Messaging"
 
 #: CRM/Core/Menu.php xml/templates/civicrm_add_domain.tpl
 msgid "Mobile Phone Providers"
-msgstr ""
+msgstr "Furnizori telefonie mobilă"
 
 #: CRM/Core/Menu.php
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "Prefixe persoane (Dl, Dna...)"
 
 #: CRM/Core/Menu.php
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Sufixe persoane (Jr, Sr...)"
 
 #: CRM/Core/Menu.php
 msgid "Preferred Communication Options"
-msgstr ""
+msgstr "Opţiuni preferate de comunicare"
 
 #: CRM/Core/Menu.php
 msgid "Quick Registration"
 msgstr "Înregistrare rapidă"
 
 #: CRM/Core/Menu.php
-#, fuzzy
 msgid "Manage ACLs"
-msgstr "Gestionează"
+msgstr "Gestionează ACL-uri"
 
 #: CRM/Core/Menu.php
 msgid "View Contact"
@@ -4698,6 +4644,9 @@ msgid ""
 "verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path which "
 "is writable by your web server."
 msgstr ""
+"Fişierul încărcat %1 nu poate fi mutat în directorul %2. Vă rugăm verificaţi "
+"dacă configurării CIVICRM_IMAGE_UPLOADDIR îi este atribuită o cale validă "
+"care poate fi scrisă de către server."
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [first] [last]"
@@ -4761,7 +4710,7 @@ msgstr "an"
 
 #: CRM/Core/SelectValues.php
 msgid "life time"
-msgstr ""
+msgstr "toată viaţa"
 
 #: CRM/Core/SelectValues.php
 msgid "rolling"
@@ -4785,7 +4734,7 @@ msgstr "dată sfârşit"
 
 #: CRM/Core/SelectValues.php
 msgid "join date"
-msgstr ""
+msgstr "data intrare"
 
 #: CRM/Core/SelectValues.php
 msgid "Decimal Number"
@@ -4797,23 +4746,23 @@ msgstr "Da/Nu"
 
 #: CRM/Core/SelectValues.php
 msgid "Single-line input field (text or numeric)"
-msgstr ""
+msgstr "Câmp text (sau numeric) pe o singură linie"
 
 #: CRM/Core/SelectValues.php
 msgid "Multi-line text box (textarea)"
-msgstr ""
+msgstr "Câmp text multilinie"
 
 #: CRM/Core/SelectValues.php
 msgid "Drop-down (select list)"
-msgstr ""
+msgstr "Listă de selecţie (drop-down)"
 
 #: CRM/Core/SelectValues.php
 msgid "Radio buttons"
-msgstr ""
+msgstr "Butoane radio"
 
 #: CRM/Core/SelectValues.php
 msgid "Checkbox(es)"
-msgstr ""
+msgstr "Căsuţe de bifare"
 
 #: CRM/Core/SelectValues.php
 msgid "Date selector"
@@ -4829,7 +4778,7 @@ msgstr "Selctor ţară"
 
 #: CRM/Core/SelectValues.php
 msgid "Participants"
-msgstr ""
+msgstr "Participanţi"
 
 #: CRM/Core/SelectValues.php
 msgid "User Registration"
@@ -4848,9 +4797,8 @@ msgid "Static"
 msgstr "Static"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Header"
-msgstr "Header"
+msgstr "Antet"
 
 #: CRM/Core/SelectValues.php
 msgid "Footer"
@@ -4858,7 +4806,7 @@ msgstr "Subsol"
 
 #: CRM/Core/SelectValues.php
 msgid "Reply Auto-responder"
-msgstr ""
+msgstr "Răspuns auto-responder"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Opt-out Message"
@@ -4866,7 +4814,7 @@ msgstr "Mesaj Opt-out"
 
 #: CRM/Core/SelectValues.php
 msgid "Subscription Message to organization"
-msgstr ""
+msgstr "Mesajul de înscriere la organizaţie"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Welcome Message"
@@ -4874,31 +4822,31 @@ msgstr "Mesaj de bun venit"
 
 #: CRM/Core/SelectValues.php
 msgid "Farewell Message"
-msgstr ""
+msgstr "Mesaj Farewell"
 
 #: CRM/Core/SelectValues.php
 msgid "PayPal - Website Payments Pro"
-msgstr ""
+msgstr "PayPal - Website Payments Pro"
 
 #: CRM/Core/SelectValues.php
 msgid "PayPal - Express"
-msgstr ""
+msgstr "PayPal - Express"
 
 #: CRM/Core/SelectValues.php
 msgid "PayPal - Website Payments Standard"
-msgstr ""
+msgstr "PayPal - Website Payments Standard"
 
 #: CRM/Core/SelectValues.php
 msgid "Authorize.Net - AIM"
-msgstr ""
+msgstr "Authorize.Net - AIM"
 
 #: CRM/Core/SelectValues.php
 msgid "Google Checkout"
-msgstr ""
+msgstr "Google Checkout"
 
 #: CRM/Core/SelectValues.php
 msgid "Moneris"
-msgstr ""
+msgstr "Moneris"
 
 #: CRM/Core/SelectValues.php
 msgid "Yahoo"
@@ -4918,15 +4866,15 @@ msgstr "ascunde câmp sau selecţie"
 
 #: CRM/Custom/Form/DeleteField.php
 msgid "Confirm Custom Field Delete"
-msgstr ""
+msgstr "Confirmaţi ştergerea câmpului personalizat"
 
 #: CRM/Custom/Form/DeleteField.php
 msgid "The custom field \"%1\" has been deleted."
-msgstr ""
+msgstr "Câmpul personalizat \"\" a fost şters."
 
 #: CRM/Custom/Form/DeleteGroup.php
 msgid "Confirm Custom Group Delete"
-msgstr ""
+msgstr "Confirmaţi ştergerea grupului personalizat"
 
 #: CRM/Custom/Form/DeleteGroup.php
 msgid "Delete Custom Group"
@@ -4937,6 +4885,8 @@ msgid ""
 "The Group \"%1\" has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
 msgstr ""
+"Grupul \"%1\" nu a fost şters! Va trebui să ştergeţi toate câmpurile "
+"personalizate din acest grup înainte de ştergerea grupului."
 
 #: CRM/Custom/Form/Field.php
 msgid "Select File"
@@ -4944,15 +4894,15 @@ msgstr "Selectează fişier"
 
 #: CRM/Custom/Form/Field.php
 msgid "Data and Input Field Type"
-msgstr ""
+msgstr "Tip date şi câmp intrare"
 
 #: CRM/Custom/Form/Field.php
 msgid "Dates may be up to"
-msgstr ""
+msgstr "Datele pot să fie până la"
 
 #: CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
-msgstr ""
+msgstr "Valoare trebuie să fie un număr pozitiv"
 
 #: CRM/Custom/Form/Field.php
 msgid "Month"
@@ -4968,7 +4918,7 @@ msgstr "An"
 
 #: CRM/Custom/Form/Field.php
 msgid "Included date parts"
-msgstr ""
+msgstr "Părţi din dată incluse"
 
 #: CRM/Custom/Form/Field.php
 msgid "Width (columns)"
@@ -4984,15 +4934,15 @@ msgstr "trebuie să fie o valoare numerică"
 
 #: CRM/Custom/Form/Field.php
 msgid "Is this Field Searchable?"
-msgstr ""
+msgstr "Se va căuta după acest câmp?"
 
 #: CRM/Custom/Form/Field.php
 msgid "Search by Range?"
-msgstr ""
+msgstr "Căutare după serie?"
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid integer as default value."
-msgstr ""
+msgstr "Introduceţi un întreg valid ca şi valoare implicită."
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid number as default value."
@@ -5003,6 +4953,8 @@ msgid ""
 "Please enter a valid date as default value using YYYY-MM-DD format. Example: "
 "2004-12-31."
 msgstr ""
+"Introduceţi o dată validă ca valoare implicită utilizând formatul AAAA-LL-"
+"ZZ. Exemplu: 2005-12-29."
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter 1 or 0 as default value."
@@ -5011,31 +4963,31 @@ msgstr "Introduceţi 1 sau 0 ca şi valoare implicită."
 #: CRM/Custom/Form/Field.php
 msgid "The invalid default value for State/Province data type"
 msgstr ""
+"Valoarea implicită invalidă pentru tipul de date Judeţ/Provincie/Regiune"
 
 #: CRM/Custom/Form/Field.php
 msgid "Duplicate Option values"
-msgstr ""
+msgstr "Valori opţiuni duplicate"
 
 #: CRM/Custom/Form/Field.php
 msgid "Duplicate Option label"
-msgstr ""
+msgstr "Etichete opţiuni duplicate"
 
 #: CRM/Custom/Form/Field.php
 msgid "Option label cannot be empty"
-msgstr ""
+msgstr "Eticheta opţiunii nu poate să fie goală"
 
 #: CRM/Custom/Form/Field.php
 msgid "Option value cannot be empty"
-msgstr ""
+msgstr "Valoarea opţiunii nu poate să fie goală"
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid integer."
 msgstr "Introduceţi un întreg valid."
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Please enter a valid money value."
-msgstr "Introduceţi un nume valid."
+msgstr "Introduceţi o valoare validă pentru monedă."
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid number."
@@ -5051,11 +5003,11 @@ msgstr "Previzualizare %1"
 
 #: CRM/Custom/Form/Group.php
 msgid "New Custom Data Group"
-msgstr ""
+msgstr "Grup date personalizate nou"
 
 #: CRM/Custom/Form/Group.php
 msgid "Group's Name should not start with digit"
-msgstr ""
+msgstr "Numele grupului nu poate înecpe cu o cifră"
 
 #: CRM/Custom/Form/Group.php
 msgid "Group Name"
@@ -5067,21 +5019,23 @@ msgstr "Afilează stil"
 
 #: CRM/Custom/Form/Group.php
 msgid "Collapse this group on initial display"
-msgstr ""
+msgstr "Restrânge grupulla afişarea iniţială"
 
 #: CRM/Custom/Form/Group.php
 msgid "Is this Custom Data Group active?"
-msgstr ""
+msgstr "Este acest grup de date personalizate activ?"
 
 #: CRM/Custom/Form/Group.php
 msgid "Your Group \"%1\" has been saved."
-msgstr ""
+msgstr "Grupul \"%1\" a fost salvat."
 
 #: CRM/Custom/Form/Group.php
 msgid ""
 "Your Group \"%1\" has been added. You can <a href=\"%2\">add custom fields</"
 "a> to this group now."
 msgstr ""
+"Grupul \"%1\" a fost adăugat. Acum puteţi <a href=\"%2\">adăuga câmpuri "
+"personalizate</a> în acest grup."
 
 #: CRM/Custom/Form/Option.php templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Page/Option.tpl
@@ -5093,13 +5047,14 @@ msgid "Please enter a valid integer value."
 msgstr "Introduceţi o valoare întreagă validă."
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid value."
-msgstr "Introduceţi un nume valid."
+msgstr "Introduceţi o valoare validă."
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter a valid date using YYYY-MM-DD format. Example: 2004-12-31."
 msgstr ""
+"Vă rugăm introduceţi o dată validă utilizând formatul AAAA-LL-ZZ. Exemplu: "
+"2005-12-29."
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter 1 or 0 as value."
@@ -5107,23 +5062,23 @@ msgstr "Introduceţi 1 sau 0 ca valoare."
 
 #: CRM/Custom/Form/Option.php
 msgid "The invalid value for State/Province data type"
-msgstr ""
+msgstr "Valoarea invalidă pentru tipul de date Judeţ/Provincie/Regiune"
 
 #: CRM/Custom/Form/Option.php
 msgid "Your multiple choice option has been deleted"
-msgstr ""
+msgstr "Opţiunea cu variante multiple a fost ştearsă"
 
 #: CRM/Custom/Form/Option.php
 msgid "Your multiple choice option \"%1\" has been saved"
-msgstr ""
+msgstr "Opţiunea cu variante multiple \"%1\" a fost salvată"
 
 #: CRM/Custom/Page/Field.php
 msgid "Are you sure you want to disable this custom data field?"
-msgstr ""
+msgstr "Sigur dezactivaţi acest câmp de date personalizate?"
 
 #: CRM/Custom/Page/Field.php
 msgid "Are you sure you want to delete this custom data field?"
-msgstr ""
+msgstr "Sigur ştergeţi acest câmp personalizat?"
 
 #: CRM/Custom/Page/Field.php
 msgid "Edit Field"
@@ -5135,31 +5090,31 @@ msgstr "Editare câmp personalizat"
 
 #: CRM/Custom/Page/Field.php
 msgid "Edit Multiple Choice Options"
-msgstr ""
+msgstr "Modifică opţiunile cu variante multiple"
 
 #: CRM/Custom/Page/Field.php
 msgid "List Custom Options"
-msgstr ""
+msgstr "Listează opţiunile personalizate"
 
 #: CRM/Custom/Page/Field.php
 msgid "Preview Field Display"
-msgstr ""
+msgstr "Previzualizează afişarea câmpului"
 
 #: CRM/Custom/Page/Field.php
 msgid "Preview Custom Field"
-msgstr ""
+msgstr "Previzualizează câmpul personalizat"
 
 #: CRM/Custom/Page/Field.php
 msgid "Disable Custom Field"
-msgstr ""
+msgstr "Dezactivează câmpul personalizat"
 
 #: CRM/Custom/Page/Field.php
 msgid "Enable Custom Field"
-msgstr ""
+msgstr "Activează câmpul personalizat"
 
 #: CRM/Custom/Page/Field.php
 msgid "Custom Field"
-msgstr ""
+msgstr "Câmp personalizat"
 
 #: CRM/Custom/Page/Field.php
 msgid "%1 - Custom Fields"
@@ -5170,52 +5125,54 @@ msgid ""
 "Are you sure you want to disable this custom data group? Any profile fields "
 "that are linked to custom fields of this group will be disabled."
 msgstr ""
+"Sigur doriţi dezactivarea acestui grup de date personalizate? Orice "
+"câmpurile profil care sunt legate de câmpurile din acest grup vor fi "
+"dezactivate."
 
 #: CRM/Custom/Page/Group.php
 msgid "View and Edit Custom Fields"
-msgstr ""
+msgstr "Modifică câmpuri"
 
 #: CRM/Custom/Page/Group.php
 msgid "Preview Custom Data Group"
-msgstr ""
+msgstr "Previzualizare grup"
 
 #: CRM/Custom/Page/Group.php
 msgid "Edit Custom Group"
-msgstr ""
+msgstr "Modifică grup personalizat"
 
 #: CRM/Custom/Page/Group.php
 msgid "Disable Custom Group"
-msgstr ""
+msgstr "Dezactivează grup personalizat"
 
 #: CRM/Custom/Page/Group.php
 msgid "Enable Custom Group"
-msgstr ""
+msgstr "Activează grup personalizat"
 
 #: CRM/Custom/Page/Group.php
-#, fuzzy
 msgid "-- Any --"
-msgstr "- orice etichetă -"
+msgstr "-- oricare --"
 
 #: CRM/Custom/Page/Option.php
 msgid ""
 "Are you sure you want to disable this custom data multiple choice option?"
-msgstr ""
+msgstr "Sigur doriţi dezactivarea acestei opţiuni cu valori multiple?"
 
 #: CRM/Custom/Page/Option.php
 msgid "Edit Multiple Choice Option"
-msgstr ""
+msgstr "Modifică opţiunea cu valori multiple"
 
 #: CRM/Custom/Page/Option.php
 msgid "View Multiple Choice Option"
-msgstr ""
+msgstr "Vizualizează opţiunea cu alegere multiplă"
 
 #: CRM/Custom/Page/Option.php
 msgid "Enable Mutliple Choice Option"
-msgstr ""
+msgstr "Activează opţiunea cu alegere multiplă"
 
 #: CRM/Custom/Page/Option.php
 msgid "Disable Multiple Choice Option"
-msgstr ""
+msgstr "Dezactivează opţiunea cu alegere multiplă"
 
 #: CRM/Custom/Page/Option.php
 msgid "Custom Option"
@@ -5223,11 +5180,11 @@ msgstr "Opţiune personalizată"
 
 #: CRM/Custom/Page/Option.php
 msgid "%1 - Multiple Choice Options"
-msgstr ""
+msgstr "%1 - opţiune cu valori multiple"
 
 #: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
-msgstr ""
+msgstr "Confirmă ştergerea grupului"
 
 #: CRM/Group/Form/Edit.php
 msgid "Group Settings: %1"
@@ -5292,15 +5249,15 @@ msgstr "În caz de duplicate"
 
 #: CRM/History/Import/Parser.php
 msgid "View Activity History URL"
-msgstr ""
+msgstr "Vizualizează URL istorie activitate"
 
 #: CRM/History/Page/Activity.php
 msgid "Could not find callback %1"
-msgstr ""
+msgstr "Nu pot găsi apelul invers %1"
 
 #: CRM/History/Selector/Activity.php
 msgid "Are you sure you want to delete this Activity History record?"
-msgstr ""
+msgstr "Sigur doriţi ştergerea înregistrătii de istorie activitate?"
 
 #: CRM/History/Selector/Activity.php
 msgid "View Activity Details"
@@ -5308,7 +5265,7 @@ msgstr "Vizualizează detalii activitate"
 
 #: CRM/History/Selector/Activity.php
 msgid "History %%StatusMessage%%"
-msgstr ""
+msgstr "Istoria %%StatusMessage%%"
 
 #: CRM/Import/Form/Preview.php
 msgid "Name for new group"
@@ -5320,7 +5277,7 @@ msgstr "Descrierea noului grup"
 
 #: CRM/Import/Form/Preview.php
 msgid "Join new contacts to existing group(s)"
-msgstr ""
+msgstr "Adaugă noi contacte la grupurile existente"
 
 #: CRM/Import/Form/Preview.php templates/CRM/Admin/Page/Tag.tpl
 msgid "Tag"
@@ -5343,9 +5300,8 @@ msgid "No Duplicate Checking"
 msgstr "Fără verificare duplicate"
 
 #: CRM/Import/Form/UploadFile.php
-#, fuzzy
 msgid "For Duplicate Contacts"
-msgstr "Sterge contacte"
+msgstr "Pentru contacte duplicate"
 
 #: CRM/Import/Parser/Contact.php
 msgid "Invalid Email address"
@@ -5357,11 +5313,11 @@ msgstr "Adresa email e în conflict cu înregistrarea %1"
 
 #: CRM/Import/Parser/Contact.php
 msgid "Record duplicates multiple contacts"
-msgstr ""
+msgstr "Înregistrează duplicatele contactelor multiple"
 
 #: CRM/Import/Parser.php
 msgid "No processing status reported yet."
-msgstr ""
+msgstr "Nu a fost raportată încă starea procesării."
 
 #: CRM/Import/Parser.php
 msgid "minutes"
@@ -5385,23 +5341,23 @@ msgstr "Subiect:"
 
 #: CRM/Note/Form/Note.php
 msgid "Your Note has been saved."
-msgstr ""
+msgstr "Nota a fost salvată."
 
 #: CRM/Profile/Form/Edit.php
 msgid "You do not have permission to edit this contact"
-msgstr ""
+msgstr "Nu aveţi dreptul să modificaţi acest contact"
 
 #: CRM/Profile/Form/Edit.php
 msgid "Thank you. Your information has been saved."
-msgstr ""
+msgstr "Multumim. Informaţiile au fost salvate."
 
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Invalid form parameters."
-msgstr ""
+msgstr "Parametrii formular invalizi."
 
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Forward Mailing: %1"
-msgstr ""
+msgstr "Redirectare mailing: %1"
 
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Email %1"
@@ -5409,19 +5365,20 @@ msgstr "Email %1"
 
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Forward"
-msgstr ""
+msgstr "Redirectare"
 
 #: CRM/Profile/Form.php
 msgid "This feature is not currently available."
-msgstr ""
+msgstr "Acestă facilitate nu este disponibilă acum."
 
 #: CRM/Profile/Form.php
 msgid "This Profile includes fields for more than one record type."
 msgstr ""
+"Acest profil include câmpuri pentru mai mult decât un tip de înregistrare."
 
 #: CRM/Profile/Form.php
 msgid "An account already exists with the same information."
-msgstr ""
+msgstr "Există deja un cont cu aceleaşi informaţii."
 
 #: CRM/Profile/Page/Listings.php
 msgid "Search Profile"
@@ -5429,25 +5386,23 @@ msgstr "Caută profil"
 
 #: CRM/Profile/Page/View.php
 msgid "Contact's Profile"
-msgstr ""
+msgstr "Profil contact"
 
 #: CRM/Profile/Selector/Listings.php
 msgid "View Profile Details"
-msgstr ""
+msgstr "Vizualizate detalii profil"
 
 #: CRM/Profile/Selector/Listings.php
-#, fuzzy
 msgid "Website Profile"
-msgstr "Crează profil"
+msgstr "Profil website"
 
 #: CRM/Profile/Selector/Listings.php
-#, fuzzy
 msgid "View Website Profile"
-msgstr "Selectează grup"
+msgstr "Vizualizaeză profil website"
 
 #: CRM/Profile/Selector/Listings.php
 msgid "CiviCRM Profile Listings"
-msgstr ""
+msgstr "Afişări profile CiviCRM"
 
 #: CRM/Project/DAO/Project.php
 msgid "Logo"
@@ -5455,7 +5410,7 @@ msgstr "Logo"
 
 #: CRM/Project/DAO/Project.php
 msgid "Project Owner ID"
-msgstr ""
+msgstr "ID proprietar proiect"
 
 #: CRM/Project/DAO/Task.php
 msgid "Task Type"
@@ -5463,7 +5418,7 @@ msgstr "Tip sarcină"
 
 #: CRM/Project/DAO/Task.php
 msgid "Task Owner ID"
-msgstr ""
+msgstr "ID proprietar sarcină"
 
 #: CRM/Project/DAO/Task.php
 msgid "Parent Entity Table"
@@ -5475,7 +5430,7 @@ msgstr "Sarcină părinte"
 
 #: CRM/Project/DAO/Task.php
 msgid "Due Date"
-msgstr ""
+msgstr "Termen"
 
 #: CRM/Project/DAO/Task.php
 msgid "Priority"
@@ -5483,7 +5438,7 @@ msgstr "Prioritate"
 
 #: CRM/Project/DAO/Task.php
 msgid "Task Class"
-msgstr ""
+msgstr "Clasă sarcină"
 
 #: CRM/Project/DAO/TaskStatus.php
 msgid "Responsible Entity Table"
@@ -5519,27 +5474,27 @@ msgstr ""
 
 #: CRM/SMS/Form/Task/SMS.php
 msgid "Send SMS"
-msgstr ""
+msgstr "Trimite SMS"
 
 #: CRM/SMS/Form/Task/SMS.php
 msgid "SMS sent to contact(s): %1"
-msgstr ""
+msgstr "A fost trimis SMS la contactele: %1"
 
 #: CRM/SMS/Form/Task/SMS.php
 msgid "SMS not sent to contact(s): %1"
-msgstr ""
+msgstr "Nu a fost trimis SMS la contactele: %1"
 
 #: CRM/Tag/Form/Tag.php
 msgid "Update Tags"
-msgstr ""
+msgstr "Modifică etichete"
 
 #: CRM/Tag/Form/Tag.php
 msgid "Your update(s) have been saved."
-msgstr ""
+msgstr "Modificările au fost salvate."
 
 #: CRM/UF/Form/Field.php
 msgid "Delete Profile Field"
-msgstr ""
+msgstr "Şterge câmp profil"
 
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "In Selector?"
@@ -5547,61 +5502,62 @@ msgstr ""
 
 #: CRM/UF/Form/Field.php
 msgid "Listings Title"
-msgstr ""
+msgstr "Titlu afişare"
 
 #: CRM/UF/Form/Field.php
 msgid ""
 "Please enter a valid title for this field when displayed in user listings."
 msgstr ""
+"Introduceţi un titlu valid pentru acest câmp atunci când este afişat la "
+"profilul utilizatorului."
 
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "Searchable?"
-msgstr ""
+msgstr "Poate fi căutat?"
 
 #: CRM/UF/Form/Field.php
 msgid "View Only?"
-msgstr ""
+msgstr "Doar vizualizare?"
 
 #: CRM/UF/Form/Field.php
 msgid "Selected Profile Field has been deleted."
-msgstr ""
+msgstr "Câmpul profilului selectat a fost şters."
 
 #: CRM/UF/Form/Field.php
 msgid "The selected field was not added. It already exists in this profile."
-msgstr ""
+msgstr "Câmpul selectat nu a fost adăugat. El există deja în acest profil."
 
 #: CRM/UF/Form/Field.php
 msgid "Your civicrm profile field \"%1\" has been saved."
-msgstr ""
+msgstr "Câmpul profil \"%1\" a fost salvat."
 
 #: CRM/UF/Form/Group.php
 msgid "Profile Settings - %1"
-msgstr ""
+msgstr "Configurare profil - %1"
 
 #: CRM/UF/Form/Group.php
 msgid "Delete %1"
-msgstr ""
+msgstr "Şterge %1"
 
 #: CRM/UF/Form/Group.php
 msgid "New CiviCRM Profile Group"
-msgstr ""
+msgstr "Grup profil nou"
 
 #: CRM/UF/Form/Group.php
 msgid "Delete Profile Group"
-msgstr ""
+msgstr "Şterge grup profil"
 
 #: CRM/UF/Form/Group.php
 msgid "Profile Name"
 msgstr "Nume profil"
 
 #: CRM/UF/Form/Group.php
-#, fuzzy
 msgid "Profile Title is already exist in Database."
-msgstr "Numele există în baza de date."
+msgstr "Titlul profilului există deja în baza de date."
 
 #: CRM/UF/Form/Group.php
 msgid "Is this CiviCRM Profile active?"
-msgstr ""
+msgstr "Este acest profil activ?"
 
 #: CRM/UF/Form/Group.php
 msgid "Should mapping be enabled on this profile?"
@@ -5676,41 +5632,39 @@ msgstr ""
 
 #: CRM/UF/Page/Field.php
 msgid "Edit CiviCRM Profile Field"
-msgstr ""
+msgstr "Modifică câmp profil"
 
 #: CRM/UF/Page/Field.php
 msgid "Preview CiviCRM Profile Field"
-msgstr ""
+msgstr "Previzualizează câmp profil"
 
 #: CRM/UF/Page/Field.php
 msgid "Disable CiviCRM Profile Field"
-msgstr ""
+msgstr "Dezactivează câmp profil"
 
 #: CRM/UF/Page/Field.php
 msgid "Enable CiviCRM Profile Field"
-msgstr ""
+msgstr "Activează câmp profil"
 
 #: CRM/UF/Page/Field.php
 msgid "%1 - CiviCRM Profile Fields"
-msgstr ""
+msgstr "%1 - câmpuri profil"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Are you sure you want to disable this CiviCRM Profile?"
-msgstr "Sigur dezactivaţi acest grup?"
+msgstr "Sigur dezactivaţi acest profil CiviCRM?"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Are you sure you want to make a copy of this Profile?"
-msgstr "Sigur dezactivaţi acest grup?"
+msgstr "Sigur doriţi să faceţi o copie a acestui profil?"
 
 #: CRM/UF/Page/Group.php
 msgid "View and Edit Fields"
-msgstr ""
+msgstr "Vizualizează şi modifică câmpuri"
 
 #: CRM/UF/Page/Group.php
 msgid "List CiviCRM Profile Group Fields"
-msgstr ""
+msgstr "Afişează câmpuri grup profil"
 
 #: CRM/UF/Page/Group.php
 msgid "Edit CiviCRM Profile Group"
@@ -5737,14 +5691,12 @@ msgid "Standalone Form for Profile Group"
 msgstr ""
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Copy Profile"
-msgstr "Profil"
+msgstr "Copiază profil"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Make a Copy of CiviCRM Profile Group"
-msgstr "CiviCRM Group Profil"
+msgstr "Copiază grupul de profile CiviCRM"
 
 #: CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group Preview"
@@ -5813,18 +5765,16 @@ msgid "Unknown function invocation"
 msgstr ""
 
 #: CRM/Utils/REST.php
-#, fuzzy
 msgid "Invalid name and password"
-msgstr "Adresa email invalidă"
+msgstr "Nume şi parolă invalide"
 
 #: CRM/Utils/REST.php
 msgid "session keys do not match, please re-auth"
 msgstr ""
 
 #: CRM/Utils/REST.php
-#, fuzzy
 msgid "Unknown error"
-msgstr "Necunoscut"
+msgstr "Eroare necunoscută"
 
 #: CRM/Utils/REST.php
 msgid "Unknown function called"
@@ -5856,36 +5806,35 @@ msgstr ""
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day of week-"
-msgstr ""
+msgstr "-ziua săptămânii-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day-"
-msgstr ""
+msgstr "-zi-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-month-"
-msgstr ""
+msgstr "-luna-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-year-"
-msgstr ""
+msgstr "-an-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-hour-"
-msgstr ""
+msgstr "-oră-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-min-"
-msgstr ""
+msgstr "-min-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-sec-"
-msgstr ""
+msgstr "-sec-"
 
 #: templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "New ACL"
-msgstr "%1 nou"
+msgstr "ACL nou"
 
 #: templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Form/EntityRole.tpl
 #: templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl
@@ -5939,20 +5888,21 @@ msgstr "%1 nou"
 #: templates/CRM/UF/Page/Group.tpl templates/extern/optout.tpl
 #: templates/extern/unsubscribe.tpl
 msgid "status"
-msgstr ""
+msgstr "stare"
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
 "WARNING: Delete will remove this permission from the specified ACL Role."
 msgstr ""
+"Atenţie: Ştergerea va scoate acestă permisiune din rolul ACL specificat."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid "What type of operation (action) is being permitted?"
-msgstr ""
+msgstr "Ce tip de operaţie este permisă?"
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid "Select the type of data this ACL operates on."
-msgstr ""
+msgstr "Selectează tipul de date pe care operează acest ACL."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
@@ -5962,21 +5912,31 @@ msgid ""
 "Drupal permissions for a Drupal role if you want to use CiviCRM ACL's to "
 "control access."
 msgstr ""
+"Important: Permisiunile Drupal pentru \"access all custom data\" şi "
+"\"profile listings and forms\" suprascriu şi dezactivează configurările ACL "
+"specifice pentru grupurile de câmpuri personalizate. Nu activaţi acele "
+"permisii Drupal pentru un rol Drupal dacă doriţi să utilizaţi controlul de "
+"acces ACL."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
 "Select a specific group of contacts, OR apply this permission to ALL groups."
 msgstr ""
+"Selectaţi un grup specific de contacte sau aplicaţi această permisiune "
+"tuturor grupurilor."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid "Select a specific profile, OR apply this permission to ALL profiles."
 msgstr ""
+"Selectaţi un anumit profil sau aplicaţi aceste drepturi tuturor profilelor."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
 "Select a specific group of custom fields, OR apply this permission to ALL "
 "custom fields."
 msgstr ""
+"Selectaţi un anumit grup de câmpuri personalizate sau aplicaţi acestă "
+"permisiune tuturor câmpurilor personalizate."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
@@ -5984,30 +5944,39 @@ msgid ""
 "\"Everyone\" if you want to grant this permission to ALL users. \"Anyone\" "
 "includes anonymous (i.e. not logged in) users."
 msgstr ""
+"Selectaţi un rol căruia să îi fie atribuite aceste permisiuni. Selectaţi "
+"rolul special \"Everyone\" dacă doriţi să acordaţi această permisiune "
+"tuturor utilizatorilor. \"Everyone\" include utilizatorii anonimi."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
 "Enter a descriptive name for this permission (e.g. \"Edit Advisory Board "
 "Contacts\")."
 msgstr ""
+"Selectaţi un nume descriptiv pentru acestă permisiune (ex. \"Editează "
+"contactele membrilor de conducere\")."
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Assign ACL Role"
-msgstr ""
+msgstr "Atribuie rol ACL"
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid "WARNING: Deleting this option will remove this ACL Role Assignment."
 msgstr ""
+"Atenţie: Ştergerea acestei opţiuni va şterge de asemenea această atribuire "
+"de rol ACL."
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Select an ACL Role to assign."
-msgstr ""
+msgstr "Selecteză un rol ACL pe atribuire."
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid ""
 "Select a group of contacts who should have this role when logged in to your "
 "site."
 msgstr ""
+"Selectează un grup de contacte care ar trebui să aibă acest rol atunci când "
+"se identifică pe sit."
 
 #: templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl
 #: templates/CRM/Admin/Form/Setting/Payment.tpl
@@ -6017,7 +5986,7 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/Builder.tpl
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Opens online documentation in a new window."
-msgstr ""
+msgstr "Deschide documentaţia online într-o fereastră nouă."
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid ""
@@ -6028,6 +5997,13 @@ msgid ""
 "permission to do this operation. Refer to the <a href=\"%1\" target=\"_blank"
 "\" title=\"%2\">Access Control Documentation</a> for more info."
 msgstr ""
+"ACL permite controlul accesului la date. Un ACL este format dintr-o "
+"<strong>operaţie</strong> (ex. 'Vizualizare' sau 'Modificare'), un "
+"<strong>set de date</strong> asupra cărora se va efectua operaţia (ex. un "
+"grup de contacte, un profil sau un set de câmpuri personalizate) şi un "
+"<strong>rol</strong> caruia îi va fi permisă operaţia. Vizitaţi <a href=\"%1"
+"\" target=\"_blank\" title=\"%2\">Access Control Documentation</a> pentru "
+"mai multe informaţii."
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid ""
@@ -6035,15 +6011,17 @@ msgid ""
 "<a href=\"%2\">here</a>... and you can assign Roles to CiviCRM contacts who "
 "are users of your site <a href=\"%1\">here</a>."
 msgstr ""
+"Puteţi adăuga sau modifica ACL-ul de mai jos. Puteţi crea roluri ACL "
+"adiţionale <a href=\"%2\">aici</a> ... şi puteşi atribui roluri contactelor "
+"care sunt utilizatori ai sitului <a href=\"%1\">aici</a>."
 
 #: templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Which Data"
-msgstr "Data Naşterii"
+msgstr "Data care"
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid "There are no ACL&rsquo;s entered. You can <a href=\"%1\">add one</a>."
-msgstr ""
+msgstr "Nu există ACL-uri introduse. Puteţi <a href=\"%1\">adăuga unul</a>."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -6054,6 +6032,13 @@ msgid ""
 "to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access Control "
 "Documentation</a> for more info."
 msgstr ""
+"ACL permite controlul accesului la date. Un ACL este format dintr-o "
+"<strong>operaţie</strong> (ex. 'Vizualizare' sau 'Modificare'), un "
+"<strong>set de date</strong> asupra cărora se va efectua operaţia (ex. un "
+"grup de contacte, un profil sau un set de câmpuri personalizate) şi un "
+"<strong>rol</strong> caruia îi va fi permisă operaţia. Vizitaţi <a href=\"%1"
+"\" target=\"_blank\" title=\"%2\">Access Control Documentation</a> pentru "
+"mai multe informaţii."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid ""
@@ -6062,128 +6047,143 @@ msgid ""
 "You can add or modify ACL's <a href=\"%1\">here</a>. You can create "
 "additional ACL Roles <a href=\"%2\">here</a>."
 msgstr ""
+"Un rol ACL reprezintă o colecţie de ACL-uri (permisiuni). Puteţi atribui "
+"roluri grupurilor de contacte care sunt utilizatori pe sit. Puteţi adăuga "
+"sau modifica ACL <a href=\"%1\">aici</a>. Puteţi crea roluri ACL adiţionale "
+"<a href=\"%2\">aici</a>."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "New Role Assignment"
-msgstr ""
+msgstr "Atribuire de rol nouă"
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "There are no Role Assignments. You can <a href=\"%1\">add one</a> now."
 msgstr ""
+"Nu există atribuiri de roluri. Acum puteţi <a href=\"%1\">adăuga una</a>."
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Log a Meeting"
-msgstr ""
+msgstr "Înregistrează o întâlnire"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule a Meeting"
-msgstr ""
+msgstr "Programează o întâlnire"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 msgid "Edit Scheduled Meeting"
-msgstr ""
+msgstr "Modifică o întâlnire planificată"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 msgid "Delete Meeting"
-msgstr ""
+msgstr "Şterge întâlnire"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 msgid "View Scheduled Meeting"
-msgstr ""
+msgstr "Vizualizează întâlnire programată"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Hrs"
-msgstr ""
+msgstr "Ore"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Min"
-msgstr ""
+msgstr "Min"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 msgid "Meeting will be moved to Activity History when status is 'Completed'."
 msgstr ""
+"Întâlnirea va fi mutată în istoria activităţilor când starea va fi "
+"'Finalizată'."
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "Are you sure you want to delete \"%1\"?"
-msgstr ""
+msgstr "Sigur doriţi ştergerea \"%1\"?"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "Schedule an Activity"
-msgstr ""
+msgstr "Programează o activitate"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "Edit Scheduled Activity"
-msgstr ""
+msgstr "Modifică o activitate programată"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "View Completed Activity"
-msgstr ""
+msgstr "Vizualizare activităţi finalizate"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "View Scheduled Activity"
-msgstr ""
+msgstr "Vizualizare activităţi programate"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Activity will be moved to Activity History when status is 'Completed'."
 msgstr ""
+"Activitatea va fi mutată în istoria activităţilor când starea va deveni "
+"'Finalizat'."
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid ""
 "Cannot display Activity History details since activity type for this "
 "activity has been deleted."
 msgstr ""
+"Nu se poat afişa detaliile legate istoria activităţilor cât timp acest tip "
+"de activităţi a fost şters."
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Log a Phone Call"
-msgstr ""
+msgstr "Înregistrează un apel telefonic"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Schedule a Phone Call"
-msgstr ""
+msgstr "Programează un apel telefonic"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Edit Scheduled Call"
-msgstr ""
+msgstr "Modifică un apel programat"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Delete Phone Call"
-msgstr ""
+msgstr "Şterge un apel telefonic"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "View Scheduled Call"
-msgstr ""
+msgstr "Vizualizeazp apel perogramat"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Call will be moved to Activity History when status is 'Completed'."
 msgstr ""
+"Apelul va fi mutat în istoria activităţilor când starea va deveni "
+"'Funalizat'."
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "New Activity Type"
-msgstr ""
+msgstr "Tip activitate nou"
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Edit Activity Type"
-msgstr ""
+msgstr "Modifică tipul de activitate"
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Delete Activity Type"
-msgstr ""
+msgstr "Şterge tipul de activitate"
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all activity type "
 "records which use the option."
 msgstr ""
+"Atenţie: Ştergerea acestei opţiuni va duce la pierderea înregistrărilor "
+"tipului de activitate care utilizează acestă opţiune."
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 #: templates/CRM/Admin/Form/LocationType.tpl
@@ -6195,26 +6195,28 @@ msgid ""
 "This may mean the loss of a substantial amount of data, and the action "
 "cannot be undone."
 msgstr ""
+"Acesta poate însemna pierderea unei cantităţi însemnate de date iar acţiunea "
+"nu are cale de întoarcere."
 
 #: templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Drupal Users"
-msgstr ""
+msgstr "Sincronizează utilizatorii Drupal"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Duplicate Matching Rule"
-msgstr ""
+msgstr "Reguli avansate de găsire a duplicatelor"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Delete Duplicate Matching Rule"
-msgstr ""
+msgstr "Şterge regula de găsire a duplicatelor"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Configure Duplicate Matching Rule"
-msgstr ""
+msgstr "Configurează regula de detectare a duplicatelor"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Are you sure you want to delete this Duplicate Matching Rule?"
-msgstr ""
+msgstr "Sigur doriţi să ştegeţi acestă regula de detectare a duplicatelor?"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
@@ -6223,6 +6225,10 @@ msgid ""
 "fields in your matching rule are OPTIONAL, then all <strong>non-empty</"
 "strong> fields in the incoming data are used."
 msgstr ""
+"Selectaţi până la cinci câmpuri de contact care să fie utilizate când se "
+"compară o persoană nouă cu una existentă pentru a se detecta duplicatele. "
+"Dacă careva din aceste câmpuri sunt opţionale atunci se vor utiliza toate "
+"câmpurile ne-nule."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
@@ -6232,30 +6238,36 @@ msgid ""
 "and leaves the first and last name blank. The new contact will be flagged as "
 "a potential duplicate."
 msgstr ""
+"De exemplu utilizarea regulii <strong>Email AND First Name AND Last Name</"
+"strong>... Jane Doe jane.doe@example.org există în baza de date. Cineva "
+"încearcă adăugare unei persoane cu acelaşi e-mail şi lasă numele şi "
+"prenumele goale. Noul contact va fi marcat ca fiind potenţial duplicat."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Configuration"
-msgstr ""
+msgstr "Configurare avansată"
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 msgid "New Location Type"
-msgstr ""
+msgstr "Tip locaţie nou"
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all location type "
 "records which use the option."
 msgstr ""
+"Atenţie: Ştergereaacestei opţiuni va duce la pierderea tuturor tipurilor de "
+"locaţie care utilizează acestă opţiune."
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 msgid "WARNING: Do NOT use spaces in the Location Name."
-msgstr ""
+msgstr "Atenţie: Nu utilizaţi spaţii în numele locaţiei."
 
 #: templates/CRM/Admin/Form/Mapping.tpl templates/CRM/Admin/Form/Tag.tpl
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid "New Tag"
-msgstr ""
+msgstr "Etichetă nouă"
 
 #: templates/CRM/Admin/Form/Mapping.tpl
 msgid ""
@@ -6322,9 +6334,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Address.tpl
-#, fuzzy
 msgid "Address Display and Editing"
-msgstr "Contribuţia min premium"
+msgstr "Afişare şi modificare Adresă"
 
 #: templates/CRM/Admin/Form/Setting/Address.tpl
 msgid ""
@@ -6396,9 +6407,8 @@ msgid "Date Display"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
-#, fuzzy
 msgid "Date Input Fields"
-msgstr "Data şi ora"
+msgstr "Câmpuri introducere dată"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid "Debugging and Error Handling"
@@ -6721,9 +6731,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
-#, fuzzy
 msgid "SMTP Configuration"
-msgstr "Contribu'ie"
+msgstr "Configuraţie SMTP"
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid "Enter the SMTP server (machine) name. EXAMPLE: smtp.example.com "
@@ -6863,9 +6872,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/Access.tpl
-#, fuzzy
 msgid "3. Assign Users to CiviCRM ACL Roles"
-msgstr "Atribuie Utilizatori la Roluri"
+msgstr "3. Atribuie utilizatori rolurilor ACL"
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -7044,9 +7052,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/Options.tpl
-#, fuzzy
 msgid "Reserved"
-msgstr "Şters"
+msgstr "Rezervat"
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid "There are no option values entered. You can <a href=\"%1\">add one</a>."
@@ -7159,9 +7166,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Address Settings"
-msgstr "Adresă"
+msgstr "Configurare adresă"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -7622,55 +7628,55 @@ msgid ""
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
 "actions -' drop-down menu."
 msgstr ""
+"Dacă aţi schimbat criteriul de căutare pentru acest 'grup inteligent' şi "
+"doriţi să salvaţi modificările, selectaţi <strong>Actualizare grup "
+"inteligent</strong> din meniul '- mai multe acţiuni -'."
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "smart group"
-msgstr ""
+msgstr "grup inteligent"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Found %count group member"
 msgid_plural "Found %count group members"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%count membru al grupului găsit"
+msgstr[1] "%count membrii ai grupului găsiţi"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Found %count contact"
 msgid_plural "Found %count contacts"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%count contact găsit"
+msgstr[1] "%count contacte găsite"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "selected records only"
-msgstr ""
+msgstr "doar înregistrările selectate"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "the found record"
 msgid_plural "all %count records"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "înregistrarea găsită"
+msgstr[1] "toate cele %count înregistrări"
 
 #: templates/CRM/Contact/Form/Search/table.tpl
 msgid "Include contacts where"
-msgstr ""
+msgstr "Include contacte care"
 
 #: templates/CRM/Contact/Form/Search/table.tpl
 msgid "Also include contacts where"
-msgstr ""
+msgstr "De asemenea include contacte care"
 
 #: templates/CRM/Contact/Form/Selector.tpl
 msgid "Search results listings."
-msgstr ""
+msgstr "Afişare rezultate căutare"
 
 #: templates/CRM/Contact/Form/Task/AddToGroup.tpl
 msgid "Add Members to a Group"
-msgstr ""
+msgstr "Adaugă membrii la un grup"
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 msgid "Choose Relationship Type and Target Household"
-msgstr ""
+msgstr "Alege tipul de relaţie şi familia ţintă"
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -7679,14 +7685,17 @@ msgid ""
 "ul><br />Check your spelling, or try fewer letters for the target contact "
 "name."
 msgstr ""
+"Nu au fost găsite rezultate potrivite pentru <ul><li>Nume ca şi: %1</"
+"li><li>Tip contact: %2</li></ul><br />Verificaţi ortografierea sau încercaţi "
+"mai puţine litere pentru contactul ţintă."
 
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 msgid "Choose Relationship Type and Target Organization"
-msgstr ""
+msgstr "Alege tipul de relaţie şi organizaţia ţintă"
 
 #: templates/CRM/Contact/Form/Task/AddToTag.tpl
 msgid "Tag Contact(s)"
-msgstr ""
+msgstr "Etichetează contacte"
 
 #: templates/CRM/Contact/Form/Task/BatchUpdateProfile.tpl
 msgid ""
@@ -7695,31 +7704,40 @@ msgid ""
 "value for ALL rows, enter that value for the first contact and then click "
 "the <strong>Copy icon</strong> (next to the column title)."
 msgstr ""
+"Actualizaeză valorile câmpului pentru fiecare contact după caz. Faceţi click "
+"pe <strong>Modificare contacte</strong> dedesupt pentru a salva toate "
+"modificările. Pentru a atribui aceeaşi valoare tuturor rândurilor, "
+"introduceţi valoare pentru primul contact şi faceţi click pe <strong>iconul "
+"de copiere</strong> (de lângă titlul coloanei)."
 
 #: templates/CRM/Contact/Form/Task/BatchUpdateProfile.tpl
 msgid "Click to copy %1 from row one to all rows."
-msgstr ""
+msgstr "Faceţi click pentru a copia %1 din rândul unu, în toate rândurile."
 
 #: templates/CRM/Contact/Form/Task/BatchUpdateProfile.tpl
 msgid "Click here to copy the value in row one to ALL rows."
-msgstr ""
+msgstr "Faceţi click aici pentru a copia valoarea în toate rândurile."
 
 #: templates/CRM/Contact/Form/Task/Delete.tpl
 msgid ""
 "Are you sure you want to Delete the selected contacts? A Delete operation "
 "cannot be undone."
 msgstr ""
+"Sigur doriţi ştergerea contactelor selectate? Acestă operaţie nu are cale de "
+"întoarcere."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
 "Your setup enforces SMTP authentication, but does not provide SMTP username "
 "and/or password. Please fix your civicrm.settings.php file."
 msgstr ""
+"Configuraţia solicită identificare SMTP dar nu furnizează un nume şi/sau "
+"parolă de SMTP. Vă rugăm corectaţi acesta în fişierul civicrm.settings.php."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send an Email"
-msgstr ""
+msgstr "Trimite e-mail"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
@@ -7735,14 +7753,13 @@ msgstr[2] ""
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "Recipient(s)"
-msgstr ""
+msgstr "Destinatar(i)"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid "Email will NOT be sent to %count contact."
 msgid_plural "Email will NOT be sent to %count contacts."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Mailul nu va fi trimis către %count contact."
+msgstr[1] "Mailul nu va fi trimis către %count contacte."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
@@ -7793,9 +7810,8 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid "One record selected for export."
 msgid_plural "%count records selected for export."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Este selectată o înregistrare pentru export."
+msgstr[1] "Sunt selectate %count înregistrări pentru export."
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 msgid "Select a Different Mapping"
@@ -7817,15 +7833,15 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Label.tpl
 msgid "Label Contact(s)"
-msgstr ""
+msgstr "Etichetare contacte"
 
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "There are no records selected for Print."
-msgstr ""
+msgstr "Nu există înregistrări selectate pentru tipărire."
 
 #: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Record an Activity"
-msgstr ""
+msgstr "Înregistrează o activitate"
 
 #: templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl
 msgid "Remove Members"
@@ -7841,11 +7857,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Saved Search"
-msgstr ""
+msgstr "Căutare salvată"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Criteria"
-msgstr ""
+msgstr "Criteriu"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "There are currently no Saved Searches. To create a Saved search:"
@@ -7869,11 +7885,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Enter a name and description for your Saved Search"
-msgstr ""
+msgstr "Indicaţi un nume şi o descriere pentru căutarea salvată"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule Meeting"
-msgstr ""
+msgstr "Programează întâlnirea"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule Call"
@@ -7881,40 +7897,40 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule a Call"
-msgstr ""
+msgstr "Programează un apel"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Log a Call"
-msgstr ""
+msgstr "Înregistrează un apel"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
-msgstr ""
+msgstr "Alte activităţi"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "View User Record"
-msgstr ""
+msgstr "Afişează înregistrarea utilizatorului"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "(primary location)"
-msgstr ""
+msgstr "(locaţia primară)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Preferred Email:"
-msgstr ""
+msgstr "E-mail preferat:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Preferred Phone:"
-msgstr ""
+msgstr "Telefon preferat:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Instant Messenger:"
-msgstr ""
+msgstr "Instant Messenger:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
@@ -7924,54 +7940,54 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Communications Preferences"
-msgstr ""
+msgstr "Preferinţe de comunicare"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Privacy:"
-msgstr ""
+msgstr "Intimitate:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "DO NOT SEND BULK EMAIL"
-msgstr ""
+msgstr "Nu trimite mailuri în masă"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Communication Preference:"
-msgstr ""
+msgstr "Preferinţa de comunicare:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Mail Format Preference:"
-msgstr ""
+msgstr "Formatul de mail preferat:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Gender:"
-msgstr ""
+msgstr "Gen:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Contact is Deceased"
-msgstr ""
+msgstr "Persoana este decedată"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Date of Birth:"
-msgstr ""
+msgstr "Data naşterii:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Date Deceased:"
-msgstr ""
+msgstr "Daza decesului:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Total Contributed"
-msgstr ""
+msgstr "Total contribuit"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "# Contributions"
-msgstr ""
+msgstr "# Contribuţii"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid ""
@@ -8160,9 +8176,8 @@ msgid "There are no contributions recorded from this contact."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
 msgid "Contributions made in honor of %1."
-msgstr "Contribuţii"
+msgstr "Contribuţii făcute de %1."
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Overdue"
@@ -8334,9 +8349,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
-#, fuzzy
 msgid "New Event Registration"
-msgstr "Înregistrare utilizator"
+msgstr "Înregistrare eveniment nou"
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid ""
@@ -8383,9 +8397,8 @@ msgid "Sent SMS Message"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
-#, fuzzy
 msgid "View Contact Dashboard"
-msgstr "Vizualizeză detalii contact"
+msgstr "Afişează control contact"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 #: templates/CRM/Profile/Page/View.tpl
@@ -8393,27 +8406,24 @@ msgid "Map Primary Address"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
-#, fuzzy
 msgid "Method:"
-msgstr "Metoda"
+msgstr "Metodă:"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Total Amount"
 msgstr "Cantitate Totală"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
-#, fuzzy
 msgid "Received date"
-msgstr "Data recepţie"
+msgstr "Data primirii"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Receipt Sent"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
-#, fuzzy
 msgid "(Recurring Contribution)"
-msgstr "Contribu'ie"
+msgstr "(Contribuţie periodică)"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid ""
@@ -8425,9 +8435,8 @@ msgid "There are no contributions on record for you."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
-#, fuzzy
 msgid "Contributions made in your honor."
-msgstr "Contribuţii"
+msgstr "Contribuţiile dumneavoastră."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Contributor"
@@ -8438,56 +8447,48 @@ msgid "Amount"
 msgstr "Cantitate"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
-#, fuzzy
 msgid "Recurring Contribution(s)"
-msgstr "Contribu'ie"
+msgstr "Contribuţii periodice"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
-#, fuzzy
 msgid "Terms:"
-msgstr "Test"
+msgstr "Termeni:"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
-#, fuzzy
 msgid "Change Recurring Contribution"
-msgstr "Contribu'ie"
+msgstr "Modifică contribuţia periodică"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "You are not currently subscribed to any Groups."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Are you sure you want to unsubscribe from %1?"
-msgstr "Sigur dezactivaţi acest %1?"
+msgstr "Sigur vă dezabonaţi de la %1?"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Unsubscribe"
 msgstr "Dezabonare"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Pending Subscriptions"
-msgstr "Descriere"
+msgstr "Abonamente în aşteptare"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Your subscription to these group(s) is pending confirmation."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Are you sure you want to remove from %1?"
-msgstr "Sigur dezactivaţi acest %1?"
+msgstr "Sigur ştergeţi de la %1?"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Confirm"
-msgstr "Configurează"
+msgstr "Confirmă"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Unsubscribed Groups"
-msgstr "Dezabonare"
+msgstr "Dezabonare grupuri"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid ""
@@ -8496,18 +8497,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Are you sure you want to add back into %1?"
-msgstr "Sigur dezactivaţi acest %1?"
+msgstr "Sigur doriţi sa-l readuceţi în %1?"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "Renew Now"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
-#, fuzzy
 msgid "Expired / Inactive Memberships"
-msgstr "Membrii"
+msgstr "Membrii expiraţi / inactivi"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "There are no memberships on record for you."
@@ -8518,28 +8517,24 @@ msgid "Click on the event name for more information."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
-#, fuzzy
 msgid "Event Date(s)"
-msgstr "Data Trimitere"
+msgstr "Date eveniment"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 msgid "You are not registered for any current or upcoming Events."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
-#, fuzzy
 msgid "Your Group(s)"
-msgstr "Grup(uri)"
+msgstr "Grupurile tale"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
-#, fuzzy
 msgid "Your Contribution(s)"
-msgstr "Exportă Contribuţii"
+msgstr "Contribuţiile tale"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
-#, fuzzy
 msgid "Your Membership(s)"
-msgstr "Membrii"
+msgstr "Abonamentele tale"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 msgid "Your Event(s)"
@@ -9584,9 +9579,8 @@ msgid "Explanatory text displayed at the end of the form."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "Adresă"
+msgstr "Configuraţie avansată"
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -9686,21 +9680,23 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Required"
-msgstr ""
+msgstr "Necesar"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "View Only"
-msgstr ""
+msgstr "Doar vizualizare"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
-msgstr ""
+msgstr "Câmp profil CiviCRM nou"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid ""
 "There are no CiviCRM Profile Fields for \"%1\", you can <a href=\"%2\">add "
 "one now</a>."
 msgstr ""
+"Nu există câmpuri profil pentru \"%1\", puteţi <a href=\"%2\">adăuga unul "
+"acum</a>."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9708,10 +9704,13 @@ msgid ""
 "Profile fields. You can copy this HTML code and paste it into any block or "
 "page on ANY website where you want to collect contact information."
 msgstr ""
+"Codul HTML de mai jos va afişa un formular care conţine câmpurile profil "
+"CiviCRM active. Puteţi copia acest cod HTML într-un bloc sau într-o pagină "
+"pe orice sit unde doriţi să colectaţi informaţii de contact."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Back to Profile Listings"
-msgstr ""
+msgstr "Înapoi la afişarea profilului"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9720,178 +9719,182 @@ msgid ""
 "features. They provide a powerful set of tools for you to collect "
 "information from constituents and selectively share contact information."
 msgstr ""
+"Profilele CiviCRM permit agregarea de grupuri de câmpuri şi includerea lor "
+"în sit ca şi formate de intrare, pagini de afişare contact şi facilităţi de "
+"căutare sau afişare. Ele furnizează un set puternic de instrumente pentru "
+"colectarea de informaţii."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
-msgstr ""
+msgstr "Titlu profil"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "New CiviCRM Profile"
-msgstr ""
+msgstr "Profil CiviCRM nou"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Get HTML for All Active Profiles"
-msgstr ""
+msgstr "Obţine HTML pentru toate profilele active"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "No CiviCRM Profiles have been created yet. You can <a href=\"%1\">add one "
 "now</a>."
 msgstr ""
+"Nu au fost create încă profile CiviCRM. Puteţi <a href=\"%1\">adauga acum "
+"unul</a>."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Home"
-msgstr ""
+msgstr "Acas["
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Place of residence"
-msgstr ""
+msgstr "Locul rezidenţei"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Work"
-msgstr ""
+msgstr "Servici"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Work location"
-msgstr ""
+msgstr "Locaţie servici"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Main"
-msgstr ""
+msgstr "Principal"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Main office location"
-msgstr ""
+msgstr "Principala locaţie servici"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Other location"
-msgstr ""
+msgstr "Altă locaţie"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Billing"
-msgstr "rulant"
+msgstr "Plată"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Billing Address location"
-msgstr "Adresă Poştală"
+msgstr "Adresă chitanţă"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Child of"
-msgstr ""
+msgstr "Copilul lui"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Parent of"
-msgstr ""
+msgstr "Părintele lui"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Parent/child relationship."
-msgstr ""
+msgstr "Relaţie părinte/copil"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Spouse of"
-msgstr ""
+msgstr "Căsătorit(ă) cu"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Spousal relationship."
-msgstr ""
+msgstr "Relaţie căsătorie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sibling of"
-msgstr ""
+msgstr "Frate al"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sibling relationship."
-msgstr ""
+msgstr "Relaţie fraţi"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employee of"
-msgstr ""
+msgstr "Angajat al"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employer of"
-msgstr ""
+msgstr "Angajator al"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employment relationship."
-msgstr ""
+msgstr "Relaţie angajat"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer for"
-msgstr ""
+msgstr "Voluntar al"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer is"
-msgstr ""
+msgstr "Al cărui voluntar este"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer relationship."
-msgstr ""
+msgstr "Relaţie voluntariat"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Head of Household for"
-msgstr ""
+msgstr "Capul familiei"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Head of Household is"
-msgstr ""
+msgstr "Capul familiei este"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Head of household."
-msgstr ""
+msgstr "Capul familiei."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Household Member of"
-msgstr ""
+msgstr "Membru al familiei"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Household Member is"
-msgstr ""
+msgstr "Membrul familiei este"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Household membership."
-msgstr ""
+msgstr "Membru familie."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Non-profit"
-msgstr ""
+msgstr "Non-profit"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Any not-for-profit organization."
-msgstr ""
+msgstr "Orice organizaţie non-profit."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Company"
-msgstr ""
+msgstr "Companie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "For-profit organization."
-msgstr ""
+msgstr "Organizaţie profit."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Government Entity"
-msgstr ""
+msgstr "Entitate a Guvernului"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Any governmental entity."
-msgstr ""
+msgstr "Orice entitate guvernamentală."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Major Donor"
-msgstr ""
+msgstr "Donator major"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "High-value supporter of our organization."
-msgstr ""
+msgstr "Suporter important al organizaţiei noastre"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer"
-msgstr ""
+msgstr "Voluntar"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Active volunteers."
@@ -9899,45 +9902,43 @@ msgstr "Voluntari activi."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Header"
-msgstr ""
+msgstr "Antet scrisori"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "This is the Header"
-msgstr ""
+msgstr "Acesta este antetul"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "HTML Body of Header"
-msgstr ""
+msgstr "Corp HTML al antetului"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Text Body of Header"
-msgstr ""
+msgstr "Corp text al antetului"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Footer"
-msgstr ""
+msgstr "Subsol scrisoare"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "This is the Footer"
-msgstr "ascunde acest titlu"
+msgstr "Acesta este subsolul"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "HTML Body of Footer"
-msgstr ""
+msgstr "Corp HTML al subsolului"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Text Body of Footer"
-msgstr ""
+msgstr "Corp text subsol"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Subscribe Message"
-msgstr "Abonează"
+msgstr "Mesaj abonare"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Subscription confirmation request"
-msgstr ""
+msgstr "Solicitare de confirmare a abonării"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Welcome"
@@ -9945,30 +9946,27 @@ msgstr "Bun venit"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Unsubscribe Message"
-msgstr ""
+msgstr "Mesaj dezabonare"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Unsubscribe results"
-msgstr "Dezabonare"
+msgstr "Rezultat dezabonare"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Goodbye"
-msgstr "Google"
+msgstr "La revedere"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Auto-responder"
-msgstr ""
+msgstr "Răspuns automat"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Automated response"
-msgstr "Auto Responder"
+msgstr "Răspuns automat"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Thank you for your reply."
-msgstr ""
+msgstr "Mulţumesc pentru răspuns."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Donation"
@@ -9976,7 +9974,7 @@ msgstr "Donaţie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Member Dues"
-msgstr ""
+msgstr "Cotizaţie membrii"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Campaign Contribution"
@@ -9984,26 +9982,23 @@ msgstr "Contribuţie Campanie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Fee"
-msgstr ""
+msgstr "Taxă eveniment"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Instant Messenger (IM) screen-names"
-msgstr "Instant Messenger (preferat)"
+msgstr "Instant Messenger (IM) screen-names"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Individual contact prefixes"
-msgstr "Prefix Individual %2 \"%1\""
+msgstr "Prefixe persoană"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Individual contact suffixes"
-msgstr "Sufix Individual %2 \"%1\""
+msgstr "Sufixe persoană"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Acceptă carduri de credit"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Payment Instruments"
@@ -10014,173 +10009,152 @@ msgid "Contribution Status"
 msgstr "Stare Contribuţie"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Event Type"
-msgstr "Tip Componentă"
+msgstr "Tip eveniment"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Postal Mail"
-msgstr "Poştal"
+msgstr "Adresă poştală"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Female"
-msgstr "Formal"
+msgstr "Femeie"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Male"
-msgstr "Valoare"
+msgstr "Bărbat"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Transgender"
-msgstr ""
+msgstr "Transsexual"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Mrs"
-msgstr "Membri"
+msgstr "Dna"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Ms"
-msgstr "Mască"
+msgstr "Dl"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mr"
-msgstr ""
+msgstr "Dl"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Dr"
-msgstr ""
+msgstr "Dr"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Jr"
-msgstr ""
+msgstr "Jr"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sr"
-msgstr ""
+msgstr "Sr"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Administrator"
-msgstr "Doar administrator?"
+msgstr "Administrator"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Authenticated"
-msgstr "Identificare?"
+msgstr "Identificat"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Credit Card"
-msgstr "Credit"
+msgstr "Card credit"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Debit Card"
-msgstr "Debit"
+msgstr "Card debit"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Cash"
-msgstr "Hash"
+msgstr "Cash"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Check"
-msgstr "CheckBox"
+msgstr "Cec"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "EFT"
-msgstr ""
+msgstr "EFT"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Cancelled"
-msgstr ""
+msgstr "Abandonat"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Failed"
-msgstr "Fişier"
+msgstr "Eşuat"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Progress"
-msgstr ""
+msgstr "În curs"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Registered"
-msgstr "Şters"
+msgstr "Înregistrat"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Attended"
-msgstr "Date Frecvenţă"
+msgstr "A fost prezent"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "No-show"
-msgstr ""
+msgstr "Nu arăta"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Attendee"
-msgstr "Date Frecvenţă"
+msgstr "Aşteptaţi"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Host"
 msgstr "Host"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Speaker"
-msgstr "Caută"
+msgstr "Vorbitor"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Conference"
-msgstr "Configurează"
+msgstr "Conferinţă"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Exhibition"
-msgstr ""
+msgstr "Expoziţie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Fundraiser"
-msgstr ""
+msgstr "Fundraiser"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Performance"
-msgstr ""
+msgstr "Performanţă"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Workshop"
-msgstr ""
+msgstr "Grup de lucru"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "New"
-msgstr "%1 nou"
+msgstr "Nou"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Current"
-msgstr "Monedă"
+msgstr "Curent"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Grace"
-msgstr "Grad cent"
+msgstr "Graţie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Expired"
-msgstr ""
+msgstr "Expirat"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
-msgstr ""
+msgstr "Conform cu termenii AOL"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"
@@ -10192,31 +10166,31 @@ msgstr "Nu poate fi rezolvat domeniul destinatarului"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to destintation mail server"
-msgstr ""
+msgstr "Imposibil de a expedia la serverul de destinaţie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User account is no longer active"
-msgstr ""
+msgstr "Contul utilizatorului nu mai este activ"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Email address is not valid"
-msgstr ""
+msgstr "Adresa de mail nu este validă"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Mail routing error"
-msgstr ""
+msgstr "Eroare de rutare a mailului"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User inbox is full"
-msgstr ""
+msgstr "Căsuţa poştală a utilizatorului este plină"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to reach destination mail server"
-msgstr ""
+msgstr "Serverul destinaţie nu poate fi găsit"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Message caught by a content filter"
-msgstr ""
+msgstr "Mesaj creat de un filtru de conţinut"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"

@@ -136,10 +136,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->_maxLocationBlocks = CRM_Core_BAO_Preferences::value( 'location_count' );
 
         $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options' );
-        $configItems = array( '_showCommBlock'     => ts( 'Communication Preferences' ),
-                              '_showDemographics'  => ts( 'Demographics' ),
-                              '_showTagsAndGroups' => ts( 'Tags and Groups' ),
-                              '_showNotes'         => ts( 'Notes' ) );
+
+        $configItems = array( '_showCommBlock'     => 'Communication Preferences',
+                              '_showDemographics'  => 'Demographics',
+                              '_showTagsAndGroups' => 'Tags and Groups',
+                              '_showNotes'         => 'Notes' );
 
         foreach ( $configItems as $c => $t ) {
             $this->$c = $this->_editOptions[$t];
@@ -684,8 +685,6 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
 
         //add relationship for the contact
         if ( isset( $params['current_employer'] ) && $params['current_employer'] ) {
-            
-            
             CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
                                                                      $params['current_employer']);
 
