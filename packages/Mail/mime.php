@@ -367,7 +367,7 @@ class Mail_mime
      * @return object  The multipart/mixed mimePart object
      * @access private
      */
-    function &_addAlternativePart(&$obj)
+    function _addAlternativePart(&$obj)
     {
         $params['content_type'] = 'multipart/alternative';
         if (is_object($obj)) {
