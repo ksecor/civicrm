@@ -283,9 +283,15 @@ LIMIT 6";
     function state( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $countryName  = CRM_Utils_Type::escape( $_GET['node'], 'String');
-        $stateName    = CRM_Utils_Type::escape( $_GET['s'], 'String');
-        
+        $countryName  = $stateName = null;
+        if ( isset( $_GET['node'] ) ) {
+            $countryName  = CRM_Utils_Type::escape( $_GET['node'], 'String');
+        }
+
+        if ( isset( $_GET['s'] ) ) {
+            $stateName    = CRM_Utils_Type::escape( $_GET['s']   , 'String');
+        }
+
         $includeState = null;
         if ( isset($_GET['sc']) ) {
             $includeState = CRM_Utils_Type::escape( $_GET['sc'], 'String');

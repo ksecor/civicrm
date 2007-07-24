@@ -57,8 +57,8 @@
 	        {if $element.skip_calendar NEQ true } 
               <dt></dt><dd>  <span>
                    
-		    {include file="CRM/common/calendar/desc.tpl"}
-		    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=2010 }
+		    {include file="CRM/common/calendar/desc.tpl" trigger="$element_name"}
+		    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=2010 trigger="$element_name"}
 		</span></dd>
 	
 	        {/if}

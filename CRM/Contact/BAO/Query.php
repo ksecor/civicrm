@@ -2772,7 +2772,8 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
     }
 
     function dateQueryBuilder( &$values,
-                               $tableName, $fieldName, $dbFieldName, $fieldTitle ) {
+                               $tableName, $fieldName, $dbFieldName, $fieldTitle,
+                               $appendTimeStamp = true ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         if ( $name == $fieldName . '_low' ) {
@@ -2793,7 +2794,8 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
             $date    = CRM_Utils_Date::format( $revDate );
             $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
             // add 235959 if its less that or equal to
-            if ( $op == '<=' &&
+            if ( $op == '<='      &&
+                 $appendTimeStamp &&
                  strlen( $date ) == 8 ) {
                 $date .= '235959';
             }

@@ -1062,7 +1062,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     "reset=1&event=click&mid=$mailing_id&uid={$mailing->id}&distinct=1"),
                                     'clicks' => $mailing->clicks,
                                     'unique' => $mailing->unique_clicks,
-                                    'rate'   => $report['event_totals']['delivered'] ? (100.0 * $mailing->unique_clicks) / $report['event_totals']['delivered'] : 0
+                                    'rate'   => CRM_Utils_Array::value('delivered',$report['event_totals']) ? (100.0 * $mailing->unique_clicks) / $report['event_totals']['delivered'] : 0
                                 );
         }
 

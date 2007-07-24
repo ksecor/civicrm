@@ -153,7 +153,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             }
         }
         $previousURL = CRM_Utils_System::url('civicrm/import/contact', '_qf_MapField_display=true');
-        $cancelURL = CRM_Utils_System::url('civicrm', 'reset=1');
+        $cancelURL = CRM_Utils_System::url('civicrm/import', 'reset=1');
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
                                          'name'      => ts('<< Previous'),
