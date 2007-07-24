@@ -68,7 +68,10 @@ class CRM_Core_Invoke
 
         if ( $config->userFramework == 'Joomla' ) {
             require_once 'CRM/Core/Joomla.php';
-            Crm_Core_Joomla::sidebarLeft( );
+            // joomla 1.5RC1 seems to push this in the POST variable, which messes
+            // QF and checkboxes
+            unset( $_POST['option'] );
+            CRM_Core_Joomla::sidebarLeft( );
         } else if ( $config->userFramework == 'Standalone' ) {
             require_once 'CRM/Core/Standalone.php';
             CRM_Core_Standalone::sidebarLeft( );
