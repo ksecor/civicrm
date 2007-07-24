@@ -152,6 +152,8 @@ class CRM_Contact_Form_Task_EmailCommon {
             $fromDisplayName = $fromEmail;
         }
         
+        $form->assign('totalSelectedContacts',count($form->_contactIds));
+        
         $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
         $form->assign( 'from', $from );
         
