@@ -310,7 +310,7 @@ CREATE TABLE civicrm_line_item (
 	    ADD `start_date` datetime NULL DEFAULT NULL,
 	    ADD `end_date` datetime NULL DEFAULT NULL,
 	    ADD payment_processor_id int(10) unsigned NULL DEFAULT NULL,
-	    ADD INDEX FK_civicrm_contribution_page_payment_processor_id ( payment_processor_id );
+	    ADD CONSTRAINT FK_civicrm_contribution_page_payment_processor_id FOREIGN KEY (payment_processor_id) REFERENCES civicrm_payment_processor(id);
 
 
 -- /*******************************************************
@@ -334,7 +334,7 @@ CREATE TABLE civicrm_line_item (
 	    ADD fee_label varchar(255) NULL DEFAULT NULL,
 	    ADD is_show_location tinyint(4) NULL DEFAULT '1',
 	    ADD payment_processor_id int(10) unsigned NULL DEFAULT NULL AFTER contribution_type_id,
-	    ADD INDEX FK_civicrm_event_payment_processor_id ( payment_processor_id ),
+	    ADD CONSTRAINT FK_civicrm_event_payment_processor_id FOREIGN KEY (payment_processor_id) REFERENCES civicrm_payment_processor(id),
     	    ADD INDEX index_event_type_id (event_type_id);
 
 
@@ -480,9 +480,7 @@ CREATE TABLE civicrm_line_item (
 	  (@option_group_id_cvOpt, 'Memberships'  ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
 	  (@option_group_id_cvOpt, 'Events'       ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
 
-	  (@option_group_id_ceOpt, 'Communication Preferences',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),SELECT @domain_id := id from civicrm_domain;
-
--- /******************************************************
+	  (@option_group_id_ceOpt, 'Communication Preferences',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
 	  (@option_group_id_ceOpt, 'Demographics'             ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
 	  (@option_group_id_ceOpt, 'Tags and Groups'          ,   3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
 	  (@option_group_id_ceOpt, 'Notes'                    ,   4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
