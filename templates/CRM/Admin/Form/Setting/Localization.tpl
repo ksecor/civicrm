@@ -18,9 +18,9 @@
             <dt>{$form.defaultContactCountry.label}</dt><dd>{$form.defaultContactCountry.html}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}This value is selected by default when adding a new contact address.{/ts}</dd>
             <dt>{$form.countryLimit.label}</dt><dd>{$form.countryLimit.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Which countries are available in the Country selection field when adding or editing contact addresses.{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}Which countries are available in the Country selection field when adding or editing contact addresses. To include ALL countries, leave the right-hand box empty.{/ts}</dd>
             <dt>{$form.provinceLimit.label}</dt><dd>{$form.provinceLimit.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Which countries' states and/or provinces are available in the State / Province selection field.{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}Which countries' states and/or provinces are available in the State / Province selection field <strong>for Custom Fields and Profile forms</strong>. (Standard contact address editing forms automatically display corresponding state / province options for the selected country.){/ts}</dd>
         </dl>
     </fieldset>
         <dl>

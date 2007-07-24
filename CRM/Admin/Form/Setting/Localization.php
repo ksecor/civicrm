@@ -72,15 +72,21 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         CRM_Core_PseudoConstant::populate( $country, 'CRM_Core_DAO_Country', true, 'name', 'is_active' );
         
         $includeCountry =& $this->addElement('advmultiselect', 'countryLimit', 
-                                      ts('Available Countries') . ' ', $country,
-                                      array('size' => 5, 'style' => 'width:150px'));
+                                             ts('Available Countries') . ' ', $country,
+                                             array('size' => 5,
+                                                   'style' => 'width:150px',
+                                                   'class' => 'advmultiselect')
+                                             );
 
         $includeCountry->setButtonAttributes('add', array('value' => ts('Add >>')));
         $includeCountry->setButtonAttributes('remove', array('value' => ts('<< Remove')));
 
         $includeState =& $this->addElement('advmultiselect', 'provinceLimit', 
-                                      ts('Available States and Provinces') . ' ', $country,
-                                      array('size' => 5, 'style' => 'width:150px'));
+                                           ts('Available States and Provinces') . ' ', $country,
+                                           array('size' => 5,
+                                                 'style' => 'width:150px',
+                                                 'class' => 'advmultiselect')
+                                          );
 
         $includeState->setButtonAttributes('add', array('value' => ts('Add >>')));
         $includeState->setButtonAttributes('remove', array('value' => ts('<< Remove')));

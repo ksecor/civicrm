@@ -52,7 +52,10 @@ class CRM_Admin_Form_Setting_Component extends  CRM_Admin_Form_Setting
         $components = CRM_Core_SelectValues::component();
         $include =& $this->addElement('advmultiselect', 'enableComponents', 
                                       ts('Components') . ' ', $components,
-                                      array('size' => 5, 'style' => 'width:150px'));
+                                      array('size' => 5, 
+                                            'style' => 'width:150px',
+                                            'class' => 'advmultiselect')
+                                      );
         
         $include->setButtonAttributes('add', array('value' => ts('Enable >>')));
         $include->setButtonAttributes('remove', array('value' => ts('<< Disable')));     
