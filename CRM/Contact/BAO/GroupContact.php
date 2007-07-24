@@ -472,8 +472,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $params = array( );
         if ( $includeChildGroups ) {
-            require_once 'CRM/Core/BAO/GroupNesting.php';
-            $groupIds = CRM_Core_BAO_GroupNesting::getDescendentGroupIds( array( $group->id ) );
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( array( $group->id ) );
         } else {
             $groupIds = array( $group->id );
         }
