@@ -573,23 +573,23 @@ VALUES
 -- * CRM-2125
 -- *
 -- *******************************************************/
-INSERT IGNORE INTO civicrm_state_province (country_id, abbreviation, name) VALUES
-(1098, "CW", "Central and Western"),
-(1098, "EA", "Eastern"),
-(1098, "SO", "Southern"),
-(1098, "WC", "Wan Chai"),
-(1098, "KC", "Kowloon City"),
-(1098, "KU", "Kwun Tong"),
-(1098, "SS", "Sham Shui Po"),
-(1098, "WT", "Wong Tai Sin"),
-(1098, "YT", "Yau Tsim Mong"),
-(1098, "IS", "Islands"),
-(1098, "KI", "Kwai Tsing"),
-(1098, "NO", "North"),
-(1098, "SK", "Sai Kung"),
-(1098, "ST", "Sha Tin"),
-(1098, "TP", "Tai Po"),
-(1098, "TW", "Tsuen Wan"),
-(1098, "TM", "Tuen Mun"),
-(1098, "YL", "Yuen Long");
+INSERT IGNORE INTO civicrm_state_province (id,country_id, abbreviation, name) VALUES
+(5177, 1098, "CW", "Central and Western"),
+(5178, 1098, "EA", "Eastern"),
+(5179, 1098, "SO", "Southern"),
+(5180, 1098, "WC", "Wan Chai"),
+(5181, 1098, "KC", "Kowloon City"),
+(5182, 1098, "KU", "Kwun Tong"),
+(5183, 1098, "SS", "Sham Shui Po"),
+(5184, 1098, "WT", "Wong Tai Sin"),
+(5185, 1098, "YT", "Yau Tsim Mong"),
+(5186, 1098, "IS", "Islands"),
+(5187, 1098, "KI", "Kwai Tsing"),
+(5188, 1098, "NO", "North"),
+(5189, 1098, "SK", "Sai Kung"),
+(5190, 1098, "ST", "Sha Tin"),
+(5191, 1098, "TP", "Tai Po"),
+(5192, 1098, "TW", "Tsuen Wan"),
+(5193, 1098, "TM", "Tuen Mun"),
+(5194, 1098, "YL", "Yuen Long");
 
