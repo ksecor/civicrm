@@ -25,7 +25,6 @@ CREATE TABLE civicrm_dedupe_rule_group (
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
-
 -- /*******************************************************
 -- *
 -- * civicrm_dedupe_rule
@@ -48,7 +47,14 @@ CREATE TABLE civicrm_dedupe_rule (
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
-
+-- /*******************************************************
+-- *
+-- * civicrm_participant
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_participant
+	    ADD INDEX index_status_id (status_id),
+	    ADD INDEX index_role_id (role_id);
 
 -- /*******************************************************
 -- *
@@ -57,8 +63,9 @@ CREATE TABLE civicrm_dedupe_rule (
 -- *******************************************************/
 CREATE TABLE civicrm_payment_processor (
 
-     id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Payment Processor ID',
-     domain_id int unsigned NOT NULL COMMENT 'Which Domain owns this payment processor.',
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Payment Processor ID',
+     domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this payment processor.',
      name varchar(64) COMMENT 'Payment Processor Name.',
      description varchar(255) COMMENT 'Payment Processor Description.',
      payment_processor_type varchar(255) COMMENT 'Payment Processor Type.',
@@ -69,6 +76,7 @@ CREATE TABLE civicrm_payment_processor (
      password varchar(255),
      signature varchar(255),
      url_site varchar(255),
+     url_recur varchar(255),
      url_button varchar(255),
      subject varchar(255),
      class_name varchar(255),
@@ -78,11 +86,10 @@ CREATE TABLE civicrm_payment_processor (
 ,    PRIMARY KEY ( id )
  
 ,    UNIQUE INDEX UI_name_test( name, is_test )
-
+  
 ,    CONSTRAINT FK_civicrm_payment_processor_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
 
 -- /*******************************************************
 -- *
@@ -90,7 +97,7 @@ CREATE TABLE civicrm_payment_processor (
 -- *
 -- *******************************************************/
 CREATE TABLE civicrm_payment_processor_type (
-
+    
      id int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Payment Processor Type ID',
      domain_id int unsigned NOT NULL COMMENT 'Which Domain owns this payment processor.',
      name varchar(64) COMMENT 'Payment Processor Name.',
@@ -104,17 +111,19 @@ CREATE TABLE civicrm_payment_processor_type (
      subject_label varchar(255),
      class_name varchar(255),
      url_site_default varchar(255),
+     url_recur_default varchar(255),
      url_button_default varchar(255),
      url_site_test_default varchar(255),
+     url_recur_test_default varchar(255),
      url_button_test_default varchar(255),
      billing_mode int unsigned NOT NULL COMMENT 'Billing Mode',
      is_recur tinyint COMMENT 'Can process recurring contributions' 
-
-,    PRIMARY KEY ( id )
+,
+    PRIMARY KEY ( id )
  
-,    UNIQUE INDEX UI_name( name )
+,   UNIQUE INDEX UI_name( name )
   
-,    CONSTRAINT FK_civicrm_payment_processor_type_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+,   CONSTRAINT FK_civicrm_payment_processor_type_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
@@ -128,28 +137,46 @@ CREATE TABLE civicrm_payment_processor_type (
 -- *******************************************************/
 CREATE TABLE civicrm_preferences (
 
+
      id int unsigned NOT NULL AUTO_INCREMENT  ,
-     domain_id int unsigned NOT NULL COMMENT 'Which Domain owns this contact',
-     contact_id int unsigned COMMENT 'FK to Contact ID',
-     is_domain tinyint COMMENT 'Is this the record for the domain setting?',
-     location_count int unsigned COMMENT 'Number of locations to be displayed on edit page?',
-     contact_view_options varchar(128) COMMENT 'What tabs are displayed in the contact summary',
-     contact_edit_options varchar(128) COMMENT 'What tabs are displayed in the contact edit',
-     advanced_search_options varchar(128) COMMENT 'What tabs are displayed in the advanced search screen',
-     user_dashboard_options varchar(128) COMMENT 'What tabs are displayed in the contact edit',
-     address_options varchar(128) COMMENT 'What fields are displayed from the address table',
-     address_format text COMMENT 'Format to display the address',
-     mailing_format text COMMENT 'Format to display a mailing label',
-     individual_name_format text COMMENT 'Format to display a individual name',
-     address_standardization_provider varchar(64) COMMENT 'object name of provider for address standarization',
-     address_standardization_userid varchar(64) COMMENT 'user id for provider login',
-     address_standardization_url varchar(255) COMMENT 'url of address standardization service' 
-
-,    PRIMARY KEY ( id )
+     domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this contact',
+     contact_id int unsigned    COMMENT 'FK to Contact ID',
+     is_domain tinyint    COMMENT 'Is this the record for the domain setting?',
+     location_count int unsigned    COMMENT 'Number of locations to be displayed on edit page?',
+     contact_view_options varchar(128)    COMMENT 'What tabs are displayed in the contact summary',
+     contact_edit_options varchar(128)    COMMENT 'What tabs are displayed in the contact edit',
+     advanced_search_options varchar(128)    COMMENT 'What tabs are displayed in the advanced search screen',
+     user_dashboard_options varchar(128)    COMMENT 'What tabs are displayed in the contact edit',
+     address_options varchar(128)    COMMENT 'What fields are displayed from the address table',
+     address_format text    COMMENT 'Format to display the address',
+     mailing_format text    COMMENT 'Format to display a mailing label',
+     individual_name_format text    COMMENT 'Format to display a individual name',
+     address_standardization_provider varchar(64)    COMMENT 'object name of provider for address standarization',
+     address_standardization_userid varchar(64)    COMMENT 'user id for provider login',
+     address_standardization_url varchar(255)    COMMENT 'url of address standardization service' 
+,
+    PRIMARY KEY ( id )
  
-,    CONSTRAINT FK_civicrm_preferences_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
-
-,    CONSTRAINT FK_civicrm_preferences_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
+    ,     INDEX index_contact_view_options(
+        contact_view_options
+  )
+  ,     INDEX index_contact_edit_options(
+        contact_edit_options
+  )
+  ,     INDEX index_advanced_search_options(
+        advanced_search_options
+  )
+  ,     INDEX index_user_dashboard_options(
+        user_dashboard_options
+  )
+  ,     INDEX index_address_options(
+        address_options
+  )
+  
+,      
+     CONSTRAINT FK_civicrm_preferences_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+,      
+     CONSTRAINT FK_civicrm_preferences_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
@@ -297,7 +324,6 @@ CREATE TABLE civicrm_line_item (
     	    MODIFY html_type enum('Text','TextArea','Select','Multi-Select','Radio','CheckBox','Select Date','Select State/Province','Select Country','File','Link') NULL DEFAULT NULL;
 
 
-
 -- /*******************************************************
 -- *
 -- * civicrm_event
@@ -309,7 +335,8 @@ CREATE TABLE civicrm_line_item (
 	    ADD fee_label varchar(255) NULL DEFAULT NULL,
 	    ADD is_show_location tinyint(4) NULL DEFAULT '1',
 	    ADD payment_processor_id int(10) unsigned NULL DEFAULT NULL AFTER contribution_type_id,
-	    ADD INDEX FK_civicrm_event_payment_processor_id ( payment_processor_id );
+	    ADD INDEX FK_civicrm_event_payment_processor_id ( payment_processor_id ),
+    	    ADD INDEX index_event_type_id (event_type_id);
 
 
 -- /*******************************************************
@@ -389,6 +416,28 @@ CREATE TABLE civicrm_line_item (
 -- *******************************************************/
 	ALTER TABLE civicrm_organization
 	    ADD INDEX index_organization_name (organization_name);
+
+
+
+-- /*******************************************************
+-- *
+-- * Insert data into civicrm_payment_processor_type
+-- *
+-- *******************************************************/
+
+	SELECT @domain_id := id from civicrm_domain;	
+
+	INSERT INTO civicrm_payment_processor_type 
+	    (domain_id, name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_recur_default, url_button_default, url_site_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur )
+	VALUES 
+	    (@domain_id,'Dummy','Dummy Payment Processor',NULL,1,1,'User Name',NULL,NULL,NULL,'Payment_Dummy',NULL,NULL,NULL,NULL,NULL,NULL,1,NULL),
+	    (@domain_id,'PayPal_Standard','PayPal - Website Payments Standard',NULL,1,0,'Merchant Account Email',NULL,NULL,NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://www.paypal.com/',NULL,'https://www.sandbox.paypal.com/','https://www.sandbox.paypal.com/',NULL,4,1),
+	    (@domain_id,'PayPal','PayPal - Website Payments Pro',NULL,1,0,'User Name','Password','Signature',NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
+	    (@domain_id,'PayPal_Express','PayPal - Express',NULL,1,0,'User Name','Password','Signature',NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
+	    (@domain_id,'Google_Checkout','Google Checkout',NULL,1,0,'Merchant ID','Key',NULL,NULL,'Payment_Google','https://checkout.google.com/',NULL,'http://checkout.google.com/buttons/checkout.gif','https://sandbox.google.com/checkout',NULL,'http://sandbox.google.com/checkout/buttons/checkout.gif',4,NULL),
+	    (@domain_id,'Moneris','Moneris',NULL,1,0,'User Name','Password','Store ID',NULL,'Payment_Moneris','https://www3.moneris.com/',NULL,NULL,'https://esqa.moneris.com/',NULL,NULL,1,1),
+	    (@domain_id,'AuthNet_AIM','Authorize.Net - AIM',NULL,1,0,'API Login','Payment Key','MD5 Hash',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll','https://api.authorize.net/xml/v1/request.api',NULL,'https://secure.authorize.net/gateway/transact.dll','https://apitest.authorize.net/xml/v1/request.api',NULL,1,1);
+
 
 -- /*******************************************************
 -- *
