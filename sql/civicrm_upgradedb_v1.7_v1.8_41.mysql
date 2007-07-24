@@ -1,9 +1,9 @@
 -- /*******************************************************
 -- *
--- * add new  tables
+-- * Select DomainID
 -- *
 -- *******************************************************/
-
+	SELECT @domain_id := id from civicrm_domain;
 
 -- /*******************************************************
 -- *
@@ -62,7 +62,6 @@ CREATE TABLE civicrm_dedupe_rule (
 -- *
 -- *******************************************************/
 CREATE TABLE civicrm_payment_processor (
-
 
      id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Payment Processor ID',
      domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this payment processor.',
@@ -425,8 +424,6 @@ CREATE TABLE civicrm_line_item (
 -- *
 -- *******************************************************/
 
-	SELECT @domain_id := id from civicrm_domain;	
-
 	INSERT INTO civicrm_payment_processor_type 
 	    (domain_id, name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_recur_default, url_button_default, url_site_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur )
 	VALUES 
@@ -454,8 +451,7 @@ CREATE TABLE civicrm_line_item (
 -- * civicrm_option_group and civicrm_option_value
 -- *
 -- *******************************************************/
-	SELECT @domain_id := id from civicrm_domain;
-	
+
 	INSERT INTO 
 	  civicrm_option_group (domain_id, name, description, is_reserved, is_active) 
 	VALUES 
@@ -484,7 +480,9 @@ CREATE TABLE civicrm_line_item (
 	  (@option_group_id_cvOpt, 'Memberships'  ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
 	  (@option_group_id_cvOpt, 'Events'       ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
 
-	  (@option_group_id_ceOpt, 'Communication Preferences',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+	  (@option_group_id_ceOpt, 'Communication Preferences',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),SELECT @domain_id := id from civicrm_domain;
+
+-- /******************************************************
 	  (@option_group_id_ceOpt, 'Demographics'             ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
 	  (@option_group_id_ceOpt, 'Tags and Groups'          ,   3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
 	  (@option_group_id_ceOpt, 'Notes'                    ,   4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
@@ -523,7 +521,6 @@ CREATE TABLE civicrm_line_item (
 -- * civicrm_preferences
 -- *
 -- *******************************************************/
-
         INSERT INTO 
           civicrm_preferences(domain_id, contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url )
         VALUES 
@@ -576,22 +573,23 @@ VALUES
 -- * CRM-2125
 -- *
 -- *******************************************************/
-INSERT IGNORE INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
-(5177, 1098, "CW", "Central and Western"),
-(5178, 1098, "EA", "Eastern"),
-(5179, 1098, "SO", "Southern"),
-(5180, 1098, "WC", "Wan Chai"),
-(5181, 1098, "KC", "Kowloon City"),
-(5182, 1098, "KU", "Kwun Tong"),
-(5183, 1098, "SS", "Sham Shui Po"),
-(5184, 1098, "WT", "Wong Tai Sin"),
-(5185, 1098, "YT", "Yau Tsim Mong"),
-(5186, 1098, "IS", "Islands"),
-(5187, 1098, "KI", "Kwai Tsing"),
-(5188, 1098, "NO", "North"),
-(5189, 1098, "SK", "Sai Kung"),
-(5190, 1098, "ST", "Sha Tin"),
-(5191, 1098, "TP", "Tai Po"),
-(5192, 1098, "TW", "Tsuen Wan"),
-(5193, 1098, "TM", "Tuen Mun"),
-(5194, 1098, "YL", "Yuen Long");
+INSERT IGNORE INTO civicrm_state_province (country_id, abbreviation, name) VALUES
+(1098, "CW", "Central and Western"),
+(1098, "EA", "Eastern"),
+(1098, "SO", "Southern"),
+(1098, "WC", "Wan Chai"),
+(1098, "KC", "Kowloon City"),
+(1098, "KU", "Kwun Tong"),
+(1098, "SS", "Sham Shui Po"),
+(1098, "WT", "Wong Tai Sin"),
+(1098, "YT", "Yau Tsim Mong"),
+(1098, "IS", "Islands"),
+(1098, "KI", "Kwai Tsing"),
+(1098, "NO", "North"),
+(1098, "SK", "Sai Kung"),
+(1098, "ST", "Sha Tin"),
+(1098, "TP", "Tai Po"),
+(1098, "TW", "Tsuen Wan"),
+(1098, "TM", "Tuen Mun"),
+(1098, "YL", "Yuen Long");
+
