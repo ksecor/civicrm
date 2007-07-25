@@ -885,7 +885,8 @@ SELECT count(*) as count,
         
         //fix for CRM-2062
         $now = date( 'YmdHis' );
-        
+
+        $result = null;
         if ( $form->_contributeMode == 'express' ) {
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
                 $result =& $payment->doExpressCheckout( $paymentParams );
