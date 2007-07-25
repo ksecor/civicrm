@@ -123,6 +123,30 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         CRM_Utils_Hook::post( 'delete', 'Group', $id, $group );
     }
 
+
+    /**
+     * Returns an array of the contacts in the given group.
+     *
+     */
+
+    static function getGroupContacts( $id ){
+      /*$groupContacts = array();
+	$dao = new CRM_Contact_DAO_Contact();
+	$query = "SELECT * FROM civicrm_group_contact WHERE group_id = $id";
+	$dao->query( $query );
+	while ($dao->fetch()){
+	  if ($dao->status == 'Added'){
+	    $groupContacts []= $dao->contact_id;
+	  }
+	}
+	return $groupContacts;
+      */
+      require_once 'api/v2/Contact.php';
+      $params = array( 'group' => array($id => 1),
+		       'return.contactId' => 1);
+      return civicrm_contact_search($params);
+    }
+
     /**
      * Get the count of a members in a group with the specific status
      *
@@ -134,20 +158,41 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      */
     static function memberCount( $id, $status = 'Added', $countChildGroups = true ) {
         require_once 'CRM/Contact/DAO/GroupContact.php';
-        $groupContact =& new CRM_Contact_DAO_GroupContact( );
+        //require_once 'CRM/Contact/BAO/GroupContact.php';
+	require_once 'CRM/Contact/DAO/Contact.php';
+	$groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupIds = array( $id );
         if ( $countChildGroups ) {
             require_once 'CRM/Contact/BAO/GroupNesting.php';
             $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds );
         }
         $count = 0;
-        foreach ( $groupIds as $groupId ) {
-            $groupContact->group_id = $groupId;
-            if ( isset( $status ) ) {
-                $groupContact->status   = $status;
-            }
-            $count += $groupContact->count( );
-        }
+
+	$contacts = self::getGroupContacts($id);
+	print_r($contacts);
+
+	foreach ( $groupIds as $groupId ) {
+
+	  $groupContacts = self::getGroupContacts($groupId);
+	  foreach ($groupContacts as $gcontact){
+	    if ($groupId != $id) { 
+	      // Loop through main group's contacts
+	      // and subtract from the count for each contact which
+	      // matches one in the present group, if it is not the
+	      // main group
+	      foreach ($contacts as $contact){
+		if ($contact['contact_id'] == $gcontact['contact_id']){
+		  $count--;
+		}
+	      }
+	    }
+	  }
+	  $groupContact->group_id = $groupId;
+	  if ( isset( $status ) ) {
+	    $groupContact->status   = $status;
+	  }
+	  print "Count: " . $count += $groupContact->count( ) . "\n<br>";
+	}
         return $count;
     }
 
@@ -219,6 +264,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         while ( $dao->fetch( ) ) { 
             $group =& new CRM_Contact_DAO_Group();
             if ( $flag ) {
+	      print "Calling memberCount";
                 $dao->member_count = CRM_Contact_BAO_Group::memberCount( $dao->id );
             }
             $groups[] = clone( $dao );
