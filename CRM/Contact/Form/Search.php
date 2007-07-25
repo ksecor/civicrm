@@ -463,10 +463,13 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 	    $this->set( 'context', $this->_context );
         }
         $this->assign( 'context', $this->_context );
-	
-         // get user submitted values 
-        // get it from controller only if form has been submitted, else preProcess has set this 
-        if ( ! empty( $_POST ) ) {
+
+        // get user submitted values 
+        // get it from controller only if form has been submitted, else preProcess has set this
+        // $this->controller->isModal( ) returns true if page is
+        // valid, i.e all the validations are true
+
+        if ( ! empty( $_POST ) && !$this->controller->isModal( ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name); 
             $this->normalizeFormValues( );
             $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
