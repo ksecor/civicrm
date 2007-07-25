@@ -91,12 +91,18 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $groups =& CRM_Core_PseudoConstant::group();
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
                                   ts('Include Group(s)') . ' ', $groups,
-                                  array('size' => 5, 'style' => 'width:240px'));
+                                  array('size' => 5,
+                                        'style' => 'width:240px',
+                                        'class' => 'advmultiselect')
+                                  );
 
         $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
         $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
                                    ts('Exclude Group(s)') . ' ', $groups,
-                                   array('size' => 5, 'style' => 'width:240px'));
+                                   array('size' => 5,
+                                         'style' => 'width:240px',
+                                         'class' => 'advmultiselect')
+                                   );
         $inG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $inG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
@@ -108,10 +114,16 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         }
         $inM =& $this->addElement('advmultiselect', 'includeMailings', 
                                   ts('Include mailing(s)') . ' ', $mailings,
-                                  array('size' => 5, 'style' => 'width:240px'));
+                                  array('size' => 5,
+                                        'style' => 'width:240px',
+                                        'class' => 'advmultiselect')
+                                  );
         $outM =& $this->addElement('advmultiselect', 'excludeMailings', 
                                    ts('Exclude mailing(s)') . ' ', $mailings,
-                                   array('size' => 5, 'style' => 'width:240px'));
+                                   array('size' => 5,
+                                         'style' => 'width:240px',
+                                         'class' => 'advmultiselect')
+                                   );
         
         $inM->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $outM->setButtonAttributes('add', array('value' => ts('Add >>')));;
