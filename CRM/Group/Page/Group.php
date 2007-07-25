@@ -272,7 +272,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
             }
             $values[$object->id]['children'] = "";
             if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object->id)){
-              $pgroups = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds($object->id, false);
+              $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
               foreach ($pgroups as $id){
                 if ($values[$object->id]['children'] != ""){
                     $values[$object->id]['children'] .= ", ";
