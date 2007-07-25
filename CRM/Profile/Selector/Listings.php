@@ -172,9 +172,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                                  CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
                                                                  false, $this->_gid );
-        // CRM_Core_Error::debug( 'p', $this->_params );
-        // CRM_Core_Error::debug( 'f', $this->_fields );
-
         $this->_customFields =& $customFields;
         
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
@@ -183,7 +180,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_params, 1 );
         $this->_query   =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, $this->_fields );
         $this->_options =& $this->_query->_options;
-        //CRM_Core_Error::debug( 'q', $this->_query );
     }//end of constructor
 
 
@@ -285,8 +281,11 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                      ! in_array( $name, $skipFields ) ) {
 
                     if ( strpos( $name, '-' ) !== false ) {
-                        list( $fieldName, $lType, $type ) = explode( '-', $name );
-                        
+                        $value = explode( '-', $name );
+                        $fieldName = CRM_Utils_Array::value( 0, $value );
+                        $lType     = CRM_Utils_Array::value( 1, $value );
+                        $type      = CRM_Utils_Array::value( 2, $value );
+                       
                         if ( $lType == 'Primary' ) {
                             $locationTypeName = 1;
                         } else {
@@ -366,7 +365,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             foreach ($vars as $key => $field) {
                 $field = $vars[$key];
                 $fieldArray = explode('-' , $field['name']);
-                if( is_numeric($fieldArray[1]) ) {
+                if( is_numeric(CRM_Utils_Array::value('1',$fieldArray)) ) {
                     $locationType = & new CRM_Core_DAO_LocationType();
                     $locationType->id = $fieldArray[1];
                     $locationType->find(true);
@@ -400,7 +399,10 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             if ( $field['in_selector'] && 
                  ! in_array( $key, $skipFields ) ) { 
                 if ( strpos( $key, '-' ) !== false ) {
-                    list( $fieldName, $id, $type ) = explode( '-', $key );
+                    $value = explode( '-', $key );
+                    $fieldName = CRM_Utils_Array::value( 0, $value );
+                    $id        = CRM_Utils_Array::value( 1, $value );
+                    $type      = CRM_Utils_Array::value( 2, $value );
                     $locationTypeName = null;
                     if ( is_numeric( $id ) ) {
                         $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
@@ -450,7 +452,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             require_once 'api/UFGroup.php';
         }
 
-        // CRM_Core_Error::debug( 'f', $this->_fields );
         while ($result->fetch()) {
             if (isset($result->country)) {
                 // the query returns the untranslated country name
@@ -494,7 +495,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                     $row[] = $paramsNew[$key]; 
-                } else if ( $tmfFields && array_key_exists($name, $tmfFields )
+                } else if ( isset($tmfFields) && array_key_exists($name, $tmfFields )
                             || substr( $name, 0, 12 ) == 'participant_' ) { 
                     if ( substr($name, -3) == '_id') {
                         $key = substr($name, 0, -3);

@@ -393,9 +393,12 @@ ORDER BY
             if ($firstName && $lastName) {
                 $sortName = "$lastName, $firstName";
             } else {
-                if (empty($firstName) || empty($lastName)) {
-                    $sortName = $lastName . $firstName;
+                if ( empty($firstName) && $lastName ) {
+                    $sortName = $lastName;
+                } else if ( $firstName && empty($lastName) ) {
+                    $sortName = $firstName;
                 } else {
+                    require_once "CRM/Contact/BAO/Individual.php";
                     $individual =& new CRM_Contact_BAO_Individual();
                     $individual->contact_id = $contact->id;
                     $individual->find();
