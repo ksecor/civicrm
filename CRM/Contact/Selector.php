@@ -267,6 +267,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 	    }
 	    $colHeads[] = array ('name' => ts($gtitle . " Groups"));
         }
+	$colHeads[] = array('desc' => ts('Actions') );
 	//}
 	return $colHeads;
            
@@ -717,8 +718,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                 'sort'      => 'email',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name' => ts('Phone') ),
-                                          array('desc' => ts('Actions') )
+                                          array('name' => ts('Phone') )
 				);
         }
         return self::$_columnHeaders;
