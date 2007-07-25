@@ -29,10 +29,10 @@
 {/if}
 
 <div id="editMessageDetails" class="form-item">
-<dt></dt>
+
 <dl>
-    {$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}
-    {$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}
+    <dt>&nbsp;</dt><dd>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</dd>
+    <dt>&nbsp;</dt><dd>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}</dd>
 </dl>
 </div>
 <div id="saveDetails" class="form-item">
