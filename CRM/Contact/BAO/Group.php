@@ -130,17 +130,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      */
 
     static function getGroupContacts( $id ){
-      /*$groupContacts = array();
-	$dao = new CRM_Contact_DAO_Contact();
-	$query = "SELECT * FROM civicrm_group_contact WHERE group_id = $id";
-	$dao->query( $query );
-	while ($dao->fetch()){
-	  if ($dao->status == 'Added'){
-	    $groupContacts []= $dao->contact_id;
-	  }
-	}
-	return $groupContacts;
-      */
       require_once 'api/v2/Contact.php';
       $params = array( 'group' => array($id => 1),
 		       'return.contactId' => 1);
@@ -158,8 +147,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      */
     static function memberCount( $id, $status = 'Added', $countChildGroups = true ) {
         require_once 'CRM/Contact/DAO/GroupContact.php';
-        //require_once 'CRM/Contact/BAO/GroupContact.php';
-	require_once 'CRM/Contact/DAO/Contact.php';
 	$groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupIds = array( $id );
         if ( $countChildGroups ) {
@@ -169,7 +156,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $count = 0;
 
 	$contacts = self::getGroupContacts($id);
-	print_r($contacts);
 
 	foreach ( $groupIds as $groupId ) {
 
@@ -191,7 +177,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 	  if ( isset( $status ) ) {
 	    $groupContact->status   = $status;
 	  }
-	  print "Count: " . $count += $groupContact->count( ) . "\n<br>";
+	  $count += $groupContact->count( );
 	}
         return $count;
     }
