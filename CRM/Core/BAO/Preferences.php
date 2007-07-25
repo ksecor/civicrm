@@ -111,7 +111,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         return $newSequence;
     }
 
-    static function valueOptions( $name, $system = true, $userID = null ) {
+    static function valueOptions( $name, $system = true, $userID = null, $localize = false ) {
         if ( $system ) {
             $object = self::systemObject( );
         } else {
@@ -120,7 +120,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
         $optionValue = $object->$name;
         require_once 'CRM/Core/OptionGroup.php';
-        $groupValues = CRM_Core_OptionGroup::values( $name );
+        $groupValues = CRM_Core_OptionGroup::values( $name, false, false, $localize );
         
         $returnValues = array( );
         foreach ( $groupValues as $gn => $gv ) {
