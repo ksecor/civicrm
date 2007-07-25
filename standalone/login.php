@@ -1,11 +1,4 @@
 <?php
-  //mysql_connect("localhost", "root", "W3bguiR0cks");
-  //$query = "USE civicrm";
-  //mysql_query($query) or die(mysql_error());
-  //$query = "SELECT * FROM civicrm_uf_match";
-  //$result = mysql_query($query) or die(mysql_error());
-  //$ar = mysql_fetch_array($result);
-  //if (empty($ar[3])){
 
 require_once 'auth_common.php';  
 require_once "CRM/Core/BAO/UFMatch.php";

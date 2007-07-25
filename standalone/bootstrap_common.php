@@ -1,7 +1,11 @@
 <?php
 
 // Pull in the settings file
-include_once '../civicrm.settings.php';
+if ( ! @require_once '../civicrm.settings.php' ) {
+    // It seems we need to bootstrap this installation, so redirect there
+    header("Location: new_install_setup.html");
+    exit(0);
+}
 
 // Add the packages to the include path
 $include_path = ini_get('include_path');

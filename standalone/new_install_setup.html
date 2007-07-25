@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>CiviCRM Installation - Database Setup</title>
+  </head>
+  <body>
+    <h1>CiviCRM Installation - Database Setup</h1>
+
+    <p>Welcome to CiviCRM Standalone! First we need to setup your database connection and put some data in it. Fill out the form below and click &quot;Continue&quot;.</p>
+    
+    <form name="db_setup" action="db_setup.php" method="post">
+        <label for="db_host">Database host:</label> <input id="db_host" type="text" name="db_host" value="localhost"/><br/>
+        <label for="db_admin_user">Database admin username:</label> <input id="db_admin_user" type="text" name="db_admin_user" value="root"/><br/>
+        <label for="db_admin_pass">Database admin password:</label> <input id="db_admin_pass" type="password" name="db_admin_pass"/><br/>
+        <input type="submit" name="submit" value="Continue"/><br/>
+        <hr/>
+        <h2>Advanced Options</h2>
+        <p>Connect to database using...</p>
+        <input id="connect_using_port" type="radio" name="connect_using" value="port"/> <label for="connect_using_port">Port:</label> <input type="text" name="port_number" length="5" value="3306"/><br/>
+        <input id="connect_using_socket" type="radio" name="connect_using" value="socket"/> <label for="connect_using_socket">Socket file:</label> <input type="text" name="socket_file" length="30"/> (leave blank for default)<br/>
+        <label for="db_user">DB Username for CiviCRM to use:</label> <input id="db_user" type="text" value="civicrm"/><br/>
+        <label for="db_name">Name of the schema for CiviCRM to use:</label> <input id="db_name" type="text" value="civicrm"/><br/>
+    </form>
+  </body>
+</html>

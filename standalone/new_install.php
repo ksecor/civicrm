@@ -9,10 +9,10 @@ if (count($ar) > 0) {
 }
 ?>
 <html>
-<head><title>New Installation-Add User</title></head>
+<head><title>CiviCRM Installation - Add User</title></head>
 <body>
-<h1 class = "title">CiviCRM Registration</h1>
-<h2>Congratulations! It appears you've just installed CiviCRM Standalone. Let's setup your first user account. You can do that by filling out the form below.</h2>
+<h1 class="title">CiviCRM First User Setup</h1>
+<h2>Congratulations! You've successfully installed CiviCRM Standalone. Let's setup your first user account so you can login and get started. You can do that by filling out the form below.</h2>
 <div id="verify-form">
 <form method="post" action="add_user.php">
   Identity&nbsp;URL:
