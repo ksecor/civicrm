@@ -76,6 +76,7 @@
               <td>{$row.country}</td>
               <td {if $row.on_hold}class="status-hold"{/if}>{$row.email|mb_truncate:17:"...":true}{if $row.on_hold}&nbsp;(On Hold){/if}</td>
               <td>{$row.phone}</td>
+	      <td>{$row.subgroups}</td>
             {else}
               {foreach from=$row item=value key=key}
                 {if ($key neq "checkbox") and ($key neq "action") and ($key neq "contact_type") and ($key neq "contact_sub_type") and ($key neq "status") and ($key neq "sort_name") and ($key neq "contact_id")}
