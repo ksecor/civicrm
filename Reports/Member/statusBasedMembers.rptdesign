@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
@@ -12,33 +11,20 @@
     </list-property>
     <parameters>
         <scalar-parameter name="MembershipStatus" id="46">
-            <property name="valueType">static</property>
+            <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <text-property name="promptText">Enter Membership Status</text-property>
             <property name="controlType">list-box</property>
-            <property name="mustMatch">true</property>
+            <property name="dataSetName">status</property>
+            <expression name="valueExpr">dataSetRow["name"]</expression>
+            <expression name="labelExpr">dataSetRow["name"]</expression>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">true</property>
             <property name="defaultValue">Current</property>
+            <property name="distinct">false</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
-	    <list-property name="selectionList">
-                <structure>
-                    <property name="value">New</property>
-                    <property name="label">New</property>
-                </structure>
-                <structure>
-                    <property name="value">Current</property>
-                    <property name="label">Current</property>
-                </structure>
-                <structure>
-                    <property name="value">Grace</property>
-                    <property name="label">Grace</property>
-                </structure>
-                <structure>
-                    <property name="value">Expired</property>
-                    <property name="label">Expired</property>
-                </structure>
-            </list-property>
         </scalar-parameter>
     </parameters>
     <data-sources>
@@ -47,23 +33,13 @@
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
             <property name="odaUser">civicrm</property>
-            <encrypted-property name="odaPassword">Y2l2aWNybTEyMzQ1</encrypted-property>
+            <encrypted-property name="odaPassword">Y2l2aWNybQ==</encrypted-property>
             <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="statusBasedMember" id="5">
             <text-property name="displayName">statusBasedMember</text-property>
-            <list-property name="parameters">
-                <structure>
-                    <property name="name">memStatus</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                    <property name="position">1</property>
-                    <expression name="defaultValue">"Current"</expression>
-                    <property name="isInput">true</property>
-                </structure>
-            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -109,6 +85,66 @@
                 </list-property>
             </structure>
             <property name="dataSource">civicrm</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">memStatus</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">"Current"</expression>
+                    <property name="isInput">true</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">join_date</property>
+                    <property name="nativeName">join_date</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">start_date</property>
+                    <property name="nativeName">start_date</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">end_date</property>
+                    <property name="nativeName">end_date</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">source</property>
+                    <property name="nativeName">source</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">type</property>
+                    <property name="nativeName">type</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">status</property>
+                    <property name="nativeName">status</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">display_name</property>
+                    <property name="nativeName">display_name</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <property name="queryText">SELECT mem.id,mem.join_date,mem.start_date,
 mem.end_date,mem.source,memType.name as type,
 memStatus.name as status,contact.display_name
@@ -120,55 +156,61 @@ AND mem.contact_id=contact.id
 )
 where memStatus.name = ?</property>
         </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="status" id="119">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">civicrm</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">name</property>
+                    <property name="nativeName">name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select civicrm_membership_status.name
+from civicrm_membership_status</property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>name</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>128</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>name</design:label>
+            <design:formattingHints>
+              <design:displaySize>128</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>
+]]></xml-property>
+        </oda-data-set>
     </data-sets>
     <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
-        </simple-master-page>
+        <simple-master-page name="Simple MasterPage" id="2"/>
     </page-setup>
     <body>
-        <grid id="96">
-            <property name="height">0.333in</property>
-            <property name="width">100%</property>
-            <column id="97"/>
-            <row id="98">
-                <property name="height">0.333in</property>
-                <property name="backgroundColor">#318AD9</property>
-                <property name="verticalAlign">text-bottom</property>
-                <cell id="99">
-                    <property name="verticalAlign">top</property>
-                    <label id="100">
-                        <property name="fontFamily">sans-serif</property>
-                        <property name="fontSize">larger</property>
-                        <property name="fontWeight">bold</property>
-                        <property name="color">#E6E6FA</property>
-                        <property name="textAlign">center</property>
-                        <text-property name="text">Membership Details</text-property>
-                    </label>
-                </cell>
-            </row>
-            <row id="116">
-                <property name="height">0.2in</property>
-                <property name="backgroundColor">#318AD9</property>
-                <property name="verticalAlign">text-bottom</property>
-                <cell id="117">
-                    <property name="verticalAlign">top</property>
-                    <text id="118">
-                        <property name="fontFamily">sans-serif</property>
-                        <property name="fontSize">smaller</property>
-                        <property name="color">#E6E6FA</property>
-                        <property name="textAlign">center</property>
-                        <property name="contentType">plain</property>
-                        <text-property name="content"><![CDATA[(based on Membership Status)]]></text-property>
-                    </text>
-                </cell>
-            </row>
-        </grid>
         <table id="6">
             <property name="fontFamily">sans-serif</property>
             <property name="fontSize">smaller</property>
@@ -219,9 +261,39 @@ where memStatus.name = ?</property>
             <column id="28"/>
             <column id="29"/>
             <header>
+                <row id="127">
+                    <property name="backgroundColor">#318AD9</property>
+                    <property name="color">#131B6D</property>
+                    <cell id="128">
+                        <property name="colSpan">6</property>
+                        <property name="rowSpan">1</property>
+                        <label id="136">
+                            <property name="fontSize">medium</property>
+                            <property name="color">#E6E6FA</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Membership Details By Status</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row id="120">
+                    <property name="backgroundColor">#318AD9</property>
+                    <property name="color">#131B6D</property>
+                    <property name="textAlign">left</property>
+                    <property name="verticalAlign">bottom</property>
+                    <cell id="121">
+                        <property name="colSpan">6</property>
+                        <property name="rowSpan">1</property>
+                        <text-data id="134">
+                            <property name="color">#E6E6FA</property>
+                            <expression name="valueExpr">"&lt;strong>Membership Status : " + params["MembershipStatus"]+"&lt;/strong>"</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                </row>
                 <row id="7">
                     <property name="backgroundColor">#B3D1FF</property>
                     <property name="color">#131B6D</property>
+                    <property name="textAlign">left</property>
                     <cell id="8">
                         <text id="30">
                             <property name="contentType">plain</property>
@@ -273,16 +345,28 @@ where memStatus.name = ?</property>
                     </cell>
                     <cell id="15">
                         <data id="41">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Long Date</property>
+                                <property name="pattern">Long Date</property>
+                            </structure>
                             <property name="resultSetColumn">join_date</property>
                         </data>
                     </cell>
                     <cell id="34">
                         <data id="42">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">d MMMM yyyy</property>
+                            </structure>
                             <property name="resultSetColumn">start_date</property>
                         </data>
                     </cell>
                     <cell id="16">
                         <data id="43">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Long Date</property>
+                                <property name="pattern">Long Date</property>
+                            </structure>
                             <property name="resultSetColumn">end_date</property>
                         </data>
                     </cell>
