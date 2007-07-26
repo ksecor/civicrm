@@ -59,8 +59,10 @@ class CRM_Dedupe_Finder
             $match = isset($dao->match) ? $dao->match : "";
             $dao->query($criterion->query($match));
             while ($dao->fetch()) {
-                if ( isset($weights[$dao->contact_id])) {
+                if ( isset($weights[$dao->contact_id]) ) {
                     $weights[$dao->contact_id] += $weight;
+                } else {
+                    $weights[$dao->contact_id] = $weight;
                 }
             }
         }
@@ -71,6 +73,7 @@ class CRM_Dedupe_Finder
                 $cids[] = $id;
             }
         }
+
         // remove $cid from the results
         unset($cids[array_search($cid, $cids)]);
         // screen out contacts from other domains - we can't do that

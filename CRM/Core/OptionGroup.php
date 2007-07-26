@@ -36,7 +36,7 @@
 class CRM_Core_OptionGroup {
     static $_values = array( );
 
-    static function &values( $name, $flip = false, $grouping = false ) {
+    static function &values( $name, $flip = false, $grouping = false, $localize = false ) {
         self::$_values[$name] = array( );
         $domainID = CRM_Core_Config::domainID( );
         $query = "
@@ -67,6 +67,10 @@ WHERE  v.option_group_id = g.id
                     self::$_values[$name][$dao->value] = $dao->label;
                 }
             }
+        }
+        if ($localize) {
+            $i18n =& CRM_Core_I18n::singleton();
+            $i18n->localizeArray(self::$_values[$name]);
         }
         return self::$_values[$name];
     }

@@ -43,13 +43,18 @@ class CRM_Utils_System_Joomla {
      * sets the title of the page
      *
      * @param string $title title to set
+     * @param string $pageTitle
      *
      * @return void
      * @access public
      */
-    function setTitle( $title ) {
+    function setTitle( $title, $pageTitle = null ) {
+        if ( ! $pageTitle ) {
+            $pageTitle = $title;
+        }
+
         $template =& CRM_Core_Smarty::singleton( );
-        $template->assign( 'pageTitle', $title );
+        $template->assign( 'pageTitle', $pageTitle );
         
         global $mainframe;
         if ( $mainframe ) {

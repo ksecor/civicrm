@@ -763,7 +763,9 @@ function MultiCell($w,$h,$txt,$border=0,$align='J',$fill=0)
 			$ls=$l;
 			$ns++;
 		}
-		$l+=$cw[$c];
+        if ( isset( $cw[$c] ) ) {
+            $l+=$cw[$c];
+        }
 		if($l>$wmax)
 		{
 			//Automatic line break

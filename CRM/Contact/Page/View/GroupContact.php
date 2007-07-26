@@ -146,6 +146,14 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
         }
         $ids = array($contactID);
         $method = 'Admin';
+
+        $session =& CRM_Core_Session::singleton();
+        $userID  = $session->get( 'userID' );
+
+        if ( $userID == $contactID ) {
+            $method = 'Web';
+        }
+
         CRM_Contact_BAO_GroupContact::removeContactsFromGroup($ids, $groupId, $method  ,$groupStatus);
 
     }

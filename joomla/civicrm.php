@@ -43,9 +43,13 @@ function civicrm_invoke( ) {
         $menu = new mosMenu( $database );
         $menu->load( $_GET['Itemid'] );
         $params = new mosParameters( $menu->params );
-        foreach ( $params->_params as $name => $value ) {
-            $_GET[$name] = $value;
-        }
+        $args = array( 'task', 'id', 'gid', 'reset' ); 
+        foreach ( $args as $a ) { 
+            $val = $params->get( $a, null ); 
+            if ( $val !== null ) { 
+                $_GET[$a] = $val; 
+            } 
+        } 
     }
     $task = CRM_Utils_Array::value( 'task', $_GET, '' );
     $args = explode( '/', trim( $task ) );

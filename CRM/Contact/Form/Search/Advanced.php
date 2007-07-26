@@ -65,36 +65,36 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         $allPanes = array( );
-        $paneNames = array( 'Address Fields'        => 'location'       ,
-                            'Custom Fields'         => 'custom'         ,
-                            'Activity History'      => 'activityHistory',
-                            'Scheduled Activities'  => 'openActivity'   ,
-                            'Relationships'         => 'relationship'   ,
-                            'Notes'                 => 'notes'          ,
-                            'Change Log'            => 'changeLog'      ,
-                            'Cases'                 => 'caseSearch'     ,
-                            'Case Activities'       => 'caseActivity'   ,
-                            'Grants'                => 'grant'          );
+        $paneNames = array( ts('Address Fields')        => 'location'       ,
+                            ts('Custom Fields')         => 'custom'         ,
+                            ts('Activity History')      => 'activityHistory',
+                            ts('Scheduled Activities')  => 'openActivity'   ,
+                            ts('Relationships')         => 'relationship'   ,
+                            ts('Notes')                 => 'notes'          ,
+                            ts('Change Log')            => 'changeLog'      ,
+                            ts('Cases')                 => 'caseSearch'     ,
+                            ts('Case Activities')       => 'caseActivity'   ,
+                            ts('Grants')                => 'grant'          );
 
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-            $paneNames['Contributions'] = 'contribute';
+            $paneNames[ts('Contributions')] = 'contribute';
         }
         
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-            $paneNames['Memberships'] = 'membership';
+            $paneNames[ts('Memberships')] = 'membership';
         }
         
         if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
-            $paneNames['Events'] = 'participant';
+            $paneNames[ts('Events')] = 'participant';
         }
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
-            $paneNames['Quest'] = 'quest';
-            $paneNames['Task' ] = 'task';                
+            $paneNames[ts('Quest')] = 'quest';
+            $paneNames[ts('Task') ] = 'task';                
         }
 
         if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            $paneNames['TMF'] = 'TMF';
-            $paneNames['Task' ] = 'task';                
+            $paneNames[ts('TMF')] = 'TMF';
+            $paneNames[ts('Task') ] = 'task';                
         }
 
         if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
@@ -102,14 +102,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );  
+        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options', true, null, true );
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$name] ) {
                 continue;
             }
 
-            $tsName = ts($name);
-            $allPanes[$tsName] = array( 'url' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
+            $allPanes[$name] = array( 'url' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
                                                                         "snippet=1&formType=$type" ),
                                         'open' => 'false',
                                         'id'   => $type );
@@ -118,7 +117,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             if ( $this->_formType == $type ||
                  CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
                  CRM_Utils_Array::value( "hidden_{$type}", $this->_formValues ) ) {
-                $allPanes[$tsName]['open'] = 'true';
+                $allPanes[$name]['open'] = 'true';
                 eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
             }
         }

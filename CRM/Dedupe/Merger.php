@@ -213,7 +213,7 @@ class CRM_Dedupe_Merger
         $cidRefs =& self::cidRefs();
         $eidRefs =& self::eidRefs();
         $affected = array_merge(array_keys($cidRefs), array_keys($eidRefs));
-        if ($tables) {
+        if ($tables !== false) {
             // if there are specific tables, sanitize the list
             $affected = array_unique(array_intersect($affected, $tables));
         } else {
@@ -249,6 +249,7 @@ class CRM_Dedupe_Merger
         // call the SQL queries in one transaction
         $dao =& new CRM_Core_DAO();
         $dao->transaction('BEGIN');
+        if (!isset($sqls)) $sqls = array();
         foreach ($sqls as $sql) {
             $dao->query($sql);
             $dao->fetch();

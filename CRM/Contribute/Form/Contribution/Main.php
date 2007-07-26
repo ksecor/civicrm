@@ -246,7 +246,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->_defaults['amount'] = $this->_values['default_amount_id'];
         
         if ( $this->_values['is_allow_other_amount'] ) {
-            if ( $this->_values['label'] ) {
+            if ( ! empty($this->_values['label'] ) ) {
                 $elements[] =& $this->createElement('radio', null, '',
                                                     ts('Other Amount'), 'amount_other_radio');
 
@@ -263,9 +263,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
             $this->addRule( 'amount_other', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
         } else {
-            $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
-            if ( ! $separateMembershipPayment ) {
-                $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
+            if ( ! empty($this->_values['label'] ) ) {
+                $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
+            
+                if ( ! $separateMembershipPayment ) {
+                    $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
+                }
             }
             $this->assign( 'is_allow_other_amount', false );
         }
