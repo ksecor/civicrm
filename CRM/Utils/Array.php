@@ -132,11 +132,11 @@ class CRM_Utils_Array {
      */
     static function crmArrayMerge( $a1, $a2 ) 
     {
-        if ( empty($a1) ) {
+        if ( empty($a1) || empty($a1[0]) ) {
             return $a2;
         }
 
-        if ( empty( $a2 ) ) {
+        if ( empty( $a2 ) || empty($a2[0]) ) {
             return $a1;
         }
 
