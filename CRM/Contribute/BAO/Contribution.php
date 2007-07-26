@@ -384,9 +384,15 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             } elseif ($contacType == 'Organization') {
                 $fieldsArray = array('organization_name', 'email');
             }
+
             $tmpConatctField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
+                    //skip if there is no dupe rule
+                    if ( $value == 'none' ) {
+                        continue;
+                    }
+                    
                     $tmpConatctField[trim($value)] = $contactFields[trim($value)];
                     if (!$status) {
                         $title = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
@@ -885,7 +891,8 @@ SELECT count(*) as count,
         
         //fix for CRM-2062
         $now = date( 'YmdHis' );
-        
+
+        $result = null;
         if ( $form->_contributeMode == 'express' ) {
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
                 $result =& $payment->doExpressCheckout( $paymentParams );

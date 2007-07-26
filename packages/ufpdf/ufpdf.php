@@ -193,6 +193,7 @@ function _puttruetypeunicode($font) {
   $this->_out('/CIDSystemInfo <</Registry (Adobe) /Ordering (UCS) /Supplement 0>>');
   $this->_out('/FontDescriptor '. ($this->n + 1) .' 0 R');
   $c = 0;
+  $widths = null;
   foreach ($font['cw'] as $i => $w) {
     $widths .= $i .' ['. $w.'] ';
   }
@@ -205,6 +206,7 @@ function _puttruetypeunicode($font) {
   $this->_newobj();
   $this->_out('<</Type /FontDescriptor');
   $this->_out('/FontName /'.$font['name']);
+  $s = null;
   foreach ($font['desc'] as $k => $v) {
     $s .= ' /'. $k .' '. $v;
   }

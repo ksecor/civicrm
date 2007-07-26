@@ -268,6 +268,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $cFields[$fid]['attributes'] = $field;
             }
         }
+
+        if (!isset($submitted)) $submitted = array();
         foreach ($submitted as $key => $value) {
             if (substr($key, 0, 7) == 'custom_') {
                 $fid = (int) substr($key, 7);
@@ -379,7 +381,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         if (isset($submitted)) {
             crm_update_contact($main, $submitted);
         }
-        CRM_Core_Session::setStatus(ts('The contacts has been merged.'));
+        CRM_Core_Session::setStatus(ts('The contacts have been merged.'));
     }
 }
 

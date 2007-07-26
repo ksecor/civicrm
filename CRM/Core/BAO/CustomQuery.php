@@ -441,10 +441,22 @@ SELECT entity_id, label, value
 
         $this->where( );
         
-        // CRM_Core_Error::debug( 'cq', $this );
+        $whereStr = null;
+        if ( ! empty( $this->_where ) ) {
+            $clauses = array( );
+            foreach ( $this->_where as $grouping => $values ) {
+                if ( ! empty( $values ) ) {
+                    $clauses[] = implode( ' AND ', $values );
+                }
+            }
+            if ( ! empty( $clauses ) ) {
+                $whereStr = implode( ' OR ', $clauses );
+            }
+        }
+
         return array( implode( ' , '  , $this->_select ),
                       implode( ' '    , $this->_tables ),
-                      implode( ' AND ', $this->_where  ) );
+                      $whereStr );
     }
 
     function searchRange( &$id, &$label, $type, &$value, &$grouping ) {

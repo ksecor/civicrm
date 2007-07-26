@@ -737,3 +737,12 @@ msgstr ""
 
 msgid "Montenegro"
 msgstr ""
+
+msgid "Jersey"
+msgstr ""
+
+msgid "Guernsey"
+msgstr ""
+
+msgid "Isle of Man"
+msgstr ""

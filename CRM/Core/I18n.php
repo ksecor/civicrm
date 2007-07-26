@@ -211,8 +211,11 @@ class CRM_Core_I18n
      */
     function localizeArray(&$array)
     {
-        foreach ($array as $key => $value) {
-            $array[$key] = $this->_phpgettext->translate($value);
+        $config =& CRM_Core_Config::singleton();
+        if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
+            foreach ($array as $key => $value) {
+                $array[$key] = $this->_phpgettext->translate($value);
+            }
         }
     }
 

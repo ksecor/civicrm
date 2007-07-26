@@ -42,11 +42,12 @@ class CRM_Utils_System_Drupal {
      * sets the title of the page
      *
      * @param string $title
+     * @paqram string $pageTitle
      *
      * @return void
      * @access public
      */
-    function setTitle( $title ) {
+    function setTitle( $title, $pageTitle = null ) {
         drupal_set_title( $title );
     }
 

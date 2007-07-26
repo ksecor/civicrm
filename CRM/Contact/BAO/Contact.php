@@ -397,7 +397,7 @@ ORDER BY
                     $sortName = $lastName;
                 } else if ( $firstName && empty($lastName) ) {
                     $sortName = $firstName;
-                } else {
+                } else if ( $contact->id ){
                     require_once "CRM/Contact/BAO/Individual.php";
                     $individual =& new CRM_Contact_BAO_Individual();
                     $individual->contact_id = $contact->id;
@@ -410,36 +410,38 @@ ORDER BY
                         $individualMiddleName = $individual->middle_name;
                     }
                     
-                    if (empty($lastName) && !empty($individualLastName)) {
+                    if (empty($lastName) && CRM_Utils_Array::value('last_name', $params) && !empty($individualLastName)) {
                         $lastName = $individualLastName;
                     } 
                     
-                    if (empty($firstName) && !empty($individualFirstName)) {
+                    if (empty($firstName) && CRM_Utils_Array::value('first_name', $params) && !empty($individualFirstName)) {
                         $firstName = $individualFirstName;
                     }
                                                             
-                    if (empty($prefix) && !empty($individualPrefix)) {
+                    if (empty($prefix) && CRM_Utils_Array::value('prefix_id', $params) && !empty($individualPrefix)) {
                         $prefix = $individualPrefix;
                     }
                     
-                    if (empty($middleName) && !empty($individualMiddleName)) {
+                    if (empty($middleName) && CRM_Utils_Array::value('middle_name', $params) && !empty($individualMiddleName)) {
                         $middleName = $individualMiddleName;
                     }
                     
-                    if (empty($suffix) && !empty($individualSuffix)) {
+                    if (empty($suffix) && CRM_Utils_Array::value('suffix_id', $params) && !empty($individualSuffix)) {
                         $suffix = $individualSuffix;
                     }
-                    
-                    $sortName = "$lastName, $firstName";
+                    if ( $lastName || $firstName ) {
+                        $sortName = "$lastName, $firstName";
+                    }
                 }
             }
             if (trim($sortName)) {
                 $contact->sort_name    = trim($sortName);
             }
-  
-            $display_name =
-                trim( "$prefix $firstName $middleName $lastName $suffix" );
-            $display_name = str_replace( '  ', ' ', $display_name );
+            if ( $lastName || $firstName || $middleName ) {
+                $display_name =
+                    trim( "$prefix $firstName $middleName $lastName $suffix" );
+                $display_name = str_replace( '  ', ' ', $display_name );
+            }
 
             if (trim($display_name)) {
                 $contact->display_name = $display_name;
@@ -589,7 +591,7 @@ ORDER BY
         }
 
         CRM_Core_DAO::transaction('BEGIN');
-
+        
         $contact = self::add($params, $ids);
 
         $params['contact_id'] = $contact->id;
@@ -2712,6 +2714,23 @@ SELECT count( l.id )
         return $locationCount;
     }
 
+    /**
+     * Function to check if the external identifier exits in the db
+     * 
+     * @params mix     $externalIdentifier external identifier
+     * @return booleab true if external id exist else false
+     * @static
+     */
+    static function checkExternalIdentifierExists( $externalIdentifier )
+    {
+        require_once "CRM/Contact/DAO/Contact.php";
+        $contact =& new CRM_Contact_DAO_Contact();
+        $contact->external_identifier = $externalIdentifier;
+        if ($contact->find( true )) {
+            return true;
+        } 
+        return false;
+    } 
 }
 
 ?>
