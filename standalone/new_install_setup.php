@@ -10,7 +10,7 @@
     <form name="db_setup" action="db_setup.php" method="post">
         <label for="db_host">Database host:</label> <input id="db_host" type="text" name="db_host" value="localhost"/><br/><br/>
         <label for="db_admin_user">Database admin username:</label> <input id="db_admin_user" type="text" name="db_admin_user" value="root" size="10"/><br/><br/>
-        <label for="db_admin_pass">Database admin password:</label> <input id="db_admin_pass" type="password" name="db_admin_pass"/><br/><br/>
+        <label for="db_admin_pass" style="font-weight: bold">*** Database admin password:</label> <input id="db_admin_pass" type="password" name="db_admin_pass"/><br/><br/>
         <input type="submit" name="submit" value="Continue >>"/><br/>
         <hr/>
         <h2>Advanced Options</h2>
