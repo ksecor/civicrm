@@ -204,11 +204,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                                                                                       $this->_mode );
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
                 
-                if ( ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) &&
-                     CRM_Utils_Array::value('is_monetary', $this->_values) ) {
-                    require_once 'CRM/Core/Payment/Form.php';
-                    CRM_Core_Payment_Form::setCreditCardFields( $this );
-                }
             }                
             
             // this avoids getting E_NOTICE errors in php
@@ -225,6 +220,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
 
+        }
+
+        // we do this outside of the above conditional to avoid 
+        // saving the country/state list in the session (which could be huge)
+        if ( ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) &&
+             CRM_Utils_Array::value('is_monetary', $this->_values) ) {
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::setCreditCardFields( $this );
         }
 
         $this->assign_by_ref( 'paymentProcessor', $this->_paymentProcessor );

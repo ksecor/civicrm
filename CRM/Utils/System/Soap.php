@@ -47,11 +47,12 @@ class CRM_Utils_System_Soap {
      * sets the title of the page
      *
      * @param string $title title  for page
+     * @paqram string $pageTitle
      *
      * @return void
      * @access public
      */
-    function setTitle( $title ) {
+    function setTitle( $title, $pageTitle ) {
         return;
     }
 

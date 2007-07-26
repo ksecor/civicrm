@@ -297,14 +297,15 @@ class CRM_Utils_System {
      * sets the title of the page
      *
      * @param string $title
+     * @param string $pageTitle
      *
      * @return void
      * @access public
      */
-    function setTitle( $title ) {
+    function setTitle( $title, $pageTitle = null ) {
         $config   =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
-        return eval( $config->userFrameworkClass . '::setTitle( $title );' );
+        return eval( $config->userFrameworkClass . '::setTitle( $title, $pageTitle );' );
     }
 
     /**
