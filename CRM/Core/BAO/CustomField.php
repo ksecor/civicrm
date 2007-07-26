@@ -327,6 +327,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                                 $search = false,
                                                 $label = null ) 
     {
+        if( isset( $qf->_submitValues['_qf_Relationship_refresh'] ) && 
+            ( $qf->_submitValues['_qf_Relationship_refresh'] == 'Search' || 
+              $qf->_submitValues['_qf_Relationship_refresh'] == 'Search Again') ) {
+            $useRequired = 0;
+        }
+        
         $field =& new CRM_Core_DAO_CustomField();
         $field->id = $fieldId;
         if (! $field->find(true)) {

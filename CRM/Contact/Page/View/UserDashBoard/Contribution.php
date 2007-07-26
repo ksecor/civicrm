@@ -59,7 +59,8 @@ class CRM_Contact_Page_View_UserDashBoard_Contribution extends CRM_Contact_Page_
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $params = array( );
         $params =  CRM_Contribute_BAO_Contribution::getHonorContacts( $this->_contactId );
-        if ( ! empty($params) ) {
+
+        if ( !empty($params) ) {
             foreach($params as $ids => $honorId){
                 $contributionId =
                     CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution',
@@ -82,7 +83,8 @@ class CRM_Contact_Page_View_UserDashBoard_Contribution extends CRM_Contact_Page_
         require_once 'CRM/Contribute/BAO/ContributionRecur.php';
 
         $recur             =& new CRM_Contribute_DAO_ContributionRecur( );
-        $recur->contact_id =  $this->_contactId;
+        $recur->contact_id = $this->_contactId;
+        $recur->is_test    = 0;
         $recur->find( );
 
         $config =& CRM_Core_Config::singleton( );

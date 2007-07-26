@@ -54,7 +54,7 @@ class CRM_Contact_Form_Address
     static function buildAddressBlock(&$form, &$location, $locationId)
     {
         require_once 'CRM/Core/BAO/Preferences.php';
-        $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options' );
+        $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 
         $config =& CRM_Core_Config::singleton( );
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
@@ -65,7 +65,7 @@ class CRM_Contact_Form_Address
                           'supplemental_address_2' => array( ts('Addt\'l Address 2'), null, null ),
                           'city'                   => array( ts('City')             , null, null ),
                           'postal_code'            => array( ts('Zip / Postal Code'), null, null ),
-                          'postal_code_suffix'     => array(ts('Postal Code Suffix')       ,
+                          'postal_code_suffix'     => array( ts('Postal Code Suffix')       ,
                                                             array( 'size' => 4, 'maxlength' => 12 ), null ),
                           'county_id'              => array( ts('County')           , null, 'county' ),
                           'state_province_id'      => array( ts('State / Province') , null, null ),

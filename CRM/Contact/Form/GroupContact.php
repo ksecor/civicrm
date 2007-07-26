@@ -153,6 +153,14 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         $groupId = $this->controller->exportValue( 'GroupContact', 'group_id'  );
         $method = 'Admin';
         $method = ( $this->_context == 'user' ) ? 'Web' : 'Admin';
+
+        $session =& CRM_Core_Session::singleton();
+        $userID  = $session->get( 'userID' );
+
+        if ( $userID == $this->_contactId ) {
+            $method = 'Web';
+        }
+
         $groupContact = CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID, $groupId, $method );
 
         if ($groupContact &&  $this->_context != 'user') {

@@ -384,9 +384,15 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             } elseif ($contacType == 'Organization') {
                 $fieldsArray = array('organization_name', 'email');
             }
+
             $tmpConatctField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
+                    //skip if there is no dupe rule
+                    if ( $value == 'none' ) {
+                        continue;
+                    }
+                    
                     $tmpConatctField[trim($value)] = $contactFields[trim($value)];
                     if (!$status) {
                         $title = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
@@ -708,13 +714,22 @@ GROUP BY p.id
         }
     }
 
-    function createHonorContact( $params , $honorId = null ) 
+    /**
+     * Function to create is honor of
+     * 
+     * @param array $params  associated array of fields
+     * @param int   $honorId honor Id
+     *
+     * @return contact id
+     *
+     */
+    function createHonorContact( $params, $honorId = null ) 
     {
-        $honorParams = array();
-        $honorParams["prefix_id"] = $params["honor_prefix"];
-        $honorParams["first_name"]   = $params["honor_firstname"];
-        $honorParams["last_name"]    = $params["honor_lastname"];
-        $honorParams["email"]        = $params["honor_email"];
+        $honorParams = array( );
+        $honorParams["prefix_id"   ] = $params["honor_prefix"];
+        $honorParams["first_name"  ] = $params["honor_firstname"];
+        $honorParams["last_name"   ] = $params["honor_lastname"];
+        $honorParams["email"       ] = $params["honor_email"];
         $honorParams["contact_type"] = "Individual";
         
         //update if contact  already exists
@@ -746,30 +761,35 @@ GROUP BY p.id
     /**
      * Function to get list of contribution In Honor of contact Ids
      *
+     * @param int $honorId In Honor of Contact ID
+     *
      * @return return the list of contribution fields
      * 
      * @access public
+     * @static
      */
-    function getHonorContacts( $honorId )
+    static function getHonorContacts( $honorId )
     {
-    	  $params=array();
-	  require_once 'CRM/Contribute/DAO/Contribution.php';
-	  $honorDAO =& new CRM_Contribute_DAO_Contribution();
-	  $honorDAO->honor_contact_id =  $honorId;
-	  $honorDAO->find();
-	  require_once 'CRM/Contribute/PseudoConstant.php';
-	  $status = CRM_Contribute_Pseudoconstant::contributionStatus($honorDAO->contribution_status_id);
+        $params=array( );
+        require_once 'CRM/Contribute/DAO/Contribution.php';
+        $honorDAO =& new CRM_Contribute_DAO_Contribution();
+        $honorDAO->honor_contact_id =  $honorId;
+        $honorDAO->find( );
 
-	  while($honorDAO->fetch( )){
-	    $params[$honorDAO->id]['honorId']      = $honorDAO->contact_id;		    
-	    $params[$honorDAO->id]['display_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $honorDAO->contact_id, 'display_name' );
-	    $params[$honorDAO->id]['type']         = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $honorDAO->contribution_type_id, 'name' );
-	    $params[$honorDAO->id]['amount']       = $honorDAO->total_amount;
-	    $params[$honorDAO->id]['source']       = $honorDAO->source;
-	    $params[$honorDAO->id]['receive_date'] = $honorDAO->receive_date;
-	    $params[$honorDAO->id]['contribution_status']= CRM_Utils_Array::value($honorDAO->contribution_status_id, $status);  
-	  }
-	  return $params;
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $status = CRM_Contribute_Pseudoconstant::contributionStatus($honorDAO->contribution_status_id);
+        
+        while( $honorDAO->fetch( ) ) {
+            $params[$honorDAO->id]['honorId']      = $honorDAO->contact_id;		    
+            $params[$honorDAO->id]['display_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $honorDAO->contact_id, 'display_name' );
+            $params[$honorDAO->id]['type']         = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $honorDAO->contribution_type_id, 'name' );
+            $params[$honorDAO->id]['amount']       = $honorDAO->total_amount;
+            $params[$honorDAO->id]['source']       = $honorDAO->source;
+            $params[$honorDAO->id]['receive_date'] = $honorDAO->receive_date;
+            $params[$honorDAO->id]['contribution_status']= CRM_Utils_Array::value($honorDAO->contribution_status_id, $status);  
+        }
+
+        return $params;
     }
 
     /**
@@ -871,7 +891,8 @@ SELECT count(*) as count,
         
         //fix for CRM-2062
         $now = date( 'YmdHis' );
-        
+
+        $result = null;
         if ( $form->_contributeMode == 'express' ) {
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
                 $result =& $payment->doExpressCheckout( $paymentParams );

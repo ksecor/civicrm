@@ -89,12 +89,12 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $paneNames[ts('Quest')] = 'quest';
-            $paneNames[ts('Task' )] = 'task';                
+            $paneNames[ts('Task') ] = 'task';                
         }
 
         if ( CRM_Core_Permission::access( 'TMF' ) ) {
             $paneNames[ts('TMF')] = 'TMF';
-            $paneNames[ts('Task' )] = 'task';                
+            $paneNames[ts('Task') ] = 'task';                
         }
 
         if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
@@ -102,16 +102,16 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );  
+        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options', true, null, true );
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$name] ) {
                 continue;
             }
 
             $allPanes[$name] = array( 'url' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
-                                                                      "snippet=1&formType=$type" ),
-                                      'open' => 'false',
-                                      'id'   => $type );
+                                                                        "snippet=1&formType=$type" ),
+                                        'open' => 'false',
+                                        'id'   => $type );
             
             // see if we need to include this paneName in the current form
             if ( $this->_formType == $type ||

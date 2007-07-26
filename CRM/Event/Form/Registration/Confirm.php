@@ -538,11 +538,25 @@ WHERE  v.option_group_id = g.id
      */
     public function updateContactFields( $contactID, $params, $fields ) 
     {
+        //add the contact to group, if add to group is selected for a
+        //particular uf group
+ 
+        // get the add to groups
+        $addToGroups = array( );
+   
+        if ( !empty($this->_fields) ) {
+            foreach ( $this->_fields as $key => $value) {
+                if ( $value['add_to_group_id'] ) {
+                    $addToGroups[$value['add_to_group_id']] = $value['add_to_group_id'];
+                }
+            } 
+        }
+
         require_once "CRM/Contact/BAO/Contact.php";
 
         if ($contactID) {
             $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact", $contactID, "contact_type");
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, null, null,$ctype);
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups, null,$ctype);
         } else {
             // finding contact record based on duplicate match 
             require_once 'api/crm.php';
@@ -551,7 +565,7 @@ WHERE  v.option_group_id = g.id
             
             // if we find more than one contact, use the first one
             $contact_id  = $contactsIDs[0];
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id );
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
             $this->set( 'contactID', $contactID );
         }
 

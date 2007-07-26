@@ -2,9 +2,7 @@
 
 /*******************************************************
 *
-* civicrm_county (!! TBD)
-*
-* Look at importing county tables (re: Advokit)
+* civicrm_county
 *
 *******************************************************/
 
@@ -259,3 +257,6 @@ INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1240", "Zimbab
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1241", "Åland Islands", "AX", "1");
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1242", "Serbia", "RS", "1");
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1243", "Montenegro", "ME", "1");
+INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1244", "Jersey", "JE", "1");
+INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1245", "Guernsey", "GG", "1");
+INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1246", "Isle of Man", "IM", "1");

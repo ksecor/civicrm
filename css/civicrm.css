@@ -193,6 +193,17 @@ border-top-style: none;
   border: 0px none;
 }
 
+#crm-container table.advmultiselect {
+  margin: 0em;
+  width: auto;
+  border-collapse: collapse;
+  border: 1px solid #4E82CF;
+}
+
+#crm-container table.advmultiselect td {
+  padding: 10px;
+}
+
 #crm-container tbody{
     border-top: none
 }
@@ -292,10 +303,8 @@ border-top-style: none;
 #crm-container .header-dark {
   margin: 0.5em 0em 0.5em;
   padding: 0.5em;
-  /*background-color: #B0B0B0;*/
   background-color: #4D94E3;
   font-weight: bold;
-  /*color: #FFFFFF;*/
   color: #BADAFF;
 }
 
@@ -419,8 +428,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   margin: .5em 0em .5em;
   width: 100%;
   border-collapse: collapse;
-  /*border: 1px solid #000000;*/
-  border: 1px solid #4E82CF; /*#4A88DF;*/
+  border: 1px solid #4E82CF;
 }
 
 #crm-container #map-field table, #crm-container table.report  {

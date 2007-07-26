@@ -110,13 +110,15 @@ class CRM_Member_BAO_Query
         case 'member_start_date_low':
         case 'member_start_date_high':
             $query->dateQueryBuilder( $values,
-                                       'civicrm_membership', 'member_start_date', 'start_date', 'Start Date' );
+                                      'civicrm_membership', 'member_start_date', 'start_date',
+                                      'Start Date', false );
             return;
 
         case 'member_end_date_low':
         case 'member_end_date_high':
             $query->dateQueryBuilder( $values,
-                                       'civicrm_membership', 'member_end_date', 'end_date', 'End Date' );
+                                       'civicrm_membership', 'member_end_date', 'end_date',
+                                      'End Date', false );
             return;
 
         case 'member_join_date':

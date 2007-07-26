@@ -68,7 +68,10 @@ class CRM_Core_Invoke
 
         if ( $config->userFramework == 'Joomla' ) {
             require_once 'CRM/Core/Joomla.php';
-            Crm_Core_Joomla::sidebarLeft( );
+            // joomla 1.5RC1 seems to push this in the POST variable, which messes
+            // QF and checkboxes
+            unset( $_POST['option'] );
+            CRM_Core_Joomla::sidebarLeft( );
         } else if ( $config->userFramework == 'Standalone' ) {
             require_once 'CRM/Core/Standalone.php';
             CRM_Core_Standalone::sidebarLeft( );
@@ -354,7 +357,7 @@ class CRM_Core_Invoke
 
             case 'delete':
                 $wrapper =& new CRM_Utils_Wrapper( ); 
-                if ($args[4] == 'location') {
+                if (CRM_Utils_Array::value('4',$args) == 'location') {
                     return $wrapper->run( 'CRM_Contact_Form_DeleteLocation', ts( 'Delete Location' ), 
                                           CRM_Core_Action::DELETE, true );
                 } else {

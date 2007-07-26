@@ -201,7 +201,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         $config =& CRM_Core_Config::singleton( );
         foreach ($params['location'][$locationId]['address'] as $name => $value) {
             if (! empty($value) ) {
-                if ( $name !='country' ) {
+                // name could be country or country id
+                if ( substr( $name, 0, 7 ) != 'country' ) {
                     return true;
                 } else {
                     // make sure its different from the default country
@@ -209,8 +210,11 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
                     $defaultCountry     =& $config->defaultContactCountry( );
                     // full name
                     $defaultCountryName =& $config->defaultContactCountryName( );
+                    
                     if ( $defaultCountry ) {
-                        if ( $value == $defaultCountry || $value == $defaultCountryName ) {
+                        if ( $value == $defaultCountry     ||
+                             $value == $defaultCountryName ||
+                             $value == $config->defaultContactCountry ) {
                             return false;
                         }
                         return true;

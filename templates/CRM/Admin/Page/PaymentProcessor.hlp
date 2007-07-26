@@ -1,37 +1,27 @@
 {htxt id='processor-overview'}
-<p>{ts}If you want accept contributions online you must select a Payment Processor, register for an account with that processor, and configure
-CiviCRM with your account information.{/ts}</p>
-<p>{ts}CiviCRM currently supports three different PayPal payment processing services, as well as Moneris, Authorize.net and Google Checkout. Refer to the each payment processor's website
-for details on requirements, fees and terms for these services.{/ts}
-<p>{ts 1="http://wiki.civicrm.org/confluence//x/ihk"}<strong>For security reasons, some of the required payment processor settings are stored in your CiviCRM settings file (civicrm.settings.php). You
-must input these values before your can process TEST or LIVE transactions. Refer to the <a href="%1" target="_blank" title="Payment Processor Configuration Guide (opens in a new window).">Payment Processor Configuration Guide</a> for more information.</strong>{/ts}</p>
-<p>{ts}We recommend obtaining a TEST account from the processor, and configuring and testing your online contribution page(s)
-in test-drive mode first. Once you are satisfied that your test contributions are working properly, you can register for the LIVE merchant account and configure that
-account information. Then you are ready to activate and promote your contribution page(s).{/ts}</p>
+<p>{ts}If you want accept contributions online you must select a Payment Processor, register for an account with that processor, and configure CiviCRM with your account information.{/ts}</p>
+<p>{ts}CiviCRM currently supports three different PayPal payment processing services, as well as Moneris, Authorize.net and Google Checkout. Refer to the each payment processor's website for details on requirements, fees and terms for these services.{/ts}</p>
+<p>{ts 1="http://wiki.civicrm.org/confluence//x/ihk"}<strong>For security reasons, some of the required payment processor settings are stored in your CiviCRM settings file (civicrm.settings.php). You must input these values before your can process TEST or LIVE transactions. Refer to the <a href="%1" target="_blank" title="Payment Processor Configuration Guide (opens in a new window).">Payment Processor Configuration Guide</a> for more information.</strong>{/ts}</p>
+<p>{ts}We recommend obtaining a TEST account from the processor, and configuring and testing your online contribution page(s) in test-drive mode first. Once you are satisfied that your test contributions are working properly, you can register for the LIVE merchant account and configure that account information. Then you are ready to activate and promote your contribution page(s).{/ts}</p>
 {/htxt}
 
 {htxt id='PayPal-test-user-name'}
-{ts}
-<strong>TEST Account Username or Email Address:</strong>
-<p><strong>PayPal Website Payments Pro or Express</strong> - If you are using the recommended <strong>Signature-based API Credentials</strong> - enter your API Username value as displayed in your account Profile - View API Signature screen.</p>
-<p>If you are using <strong>Certificate-based credentials</strong> this field <strong>must be blank</strong> (or you will get errors from PayPal when submitting the transaction).</p>
-<p><strong>PayPal Website Standard</strong> - Enter the email address of your TEST (sandbox) merchant account.</p>
-{/ts}
+<strong>{ts}TEST Account Username or Email Address:{/ts}</strong>
+<p>{ts}<strong>PayPal Website Payments Pro or Express</strong> - If you are using the recommended <strong>Signature-based API Credentials</strong> - enter your API Username value as displayed in your account Profile - View API Signature screen.{/ts}</p>
+<p>{ts}If you are using <strong>Certificate-based credentials</strong> this field <strong>must be blank</strong> (or you will get errors from PayPal when submitting the transaction).{/ts}</p>
+<p>{ts}<strong>PayPal Website Standard</strong> - Enter the email address of your TEST (sandbox) merchant account.{/ts}</p>
 {/htxt}
 
 {htxt id='Google_Checkout-test-user-name'}
-{ts}
-<strong>TEST/Sandbox Account Merchant-ID:</strong>
-<p>Enter Merchant ID from your Sandbox account.</p>
-<p><strong>How to obtain Merchant-ID ?</strong></p><p>After signing in to your account, click on the Settings tab. Then click on the Integration link on the left side of the page. Your 10- or 15-digit Merchant ID and your Merchant Key will both be listed under the Account information header.</p>
-<p>Also make sure, you have Merchant-Key set in your civicrm settings file.</p>
-{/ts}
+<strong>{ts}TEST/Sandbox Account Merchant-ID:{/ts}</strong>
+<p>{ts}Enter Merchant ID from your Sandbox account.{/ts}</p>
+<p><strong>{ts}How to obtain Merchant-ID?{/ts}</strong></p>
+<p>{ts}After signing in to your account, click on the Settings tab. Then click on the Integration link on the left side of the page. Your 10- or 15-digit Merchant ID and your Merchant Key will both be listed under the Account information header.{/ts}</p>
+<p>{ts}Also, make sure you have Merchant-Key set in your civicrm settings file.{/ts}</p>
 {/htxt}
 
 {htxt id='Moneris-test-user-name'}
-{ts}
-<strong>Moneris</strong>
-<p>Your Moneris username is not currently used, in either the normal or test account, so you can fill in 'ignoreme' (it can't be left blank) . You can leave the recurring payments url blank, it's not used. Use 'yesguy' as your test password, and 'store3' as your test store ID. 'store1' and 'store2' also work, but only 'store3' accepts recurring payments.</p>
-{/ts}
+<strong>{ts}Moneris{/ts}</strong>
+<p>{ts 1='ignoreme' 2='yesguy' 3='store3' 4='store1' 5='store2'}Your Moneris username is not currently used, in either the normal or test account, so you can fill in '%1' (it can't be left blank). You can leave the recurring payments url blank, it's not used. Use '%2' as your test password, and '%3' as your test store ID. '%4' and '%5' also work, but only '%3' accepts recurring payments.{/ts}</p>
 {/htxt}
 

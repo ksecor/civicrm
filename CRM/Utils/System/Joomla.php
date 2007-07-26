@@ -43,13 +43,18 @@ class CRM_Utils_System_Joomla {
      * sets the title of the page
      *
      * @param string $title title to set
+     * @param string $pageTitle
      *
      * @return void
      * @access public
      */
-    function setTitle( $title ) {
+    function setTitle( $title, $pageTitle = null ) {
+        if ( ! $pageTitle ) {
+            $pageTitle = $title;
+        }
+
         $template =& CRM_Core_Smarty::singleton( );
-        $template->assign( 'pageTitle', $title );
+        $template->assign( 'pageTitle', $pageTitle );
         
         global $mainframe;
         if ( $mainframe ) {
@@ -72,8 +77,12 @@ class CRM_Utils_System_Joomla {
     static function appendBreadCrumb( $title, $url ) {
         $template =& CRM_Core_Smarty::singleton( );
         $bc = $template->get_template_vars( 'breadcrumb' );
-        $bc[] = array( 'title' => $title,
-                       'url'   => $url );
+        if ( $bc[count($bc) - 1]['title'] != $title ) {
+            // only add this if we are not replicating the last element
+            // side affect of the difference between drupal bread crumbs and civicrm bread crumbs
+            $bc[] = array( 'title' => $title,
+                           'url'   => $url );
+        }
         $template->assign_by_ref( 'breadcrumb', $bc );
         return;
     }
