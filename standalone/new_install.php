@@ -16,7 +16,7 @@ if (count($ar) > 0) {
 <div id="verify-form">
 <form method="post" action="add_user.php">
   Identity&nbsp;URL:
-  <input type="text" name="openid_url" value="" /> (i.e. http://me.myopenid.com/ don't forget the trailing slash!) <br/><br/>
+  <input type="text" name="openid_url" value="" /> (for example: me.myopenid.com) <br/><br/>
   First Name:
   <input type="text" name="first_name" value="" /><br/><br/>
   Last Name:

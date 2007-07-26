@@ -24,21 +24,17 @@ function generatePassword ( $length = 10 ) {
   return $password;
 }
 
-function runDbCmdAsAdmin ( $cmd, $mysqlCmd = 'mysql' ) {
-    global $dbAdminUser;
-    global $dbAdminPass;
-    global $mysqlPath;
+function dbConnect ( $dbHost, $dbUser, $dbPass, $dbName = null ) {
+    $dbLink = mysql_connect( $dbHost, $dbUser, $dbPass );
+    if ( ! $dbLink ) {
+        die("Error: Could not connect to MySQL server: " . mysql_error( ) );
+    }
     
-    $throwAway = array( );
+    if ( isset( $dbName ) ) {
+        mysql_select_db( $dbName );
+    }
     
-    $exec = "$mysqlPath/$mysqlCmd $cmd";
-    
-    print "Executing $exec<br/>";
-
-    system( $exec, $throwAway );
-    #exec( $exec, $throwAway, $returnVal );
-    
-    return $returnVal;
+    return $dbLink;
 }
 
 $baseURL            = $_POST['base_url'     ];
@@ -56,12 +52,11 @@ $dbFilesToLoad      = array( );
 $dbFilesToLoad[]    = 'sql/civicrm_41.mysql';
 $dbFilesToLoad[]    = 'sql/civicrm_generated.mysql';
 
-print "DB Name: $dbName<br/>";
-
 if ( $dbHost == 'localhost' ) {
     $dbHost = "unix($dbSocketFile)";
+    $dbConnectHost = "localhost:$dbSocketFile";
 } else {
-    $dbHost = "$dbHost:$dbPortNum";
+    $dbConnectHost = $dbHost = "$dbHost:$dbPortNum";
 }
 
 $dbPass  = generatePassword( );
@@ -96,12 +91,30 @@ $fd = fopen( "$civicrm_root/" . $filename, "w" );
 fputs( $fd, $data );
 fclose( $fd );
 
-runDbCmdAsAdmin("$dbName > $dbName.sql.backup", 'mysqldump');
-runDbCmdAsAdmin("< 'drop database if exists $dbName'");
-runDbCmdAsAdmin("< 'create database $dbName'");
-runDbCmdAsAdmin("< 'grant all on $dbName.* to $dbUser identified by \"$dbPass\"'");
-#foreach ( $dbFilesToLoad as $file ) {
-#    runDbCmdAsAdmin("-D $dbName < $file");
-#}
+$dbLink = dbConnect( $dbConnectHost, $dbAdminUser, $dbAdminPass );
+
+$query = "SHOW DATABASES LIKE '$dbName'";
+$result = mysql_query( $query, $dbLink );
+if ( mysql_num_rows( $result ) > 0 ) {
+    die( "Error: $dbName schema in MySQL server $dbConnectHost already exists! Please back it up and drop it before running setup." );
+}
+$query = "CREATE DATABASE $dbName";
+mysql_query( $query, $dbLink );
+
+if ( strpos( $dbConnectHost, 'localhost' ) == 0 ) {
+    $grantHost = 'localhost';
+} else {
+    $grantHost = '%';
+}
+
+$query = "GRANT ALL ON $dbName.* TO $dbUser@`$grantHost` IDENTIFIED BY '$dbPass'";
+mysql_query( $query, $dbLink );
+
+foreach ( $dbFilesToLoad as $file ) {
+    $cmd = "$mysqlPath/mysql -u $dbAdminUser -p$dbAdminPass -D $dbName < $civicrm_root/$file";
+    exec( $cmd );
+}
+
+header( "Location: new_install.php" );
 
 ?>
