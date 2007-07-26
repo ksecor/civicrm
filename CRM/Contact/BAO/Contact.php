@@ -2660,6 +2660,23 @@ SELECT count( l.id )
         return $locationCount;
     }
 
+    /**
+     * Function to check if the external identifier exits in the db
+     * 
+     * @params mix     $externalIdentifier external identifier
+     * @return booleab true if external id exist else false
+     * @static
+     */
+    static function checkExternalIdentifierExists( $externalIdentifier )
+    {
+        require_once "CRM/Contact/DAO/Contact.php";
+        $contact =& new CRM_Contact_DAO_Contact();
+        $contact->external_identifier = $externalIdentifier;
+        if ($contact->find( true )) {
+            return true;
+        } 
+        return false;
+    } 
 }
 
 ?>

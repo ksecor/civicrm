@@ -404,6 +404,15 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             _crm_add_formatted_param($value, $formatted);
         }
 
+        //check if external identifier exists in database
+        if ( isset( $params['external_identifier'] ) ) {
+            require_once "CRM/Contact/BAO/Contact.php";
+            if ( CRM_Contact_BAO_Contact::checkExternalIdentifierExists( $params['external_identifier'] )  ) {
+                array_unshift($values, ts('External Identifier already exists in database.'));
+                return CRM_Import_Parser::ERROR;
+            }
+        }
+
         $relationship = false;
         // Support Match and Update Via Contact ID
         if ( $this->_updateWithId ) {
