@@ -413,17 +413,19 @@ ORDER BY
                     if (empty($suffix) && CRM_Utils_Array::value('suffix_id', $params) && !empty($individualSuffix)) {
                         $suffix = $individualSuffix;
                     }
-                    
-                    $sortName = "$lastName, $firstName";
+                    if ( $lastName || $firstName ) {
+                        $sortName = "$lastName, $firstName";
+                    }
                 }
             }
             if (trim($sortName)) {
                 $contact->sort_name    = trim($sortName);
             }
-  
-            $display_name =
-                trim( "$prefix $firstName $middleName $lastName $suffix" );
-            $display_name = str_replace( '  ', ' ', $display_name );
+            if ( $lastName || $firstName || $middleName ) {
+                $display_name =
+                    trim( "$prefix $firstName $middleName $lastName $suffix" );
+                $display_name = str_replace( '  ', ' ', $display_name );
+            }
 
             if (trim($display_name)) {
                 $contact->display_name = $display_name;
@@ -573,7 +575,7 @@ ORDER BY
         }
 
         CRM_Core_DAO::transaction('BEGIN');
-        // CRM_CORE_ERROR::BACKTRACE();
+        
         $contact = self::add($params, $ids);
 
         $params['contact_id'] = $contact->id;
