@@ -9,6 +9,7 @@ setFinished = function(type,data,evt){
   if ( data.match( 'Fatal error' ) ) {ldelim}
     var prog = dojo.byId('error_status');
     prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
+    location.href = "{crmURL p='civicrm/import/contact' q='_qf_Preview_display=true' h=0}";
   {rdelim} else {ldelim}
     location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
   {rdelim}

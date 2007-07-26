@@ -123,10 +123,10 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
         
         require_once 'CRM/Core/OptionGroup.php';
         foreach ( $this->_cbs as $name => $title ) {
-            $options = array_flip( CRM_Core_OptionGroup::values( $name ) );
+            $options = array_flip( CRM_Core_OptionGroup::values( $name, false, false, true ) );
             $newOptions = array( );
             foreach ( $options as $key => $val ) {
-                $newOptions[ ts( $key ) ] = $val;
+                $newOptions[ $key ] = $val;
             }
             $this->addCheckBox( $name, $title, 
                                 $newOptions,

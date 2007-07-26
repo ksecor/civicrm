@@ -895,7 +895,7 @@ class CRM_Core_Config
         if ( ! isset( self::$_mail ) ) {
             if ( self::$_singleton->smtpServer == '' ||
                  ! self::$_singleton->smtpServer ) {
-                CRM_Core_Error::fatal( ts( 'CIVICRM_SMTP_SERVER is not set. Click <a href="%1">Administer CiviCRM >> Global Settings</a> to set the Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
+                CRM_Core_Error::fatal( ts( 'There is no valid smtp server setting. Click <a href="%1">Administer CiviCRM >> Global Settings</a> to set the SMTP Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
             }
 
             $params['host'] = self::$_singleton->smtpServer;

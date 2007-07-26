@@ -42,11 +42,12 @@ class CRM_Utils_System_Standalone {
      * sets the title of the page
      *
      * @param string $title
+     * @paqram string $pageTitle
      *
      * @return void
      * @access public
      */
-    function setTitle( $title ) {
+    function setTitle( $title, $pageTitle = null ) {
       $template =& CRM_Core_Smarty::singleton( );
       $template->assign( 'pageTitle', $title );
 

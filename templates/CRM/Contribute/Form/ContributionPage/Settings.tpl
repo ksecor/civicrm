@@ -52,8 +52,14 @@
     <dl>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     {if $id}
-    <dt>&nbsp;</dt><dd class="description">{ts}When your page is active, you can link people to the page by copying and pasting the following URL:{/ts}<br />
-        <strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
+    <dt>&nbsp;</dt><dd class="description">
+        {if $config->userFramework EQ 'Drupal'}
+            {ts}When your page is active, you can link people to the page by copying and pasting the following URL:{/ts}<br />
+            <strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
+        {elseif $config->userFramework EQ 'Joomla'}
+            {ts 1=$id}When your page is active, create front-end links to the contribution page using the Menu Manager. Select <strong>Online Contribution</strong>
+            and enter <strong>%1</strong> for the Contribution id.{/ts}
+        {/if}
     {/if}
     </dl>
     </fieldset>

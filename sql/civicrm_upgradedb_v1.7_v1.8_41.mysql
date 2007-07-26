@@ -591,3 +591,19 @@ INSERT IGNORE INTO civicrm_state_province (id,country_id, abbreviation, name) VA
 (5193, 1098, "TM", "Tuen Mun"),
 (5194, 1098, "YL", "Yuen Long");
 
+-- /*******************************************************
+-- *
+-- * CRM-2130
+-- *
+-- *******************************************************/
+INSERT IGNORE INTO civicrm_country (id, name, iso_code) VALUES ("1242", "Serbia", "RS");
+INSERT IGNORE INTO civicrm_country (id, name, iso_code) VALUES ("1243", "Montenegro", "ME");
+
+-- /*******************************************************
+-- *
+-- * CRM-2131
+-- *
+-- *******************************************************/
+INSERT IGNORE INTO civicrm_country (id, name, iso_code) VALUES ("1244", "Jersey", "JE");
+INSERT IGNORE INTO civicrm_country (id, name, iso_code) VALUES ("1245", "Guernsey", "GG");
+INSERT IGNORE INTO civicrm_country (id, name, iso_code) VALUES ("1246", "Isle of Man", "IM");

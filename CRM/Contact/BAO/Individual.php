@@ -70,32 +70,42 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         }
 
         $individual =& new CRM_Contact_BAO_Individual();
+        if ( $individual->id = CRM_Utils_Array::value( 'individual', $ids ) ) {
+            $individual->find(true);
+        }
         $individual->copyValues($params);
         
-        $date = CRM_Utils_Array::value('birth_date', $params);
-        if (is_array($date)) {
-            $individual->birth_date = CRM_Utils_Date::format( $date );
-        } else {
-            $individual->birth_date = preg_replace('/[^0-9]/', '', $date);
+        if ( $date = CRM_Utils_Array::value('birth_date', $params) ) {
+            if (is_array($date)) {
+                $individual->birth_date = CRM_Utils_Date::format( $date );
+            } else {
+                $individual->birth_date = preg_replace('/[^0-9]/', '', $date);
+            }
+        } else if ( $individual->birth_date ) {
+            $individual->birth_date = CRM_Utils_Date::isoToMysql( $individual->birth_date );
         }
-        $date = CRM_Utils_Array::value('deceased_date', $params);
-        if (is_array($date)) {
-            $individual->deceased_date = CRM_Utils_Date::format( $date );
-        } else {
-            $individual->deceased_date = preg_replace('/[^0-9]/', '', $date);
+        if ( $date = CRM_Utils_Array::value('deceased_date', $params) ) {
+            if (is_array($date)) {
+                $individual->deceased_date = CRM_Utils_Date::format( $date );
+            } else {
+                $individual->deceased_date = preg_replace('/[^0-9]/', '', $date);
+            }
+        } else if ( $individual->deceased_date ) {
+            $individual->deceased_date = CRM_Utils_Date::isoToMysql( $individual->deceased_date );
         }
-        $individual->middle_name = CRM_Utils_Array::value('middle_name', $params);
+        if ( $middle_name = CRM_Utils_Array::value('middle_name', $params)) {
+            $individual->middle_name = $middle_name;
+        }
         // hack to make db_do save a null value to a field
         if ( ! $individual->birth_date ) {
             $individual->birth_date = 'NULL';
         }
 
-        if (!array_key_exists('is_deceased', $params)) {
+        if (!array_key_exists('is_deceased', $params) && !$individual->is_deceased) {
             $individual->is_deceased = 0;
         }
 
         $individual->id = CRM_Utils_Array::value( 'individual', $ids );
-
         $individual->save( );
         return $individual;
     }

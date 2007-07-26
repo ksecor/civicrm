@@ -54,33 +54,32 @@ class CRM_Contact_Form_Address
     static function buildAddressBlock(&$form, &$location, $locationId)
     {
         require_once 'CRM/Core/BAO/Preferences.php';
-        $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options' );
+        $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 
         $config =& CRM_Core_Config::singleton( );
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
 
         $elements = array( 
-                          'street_address'         => array( 'Street Address'   , null, null ),
-                          'supplemental_address_1' => array( 'Addt\'l Address 1', null, null ),
-                          'supplemental_address_2' => array( 'Addt\'l Address 2', null, null ),
-                          'city'                   => array( 'City'             , null, null ),
-                          'postal_code'            => array( 'Zip / Postal Code', null, null ),
-                          'postal_code_suffix'     => array('Postal Code Suffix'       ,
+                          'street_address'         => array( ts('Street Address')   , null, null ),
+                          'supplemental_address_1' => array( ts('Addt\'l Address 1'), null, null ),
+                          'supplemental_address_2' => array( ts('Addt\'l Address 2'), null, null ),
+                          'city'                   => array( ts('City')             , null, null ),
+                          'postal_code'            => array( ts('Zip / Postal Code'), null, null ),
+                          'postal_code_suffix'     => array( ts('Postal Code Suffix')       ,
                                                             array( 'size' => 4, 'maxlength' => 12 ), null ),
-                          'county_id'              => array( 'County'           , null, 'county' ),
-                          'state_province_id'      => array( 'State / Province' , null, null ),
-                          'country_id'             => array( 'Country'          , null, null ), 
-                          'geo_code_1'             => array( 'Latitude'         ,
+                          'county_id'              => array( ts('County')           , null, 'county' ),
+                          'state_province_id'      => array( ts('State / Province') , null, null ),
+                          'country_id'             => array( ts('Country')          , null, null ), 
+                          'geo_code_1'             => array( ts('Latitude')         ,
                                                              array( 'size' => 4, 'maxlength' => 8 ), null ),
-                          'geo_code_2'             => array( 'Longitude'         ,
+                          'geo_code_2'             => array( ts('Longitude')         ,
                                                              array( 'size' => 4, 'maxlength' => 8 ), null ),
                           );
 
         foreach ( $elements as $name => $v ) {
-            list( $unTSTitle, $attributes, $select ) = $v;
-            $title = ts( $unTSTitle );
+            list( $title, $attributes, $select ) = $v;
 
-            if ( ! $addressOptions[$unTSTitle] ) {
+            if ( ! $addressOptions[$title] ) {
                 continue;
             }
 

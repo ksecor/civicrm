@@ -353,7 +353,7 @@ class CRM_Core_Invoke
 
             case 'delete':
                 $wrapper =& new CRM_Utils_Wrapper( ); 
-                if ($args[4] == 'location') {
+                if (CRM_Utils_Array::value('4',$args) == 'location') {
                     return $wrapper->run( 'CRM_Contact_Form_DeleteLocation', ts( 'Delete Location' ), 
                                           CRM_Core_Action::DELETE, true );
                 } else {

@@ -660,8 +660,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     function processRecurringContribution( &$params, $contactID ) {
         // return if this page is not set for recurring
         // or the user has not chosen the recurring option
-        //if ( ! $this->_values['is_recur'] || isset(! $params['is_recur']) || ! $params['is_recur'] ) {
-        if ( ! isset($this->_values['is_recur']) || ! $params['is_recur'] ) {
+        if ( ! CRM_Utils_Array::value( 'is_recur', $this->_values ) ||
+             ! CRM_Utils_Array::value( 'is_recur', $params ) ) {
             return null;
         }
 
