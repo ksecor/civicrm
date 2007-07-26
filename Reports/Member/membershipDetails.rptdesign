@@ -16,7 +16,7 @@
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
             <property name="odaUser">civicrm</property>
-            <encrypted-property name="odaPassword">Y2l2aWNybTEyMzQ1</encrypted-property>
+            <encrypted-property name="odaPassword">Y2l2aWNybQ==</encrypted-property>
             <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
         </oda-data-source>
     </data-sources>

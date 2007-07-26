@@ -10,18 +10,32 @@
         </structure>
     </list-property>
     <parameters>
-        <scalar-parameter name="Membership By Year" id="6">
-            <property name="valueType">static</property>
-            <property name="dataType">string</property>
-            <text-property name="promptText">Year</text-property>
-            <property name="isRequired">true</property>
-            <property name="controlType">text-box</property>
-            <property name="defaultValue">2005</property>
-            <structure name="format">
-                <property name="category">></property>
-                <property name="pattern">></property>
-            </structure>
-        </scalar-parameter>
+        <parameter-group name="dateGroup" id="281">
+            <parameters>
+                <scalar-parameter name="startDate" id="282">
+                    <text-property name="helpText">Enter date in dd/mm/yy format</text-property>
+                    <property name="valueType">static</property>
+                    <property name="dataType">date</property>
+                    <text-property name="promptText">Enter Start Date of membership</text-property>
+                    <property name="controlType">text-box</property>
+                    <structure name="format">
+                        <property name="category">Short Date</property>
+                        <property name="pattern">Short Date</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="endDate" id="283">
+                    <text-property name="helpText">Enter date in dd/mm/yy format</text-property>
+                    <property name="valueType">static</property>
+                    <property name="dataType">date</property>
+                    <text-property name="promptText">Enter end date of membership</text-property>
+                    <property name="controlType">text-box</property>
+                    <structure name="format">
+                        <property name="category">Short Date</property>
+                        <property name="pattern">Short Date</property>
+                    </structure>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="civicrm" id="4">
@@ -29,7 +43,7 @@
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
             <property name="odaUser">civicrm</property>
-            <encrypted-property name="odaPassword">Y2l2aWNybTEyMzQ1</encrypted-property>
+            <encrypted-property name="odaPassword">Y2l2aWNybQ==</encrypted-property>
             <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
         </oda-data-source>
     </data-sources>
@@ -37,6 +51,18 @@
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="membershipByRange" id="5"
  extends="civicrm.membershipByRange">
             <text-property name="displayName">membershipByRange</text-property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">ge</property>
+                    <expression name="expr">row["start_date"]</expression>
+                    <expression name="value1">params["startDate"]</expression>
+                </structure>
+                <structure>
+                    <property name="operator">le</property>
+                    <expression name="expr">row["end_date"]</expression>
+                    <expression name="value1">params["endDate"]</expression>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -87,19 +113,6 @@
                 </list-property>
             </structure>
             <property name="dataSource">civicrm</property>
-            <list-property name="parameters">
-                <structure>
-                    <property name="name">startYearDate</property>
-                    <property name="paramName">Membership By Year</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                    <property name="position">1</property>
-                    <expression name="defaultValue">2000</expression>
-                    <property name="isOptional">false</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-            </list-property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
@@ -172,10 +185,7 @@ FROM civicrm_membership as mem
 LEFT JOIN (civicrm_contact as contact,civicrm_membership_type as memType, civicrm_membership_status as memStatus)
 ON (memType.id=mem.membership_type_id 
 AND memStatus.id=mem.status_id
-AND mem.contact_id=contact.id
-)
-where year(mem.start_date) = ?
-</property>
+AND mem.contact_id=contact.id)</property>
         </oda-data-set>
     </data-sets>
     <page-setup>
@@ -189,70 +199,15 @@ where year(mem.start_date) = ?
         </simple-master-page>
     </page-setup>
     <body>
-        <grid id="8">
-            <property name="marginTop">5pt</property>
-            <property name="marginLeft">0pt</property>
-            <property name="marginBottom">0pt</property>
-            <property name="height">0.333in</property>
-            <property name="width">100%</property>
-            <column id="9">
-                <property name="width">5.975in</property>
-            </column>
-            <row id="10">
-                <property name="height">0.3in</property>
-                <property name="backgroundColor">#318AD9</property>
-                <property name="verticalAlign">text-bottom</property>
-                <cell id="11">
-                    <property name="verticalAlign">top</property>
-                    <label id="12">
-                        <property name="fontFamily">sans-serif</property>
-                        <property name="fontSize">larger</property>
-                        <property name="fontWeight">bold</property>
-                        <property name="color">#E6E6FA</property>
-                        <property name="textAlign">center</property>
-                        <text-property name="text">Membership Details</text-property>
-                    </label>
-                </cell>
-            </row>
-            <row id="116">
-                <property name="height">0.2in</property>
-                <property name="backgroundColor">#318AD9</property>
-                <property name="verticalAlign">text-bottom</property>
-                <cell id="117">
-                    <property name="verticalAlign">top</property>
-                    <text id="118">
-                        <property name="fontFamily">sans-serif</property>
-                        <property name="fontSize">smaller</property>
-                        <property name="color">#E6E6FA</property>
-                        <property name="textAlign">center</property>
-                        <property name="contentType">plain</property>
-                        <text-property name="content"><![CDATA[(Year wise Members)]]></text-property>
-                    </text>
-                </cell>
-            </row>
-        </grid>
-        <table name="yearBasedTable" id="13">
-            <property name="fontFamily">sans-serif</property>
-            <property name="fontSize">smaller</property>
-            <property name="color">#131B6D</property>
-            <property name="marginTop">auto</property>
-            <property name="marginLeft">auto</property>
-            <property name="marginBottom">auto</property>
-            <property name="marginRight">auto</property>
-            <property name="height">0.333in</property>
+        <table id="217">
+            <property name="marginTop">0pt</property>
             <property name="width">100%</property>
             <property name="dataSet">membershipByRange</property>
-            <list-property name="paramBindings">
-                <structure>
-                    <property name="paramName">startYearDate</property>
-                    <expression name="expression">params["Membership By Year"]</expression>
-                </structure>
-            </list-property>
             <list-property name="boundDataColumns">
                 <structure>
-                    <property name="name">id</property>
-                    <expression name="expression">dataSetRow["id"]</expression>
-                    <property name="dataType">integer</property>
+                    <property name="name">display_name</property>
+                    <expression name="expression">dataSetRow["display_name"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">join_date</property>
@@ -275,244 +230,186 @@ where year(mem.start_date) = ?
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">typeName</property>
-                    <expression name="expression">dataSetRow["typeName"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
                     <property name="name">statusName</property>
                     <expression name="expression">dataSetRow["statusName"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">display_name</property>
-                    <expression name="expression">dataSetRow["display_name"]</expression>
+                    <property name="name">typeName</property>
+                    <expression name="expression">dataSetRow["typeName"]</expression>
                     <property name="dataType">string</property>
                 </structure>
-                <structure>
-                    <property name="name">year</property>
-                    <expression name="expression">dataSetRow["year"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
             </list-property>
-            <column id="35">
-                <property name="width">1.445in</property>
-            </column>
-            <column id="36">
-                <property name="width">0.71in</property>
-            </column>
-            <column id="37">
-                <property name="width">0.771in</property>
-            </column>
-            <column id="56">
-                <property name="width">0.783in</property>
-            </column>
-            <column id="62">
-                <property name="width">0.771in</property>
-            </column>
-            <column id="68">
-                <property name="width">1.048in</property>
-            </column>
-            <column id="149">
-                <property name="width">1.048in</property>
-            </column>
-            <group id="18">
-                <property name="groupName">yearBasedTable</property>
-                <property name="interval">none</property>
-                <property name="sortDirection">asc</property>
-                <expression name="keyExpr">row["year"]</expression>
-                <property name="repeatHeader">true</property>
-                <property name="hideDetail">false</property>
-                <property name="pageBreakAfter">auto</property>
-                <property name="pageBreakBefore">auto</property>
-                <list-property name="sort">
-                    <structure>
-                        <expression name="key">row["display_name"]</expression>
-                        <property name="direction">asc</property>
-                    </structure>
-                </list-property>
-                <header>
-                    <row id="131">
-                        <property name="backgroundColor">#A8C8F9</property>
-                        <property name="fontSize">x-small</property>
-                        <cell id="132">
-                            <text id="129">
-                                <property name="fontWeight">bold</property>
-                                <property name="color">#131B6D</property>
-                                <property name="marginLeft">5pt</property>
-                                <property name="contentType">plain</property>
-                                <text-property name="content"><![CDATA[Year: ]]></text-property>
-                            </text>
-                        </cell>
-                        <cell id="133">
-                            <data id="164">
-                                <property name="fontWeight">bold</property>
-                                <property name="marginTop">0pt</property>
-                                <property name="marginLeft">5pt</property>
-                                <property name="resultSetColumn">year</property>
-                            </data>
-                        </cell>
-                        <cell id="134"/>
-                        <cell id="135"/>
-                        <cell id="136"/>
-                        <cell id="137"/>
-                        <cell id="144"/>
-                    </row>
-                    <row id="19">
-                        <property name="backgroundColor">#B3D1FF</property>
-                        <property name="fontSize">x-small</property>
-                        <cell id="20">
-                            <text id="87">
-                                <property name="marginTop">0pt</property>
-                                <property name="marginLeft">5pt</property>
-                                <property name="textAlign">left</property>
-                                <property name="contentType">plain</property>
-                                <text-property name="content"><![CDATA[Name]]></text-property>
-                            </text>
-                        </cell>
-                        <cell id="21">
-                            <text id="88">
-                                <property name="marginTop">0pt</property>
-                                <property name="marginLeft">5pt</property>
-                                <property name="contentType">plain</property>
-                                <text-property name="content"><![CDATA[Join Date]]></text-property>
-                            </text>
-                        </cell>
-                        <cell id="22">
-                            <text id="89">
-                                <property name="marginTop">0pt</property>
-                                <property name="marginLeft">5pt</property>
-                                <property name="contentType">plain</property>
-                                <text-property name="content"><![CDATA[Start Date]]></text-property>
-                            </text>
-                        </cell>
-                        <cell id="52">
-                            <text id="90">
-                                <property name="marginTop">0pt</property>
-                                <property name="marginLeft">5pt</property>
-                                <property name="contentType">plain</property>
-                                <text-property name="content"><![CDATA[End Date]]></text-property>
-                            </text>
-                        </cell>
-                        <cell id="58">
-                            <text id="91">
-                                <property name="marginTop">0pt</property>
-                                <property name="marginLeft">5pt</property>
-                                <property name="contentType">plain</property>
-                                <text-property name="content"><![CDATA[Source]]></text-property>
-                            </text>
-                        </cell>
-                        <cell id="64">
-                            <text id="92">
-                                <property name="marginTop">0pt</property>
-                                <property name="marginLeft">5pt</property>
-                                <property name="textAlign">left</property>
-                                <property name="contentType">plain</property>
-                                <text-property name="content"><![CDATA[Membership Status]]></text-property>
-                            </text>
-                        </cell>
-                        <cell id="145">
-                            <text id="150">
-                                <property name="marginTop">0pt</property>
-                                <property name="marginLeft">5pt</property>
-                                <property name="contentType">plain</property>
-                                <text-property name="content"><![CDATA[Membership Type]]></text-property>
-                            </text>
-                        </cell>
-                    </row>
-                </header>
-                <footer>
-                    <row id="23">
-                        <property name="height">0.2cm</property>
-                        <property name="backgroundColor">#B3D1FF</property>
-                        <cell id="24"/>
-                        <cell id="25"/>
-                        <cell id="26"/>
-                        <cell id="54"/>
-                        <cell id="60"/>
-                        <cell id="66"/>
-                        <cell id="147"/>
-                    </row>
-                </footer>
-            </group>
-            <detail>
-                <row id="27">
-                    <property name="backgroundColor">#E8F2FF</property>
+            <column id="242"/>
+            <column id="243"/>
+            <column id="244"/>
+            <column id="245"/>
+            <column id="246"/>
+            <column id="247"/>
+            <column id="248"/>
+            <header>
+                <row id="218">
+                    <property name="backgroundColor">#318AD9</property>
+                    <cell id="219">
+                        <property name="colSpan">7</property>
+                        <property name="rowSpan">1</property>
+                        <label id="265">
+                            <property name="fontFamily">sans-serif</property>
+                            <property name="fontSize">larger</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="color">#E6E6FA</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Membership Details</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row id="249">
+                    <property name="backgroundColor">#318AD9</property>
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="fontSize">smaller</property>
+                    <cell id="250">
+                        <property name="colSpan">7</property>
+                        <property name="rowSpan">1</property>
+                        <text-data id="266">
+                            <property name="fontSize">smaller</property>
+                            <property name="color">#E6E6FA</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="textAlign">left</property>
+                            <expression name="valueExpr">"&lt;br>&lt;strong>Membership between - " + params["startDate"] + " &amp; " + params["endDate"] + "&lt;/strong>&lt;br>"</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                </row>
+                <row id="257">
+                    <property name="backgroundColor">#B3D1FF</property>
+                    <property name="fontFamily">sans-serif</property>
                     <property name="fontSize">x-small</property>
-                    <cell id="28">
-                        <data id="157">
+                    <property name="textAlign">left</property>
+                    <cell id="258">
+                        <text id="87">
+                            <property name="color">#131B6D</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">5pt</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="textAlign">left</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Name]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="259">
+                        <text id="268">
+                            <property name="color">#131B6D</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">0pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Join Date]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="260">
+                        <text id="269">
+                            <property name="color">#131B6D</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">0pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Start Date]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="261">
+                        <text id="270">
+                            <property name="color">#131B6D</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">0pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[End Date]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="262">
+                        <text id="271">
+                            <property name="color">#131B6D</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">0pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Source]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="263">
+                        <text id="272">
+                            <property name="color">#131B6D</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">0pt</property>
+                            <property name="textAlign">left</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Status]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="264">
+                        <text id="273">
+                            <property name="color">#131B6D</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">0pt</property>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[Type]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="226">
+                    <property name="backgroundColor">#E8F2FF</property>
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="fontSize">x-small</property>
+                    <property name="color">#131B6D</property>
+                    <cell id="227">
+                        <data id="274">
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">3pt</property>
+                            <property name="paddingTop">1pt</property>
                             <property name="resultSetColumn">display_name</property>
                         </data>
                     </cell>
-                    <cell id="29">
-                        <data id="158">
-                            <property name="marginTop">0pt</property>
-                            <property name="marginLeft">5pt</property>
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
+                    <cell id="228">
+                        <data id="275">
                             <property name="resultSetColumn">join_date</property>
                         </data>
                     </cell>
-                    <cell id="30">
-                        <data id="159">
-                            <property name="marginTop">0pt</property>
-                            <property name="marginLeft">5pt</property>
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
+                    <cell id="229">
+                        <data id="276">
                             <property name="resultSetColumn">start_date</property>
                         </data>
                     </cell>
-                    <cell id="53">
-                        <data id="160">
-                            <property name="marginTop">0pt</property>
-                            <property name="marginLeft">5pt</property>
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
+                    <cell id="230">
+                        <data id="277">
                             <property name="resultSetColumn">end_date</property>
                         </data>
                     </cell>
-                    <cell id="59">
-                        <data id="161">
-                            <property name="marginTop">0pt</property>
-                            <property name="marginLeft">5pt</property>
+                    <cell id="231">
+                        <data id="278">
                             <property name="resultSetColumn">source</property>
                         </data>
                     </cell>
-                    <cell id="65">
-                        <data id="167">
-                            <property name="marginTop">0pt</property>
-                            <property name="marginLeft">5pt</property>
+                    <cell id="232">
+                        <data id="279">
                             <property name="resultSetColumn">statusName</property>
                         </data>
                     </cell>
-                    <cell id="146">
-                        <data id="166">
-                            <property name="marginTop">0pt</property>
-                            <property name="marginLeft">5pt</property>
+                    <cell id="233">
+                        <data id="280">
                             <property name="resultSetColumn">typeName</property>
                         </data>
                     </cell>
                 </row>
             </detail>
             <footer>
-                <row id="31">
+                <row id="234">
                     <property name="height">0.1in</property>
                     <property name="backgroundColor">#318AD9</property>
-                    <cell id="32"/>
-                    <cell id="33"/>
-                    <cell id="34"/>
-                    <cell id="55"/>
-                    <cell id="61"/>
-                    <cell id="67"/>
-                    <cell id="148"/>
+                    <cell id="235"/>
+                    <cell id="236"/>
+                    <cell id="237"/>
+                    <cell id="238"/>
+                    <cell id="239"/>
+                    <cell id="240"/>
+                    <cell id="241"/>
                 </row>
             </footer>
         </table>
