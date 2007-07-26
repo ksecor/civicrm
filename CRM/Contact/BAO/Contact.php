@@ -394,23 +394,23 @@ ORDER BY
                         $individualMiddleName = $individual->middle_name;
                     }
                     
-                    if (empty($lastName) && !empty($individualLastName)) {
+                    if (empty($lastName) && CRM_Utils_Array::value('last_name', $params) && !empty($individualLastName)) {
                         $lastName = $individualLastName;
                     } 
                     
-                    if (empty($firstName) && !empty($individualFirstName)) {
+                    if (empty($firstName) && CRM_Utils_Array::value('first_name', $params) && !empty($individualFirstName)) {
                         $firstName = $individualFirstName;
                     }
                                                             
-                    if (empty($prefix) && !empty($individualPrefix)) {
+                    if (empty($prefix) && CRM_Utils_Array::value('prefix_id', $params) && !empty($individualPrefix)) {
                         $prefix = $individualPrefix;
                     }
                     
-                    if (empty($middleName) && !empty($individualMiddleName)) {
+                    if (empty($middleName) && CRM_Utils_Array::value('middle_name', $params) && !empty($individualMiddleName)) {
                         $middleName = $individualMiddleName;
                     }
                     
-                    if (empty($suffix) && !empty($individualSuffix)) {
+                    if (empty($suffix) && CRM_Utils_Array::value('suffix_id', $params) && !empty($individualSuffix)) {
                         $suffix = $individualSuffix;
                     }
                     
@@ -573,7 +573,7 @@ ORDER BY
         }
 
         CRM_Core_DAO::transaction('BEGIN');
-
+        // CRM_CORE_ERROR::BACKTRACE();
         $contact = self::add($params, $ids);
 
         $params['contact_id'] = $contact->id;

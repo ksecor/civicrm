@@ -70,8 +70,9 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         }
 
         $individual =& new CRM_Contact_BAO_Individual();
-        $individual->id = CRM_Utils_Array::value( 'individual', $ids );
-        $individual->find(true);
+        if ( $individual->id = CRM_Utils_Array::value( 'individual', $ids ) ) {
+            $individual->find(true);
+        }
         $individual->copyValues($params);
         
         if ( $date = CRM_Utils_Array::value('birth_date', $params) ) {
