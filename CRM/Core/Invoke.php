@@ -100,9 +100,9 @@ class CRM_Core_Invoke
             self::dashboard($args);
             break;
             
-	    case 'logout':
-	        self::logout($args);
-	        break;
+	case 'logout':
+	    self::logout($args);
+	    break;
 	  
         case 'history'  : 
             self::history ( $args );
@@ -145,7 +145,7 @@ class CRM_Core_Invoke
             break;
 
         default         :
-	  if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
+	    if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
             }
             CRM_Utils_System::redirect( );
