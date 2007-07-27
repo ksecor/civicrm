@@ -922,10 +922,13 @@ class CRM_Contact_BAO_Query {
 
         case 'group':
 	    list( $name, $op, $value, $grouping, $wildcard ) = $values;
-	    $subgroup = $this->getWhereValues('subgroups', $grouping);
 	    $includeChildGroups = true;
-	    if ( $subgroup){
-	      $includeChildGroups = false;
+	    $subgroups_dummy = $this->getWhereValues('subgroups_dummy', $grouping);
+	    if ($subgroups_dummy){
+	      $subgroup = $this->getWhereValues('subgroups', $grouping);
+	      if ( !$subgroup){
+		$includeChildGroups = false;
+	      }
 	    }
 	    $this->group( $values , $includeChildGroups);
 	    return;
@@ -1756,7 +1759,6 @@ class CRM_Contact_BAO_Query {
         $statii    =  array(); 
         $in        =  false; 
         $gcsValues =& $this->getWhereValues( 'group_contact_status', $grouping );
-
         if ( $gcsValues &&
              is_array( $gcsValues[2] ) ) {
             foreach ( $gcsValues[2] as $k => $v ) {

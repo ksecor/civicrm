@@ -14,6 +14,7 @@
            {if $context EQ 'smog'}
                <td>  
                  {$form.subgroups.html}
+		 {$form.subgroups_dummy.html}
               </td>
            {/if}
     
@@ -29,8 +30,9 @@
                     {$form.group_contact_status.html}
                 {else}
                     {$form.group.html}
-                {$form.subgroups.html}
-               </td>
+                    {$form.subgroups.html}	
+                    {$form.subgroups_dummy.html}
+	       </td>
                 {/if}
             <td class="label">{$form.tag.label}</td><td>{$form.tag.html}</td>
         </tr>

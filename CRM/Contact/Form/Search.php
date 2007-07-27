@@ -361,7 +361,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
 	// add checkbox for searching subgroups
 	$subgroups = $this->addElement('checkbox',
-				       "subgroups",null, ts('Exclude Subgroups'));
+				       "subgroups",null, ts('Search Subgroups'));
+	$subgroups_dummy = $this->addElement('hidden', 'subgroups_dummy', '666');
 
         // add select for categories
         $tag = array('' => ts('- any tag -')) + $this->_tag;
