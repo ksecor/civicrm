@@ -265,8 +265,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             if (isset ( $ssMappingId ) ) {
                 $this->assign( 'ssMappingID', $ssMappingId );
             }
-	    $subgroups = $this->addElement('advcheckbox', "subgroups", null,
-					   ts('Search Subgroups'));
             $group_contact_status = array();
             foreach(CRM_Core_SelectValues::groupContactStatus() as $k => $v) {
                 if (! empty($k)) {
@@ -274,7 +272,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                         HTML_QuickForm::createElement('checkbox', $k, null, $v);
                 }
             }
-            $this->addGroup($group_contact_status,
+	    $this->addGroup($group_contact_status,
                             'group_contact_status', ts('Group Status'));
             $this->addGroupRule('group_contact_status', ts('Please select at least Group Status value.'), 'required', null, 1);
             // Set dynamic page title for 'Show Members of Group'
@@ -360,6 +358,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // add select for groups
         $group               = array('' => ts('- any group -')) + $this->_group;
         $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
+
+	// add checkbox for searching subgroups
+	$subgroups = $this->addElement('checkbox',
+				       "subgroups",null, ts('Exclude Subgroups'));
 
         // add select for categories
         $tag = array('' => ts('- any tag -')) + $this->_tag;
@@ -473,7 +475,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         if ( ! empty( $_POST ) && !$this->controller->isModal( ) ) {
 
             $this->_formValues = $this->controller->exportValues($this->_name); 
-            $this->normalizeFormValues( );
+            //print "Form values: ";
+	    //print_r($this->_formValues);
+	    $this->normalizeFormValues( );
             $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
             $this->_returnProperties =& $this->returnProperties( );
 
@@ -573,7 +577,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name);
             $this->normalizeFormValues( );
-
+	
             // also reset the sort by character
             $this->_sortByCharacter = null;
             $this->set( 'sortByCharacter', null );
@@ -590,7 +594,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                 $this->_params =& CRM_Contact_BAO_SavedSearch::getSearchParams( $this->_ssID );
             }
         }
-        
+	//            print_r($this->_formValues);
+	//  print "\n<br>";
         // we dont want to store the sortByCharacter in the formValue, it is more like 
         // a filter on the result set
         // this filter is reset if we click on the search button
@@ -680,9 +685,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $output = CRM_Core_Selector_Controller::SESSION;
 
             // create the selector, controller and run - store results in session
+	    //print_r($this->_formValues);
             $selector =& new CRM_Contact_Selector($this->_formValues, $this->_params,
                                                   $this->_returnProperties, $this->_action);
-
+	    //	    print_r ($this->_formValues);
             // added the sorting  character to the form array
             // lets recompute the aToZ bar without the sortByCharacter
             // we need this in most cases except when just pager or sort values change, which

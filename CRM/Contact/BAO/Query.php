@@ -913,7 +913,7 @@ class CRM_Contact_BAO_Query {
              ( substr( $values[0], 0, 4  ) == 'tmf_' )) {
             return;
         }
- 
+	
         switch ( $values[0] ) {
             
         case 'contact_type':
@@ -921,8 +921,14 @@ class CRM_Contact_BAO_Query {
             return;
 
         case 'group':
-            $this->group( $values );
-            return;
+	    list( $name, $op, $value, $grouping, $wildcard ) = $values;
+	    $subgroup = $this->getWhereValues('subgroups', $grouping);
+	    $includeChildGroups = true;
+	    if ( $subgroup){
+	      $includeChildGroups = false;
+	    }
+	    $this->group( $values , $includeChildGroups);
+	    return;
 
         case 'tag':
             $this->tag( $values );
@@ -1702,9 +1708,7 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    function group( &$values, $includeChildGroups = true ) {
-      if ($this->_paramLookup['subgroups'][0][0])
-	$includeChildGroups = true;
+    function group( &$values, $includeChildGroups = false ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         if ( count( $value ) > 1 ) {
@@ -1756,9 +1760,9 @@ class CRM_Contact_BAO_Query {
         if ( $gcsValues &&
              is_array( $gcsValues[2] ) ) {
             foreach ( $gcsValues[2] as $k => $v ) {
-                if ( $v ) {
+                  if ( $v ) {
                     if ( $k == 'Added' ) {
-                        $in = true;
+		      $in = true;
                     }
                     $statii[] = "'" . CRM_Utils_Type::escape($k, 'String') . "'";
                 }

@@ -145,7 +145,7 @@ class CRM_Core_Invoke
             break;
 
         default         :
-            if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
+	  if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
             }
             CRM_Utils_System::redirect( );

@@ -152,6 +152,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                          $action = CRM_Core_Action::NONE,
                          $includeContactIds = false ) 
     {
+      //            print "FormValues: \n<br>";
+      //print_r($formValues);
+      //print "\n<br>Params: \n<br>";
+      //print_r($params);
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact =& new CRM_Contact_BAO_Contact();
 
@@ -159,6 +163,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $this->_formValues       =& $formValues;
         $this->_params           =& $params;
         $this->_returnProperties =& $returnProperties;
+
 
         // type of selector
         $this->_action = $action;
@@ -267,7 +272,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 	    }
 	    $colHeads[] = array ('name' => ts($gtitle . " Groups"));
         }
-	$colHeads[] = array('desc' => ts('Actions'), 'name' => ts('Actions') );
+	$colHeads[] = array('desc' => ts('Actions'), 'name' => ts('Action') );
 	//}
 	return $colHeads;
            
