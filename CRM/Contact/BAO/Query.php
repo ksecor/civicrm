@@ -923,14 +923,14 @@ class CRM_Contact_BAO_Query {
         case 'group':
 	    list( $name, $op, $value, $grouping, $wildcard ) = $values;
 	    $includeChildGroups = true;
-	    $subgroups_dummy = $this->getWhereValues('subgroups_dummy', $grouping);
-	    if ($subgroups_dummy){
-	      $subgroup = $this->getWhereValues('subgroups', $grouping);
-	      if ( !$subgroup){
-		$includeChildGroups = false;
-	      }
+	    $subgroups_dummy = $this->getWhereValues( 'subgroups_dummy', $grouping );
+	    if ( $subgroups_dummy ) {
+	        $subgroup = $this->getWhereValues( 'subgroups', $grouping );
+	        if ( !$subgroup ){
+                    $includeChildGroups = false;
+		}
 	    }
-	    $this->group( $values , $includeChildGroups);
+	    $this->group( $values , $includeChildGroups );
 	    return;
 
         case 'tag':
