@@ -313,7 +313,7 @@ SELECT civicrm_state_province.name name, civicrm_state_province.id id
         $count = 0;
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->name, $dao->id );
+            $elements[] = array( ts($dao->name), $dao->id );
             $count++;
         }
 
@@ -360,7 +360,7 @@ ORDER BY name";
         $count = 0;
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->name, $dao->id );
+            $elements[] = array( ts($dao->name), $dao->id );
             $count++;
         }
 
