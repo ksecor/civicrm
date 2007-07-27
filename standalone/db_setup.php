@@ -53,10 +53,10 @@ $dbFilesToLoad[]    = 'sql/civicrm_41.mysql';
 $dbFilesToLoad[]    = 'sql/civicrm_generated.mysql';
 
 if ( $dbHost == 'localhost' ) {
-    $dbHost = "unix($dbSocketFile)";
+    $dbConfigHost = "unix($dbSocketFile)";
     $dbConnectHost = "localhost:$dbSocketFile";
 } else {
-    $dbConnectHost = $dbHost = "$dbHost:$dbPortNum";
+    $dbConnectHost = $dbConfigHost = "$dbHost:$dbPortNum";
 }
 
 $dbPass  = generatePassword( );
@@ -77,7 +77,7 @@ $params = array(
                 'frontEnd' => 0,
                 'dbUser' => 'civicrm',
                 'dbPass' => "$dbPass",
-                'dbHost' => "$dbHost",
+                'dbHost' => "$dbConfigHost",
                 'dbName' => "$dbName",
                 'mysqlPath' => "$mysqlPath",
                 );
@@ -111,7 +111,14 @@ $query = "GRANT ALL ON $dbName.* TO $dbUser@`$grantHost` IDENTIFIED BY '$dbPass'
 mysql_query( $query, $dbLink );
 
 foreach ( $dbFilesToLoad as $file ) {
-    $cmd = "$mysqlPath/mysql -u $dbAdminUser -p$dbAdminPass -D $dbName < $civicrm_root/$file";
+    $cmd = "$mysqlPath/mysql -h $dbHost -u $dbAdminUser ";
+    if ( $dbAdminPass != '' ) {
+        $cmd .= "-p$dbAdminPass ";
+    }
+    if ( $dbSocketFile != '' ) {
+        $cmd .= "-S $dbSocketFile ";
+    }
+    $cmd .= "-D $dbName < $civicrm_root/$file";
     exec( $cmd );
 }
 
