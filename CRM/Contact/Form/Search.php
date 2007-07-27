@@ -272,11 +272,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                         HTML_QuickForm::createElement('checkbox', $k, null, $v);
                 }
             }
-	    $this->addGroup($group_contact_status,
-                            'group_contact_status', ts('Group Status'));
-            $this->addGroupRule('group_contact_status', ts('Please select at least Group Status value.'), 'required', null, 1);
+	    $this->addGroup( $group_contact_status,
+                            'group_contact_status', ts( 'Group Status' ) );
+            $this->addGroupRule( 'group_contact_status', ts( 'Please select at least Group Status value.' ), 'required', null, 1 );
             // Set dynamic page title for 'Show Members of Group'
-            CRM_Utils_System::setTitle( ts('Group Members: %1', array(1 => $this->_group[$this->_groupID])) );
+            CRM_Utils_System::setTitle( ts( 'Group Members: %1', array( 1 => $this->_group[$this->_groupID] ) ) );
 
             // check if user has permission to edit members of this group
             require_once 'CRM/Contact/BAO/Group.php';
@@ -360,9 +360,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
 
 	// add checkbox for searching subgroups
-	$subgroups = $this->addElement('checkbox',
-				       "subgroups",null, ts('Search Subgroups'));
-	$subgroups_dummy = $this->addElement('hidden', 'subgroups_dummy', '666');
+	$subgroups = $this->addElement( 'checkbox',
+				       "subgroups", null, ts( 'Search Subgroups' ) );
+	$subgroups_dummy = $this->addElement( 'hidden', 'subgroups_dummy', '666' );
 
         // add select for categories
         $tag = array('' => ts('- any tag -')) + $this->_tag;
