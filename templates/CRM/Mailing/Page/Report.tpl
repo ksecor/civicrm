@@ -1,7 +1,7 @@
 {if $report.jobs.0.start_date}
 <fieldset>
 <legend>{ts}Delivery Summary{/ts}</legend>
-{if $report.jobs|@count > 1|true}
+{if $report.jobs|@count > 1}
   {strip}
   <table>
   <tr>
