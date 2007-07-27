@@ -129,7 +129,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      *
      */
 
-    static function getGroupContacts( $id ){
+    static function getGroupContacts( $id ) {
       require_once 'api/v2/Contact.php';
       $params = array( 'group' => array($id => 1),
 		       'return.contactId' => 1);
@@ -147,7 +147,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      */
     static function memberCount( $id, $status = 'Added', $countChildGroups = true ) {
         require_once 'CRM/Contact/DAO/GroupContact.php';
-	$groupContact =& new CRM_Contact_DAO_GroupContact( );
+	    $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupIds = array( $id );
         if ( $countChildGroups ) {
             require_once 'CRM/Contact/BAO/GroupNesting.php';
@@ -155,30 +155,30 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         }
         $count = 0;
 
-	$contacts = self::getGroupContacts($id);
+	    $contacts = self::getGroupContacts($id);
 
-	foreach ( $groupIds as $groupId ) {
+	    foreach ( $groupIds as $groupId ) {
 
-	  $groupContacts = self::getGroupContacts($groupId);
-	  foreach ($groupContacts as $gcontact){
-	    if ($groupId != $id) { 
-	      // Loop through main group's contacts
-	      // and subtract from the count for each contact which
-	      // matches one in the present group, if it is not the
-	      // main group
-	      foreach ($contacts as $contact){
-		if ($contact['contact_id'] == $gcontact['contact_id']){
-		  $count--;
-		}
-	      }
+	        $groupContacts = self::getGroupContacts($groupId);
+	        foreach ($groupContacts as $gcontact){
+	            if ($groupId != $id) { 
+	                // Loop through main group's contacts
+	                // and subtract from the count for each contact which
+	                // matches one in the present group, if it is not the
+	                // main group
+	                foreach ($contacts as $contact){
+		                if ($contact['contact_id'] == $gcontact['contact_id']){
+		                    $count--;
+		                }
+	                }
+	            }
+	        }
+	        $groupContact->group_id = $groupId;
+	        if ( isset( $status ) ) {
+	            $groupContact->status   = $status;
+	        }
+	        $count += $groupContact->count( );
 	    }
-	  }
-	  $groupContact->group_id = $groupId;
-	  if ( isset( $status ) ) {
-	    $groupContact->status   = $status;
-	  }
-	  $count += $groupContact->count( );
-	}
         return $count;
     }
 
