@@ -167,15 +167,22 @@ class CRM_Core_Error extends PEAR_ErrorStack {
             mysql_query( 'select 1' );
         } else if ( function_exists( 'mysqli_error' ) ) {
             $dao  =& new CRM_Core_DAO( );
-            $conn =  $dao->getDatabaseConnection( );
-            $link = $conn->connection;
 
-            if ( mysqli_error( $link ) ) {
-                $mysql_error = mysqli_error( $link ) . ', ' . mysqli_errno( $link );
-                $template->assign_by_ref( 'mysql_code', $mysql_error );
-                
-                // execute a dummy query to clear error stack
-                mysqli_query( $link, 'select 1' );
+            // we do it this way, since calling the function
+            // getDatabaseConnection could potentially result
+            // in an infinite loop
+            global $_DB_DATAOBJECT;
+            if ( isset( $_DB_DATAOBJECT['CONNECTIONS'][$dao->_database_dsn_md5] ) ) {
+                $conn = $_DB_DATAOBJECT['CONNECTIONS'][$dao->_database_dsn_md5];
+                $link = $conn->connection;
+
+                if ( mysqli_error( $link ) ) {
+                    $mysql_error = mysqli_error( $link ) . ', ' . mysqli_errno( $link );
+                    $template->assign_by_ref( 'mysql_code', $mysql_error );
+                    
+                    // execute a dummy query to clear error stack
+                    mysqli_query( $link, 'select 1' );
+                }
             }
         }
 

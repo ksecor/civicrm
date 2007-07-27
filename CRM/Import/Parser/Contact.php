@@ -468,13 +468,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $newContact = $error;
                 $relationship = true;
             }
-            if ($newContact && ! is_a($newContact, CRM_Core_Error)) {
-                $this->_newContacts[] = $newContact->id;
-            }
         } else {
             $newContact = crm_create_contact_formatted( $formatted, $onDuplicate, $doGeocodeAddress );
             $relationship = true;
-            $this->_newContacts[] = $newContact->id;
         }
        
         // $newContact is a crm_core_error object, due to some wierd behavior
@@ -483,6 +479,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         // crm_core_error object.
         if( $newContact && ! is_a($newContact, CRM_Core_Error) ) {
             $newContact = clone($newContact);
+            $this->_newContacts[] = $newContact->id;
         }
         
         if ( $relationship ) {
@@ -647,7 +644,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
         //dupe checking      
         if ( is_a( $newContact, CRM_Core_Error ) ) {
-             $code = $newContact->_errors[0]['code'];
+            $code = $newContact->_errors[0]['code'];
             if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
                 $urls = array( );
                 // need to fix at some stage and decide if the error will return an 
@@ -696,7 +693,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 return CRM_Import_Parser::ERROR;
             }
         }
-                  
+
         if ( $newContact && ! is_a( $newContact, 'CRM_Core_Error' ) ) {
             $this->_newContacts[] = $newContact->id;
         }
