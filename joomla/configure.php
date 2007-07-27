@@ -5,10 +5,11 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 }
 
-global $mosConfig_absolute_path;
 global $civicrmUpgrade;
+// ** SET civicrmUpgrade to true if you are doing an UPGRADE **
 $civicrmUpgrade = false;
 
+global $mosConfig_absolute_path;
 // $mosConfig_absolute_path = "/tmp/mos";
 
 require_once $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'configuration.php';
@@ -124,7 +125,6 @@ require_once '$configFile';
 }
 
 function civicrm_source( $fileName ) {
-
     global $crmPath, $dsn, $civicrmUpgrade;
 
     require_once 'DB.php';
