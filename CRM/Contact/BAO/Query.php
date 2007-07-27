@@ -334,9 +334,9 @@ class CRM_Contact_BAO_Query {
             $this->buildParamsLookup( );
         }
 
-        $this->selectClause( ); 
+        $this->selectClause( );
         $this->_whereClause      = $this->whereClause( );
-        $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode ); 
+        $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode );
         $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
     }
 
@@ -1054,7 +1054,7 @@ class CRM_Contact_BAO_Query {
             $this->_where[0][] = 'contact_a.domain_id = ' . $config->domainID( );
         }
 
-        $this->includeContactIds( );        
+        $this->includeContactIds( );       
         if ( ! empty( $this->_params ) ) {
             foreach ( array_keys( $this->_params ) as $id ) {
                 // check for both id and contact_id
@@ -1064,7 +1064,7 @@ class CRM_Contact_BAO_Query {
                     $this->whereClauseSingle( $this->_params[$id] );
                 }
             }
-
+            
             require_once 'CRM/Core/Component.php';
             CRM_Core_Component::alterQuery( $this, 'where' );
             
@@ -1132,7 +1132,7 @@ class CRM_Contact_BAO_Query {
         if ( isset( $locType[2] ) && $locType[2] ) {
             $locType[2] = addslashes( $locType[2] );
         }
-
+        
         $field = CRM_Utils_Array::value( $name, $this->_fields );
         if ( ! $field ) {
             $field = CRM_Utils_Array::value( $locType[0], $this->_fields );
@@ -1254,7 +1254,7 @@ class CRM_Contact_BAO_Query {
                     
                     //get the location name 
                     $locationType =& CRM_Core_PseudoConstant::locationType();
-                    if ( $locType[0] == 'email' || $locType[0] == 'im' || $locType[0] == 'phone' ) {
+                    if ( $locType[0] == 'email' || $locType[0] == 'im' || $locType[0] == 'phone' || $locType[0] == 'openid' ) {
                         if ($locType[2]) {
                             $tName = $locationType[$locType[1]] . "-" . $locType[0] . '-' . $locType[2];
                         } else {
@@ -1293,7 +1293,7 @@ class CRM_Contact_BAO_Query {
 
         if ( $setTables ) {
             list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
-            if ( isset( $tableName ) ) { 
+            if ( isset( $tableName ) ) {
                 $this->_tables[$tableName] = 1;  
                 $this->_whereTables[$tableName] = 1;  
             }
