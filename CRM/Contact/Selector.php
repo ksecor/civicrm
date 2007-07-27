@@ -267,7 +267,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 	    }
 	    $colHeads[] = array ('name' => ts($gtitle . " Groups"));
         }
-	$colHeads[] = array('desc' => ts('Actions') );
+	$colHeads[] = array('desc' => ts('Actions'), 'name' => ts('Actions') );
 	//}
 	return $colHeads;
            
