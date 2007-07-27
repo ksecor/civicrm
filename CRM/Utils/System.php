@@ -483,7 +483,6 @@ class CRM_Utils_System {
      * @static 
      */ 
     static function mapConfigToSSL( ) {
-      CRM_Core_Error::debug('p', 'mapConfig');
       /*   $config   =& CRM_Core_Config::singleton( ); 
         $config->userFrameworkResourceURL = str_replace( 'http://', 'https://', 
                                                          $config->userFrameworkResourceURL );
