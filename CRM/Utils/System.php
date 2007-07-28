@@ -78,6 +78,7 @@ class CRM_Utils_System {
                                                 'deletefile'         => 'DeleteFile',
                                                 'deletegroup'        => 'DeleteGroup', 
                                                 'donationpage'       => 'DonationPage',
+                                                'dedupefind'         => 'DedupeFind',
                                                 'emailhistory'       => 'EmailHistory',
                                                 'entitycategory'     => 'EntityCategory',
                                                 'entitytag'          => 'EntityTag',
