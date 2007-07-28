@@ -60,9 +60,15 @@ class CRM_Dedupe_Criterion
     /**
      * The supported tables.
      */
-    static $supportedTables = array('civicrm_address', 'civicrm_contact',
-        'civicrm_email', 'civicrm_household', 'civicrm_im', 'civicrm_individual',
-        'civicrm_note', 'civicrm_organization', 'civicrm_phone');
+    static $supportedTables = array( 'civicrm_address',
+                                     'civicrm_contact',
+                                     'civicrm_email',
+                                     'civicrm_household',
+                                     'civicrm_im',
+                                     'civicrm_individual',
+                                     'civicrm_note',
+                                     'civicrm_organization',
+                                     'civicrm_phone');
 
     /**
      * Construct the criterion based on a hash of criterion data.
@@ -82,6 +88,10 @@ class CRM_Dedupe_Criterion
     function getWeight()
     {
         return $this->_weight;
+    }
+
+    static function &getSupportedTables( ) {
+        return self::$supportedTables;
     }
 
     /**
