@@ -169,6 +169,7 @@ UPDATE civicrm_location
             foreach ( $ids['location'] as $lValues ) {
                 // check if location is empty
                 if ( isset( $lValues['id'] ) &&
+                     $lValues['id']          &&
                      self::isLocationEmpty( $lValues['id'] ) ) {
                     $locationDAO =& new CRM_Core_DAO_Location( );
                     $locationDAO->id = $lValues['id'];
@@ -243,6 +244,11 @@ UPDATE civicrm_location
      */
     static function isLocationEmpty( $lid )
     {
+        // if no valid lid, abort
+        if ( ! $lid ) {
+            CRM_Core_Error::fatal( ts( 'Please contact CiviCRM support for help' ) );
+        }
+
         // get the location values
         $location =& new CRM_Core_BAO_Location( );
         $location->id = $lid;
