@@ -596,6 +596,10 @@ class CRM_Core_Config
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
             $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
+	    if ( isset( $_SERVER['HTTPS'] ) ) {
+	      $this->userFrameworkBaseURL     = str_replace( 'http://', 'https://', 
+							       $this->userFrameworkBaseURL );
+	    }
         }
         
         if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
@@ -1038,7 +1042,7 @@ class CRM_Core_Config
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::addConfig( $this );   
         
-        //CRM_Core_Error::debug('this', $this );
+	// CRM_Core_Error::debug('this', $this );
     }
 
     function addressSequence( ) {
