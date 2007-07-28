@@ -484,6 +484,8 @@ class CRM_Utils_System {
      */ 
     static function mapConfigToSSL( ) {
         $config   =& CRM_Core_Config::singleton( ); 
+        $config->userFrameworkBaseURL     = str_replace( 'http://', 'https://', 
+                                                         $config->userFrameworkBaseURL );
         $config->userFrameworkResourceURL = str_replace( 'http://', 'https://', 
                                                          $config->userFrameworkResourceURL );
         $config->resourceBase = $config->userFrameworkResourceURL;
