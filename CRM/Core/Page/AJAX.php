@@ -297,6 +297,29 @@ LIMIT 6";
             $includeState = CRM_Utils_Type::escape( $_GET['sc'], 'String');
         }
 
+        //temporary fix to handle locales other than default US,
+        //trying to emulate anti ts() function, will make it cleaner
+        //in v2.0
+        if ( $config->lcMessages != 'en_US') {
+            //get all the countries
+            $query = "
+SELECT id, name
+  FROM civicrm_country
+ORDER BY name";
+
+            $nullArray = array( );
+            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            
+            $countries = array( );
+            while ( $dao->fetch( ) ) {
+                $countries[$dao->name] = ts($dao->name);
+            }
+
+            // get the country name in en_US, since db has this locale
+            $countryName = array_search( $countryName, $countries );
+        }
+
+
         $query = "
 SELECT civicrm_state_province.name name, civicrm_state_province.id id
   FROM civicrm_state_province, civicrm_country
@@ -315,7 +338,7 @@ SELECT civicrm_state_province.name name, civicrm_state_province.id id
         $count = 0;
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->name, $dao->id );
+            $elements[] = array( ts($dao->name), $dao->id );
             $count++;
         }
 
@@ -362,7 +385,7 @@ ORDER BY name";
         $count = 0;
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->name, $dao->id );
+            $elements[] = array( ts($dao->name), $dao->id );
             $count++;
         }
 

@@ -88,6 +88,7 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
             'individual_prefix.label'     => 'civicrm_individual.prefix_id',
             'individual_suffix.label'     => 'civicrm_individual.suffix_id',
         );
+        $supportedTables =& CRM_Dedupe_Criterion::getSupportedTables( );
         foreach ($importableFields as $iField) {
             if (isset($iField['where'])) {
                 $where = $iField['where'];
@@ -95,7 +96,7 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
                     $where = $replacements[$where];
                 }
                 $table = array_shift(explode('.', $where));
-                if (in_array($table, CRM_Dedupe_Criterion::$supportedTables)) {
+                if (in_array($table, $supportedTables)) {
                     $this->_fields[$where] = $iField['title'];
                 }
             }
