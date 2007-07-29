@@ -132,9 +132,9 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
     }
 
     static function formRule( &$fields ) {
-        $p = empty( $fields['address_standardization_provider'] );
-        $u = empty( $fields['address_standardization_userid'  ] );
-        $w = empty( $fields['address_standardization_url'     ] );
+        $p = $fields['address_standardization_provider'] ;
+        $u = $fields['address_standardization_userid'  ] ;
+        $w = $fields['address_standardization_url'     ] ;
 
         // make sure that there is a value for all of them
         // if any of them are set

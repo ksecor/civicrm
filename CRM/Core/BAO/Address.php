@@ -146,13 +146,27 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             $params['country_id'] = $stateProvinceDAO->country_id;
         }
 
+        //special check to ignore non numeric values if they are not
+        //detected by formRule(sometimes happens due to internet latency), also allow user to unselect state/country
+        if ( isset( $params['state_province_id'] ) && ! trim( $params['state_province_id'] ) ) {
+            $params['state_province_id'] = 'null'; 
+        } else if ( !is_numeric( $params['state_province_id'] ) ) {
+            $params['state_province_id'] = null; 
+        }
+
+        if ( isset( $params['country_id'] ) && ! trim( $params['country_id'] ) ) {
+            $params['country_id'] = 'null'; 
+        } else if ( !is_numeric( $params['country_id'] ) ) {
+            $params['country_id'] = null; 
+        }
+
         // add state and country names from the ids
         if ( isset( $params['state_province_id'] ) && is_numeric( $params['state_province_id'] ) ) {
             $params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $params['state_province_id'] );
         }
-        
+
         if ( isset( $params['country_id'] ) && is_numeric( $params['country_id'] ) ) {
-             $params['country'] = CRM_Core_PseudoConstant::country($params['country_id']);
+            $params['country'] = CRM_Core_PseudoConstant::country($params['country_id']);
         }
         
         $config =& CRM_Core_Config::singleton( );

@@ -20,9 +20,12 @@ function checkParamChildren(value) {
     //check if state exist for country
     var stateExist = false;
     
+    //translate select
+    var sel = {/literal}"{ts} - type first letter(s) - {/ts}"{literal};
+
     //clear state combo
     dojo.widget.byId('location_' + lno + '_address_state_province_id').selectedResult = '';
-    dojo.widget.byId('location_' + lno + '_address_state_province_id').setAllValues('- select -','');
+    dojo.widget.byId('location_' + lno + '_address_state_province_id').setAllValues( sel,'' );
 
     var bindArgs = {
         url: res,

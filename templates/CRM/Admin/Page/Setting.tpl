@@ -20,7 +20,7 @@
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/url' q='reset=1'}" id="idUrls">&raquo; {ts}Resource URLs{/ts}</a></td>
-    <td>{ts}URLs used to access CiviCRM resources (CSS files, Javascript files, images, etc.).{/ts}</td>
+    <td>{ts}URLs used to access CiviCRM resources (CSS files, Javascript files, images, etc.). Enable secure URLs.{/ts}</td>
 </tr>
 
 <tr>
