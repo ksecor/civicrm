@@ -176,7 +176,7 @@ class CRM_Contact_Form_Address
                 if ( $stateProvinceExists ) {
                     $stateProvinceId = CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] );
                 } else {
-                    $errors["location[$i][address][state_province_id]"] = "Enter the valid State/Province name.";
+                    $errors["location[$i][address][state_province_id]"] = "Please select a valid State/Province name.";
                 }
             }
 
