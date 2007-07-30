@@ -579,7 +579,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $params["honor_contact_id"] = $honorId;
             }
         } else {
-            $params["honor_contact_id"] = null;
+            $params["honor_contact_id"] = 'null';
         }
 
         // format custom data
