@@ -185,10 +185,10 @@ dojo.html.addClass(this.closeButtonNode,"closeHover");
 dojo.html.removeClass(this.closeButtonNode,"closeHover");
 },onCloseButtonClick:function(evt){
 },setSelected:function(){
-dojo.html.addClass(this.domNode,"current");
+dojo.html.addClass(this.domNode,"currentTab");
 this.titleNode.setAttribute("tabIndex","0");
 },clearSelected:function(){
-dojo.html.removeClass(this.domNode,"current");
+dojo.html.removeClass(this.domNode,"currentTab");
 this.titleNode.setAttribute("tabIndex","-1");
 },focus:function(){
 if(this.titleNode.focus){
