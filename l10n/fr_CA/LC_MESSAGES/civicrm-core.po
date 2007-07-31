@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-06-26 14:54-0700\n"
+"PO-Revision-Date: 2007-07-24 14:30-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.1\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -1380,7 +1380,7 @@ msgstr "Historique des importations"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
-msgstr "Recherches personalisées"
+msgstr "Recherches personnalisées"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
@@ -1682,7 +1682,7 @@ msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
 msgid "All"
-msgstr "Toutes"
+msgstr "Tous"
 
 #: CRM/ACL/DAO/ACL.php
 #, fuzzy
@@ -1963,9 +1963,8 @@ msgid "Individual Name Format"
 msgstr "Format du nom de l'individu"
 
 #: CRM/Admin/Form/Setting/Address.php
-#, fuzzy
 msgid "Mailing Label Format"
-msgstr "Format de courriel"
+msgstr "Format des étiquettes"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Settings - Enable Components"
@@ -3215,9 +3214,8 @@ msgid "Tag Contacts"
 msgstr ""
 
 #: CRM/Contact/Form/Task/BatchUpdateProfile.php
-#, fuzzy
 msgid "Batch Update"
-msgstr "Mettre à jour"
+msgstr "Mettre à jour en lot"
 
 #: CRM/Contact/Form/Task/BatchUpdateProfile.php
 #, fuzzy
@@ -3225,9 +3223,8 @@ msgid "Update Contact(s)"
 msgstr "Repérer les contacts (carte)"
 
 #: CRM/Contact/Form/Task/BatchUpdateProfile.php
-#, fuzzy
 msgid "Update Contacts"
-msgstr "Repérer les contacts (carte)"
+msgstr "Mise à jour des contacts"
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Deleted Contact(s): %1"
@@ -3347,9 +3344,8 @@ msgid "- select label -"
 msgstr "- choisir -"
 
 #: CRM/Contact/Form/Task/Label.php
-#, fuzzy
 msgid "Select Location"
-msgstr "Supprimer l'option de sexe"
+msgstr "Lieu"
 
 #: CRM/Contact/Form/Task/Map.php
 #, fuzzy
@@ -3376,9 +3372,8 @@ msgid "Batch Profile Update"
 msgstr "Chercher un profil"
 
 #: CRM/Contact/Form/Task/PickProfile.php
-#, fuzzy
 msgid "- select profile -"
-msgstr "- choisir un service -"
+msgstr "- choisir un profil -"
 
 #: CRM/Contact/Form/Task/PickProfile.php
 #, fuzzy
@@ -3651,7 +3646,7 @@ msgstr "Étiquettes pour la poste"
 
 #: CRM/Contact/Task.php templates/CRM/Contact/Form/Task/PickProfile.tpl
 msgid "Batch Update via Profile"
-msgstr ""
+msgstr "Mise à jour en lot via un profil"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Alphanumeric"
@@ -7985,6 +7980,12 @@ msgid ""
 "value for ALL rows, enter that value for the first contact and then click "
 "the <strong>Copy icon</strong> (next to the column title)."
 msgstr ""
+"Vous pouvez faire la mise à jour des valeurs pour chaque contact selon vos "
+"besoins. Cliquer sur le bouton <strong>Mise à jour des contacts</strong> "
+"lorsque terminé pour sauvegarder vos changements. Pour assigner la même "
+"valeur à un champ sur TOUTES les lignes, entrer cette valeur dans le premier "
+"contact, puis cliquer sur l'icône <strong>Copier</strong> (situé devant le "
+"titre de chaque colonne)."
 
 #: templates/CRM/Contact/Form/Task/BatchUpdateProfile.tpl
 msgid "Click to copy %1 from row one to all rows."
@@ -7993,6 +7994,8 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/BatchUpdateProfile.tpl
 msgid "Click here to copy the value in row one to ALL rows."
 msgstr ""
+"Cliquer ici pour copier la valeur de la première ligne dans TOUTES les "
+"lignes."
 
 #: templates/CRM/Contact/Form/Task/Delete.tpl
 msgid ""
@@ -8125,7 +8128,7 @@ msgstr "Étiqueter les contacts"
 
 #: templates/CRM/Contact/Form/Task.tpl
 msgid "Number of selected contacts: %1"
-msgstr ""
+msgstr "Nombre de contacts sélectionnés: %1"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Saved Search"
