@@ -192,6 +192,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                     $options[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
                 }
                 $this->addGroup($options, $name, $field['title'], '<br/>' );
+            } else if ( substr($field['name'], 0, 2) === 'im' ) {
+                $this->add('select',  $name . '-provider_id', 'IM Provider', 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::IMProvider(), $required);
+                $this->add('text', $name, $field['title'], $field['attributes'], $required );
             } else if ($field['name'] === 'preferred_mail_format') {
                 $this->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
             } else if ( substr($field['name'], 0, 7) === 'do_not_' ) {  

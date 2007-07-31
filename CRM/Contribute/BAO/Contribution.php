@@ -499,16 +499,10 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
         // then delete the contribution(s).
         
         // 1.
-        $contribution =& new CRM_Contribute_DAO_Contribution( );
-        $contribution->honor_contact_id = $contactId;
-        $contribution->find( );
-        while( $contribution->fetch( ) ) {
-            $values = array( );
-            $contribution->storeValues( $contribution, $values );
-            $values['honor_contact_id'] = '';
-            $contribution->copyValues( $values );
-            $contribution->save( );
-        }
+        $query = "UPDATE civicrm_contribution 
+SET honor_contact_id = null
+WHERE  honor_contact_id = {$contactId}";
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         // 2.
         $contribution =& new CRM_Contribute_DAO_Contribution( );

@@ -6,45 +6,45 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2006-10-11 11:02-0700\n"
-"Last-Translator: Erik De Zeeuw <civicrm@syllance.fr>\n"
+"PO-Revision-Date: 2007-07-26 15:59-0700\n"
+"Last-Translator: Matthieu Martin <matthieu.martin@nootix.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.1\n"
 
 msgid "add contacts"
-msgstr "Ajouter un contact"
+msgstr "ajouter contacts"
 
 msgid "view all contacts"
-msgstr "Voir tous les contacts"
+msgstr "voir tous les contacts"
 
 msgid "edit all contacts"
-msgstr "Editer les groupes"
+msgstr "éditer tous les contacts"
 
-#, fuzzy
 msgid "import contacts"
-msgstr "Editer les groupes"
+msgstr "importer des contacts"
 
 msgid "edit groups"
-msgstr "Editer les groupes"
+msgstr "éditer les groupes"
 
 msgid "administer CiviCRM"
-msgstr "Administrer CiviCRM"
+msgstr "administrer CiviCRM"
 
 msgid "access uploaded files"
-msgstr ""
+msgstr "accès aux fichiers transférés vers le serveur"
 
 msgid "profile listings and forms"
-msgstr ""
+msgstr "profile des listings et des formulaires"
 
 msgid "access all custom data"
-msgstr ""
+msgstr "accès à toute les données personnalisées"
 
 msgid "access CiviCRM"
-msgstr "Editer contact %1"
+msgstr "accéder à CiviCRM"
 
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "accéder au Dashboard Contact"
 
 #: drupal/civicrm.module
 msgid ""
@@ -87,13 +87,12 @@ msgid "read the <a href=\"!1\">CiviCRM Administrator Guide</a>."
 msgstr "lire <a href=\"%1\">le guide d'administration de CiviCRM</a>"
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "enable CiviCRM blocks at <a href=\"!1\">Administer &raquo; Site Building "
 "&raquo; Blocks</a>."
 msgstr ""
-"activer les blocs CiviCRM sur la page <a href=\"%1\">administrer &gt;&gt; "
-"blocs</a>"
+"activer les blocs CiviCRM sur <a href=\"!1\">Administration &raquo; "
+"Constructeur de Site &raquo; Blocs</a>."
 
 #: drupal/civicrm.module
 #, fuzzy

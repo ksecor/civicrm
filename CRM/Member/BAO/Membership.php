@@ -1248,23 +1248,19 @@ civicrm_membership_status.is_current_member =1";
      * @access public
      * @static
      */
-    static function getContributionPageId( $membershipId )
+    static function getContributionPageId( $membershipID )
     {
         $query = "
-SELECT c.contribution_page_id pageId
-FROM civicrm_membership_payment mp, civicrm_contribution c
-WHERE mp.payment_entity_table ='civicrm_contribute'
-  AND mp.payment_entity_id = c.id
-  AND mp.membership_id = " . CRM_Utils_Type::escape( $membershipId, 'Integer' ) ;
-
-        $contributionPageID = null;
+SELECT c.contribution_page_id as pageID
+  FROM civicrm_membership_payment mp, civicrm_contribution c
+ WHERE mp.payment_entity_table ='civicrm_contribute'
+   AND mp.payment_entity_id = c.id
+   AND mp.membership_id = " . CRM_Utils_Type::escape( $membershipID, 'Integer' ) ;
 
         $dao =& new CRM_Core_DAO( );
-        $dao->query( $query );
-        while ( $dao->fetch( ) ) {
-            $contributionPageID = $dao->pageId;
-        }
-        
+        $dao->query( $query );        
+
+        $contributionPageID =  $dao->find( true ) ? $dao->pageID : null;
         return $contributionPageID;
     }
 

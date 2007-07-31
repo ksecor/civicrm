@@ -395,7 +395,7 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
                 'reply'     => $this->_is_distinct 
                             ? ts('Unique Replies') 
                             : ts('Replies'),
-                'unsubscribe' => ts('Unsubscriptions'),
+                'unsubscribe' => ts('Unsubscribe Requests'),
                 'click'     => $this->_is_distinct 
                             ? ts('Unique Click-throughs') 
                             : ts('Click-throughs'),

@@ -552,7 +552,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $formValues[$d]['s'] = '00';
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
             } else{
-                $params[$d] = null;
+                $params[$d] = 'null';
             }
         }
         if ( $formValues['is_email_receipt'] ) {
@@ -579,7 +579,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $params["honor_contact_id"] = $honorId;
             }
         } else {
-            $params["honor_contact_id"] = null;
+            $params["honor_contact_id"] = 'null';
         }
 
         // format custom data
