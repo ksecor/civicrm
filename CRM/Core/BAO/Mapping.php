@@ -657,6 +657,16 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             }
         }
         
+        //add sortByCharacter values        
+        if ( isset($params['sortByCharacter']) ) {
+            $fields[] = array( 'sortByCharacter',
+                               '=',
+                               $params['sortByCharacter'],
+                               0,
+                               0 );
+        }
+
+
         return $fields;
     }
 

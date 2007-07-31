@@ -12,7 +12,7 @@
     <th>{ts}Queued{/ts}</th>
     <th>{ts}Delivered{/ts}</th>
     <th>{ts}Bounces{/ts}</th>
-    <th>{ts}Unsubscriptions{/ts}</th>
+    <th>{ts}Unsubscribe Requests{/ts}</th>
     <th>{ts}Forwards{/ts}</th>
     <th>{ts}Replies{/ts}</th>
     {if $report.mailing.open_tracking}
@@ -79,7 +79,7 @@
   <tr><td class="label"><a href="{$report.event_totals.links.forward}">{ts}Forwards{/ts}</a></td><td>{$report.jobs.0.forward}</td></tr>
   <tr><td class="label"><a href="{$report.event_totals.links.reply}">{ts}Replies{/ts}</a></td><td>{$report.jobs.0.reply}</td></tr>
   <tr><td class="label"><a href="{$report.event_totals.links.bounce}">{ts}Bounces{/ts}</a></td><td>{$report.jobs.0.bounce} ({$report.jobs.0.bounce_rate|string_format:"%0.2f"}%)</td></tr>
-  <tr><td class="label"><a href="{$report.event_totals.links.unsubscribe}">{ts}Unsubscriptions{/ts}</a></td><td>{$report.jobs.0.unsubscribe} ({$report.jobs.0.unsubscribe_rate|string_format:"%0.2f"}%)</td></tr>
+  <tr><td class="label"><a href="{$report.event_totals.links.unsubscribe}">{ts}Unsubscribe Requests{/ts}</a></td><td>{$report.jobs.0.unsubscribe} ({$report.jobs.0.unsubscribe_rate|string_format:"%0.2f"}%)</td></tr>
   <tr><td class="label">{ts}Scheduled Date{/ts}</td><td>{$report.jobs.0.scheduled_date}</td></tr>
   <tr><td class="label">{ts}Status{/ts}</td><td>{$report.jobs.0.status}</td></tr>
   <tr><td class="label">{ts}Start Date{/ts}</td><td>{$report.jobs.0.start_date}</td></tr>

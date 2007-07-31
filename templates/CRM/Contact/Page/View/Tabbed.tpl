@@ -125,7 +125,7 @@
     <label>{ts}Method:{/ts}</label> {$preferred_communication_method_display}
   </div>
   <div class="col2">
-    <label>{ts}Mail Format Preference:{/ts}</label> {$preferred_mail_format_display}
+    <label>{ts}Email Format Preference:{/ts}</label> {$preferred_mail_format_display}
   </div>
   <div class="spacer"></div>
  </fieldset>

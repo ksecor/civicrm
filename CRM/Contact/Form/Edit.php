@@ -734,7 +734,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
         $form->addGroup($commPreff, 'preferred_communication_method', ts('Method'));
 
-        $form->add('select', 'preferred_mail_format', ts('Mail Format'), CRM_Core_SelectValues::pmf());
+        $form->add('select', 'preferred_mail_format', ts('Email Format'), CRM_Core_SelectValues::pmf());
 
         $form->add('checkbox', 'is_opt_out', ts( 'User Opt Out' ) );
     }
