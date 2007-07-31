@@ -479,7 +479,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         // crm_core_error object.
         if( $newContact && ! is_a($newContact, CRM_Core_Error) ) {
             $newContact = clone($newContact);
-            $this->_newContacts[] = $newContact->id;
         }
         
         if ( $relationship ) {
