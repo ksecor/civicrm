@@ -140,6 +140,7 @@ function _crm_check_params( &$params, $contact_type = 'Individual', $dupeCheck =
                              'Individual'   => array(
                                                    array( 'first_name', 'last_name' ),
                                                    'email',
+                                                   'user_unique_id'
                                                    ),
                              'Household'    => array(
                                                      'household_name',

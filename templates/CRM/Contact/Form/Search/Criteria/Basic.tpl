@@ -14,11 +14,13 @@
                 {$form.uf_group_id.label} {$form.uf_group_id.html}
                 <br /><br />
                 <div class="form-item">
-                    {$form.uf_user.label} {$form.uf_user.html}
+                    {if $form.uf_user}{$form.uf_user.label} {$form.uf_user.html}
                     &nbsp; <a href="#" title="unselect" onclick="unselectRadio('uf_user', 'Advanced'); return false;" >unselect</a>
+
                     <div class="description font-italic">
                         {ts 1=$config->userFramework}Does the contact have a %1 Account?{/ts}
                     </div>
+{/if}
                 </div>
             </td>
             <td class="label">{$form.buttons.html}</td>       

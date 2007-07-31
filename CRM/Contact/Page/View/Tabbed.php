@@ -141,7 +141,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
         
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
-        $this->assign( $defaults );
+     
+	    $this->assign( $defaults );
         $this->setShowHide( $defaults );        
         
         // also assign the last modifed details
@@ -226,7 +227,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                 continue;
             }
             if ( $k == 'activity' ) {
-                $history = array_key_exists( 'history', $_GET ) ? $_GET['history'] : 0;
+	      $history = array_key_exists( 'history', $_GET ) ? $_GET['history'] : 0;
                 $allTabs[] = array( 'id'     => $k,
                                     'url'    => CRM_Utils_System::url( "civicrm/contact/view/$k",
                                                                       "reset=1&show=1&snippet=1&history={$history}&cid={$this->_contactId}" ),

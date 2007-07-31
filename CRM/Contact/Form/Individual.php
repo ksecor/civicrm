@@ -199,18 +199,20 @@ showHideSharedOptions();
      * @static
      */
     static function formRule( &$fields, &$files, $options ) {
-        $errors = array( );
+      $errors = array( );
 
-        $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
+        $primaryOpenId = CRM_Contact_Form_Edit::formRule( $fields, $errors );
+        //print "Primary OpenID: $primaryOpenId<br/>";
         
         // check for state/country mapping
         CRM_Contact_Form_Address::formRule($fields, $errors);
 
-        // make sure that firstName and lastName or a primary email is set
+        // make sure that firstName and lastName or a primary OpenID is set
         if (! ( (CRM_Utils_Array::value( 'first_name', $fields ) && 
                  CRM_Utils_Array::value( 'last_name' , $fields )    ) ||
-                ! empty( $primaryEmail ) ) ) {
-            $errors['_qf_default'] = ts('First Name and Last Name OR an email in the Primary Location should be set.');
+                ! empty( $primaryOpenId ) ) ) {
+	 
+            $errors['_qf_default'] = ts('First Name and Last Name OR an OpenID in the Primary Location should be set.');
         }
 
         // if this is a forced save, ignore find duplicate rule

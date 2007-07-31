@@ -35,6 +35,7 @@
 
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/BAO/CustomGroup.php';
+require_once 'CRM/Contact/BAO/GroupNesting.php';
 /**
  * This class is to build the form for adding Group
  */
@@ -60,6 +61,13 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @var array
      */
     protected $_groupTree;
+    
+    /**
+     * what blocks should we show and hide.
+     *
+     * @var CRM_Core_ShowHideBlocks
+     */
+    protected $_showHide;
 
     /**
      * set up variables to build the form
@@ -159,6 +167,38 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 $buttonType = 'next';
             }
             
+            $childGroups = array( );
+            if ( isset( $this->_id ) ) {
+                $childGroupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $this->_id, false );
+                foreach ( $childGroupIds as $childGroupId ) {
+                    $childGroupInfo = array( );
+                    $params = array( 'id' => $childGroupId );
+                    CRM_Contact_BAO_Group::retrieve( $params, $childGroupInfo );
+                    $childGroups[$childGroupId] = $childGroupInfo['title'];
+                    $this->addElement( 'checkbox', "remove_child_group_$childGroupId", $childGroupInfo['title'] );
+                }
+            }
+            
+            /* print "<pre>";
+            print_r($childGroups);
+            print "</pre>"; */
+            
+            $this->assign_by_ref( 'child_groups', $childGroups );
+            
+            $childGroupSelectValues = array( '' => '' );
+            if ( isset( $this->_id ) ) {
+                $potentialChildGroupIds = CRM_Contact_BAO_GroupNesting::getPotentialChildGroupIds( $this->_id );
+                foreach ( $potentialChildGroupIds as $potentialChildGroupId ) {
+                    $potentialChildGroupInfo = array( );
+                    $params = array( 'id' => $potentialChildGroupId );
+                    CRM_Contact_BAO_Group::retrieve( $params, $potentialChildGroupInfo );
+                    $childGroupSelectValues[$potentialChildGroupId] = $potentialChildGroupInfo['title'];
+                }
+            }
+            
+            if ( count( $childGroupSelectValues ) > 1 ) {
+                $this->add( 'select', 'add_child_group', ts('Add Child Group'), $childGroupSelectValues );
+            }
             
             $this->addButtons( array(
                                      array ( 'type'      => $buttonType,
@@ -239,6 +279,23 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             require_once 'CRM/Contact/BAO/Group.php';
             $group =& CRM_Contact_BAO_Group::create( $params );
             
+            /*
+             * Remove any child groups requested to be removed
+             */
+            $childGroupIds = CRM_Contact_BAO_GroupNesting::getChildGroupIds( $group->id );
+            foreach ( $childGroupIds as $childGroupId ) {
+                if ( isset( $params["remove_child_group_$childGroupId"] ) ) {
+                    CRM_Contact_BAO_GroupNesting::removeChildGroup( $group->id, $childGroupId );
+                }
+            }
+            
+            /*
+             * Add child group, if that was requested
+             */
+            if ( ! empty( $params['add_child_group'] ) ) {
+                CRM_Contact_BAO_GroupNesting::addChildGroup( $group->id, $params['add_child_group']);
+            }
+            
             CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        
             
             /*
@@ -252,6 +309,59 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 $session->pushUserContext( CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' . $group->id ) );
             }
         }
+    }
+    
+    /**
+     * Fix what blocks to show/hide based on the default values set
+     *
+     * @param array   $defaults the array of default values
+     * @param boolean $force    should we set show hide based on input defaults
+     *
+     * @return void
+     */
+    function setShowHide( &$groupsWithChildren, $force ) 
+    {
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+ 
+        $this->_showHide->addShow( 'id_child_groups_show' );
+        $this->_showHide->addHide( 'id_child_groups' );
+
+        if ( $this->_showTagsAndGroups ) {
+            //add group and tags
+            $contactGroup = $contactTag = array( );
+            if ($this->_contactId) {
+                $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $this->_contactId, 'Added' );
+                $contactTag   =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
+            }
+            
+            if ( empty($contactGroup) || empty($contactTag) ) {
+                $this->_showHide->addShow( 'group_show' );
+                $this->_showHide->addHide( 'group' );
+            } else {
+                $this->_showHide->addShow( 'group' );
+                $this->_showHide->addHide( 'group_show' );
+            }
+        }
+
+        // is there any demographic data?
+        if ( $this->_showDemographics ) {
+            if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
+                 CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
+                 CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
+                $this->_showHide->addShow( 'id_demographics' );
+                $this->_showHide->addHide( 'id_demographics_show' );
+            }
+        }
+
+        if ( $force ) {
+            $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
+            $config =& CRM_Core_Config::singleton( );
+            CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
+                                                       $locationDefaults,
+                                                       $this->_maxLocationBlocks );
+        }
+        
+        $this->_showHide->addToTemplate( );
     }
 
 }

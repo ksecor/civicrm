@@ -237,6 +237,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // this is update mode
             // get values from contact table
             
+ 
+
             $this->set( 'ids', $ids );
             
             $locationExists = array();
@@ -554,6 +556,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
      */
     public function postProcess() 
     {
+        //print "called postProcess()<br/>";
+        
         // check if dedupe button, if so return.
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_dedupeButtonName ) {
@@ -643,6 +647,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
+        //print "about to call CRM_Contact_BAO_Contact::create<br/>";
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $this->_maxLocationBlocks, true, false );
 
         // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
@@ -752,7 +757,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
      */
     static function formRule(&$fields, &$errors)
     {
-        $primaryEmail = null;
+        $primaryOpenId = null;
 
         // make sure that at least one field is marked is_primary
         if ( array_key_exists( 'location', $fields ) && is_array( $fields['location'] ) ) {
@@ -769,13 +774,13 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                         $isPrimary = true;
                     }
 
-                    // only harvest email from the primary locations
-                    if ( array_key_exists( 'email', $fields['location'][$locationId] ) &&
-                         is_array( $fields['location'][$locationId]['email'] )         &&
-                         empty( $primaryEmail ) ) {
-                        foreach ( $fields['location'][$locationId]['email'] as $idx => $email ) {
-                            if ( array_key_exists( 'email', $email ) ) {
-                                $primaryEmail = $email['email'];
+                    // only harvest OpenID from the primary locations
+                    if ( array_key_exists( 'openid', $fields['location'][$locationId] ) &&
+                         is_array( $fields['location'][$locationId]['openid'] )         &&
+                         empty( $primaryOpenId ) ) {
+                        foreach ( $fields['location'][$locationId]['openid'] as $idx => $openId ) {
+                            if ( array_key_exists( 'openid', $openId ) ) {
+                                $primaryOpenId = $openId['openid'];
                                 break;
                             }
                         }
@@ -789,6 +794,9 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 }
                 require_once 'CRM/Core/BAO/Location.php';
                 //  for checking duplicate location type.
+                //print "\$ids:";
+                //print_r($ids);
+                //print "<br/>";
                 if (CRM_Core_BAO_Location::dataExists( $fields, $locationId, $ids )) {
                     if ($locTypeId == $fields['location'][$locationId]['location_type_id']) {
                         $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type');
@@ -801,7 +809,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 $errors["location[1][is_primary]"] = ts('One location should be marked as primary.');
             }
         }
-        return $primaryEmail;
+        return $primaryOpenId;
     }
 
     /**

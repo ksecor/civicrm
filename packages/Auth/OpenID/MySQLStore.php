@@ -37,13 +37,14 @@ class Auth_OpenID_MySQLStore extends Auth_OpenID_SQLStore {
             "value BLOB) TYPE=InnoDB";
 
         $this->sql['create_auth'] =
-            "INSERT INTO %s VALUES ('auth_key', !)";
+            "INSERT INTO %s (setting, value) VALUES ('auth_key', !)";
 
         $this->sql['get_auth'] =
             "SELECT value FROM %s WHERE setting = 'auth_key'";
 
         $this->sql['set_assoc'] =
-            "REPLACE INTO %s VALUES (?, ?, !, ?, ?, ?)";
+            "REPLACE INTO %s (server_url, handle, secret, issued, ".
+            "lifetime, assoc_type) VALUES (?, ?, !, ?, ?, ?)";
 
         $this->sql['get_assocs'] =
             "SELECT handle, secret, issued, lifetime, assoc_type FROM %s ".

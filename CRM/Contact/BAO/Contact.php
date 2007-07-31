@@ -457,14 +457,19 @@ ORDER BY
                 }
             }
 
+            $uniqId = $params['user_unique_id'];
             if (empty($contact->display_name)) {
                 if (isset($email)) {
                     $contact->display_name = $email;
+                } else if (isset($uniqId)) {
+                    $contact->display_name = $uniqId;
                 }
             }
             if (empty($contact->sort_name)) {
                 if (isset($email)) {
                     $contact->sort_name = $email;
+                } else if (isset($uniqId)) {
+                    $contact->sort_name = $uniqId;
                 }
             }
         } else if ($contact->contact_type == 'Household') {
@@ -602,7 +607,8 @@ ORDER BY
 
         $location = array();
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-            $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
+
+	        $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
         }
         $contact->location = $location;
 	
@@ -629,9 +635,9 @@ ORDER BY
             }
         }
 
-        // update the UF email if that has changed
+        // update the UF user_unique_id if that has changed
         require_once 'CRM/Core/BAO/UFMatch.php';
-        CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
+        CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
 
         // add custom field values
         if ( CRM_Utils_Array::value( 'custom', $params ) ) {
@@ -1049,6 +1055,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                                           'data'       => self::getOpenActivities( $activityParam, 0, 3 ),
                                           'totalCount' => self::getNumOpenActivity( $params['contact_id'] ),
                                           );
+        
         return $contact;
     }
 
@@ -1522,7 +1529,8 @@ WHERE civicrm_contact.id IN $idString ";
                                            CRM_Core_DAO_Address::import( ),
                                            CRM_Core_DAO_Phone::import( ),
                                            CRM_Core_DAO_Email::import( ),
-                                           CRM_Core_DAO_IM::import( true )
+                                           CRM_Core_DAO_IM::import( true ),
+                                           CRM_Core_DAO_OpenID::import( )
                                            );
 
             foreach ($locationFields as $key => $field) {
@@ -1823,7 +1831,8 @@ WHERE civicrm_contact.id IN $idString ";
                                             CRM_Core_DAO_Phone::export( ),
                                             CRM_Core_DAO_Email::export( ),
                                             $IMProvider,
-                                            CRM_Core_DAO_IM::export( true )
+                                            CRM_Core_DAO_IM::export( true ),
+                                            CRM_Core_DAO_OpenID::export( )
                                             );
             
             foreach ($locationFields as $key => $field) {
@@ -1924,7 +1933,7 @@ WHERE civicrm_contact.id IN $idString ";
                     $returnProperties['location'][$locationTypeName] = array( );
                     $returnProperties['location'][$locationTypeName]['location_type'] = $id;
                 }
-                if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
+                if ( in_array( $fieldName, array( 'phone', 'im', 'email', 'openid' ) ) ) {
                     if ( $type ) {
                         $returnProperties['location'][$locationTypeName][$fieldName . '-' . $type] = 1;
                     } else {
@@ -2147,6 +2156,9 @@ WHERE civicrm_contact.id IN $idString ";
                     $data['location'][$loc]['im'][1]['name']        = $value;
                     $data['location'][$loc]['im'][1]['provider_id'] = $params[$key . '-provider_id'];
                     $data['location'][$loc]['im'][1]['is_primary']  = 1;
+                } else if ($fieldName == 'openid') {
+                    $data['location'][$loc]['openid'][1]['openid']     = $value;
+                    $data['location'][$loc]['openid'][1]['is_primary'] = 1;
                 } else {
                     if ($fieldName === 'state_province') {
                         if ( is_numeric( $value ) ) {
@@ -2261,8 +2273,8 @@ WHERE civicrm_contact.id IN $idString ";
                                     $ids['location'][$locNo][$objects[$k]] = $v;
                                 }
                             } else if (is_array($v)) {
-                                //build phone/email/im ids
-                                if ( in_array ($k, array('phone', 'email', 'im')) ) {
+                                //build phone/email/im/openid ids
+                                if ( in_array ($k, array('phone', 'email', 'im', 'openid')) ) {
                                     $no = 1;
                                     foreach ($v as $k1 => $v1) {
                                         if (substr($k1, strlen($k1) - 2, strlen($k1)) == "id") {
@@ -2421,7 +2433,42 @@ WHERE civicrm_contact.id IN $idString ";
           return $contact;
        } 
        return null;
-    } 
+    }
+    
+    /**
+    * Function to find and get the contact details
+    * 
+    * @param string $uniqId  the unique id of the contact (OpenID)
+    * @param string $ctype   contact type
+    * 
+    * @return object $dao    contact details
+    * @static
+    */
+    static function &matchContactOnUniqId( $uniqId, $ctype = null )
+    {
+        $query = "
+    SELECT    civicrm_contact.id as contact_id,
+              civicrm_contact.domain_id as domain_id,
+              civicrm_contact.hash as hash,
+              civicrm_contact.contact_type as contact_type,
+              civicrm_contact.contact_sub_type as contact_sub_type
+    FROM      civicrm_contact
+    WHERE     civicrm_contact.user_unique_id = %1 AND civicrm_contact.domain_id = %2";
+        $p = array( 1 => array( $uniqId, 'String' ),
+                    2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
+
+        if ( $ctype ) {
+           $query .= " AND civicrm_contact.contact_type = %3";
+           $p[3]   = array( $ctype, 'String' );
+        }
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+
+        if ( $dao->fetch() ) {
+            return $dao;
+        }
+        return CRM_Core_DAO::$_nullObject;
+    }
     
     /**
      * Function to find the get contact details
@@ -2537,6 +2584,38 @@ WHERE     civicrm_contact.id = %1";
     }
     
     /**
+     * Funtion to get primary OpenID of the contact
+     *
+     * @param int $contactID contact id
+     *
+     * @return string $dao->openid   OpenID if present else null
+     * @static
+     * @access public
+     */
+    public static function getPrimaryOpenId( $contactID ) 
+    {
+        // fetch the primary OpenID
+        $query = "
+SELECT    civicrm_openid.openid as openid
+FROM      civicrm_contact
+LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                civicrm_contact.id  = civicrm_location.entity_id  AND
+                                civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_openid    ON ( civicrm_location.id = civicrm_openid.location_id   AND
+                                civicrm_openid.is_primary = 1    )
+WHERE     civicrm_contact.id = %1";
+        $p = array( 1 => array( $contactID, 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+
+        $openId = null;
+        if ( $dao->fetch( ) ) {
+            $openId = $dao->openid;
+        }
+        $dao->free( );
+        return $openId;
+    }
+    
+    /**
      * Function to get the uf id of civicrm contact 
      *
      * @param string $hash  hash value
@@ -2545,13 +2624,13 @@ WHERE     civicrm_contact.id = %1";
      * @return int uf id  uf id of civicrm contact
      * @static
      */
-    static function getUFIdByHash( $hash, $email ) 
+    static function getUFIdByHash( $hash, $uniqId ) 
     {
         require_once 'CRM/Contact/BAO/Contact.php';
 
-        $email = trim( $email );
+        $uniqId = trim( $uniqId );
 
-        $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $email );
+        $dao =& CRM_Contact_BAO_Contact::matchContactOnUniqId( $uniqId );
         if ( ! $dao ) {
             return false;
         }

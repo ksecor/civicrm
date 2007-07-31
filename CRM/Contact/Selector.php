@@ -160,6 +160,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $this->_params           =& $params;
         $this->_returnProperties =& $returnProperties;
 
+
         // type of selector
         $this->_action = $action;
         
@@ -181,8 +182,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $this->_returnProperties['contact_type'] = 1;
             $this->_returnProperties['contact_sub_type'] = 1;
             $this->_returnProperties['sort_name'   ] = 1;
-        }
-
+	    //	    $this->_returnProperties['groups'      ] = 1;
+	}
         $this->_query   =& new CRM_Contact_BAO_Query( $this->_params,
                                                       $this->_returnProperties,
                                                       null, $includeContactIds );
@@ -251,6 +252,30 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     }//end of function
 
 
+    function &getColHeads($action = null, $output = null){
+        //      print $this->_action;
+        require_once 'CRM/Contact/BAO/Group.php';
+      
+	$colHeads = self::_getColumnHeaders();
+	// if ($action == CRM_Core_Action::VIEW && $output != 1){
+	$gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this->_controller);
+        if ($gid){
+            $query = "SELECT title FROM civicrm_group WHERE id = $gid";
+	    $dao =& new CRM_Contact_DAO_Group( );
+	    $dao->query($query);
+	    if ($dao->fetch()){
+	        $gtitle = $dao->title;
+	    }
+	    $colHeads[] = array ('name' => ts($gtitle . " Groups"));
+        }
+	$colHeads[] = array('desc' => ts('Actions'), 'name' => ts('Action') );
+	//}
+	return $colHeads;
+           
+
+    }
+    
+
     /**
      * returns the column headers as an array of tuples:
      * (name, sortName (key to the sort array))
@@ -266,7 +291,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
         if ( $output == CRM_Core_Selector_Controller::EXPORT ) {
             $csvHeaders = array( ts('Contact Id'), ts('Contact Type') );
-            foreach ( self::_getColumnHeaders() as $column ) {
+            foreach ( $this->getColHeads($action, $output) as $column ) {
                 if ( array_key_exists( 'name', $column ) ) {
                     $csvHeaders[] = $column['name'];
                 }
@@ -274,7 +299,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             return $csvHeaders;
         } else if ( $output == CRM_Core_Selector_Controller::SCREEN ) {
             $csvHeaders = array( ts('Name') );
-            foreach ( self::_getColumnHeaders() as $column ) {
+            foreach ( $this->getColHeads($action, $output) as $column ) {
                 if ( array_key_exists( 'name', $column ) &&
                      $column['name']                     &&
                      $column['name'] != ts( 'Name' ) ) {
@@ -372,7 +397,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             self::$_columnHeaders[] = array('desc' => ts('Actions'));
             return self::$_columnHeaders;
         } else {
-            return self::_getColumnHeaders();
+	  return $this->getColHeads($action, $output);
         }
     }
 
@@ -553,6 +578,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $row['postal_code'] .= "-" . $result->postal_code_suffix;
             }
             
+	    
+
             if ($output != CRM_Core_Selector_Controller::EXPORT ||
                 $context == 'smog') {
                 if (empty($result->status)) {
@@ -591,11 +618,31 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $row['contact_type'] = $contact_type;
                 $row['contact_id'  ] = $result->contact_id;
                 $row['sort_name'   ] = $result->sort_name;
-                
-            }
-        
+		require_once 'CRM/Contact/BAO/GroupNesting.php';
+		$parentGroupId = CRM_Utils_Request::retrieve('gid', 'Positive', 
+						   $this->_controller);
+		if ($parentGroupId){
+                    $contGroups = CRM_Contact_BAO_GroupNesting::getContainingGroups($result->contact_id, $parentGroupId);
+		    $row['subgroups'   ] = "";
+		    foreach ($contGroups as $subgroup){
+		        if ($row['subgroups'] != ""){
+			    $row['subgroups'] .= ", ";
+			}
+			$row['subgroups'] .= $subgroup;
+		    }
+		}
+	    }
+	    //Dedupe contacts        
             if ( ! $empty ) {
+	      $duplicate = false;
+	      foreach($rows as $checkRow){
+		if ($checkRow['contact_id'] == $row['contact_id']){
+		  $duplicate = true;
+		}
+	      }
+	      if (! $duplicate){
                 $rows[] = $row;
+	      }
             }
         }
         //CRM_Core_Error::debug( '$rows', $rows );
@@ -639,8 +686,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     private static function &_getColumnHeaders() 
     {
         if ( ! isset( self::$_columnHeaders ) )
-        {
-            self::$_columnHeaders = array(
+        { self::$_columnHeaders = array(
                                           array('desc' => ts('Contact Type') ),
                                           array(
                                                 'name'      => ts('Name'),
@@ -673,9 +719,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                 'sort'      => 'email',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name' => ts('Phone') ),
-                                          array('desc' => ts('Actions') ),
-                                          );
+                                          array('name' => ts('Phone') )
+				);
         }
         return self::$_columnHeaders;
     }

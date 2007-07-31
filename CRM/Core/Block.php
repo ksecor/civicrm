@@ -449,8 +449,8 @@ class CRM_Core_Block {
                              ts( 'CiviMember'     ) => 1,
                              ts( 'CiviMail'       ) => 1,
                              ts( 'Import'         ) => 1, 
-                             ts( 'CiviGrant'      ) => 1
-                             );
+                             ts( 'CiviGrant'      ) => 1,
+                             ts( 'Logout'         ) => 1);
                              
         foreach ( $items as $item ) {
             if ( ! CRM_Utils_Array::value( 'crmType', $item ) ) {

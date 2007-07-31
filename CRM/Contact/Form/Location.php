@@ -38,6 +38,7 @@ require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Contact/Form/Phone.php';
 require_once 'CRM/Contact/Form/Email.php';
 require_once 'CRM/Contact/Form/IM.php';
+require_once 'CRM/Contact/Form/OpenID.php';
 require_once 'CRM/Contact/Form/Address.php';
 
 class CRM_Contact_Form_Location extends CRM_Core_Form
@@ -51,7 +52,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      */
     const BLOCKS = 5;
 
-    static $_commPrefs = array( 'phone','email' ,'im');
+    static $_commPrefs = array( 'phone','email','im','openid' );
 
     /**
      * function to build location block
@@ -59,7 +60,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @param object $form the object of the form (QF Object)
      * @param int $maxLocationBlocks no of location blocks
      *
-     * @param array $locationCompoments blocks to be displayed(Phone,Email,IM)
+     * @param array $locationCompoments blocks to be displayed(Phone,Email,IM,OpenID)
      *
      * @static 
      * @access public
@@ -87,9 +88,10 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '' );
                         
             if ( ! $locationCompoments ) {
-                CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, self::BLOCKS); 
-                CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS); 
-                CRM_Contact_Form_IM::buildIMBlock      ($form, $location, $locationId, self::BLOCKS); 
+                CRM_Contact_Form_Phone::buildPhoneBlock   ($form, $location, $locationId, self::BLOCKS); 
+                CRM_Contact_Form_Email::buildEmailBlock   ($form, $location, $locationId, self::BLOCKS); 
+                CRM_Contact_Form_IM::buildIMBlock         ($form, $location, $locationId, self::BLOCKS); 
+                CRM_Contact_Form_OpenID::buildOpenIDBlock ($form, $location, $locationId, self::BLOCKS);
             } else {
                 $blockCount = self::BLOCKS;
                 foreach ( $locationCompoments as $key) {

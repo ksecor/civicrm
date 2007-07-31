@@ -442,7 +442,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                                      $status = 'Added',
                                      $sort = null,
                                      $offset = null,
-                                     $row_count= null)
+                                     $row_count= null,
+                                     $includeChildGroups = true)
     {
         $groupDAO =& new CRM_Contact_DAO_Group();
         $groupDAO->id = $group->id;
@@ -470,7 +471,17 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
         
         $params = array( );
-        $params[] = array( 'group', '=', array($group->id => true), 0, 0 );
+        if ( $includeChildGroups ) {
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( array( $group->id ) );
+        } else {
+            $groupIds = array( $group->id );
+        }
+        foreach ( $groupIds as $groupId ) {
+            $params[] = array( 'group', '=', array($group->id => true), 0, 0 );
+        }
+        #$params[] = array( 'group', 'IN', $groupIds, 0, 0 );
+        #$params[] = array( 'group', '=', array($group->id => true), 0, 0 );
 
         if ( $status ) {
             $params[] = array( 'group_contact_status', '=', array($status => true), 0, 0 );
