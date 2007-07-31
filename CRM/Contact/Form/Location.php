@@ -49,7 +49,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @var int
      * @const
      */
-    const BLOCKS = 3;
+    const BLOCKS = 5;
 
     static $_commPrefs = array( 'phone','email' ,'im');
 
