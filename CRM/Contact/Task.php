@@ -79,10 +79,10 @@ class CRM_Contact_Task {
     static function initTasks( ) {
         if ( ! self::$_tasks ) {
             self::$_tasks = array(
-                                  1     => array( 'title'  => ts( 'Add Contacts to a Group'       ),
+                                  1     => array( 'title'  => ts( 'Add Contacts to Group'         ),
                                                   'class'  => 'CRM_Contact_Form_Task_AddToGroup',
                                                   'result' => true ),
-                                  2     => array( 'title'  => ts( 'Remove Contacts from a Group'  ),
+                                  2     => array( 'title'  => ts( 'Remove Contacts from Group'    ),
                                                   'class'  => 'CRM_Contact_Form_Task_RemoveFromGroup',
                                                   'result' => true ),
                                   3     => array( 'title'  => ts( 'Tag Contacts (assign tags)'    ),

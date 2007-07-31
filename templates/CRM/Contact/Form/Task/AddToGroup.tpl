@@ -1,6 +1,6 @@
 <div class="form-item">
 <fieldset>
-    <legend>{ts}Add Members to a Group{/ts}</legend>
+    <legend>{ts}Add Contacts to a Group{/ts}</legend>
     <dl>
         <dt>{if $group.id}{ts}Group{/ts}{else}{$form.group_id.label}{/if}</dt><dd>{$form.group_id.html}</dd>
         <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
