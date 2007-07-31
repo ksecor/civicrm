@@ -36,6 +36,8 @@
 class CRM_Core_Key {
     static $_key = null;
 
+    static $_sessionID = null;
+
     /**
      * Generate a private key per session and store in session
      *
@@ -57,6 +59,18 @@ class CRM_Core_Key {
         return self::$_key;
     }
 
+    static function sessionID( ) {
+        if ( ! self::$_sessionID ) {
+            $session =& CRM_Core_Session::singleton( );
+            self::$_sessionID = $session->get( 'qfSessionID' );
+            if ( ! self::$_sessionID ) {
+                self::$_sessionID = session_id( );
+                $session->set( 'qfSessionID', self::$_sessionID );
+            }
+        }
+        return self::$_sessionID;
+    }
+
     /**
      * Generate a form key based on form name, the current user session
      * and a private key. Modelled after drupal's form API
@@ -70,7 +84,8 @@ class CRM_Core_Key {
      */
     static function get( $name, $addSequence = false ) {
         $privateKey = self::privateKey( );
-        $key = md5( session_id( ) . $name . $privateKey );
+        $sessionID  = self::sessionID ( );
+        $key = md5( $sessionID . $name . $privateKey );
 
         if ( $addSequence ) {
             // now generate a random number between 1 and 100K and add it to the key
@@ -101,7 +116,8 @@ class CRM_Core_Key {
         }
 
         $privateKey = self::privateKey( );
-        if ( $k != md5( session_id( ) . $name . $privateKey ) ) {
+        $sessionID  = self::sessionID ( );
+        if ( $k != md5( $sessionID . $name . $privateKey ) ) {
             return null;
         }
         return $key;

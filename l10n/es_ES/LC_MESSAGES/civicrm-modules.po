@@ -6,12 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-21 06:58+0200\n"
-"PO-Revision-Date: 2007-02-01 09:54-0800\n"
-"Last-Translator: Antonio Pérez <nonopp@gmail.com>\n"
+"PO-Revision-Date: 2007-07-24 05:59-0700\n"
+"Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"X-Generator: Pootle 1.0.1\n"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 msgid "Contribution Source"
@@ -167,29 +168,24 @@ msgid "The page you requested is currently unavailable."
 msgstr "La Página que solicitas no está disponible actualmente."
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-#, fuzzy
 msgid "Please set a location type of %1"
-msgstr "Por Favor, selecciona el tip ode relación."
+msgstr "Por Favor, selecciona el tipo de localidad para %1"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-#, fuzzy
 msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set."
-msgstr "%1 no está definido en el fichero de configuración."
+msgstr "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR no se ha definido."
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-#, fuzzy
 msgid "Billing First Name"
-msgstr "Nombre"
+msgstr "Nombre para el recibo"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-#, fuzzy
 msgid "Billing Middle Name"
-msgstr "Segundo Nombre"
+msgstr "Segundo Nombre para el recibo"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-#, fuzzy
 msgid "Billing Last Name"
-msgstr "Apellidos"
+msgstr "Apellidos para el recibo"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
 msgid "Card Number"
@@ -258,12 +254,12 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "(top of page)"
-msgstr ""
+msgstr "(inicio de la página)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "(bottom of page)"
-msgstr ""
+msgstr "(final de la página)"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -278,9 +274,8 @@ msgstr "Pié del Mensaje"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
 #: CRM/Member/Form/Membership.php
-#, fuzzy
 msgid "You do not have permission to access this page"
-msgstr "No tienes el permiso suficiente para editar este contacto"
+msgstr "No tienes permiso para acceder a esta página"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -332,13 +327,12 @@ msgid "Test-drive"
 msgstr "Unidad-de-chequeo"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Live Page"
-msgstr "Inicio"
+msgstr "Página en vivo"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "FollowUp"
-msgstr ""
+msgstr "Seguir"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
@@ -355,7 +349,7 @@ msgstr "Deshabilitar Premio"
 
 #: CRM/Contribute/Payment/Google.php CRM/Event/Payment/Google.php
 msgid "Invalid response code received from Google Checkout: %1"
-msgstr ""
+msgstr "Código de respuesta no válido recibido desde Google checkout: %1"
 
 #: CRM/Contribute/Payment/PayPalImpl.php CRM/Event/Payment/PayPalImpl.php
 msgid "Recurring contribution, but no database id"
