@@ -26,12 +26,13 @@
       
       {/literal}
       {foreach from=$locations item=location}
-{if $location.url and ! $isProfile}
+{if $location.url and ! $profileGID}
       {literal}
 	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions TO:&nbsp;<input type=text id=to size=20>&nbsp;<a href=\"javascript:popUp();\">&raquo; Go</a>";
 {else}
+      {capture assign="profileURL"}{crmURL p='civicrm/profile/view' q="reset=1&id=`$location.contactID`&gid=$profileGID"}{/capture}
       {literal}
-	 var data = "{/literal}{$location.displayName}<br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions TO:&nbsp;<input type=text id=to size=20>&nbsp;<a href=\"javascript:popUp();\">&raquo; Go</a>";
+	 var data = "{/literal}<a href={$profileURL}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions TO:&nbsp;<input type=text id=to size=20>&nbsp;<a href=\"javascript:popUp();\">&raquo; Go</a>";
 {/if}
 {literal}
 	 var address = "{/literal}{$location.address}{literal}";

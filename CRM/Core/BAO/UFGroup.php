@@ -763,7 +763,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     } 
                 }
             } else if ( strpos( $name, '-' ) !== false ) {
-                list( $fieldName, $id, $type ) = explode( '-', $name );
+                list( $fieldName, $id, $type ) = CRM_Utils_System::explode( '-', $name, 3 );
                 
                 if ($id == 'Primary') {
                     // fix for CRM-1543
@@ -826,22 +826,23 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $fieldName = $customFieldName;
                 }
                 
+                $url= null;
                 if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
                     $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
                     if($htmlType == 'Link') {
                         $url =  $params[$index] ;
                     } else{
-                         $url = CRM_Utils_System::url( 'civicrm/profilel',
-                                              'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
-                                              urlencode( $fieldName ) .
-                                              '=' .
-                                              urlencode( $params[$index] ) );
+                        $url = CRM_Utils_System::url( 'civicrm/profilel',
+                                                      'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+                                                      urlencode( $fieldName ) .
+                                                      '=' .
+                                                      urlencode( $params[$index] ) );
                     }
                 }
-                
-       
                
-                if ( ! empty( $values[$index] ) && $searchable ) {
+                if ( $url &&
+                     ! empty( $values[$index] ) &&
+                     $searchable ) {
                     $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
                 }
             }

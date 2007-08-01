@@ -852,7 +852,10 @@ class CRM_Core_Invoke
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Task_Map',
                                                            ts('Map Contact'),
                                                            null, false, false, true );
-            $controller->set( 'profile', 1 );
+            $profileGID = CRM_Utils_Request::retrieve( 'gid', 'Integer',
+                                                       CRM_Core_DAO::$_nullObject,
+                                                       true );
+            $controller->set( 'profileGID', $profileGID );
             $controller->process( );
             return $controller->run( );
         }
@@ -861,8 +864,6 @@ class CRM_Core_Invoke
             // set the userContext stack
             $session =& CRM_Core_Session::singleton(); 
             $session->pushUserContext( CRM_Utils_System::url('civicrm/profile', 'reset=1' ) ); 
-
-            $userID = $session->get( 'userID' );
 
             $buttonType = $_POST['_qf_Edit_cancel'];
             if ( $buttonType == 'Cancel' ) {

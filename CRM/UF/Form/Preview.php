@@ -189,7 +189,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                     if ( $key == '' ) {
                         continue;
                     }
-                    $options[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+                    $options[] =& HTML_QuickForm::createElement( 'checkbox', $key, null, $var );
                 }
                 $this->addGroup($options, $name, $field['title'], '<br/>' );
             } else if ( substr($field['name'], 0, 2) === 'im' ) {
