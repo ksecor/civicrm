@@ -1,12 +1,6 @@
 {htxt id="id-upload"}
-<p>{ts}Before completing this step, you must create one or two files containing your mailing content. You can choose to send BOTH an <strong>HTML</strong> formatted
-    message and a plain <strong>TEXT</strong> message, OR you can send a <strong>TEXT</strong> message only. If you create and upload
-    only an <strong>HTML</strong> formatted message, CiviMail will automatically create a <strong>TEXT</strong> version for your
-    recipients who have chosen NOT to receive HTML email.{/ts}</p>
+<p>{ts}Before completing this step, you must create one or two files containing your mailing content. You can choose to send BOTH an <strong>HTML</strong> formatted message and a plain <strong>TEXT</strong> message, OR you can send a <strong>TEXT</strong> message only. If you create and upload only an <strong>HTML</strong> formatted message, CiviMail will automatically create a <strong>TEXT</strong> version for your recipients who have chosen NOT to receive HTML email.{/ts}</p>
 <p>{ts}Save these file(s) somewhere on your local computer - and locate them using the <strong>Browse...</strong> buttons.{/ts}</p>
-<p>{ts 1="http://wiki.civicrm.org/confluence//x/nC"}CiviMail email messages must include an unsubscribe link, an opt-out link, and the postal address of your organization.
-    These elements help reduce the chances of your email being categorized as SPAM. Refer to the online documentation for details on
-    <a href="%1" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">how to include required links and contact information
-    as well as sample messages....</a>{/ts}
+<p>{ts 1="http://wiki.civicrm.org/confluence//x/nC"}CiviMail email messages must include an unsubscribe link, an opt-out link, and the postal address of your organization. These elements help reduce the chances of your email being categorized as SPAM. Refer to the online documentation for details on <a href='%1' target='_blank' title='Help on messages. Opens a new window.'>how to include required links and contact information as well as sample messages....</a>{/ts}
 </p>
 {/htxt}

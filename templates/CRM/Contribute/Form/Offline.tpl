@@ -5,8 +5,7 @@
     {assign var=contribMode value="LIVE"}
 {/if}
 <div id="help">
-    {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the
-    selected payment processor.{/ts}
+    {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
 </div>
 <fieldset>
     <table class="form-layout-compressed">

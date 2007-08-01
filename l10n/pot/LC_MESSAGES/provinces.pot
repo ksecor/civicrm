@@ -4,7 +4,7 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.7\n"
+"Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -1917,9 +1917,6 @@ msgstr ""
 msgid "South-East"
 msgstr ""
 
-msgid "Southern"
-msgstr ""
-
 msgid "Brèsckaja voblasc'"
 msgstr ""
 
@@ -2251,9 +2248,6 @@ msgid "East"
 msgstr ""
 
 msgid "Far North"
-msgstr ""
-
-msgid "North"
 msgstr ""
 
 msgid "South"
@@ -3382,9 +3376,6 @@ msgid "Southern Nations, Nationalities and Peoples"
 msgstr ""
 
 msgid "Tigrai"
-msgstr ""
-
-msgid "Eastern"
 msgstr ""
 
 msgid "Northern"

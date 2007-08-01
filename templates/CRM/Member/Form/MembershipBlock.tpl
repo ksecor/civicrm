@@ -3,8 +3,7 @@
 {include file="CRM/common/WizardHeader.tpl"}
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/ZSk" 2=$docURLTitle}Use this form to enable and configure a Membership Signup and Renewal section for this Online Contribution Page. If you're not using this page for membership signup, leave the <strong>Enabled</strong> box un-checked
-    (<a href="%1" target="_blank" title="%2">read more...</a>).{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/ZSk" 2=$docURLTitle}Use this form to enable and configure a Membership Signup and Renewal section for this Online Contribution Page. If you're not using this page for membership signup, leave the <strong>Enabled</strong> box un-checked (<a href="%1" target="_blank" title="%2">read more...</a>).{/ts}
 </div>
 
 <div id="form" class="form-item">
@@ -56,9 +55,7 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Display the minimum membership fee along with the membership name and description for each membership option?{/ts}</dd>
 
     <dt></dt><dd>{$form.is_separate_payment.html}&nbsp;{$form.is_separate_payment.label} </dd>
-    <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Should the membership fee be processed as a separate transaction? If this option is checked
-        AND the contribution page includes a separate contribution amount block - two transactions will be generated: one for the membership fee amount; and one for
-        the selected contribution amount. (This option is NOT available for PayPal Website Payments Standard.){/ts}</dd>
+    <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Should the membership fee be processed as a separate transaction? If this option is checked AND the contribution page includes a separate contribution amount block - two transactions will be generated: one for the membership fee amount; and one for the selected contribution amount. (This option is NOT available for PayPal Website Payments Standard.){/ts}</dd>
     </dl>
    </div>
   </fieldset>

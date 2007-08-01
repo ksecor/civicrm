@@ -4,7 +4,7 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.7\n"
+"Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2001-09-25 18:44\n"
 "Last-Translator: Mattias Newzella <newzella@linux.nu>\n"
@@ -1251,6 +1251,60 @@ msgstr ""
 msgid "Limburg"
 msgstr ""
 
+msgid "Central and Western"
+msgstr ""
+
+msgid "Eastern"
+msgstr ""
+
+msgid "Southern"
+msgstr ""
+
+msgid "Wan Chai"
+msgstr ""
+
+msgid "Kowloon City"
+msgstr ""
+
+msgid "Kwun Tong"
+msgstr ""
+
+msgid "Sham Shui Po"
+msgstr ""
+
+msgid "Wong Tai Sin"
+msgstr ""
+
+msgid "Yau Tsim Mong"
+msgstr ""
+
+msgid "Islands"
+msgstr ""
+
+msgid "Kwai Tsing"
+msgstr ""
+
+msgid "North"
+msgstr ""
+
+msgid "Sai Kung"
+msgstr ""
+
+msgid "Sha Tin"
+msgstr ""
+
+msgid "Tai Po"
+msgstr ""
+
+msgid "Tsuen Wan"
+msgstr ""
+
+msgid "Tuen Mun"
+msgstr ""
+
+msgid "Yuen Long"
+msgstr ""
+
 msgid "Luxembourg"
 msgstr "Luxemburg"
 
@@ -1863,9 +1917,6 @@ msgstr ""
 msgid "South-East"
 msgstr ""
 
-msgid "Southern"
-msgstr ""
-
 msgid "Brèsckaja voblasc'"
 msgstr ""
 
@@ -2197,9 +2248,6 @@ msgid "East"
 msgstr ""
 
 msgid "Far North"
-msgstr ""
-
-msgid "North"
 msgstr ""
 
 msgid "South"
@@ -3328,9 +3376,6 @@ msgid "Southern Nations, Nationalities and Peoples"
 msgstr ""
 
 msgid "Tigrai"
-msgstr ""
-
-msgid "Eastern"
 msgstr ""
 
 msgid "Northern"

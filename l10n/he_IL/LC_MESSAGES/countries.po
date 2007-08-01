@@ -4,7 +4,7 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.7\n"
+"Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2002-01-05 14:25+0000\n"
 "Last-Translator: Meni Livne <livne@kde.org>\n"
@@ -904,4 +904,13 @@ msgid "Serbia"
 msgstr ""
 
 msgid "Montenegro"
+msgstr ""
+
+msgid "Jersey"
+msgstr ""
+
+msgid "Guernsey"
+msgstr ""
+
+msgid "Isle of Man"
 msgstr ""
