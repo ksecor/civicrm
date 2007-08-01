@@ -74,7 +74,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             require_once 'CRM/Profile/Page/Dynamic.php';
             $page =& new CRM_Profile_Page_Dynamic($id, $this->_gid, 'Profile' );
             $profileGroup = array( );
-            $profileGroup['title'] = $title;
+            $profileGroup['title'] = null;
             $profileGroup['content'] = $page->run();
             $profileGroups[] = $profileGroup;
             $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map' );
