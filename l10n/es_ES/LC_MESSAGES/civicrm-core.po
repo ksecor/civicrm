@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.7\n"
 "POT-Creation-Date: 2007-05-14 06:32+0200\n"
-"PO-Revision-Date: 2007-07-23 12:21-0700\n"
-"Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
+"PO-Revision-Date: 2007-08-01 04:41-0700\n"
+"Last-Translator: pedro jose vila <pedrojose.vila@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10313,6 +10313,12 @@ msgid ""
 "features. They provide a powerful set of tools for you to collect "
 "information from constituents and selectively share contact information."
 msgstr ""
+"El Perfil /los perfiles de CiviCRM  le permiten agregar grupos de campos e "
+"incluirlos en su página como campos de entrada de formularios, visualización "
+"en páginas de contacto, búsquedas y listados de características. Esto "
+"provee un poderoso conjunto de herramientas para que pueda recoger "
+"información de componentes y de manera selectiva compartir información de "
+"contacto"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
@@ -10368,14 +10374,12 @@ msgid "Other location"
 msgstr "Otra Localidad"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Billing"
-msgstr "balanceo"
+msgstr "facturación"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Billing Address location"
-msgstr "Dirección de mailing"
+msgstr "Dirección de facturación"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Child of"
@@ -10495,45 +10499,39 @@ msgstr "Voluntarios activos."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Header"
-msgstr "Cabecera del mailing"
+msgstr "Cabecera de correo"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "This is the Header"
-msgstr ""
+msgstr "Esto es la cabecera"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "HTML Body of Header"
-msgstr "HTML"
+msgstr "HTML del cuerpo de la cabecera"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Text Body of Header"
-msgstr "Texto"
+msgstr "Texto del cuerpo de la cabecera"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Footer"
-msgstr "Pié de página del mailing"
+msgstr "Pie de página del correo"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "This is the Footer"
-msgstr "ocultar este honor"
+msgstr "Esto es el pie"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "HTML Body of Footer"
-msgstr "HTML"
+msgstr "HTML del cuerpo del pie"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Text Body of Footer"
-msgstr "Texto"
+msgstr "Texto del cuerpo del pie"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Subscribe Message"
-msgstr "Desubscribir mensaje"
+msgstr "Suscripción al mensaje"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -10549,18 +10547,16 @@ msgid "Unsubscribe Message"
 msgstr "Desubscribir mensaje"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Unsubscribe results"
-msgstr "Desubscribir mensaje"
+msgstr "Eliminar suscripcion al mensaje"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Goodbye"
-msgstr "Booleano"
+msgstr "Adiós"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Auto-responder"
-msgstr "Auto-Responder"
+msgstr "Respuesta automática"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -10569,7 +10565,7 @@ msgstr "Responder Automáticamente"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Thank you for your reply."
-msgstr ""
+msgstr "Gracias por su respuesta"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -10583,11 +10579,11 @@ msgstr "Miembros"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Campaign Contribution"
-msgstr ""
+msgstr "Aportación a la campaña"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Fee"
-msgstr ""
+msgstr "Coste del evento"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -10707,7 +10703,7 @@ msgstr "Fichero"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Progress"
-msgstr ""
+msgstr "En Progreso"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -10744,7 +10740,7 @@ msgstr "Configurar"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Exhibition"
-msgstr ""
+msgstr "Muestra"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Fundraiser"
