@@ -18,6 +18,7 @@
        <option value="civicrm/profile">Profile Search and Listings</option>
        <option value="civicrm/profile/create">Profile Create</option>
        <option value="civicrm/profile/edit">Profile Edit</option>
+       <option value="civicrm/profile/view">Profile View</option>
        <option value="civicrm/contribute/transact">Online Contribution</option>
        <option value="civicrm/event/info">Event Info Page</option>
        <option value="civicrm/event/register">Online Event Registration</option>
