@@ -242,7 +242,7 @@ class CRM_Contact_Form_Task_EmailCommon {
      * @access public
      * @return None
      */
-    static public function postProcess( &$form ) {
+    static function postProcess( &$form ) {
         $emailAddress = null;
         if ( $form->_single ) {
             $emailAddress = $form->controller->exportValue( 'Email', 'to' );

@@ -58,7 +58,15 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
     function preProcess( )
     {
         $id = CRM_Utils_Request::retrieve('id', 'Positive',
-                                          $this, true);
+                                          $this, false);
+        if ( ! $id ) {
+            $session =& CRM_Core_Session::singleton();
+            $id = $session->get( 'userID' );
+            if ( ! $id ) {
+                CRM_Core_Error::fatal( ts( 'Could not find required parameter: id' ) );
+            }
+        }
+
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this);
 
@@ -66,7 +74,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             require_once 'CRM/Profile/Page/Dynamic.php';
             $page =& new CRM_Profile_Page_Dynamic($id, $this->_gid, 'Profile' );
             $profileGroup = array( );
-            $profileGroup['title'] = $title;
+            $profileGroup['title'] = null;
             $profileGroup['content'] = $page->run();
             $profileGroups[] = $profileGroup;
             $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map' );

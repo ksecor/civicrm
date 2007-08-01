@@ -286,6 +286,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         CRM_Contact_Form_Task_Map::createMapXML( $contactIds, null, $this, false );
 
         $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( 'profileGID', $this->_gid );
         $content = $template->fetch( 'CRM/Contact/Form/Task/Map.tpl' );
         echo CRM_Utils_System::theme( 'page', $content, true, false );
         return;
