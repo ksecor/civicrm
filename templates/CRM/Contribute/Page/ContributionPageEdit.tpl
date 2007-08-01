@@ -9,8 +9,7 @@
             <p>{ts}Create links to this contribution page by copying and pasting the following URL into any web page.{/ts}:<br />
             <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</a>
         {elseif $config->userFramework EQ 'Joomla'}
-            {ts 1=$id}Create front-end links to this contribution page using the Menu Manager. Select <strong>Online Contribution</strong>
-            and enter <strong>%1</strong> for the Contribution id.{/ts}
+            {ts 1=$id}Create front-end links to this contribution page using the Menu Manager. Select <strong>Online Contribution</strong> and enter <strong>%1</strong> for the Contribution id.{/ts}
         {/if}
         </dd>
     {else}
@@ -23,8 +22,7 @@
 </div>
 
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/1Cs" 2=$docURLTitle}Use the links below to update features and content for this Online Contribution Page, as well as to run through the contribution process in <strong>test mode</strong>.
-    Refer to the <a href="%1" target="_blank" title="%2">CiviContribute Administration Documentation</a> for more information.{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/1Cs" 2=$docURLTitle}Use the links below to update features and content for this Online Contribution Page, as well as to run through the contribution process in <strong>test mode</strong>. Refer to the <a href="%1" target="_blank" title="%2">CiviContribute Administration Documentation</a> for more information.{/ts}
 </div>
 <table class="report"> 
 <tr>
@@ -70,8 +68,7 @@
             {ts}Use the following URL in links and buttons on any website to send visitors to this live page{/ts}:<br />
             <strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong>
         {elseif $config->userFramework EQ 'Joomla'}
-            {ts 1=$id}When your page is active, create front-end links to the contribution page using the Menu Manager. Select <strong>Online Contribution</strong>
-            and enter <strong>%1</strong> for the Contribution id.{/ts}
+            {ts 1=$id}When your page is active, create front-end links to the contribution page using the Menu Manager. Select <strong>Online Contribution</strong> and enter <strong>%1</strong> for the Contribution id.{/ts}
         {/if}
     </td>
 </tr>

@@ -4,11 +4,8 @@
     {capture assign=importURL}{crmURL p="civicrm/event/import" q="reset=1"}{/capture}
     {capture assign=newEventURL}{crmURL p="civicrm/admin/event" q="action=add&reset=1"}{/capture}
     {capture assign=configPagesURL}{crmURL p="civicrm/admin/event" q="reset=1"}{/capture}
-    <p>{ts 1=$newEventURL 2=$configPagesURL}CiviEvent allows you to create customized page(s) for creating and registering online events.
-        Administrators can create <a href="%1"><strong>new events</strong></a> and <a href="%2"><strong>manage existing events</strong></a>.{/ts}</p>
-    <p>{ts 1=$findContactURL 2=$importURL}You can also input and track offline Events. To enter events manually for individual contacts,
-        use <a href="%1">Find Contacts</a> to locate the contact. Then click <strong>View</strong> to go to their summary page and click
-        on the <strong>New Event</strong> link. You can also <a href="%2"><strong>import batches of participants</strong></a> from other sources.{/ts}</p>
+    <p>{ts 1=$newEventURL 2=$configPagesURL}CiviEvent allows you to create customized page(s) for creating and registering online events. Administrators can create <a href="%1"><strong>new events</strong></a> and <a href="%2"><strong>manage existing events</strong></a>.{/ts}</p>
+    <p>{ts 1=$findContactURL 2=$importURL}You can also input and track offline Events. To enter events manually for individual contacts, use <a href="%1">Find Contacts</a> to locate the contact. Then click <strong>View</strong> to go to their summary page and click on the <strong>New Event</strong> link. You can also <a href="%2"><strong>import batches of participants</strong></a> from other sources.{/ts}</p>
 </div>
 
 <h3>{ts}Event Summary{/ts}</h3>
