@@ -3,9 +3,7 @@
 <fieldset>
     <legend>{ts}Event Location and Contact Information{/ts}</legend>
     <div id="help">
-        {ts}Use this form to configure the location and optional contact information for the event.
-        This information will be displayed on the Event Information page. It will also be included
-        in online registration pages and confirmation emails if these features are enabled.{/ts}
+        {ts}Use this form to configure the location and optional contact information for the event. This information will be displayed on the Event Information page. It will also be included in online registration pages and confirmation emails if these features are enabled.{/ts}
     </div>
 
     <div class="form-item">

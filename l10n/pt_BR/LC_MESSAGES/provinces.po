@@ -4,7 +4,7 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.7\n"
+"Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2007-06-10 20:38-0300\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
@@ -1251,6 +1251,60 @@ msgstr ""
 msgid "Limburg"
 msgstr "Limburg"
 
+msgid "Central and Western"
+msgstr ""
+
+msgid "Eastern"
+msgstr "Eastern"
+
+msgid "Southern"
+msgstr "Southern"
+
+msgid "Wan Chai"
+msgstr ""
+
+msgid "Kowloon City"
+msgstr ""
+
+msgid "Kwun Tong"
+msgstr ""
+
+msgid "Sham Shui Po"
+msgstr ""
+
+msgid "Wong Tai Sin"
+msgstr ""
+
+msgid "Yau Tsim Mong"
+msgstr ""
+
+msgid "Islands"
+msgstr ""
+
+msgid "Kwai Tsing"
+msgstr ""
+
+msgid "North"
+msgstr "Norte"
+
+msgid "Sai Kung"
+msgstr ""
+
+msgid "Sha Tin"
+msgstr ""
+
+msgid "Tai Po"
+msgstr ""
+
+msgid "Tsuen Wan"
+msgstr ""
+
+msgid "Tuen Mun"
+msgstr ""
+
+msgid "Yuen Long"
+msgstr ""
+
 msgid "Luxembourg"
 msgstr "Luxemburgo"
 
@@ -1863,9 +1917,6 @@ msgstr ""
 msgid "South-East"
 msgstr ""
 
-msgid "Southern"
-msgstr "Southern"
-
 msgid "Brèsckaja voblasc'"
 msgstr ""
 
@@ -2198,9 +2249,6 @@ msgstr ""
 
 msgid "Far North"
 msgstr "Far North"
-
-msgid "North"
-msgstr "Norte"
 
 msgid "South"
 msgstr "Sul"
@@ -3329,9 +3377,6 @@ msgstr ""
 
 msgid "Tigrai"
 msgstr "Tigrai"
-
-msgid "Eastern"
-msgstr "Eastern"
 
 msgid "Northern"
 msgstr "Northern"

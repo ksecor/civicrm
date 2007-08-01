@@ -4,8 +4,8 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.7\n"
-"POT-Creation-Date: 2007-05-21 06:58+0200\n"
+"Project-Id-Version: CiviCRM 1.8\n"
+"POT-Creation-Date: 2007-08-01 14:28+0200\n"
 "PO-Revision-Date: 2006-12-11 14:21+0100\n"
 "Last-Translator: Automatically generated\n"
 "MIME-Version: 1.0\n"
@@ -14,6 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
+#: CRM/Contribute/Form/Offline.php
 msgid "Contribution Source"
 msgstr ""
 
@@ -48,6 +49,7 @@ msgstr ""
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
 msgid "Transaction ID"
 msgstr ""
 
@@ -105,10 +107,8 @@ msgstr ""
 msgid "Cancel Date"
 msgstr ""
 
-#: CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/DAO/ContributionRecur.php CRM/Event/DAO/Participant.php
-#: CRM/Mailing/Form/Test.php
-msgid "Test"
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
+msgid "Receipt Date"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
@@ -133,12 +133,6 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid "SKU"
-msgstr ""
-
-#: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipBlock.php
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/DAO/MembershipType.php
-#: CRM/Member/DAO/MessageTemplates.php
-msgid "Is Active"
 msgstr ""
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
@@ -166,40 +160,9 @@ msgstr ""
 msgid "The page you requested is currently unavailable."
 msgstr ""
 
-#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
+#: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Offline.php
+#: CRM/Event/Form/Registration.php
 msgid "Please set a location type of %1"
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set."
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-msgid "Billing First Name"
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-msgid "Billing Middle Name"
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-msgid "Billing Last Name"
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-msgid "Card Number"
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-msgid "Security Code"
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-msgid "Expiration Date"
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-msgid "Card Type"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
@@ -207,27 +170,9 @@ msgstr ""
 msgid "<< Go Back"
 msgstr ""
 
-#: CRM/Contribute/Form/Contribution/Confirm.php
-#: CRM/Event/Form/Registration/Confirm.php
-msgid "Make Contribution"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution/Confirm.php
-#: CRM/Contribute/Payment/GoogleIPN.php CRM/Contribute/Payment/PayPalIPN.php
-#: CRM/Member/BAO/Membership.php
-msgid "Online Contribution:"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution/Main.php
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Offline.php
 #: CRM/Event/Form/Registration/Register.php CRM/Mailing/Selector/Event.php
 msgid "Email Address"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution/Main.php
-#: CRM/Event/Form/Registration/Register.php
-msgid ""
-"Please enter a valid value for your card security code. This is usually the "
-"last 3-4 digits on the card's signature panel."
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
@@ -243,6 +188,11 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Custom.php
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Profile Fields"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
@@ -284,6 +234,14 @@ msgstr ""
 msgid "Thank-you Sent"
 msgstr ""
 
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
+msgid "Send Receipt?"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
+msgid "Contribution Receipt"
+msgstr ""
+
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Premium"
@@ -310,7 +268,7 @@ msgid "DashBoard"
 msgstr ""
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
-msgid "Configure Online Contribution Pages"
+msgid "Manage Contribution Pages"
 msgstr ""
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
@@ -341,12 +299,8 @@ msgstr ""
 msgid "Disable Premium"
 msgstr ""
 
-#: CRM/Contribute/Payment/Google.php CRM/Event/Payment/Google.php
-msgid "Invalid response code received from Google Checkout: %1"
-msgstr ""
-
-#: CRM/Contribute/Payment/PayPalImpl.php CRM/Event/Payment/PayPalImpl.php
-msgid "Recurring contribution, but no database id"
+#: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
+msgid "Participant Source"
 msgstr ""
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
@@ -370,11 +324,17 @@ msgstr ""
 msgid "Event Summary"
 msgstr ""
 
-#: CRM/Event/DAO/Event.php CRM/Event/Menu.php
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-msgid "Event Information"
+#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
+msgid "Registration Start Date"
+msgstr ""
+
+#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
+msgid "Registration End Date"
+msgstr ""
+
+#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid "Fee Label"
 msgstr ""
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
@@ -390,19 +350,20 @@ msgstr ""
 msgid "Delete Event"
 msgstr ""
 
+#: CRM/Event/Form/ManageEvent/EventInfo.php
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Please select a valid start date."
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Fee.php CRM/Event/Form/Participant.php
+#: CRM/Event/Form/Registration/Register.php
+msgid "Event Fee(s)"
+msgstr ""
+
 #: CRM/Event/Form/ManageEvent/Registration.php CRM/Event/Invoke.php
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Online Registration"
-msgstr ""
-
-#: CRM/Event/Form/Participant.php CRM/Event/Form/Registration/Register.php
-msgid "Event Fee(s)"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Confirm.php CRM/Event/Payment/GoogleIPN.php
-#: CRM/Event/Payment/PayPalIPN.php
-msgid "Online Event Registration:"
 msgstr ""
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
@@ -459,14 +420,6 @@ msgstr ""
 msgid "Body Text"
 msgstr ""
 
-#: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Upload.php
-msgid "From Name"
-msgstr ""
-
-#: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Upload.php
-msgid "From Email"
-msgstr ""
-
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Subscribe.php
 msgid "\"%1 Administrator\" <do-not-reply@%2>"
 msgstr ""
@@ -502,10 +455,6 @@ msgstr ""
 msgid "Retry Mailing"
 msgstr ""
 
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
-msgid "- none -"
-msgstr ""
-
 #: CRM/Mailing/Invoke.php CRM/Mailing/Page/Browse.php
 msgid "Mailings"
 msgstr ""
@@ -525,19 +474,6 @@ msgstr ""
 #: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
 msgid "Membership Types"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipLog.php CRM/Member/DAO/Membership.php
-#: CRM/Member/Import/Form/MapField.php CRM/Member/Invoke.php
-#: templates/CRM/Member/Form/Search/Common.tpl
-msgid "Membership Status"
-msgstr ""
-
-#: CRM/Member/DAO/Membership.php CRM/Member/Form/Membership.php
-#: CRM/Member/Form/Task/Export.php CRM/Member/Import/Form/MapField.php
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#: templates/CRM/Member/Form/MembershipView.tpl
-msgid "Membership Type"
 msgstr ""
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
@@ -581,7 +517,7 @@ msgid "Renewal Reminder Day"
 msgstr ""
 
 #: CRM/Member/Form/Search.php CRM/Member/Page/DashBoard.php
-#: CRM/Member/Selector/Search.php
+#: CRM/Member/Selector/Search.php templates/CRM/Member/Form/MembershipView.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "Member"
 msgstr ""
@@ -595,39 +531,15 @@ msgid "Export Members"
 msgstr ""
 
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
-msgid "Message Templates"
-msgstr ""
-
-#: CRM/Member/Invoke.php CRM/Member/Menu.php
 msgid "Import Members"
-msgstr ""
-
-#: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
-#: templates/CRM/Member/Form/MembershipStatus.tpl
-msgid "Edit Membership Status"
-msgstr ""
-
-#: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
-msgid "Disable Membership Status"
-msgstr ""
-
-#: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
-msgid "Enable Membership Status"
-msgstr ""
-
-#: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MessageTemplates.php
-#: templates/CRM/Member/Form/MembershipStatus.tpl
-msgid "Delete Membership Status"
 msgstr ""
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
-"This contribution type can not be deleted because it is being\n"
-"                referenced by one or more of the following types of records: "
-"Contributions,\n"
-"                Contribution Pages, or Membership Types. Consider disabling "
-"this type instead\n"
-"                if you no longer want it used."
+"This contribution type can not be deleted because it is being referenced by "
+"one or more of the following types of records: Contributions, Contribution "
+"Pages, or Membership Types. Consider disabling this type instead if you no "
+"longer want it used."
 msgstr ""
 
 #: CRM/Contribute/BAO/ManagePremiums.php
@@ -673,7 +585,7 @@ msgid "Honor name like - \"%1\""
 msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Contribution Status - \"%1\""
+msgid "Contribution Status %1"
 msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
@@ -689,12 +601,13 @@ msgid "Thank-you date not set?"
 msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Receipt not set?"
+msgid "Receipt not sent?"
 msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
 msgid "In Honor Of"
 msgstr ""
 
@@ -750,6 +663,14 @@ msgstr ""
 msgid "Honor Block Text"
 msgstr ""
 
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Contribution Page Start Date"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Contribution Page End Date"
+msgstr ""
+
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Solicitor ID"
 msgstr ""
@@ -760,10 +681,6 @@ msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Cancel Reason"
-msgstr ""
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Receipt Date"
 msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php
@@ -883,10 +800,6 @@ msgid "Thumbnail"
 msgstr ""
 
 #: CRM/Contribute/DAO/Product.php
-msgid "Price"
-msgstr ""
-
-#: CRM/Contribute/DAO/Product.php
 msgid "Minimum Contribution"
 msgstr ""
 
@@ -908,6 +821,20 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
+"A payment processor must be selected for this contribution page (contact the "
+"site administrator for assistance)."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "Please set a payment processor in your contribution page"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "Payment processor is not set for this page"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid ""
 "The requested online contribution page is missing a required Contribution "
 "Amount section or Membership section. Please check with the site "
 "administrator for assistance."
@@ -915,10 +842,14 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
-"This contribution page is configured to support separate contribution\n"
-"and membership payments. The PayPal Website Payments Standard plugin\n"
-"does not currently support multiple simultaneous payments. Please\n"
-"contact the site administrator and notify them of this error"
+"This contribution page is configured to support separate contribution and "
+"membership payments. The PayPal Website Payments Standard plugin does not "
+"currently support multiple simultaneous payments. Please contact the site "
+"administrator and notify them of this error"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Confirm.php
+msgid "Make Contribution"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
@@ -954,10 +885,6 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Honoree Email is not valid."
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution/Main.php
-msgid "Credit card expiration date can not be a past date."
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
@@ -1030,6 +957,10 @@ msgid " The Membership you have selected requires a minimum contribution of %1"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
+msgid "Amount is required field."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be greater than %1"
 msgstr ""
 
@@ -1054,11 +985,11 @@ msgid "Add Premium to Contribution Page"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-msgid "Allow Other Amounts?"
+msgid "Allow other amounts"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-msgid "Contribution Amounts Section Enabled"
+msgid "Contribution Amounts section enabled"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
@@ -1224,6 +1155,11 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Cancelled Date"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Cancellation Reason"
 msgstr ""
 
@@ -1237,6 +1173,14 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 msgid "Honor First Name and Last Name OR an email should be set."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
+msgid "The contribution record has been saved."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
+msgid " A receipt has been emailed to the contributor."
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
@@ -1260,36 +1204,6 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionType.php
 msgid "The contribution type \"%1\" has been saved."
-msgstr ""
-
-#: CRM/Contribute/Form/CreatePPD.php
-msgid "API Username"
-msgstr ""
-
-#: CRM/Contribute/Form/CreatePPD.php
-msgid "API Subject"
-msgstr ""
-
-#: CRM/Contribute/Form/CreatePPD.php
-msgid "API Environment"
-msgstr ""
-
-#: CRM/Contribute/Form/CreatePPD.php
-msgid "API SSL Certificate"
-msgstr ""
-
-#: CRM/Contribute/Form/CreatePPD.php
-msgid "File size should be less than 8192 bytes"
-msgstr ""
-
-#: CRM/Contribute/Form/CreatePPD.php
-msgid "Could not open %1 file for writing"
-msgstr ""
-
-#: CRM/Contribute/Form/CreatePPD.php
-msgid ""
-"Your %1 value is: \"%2\". This value must be entered in the Payment "
-"Processor section of the CiviCRM configuration file."
 msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -1375,6 +1289,18 @@ msgstr ""
 msgid "The Premium \"%1\" has been saved."
 msgstr ""
 
+#: CRM/Contribute/Form/Offline.php
+msgid "You do not have any  payment processors that support this feature"
+msgstr ""
+
+#: CRM/Contribute/Form/Offline.php
+msgid "Submit Contribution"
+msgstr ""
+
+#: CRM/Contribute/Form/Offline.php
+msgid "Online Contribution: CiviCRM Admin Interface"
+msgstr ""
+
 #: CRM/Contribute/Form/Task/Batch.php
 msgid "Batch Update for Contributions"
 msgstr ""
@@ -1424,11 +1350,41 @@ msgid "Accept Credit Cards"
 msgstr ""
 
 #: CRM/Contribute/Invoke.php
-msgid "Create PPD"
+msgid "Contribution Payment Form"
 msgstr ""
 
-#: CRM/Contribute/Menu.php templates/CRM/Contribute/Form/CreatePPD.tpl
-msgid "Create PayPal API Profile"
+#: CRM/Contribute/Menu.php
+msgid ""
+"CiviContribute allows you to create and maintain any number of Online "
+"Contribution Pages. You can create different pages for different programs or "
+"campaigns - and customize text, amounts, types of information collected from "
+"contributors, etc."
+msgstr ""
+
+#: CRM/Contribute/Menu.php
+msgid ""
+"CiviContribute allows you to configure any number of Premiums which can be "
+"offered to contributors as incentives / thank-you gifts. Define the premiums "
+"you want to offer here."
+msgstr ""
+
+#: CRM/Contribute/Menu.php
+msgid ""
+"Contribution types are used to categorize contributions for reporting and "
+"accounting purposes. These are also referred to as Funds."
+msgstr ""
+
+#: CRM/Contribute/Menu.php
+msgid ""
+"You may choose to record the payment instrument used for each contribution. "
+"Common payment methods are installed by default (e.g. Check, Cash, Credit "
+"Card...). If your site requires additional payment methods, add them here."
+msgstr ""
+
+#: CRM/Contribute/Menu.php
+msgid ""
+"Credit card options that will be offered to contributors using your Online "
+"Contribution pages."
 msgstr ""
 
 #: CRM/Contribute/Menu.php templates/CRM/Contribute/Form/Search.tpl
@@ -1460,7 +1416,7 @@ msgid "Make a Copy of CiviCRM Contribution Page"
 msgstr ""
 
 #: CRM/Contribute/Page/ContributionPage.php
-msgid "New Online Contribution Page"
+msgid "Manage Contribution Page"
 msgstr ""
 
 #: CRM/Contribute/Page/ContributionType.php
@@ -1526,7 +1482,19 @@ msgid "Event %2 %1"
 msgstr ""
 
 #: CRM/Event/BAO/Query.php
+msgid "Event Type - %1"
+msgstr ""
+
+#: CRM/Event/BAO/Query.php
+msgid "Test Participants Only"
+msgstr ""
+
+#: CRM/Event/BAO/Query.php
 msgid "Participant Status %1"
+msgstr ""
+
+#: CRM/Event/BAO/Query.php
+msgid "Participant Role %1"
 msgstr ""
 
 #: CRM/Event/BAO/Query.php
@@ -1535,10 +1503,6 @@ msgstr ""
 
 #: CRM/Event/BAO/Query.php
 msgid "Event Date - From"
-msgstr ""
-
-#: CRM/Event/BAO/Query.php
-msgid "Participant status"
 msgstr ""
 
 #: CRM/Event/BAO/Query.php
@@ -1609,16 +1573,22 @@ msgstr ""
 msgid "Max Participants"
 msgstr ""
 
+#: CRM/Event/DAO/Event.php templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#: templates/CRM/Event/Form/Registration/Confirm.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+msgid "Event Information"
+msgstr ""
+
+#: CRM/Event/DAO/Event.php
+msgid "show location"
+msgstr ""
+
 #: CRM/Event/DAO/ParticipantPayment.php
 msgid "Payment ID"
 msgstr ""
 
 #: CRM/Event/DAO/Participant.php
 msgid "Register date"
-msgstr ""
-
-#: CRM/Event/DAO/Participant.php
-msgid "Participant Source"
 msgstr ""
 
 #: CRM/Event/DAO/Participant.php
@@ -1647,14 +1617,6 @@ msgstr ""
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Include Map Link?"
-msgstr ""
-
-#: CRM/Event/Form/ManageEvent/EventInfo.php
-msgid "Start Date /Time"
-msgstr ""
-
-#: CRM/Event/Form/ManageEvent/EventInfo.php
-msgid "Please select a valid start date."
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
@@ -1699,9 +1661,26 @@ msgid "Paid Event"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Fee.php
+msgid "Please select a payment processor"
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Fee.php
+msgid "Please select contribution type."
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Fee.php
+msgid "Please enter the fee label for the paid event."
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+#: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Event Fees"
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Location.php
+msgid "Show Location?"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Location.php
@@ -1715,6 +1694,10 @@ msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Registration Link Text"
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Please select a valid end date."
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -1759,6 +1742,24 @@ msgstr ""
 
 #: CRM/Event/Form/Participant.php templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Source"
+msgstr ""
+
+#: CRM/Event/Form/Participant.php
+msgid "Total Participant(s) added to event: %1"
+msgstr ""
+
+#: CRM/Event/Form/Registration.php
+msgid "You cannot register for this event currently"
+msgstr ""
+
+#: CRM/Event/Form/Registration.php
+msgid ""
+"A payment processor must be selected for this event registration page "
+"(contact the site administrator for assistance)."
+msgstr ""
+
+#: CRM/Event/Form/Registration.php
+msgid "Payment Processor is not set."
 msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
@@ -1813,6 +1814,14 @@ msgstr ""
 msgid "Select saved mapping"
 msgstr ""
 
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
 #: CRM/Event/Import/Parser.php
 msgid "View Participant URL"
 msgstr ""
@@ -1823,6 +1832,10 @@ msgstr ""
 
 #: CRM/Event/Invoke.php
 msgid "Manage Event"
+msgstr ""
+
+#: CRM/Event/Invoke.php
+msgid "You do not have access to this page."
 msgstr ""
 
 #: CRM/Event/Invoke.php
@@ -1838,11 +1851,28 @@ msgid "Event Listings"
 msgstr ""
 
 #: CRM/Event/Menu.php
+msgid ""
+"Create and edit event configuration including times, locations, online "
+"registration forms, and fees. Links for iCal and RSS syndication."
+msgstr ""
+
+#: CRM/Event/Menu.php
 msgid "Event Types"
+msgstr ""
+
+#: CRM/Event/Menu.php
+msgid ""
+"Price sets allow you to offer multiple options with associated fees (e.g. "
+"pre-conference workshops, additional meals, etc.). Configure Price Sets for "
+"events which need more than a single set of fee levels."
 msgstr ""
 
 #: CRM/Event/Menu.php templates/CRM/Event/Form/Search.tpl
 msgid "Find Participants"
+msgstr ""
+
+#: CRM/Event/Menu.php templates/CRM/Event/Page/ManageEvent.tpl
+msgid "New Event"
 msgstr ""
 
 #: CRM/Event/Page/DashBoard.php
@@ -1915,6 +1945,10 @@ msgstr ""
 
 #: CRM/Event/Task.php
 msgid "Cancel Registration"
+msgstr ""
+
+#: CRM/Mailing/BAO/Component.php
+msgid "The mailing component \"%1\" has been saved."
 msgstr ""
 
 #: CRM/Mailing/BAO/Job.php
@@ -1994,6 +2028,14 @@ msgid "Exclude"
 msgstr ""
 
 #: CRM/Mailing/DAO/Mailing.php
+msgid "From Name"
+msgstr ""
+
+#: CRM/Mailing/DAO/Mailing.php
+msgid "From Email"
+msgstr ""
+
+#: CRM/Mailing/DAO/Mailing.php
 msgid "Replyto Email"
 msgstr ""
 
@@ -2027,10 +2069,6 @@ msgstr ""
 
 #: CRM/Mailing/Form/Component.php
 msgid "Body in html format"
-msgstr ""
-
-#: CRM/Mailing/Form/Component.php
-msgid "The mailing component \"%1\" has been saved."
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
@@ -2086,11 +2124,19 @@ msgid "Retry scheduled for mailing: %1"
 msgstr ""
 
 #: CRM/Mailing/Form/Schedule.php
+msgid "Schedule Mailing"
+msgstr ""
+
+#: CRM/Mailing/Form/Schedule.php
+msgid "Scheduled date is not valid."
+msgstr ""
+
+#: CRM/Mailing/Form/Schedule.php
 msgid "Start date cannot be earlier than the current time."
 msgstr ""
 
 #: CRM/Mailing/Form/Schedule.php
-msgid "Schedule / Send"
+msgid "Schedule or Send"
 msgstr ""
 
 #: CRM/Mailing/Form/Test.php
@@ -2118,11 +2164,19 @@ msgid "The test mailing could not be delivered due to the following error:"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
+msgid "FROM Name"
+msgstr ""
+
+#: CRM/Mailing/Form/Upload.php
+msgid "FROM Email"
+msgstr ""
+
+#: CRM/Mailing/Form/Upload.php
 msgid "Forward Replies?"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
-msgid "Track URLs?"
+msgid "Track Click-throughs?"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
@@ -2138,7 +2192,7 @@ msgid "Mailing Subject"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
-msgid "Upload Text Message"
+msgid "Upload TEXT Message"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
@@ -2154,7 +2208,7 @@ msgid "Upload HTML Message"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
-msgid "Please provide either the text or HTML message."
+msgid "Please provide either a Text or HTML formatted message - or both."
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
@@ -2182,7 +2236,31 @@ msgid "The mailing queue has been processed."
 msgstr ""
 
 #: CRM/Mailing/Menu.php
-msgid "Mailing Header / Footer"
+msgid "Mailer Settings "
+msgstr ""
+
+#: CRM/Mailing/Menu.php
+msgid "Configure spool period, throttling and other mailer settings."
+msgstr ""
+
+#: CRM/Mailing/Menu.php
+msgid "Headers, Footers, and Automated Messages"
+msgstr ""
+
+#: CRM/Mailing/Menu.php
+msgid ""
+"Configure the header and footer used for mailings. Customize the content of "
+"automated Subscribe, Unsubscribe, and Opt-out messages."
+msgstr ""
+
+#: CRM/Mailing/Menu.php
+msgid "Domain Information"
+msgstr ""
+
+#: CRM/Mailing/Menu.php
+msgid ""
+"Configure primary contact name, email, return-path and address information. "
+"This information is used by CiviMail to identify the sending organization."
 msgstr ""
 
 #: CRM/Mailing/Page/Component.php
@@ -2282,7 +2360,7 @@ msgid "Replies"
 msgstr ""
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-msgid "Unsubscriptions"
+msgid "Unsubscribe Requests"
 msgstr ""
 
 #: CRM/Mailing/Selector/Event.php
@@ -2299,6 +2377,17 @@ msgstr ""
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Tracked Opens"
+msgstr ""
+
+#: CRM/Member/BAO/Membership.php
+msgid ""
+"The membership can not be saved.<br/> No valid membership status for given "
+"dates."
+msgstr ""
+
+#: CRM/Member/BAO/Membership.php
+msgid ""
+"The membership can not be saved. No valid membership status for given dates"
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php
@@ -2338,14 +2427,6 @@ msgid ""
 "Membership Type."
 msgstr ""
 
-#: CRM/Member/BAO/MessageTemplates.php
-msgid "Selected message template can not be deleted."
-msgstr ""
-
-#: CRM/Member/BAO/MessageTemplates.php
-msgid "Selected message templates has been deleted."
-msgstr ""
-
 #: CRM/Member/BAO/Query.php
 msgid "Member Since %2 %1"
 msgstr ""
@@ -2368,6 +2449,10 @@ msgstr ""
 
 #: CRM/Member/BAO/Query.php
 msgid "End Date - From"
+msgstr ""
+
+#: CRM/Member/BAO/Query.php
+msgid "Find Test Memberships Only?"
 msgstr ""
 
 #: CRM/Member/DAO/MembershipBlock.php
@@ -2416,7 +2501,7 @@ msgid "Membership Expiration Date"
 msgstr ""
 
 #: CRM/Member/DAO/Membership.php
-msgid "Status Override?"
+msgid "Status Override"
 msgstr ""
 
 #: CRM/Member/DAO/Membership.php
@@ -2459,22 +2544,6 @@ msgstr ""
 msgid "lifetime"
 msgstr ""
 
-#: CRM/Member/DAO/MessageTemplates.php
-msgid "Msg Title"
-msgstr ""
-
-#: CRM/Member/DAO/MessageTemplates.php
-msgid "Msg Subject"
-msgstr ""
-
-#: CRM/Member/DAO/MessageTemplates.php
-msgid "Msg Text"
-msgstr ""
-
-#: CRM/Member/DAO/MessageTemplates.php
-msgid "Msg Html"
-msgstr ""
-
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Section Enabled?"
 msgstr ""
@@ -2511,18 +2580,26 @@ msgstr ""
 msgid "Membership Types Default"
 msgstr ""
 
+#: CRM/Member/Form/MembershipBlock.php
+msgid ""
+"Please select at least one Membership Type to include in the Membership "
+"section of this page."
+msgstr ""
+
+#: CRM/Member/Form/Membership.php
+msgid "-- select --"
+msgstr ""
+
+#: CRM/Member/Form/Membership.php
+msgid "Membership Organization and Type"
+msgstr ""
+
 #: CRM/Member/Form/Membership.php
 msgid "Join Date"
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
 msgid "Status Hold?"
-msgstr ""
-
-#: CRM/Member/Form/Membership.php
-msgid ""
-"The membership can not be saved.<br/> No valid membership status for given "
-"dates."
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
@@ -2584,28 +2661,6 @@ msgstr ""
 msgid "The membership type \"%1\" has been saved."
 msgstr ""
 
-#: CRM/Member/Form/MessageTemplates.php
-#: templates/CRM/Member/Page/MessageTemplates.tpl
-msgid "Message Title"
-msgstr ""
-
-#: CRM/Member/Form/MessageTemplates.php
-#: templates/CRM/Member/Page/MessageTemplates.tpl
-msgid "Message Subject"
-msgstr ""
-
-#: CRM/Member/Form/MessageTemplates.php
-msgid "Text Message"
-msgstr ""
-
-#: CRM/Member/Form/MessageTemplates.php
-msgid "HTML Message"
-msgstr ""
-
-#: CRM/Member/Form/MessageTemplates.php
-msgid "The Message Template \"%1\" has been saved."
-msgstr ""
-
 #: CRM/Member/Form/Task/Delete.php
 msgid "Deleted Member(s): %1"
 msgstr ""
@@ -2631,7 +2686,21 @@ msgid "View Membership URL"
 msgstr ""
 
 #: CRM/Member/Menu.php
+msgid ""
+"Define the types of memberships you want to offer. For each type, you can "
+"specify a \"name\" (Gold Member, Honor Society Member...), a description, "
+"duration, and a minimum fee."
+msgstr ""
+
+#: CRM/Member/Menu.php
 msgid "Membership Status Rules"
+msgstr ""
+
+#: CRM/Member/Menu.php
+msgid ""
+"Status \"rules\" define the current status for a membership based on that "
+"membership's start and end dates. You can adjust the default status options "
+"and rules as needed to meet your needs."
 msgstr ""
 
 #: CRM/Member/Menu.php templates/CRM/Member/Form/Search.tpl
@@ -2640,6 +2709,24 @@ msgstr ""
 
 #: CRM/Member/Page/MembershipStatus.php
 msgid "Are you sure you want to disable this membership status rule?"
+msgstr ""
+
+#: CRM/Member/Page/MembershipStatus.php
+#: templates/CRM/Member/Form/MembershipStatus.tpl
+msgid "Edit Membership Status"
+msgstr ""
+
+#: CRM/Member/Page/MembershipStatus.php
+msgid "Disable Membership Status"
+msgstr ""
+
+#: CRM/Member/Page/MembershipStatus.php
+msgid "Enable Membership Status"
+msgstr ""
+
+#: CRM/Member/Page/MembershipStatus.php
+#: templates/CRM/Member/Form/MembershipStatus.tpl
+msgid "Delete Membership Status"
 msgstr ""
 
 #: CRM/Member/Page/MembershipType.php
@@ -2662,10 +2749,6 @@ msgstr ""
 #: CRM/Member/Page/MembershipType.php
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Delete Membership Type"
-msgstr ""
-
-#: CRM/Member/Page/MessageTemplates.php
-msgid "Are you sure you want to disable this message tempate?"
 msgstr ""
 
 #: CRM/Member/Selector/Search.php
@@ -2736,6 +2819,14 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "Membership Fee"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Event/Form/ParticipantView.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Total"
 msgstr ""
 
@@ -2750,14 +2841,15 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
 "Your initial contribution will be processed once you complete the "
-"confirmation step. You will be able to modify or cancel future\n"
-"                contributions at any time by logging in to your account."
+"confirmation step. You will be able to modify or cancel future contributions "
+"at any time by logging in to your account."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Contribute/Form/Offline.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
@@ -2769,6 +2861,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Contribute/Form/Offline.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
@@ -2833,16 +2926,19 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Contribute/Form/Offline.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Enter numbers only, no spaces or dashes."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Contribute/Form/Offline.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Security Code Location on Credit Card"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Contribute/Form/Offline.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid ""
 "Usually the last 3-4 digits in the signature area on the back of the card."
@@ -2926,19 +3022,14 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
-"Use this form to configure Contribution Amount options. You can enable "
-"recurring contributions (if your payment processor is &quot;PayPal\n"
-"     Website Payments-Standard). You can give contributors the ability to "
-"enter their own contribution amounts\n"
-"     - and/or provide a fix\n"
-"ed list of amounts. For fixed amounts, you can enter a label for each "
-"'level' of contribution (e.g. Friend, Sustainer, etc.)."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-msgid ""
-"If you allow people to enter their own dollar amounts, you can also set "
-"minimum and maximum values."
+"Use this form to configure Contribution Amount options. You can give "
+"contributors the ability to enter their own contribution amounts - and/or "
+"provide a fixed list of amounts. For fixed amounts, you can enter a label "
+"for each 'level' of contribution (e.g. Friend, Sustainer, etc.). If you "
+"allow people to enter their own dollar amounts, you can also set minimum and "
+"maximum values. Depending on your choice of Payment Processor, you may be "
+"able to offer a recurring contribution option (<a href=\"%1\" target=\"_blank"
+"\" title=\"%2\">more info...</a>)."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -2982,7 +3073,10 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid "Fixed Contribution Options"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
 "Use the table below to enter up to ten fixed contribution amounts. These "
 "will be presented as a list of radio button options. Both the label and "
@@ -2996,12 +3090,10 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
 "You may want to collect information from contributors beyond what is "
-"required to make a contribution.\n"
-"    For example, you may want to inquire about volunteer availability and "
-"skills.\n"
-"    Add any number of fields to your contribution form by selecting CiviCRM "
-"Profiles (collections of fields) to include at the beginning of the page, "
-"and/or at the bottom."
+"required to make a contribution. For example, you may want to inquire about "
+"volunteer availability and skills. Add any number of fields to your "
+"contribution form by selecting CiviCRM Profiles (collections of fields) to "
+"include at the beginning of the page, and/or at the bottom."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
@@ -3019,15 +3111,16 @@ msgid "Custom Page Elements"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
-#: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
-"Select a CiviCRM Profile to be included at the top of the page (immediately "
-"after the introductory message)."
+"Include additional fields in this online contribution page by configuring "
+"and selecting a CiviCRM Profile to be included at the top of the page "
+"(immediately after the introductory message)."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
-#: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-msgid "Select a CiviCRM Profile to be included at the bottom of the page."
+msgid ""
+"Include additional fields in this online contribution page by configuring "
+"and selecting a CiviCRM Profile to be included at the bottom of the page."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Delete.tpl
@@ -3119,6 +3212,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+msgid ""
+"No Payment Processor has been configured / enabled for your site. Unless you "
+"are only using CiviContribute to solicit non-monetary / in-kind "
+"contributions, you will need to <a href=\"%1\">configure a Payment "
+"Processor</a>. Then return to this screen and assign the processor to this "
+"Contribution Page. (<a href=\"%3\" target=\"_blank\" title=\"%2\">read "
+"more...</a>)"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "This title will be displayed at the top of the page."
 msgstr ""
 
@@ -3128,6 +3231,14 @@ msgid ""
 "page (e.g. donation, membership fee, etc.). You can add or modify available "
 "types using the <strong>Contribution Type</strong> option from the CiviCRM "
 "Administrator Control Panel."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+msgid ""
+"Select the payment processor to be used for contributions submitted from "
+"this contribution page (unless you are soliciting non-monetary / in-kind "
+"contributions only). (<a href=\"%1\" target=\"_blank\" title=\"%2\">read "
+"more...</a>)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
@@ -3184,6 +3295,14 @@ msgstr ""
 msgid ""
 "When your page is active, you can link people to the page by copying and "
 "pasting the following URL:"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid ""
+"When your page is active, create front-end links to the contribution page "
+"using the Menu Manager. Select <strong>Online Contribution</strong> and "
+"enter <strong>%1</strong> for the Contribution id."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
@@ -3280,14 +3399,17 @@ msgid ""
 "This page is currently running in <strong>test-drive mode</strong>. "
 "Transactions will be sent to your payment processor's test server. "
 "<strong>No live financial transactions will be submitted. However, a contact "
-"record will be created or updated and a contribution record will be saved to "
-"the database. Use obvious test contact names so you can review and delete "
-"these records as needed. </strong> Refer to your payment processor's "
-"documentation for information on values to use for test credit card number, "
-"security code, postal code, etc."
+"record will be created or updated and a test contribution record will be "
+"saved to the database. Use obvious test contact names so you can review and "
+"delete these records as needed. Test contributions are not visible on the "
+"Contributions tab, but can be viewed by searching for 'Test Contributions' "
+"in the CiviContribute search form.</strong> Refer to your payment "
+"processor's documentation for information on values to use for test credit "
+"card number, security code, postal code, etc."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
 msgid "Please print this receipt for your records."
 msgstr ""
 
@@ -3301,6 +3423,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
 msgid "Contribution Information"
 msgstr ""
 
@@ -3327,12 +3450,14 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
 msgid "Honoree Email"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution.tpl
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
 msgid "Premium Information"
 msgstr ""
 
@@ -3396,9 +3521,8 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
 "You will receive an email receipt for each recurring contribution. The "
-"receipts will also\n"
-"                include a link you can use if you decide to modify or cancel "
-"your future contributions."
+"receipts will also include a link you can use if you decide to modify or "
+"cancel your future contributions."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
@@ -3408,12 +3532,11 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#: templates/CRM/Event/Form/Participant.tpl
-msgid "(test)"
+msgid "Select the appropriate contribution type for this transaction."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Select the appropriate contribution type for this transaction."
+msgid "Actual amount given by contributor."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
@@ -3431,7 +3554,21 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Actual amount given by contributor."
+msgid "Date that a receipt was sent to the contributor."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Cancellation Information"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid ""
+"Enter the cancellation date, or you can skip this field and the cancellation "
+"date will be automatically set to TODAY."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Additional Details"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
@@ -3463,15 +3600,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Date that a receipt was sent to the contributor."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a thank-you message was sent to the contributor."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "To mark a contribution as cancelled, enter the cancellation date here."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
@@ -3483,8 +3612,7 @@ msgstr ""
 msgid ""
 "WARNING: You can not delete a contribution type if it is currently used by "
 "any Contributions, Contribution Pages or Membership Types. Consider "
-"disabling this option\n"
-"          instead."
+"disabling this option instead."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
@@ -3512,41 +3640,6 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Option"
-msgstr ""
-
-#: templates/CRM/Contribute/Form/CreatePPD.tpl
-msgid ""
-"This form is used to create the PayPal API Profile file for use\n"
-"    with PayPal's <strong>Certificate-based authentication method</strong>. "
-"If you are using the recommended\n"
-"    <strong>Signature Credential</strong>, you do not need to use this form. "
-"Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2\">online "
-"documentation</a> for more info."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/CreatePPD.tpl
-msgid ""
-"Select <strong>sandbox</strong> to create test (sandbox) profile files in "
-"your CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH. Select <strong>live</strong> "
-"to create live profile files in your CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/CreatePPD.tpl
-msgid ""
-"Enter the API Username you used when requesting the digital certificate for "
-"this environment."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/CreatePPD.tpl
-msgid ""
-"Browse to the digital certificate that you downloaded from PayPal. Choose "
-"the <strong>sandbox</strong> or <strong>live</strong> certificate based on "
-"the environment you are creating this profile for."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/CreatePPD.tpl
-msgid ""
-"Subject is left blank unless you are processing on behalf of a third party."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
@@ -3659,6 +3752,38 @@ msgstr ""
 msgid ""
 "Frequency of subscription or service (e.g. journal delivered every two "
 "months)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Message.tpl
+msgid "Thanks for your support."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Message.tpl
+msgid "Received Date"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Message.tpl
+msgid "Additional Information"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Message.tpl
+msgid "Sent"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Offline.tpl
+msgid ""
+"Use this form to submit a new contribution on behalf of %1. <strong>A %2 "
+"transaction will be submitted</strong> using the selected payment processor."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Offline.tpl
+msgid "Automatically email a receipt for this contribution?"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Offline.tpl
+msgid ""
+"Enter the name as shown on the credit or debit card, and the billing address "
+"for this card."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
@@ -3776,6 +3901,15 @@ msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
+"CiviCRM has detected invalid data and/or formatting errors in one record. "
+"This record has not been imported."
+msgid_plural ""
+"CiviCRM has detected invalid data and/or formatting errors in %count "
+"records. These records have not been imported."
+msgstr[0] ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing contribution records. This record have not "
 "been imported."
@@ -3793,6 +3927,12 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contribution records."
 msgstr[0] ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid ""
+"Rows with invalid data in one or more fields. These rows have been skipped "
+"(not imported)."
+msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Rows with mismatched contribution IDs... (NOT updated)."
@@ -3813,6 +3953,13 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
+msgid ""
+"Files to be imported must be in the 'comma-separated-values' format (CSV) "
+"and must contain data needed to match the contribution to an existing "
+"contact in your CiviCRM database."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
@@ -3820,17 +3967,15 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
-#: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
-"Select 'Individual' if each record in your file represents and individual "
-"person."
+"Select 'Individual' if you are importing contributions made by individual "
+"persons."
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
-#: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
-"Select 'Organization' or 'Household' if each record in your file represents "
-"a contact of that type."
+"Select 'Organization' or 'Household' if you are importing contributions made "
+"by contacts of that type."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
@@ -3851,6 +3996,13 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
+"Create front-end links to this contribution page using the Menu Manager. "
+"Select <strong>Online Contribution</strong> and enter <strong>%1</strong> "
+"for the Contribution id."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid ""
 "This page is currently <strong>inactive</strong> (not accessible to "
 "visitors)."
 msgstr ""
@@ -3865,16 +4017,16 @@ msgstr ""
 msgid ""
 "Use the links below to update features and content for this Online "
 "Contribution Page, as well as to run through the contribution process in "
-"<strong>test mode</strong>.\n"
-"    Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">CiviContribute Administration Documentation</a> for more information."
+"<strong>test mode</strong>. Refer to the <a href=\"%1\" target=\"_blank\" "
+"title=\"%2\">CiviContribute Administration Documentation</a> for more "
+"information."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Set page title, contribution type (donation, campaign contribution, etc.), "
-"goal amount, introduction, honoree features, and page status (active or "
-"disabled)."
+"payment processor, goal amount, introduction, honoree features, and page "
+"status (active or disabled)."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -3921,9 +4073,11 @@ msgid ""
 "confirmation, thank-you page, and receipting. Transactions will be directed "
 "to your payment processor's test server. <strong>No live financial "
 "transactions will be submitted. However, a contact record will be created or "
-"updated and a contribution record will be saved to the database. Use obvious "
-"test contact names so you can review and delete these records as needed.</"
-"strong>"
+"updated and a test contribution record will be saved to the database. Use "
+"obvious test contact names so you can review and delete these records as "
+"needed. Test contributions are not visible on the Contributions tab, but can "
+"be viewed by searching for 'Test Contributions' in the CiviContribute search "
+"form.</strong>"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -3932,7 +4086,11 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
-"Review your customized <strong>LIVE</strong> online contribution page here. "
+"Review your customized <strong>LIVE</strong> online contribution page here."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid ""
 "Use the following URL in links and buttons on any website to send visitors "
 "to this live page"
 msgstr ""
@@ -3983,6 +4141,10 @@ msgstr ""
 msgid ""
 "No contribution pages have been created yet. Click <a href=\"%1\">here</a> "
 "to create a new contribution page using the step-by-step wizard."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionTotals.tpl
+msgid "Current Year-to-Date"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
@@ -4174,8 +4336,55 @@ msgid ""
 "copying and pasting the following URL:"
 msgstr ""
 
+#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+msgid ""
+"When this Event is active, create front-end links to the Event Information "
+"page using the Menu Manager. Select <strong>Event Info Page</strong> and "
+"enter <strong>%1</strong> for the Event ID."
+msgstr ""
+
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-msgid "Fee Label"
+msgid ""
+"No Payment Processor has been configured / enabled for your site. If this is "
+"a Paid Event, you will need to <a href=\"%1\">configure a Payment Processor</"
+"a> first. Then return to this screen and assign the processor to this Event. "
+"(<a href=\"%3\" target=\"_blank\" title=\"%2\">read more...</a>)"
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid ""
+"Select the payment processor to be used to process Event Registration fees "
+"for this event. (<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</"
+"a>)"
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid ""
+"This contribution type will be assigned to payments made by participants "
+"when they register online."
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid "This label is displayed with the list of event fees."
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid ""
+"Select a pre-configured Price Set to offer multiple individually priced "
+"options for event registrants. Otherwise, select &quot;-none-&quot, and "
+"enter one or more fee levels in the table below. Create or edit Price Sets "
+"<a href=\"%1\">here</a>."
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid "Fee Levels"
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid ""
+"Use the table below to enter descriptive labels and amounts for up to ten "
+"event fee levels. These will be presented as a list of radio button options. "
+"Both the label and dollar amount will be displayed."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
@@ -4185,22 +4394,18 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 msgid ""
 "Use this form to configure the location and optional contact information for "
-"the event.\n"
-"        This information will be displayed on the Event Information page. It "
-"will also be included\n"
-"        in online registration pages and confirmation emails if these "
-"features are enabled."
+"the event. This information will be displayed on the Event Information page. "
+"It will also be included in online registration pages and confirmation "
+"emails if these features are enabled."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
 "If you want to provide an Online Registration page for this event, check the "
-"first box below and\n"
-"then complete the fields on this form. You can offer online registration for "
-"both Paid and Free events.\n"
-"Paid events require that you have configured a <a href=\"%1\" target=\"_blank"
-"\" title=\"Opens documentation in a new window\">Payment Processor</a> for "
-"your site."
+"first box below and then complete the fields on this form. You can offer "
+"online registration for both Paid and Free events. Paid events require that "
+"you have configured a <a href=\"%1\" target=\"_blank\" title=\"Opens "
+"documentation in a new window\">Payment Processor</a> for your site."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
@@ -4225,6 +4430,19 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Optional footer text for registration screen."
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Registration.tpl
+msgid ""
+"Include additional fields on this registration form by configuring and "
+"selecting a CiviCRM Profile to be included at the top of the page "
+"(immediately after the introductory message)."
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Registration.tpl
+msgid ""
+"Include additional fields on this registration form by configuring and "
+"selecting a CiviCRM Profile to be included at the bottom of the page."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
@@ -4330,6 +4548,11 @@ msgid "Source for this registration (if applicable)."
 msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
+#: templates/CRM/Event/Form/Selector.tpl
+msgid "(no fee)"
+msgstr ""
+
+#: templates/CRM/Event/Form/Participant.tpl
 msgid "Event Fee Level (if applicable)."
 msgstr ""
 
@@ -4346,26 +4569,20 @@ msgid "Registration Date"
 msgstr ""
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
+#: templates/CRM/Event/Form/Registration/LineItem.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+msgid "Item"
+msgstr ""
+
+#: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Level"
 msgstr ""
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid ""
-"Please verify the information below. Click <strong>Go Back</strong>\n"
-"            if you need to make changes. Otherwise, click the "
-"<strong>Continue</strong> button below\n"
-"            to complete your registration."
-msgstr ""
-
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-msgid "Registration Fee"
-msgstr ""
-
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-msgid "Amount :"
+"Please verify the information below. Click <strong>Go Back</strong> if you "
+"need to make changes. Otherwise, click the <strong>Continue</strong> button "
+"below to complete your registration."
 msgstr ""
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
@@ -4382,17 +4599,15 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-msgid "When"
-msgstr ""
-
-#: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
-#: templates/CRM/Event/Page/EventInfo.tpl
-msgid "through"
-msgstr ""
-
-#: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
-#: templates/CRM/Event/Page/EventInfo.tpl
 msgid "Map this Location"
+msgstr ""
+
+#: templates/CRM/Event/Form/Registration/LineItem.tpl
+msgid "Total Price"
+msgstr ""
+
+#: templates/CRM/Event/Form/Registration/LineItem.tpl
+msgid "Event Total"
 msgstr ""
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
@@ -4421,6 +4636,10 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Event Contacts:"
+msgstr ""
+
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+msgid "Each"
 msgstr ""
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
@@ -4591,8 +4810,15 @@ msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
 msgid ""
-"The Event Import Wizard allows you to easily upload events from other "
-"applications into CiviCRM."
+"The Event Import Wizard allows you to easily upload event participation data "
+"such as event registrations from other applications into CiviCRM."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+msgid ""
+"Files to be imported must be in the 'comma-separated-values' format (CSV) "
+"and must contain data needed to match the participant data to an existing "
+"contact in your CiviCRM database."
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
@@ -4601,11 +4827,24 @@ msgid ""
 "(Example: \"Contact ID\", \"Participant Role\")."
 msgstr ""
 
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+msgid ""
+"Select 'Individual' if you are importing event participation data for "
+"individual persons."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+msgid ""
+"Select 'Organization' or 'Household' if you are importing event "
+"participation data for contacts of that type."
+msgstr ""
+
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid ""
 "CiviEvent allows you to create customized page(s) for creating and "
-"registering online events. Administrators can create or modify your Online "
-"Events Pages from <a href=\"%1\">here</a>."
+"registering online events. Administrators can create <a href=\"%1"
+"\"><strong>new events</strong></a> and <a href=\"%2\"><strong>manage "
+"existing events</strong></a>."
 msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
@@ -4614,7 +4853,7 @@ msgid ""
 "individual contacts, use <a href=\"%1\">Find Contacts</a> to locate the "
 "contact. Then click <strong>View</strong> to go to their summary page and "
 "click on the <strong>New Event</strong> link. You can also <a href=\"%2"
-"\">import batches of offline participants</a> from other sources."
+"\"><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
@@ -4628,10 +4867,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-msgid "Date(s)"
-msgstr ""
-
-#: templates/CRM/Event/Page/DashBoard.tpl
 msgid "(max %1)"
 msgstr ""
 
@@ -4641,10 +4876,6 @@ msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Recent Registrations"
-msgstr ""
-
-#: templates/CRM/Event/Page/EventInfo.tpl
-msgid "Fee(s)"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
@@ -4728,11 +4959,15 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-msgid ""
-" <a href=\"%1\" id=\"newManageEvent\">&raquo; New Event</a>&nbsp;&nbsp;&nbsp;"
-"&nbsp;&nbsp;&nbsp; <a href=\"%2\">&raquo; Browse iCalendar Listing</a> &nbsp;"
-"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"%3\">&raquo; Download iCalendar "
-"File</a>"
+msgid "Download iCalendar File"
+msgstr ""
+
+#: templates/CRM/Event/Page/ManageEvent.tpl
+msgid "iCalendar Feed"
+msgstr ""
+
+#: templates/CRM/Event/Page/ManageEvent.tpl
+msgid "RSS 2.0 Feed"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
@@ -4772,6 +5007,18 @@ msgstr ""
 msgid "Retry Mailing: %1"
 msgstr ""
 
+#: templates/CRM/Mailing/Form/Schedule.tpl
+msgid ""
+"You can schedule this mailing to be sent starting at a specific date and "
+"time, OR you can request that it be sent as soon as possible by checking "
+"&quot;Send Immediately&quot;."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Schedule.tpl
+msgid ""
+"Set a date and time when you want CiviMail to start sending this mailing."
+msgstr ""
+
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "(filled with your contact's token values)"
 msgstr ""
@@ -4798,10 +5045,8 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
-"You must create two files with the actual message you are sending in this "
-"mailing - an HTML formatted file, and a simple text file. Save these files "
-"somewhere on your local computer - and locate them using the "
-"<strong>Browse...</strong> buttons below."
+"Before completing this step, you must create one or two files containing "
+"your mailing content."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
@@ -4820,7 +5065,7 @@ msgid "More information and sample messages..."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
-msgid "Settings and Content"
+msgid "Content"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
@@ -4833,6 +5078,60 @@ msgstr ""
 msgid ""
 "Browse to the <strong>HTML</strong> message file you have prepared for this "
 "mailing."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid ""
+"You may choose to include a pre-configured Header block above your message."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid ""
+"You may choose to include a pre-configured Footer block below your message. "
+"This is a good place to include the required unsubscribe, opt-out and postal "
+"address tokens."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid ""
+"Track the number of times recipients click each link in this mailing. NOTE: "
+"When this feature is enabled, all links in the message body will be "
+"automaticallly re-written to route through your CiviCRM server prior to "
+"redirecting to the target page."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid ""
+"Track the number of times recipients open this mailing in their email "
+"software."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid "Responding"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid ""
+"If a recipient replies to this mailing, forward the reply to the FROM Email "
+"address specified above."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid ""
+"If a recipient replies to this mailing, send an automated reply using the "
+"selected message."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid ""
+"Select the automated message to be sent when a recipient unsubscribes from "
+"this mailing."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid ""
+"Select the automated message to be sent when a recipient opts out of all "
+"mailings from your site."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
@@ -4959,8 +5258,8 @@ msgstr ""
 msgid ""
 "Use this form to enable and configure a Membership Signup and Renewal "
 "section for this Online Contribution Page. If you're not using this page for "
-"membership signup, leave the <strong>Enabled</strong> box un-checked\n"
-"    (<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
+"membership signup, leave the <strong>Enabled</strong> box un-checked (<a "
+"href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
@@ -5004,7 +5303,8 @@ msgid ""
 "Should the membership fee be processed as a separate transaction? If this "
 "option is checked AND the contribution page includes a separate contribution "
 "amount block - two transactions will be generated: one for the membership "
-"fee amount; and one for the selected contribution amount."
+"fee amount; and one for the selected contribution amount. (This option is "
+"NOT available for PayPal Website Payments Standard.)"
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
@@ -5091,7 +5391,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Form/Membership.tpl
-msgid "Membership type for this membership."
+msgid "Select Membership Organization and then Membership Type."
 msgstr ""
 
 #: templates/CRM/Member/Form/Membership.tpl
@@ -5232,9 +5532,8 @@ msgstr ""
 msgid ""
 "If you would like Membership Renewal Reminder emails sent to members "
 "automatically, you need to create a reminder message template and you need "
-"to\n"
-"                configure and periodically run a \"cron\" job on your server "
-"(<a href=\"%1\" target=\"_blank\" title=\"%2\">more info...</a>)."
+"to configure and periodically run a \"cron\" job on your server (<a href=\"%1"
+"\" target=\"_blank\" title=\"%2\">more info...</a>)."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -5256,6 +5555,10 @@ msgid "Send Reminder these many days prior to membership expiration."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipView.tpl
+msgid "By Relationship"
+msgstr ""
+
+#: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Join date"
 msgstr ""
 
@@ -5269,50 +5572,6 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Reminder date"
-msgstr ""
-
-#: templates/CRM/Member/Form/MessageTemplates.tpl
-msgid "New Message Template"
-msgstr ""
-
-#: templates/CRM/Member/Form/MessageTemplates.tpl
-msgid "Edit Message Template"
-msgstr ""
-
-#: templates/CRM/Member/Form/MessageTemplates.tpl
-msgid "Delete Message Template"
-msgstr ""
-
-#: templates/CRM/Member/Form/MessageTemplates.tpl
-msgid "Do you want to delete this message template ?"
-msgstr ""
-
-#: templates/CRM/Member/Form/MessageTemplates.tpl
-msgid "Descriptive title of message - used for template selection."
-msgstr ""
-
-#: templates/CRM/Member/Form/MessageTemplates.tpl
-msgid ""
-"Subject for email message. Tokens may be included (<a href=\"%1\" target="
-"\"_blank\" title=\"%2\">token documentation</a>)."
-msgstr ""
-
-#: templates/CRM/Member/Form/MessageTemplates.tpl
-msgid ""
-"Text formatted message. Tokens may be included (<a href=\"%1\" target="
-"\"_blank\" title=\"%2\">token documentation</a>)."
-msgstr ""
-
-#: templates/CRM/Member/Form/MessageTemplates.tpl
-msgid ""
-"You may optionally create an HTML formatted version of this message. It will "
-"be sent to contacts whose Email Format preference is \"HTML\" or \"Both\". "
-"Tokens may be included (<a href=\"%1\" target=\"_blank\" title=\"%2\">token "
-"documentation</a>)."
-msgstr ""
-
-#: templates/CRM/Member/Form/MessageTemplates.tpl
-msgid "Is this template enabled."
 msgstr ""
 
 #: templates/CRM/Member/Form/Search/Common.tpl
@@ -5331,14 +5590,12 @@ msgstr[0] ""
 #: templates/CRM/Member/Form/Search.tpl
 msgid ""
 "Use this form to find member(s) by member name or email address, membership "
-"type, status, source, and/or membership period start and end dates.\n"
-"    Multiple selections for Membership Type and Status are combined as OR "
-"criteria (e.g. checking \"Membership Type A\" and \"Membership Type B\" will "
-"find\n"
-"    contacts who have either membership). All other search fields are "
-"combined as AND criteria (e.g. selecting Status is \"Expired\" AND Source is "
-"\"Phone-banking\"\n"
-"    returns only those contacts who meet both criteria)."
+"type, status, source, and/or membership period start and end dates. Multiple "
+"selections for Membership Type and Status are combined as OR criteria (e.g. "
+"checking \"Membership Type A\" and \"Membership Type B\" will find contacts "
+"who have either membership). All other search fields are combined as AND "
+"criteria (e.g. selecting Status is \"Expired\" AND Source is \"Phone-banking"
+"\" returns only those contacts who meet both criteria)."
 msgstr ""
 
 #: templates/CRM/Member/Form/Selector.tpl
@@ -5434,6 +5691,24 @@ msgid ""
 "other applications into CiviCRM."
 msgstr ""
 
+#: templates/CRM/Member/Import/Form/UploadFile.tpl
+msgid ""
+"Files to be imported must be in the 'comma-separated-values' format (CSV) "
+"and must contain data needed to match the membership data to an existing "
+"contact in your CiviCRM database."
+msgstr ""
+
+#: templates/CRM/Member/Import/Form/UploadFile.tpl
+msgid ""
+"Select 'Individual' if you are importing memberships for individual persons."
+msgstr ""
+
+#: templates/CRM/Member/Import/Form/UploadFile.tpl
+msgid ""
+"Select 'Organization' or 'Household' if you are importing memberships made "
+"by contacts of that type."
+msgstr ""
+
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid ""
 "CiviMember allows you to create customized membership types as well as page"
@@ -5447,12 +5722,10 @@ msgid ""
 "You can also input and track membership sign-ups offline. To record "
 "memberships manually for individual contacts, use <a href=\"%1\">Find "
 "Contacts</a> to locate the contact. Then click <strong>View</strong> to go "
-"to their summary page and click on the <strong>New Membership</strong> "
-"link.\n"
-"     You can also <a href=\"%3\">import batches of membership records</a> "
-"from other sources.\n"
-"     Refer to the <a href=\"%2\" target=\"_blank\" title=\"%4\">CiviMember "
-"Guide</a> for more information."
+"to their summary page and click on the <strong>New Membership</strong> link. "
+"You can also <a href=\"%3\">import batches of membership records</a> from "
+"other sources. Refer to the <a href=\"%2\" target=\"_blank\" title=\"%4"
+"\">CiviMember Guide</a> for more information."
 msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
@@ -5487,21 +5760,19 @@ msgstr ""
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
 "CiviMember automatically calculates the current status of each contact's "
-"membership based on the status names and rules configured here.\n"
-"        The status \"rule\" tells CiviMember what status to assign based on "
-"the start and end dates of a given membership. For example, the default "
-"<strong>Grace</strong>\n"
-"        status rule says...\"assign Grace status if the membership period "
-"ended sometime within the past month.\" (<a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">read more...</a>)"
+"membership based on the status names and rules configured here. The status "
+"\"rule\" tells CiviMember what status to assign based on the start and end "
+"dates of a given membership. For example, the default <strong>Grace</strong> "
+"status rule says...\"assign Grace status if the membership period ended "
+"sometime within the past month.\" (<a href=\"%1\" target=\"_blank\" title=\"%"
+"2\">read more...</a>)"
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
 "The status rules provided by default may be sufficient for your "
 "organization. However, you can easily change the status names and/or adjust "
-"the rules\n"
-"        by clicking the Edit links below. Or you can <a href=\"%1\">add a "
+"the rules by clicking the Edit links below. Or you can <a href=\"%1\">add a "
 "new status and rule</a>."
 msgstr ""
 
@@ -5528,20 +5799,4 @@ msgstr ""
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid ""
 "There are no membership types entered. You can <a href=\"%1\">add one</a>."
-msgstr ""
-
-#: templates/CRM/Member/Page/MessageTemplates.tpl
-msgid ""
-"NOTE: This template feature is not yet integrated with the CiviMail "
-"component. CiviMail message templates must be saved as local text files and "
-"uploaded."
-msgstr ""
-
-#: templates/CRM/Member/Page/MessageTemplates.tpl
-msgid "New Message Templates"
-msgstr ""
-
-#: templates/CRM/Member/Page/MessageTemplates.tpl
-msgid ""
-"There are no Message Templates  entered. You can <a href=\"%1\">add one</a>."
 msgstr ""

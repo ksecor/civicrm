@@ -1,8 +1,6 @@
 <div class="form-item">
     <div id="help">
-        <p>{ts}Please verify the information below. Click <strong>Go Back</strong>
-            if you need to make changes. Otherwise, click the <strong>Continue</strong> button below
-            to complete your registration.{/ts}</p>
+        <p>{ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes. Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}</p>
     </div>
 
     {if $eventPage.confirm_text}

@@ -4,8 +4,7 @@
 <fieldset>
   <legend></legend>
   <div id="help">
-    {ts}You can schedule this mailing to be sent starting at a specific date and time, OR you
-    can request that it be sent as soon as possible by checking &quot;Send Immediately&quot;.{/ts} {help id="sending"}
+    {ts}You can schedule this mailing to be sent starting at a specific date and time, OR you can request that it be sent as soon as possible by checking &quot;Send Immediately&quot;.{/ts} {help id="sending"}
   </div>
   <dl>
     <dt class="label">{$form.start_date.label}</dt>

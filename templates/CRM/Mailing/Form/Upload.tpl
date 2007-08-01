@@ -4,9 +4,7 @@
     {ts}Before completing this step, you must create one or two files containing your mailing content.{/ts} {help id="id-upload"}
 </p>
 <p>
-    {ts}CiviMail email messages must include an unsubscribe link, an opt-out link, and the postal address of your organization.
-    These elements help reduce the chances of your email being categorized
-    as SPAM.{/ts} 
+    {ts}CiviMail email messages must include an unsubscribe link, an opt-out link, and the postal address of your organization. These elements help reduce the chances of your email being categorized as SPAM.{/ts} 
     <a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a>
 </p>
 </div>

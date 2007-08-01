@@ -4,11 +4,7 @@
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/LCQ" 2=$docURLTitle}Use this form to configure Contribution Amount options. 
-     You can give contributors the ability to enter their own contribution amounts - and/or provide a fixed list of amounts.
-     For fixed amounts, you can enter a label for each 'level' of contribution (e.g. Friend, Sustainer, etc.).
-     If you allow people to enter their own dollar amounts, you can also set minimum and maximum values. Depending on your choice
-     of Payment Processor, you may be able to offer a recurring contribution option (<a href="%1" target="_blank" title="%2">more info...</a>).{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/LCQ" 2=$docURLTitle}Use this form to configure Contribution Amount options. You can give contributors the ability to enter their own contribution amounts - and/or provide a fixed list of amounts. For fixed amounts, you can enter a label for each 'level' of contribution (e.g. Friend, Sustainer, etc.). If you allow people to enter their own dollar amounts, you can also set minimum and maximum values. Depending on your choice of Payment Processor, you may be able to offer a recurring contribution option (<a href="%1" target="_blank" title="%2">more info...</a>).{/ts}
 </div>
  
 <div class="form-item">

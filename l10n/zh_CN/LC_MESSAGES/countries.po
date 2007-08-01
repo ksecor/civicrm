@@ -4,7 +4,7 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.7\n"
+"Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2007-05-08 01:12-0700\n"
 "Last-Translator: ycs <yuccmember@gmail.com>\n"
@@ -955,3 +955,12 @@ msgstr "塞尔维亚"
 
 msgid "Montenegro"
 msgstr "蒙特内哥罗"
+
+msgid "Jersey"
+msgstr ""
+
+msgid "Guernsey"
+msgstr ""
+
+msgid "Isle of Man"
+msgstr ""

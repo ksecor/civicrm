@@ -4,7 +4,7 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.7\n"
+"Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2007-06-23 07:44-0700\n"
 "Last-Translator: Martin Niewzwaag <ma-ni@home.nl>\n"
@@ -1253,6 +1253,60 @@ msgstr "Luik"
 msgid "Limburg"
 msgstr "Limburg"
 
+msgid "Central and Western"
+msgstr ""
+
+msgid "Eastern"
+msgstr "Oostelijk"
+
+msgid "Southern"
+msgstr "Zuidelijk"
+
+msgid "Wan Chai"
+msgstr ""
+
+msgid "Kowloon City"
+msgstr ""
+
+msgid "Kwun Tong"
+msgstr ""
+
+msgid "Sham Shui Po"
+msgstr ""
+
+msgid "Wong Tai Sin"
+msgstr ""
+
+msgid "Yau Tsim Mong"
+msgstr ""
+
+msgid "Islands"
+msgstr ""
+
+msgid "Kwai Tsing"
+msgstr ""
+
+msgid "North"
+msgstr "Noord"
+
+msgid "Sai Kung"
+msgstr ""
+
+msgid "Sha Tin"
+msgstr ""
+
+msgid "Tai Po"
+msgstr ""
+
+msgid "Tsuen Wan"
+msgstr ""
+
+msgid "Tuen Mun"
+msgstr ""
+
+msgid "Yuen Long"
+msgstr ""
+
 msgid "Luxembourg"
 msgstr "Luxemburg"
 
@@ -1865,9 +1919,6 @@ msgstr "Noord-West"
 msgid "South-East"
 msgstr "Zuid-Oost"
 
-msgid "Southern"
-msgstr "Zuidelijk"
-
 msgid "Brèsckaja voblasc'"
 msgstr "Provincie Brest"
 
@@ -2200,9 +2251,6 @@ msgstr "Oost"
 
 msgid "Far North"
 msgstr "Verre Noorden"
-
-msgid "North"
-msgstr "Noord"
 
 msgid "South"
 msgstr "Zuid"
@@ -3332,9 +3380,6 @@ msgstr "Zuidelijke naties, nationaliteiten en volkeren"
 
 msgid "Tigrai"
 msgstr "Tigrai"
-
-msgid "Eastern"
-msgstr "Oostelijk"
 
 msgid "Northern"
 msgstr "Noordelijk"

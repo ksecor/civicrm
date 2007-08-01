@@ -67,14 +67,14 @@
 
     <table class="form-layout-compressed"> 
         <tr><td>{$form.minimum_fee.label}</td><td class="html-adjust">{$config->defaultCurrencySymbol()}&nbsp;{$form.minimum_fee.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Minimum fee required for this membership type. For free/complimentary memberships - set minimum fee to zero (0).{/ts}</td></tr>
-       	<tr><td>{$form.contribution_type_id.label}<span class="marker"> *</span></td><td class="html-adjust">{$form.contribution_type_id.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Select the contribution type assigned to fees for this membership type (for example "Membership Fees"). This is required for all membership types - including free or complimentary memberships.{/ts}</td></tr>
-        <tr><td>{$form.duration_unit.label}<span class="marker">*</span></td><td class="html-adjust">{$form.duration_interval.html}&nbsp;&nbsp;{$form.duration_unit.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Duration of this membership (e.g. 30 days, 2 months, 5 years, 1 lifetime){/ts}</td></tr>
+        <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Minimum fee required for this membership type. For free/complimentary memberships - set minimum fee to zero (0).{/ts}</td></tr>
+       	<tr><td>{$form.contribution_type_id.label}<span class="marker"> *</span></td><td class="html-adjust">&nbsp;&nbsp;{$form.contribution_type_id.html}</td></tr>
+        <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Select the contribution type assigned to fees for this membership type (for example "Membership Fees"). This is required for all membership types - including free or complimentary memberships.{/ts}</td></tr>
+        <tr><td>{$form.duration_unit.label}<span class="marker">*</span></td><td class="html-adjust">&nbsp;&nbsp;{$form.duration_interval.html}&nbsp;&nbsp;{$form.duration_unit.html}</td></tr>
+        <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Duration of this membership (e.g. 30 days, 2 months, 5 years, 1 lifetime){/ts}</td></tr>
 
-        <tr><td>{$form.period_type.label}<span class="marker"> *</span></td><td class="html-adjust">{$form.period_type.html}</td></tr>     
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Select "rolling" if membership periods begin at date of signup. Select "fixed" if membership periods begin on a set calendar date.{/ts}</td></tr>
+        <tr><td>{$form.period_type.label}<span class="marker"> *</span></td><td class="html-adjust">&nbsp;&nbsp;{$form.period_type.html}</td></tr>     
+        <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Select "rolling" if membership periods begin at date of signup. Select "fixed" if membership periods begin on a set calendar date.{/ts}</td></tr>
     </table>   
     	
     <table id="fixed_period_settings" class="form-layout-compressed">
@@ -85,20 +85,19 @@
     </table>
 
     <table class="form-layout-compressed"> 	
-        <tr><td>{$form.relationship_type_id.label}</td><td class="html-adjust">{$form.relationship_type_id.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Select relationship type for this membership type. EXAMPLE: Select 'Household Member is' for memberships where the  <strong>direct member is a Household</strong> and you want all <strong>Household Members</strong> to be automatically granted memberships.{/ts}</td></tr>
-        <tr><td>{$form.visibility.label}</td><td class="html-adjust">{$form.visibility.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</td></tr>
-        <tr><td>{$form.weight.label}</td><td class="html-adjust">{$form.weight.html}</td></tr>
-        <tr><td>{$form.is_active.label}</td><td class="html-adjust">{$form.is_active.html}</td></tr>
+        <tr><td>{$form.relationship_type_id.label}</td><td class="html-adjust">&nbsp;&nbsp;&nbsp;&nbsp;{$form.relationship_type_id.html}</td></tr>
+        <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Select relationship type for this membership type. EXAMPLE: Select 'Household Member is' for memberships where the  <strong>direct member is a Household</strong> and you want all <strong>Household Members</strong> to be automatically granted memberships.{/ts}</td></tr>
+        <tr><td>{$form.visibility.label}</td><td class="html-adjust">&nbsp;&nbsp;&nbsp;{$form.visibility.html}</td></tr>
+        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}&nbsp;&nbsp;Is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</td></tr>
+        <tr><td>{$form.weight.label}</td><td class="html-adjust">&nbsp;&nbsp;{$form.weight.html}</td></tr>
+        <tr><td>{$form.is_active.label}</td><td class="html-adjust">&nbsp;&nbsp;{$form.is_active.html}</td></tr>
         {*</dl>*}
         </table>{*End of table*}
         <div class="spacer"></div>
         <fieldset><legend>{ts}Renewal Reminders{/ts}</legend>
         {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
         <div class="description">
-            {ts 1="http://wiki.civicrm.org/confluence//x/ui" 2=$docURLTitle}If you would like Membership Renewal Reminder emails sent to members automatically, you need to create a reminder message template and you need to
-                configure and periodically run a "cron" job on your server (<a href="%1" target="_blank" title="%2">more info...</a>).{/ts}
+            {ts 1="http://wiki.civicrm.org/confluence//x/ui" 2=$docURLTitle}If you would like Membership Renewal Reminder emails sent to members automatically, you need to create a reminder message template and you need to configure and periodically run a "cron" job on your server (<a href="%1" target="_blank" title="%2">more info...</a>).{/ts}
         </div>
         {if $noMsgTemplates}
             {capture assign=msgTemplate}{crmURL p='civicrm/admin/messageTemplates' q="action=add&reset=1"}{/capture}
