@@ -61,7 +61,7 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
 
-        CRM_Utils_System::setTitle( ts('Add Members to Organization') );
+        CRM_Utils_System::setTitle( ts('Add Contacts to Organization') );
         $this->addElement('text', 'name'      , ts('Find Target Organization') );
 
         $this->add('select',

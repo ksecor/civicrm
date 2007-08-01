@@ -1238,6 +1238,7 @@ WHERE civicrm_contact.id IN $idString ";
 
         while ( $dao->fetch( ) ) {
             $location = array( );
+            $location['contactID'  ] = $dao->contact_id;
             $location['displayName'] = $dao->display_name ;
             $location['city'       ] = $dao->city;
             $location['state'      ] = $dao->state;
