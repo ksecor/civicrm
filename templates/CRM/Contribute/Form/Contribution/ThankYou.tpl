@@ -58,8 +58,7 @@
             <p>
             {ts 1=$cancelSubscriptionUrl}You can modify or cancel future contributions at any time by <a href="%1">logging in to your account</a>.{/ts}
             {if $is_email_receipt}
-                {ts}You will receive an email receipt for each recurring contribution. The receipts will also
-                include a link you can use if you decide to modify or cancel your future contributions.{/ts}
+                {ts}You will receive an email receipt for each recurring contribution. The receipts will also include a link you can use if you decide to modify or cancel your future contributions.{/ts}
             {/if}
             </p>
         {/if}
