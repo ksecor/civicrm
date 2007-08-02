@@ -289,7 +289,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             $anonUser = true; 
         }
 
-        $addCaptcha = array();
+        $addCaptcha   = array();
+        $emailPresent = false;
 
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
@@ -331,7 +332,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         
            
             if ( $name == 'email-Primary' || $name == 'email-'. isset($primaryLocationType) ? $primaryLocationType : "" ) {
-            $emailPresent = true;
+                $emailPresent = true;
                 $this->_mail = $name;
             }
         }
