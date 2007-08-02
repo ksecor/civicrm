@@ -160,13 +160,9 @@ class CRM_Activity_Form extends CRM_Core_Form
 
         if ( $this->_log || ! isset( $this->_id ) ) {
             // rounding of minutes
-            $min = (int ) ( date("i") / 15 ) * 15;
-            $defaults['scheduled_date_time'] = array( 'Y' => date('Y'),
-                                                      'M' => date('m'),
-                                                      'd' => date('d'),
-                                                      'h' => date('h'),
-                                                      'i' => $min,
-                                                      'A' => date('A') );
+            $defaults['scheduled_date_time'] = array( );
+            CRM_Utils_Date::getAllDefaultValues( $defaults['scheduled_date_time'] );
+            $defaults['scheduled_date_time']['i'] = (int ) ( $defaults['scheduled_date_time']['i'] / 15 ) * 15;
         }
         
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
