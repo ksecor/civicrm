@@ -349,7 +349,7 @@ class CRM_Core_DAO extends DB_DataObject {
      */
     static function makeAttribute( $field ) {
         if ( $field ) {
-            if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
+            if ( CRM_Utils_Array::value('type',$field) == CRM_Utils_Type::T_STRING ) {
                 $maxLength  = CRM_Utils_Array::value( 'maxlength', $field );
                 $size       = CRM_Utils_Array::value( 'size'     , $field );
                 if ( $maxLength || $size ) {
@@ -362,7 +362,7 @@ class CRM_Core_DAO extends DB_DataObject {
                     }
                     return $attributes;
                 }
-            } else if ( $field['type'] == CRM_Utils_Type::T_TEXT ) {
+            } else if ( CRM_Utils_Array::value('type',$field) == CRM_Utils_Type::T_TEXT ) {
                 $rows = CRM_Utils_Array::value( 'rows', $field );
                 if ( ! isset( $rows ) ) {
                     $rows = 2;
@@ -376,7 +376,7 @@ class CRM_Core_DAO extends DB_DataObject {
                 $attributes['rows'] = $rows;
                 $attributes['cols'] = $cols;
                 return $attributes;
-            } else if ( $field['type'] == CRM_Utils_Type::T_INT || $field['type'] == CRM_Utils_Type::T_FLOAT || $field['type'] == CRM_Utils_Type::T_MONEY ) {
+            } else if ( CRM_Utils_Array::value('type',$field) == CRM_Utils_Type::T_INT || CRM_Utils_Array::value('type',$field) == CRM_Utils_Type::T_FLOAT || CRM_Utils_Array::value('type',$field) == CRM_Utils_Type::T_MONEY ) {
                 $attributes['size']      = 4;
                 $attributes['maxlength'] = 8; 
                 return $attributes;
