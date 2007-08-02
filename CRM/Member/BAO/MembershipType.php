@@ -273,120 +273,118 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         $membershipTypeDetails = self::getMembershipTypeDetails( $membershipTypeId );
         $joinDate = $joinDate ? $joinDate : date('Y-m-d');
 
-        if ( $membershipTypeDetails['period_type'] == 'rolling' ) {
-            $startDate  = $joinDate;
-        } else if ( $membershipTypeDetails['period_type'] == 'fixed' && ! $startDate ) {
-            //calculate start date
-            $toDay  = explode('-', $joinDate );
+        if ( $startDate ) {
+            $actualStartDate = $startDate;
+        }
 
-            $month     = substr( $membershipTypeDetails['fixed_period_start_day'], 0,
-                                 strlen($membershipTypeDetails['fixed_period_start_day'])-2);
-            $day       = substr( $membershipTypeDetails['fixed_period_start_day'], -2 );
+        $fixed_period_rollover = false;
+        if ( $membershipTypeDetails['period_type'] == 'rolling' ) {
+            $startDate = $actualStartDate = $joinDate;
+        } else if ( $membershipTypeDetails['period_type'] == 'fixed' ) {
+            //calculate start date
+            
+            // today is always join date, in case of Online join date
+            // is equal to current system date
+            $toDay  = explode('-', $joinDate );
+            
+            // get year from join date
             $year      = $toDay[0];
 
-            if ( $membershipTypeDetails['fixed_period_rollover_day'] != null ) {
-                $startMonth     = substr( $membershipTypeDetails['fixed_period_start_day'], 0, 
-                                          strlen($membershipTypeDetails['fixed_period_start_day'])-2);
-                $startDay       = substr( $membershipTypeDetails['fixed_period_start_day'], -2 );
-            }
-            $startDate = $year.'-'.$month.'-'.$day;
-        }
-       
-        $fixed_period_rollover = false;
-        $hour = $minute = $second = 0;
-        if ( $membershipTypeDetails['period_type'] == 'fixed' && $membershipTypeDetails['fixed_period_rollover_day'] != null ) {
-            $toDay       = explode('-', date('Y-m-d'));
+            //get start fixed day
+            $startMonth     = substr( $membershipTypeDetails['fixed_period_start_day'], 0, 
+                                      strlen($membershipTypeDetails['fixed_period_start_day'])-2);
+            $startDay       = substr( $membershipTypeDetails['fixed_period_start_day'], -2 );
 
-            $startMonth  = substr( $membershipTypeDetails['fixed_period_start_day'], 0, strlen($membershipTypeDetails['fixed_period_start_day'])-2);
-            $startDay    = substr( $membershipTypeDetails['fixed_period_start_day'],-2);
-            $year        = $toDay[0];
+            $fixedStartDate = date('Y-m-d', mktime( 0, 0, 0, $startMonth, $startDay, $year) );
             
-            $fixedStartDate    = date('Y-m-d',mktime($hour, $minute, $second, $startMonth, $startDay, $year));
-            
-            $rolloverMonth     = substr( $membershipTypeDetails['fixed_period_rollover_day'], 0,
+            //get start rollover day
+            $rolloverMonth  = substr( $membershipTypeDetails['fixed_period_rollover_day'], 0,
                                          strlen($membershipTypeDetails['fixed_period_rollover_day']) - 2 );
-            $rolloverDay       = substr( $membershipTypeDetails['fixed_period_rollover_day'],-2);
+            $rolloverDay    = substr( $membershipTypeDetails['fixed_period_rollover_day'],-2);
             
-            $fixedRolloverDate = date('Y-m-d',mktime($hour, $minute, $second, $rolloverMonth, $rolloverDay, $year));
-            if ( $fixedRolloverDate <= $fixedStartDate  ) {
-                $fixedRolloverDate = date('Y-m-d',mktime($hour, $minute, $second, $rolloverMonth, $rolloverDay, $year+1));
-            }
-            
-            $toDay = date('Y-m-d');
+            $fixedRolloverDate = date('Y-m-d', mktime( 0, 0, 0, $rolloverMonth, $rolloverDay, $year) );
 
-            if ( $fixedRolloverDate <= $toDay ) {
+            if ( $fixedRolloverDate <= $fixedStartDate  ) {
+                $fixedRolloverDate = date('Y-m-d', mktime( 0, 0, 0, $rolloverMonth, $rolloverDay, $year + 1 ) );
+            }
+
+            //this is the actual start date that should be used for
+            //end date calculation
+            $actualStartDate = $year.'-'.$startMonth.'-'.$startDay;
+
+            //calculate start date if join date is in rollover window
+            if ( $fixedRolloverDate <= $joinDate ) {
                 $fixed_period_rollover = true;
+                $year = $year + 1;
+            }
+            
+            if ( !$startDate ) {
+                $startDate = $year.'-'.$startMonth.'-'.$startDay;
             }
         }
-               
-        $date  = explode('-', $startDate );
+
+        //end date calculation
+        $date  = explode('-', $actualStartDate );
         $year  = $date[0];
-        
-        // get the month and date from membership tyoe for fixed type
-        if ( $membershipTypeDetails['period_type'] == 'fixed' && $membershipTypeDetails['fixed_period_rollover_day'] != null ) {
-            $month = $startMonth;
-            $day   = $startDay;
-        } else {
-            $month = $date[1];
-            $day   = $date[2];
-        }
+        $month = $date[1];
+        $day   = $date[2];
         
         switch ( $membershipTypeDetails['duration_unit'] ) {
             
         case 'year' :
+            $year  = $year + $membershipTypeDetails['duration_interval'];
+
             if ( $fixed_period_rollover ) {
-                $year  = $year   + 2*$membershipTypeDetails['duration_interval'];
-            } else {
-                //this is to handle if start date is not Jan 01, in
-                //this case extra year is added and we need to substract that
-                if ( $month != 1 ) {
-                    $year = $year - 1;
-                }
-                $year  = $year   + $membershipTypeDetails['duration_interval'];
-            }
+                $year  = $year  + 1;
+            } 
+
             break;
         case 'month':
-            if( $fixed_period_rollover ) {
-                $month = $month  + 2*$membershipTypeDetails['duration_interval'];
-            } else {
-                $month = $month  + $membershipTypeDetails['duration_interval'];
+            $month = $month + $membershipTypeDetails['duration_interval'];
+
+            if ( $fixed_period_rollover ) {
+                $month = $month  + 1;
             }
+
             break;
         case 'day':
+            $day   = $day + $membershipTypeDetails['duration_interval'];
+
             if ( $fixed_period_rollover ) {
-                $day   = $day    + 2*$membershipTypeDetails['duration_interval'];
-            } else {
-                $day   = $day    + $membershipTypeDetails['duration_interval'];
+                $day = $day + 1;
             }
+
             break;
-            
         }
 
         if ( $membershipTypeDetails['duration_unit'] =='lifetime' ) {
             $endDate = null;
         } else {
-            $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+            $endDate = date('Y-m-d',mktime( 0, 0, 0, $month, $day-1, $year));
         }
-        $membershipDates = array();
-        $membershipDates['start_date']  = CRM_Utils_Date::customFormat($startDate,'%Y%m%d');
-        $membershipDates['end_date']    = CRM_Utils_Date::customFormat($endDate,'%Y%m%d');
+
+        $membershipDates = array( );
+        $membershipDates['start_date']  = CRM_Utils_Date::customFormat( $startDate,'%Y%m%d' );
+        $membershipDates['end_date'  ]  = CRM_Utils_Date::customFormat( $endDate,'%Y%m%d' );
+
         if ( isset( $membershipTypeDetails["renewal_reminder_day"] ) &&
              $membershipTypeDetails["renewal_reminder_day"]          &&
              $endDate ) {
-            $date = explode('-', $endDate );
+            $date  = explode('-', $endDate );
             $year  = $date[0];
             $month = $date[1];
             $day   = $date[2];
-            $day = $day - $membershipTypeDetails["renewal_reminder_day"];
-            $reminderDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+            $day   = $day - $membershipTypeDetails["renewal_reminder_day"];
+            $reminderDate = date( 'Y-m-d', mktime( 0, 0, 0, $month, $day-1, $year) );
             $membershipDates['reminder_date'] = CRM_Utils_Date::customFormat($reminderDate,'%Y%m%d');
         }
+
         if ( !$endDate ) {
             $membershipDates['reminder_date'] = null;
         }
+
         $membershipDates['join_date']   = CRM_Utils_Date::customFormat($joinDate,'%Y%m%d');
         return $membershipDates;
-        
     }
 
     /**
