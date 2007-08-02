@@ -672,5 +672,31 @@ class CRM_Utils_Date {
         
         return $today;
     }
+
+    static function getAllDefaultValues( &$defaults, $format = null, $time = null ) {
+        if ( ! $format ) {
+            // lets include EVERYTHING for now
+            $format = 'a-A-d-h-H-i-g-G-j-M-S-Y';
+        }
+        // always include 'm' (see hack for QF below)
+        $format .= '-m';
+
+        if ( ! $time ) {
+            $time = time( );
+        }
+
+        $val = date( $format, $time );
+        $values = explode( '-', $val    );
+        $keys   = explode( '-', $format );
+        if ( count( $values ) != count( $keys ) ) {
+            CRM_Core_Error::fatal( ts( 'Please contact CiviCRM support' ) );
+        }
+        for ( $i = 0; $i < count( $values ); $i++ ) {
+            $defaults[$keys[$i]] = $values[$i];
+        }
+        // for some strange reason QF wants it as M, so we oblige for now
+        $defaults['M'] = $defaults['m'];
+    }
 }
+
 ?>
