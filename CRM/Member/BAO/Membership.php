@@ -1260,7 +1260,7 @@ SELECT c.contribution_page_id as pageID
         $dao =& new CRM_Core_DAO( );
         $dao->query( $query );        
 
-        $contributionPageID =  $dao->find( true ) ? $dao->pageID : null;
+        $contributionPageID =  $dao->fetch( ) ? $dao->pageID : null;
         return $contributionPageID;
     }
 
