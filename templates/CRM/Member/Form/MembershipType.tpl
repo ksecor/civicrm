@@ -80,32 +80,33 @@
     <table id="fixed_period_start_day" class="form-layout-compressed">
         <tr>
         <td>{$form.fixed_period_start_day.label}</td>
-        <td>{$form.fixed_period_start_day.html}</td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;{$form.fixed_period_start_day.html}</td>
         </tr>
         <tr>
         <td>&nbsp;</td>
-        <td class="description html-adjust">{ts}Month and day on which a <strong>fixed</strong> period membership or subscription begins. Example: A fixed period membership with Start Day set to Jan 01 means that membership periods would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</td>
+        <td class="description html-adjust">&nbsp;&nbsp;&nbsp;{ts}Month and day on which a <strong>fixed</strong> period membership or subscription begins. Example: A fixed period membership with Start Day set to Jan 01 means that membership periods would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</td>
         </tr>
-    </table>    
-    
-    <table id="fixed_period_rollover_day" class="form-layout-compressed">
+    </table> 
+           
+     <table id="fixed_period_rollover_day" class="form-layout-compressed">
         <tr>
         <td>{$form.fixed_period_rollover_day.label}</td>
-        <td>{$form.fixed_period_rollover_day.html}</td></tr>
+        <td>{$form.fixed_period_rollover_day.html}</td>
+        </tr>
         <tr>
         <td>&nbsp;</td>
         <td class="description html-adjust">{ts}Membership signups after this date cover the following calendar year as well. Example: If the rollover day is November 31, membership period for signups during December will cover the following year.{/ts}</td>
         </tr>
     </table>
-    
-    <table class="form-layout-compressed"> 	
+
+     <div class="spacer"></div>	    
+     <table class="form-layout-compressed"> 	
         <tr><td>{$form.relationship_type_id.label}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;{$form.relationship_type_id.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Select relationship type for this membership type. EXAMPLE: Select 'Household Member is' for memberships where the  <strong>direct member is a Household</strong> and you want all <strong>Household Members</strong> to be automatically granted memberships.{/ts}</td></tr>
         <tr><td>{$form.visibility.label}</td><td>&nbsp;&nbsp;&nbsp;{$form.visibility.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description html-adjust">{ts}&nbsp;&nbsp;Is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</td></tr>
         <tr><td>{$form.weight.label}</td><td>&nbsp;&nbsp;{$form.weight.html}</td></tr>
         <tr><td>{$form.is_active.label}</td><td>&nbsp;&nbsp;{$form.is_active.html}</td></tr>
-        {*</dl>*}
         </table>{*End of table*}
         <div class="spacer"></div>
         <fieldset><legend>{ts}Renewal Reminders{/ts}</legend>
