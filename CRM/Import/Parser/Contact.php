@@ -477,13 +477,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         // of php this variable gets overwritten when we check for duplicate
         // contact while creating related contact which also returns
         // crm_core_error object.
-        if( $newContact && ! is_a($newContact, CRM_Core_Error) ) {
-            $newContact = clone($newContact);
-        }
+        if ( $newContact || is_a( $newContact,CRM_Contact_BAO_Contact ) ||
+             self::isDuplicate( $newContact ) ) {
+            $newContact = clone( $newContact );
+        } 
         
-        //added to update contacts with relationship
-        $newContact = clone($newContact);
-
         if ( $relationship ) {
             $primaryContactId = null;
             if ( self::isDuplicate($newContact) ) {
