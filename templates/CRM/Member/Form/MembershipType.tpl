@@ -9,12 +9,12 @@
      <dl><dt>&nbsp;</dt><dd>{$form.buttons.html}</dd></dl>
     {else}
     <table class="form-layout-compressed"> 
-        <tr><td>{$form.name.label}</td><td class="html-adjust">{$form.name.html}</td></tr>
+        <tr><td>{$form.name.label}</td><td>{$form.name.html}</td></tr>
         <tr><td>&nbsp;</dt><td class="description html-adjust">{ts}e.g. "Student", "Senior", "Honor Society"...{/ts}</td></tr>
-    	<tr><td>{$form.description.label}</td><td class="html-adjust">{$form.description.html}</td></tr>
+    	<tr><td>{$form.description.label}</td><td>{$form.description.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Description of this membership type for display on signup forms. May include eligibility, benefits, terms, etc.{/ts}</td></tr>
     {if !$searchDone or !$searchCount or !$searchRows}
-        <tr><td>{$form.member_org.label}<span class="marker"> *</span></td><td class="html-adjust"><label>{$form.member_org.html}</label>&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</td></tr>
+        <tr><td>{$form.member_org.label}<span class="marker"> *</span></td><td><label>{$form.member_org.html}</label>&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Members assigned this membership type belong to which organization (e.g. this is for membership in "Save the Whales - Northwest Chapter"). NOTE: This organization/group/chapter must exist as a CiviCRM Organization type contact.{/ts}</td></tr>
         {/if} 
     </table>
@@ -66,31 +66,45 @@
               {/if} {* end if searchDone *}
 
     <table class="form-layout-compressed"> 
-        <tr><td>{$form.minimum_fee.label}</td><td class="html-adjust">{$config->defaultCurrencySymbol()}&nbsp;{$form.minimum_fee.html}</td></tr>
+        <tr><td>{$form.minimum_fee.label}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.minimum_fee.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Minimum fee required for this membership type. For free/complimentary memberships - set minimum fee to zero (0).{/ts}</td></tr>
-       	<tr><td>{$form.contribution_type_id.label}<span class="marker"> *</span></td><td class="html-adjust">&nbsp;&nbsp;{$form.contribution_type_id.html}</td></tr>
+       	<tr><td>{$form.contribution_type_id.label}<span class="marker"> *</span></td><td>&nbsp;&nbsp;{$form.contribution_type_id.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Select the contribution type assigned to fees for this membership type (for example "Membership Fees"). This is required for all membership types - including free or complimentary memberships.{/ts}</td></tr>
-        <tr><td>{$form.duration_unit.label}<span class="marker">*</span></td><td class="html-adjust">&nbsp;&nbsp;{$form.duration_interval.html}&nbsp;&nbsp;{$form.duration_unit.html}</td></tr>
+        <tr><td>{$form.duration_unit.label}<span class="marker">*</span></td><td>&nbsp;&nbsp;{$form.duration_interval.html}&nbsp;&nbsp;{$form.duration_unit.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Duration of this membership (e.g. 30 days, 2 months, 5 years, 1 lifetime){/ts}</td></tr>
 
-        <tr><td>{$form.period_type.label}<span class="marker"> *</span></td><td class="html-adjust">&nbsp;&nbsp;{$form.period_type.html}</td></tr>     
+        <tr><td>{$form.period_type.label}<span class="marker"> *</span></td><td>&nbsp;&nbsp;{$form.period_type.html}</td></tr>     
         <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Select "rolling" if membership periods begin at date of signup. Select "fixed" if membership periods begin on a set calendar date.{/ts}</td></tr>
     </table>   
     	
-    <table id="fixed_period_settings" class="form-layout-compressed">
-        <tr><td>{$form.fixed_period_start_day.label}</td><td class="html-adjust">{$form.fixed_period_start_day.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Month and day on which a <strong>fixed</strong> period membership or subscription begins. Example: A fixed period membership with Start Day set to Jan 01 means that membership periods would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</td></tr>
-        <tr><td>{$form.fixed_period_rollover_day.label}</td><td class="html-adjust">{$form.fixed_period_rollover_day.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Membership signups after this date cover the following calendar year as well. Example: If the rollover day is November 31, membership period for signups during December will cover the following year.{/ts}</td></tr>
+    <table id="fixed_period_start_day" class="form-layout-compressed">
+        <tr>
+        <td>{$form.fixed_period_start_day.label}</td>
+        <td>{$form.fixed_period_start_day.html}</td>
+        </tr>
+        <tr>
+        <td>&nbsp;</td>
+        <td class="description html-adjust">{ts}Month and day on which a <strong>fixed</strong> period membership or subscription begins. Example: A fixed period membership with Start Day set to Jan 01 means that membership periods would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</td>
+        </tr>
+    </table>    
+    
+    <table id="fixed_period_rollover_day" class="form-layout-compressed">
+        <tr>
+        <td>{$form.fixed_period_rollover_day.label}</td>
+        <td>{$form.fixed_period_rollover_day.html}</td></tr>
+        <tr>
+        <td>&nbsp;</td>
+        <td class="description html-adjust">{ts}Membership signups after this date cover the following calendar year as well. Example: If the rollover day is November 31, membership period for signups during December will cover the following year.{/ts}</td>
+        </tr>
     </table>
-
+    
     <table class="form-layout-compressed"> 	
-        <tr><td>{$form.relationship_type_id.label}</td><td class="html-adjust">&nbsp;&nbsp;&nbsp;&nbsp;{$form.relationship_type_id.html}</td></tr>
+        <tr><td>{$form.relationship_type_id.label}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;{$form.relationship_type_id.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description html-adjust">&nbsp;&nbsp;{ts}Select relationship type for this membership type. EXAMPLE: Select 'Household Member is' for memberships where the  <strong>direct member is a Household</strong> and you want all <strong>Household Members</strong> to be automatically granted memberships.{/ts}</td></tr>
-        <tr><td>{$form.visibility.label}</td><td class="html-adjust">&nbsp;&nbsp;&nbsp;{$form.visibility.html}</td></tr>
+        <tr><td>{$form.visibility.label}</td><td>&nbsp;&nbsp;&nbsp;{$form.visibility.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description html-adjust">{ts}&nbsp;&nbsp;Is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</td></tr>
-        <tr><td>{$form.weight.label}</td><td class="html-adjust">&nbsp;&nbsp;{$form.weight.html}</td></tr>
-        <tr><td>{$form.is_active.label}</td><td class="html-adjust">&nbsp;&nbsp;{$form.is_active.html}</td></tr>
+        <tr><td>{$form.weight.label}</td><td>&nbsp;&nbsp;{$form.weight.html}</td></tr>
+        <tr><td>{$form.is_active.label}</td><td>&nbsp;&nbsp;{$form.is_active.html}</td></tr>
         {*</dl>*}
         </table>{*End of table*}
         <div class="spacer"></div>
@@ -123,25 +137,39 @@
 
 {literal}
     <script type="text/javascript">
-	if (document.getElementsByName("period_type")[0].value == "fixed") {
-	   show('fixed_period_settings');
+    if ( document.getElementsByName("period_type")[0].value == "fixed" ) {
+	   show( 'fixed_period_start_day' );
+       if ( document.getElementsByName("duration_unit")[0].value == "year" ) {
+           show( 'fixed_period_rollover_day' );
+       } else {
+           hide( 'fixed_period_rollover_day' );
+       }
 	} else {
-	   hide('fixed_period_settings');
-	}
+	   hide( 'fixed_period_start_day' );
+       hide( 'fixed_period_rollover_day' );
+    }
 	function showHidePeriodSettings(){
-	   if (document.getElementsByName("period_type")[0].value == "fixed") {
-		show('fixed_period_settings');
-		document.getElementsByName("fixed_period_start_day[M]")[0].value = "1";
-		document.getElementsByName("fixed_period_start_day[d]")[0].value = "1";
-		document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "12";
-		document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "31";
-	   } else {
-		hide('fixed_period_settings');
-		document.getElementsByName("fixed_period_start_day[M]")[0].value = "";
-		document.getElementsByName("fixed_period_start_day[d]")[0].value = "";
-		document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "";
-		document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "";
-	   }
-	} 
+        if ( document.getElementsByName("period_type")[0].value == "fixed" ) {
+		    show('fixed_period_start_day');
+		    document.getElementsByName("fixed_period_start_day[M]")[0].value = "1";
+		    document.getElementsByName("fixed_period_start_day[d]")[0].value = "1";
+            if ( document.getElementsByName("duration_unit")[0].value   == "year" ) {
+                show( 'fixed_period_rollover_day' );
+                document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "12";
+		        document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "31";
+            } else {
+                hide('fixed_period_rollover_day');
+                document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "";
+		        document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "";
+            }
+        } else {
+		    hide('fixed_period_start_day');
+            hide('fixed_period_rollover_day');
+		    document.getElementsByName("fixed_period_start_day[M]")[0].value = "";
+		    document.getElementsByName("fixed_period_start_day[d]")[0].value = "";
+		    document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "";
+		    document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "";
+	    }
+    }
     </script>
 {/literal}

@@ -105,7 +105,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'minimum_fee' ) );
         $this->addRule( 'minimum_fee', ts('Please enter a monetary value for the Minimum Fee.'), 'money' );
 
-        $this->add('select', 'duration_unit', ts('Duration') . ' ', CRM_Core_SelectValues::unitList('duration'));
+        $this->addElement('select', 'duration_unit', ts('Duration') . ' ',
+                   CRM_Core_SelectValues::unitList('duration'), array( 'onchange' => 'showHidePeriodSettings()'));
         //period type
         $this->addElement('select', 'period_type', ts('Period Type'), 
                           CRM_Core_SelectValues::periodType( ), array( 'onchange' => 'showHidePeriodSettings()'));
@@ -237,14 +238,22 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 }
             }
             */
-            $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
-            if( $params['period_type'] == 'fixed') {
+            
+            if( ( $params['period_type']   == 'fixed' ) && 
+                ( $params['duration_unit'] == 'year'  ) ) {
+                $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
                 foreach ( $periods as $period ) {
-                    $mon = $params[$period]['M'];
-                    $dat = $params[$period]['d'];
-                    if ( !$mon || !$dat ) {
-                        $errors[$period] = "Please enter a valid 'fixed period day'.";
+                    $month = $params[$period]['M'];
+                    $date  = $params[$period]['d'];
+                    if ( !$month || !$date ) {
+                        $errors[$period] = ts( "Please enter a valid " . str_replace( "_", " ", $period ) );
                     }
+                }
+            } else if ( $params['period_type'] == 'fixed' ) {
+                $month = $params['fixed_period_start_day']['M'];
+                $date  = $params['fixed_period_start_day']['d'];
+                if ( !$month || !$date ) {
+                    $errors['fixed_period_start_day'] = ts( "Please enter a valid fixed period start day" );
                 }
             }
         
