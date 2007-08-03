@@ -1059,6 +1059,20 @@ civicrm_membership_status.is_current_member =1";
                 $membership->save( );
                 CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
                 
+                // membership status will change as per the new start
+                // and end dates.
+                $membershipStatus = 
+                    CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
+                                                                               CRM_Utils_Date::customFormat( $membership->start_date,
+                                                                                                             $statusFormat ),
+                                                                               CRM_Utils_Date::customFormat( $membership->end_date,
+                                                                                                             $statusFormat ),
+                                                                               CRM_Utils_Date::customFormat( $membership->join_date,
+                                                                                                             $statusFormat )
+                                                                               );
+                $membership->status_id = $membershipStatus['id'];
+                $membership->save();                
+                
                 //Now insert the log for renewal 
                 $logParams = array( 
                                    'membership_id'         => $membership->id,
@@ -1090,7 +1104,6 @@ civicrm_membership_status.is_current_member =1";
                                       CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
                 }
             }
-
         } else {
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             $memParams                       = array( );
