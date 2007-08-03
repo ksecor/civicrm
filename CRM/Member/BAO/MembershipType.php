@@ -271,7 +271,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
      * @return array associated array with  start date, end date and join date for the membership
      * @static
      */
-    function getDatesForMembershipType( $membershipTypeId, $joinDate = null, $startDate = null ) 
+    function getDatesForMembershipType( $membershipTypeId, $joinDate = null, $startDate = null, $endDate = null ) 
     {
         $membershipTypeDetails = self::getMembershipTypeDetails( $membershipTypeId );
         $joinDate = $joinDate ? $joinDate : date('Y-m-d');
@@ -313,7 +313,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
 
             // we need to minus year if join date is less than equal
             // to fixed start date
-            if ( $fixedStartDate >= $joinDate ) {
+            if ( $fixedStartDate > $joinDate ) {
                 $year = $year - 1;
             }
 
@@ -327,50 +327,52 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                 $year = $year + 1;
             } 
             
-            
             if ( !$startDate ) {
                 $startDate = $year.'-'.$startMonth.'-'.$startDay;
             }
         }
 
-        //end date calculation
-        $date  = explode('-', $actualStartDate );
-        $year  = $date[0];
-        $month = $date[1];
-        $day   = $date[2];
-        
-        switch ( $membershipTypeDetails['duration_unit'] ) {
+        //calculate end date if it is not passed by user
+        if ( !$endDate ) {
+            //end date calculation
+            $date  = explode('-', $actualStartDate );
+            $year  = $date[0];
+            $month = $date[1];
+            $day   = $date[2];
             
-        case 'year' :
-            $year  = $year + $membershipTypeDetails['duration_interval'];
-
-            if ( $fixed_period_rollover ) {
-                $year  = $year  + 1;
-            } 
-
-            break;
-        case 'month':
-            $month = $month + $membershipTypeDetails['duration_interval'];
-
-            if ( $fixed_period_rollover ) {
-                $month = $month  + 1;
+            switch ( $membershipTypeDetails['duration_unit'] ) {
+                
+            case 'year' :
+                $year  = $year + $membershipTypeDetails['duration_interval'];
+                
+                if ( $fixed_period_rollover ) {
+                    $year  = $year  + 1;
+                } 
+                
+                break;
+            case 'month':
+                $month = $month + $membershipTypeDetails['duration_interval'];
+                
+                if ( $fixed_period_rollover ) {
+                    $month = $month  + 1;
+                }
+                
+                break;
+            case 'day':
+                $day   = $day + $membershipTypeDetails['duration_interval'];
+                
+                if ( $fixed_period_rollover ) {
+                    $day = $day + 1;
+                }
+                
+                break;
             }
 
-            break;
-        case 'day':
-            $day   = $day + $membershipTypeDetails['duration_interval'];
-
-            if ( $fixed_period_rollover ) {
-                $day = $day + 1;
+            if ( $membershipTypeDetails['duration_unit'] =='lifetime' ) {
+                $endDate = null;
+            } else {
+                $endDate = date('Y-m-d',mktime( 0, 0, 0, $month, $day-1, $year));
             }
-
-            break;
-        }
-
-        if ( $membershipTypeDetails['duration_unit'] =='lifetime' ) {
-            $endDate = null;
-        } else {
-            $endDate = date('Y-m-d',mktime( 0, 0, 0, $month, $day-1, $year));
         }
 
         $membershipDates = array( );
