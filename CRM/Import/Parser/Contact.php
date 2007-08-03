@@ -481,6 +481,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $newContact = clone($newContact);
         }
         
+        //added to update contacts with relationship
+        $newContact = clone($newContact);
+
         if ( $relationship ) {
             $primaryContactId = null;
             if ( self::isDuplicate($newContact) ) {
