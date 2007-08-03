@@ -329,7 +329,8 @@ ORDER BY
      */
     static function add(&$params, &$ids) 
     {
-        $contact =& new CRM_Contact_BAO_Contact();
+      //      CRM_Core_Error::debug('p','oh');   
+     $contact =& new CRM_Contact_BAO_Contact();
         
         if ( empty($params) ) {
             return;

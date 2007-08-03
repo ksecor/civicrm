@@ -35,7 +35,7 @@
  
 require_once 'CRM/Contact/DAO/GroupOrg.php';
 
-class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupOrg {
+class CRM_Contact_BAO_GroupOrg extends CRM_Contact_DAO_GroupOrg {
     
     /**
      * Adds a new child group identified by $childGroupId to the group
@@ -49,15 +49,17 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupOrg {
      * @access public
      */
     
-    static function addOrg( $groupId, $childGroupId ) {
-//    	include_once(CRM/Contact/BAO/Organization.php);
-		$params = array('contact_type' => 'Organization');
-		include_once ( 'api/v2/Contact.php' ) ;
-		civicrm_contact_add( $params );
+    static function addOrg( $groupId ) {
+      require_once('CRM/Contact/BAO/Organization.php');
+      $countObj =& new CRM_Contact_BAO_Contact();
+      $count = $countObj->count();
+      $params = array('organization_name' => '', 'contact_type' => 'Organization', 'contact_id' => $count + 1);
+      $ids = array('contact' => $count + 1);
+      include_once ( 'CRM/Contact/BAO/Organization.php' ) ;
+      include_once ( 'CRM/Contact/BAO/Contact.php' );
+      CRM_Contact_BAO_Contact::add($params, $id);
+      CRM_Contact_BAO_Organization::add( $params , $id);
     	
-//        $dao = new CRM_Contact_DAO_GroupOrg( );
-  //      $query = "REPLACE INTO civicrm_group_nesting (child_group_id, parent_group_id) VALUES ($childGroupId,$groupId)";
-    //    $dao->query( $query );
     }
     
     /**

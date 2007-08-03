@@ -76,7 +76,8 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @acess protected
      */
     function preProcess( ) {
-        $this->_id    = $this->get( 'id' );
+        
+$this->_id    = $this->get( 'id' );
         
         if ( $this->_id ) {
             $breadCrumbPath = CRM_Utils_System::url( 'civicrm/group', 'reset=1' );
@@ -136,7 +137,8 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        
+      //      require_once('CRM/Contact/Form/Organization.php');
+      //CRM_Contact_Form_Organization::buildQuickForm($this, $this->_action);        
         if ($this->_action == CRM_Core_Action::DELETE) {
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
@@ -169,7 +171,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             
             $childGroups = array( );
             if ( isset( $this->_id ) ) {
-                $childGroupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $this->_id, false );
+	      $childGroupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $this->_id, false );
                 foreach ( $childGroupIds as $childGroupId ) {
                     $childGroupInfo = array( );
                     $params = array( 'id' => $childGroupId );
@@ -185,22 +187,34 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             
             $this->assign_by_ref( 'child_groups', $childGroups );
             
+	    require_once 'CRM/Contact/BAO/Group.php';
             $childGroupSelectValues = array( '' => '' );
             if ( isset( $this->_id ) ) {
                 $potentialChildGroupIds = CRM_Contact_BAO_GroupNesting::getPotentialChildGroupIds( $this->_id );
-                foreach ( $potentialChildGroupIds as $potentialChildGroupId ) {
+	    }
+	    else{
+	        $potentialChildGroups = CRM_Contact_BAO_Group::getGroups();
+		$potentialChildGroupIds = array ( );
+		foreach( $potentialChildGroups as $potentialChildGroup ) {
+		  $potentialChildGroupIds []= $potentialChildGroup->id;
+		}
+	    }
+	    foreach ( $potentialChildGroupIds as $potentialChildGroupId ) {
                     $potentialChildGroupInfo = array( );
                     $params = array( 'id' => $potentialChildGroupId );
                     CRM_Contact_BAO_Group::retrieve( $params, $potentialChildGroupInfo );
                     $childGroupSelectValues[$potentialChildGroupId] = $potentialChildGroupInfo['title'];
-                }
-            }
+	    }
+            
             
             if ( count( $childGroupSelectValues ) > 1 ) {
                 $this->add( 'select', 'add_child_group', ts('Add Child Group'), $childGroupSelectValues );
             }
             
-            $this->addButtons( array(
+	    $this->add( 'checkbox', 'add_group_org', ts('Make this an Organization?'), null );
+	    
+	    
+	    $this->addButtons( array(
                                      array ( 'type'      => $buttonType,
                                              'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
                                              'isDefault' => true   ),
@@ -219,7 +233,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function postProcess( ) {
+public function postProcess( ) {
         
         if ($this->_action & CRM_Core_Action::DELETE ) {
             CRM_Contact_BAO_Group::discard( $this->_id );
@@ -296,6 +310,12 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 CRM_Contact_BAO_GroupNesting::addChildGroup( $group->id, $params['add_child_group']);
             }
             
+	    if ( ! empty ( $params['add_group_org'] ) ) {
+  	        require_once('CRM/Contact/BAO/GroupOrg.php');
+		if ( CRM_Contact_BAO_GroupOrg::addOrg($group->id) );
+		
+	    }
+
             CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        
             
             /*

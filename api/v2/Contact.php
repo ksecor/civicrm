@@ -48,7 +48,7 @@ require_once 'api/v2/utils.php';
  */
 function &civicrm_contact_add( &$params ) {
     _civicrm_initialize( );
-
+    //    CRM_Core_Error::debug('p', 'satan');
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
     $dupeCheck = CRM_Utils_Array::value( 'dupe_check', $params, false );
 
@@ -273,7 +273,7 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true ) {
  */ 
 function &_civicrm_contact_add( &$params, $contactID = null ) {
     require_once 'CRM/Utils/Hook.php';
-
+    //    CRM_Core_Error::debug('p', 'oh');
     if ( $contactID ) {
         CRM_Utils_Hook::pre( 'edit', 'Individual', $contactID, $params );
     } else {
