@@ -312,8 +312,10 @@ public function postProcess( ) {
             
 	    if ( ! empty ( $params['add_group_org'] ) ) {
   	        require_once('CRM/Contact/BAO/GroupOrg.php');
-		if ( CRM_Contact_BAO_GroupOrg::addOrg($group->id) );
-		
+		if ( CRM_Contact_BAO_GroupOrg::addOrg($group->id, $group->name) );
+		$orgContactId = CRM_Contact_BAO_GroupOrg::getOrgContactId($group->id);
+		$url = CRM_Utils_System::url("civicrm/contact/add&reset=1&action=update&cid=$orgContactId");
+		CRM_Utils_System::redirect($url);
 	    }
 
             CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        
