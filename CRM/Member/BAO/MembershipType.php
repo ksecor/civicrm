@@ -264,8 +264,11 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
     /**
      * Function to calculate start date and end date for new membership 
      * 
-     * @param int $membershipTypeId
-     * @return Array array fo the start date, end date and join date of the membership
+     * @param int  $membershipTypeId membership type id
+     * @param date $joinDate join date
+     * @param date $startDate start date
+     *
+     * @return array associated array with  start date, end date and join date for the membership
      * @static
      */
     function getDatesForMembershipType( $membershipTypeId, $joinDate = null, $startDate = null ) 
@@ -308,6 +311,12 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                 $fixedRolloverDate = date('Y-m-d', mktime( 0, 0, 0, $rolloverMonth, $rolloverDay, $year + 1 ) );
             }
 
+            // we need to minus year if join date is less than equal
+            // to fixed start date
+            if ( $fixedStartDate >= $joinDate ) {
+                $year = $year - 1;
+            }
+
             //this is the actual start date that should be used for
             //end date calculation
             $actualStartDate = $year.'-'.$startMonth.'-'.$startDay;
@@ -316,7 +325,8 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             if ( $fixedRolloverDate <= $joinDate ) {
                 $fixed_period_rollover = true;
                 $year = $year + 1;
-            }
+            } 
+            
             
             if ( !$startDate ) {
                 $startDate = $year.'-'.$startMonth.'-'.$startDay;
