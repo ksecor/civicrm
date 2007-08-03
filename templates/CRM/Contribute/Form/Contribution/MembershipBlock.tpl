@@ -64,8 +64,15 @@
            </td>
             
             <td>
+              {* Check if there is an existing membership of this type (current_membership NOT empty) and if the end-date is prior to today. *}
               {if $row.current_membership AND $context EQ "makeContribution" }
-               <br /><em>{ts 1=$row.current_membership|crmDate 2=$row.name}Your current <strong>%2</strong> membership expires on %1.{/ts}</em>
+                    {if $row.current_membership|date_format:"%Y%m%d" LT $smarty.now|date_format:"%Y%m%d"}
+                        <br /><em>{ts 1=$row.current_membership|crmDate 2=$row.name}Your <strong>%2</strong> membership expired on %1.{/ts}</em>
+                    {else}
+                        <br /><em>{ts 1=$row.current_membership|crmDate 2=$row.name}Your <strong>%2</strong> membership expires on %1.{/ts}</em>
+                    {/if}
+              {else}
+                &nbsp;
               {/if}
            </td> 
         </tr>
