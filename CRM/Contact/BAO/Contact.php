@@ -1298,7 +1298,8 @@ WHERE civicrm_contact.id IN $idString ";
     {
         require_once 'CRM/Core/BAO/EmailHistory.php';
         require_once 'CRM/Activity/BAO/Activity.php';
-
+	print "aljdkf";
+	print $id;
         if ( ! $id ) {
             return false;
         }
@@ -1430,6 +1431,7 @@ WHERE civicrm_contact.id IN $idString ";
             }
         }
 
+	print $contactType;
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contactType) . ".php");
         eval( '$object =& new CRM_Contact_BAO_' . $contactType . '( );' );
         $object->contact_id = $contact->id;

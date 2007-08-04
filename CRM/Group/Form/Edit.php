@@ -328,7 +328,9 @@ public function postProcess( ) {
  	        require_once( 'CRM/Contact/BAO/GroupOrg.php' );
 	        CRM_Contact_BAO_GroupOrg::removeGroupOrg( $group->id );
 		$orgId = CRM_Contact_BAO_GroupOrg::getOrgId( $group->id );
+		print $orgId;
 		require_once( 'CRM/Contact/BAO/Organization.php' );
+		print "wtf mate";
 		CRM_Contact_BAO_Contact::deleteContact( $orgId );
 		
 	    }
