@@ -48,8 +48,10 @@
     <dd>{$form.add_group_org.html}</dd>
     </dl>
 
-{assign var="contact_type" value='Organization'}
-{include file='CRM/Contact/Form/Edit.tpl}
+    <dl>
+    <dt>{$form.remove_group_org.label}</dt>
+    <dd>{$form.remove_group_org.html}</dt>
+    </dl>
 
 </fieldset>
 </div>

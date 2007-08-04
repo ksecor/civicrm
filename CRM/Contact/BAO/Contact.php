@@ -1417,12 +1417,14 @@ WHERE civicrm_contact.id IN $idString ";
         // fix household and org primary contact ids
         static $misc = array( 'Household', 'Organization' );
         foreach ( $misc as $name ) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
+	  print "I'm here";
+	  require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
             eval( '$object =& new CRM_Contact_DAO_' . $name . '( );' );
             $object->primary_contact_id = $id;
             $object->find( );
             while ( $object->fetch( ) ) {
-                // we need to set this to null explicitly
+	      print "I'm also here";
+      // we need to set this to null explicitly
                 $object->primary_contact_id = 'null';
                 $object->save( );
             }

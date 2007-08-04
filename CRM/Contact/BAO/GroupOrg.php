@@ -67,6 +67,22 @@ class CRM_Contact_BAO_GroupOrg extends CRM_Contact_DAO_GroupOrg {
     	
     }
 
+
+  static function isOrg( $groupId ) {
+      $dao = new CRM_Contact_DAO_GroupOrg( );
+      $query = "SELECT org_id FROM civicrm_group_org WHERE group_id = $groupId";
+      $dao->query($query);
+      
+      if ($dao->fetch()){
+	return true;
+      }
+      else{
+	return false;
+      }
+    
+
+  }
+
     static function getOrgId( $groupId ) {
       $dao = new CRM_Contact_DAO_GroupOrg( );
       $query = "SELECT org_id FROM civicrm_group_org WHERE group_id = $groupId";
@@ -78,6 +94,16 @@ class CRM_Contact_BAO_GroupOrg extends CRM_Contact_DAO_GroupOrg {
 	$orgId = null;
       }
       return $orgId;
+    }
+
+
+    static function removeGroupOrg( $groupId ) {
+        $dao = new CRM_Contact_DAO_GroupOrg( );
+	$query = "DELETE FROM civicrm_group_org WHERE group_id = $groupId";
+	$dao->query($query);
+
+
+
     }
 
 
