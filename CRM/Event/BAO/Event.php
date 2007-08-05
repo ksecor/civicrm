@@ -269,10 +269,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         $query = "SELECT `id`, `title`, `start_date` FROM `civicrm_event`";
         
         if ( !$all ) {
-            //$endDate = CRM_Utils_Date::isoToMysql(date('Y-m-d',mktime(00,00,00, date('n') + 1, date('d'), date('Y') )) );
-            
             $endDate = date( 'YmdHis' );
-                        
             $query .= " WHERE `end_date` >= {$endDate};";
         }
         if ( $id ) {
