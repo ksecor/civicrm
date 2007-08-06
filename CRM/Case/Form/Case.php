@@ -95,19 +95,19 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
         $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
         $this->add('select', 'status_id',  ts( 'Case Status' ),  
-                   array( '' => ts( '-select-' ) ) + $caseStatus , true);
+                   $caseStatus , true  );
         require_once 'CRM/Core/OptionGroup.php';
         $caseType = CRM_Core_OptionGroup::values('f1_case_type');
         $this->add('select', 'casetag1_id',  ts( 'Case Type' ),  
-                   array( '' => ts( '-select-' ) ) + $caseType , true);
+                   $caseType , true, array("size"=>"5",  "multiple"));
         
         $caseSubType = CRM_Core_OptionGroup::values('f1_case_sub_type');
         $this->add('select', 'casetag2_id',  ts( 'Case Sub Type' ),  
-                   array( '' => ts( '-select-' ) ) + $caseSubType , true);
+                   $caseSubType , true, array("size"=>"5","multiple"));
         
         $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
         $this->add('select', 'casetag3_id',  ts( 'Violation' ),  
-                   array( '' => ts( '-select-' ) ) + $caseViolation , true);
+                   $caseViolation , true, array("size"=>"5",  "multiple"));
         $this->add( 'text', 'subject', ts('Subject'),null, true);
         $this->addRule( 'subject', ts('Case subject already exists in Database.'), 
                         'objectExists', array( 'CRM_Case_DAO_Case', $this->_id, 'subject' ) );
