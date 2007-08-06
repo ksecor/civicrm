@@ -38,7 +38,7 @@
   <installfile><filename>install.civicrm.php</filename></installfile>
   <uninstallfile><filename>uninstall.civicrm.php</filename></uninstallfile>
   <administration>
-    <menu>CiviCRM</menu>
+    <menu task="civicrm/dashboard&amp;reset=1">CiviCRM</menu>
                 <submenu>
                         <menu task="civicrm/dashboard&amp;reset=1">CiviCRM Home</menu>
                         <menu task="civicrm/contact/search&amp;reset=1">Find Contacts</menu>
