@@ -302,6 +302,12 @@ ORDER BY
                     <expression name="expression">dataSetRow["full_address"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">id</property>
+                    <property name="displayName">ID</property>
+                    <expression name="expression">dataSetRow["contact_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
             </list-property>
             <column id="25">
                 <property name="width">1.2083333333in</property>
@@ -410,6 +416,11 @@ ORDER BY
                             <property name="fontSize">x-small</property>
                             <property name="fontWeight">bold</property>
                             <property name="resultSetColumn">sort_name</property>
+                            <structure name="action">
+                                <property name="linkType">hyperlink</property>
+                                <expression name="uri">"http://localhost/dgg/drupal/civicrm/contact/view?reset=1&amp;cid=" + row["id"]</expression>
+                                <property name="targetWindow">_blank</property>
+                            </structure>
                         </data>
                     </cell>
                     <cell id="15">
