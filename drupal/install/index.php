@@ -3,7 +3,14 @@
 /**
  * Note that this installer has been based of the SilverStripe installer.
  * You can get more information from the SilverStripe Website at
- * http://www.silverstripe.com/
+ * http://www.silverstripe.com/. Please check 
+ * http://www.silverstripe.com/licensing for licensing details.
+ *
+ * Copyright (c) 2006-7, SilverStripe Limited - www.silverstripe.com
+ * All rights reserved.
+ *
+ * Changes and modifications (c) 2007 by CiviCRM LLC
+ *
  */
 
 /**
