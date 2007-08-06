@@ -480,7 +480,7 @@ class Installer extends InstallRequirements {
 		session_start();
             ?>
             <h1>Installing CiviCRM...</h1>
-                 <p>I am now running through the installation steps (this should take about 30 seconds)</p>
+                 <p>I am now running through the installation steps (this should take a few minutes)</p>
                  <p>If you receive a fatal error, refresh this page to continue the installation
                  <?
                  flush();
