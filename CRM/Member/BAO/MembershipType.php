@@ -301,22 +301,30 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             $fixedStartDate = date('Y-m-d', mktime( 0, 0, 0, $startMonth, $startDay, $year) );
             
             //get start rollover day
-            $rolloverMonth  = substr( $membershipTypeDetails['fixed_period_rollover_day'], 0,
+            $rolloverMonth     = substr( $membershipTypeDetails['fixed_period_rollover_day'], 0,
                                          strlen($membershipTypeDetails['fixed_period_rollover_day']) - 2 );
-            $rolloverDay    = substr( $membershipTypeDetails['fixed_period_rollover_day'],-2);
+            $rolloverDay       = substr( $membershipTypeDetails['fixed_period_rollover_day'],-2);
             
             $fixedRolloverDate = date('Y-m-d', mktime( 0, 0, 0, $rolloverMonth, $rolloverDay, $year) );
 
+            //store orginal fixed rollover date calculated based on joining date
+            $actualRolloverDate = $fixedRolloverDate;
+
+            // check if rollover date is less than fixed start date,
+            // if yes increment, another edge case handling 
             if ( $fixedRolloverDate <= $fixedStartDate  ) {
                 $fixedRolloverDate = date('Y-m-d', mktime( 0, 0, 0, $rolloverMonth, $rolloverDay, $year + 1 ) );
             }
 
             // we need to minus year if join date is less than equal
-            // to fixed start date
-            if ( $fixedStartDate > $joinDate ) {
+            // to fixed start date also check we should check if
+            // joining date doesnot come in rollover "window". Bit
+            // complicated but it works !!
+            if ( ( $joinDate < $fixedStartDate ) && ( $joinDate < $actualRolloverDate ) ) {
                 $year = $year - 1;
             }
 
+            crm_core_error::debug('$year', $year);
             //this is the actual start date that should be used for
             //end date calculation
             $actualStartDate = $year.'-'.$startMonth.'-'.$startDay;
