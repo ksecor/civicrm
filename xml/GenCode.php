@@ -329,17 +329,16 @@ $params = array(
                 'usersTable' => 'users',
                 'crmRoot' => '',
                 'templateCompileDir' => '',
-                'uploadDir' => '',
-                'imageUploadDir' => '',
-                'imageUploadURL' => '',
-                'customFileUploadDir' => '',
                 'baseURL' => '',
-                'resourceURL' => '',
                 'frontEnd' => 0,
                 'dbUser' => 'DBUSER',
                 'dbPass' => 'PASSWORD',
                 'dbHost' => 'HOSTNAME',
                 'dbName' => 'DATABASE',
+                'CMSdbUser' => 'DBUSER',
+                'CMSdbPass' => 'PASSWORD',
+                'CMSdbHost' => 'HOSTNAME',
+                'CMSdbName' => 'DATABASE',
                 );
 
 $data = file_get_contents( '../templates/CRM/common/civicrm.settings.php.sample.tpl' );

@@ -40,8 +40,15 @@ function civicrm_main( &$config ) {
     civicrm_setup( $cmsPath . DIRECTORY_SEPARATOR . 'files' );
 
     $dsn = "mysql://{$config['mysql']['username']}:{$config['mysql']['password']}@{$config['mysql']['server']}/{$config['mysql']['database']}?new_link=true";
+
     civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_41.mysql'   );
-    civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql' );
+
+    if ( isset( $config['loadGenerated'] ) &&
+         $config['loadGenerated'] ) {
+        civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_generated.mysql' );
+    } else {
+        civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql' );
+    }
     
     // generate backend settings file
     $configFile =

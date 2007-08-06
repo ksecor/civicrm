@@ -13,7 +13,7 @@
 ini_set('max_execution_time', 300);
 
 if ( strpos( dirname( $_SERVER['SCRIPT_FILENAME'] ), 'sites/all/modules' ) === false ) {
-    echo "Please untar CiviCRM in sites/all/modules of your drupal installation";
+    echo "Please untar CiviCRM in sites/all/modules of your drupal installation<p>";
     exit( );
 }
 
@@ -47,17 +47,27 @@ if ( isset($_REQUEST['loadGenerated'] ) ) {
     $loadGenerated = 1;
 }
 
-$alreadyInstalled = file_exists('settings_location.php');
-
 global $cmsPath, $crmPath;
 $crmPath = dirname( dirname ( dirname( $_SERVER['SCRIPT_FILENAME'] ) ) );
 $cmsPath = dirname( dirname( dirname( dirname( $crmPath ) ) ) );
+
+$alreadyInstalled = file_exists( $cmsPath  . DIRECTORY_SEPARATOR .
+                                 'sites'   . DIRECTORY_SEPARATOR .
+                                 'default' . DIRECTORY_SEPARATOR .
+                                 'civicrm.settings.php');
 
 $versionFile = $crmPath . DIRECTORY_SEPARATOR . 'civicrm-version.txt';
 if(file_exists($versionFile)) {
     $civicrm_version = file_get_contents($versionFile);
 } else {
 	$civicrm_version = 'unknown';
+}
+
+// ensure that they have downloaded the civicrm version of the file
+if ( ( strpos( $civicrm_version, 'PHP5'   ) === false) ||
+     ( strpos( $civicrm_version, 'Drupal' ) === false ) ) {
+    echo "This installer is only for the Drupal PHP5 version of CiviCRM<p>";
+    exit( );
 }
 
 // Check requirements

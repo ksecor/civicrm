@@ -35,7 +35,7 @@ installed.</p>
 
 	<?php if($alreadyInstalled) { ?>
 	<p><b>Note:</b> It seems as though CiviCRM is already installed here.  If you ask me to install, I will overwrite
-		the <b>civicrm.settings.php</b> and <b>settings_location.php</b> files. <br /> <br />
+		the <b>civicrm.settings.php</b> file and <b>reset your database</b>. <br /> <br />
 		<label style="cursor: pointer">
 			<input type="checkbox" name="force_reinstall" onclick="document.getElementById('install_button').disabled = !this.checked" /> That's okay, please re-install CiviCRM and overwrite these files.
 		</label>
@@ -51,8 +51,8 @@ installed.</p>
 	
 	<span id="saving_top" style="display: none">
 	&nbsp;
-	<img src="cms/images/network-save.gif" />
-	(this will take a minute or so)
+	<img src="network-save.gif" />
+	(this will take a few minutes)
 	</span>
 </p>
 <?php } ?>
@@ -89,10 +89,16 @@ create the database for you; otherwise, you must give the name of a database tha
 	<label for="drupal_database"><span>MySQL database:</span> <input id="drupal_database" type="text" name="drupal[database]" value="<?= $drupalConfig['database'] ?>" onchange="this.value = this.value.replace(/[^A-Za-z0-9_]+/g,'');" /></label> <br />
 </p>
 
+<!--
+Commented out for now
 <h4>Other Settings</h4>
-<p style="margin-left: 2em" id="misc_credentials" > <!--style="display: none"-->
+<p style="margin-left: 2em" id="misc_credentials" > 
+-->
+<!--style="display: none"-->
+<!--
     <label for="loadGenerated"><span>Load sample data:</span<input id="loadGenerated" type="checkbox" name="loadGenerated" value=1 <?php if ( $loadGenerated == 1 ) { echo "checked='checked'"; } ?></label> <br />
 </p>
+-->
 
 <p style="margin-left: 2em"><input type="submit" value="Re-check requirements" /></p>
 
