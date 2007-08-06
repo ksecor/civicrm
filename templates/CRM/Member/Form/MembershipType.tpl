@@ -94,17 +94,12 @@
         <dd class="description">{ts}Select "rolling" if membership periods begin at date of signup. Select "fixed" if membership periods begin on a set calendar date.{/ts}</dd>
     </dl>   
     
-    <div id="fixed_period_start_day">
+    <div id="fixed_period">
         <dl>
             <dt>{$form.fixed_period_start_day.label}</dt>
             <dd>{$form.fixed_period_start_day.html}</dd>
             <dt>&nbsp;</dt>
             <dd class="description">{ts}Month and day on which a <strong>fixed</strong> period membership or subscription begins. Example: A fixed period membership with Start Day set to Jan 01 means that membership periods would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dd>
-        </dl>
-    </div> 
-           
-    <div id="fixed_period_rollover_day">
-        <dl>
             <dt>{$form.fixed_period_rollover_day.label}</dt>
             <dd>{$form.fixed_period_rollover_day.html}</dd>
             <dt>&nbsp;</dt>
@@ -162,35 +157,23 @@
 
 {literal}
     <script type="text/javascript">
-    if ( document.getElementsByName("period_type")[0].value == "fixed" ) {
-	   show( 'fixed_period_start_day' );
-       if ( document.getElementsByName("duration_unit")[0].value == "year" ) {
-           show( 'fixed_period_rollover_day' );
-       } else {
-           hide( 'fixed_period_rollover_day' );
-       }
-	} else {
-	   hide( 'fixed_period_start_day' );
-       hide( 'fixed_period_rollover_day' );
+    if ( ( document.getElementsByName("period_type")[0].value   == "fixed" ) && 
+         ( document.getElementsByName("duration_unit")[0].value == "year"  ) ) {
+	   show( 'fixed_period' );
+    } else {
+	   hide( 'fixed_period' );
     }
 	function showHidePeriodSettings(){
-        if ( document.getElementsByName("period_type")[0].value == "fixed" ) {
-		    show('fixed_period_start_day');
+        if ( ( document.getElementsByName("period_type")[0].value   == "fixed" ) && 
+             ( document.getElementsByName("duration_unit")[0].value == "year"  ) ) {
+	        show('fixed_period');
 		    document.getElementsByName("fixed_period_start_day[M]")[0].value = "1";
 		    document.getElementsByName("fixed_period_start_day[d]")[0].value = "1";
-            if ( document.getElementsByName("duration_unit")[0].value   == "year" ) {
-                show( 'fixed_period_rollover_day' );
-                document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "12";
-		        document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "31";
-            } else {
-                hide('fixed_period_rollover_day');
-                document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "";
-		        document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "";
-            }
+            document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "12";
+		    document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "31";
         } else {
-		    hide('fixed_period_start_day');
-            hide('fixed_period_rollover_day');
-		    document.getElementsByName("fixed_period_start_day[M]")[0].value = "";
+		    hide('fixed_period');
+            document.getElementsByName("fixed_period_start_day[M]")[0].value = "";
 		    document.getElementsByName("fixed_period_start_day[d]")[0].value = "";
 		    document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "";
 		    document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "";
