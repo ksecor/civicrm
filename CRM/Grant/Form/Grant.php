@@ -148,7 +148,6 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->addRule('grant_due_date', ts('Select a valid date.'), 'qfDate');
 
         $this->addElement('checkbox','grant_report_received', ts('Grant report received?'),null );
-
         $this->add('textarea', 'rationale', ts('Rationale'));
         
         $this->add( 'text', 'amount_total', ts('Amount total'), null, true );
@@ -160,8 +159,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->add( 'text', 'amount_requested', ts('Amount requested') );
         $this->addRule('amount_requested', ts('Please enter a valid amount.'), 'money'); 
 
-        $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
-        $this->add( 'textarea', 'note', ts('Notes'), $noteAttributes['note'] );
+        $this->add( 'textarea', 'note', ts('Notes'));
         
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );

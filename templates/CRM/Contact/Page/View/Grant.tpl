@@ -1,6 +1,8 @@
 <div class="view-content">
-{if $action eq 1 or $action eq 2 or $action eq 8 or $action eq 4}{* add, update or delete *}
+{if $action eq 1 or $action eq 2 or $action eq 8 }{* add, update or delete *}
     {include file="CRM/Grant/Form/Grant.tpl"}
+{elseif $action eq 4 }
+    {include file="CRM/Grant/Form/GrantView.tpl"}
 {else}
      {if $permission EQ 'edit'}
         {capture assign=newGrantURL}{crmURL p="civicrm/contact/view/grant" q="reset=1&action=add&cid=`$contactId`&context=grant"}{/capture}
