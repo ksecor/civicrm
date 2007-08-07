@@ -33,9 +33,9 @@
  *
  */
  
-require_once 'CRM/Contact/DAO/GroupOrg.php';
+require_once 'CRM/Contact/DAO/GroupOrganization.php';
 
-class CRM_Contact_BAO_GroupOrg extends CRM_Contact_DAO_GroupOrg {
+class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganization {
     
     /**
      * Converts a group into an organization by creating an organization and
@@ -65,7 +65,7 @@ class CRM_Contact_BAO_GroupOrg extends CRM_Contact_DAO_GroupOrg {
       $orgCount =& new  CRM_Contact_BAO_Organization();
       $count = $orgCount->count();
       $dao = new CRM_Contact_DAO_GroupOrg( );
-      $query = "REPLACE INTO civicrm_group_org SET group_id = $groupId, org_id = $count";
+      $query = "REPLACE INTO civicrm_group_org SET group_id = $groupId, organization_id = $count";
       $dao->query($query);
     	
     }
@@ -84,7 +84,7 @@ class CRM_Contact_BAO_GroupOrg extends CRM_Contact_DAO_GroupOrg {
 
     static function exists( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrg( );
-	$query = "SELECT org_id FROM civicrm_group_org WHERE group_id = $groupId";
+	$query = "SELECT organization_id FROM civicrm_group_org WHERE group_id = $groupId";
 	$dao->query($query);
 	
 	if ($dao->fetch()){
@@ -113,10 +113,10 @@ class CRM_Contact_BAO_GroupOrg extends CRM_Contact_DAO_GroupOrg {
 
     static function getOrgId( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrg( );
-        $query = "SELECT org_id FROM civicrm_group_org WHERE group_id = $groupId";
+        $query = "SELECT organization_id FROM civicrm_group_org WHERE group_id = $groupId";
         $dao->query($query);
         if ($dao->fetch()){
-            $orgId = $dao->org_id;
+            $orgId = $dao->organization_id;
 	}
 	else{
 	    $orgId = null;
