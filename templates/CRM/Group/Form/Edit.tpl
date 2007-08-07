@@ -22,6 +22,7 @@
     {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
 </fieldset>
 </div>
+{if $action neq 1}
 <div class="form-item">
 <fieldset><legend>{ts}Child Groups{/ts}</legend>
     {if $child_groups|@count > 0}
@@ -39,6 +40,7 @@
     </dl>
 </fieldset>
 </div>
+{/if}
 
 <div class="form-item">
 <fieldset><legend>{ts}Organization{/ts}</legend>
