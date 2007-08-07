@@ -77,7 +77,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      */
     function preProcess( ) {
         
-$this->_id    = $this->get( 'id' );
+        $this->_id    = $this->get( 'id' );
         
         if ( $this->_id ) {
             $breadCrumbPath = CRM_Utils_System::url( 'civicrm/group', 'reset=1' );
@@ -181,10 +181,6 @@ $this->_id    = $this->get( 'id' );
                 }
             }
             
-            /* print "<pre>";
-            print_r($childGroups);
-            print "</pre>"; */
-            
             $this->assign_by_ref( 'child_groups', $childGroups );
             
 	    require_once 'CRM/Contact/BAO/Group.php';
@@ -213,11 +209,11 @@ $this->_id    = $this->get( 'id' );
 
             require_once ( 'CRM/Contact/BAO/GroupOrg.php' );
 	    if ( ! isset ($this->_id) || ! CRM_Contact_BAO_GroupOrg::exists($this->_id) ) {
-	      $this->add( 'checkbox', 'add_group_org', ts('Make this an Organization?'), null );
+	        $this->add( 'checkbox', 'add_group_org', ts('Make this an Organization?'), null );
 	    }
 
 	    else{
-	      $this->add( 'checkbox', 'remove_group_org', ts('Remove Organization Status for this group?'), null );
+	        $this->add( 'checkbox', 'remove_group_org', ts('Remove Organization Status for this group?'), null );
 	    }
 	    
 	    $this->addButtons( array(
@@ -387,8 +383,8 @@ public function postProcess( ) {
             if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
                  CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
                  CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
-                $this->_showHide->addShow( 'id_demographics' );
-                $this->_showHide->addHide( 'id_demographics_show' );
+                 $this->_showHide->addShow( 'id_demographics' );
+                 $this->_showHide->addHide( 'id_demographics_show' );
             }
         }
 
