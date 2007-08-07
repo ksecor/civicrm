@@ -86,6 +86,19 @@ if ( ( strpos( $civicrm_version, 'PHP5'   ) === false) ||
     errorDisplayPage( $errorTitle, $errorMsg );
 }
 
+$drupalVersionFile = $cmsPath . DIRECTORY_SEPARATOR . 'CHANGELOG.txt';
+if ( file_exists( $drupalVersionFile ) ) {
+    $drupal_version = file_get_contents( $drupalVersionFile );
+} else {
+    $drupal_version = 'unknown';
+}
+
+if ( ( strpos( $drupal_version, 'Drupal 5.1' ) === false ) ) {
+    $errorTitle = "Oops! Incorrect Drupal Version";
+    $errorMsg = "This installer can only be used with Drupal 5.x. Refer to the online <a href='http://wiki.civicrm.org/CRMDOC/Installation+Guide' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on other Drupal versions OR installing CiviCRM for Joomla!";
+    errorDisplayPage( $errorTitle, $errorMsg );
+}
+
 // Check requirements
 $req = new InstallRequirements();
 $req->check();
@@ -140,6 +153,15 @@ class InstallRequirements {
             }
             $this->requireDatabaseOrCreatePermissions($databaseConfig['server'], $databaseConfig['username'], $databaseConfig['password'], $databaseConfig['database'], 
                                                       array("MySQL $dbName Configuration", "Can I access/create the database", "I can't create new databases and the database '$databaseConfig[database]' doesn't exist"));
+            if ( $dbName != 'Drupal' ) {
+                $this->requireMySQLInnoDB($databaseConfig['server'],
+                                          $databaseConfig['username'],
+                                          $databaseConfig['password'],
+                                          $databaseConfig['database'], 
+                                          array("MySQL $dbName Configuration",
+                                                "Can I access/create innodb tables in the database",
+                                                "InnoDB is not enabled in the database" ) );
+            }
         }
 	}
 	
@@ -399,7 +421,19 @@ class InstallRequirements {
 		}
 	}
 
-	
+    function requireMySQLInnoDB( $server, $username, $password, $database, $testDetails) {
+		$this->testing($testDetails);
+		$conn = @mysql_connect($server, $username, $password);
+		
+        $result = mysql_query( "SHOW variables like 'have_innodb'", $conn );
+        $values = mysql_fetch_row( $result );
+        if ( strtolower( $values[1] ) != 'yes' ) {
+            $this->error($testDetails);
+        } else {
+            $testDetails[3] = 'MySQL server does have innodb support';
+        }
+    }
+
 	function requireDatabaseOrCreatePermissions($server, $username, $password, $database, $testDetails) {
 		$this->testing($testDetails);
 		$conn = @mysql_connect($server, $username, $password);
