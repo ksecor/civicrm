@@ -33,7 +33,7 @@
         <tr class="{cycle values="odd-row,even-row"}">
 
             <td>{$case.status_id}</td>
-            <td>{$case.casetag1_id}</td>  
+            <td>{$case.casetag1_id.0} <br />{$case.casetag1_id.1}<br />{$case.casetag1_id.2}</td>  
             <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">{$case.subject|mb_truncate:33:"...":true}</a></td>
 
             <td>{$case.start_date|crmDate}</td>

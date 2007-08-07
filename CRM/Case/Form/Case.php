@@ -57,6 +57,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      * @protected
      */
     protected $_contactID;
+    
 
 
     /** 
@@ -79,8 +80,11 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             require_once 'CRM/Case/BAO/Case.php' ;
             CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
-        }
+        }        
 
+        $defaults['casetag1_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag1_id'],1,-1));
+        $defaults['casetag2_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag2_id'],1,-1));
+        $defaults['casetag3_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag3_id'],1,-1));
         return $defaults;
     }
     
@@ -95,7 +99,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
         $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
         $this->add('select', 'status_id',  ts( 'Case Status' ),  
-                   $caseStatus , true  );
+                   array( '' => ts( '-select-' ) ) + $caseStatus , true  );
         require_once 'CRM/Core/OptionGroup.php';
         $caseType = CRM_Core_OptionGroup::values('f1_case_type');
         $this->add('select', 'casetag1_id',  ts( 'Case Type' ),  
@@ -182,7 +186,13 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $formValues = $this->controller->exportValues( $this->_name );
         $formValues['contact_id'] = $this->_contactID;
         $formValues['start_date'] = CRM_Utils_Date::format($formValues['start_date']);
-        $formValues['end_date'] = CRM_Utils_Date::format($formValues['end_date']);
+        $formValues['end_date']   = CRM_Utils_Date::format($formValues['end_date']);
+
+
+        for($i=1;$i<4;$i++) {
+            $formValues['casetag' . $i . '_id']   = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $formValues['casetag' . $i . '_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
+        }
+
         require_once 'CRM/Case/BAO/Case.php';
         $case =  CRM_Case_BAO_Case::create($formValues ,$ids);
     }
