@@ -38,18 +38,21 @@ require_once 'CRM/Contact/DAO/GroupOrg.php';
 class CRM_Contact_BAO_GroupOrg extends CRM_Contact_DAO_GroupOrg {
     
     /**
-     * Adds a new child group identified by $childGroupId to the group
-     * identified by $groupId
+     * Converts a group into an organization by creating an organization and
+     * adding the association in the civicrm_group_org table.
      *
-     * @param            $groupId               The id of the group to add the child to
-     * @param            $childGroupId          The id of the new child group
+     * @param            $groupId               The id of the group to add to
+     *                                           the civicrm_group_org table
+     * @param            $groupName             Optional parameter that allows
+     *                                           the organization contact to
+     *                                           be appropriately named.
      *
      * @return           void
      *
      * @access public
      */
     
-  static function addOrg( $groupId, $groupName = null ) {
+  static function add( $groupId, $groupName = null ) {
       require_once('CRM/Contact/BAO/Organization.php');
       $countObj =& new CRM_Contact_BAO_Contact();
       $count = $countObj->count();
@@ -68,36 +71,70 @@ class CRM_Contact_BAO_GroupOrg extends CRM_Contact_DAO_GroupOrg {
     }
 
 
-  static function isOrg( $groupId ) {
-      $dao = new CRM_Contact_DAO_GroupOrg( );
-      $query = "SELECT org_id FROM civicrm_group_org WHERE group_id = $groupId";
-      $dao->query($query);
-      
-      if ($dao->fetch()){
-	return true;
-      }
-      else{
-	return false;
-      }
+    /**
+     * Checks whether a group is associated with an organization contact.
+     * @param            $groupId               The id of the group
+     *
+     * @return           boolean                true if the group is found
+     *                                           in the civicrm_group_org
+     *                                           table, false otherwise
+     *
+     * @access public
+     */
+
+    static function exists( $groupId ) {
+        $dao = new CRM_Contact_DAO_GroupOrg( );
+	$query = "SELECT org_id FROM civicrm_group_org WHERE group_id = $groupId";
+	$dao->query($query);
+	
+	if ($dao->fetch()){
+	    return true;
+	}
+	else{
+	    return false;
+	}
     
 
-  }
-
-    static function getOrgId( $groupId ) {
-      $dao = new CRM_Contact_DAO_GroupOrg( );
-      $query = "SELECT org_id FROM civicrm_group_org WHERE group_id = $groupId";
-      $dao->query($query);
-      if ($dao->fetch()){
-	$orgId = $dao->org_id;
-      }
-      else{
-	$orgId = null;
-      }
-      return $orgId;
     }
 
+    /**
+     * Retrieves the id in the civcrm_organization table for the corresponding
+     * organization contact to the given group.
+     *
+     * @param            $groupId               The id of the group
+     *
+     *
+     * @return           $orgId                 Returns the id of the
+     *                                           organization, if there is one;
+     *                                           null otherwise.
+     *
+     * @access public
+     */
 
-    static function removeGroupOrg( $groupId ) {
+    static function getOrgId( $groupId ) {
+        $dao = new CRM_Contact_DAO_GroupOrg( );
+        $query = "SELECT org_id FROM civicrm_group_org WHERE group_id = $groupId";
+        $dao->query($query);
+        if ($dao->fetch()){
+            $orgId = $dao->org_id;
+	}
+	else{
+	    $orgId = null;
+	}
+	return $orgId;
+    }
+    
+    /**
+     * Removes an association from the civicrm_group_org table. Does not
+     * delete the organization.
+     * @param            $groupId               The id of the group
+     *     
+     * @return           void
+     *
+     * @access public
+     */
+
+    static function remove( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrg( );
 	$query = "DELETE FROM civicrm_group_org WHERE group_id = $groupId";
 	$dao->query($query);
@@ -106,6 +143,18 @@ class CRM_Contact_BAO_GroupOrg extends CRM_Contact_DAO_GroupOrg {
 
     }
 
+    /**
+     * Retrieves the id in the civicrm_contact table for the organization
+     * associated with the given group.
+     *
+     * @param            $groupId               The id of the group
+     *
+     * @return           $orgContactId          The id of the org in the
+     *                                           civicrm_contact table,
+     *                                           if it exists; null otherwise.
+     *
+     * @access public
+     */
 
     static function getOrgContactId( $groupId ) {
       $orgId = self::getOrgId($groupId);

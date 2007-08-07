@@ -212,7 +212,7 @@ $this->_id    = $this->get( 'id' );
             }
 
             require_once ( 'CRM/Contact/BAO/GroupOrg.php' );
-	    if ( ! isset ($this->_id) || ! CRM_Contact_BAO_GroupOrg::isOrg($this->_id) ) {
+	    if ( ! isset ($this->_id) || ! CRM_Contact_BAO_GroupOrg::exists($this->_id) ) {
 	      $this->add( 'checkbox', 'add_group_org', ts('Make this an Organization?'), null );
 	    }
 
@@ -318,7 +318,7 @@ public function postProcess( ) {
             
 	    if ( ! empty ( $params['add_group_org'] ) ) {
   	        require_once('CRM/Contact/BAO/GroupOrg.php');
-		CRM_Contact_BAO_GroupOrg::addOrg($group->id, $group->name);
+		CRM_Contact_BAO_GroupOrg::add($group->id, $group->name);
 		$orgContactId = CRM_Contact_BAO_GroupOrg::getOrgContactId($group->id);
 		$url = CRM_Utils_System::url("civicrm/contact/add&reset=1&action=update&cid=$orgContactId");
 		CRM_Utils_System::redirect($url);
@@ -326,7 +326,7 @@ public function postProcess( ) {
 
 	    if ( ! empty ( $params['remove_group_org'] ) ) {
  	        require_once( 'CRM/Contact/BAO/GroupOrg.php' );
-	        CRM_Contact_BAO_GroupOrg::removeGroupOrg( $group->id );
+	        CRM_Contact_BAO_GroupOrg::remove( $group->id );
 		$orgId = CRM_Contact_BAO_GroupOrg::getOrgId( $group->id );
 		print $orgId;
 		require_once( 'CRM/Contact/BAO/Organization.php' );
