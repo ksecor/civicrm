@@ -474,7 +474,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                          $deductibleMode = true, $pending = false,
                                          $online = true ) 
     {
-
+        
         CRM_Core_DAO::transaction( 'BEGIN' );
 
         $honorCId = $recurringContributionID = null;
@@ -524,9 +524,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                'amount_level'          => CRM_Utils_Array::value( 'amount_level', $params ),
                                'invoice_id'            => $params['invoiceID'],
                                'currency'              => $params['currencyID'],
-                               'source'                => $online ? 
-                               ts( 'Online Contribution:' ) . ' ' . $form->_values['title'] :
-                               $params['source'],
+                               'source'                => !$online || $params['source'] ? $params['source'] : ts( 'Online Contribution:' ) . ' ' . $form->_values['title'],
                                );
 
         if ( ! $online || $form->_values['is_monetary'] ) {

@@ -858,16 +858,20 @@ SELECT count(*) as count,
      * 
      */
     public function processConfirm( &$form, &$paymentParams, &$premiumParams, $contactID, $contributionTypeId, $component='contribution' )
-    {
+    { 
         require_once 'CRM/Core/Payment/Form.php';
         CRM_Core_Payment_Form::mapParams( $form->_bltID, $form->_params, $paymentParams, true );
         
         $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-        $contributionType->id = $contributionTypeId;
+        if( isset( $paymentParams['contribution_type'] ) ) {
+            $contributionType->id = $paymentParams['contribution_type'];
+        } else {
+            $contributionType->id = $contributionTypeId;
+        }
         if ( ! $contributionType->find( true ) ) {
             CRM_Core_Error::fatal( "Could not find a system table" );
         }
-        
+       
         // add some contribution type details to the params list
         // if folks need to use it
         $paymentParams['contributionType_name']                = 
@@ -907,7 +911,7 @@ SELECT count(*) as count,
             $form->_params['contributionID'    ] = $contribution->id;
             $form->_params['contributionTypeID'] = $contributionType->id;
             $form->_params['item_name'         ] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-            $form->_params['receive_date']       = $now;
+            $form->_params['receive_date'      ] = $now;
             if ( $form->_values['is_recur'] &&
                  $contribution->contribution_recur_id ) {
                 $form->_params['contributionRecurID'] = $contribution->contribution_recur_id;
@@ -953,6 +957,9 @@ SELECT count(*) as count,
             if ( $contributionType->is_deductible ) {
                 $form->assign('is_deductible',  true );
                 $form->set('is_deductible',  true);
+            }
+            if( isset( $paymentParams['contribution_source'] ) ) {
+                $form->_params['source'] = $paymentParams['contribution_source'];
             }
             
             $contribution = CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
