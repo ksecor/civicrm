@@ -64,7 +64,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
       CRM_Contact_BAO_Organization::add( $params , $id);
       $orgCount =& new  CRM_Contact_BAO_Organization();
       $count = $orgCount->count();
-      $dao = new CRM_Contact_DAO_GroupOrg( );
+      $dao = new CRM_Contact_DAO_GroupOrganization( );
       $query = "REPLACE INTO civicrm_group_org SET group_id = $groupId, organization_id = $count";
       $dao->query($query);
     	
@@ -83,7 +83,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      */
 
     static function exists( $groupId ) {
-        $dao = new CRM_Contact_DAO_GroupOrg( );
+        $dao = new CRM_Contact_DAO_GroupOrganization( );
 	$query = "SELECT organization_id FROM civicrm_group_org WHERE group_id = $groupId";
 	$dao->query($query);
 	
@@ -112,7 +112,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      */
 
     static function getOrgId( $groupId ) {
-        $dao = new CRM_Contact_DAO_GroupOrg( );
+        $dao = new CRM_Contact_DAO_GroupOrganization( );
         $query = "SELECT organization_id FROM civicrm_group_org WHERE group_id = $groupId";
         $dao->query($query);
         if ($dao->fetch()){
@@ -135,7 +135,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      */
 
     static function remove( $groupId ) {
-        $dao = new CRM_Contact_DAO_GroupOrg( );
+        $dao = new CRM_Contact_DAO_GroupOrganization( );
 	$query = "DELETE FROM civicrm_group_org WHERE group_id = $groupId";
 	$dao->query($query);
 
