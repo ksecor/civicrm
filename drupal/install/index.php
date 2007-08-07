@@ -20,8 +20,9 @@
 ini_set('max_execution_time', 300);
 
 if ( strpos( dirname( $_SERVER['SCRIPT_FILENAME'] ), 'sites/all/modules' ) === false ) {
-    echo "Please untar CiviCRM in sites/all/modules of your drupal installation<p>";
-    exit( );
+    $errorTitle = "Oops! Please Correct Your Install Location";
+    $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>sites/all/modules</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/CRMDOC/Installation+Guide' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.";
+    errorDisplayPage( $errorTitle, $errorMsg );
 }
 
 
@@ -63,6 +64,13 @@ $alreadyInstalled = file_exists( $cmsPath  . DIRECTORY_SEPARATOR .
                                  'default' . DIRECTORY_SEPARATOR .
                                  'civicrm.settings.php');
 
+// Exit with error if CiviCRM has already been installed.
+if ($alreadyInstalled ) {
+    $errorTitle = "Oops! CiviCRM is Already Installed";
+    $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>" . $cmsPath . "sites/default</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/CRMDOC/Installation+Guide' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+    errorDisplayPage( $errorTitle, $errorMsg );
+}
+
 $versionFile = $crmPath . DIRECTORY_SEPARATOR . 'civicrm-version.txt';
 if(file_exists($versionFile)) {
     $civicrm_version = file_get_contents($versionFile);
@@ -70,11 +78,12 @@ if(file_exists($versionFile)) {
 	$civicrm_version = 'unknown';
 }
 
-// ensure that they have downloaded the civicrm version of the file
+// Ensure that they have downloaded the correct version of CiviCRM
 if ( ( strpos( $civicrm_version, 'PHP5'   ) === false) ||
      ( strpos( $civicrm_version, 'Drupal' ) === false ) ) {
-    echo "This installer is only for the Drupal PHP5 version of CiviCRM<p>";
-    exit( );
+    $errorTitle = "Oops! Incorrect CiviCRM Version";
+    $errorMsg = "This installer can only be used for the Drupal PHP5 version of CiviCRM. Refer to the online <a href='http://wiki.civicrm.org/CRMDOC/Installation+Guide' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on PHP4 servers OR installing CiviCRM for Joomla!";
+    errorDisplayPage( $errorTitle, $errorMsg );
 }
 
 // Check requirements
@@ -637,6 +646,11 @@ function rm($fileglob)
     }
 
     return true;
+}
+
+function errorDisplayPage( $errorTitle, $errorMsg ) {
+    include('error.html');
+    exit();
 }
 
 ?>
