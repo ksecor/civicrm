@@ -686,6 +686,93 @@ class CiviUnitTestCase extends UnitTestCase {
         return $result['custom_option_id'];
     }    
     
+    /**
+     * Function to create note
+     * 
+     * @params array $params  name-value pair for an event
+     * 
+     * @return array $note
+     */
+    function noteCreate( $cId )
+    {
+        require_once 'api/v2/Note.php';
+         if ( $params === null ) {
+             $params = array(
+                             'entity_table'  => 'civicrm_contact',
+                             'entity_id'     => $cId,
+                             'note'          => 'hello I am testing Note',
+                             'contact_id'    => $cId,
+                             'modified_date' => date('Ymd'),
+                             'subject'       =>'Test Note', 
+                             );
+         }
+        
+        $note =& civicrm_note_create( $params );
+        
+        return $note;
+    }
+
+    /**
+     * Function to delete note
+     * 
+     * @params int $noteID
+     * 
+     */
+    function noteDelete( $params )
+    {
+
+        require_once 'api/v2/Note.php';
+        $result = & civicrm_note_delete( $params );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not delete note' );
+        }
+        
+        return;
+    }    
+
+    /**
+     * Function to create Group
+     * 
+     * @params array $params  name-value pair for an event
+     * 
+     * @return array $group
+     */
+    function groupCreate( $params )
+    {
+        require_once 'api/v2/Group.php';
+        if ( $params === null ) {
+            $params = array(
+                            'name'        => 'Test Group 1',
+                            'domain_id'   => 1,
+                            'title'       => 'New Test Group Created',
+                            'description' => 'New Test Group Created',
+                            'is_active'   => 1,
+                            'visibility'  => 'Public User Pages and Listings',
+                            );
+        }
+        
+        $group =& civicrm_group_create( $params );
+        
+        return $group['id'];
+    }
+
+    /**
+     * Function to delete group
+     * 
+     * @params int $groupID
+     * 
+     */
+    function groupDelete( $params )
+    {
+
+        require_once 'api/v2/Group.php';
+        $result = & civicrm_group_delete( $params );
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+            CRM_Core_Error::fatal( 'Could not delete group' );
+        }
+        return;
+    }    
+
 }
 
 ?>

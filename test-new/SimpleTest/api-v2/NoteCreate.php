@@ -1,0 +1,78 @@
+<?php
+
+require_once 'api/v2/Note.php';
+
+class TestOfNoteCreateAPIV2 extends CiviUnitTestCase 
+{
+    protected $_contactID;
+    protected $_params;
+    
+    function setUp() 
+    {
+        $this->_contactID = $this->organizationCreate( );
+        
+        $this->_params = array(
+                               'entity_table'  => 'civicrm_contact',
+                               'entity_id'     => $this->_contactID,
+                               'note'          => 'Hello!!! m testing Note',
+                               'contact_id'    => $this->_contactID,
+                               'modified_date' => date('Ymd'),
+                               'subject'       => 'Test Note', 
+                               );
+    }
+    
+    function testCreateNoteParamsNotArray( )
+    {
+        $params = null;
+        $result = civicrm_note_create( $params );
+        
+        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertNotEqual( $result['error_message'], 'Required parameter missing' );
+        $this->assertEqual( $result['error_message'], 'Params is not an array' );
+    }    
+    
+    function testCreateNoteEmptyParams( )
+    {
+        $params = array( );
+        $result = civicrm_note_create( $params );
+        
+        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertFalse( array_key_exists( 'entity_id', $result ) );
+        $this->assertEqual( $result['error_message'], 'Required parameter missing' );
+    }
+    
+    function testCreateNoteParamsWithoutTitle( )
+    {
+        unset( $this->_params['subject'] );
+        $result = civicrm_note_create( $this->_params );
+
+        $this->assertNotEqual( $result['is_error'], 1 );
+        $this->assertNotEqual( $result['error_message'], 'Required parameter missing' );
+        civicrm_note_delete( $result );
+    }
+    
+    function testCreateNoteParamsWithoutEntityId( )
+    {
+        unset($this->_params['entity_id']);
+        $result = civicrm_note_create( $this->_params );
+        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEqual( $result['error_message'], 'Required parameter missing' );
+    }
+    
+    function testCreateNote( )
+    {
+        $result = civicrm_note_create( $this->_params );
+        $this->assertEqual( $result['note'], 'Hello!!! m testing Note');
+        $this->assertTrue( array_key_exists( 'entity_id', $result ) );
+        $this->assertEqual( $result['is_error'], 0 );
+        civicrm_note_delete( $result );
+    }
+    
+    function tearDown( ) 
+    {
+        
+        $this->contactDelete( $this->_contactID );
+    }
+}
+
+?>
