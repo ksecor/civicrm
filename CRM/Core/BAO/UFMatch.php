@@ -63,20 +63,22 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         //print "synchronize called with uniq_id " . $user->identity_url . "<br/>";
 
         if ( $uf == 'Drupal' ) {
-            $key  = 'uid';
+            $key   = 'uid';
             $login = 'login';
+            $mail  = 'mail';
             // TODO: Someone who uses Drupal should get the site domain into
             // the $user object
             $domain = 'domain';
         } else if ( $uf == 'Joomla' ) {
-            $key  = 'id';
+            $key   = 'id';
             $login = 'username';
+            $mail  = 'email';
             // TODO: Someone who uses Joomla should get the site domain into
             // the $user object
             $domain = 'domain';
         } else if ( $uf == 'Standalone' ) {
             $key = 'id';
-	    $mail = 'email';
+            $mail = 'email';
             $uniqId = $user->identity_url;
             $query = "SELECT uf_id FROM civicrm_uf_match WHERE user_unique_id = %1";
             $p = array( 1 => array( $uniqId, 'String' ) );
@@ -125,7 +127,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         if ( $user->$key == 0 ) {
             return;
         }
-        
+
         //print "Calling synchronizeUFMatch...<br/>";
         $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $uniqId, $uf, null, $ctype );
         if ( ! $ufmatch ) {
@@ -164,13 +166,14 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
      * @access public
      * @static
      */
-    static function &synchronizeUFMatch( &$user, $userKey, $uniqId, $uf, $status = null, $ctype = null ) {
+    static function &synchronizeUFMatch( &$user, $userKey, $uniqId, $uf, $status = null, $ctype = null ) 
+    {
         // validate that uniqId is a valid url. it will either be
         // an OpenID (which should always be a valid url) or a
         // http://uf_username.domain/ construction (so that it can
         // be used as an OpenID in the future)
         require_once 'CRM/Utils/Rule.php';
-        if ( ! CRM_Utils_Rule::url( $uniqId ) ) {
+        if ( ! CRM_Utils_Rule::url( $uniqId ) && $uf == 'Standalone' ) {
             return $status ? null : false;
         }
         
@@ -189,9 +192,16 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
                 $ufmatch->domain_id     = $dao->domain_id ;
                 $ufmatch->user_unique_id = $uniqId;
             } else {
+                if ( $uf == 'Drupal' ) {
+                    $mail = 'mail';
+                } else {
+                    $mail = 'email';
+                }
+                
                 require_once 'CRM/Core/BAO/LocationType.php';
                 $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
-                $params = array( 'user_unique_id' => $uniqId, 'location_type' => $locationType->name, 'email' => $user->email, 'openid' => $uniqId );
+                $params = array( 'user_unique_id' => $uniqId, 'location_type' => $locationType->name, 
+                                 'email' => $user->$mail, 'openid' => $uniqId );
                 if ( $ctype == 'Organization' ) {
                     $params['organization_name'] = $uniqId;
                 } else if ( $ctype == 'Household' ) {
@@ -240,7 +250,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
 		        }
 		    
                 require_once 'api/Contact.php';
-		
+
                 $contact =& crm_create_contact( $params, $ctype, false );
                 
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
