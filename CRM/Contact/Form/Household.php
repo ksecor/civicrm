@@ -91,8 +91,8 @@ class CRM_Contact_Form_Household
         //code for dupe match
         if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields )) {
             $dupeIDs = array();
-            require_once "CRM/Contact/DAO/Household.php";
-            $contact = & new CRM_Contact_DAO_Household();
+            require_once "CRM/Contact/DAO/Contact.php";
+            $contact = & new CRM_Contact_DAO_Contact();
             $contact->household_name = $fields['household_name'];
             $contact->find();
             while ($contact->fetch(true)) {

@@ -96,8 +96,8 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         //code for dupe match
         if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields )) {
             $dupeIDs = array();
-            require_once "CRM/Contact/DAO/Organization.php";
-            $contact = & new CRM_Contact_DAO_Organization();
+            require_once "CRM/Contact/DAO/Contact.php";
+            $contact = & new CRM_Contact_DAO_Contact();
             $contact->organization_name = $fields['organization_name'];
             $contact->find();
             while ($contact->fetch(true)) {
