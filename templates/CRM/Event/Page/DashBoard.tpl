@@ -34,7 +34,7 @@
     <td>{$values.eventType}</td>
     <td>{$values.isPublic}</td>
     <td class="right">
-        {if $values.participant_url}<a href="{$values.participant_url}">{$values.participants}</a>{else}{$values.participants}{/if}
+        {if $values.participant_url}<a href="{$values.participant_url}">{$values.participants} (show)</a>{else}{$values.participants}{/if}
         {if $values.maxParticipants}<br />{ts 1=$values.maxParticipants}(max %1){/ts}{/if}
     </td>
     <td>{$values.startDate}&nbsp;{if $values.endDate}to{/if}&nbsp;{$values.endDate}</td>
