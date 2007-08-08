@@ -440,7 +440,6 @@ class InstallRequirements {
         $result = mysql_query( "SHOW variables like 'have_innodb'", $conn );
         if ( $result ) {
             $values = mysql_fetch_row( $result );
-            print_r( $values );
             if ( strtolower( $values[1] ) != 'yes' ) {
                 $this->error($testDetails);
             } else {
