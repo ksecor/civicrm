@@ -137,8 +137,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-      //      require_once('CRM/Contact/Form/Organization.php');
-      //CRM_Contact_Form_Organization::buildQuickForm($this, $this->_action);        
+        
         if ($this->_action == CRM_Core_Action::DELETE) {
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
@@ -171,7 +170,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             
             $childGroups = array( );
             if ( isset( $this->_id ) ) {
-	      $childGroupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $this->_id, false );
+	            $childGroupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $this->_id, false );
                 foreach ( $childGroupIds as $childGroupId ) {
                     $childGroupInfo = array( );
                     $params = array( 'id' => $childGroupId );
@@ -183,24 +182,23 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             
             $this->assign_by_ref( 'child_groups', $childGroups );
             
-	    require_once 'CRM/Contact/BAO/Group.php';
+	        require_once 'CRM/Contact/BAO/Group.php';
             $childGroupSelectValues = array( '' => '' );
             if ( isset( $this->_id ) ) {
                 $potentialChildGroupIds = CRM_Contact_BAO_GroupNesting::getPotentialChildGroupIds( $this->_id );
-	    }
-	    else{
-	        $potentialChildGroups = CRM_Contact_BAO_Group::getGroups();
-		$potentialChildGroupIds = array ( );
-		foreach( $potentialChildGroups as $potentialChildGroup ) {
-		  $potentialChildGroupIds []= $potentialChildGroup->id;
-		}
-	    }
-	    foreach ( $potentialChildGroupIds as $potentialChildGroupId ) {
-                    $potentialChildGroupInfo = array( );
-                    $params = array( 'id' => $potentialChildGroupId );
-                    CRM_Contact_BAO_Group::retrieve( $params, $potentialChildGroupInfo );
-                    $childGroupSelectValues[$potentialChildGroupId] = $potentialChildGroupInfo['title'];
-	    }
+	        } else {
+	            $potentialChildGroups = CRM_Contact_BAO_Group::getGroups();
+		        $potentialChildGroupIds = array( );
+		        foreach ( $potentialChildGroups as $potentialChildGroup ) {
+		            $potentialChildGroupIds[] = $potentialChildGroup->id;
+		        }
+	        }
+	        foreach ( $potentialChildGroupIds as $potentialChildGroupId ) {
+                $potentialChildGroupInfo = array( );
+                $params = array( 'id' => $potentialChildGroupId );
+                CRM_Contact_BAO_Group::retrieve( $params, $potentialChildGroupInfo );
+                $childGroupSelectValues[$potentialChildGroupId] = $potentialChildGroupInfo['title'];
+	        }
             
             
             if ( count( $childGroupSelectValues ) > 1 ) {
@@ -210,32 +208,30 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             require_once ( 'CRM/Contact/BAO/GroupOrganization.php' );
 	    if ( ! isset ($this->_id) || ! CRM_Contact_BAO_GroupOrganization::exists($this->_id) ) {
 	        $this->add( 'checkbox', 'add_group_org', ts('Make this an Organization?'), null );
-	    }
-
-	    else{
+	    } else {
 	        $this->add( 'checkbox', 'remove_group_org', ts('Remove Organization Status for this group?'), null );
 	    }
 	    
 	    $this->addButtons( array(
-                                     array ( 'type'      => $buttonType,
-                                             'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
-                                             'isDefault' => true   ),
-                                     array ( 'type'       => 'cancel',
-                                             'name'      => ts('Cancel') ),
+                                     array( 'type'      => $buttonType,
+                                            'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
+                                            'isDefault' => true   ),
+                                     array( 'type'      => 'cancel',
+                                            'name'      => ts('Cancel') ),
                                      )
-                               );
+            );
 
-            
             CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }
     }
+    
     /**
      * Process the form when submitted
      *
      * @return void
      * @access public
      */
-public function postProcess( ) {
+    public function postProcess( ) {
         
         if ($this->_action & CRM_Core_Action::DELETE ) {
             CRM_Contact_BAO_Group::discard( $this->_id );
@@ -328,7 +324,6 @@ public function postProcess( ) {
 		require_once( 'CRM/Contact/BAO/Organization.php' );
 		print "wtf mate";
 		CRM_Contact_BAO_Contact::deleteContact( $orgId );
-		
 	    }
 
             CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        
