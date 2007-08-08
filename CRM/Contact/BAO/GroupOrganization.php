@@ -39,10 +39,12 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
     
     /**
      * Converts a group into an organization by creating an organization and
-     * adding the association in the civicrm_group_org table.
+     * adding the association in the civicrm_group_organization table.
      *
      * @param            $groupId               The id of the group to add to
-     *                                           the civicrm_group_org table
+     *                                          the civicrm_group_organization
+     *                                          table.
+     *
      * @param            $groupName             Optional parameter that allows
      *                                           the organization contact to
      *                                           be appropriately named.
@@ -65,7 +67,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
       $orgCount =& new  CRM_Contact_BAO_Organization();
       $count = $orgCount->count();
       $dao = new CRM_Contact_DAO_GroupOrganization( );
-      $query = "REPLACE INTO civicrm_group_org SET group_id = $groupId, organization_id = $count";
+      $query = "REPLACE INTO civicrm_group_organization SET group_id = $groupId, organization_id = $count";
       $dao->query($query);
     	
     }
@@ -75,16 +77,16 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      * Checks whether a group is associated with an organization contact.
      * @param            $groupId               The id of the group
      *
-     * @return           boolean                true if the group is found
-     *                                           in the civicrm_group_org
-     *                                           table, false otherwise
+     * @return           boolean            true if the group is found
+     *                                      in the civicrm_group_organization
+     *                                      table, false otherwise
      *
      * @access public
      */
 
     static function exists( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
-	$query = "SELECT organization_id FROM civicrm_group_org WHERE group_id = $groupId";
+	$query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
 	$dao->query($query);
 	
 	if ($dao->fetch()){
@@ -113,7 +115,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
 
     static function getOrgId( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
-        $query = "SELECT organization_id FROM civicrm_group_org WHERE group_id = $groupId";
+        $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
         $dao->query($query);
         if ($dao->fetch()){
             $orgId = $dao->organization_id;
@@ -125,8 +127,9 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
     }
     
     /**
-     * Removes an association from the civicrm_group_org table. Does not
-     * delete the organization.
+     * Removes an association from the civicrm_group_organization table.
+     * Does not delete the organization.
+     *
      * @param            $groupId               The id of the group
      *     
      * @return           void
@@ -136,7 +139,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
 
     static function remove( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
-	$query = "DELETE FROM civicrm_group_org WHERE group_id = $groupId";
+	$query = "DELETE FROM civicrm_group_organization WHERE group_id = $groupId";
 	$dao->query($query);
 
 
