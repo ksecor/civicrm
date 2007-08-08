@@ -58,13 +58,28 @@ class CRM_Contact_Form_Address
 
         $config =& CRM_Core_Config::singleton( );
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
-
+        
         $elements = array( 
-                          'street_address'         => array( ts('Street Address')   , null, null ),
-                          'supplemental_address_1' => array( ts('Addt\'l Address 1'), null, null ),
-                          'supplemental_address_2' => array( ts('Addt\'l Address 2'), null, null ),
-                          'city'                   => array( ts('City')             , null, null ),
-                          'postal_code'            => array( ts('Zip / Postal Code'), null, null ),
+                          'street_address'         => array( ts('Street Address')   , 
+                                                             CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Address', 
+                                                                                         'street_address' ), 
+                                                             null ),
+                          'supplemental_address_1' => array( ts('Addt\'l Address 1'), 
+                                                             CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Address', 
+                                                                                         'supplemental_address_1' ), 
+                                                             null ),
+                          'supplemental_address_2' => array( ts('Addt\'l Address 2'), 
+                                                             CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Address', 
+                                                                                         'supplemental_address_2' ), 
+                                                             null ),
+                          'city'                   => array( ts('City')             , 
+                                                             CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Address', 
+                                                                                         'city' ), 
+                                                             null ),
+                          'postal_code'            => array( ts('Zip / Postal Code'), 
+                                                             CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Address', 
+                                                                                         'postal_code' ), 
+                                                             null ),
                           'postal_code_suffix'     => array( ts('Postal Code Suffix')       ,
                                                             array( 'size' => 4, 'maxlength' => 12 ), null ),
                           'county_id'              => array( ts('County')           , null, 'county' ),
