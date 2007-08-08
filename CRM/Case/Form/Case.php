@@ -75,13 +75,11 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        
+        require_once 'CRM/Case/BAO/Case.php' ;
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-            require_once 'CRM/Case/BAO/Case.php' ;
             CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
         }        
-
         $defaults['casetag1_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag1_id'],1,-1));
         $defaults['casetag2_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag2_id'],1,-1));
         $defaults['casetag3_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag3_id'],1,-1));
