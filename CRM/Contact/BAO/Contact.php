@@ -370,108 +370,10 @@ ORDER BY
         $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
         
         if ($contact->contact_type == 'Individual') {
-            $sortName = "";
-            $firstName  = CRM_Utils_Array::value('first_name'   , $params, '');
-            $middleName = CRM_Utils_Array::value('middle_name'  , $params, '');
-            $lastName   = CRM_Utils_Array::value('last_name'    , $params, '');
-            $prefix_id  = CRM_Utils_Array::value('prefix_id'    , $params, '');
-            $suffix_id  = CRM_Utils_Array::value('suffix_id'    , $params, '');
-
-            // get prefix and suffix names
-            $prefixes = CRM_Core_PseudoConstant::individualPrefix();
-            $suffixes = CRM_Core_PseudoConstant::individualSuffix();
+            //format individual fields
+            require_once "CRM/Contact/BAO/Individual.php";
+            CRM_Contact_BAO_Individual::format( $params, $contact );
             
-            $prefix = $suffix = null;
-            if ( $prefix_id ) {
-                $prefix = $prefixes[$prefix_id];
-            }
-            if ( $suffix_id ) {
-                $suffix = $suffixes[$suffix_id];
-            }
-            
-            // a comma should only be present if both first_name and last name are present.
-            if ($firstName && $lastName) {
-                $sortName = "$lastName, $firstName";
-            } else {
-                if ( empty($firstName) && $lastName ) {
-                    $sortName = $lastName;
-                } else if ( $firstName && empty($lastName) ) {
-                    $sortName = $firstName;
-                } else if ( $contact->id ){
-                    require_once "CRM/Contact/BAO/Individual.php";
-                    $individual =& new CRM_Contact_BAO_Individual();
-                    $individual->contact_id = $contact->id;
-                    $individual->find();
-                    while($individual->fetch()) {
-                        $individualLastName = $individual->last_name;
-                        $individualFirstName = $individual->first_name;
-                        $individualPrefix = $individual->prefix_id;
-                        $individualSuffix = $individual->suffix_id;
-                        $individualMiddleName = $individual->middle_name;
-                    }
-                    
-                    if (empty($lastName) && CRM_Utils_Array::value('last_name', $params) && !empty($individualLastName)) {
-                        $lastName = $individualLastName;
-                    } 
-                    
-                    if (empty($firstName) && CRM_Utils_Array::value('first_name', $params) && !empty($individualFirstName)) {
-                        $firstName = $individualFirstName;
-                    }
-                                                            
-                    if (empty($prefix) && CRM_Utils_Array::value('prefix_id', $params) && !empty($individualPrefix)) {
-                        $prefix = $individualPrefix;
-                    }
-                    
-                    if (empty($middleName) && CRM_Utils_Array::value('middle_name', $params) && !empty($individualMiddleName)) {
-                        $middleName = $individualMiddleName;
-                    }
-                    
-                    if (empty($suffix) && CRM_Utils_Array::value('suffix_id', $params) && !empty($individualSuffix)) {
-                        $suffix = $individualSuffix;
-                    }
-                    if ( $lastName || $firstName ) {
-                        $sortName = "$lastName, $firstName";
-                    }
-                }
-            }
-            if (trim($sortName)) {
-                $contact->sort_name    = trim($sortName);
-            }
-            if ( $lastName || $firstName || $middleName ) {
-                $display_name =
-                    trim( "$prefix $firstName $middleName $lastName $suffix" );
-                $display_name = str_replace( '  ', ' ', $display_name );
-            }
-
-            if (trim($display_name)) {
-                $contact->display_name = $display_name;
-            }
-
-            if ( CRM_Utils_Array::value( 'location', $params ) ) {
-                foreach ($params['location'] as $locBlock) {
-                    if (! isset($locBlock['is_primary']) || ! ($locBlock['is_primary']) ) {
-                        continue;
-                    }
-                    $email = $locBlock['email'][1]['email'];
-                    break;
-                }
-            }
-
-            $uniqId = $params['user_unique_id'];
-            if (empty($contact->display_name)) {
-                if (isset($email)) {
-                    $contact->display_name = $email;
-                } else if (isset($uniqId)) {
-                    $contact->display_name = $uniqId;
-                }
-            }
-            if (empty($contact->sort_name)) {
-                if (isset($email)) {
-                    $contact->sort_name = $email;
-                } else if (isset($uniqId)) {
-                    $contact->sort_name = $uniqId;
-                }
-            }
         } else if ($contact->contact_type == 'Household') {
             $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
         } else {
@@ -604,9 +506,6 @@ ORDER BY
         //DO TO: comment because of schema changes        
         // invoke the add operator on the contact_type class
         
-//         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
-//         eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
-
 //         $location = array( );
 //         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
 //             $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
