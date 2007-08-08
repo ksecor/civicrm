@@ -195,7 +195,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
 
                 //get the no of locations for the contact
-                $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
+                //TO DO: commented due to schema changes
+                //$this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
 
                 return;
             }
@@ -217,7 +218,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         $ids = array();
         $config =& CRM_Core_Config::singleton( );
-        
+
+        //TO DO: commented because of schema changes
         require_once 'CRM/Core/BAO/Location.php';
         $contact = CRM_Core_BAO_Location::getLocationDefaultValues( $this->_action, $this->_maxLocationBlocks, 
                                                                     $ids, $defaults, $this->_contactId );
@@ -237,9 +239,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // this is update mode
             // get values from contact table
             
- 
-
-            $this->set( 'ids', $ids );
+             $this->set( 'ids', $ids );
             
             $locationExists = array();
             foreach( $contact->location as $loc) {

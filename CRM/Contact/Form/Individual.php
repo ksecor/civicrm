@@ -120,18 +120,19 @@ class CRM_Contact_Form_Individual {
         $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
         
         if ( $action & CRM_Core_Action::UPDATE ) {
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
-resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
-" );        
+            //TO DO: commented because of schema changes
+//             $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
+// resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
+// " );        
             
-            $mailToHouseholdID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Individual', 
-                                                              $form->_contactId, 
-                                                              'mail_to_household_id', 
-                                                              'contact_id' );
-            if ( $mailToHouseholdID ) {
-                $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
-                $this->assign('old_mail_to_household_id', $mailToHouseholdID);
-            }
+//             $mailToHouseholdID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Individual', 
+//                                                               $form->_contactId, 
+//                                                               'mail_to_household_id', 
+//                                                               'contact_id' );
+//             if ( $mailToHouseholdID ) {
+//                 $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
+//                 $this->assign('old_mail_to_household_id', $mailToHouseholdID);
+//             }
         } elseif ( $action & CRM_Core_Action::ADD ) {
             $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
         }
