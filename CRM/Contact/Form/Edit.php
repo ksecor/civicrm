@@ -365,7 +365,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             }
         }
 
-        CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+        //DO TO: comment because of schema changes
+        //CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         return $defaults;
     }
 
@@ -508,9 +509,10 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
 
         //Custom Group Inline Edit form
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId,0,$this->_contactSubType);
+        //DO TO: comment because of schema changes
+        //$this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId,0,$this->_contactSubType);
         
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        //CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
 
         if ( $this->_showNotes ) {
             CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
@@ -601,32 +603,32 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 $params[$key] = $files;
             }
         }
-        
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, $params['contact_type'], null, $this->_contactId);
-            }
-        }
+        //DO TO: comment because of schema changes        
+//         $customData = array( );
+//         foreach ( $params as $key => $value ) {
+//             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+//                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+//                                                              $value, $params['contact_type'], null, $this->_contactId);
+//             }
+//         }
     
-        //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
+//         //special case to handle if all checkboxes are unchecked
+//         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
         
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
-                     ! CRM_Utils_Array::value( $k, $customData ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
-                                                                 '', $params['contact_type'], null, $this->_contactId);
-                }
-            }
-        }
+//         if ( !empty($customFields) ) {
+//             foreach ( $customFields as $k => $val ) {
+//                 if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+//                      ! CRM_Utils_Array::value( $k, $customData ) ) {
+//                     CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
+//                                                                  '', $params['contact_type'], null, $this->_contactId);
+//                 }
+//             }
+//         }
 
     
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
+//         if (! empty($customData) ) {
+//             $params['custom'] = $customData;
+//         }
 
         if ( $this->_showCommBlock ) {
             // this is a chekbox, so mark false if we dont get a POST value

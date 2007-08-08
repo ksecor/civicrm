@@ -330,7 +330,7 @@ ORDER BY
     static function add(&$params, &$ids) 
     {
         $contact =& new CRM_Contact_BAO_Contact();
-        
+
         if ( empty($params) ) {
             return;
         }
@@ -600,18 +600,19 @@ ORDER BY
         $contact = self::add($params, $ids);
 
         $params['contact_id'] = $contact->id;
-        
+
+        //DO TO: comment because of schema changes        
         // invoke the add operator on the contact_type class
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
-        eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
+        
+//         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
+//         eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
 
-        $location = array( );
-        for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-	        //DO TO: comment because of schema changes
-            //$location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
-        }
+//         $location = array( );
+//         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
+//             $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
+//         }
 
-        $contact->location = $location;
+//         $contact->location = $location;
 	
         // add notes
         if ( CRM_Utils_Array::value( 'note', $params ) ) {
@@ -641,24 +642,24 @@ ORDER BY
         //DO TO: comment because of schema changes
         //CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
 
-        // add custom field values
-        if ( CRM_Utils_Array::value( 'custom', $params ) ) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_contact', 
-                                  'entity_id'       => $contact->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
+//         // add custom field values
+//         if ( CRM_Utils_Array::value( 'custom', $params ) ) {
+//             foreach ($params['custom'] as $customValue) {
+//                 $cvParams = array(
+//                                   'entity_table'    => 'civicrm_contact', 
+//                                   'entity_id'       => $contact->id,
+//                                   'value'           => $customValue['value'],
+//                                   'type'            => $customValue['type'],
+//                                   'custom_field_id' => $customValue['custom_field_id'],
+//                                   'file_id'         => $customValue['file_id'],
+//                                   );
                 
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
-        }
+//                 if ($customValue['id']) {
+//                     $cvParams['id'] = $customValue['id'];
+//                 }
+//                 CRM_Core_BAO_CustomValue::create($cvParams);
+//             }
+//         }
         
         // make a civicrm_subscription_history entry only on contact create (CRM-777)
         if ( ! CRM_Utils_Array::value( 'contact', $ids ) ) {
@@ -1027,20 +1028,21 @@ WHERE     civicrm_email.is_primary = 1
 
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
         unset($params['id']);
-
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
-        eval( '$contact->contact_type_object =& CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
-        $locParams = $params + array('entity_id' => $params['contact_id'],
-                                     'entity_table' => self::getTableName());
+        
+        //DO TO: commented because of schema change
+//         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
+//         eval( '$contact->contact_type_object =& CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
+//         $locParams = $params + array('entity_id' => $params['contact_id'],
+//                                      'entity_table' => self::getTableName());
        
-        $locationCount = CRM_Contact_BAO_Contact::getContactLocations( $params['contact_id'] ); 
+//         $locationCount = CRM_Contact_BAO_Contact::getContactLocations( $params['contact_id'] ); 
 
-        require_once "CRM/Core/BAO/Preferences.php";
-        $contact->location     =& CRM_Core_BAO_Location::getValues( $locParams, 
-                                                                    $defaults, 
-                                                                    $ids, 
-                                                                    $locationCount, 
-                                                                    $microformat );
+//         require_once "CRM/Core/BAO/Preferences.php";
+//         $contact->location     =& CRM_Core_BAO_Location::getValues( $locParams, 
+//                                                                     $defaults, 
+//                                                                     $ids, 
+//                                                                     $locationCount, 
+//                                                                     $microformat );
         
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );

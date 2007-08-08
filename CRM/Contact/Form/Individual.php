@@ -199,7 +199,7 @@ showHideSharedOptions();
      * @static
      */
     static function formRule( &$fields, &$files, $options ) {
-      $errors = array( );
+        $errors = array( );
 
         $primaryOpenId = CRM_Contact_Form_Edit::formRule( $fields, $errors );
         //print "Primary OpenID: $primaryOpenId<br/>";
@@ -221,7 +221,8 @@ showHideSharedOptions();
             if ( $options ) {
                 $cid = (int ) $options;
             }
-            $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+            //DO TO: comment because of schema changes
+            //$ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
             if ( $ids ) {
                 $urls = array( );
                 foreach ( explode( ',', $ids ) as $id ) {

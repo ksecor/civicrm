@@ -52,10 +52,11 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
     function preProcess( ) {
         parent::preProcess( );
 
+        //DO TO: comment because of schema change        
         //Custom Groups Inline
-        $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId);
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+//         $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
+//         $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId);
+//         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
     }
 
     /**
