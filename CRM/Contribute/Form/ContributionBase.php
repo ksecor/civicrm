@@ -383,27 +383,43 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             require_once 'CRM/Profile/Form.php';
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
+
+            // we don't allow conflicting fields to be
+            // configured via profile - CRM 2100
+            $fieldsToIgnore = array( 'receive_date'          => 1,
+                                     'trxn_id'               => 1,
+                                     'invoice_id'            => 1,
+                                     'net_amount'            => 1,
+                                     'fee_amount'            => 1,
+                                     'non_deductible_amount' => 1,
+                                     'total_amount'          => 1
+                                     );
+            
             if ( $contactID ) {
                 require_once "CRM/Core/BAO/UFGroup.php";
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
-                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD );
+                    $fields = array_diff_key( $fields, $fieldsToIgnore );
                     $this->assign( $name, $fields );
+                    
                     foreach($fields as $key => $field) {
-                         CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                         $this->_fields[$key] = $field;
+                        CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                        $this->_fields[$key] = $field;
                     }
                 }
             } else {
-                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-                 $this->assign( $name, $fields );
-                 foreach($fields as $key => $field) {
-                     CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                     $this->_fields[$key] = $field;
-                 }
+                $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                $fields = array_diff_key( $fields, $fieldsToIgnore );
+                $this->assign( $name, $fields );
+                
+                foreach($fields as $key => $field) {
+                    CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                    $this->_fields[$key] = $field;
+                }
             }
         }
     }
-
+    
 }
 
 ?>
