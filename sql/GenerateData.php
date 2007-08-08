@@ -1549,12 +1549,12 @@ $obj1->addEntityTag();
 $obj1->addGroup();
 $obj1->addNote();
 $obj1->addActivityHistory();
-/** FIXME FOR NEW address model
-add_contributions( );
 $obj1->addMembership();
 $obj1->addMembershipLog();
 $obj1->addEvent();
 $obj1->addEventPage();
+/** FIXME FOR NEW address model
+add_contributions( );
 $obj1->addEventLocation();
 $obj1->addEventLocationAddress();
 $obj1->addEventPhone();

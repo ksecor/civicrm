@@ -635,15 +635,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                               civicrm_relationship_type.name_a_b as relation ';
             }
 
-        }
-        
-        $from = " FROM civicrm_relationship, civicrm_relationship_type, civicrm_contact
-                        LEFT OUTER JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                                              civicrm_contact.id = civicrm_location.entity_id AND
-                                                              civicrm_location.is_primary = 1 )
-                        LEFT OUTER JOIN civicrm_address ON (civicrm_location.id = civicrm_address.location_id )
-                        LEFT OUTER JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1)
-                        LEFT OUTER JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
+        }        
+         
+        $from = " FROM civicrm_relationship, civicrm_relationship_type, civicrm_contact                       
+                        LEFT OUTER JOIN civicrm_address ON (civicrm_address.contact_id = civicrm_contact.id )
+                        LEFT OUTER JOIN civicrm_phone ON (civicrm_phone.contact_id = civicrm_contact.id AND civicrm_phone.is_primary = 1)
+                        LEFT JOIN civicrm_email ON (civicrm_email.contact_id = civicrm_contact.id )
                         LEFT OUTER JOIN civicrm_state_province ON (civicrm_address.state_province_id = civicrm_state_province.id)
                         LEFT OUTER JOIN civicrm_country ON (civicrm_address.country_id = civicrm_country.id) ";
 
@@ -715,9 +712,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         // building the query string
         $queryString = '';
         $queryString = $select1 . $from1 . $where1 . $select2 . $from2 . $where2 . $order . $limit;
-
+        
         $relationship =& new CRM_Contact_DAO_Relationship( );
-
+       
         $relationship->query($queryString);
         $row = array();
         if ( $count ) {
