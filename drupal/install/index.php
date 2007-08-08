@@ -21,7 +21,7 @@ ini_set('max_execution_time', 300);
 
 if ( strpos( dirname( $_SERVER['SCRIPT_FILENAME'] ), 'sites/all/modules' ) === false ) {
     $errorTitle = "Oops! Please Correct Your Install Location";
-    $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>sites/all/modules</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/CRMDOC/Installation+Guide' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.";
+    $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>sites/all/modules</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.";
     errorDisplayPage( $errorTitle, $errorMsg );
 }
 
@@ -67,7 +67,7 @@ $alreadyInstalled = file_exists( $cmsPath  . DIRECTORY_SEPARATOR .
 // Exit with error if CiviCRM has already been installed.
 if ($alreadyInstalled ) {
     $errorTitle = "Oops! CiviCRM is Already Installed";
-    $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>" . $cmsPath . "sites/default</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/CRMDOC/Installation+Guide' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+    $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>" . $cmsPath . "sites/default</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
     errorDisplayPage( $errorTitle, $errorMsg );
 }
 
@@ -82,7 +82,7 @@ if(file_exists($versionFile)) {
 if ( ( strpos( $civicrm_version, 'PHP5'   ) === false) ||
      ( strpos( $civicrm_version, 'Drupal' ) === false ) ) {
     $errorTitle = "Oops! Incorrect CiviCRM Version";
-    $errorMsg = "This installer can only be used for the Drupal PHP5 version of CiviCRM. Refer to the online <a href='http://wiki.civicrm.org/CRMDOC/Installation+Guide' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on PHP4 servers OR installing CiviCRM for Joomla!";
+    $errorMsg = "This installer can only be used for the Drupal PHP5 version of CiviCRM. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on PHP4 servers OR installing CiviCRM for Joomla!";
     errorDisplayPage( $errorTitle, $errorMsg );
 }
 
@@ -95,7 +95,7 @@ if ( file_exists( $drupalVersionFile ) ) {
 
 if ( ( strpos( $drupal_version, 'Drupal 5.1' ) === false ) ) {
     $errorTitle = "Oops! Incorrect Drupal Version";
-    $errorMsg = "This installer can only be used with Drupal 5.x. Refer to the online <a href='http://wiki.civicrm.org/CRMDOC/Installation+Guide' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on other Drupal versions OR installing CiviCRM for Joomla!";
+    $errorMsg = "This installer can only be used with Drupal 5.x. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on other Drupal versions OR installing CiviCRM for Joomla!";
     errorDisplayPage( $errorTitle, $errorMsg );
 }
 
