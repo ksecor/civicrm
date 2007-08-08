@@ -88,13 +88,13 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
             
+            require_once 'CRM/Core/ShowHideBlocks.php';
+            CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '' );
+            
             if ( $addressOnly ) {
                 continue;
             }
             
-            require_once 'CRM/Core/ShowHideBlocks.php';
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '' );
-                        
             if ( ! $locationCompoments ) {
                 CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, self::BLOCKS); 
                 CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS); 
