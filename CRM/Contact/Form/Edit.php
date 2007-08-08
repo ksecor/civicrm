@@ -557,9 +557,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
      * @return None
      */
     public function postProcess() 
-    {
-        //print "called postProcess()<br/>";
-        
+    {   
         // check if dedupe button, if so return.
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_dedupeButtonName ) {
@@ -660,7 +658,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 
-        //add contact to gruoup
+        //add contact to group
+        //print "about to call CRM_Contact_BAO_GroupContact::create<br/>";
         require_once 'CRM/Contact/BAO/GroupContact.php';
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
