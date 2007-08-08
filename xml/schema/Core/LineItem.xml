@@ -44,17 +44,12 @@
       <key>id</key>
   </foreignKey>
   <field>
-      <name>custom_option_id</name>
+      <name>option_group_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to custom_option</comment>
+      <comment>FK to option group</comment>
       <add>1.7</add>
   </field>
-  <foreignKey>
-      <name>custom_option_id</name>
-      <table>civicrm_custom_option</table>
-      <key>id</key>
-  </foreignKey>
   <field>
       <name>label</name>
       <type>varchar</type>

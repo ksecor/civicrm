@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>Location</class>
+  <name>civicrm_location</name>
+  <comment>Define location specific properties</comment>
+  <add>2.0</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique ID</comment>
+      <add>2.0</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>address_id</name>
+      <type>int unsigned</type>
+      <add>2.0</add>
+  </field>
+  <index>
+    <name>index_address</name>
+    <fieldName>address_id</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+      <name>email_id</name>
+      <type>int unsigned</type>
+      <add>2.0</add>
+  </field>
+  <index>
+    <name>index_email</name>
+    <fieldName>email_id</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+      <name>phone_id</name>
+      <type>int unsigned</type>
+      <add>2.0</add>
+  </field>
+  <index>
+    <name>index_phone</name>
+    <fieldName>phone_id</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+      <name>im_id</name>
+      <type>int unsigned</type>
+      <add>2.0</add>
+  </field>
+  <index>
+    <name>index_im</name>
+    <fieldName>im_id</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+      <name>address_2_id</name>
+      <type>int unsigned</type>
+      <add>2.0</add>
+  </field>
+  <index>
+    <name>index_address_2</name>
+    <fieldName>address_2_id</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+      <name>email_2_id</name>
+      <type>int unsigned</type>
+      <add>2.0</add>
+  </field>
+  <index>
+    <name>index_email_2</name>
+    <fieldName>email_2_id</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+      <name>phone_2_id</name>
+      <type>int unsigned</type>
+      <add>2.0</add>
+  </field>
+  <index>
+    <name>index_phone_2</name>
+    <fieldName>phone_2_id</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+      <name>im_2_id</name>
+      <type>int unsigned</type>
+      <add>2.0</add>
+  </field>
+  <index>
+    <name>index_im_2</name>
+    <fieldName>im_2_id</fieldName>
+    <add>2.0</add>
+  </index>
+</table>

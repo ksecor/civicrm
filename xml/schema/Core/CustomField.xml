@@ -179,6 +179,19 @@
        <comment> Number of rows in Note Field </comment>
        <add>1.4</add>
   </field>
+  <field>
+     <name>column_name</name>
+     <type>varchar</type>
+     <length>255</length>
+     <comment>Name of the column that holds the values for this field.</comment>
+     <add>2.0</add>
+  </field>
+  <field>
+       <name>option_group_id</name>
+       <type>int unsigned</type>
+       <comment>For elements with options, the option group id that is used</comment>
+       <add>1.4</add>
+  </field>
   <index>
     <name>UI_label_custom_group_id</name>
     <fieldName>label</fieldName>

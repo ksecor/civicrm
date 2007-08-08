@@ -368,9 +368,6 @@ class CRM_GCD {
     function __construct()
     {
 
-        //// CRM_Core_Error::le_method();
-        //// CRM_Core_Error::ll_method();
-
         // initialize all the vars
         $this->numIndividual = self::INDIVIDUAL_PERCENT * self::NUM_CONTACT / 100;
         $this->numHousehold = self::HOUSEHOLD_PERCENT * self::NUM_CONTACT / 100;
@@ -382,9 +379,6 @@ class CRM_GCD {
 
     public function parseDataFile()
     {
-
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
 
         $sampleData = simplexml_load_file(self::DATA_FILENAME);
 
@@ -542,9 +536,6 @@ class CRM_GCD {
     public function initID()
     {
 
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
-
         // may use this function in future if needed to get
         // a consistent pattern of random numbers.
 
@@ -584,7 +575,8 @@ class CRM_GCD {
     {
 
         /* Add a location for domain 1 */
-        $this->_addLocation(self::MAIN, 1, true);
+        // FIXME FOR NEW LOCATION BLOCK STRUCTURE
+        // $this->_addLocation(self::MAIN, 1, true);
 
         $domain =& new CRM_Core_DAO_Domain();
         for ($id=2; $id<=self::NUM_DOMAIN; $id++) {
@@ -597,7 +589,8 @@ class CRM_GCD {
 
             // insert domain
             $this->_insert($domain);
-            $this->_addLocation(self::MAIN, $id, true);
+            // FIXME FOR NEW LOCATION BLOCK STRUCTURE
+            // $this->_addLocation(self::MAIN, $id, true);
         }
     }
     
@@ -624,9 +617,6 @@ class CRM_GCD {
      *******************************************************/
     public function addContact()
     {
-
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
 
         // add contacts
         $contact =& new CRM_Contact_DAO_Contact();
@@ -665,33 +655,29 @@ class CRM_GCD {
     public function addIndividual()
     {
 
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
-
-        $individual =& new CRM_Contact_DAO_Individual();
         $contact =& new CRM_Contact_DAO_Contact();
 
         for ($id=1; $id<=$this->numIndividual; $id++) {
-            $individual->contact_id = $this->individual[($id-1)];
-            $individual->first_name = ucfirst($this->_getRandomElement($this->firstName));
-            $individual->middle_name = ucfirst($this->_getRandomChar());
-            $individual->last_name = ucfirst($this->_getRandomElement($this->lastName));
-            $individual->prefix_id = $this->_getRandomIndex($this->prefix);
-            $individual->suffix_id = $this->_getRandomIndex($this->suffix);
-            $individual->greeting_type = $this->_getRandomElement($this->greetingType);
-            $individual->gender_id = $this->_getRandomIndex($this->gender);
-            $individual->birth_date = date("Ymd", mt_rand(0, time()));
-            $individual->is_deceased = mt_rand(0, 1);
-            $this->_insert($individual);
+            $contact->first_name = ucfirst($this->_getRandomElement($this->firstName));
+            $contact->middle_name = ucfirst($this->_getRandomChar());
+            $contact->last_name = ucfirst($this->_getRandomElement($this->lastName));
+            $contact->prefix_id = $this->_getRandomIndex($this->prefix);
+            $contact->suffix_id = $this->_getRandomIndex($this->suffix);
+            $contact->greeting_type = $this->_getRandomElement($this->greetingType);
+            $contact->gender_id = $this->_getRandomIndex($this->gender);
+            $contact->birth_date = date("Ymd", mt_rand(0, time()));
+            $contact->is_deceased = mt_rand(0, 1);
+
+            $contact->id = $this->individual[($id-1)];
 
             // also update the sort name for the contact id.
-            $contact->id = $individual->contact_id;
-            $contact->display_name = trim( $this->prefix[$individual->prefix_id] . " $individual->first_name $individual->middle_name $individual->last_name " . $this->suffix[$individual->suffix_id] );
-            $contact->sort_name = $individual->last_name . ', ' . $individual->first_name;
+            $contact->display_name = trim( $this->prefix[$contact->prefix_id] . " $contact->first_name $contact->middle_name $contact->last_name " . $this->suffix[$contact->suffix_id] );
+            $contact->sort_name = $contact->last_name . ', ' . $contact->first_name;
             $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
-
-            $this->addCustomDataValue($contact->id);
+            
+            // FIXME when we redo custom data
+            // $this->addCustomDataValue($contact->id);
         }
     }
 
@@ -760,31 +746,25 @@ class CRM_GCD {
     public function addHousehold()
     {
 
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
-
-        $household =& new CRM_Contact_DAO_Household();
         $contact =& new CRM_Contact_DAO_Contact();
-        
         for ($id=1; $id<=$this->numHousehold; $id++) {
-            $household->contact_id = $this->household[($id-1)];
-            $household->primary_contact_id = $this->householdIndividual[$household->contact_id][0];
+            $cid = $this->household[($id-1)];
+            $contact->primary_contact_id = $this->householdIndividual[$cid][0];
 
             // get the last name of the primary contact id
-            $individual =& new CRM_Contact_DAO_Individual();
-            $individual->contact_id = $household->primary_contact_id;
+            $individual =& new CRM_Contact_DAO_Contact();
+            $individual->id = $contact->primary_contact_id;
             $individual->find(true);
             $firstName = $individual->first_name;
             $lastName = $individual->last_name;
 
             // need to name the household and nick name appropriately
-            $household->household_name = "$firstName $lastName" . "'s home";
-            $household->nick_name = "$lastName" . "'s home";
-            $this->_insert($household);
+            $contact->household_name = "$firstName $lastName" . "'s home";
+            $contact->nick_name = "$lastName" . "'s home";
 
+            $contact->id = $this->household[($id-1)];
             // need to update the sort name for the main contact table
-            $contact->id = $household->contact_id;
-            $contact->display_name = $contact->sort_name = $household->household_name;
+            $contact->display_name = $contact->sort_name = $contact->household_name;
             $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
         }
@@ -812,22 +792,16 @@ class CRM_GCD {
     public function addOrganization()
     {
 
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
-
-        $organization =& new CRM_Contact_DAO_Organization();
         $contact =& new CRM_Contact_DAO_Contact();       
 
         for ($id=1; $id<=$this->numOrganization; $id++) {
-            $organization->contact_id = $this->organization[($id-1)];
+            $contact->id = $this->organization[($id-1)];
             $name = $this->_getRandomElement($this->organization_name) . " " . $this->_getRandomElement($this->organization_field) . " " . $this->_getRandomElement($this->organization_type);
-            $organization->organization_name = $name;
-            $organization->primary_contact_id = $this->_getRandomElement($this->strict_individual);
-            $this->_insert($organization);
+            $contact->organization_name = $name;
+            $contact->primary_contact_id = $this->_getRandomElement($this->strict_individual);
 
             // need to update the sort name for the main contact table
-            $contact->id = $organization->contact_id;
-            $contact->display_name = $contact->sort_name = $organization->organization_name;
+            $contact->display_name = $contact->sort_name = $contact->organization_name;
             $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
         }
@@ -845,9 +819,6 @@ class CRM_GCD {
      *******************************************************/
     public function addRelationship()
     {
-
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
 
         $relationship =& new CRM_Contact_DAO_Relationship();
 
@@ -931,29 +902,15 @@ class CRM_GCD {
             $this->_addLocation(self::HOME, $contactId);
         }
 
-        // CRM_Core_Error::ll_method();
     }
 
-    private function _addLocation($locationType, $contactId, $domain = false)
+    private function _addLocation($locationTypeId, $contactId, $domain = false)
     {
-        $locationDAO =& new CRM_Core_DAO_Location();
-
-        $locationDAO->is_primary = 1; // primary location for now
-        $locationDAO->location_type_id = $locationType;
-        if ($domain) {
-            $locationDAO->entity_id = $contactId;
-            $locationDAO->entity_table = 'civicrm_domain';
-        } else {
-            $locationDAO->entity_id    = $contactId;
-            $locationDAO->entity_table = 'civicrm_contact';
-        }
-
-        $this->_insert($locationDAO);
-        $this->_addAddress($locationDAO->id);        
+        $this->_addAddress( $locationTypeId, $contactId, true );
 
         // add two phones for each location
-        $this->_addPhone($locationDAO->id, 'Phone', true);
-        $this->_addPhone($locationDAO->id, 'Mobile', false);
+        $this->_addPhone($locationTypeId, $contactId, 'Phone', true);
+        $this->_addPhone($locationTypeId, $contactId, 'Mobile', false);
 
         // need to get sort name to generate email id
         $contact =& new CRM_Contact_DAO_Contact();
@@ -964,47 +921,40 @@ class CRM_GCD {
         if ( ! empty( $sortName ) ) {
             // add 2 email for each location
             for ($emailId=1; $emailId<=2; $emailId++) {
-                $this->_addEmail($locationDAO->id, $sortName, ($emailId == 1));
+                $this->_addEmail($locationTypeId, $contactId, $sortName, ($emailId == 1));
             }
         }
     }
 
-    private function _addAddress($locationId)
+    private function _addAddress($locationTypeId, $contactId, $isPrimary = false, $locationBlockID = null, $offset = 1)
     {
-
-        // CRM_Core_Error::le_method();
         $addressDAO =& new CRM_Core_DAO_Address();
 
         // add addresses now currently we are adding only 1 address for each location
-        $addressDAO->location_id = $locationId;
+        $addressDAO->location_type_id = $locationTypeId;
+        $addressDAO->contact_id       = $contactId;
+        $addressDAO->is_primary       = $isPrimary;
 
-
-        if ($locationId % 5) {
-            $addressDAO->street_number = mt_rand(1, 1000);
-            $addressDAO->street_number_suffix = ucfirst($this->_getRandomChar());
-            $addressDAO->street_number_predirectional = $this->_getRandomElement($this->addressDirection);
-            $addressDAO->street_name = ucwords($this->_getRandomElement($this->streetName));
-            $addressDAO->street_type = $this->_getRandomElement($this->streetType);
-            $addressDAO->street_number_postdirectional = $this->_getRandomElement($this->addressDirection);
-            $addressDAO->street_address = $addressDAO->street_number_predirectional . " " . $addressDAO->street_number .  $addressDAO->street_number_suffix .  " " . $addressDAO->street_name .  " " . $addressDAO->street_type . " " . $addressDAO->street_number_postdirectional;
-            $addressDAO->supplemental_address_1 = ucwords($this->_getRandomElement($this->supplementalAddress1));
-        }
+        $addressDAO->street_number = mt_rand(1, 1000);
+        $addressDAO->street_number_suffix = ucfirst($this->_getRandomChar());
+        $addressDAO->street_number_predirectional = $this->_getRandomElement($this->addressDirection);
+        $addressDAO->street_name = ucwords($this->_getRandomElement($this->streetName));
+        $addressDAO->street_type = $this->_getRandomElement($this->streetType);
+        $addressDAO->street_number_postdirectional = $this->_getRandomElement($this->addressDirection);
+        $addressDAO->street_address = $addressDAO->street_number_predirectional . " " . $addressDAO->street_number .  $addressDAO->street_number_suffix .  " " . $addressDAO->street_name .  " " . $addressDAO->street_type . " " . $addressDAO->street_number_postdirectional;
+        $addressDAO->supplemental_address_1 = ucwords($this->_getRandomElement($this->supplementalAddress1));
         
         // some more random skips
-        // if ($locationId % 7) {
-        if ($locationId) {
-            // hack add lat / long for US based addresses
-            list( $addressDAO->country_id, $addressDAO->state_province_id, $addressDAO->city, 
-                  $addressDAO->postal_code, $addressDAO->geo_code_1, $addressDAO->geo_code_2 ) = 
-                self::getZipCodeInfo( );
-        }        
+        // hack add lat / long for US based addresses
+        list( $addressDAO->country_id, $addressDAO->state_province_id, $addressDAO->city, 
+              $addressDAO->postal_code, $addressDAO->geo_code_1, $addressDAO->geo_code_2 ) = 
+            self::getZipCodeInfo( );
 
         $addressDAO->county_id = 1;
         $addressDAO->geo_coord_id = 1;
         
         $this->_insert($addressDAO);
 
-        // CRM_Core_Error::ll_method();
     }
 
     private function _sortNameToEmail($sortName)
@@ -1013,27 +963,26 @@ class CRM_GCD {
         return $email;
     }
 
-    private function _addPhone($locationId, $phoneType, $primary=false)
+    private function _addPhone($locationTypeId, $contactId, $phoneType, $isPrimary=false, $locationBlockID = null, $offset = 1)
     {
-        // CRM_Core_Error::le_method();
-        if ($locationId % 3) {
+        if ($contactId % 3) {
             $phone =& new CRM_Core_DAO_Phone();
-            $phone->location_id = $locationId;
-            $phone->is_primary = $primary;
+            $phone->location_type_id = $locationTypeId;
+            $phone->contact_id       = $contactId;
+            $phone->is_primary = $isPrimary;
             $phone->phone = mt_rand(11111111, 99999999);
             $phone->phone_type = $phoneType;
             $this->_insert($phone);
         }
-        // CRM_Core_Error::ll_method();
     }
 
-    private function _addEmail($locationId, $sortName, $primary=false)
+    private function _addEmail($locationTypeId, $contactId, $sortName, $isPrimary=false, $locationBlockID = null, $offset = 1)
     {
-        // CRM_Core_Error::le_method();
-        if ($locationId % 7) {
+        if ($contactId % 2) {
             $email =& new CRM_Core_DAO_Email();
-            $email->location_id = $locationId;
-            $email->is_primary = $primary;
+            $email->location_type_id = $locationTypeId;
+            $email->contact_id = $contactId;
+            $email->is_primary = $isPrimary;
             
             $emailName = $this->_sortNameToEmail($sortName);
             $emailDomain = $this->_getRandomElement($this->emailDomain);
@@ -1041,7 +990,6 @@ class CRM_GCD {
             $email->email = $emailName . "@" . $emailDomain . "." . $tld;
             $this->_insert($email);
         }
-        // CRM_Core_Error::ll_method();
 
     }
 
@@ -1055,9 +1003,6 @@ class CRM_GCD {
      *******************************************************/
     public function addEntityTag()
     {
-
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
 
         $entity_tag =& new CRM_Core_DAO_EntityTag();
         
@@ -1097,9 +1042,6 @@ class CRM_GCD {
      *******************************************************/
     public function addGroup()
     {
-
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
 
         // add the 3 groups first
         $numGroup = count($this->group);
@@ -1191,9 +1133,6 @@ class CRM_GCD {
     public function addNote()
     {
 
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
-
         $note =& new CRM_Core_DAO_Note();
         $note->entity_table = 'civicrm_contact';
         $note->contact_id   = 1;
@@ -1218,9 +1157,6 @@ class CRM_GCD {
      *******************************************************/
     public function addActivityHistory()
     {
-
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
 
         $contactDAO =& new CRM_Contact_DAO_Contact();
         $contactDAO->contact_type = 'Individual';
@@ -1312,7 +1248,7 @@ class CRM_GCD {
     
     function addMembershipType()
     {
-        $organizationDAO = new CRM_Contact_DAO_Organization();
+        $organizationDAO = new CRM_Contact_DAO_Contact();
         $organizationDAO->id = 5;
         $organizationDAO->find(true);
         $contact_id = $organizationDAO->contact_id;
@@ -1613,8 +1549,8 @@ $obj1->addEntityTag();
 $obj1->addGroup();
 $obj1->addNote();
 $obj1->addActivityHistory();
+/** FIXME FOR NEW address model
 add_contributions( );
-// $obj1->addMembershipType();
 $obj1->addMembership();
 $obj1->addMembershipLog();
 $obj1->addEvent();
@@ -1625,6 +1561,7 @@ $obj1->addEventPhone();
 $obj1->addEventemail();
 $obj1->addEventFeeLabel();
 $obj1->addParticipant();
+**/
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
 ?>

@@ -5,27 +5,38 @@ INSERT INTO civicrm_custom_group
 VALUES
     (%%CIVICRM_DOMAIN_ID%%, 'constituent_information', 'Constituent Information', 'Individual', 'Inline', 1, 'Please enter additional constituent information as data becomes available for this contact.', 1, 1);
 
-INSERT INTO civicrm_custom_field
-    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable, options_per_line)
-VALUES
-    (1, 'most_important_issue', 'Most Important Issue', 'String', 'Radio', 0, 5, '', 1, 1, NULL),
-    (1, 'marital_status', 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL);
+INSERT INTO 
+   `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+   (%%CIVICRM_DOMAIN_ID%%, 'custom_most_important_issue', '{ts}Custom Field: Most Important Issue{/ts}'     , 0, 1),
+   (%%CIVICRM_DOMAIN_ID%%, 'custom_marital_status'      , '{ts}Custom Field: Marital Status{/ts}'           , 0, 1),
+   (%%CIVICRM_DOMAIN_ID%%, 'custom_contribution_page_1' , '{ts}Contribution Page Amount: 1{/ts}'            , 0, 1);
 
-INSERT INTO civicrm_custom_option
-    (entity_table,entity_id,label,value,weight,is_active)
+SELECT @option_most_id    := max(id) from civicrm_option_group where name = 'custom_most_important_issue';
+SELECT @option_marital_id := max(id) from civicrm_option_group where name = 'custom_marital_status';
+SELECT @option_cpage_id   := max(id) from civicrm_option_group where name = 'custom_contribution_page_1';
+
+INSERT INTO civicrm_custom_field
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable, options_per_line, option_group_id)
 VALUES
-    ('civicrm_custom_field', 1, 'Education', 'Edu', 1, 1),
-    ('civicrm_custom_field', 1, 'Environment', 'Env', 2, 1),
-    ('civicrm_custom_field', 1, 'Social Justice', 'SocJus', 3, 1),
-    ('civicrm_custom_field', 2, 'Single', 'S', 1, 1),
-    ('civicrm_custom_field', 2, 'Married', 'M', 2, 1),
-    ('civicrm_custom_field', 2, 'Domestic Partner', 'D', 3, 1),
-    ('civicrm_custom_field', 2, 'Widowed', 'W', 4, 1),
-    ('civicrm_custom_field', 2, 'Other', 'O', 5, 1),
-    ('civicrm_contribution_page',1,'Friend','0.10',1,1),
-    ('civicrm_contribution_page',1,'Supporter','0.50',2,1),
-    ('civicrm_contribution_page',1,'Booster','1.00',3,1),
-    ('civicrm_contribution_page',1,'Sustainer','5.00',4,1);
+    (1, 'most_important_issue', 'Most Important Issue', 'String', 'Radio', 0, 5, '', 1, 1, NULL, @option_most_id),
+    (1, 'marital_status', 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL, @option_marital_id);
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`) 
+VALUES
+    (@option_most_id   , 'Education', 'Edu', 1, 1),
+    (@option_most_id   , 'Environment', 'Env', 2, 1),
+    (@option_most_id   , 'Social Justice', 'SocJus', 3, 1),
+    (@option_marital_id, 'Single', 'S', 1, 1),
+    (@option_marital_id, 'Married', 'M', 2, 1),
+    (@option_marital_id, 'Domestic Partner', 'D', 3, 1),
+    (@option_marital_id, 'Widowed', 'W', 4, 1),
+    (@option_marital_id, 'Other', 'O', 5, 1),
+    (@option_cpage_id,   'Friend','0.10',1,1),
+    (@option_cpage_id,   'Supporter','0.50',2,1),
+    (@option_cpage_id,   'Booster','1.00',3,1),
+    (@option_cpage_id,   'Sustainer','5.00',4,1);
 
 INSERT INTO civicrm_uf_group
     (domain_id, is_active, form_type, title, help_pre)
@@ -46,14 +57,9 @@ VALUES
   (%%CIVICRM_DOMAIN_ID%%, 'Member Signup and Renewal', 'Members are the life-blood of our organization. If you''re not already a member - please consider signing up today. You can select the membership level the fits your budget and needs below.', 2, 1, NULL, NULL, NULL, NULL, NULL, 'Thanks for Your Support!', 'Thanks for supporting our organization with your membership. You can learn more about membership benefits from our members only page.', NULL, 'Membership Department', 'memberships@civicrm.org', NULL, NULL, 'Thanks for supporting our organization with your membership. You can learn more about membership benefits from our members only page.\r\n\r\nKeep this receipt for your records.', 1, NULL, NULL, NULL, NULL,NULL, NULL, NULL);
  
 INSERT INTO civicrm_contact
-    (domain_id, contact_type, contact_sub_type, legal_identifier, external_identifier, sort_name, display_name, nick_name, home_URL, image_URL, source, preferred_communication_method, preferred_mail_format, do_not_phone, do_not_email, do_not_mail, do_not_trade, hash, is_opt_out)
+    (domain_id, contact_type, contact_sub_type, legal_identifier, external_identifier, sort_name, display_name, nick_name, home_URL, image_URL, source, preferred_communication_method, preferred_mail_format, do_not_phone, do_not_email, do_not_mail, do_not_trade, hash, is_opt_out,organization_name)
 VALUES
-    (%%CIVICRM_DOMAIN_ID%%,'Organization',NULL,NULL,NULL,'Inner City Arts','Inner City Arts',NULL,NULL,NULL,NULL,'4','Both',0,0,0,0,'1902067651',0);
-
-INSERT INTO civicrm_organization
-    (contact_id, organization_name, legal_name, sic_code, primary_contact_id)
-VALUES
-    (1,'Inner City Arts',NULL,NULL,NULL);
+    (%%CIVICRM_DOMAIN_ID%%,'Organization',NULL,NULL,NULL,'Inner City Arts','Inner City Arts',NULL,NULL,NULL,NULL,'4','Both',0,0,0,0,'1902067651',0,'Inner City Arts');
 
 INSERT INTO civicrm_membership_type
     (domain_id, name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, relationship_direction, visibility, weight, is_active)

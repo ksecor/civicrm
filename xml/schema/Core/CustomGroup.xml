@@ -35,7 +35,7 @@
      <type>varchar</type>
      <length>64</length>
      <comment>Variable name/programmatic handle for this group.</comment>
-       <add>1.1</add>
+     <add>1.1</add>
   </field>
   <field>
      <name>title</name>
@@ -98,7 +98,7 @@
      <htmlType>textarea</htmlType>
      <rows>4</rows>
      <cols>80</cols>
-       <add>1.1</add>
+     <add>1.1</add>
   </field>
   <field>
       <name>weight</name>
@@ -113,6 +113,19 @@
        <type>boolean</type>
        <comment>Is this property active?</comment>
        <add>1.1</add>
+  </field>
+  <field>
+     <name>table_name</name>
+     <type>varchar</type>
+     <length>255</length>
+     <comment>Name of the table that holds the values for this group.</comment>
+     <add>2.0</add>
+  </field>
+  <field>
+       <name>is_multiple</name>
+       <type>boolean</type>
+       <comment>Does this group hold multiple values?</comment>
+       <add>2.0</add>
   </field>
   <index>
     <name>UI_title_domain_id</name>

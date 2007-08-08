@@ -18,18 +18,30 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>location_id</name>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>
+  <field>
+      <name>location_type_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Location does this email belong to.</comment>
-       <add>1.1</add>
+       <add>2.0</add>
   </field>
-  <foreignKey>
-       <name>location_id</name>
-       <table>civicrm_location</table>
-       <key>id</key>
-       <add>1.1</add>
-  </foreignKey>
+  <index>
+    <name>index_location_type</name>
+    <fieldName>location_type_id</fieldName>
+    <add>2.0</add>
+  </index>
   <field>
        <name>email</name>
        <type>varchar</type>
@@ -53,6 +65,30 @@
        <comment>Is this the primary email for this contact and location.</comment>
        <add>1.1</add>
   </field>
+  <field>
+       <name>is_primary</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this the primary?</comment>
+       <add>2.0</add>
+  </field>
+  <index>
+    <name>index_is_primary</name>
+    <fieldName>is_primary</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+       <name>is_billing</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this the billing?</comment>
+       <add>2.0</add>
+  </field>
+  <index>
+    <name>index_is_billing</name>
+    <fieldName>is_billing</fieldName>
+    <add>2.0</add>
+  </index>
   <field>
     <name>on_hold</name>
     <export>true</export>

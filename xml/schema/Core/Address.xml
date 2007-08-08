@@ -18,23 +18,53 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>location_id</name>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>
+  <field>
+      <name>location_type_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Location does this address belong to.</comment>
-       <add>1.1</add>
+       <add>2.0</add>
   </field>
-  <foreignKey>
-       <name>location_id</name>
-       <table>civicrm_location</table>
-       <key>id</key>
-       <add>1.1</add>
-  </foreignKey>
   <index>
-    <name>UI_location</name>
-    <fieldName>location_id</fieldName>
-    <unique>true</unique>
-    <add>1.6</add>
+    <name>index_location_type</name>
+    <fieldName>location_type_id</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+       <name>is_primary</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this the primary address.</comment>
+       <add>2.0</add>
+  </field>
+  <index>
+    <name>index_is_primary</name>
+    <fieldName>is_primary</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+       <name>is_billing</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this the billing address.</comment>
+       <add>2.0</add>
+  </field>
+  <index>
+    <name>index_is_billing</name>
+    <fieldName>is_billing</fieldName>
+    <add>2.0</add>
   </index>
   <field>
        <name>street_address</name>
@@ -246,13 +276,6 @@
        <type>varchar</type>
        <length>8</length>
        <comment>Timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6".</comment>
-       <add>1.1</add>
-  </field>
-  <field>
-       <name>note</name>
-       <type>varchar</type>
-       <length>255</length>
-       <comment>Optional misc info (e.g. delivery instructions) for this address.</comment>
        <add>1.1</add>
   </field>
 </table>
