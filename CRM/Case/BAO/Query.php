@@ -114,10 +114,9 @@ class CRM_Case_BAO_Query
             require_once 'CRM/Core/OptionGroup.php' ;
             $caseType = CRM_Core_OptionGroup::values('f1_case_type');
             $names = array( );
-            foreach ( $value as $id => $dontCare ) {
-                $names[] = $caseType[++$id];
+            foreach ( $value as $id => $val ) {
+                $names[] = $caseType[$val];
             }
-            
             require_once 'CRM/Case/BAO/Case.php';
             $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
             $query->_where[$grouping][] = "civicrm_case.casetag1_id LIKE '%{$value}%'";
@@ -133,8 +132,8 @@ class CRM_Case_BAO_Query
             require_once 'CRM/Core/OptionGroup.php' ;
             $caseSubtype = CRM_Core_OptionGroup::values('f1_case_sub_type');
             $names = array( );
-            foreach ( $value as $id => $dontCare ) {
-                $names[] = $caseSubtype[++$id];
+            foreach ( $value as $id => $val ) {
+                $names[] = $caseSubtype[$val];
             }
             require_once 'CRM/Case/BAO/Case.php';
             $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
@@ -150,8 +149,8 @@ class CRM_Case_BAO_Query
             require_once 'CRM/Core/OptionGroup.php' ;
             $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
             $names = array( );
-            foreach ( $value as $id => $dontCare ) {
-                $names[] = $caseViolation[++$id];
+            foreach ( $value as $id => $val ) {
+                $names[] = $caseViolation[$val];
             }
 
             require_once 'CRM/Case/BAO/Case.php';
