@@ -659,7 +659,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
         
         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
-            CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
+            //TO DO: commented because of schema changes
+            //CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 
         //add contact to gruoup

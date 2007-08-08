@@ -96,11 +96,12 @@ class CRM_Contact_Form_Household
             $contact->household_name = $fields['household_name'];
             $contact->find();
             while ($contact->fetch(true)) {
-                if ( $contact->contact_id != $options) {
-                    $dupeIDs[] = $contact->contact_id;
+                if ( $contact->id != $options) {
+                    $dupeIDs[] = $contact->id;
                 }
             }
-            foreach( $dupeIDs as $id ) {
+
+            foreach ( $dupeIDs as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
                 $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
                     '">' . $displayName . '</a>';

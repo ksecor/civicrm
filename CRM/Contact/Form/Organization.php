@@ -101,8 +101,8 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
             $contact->organization_name = $fields['organization_name'];
             $contact->find();
             while ($contact->fetch(true)) {
-                if ( $contact->contact_id != $options) {
-                    $dupeIDs[] = $contact->contact_id;
+                if ( $contact->id != $options) {
+                    $dupeIDs[] = $contact->id;
                 }
             }
             foreach( $dupeIDs as $id ) {
