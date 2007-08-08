@@ -95,9 +95,9 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     public function buildQuickForm( )
     {
 
-        $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
+        $caseStatus  = array( 1 => 'Ongoing', 2 => 'Resolved' ); 
         $this->add('select', 'status_id',  ts( 'Case Status' ),  
-                   array( '' => ts( '-select-' ) ) + $caseStatus , true  );
+                    $caseStatus , true  );
         require_once 'CRM/Core/OptionGroup.php';
         $caseType = CRM_Core_OptionGroup::values('f1_case_type');
         $this->add('select', 'casetag1_id',  ts( 'Case Type' ),  
