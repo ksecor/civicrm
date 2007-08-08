@@ -89,7 +89,7 @@ class CRM_Core_Block {
                                                                    'active'   => true ),
                                        self::MENU        => array( 'template' => 'Menu.tpl',
                                                                    'info'     => ts('CiviCRM Menu'),
-                                                                   'subject'  => ts('CiviCRM'),
+                                                                   'subject'  => ts('Front Line DB'),
                                                                    'active'   => true ),
                                        self::CONTRIBUTE  => array( 'template' => 'Contribute.tpl',
                                                                    'info'     => ts( 'CiviContribute Progress Meter' ),
