@@ -386,20 +386,25 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
             // we don't allow conflicting fields to be
             // configured via profile - CRM 2100
-            $fieldsToIgnore = array( 'receive_date'          => 1,
-                                     'trxn_id'               => 1,
-                                     'invoice_id'            => 1,
-                                     'net_amount'            => 1,
-                                     'fee_amount'            => 1,
-                                     'non_deductible_amount' => 1,
-                                     'total_amount'          => 1
+            $fieldsToIgnore = array( 'receive_date'           => 1,
+                                     'trxn_id'                => 1,
+                                     'invoice_id'             => 1,
+                                     'net_amount'             => 1,
+                                     'fee_amount'             => 1,
+                                     'non_deductible_amount'  => 1,
+                                     'total_amount'           => 1,
+                                     'amount_level'           => 1,
+                                     'contribution_status_id' => 1
                                      );
-            
+
             if ( $contactID ) {
                 require_once "CRM/Core/BAO/UFGroup.php";
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
                     $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD );
-                    $fields = array_diff_key( $fields, $fieldsToIgnore );
+                    if (array_intersect_key($fields, $fieldsToIgnore)) {
+                        $fields = array_diff_key( $fields, $fieldsToIgnore );
+                        CRM_Core_Session::setStatus("Some of the profile fields cannot be configured for this page.");                      
+                    }
                     $this->assign( $name, $fields );
                     
                     foreach($fields as $key => $field) {
@@ -409,7 +414,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 }
             } else {
                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-                $fields = array_diff_key( $fields, $fieldsToIgnore );
+                if (array_intersect_key($fields, $fieldsToIgnore)) {
+                    $fields = array_diff_key( $fields, $fieldsToIgnore );
+                    CRM_Core_Session::setStatus("Some of the profile fields cannot be configured for this page.");                      
+                }
                 $this->assign( $name, $fields );
                 
                 foreach($fields as $key => $field) {
