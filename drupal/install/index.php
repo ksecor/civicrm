@@ -381,7 +381,7 @@ class InstallRequirements {
 	function requireMysqlConnection($server, $username, $password, $testDetails) {
 		$this->testing($testDetails);
 		$conn = @mysql_connect($server, $username, $password);
-		
+
 		if($conn) {
 			return true;
 		} else {
@@ -424,13 +424,23 @@ class InstallRequirements {
     function requireMySQLInnoDB( $server, $username, $password, $database, $testDetails) {
 		$this->testing($testDetails);
 		$conn = @mysql_connect($server, $username, $password);
-		
-        $result = mysql_query( "SHOW variables like 'have_innodb'", $conn );
-        $values = mysql_fetch_row( $result );
-        if ( strtolower( $values[1] ) != 'yes' ) {
+		if ( ! $conn ) {
+            $testDetails[2] .= ' Could not determine if mysql has innodb support. Assuming no';
             $this->error($testDetails);
+            return;
+        }
+
+        $result = mysql_query( "SHOW variables like 'have_innodb'", $conn );
+        if ( $result ) {
+            $values = mysql_fetch_row( $result );
+            print_r( $values );
+            if ( strtolower( $values[1] ) != 'yes' ) {
+                $this->error($testDetails);
+            } else {
+                $testDetails[3] = 'MySQL server does have innodb support';
+            }
         } else {
-            $testDetails[3] = 'MySQL server does have innodb support';
+            $testDetails[2] .= ' Could not determine if mysql has innodb support. Assuming no';
         }
     }
 
@@ -526,6 +536,22 @@ class InstallRequirements {
 }
 
 class Installer extends InstallRequirements {
+    function createDatabaseIfNotExists( $server, $username, $password, $database ) {
+		$conn = @mysql_connect($server, $username, $password);
+		
+		if(@mysql_select_db($database)) {
+            // skip if database already present
+            return;
+		}
+        
+        if (@mysql_query("CREATE DATABASE $database")) {
+        } else {
+            $errorTitle = "Oops! Could not create Database $database";
+            $errorMsg = "We encountered an error when attempting to create the database. Please check your mysql server permissions and the database name and try again.";
+            errorDisplayPage( $errorTitle, $errorMsg );
+        }
+    }
+
 	function install($config) {
 		session_start();
             ?>
@@ -539,147 +565,26 @@ class Installer extends InstallRequirements {
 		echo "<li>Building database schema and setup files...</li>";
 		flush();
 
+        // create database if does not exists
+        $this->createDatabaseIfNotExists( $config['mysql']['server'],
+                                          $config['mysql']['username'],
+                                          $config['mysql']['password'],
+                                          $config['mysql']['database'] );
 		// Build database
         require_once 'civicrm.php';
         civicrm_main( $config );
 
-        if($this->errors) {
-            
-            
-        } else {
-            
-            $civicrmURL = civicrm_home_url( );
+        if(! $this->errors) {
+            $drupalURL = civicrm_drupal_base( );
             echo "<p>Installed CiviCRM successfully.  I will now try and direct you to 
-					<a href=\"$civicrmURL\">CiviCRM Home</a> to confirm that the installation was successful.</p>
-					<script>setTimeout(function() { window.location.href = '$civicrmURL'; }, 1000);</script>
+					<a href=\"$drupalURL\">Drupal Home</a> to confirm that the installation was successful.</p>
+					<script>setTimeout(function() { window.location.href = '$drupalURL'; }, 1000);</script>
 					";
         }
 		
 		return $this->errors;
 	}
 	
-	function makeFolder($folder) {
-		$base = $this->getBaseDir();
-		if(!file_exists($base . $folder)) {
-			if(!mkdir($base . $folder, 02775)) {
-				$this->error("Couldn't create a folder called $base$folder");
-			} else {
-				chmod($base . $folder, 02775);
-			}
-		} 
-	}
-	
-	function renameFolder($oldName, $newName) {
-		if($oldName == $newName) return true;
-		
-		$base = $this->getBaseDir();
-		if(!rename($base . $oldName, $base . $newName)) {
-			$this->error("Couldn't rename $base$oldName to $base$newName");
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	function copyFolder($oldName, $newName) {
-		if($oldName == $newName) return true;
-		
-		$base = $this->getBaseDir();
-		if(!copyr($base . $oldName, $base . $newName)) {
-			$this->error("Couldn't rename $base$oldName to $base$newName");
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	
-	function createFile($filename, $content) {
-		$base = $this->getBaseDir();
-
-		if(($fh = fopen($base . $filename, 'w')) && fwrite($fh, $content) && fclose($fh)) {
-			return true;
-		} else {
-			$this->error("Couldn't write to file $base$filename");
-		}
-	}
-	
-}
-
-/**
- * Copy a file, or recursively copy a folder and its contents
- *
- * @author      Aidan Lister <aidan@php.net>
- * @version     1.0.1
- * @link        http://aidanlister.com/repos/v/function.copyr.php
- * @param       string   $source    Source path
- * @param       string   $dest      Destination path
- * @return      bool     Returns TRUE on success, FALSE on failure
- */
-function copyr($source, $dest)
-{
-    // Simple copy for a file
-    if (is_file($source)) {
-        return copy($source, $dest);
-    }
-
-    // Make destination directory
-    if (!is_dir($dest)) {
-        mkdir($dest);
-    }
-
-    // Loop through the folder
-    $dir = dir($source);
-    while (false !== $entry = $dir->read()) {
-        // Skip pointers
-        if ($entry == '.' || $entry == '..') {
-            continue;
-        }
-
-        // Deep copy directories
-        if ($dest !== "$source/$entry") {
-            copyr("$source/$entry", "$dest/$entry");
-        }
-    }
-
-    // Clean up
-    $dir->close();
-    return true;
-}
-
-function rm($fileglob)
-{
-    if (is_string($fileglob)) {
-        if (is_file($fileglob)) {
-            return unlink($fileglob);
-        } else if (is_dir($fileglob)) {
-            $ok = rm("$fileglob/*");
-            if (! $ok) {
-                return false;
-            }
-            return rmdir($fileglob);
-        } else {
-            $matching = glob($fileglob);
-            if ($matching === false) {
-                trigger_error(sprintf('No files match supplied glob %s', $fileglob), E_USER_WARNING);
-                return false;
-            }     
-            $rcs = array_map('rm', $matching);
-            if (in_array(false, $rcs)) {
-                return false;
-            }
-        }     
-    } else if (is_array($fileglob)) {
-        $rcs = array_map('rm', $fileglob);
-        if (in_array(false, $rcs)) {
-            return false;
-        }
-    } else {
-        trigger_error('Param #1 must be filename or glob pattern, or array of filenames or glob patterns', E_USER_ERROR);
-        return false;
-    }
-
-    return true;
 }
 
 function errorDisplayPage( $errorTitle, $errorMsg ) {
