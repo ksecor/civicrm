@@ -605,11 +605,12 @@ ORDER BY
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
         eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
 
-        $location = array();
+        $location = array( );
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-
-	        $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
+	        //DO TO: comment because of schema changes
+            //$location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
         }
+
         $contact->location = $location;
 	
         // add notes
@@ -637,7 +638,8 @@ ORDER BY
 
         // update the UF user_unique_id if that has changed
         require_once 'CRM/Core/BAO/UFMatch.php';
-        CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
+        //DO TO: comment because of schema changes
+        //CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
 
         // add custom field values
         if ( CRM_Utils_Array::value( 'custom', $params ) ) {
