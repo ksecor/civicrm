@@ -206,13 +206,13 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             }
 
             require_once ( 'CRM/Contact/BAO/GroupOrganization.php' );
-	    if ( ! isset ($this->_id) || ! CRM_Contact_BAO_GroupOrganization::exists($this->_id) ) {
-	        $this->add( 'checkbox', 'add_group_org', ts('Make this an Organization?'), null );
-	    } else {
-	        $this->add( 'checkbox', 'remove_group_org', ts('Remove Organization Status for this group?'), null );
-	    }
+	        if ( ! isset ($this->_id) || ! CRM_Contact_BAO_GroupOrganization::exists($this->_id) ) {
+	            $this->add( 'checkbox', 'add_group_org', ts('Make this an Organization?'), null );
+	        } else {
+	            $this->add( 'checkbox', 'remove_group_org', ts('Remove Organization Status for this group?'), null );
+	        }
 	    
-	    $this->addButtons( array(
+	        $this->addButtons( array(
                                      array( 'type'      => $buttonType,
                                             'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
                                             'isDefault' => true   ),
