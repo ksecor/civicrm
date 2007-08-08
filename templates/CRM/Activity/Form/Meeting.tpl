@@ -8,10 +8,13 @@
     {elseif $action eq 8}{ts}Delete Meeting{/ts}
     {else}{ts}View Scheduled Meeting{/ts}{/if}
   </legend>
-  <dl>
+  <dl class="html-adjust">
      {if $action eq 1 or $action eq 2  or $action eq 4}
         
    {include file="CRM/Activity/Form/Activity.tpl"}
+  </dl>
+  <div class="spacer"></div>  
+  <dl class="html-adjust">
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 	<dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
     {if $action eq 4}

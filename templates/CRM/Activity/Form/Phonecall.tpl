@@ -9,9 +9,12 @@
     {elseif $action eq 8}{ts}Delete Phone Call{/ts}
     {else}{ts}View Scheduled Call{/ts}{/if}
   </legend>
-  <dl>
+  <dl class="html-adjust">
     {if $action eq 1 or $action eq 2  or $action eq 4}	
     {include file="CRM/Activity/Form/Activity.tpl"}
+  </dl>
+  <div class="spacer"></div>  
+  <dl class="html-adjust">  
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
    	<dt>{$form.phone_id.label}</dt><dd>{$form.phone_id.html}
         {edit}

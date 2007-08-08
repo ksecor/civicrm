@@ -14,11 +14,10 @@
           <dt>{$form.amount_total.label}</dt><dd>{$form.amount_total.html}</dd>
           <dt>{$form.rationale.label}</dt><dd>{$form.rationale.html}</dd>
           <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
+          <dt></dt><dd></dd>  
           <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>   
       </dl>
-    {*  <dl>
-          <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd> 
-      </dl>*}
+  
     
 </fieldset>
 </div>        

@@ -4,20 +4,14 @@
                 <td class="label">
                     {$form.activity_activitytag1_id.label}
                 </td>
-                <td>{$form.activity_activitytag1_id.html}
-                </td>
-            </tr>
-            <tr>
-                <td class="label">
-                    {$form.activity_activitytag2_id.label}  
-                </td>
                 <td>
-                    {$form.activity_activitytag2_id.html}
+                    {$form.activity_activitytag1_id.html}
                 </td>
-                <td colspan="2">
-                    {$form.activity_activitytag3_id.label} {$form.activity_activitytag3_id.html}
+                <td colspan="2">    
+                   {$form.activity_activitytag2_id.label} {$form.activity_activitytag2_id.html}
                 </td>
             </tr>
+           
             <tr>
                 <td class="label">
                     {$form.activity_subject.label}
@@ -26,7 +20,7 @@
                     {$form.activity_subject.html}
                 </td>
                 <td colspan="2">
-                    {$form.activity_details.label} {$form.activity_details.html}
+                   {$form.activity_details.label} {$form.activity_details.html}
                 </td>
             </tr>            
            

@@ -11,6 +11,18 @@
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the status for this grant{/ts}</td></tr>
             <tr><td class="label">{$form.grant_type_id.label}</td><td>{$form.grant_type_id.html}</td></tr>   
              <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate type of the Grant {/ts}</td></tr>
+             <tr><td class="label">{$form.amount_requested.label}</td><td>{$form.amount_requested.html}</td></tr>
+            <tr><td class="label">&nbsp;</td><td class="description">{ts}Amount requested for grant  {/ts}
+                </td>
+            </tr>
+            <tr><td class="label">{$form.amount_granted.label}</td><td>{$form.amount_granted.html}</td></tr>
+             <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount granted  {/ts}
+                </td>
+            </tr>
+            <tr><td class="label">{$form.amount_total.label}</td><td>{$form.amount_total.html}</td></tr>
+             <tr><td class="label">&nbsp;</td><td class="description">{ts}Total amount of the grant  {/ts}
+                </td>
+            </tr>
             
             <tr><td class="label">{$form.application_received_date.label}</td>
                 <td>{$form.application_received_date.html}
@@ -54,19 +66,6 @@
             {/if}
                 </td>
             </tr>
-            <tr><td class="label">{$form.amount_requested.label}</td><td>{$form.amount_requested.html}</td></tr>
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Amount requested for grant  {/ts}
-                </td>
-            </tr>
-            <tr><td class="label">{$form.amount_granted.label}</td><td>{$form.amount_granted.html}</td></tr>
-             <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount granted  {/ts}
-                </td>
-            </tr>
-            <tr><td class="label">{$form.amount_total.label}</td><td>{$form.amount_total.html}</td></tr>
-             <tr><td class="label">&nbsp;</td><td class="description">{ts}Total amount of the grant  {/ts}
-                </td>
-            </tr>
-            
             <tr><td class="label">{$form.rationale.label}</td><td>{$form.rationale.html}</td></tr>
             <tr><td class="label">{$form.note.label}</td><td>{$form.note.html}</td></tr>
 

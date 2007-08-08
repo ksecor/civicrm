@@ -7,17 +7,11 @@
                 <td>
                         {$form.case_subject.html}
                 </td>
-            </tr>
-            <tr>
-                <td class="label">
-                        {$form.case_status_id.label} 
-                <td> 
-                        {$form.case_status_id.html}
-                </td>                    
                 <td colspan="2">
-                        {$form.case_casetag3_id.label} {$form.case_casetag3_id.html}
-                </td>
+                        {$form.case_status_id.label} &nbsp;&nbsp;&nbsp;     {$form.case_status_id.html}
+                </td>                    
             </tr>
+           
             <tr>
                 <td class="label">
                         {$form.case_casetag1_id.label}
@@ -29,7 +23,14 @@
                         {$form.case_casetag2_id.label} {$form.case_casetag2_id.html}
                 </td>
             </tr>            
-           
+            <tr>
+                <td class="label">
+                        {$form.case_casetag3_id.label} 
+                </td>
+                <td>
+                        {$form.case_casetag3_id.html} 
+                </td>
+            </tr>
             <tr>
                 <td class="label"> 
                         {$form.case_start_date_low.label} 

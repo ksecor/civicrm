@@ -1,6 +1,6 @@
 {* this template is used for caseactivity  *}
 
-   <dl>     
+   <dl class="html-adjust">     
     <dt>{$form.from_contact.label}</dt>
     
     {if $from_contact_value}

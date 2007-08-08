@@ -246,7 +246,7 @@ class CRM_Case_BAO_Query
         
         $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
         $form->addElement('select', 'case_casetag3_id',  ts( 'Violation' ),  
-                          $caseViolation, array("size"=>"5",  "multiple"));
+                          $caseViolation, array("size"=>"5",'style' => 'width:200px', "multiple"));
 
         $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
         $form->add('select', 'case_status_id',  ts( 'Case Status' ),  

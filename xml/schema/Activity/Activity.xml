@@ -67,7 +67,8 @@
   </index> 
   <field>
        <name>activity_tag3_id</name>
-       <type>int unsigned</type>
+       <type>varchar</type>
+       <length>128</length>
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
        <add>1.8</add>

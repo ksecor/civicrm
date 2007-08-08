@@ -44,6 +44,12 @@ require_once 'api/History.php';
  */
 class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 {
+    /**  
+     * value seletor for multi-select
+     **/ 
+   
+    const VALUE_SEPERATOR = "";
+    
     /**
      * class constructor
      */

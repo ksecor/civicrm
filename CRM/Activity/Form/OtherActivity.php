@@ -174,6 +174,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $caseParams['to_contact'] = CRM_Case_BAO_Case::retrieveCid($params['to_contact']);
 
         require_once "CRM/Activity/BAO/Activity.php";
+       
+        $params['activity_tag3_id']   = CRM_Activity_BAO_Activity::VALUE_SEPERATOR.implode(CRM_Activity_BAO_Activity::VALUE_SEPERATOR, $params['activity_tag3_id'] ).CRM_Activity_BAO_Activity::VALUE_SEPERATOR;
         $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
 
         require_once 'CRM/Case/BAO/Case.php';

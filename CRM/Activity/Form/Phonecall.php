@@ -142,6 +142,8 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         }
       
         require_once "CRM/Activity/BAO/Activity.php";
+        $params['activity_tag3_id']   = CRM_Activity_BAO_Activity::VALUE_SEPERATOR.implode(CRM_Activity_BAO_Activity::VALUE_SEPERATOR, $params['activity_tag3_id'] ).CRM_Activity_BAO_Activity::VALUE_SEPERATOR;
+
         $caseParams['to_contact'] = CRM_Case_BAO_Case::retrieveCid($params['to_contact']);
 
         $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids, $this->_activityType);
