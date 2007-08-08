@@ -100,7 +100,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
 
         $links  =& self::links( );
         $action = array_sum(array_keys($links));
-        $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
+        $caseStatus  = array( 1 => 'Ongoing', 2 => 'Resolved' ); 
         $caseType = CRM_Core_OptionGroup::values('f1_case_type');
 
         require_once 'CRM/Case/BAO/Case.php';
