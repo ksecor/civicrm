@@ -151,8 +151,15 @@ class InstallRequirements {
                                              array("MySQL $dbName Configuration", "Are the access credentials correct", "That username/password doesn't work"))) {
                 @$this->requireMySQLVersion("4.1", array("MySQL $dbName Configuration", "MySQL version at least 4.1", "MySQL version 4.1 is required, you only have ", "MySQL " . mysql_get_server_info()));
             }
-            $this->requireDatabaseOrCreatePermissions($databaseConfig['server'], $databaseConfig['username'], $databaseConfig['password'], $databaseConfig['database'], 
-                                                      array("MySQL $dbName Configuration", "Can I access/create the database", "I can't create new databases and the database '$databaseConfig[database]' doesn't exist"));
+            $onlyRequire = ( $dbName == 'Drupal' ) ? true : false;
+            $this->requireDatabaseOrCreatePermissions($databaseConfig['server'],
+                                                      $databaseConfig['username'], 
+                                                      $databaseConfig['password'], 
+                                                      $databaseConfig['database'], 
+                                                      array("MySQL $dbName Configuration",
+                                                            "Can I access/create the database",
+                                                            "I can't create new databases and the database '$databaseConfig[database]' doesn't exist"),
+                                                      $onlyRequire );
             if ( $dbName != 'Drupal' ) {
                 $this->requireMySQLInnoDB($databaseConfig['server'],
                                           $databaseConfig['username'],
@@ -444,14 +451,18 @@ class InstallRequirements {
         }
     }
 
-	function requireDatabaseOrCreatePermissions($server, $username, $password, $database, $testDetails) {
+	function requireDatabaseOrCreatePermissions($server, $username, $password, $database, $testDetails, $onlyRequire = false) {
 		$this->testing($testDetails);
 		$conn = @mysql_connect($server, $username, $password);
-		
+
+		$okay = null;
 		if(@mysql_select_db($database)) {
 			$okay = "Database '$database' exists";
-			
-		} else {
+        } else if ( $onlyRequire ) {
+            $testDetails[2] = 'The database does not exist';
+            $this->error($testDetails);
+            return;
+        } else {
 			if(@mysql_query("CREATE DATABASE testing123")) {
 				mysql_query("DROP DATABASE testing123");
 				$okay = "Able to create a new database";
