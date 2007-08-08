@@ -12,7 +12,7 @@
 #crm-container .twenty {width: 20em;}
 #crm-container .medium {width: 12em;}
 #crm-container .big {width: 15em;}
-#crm-container textarea.huge {width: 35em; height: 8em;}
+#crm-container textarea.huge {width: 35em; height: 16em;}
 #crm-container .huge {width: 30em;}
 
 /*
@@ -693,7 +693,7 @@ div.crm-pager a {
   font-weight: bold;
   font-size: .95em;
   /*color: #6e6e6e;*/
-  color: #4A88DF;
+  //color: #4A88DF;
   /*background-color: #eee;*/
   background-color: #EDF2FF;
   /*border: 1px solid #6e6e6e;*/
