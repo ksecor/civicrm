@@ -232,8 +232,10 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             // retrieve to_contact
             require_once "CRM/Activity/BAO/Activity.php";
             $assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $row['activity_type_id'],$row['id']);
-            require_once "CRM/Contact/BAO/Contact.php";
-            $row['to_contact'] = CRM_Contact_BAO_Contact::displayName( $assignCID );
+            if( $assignCID ) {
+                require_once "CRM/Contact/BAO/Contact.php";
+                $row['to_contact'] = CRM_Contact_BAO_Contact::displayName( $assignCID );
+            }
 
                 // add class to this row if overdue
             if ( CRM_Utils_Date::overdue( $row['date'] ) ) {
