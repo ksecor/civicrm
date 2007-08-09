@@ -1384,9 +1384,8 @@ VALUES
     {
         $event = "INSERT INTO civicrm_location (id, address_id, email_id, phone_id, im_id, address_2_id, email_2_id, phone_2_id, im_2_id)
       VALUES
-      (1, 'civicrm_event', 1, 1, 0, 'Echo Park Rec Center'),
-      (2, 'civicrm_event', 2, 3, 0, 'Johnson Pavilion'),
-      (3, 'civicrm_event', 3, 3, 1, 'Capitol Fields')
+      (1, NULL, 1, 1, 1, 1, 1, 1, 1),
+      (2, NULL, NULL,NULL, NULL,NULL,NULL,NULL,NULL)
       ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
@@ -1581,10 +1580,10 @@ $obj1->addEventLocationAddress();
 $obj1->addEventPhone();
 $obj1->addEventemail();
 $obj1->addParticipant();
+$obj1->addEventLocation();
 /** FIXME FOR NEW address model
 add_contributions( );
 $obj1->addEventFeeLabel();
-$obj1->addEventLocation();
 **/
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
