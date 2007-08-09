@@ -1382,7 +1382,7 @@ VALUES
 
     function addEventLocation()
     {
-        $event = "INSERT INTO civicrm_location (id, address_id, email_id, phone_id, im_id, address_2_id, email_2_id, phone_2_id, im_2_id)
+        $event = "INSERT INTO civicrm_location_block (id, address_id, email_id, phone_id, im_id, address_2_id, email_2_id, phone_2_id, im_2_id)
       VALUES
       (1, NULL, 1, 1, 1, 1, 1, 1, 1),
       (2, NULL, NULL,NULL, NULL,NULL,NULL,NULL,NULL)

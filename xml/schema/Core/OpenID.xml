@@ -26,7 +26,7 @@
   </field>
   <foreignKey>
        <name>location_id</name>
-       <table>civicrm_location</table>
+       <table>civicrm_location_block</table>
        <key>id</key>
        <add>2.0</add>
   </foreignKey>
