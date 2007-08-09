@@ -490,6 +490,7 @@ SELECT count( civicrm_location.id )
         } else {
             $params   = array( );
             $params['id'] = $params['contact_id'] = $contactID;
+            require_once "CRM/Contact/BAO/Contact.php";
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
             return $contact;
         }
