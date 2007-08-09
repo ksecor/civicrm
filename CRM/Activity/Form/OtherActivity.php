@@ -112,7 +112,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         
         $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
         
-        $this->add('hidden','status',ts('Status'), CRM_Core_SelectValues::activityStatus(), true );
+        $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus(), true );
     }
     
     /**
