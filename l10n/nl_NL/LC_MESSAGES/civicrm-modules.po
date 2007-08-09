@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-01 14:28+0200\n"
+"POT-Creation-Date: 2007-08-09 09:45+0200\n"
 "PO-Revision-Date: 2006-03-12 14:45+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "MIME-Version: 1.0\n"
@@ -1421,6 +1421,34 @@ msgstr "Voer een geldige naam in voor het type bijdrage"
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency"
 msgstr ""
+
+#: CRM/Contribute/Form/ManagePremiums.php
+msgid "Please select the Period Type for this subscription or service."
+msgstr ""
+
+#: CRM/Contribute/Form/ManagePremiums.php
+msgid "Please enter a Fixed Period Start Day for this subscription or service."
+msgstr ""
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Please enter the Duration Interval for this subscription or service."
+msgstr "Voer een geldig bedrag in"
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Please enter the Duration Unit for this subscription or service."
+msgstr "Voer een geldig bedrag in"
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Please enter the Frequency Unit for this subscription or service."
+msgstr "Voer een geldig bedrag in"
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Please enter the Frequency Interval for this subscription or service."
+msgstr "Voer een geldig bedrag in"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 #, fuzzy
@@ -3004,6 +3032,16 @@ msgstr "bereik"
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
+msgid "Please enter a valid fixed period start day"
+msgstr "Voer een geldig bedrag in"
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Please enter a valid fixed period rollover day"
+msgstr "Voer een geldig creditcardnummer in"
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
 msgid "Selected membership type has been deleted."
 msgstr "Geselecteerde type geslacht is verwijderd."
 
@@ -3382,7 +3420,11 @@ msgid "(contribute at least %1 to be eligible for this membership)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
-msgid "Your current <strong>%2</strong> membership expires on %1."
+msgid "Your <strong>%2</strong> membership expired on %1."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
+msgid "Your <strong>%2</strong> membership expires on %1."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl

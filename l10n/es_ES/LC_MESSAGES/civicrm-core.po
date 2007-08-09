@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-01 14:27+0200\n"
+"POT-Creation-Date: 2007-08-09 09:45+0200\n"
 "PO-Revision-Date: 2007-08-01 04:41-0700\n"
 "Last-Translator: pedro jose vila <pedrojose.vila@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -1746,9 +1746,10 @@ msgid "Field Label"
 msgstr "Etiqueta de campo"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#: CRM/Price/Form/Field.php
-msgid "Please enter a valid value for this field."
-msgstr "Por Favor, introduce un valor válido para este campo."
+msgid ""
+"Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
+"spaces and underline ( _ ) characters."
+msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -6206,6 +6207,14 @@ msgid "Default"
 msgstr "Por Defecto"
 
 #: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same label."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same value."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
 msgid "Please enter a valid integer value."
 msgstr "Por Favor, introduce un entero válido."
 
@@ -6545,10 +6554,6 @@ msgid "Invalid Email address"
 msgstr "Dirección de Email no válida"
 
 #: CRM/Import/Parser/Contact.php
-msgid "Email address conflicts with record %1"
-msgstr "La dirección de Email choca con el registro %1"
-
-#: CRM/Import/Parser/Contact.php
 #, fuzzy
 msgid "External Identifier conflicts with record %1"
 msgstr "La dirección de Email choca con el registro %1"
@@ -6634,6 +6639,10 @@ msgstr "Nombre del perfil"
 #, fuzzy
 msgid " must be a monetary value"
 msgstr "debe ser un valor numérico"
+
+#: CRM/Price/Form/Field.php
+msgid "Please enter a valid value for this field."
+msgstr "Por Favor, introduce un valor válido para este campo."
 
 #: CRM/Price/Form/Field.php
 msgid "Enter Quantity?"
@@ -7225,6 +7234,10 @@ msgid ""
 msgstr ""
 "El texto ingresado debe emparejar la frase en la imagen. Vea de nuevo por "
 "favor la imagen y vuelva a ingresar el texto que empareje."
+
+#: CRM/Utils/Date.php
+msgid "Please contact CiviCRM support"
+msgstr ""
 
 #: CRM/Utils/Pager.php
 msgid "Contacts %%StatusMessage%%"
@@ -12769,6 +12782,9 @@ msgstr "Mensaje cogido por un filtro de contenido"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Error en la transacción SMTP"
+
+#~ msgid "Email address conflicts with record %1"
+#~ msgstr "La dirección de Email choca con el registro %1"
 
 #~ msgid "Setup"
 #~ msgstr "Configuración"

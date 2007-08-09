@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-01 14:27+0200\n"
+"POT-Creation-Date: 2007-08-09 09:45+0200\n"
 "PO-Revision-Date: 2007-03-12 08:15-0800\n"
 "Last-Translator: Atilla Gökhan Uz <atilla.uz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -1736,9 +1736,10 @@ msgid "Field Label"
 msgstr "Alan Etiketi"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#: CRM/Price/Form/Field.php
-msgid "Please enter a valid value for this field."
-msgstr "Lütfen bu alan için geçerli bir değer giriniz."
+msgid ""
+"Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
+"spaces and underline ( _ ) characters."
+msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -6143,6 +6144,14 @@ msgid "Default"
 msgstr "Default"
 
 #: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same label."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same value."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
 msgid "Please enter a valid integer value."
 msgstr "Lüften geçerli bir tam sayı giriniz."
 
@@ -6476,10 +6485,6 @@ msgid "Invalid Email address"
 msgstr "Invalid Email address"
 
 #: CRM/Import/Parser/Contact.php
-msgid "Email address conflicts with record %1"
-msgstr "Email address conflicts with record %1"
-
-#: CRM/Import/Parser/Contact.php
 #, fuzzy
 msgid "External Identifier conflicts with record %1"
 msgstr "Email address conflicts with record %1"
@@ -6563,6 +6568,10 @@ msgstr "Profil"
 #, fuzzy
 msgid " must be a monetary value"
 msgstr "sayısal değer olmalı"
+
+#: CRM/Price/Form/Field.php
+msgid "Please enter a valid value for this field."
+msgstr "Lütfen bu alan için geçerli bir değer giriniz."
 
 #: CRM/Price/Form/Field.php
 msgid "Enter Quantity?"
@@ -7171,6 +7180,10 @@ msgstr "Please enter a valid integer."
 msgid ""
 "Input text must match the phrase in the image. Please review the image and "
 "re-enter matching text."
+msgstr ""
+
+#: CRM/Utils/Date.php
+msgid "Please contact CiviCRM support"
 msgstr ""
 
 #: CRM/Utils/Pager.php
@@ -12569,6 +12582,9 @@ msgstr "İleti bir içerik süzgeci tarafından engellendi."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "SMTP işleminde Hata"
+
+#~ msgid "Email address conflicts with record %1"
+#~ msgstr "Email address conflicts with record %1"
 
 #~ msgid "Setup"
 #~ msgstr "Kurulum"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-01 14:27+0200\n"
+"POT-Creation-Date: 2007-08-09 09:45+0200\n"
 "PO-Revision-Date: 2007-07-22 22:11+0200\n"
 "Last-Translator: Claudiu Cristea <claudiu@cristea.info>\n"
 "Language-Team: Romanian <clau.cristea@gmail.com>\n"
@@ -1747,9 +1747,10 @@ msgid "Field Label"
 msgstr "Etichetă Câmp"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#: CRM/Price/Form/Field.php
-msgid "Please enter a valid value for this field."
-msgstr "Vă rugăm introduceţi o valoare validă pentru acest câmp."
+msgid ""
+"Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
+"spaces and underline ( _ ) characters."
+msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -6168,6 +6169,14 @@ msgid "Default"
 msgstr "Implicit"
 
 #: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same label."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same value."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
 msgid "Please enter a valid integer value."
 msgstr "Introduceţi o valoare întreagă validă."
 
@@ -6498,10 +6507,6 @@ msgid "Invalid Email address"
 msgstr "Adresa email invalidă"
 
 #: CRM/Import/Parser/Contact.php
-msgid "Email address conflicts with record %1"
-msgstr "Adresa email e în conflict cu înregistrarea %1"
-
-#: CRM/Import/Parser/Contact.php
 #, fuzzy
 msgid "External Identifier conflicts with record %1"
 msgstr "Adresa email e în conflict cu înregistrarea %1"
@@ -6587,6 +6592,10 @@ msgstr "Profil"
 #, fuzzy
 msgid " must be a monetary value"
 msgstr "trebuie să fie o valoare numerică"
+
+#: CRM/Price/Form/Field.php
+msgid "Please enter a valid value for this field."
+msgstr "Vă rugăm introduceţi o valoare validă pentru acest câmp."
 
 #: CRM/Price/Form/Field.php
 msgid "Enter Quantity?"
@@ -7149,6 +7158,10 @@ msgstr ""
 msgid ""
 "Input text must match the phrase in the image. Please review the image and "
 "re-enter matching text."
+msgstr ""
+
+#: CRM/Utils/Date.php
+msgid "Please contact CiviCRM support"
 msgstr ""
 
 #: CRM/Utils/Pager.php
@@ -12135,6 +12148,9 @@ msgstr "Mesaj creat de un filtru de conţinut"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Eroare în tranzacţia SMTP"
+
+#~ msgid "Email address conflicts with record %1"
+#~ msgstr "Adresa email e în conflict cu înregistrarea %1"
 
 #~ msgid "Setup"
 #~ msgstr "Configurare"
