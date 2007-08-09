@@ -32,7 +32,8 @@
   </foreignKey>  
   <field>
        <name>casetag1_id</name>
-       <type>int unsigned</type>
+       <type>varchar</type>
+       <length>128</length>
        <required>true</required>
        <comment>Id of first case category.</comment>
        <add>1.8</add>
@@ -44,7 +45,8 @@
   </index>
   <field>
        <name>casetag2_id</name>
-       <type>int unsigned</type>
+       <type>varchar</type>
+       <length>128</length>
        <required>true</required>
        <comment>Id of second case category.</comment>
        <add>1.8</add>
@@ -56,7 +58,8 @@
   </index>
   <field>
        <name>casetag3_id</name>
-       <type>int unsigned</type>
+       <type>varchar</type>
+       <length>128</length>
        <required>true</required>
        <comment>Id of third case category.</comment>
        <add>1.8</add>

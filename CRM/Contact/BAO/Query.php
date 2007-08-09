@@ -1053,9 +1053,11 @@ class CRM_Contact_BAO_Query {
         if ( CRM_Core_BAO_Domain::multipleDomains( ) ) {
             $this->_where[0][] = 'contact_a.domain_id = ' . $config->domainID( );
         }
-
+        
         $this->includeContactIds( );       
         if ( ! empty( $this->_params ) ) {
+            $case = $activity = false;
+
             foreach ( array_keys( $this->_params ) as $id ) {
                 // check for both id and contact_id
                 if ( $this->_params[$id][0] == 'id' || $this->_params[$id][0] == 'contact_id' ) {
@@ -1063,16 +1065,22 @@ class CRM_Contact_BAO_Query {
                 } else {
                     $this->whereClauseSingle( $this->_params[$id] );
                 }
+            
+                if ( substr ($this->_params[$id][0], 0 , 5) == 'case_') {
+                    $case = true;
+                }
+                if ( substr ($this->_params[$id][0], 0 , 9) == 'activity_') {
+                    $activity = true;
+                }
             }
             
             require_once 'CRM/Core/Component.php';
             CRM_Core_Component::alterQuery( $this, 'where' );
-            
-            if ( substr ($this->_params[$id][0], 0 , 5) == 'case_') {
+            if ( $case ) {
                 require_once 'CRM/Case/BAO/Query.php';
                 CRM_Case_BAO_Query::where( $this );
             }
-            if ( substr ($this->_params[$id][0], 0 , 9) == 'activity_') {
+            if ( $activity ) {
                 require_once 'CRM/Activity/BAO/Query.php';
                 CRM_Activity_BAO_Query::where( $this );
             }

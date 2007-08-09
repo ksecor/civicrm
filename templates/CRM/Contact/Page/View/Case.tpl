@@ -1,6 +1,8 @@
 <div class="view-content">
-{if $action eq 1 or $action eq 2 or $action eq 4} {* add, update,View or delete *}            
+{if $action eq 1 or $action eq 2} {* add, update*}            
     {include file="CRM/Case/Form/Case.tpl"}
+{elseif $action eq 4 }
+    {include file="CRM/Case/Form/CaseView.tpl"}
 
 {else}
 <div id="help">
@@ -33,7 +35,7 @@
         <tr class="{cycle values="odd-row,even-row"}">
 
             <td>{$case.status_id}</td>
-            <td>{$case.casetag1_id}</td>  
+            <td>{$case.casetag1_id.0} <br />{$case.casetag1_id.1}<br />{$case.casetag1_id.2}</td>  
             <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">{$case.subject|mb_truncate:33:"...":true}</a></td>
 
             <td>{$case.start_date|crmDate}</td>

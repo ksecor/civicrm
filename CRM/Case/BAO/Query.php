@@ -99,7 +99,6 @@ class CRM_Case_BAO_Query
     static function whereClauseSingle( &$values, &$query ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        
         switch( $name ) {
             
         case 'case_subject':
@@ -111,35 +110,55 @@ class CRM_Case_BAO_Query
             return;
 
         case 'case_casetag1_id':
-            
-            $value = strtolower(addslashes(trim($value)));
-            $query->_where[$grouping][] = "civicrm_case.casetag1_id $op '{$value}'";
+
+            require_once 'CRM/Core/OptionGroup.php' ;
+            $caseType = CRM_Core_OptionGroup::values('f1_case_type');
+            $names = array( );
+            foreach ( $value as $id => $val ) {
+                $names[] = $caseType[$val];
+            }
+            require_once 'CRM/Case/BAO/Case.php';
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "civicrm_case.casetag1_id LIKE '%{$value}%'";
             require_once 'CRM/Core/OptionGroup.php' ;
             $caseType = CRM_Core_OptionGroup::values('f1_case_type');
             $value = $caseType[$value];
-            $query->_qill[$grouping ][] = ts( 'Case Type %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_qill[$grouping ][] = ts( 'Case Type %1', array( 1 => $op))  . ' ' . implode( ' ' . ts('or') . ' ', $names );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
 
         case 'case_casetag2_id':
-            
-            $value = strtolower(addslashes(trim($value)));
-            $query->_where[$grouping][] = "civicrm_case.casetag2_id $op '{$value}'";
+
             require_once 'CRM/Core/OptionGroup.php' ;
             $caseSubtype = CRM_Core_OptionGroup::values('f1_case_sub_type');
+            $names = array( );
+            foreach ( $value as $id => $val ) {
+                $names[] = $caseSubtype[$val];
+            }
+            require_once 'CRM/Case/BAO/Case.php';
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "civicrm_case.casetag2_id LIKE  '%{$value}%'";
+
             $value = $caseSubtype[$value];
-            $query->_qill[$grouping ][] = ts( 'Case SubType %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_qill[$grouping ][] = ts( 'Case SubType %1', array( 1 => $op)) . ' ' . implode( ' ' . ts('or') . ' ', $names );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
 
         case 'case_casetag3_id':
-            
-            $value = strtolower(addslashes(trim($value)));
-            $query->_where[$grouping][] = "civicrm_case.casetag3_id $op '{$value}'";
+ 
             require_once 'CRM/Core/OptionGroup.php' ;
             $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
+            $names = array( );
+            foreach ( $value as $id => $val ) {
+                $names[] = $caseViolation[$val];
+            }
+
+            require_once 'CRM/Case/BAO/Case.php';
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "civicrm_case.casetag3_id LIKE '%{$value}%'";
+
             $value = $caseViolation[$value];
-            $query->_qill[$grouping ][] = ts( 'Case Voilation %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_qill[$grouping ][] = ts( 'Case Voilation %1', array( 1=> $op)) . ' ' . implode( ' ' . ts('or') . ' ', $names );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
         
@@ -151,6 +170,7 @@ class CRM_Case_BAO_Query
             $value  = $caseStatus[$value];
             $query->_qill[$grouping ][] = ts( 'Case Status %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+
             return;
 
         case 'case_start_date_low':
@@ -196,10 +216,6 @@ class CRM_Case_BAO_Query
                                 'display_name'              => 1,
                                 'case_subject'              => 1,
                                 );
-       
-        
-   
-        
         return $properties;
     }
     
@@ -222,15 +238,15 @@ class CRM_Case_BAO_Query
         require_once 'CRM/Core/OptionGroup.php';
         $caseType = CRM_Core_OptionGroup::values('f1_case_type');
         $form->addElement('select', 'case_casetag1_id',  ts( 'Case Type' ),  
-                          array( '' => ts( '-select-' ) ) + $caseType );
+                          $caseType, array("size"=>"5",  "multiple"));
         
         $caseSubType = CRM_Core_OptionGroup::values('f1_case_sub_type');
         $form->addElement('select', 'case_casetag2_id',  ts( 'Case Sub Type' ),  
-                          array( '' => ts( '-select-' ) ) + $caseSubType);
+                          $caseSubType, array("size"=>"5",  "multiple"));
         
         $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
         $form->addElement('select', 'case_casetag3_id',  ts( 'Violation' ),  
-                          array( '' => ts( '-select-' ) ) + $caseViolation);
+                          $caseViolation, array("size"=>"5",'style' => 'width:200px', "multiple"));
 
         $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
         $form->add('select', 'case_status_id',  ts( 'Case Status' ),  

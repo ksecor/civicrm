@@ -41,7 +41,12 @@ require_once 'CRM/Case/DAO/Case.php';
  */
 class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
 {
-
+    /**  
+     * value seletor for multi-select
+     **/ 
+   
+    const VALUE_SEPERATOR = "";
+    
     function __construct()
     {
         parent::__construct();
@@ -96,7 +101,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $ids['domain' ] = $case->domain_id;
 
             CRM_Core_DAO::storeValues( $case, $values );
-
+            
             return $cases;
         }
         return null;

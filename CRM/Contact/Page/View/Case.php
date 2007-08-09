@@ -100,21 +100,25 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
 
         $links  =& self::links( );
         $action = array_sum(array_keys($links));
-        $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
+        $caseStatus  = array( 1 => 'Ongoing', 2 => 'Resolved' ); 
         $caseType = CRM_Core_OptionGroup::values('f1_case_type');
 
-        require_once 'CRM/Case/DAO/Case.php';
+        require_once 'CRM/Case/BAO/Case.php';
         $case = new CRM_Case_DAO_Case( );
         $case->contact_id = $this->_contactId;
         $case->find();
         while ( $case->fetch() ) {
+        
             CRM_Core_DAO::storeValues( $case, $values[$case->id] );
             $values[$case->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                       $action,
                                                                       array( 'id'  => $case->id,
                                                                              'cid' => $this->_contactId ) );
-            $values[$case->id]['casetag1_id'] = $caseType[$values[$case->id]['casetag1_id']];
-            $values[$case->id]['status_id']   = $caseStatus[$values[$case->id]['status_id']];
+            $values[$case->id]['casetag1_id'] =  explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($values[$case->id]['casetag1_id'] ,1,-1));;
+            $values[$case->id]['casetag1_id'][0] = $caseType[$values[$case->id]['casetag1_id'][0]];
+            $values[$case->id]['casetag1_id'][1] = $caseType[$values[$case->id]['casetag1_id'][1]];
+            $values[$case->id]['casetag1_id'][2] = $caseType[$values[$case->id]['casetag1_id'][2]];
+            $values[$case->id]['status_id']      = $caseStatus[$values[$case->id]['status_id']];
 
         } 
         

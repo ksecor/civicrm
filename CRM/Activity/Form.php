@@ -181,6 +181,9 @@ class CRM_Activity_Form extends CRM_Core_Form
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
+        
+        require_once 'CRM/Activity/BAO/Activity.php';
+        $defaults['activity_tag3_id'] = explode(CRM_Activity_BAO_Activity::VALUE_SEPERATOR, substr($defaults['activity_tag3_id'],1,-1));
         return $defaults;
     }
 
@@ -247,13 +250,13 @@ class CRM_Activity_Form extends CRM_Core_Form
                    array( '' => ts( '-select-' ) ) + $caseActivityType );
         
         $comunicationMedium = CRM_Core_OptionGroup::values('communication_medium'); 
-        $this->add('select', 'activity_tag2_id',  ts( 'Communication Medium' ),  
+        $this->add('select', 'activity_tag2_id',  ts( 'Communication' ),  
                    array( '' => ts( '-select-' ) ) + $comunicationMedium );
 
         $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
-        $this->add('select', 'activity_tag3_id',  ts( 'Violation Type' ),  
-                          array( '' => ts( '-select-' ) ) + $caseViolation);
-
+        $this->add('select', 'activity_tag3_id',  ts( 'Violation Type' ),
+                   $caseViolation , false, array("size"=>"5",  "multiple"));
+     
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
         }
