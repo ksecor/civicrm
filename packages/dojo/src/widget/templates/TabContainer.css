@@ -62,13 +62,13 @@
 	background-image : url(images/tab_close_h.gif);
 }
 
-.dojoTab.current {
+.dojoTab.currentTab {
 	padding-bottom : 1px;
 	border-bottom : 0;
 	background-position : 0 -150px;
 }
 
-.dojoTab.current div {
+.dojoTab.currentTab div {
 	padding-bottom : 5px;
 	margin-bottom : -1px;
 	background-position : 100% -150px;
@@ -100,12 +100,12 @@
 	background : url(images/tab_bot_right.gif) no-repeat right bottom;
 }
 
-.dojoTabLabels-bottom .dojoTab.current {
+.dojoTabLabels-bottom .dojoTab.currentTab {
 	border-top : 0;
 	background : url(images/tab_bot_left_curr.gif) no-repeat left bottom;
 }
 
-.dojoTabLabels-bottom .dojoTab.current div {
+.dojoTabLabels-bottom .dojoTab.currentTab div {
 	padding-top : 4px;
 	background : url(images/tab_bot_right_curr.gif) no-repeat right bottom;
 }
@@ -130,7 +130,7 @@
 	padding : 4px 15px 4px 15px;
 }
 
-.dojoTabLabels-right-h .dojoTab.current {
+.dojoTabLabels-right-h .dojoTab.currentTab {
 	border-left :  0;
 	border-bottom :  1px solid #6290d2;
 }
@@ -150,7 +150,7 @@
 	background : url(images/tab_top_left.gif) no-repeat left top;
 }
 
-.dojoTabLabels-left-h .dojoTab.current {
+.dojoTabLabels-left-h .dojoTab.currentTab {
 	border-right : 0;
 	border-bottom :  1px solid #6290d2;
 	padding-bottom : 0;

@@ -218,28 +218,32 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 //$errors ['uploadFile'] = "Please Enter files with dimensions between 80 x 80 and 500 x 500," . " Dimensions of this file is ".$width."X".$height;
             }
         }
-       
-        if ( ! isset($params['period_type']) || ! $params['period_type'] ) {
-            if ( isset($params['fixed_period_start_day']) || $params['duration_unit'] || $parmas['duration_interval'] ||
+
+        if ( ! $params['period_type'] ) {
+            if ( $params['fixed_period_start_day'] || $params['duration_unit'] || $params['duration_interval'] ||
                  $params['frequency_unit'] || $params['frequency_interval'] ) {
-                $errors ['period_type']= "Please Enter the Period Type";
+                $errors ['period_type']= ts('Please select the Period Type for this subscription or service.');
             }
+        }
+        
+        if ( $params['period_type'] == 'fixed' && ! $params['fixed_period_start_day'] ) {
+            $errors['fixed_period_start_day'] = ts('Please enter a Fixed Period Start Day for this subscription or service.');
         }
 
         if( $params['duration_unit'] && ! $params['duration_interval'] ) {
-            $errors ['duration_interval']= "Please Enter the Duration Interval";
+            $errors ['duration_interval']= ts('Please enter the Duration Interval for this subscription or service.');
         }
 
         if( $params['duration_interval'] && ! $params['duration_unit'] ) {
-            $errors ['duration_unit']= "Please Enter the Duration Unit";
+            $errors ['duration_unit']= ts('Please enter the Duration Unit for this subscription or service.');
         }
 
         if( $params['frequency_interval'] && ! $params['frequency_unit'] ) {
-            $errors ['frequency_unit']= "Please Enter the Frequency Unit";
+            $errors ['frequency_unit']= ts('Please enter the Frequency Unit for this subscription or service.');
         }
 
         if( $params['frequency_unit'] && ! $params['frequency_interval'] ) {
-            $errors ['frequency_interval']= "Please Enter the Frequency Interval";
+            $errors ['frequency_interval']= ts('Please enter the Frequency Interval for this subscription or service.');
         }
 
 

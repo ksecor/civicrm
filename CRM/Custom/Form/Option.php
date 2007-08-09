@@ -157,7 +157,8 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         
             // the above value is used directly by QF, so the value has to be have a rule
             // please check with Lobo before u comment this
-            $this->addRule('value', ts('Please enter a valid value for this field.'), 'qfVariable');
+            $this->addRule('value', ts('Please enter a valid value for this field. You may use a - z, A - Z,
+1 - 9, spaces and underline ( _ ) characters.'), 'qfVariable');
 
             // weight
             $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);

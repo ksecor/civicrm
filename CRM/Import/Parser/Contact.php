@@ -268,11 +268,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     array_unshift($values, ts('Invalid Email address'));
                     return CRM_Import_Parser::ERROR;
                 }
-                /* If it's a dupe, bail */
-                if ( $dupe = CRM_Utils_Array::value( $email, $this->_allEmails ) ) {
-                    array_unshift($values, ts('Email address conflicts with record %1', array(1 => $dupe)));
-                    return CRM_Import_Parser::CONFLICT;
-                }
+
                 /* otherwise, count it and move on */
                 $this->_allEmails[$email] = $this->_lineCount;
             }
@@ -477,9 +473,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         // of php this variable gets overwritten when we check for duplicate
         // contact while creating related contact which also returns
         // crm_core_error object.
-        if( $newContact && ! is_a($newContact, CRM_Core_Error) ) {
-            $newContact = clone($newContact);
-        }
+        if ( $newContact || is_a( $newContact,CRM_Contact_BAO_Contact ) ||
+             self::isDuplicate( $newContact ) ) {
+            $newContact = clone( $newContact );
+        } 
         
         if ( $relationship ) {
             $primaryContactId = null;

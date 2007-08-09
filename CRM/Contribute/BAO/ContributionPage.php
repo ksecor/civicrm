@@ -117,7 +117,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
             
-            $receiptFrom = '"' . $values['receipt_from_name'] . '" <' . $values['receipt_from_email'] . '>';
+            $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$values) . '" <' . $values['receipt_from_email'] . '>';
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
                                   $displayName,

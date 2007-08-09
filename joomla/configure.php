@@ -16,8 +16,7 @@ require_once $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'configuration.php
 
 function civicrm_setup( ) {
     global $comPath, $frontPath, $crmPath, $sqlPath, $tplPath, $dsn;
-    global $compileDir, $uploadDir, $imageUploadDir;
-    global $imageUploadDir, $imageUploadURL;
+    global $compileDir;
 
     global $mosConfig_live_site, $mosConfig_absolute_path;
     global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db;
@@ -60,18 +59,6 @@ function civicrm_setup( ) {
         mkdir( $compileDir, 0777 );
     }
     $compileDir = addslashes( $compileDir );
-
-    $uploadDir         = $scratchDir . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
-    if ( ! is_dir( $uploadDir ) ) {
-        mkdir( $uploadDir, 0777 );
-    }
-    $uploadDir = addslashes( $uploadDir );
-
-    $imageUploadDir = $scratchDir . DIRECTORY_SEPARATOR . 'persist' . DIRECTORY_SEPARATOR;
-    if ( ! is_dir( $imageUploadDir ) ) {
-        mkdir( $imageUploadDir, 0777 );
-    }
-    $imageUploadDir = addslashes( $imageUploadDir );
 
     $dsn =  'mysql://' .  
         $mosConfig_user     . ':' .  
@@ -170,7 +157,7 @@ COLLATE latin1_swedish_ci
 
 function civicrm_config( $frontend = false ) {
     global $crmPath, $comPath;
-    global $dsn, $compileDir, $uploadDir, $imageUploadDir;
+    global $dsn, $compileDir;
     global $mysqlPath;
     global $mosConfig_smtphost, $mosConfig_live_site;
     global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix;
@@ -183,17 +170,16 @@ function civicrm_config( $frontend = false ) {
                 'usersTable' => $mosConfig_dbprefix . 'users',
                 'crmRoot' => $crmPath,
                 'templateCompileDir' => $compileDir,
-                'uploadDir' => $uploadDir,
-                'imageUploadDir' => $imageUploadDir,
-                'imageUploadURL' => $mosConfig_live_site . '/media/civicrm/persist/',
-                'customFileUploadDir' => $imageUploadDir,
                 'baseURL' => $mosConfig_live_site . '/administrator/',
-                'resourceURL' => $mosConfig_live_site . '/administrator/components/com_civicrm/civicrm/',
                 'frontEnd' => 0,
                 'dbUser' => $mosConfig_user,
                 'dbPass' => $mosConfig_password,
                 'dbHost' => $mosConfig_host,
                 'dbName' => $mosConfig_db,
+                'CMSdbUser' => $mosConfig_user,
+                'CMSdbPass' => $mosConfig_password,
+                'CMSdbHost' => $mosConfig_host,
+                'CMSdbName' => $mosConfig_db,
                 );
 
     if ( $frontend ) {

@@ -558,7 +558,7 @@ class CRM_Core_PseudoConstant
      * @return array - array reference of all countries.
      *
      */
-    public static function &country($id = false) 
+    public static function country($id = false) 
     {
         if (!self::$country) {
 

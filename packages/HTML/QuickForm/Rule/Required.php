@@ -37,7 +37,15 @@ class HTML_QuickForm_Rule_Required extends HTML_QuickForm_Rule
     function validate($value, $options = null)
     {
         if ( is_array( $value ) ) {
+            // check if file type, if so permit empty type
+            $fileType =
+                array_key_exists( 'name', $value ) &&
+                array_key_exists( 'tmp_name', $value );
             foreach ( $value as $k => $v ) {
+                // dont check type field. Safari3 Beta does not set this
+                if ( $fileType && $k == 'type' ) {
+                    continue;
+                }
                 if ( ( string ) $v == '' ) {
                     return false;
                 }

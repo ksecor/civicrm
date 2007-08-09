@@ -193,7 +193,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
             break;
 
         case 'search':
-            $url = CRM_Utils_System::url( 'civicrm/member/search', 'force=1&reset=1' );
+            $url = CRM_Utils_System::url( 'civicrm/member/search', 'force=1' );
             break;
 
         default:
@@ -202,7 +202,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                 $cid = '&cid=' . $this->_contactId;
             }
             $url = CRM_Utils_System::url( 'civicrm/member/search', 
-                                          'reset=1&force=1' . $cid );
+                                          'force=1' . $cid );
             break;
         }
 
