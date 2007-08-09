@@ -20,7 +20,6 @@
   <field>
       <name>contact_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>FK to Contact ID</comment>
       <add>2.0</add>
   </field>
@@ -33,7 +32,6 @@
   <field>
       <name>location_type_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Which Location does this email belong to.</comment>
        <add>2.0</add>
   </field>

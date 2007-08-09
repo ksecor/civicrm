@@ -2,8 +2,8 @@
 
 <table>
   <base>CRM/Core</base>
-  <class>Location</class>
-  <name>civicrm_location</name>
+  <class>LocationBlock</class>
+  <name>civicrm_location_block</name>
   <comment>Define location specific properties</comment>
   <add>2.0</add>
   <field>
