@@ -36,7 +36,9 @@
  */
 function civicrm_html_head()
 {
-    civicrm_initialize( );
+    if ( ! civicrm_initialize( ) ) {
+        return;
+    }
 
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
@@ -122,7 +124,10 @@ function civicrm_help($section)
 function civicrm_perm()
 {
     // make sure the system is initialized
-    civicrm_initialize( );
+    if ( ! civicrm_initialize( ) ) {
+        return;
+    }
+
     $config =& CRM_Core_Config::singleton();
 
     // static permissions
@@ -159,7 +164,9 @@ function civicrm_block($op='list', $delta='0')
         return;
     }
 
-    civicrm_initialize( );
+    if ( ! civicrm_initialize( ) ) {
+        return;
+    }
 
     // The $op parameter determines what piece of information is being requested.
     require_once 'CRM/Core/Block.php';
@@ -190,7 +197,9 @@ function civicrm_block($op='list', $delta='0')
  */
 function civicrm_menu($may_cache)
 {
-	civicrm_initialize( );
+    if ( ! civicrm_initialize( ) ) {
+        return;
+    }
 
     require_once 'CRM/Core/Menu.php';
     if ( $may_cache ) {
@@ -211,28 +220,48 @@ function civicrm_initialize( $requireAPI = false )
 {
     static $initialized    = null;
     static $initializedAPI = null;
+    static $failure        = false;
+
+    if ( $failure ) {
+        return false;
+    }
 
     if ( ! $initialized ) {
-        $initialized = true;
-
         if ( function_exists( 'conf_path' ) ) {
-            include_once conf_path( ) . '/civicrm.settings.php';
+            $settingsFile = conf_path( ) . '/civicrm.settings.php';
         } else {
-            include_once conf_init( ) . '/civicrm.settings.php';
+            $settingsFiles = conf_init( ) . '/civicrm.settings.php';
+        }
+        $error = include_once( $settingsFile );
+        if ( $error == false ) {
+            $failure = true;
+            drupal_set_message( 'Could not find civicrm.settings.php' );
+            return false;
         }
         
         // this does pretty much all of the civicrm initialization
-        require_once 'CRM/Core/Config.php';
+        $error = include_once( 'CRM/Core/Config.php' );
+        if ( $error == false ) {
+            $failure = true;
+            drupal_set_message( "The include path is not set properly. Most likely there is an error with the 'civcirm_root' in civicrm.settings.php'. The current value is: $civicrm_root." );
+            return false;
+        }
+
+        $initialized = true;
         $config =& CRM_Core_Config::singleton();
         
         // Add module-specific header elements
         drupal_set_html_head(civicrm_html_head());
+
+        return true;
     }
 
     if ( $requireAPI && ! $initializedAPI ) {
         $initializedAPI = true;
         require_once 'api/crm.php';
     }
+
+    return true;
 }
 
 /**
@@ -270,7 +299,9 @@ function civicrm_get_ctype( $default = null )
 function civicrm_invoke( )
 {
     // make sure the system is initialized
-    civicrm_initialize( );
+    if ( ! civicrm_initialize( ) ) {
+        return drupal_not_found( );
+    }
     
     require_once 'CRM/Core/Error.php';
     
@@ -293,7 +324,9 @@ function civicrm_invoke( )
 
 function civicrm_quickreg( ) 
 {
-	civicrm_initialize( );
+    if ( ! civicrm_initialize( ) ) {
+        return;
+    }
 
     $names  = array( 'first_name', 'last_name', 'email', 'postal_code' ); 
     $params = array( ); 
@@ -335,8 +368,9 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         return;
     }			
 
-    // make sure the system is initialized
-    civicrm_initialize( );
+    if ( ! civicrm_initialize( ) ) {
+        return;
+    }
 
     switch ( $type ) {
 
@@ -395,7 +429,9 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
 
 function civicrm_categories( &$user ) 
 {
-	civicrm_initialize( );
+    if ( ! civicrm_initialize( ) ) {
+        return;
+    }
 
     require_once 'CRM/Core/BAO/UFMatch.php';
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );

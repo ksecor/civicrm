@@ -259,12 +259,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $params['membership_type_id'] = $formValues['membership_type_id'][1];
        
-        $joinDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
+        $joinDate  = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
         $startDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['start_date'] ));
+        $endDate   = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['end_date'] ));
 
         $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['membership_type_id'],
-                                                                              $joinDate, $startDate);
-        
+                                                                              $joinDate, $startDate, $endDate);
+
         $dates = array( 'join_date',
                         'start_date',
                         'end_date',

@@ -865,7 +865,7 @@ class CRM_Core_Invoke
             $session =& CRM_Core_Session::singleton(); 
             $session->pushUserContext( CRM_Utils_System::url('civicrm/profile', 'reset=1' ) ); 
 
-            $buttonType = $_POST['_qf_Edit_cancel'];
+            $buttonType = CRM_Utils_Array::value('_qf_Edit_cancel',$_POST);
             if ( $buttonType == 'Cancel' ) {
                 $cancelURL = CRM_Utils_Request::retrieve('cancelURL',
                                                          'String',

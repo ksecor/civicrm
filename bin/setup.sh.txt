@@ -102,5 +102,5 @@ echo; echo "DONE!"
 # mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm_sample.mysql
 # mysql -uYourDBUser -pYourDBPassword YourDBName < zipcodes.mysql
 # php GenerateData.php
-# echo "drop table zipcodes" | mysql -uYourDBUser -pYourDBPassword YourDBName
+# echo "drop table zipcodes ; update civicrm_domain set config_backend = null" | mysql -uYourDBUser -pYourDBPassword YourDBName
 # mysqldump -c -e -t -n -uYourDBUser -pYourDBPassword YourDBName  > civicrm_generated.mysql

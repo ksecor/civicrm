@@ -2594,7 +2594,11 @@ WHERE     civicrm_contact.id = %1";
      */
     static function validChecksum( $contactID, $inputCheck ) 
     {
-        list( $inputCS, $inputTS, $inputLF ) = explode( '_', $inputCheck );
+        $input =  explode( '_', $inputCheck );
+        
+        $inputCS = CRM_Utils_Array::value( 0,$input);
+        $inputTS = CRM_Utils_Array::value( 1,$input);
+        $inputLF = CRM_Utils_Array::value( 2,$input); 
 
         $check = self::generateChecksum( $contactID, $inputTS, $inputLF );
 

@@ -105,7 +105,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'minimum_fee' ) );
         $this->addRule( 'minimum_fee', ts('Please enter a monetary value for the Minimum Fee.'), 'money' );
 
-        $this->add('select', 'duration_unit', ts('Duration') . ' ', CRM_Core_SelectValues::unitList('duration'));
+        $this->addElement('select', 'duration_unit', ts('Duration') . ' ',
+                   CRM_Core_SelectValues::unitList('duration'), array( 'onchange' => 'showHidePeriodSettings()'));
         //period type
         $this->addElement('select', 'period_type', ts('Period Type'), 
                           CRM_Core_SelectValues::periodType( ), array( 'onchange' => 'showHidePeriodSettings()'));
@@ -204,6 +205,53 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
     public function formRule( &$params ) {
         require_once 'CRM/Utils/Rule.php';        
         $errors = array( );
+        if ( !isset($params['_qf_MembershipType_refresh']) || !$params['_qf_MembershipType_refresh'] ) {
+            if ( !$params['name'] ) {
+                $errors['name'] = "Please enter a membership type name.";
+            }
+            
+            if ( !CRM_Utils_Array::value('contact_check',$params) && $params['action']!= CRM_Core_Action::UPDATE ) {
+                $errors['member_org'] = "Please select the membership organization";
+            }
+            
+            if ( empty( $params['contribution_type_id'] ) ) {
+                $errors['contribution_type_id'] = "Please enter a contribution type.";
+            }
+            
+            if ( ($params['minimum_fee'] > 0 ) && !$params['contribution_type_id'] ) {
+                $errors['contribution_type_id'] = "Please enter the contribution type.";
+            }
+            
+            if ( empty( $params['duration_unit'] ) ) {
+                $errors['duration_unit'] = "Please enter a duration unit.";
+            }            
+            
+            if ( empty( $params['duration_interval'] ) ) {
+                $errors['duration_interval'] = "Please enter a duration interval.";
+            }
+            
+            if ( empty( $params['period_type'] ) ) {
+                $errors['period_type'] = "Please select a period type.";
+            }
+            
+            if ( $params['period_type']   == 'fixed'  && 
+                 $params['duration_unit'] == 'day' ) {
+                $errors['period_type'] = "Period type should be Rolling when duration unit is Day";
+            }
+            
+            if( ( $params['period_type']   == 'fixed' ) && 
+                ( $params['duration_unit'] == 'year'  ) ) {
+                $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
+                foreach ( $periods as $period ) {
+                    $month = $params[$period]['M'];
+                    $date  = $params[$period]['d'];
+                    if ( !$month || !$date ) {
+                        $errors[$period] = ts( "Please enter a valid " . str_replace( "_", " ", $period ) );
+                    }
+                }
+            }
+        }
+        
         if ( $params['fixed_period_start_day'] && ! empty( $params['fixed_period_start_day']) ) {
             $params['fixed_period_start_day']['Y'] = date('Y');
             if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_start_day'] ) ){
@@ -218,54 +266,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $errors['fixed_period_rollover_day'] = "Please enter valid 'Fixed Period Rollover Day' ";
             }
         }
-        
-        if ( !isset($params['_qf_MembershipType_refresh']) || !$params['_qf_MembershipType_refresh'] ) {
-            if ( !$params['name'] ) {
-                $errors['name'] = "Please enter a membership type name.";
-            }
-            //if ( !$params['contribution_type_id'] ) {
-            if ( ($params['minimum_fee'] > 0 ) && !$params['contribution_type_id'] ) {
-                $errors['contribution_type_id'] = "Please enter the contribution type.";
-            }
-            if ( !CRM_Utils_Array::value('contact_check',$params) && $params['action']!= CRM_Core_Action::UPDATE ) {
-                $errors['member_org'] = "Please select the membership organization";
-            }
-            /*
-            if ( $params['period_type'] == 'fixed' ) {
-                if ( !$params['fixed_period_start_day'] ) {
-                    $errors['fixed_period_start_day'] = "Please enter the 'Fixed period start day'.";
-                }
-            }
-            */
-            $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
-            if( $params['period_type'] == 'fixed') {
-                foreach ( $periods as $period ) {
-                    $mon = $params[$period]['M'];
-                    $dat = $params[$period]['d'];
-                    if ( !$mon || !$dat ) {
-                        $errors[$period] = "Please enter a valid 'fixed period day'.";
-                    }
-                }
-            }
-        
-            if ( empty( $params['contribution_type_id'] ) ) {
-                $errors['contribution_type_id'] = "Please enter a contribution type.";
-            }
-
-            if ( empty( $params['duration_unit'] ) ) {
-                $errors['duration_unit'] = "Please enter a duration unit.";
-            }            
-            
-            if ( empty( $params['duration_interval'] ) ) {
-                $errors['duration_interval'] = "Please enter a duration interval.";
-            }
-
-            if ( empty( $params['period_type'] ) ) {
-                $errors['period_type'] = "Please select a period type.";
-            }
-            
-        }
-        
+                
         return empty($errors) ? true : $errors;
     }
        

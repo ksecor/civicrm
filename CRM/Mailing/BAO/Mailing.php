@@ -941,7 +941,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $row = array();
             foreach(array(  'queue', 'delivered', 'url', 'forward',
                             'reply', 'unsubscribe', 'bounce') as $field) {
-                if (isset( $row[$field])){
+                if (isset( $mailing->$field )){
                     $row[$field] = $mailing->$field;
                 }
                 if (isset($report['event_totals'][$field])) {

@@ -333,7 +333,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 } else if ( isset($value['address']['country_id']) ) {
                     $countryId = $value['address']['country_id'];
                     if ( $countryId ) {
-                        $this->assign( "country_{$key}_value",  $countries[$countryId] );
+                        $this->assign( "country_{$key}_value",  CRM_Utils_Array::value($countryId,$countries) );
                         $this->assign( "country_{$key}_id"   ,  $countryId );
                     }
                 }

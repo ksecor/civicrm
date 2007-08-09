@@ -594,7 +594,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
                 if ( ( is_numeric( CRM_Utils_Array::value( 'geo_code_1', $row ) ) ) ||
                      ( $config->mapGeoCoding &&
-                       $row['city'] && $row['state_province'] ) ) {
+                       CRM_Utils_Array::value('city',$row) && $row['state_province'] ) ) {
                     $row['action']   = CRM_Core_Action::formLink( $links, $mask   , array( 'id' => $result->contact_id ) );
                 } else {
                     $row['action']   = CRM_Core_Action::formLink( $links, $mapMask, array( 'id' => $result->contact_id ) );

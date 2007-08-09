@@ -336,7 +336,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 if ($hasHeaders) {
                     // Infer the default from the skipped headers if we have them
                     $defaults["mapper[$i]"] = array(
-                                                           $this->defaultFromHeader($this->_columnHeaders[$i], 
+                                                           $this->defaultFromHeader(CRM_Utils_Array::value($i,$this->_columnHeaders), 
                                                                                     $headerPatterns),
                                                            //                     $defaultLocationType->id
                                                            0
