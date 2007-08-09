@@ -300,7 +300,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $fields[$name] = 1;
 
             // get the add to groups for uf fields
-            if ( $value['add_to_group_id'] ) {
+            if ( CRM_Utils_Array::value('add_to_group_id',$value) ) {
                 $addToGroups[$value['add_to_group_id']] = $value['add_to_group_id'];
             }
         }

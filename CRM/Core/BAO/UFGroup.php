@@ -505,6 +505,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             if ( $profileID ) {
                 // make sure profileID and ctype match if ctype exists
                 if ( $ctype ) {
+                    require_once 'CRM/Core/BAO/UFField.php';
                     $profileType = CRM_Core_BAO_UFField::getProfileType( $profileID );
                     if ( $profileType != $ctype ) {
                         return null;
@@ -902,7 +903,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     public static function del($id) 
     {                
         //check whether this group contains  any profile fields
-        require_once 'CRM/Core/DAO/UFField.php';
         require_once 'CRM/Core/BAO/UFField.php';
         $profileField = & new CRM_Core_DAO_UFField();
         $profileField->uf_group_id = $id;

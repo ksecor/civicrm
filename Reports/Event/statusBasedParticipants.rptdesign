@@ -7,13 +7,14 @@
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <parameters>
-        <parameter-group name="NewParameterGroup" id="151">
-            <text-property name="displayName">aa</text-property>
+        <parameter-group name="Event and Status" id="151">
+            <text-property name="displayName">Select Event and Status</text-property>
             <parameters>
                 <scalar-parameter name="event_title" id="150">
                     <property name="hidden">false</property>
                     <property name="valueType">dynamic</property>
                     <property name="dataType">string</property>
+                    <text-property name="promptText">Event</text-property>
                     <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <property name="dataSetName">eventTitle</property>
@@ -32,6 +33,7 @@
                 <scalar-parameter name="participant_status" id="167">
                     <property name="valueType">dynamic</property>
                     <property name="dataType">string</property>
+                    <text-property name="promptText">Status</text-property>
                     <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <property name="dataSetName">participantStatus</property>
@@ -564,11 +566,18 @@ where op.option_group_id = grp.id and grp.name="participant_status"</property>
                     <expression name="expression">dataSetRow["title"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">Status</property>
+                    <property name="displayName">Status</property>
+                    <expression name="expression">row["STATUS"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
             <column id="221"/>
             <column id="222"/>
             <column id="223"/>
             <column id="224"/>
+            <column id="256"/>
             <header>
                 <row id="237">
                     <property name="backgroundColor">#8FCBD8</property>
@@ -579,9 +588,14 @@ where op.option_group_id = grp.id and grp.name="participant_status"</property>
                         <property name="textAlign">center</property>
                         <property name="verticalAlign">middle</property>
                         <label id="247">
+                            <property name="fontWeight">bold</property>
                             <property name="color">#1B3337</property>
-                            <text-property name="text">Status Based Participants </text-property>
+                            <text-property name="text">Participants by Event and Status</text-property>
                         </label>
+                    </cell>
+                    <cell id="251">
+                        <property name="textAlign">center</property>
+                        <property name="verticalAlign">middle</property>
                     </cell>
                 </row>
                 <row id="242">
@@ -599,6 +613,7 @@ where op.option_group_id = grp.id and grp.name="participant_status"</property>
                             <property name="contentType">html</property>
                         </text-data>
                     </cell>
+                    <cell id="252"/>
                 </row>
                 <row id="206">
                     <property name="backgroundColor">#BAE0E8</property>
@@ -626,6 +641,12 @@ where op.option_group_id = grp.id and grp.name="participant_status"</property>
                             <text-property name="text">Role</text-property>
                         </label>
                     </cell>
+                    <cell id="253">
+                        <text id="257">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[Status]]></text-property>
+                        </text>
+                    </cell>
                 </row>
             </header>
             <detail>
@@ -636,6 +657,14 @@ where op.option_group_id = grp.id and grp.name="participant_status"</property>
                     <property name="color">#1B3337</property>
                     <property name="textAlign">left</property>
                     <property name="verticalAlign">middle</property>
+                    <list-property name="highlightRules">
+                        <structure>
+                            <property name="operator">eq</property>
+                            <property name="color">#FF3D15</property>
+                            <expression name="testExpr">row["STATUS"]</expression>
+                            <expression name="value1">'Cancelled'</expression>
+                        </structure>
+                    </list-property>
                     <cell id="212">
                         <data id="230">
                             <property name="resultSetColumn">display_name</property>
@@ -656,6 +685,11 @@ where op.option_group_id = grp.id and grp.name="participant_status"</property>
                             <property name="resultSetColumn">ROLE</property>
                         </data>
                     </cell>
+                    <cell id="254">
+                        <data id="258">
+                            <property name="resultSetColumn">Status</property>
+                        </data>
+                    </cell>
                 </row>
             </detail>
             <footer>
@@ -666,6 +700,7 @@ where op.option_group_id = grp.id and grp.name="participant_status"</property>
                     <cell id="218"/>
                     <cell id="219"/>
                     <cell id="220"/>
+                    <cell id="255"/>
                 </row>
             </footer>
         </table>
