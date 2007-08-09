@@ -6,11 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-01 14:27+0200\n"
-"PO-Revision-Date: 2007-08-01 14:27+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2007-08-09 05:27-0700\n"
+"Last-Translator: Dave McLachlan <dave@macs.id.au>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.1\n"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -30,7 +31,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Full street address (e.g. 110 Main Street)."
-msgstr "Full street address (e.g. 110 Main Street)."
+msgstr "Full street address (e.g. 110 Wallaby Street)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 1 (line is skipped if empty)."
@@ -42,7 +43,7 @@ msgstr "Supplemental address 2 (line is skipped if empty)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "City."
-msgstr "City."
+msgstr "Suburb/City."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -50,25 +51,25 @@ msgid ""
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
-"County name. If you want to include the county in your mailing labels, the "
-"<strong>Include Counties</strong> setting must be enabled on this screen, "
-"and county names must be added to the civicrm_county table in your database."
+"Shire name. If you want to include the county in your mailing labels, the "
+"<strong>Include Shires</strong> setting must be enabled on this screen, and "
+"shire names must be added to the civicrm_county table in your database."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>abbreviation</strong>."
-msgstr "State or province <strong>abbreviation</strong>."
+msgstr "State or Territory <strong>abbreviation</strong>."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>full name</strong>."
-msgstr "State or province <strong>full name</strong>."
+msgstr "State or Territory <strong>full name</strong>."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Postal code."
-msgstr "Postal code."
+msgstr "Postcode."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Country name (e.g. Canada)."
-msgstr "Country name (e.g. Canada)."
+msgstr "Country name (e.g. Australia)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Add spaces or punctuation to layout by surrounding them with brackets."
@@ -88,9 +89,9 @@ msgid ""
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
-"County name. If you want to include the county in your screen displays, the "
-"<strong>Include Counties</strong> setting must be enabled on this screen, "
-"and county names must be added to the civicrm_county table in your database."
+"Shire name. If you want to include the shire in your screen displays, the "
+"<strong>Include Shires</strong> setting must be enabled on this screen, and "
+"shire names must be added to the civicrm_county table in your database."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -488,9 +489,10 @@ msgstr ""
 "If multiple boxes are checked for Contact Types, Groups, Tags and Location "
 "Types, the selections are combined as <strong>OR</strong> criteria (e.g. "
 "checking 'Group A' and 'Group B' will find contacts who are either in 'Group "
-"A' OR 'Group B'). All other search fields are combined as <strong>AND</"
-"strong> criteria (e.g. selecting Tag is 'Major Donor' AND Country is "
-"'Mexico' returns only those contacts who meet both criteria)."
+"A' OR 'Group B'). All other search fields are combined as "
+"<strong>AND</strong> criteria (e.g. selecting Tag is 'Major Donor' AND "
+"Country is 'New Zealand' returns only those contacts who meet both "
+"criteria)."
 
 #: templates/CRM/Contact/Form/Search/Builder.hlp
 msgid ""
@@ -513,8 +515,8 @@ msgstr ""
 "Create your search by selecting the criteria (record type and field), the "
 "comparison operator, and entering the value you want to search for. You can "
 "define one or many criteria as a set: <em>Include contacts where... State IS "
-"Washington AND City IS Seattle AND Birth Date is later than (>) Jan 1, 1985</"
-"em>"
+"Victoria AND City IS Bendigo AND Birth Date is later than (>) 1 Jan "
+"1985</em>"
 
 #: templates/CRM/Contact/Form/Search/Builder.hlp
 msgid ""
@@ -523,8 +525,8 @@ msgid ""
 "than (>) Jan 1, 1985</em>"
 msgstr ""
 "You can also create additional sets of criteria: <em>Also include contacts "
-"where... State IS California AND City IS Los Angeles AND Birth Date is later "
-"than (>) Jan 1, 1985</em>"
+"where... State IS Tasmania AND City IS Hobart AND Birth Date is later than "
+"(>) 1 Jan 1985</em>"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
