@@ -58,7 +58,8 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
      * @static
      */
     static function add( &$params, &$ids, $locationId, $openIdId, &$isPrimary ) {
-        /*
+
+      /*      
         print "adding an OpenID to the database<br/>";
         print "\$params:";
         print_r($params);
@@ -66,7 +67,7 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
         print "\$ids:";
         print_r($ids);
         print "<br/>";
-        */
+      */
         // if no data and we are not updating an exisiting record
         if ( ! self::dataExists( $params, $locationId, $openIdId, $ids ) ) {
             return null;

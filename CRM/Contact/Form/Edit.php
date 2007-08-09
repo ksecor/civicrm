@@ -170,6 +170,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // this is update mode, first get the id from the session
             // else get it from the REQUEST
             $ids = $this->get('ids');
+	    //	    CRM_Core_Error::debug('p', $_REQUEST);
+
             $this->_contactId = CRM_Utils_Array::value( 'contact', $ids );
           
             if ( ! $this->_contactId ) {
@@ -196,7 +198,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
                 //get the no of locations for the contact
                 $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
-
                 return;
             }
 

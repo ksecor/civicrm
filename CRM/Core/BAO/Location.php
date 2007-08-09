@@ -69,7 +69,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         if ( ! self::dataExists( $params, $locationId, $ids ) ) {
             return null;
         }
-
+	//	print "About to edit location data";
         $location =& new CRM_Core_BAO_Location( );
         
         if (! isset($params['contact_id'])) {
@@ -166,6 +166,7 @@ UPDATE civicrm_location
             $location->phone [$i] = CRM_Core_BAO_Phone::add ( $params, $ids, $locationId, $i, $isPrimaryPhone  );
             $location->email [$i] = CRM_Core_BAO_Email::add ( $params, $ids, $locationId, $i, $isPrimaryEmail  );
             $location->im    [$i] = CRM_Core_BAO_IM::add    ( $params, $ids, $locationId, $i, $isPrimaryIm     );
+	    //	    CRM_Core_Error::debug('p', 'About to add openid');
             $location->openid[$i] = CRM_Core_BAO_OpenID::add( $params, $ids, $locationId, $i, $isPrimaryOpenid );
         }
 

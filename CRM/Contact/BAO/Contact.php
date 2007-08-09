@@ -330,7 +330,7 @@ ORDER BY
     static function add(&$params, &$ids) 
     {
       //      CRM_Core_Error::debug('p','oh');   
-     $contact =& new CRM_Contact_BAO_Contact();
+        $contact =& new CRM_Contact_BAO_Contact();
         
         if ( empty($params) ) {
             return;
@@ -364,6 +364,9 @@ ORDER BY
                 $contact->preferred_communication_method = '';
             }
         }
+	//CRM_Core_Error::debug('p', $params);
+	//CRM_Core_Error::debug('p','oh');   
+
 
         $contact->copyValues($params);
 
@@ -390,6 +393,8 @@ ORDER BY
                 $suffix = $suffixes[$suffix_id];
             }
             
+	    //  CRM_Core_Error::debug('p','oh');   
+
             // a comma should only be present if both first_name and last name are present.
             if ($firstName && $lastName) {
                 $sortName = "$lastName, $firstName";
@@ -435,6 +440,8 @@ ORDER BY
                     }
                 }
             }
+	    //      CRM_Core_Error::debug('p','oh');   
+
             if (trim($sortName)) {
                 $contact->sort_name    = trim($sortName);
             }
@@ -457,6 +464,7 @@ ORDER BY
                     break;
                 }
             }
+	    //CRM_Core_Error::debug('p','oh');   
 
             $uniqId = $params['user_unique_id'];
             if (empty($contact->display_name)) {
@@ -476,6 +484,7 @@ ORDER BY
         } else if ($contact->contact_type == 'Household') {
             $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
         } else {
+
             $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('organization_name', $params, '') ;
         }
 
@@ -493,13 +502,18 @@ ORDER BY
         if ( ( ! array_key_exists( 'hash', $contact ) || ! $contact->hash ) && ! $contact->id ) {
             $contact->hash = md5( uniqid( rand( ), true ) );
         }
-
+	//	CRM_Core_Error::debug('p','oh');   
+	CRM_Core_Error::debug('p', $params);
+	CRM_Core_Error::debug('p', $contact);
         $contact->save( );
-        require_once 'CRM/Core/BAO/Log.php';
-        CRM_Core_BAO_Log::register( $contact->id,
+	//CRM_Core_Error::debug('p','no');   
+
+       require_once 'CRM/Core/BAO/Log.php';
+       CRM_Core_BAO_Log::register( $contact->id,
                                     'civicrm_contact',
                                     $contact->id );
-                                  
+       //CRM_Core_Error::debug('p','oh');   
+                           
         return $contact;
     }
 
@@ -638,8 +652,9 @@ ORDER BY
 
         // update the UF user_unique_id if that has changed
         require_once 'CRM/Core/BAO/UFMatch.php';
-        CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
 
+        CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
+	//exit(0);
         // add custom field values
         if ( CRM_Utils_Array::value( 'custom', $params ) ) {
             foreach ($params['custom'] as $customValue) {
