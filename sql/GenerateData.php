@@ -1367,78 +1367,77 @@ VALUES
 
 
 
-  function addEventPage()
+    function addEventPage()
     {
-      $event = "INSERT INTO civicrm_event_page
-      (id, event_id, intro_text, footer_text, confirm_title, confirm_text, confirm_footer_text, is_email_confirm, confirm_email_text, confirm_from_name, confirm_from_email, cc_confirm, bcc_confirm, default_fee_id, thankyou_title, thankyou_text, thankyou_footer_text)
+        $event = "INSERT INTO civicrm_event_page
+        (id, event_id, intro_text, footer_text, confirm_title, confirm_text, confirm_footer_text, is_email_confirm, confirm_email_text, confirm_from_name, confirm_from_email, cc_confirm, bcc_confirm, default_fee_id, thankyou_title, thankyou_text, thankyou_footer_text)
       VALUES 
-      (1, 1, 'Fill in the information below to join as at this wonderful dinner event.', NULL, 'Confirm Your Registration Information', 'Review the information below carefully.', NULL, 1, 'Contact the Development Department if you need to make any changes to your registration.', 'Fundraising Dept.', 'development@example.org', NULL, NULL, 22, 'Thanks for Registering!', '<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about this wonderful event.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>'),
-      (2, 2, 'Complete the form below and click Continue to register online for the festival. Or you can register by calling us at 204 222-1000 ext 22.', '', 'Confirm Your Registration Information', '', '', 1, 'This email confirms your registration. If you have questions or need to change your registration - please do not hesitate to call us.', 'Event Dept.', 'events@example.org', '', NULL, 25, 'Thanks for Your Joining In!', '<p>Thank you for your support. Your participation will help build new parks.</p><p>Please tell your friends and colleagues about the concert.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>'),
-      (3, 3, 'Complete the form below to register your team for this year''s tournament.', '<em>A Soccer Youth Event</em>', 'Review and Confirm Your Registration Information', '', '<em>A Soccer Youth Event</em>', 1, 'Contact our Tournament Director for eligibility details.', 'Tournament Director', 'tournament@example.org', '', NULL, 31, 'Thanks for Your Support!', '<p>Thank you for your support. Your participation will help save thousands of acres of rainforest.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>')
+        (1, 1, 'Fill in the information below to join as at this wonderful dinner event.', NULL, 'Confirm Your Registration Information', 'Review the information below carefully.', NULL, 1, 'Contact the Development Department if you need to make any changes to your registration.', 'Fundraising Dept.', 'development@example.org', NULL, NULL, 22, 'Thanks for Registering!', '<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about this wonderful event.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>'),
+        (2, 2, 'Complete the form below and click Continue to register online for the festival. Or you can register by calling us at 204 222-1000 ext 22.', '', 'Confirm Your Registration Information', '', '', 1, 'This email confirms your registration. If you have questions or need to change your registration - please do not hesitate to call us.', 'Event Dept.', 'events@example.org', '', NULL, 25, 'Thanks for Your Joining In!', '<p>Thank you for your support. Your participation will help build new parks.</p><p>Please tell your friends and colleagues about the concert.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>'),
+        (3, 3, 'Complete the form below to register your team for this year''s tournament.', '<em>A Soccer Youth Event</em>', 'Review and Confirm Your Registration Information', '', '<em>A Soccer Youth Event</em>', 1, 'Contact our Tournament Director for eligibility details.', 'Tournament Director', 'tournament@example.org', '', NULL, 31, 'Thanks for Your Support!', '<p>Thank you for your support. Your participation will help save thousands of acres of rainforest.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>')
       ";
-      CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
-
-
- function addEventLocation()
-    {
-    $event = "INSERT INTO civicrm_location (id, entity_table, entity_id, location_type_id, is_primary, name)
-    VALUES
-    (87, 'civicrm_event', 1, 1, 0, 'Echo Park Rec Center'),
-    (88, 'civicrm_event', 2, 3, 0, 'Johnson Pavilion'),
-    (89, 'civicrm_event', 3, 3, 1, 'Capitol Fields')
-    ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
 
-function addEventLocationAddress()
-  {
 
-    $event = "INSERT INTO civicrm_address (id, location_id, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_coord_id, geo_code_1, geo_code_2, timezone, note)
-    VALUES
-    (87, 87, 'S 14S El Camino Way E', 14, 'S', NULL, 'El Camino', 'Way', NULL, NULL, NULL, NULL, NULL, 'Collinsville', NULL, 1006, NULL, '6022', NULL, 1228, 1, 41.8328, -72.9253, NULL, NULL),
-    (88, 88, 'E 11B Woodbridge Path SW', 11, 'B', NULL, 'Woodbridge', 'Path', NULL, NULL, NULL, NULL, NULL, 'Dayton', NULL, 1034, NULL, '45417', NULL, 1228, 1, 39.7531, -84.2471, NULL, NULL),
-    (89, 89, 'E 581O Lincoln Dr SW', 581, 'O', NULL, 'Lincoln', 'Dr', NULL, NULL, NULL, NULL, NULL, 'Santa Fe', NULL, 1030, NULL, '87594', NULL, 1228, 1, 35.5212, -105.982, NULL, NULL)
-    ";
-    CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
-   }
-
-function addEventPhone()
+    function addEventLocation()
     {
-    $event = "INSERT INTO civicrm_phone (id, location_id, is_primary, mobile_provider_id, phone, phone_type)
-    VALUES
-    (117, 87, 1, 0, '204 222-1000', 'Phone'),
-    (118, 88, 1, 0, '204 222-1000', 'Phone'),
-    (119, 89, 1, 0, '303 323-1000', 'Phone')
-    ";
-    CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
-
-function addEventemail()
-    {
-    $event = "INSERT INTO civicrm_email (id, location_id, email, is_primary, on_hold, hold_date, reset_date)
-    VALUES
-    (149, 87, 'development@example.org', 1, 0, NULL, NULL),
-    (151, 89, 'tournaments@example.org', 1, 0, NULL, NULL)
-         ";
+        $event = "INSERT INTO civicrm_location (id, address_id, email_id, phone_id, im_id, address_2_id, email_2_id, phone_2_id, im_2_id)
+      VALUES
+      (1, 'civicrm_event', 1, 1, 0, 'Echo Park Rec Center'),
+      (2, 'civicrm_event', 2, 3, 0, 'Johnson Pavilion'),
+      (3, 'civicrm_event', 3, 3, 1, 'Capitol Fields')
+      ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
 
-function addEventFeeLabel()
+    function addEventLocationAddress()
     {
-    $event = "INSERT INTO civicrm_custom_option (id, entity_table, entity_id, label, value, weight, is_active)
-    VALUES
-    (22, 'civicrm_event_page', 1, 'Single', '50', 1, 1),
-    (23, 'civicrm_event_page', 1, 'Couple', '100', 2, 1),
-    (24, 'civicrm_event_page', 1, 'Family', '200', 3, 1),
-    (25, 'civicrm_event_page', 2, 'Bass', '25', 1, 1),
-    (26, 'civicrm_event_page', 2, 'Tenor', '40', 2, 1),
-    (27, 'civicrm_event_page', 2, 'Soprano', '50', 3, 1),
-    (31, 'civicrm_event_page', 3, 'Tiny-tots (ages 5-8)', '800', 1, 1),
-    (32, 'civicrm_event_page', 3, 'Junior Stars (ages 9-12)', '1000', 2, 1),
-    (33, 'civicrm_event_page', 3, 'Super Stars (ages 13-18)', '1500', 3, 1)
-    ";
-    CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+        $event = "INSERT INTO civicrm_address (id, contact_id, location_type_id, is_primary, is_billing, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_coord_id, geo_code_1, geo_code_2, timezone)
+      VALUES
+      (86, 87, 1, 1, 1, 'S 14S El Camino Way E', 14, 'S', NULL, 'El Camino', 'Way', NULL, NULL, NULL, NULL, NULL, 'Collinsville', NULL, 1006, NULL, '6022', NULL, 1228, 1, 41.8328, -72.9253, NULL),
+      (87, 88, 1, 1, 1, 'E 11B Woodbridge Path SW', 11, 'B', NULL, 'Woodbridge', 'Path', NULL, NULL, NULL, NULL, NULL, 'Dayton', NULL, 1034, NULL, '45417', NULL, 1228, 1, 39.7531, -84.2471, NULL),
+      (88, 89, 1, 1, 1, 'E 581O Lincoln Dr SW', 581, 'O', NULL, 'Lincoln', 'Dr', NULL, NULL, NULL, NULL, NULL, 'Santa Fe', NULL, 1030, NULL, '87594', NULL, 1228, 1, 35.5212, -105.982, NULL)
+      ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
+    }
+
+    function addEventPhone()
+    {
+        $event = "INSERT INTO civicrm_phone (id, contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type)
+      VALUES
+      (121, 87, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
+      (122, 88, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
+      (123, 89, 1, 0, 0, NULL,'303 323-1000', 'Phone')
+      ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+    }
+
+    function addEventemail()
+    {
+        $event = "INSERT INTO civicrm_email (contact_id, location_type_id, email, is_primary, is_billing, on_hold, hold_date, reset_date)
+      VALUES
+      (87, 1, 'development@example.org', 0, 0, 0, NULL, NULL),
+      (89, 1, 'tournaments@example.org', 0, 0, 0, NULL, NULL)
+      ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+    }
+
+    function addEventFeeLabel()
+    {
+        $event = "INSERT INTO civicrm_custom_option (id, entity_table, entity_id, label, value, weight, is_active)
+      VALUES
+      (22, 'civicrm_event_page', 1, 'Single', '50', 1, 1),
+      (23, 'civicrm_event_page', 1, 'Couple', '100', 2, 1),
+      (24, 'civicrm_event_page', 1, 'Family', '200', 3, 1),
+      (25, 'civicrm_event_page', 2, 'Bass', '25', 1, 1),
+      (26, 'civicrm_event_page', 2, 'Tenor', '40', 2, 1),
+      (27, 'civicrm_event_page', 2, 'Soprano', '50', 3, 1),
+      (31, 'civicrm_event_page', 3, 'Tiny-tots (ages 5-8)', '800', 1, 1),
+      (32, 'civicrm_event_page', 3, 'Junior Stars (ages 9-12)', '1000', 2, 1),
+      (33, 'civicrm_event_page', 3, 'Super Stars (ages 13-18)', '1500', 3, 1)
+      ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
 
 
@@ -1454,33 +1453,58 @@ function addEventFeeLabel()
         
         $participant = "
 INSERT INTO civicrm_participant
-        (contact_id, event_id, status_id, role_id, register_date, source, event_level)
+        (contact_id, event_id, status_id, role_id, register_date, source, event_level, is_test)
 VALUES
-        ( ". $randomContacts[0]  .", 1, 1, 1, '2006-01-21', '', 'Single'),
-        ( ". $randomContacts[1]  .", 2, 2, 2,'2007-05-07', '', 'Soprano'),
-        ( ". $randomContacts[2]  .", 3, 3, 3,'2007-05-05', '', 'Tiny-tots (ages 5-8)') ,
-        ( ". $randomContacts[3]  .", 1, 4, 4,'2007-10-21', '', 'Single'),
-        ( ". $randomContacts[4]  .", 1, 1, 1,'2007-01-10', '', 'Soprano'),
-        ( ". $randomContacts[5]  .", 2, 2, 2,'2007-03-05', '', 'Tiny-tots (ages 5-8)'),
-        ( ". $randomContacts[6]  .", 3, 3, 3,'2006-07-21', '', 'Single'),
-        ( ". $randomContacts[7]  .", 1, 4, 4,'2006-03-07', '', 'Soprano'),
-        ( ". $randomContacts[8]  .", 3, 1, 1, '2007-02-05', '', 'Tiny-tots (ages 5-8)'),
-        ( ". $randomContacts[9]  .", 1, 2, 2, '2007-02-01', '', 'Single'),
-        ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10','', 'Soprano'),
-        ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06','', 'Tiny-tots (ages 5-8)'),
-        ( ". $randomContacts[12]  .", 1, 1, 2,'2007-06-04', '', 'Single'),
-        ( ". $randomContacts[13]  .", 2, 2, 3,'2004-01-10', '', 'Soprano'),
-        ( ". $randomContacts[14]  .", 2, 4, 1,'2007-07-04', '', 'Tiny-tots (ages 5-8)'),
-        ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', '', 'Single'),
-        ( ". $randomContacts[16]  .", 2, 2, 3, '2007-01-10', '', 'Soprano'),
-        ( ". $randomContacts[17]  .", 3, 3, 1,'2006-03-05', '', 'Tiny-tots (ages 5-8)'),
-        ( ". $randomContacts[18]  .", 1, 2, 1, '2007-10-21', '', 'Single'),
-        ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', '', 'Soprano'),
-        ( ". $randomContacts[20]  .", 2, 1, 4, '2007-03-25', '', 'Tiny-tots (ages 5-8)'),
-        ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', '', 'Single'),
-        ( ". $randomContacts[22]  .", 2, 4, 1, '2007-01-10', '', 'Soprano'),
-        ( ". $randomContacts[23]  .", 2, 3, 1,'2007-03-11', '', 'Tiny-tots (ages 5-8)'),
-        ( ". $randomContacts[24]  .", 3, 2, 2, '2007-04-05', '', 'Tiny-tots (ages 5-8)');
+        ( ". $randomContacts[0]  .", 1, 1, 1, '2006-01-21', '', 'Single', 0),
+        ( ". $randomContacts[1]  .", 2, 2, 2,'2005-05-07', '', 'Soprano', 0),
+        ( ". $randomContacts[2]  .", 3, 3, 3,'2005-05-05', '', 'Tiny-tots (ages 5-8)', 0) ,
+        ( ". $randomContacts[3]  .", 1, 4, 4,'2005-10-21', '', 'Single', 0),
+        ( ". $randomContacts[4]  .", 1, 1, 1,'2005-01-10', '', 'Soprano', 0),
+        ( ". $randomContacts[5]  .", 2, 2, 2,'2005-03-05', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[6]  .", 3, 3, 3,'2006-07-21', '', 'Single', 0),
+        ( ". $randomContacts[7]  .", 1, 4, 4,'2006-03-07', '', 'Soprano', 0),
+        ( ". $randomContacts[8]  .", 3, 1, 1, '2005-02-05', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[9]  .", 1, 2, 2, '2005-02-01', '', 'Single', 0),
+        ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10','', 'Soprano', 0),
+        ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06','', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[12]  .", 1, 1, 2,'2005-06-04', '', 'Single', 0),
+        ( ". $randomContacts[13]  .", 2, 2, 3,'2004-01-10', '', 'Soprano', 0),
+        ( ". $randomContacts[14]  .", 2, 4, 1,'2005-07-04', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', '', 'Single', 0),
+        ( ". $randomContacts[16]  .", 2, 2, 3, '2005-01-10', '', 'Soprano', 0),
+        ( ". $randomContacts[17]  .", 3, 3, 1,'2006-03-05', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[18]  .", 1, 2, 1, '2005-10-21', '', 'Single', 0),
+        ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', '', 'Soprano', 0),
+        ( ". $randomContacts[20]  .", 2, 1, 4, '2005-03-25', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', '', 'Single', 0),
+        ( ". $randomContacts[22]  .", 2, 4, 1, '2005-01-10', '', 'Soprano', 0),
+        ( ". $randomContacts[23]  .", 2, 3, 1,'2005-03-11', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[24]  .", 3, 2, 2, '2005-04-05', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[0]  .", 1, 1, 1, '2006-01-21', '', 'Single', 0),
+        ( ". $randomContacts[1]  .", 2, 2, 2,'2007-05-07', '', 'Soprano', 0),
+        ( ". $randomContacts[2]  .", 3, 3, 3,'2007-05-05', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[3]  .", 1, 4, 4,'2007-10-21', '', 'Single', 0),
+        ( ". $randomContacts[4]  .", 1, 1, 1,'2007-01-10', '', 'Soprano', 0),
+        ( ". $randomContacts[5]  .", 2, 2, 2,'2007-03-05', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[6]  .", 3, 3, 3,'2006-07-21', '', 'Single', 0),
+        ( ". $randomContacts[7]  .", 1, 4, 4,'2006-03-07', '', 'Soprano', 0),
+        ( ". $randomContacts[8]  .", 3, 1, 1, '2007-02-05', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[9]  .", 1, 2, 2, '2007-02-01', '', 'Single', 0),
+        ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10','', 'Soprano', 0),
+        ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06','', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[12]  .", 1, 1, 2,'2007-06-04', '', 'Single', 0),
+        ( ". $randomContacts[13]  .", 2, 2, 3,'2004-01-10', '', 'Soprano', 0),
+        ( ". $randomContacts[14]  .", 2, 4, 1,'2007-07-04', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', '', 'Single', 0),
+        ( ". $randomContacts[16]  .", 2, 2, 3, '2007-01-10', '', 'Soprano', 0),
+        ( ". $randomContacts[17]  .", 3, 3, 1,'2006-03-05', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[18]  .", 1, 2, 1, '2007-10-21', '', 'Single', 0),
+        ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', '', 'Soprano', 0),
+        ( ". $randomContacts[20]  .", 2, 1, 4, '2007-03-25', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', '', 'Single', 0),
+        ( ". $randomContacts[22]  .", 2, 4, 1, '2007-01-10', '', 'Soprano', 0),
+        ( ". $randomContacts[23]  .", 2, 3, 1,'2007-03-11', '', 'Tiny-tots (ages 5-8)', 0),
+        ( ". $randomContacts[24]  .", 3, 2, 2, '2007-04-05', '', 'Tiny-tots (ages 5-8)', 0);
 ";
         CRM_Core_DAO::executeQuery( $participant, CRM_Core_DAO::$_nullArray );
         
@@ -1553,14 +1577,14 @@ $obj1->addMembership();
 $obj1->addMembershipLog();
 $obj1->addEvent();
 $obj1->addEventPage();
-/** FIXME FOR NEW address model
-add_contributions( );
-$obj1->addEventLocation();
 $obj1->addEventLocationAddress();
 $obj1->addEventPhone();
 $obj1->addEventemail();
-$obj1->addEventFeeLabel();
 $obj1->addParticipant();
+/** FIXME FOR NEW address model
+add_contributions( );
+$obj1->addEventFeeLabel();
+$obj1->addEventLocation();
 **/
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
