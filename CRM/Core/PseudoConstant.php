@@ -457,7 +457,7 @@ class CRM_Core_PseudoConstant
      */
     public static function &stateProvince($id = false, $limit = true)
     {
-        if ( !self::$stateProvince ) {
+        if ( !self::$stateProvince || !$id ) {
             $whereClause = false;
             $config =& CRM_Core_Config::singleton();
             if ( $limit ) {
@@ -483,8 +483,8 @@ class CRM_Core_PseudoConstant
                 asort(self::$stateProvince);
             }
         }
-        if ($id) {
-            if (array_key_exists("$id", self::$stateProvince)) {
+        if ( $id ) {
+            if ( array_key_exists( $id, self::$stateProvince) ) {
                 return self::$stateProvince[$id];
             } else {
                 $result = null;
@@ -506,7 +506,7 @@ class CRM_Core_PseudoConstant
      */
     public static function &stateProvinceAbbreviation($id = false, $limit = true )
     {
-        if (!self::$stateProvinceAbbreviation) {
+        if (!self::$stateProvinceAbbreviation || !$id ) {
 
             // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
             $whereClause = false;
@@ -531,7 +531,7 @@ class CRM_Core_PseudoConstant
         }
 
         if ($id) {
-            if (array_key_exists($id, self::$stateProvinceAbbreviation)) {
+            if (array_key_exists( $id, self::$stateProvinceAbbreviation) ) {
                 return self::$stateProvinceAbbreviation[$id];
             } else {
                 $result = null;
@@ -560,7 +560,7 @@ class CRM_Core_PseudoConstant
      */
     public static function country($id = false) 
     {
-        if (!self::$country) {
+        if ( !self::$country || !$id ) {
 
             $config =& CRM_Core_Config::singleton();
 
@@ -599,7 +599,7 @@ class CRM_Core_PseudoConstant
             }
         }
         if ($id) {
-            if (array_key_exists("$id" , self::$country)) {
+            if (array_key_exists( $id , self::$country)) {
                 return self::$country[$id];
             } else {
                 return null;

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-01 14:27+0200\n"
+"POT-Creation-Date: 2007-08-09 09:45+0200\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "MIME-Version: 1.0\n"
@@ -1769,10 +1769,10 @@ msgid "Field Label"
 msgstr "Kentän tunnus"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#: CRM/Price/Form/Field.php
-#, fuzzy
-msgid "Please enter a valid value for this field."
-msgstr "Anna kelvollinen summa tälle kentälle (esim. 99,99)"
+msgid ""
+"Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
+"spaces and underline ( _ ) characters."
+msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -6412,6 +6412,14 @@ msgid "Default"
 msgstr "Oletusarvo"
 
 #: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same label."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same value."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
 msgid "Please enter a valid integer value."
 msgstr "Anna kokonaisluku."
 
@@ -6749,10 +6757,6 @@ msgid "Invalid Email address"
 msgstr "Viallinen sähköpostiosoite"
 
 #: CRM/Import/Parser/Contact.php
-msgid "Email address conflicts with record %1"
-msgstr "Sähköpostiosoite eroaa tiedosta %1"
-
-#: CRM/Import/Parser/Contact.php
 #, fuzzy
 msgid "External Identifier conflicts with record %1"
 msgstr "Sähköpostiosoite eroaa tiedosta %1"
@@ -6839,6 +6843,11 @@ msgstr "Profiili"
 #, fuzzy
 msgid " must be a monetary value"
 msgstr "Täytyy olla numeerinen arvo"
+
+#: CRM/Price/Form/Field.php
+#, fuzzy
+msgid "Please enter a valid value for this field."
+msgstr "Anna kelvollinen summa tälle kentälle (esim. 99,99)"
 
 #: CRM/Price/Form/Field.php
 msgid "Enter Quantity?"
@@ -7435,6 +7444,10 @@ msgstr "Anna kokonaisluku"
 msgid ""
 "Input text must match the phrase in the image. Please review the image and "
 "re-enter matching text."
+msgstr ""
+
+#: CRM/Utils/Date.php
+msgid "Please contact CiviCRM support"
 msgstr ""
 
 #: CRM/Utils/Pager.php
@@ -12655,6 +12668,9 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Email address conflicts with record %1"
+#~ msgstr "Sähköpostiosoite eroaa tiedosta %1"
 
 #~ msgid "Setup"
 #~ msgstr "Muodosta"

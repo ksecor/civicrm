@@ -157,8 +157,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         
             // the above value is used directly by QF, so the value has to be have a rule
             // please check with Lobo before u comment this
-            $this->addRule('value', ts('Please enter a valid value for this field. You may use a - z, A - Z,
-1 - 9, spaces and underline ( _ ) characters.'), 'qfVariable');
+            $this->addRule('value', ts('Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, spaces and underline ( _ ) characters.'), 'qfVariable');
 
             // weight
             $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
@@ -213,14 +212,14 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND label = '$optionLabel'";
            
             if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) { 
-                $errors['label'] = 'There is an entry with the same label.';
+                $errors['label'] = ts('There is an entry with the same label.');
             }
             
             //check value duplicates within a custom field
             $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND value = '$optionValue'";
             
             if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {  
-                $errors['value'] = 'There is an entry with the same value.';
+                $errors['value'] = ts('There is an entry with the same value.');
             }
                 
         } else {
@@ -233,13 +232,13 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND id != '$optionId' AND label = '$optionLabel'";
             
             if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {   
-                $errors['label'] = 'There is an entry with same label.';
+                $errors['label'] = ts('There is an entry with the same label.');
             }
             
             //check value duplicates within a custom field
             $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND id != '$optionId' AND value = '$optionValue'";
             if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {   
-                $errors['value'] = 'There is an entry with same value';
+                $errors['value'] = ts('There is an entry with the same value.');
             }
         }
 

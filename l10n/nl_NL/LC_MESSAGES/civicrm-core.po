@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-01 14:27+0200\n"
+"POT-Creation-Date: 2007-08-09 09:45+0200\n"
 "PO-Revision-Date: 2007-07-03 13:40+0100\n"
 "Last-Translator: Martin Niewzwaag <ma-ni@home.nl>\n"
 "Language-Team: \n"
@@ -1742,9 +1742,10 @@ msgid "Field Label"
 msgstr "Veld label"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#: CRM/Price/Form/Field.php
-msgid "Please enter a valid value for this field."
-msgstr "Voer in dit veld een geldige waarde in a.u.b."
+msgid ""
+"Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
+"spaces and underline ( _ ) characters."
+msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -6158,6 +6159,14 @@ msgid "Default"
 msgstr "Standaard"
 
 #: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same label."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same value."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
 msgid "Please enter a valid integer value."
 msgstr "Voer een geldig geheel getal in."
 
@@ -6488,10 +6497,6 @@ msgid "Invalid Email address"
 msgstr "Ongeldig e-mailadres"
 
 #: CRM/Import/Parser/Contact.php
-msgid "Email address conflicts with record %1"
-msgstr "E-mail adres is strijdig met record %1"
-
-#: CRM/Import/Parser/Contact.php
 #, fuzzy
 msgid "External Identifier conflicts with record %1"
 msgstr "E-mail adres is strijdig met record %1"
@@ -6577,6 +6582,10 @@ msgstr "Profiel"
 #, fuzzy
 msgid " must be a monetary value"
 msgstr "moet een numerieke waarde zijn"
+
+#: CRM/Price/Form/Field.php
+msgid "Please enter a valid value for this field."
+msgstr "Voer in dit veld een geldige waarde in a.u.b."
 
 #: CRM/Price/Form/Field.php
 msgid "Enter Quantity?"
@@ -7149,6 +7158,10 @@ msgid ""
 msgstr ""
 "De tekenreeks moet exact overeenkomen met de tekenreeks in de afbeelding. "
 "Hernieuw de afbeelding en voer de tekenreek opnieuw in."
+
+#: CRM/Utils/Date.php
+msgid "Please contact CiviCRM support"
+msgstr ""
 
 #: CRM/Utils/Pager.php
 msgid "Contacts %%StatusMessage%%"
@@ -12865,6 +12878,9 @@ msgstr "Bericht is onderschept door een contentfilter."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fout in SMTP transactie"
+
+#~ msgid "Email address conflicts with record %1"
+#~ msgstr "E-mail adres is strijdig met record %1"
 
 #~ msgid "Setup"
 #~ msgstr "Instelling"

@@ -5,10 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-01 14:27+0200\n"
-"PO-Revision-Date: 2007-07-22 22:11+0200\n"
+"POT-Creation-Date: 2007-08-09 09:45+0200\n"
+"PO-Revision-Date: 2007-07-25 01:37+0200\n"
 "Last-Translator: Claudiu Cristea <claudiu@cristea.info>\n"
-"Language-Team: Romanian <clau.cristea@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -497,7 +496,7 @@ msgstr "Nume Grup Opţiuni"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Page/PaymentProcessor.php
 msgid "Settings - Payment Processor"
-msgstr "Configuraţie - Procesor Plăţi"
+msgstr "Configuraţie - Procesor plăţi"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #, fuzzy
@@ -521,7 +520,7 @@ msgstr ""
 #: CRM/Core/Menu.php
 #, fuzzy
 msgid "Payment Processor Type"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
@@ -568,7 +567,7 @@ msgstr "Panou control contacte"
 #: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Menu.php
 msgid "Global Settings"
-msgstr "Configurare Globală"
+msgstr "Configurare globală"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -615,7 +614,7 @@ msgstr "Opţiuni"
 
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
-msgstr "Editează Regulă"
+msgstr "Editează regulă"
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
@@ -693,7 +692,7 @@ msgstr "Data finală"
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Dedupe/DAO/RuleGroup.php CRM/Import/Form/UploadFile.php
 msgid "Individual"
-msgstr "Individ"
+msgstr "Persoana"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -820,14 +819,13 @@ msgstr "Pagini Publice Utilizator şi Liste"
 #: CRM/Contact/DAO/Household.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php
 msgid "Household Name"
-msgstr "Nume gospodărie"
+msgstr "Nume familie"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "First Name"
 msgstr "Prenume"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid "Middle Name"
 msgstr "Prenume 2"
 
@@ -921,7 +919,7 @@ msgstr "Selectaţi locaţia"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
-msgstr "Administrează CiviCRM"
+msgstr "Administrare CiviCRM"
 
 #: CRM/Contact/Form/Domain.php CRM/Group/Form/Edit.php
 msgid "Name:"
@@ -1222,11 +1220,11 @@ msgstr "Şterge contacte din grup"
 
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
 msgid "Update Smart Group"
-msgstr "Actualizează Grup Inteligent"
+msgstr "Actualizare grup inteligent"
 
 #: CRM/Contact/Page/SavedSearch.php CRM/Group/Page/Group.php
 msgid "Do you really want to remove this Smart Group?"
-msgstr "Sigur ştergeţi acest Grup Inteligent?"
+msgstr "Sigur ştergeţi acest grup inteligent?"
 
 #: CRM/Contact/Page/View/Activity.php CRM/History/Selector/Activity.php
 #: templates/CRM/History/Form/Activity.tpl
@@ -1591,7 +1589,7 @@ msgstr "Valoare Opţiune"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/Menu.php
 msgid "Payment Processor"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
@@ -1747,9 +1745,10 @@ msgid "Field Label"
 msgstr "Etichetă Câmp"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#: CRM/Price/Form/Field.php
-msgid "Please enter a valid value for this field."
-msgstr "Vă rugăm introduceţi o valoare validă pentru acest câmp."
+msgid ""
+"Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
+"spaces and underline ( _ ) characters."
+msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -2231,12 +2230,12 @@ msgstr ""
 #: CRM/Admin/Form/PaymentProcessor.php
 #, fuzzy
 msgid "Is this Payment Processor active?"
-msgstr "Configuraţie - Procesor Plăţi"
+msgstr "Configuraţie - Procesor plăţi"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 #, fuzzy
 msgid "Is this Payment Processor the default?"
-msgstr "Configuraţie - Procesor Plăţi"
+msgstr "Configuraţie - Procesor plăţi"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the test or live section filled"
@@ -2303,7 +2302,7 @@ msgstr ""
 #: CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
 msgid "Is this Payment Processor Type active?"
-msgstr "Configuraţie - Procesor Plăţi"
+msgstr "Configuraţie - Procesor plăţi"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Is this Payment Processor Type the default?"
@@ -2358,7 +2357,7 @@ msgstr ""
 #: CRM/Admin/Form/Preferences/Display.php
 #, fuzzy
 msgid "Settings - Site Preferences"
-msgstr "Configuraţie - Procesor Plăţi"
+msgstr "Configuraţie - Procesor plăţi"
 
 #: CRM/Admin/Form/Preferences/Display.php
 #, fuzzy
@@ -2444,7 +2443,6 @@ msgid "Fatal Error Handler"
 msgstr "Eroare Fatală Manipulator"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Settings - Localization"
 msgstr "Configuraţie - Localizare"
 
@@ -2482,11 +2480,11 @@ msgstr "Ţara implicită"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Default Currency"
-msgstr "Moneda Implicită"
+msgstr "Moneda implicită"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Legacy Encoding"
-msgstr "Moştenire Encoding"
+msgstr "Moştenire encoding"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Settings - CiviMail"
@@ -2494,7 +2492,7 @@ msgstr "Configuraţie - CiviMail"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Period"
-msgstr "Perioadă Pregătire Mail"
+msgstr "Perioadă pregătire mail"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid " VERP Separator"
@@ -2502,19 +2500,19 @@ msgstr "Separator VERP"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Batch Limit"
-msgstr "Limiă Serie Mailer"
+msgstr "Limiă serie mailer"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Settings - Mapping Provider"
-msgstr "Configuraţie - Furnizor Hărţi"
+msgstr "Configuraţie - Furnizor hărţi"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Map Provider"
-msgstr "Furnizor Hărţi"
+msgstr "Furnizor hărţi"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Provider Key"
-msgstr "Cheie Furnizor"
+msgstr "Cheie furnizor"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Mapping features require PHP version 5 or greater"
@@ -2526,19 +2524,19 @@ msgstr "Configuraţie - Diverse"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "CiviCRM Version Check"
-msgstr "Verificare Versiune CiviCRM"
+msgstr "Verificare versiune CiviCRM"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font Path"
-msgstr "Cale Font Captcha"
+msgstr "Cale font captcha"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font"
-msgstr "Font Captcha"
+msgstr "Font captcha"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Settings - Upload Directories"
-msgstr "Configuraţie - Directoare de Încărcare"
+msgstr "Configuraţie - Directoare de încărcare"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Temporary Files"
@@ -2578,19 +2576,19 @@ msgstr "Utilizator SMTP"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Settings - Resource URLs"
-msgstr "Configuraţie - URL Resurse"
+msgstr "Configuraţie - URL resurse"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "CiviCRM Resource URL"
-msgstr "CiviCRM URL Resurse"
+msgstr "CiviCRM URL resurse"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Image Upload URL"
-msgstr "URL Încărcare Imagine"
+msgstr "URL Încărcare imagine"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Force Secure URLs (SSL)"
-msgstr "Forţează URL Securizat (SSL)"
+msgstr "Forţează URL securizat (SSL)"
 
 #: CRM/Admin/Page/DedupeFind.php
 #, fuzzy
@@ -2604,7 +2602,7 @@ msgstr ""
 #: CRM/Admin/Page/DedupeRules.php
 #, fuzzy
 msgid "Edit DedupeRule"
-msgstr "Editează Regulă"
+msgstr "Editează regulă"
 
 #: CRM/Admin/Page/DupeMatch.php
 msgid "Edit DupeMatch"
@@ -2777,43 +2775,43 @@ msgstr ""
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 #, fuzzy
 msgid "Edit Payment Processor"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #, fuzzy
 msgid "Disable Payment Processor"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #, fuzzy
 msgid "Enable Payment Processor"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 #, fuzzy
 msgid "Delete Payment Processor"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 #, fuzzy
 msgid "Edit Payment ProcessorType"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 #, fuzzy
 msgid "Disable Payment ProcessorType"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 #, fuzzy
 msgid "Enable Payment ProcessorType"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 #, fuzzy
 msgid "Delete Payment ProcessorType"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Are you sure you want to disable this relationship type?"
@@ -2887,7 +2885,6 @@ msgid "- Contact Fields -"
 msgstr "- Câmpuri Contact -"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "Note(s)"
 msgstr "Note"
 
@@ -2921,7 +2918,7 @@ msgstr "Ţara (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Prefix %2 \"%1\""
-msgstr "Prefix Individual %2 \"%1\""
+msgstr "Prefix individual %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix %2 \"%1\""
@@ -3338,7 +3335,7 @@ msgstr "Titlu post"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Contact is deceased"
-msgstr "Contact decedat"
+msgstr "Persoană decedată"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Deceased date"
@@ -3365,12 +3362,12 @@ msgstr "Dezactivează Opţiune"
 #: CRM/Contact/Form/Individual.php
 #, fuzzy
 msgid "Use Household Address"
-msgstr "Gospodărie nouă"
+msgstr "Familie nouă"
 
 #: CRM/Contact/Form/Individual.php
 #, fuzzy
 msgid "Select Household"
-msgstr "Gospodărie nouă"
+msgstr "Familie nouă"
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
@@ -3699,19 +3696,19 @@ msgstr "Total Contacte aflate deja în grup: %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Add Members to Household"
-msgstr "Adaugă Membri la Gospodărie"
+msgstr "Adaugă membri la familie"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Find Target Household"
-msgstr "Găseşte Gospodărie Ţintă"
+msgstr "Găseşte familie ţintă"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Add to Household"
-msgstr "Adaugă la Gospodărie"
+msgstr "Adaugă la familie"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Added Contact(s) to Household"
-msgstr "Contacte Adăugate la Gospodărie"
+msgstr "Persoane adăugate la gospodărie"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Find Target Organization"
@@ -4072,7 +4069,6 @@ msgid "Contact Tags"
 msgstr "Etichete contact"
 
 #: CRM/Contact/Page/View/UserDashBoard.php
-#, fuzzy
 msgid "You do not have permission to view this contact"
 msgstr "Nu aveţi suficiente drepturi pentru a vizualiza acest contact."
 
@@ -4149,7 +4145,7 @@ msgstr "Trimite SMS la contacte"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Household"
-msgstr "Adaugă contacte la gospodărie"
+msgstr "Adaugă persoane la familie"
 
 #: CRM/Contact/Task.php
 msgid "New Smart Group"
@@ -4460,7 +4456,7 @@ msgstr "Adăugare rapidă CiviCRM"
 
 #: CRM/Core/Block.php
 msgid "New Individual"
-msgstr "Individ nou"
+msgstr "Persoană nouă"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Search"
@@ -4489,10 +4485,9 @@ msgstr "Organizaţie nouă"
 
 #: CRM/Core/Block.php
 msgid "New Household"
-msgstr "Gospodărie nouă"
+msgstr "Familie nouă"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "Quest Search"
 msgstr "Caută"
 
@@ -5007,7 +5002,7 @@ msgstr ""
 #: CRM/Core/DAO/PaymentProcessorType.php
 #, fuzzy
 msgid "Payment Processor Title"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Label for User Name if used"
@@ -5310,12 +5305,12 @@ msgstr "Vizualizează tipuri de locaţii"
 #: CRM/Core/Invoke.php
 #, fuzzy
 msgid "View Payment Processors"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Core/Invoke.php
 #, fuzzy
 msgid "View Payment Processor Type"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Core/Invoke.php
 msgid "View Relationship Types"
@@ -5635,7 +5630,7 @@ msgstr ""
 #: CRM/Core/Menu.php
 #, fuzzy
 msgid "Payment Processor type information"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Core/Menu.php
 msgid "Quick Registration"
@@ -5676,7 +5671,7 @@ msgstr ""
 #: CRM/Core/Payment/AuthorizeNet.php
 #, fuzzy
 msgid "Key is not set for this payment processor"
-msgstr "Configuraţie - Procesor Plăţi"
+msgstr "Configuraţie - Procesor plăţi"
 
 #: CRM/Core/Payment/Dummy.php
 msgid "Dummy payment processor can not be used for live transactions"
@@ -5992,7 +5987,7 @@ msgstr "Moneris"
 #: CRM/Core/SelectValues.php
 #, fuzzy
 msgid "Test Payment Processor"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: CRM/Core/SelectValues.php
 msgid "Yahoo"
@@ -6166,6 +6161,14 @@ msgstr ""
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "Default"
 msgstr "Implicit"
+
+#: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same label."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
+msgid "There is an entry with the same value."
+msgstr ""
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter a valid integer value."
@@ -6498,10 +6501,6 @@ msgid "Invalid Email address"
 msgstr "Adresa email invalidă"
 
 #: CRM/Import/Parser/Contact.php
-msgid "Email address conflicts with record %1"
-msgstr "Adresa email e în conflict cu înregistrarea %1"
-
-#: CRM/Import/Parser/Contact.php
 #, fuzzy
 msgid "External Identifier conflicts with record %1"
 msgstr "Adresa email e în conflict cu înregistrarea %1"
@@ -6587,6 +6586,10 @@ msgstr "Profil"
 #, fuzzy
 msgid " must be a monetary value"
 msgstr "trebuie să fie o valoare numerică"
+
+#: CRM/Price/Form/Field.php
+msgid "Please enter a valid value for this field."
+msgstr "Vă rugăm introduceţi o valoare validă pentru acest câmp."
 
 #: CRM/Price/Form/Field.php
 msgid "Enter Quantity?"
@@ -7149,6 +7152,10 @@ msgstr ""
 msgid ""
 "Input text must match the phrase in the image. Please review the image and "
 "re-enter matching text."
+msgstr ""
+
+#: CRM/Utils/Date.php
+msgid "Please contact CiviCRM support"
 msgstr ""
 
 #: CRM/Utils/Pager.php
@@ -7834,7 +7841,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 #, fuzzy
 msgid "New Payment Processor"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid ""
@@ -7845,17 +7852,17 @@ msgstr ""
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 #, fuzzy
 msgid "New Payment Procesor Type"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 #, fuzzy
 msgid "Edit Payment Procesor Type"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 #, fuzzy
 msgid "Delete Payment Procesor Type"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 #, fuzzy
@@ -8695,7 +8702,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/Setting.tpl
 #, fuzzy
 msgid "Payment Processors"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -11652,7 +11659,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Home"
-msgstr "Acas["
+msgstr "Acasă"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Place of residence"
@@ -12059,7 +12066,7 @@ msgstr "Expirat"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Dummy Payment Processor"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Merchant Account Email"
@@ -12085,7 +12092,7 @@ msgstr ""
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Payment Key"
-msgstr "Procesor Plăţi"
+msgstr "Procesor plăţi"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -12152,22 +12159,22 @@ msgstr "Eroare în tranzacţia SMTP"
 #~ msgstr "Configuraţie - Format Dată"
 
 #~ msgid "PayPal Express Button"
-#~ msgstr "PayPal Express Button"
+#~ msgstr "PayPal express button"
 
 #~ msgid "Username - TEST"
 #~ msgstr "Nume utilizator - TEST"
 
 #~ msgid "Certificate Path - TEST"
-#~ msgstr "Cale Certificat - TEST"
+#~ msgstr "Cale certificat - TEST"
 
 #~ msgid "Paypal Url - TEST"
-#~ msgstr "Paypal Url - TEST"
+#~ msgstr "Paypal URL - TEST"
 
 #~ msgid "Certificate Path - LIVE"
-#~ msgstr "Cale Certificat - LIVE"
+#~ msgstr "Cale certificat - LIVE"
 
 #~ msgid "Paypal Url - LIVE"
-#~ msgstr "Paypal Url - LIVE"
+#~ msgstr "Paypal URL - LIVE"
 
 #~ msgid "Checkout Button - TEST"
 #~ msgstr "Buton chackout - TEST"
@@ -12197,7 +12204,7 @@ msgstr "Eroare în tranzacţia SMTP"
 #~ msgstr "Adaugă Membri la un Grup"
 
 #~ msgid "Add Members to Organization"
-#~ msgstr "Adaugp Membru la Organizaţie"
+#~ msgstr "Adaugă membru la organizaţie"
 
 #~ msgid "Remove Members from Group"
 #~ msgstr "Şterge membrii din grup"

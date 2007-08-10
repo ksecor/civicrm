@@ -246,7 +246,14 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                     $month = $params[$period]['M'];
                     $date  = $params[$period]['d'];
                     if ( !$month || !$date ) {
-                        $errors[$period] = ts( "Please enter a valid " . str_replace( "_", " ", $period ) );
+                        switch ($period) {
+                        case 'fixed_period_start_day':
+                            $errors[$period] = ts('Please enter a valid fixed period start day');
+                            break;
+                        case 'fixed_period_rollover_day':
+                            $errors[$period] = ts('Please enter a valid fixed period rollover day');
+                            break;
+                        }
                     }
                 }
             }
