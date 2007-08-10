@@ -69,6 +69,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             'from_name' => $this->get('from_name'),
             'from_email'=> $this->get('from_email'),
             'subject'   => $this->get('subject'),
+            'job_id'    => $this->get('job_id'),
         );
 
         $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
@@ -146,8 +147,18 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
         foreach ($testers as $testerId => $testerEmail) {
-            $mime =& $mailing->compose(null, null, null,
-                $testerId, $testerEmail, $recipient, true);
+            $params = array('contact_id'    => $testerId);
+            $location = array('location_id');
+            CRM_Core_BAO_Location::getValues($params,$location);
+            $params = array(
+                            'job_id'        => $options['job_id'],
+                            'email_id'      => $location['id'],
+                            'contact_id'    => $testerId
+                            );
+            $queue = CRM_Mailing_Event_BAO_Queue::create($params);
+            $mime =& $mailing->compose($options['job_id'], $queue->id, $queue->hash,
+                                       $testerId, $testerEmail, $recipient, true);
+            
             $body = $mime->get();
             $headers = $mime->headers();
             $result = $mailer->send($recipient, $headers, $body);

@@ -463,10 +463,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                              $email, &$recipient, $test = false) 
     {
         if ($test) {
-            $domain_id = 'DOMAIN';
-            $job_id = 'JOB';
-            $event_queue_id = 'QUEUE';
-            $hash = 'HASH';
+            $domain_id = $this->domain_id;
+            $job_id = $job_id;
+            $event_queue_id = $event_queue_id;
+            $hash = $hash;
         } else {
             $domain_id = $this->domain_id;
         }
@@ -698,8 +698,30 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      */
     public static function create(&$params) {
         CRM_Core_DAO::transaction('BEGIN');
-        $mailing =& new CRM_Mailing_BAO_Mailing();       
-
+        $mailing =& new CRM_Mailing_BAO_Mailing(); 
+        
+        if ($params['mailing_id']) {
+            $mailing->id = $params['mailing_id'];
+            if ($mailing->find(true)) {
+                $job =& new CRM_Mailing_BAO_Job();
+                $job->mailing_id = $mailing->id;
+                if ($job->find(true) && ! $mailing->is_template) {
+                    $job->status = 'Scheduled';
+                    $job->is_retry = false;
+                    if ($params['now']) {
+                        $job->scheduled_date = date('YmdHis');
+                    } else {
+                        $job->scheduled_date =
+                            CRM_Utils_Date::format($params['start_date']);
+                    }
+                    $job->save();
+                } 
+                $mailing->save();
+            }
+            CRM_Core_DAO::transaction('COMMIT');
+            return $mailing;
+        }
+        
         $mailing->domain_id     = $params['domain_id'];
         if ($params['header_id']) $mailing->header_id = $params['header_id'];
         if ($params['footer_id']) $mailing->footer_id = $params['footer_id'];
@@ -740,14 +762,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             /* Create the job record */
             $job =& new CRM_Mailing_BAO_Job();
             $job->mailing_id = $mailing->id;
-            $job->status = 'Scheduled';
-            $job->is_retry = false;
-            if ($params['now']) {
-                $job->scheduled_date = date('YmdHis');
-            } else {
-                $job->scheduled_date =
-                    CRM_Utils_Date::format($params['start_date']);
-            }
             $job->save();
         }
         require_once 'CRM/Contact/BAO/Group.php';
@@ -1227,10 +1241,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             
             if ( $className == 'CRM_Mailing_DAO_Job' ) {
                 $dao->find(true);
-                if ( $dao->status == 'Complete') {
                     $daoQueue = new CRM_Mailing_Event_BAO_Queue();
                     $daoQueue->deleteEventQueue( $dao->id, 'job');
-                }
             }
             
             $dao->delete();

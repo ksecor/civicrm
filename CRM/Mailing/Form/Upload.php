@@ -140,15 +140,27 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
     public function postProcess() 
     {
-        foreach (array( 'from_name', 'from_email','subject', 
-                        'forward_reply', 'track_urls', 'track_opens',
-                        'header_id', 'footer_id', 'reply_id', 'unsubscribe_id',
-                        'optout_id', 'auto_responder') 
-                    as $key) 
-        {
-            $this->set($key, $this->controller->exportvalue($this->_name, $key));
+        $params = array();
+        foreach (array( 
+                       'template', 'header_id', 'footer_id',
+                       'reply_id', 'unsubscribe_id', 'optout_id',
+                       'textFile', 'htmlFile', 'subject',
+                       'from_name', 'from_email', 'forward_reply', 'track_urls',
+                       'track_opens', 'auto_responder'
+                       ) as $key) 
+            {
+                $params[$key] = $this->controller->exportvalue($this->_name, $key);
+                $this->set($key, $this->controller->exportvalue($this->_name, $key));
+            }
+        foreach (array( 'mailing_name', 'groups', 'mailings') as $key) {
+            $params[$key] = $this->get($key);
+            
         }
 
+        $session =& CRM_Core_Session::singleton();
+        $params['domain_id'] = $session->get('domainID');
+        $params['contact_id'] = $session->get('userID');
+        
         if ( $this->controller->exportvalue($this->_name, 'textFile') ) {
             $this->set('textFile', $this->controller->exportvalue($this->_name, 'textFile') );
         }
@@ -157,6 +169,16 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
         }
 
+        /* Build the mailing object */
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing = CRM_Mailing_BAO_Mailing::create($params);
+        $this->set('mailing_id', $mailing->id);
+        
+        $job =& new CRM_Mailing_BAO_Job();
+        $job->mailing_id = $mailing->id;
+        if ($job->find(true)) {
+            $this->set('job_id',$job->id);
+        } 
     }
 
     /**
@@ -176,25 +198,36 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $errors = array();
 
         require_once 'CRM/Core/BAO/Domain.php';
-        
+
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
         $mailing = null;
 
         $session =& CRM_Core_Session::singleton();
         $values = array('contact_id' => $session->get('userID'));
         require_once 'api/Contact.php';
-        $contact =& crm_fetch_contact( $values );
-        
+        //$contact =& crm_fetch_contact( $values );
+        $contact = array (
+                          'contact_id'            => 102,
+                          'contact_type'          => 'Individual',
+                          'sort_name'             => 'pankaj.sharma@webaccess.co.in',
+                          'display_name'          => 'pankaj.sharma@webaccess.co.in',
+                          'location_id'           => 90,
+                          'email_id'              => 152, 
+                          'email'                 => 'pankaj.sharma@webaccess.co.in',
+                          'on_hold'               => 0,
+                          'preferred_mail_format' => 'Both'
+                          );
+
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'owner'));
         foreach($verp as $key => $value) {
             $verp[$key]++;
         }
-        
+
         $urls = array_flip(array( 'forward', 'optOutUrl', 'unsubscribeUrl') );
         foreach($urls as $key => $value) {
             $urls[$key]++;
         }
-        
+
         require_once 'CRM/Mailing/BAO/Component.php';
         
         // set $header and $footer
@@ -247,7 +280,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                     . '</li>';
                 }
             }
-            
+
             /* Do a full token replacement on a dummy verp, the current contact
              * and domain. */
             $str = CRM_Utils_Token::replaceDomainTokens($str, $domain);
