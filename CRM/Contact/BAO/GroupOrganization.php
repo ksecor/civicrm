@@ -134,6 +134,37 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
 
     /**
      * Retrieves the id in the civcrm_organization table for the corresponding
+     * organization contact to the given contact id.
+     *
+     * @param            $contactId               The id of the group
+     *
+     *
+     * @return           $orgId                 Returns the id of the
+     *                                           organization, if there is one;
+     *                                           null otherwise.
+     *
+     * @access public
+     */
+
+
+    static function getOrgFromContact( $contactId ) {
+        require_once 'CRM/Contact/DAO/Organization.php';
+        $dao = new CRM_Contact_DAO_Organization( );
+	$query = "SELECT id FROM civicrm_organization WHERE contact_id = $contactId";
+	$dao->query($query);
+	if ( $dao->fetch() ) {
+	    $orgId = $dao->id;
+	} else {
+	    $orgId = null;
+	}
+
+	return $orgId;
+	
+    }
+
+
+    /**
+     * Retrieves the id in the civcrm_organization table for the corresponding
      * organization contact to the given group.
      *
      * @param            $groupId               The id of the group

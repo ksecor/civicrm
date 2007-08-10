@@ -40,19 +40,31 @@
 </fieldset>
 </div>
 
-<div class="form-item">
+<div id="group_org_add" class="form-item">
 <fieldset><legend>{ts}Organization{/ts}</legend>
  
     <dl>
     <dt>{$form.add_group_org.label}</dt>
     <dd>{$form.add_group_org.html}</dd>
     </dl>
-
+{literal}
+<script type="text/javascript">
+    if (document.getElementById("add_group_org").checked) {
+        hide("remove_group_org");
+    }
+    else{
+        show("remove_group_org");
+    }
+</script>
+{/literal}
+    {if $form.remove_group_org}
     <dl>
-    <dt>{$form.remove_group_org.label}</dt>
-    <dd>{$form.remove_group_org.html}</dt>
+    <div id="remove_org" class="form-hidden">
+    <dt>{$form.remove_org.label}</dt>
+    <dd>{$form.remove_org.html}</dt>
+    </div>
     </dl>
-
+    {/if}
 </fieldset>
 </div>
 
