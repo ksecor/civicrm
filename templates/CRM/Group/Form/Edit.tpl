@@ -47,26 +47,16 @@
     <dt>{$form.add_group_org.label}</dt>
     <dd>{$form.add_group_org.html}</dd>
     </dl>
-{literal}
-<script type="text/javascript">
-    if (document.getElementById("add_group_org").checked) {
-        hide("remove_group_org");
-    }
-    else{
-        show("remove_group_org");
-    }
-</script>
-{/literal}
-    {if $form.remove_group_org}
+
     <dl>
-    <div id="remove_org" class="form-hidden">
-    <dt>{$form.remove_org.label}</dt>
-    <dd>{$form.remove_org.html}</dt>
-    </div>
+    <dt>{$form.select_group_org.label}</dt>
+    <dd>{$form.select_group_org.html}</dd>
     </dl>
-    {/if}
+    
 </fieldset>
 </div>
+
+
 
 {$form.buttons.html}
 

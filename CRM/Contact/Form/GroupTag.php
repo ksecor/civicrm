@@ -92,22 +92,21 @@ class CRM_Contact_Form_GroupTag
 	    $dao = new CRM_Contact_DAO_Organization();
 	    $query = "SELECT id FROM civicrm_organization WHERE contact_id = $contactId";
 	    $dao->query($query);
+	    
 	    if ( $dao->fetch() ) {
 	        $orgId = $dao->id;
 	    } else {
 	        $orgId = null;
-		$groupFetchId = null;
+		$excludeGroupIds = null;
 	    }
 	    
 	    if ( $orgId != null ) {
+	        $excludeGroupIds = array ( );
 	        $dao = new CRM_Contact_DAO_GroupOrganization();
 		$query = "SELECT group_id FROM civicrm_group_organization WHERE organization_id = $orgId";
 		$dao->query($query);
-		if ( $dao->fetch() ) {
-		    $excludeGroupId = $dao->group_id;
-		}
-		else {
-		    $excludeGroupId = null;
+		while ( $dao->fetch() ) {
+		    $excludeGroupIds[] = $dao->group_id;
 		}
 	    }
 	    /*
@@ -141,7 +140,13 @@ class CRM_Contact_Form_GroupTag
 		    }
 		    
 		}
-		if ( $excludeGroupId != $id ) {
+		$disableBox = false;
+		foreach ( $excludeGroupIds as $excludeGroupId ) {
+		  if ( $excludeGroupId == $id ) {
+		      $disableBox = true;
+		  }
+		}		
+		if ( ! $disableBox ) {
                     $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name);
 		}
 		else {

@@ -41,6 +41,15 @@ require_once 'CRM/Contact/BAO/GroupNesting.php';
  */
 class CRM_Group_Form_Edit extends CRM_Core_Form {
 
+
+
+    /**
+     * values for selecting an organization to associate with a group
+     * 
+     *
+     */
+    protected $_orgSelectValues;
+    
     /**
      * the group id, used when editing a group
      *
@@ -215,15 +224,22 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             }
 
             require_once ( 'CRM/Contact/BAO/GroupOrganization.php' );
-	    $this->add( 'checkbox', 'add_group_org', ts('Make this an Organization?'), null, null, array('onclick' => 'hide(\'remove_group_org\')') );
-	    $this->add( 'checkbox', 'remove_org', ts('Delete corresponding organization contact?'), null );
-	    if ( CRM_Contact_BAO_GroupOrganization::exists( $this->_id ) ) {
-		  $this->assign( 'remove_group_org', 1 );
-	      } else {
-                  $this->assign( 'remove_group_org', 0 );
-	      }
-
-
+	    $this->add( 'checkbox', 'add_group_org', ts('Make this an Organization?'), null, null );
+	    
+	    //Provide list of organizations from which to choose associated org.
+	    require_once ( 'CRM/Contact/DAO/Organization.php');
+	    $orgsList = array( );
+	    $this->_orgSelectValues = array( );
+	    $this->_orgSelectValues[] = "- Select an Organization -";
+	    $query = "SELECT id, organization_name FROM civicrm_organization";
+	    $dao = new CRM_Contact_DAO_Organization( );
+	    $dao->query($query);
+	    while ( $dao->fetch() ) {
+	      $orgsList[] = array('id' => $dao->id, 'org_name' => $dao->organization_name );
+	      $this->_orgSelectValues[] = $dao->organization_name;
+	    }
+	    
+	    $this->add( 'select', 'select_group_org', ts('Select Organization'), $this->_orgSelectValues );
 	        $this->addButtons( array(
                                      array( 'type'      => $buttonType,
                                             'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
@@ -324,17 +340,19 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 CRM_Contact_BAO_GroupNesting::addChildGroup( $group->id, $params['add_child_group']);
             }
             
-	    if ( ! empty ( $_POST['add_group_org'] ) ) {
-	      //print $params['add_group_org'] . "wtf\n<br>";
-	      // print_r($params);
-	      //print "\n<br>";
-	      //print_r($_POST);
+	    if ( ! empty ( $params['add_group_org'] ) ) {
 	      if ( CRM_Contact_BAO_GroupOrganization::exists( $group->id ) ) {
 		// do nothing for now
 
 	      } else {
+		    if ( $params['select_group_org'] != "- Select an Organization -")  {
+		      $title = $this->_orgSelectValues[$params['select_group_org']];
+		    }
+		    else {
+		        $title = $group->title;
+		    }
 		    require_once('CRM/Contact/BAO/GroupOrganization.php');
-		    CRM_Contact_BAO_GroupOrganization::add($group->id, $group->title);
+		    CRM_Contact_BAO_GroupOrganization::add($group->id, $title);
        
 		    $contactId = CRM_Contact_BAO_GroupOrganization::getOrganizationContactId($group->id);
 		    //		    CRM_Core_Error::debug('p', $params);
