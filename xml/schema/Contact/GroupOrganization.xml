@@ -38,8 +38,8 @@
     <add>2.0</add>
   </field>
   <foreignKey>
-    <name>contact_id</name>
-    <table>civicrm_contact</table>
+    <name>organization_id</name>
+    <table>civicrm_organization</table>
     <key>id</key>
     <add>2.0</add>
   </foreignKey>
