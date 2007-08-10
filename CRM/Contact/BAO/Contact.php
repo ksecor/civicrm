@@ -329,7 +329,7 @@ ORDER BY
      */
     static function add(&$params, &$ids) 
     {
-      //      CRM_Core_Error::debug('p','oh');   
+        //CRM_Core_Error::debug('p','oh');   
         $contact =& new CRM_Contact_BAO_Contact();
         
         if ( empty($params) ) {
@@ -623,6 +623,12 @@ ORDER BY
         $location = array();
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
 
+            /*
+            print "adding location: <pre>";
+            print_r( $params );
+            print "</pre>";
+            */
+            
 	        $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
         }
         $contact->location = $location;
@@ -1313,8 +1319,7 @@ WHERE civicrm_contact.id IN $idString ";
     {
         require_once 'CRM/Core/BAO/EmailHistory.php';
         require_once 'CRM/Activity/BAO/Activity.php';
-	print "aljdkf";
-	print $id;
+
         if ( ! $id ) {
             return false;
         }
@@ -1433,20 +1438,17 @@ WHERE civicrm_contact.id IN $idString ";
         // fix household and org primary contact ids
         static $misc = array( 'Household', 'Organization' );
         foreach ( $misc as $name ) {
-	  print "I'm here";
-	  require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
+	        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
             eval( '$object =& new CRM_Contact_DAO_' . $name . '( );' );
             $object->primary_contact_id = $id;
             $object->find( );
             while ( $object->fetch( ) ) {
-	      print "I'm also here";
-      // we need to set this to null explicitly
+                // we need to set this to null explicitly
                 $object->primary_contact_id = 'null';
                 $object->save( );
             }
         }
 
-	print $contactType;
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contactType) . ".php");
         eval( '$object =& new CRM_Contact_BAO_' . $contactType . '( );' );
         $object->contact_id = $contact->id;
