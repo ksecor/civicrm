@@ -222,6 +222,9 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
+        if (!$formValues['grant_report_received']){
+            $formValues['grant_report_received']="null";
+        }
         $formValues['contact_id'] = $this->_contactID;
         $formValues['application_received_date'] = CRM_Utils_Date::format($formValues['application_received_date']);
         $formValues['decision_date'] = CRM_Utils_Date::format($formValues['decision_date']);

@@ -286,7 +286,27 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
          
     }
 
-
+    /**                                                           
+     * Delete the record that are associated with this case 
+     * record are deleted from case 
+     * @param  int  $id contactid 
+     * 
+     * @return boolean  true if deleted, false otherwise
+     * @access public 
+     * @static 
+     */ 
+    static function deleteCaseContact( $id ) 
+        {
+        require_once 'CRM/Case/DAO/Case.php';
+        $case     = & new CRM_Case_DAO_Case( );
+        $case->contact_id = $id; 
+        
+        $case->find();
+        while ($case->fetch() ) {
+            return $case->delete();
+        }
+        return false;
+    }
    /**                                                           
      * Delete the record that are associated with this case 
      * record are deleted from case 

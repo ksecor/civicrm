@@ -66,6 +66,7 @@
             {/if}
                 </td>
             </tr>
+            <tr><td class="label">{$form.grant_report_received.label}</td><td>{$form.grant_report_received.html}</td></tr>
             <tr><td class="label">{$form.rationale.label}</td><td>{$form.rationale.html}</td></tr>
             <tr><td class="label">{$form.note.label}</td><td>{$form.note.html}</td></tr>
 

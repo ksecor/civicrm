@@ -303,6 +303,27 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         
         return $grant;
     }
+
+    /**
+     * Function to delete the Contact
+     *
+     * @param int $cid  contact id
+     *
+     * @access public
+     * @static
+     *
+     */
+    static function deleteContact( $id )
+    {
+        require_once 'CRM/Grant/DAO/Grant.php';
+        $grant     = & new CRM_Grant_DAO_Grant( );
+        $grant->contact_id = $id; 
+        $grant->find();
+        while ($grant->fetch() ) {
+            return $grant->delete();
+        }
+        return false;
+    }
      
     /**
      * Function to delete the grant

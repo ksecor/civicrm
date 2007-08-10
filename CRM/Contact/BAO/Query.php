@@ -910,7 +910,8 @@ class CRM_Contact_BAO_Query {
              ( substr( $values[0], 0, 6  ) == 'event_' ) ||
              ( substr( $values[0], 0, 12 ) == 'participant_' ) ||
              ( substr( $values[0], 0, 6  ) == 'quest_' ) ||
-             ( substr( $values[0], 0, 4  ) == 'tmf_' )) {
+             ( substr( $values[0], 0, 4  ) == 'tmf_' ) ||
+             ( substr( $values[0], 0, 6  ) == 'grant_' )) {
             return;
         }
 	

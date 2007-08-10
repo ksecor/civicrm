@@ -1262,6 +1262,13 @@ WHERE civicrm_contact.id IN $idString ";
             require_once 'CRM/Kabissa/BAO/Details.php';
             CRM_Kabissa_BAO_Details::deleteDetails( $id );
         }
+        //delete Grant Details Record
+        if ( CRM_Core_Permission::access( 'CiviGrant' ) ) {
+            require_once 'CRM/Grant/BAO/Grant.php';
+            CRM_Grant_BAO_Grant::deleteContact( $id );
+        }
+        require_once 'CRM/Case/BAO/Case.php';
+        CRM_Case_BAO_Case::deleteCaseContact( $id );
         
         require_once 'CRM/Core/DAO/Log.php';
         $logDAO =& new CRM_Core_DAO_Log(); 
