@@ -289,12 +289,12 @@ LIMIT 6";
         }
 
         if ( isset( $_GET['s'] ) ) {
-            $stateName    = CRM_Utils_Type::escape( $_GET['s']   , 'String');
+            $stateName    = trim (CRM_Utils_Type::escape( $_GET['s']   , 'String') );
         }
 
         $includeState = null;
         if ( isset($_GET['sc']) ) {
-            $includeState = CRM_Utils_Type::escape( $_GET['sc'], 'String');
+            $includeState = trim (CRM_Utils_Type::escape( $_GET['sc'], 'String') );
         }
 
         //temporary fix to handle locales other than default US,

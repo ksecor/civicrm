@@ -317,51 +317,58 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
             
             foreach ( $defaults['location'] as $key => $value ) {
-                $countryValue = null;
-                $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
+                if ( isset( $value['address'] ) ) {
 
-                if ( $countryValue ) {
-                    if ( ! is_numeric( $countryValue ) ) {
-                        $this->assign( "country_{$key}_value", 
-                                       $this->getElementValue( "location[$key][address][country_id]" ) );
-                        $this->assign( "country_{$key}_id", 
-                                       $this->getElementValue( "location[$key][address][country_id]" ) );
-                    } else {
-                        $this->assign( "country_{$key}_value",  $countries[$countryValue] );
-                        $this->assign( "country_{$key}_id"   ,  $countryValue );
+                    // hack, check if we have created a country element
+                    if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
+                        // hack, check if we have created a country element
+                        $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
+                        if ( $countryValue ) {
+                            if ( ! is_numeric( $countryValue ) ) {
+                                $this->assign( "country_{$key}_value", 
+                                               $this->getElementValue( "location[$key][address][country_id]" ) );
+                                $this->assign( "country_{$key}_id", 
+                                               $this->getElementValue( "location[$key][address][country_id]" ) );
+                            } else {
+                                $this->assign( "country_{$key}_value",  $countries[$countryValue] );
+                                $this->assign( "country_{$key}_id"   ,  $countryValue );
+                            }
+                        } else if ( isset($value['address']['country_id']) ) {
+                            $countryId = $value['address']['country_id'];
+                            if ( $countryId ) {
+                                $this->assign( "country_{$key}_value",  CRM_Utils_Array::value($countryId,$countries) );
+                                $this->assign( "country_{$key}_id"   ,  $countryId );
+                            }
+                        }
                     }
-                } else if ( isset($value['address']['country_id']) ) {
-                    $countryId = $value['address']['country_id'];
-                    if ( $countryId ) {
-                        $this->assign( "country_{$key}_value",  CRM_Utils_Array::value($countryId,$countries) );
-                        $this->assign( "country_{$key}_id"   ,  $countryId );
+                    
+                    if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
+                        $stateValue = null;
+                        $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
+                        
+                        if ( $stateValue ) {
+                            if ( ! is_numeric( $stateValue ) ) {
+                                $this->assign( "state_province_{$key}_value", 
+                                               $this->getElementValue( "location[$key][address][state_province_id]" ) );
+                                $this->assign( "state_province_{$key}_id", 
+                                               $this->getElementValue( "location[$key][address][state_province_id]" ) );
+                            } else {
+                                $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateValue] );
+                                $this->assign( "state_province_{$key}_id"   ,  $stateValue );
+                            }
+                        } else  if ( isset($value['address']['state_province_id']) ) {
+                            $stateProvinceId = $value['address']['state_province_id'];
+                            if ( $stateProvinceId ) {
+                                $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateProvinceId] );
+                                $this->assign( "state_province_{$key}_id"   ,  $stateProvinceId );
+                            }
+                        }
                     }
-                }
-
-                $stateValue = null;
-                $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
-
-                if ( $stateValue ) {
-                    if ( ! is_numeric( $stateValue ) ) {
-                        $this->assign( "state_province_{$key}_value", 
-                                       $this->getElementValue( "location[$key][address][state_province_id]" ) );
-                        $this->assign( "state_province_{$key}_id", 
-                                       $this->getElementValue( "location[$key][address][state_province_id]" ) );
-                    } else {
-                        $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateValue] );
-                        $this->assign( "state_province_{$key}_id"   ,  $stateValue );
+                    
+                    if ( isset( $value['address']['display']) ) {
+                        $this->assign( "location_{$key}_address_display", 
+                                       str_replace("\n", "<br/>", $value['address']['display']) );
                     }
-                } else  if ( isset($value['address']['state_province_id']) ) {
-                    $stateProvinceId = $value['address']['state_province_id'];
-                    if ( $stateProvinceId ) {
-                        $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateProvinceId] );
-                        $this->assign( "state_province_{$key}_id"   ,  $stateProvinceId );
-                    }
-                }
-                
-                if ( isset( $value['address']['display']) ) {
-                    $this->assign( "location_{$key}_address_display", 
-                                   str_replace("\n", "<br/>", $value['address']['display']) );
                 }
             }
         }

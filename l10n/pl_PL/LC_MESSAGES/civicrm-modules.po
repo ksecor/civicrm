@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-01 14:28+0200\n"
+"POT-Creation-Date: 2007-08-09 09:45+0200\n"
 "PO-Revision-Date: 2007-04-26 09:59+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1356,6 +1356,34 @@ msgstr "Wprowadź wartość pieniężną do pola Minimalna kwota dotacji."
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency"
 msgstr "Częstość"
+
+#: CRM/Contribute/Form/ManagePremiums.php
+msgid "Please select the Period Type for this subscription or service."
+msgstr ""
+
+#: CRM/Contribute/Form/ManagePremiums.php
+msgid "Please enter a Fixed Period Start Day for this subscription or service."
+msgstr ""
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Please enter the Duration Interval for this subscription or service."
+msgstr "Wprowadź wartość rynkową dla tego produktu."
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Please enter the Duration Unit for this subscription or service."
+msgstr "Wprowadź wartość rynkową dla tego produktu."
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Please enter the Frequency Unit for this subscription or service."
+msgstr "Wprowadź wartość rynkową dla tego produktu."
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Please enter the Frequency Interval for this subscription or service."
+msgstr "Wprowadź wartość rynkową dla tego produktu."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Selected Premium Product type has been deleted."
@@ -2944,6 +2972,16 @@ msgstr "Zakres"
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
+msgid "Please enter a valid fixed period start day"
+msgstr "Wprowadź poprawną kwotę."
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Please enter a valid fixed period rollover day"
+msgstr "Wprowadź poprawny numer karty kredytowej."
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
 msgid "Selected membership type has been deleted."
 msgstr "Wybrany rodzaj płci został usunięty."
 
@@ -3312,7 +3350,11 @@ msgid "(contribute at least %1 to be eligible for this membership)"
 msgstr "(Ofiaruj przynajmniej %1 by móc wybrać ten dodatek.)"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
-msgid "Your current <strong>%2</strong> membership expires on %1."
+msgid "Your <strong>%2</strong> membership expired on %1."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
+msgid "Your <strong>%2</strong> membership expires on %1."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
