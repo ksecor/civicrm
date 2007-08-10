@@ -31,7 +31,7 @@
     <add>2.0</add>
   </foreignKey>
   <field>
-    <name>contact_id</name>
+    <name>organization_id</name>
     <type>int unsigned</type>
     <required>true</required>
     <comment>ID of the Organization Contact</comment>
