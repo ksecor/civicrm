@@ -109,9 +109,29 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
             $allGroups = CRM_Core_PseudoConstant::group( );
         }
 
+
+	//get the group to exclude for the contact, if it exists.	
+	require_once 'CRM/Contact/DAO/Organization.php';
+	require_once 'CRM/Contact/DAO/GroupOrganization.php';
+	require_once 'CRM/Contact/BAO/GroupOrganization.php';
+	$dao = new CRM_Contact_DAO_Organization();
+	$query = "SELECT id FROM civicrm_organization WHERE contact_id = " . $this->_contactId;
+	$dao->query($query);
+	if ( $dao->fetch() ) {
+	    $orgId = $dao->id;
+	}
+	$excludeGroupId = CRM_Contact_BAO_GroupOrganization::getGroupId($orgId);
+	$dao = new CRM_Contact_DAO_Group();
+	$query = "SELECT title FROM civicrm_group WHERE id = $excludeGroupId";
+	$dao->query($query);
+	if ( $dao->fetch() ) {
+	    $excludeGroup = $dao->title;
+	}
         // get the list of groups for the contact
         $currentGroups = CRM_Contact_BAO_GroupContact::getGroupList($this->_contactId);
-        
+	$currentGroups[] = $excludeGroup;
+	//CRM_Core_Error::debug('current', $currentGroups);
+	
         if ( is_array( $currentGroups ) ) {
             $groupList = array_diff( $allGroups, $currentGroups );
         } else {

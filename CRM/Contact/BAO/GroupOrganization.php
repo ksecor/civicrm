@@ -67,10 +67,10 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
       CRM_Contact_BAO_Contact::create($params, $ids, 1);
       //        CRM_Core_Error::debug('p', $ids);
       //   CRM_Contact_BAO_Organization::add( $params , $id);
-      $contactCount =& new  CRM_Contact_BAO_Contact();
-      $count = $contactCount->count();
+      $orgCount =& new  CRM_Contact_BAO_Organization();
+      $count = $orgCount->count();
       $dao = new CRM_Contact_DAO_GroupOrganization( );
-      $query = "REPLACE INTO civicrm_group_organization SET group_id = $groupId, contact_id = $count";
+      $query = "REPLACE INTO civicrm_group_organization SET group_id = $groupId, organization_id = $count";
       //CRM_Core_Error::debug('p', $count);
       $dao->query($query);
     	
@@ -90,7 +90,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
 
     static function exists( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
-	$query = "SELECT contact_id FROM civicrm_group_organization WHERE group_id = $groupId";
+	$query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
 	$dao->query($query);
 	
 	if ($dao->fetch()){
@@ -101,6 +101,62 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
 	}
     
 
+    }
+
+
+    /**
+     * Retrieves the id in the civicrm_group table for the corresponding group
+     * contact to the given organization.
+     * 
+     * @param          $orgId                The id of the organization
+     * 
+     *
+     * @return         $groupId              
+     *
+     */
+
+    static function getGroupId( $orgId ) {
+        $dao = new CRM_Contact_DAO_GroupOrganization( );
+	$query = "SELECT group_id FROM civicrm_group_organization WHERE organization_id = $orgId";
+	$dao->query($query);
+	if ( $dao->fetch() ) {
+	    $groupId = $dao->group_id;
+	}
+	else {
+	    $groupId = null;
+	}
+
+	return $groupId;
+
+
+    }
+
+
+    /**
+     * Retrieves the id in the civcrm_organization table for the corresponding
+     * organization contact to the given group.
+     *
+     * @param            $groupId               The id of the group
+     *
+     *
+     * @return           $orgId                 Returns the id of the
+     *                                           organization, if there is one;
+     *                                           null otherwise.
+     *
+     * @access public
+     */
+
+    static function getOrganizationId( $groupId ) {
+        $dao = new CRM_Contact_DAO_GroupOrganization( );
+        $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
+        $dao->query($query);
+        if ($dao->fetch()){
+            $orgId = $dao->organization_id;
+	}
+	else{
+	    $orgId = null;
+	}
+	return $orgId;
     }
 
     /**
@@ -117,15 +173,27 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      * @access public
      */
 
-    static function getContactId( $groupId ) {
+    static function getOrganizationContactId( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
-        $query = "SELECT contact_id FROM civicrm_group_organization WHERE group_id = $groupId";
+        $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
         $dao->query($query);
         if ($dao->fetch()){
-            $contactId = $dao->contact_id;
+            $orgId = $dao->organization_id;
 	}
 	else{
+	    $orgId = null;
+	}
+	if ($orgId != null) {
+	  $dao = new CRM_Contact_DAO_Organization();
+	  $query = "SELECT contact_id FROM civicrm_organization WHERE id = $orgId";
+	  $dao->query($query);
+	  if ($dao->fetch()) {
+	      $contactId = $dao->contact_id;
+	  }
+	  else {
 	    $contactId = null;
+	  }
+
 	}
 	return $contactId;
     }

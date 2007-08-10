@@ -567,6 +567,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+      CRM_Core_Error::debug('params', $params);
+
 	$params['contact_type'] = $this->_contactType;
 
         if ( $this->_showDemographics ) {
