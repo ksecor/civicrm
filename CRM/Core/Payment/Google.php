@@ -111,12 +111,8 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
         $merchant_key = $this->_paymentProcessor['password'];    // Merchant Key
         $server_type  = ( $this->_mode == 'test' ) ? 'sandbox' : '';
         
-        $cart =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
-        $item1 = new GoogleItem($params['item_name'],'', 1, $params['amount']);
-        $cart->AddItem($item1);
-
-        $cart  =  new GoogleCart($merchant_id, $merchant_key, $server_type); 
-        $item1 = new GoogleItem($params['item_name'],'', 1, $params['amount']);
+        $cart  = new GoogleCart($merchant_id, $merchant_key, $server_type); 
+        $item1 = new GoogleItem($params['item_name'],'', 1, $params['amount'], $params['currencyID']);
         $cart->AddItem($item1);
 
         if ( $component == "event" ) {
