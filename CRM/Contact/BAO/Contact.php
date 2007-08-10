@@ -503,8 +503,8 @@ ORDER BY
             $contact->hash = md5( uniqid( rand( ), true ) );
         }
 	//	CRM_Core_Error::debug('p','oh');   
-	CRM_Core_Error::debug('p', $params);
-	CRM_Core_Error::debug('p', $contact);
+	//CRM_Core_Error::debug('p', $params);
+	//CRM_Core_Error::debug('p', $contact);
         $contact->save( );
 	//CRM_Core_Error::debug('p','no');   
 

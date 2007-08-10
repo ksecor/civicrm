@@ -327,10 +327,10 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
 	      } else {
 		    require_once('CRM/Contact/BAO/GroupOrganization.php');
-		    CRM_Contact_BAO_GroupOrganization::add($group->id, $group->name);
+		    CRM_Contact_BAO_GroupOrganization::add($group->id, $group->title);
        
 		    $contactId = CRM_Contact_BAO_GroupOrganization::getContactId($group->id);
-		    //		    CRM_Core_Error::debug('p', $contactId);
+		    //		    CRM_Core_Error::debug('p', $params);
 
 		    $url = CRM_Utils_System::url("civicrm/contact/add&reset=1&action=update&cid=$contactId");
 		    CRM_Utils_System::redirect($url);
