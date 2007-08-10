@@ -364,8 +364,8 @@ ORDER BY
                 $contact->preferred_communication_method = '';
             }
         }
-	//CRM_Core_Error::debug('p', $params);
-	//CRM_Core_Error::debug('p','oh');   
+	    //CRM_Core_Error::debug('p', $params);
+	    //CRM_Core_Error::debug('p','oh');   
 
 
         $contact->copyValues($params);
@@ -393,7 +393,7 @@ ORDER BY
                 $suffix = $suffixes[$suffix_id];
             }
             
-	    //  CRM_Core_Error::debug('p','oh');   
+	        //  CRM_Core_Error::debug('p','oh');   
 
             // a comma should only be present if both first_name and last name are present.
             if ($firstName && $lastName) {
@@ -440,7 +440,7 @@ ORDER BY
                     }
                 }
             }
-	    //      CRM_Core_Error::debug('p','oh');   
+	        //      CRM_Core_Error::debug('p','oh');   
 
             if (trim($sortName)) {
                 $contact->sort_name    = trim($sortName);
@@ -464,7 +464,7 @@ ORDER BY
                     break;
                 }
             }
-	    //CRM_Core_Error::debug('p','oh');   
+	        // CRM_Core_Error::debug('p','oh');   
 
             $uniqId = $params['user_unique_id'];
             if (empty($contact->display_name)) {
@@ -502,17 +502,19 @@ ORDER BY
         if ( ( ! array_key_exists( 'hash', $contact ) || ! $contact->hash ) && ! $contact->id ) {
             $contact->hash = md5( uniqid( rand( ), true ) );
         }
-	//	CRM_Core_Error::debug('p','oh');   
-	//CRM_Core_Error::debug('p', $params);
-	//CRM_Core_Error::debug('p', $contact);
-        $contact->save( );
-	//CRM_Core_Error::debug('p','no');   
 
-       require_once 'CRM/Core/BAO/Log.php';
-       CRM_Core_BAO_Log::register( $contact->id,
+	    // CRM_Core_Error::debug('p','oh');   
+	    // CRM_Core_Error::debug('p', $params);
+	    // CRM_Core_Error::debug('p', $contact);
+
+        $contact->save( );
+	    //CRM_Core_Error::debug('p','no');   
+
+        require_once 'CRM/Core/BAO/Log.php';
+        CRM_Core_BAO_Log::register( $contact->id,
                                     'civicrm_contact',
                                     $contact->id );
-       //CRM_Core_Error::debug('p','oh');   
+        //CRM_Core_Error::debug('p','oh');   
                            
         return $contact;
     }
