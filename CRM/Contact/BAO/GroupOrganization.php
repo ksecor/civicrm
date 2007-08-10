@@ -54,17 +54,17 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      * @access public
      */
     
-  static function add( $groupId, $groupName = null ) {
+  static function add( $groupId, $groupTitle = null ) {
       require_once('CRM/Contact/BAO/Organization.php');
       $countObj =& new CRM_Contact_BAO_Contact();
       $count = $countObj->count();
-      $params = array('organization_name' => $groupName, 'contact_type' => 'Organization');
+      $params = array('organization_name' => $groupTitle, 'contact_type' => 'Organization');
       $ids = array();
       include_once ( 'CRM/Contact/BAO/Organization.php' ) ;
       include_once ( 'CRM/Contact/BAO/Contact.php' );
       //     CRM_Core_Error::debug('p', $params);
       //CRM_Core_Error::debug('p', $ids);
-      CRM_Contact_BAO_Contact::add($params, $ids);
+      CRM_Contact_BAO_Contact::create($params, $ids, 1);
       //        CRM_Core_Error::debug('p', $ids);
       //   CRM_Contact_BAO_Organization::add( $params , $id);
       $contactCount =& new  CRM_Contact_BAO_Contact();
