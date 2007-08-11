@@ -111,22 +111,37 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         if( $eventFullMessage ) {
             CRM_Core_Session::setStatus( $eventFullMessage );
         } else {
-            // ( CRM_Utils_Array::value('is_online_registration',$values['event'])  {
             if ( isset($values['event']['is_online_registration']) ) {
-                $registerText = ts('Register Now');
-                if ( CRM_Utils_Array::value('registration_link_text',$values['event']) ) {
-                    $registerText = $values['event']['registration_link_text'];
+                // make sure that we are between  registration start date and registration end date
+                $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_start_date',
+                                                                               $values['event'] ) );
+                $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_end_date',
+                                                                             $values['event'] ) );
+                $now = time( );
+                $validDate = true;
+                if ( $startDate && $startDate >= $now ) {
+                    $validDate = false;
+                    
                 }
-                
-                $this->assign( 'registerText', $registerText );
-                $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
-                
-                if ( $action ==  CRM_Core_Action::PREVIEW ) {
-                    $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1&action=preview" );
-                } else {
-                    $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1" );
+                if ( $endDate && $endDate < $now ) {
+                    $validDate = false;
                 }
-                $this->assign( 'registerURL', $url );
+                if ( $validDate ) {
+                    $registerText = ts('Register Now');
+                    if ( CRM_Utils_Array::value('registration_link_text',$values['event']) ) {
+                        $registerText = $values['event']['registration_link_text'];
+                    }
+                    
+                    $this->assign( 'registerText', $registerText );
+                    $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
+                    
+                    if ( $action ==  CRM_Core_Action::PREVIEW ) {
+                        $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1&action=preview" );
+                    } else {
+                        $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1" );
+                    }
+                    $this->assign( 'registerURL', $url );
+                }
             }
             
         }
