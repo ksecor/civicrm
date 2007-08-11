@@ -241,7 +241,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $defaults[$this->_id]['register_date'] = CRM_Utils_Date::unformat($defaults[$this->_id]['register_date']);
             $defaults[$this->_id]['register_date']['i'] = (integer)($defaults[$this->_id]['register_date']['i']/15) *15;
         }
-        
+
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
         }

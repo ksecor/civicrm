@@ -138,9 +138,6 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
             foreach ( $properties as $property ) {
                 if ($property == "is_test") {
                     $row[] = $result->$property ? "Yes" : "No";
-                    if ( $result->$property ) {
-                        $row[] = $result->$property;
-                    } 
                 } else {
                     $row[] = $result->$property;
                 }
