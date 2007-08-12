@@ -291,7 +291,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once 'CRM/Core/Component.php';
             $importableFields = array_merge($importableFields, 
                                             CRM_Core_Component::getQueryFields( ));
-            
+
             $importableFields['group']['title'] = ts('Group(s)');
             $importableFields['group']['where'] = null;
             $importableFields['tag'  ]['title'] = ts('Tag(s)');
@@ -1464,6 +1464,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             if ( CRM_Core_Permission::access( 'Quest', false ) ) {
                 require_once 'CRM/Quest/BAO/Student.php';
                 $processed = CRM_Quest_BAO_Student::buildStudentForm( $form, $fieldName, $title, $contactId );
+            }
+            if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
+                require_once 'CRM/Kabissa/BAO/Kabissa.php';
+                $processed = CRM_Kabissa_BAO_Kabissa::buildProfileForm( $form, 
+                                                                        $fieldName, 
+                                                                        $title, 
+                                                                        $contactId );
             }
             if ( ! $processed ) {
                 if ( substr($fieldName, 0, 3) === 'is_' or substr($fieldName, 0, 7) === 'do_not_' ) {
