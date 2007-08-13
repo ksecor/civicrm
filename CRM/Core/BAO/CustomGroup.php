@@ -1437,6 +1437,44 @@ ORDER BY civicrm_custom_group.weight,
         return true;
     }
 
+    static function mapTableName( $table ) {
+        switch ( $table ) {
+        case 'Contact':
+        case 'Individual':
+        case 'Household':
+        case 'Organization':
+            return 'civicrm_contact';
+
+        case 'Activity':
+            return 'civicrm_activity';
+
+        case 'Group':
+            return 'civicrm_group';
+
+        case 'Contribution':
+            return 'civicrm_contribution';
+            
+        case 'Relationship':
+            return 'civicrm_relationship';
+
+        default:
+            CRM_Core_Error::fatal( ts( 'Please contact CiviCRM support!' ) );
+        }
+    }
+
+    static function createTable( $group ) {
+        require_once 'CRM/Core/BAO/SchemaHandler.php';
+
+        $params = array(
+                        'name'           => $group->table_name,
+                        'extends_name'   => self::mapTableName( $group->extends ),
+                        );
+
+        require_once 'CRM/Core/BAO/SchemaHandler.php';
+        $tableParams =& CRM_Core_BAO_SchemaHandler::defaultCustomTableFields( $params );
+        CRM_Core_BAO_SchemaHandler::createTable( $tableParams );
+    }
+
 }
 
 ?>

@@ -258,7 +258,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function postProcess()
+    public function postProcess( )
     {
         // get the submitted form values.
         $params = $this->controller->exportValues('Group');
@@ -286,6 +286,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         }
         $params['weight'] = 
             CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomGroup', $oldWeight, $params['weight']);
+
         // fix for CRM-316
         if ($this->_action & CRM_Core_Action::UPDATE) {
 
@@ -356,13 +357,23 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $group->id = $this->_id;
         }
+
+        // lets create the table associated with the group and save it
+        $group->table_name = 
+            'civicrm_custom_value_' .
+            strtolower( CRM_Utils_String::munge( $group->title, '_', 32 ) );
+        $group->is_multiple = 0;
         $group->save();
+
+        // now create the table associated with this group
+        CRM_Core_BAO_CustomGroup::createTable( $group );
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Core_Session::setStatus(ts('Your Group "%1" has been saved.', array(1 => $group->title)));
         } else {
             $url = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $group->id);
-            CRM_Core_Session::setStatus(ts('Your Group "%1" has been added. You can <a href="%2">add custom fields</a> to this group now.', array(1 => $group->title, 2 => $url)));
+            CRM_Core_Session::setStatus(ts('Your Group "%1" has been added. You can <a href="%2">add custom fields</a> to this group now.',
+                                           array(1 => $group->title, 2 => $url)));
         }
     }
 }

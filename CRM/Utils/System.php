@@ -38,100 +38,6 @@
  *
  */
 class CRM_Utils_System {
-
-    /**
-     * special cases for php4
-     * @var array
-     * @static
-     */
-    public static $php4SpecialClassName = array(
-                                                'crm'                => 'CRM',
-                                                'acceptcreditcard'   => 'AcceptCreditCard',
-                                                'acl'                => 'ACL',
-                                                'activityhistory'    => 'ActivityHistory',
-                                                'addtogroup'         => 'AddToGroup',
-                                                'addtohousehold'     => 'AddToHousehold',
-                                                'addtoorganization'  => 'AddToOrganization',
-                                                'addtotag'           => 'AddToTag',
-                                                'addproduct'         => 'AddProduct',
-                                                'api'                => 'API',
-                                                'at'                 => 'AT',
-                                                'activitytype'       => 'ActivityType',
-                                                'bao'                => 'BAO',
-                                                'basiccriteria'      => 'BasicCriteria',
-                                                'batchupdateprofile' => 'BatchUpdateProfile',
-                                                'createppd'          => 'CreatePPD',
-                                                'customdata'         => 'CustomData',
-                                                'customfield'        => 'CustomField',
-                                                'customgroup'        => 'CustomGroup',
-                                                'customoption'       => 'CustomOption',
-                                                'customvalue'        => 'CustomValue',
-                                                'contributionpage'   => 'ContributionPage',
-                                                'contributionpageedit'=> 'ContributionPageEdit',
-                                                'contributiontype'   => 'ContributionType',
-                                                'dedupefind'         => 'DedupeFind',
-                                                'deduperules'        => 'DedupeRules',
-                                                'dupematch'          => 'DupeMatch', 
-                                                'cmsuser'            => 'CMSUser', 
-                                                'dashboard'          => 'DashBoard',
-                                                'dao'                => 'DAO',
-                                                'deletefield'        => 'DeleteField', 
-                                                'deletefile'         => 'DeleteFile',
-                                                'deletegroup'        => 'DeleteGroup', 
-                                                'donationpage'       => 'DonationPage',
-                                                'dedupefind'         => 'DedupeFind',
-                                                'emailhistory'       => 'EmailHistory',
-                                                'entitycategory'     => 'EntityCategory',
-                                                'entitytag'          => 'EntityTag',
-                                                'entityrole'         => 'EntityRole',
-                                                'emptyresults'       => 'EmptyResults',
-                                                'eventinfo'          => 'EventInfo',
-                                                'geocoord'           => 'GeoCoord',
-                                                'groupcontact'       => 'GroupContact',
-                                                'gmapsinput'         => 'GMapsInput',
-                                                'im'                 => 'IM',
-                                                'improvider'         => 'IMProvider',
-                                                'individualprefix'   => 'IndividualPrefix',
-                                                'individualsuffix'   => 'IndividualSuffix',
-                                                'locationtype'       => 'LocationType',
-                                                'manageevent'        => 'ManageEvent',
-                                                'manageeventedit'    => 'ManageEventEdit',
-                                                'managepremiums'     => 'ManagePremiums',
-                                                'mapfield'           => 'MapField',
-                                                'membershipblock'    => 'MembershipBlock',
-                                                'membershiptype'     => 'MembershipType',
-                                                'membershipstatus'   => 'MembershipStatus',
-                                                'messagetemplates'   => 'MessageTemplates',
-                                                'mobileprovider'     => 'MobileProvider',
-                                                'otheractivity'      => 'OtherActivity',
-                                                'pseudoconstant'     => 'PseudoConstant',
-                                                'pagerAToZ'          => 'pagerAToZ',//not needed here 
-                                                'paymentinstrument'  => 'PaymentInstrument',
-                                                'paymentprocessor'   => 'PaymentProcessor', 
-                                                'paymentprocessortype'=> 'PaymentProcessorType', 
-                                                'pickprofile'        => 'PickProfile',
-                                                'relationshiptype'   => 'RelationshipType',
-                                                'removefromgroup'    => 'RemoveFromGroup',
-                                                'removefromtag'      => 'RemoveFromTag',
-                                                'savedsearch'        => 'SavedSearch',
-                                                'savesearch'         => 'SaveSearch',
-                                                'selectvalues'       => 'SelectValues',
-                                                'showhideblocks'     => 'ShowHideBlocks',
-                                                'statemachine'       => 'StateMachine',
-                                                'stateprovince'      => 'StateProvince',
-                                                'ufformfield'        => 'UFFormField',
-                                                'ufform'             => 'UFForm',
-                                                'ufmatch'            => 'UFMatch',
-                                                'uploadfile'         => 'UploadFile',
-                                                'uf'                 => 'UF',
-                                                'selectfield'        => 'SelectField',
-                                                'thankyou'           => 'ThankYou',
-                                                'versioncheck'       => 'VersionCheck',
-                                                'optiongroup'        => 'OptionGroup',
-                                                'optionvalue'        => 'OptionValue',
-                                                'systemconfig'       => 'SystemConfig',
-                                                'userdashboard'      => 'UserDashBoard',
-                                                );
     
     static $_callbacks = null;
 
@@ -344,11 +250,6 @@ class CRM_Utils_System {
     /**
      * gets a class name for an object
      *
-     * This is used primarily by the PHP4 code since the
-     * get_class($this) in php4 returns the class name in lowercases.
-     *
-     * We need to do some conversions before we can use the lower case class names.
-     *
      * @param  object $object      - object whose class name is needed
      * @return string $className   - class name
      *
@@ -357,44 +258,7 @@ class CRM_Utils_System {
      */
     static function getClassName($object)
     {
-        $className = get_class($object);
-        if (!self::isPHP4()) {
-            return $className;
-        }
-
-        // we are in php4 now
-        // get all components of the class name
-        $classNameComponent = explode("_", $className);
-        foreach ($classNameComponent as $k => $v) {
-            $v =& $classNameComponent[$k];
-            if (array_key_exists($v, self::$php4SpecialClassName)) {
-                $v = self::$php4SpecialClassName[$v]; // special case hence replace
-            } else {
-                $v = ucfirst($v); // regular component so just upcase first character
-            }
-            unset($v);
-        }
-
-        // create the class name
-        $className = implode('_', $classNameComponent);
-        return $className;
-    }
-
-
-    /**
-     * check if PHP4 ?
-     *
-     * @return boolean true if php4 false otherwise
-     * @access public
-     * @static
-     */
-    static function isPHP4()
-    {
-        static $version;
-        if ( !isset( $version ) ) {
-            $version = (substr(phpversion(), 0, 1) == 4) ? true:false;
-        }
-        return $version;
+        return get_class($object);
     }
 
     /**
