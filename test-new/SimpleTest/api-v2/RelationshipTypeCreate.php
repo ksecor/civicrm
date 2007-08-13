@@ -7,11 +7,15 @@ require_once 'api/v2/Relationship.php';
  */
 class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase 
 {
-   
+
     function setUp( ) 
     {
+
     }
- 
+
+    function tearDown( ) 
+    {
+    }
     /**
      * check with empty array
      */    
@@ -20,8 +24,8 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
         $params = array( );        
         $result =& civicrm_relationship_type_add( $params );
 
-        $this->assertEqual( $relationshiptype['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Input parameter is not present' );
+        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEqual( $result['error_message'], 'No input parameters present' );
     }
     
     /**
@@ -44,16 +48,14 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
         $relTypeParams = array(
                                'name_b_a'       => 'Test 2',
                                'contact_type_a' => 'Individual',
-                               'contact_type_b' => 'Organization',
+                               'contact_type_b' => 'Organization'
                                );
 
         $result = & civicrm_relationship_type_add( $relTypeParams );
-
         $this->assertEqual( $result['is_error'], 1 );
         $this->assertEqual( $result['error_message'], 'Missing required parameters' );
     }
        
-
     /**
      * check with no contact type
      */
@@ -64,10 +66,13 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
                                'name_b_a' => 'Relation 2'
                                );
         
-        $result = & civicrm_relationship_type_create( $relTypeParams );  
+        $result = & civicrm_relationship_type_add( $relTypeParams );  
+
         $this->assertEqual( $result['is_error'], 0 );
         $this->assertNotNull( $result['id'] );
    
+        // assertDBState compares expected values in $result to actual values in the DB          
+        $this->assertDBState( 'CRM_Contact_DAO_RelationshipType', $result['id'],  $relTypeParams ); 
         $this->relationshipTypeDelete( $result['id'] );
     }
 
@@ -95,11 +100,7 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
         //delete the created relationship
         $this->relationshipTypeDelete( $relationshiptype['id'] );
     }
-    
-    function tearDown( ) 
-    {
-        
-    }
+   
 }
  
 ?> 

@@ -19,17 +19,7 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
     // First Create a relationship type
     function testRelationshipTypeCreate( )
     {
-        $relTypeParams = array(
-                               'name_a_b'       => 'Relation 1',
-                               'name_b_a'       => 'Relation 2',
-                               'description'    => 'Testing relationship type',
-                               'contact_type_a' => 'Individual',
-                               'contact_type_b' => 'Organization',
-                               'is_reserved'    => 1,
-                               'is_active'      => 1
-                               );
-        
-        $this->_relTypeID = $this->relationshipTypeCreate( $relTypeParams );
+        $this->_relTypeID = $this->relationshipTypeCreate( );
     }
     
     /**
@@ -41,7 +31,6 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
         $result =& civicrm_relationship_type_delete( $params );
         
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_mesage'], 'No Input Parameter present' );
     }
     
     /**
@@ -54,7 +43,6 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
         $result =& civicrm_relationship_type_delete( $params );
         
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Parameters is not an array' );
     }
     
     /**
@@ -72,7 +60,7 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
         $result =& civicrm_relationship_type_delete( $params );
         
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing required fields' );
+        $this->assertEqual( $result['error_message'], 'Missing required parameter' );
     }
     
     /**
@@ -81,7 +69,7 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
     function testRelationshipTypeDeleteWithIncorrectData( )
     {
         $params = array(
-                        'id'             => 0.0,
+                        'id'             => 'abcd',
                         'name_b_a'       => 'Relation 2',
                         'description'    => 'Testing relationship type',
                         'contact_type_a' => 'Individual',
@@ -91,9 +79,9 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
                         );
 
         $result =& civicrm_relationship_type_delete( $params );
-
+ 
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing required fields' );
+        $this->assertEqual( $result['error_message'], 'Invalid value for relationship type ID' );
     }
     
     /**
@@ -106,8 +94,9 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
                         'name_a_b' => 'Relation 1',
                         'name_b_a' => 'Relation 2',
                         );
-        
+
         $result = & civicrm_relationship_type_delete( $params );
+
         $this->assertEqual( $result['is_error'], 0 );
     }
     

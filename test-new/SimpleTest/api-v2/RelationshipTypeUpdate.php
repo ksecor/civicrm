@@ -11,16 +11,7 @@ class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase
     
     function setUp( ) 
     {
-        $relTypeParams = array(
-                               'name_a_b'       => 'Relation 1',
-                               'name_b_a'       => 'Relation 2',
-                               'description'    => 'Testing relationship type',
-                               'contact_type_a' => 'Individual',
-                               'contact_type_b' => 'Organization',
-                               'is_reserved'    => 1,
-                               'is_active'      => 1
-                               );
-        $this->_relTypeID = $this->relTypeCreate( $relTypeParams );
+        $this->_relTypeID = $this->relationshipTypeCreate( );
     }
  
     /**
@@ -32,7 +23,7 @@ class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase
         $result =& civicrm_relationship_type_add( $params );
 
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'No Input parameters' );
+        $this->assertEqual( $result['error_message'], 'No input parameters present' );
     }
     
     /**
@@ -44,30 +35,9 @@ class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase
         $result =& civicrm_relationship_type_add( $params );
         
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Parameters is not an array' );
+        $this->assertEqual( $result['error_message'], 'Parameter is not an array' );
     }
 
-    /**
-     * check without name 
-     */
-    function testRelationshipTypeUpdateWithoutName( )
-    {
-        $relTypeParams = array(
-                               'id'             => $this->_relTypeID,
-                               'name_b_a'       => 'Relation 2',
-                               'description'    => 'Testing relationship type',
-                               'contact_type_a' => 'Individual',
-                               'contact_type_b' => 'Individual',
-                               'is_reserved'    => 0,
-                               'is_active'      => 0
-                               );
-
-        $result =& civicrm_relationship_type_add( $relTypeParams );
-
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing required fields' );
-    }
-       
     /**
      * check with no contact type
      */
@@ -83,7 +53,7 @@ class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase
                                );
         
         $result = & civicrm_relationship_type_add( $relTypeParams );  
-
+       
         $this->assertEqual( $result['is_error'], 0 );
         $this->assertNotNull( $result['id'] );   
 
