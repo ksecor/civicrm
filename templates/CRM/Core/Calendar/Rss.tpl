@@ -9,10 +9,10 @@
 <docs>http://blogs.law.harvard.edu/tech/rss</docs>
 {foreach from=$events key=uid item=event}
 <item>
-<title>{$event.summary}</title>
+<title>{$event.summary|escape:'htmlall'}</title>
 <link>{crmURL p='civicrm/event/info' q="reset=1&id=`$event.event_id`"}</link>
 <description>
-{if $event.description}{$event.description}
+{if $event.description}{$event.description|escape:'htmlall'}
 {/if}
 {if $event.start_date}{ts}When{/ts}: {$event.start_date|crmDate}{if $event.end_date} {ts}through{/ts} {strip}
         {* Only show end time if end date = start date *}
@@ -23,10 +23,10 @@
         {/if}{/strip}
     {/if}
 {/if}
-{if $event.is_show_location EQ 1 && $event.location}{ts}Where{/ts}: {$event.location}
+{if $event.is_show_location EQ 1 && $event.location}{ts}Where{/ts}: {$event.location|escape:'htmlall'}
 {/if}
 </description>
-{if $event.event_type}<category>{$event.event_type}</category>
+{if $event.event_type}<category>{$event.event_type|escape:'htmlall'}</category>
 {/if}
 {if $event.contact_email}<author>{$event.contact_email}</author>
 {/if}
