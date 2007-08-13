@@ -8,7 +8,6 @@
 {htxt id='PayPal-test-user-name'}
 <strong>{ts}TEST Account Username or Email Address:{/ts}</strong>
 <p>{ts}<strong>PayPal Website Payments Pro or Express</strong> - If you are using the recommended <strong>Signature-based API Credentials</strong> - enter your API Username value as displayed in your account Profile - View API Signature screen.{/ts}</p>
-<p>{ts}If you are using <strong>Certificate-based credentials</strong> this field <strong>must be blank</strong> (or you will get errors from PayPal when submitting the transaction).{/ts}</p>
 <p>{ts}<strong>PayPal Website Standard</strong> - Enter the email address of your TEST (sandbox) merchant account.{/ts}</p>
 {/htxt}
 
@@ -23,5 +22,10 @@
 {htxt id='Moneris-test-user-name'}
 <strong>{ts}Moneris{/ts}</strong>
 <p>{ts 1='ignoreme' 2='yesguy' 3='store3' 4='store1' 5='store2'}Your Moneris username is not currently used, in either the normal or test account, so you can fill in '%1' (it can't be left blank). You can leave the recurring payments url blank, it's not used. Use '%2' as your test password, and '%3' as your test store ID. '%4' and '%5' also work, but only '%3' accepts recurring payments.{/ts}</p>
+{/htxt}
+
+{htxt id='Dummy-test-user-name'}
+<strong>{ts}Dummy{/ts}</strong>
+<p>This is sample help text for the user name block for the Dummy processor. Enter any string here.</p>
 {/htxt}
 
