@@ -17,10 +17,10 @@ SELECT @option_marital_id := max(id) from civicrm_option_group where name = 'cus
 SELECT @option_cpage_id   := max(id) from civicrm_option_group where name = 'custom_contribution_page_1';
 
 INSERT INTO civicrm_custom_field
-    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable, options_per_line, option_group_id)
+    (custom_group_id, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable, options_per_line, option_group_id)
 VALUES
-    (1, 'most_important_issue', 'Most Important Issue', 'String', 'Radio', 0, 5, '', 1, 1, NULL, @option_most_id),
-    (1, 'marital_status', 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL, @option_marital_id);
+    (1, 'Most Important Issue', 'String', 'Radio', 0, 5, '', 1, 1, NULL, @option_most_id),
+    (1, 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL, @option_marital_id);
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`) 
