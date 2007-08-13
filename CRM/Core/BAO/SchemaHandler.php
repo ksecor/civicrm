@@ -244,46 +244,10 @@ class CRM_Core_BAO_SchemaHandler
      */
     static function dropTable( $tableName ) 
     {
-        $sql = "DROP TABLE IF EXISTS $tableName";
+        $sql = "DROP TABLE $tableName";
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
         return true;
     }
-
-    /**
-     * Function for adding a column to the specified table.
-     *  
-     * @param  String  $tableName         name of the table which is to be altered
-     * @param  Array   $columnAttributes  array containing atrributes for the column, to be added
-     * 
-     * @return true if successfully added, false otherwise
-     * 
-     * @static
-     * @access public
-     */
-    static function addColumn( $tableName, $columnAttributes ) 
-    {
-        $sql =  self::buildQuery( $columnAttributes );
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-        return true;
-    }
-
-    /**
-     * Function for removing a column from a table
-     *  
-     * @param  String  $tableName     name of the table to be altered.
-     * @param  Array   $columnName    name of the column to be deleted.
-     * 
-     * @return true if successfully deleted, false otherwise
-     * 
-     * @static
-     * @access public
-     */
-    static function dropColumn( $tableName, $columnName ) 
-    {
-        $sql =  "ALTER TABLE $tableName DROP COLUMN $columnName";
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-        return true;
-    }
-
 }
+
 ?>
