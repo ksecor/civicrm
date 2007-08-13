@@ -283,7 +283,6 @@ showHideSharedOptions();
                 }
             }
         }
-        
         return empty($errors) ? true : $errors;
     }
 

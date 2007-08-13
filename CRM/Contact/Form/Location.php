@@ -65,8 +65,8 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @static 
      * @access public
      */
-    static function &buildLocationBlock( &$form, $maxLocationBlocks, $locationType = null, 
-                                         $locationCompoments = null, $addressOnly = false ) 
+    static function &buildLocationBlock( &$form, $maxLocationBlocks, $locationType = true, 
+                                         $locationCompoments = null, $addressOnly  = false ) 
     {
         $location = array();
         
