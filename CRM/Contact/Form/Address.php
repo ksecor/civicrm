@@ -60,29 +60,26 @@ class CRM_Contact_Form_Address
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
 
         $elements = array( 
-                          'street_address'         => array( ts('Street Address')   , null, null ),
-                          'supplemental_address_1' => array( ts('Addt\'l Address 1'), null, null ),
-                          'supplemental_address_2' => array( ts('Addt\'l Address 2'), null, null ),
-                          'city'                   => array( ts('City')             , null, null ),
-                          'postal_code'            => array( ts('Zip / Postal Code'), null, null ),
-                          'postal_code_suffix'     => array( ts('Postal Code Suffix')       ,
-                                                            array( 'size' => 4, 'maxlength' => 12 ), null ),
-                          'county_id'              => array( ts('County')           , null, 'county' ),
-                          'state_province_id'      => array( ts('State / Province') , null, null ),
-                          'country_id'             => array( ts('Country')          , null, null ), 
-                          'geo_code_1'             => array( ts('Latitude')         ,
-                                                             array( 'size' => 4, 'maxlength' => 8 ), null ),
-                          'geo_code_2'             => array( ts('Longitude')         ,
-                                                             array( 'size' => 4, 'maxlength' => 8 ), null ),
-                          );
-
+                          'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null ),
+                          'supplemental_address_1' => array( ts('Addt\'l Address 1') ,  $attributes['supplemental_address_1'], null ),
+                          'supplemental_address_2' => array( ts('Addt\'l Address 2') ,  $attributes['supplemental_address_2'], null ),
+                          'city'                   => array( ts('City')              ,  $attributes['city'] , null ),
+                          'postal_code'            => array( ts('Zip / Postal Code') ,  $attributes['postal_code'], null ),
+                          'postal_code_suffix'     => array( ts('Postal Code Suffix'),  array( 'size' => 4, 'maxlength' => 12 ), null ),
+                          'county_id'              => array( ts('County')            ,  $attributes['county_id'], 'county' ),
+                          'state_province_id'      => array( ts('State / Province')  ,  $attributes['state_province_id'],null ),
+                          'country_id'             => array( ts('Country')           ,  $attributes['country_id'], null ), 
+                          'geo_code_1'             => array( ts('Latitude')          ,  array( 'size' => 4, 'maxlength' => 8 ), null ),
+                          'geo_code_2'             => array( ts('Longitude')         ,  array( 'size' => 4, 'maxlength' => 8 ), null ),
+                          ); 
+        
         foreach ( $elements as $name => $v ) {
             list( $title, $attributes, $select ) = $v;
-
+            
             if ( ! $addressOptions[$title] ) {
                 continue;
             }
-
+            
             if ( ! $attributes ) {
                 $attributes = $attributes[$name];
             }
