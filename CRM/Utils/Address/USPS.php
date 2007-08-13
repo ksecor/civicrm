@@ -40,20 +40,20 @@
  */
 class CRM_Utils_Address_USPS {
     
-    static function checkAddress(&$values) {
+    static function checkAddress( &$values ) {
         CRM_Utils_System::checkPHPVersion( 5, true );
-
+        
         if ( ! isset($values['street_address'])     || 
-              (! isset($values['city'])      &&
-               ! isset($values['state_province'])     &&
-               ! isset($values['postal_code']) ) ) {
+               ( ! isset($values['city']           )   &&
+                 ! isset($values['state_province'] )   &&
+                 ! isset($values['postal_code']    )      ) ) {
             return false;
         }
-
+        
         require_once 'CRM/Core/BAO/Preferences.php';
         $userID = CRM_Core_BAO_Preferences::value( 'address_standardization_userid' );
         $url    = CRM_Core_BAO_Preferences::value( 'address_standardization_url'    );
-
+        
         $address2 = str_replace( ',', '', $values['street_address'] );
         
         $XMLQuery = '<AddressValidateRequest USERID="'.$userID.'"><Address ID="0"><Address1>'.$values['supplemental_address_1'].'</Address1><Address2>'.$address2.'</Address2><City>'.$values['city'].'</City><State>'.$values['state_province'].'</State><Zip5>'.$values['postal_code'].'</Zip5><Zip4>'.$values['postal_code_suffix'].'</Zip4></Address></AddressValidateRequest>';
@@ -77,32 +77,17 @@ class CRM_Utils_Address_USPS {
             $session->setStatus( ts( 'Address not found in USPS database.' ) );
             return false;
         }
+                
+        $values['street_address']     = (string)$xml->Address->Address2;
+        $values['city']               = (string)$xml->Address->City;
+        $values['state_province']     = (string)$xml->Address->State;
+        $values['postal_code']        = (string)$xml->Address->Zip5;
+        $values['postal_code_suffix'] = (string)$xml->Address->Zip4;
         
-        require_once 'CRM/Core/BAO/Address.php';
-        
-        $addressBAO = new CRM_Core_BAO_Address();
-        $addressBAO->id = $values['address_id'];
-        
-        if ($addressBAO->find(true)) {
-            if (array_key_exists('Address1', $xml->Address)) {
-                $addressBAO->supplemental_address_1 = (string)$xml->Address->Address1;
-            }
-            
-            $addressBAO->street_address     = (string)$xml->Address->Address2;
-            $addressBAO->city               = (string)$xml->Address->City;
-            $addressBAO->state_province     = (string)$xml->Address->State;
-            $addressBAO->postal_code        = (string)$xml->Address->Zip5;
-            $addressBAO->postal_code_suffix = (string)$xml->Address->Zip4;
-            
-            $modifiedValues = $addressBAO->save();
-            
-            $values['street_address']     = $modifiedValues->street_address;
-            $values['city']               = $modifiedValues->city;
-            $values['state_province']     = $modifiedValues->state_province;
-            $values['postal_code']        = $modifiedValues->postal_code;
-            $values['postal_code_suffix'] = $modifiedValues->postal_code_suffix;
+        if (array_key_exists('Address1', $xml->Address)) {
+            $values['supplemental_address_1'] = (string)$xml->Address->Address1;
         }
-        
+                
         return true;
     }
 }

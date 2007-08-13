@@ -58,7 +58,7 @@ class CRM_Core_Payment_Dummy extends CRM_Core_Payment {
             $trxn_id = strval( CRM_Core_Dao::singleValueQuery( $query, $p ) );
             $trxn_id = str_replace( 'test', '', $trxn_id );
             $trxn_id = intval($trxn_id) + 1;
-            $params['trxn_id'] = sprintf('test%d', $trxn_id);
+            $params['trxn_id'] = sprintf('test%08d', $trxn_id);
         }
         else {
             CRM_Core_Error::fatal( ts('Dummy payment processor can not be used for live transactions') );

@@ -235,7 +235,7 @@ function civicrm_initialize( $requireAPI = false )
         $error = include_once( $settingsFile );
         if ( $error == false ) {
             $failure = true;
-            drupal_set_message( "<strong><p class='error'>Oops! - The CiviCRM settings file (civicrm.settings.php) was not found in the expected location (" . $settingsFile . "). Please review the <a href='http://wiki.civicrm.org/confluence//x/mQ8'>Installation Instructions</a> and <a href='http://wiki.civicrm.org/confluence//x/7ho'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
+            drupal_set_message( "<strong><p class='error'>Oops! - The CiviCRM settings file (civicrm.settings.php) was not found in the expected location (" . $settingsFile . "). Please review the <a href='http://wiki.civicrm.org/confluence//x/mQ8'>Installation Instructions</a>, <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/FAQ#FAQ-install'>Installation FAQs</a>, and <a href='http://wiki.civicrm.org/confluence//x/7ho'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
             return false;
         }
         
@@ -243,7 +243,7 @@ function civicrm_initialize( $requireAPI = false )
         $error = include_once( 'CRM/Core/Config.php' );
         if ( $error == false ) {
             $failure = true;
-            drupal_set_message( "<strong><p class='error'>Oops! - The path for including CiviCRM code files is not set properly. Most likely there is an error in the <em>civicrm_root</em> setting in your CiviCRM settings file ($settingsFile).</p><p> &raquo; civicrm_root is currently set to: <em>$civicrm_root</em>.</p><p>Please review the <a href='http://wiki.civicrm.org/confluence//x/mQ8'>Installation Instructions</a> and <a href='http://wiki.civicrm.org/confluence//x/7ho'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
+            drupal_set_message( "<strong><p class='error'>Oops! - The path for including CiviCRM code files is not set properly. Most likely there is an error in the <em>civicrm_root</em> setting in your CiviCRM settings file ($settingsFile).</p><p> &raquo; civicrm_root is currently set to: <em>$civicrm_root</em>.</p><p>Please review the <a href='http://wiki.civicrm.org/confluence//x/mQ8'>Installation Instructions</a>, <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/FAQ#FAQ-install'>Installation FAQs</a>, and <a href='http://wiki.civicrm.org/confluence//x/7ho'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
             return false;
         }
 

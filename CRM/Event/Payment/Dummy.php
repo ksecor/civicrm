@@ -34,7 +34,7 @@ class CRM_Event_Payment_Dummy extends CRM_Core_Payment_Dummy {
      * @return void
      */
     function __construct( $mode, &$paymentProcessor ) {
-        parent::__construct( $mode, &$paymentProcessor );
+        parent::__construct( $mode, $paymentProcessor );
     }
 
     /**

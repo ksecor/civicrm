@@ -92,12 +92,17 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
                                       'im'                     => 1, 
                                       );
         $returnProperties = array_merge( $returnProperties, $addressProperties );
-        
+
         $query            =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, null, false, false, 
                                                         CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
         $properties = array( 'contact_id', 'contribution_id' );
         $header     = array( ts( 'Contact ID' ), ts( 'Contribution ID' ) );
         foreach ( $returnProperties as $name => $dontCare ) {
+            // skip contribution_status_id (since we get the text as contrib_status)
+            // fix for CRM-2186 (plus exporting an ID does not make a lot of sense
+            if ( $name == 'contribution_status_id' ) {
+                continue;
+            }
             $properties[] = $name;
             if ( CRM_Utils_Array::value( $name, $query->_fields ) &&
                  CRM_Utils_Array::value( 'title', $query->_fields[$name] ) ) {
@@ -106,6 +111,7 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
                 $header[] = $name;
             }
         }
+
         // header fixed for colomns are not expotable
         $headerArray = array('image_URL'     => 'Image URL',
                              'contact_type'  => 'Contact Type',
@@ -132,9 +138,6 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
             foreach ( $properties as $property ) {
                 if ($property == "is_test") {
                     $row[] = $result->$property ? "Yes" : "No";
-                    if ( $result->$property ) {
-                        $row[] = $result->$property;
-                    } 
                 } else {
                     $row[] = $result->$property;
                 }
