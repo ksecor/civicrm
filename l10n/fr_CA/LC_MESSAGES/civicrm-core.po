@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-09 09:45+0200\n"
+"POT-Creation-Date: 2007-08-13 06:28+0200\n"
 "PO-Revision-Date: 2007-07-24 14:30-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
@@ -9693,15 +9693,16 @@ msgstr ""
 msgid ""
 "<strong>Export PRIMARY contact fields</strong> provides the most commonly "
 "used data values. This includes primary address information, preferred phone "
-"and email, as well as all custom data."
+"and email."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid ""
 "Click <strong>Select fields for export</strong> and then <strong>Continue</"
 "strong> to choose a subset of fields for export. This option allows you to "
-"export multiple specific locations (Home, Work, etc.). You can also save "
-"your selections as a 'field mapping' so you can use it again later."
+"export multiple specific locations (Home, Work, etc.) as well as custom "
+"data. You can also save your selections as a 'field mapping' so you can use "
+"it again later."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-01 14:27+0200\n"
+"POT-Creation-Date: 2007-08-13 06:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -319,13 +319,6 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"If you are using <strong>Certificate-based credentials</strong> this field "
-"<strong>must be blank</strong> (or you will get errors from PayPal when "
-"submitting the transaction)."
-msgstr ""
-
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
 "<strong>PayPal Website Standard</strong> - Enter the email address of your "
 "TEST (sandbox) merchant account."
 msgstr ""
@@ -362,6 +355,10 @@ msgid ""
 "recurring payments url blank, it's not used. Use '%2' as your test password, "
 "and '%3' as your test store ID. '%4' and '%5' also work, but only '%3' "
 "accepts recurring payments."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Dummy"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Advanced.hlp
