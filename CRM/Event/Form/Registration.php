@@ -177,7 +177,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
             }
 
-            $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value('registration_end_date',$this->_values['event']) );
+            $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_end_date',
+                                                                         $this->_values['event'] ) );
             if ( $endDate &&
                  $endDate < $now ) {
                 CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );

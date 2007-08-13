@@ -69,21 +69,22 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         if ( empty($params['location'][$locationId]['address']) ) {
             return ;
         }
-
+        
         $address              =& new CRM_Core_BAO_Address();
         $address->location_id = $params['location'][$locationId]['id'];
         $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
         
+        
         if ( $fixAddress ) {
             CRM_Core_BAO_Address::fixAddress( $params['location'][$locationId]['address'] );
         }
-      
+                
         if ( $address->copyValues($params['location'][$locationId]['address']) ) {
             // we copied only null stuff, so we delete the object
             $address->delete( );
             return null;
         }
-       
+        
         return $address->save();
     }
 
@@ -176,9 +177,9 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         // clean up the address via USPS web services if enabled
         if ($asp === 'USPS') {
             require_once 'CRM/Utils/Address/USPS.php';
-            CRM_Utils_Address_USPS::checkAddress($params);
+            CRM_Utils_Address_USPS::checkAddress( $params );
         }
-
+        
         // add latitude and longitude and format address if needed
         if ( ! empty( $config->geocodeMethod ) ) {
             require_once( str_replace('_', DIRECTORY_SEPARATOR, $config->geocodeMethod ) . '.php' );
