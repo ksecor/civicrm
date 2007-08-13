@@ -230,7 +230,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), 'onclick="custom_option_html_type(this.form)"; onBlur="custom_option_html_type(this.form)";', '&nbsp;&nbsp;&nbsp;' );
         $sel->setOptions(array($dt, $it));
 
-        $Options = CRM_Core_BAO_CustomOption::getCustomOption($this->_id);
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('data_type');
         }
@@ -598,7 +597,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         // set values for custom field properties and save
         $customField                =& new CRM_Core_DAO_CustomField();
         $customField->label         = $params['label'];
-        $customField->name          = CRM_Utils_String::titleToVar($params['label']);
         $customField->data_type     = self::$_dataTypeKeys[$params['data_type'][0]];
         $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
         
@@ -668,11 +666,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         }
 
         // for 'is_search_range' field.   
-        if ($params['data_type'][0] == 1 || $params['data_type'][0] == 2 || $params['data_type'][0] == 3 || $params['data_type'][0] == 5) {
-            if (!$params['is_searchable']) {
+        if ( $params['data_type'][0] == 1 ||
+             $params['data_type'][0] == 2 ||
+             $params['data_type'][0] == 3 ||
+             $params['data_type'][0] == 5 ) {
+            if ( ! $params['is_searchable'] ) {
                 $params['is_search_range'] = 0;
             }
-            
         }
         else {
             if ($params['is_searchable']) {
@@ -705,13 +705,15 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $customField->attributes = 'rows=4, cols=60';
         }
 
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-            $customField->id = $this->_id;
-        }
-
         // need the FKEY - custom group id
         $customField->custom_group_id = $this->_gid;
         
+        if ($this->_action & CRM_Core_Action::UPDATE) {
+            $customField->id = $this->_id;
+        }
+        $customField->column_name = strtolower( CRM_Utils_String::munge( $customField->label, '_', 32 ) );
+        $params = CRM_Core_BAO_CustomField::createField( $customField );
+
         $customField->save();
 
         //Start Storing the values of Option field if the selected option is Multi Select

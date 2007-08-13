@@ -63,40 +63,6 @@ require_once 'CRM/Core/DAO.php';
 
 class CRM_Core_BAO_SchemaHandler
 {
-    static function &defaultCustomTableFields( &$params ) {
-        // add the id, domain_id, and extends_id
-        $table = array( 'name'       => $params['name'],
-                        'attributes' => "ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci",
-                        'fields'     => array(
-                                              array( 'name'          => 'id',
-                                                     'type'          => 'int unsigned',
-                                                     'primary'       => true,
-                                                     'required'      => true,
-                                                     'comment'       => 'Default MySQL primary key' ),
-                                              array( 'name'          => 'domain_id',
-                                                     'type'          => 'int unsigned',
-                                                     'required'      => true,
-                                                     'comment'       => 'Default Domain that this data belongs to',
-                                                     'fk_table_name' => 'civicrm_domain',
-                                                     'fk_field_name' => 'id' ),
-                                              array( 'name'          => 'entity_id',
-                                                     'type'          => 'int unsigned',
-                                                     'required'      => true,
-                                                     'comment'       => 'Table that this extends',
-                                                     'fk_table_name' => $params['extends_name'],
-                                                     'fk_field_name' => 'id' )
-                                              ),
-                        'indexes'    => array(
-                                              array( 'unique'        => true,
-                                                     'field_name_1'  => 'domain_id',
-                                                     'field_name_2'  => 'entity_id' )
-                                              ),
-                                                    
-                        );
-        return $table;
-                                              
-    }
-
     /**
      * Function for creating a civiCRM-table
      *  
@@ -221,29 +187,29 @@ class CRM_Core_BAO_SchemaHandler
         return $sql;
     }
 
-    static function alterFieldSQL( &$params, $operation ) {
+    static function alterFieldSQL( &$params ) {
         $sql  = str_repeat( ' ', 8 );
-        $sql .= "ALTER TABLE {$params['tableName']}";
+        $sql .= "ALTER TABLE {$params['table_name']}";
 
-        switch ( $operation ) {
+        switch ( $params['operation'] ) {
         case 'add':
             $separator = "\n";
             $prefix    = "ADD ";
-            $sql       .= self::buildFieldSQL     ( $params, $separator, $prefix );
+            $sql       .= self::buildFieldSQL      ( $params, $separator, "ADD COLUMN " );
             $separator = ",\n";
-            $sql       .= self::buildPrimaryKeySQL( $params['fields'], $separator, $prefix );
-            $sql       .= self::buildIndexSQL     ( $params['fields'], $separator, $prefix );
-            $sql       .= self::buildForeignKeySQL( $params['fields'], $separator, $prefix );
+            $sql       .= self::buildPrimaryKeySQL ( $params, $separator, "ADD PRIMARY KEY " );
+            $sql       .= self::buildSearchIndexSQL( $params, $separator, "ADD INDEX " );
+            $sql       .= self::buildForeignKeySQL ( $params, $separator, "ADD CONSTRAINT " );
             break;
             
         case 'modify':
             $separator = "\n";
             $prefix    = "MODIFY ";
-            $sql       .= self::buildFieldSQL     ( $params, $separator, $prefix );
+            $sql       .= self::buildFieldSQL      ( $params, $separator, $prefix );
             $separator = ",\n";
-            $sql       .= self::buildPrimaryKeySQL( $params['fields'], $separator, $prefix );
-            $sql       .= self::buildIndexSQL     ( $params['fields'], $separator, $prefix );
-            $sql       .= self::buildForeignKeySQL( $params['fields'], $separator, $prefix );
+            $sql       .= self::buildPrimaryKeySQL ( $params['fields'], $separator, $prefix );
+            $sql       .= self::buildSearchIndexSQL( $params['fields'], $separator, $prefix );
+            $sql       .= self::buildForeignKeySQL ( $params['fields'], $separator, $prefix );
             break;
 
         case 'delete':
@@ -262,7 +228,8 @@ class CRM_Core_BAO_SchemaHandler
 
         }
 
-        return $sql;
+        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        return true;
     }
 
     /**

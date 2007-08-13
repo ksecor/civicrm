@@ -1015,5 +1015,56 @@ WHERE custom_field_id = {$customFieldId} AND entity_table='{$entityTable}' AND e
                                                  );
         return $customFormatted;
     }
+
+    static function &defaultCustomTableSchema( &$params ) {
+        // add the id, domain_id, and extends_id
+        $table = array( 'name'       => $params['name'],
+                        'attributes' => "ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci",
+                        'fields'     => array(
+                                              array( 'name'          => 'id',
+                                                     'type'          => 'int unsigned',
+                                                     'primary'       => true,
+                                                     'required'      => true,
+                                                     'comment'       => 'Default MySQL primary key' ),
+                                              array( 'name'          => 'domain_id',
+                                                     'type'          => 'int unsigned',
+                                                     'required'      => true,
+                                                     'comment'       => 'Default Domain that this data belongs to',
+                                                     'fk_table_name' => 'civicrm_domain',
+                                                     'fk_field_name' => 'id' ),
+                                              array( 'name'          => 'entity_id',
+                                                     'type'          => 'int unsigned',
+                                                     'required'      => true,
+                                                     'comment'       => 'Table that this extends',
+                                                     'fk_table_name' => $params['extends_name'],
+                                                     'fk_field_name' => 'id' )
+                                              ),
+                        'indexes'    => array(
+                                              array( 'unique'        => true,
+                                                     'field_name_1'  => 'domain_id',
+                                                     'field_name_2'  => 'entity_id' )
+                                              ),
+                                                    
+                        );
+        return $table;
+    }
+
+    static function createField( $field ) {
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        $params = array( 'table_name' => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                                      $field->custom_group_id,
+                                                                      'table_name' ),
+                         'operation'  => 'add',
+                         'name'       => $field->column_name,
+                         'type'       => CRM_Core_BAO_CustomValue::fieldToSQLType( $field->data_type ),
+                         'required'   => $field->is_required,
+                         'searchable' => $field->is_searchable,
+                         'default'    => "'{$field->default_value}'",
+                         );
+
+        require_once 'CRM/Core/BAO/SchemaHandler.php';
+        CRM_Core_BAO_SchemaHandler::alterFieldSQL( $params );
+    }
+    
 }
 ?>

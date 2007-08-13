@@ -236,7 +236,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
             return null;
         }
     }
-    
+
     /**
      * given a field return the type associated with it
      *
@@ -246,7 +246,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
      * @access public
      * @static
      */
-    public static function fieldToType($type) 
+    public static function fieldToType($type)
     {
         switch ($type) {
         case 'char_data':
@@ -261,6 +261,41 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
             return 'Date';
         default:
             return null;
+        }
+    }
+
+    /**
+     * given a field return the mysql data type associated with it
+     *
+     * @param string $type the civicrm type string
+     *
+     * @return the mysql data store placeholder
+     * @access public
+     * @static
+     */
+    public static function fieldToSQLType($type) 
+    {
+        switch ($type) {
+        case 'String':
+        case 'File':
+            return 'varchar(255)';
+        case 'Boolean':
+        case 'Int':
+        case 'StateProvince':
+        case 'Country':
+            return 'int';
+        case 'Float':
+            return 'float';
+        case 'Money':
+            return 'decimal(20,2)';
+        case 'Memo':
+            return 'text';
+        case 'Date':
+            return 'datetime';
+        case 'Link':
+            return 'varchar(255)';
+        default:
+            CRM_Core_Error::debug( ts( 'Please contact CiviCRM Support' ) );
         }
     }
     
