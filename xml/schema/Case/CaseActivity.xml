@@ -29,6 +29,29 @@
     <key>id</key>
     <add>1.8</add>
   </foreignKey>
+
+  <field>
+    <name>activity_id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>Activity ID of case-activity association.</comment>
+    <add>2.0</add>
+  </field>
+  <foreignKey>
+    <name>activity_id</name>
+    <table>civicrm_activity</table>
+    <key>id</key>
+    <add>2.0</add>
+  </foreignKey>
+
+  <index>
+    <name>UI_case_activity_id</name>
+    <fieldName>case_id</fieldName>
+    <fieldName>activity_id</fieldName>
+    <add>2.0</add>
+  </index>
+                                
+
   <field> 
    <name>activity_entity_table</name>
    <type>varchar</type>
@@ -36,12 +59,17 @@
    <required>true</required>
    <comment>Name of table where item being referenced is stored (activity, phonecall or meeting).</comment>
    <add>1.8</add>
+   <drop>2.0</drop>
   </field>
+
   <field>
    <name>activity_entity_id</name>   
    <type>int unsigned</type>
    <required>true</required>
    <comment>Entity (activity, phonecall or meeting) id for which the assigment is created</comment>
    <add>1.8</add>
+   <drop>2.0</drop>   
   </field>
+
+
 </table>

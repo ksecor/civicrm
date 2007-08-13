@@ -5,6 +5,7 @@
   <name>civicrm_meeting</name>
   <comment>Meeting details stored here include contact, location, details.</comment>
   <add>1.1</add>
+  <drop>2.0</drop>
   <field>
       <name>id</name>
       <type>int unsigned</type>

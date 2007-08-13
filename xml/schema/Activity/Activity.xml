@@ -5,6 +5,7 @@
   <name>civicrm_activity</name>
   <comment>Other Activity  details stored here include contact, location, details.</comment>
   <add>1.1</add>
+
   <field>
       <name>id</name>
       <type>int unsigned</type>
@@ -16,12 +17,13 @@
        <name>id</name>
        <autoincrement>true</autoincrement>
   </primaryKey>
+
   <field>
       <name>source_contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Contact ID of person scheduling or logging this Activity. This will generally an authenticated user.</comment>
-       <add>1.1</add>
+      <add>1.1</add>
   </field>
   <foreignKey>
        <name>source_contact_id</name>
@@ -29,11 +31,25 @@
        <key>id</key>
        <add>1.1</add>
   </foreignKey>  
+  <index>
+       <name>UI_source_contact_id</name>
+       <fieldName>source_contact_id</fieldName>       
+       <add>2.0</add>
+  </index>
+
+  <field>
+      <name>source_record_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Artificial FK to original transaction (e.g. contribution) IF it is not an Activity. Table can be figured out through activity_type_id, and further through component registry.</comment>
+      <add>2.0</add>
+  </field>
+
   <field>
        <name>activity_type_id</name>
        <type>int unsigned</type>
        <required>true</required>
-       <comment>Foreign key to the referenced item.</comment>
+       <comment>FK to civicrm_option_value.id, that has to be valid, registered activity type.</comment>
        <add>1.1</add>
   </field>
   <index>
@@ -41,30 +57,37 @@
        <fieldName>activity_type_id</fieldName>       
        <add>1.6</add>
   </index>
+
   <field>
        <name>activity_tag1_id</name>
        <type>int unsigned</type>
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
        <add>1.8</add>
+       <drop>2.0</drop>
   </field>
   <index>
        <name>index_activity_tag1_id</name>
        <fieldName>activity_tag1_id</fieldName>
        <add>1.8</add>
+       <drop>2.0</drop>       
   </index> 
+
   <field>
        <name>activity_tag2_id</name>
        <type>int unsigned</type>
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
        <add>1.8</add>
+       <drop>2.0</drop>       
   </field>
   <index>
        <name>index_activity_tag2_id</name>
        <fieldName>activity_tag2_id</fieldName>
        <add>1.8</add>
+       <drop>2.0</drop>       
   </index> 
+
   <field>
        <name>activity_tag3_id</name>
        <type>varchar</type>
@@ -72,12 +95,15 @@
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
        <add>1.8</add>
+       <drop>2.0</drop>       
   </field>
   <index>
        <name>index_activity_tag3_id</name>
        <fieldName>activity_tag3_id</fieldName>
        <add>1.8</add>
+       <drop>2.0</drop>       
   </index>
+
   <field>
        <name>target_entity_table</name>
        <type>varchar</type>
@@ -85,59 +111,143 @@
        <required>true</required>
        <comment>Name of table where item being referenced is stored.</comment>
        <add>1.1</add>
+       <drop>2.0</drop>       
   </field>
+
   <field>
        <name>target_entity_id</name>
        <type>int unsigned</type>
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
        <add>1.1</add>
+       <drop>2.0</drop>       
   </field>
+
   <field>
-      <name>subject</name>
-      <type>varchar</type>
-      <length>64</length>
-      <comment>The subject/purpose of this meeting.</comment>
+       <name>subject</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>The subject/purpose/short description of the activity.</comment>
        <add>1.1</add>
+       <modify>2.0</modify>
   </field>
+
   <field>
-     <name>scheduled_date_time</name>
-     <type>datetime</type>
-     <comment>Date and time meeting is scheduled to occur.</comment>
+       <name>scheduled_date_time</name>
+       <type>datetime</type>
+       <comment>Date and time meeting is scheduled to occur.</comment>
        <add>1.1</add>
+       <drop>2.0</drop>
   </field>
+  
   <field>
-      <name>duration_hours</name>
-      <type>int unsigned</type>
-      <comment>Planned or actual duration of meeting - hours.</comment>
+       <name>activity_date_time</name>
+       <type>datetime</type>
+       <comment>Date and time this activity is scheduled to occur. Formerly named scheduled_date_time.</comment>
+       <add>2.0</add>
+  </field>  
+
+  <field>
+       <name>due_date_time</name>
+       <type>datetime</type>
+       <comment>Date and time this activity is due.</comment>
+       <add>2.0</add>
+  </field>  
+  
+  <field>
+       <name>duration_hours</name>
+       <type>int unsigned</type>
+       <comment>Planned or actual duration of meeting - hours.</comment>
        <add>1.1</add>
+       <drop>2.0</drop>       
   </field>
+
   <field>
       <name>duration_minutes</name>
       <type>int unsigned</type>
       <comment>Planned or actual duration of meeting - minutes.</comment>
-       <add>1.1</add>
+      <add>1.1</add>
+      <drop>2.0</drop>             
   </field>
+
+  <field>
+      <name>duration</name>
+      <type>int unsigned</type>
+      <comment>Planned or actual duration of activity expressed in minutes. Conglomerate of former duration_hours and duration_minutes.</comment>
+      <add>2.0</add>
+  </field>
+
   <field>
       <name>location</name>
       <type>varchar</type>
       <length>255</length>
-      <comment>Where will the meeting be held ?</comment>
-       <add>1.1</add>
+      <comment>Location of the activity (optional, open text).</comment>
+      <add>1.1</add>
   </field>
+
+  <field>
+      <name>phone_id</name>
+      <type>int unsigned</type>
+      <comment>Phone ID of the number called (optional - used if an existing phone number is selected).</comment>
+      <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>phone_id</name>
+       <table>civicrm_phone</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>
+
+  <field>
+      <name>phone_number</name>
+      <type>varchar</type>
+      <length>64</length>
+      <comment>Phone number in case the number does not exist in the civicrm_phone table.</comment>
+      <add>2.0</add>
+  </field>
+
   <field>
       <name>details</name>
       <type>text</type>
-      <comment>Details about the meeting (agenda, notes, etc).</comment>
-       <add>1.1</add>
+      <comment>Details about the activity (agenda, notes, etc).</comment>
+      <add>1.1</add>
   </field>
+
   <field>
       <name>status</name>
       <type>enum</type>
       <values>Scheduled, Completed</values>
       <comment>What is the status of this meeting? Completed meeting status results in activity history entry.</comment>
-       <add>1.1</add>
+      <add>1.1</add>
+      <drop>2.0</drop>                   
   </field>
+
+  <field>
+      <name>status_id</name>
+      <type>int unsigned</type>
+      <comment>ID of the status this activity is currently in. Foreign key to civicrm_option_value.</comment>
+      <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>status_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>
+  
+  <field>
+      <name>priority_id</name>
+      <type>int unsigned</type>
+      <comment>ID of the priority given to this activity. Foreign key to civicrm_option_value.</comment>
+      <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>priority_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>  
+  
   <field>
       <name>parent_id</name>
       <type>int unsigned</type>
@@ -150,4 +260,11 @@
        <key>id</key>
        <add>1.1</add>
   </foreignKey>
+
+  <field>
+       <name>is_test</name>
+       <type>boolean</type>
+       <default>0</default>
+       <add>2.0</add>
+  </field>                                 
 </table>

@@ -5,6 +5,7 @@
   <name>civicrm_phonecall</name>
   <comment>Record details regarding phone call to a contact</comment>
   <add>1.1</add>
+  <drop>2.0</drop>
   <field>
       <name>id</name>
       <type>int unsigned</type>
