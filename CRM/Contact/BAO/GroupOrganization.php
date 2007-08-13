@@ -147,6 +147,32 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
 
     }
 
+    /**
+     * Ascends the group hierarchy to find all organizations that effectively
+     * own any of the given groups.
+     *
+     * @param           $groupIds                Array of group ids
+     * 
+     * @return          $orgIds                  Array of organization ids
+     *
+     *
+     */
+
+
+    static function getAllOrgs( $groupIds ) {
+        require_once 'CRM/Contact/BAO/GroupNesting.php';
+	$ancestorIds = CRM_Contact_BAO_GroupNesting::getAncestorGroupIds($groupIds, true);
+	$orgIds = array( );
+	foreach( $ancestorIds as $ancestorId ) {
+	    $id = self::getOrganizationId( $ancestorId );
+	    if ( ! empty( $id  )) {
+	        $orgIds[] = $id;
+	    }
+	}
+	return $orgIds;
+
+    }
+
 
     /**
      * Retrieves the id in the civcrm_organization table for the corresponding
