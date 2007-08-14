@@ -156,11 +156,17 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
                 CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
                 foreach( $fields as $v  ) {
-                    $groupTitle = $v["groupTitle"];
+                    if ( ! $groupTitle ) { 
+                        $groupTitle = $v["groupTitle"];
+                    } else {
+                        break;
+                    }
                 }
+
                 if ( $groupTitle ) {
                     $template->assign( $name."_grouptitle", $groupTitle );
                 }
+
                 if ( count( $values ) ) {
                     $template->assign( $name, $values );
                 }
