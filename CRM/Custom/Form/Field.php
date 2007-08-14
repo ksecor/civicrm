@@ -746,10 +746,14 @@ SELECT id
                            array( 'String', 'Int', 'Float', 'Money' ) ) &&
                  ! empty( $params['option_value'] ) ) {
 
+                $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                          $this->_gid,
+                                                          'table_name' );
+
                 // first create an option group for this custom group
                 $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
                 $optionGroup->domain_id =  CRM_Core_Config::domainID( );
-                $optionGroup->name      =  $customField->column_name;
+                $optionGroup->name      =  "{$tableName}: {$customField->column_name}";
                 $optionGroup->label     =  $customField->label;
                 $optionGroup->is_active = 1;
                 $optionGroup->save( );
@@ -760,10 +764,10 @@ SELECT id
                     if (strlen(trim($v))) {
                         $optionValue                  =& new CRM_Core_DAO_OptionValue( );
                         $optionValue->option_group_id =  $optionGroup->id;
-                        $optionValue->label           = $params['option_label'][$k];
-                        $optionValue->value           = $v;
-                        $optionValue->weight          = $params['option_weight'][$k];
-                        $optionValue->is_active       = $params['option_status'][$k];
+                        $optionValue->label           =  $params['option_label'][$k];
+                        $optionValue->value           =  $v;
+                        $optionValue->weight          =  $params['option_weight'][$k];
+                        $optionValue->is_active       =  $params['option_status'][$k];
                         $optionValue->save( );
                     }
                 }                                                       
