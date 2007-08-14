@@ -92,14 +92,14 @@ class CRM_Contact_Form_Address
             if ( ! $select ) {
                 if ( $name == 'country_id' || $name == 'state_province_id' ) {
                     $onValueChanged = null;
-                    $dataUrl = null;
+                    $dataUrl        = null;
 
                     if ( $name == 'country_id') {
-                        $dataUrl=  CRM_Utils_System::url( "civicrm/ajax/country", "s=%{searchString}", true, null, false );
-                        
+                        $dataUrl =  CRM_Utils_System::url( "civicrm/ajax/country", "s=%{searchString}", true, null, false );
+
                         //when only country is enable, don't call function to build state province
                         if ( $addressOptions[ $elements['state_province_id'][0] ] ) {
-                            $onValueChanged = 'checkParamChildren';
+                            $onValueChanged = "getStateProvince{$locationId}( this, {$locationId} )";
                         }
                     } else {
                         $stateUrl = CRM_Utils_System::url( "civicrm/ajax/state","s=%{searchString}", true, null, false );
@@ -111,6 +111,7 @@ class CRM_Contact_Form_Address
                                          'style'          => 'width: 230px;',
                                          'value'          => '',
                                          'dataUrl'        => $dataUrl,
+                                         '_onBlurInput'   => $onValueChanged,
                                          'onValueChanged' => $onValueChanged,
                                          'id'             => 'location_'.$locationId.'_address_'.$name );
                 }
@@ -151,6 +152,7 @@ class CRM_Contact_Form_Address
             }
 
             //state country validation
+            $countryId = $stateProvinceId = null;
             if ( CRM_Utils_Array::value( 'country_id', $fields['location'][$i]['address'] ) ) {
                 $countries = CRM_Core_PseudoConstant::country( );
                 

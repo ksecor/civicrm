@@ -4,18 +4,20 @@
 
 <script type="text/javascript">
 
-function checkParamChildren(value) {
+function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
 
-    str_arr = this.widgetId.split('_');
-    
-    // get location no
-    var lno = str_arr[1];
+    // get the typed value
+    var value = obj.getValue( );
 
     //data url for state
     var res = {/literal}"{$stateURL}"{literal};
     
+    //get state province id
+    var widget = dojo.widget.byId('location_' + lno + '_address_state_province_id');
+    
     //enable state province
-    dojo.widget.byId('location_'+ lno + '_address_state_province_id').enable( );
+    widget.enable( );
+    //with (widget.downArrowNode.style) { width = "15px";	height = "15px";}
 
     //check if state exist for country
     var stateExist = false;
@@ -23,9 +25,9 @@ function checkParamChildren(value) {
     //translate select
     var sel = {/literal}"{ts} - type first letter(s) - {/ts}"{literal};
 
-    //clear state combo
-    dojo.widget.byId('location_' + lno + '_address_state_province_id').selectedResult = '';
-    dojo.widget.byId('location_' + lno + '_address_state_province_id').setAllValues( sel,'' );
+    //clear state province combo
+	widget._clearResultList();
+    widget.setAllValues( sel,'' );
 
     var bindArgs = {
         url: res,
@@ -36,9 +38,8 @@ function checkParamChildren(value) {
             stateExist = true;
             eval("var decoded_data = "+data);            
             if ( data.length > 2) {
-                dojo.widget.byId('location_' + lno + '_address_state_province_id').dataProvider.searchUrl 
-		  = res + '&node=' + value + '&sc=child';
-           }
+               widget.dataProvider.searchUrl = res + '&node=' + value + '&sc=child';
+            }
         }            
     };            
   
