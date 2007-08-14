@@ -1477,6 +1477,8 @@ WHERE civicrm_contact.id IN $idString ";
      */
     static function getNumOpenActivity( $id, $admin = false ) 
     {
+        // FIXME: activity schema redesign
+        return array( );
 
         // this is not sufficient way to do.
         if ( $admin ) {
@@ -1523,6 +1525,9 @@ WHERE civicrm_contact.id IN $idString ";
      */
     static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity', $admin = false, $case = null) 
     {
+        // FIXME: activity schema redesign
+        return 0;
+
         
         $dao =& new CRM_Core_DAO();
         if ( $admin ) {

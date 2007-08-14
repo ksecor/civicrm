@@ -156,10 +156,10 @@ class CRM_Core_BAO_SchemaHandler
         $sql .= str_repeat( ' ', 8 );
         if ( $params['unique'] ) {
             $sql       .= 'UNIQUE INDEX';
-            $indexName  = 'UI';
+            $indexName  = 'unique';
         } else {
             $sql       .= 'UNIQUE INDEX';
-            $indexName  = 'INDEX';
+            $indexName  = 'index';
         }
         $indexFields = null;
         

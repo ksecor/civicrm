@@ -1468,8 +1468,8 @@ ORDER BY civicrm_custom_group.weight,
                         'extends_name'   => self::mapTableName( $group->extends ),
                         );
 
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $tableParams =& CRM_Core_BAO_CustomGroup::defaultCustomTableSchema( $params );
+        require_once 'CRM/Core/BAO/CustomField.php';
+        $tableParams =& CRM_Core_BAO_CustomField::defaultCustomTableSchema( $params );
 
         require_once 'CRM/Core/BAO/SchemaHandler.php';
         CRM_Core_BAO_SchemaHandler::createTable( $tableParams );

@@ -36,7 +36,6 @@
 require_once 'CRM/Core/DAO/CustomField.php';
 require_once 'CRM/Core/DAO/CustomGroup.php';
 require_once 'CRM/Core/DAO/CustomValue.php';
-require_once 'CRM/Core/DAO/CustomOption.php';
 require_once 'CRM/Core/BAO/CustomOption.php';
 
 /**

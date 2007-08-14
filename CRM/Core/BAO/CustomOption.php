@@ -33,14 +33,14 @@
  *
  */
 
-require_once 'CRM/Core/DAO/CustomOption.php';
+require_once 'CRM/Core/DAO/OptionGroup.php';
 
 
 /**
  * Business objects for managing custom data options.
  *
  */
-class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
+class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_OptionGroup {
 
     const VALUE_SEPERATOR = "";
 

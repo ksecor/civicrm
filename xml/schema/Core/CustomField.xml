@@ -86,18 +86,6 @@
        <add>1.1</add>
   </field>
   <field>
-      <name>validation_id</name>
-      <type>int unsigned</type>
-      <comment>FK to civicrm_validation. Will be used for custom validation functions.</comment>
-       <add>1.1</add>
-  </field>
-  <foreignKey>
-       <name>validation_id</name>
-       <table>civicrm_validation</table>
-       <key>id</key>
-       <add>1.1</add>
-  </foreignKey>
-  <field>
      <name>help_pre</name>
      <type>text</type>
      <comment>Description and/or help text to display before this field.</comment>

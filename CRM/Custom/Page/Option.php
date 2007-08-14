@@ -136,7 +136,6 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         $customOptionBAO =& new CRM_Core_BAO_CustomOption();
         
         // fkey is fid
-        //$customOptionBAO->custom_field_id = $this->_fid;
         $customOptionBAO->entity_id    = $this->_fid;
         $customOptionBAO->entity_table = 'civicrm_custom_field';
 
