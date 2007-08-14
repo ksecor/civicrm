@@ -129,7 +129,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             array(
                   'civicrm_custom_field' =>
                   array('id',
-                        'name',
                         'label',
                         'data_type',
                         'html_type',
@@ -604,7 +603,6 @@ ORDER BY civicrm_custom_group.weight,
             array(
                   'civicrm_custom_field' =>
                   array('id',
-                        'name',
                         'label',
                         'data_type',
                         'html_type',
@@ -1018,9 +1016,7 @@ ORDER BY civicrm_custom_group.weight,
     }
 
     static function postProcess( &$groupTree, &$params ) {
-        // CRM_Core_Error::debug( 'g', $groupTree );
-        // CRM_Core_Error::debug( 'p', $params );
-
+        
         // Get the Custom form values and groupTree        
         // first reset all checkbox and radio data
         foreach ($groupTree as $group) {
