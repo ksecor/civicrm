@@ -127,7 +127,6 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_OptionGroup {
         $customOptionDAO->orderBy('weight ASC, label ASC');
         $customOptionDAO->find();
         
-        $customOption = array();
         while ($customOptionDAO->fetch()) {
             $customOption[$customOptionDAO->id] = array();
             $customOption[$customOptionDAO->id]['id']    = $customOptionDAO->id;

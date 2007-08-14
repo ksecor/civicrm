@@ -85,7 +85,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             }
             $this->assign( 'listingURL',
                            CRM_Utils_System::url( "civicrm/profile",
-                                                  "reset=1&gid={$this->_gid}" ) );
+                                                  "force=1&gid={$this->_gid}" ) );
         } else {
             require_once 'CRM/Core/BAO/UFGroup.php';
             $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile'); 
@@ -101,7 +101,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             }
             $this->assign( 'listingURL',
                            CRM_Utils_System::url( "civicrm/profile",
-                                                  "reset=1" ) );
+                                                  "force=1" ) );
         }
         
         $this->assign('profileGroups', $profileGroups);
