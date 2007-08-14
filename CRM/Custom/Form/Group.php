@@ -358,8 +358,10 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $group->id = $this->_id;
         } else {
             // lets create the table associated with the group and save it
+            // we make sure we embed the domain_id in it to avoid naming conflicts
+            // with other domains: so the format is: civicrm_value_DOMAINID_GROUPNAME
             $group->table_name = 
-                'civicrm_custom_value_' .
+                "civicrm_value_{$group->domain_id}_" .
                 strtolower( CRM_Utils_String::munge( $group->title, '_', 32 ) );
             $group->is_multiple = 0;
 

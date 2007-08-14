@@ -48,6 +48,11 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
     protected $_fid;
 
     /**
+     * The option group ID 
+     */
+    protected $_optionGroupID = null;
+
+    /**
      * The Option id, used when editing the Option
      *
      * @var int
@@ -68,6 +73,13 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
     {
         $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
                                                   $this);
+        if ( $this->_fid ) {
+            $this->_optionGroupID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                                 $this->_fid,
+                                                                 'option_group_id' );
+            
+        }
+
         $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive',
                                                   $this);
     }
@@ -108,9 +120,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
       
         require_once 'CRM/Core/DAO.php';
         if ($this->_action & CRM_Core_Action::ADD) {
-            $fieldValues = array('entity_id'    => $this->_fid,
-                                 'entity_table' => 'civicrm_custom_field'
-                                 );
+            $fieldValues = array( 'option_group_id' => $this->_optionGroupID );
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
         }
 
@@ -167,7 +177,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $this->add('checkbox', 'default_value', ts('Default'));
 
             // add a custom form rule
-            $this->addFormRule( array( 'CRM_Custom_Form_Option', 'formRule' ) );
+            $this->addFormRule( array( 'CRM_Custom_Form_Option', 'formRule' ), $this );
             
             // add buttons
             $this->addButtons(array(
@@ -197,18 +207,15 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields, &$files, &$form ) {
 
-        $optionLabel = CRM_Utils_Type::escape( $fields['label'], 'String' );
-        $optionValue = CRM_Utils_Type::escape( $fields['value'], 'String' );
-        $fieldId     = CRM_Utils_Type::escape( $fields['fieldId'] , 'Integer' );
-        $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                                      $fieldId,
-                                                      'option_group_id' );
+        $optionLabel   = CRM_Utils_Type::escape( $fields['label'], 'String' );
+        $optionValue   = CRM_Utils_Type::escape( $fields['value'], 'String' );
+        $fieldId       = $form->_fid;
+        $optionGroupId = $form->_optionGroupID;
+
         $temp = array();
-        if ( empty( $fields['optionId'] ) ) {
-            $fieldId = $fields['fieldId'];
-            
+        if ( empty( $form->_id ) ) {
             $query = "
 SELECT count(*) 
   FROM civicrm_option_value
@@ -351,7 +358,7 @@ SELECT data_type
         $customOption->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
        
         if ($this->_action == CRM_Core_Action::DELETE) {
-            $fieldValues = array('entity_id' => $this->_fid);
+            $fieldValues = array( 'option_group_id' => $this->_optionGroupID );
             $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_OptionValue', $this->_id, $fieldValues);
             CRM_Core_BAO_CustomOption::del($this->_id);
             CRM_Core_Session::setStatus(ts('Your multiple choice option has been deleted', array(1 => $customOption->label)));
@@ -366,17 +373,11 @@ SELECT data_type
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'weight', 'id' );
         }
         echo "F: {$this->_fid}<p>";
-        $optionGroupID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                                      $this->_fid,
-                                                      'option_group_id' );
-        $fieldValues = array( 'option_group_id' => $optionGroupID );
+        $fieldValues = array( 'option_group_id' => $this->_optionGroupID );
         $customOption->weight = 
             CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_OptionValue', $oldWeight, $params['weight'], $fieldValues);
         
-        // need the FKEY - custom field id
-        //$customOption->custom_field_id = $this->_fid;
-        $customOption->entity_id    = $this->_fid;
-        $customOption->entity_table = 'civicrm_custom_field';
+        $customOption->option_group_id = $this->_optionGroupID;
         
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->id = $this->_fid;
