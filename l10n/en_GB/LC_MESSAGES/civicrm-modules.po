@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-13 06:28+0200\n"
+"POT-Creation-Date: 2007-08-14 06:18+0200\n"
 "PO-Revision-Date: 2006-09-22 05:21-0700\n"
 "Last-Translator: Damien Flasse <dflasse@etuc.org>\n"
 "MIME-Version: 1.0\n"
@@ -5973,7 +5973,7 @@ msgid ""
 "option is checked AND the contribution page includes a separate contribution "
 "amount block - two transactions will be generated: one for the membership "
 "fee amount; and one for the selected contribution amount. (This option is "
-"NOT available for PayPal Website Payments Standard.)"
+"NOT available for PayPal Website Payments Standard and Google CheckOut.)"
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
