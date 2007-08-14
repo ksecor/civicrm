@@ -104,7 +104,8 @@ class CRM_Member_StateMachine_Search extends CRM_Core_StateMachine {
             break;
 
         case CRM_Member_Task::EMAIL_CONTACTS:
-            $task   = 'CRM_Member_Form_Task_Email';
+            $task   = array ('CRM_Member_Form_Task_Email',
+                             'CRM_Member_Form_Task_Result');
             break;
 
         default: // the print task is the default and catch=all task
