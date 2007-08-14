@@ -228,6 +228,11 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                             'title' => ts('Map'),
                                                             );
             }
+
+            if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
+                require_once 'CRM/Kabissa/BAO/Kabissa.php';
+                CRM_Kabissa_BAO_Kabissa::buildProfileSearchRowLinks( self::$_links );
+            }
         }
         return self::$_links;
     } //end of function
