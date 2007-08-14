@@ -113,6 +113,11 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
      */
     static function getCustomOption($fieldId, $inactiveNeeded=false, $entityTable='civicrm_custom_field')
     {       
+        $customOption = array();
+        if ( ! $fieldId ) {
+            return $customOption;
+        }
+
         $customOptionDAO =& new CRM_Core_DAO_CustomOption();
         $customOptionDAO->entity_id    = $fieldId;
         $customOptionDAO->entity_table = $entityTable;
@@ -122,7 +127,6 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         $customOptionDAO->orderBy('weight ASC, label ASC');
         $customOptionDAO->find();
         
-        $customOption = array();
         while ($customOptionDAO->fetch()) {
             $customOption[$customOptionDAO->id] = array();
             $customOption[$customOptionDAO->id]['id']    = $customOptionDAO->id;

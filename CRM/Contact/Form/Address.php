@@ -60,44 +60,26 @@ class CRM_Contact_Form_Address
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
         
         $elements = array( 
-                          'street_address'         => array( ts('Street Address')   , 
-                                                             CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Address', 
-                                                                                         'street_address' ), 
-                                                             null ),
-                          'supplemental_address_1' => array( ts('Addt\'l Address 1'), 
-                                                             CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Address', 
-                                                                                         'supplemental_address_1' ), 
-                                                             null ),
-                          'supplemental_address_2' => array( ts('Addt\'l Address 2'), 
-                                                             CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Address', 
-                                                                                         'supplemental_address_2' ), 
-                                                             null ),
-                          'city'                   => array( ts('City')             , 
-                                                             CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Address', 
-                                                                                         'city' ), 
-                                                             null ),
-                          'postal_code'            => array( ts('Zip / Postal Code'), 
-                                                             CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Address', 
-                                                                                         'postal_code' ), 
-                                                             null ),
-                          'postal_code_suffix'     => array( ts('Postal Code Suffix')       ,
-                                                            array( 'size' => 4, 'maxlength' => 12 ), null ),
-                          'county_id'              => array( ts('County')           , null, 'county' ),
-                          'state_province_id'      => array( ts('State / Province') , null, null ),
-                          'country_id'             => array( ts('Country')          , null, null ), 
-                          'geo_code_1'             => array( ts('Latitude')         ,
-                                                             array( 'size' => 4, 'maxlength' => 8 ), null ),
-                          'geo_code_2'             => array( ts('Longitude')         ,
-                                                             array( 'size' => 4, 'maxlength' => 8 ), null ),
-                          );
-
+                          'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null ),
+                          'supplemental_address_1' => array( ts('Addt\'l Address 1') ,  $attributes['supplemental_address_1'], null ),
+                          'supplemental_address_2' => array( ts('Addt\'l Address 2') ,  $attributes['supplemental_address_2'], null ),
+                          'city'                   => array( ts('City')              ,  $attributes['city'] , null ),
+                          'postal_code'            => array( ts('Zip / Postal Code') ,  $attributes['postal_code'], null ),
+                          'postal_code_suffix'     => array( ts('Postal Code Suffix'),  array( 'size' => 4, 'maxlength' => 12 ), null ),
+                          'county_id'              => array( ts('County')            ,  $attributes['county_id'], 'county' ),
+                          'state_province_id'      => array( ts('State / Province')  ,  $attributes['state_province_id'],null ),
+                          'country_id'             => array( ts('Country')           ,  $attributes['country_id'], null ), 
+                          'geo_code_1'             => array( ts('Latitude')          ,  array( 'size' => 4, 'maxlength' => 8 ), null ),
+                          'geo_code_2'             => array( ts('Longitude')         ,  array( 'size' => 4, 'maxlength' => 8 ), null ),
+                          ); 
+        
         foreach ( $elements as $name => $v ) {
             list( $title, $attributes, $select ) = $v;
-
+            
             if ( ! $addressOptions[$title] ) {
                 continue;
             }
-
+            
             if ( ! $attributes ) {
                 $attributes = $attributes[$name];
             }
@@ -110,14 +92,14 @@ class CRM_Contact_Form_Address
             if ( ! $select ) {
                 if ( $name == 'country_id' || $name == 'state_province_id' ) {
                     $onValueChanged = null;
-                    $dataUrl = null;
+                    $dataUrl        = null;
 
                     if ( $name == 'country_id') {
-                        $dataUrl=  CRM_Utils_System::url( "civicrm/ajax/country", "s=%{searchString}", true, null, false );
-                        
+                        $dataUrl =  CRM_Utils_System::url( "civicrm/ajax/country", "s=%{searchString}", true, null, false );
+
                         //when only country is enable, don't call function to build state province
                         if ( $addressOptions[ $elements['state_province_id'][0] ] ) {
-                            $onValueChanged = 'checkParamChildren';
+                            $onValueChanged = "getStateProvince{$locationId}( this, {$locationId} )";
                         }
                     } else {
                         $stateUrl = CRM_Utils_System::url( "civicrm/ajax/state","s=%{searchString}", true, null, false );
@@ -129,6 +111,7 @@ class CRM_Contact_Form_Address
                                          'style'          => 'width: 230px;',
                                          'value'          => '',
                                          'dataUrl'        => $dataUrl,
+                                         '_onBlurInput'   => $onValueChanged,
                                          'onValueChanged' => $onValueChanged,
                                          'id'             => 'location_'.$locationId.'_address_'.$name );
                 }
@@ -169,6 +152,7 @@ class CRM_Contact_Form_Address
             }
 
             //state country validation
+            $countryId = $stateProvinceId = null;
             if ( CRM_Utils_Array::value( 'country_id', $fields['location'][$i]['address'] ) ) {
                 $countries = CRM_Core_PseudoConstant::country( );
                 
