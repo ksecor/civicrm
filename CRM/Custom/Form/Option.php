@@ -85,11 +85,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
     {
         $defaults = array();
         $fieldDefaults = array();
-        if (isset($this->_id)) {
+        if ( isset( $this->_id ) ) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_CustomOption::retrieve($params, $defaults);
-            //$this->_fid = $defaults['custom_field_id'];
-            $this->_fid = $defaults['entity_id'];
 
             $paramsField = array('id' => $this->_fid);            
             CRM_Core_BAO_CustomField::retrieve($paramsField, $fieldDefaults);
@@ -109,12 +107,11 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         }
       
         require_once 'CRM/Core/DAO.php';
-
         if ($this->_action & CRM_Core_Action::ADD) {
             $fieldValues = array('entity_id'    => $this->_fid,
                                  'entity_table' => 'civicrm_custom_field'
                                  );
-            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomOption', $fieldValues);
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
         }
 
         return $defaults;
@@ -151,16 +148,16 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         
             
             // label
-            $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
+            $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label'), true);
             
-            $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
+            $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value'), true);
         
             // the above value is used directly by QF, so the value has to be have a rule
             // please check with Lobo before u comment this
             $this->addRule('value', ts('Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, spaces and underline ( _ ) characters.'), 'qfVariable');
 
             // weight
-            $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
+            $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
             $this->addRule('weight', ts(' is a numeric field') , 'numeric');
         
             // is active ?
@@ -204,49 +201,76 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
         $optionLabel = CRM_Utils_Type::escape( $fields['label'], 'String' );
         $optionValue = CRM_Utils_Type::escape( $fields['value'], 'String' );
+        $fieldId     = CRM_Utils_Type::escape( $fields['fieldId'] , 'Integer' );
+        $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                      $fieldId,
+                                                      'option_group_id' );
         $temp = array();
-        if ( empty($fields['optionId'])) {
+        if ( empty( $fields['optionId'] ) ) {
             $fieldId = $fields['fieldId'];
             
-            //check label duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND label = '$optionLabel'";
-           
-            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) { 
+            $query = "
+SELECT count(*) 
+  FROM civicrm_option_value
+ WHERE option_group_id = %1
+   AND label = %2";
+            $params = array( 1 => array( $optionGroupId, 'Integer' ),
+                             2 => array( $optionLabel  , 'String'  ) );
+            if ( CRM_Core_DAO::singleValueQuery( $query, $params ) > 0 ) {   
                 $errors['label'] = ts('There is an entry with the same label.');
             }
             
-            //check value duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND value = '$optionValue'";
-            
-            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {  
+            $query = "
+SELECT count(*) 
+  FROM civicrm_option_value
+ WHERE option_group_id = %1
+   AND value = %2";
+            $params = array( 1 => array( $optionGroupId, 'Integer' ),
+                             2 => array( $optionValue  , 'String'  ) );
+            if ( CRM_Core_DAO::singleValueQuery( $query, $params ) > 0 ) {   
                 $errors['value'] = ts('There is an entry with the same value.');
             }
                 
         } else {
-
             //capture duplicate entries while updating Custom Options
             $optionId = CRM_Utils_Type::escape( $fields['optionId'], 'Integer' );
-            $fieldId  = CRM_Utils_Type::escape( $fields['fieldId'] , 'Integer' );
 
             //check label duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND id != '$optionId' AND label = '$optionLabel'";
-            
-            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {   
+            $query = "
+SELECT count(*) 
+  FROM civicrm_option_value
+ WHERE option_group_id = %1
+   AND id != %2
+   AND label = %3";
+            $params = array( 1 => array( $optionGroupId, 'Integer' ),
+                             2 => array( $optionId     , 'Integer' ),
+                             3 => array( $optionLabel  , 'String'  ) );
+            if ( CRM_Core_DAO::singleValueQuery( $query, $params ) > 0 ) {   
                 $errors['label'] = ts('There is an entry with the same label.');
             }
             
             //check value duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND id != '$optionId' AND value = '$optionValue'";
-            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {   
+            $query = "
+SELECT count(*) 
+  FROM civicrm_option_value
+ WHERE option_group_id = %1
+   AND id != %2
+   AND value = %3";
+            $params = array( 1 => array( $optionGroupId, 'Integer' ),
+                             2 => array( $optionId     , 'Integer' ),
+                             3 => array( $optionValue  , 'String'  ) );
+            if ( CRM_Core_DAO::singleValueQuery( $query, $params ) > 0 ) {   
                 $errors['value'] = ts('There is an entry with the same value.');
             }
         }
 
-        $query = "SELECT data_type FROM civicrm_custom_field WHERE id = '$fieldId'";
-        $dao = new CRM_Core_DAO();
-        $dao->query($query);
-        $dao->fetch();
-
+        $query = "
+SELECT data_type 
+  FROM civicrm_custom_field
+ WHERE id = %1";
+        $params = array( 1 => array( $fieldId, 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        if ( $dao->fetch( ) ) {
             switch ( $dao->data_type ) {
             case 'Int':
                 if ( ! CRM_Utils_Rule::integer( $fields["value"] ) ) {
@@ -300,7 +324,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                 }
                 break;
             }
-
+        }
 
         return empty($errors) ? true : $errors;
     }
@@ -320,7 +344,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         $params = $this->controller->exportValues('Option');
 
         // set values for custom field properties and save
-        $customOption                =& new CRM_Core_DAO_CustomOption();
+        $customOption                =& new CRM_Core_DAO_OptionValue();
         $customOption->label         = $params['label'];
         $customOption->weight        = $params['weight'];
         $customOption->value         = $params['value'];
@@ -328,7 +352,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
        
         if ($this->_action == CRM_Core_Action::DELETE) {
             $fieldValues = array('entity_id' => $this->_fid);
-            $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_CustomOption', $this->_id, $fieldValues);
+            $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_OptionValue', $this->_id, $fieldValues);
             CRM_Core_BAO_CustomOption::del($this->_id);
             CRM_Core_Session::setStatus(ts('Your multiple choice option has been deleted', array(1 => $customOption->label)));
             return;
@@ -339,13 +363,15 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             CRM_Core_BAO_CustomOption::updateCustomValues($params);
         }
         if ($this->_id) {
-            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomOption', $this->_id, 'weight', 'id' );
+            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'weight', 'id' );
         }
-        $fieldValues = array('entity_id' => $this->_fid,
-                             'entity_table' => 'civicrm_custom_field'
-                             );
+        echo "F: {$this->_fid}<p>";
+        $optionGroupID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                      $this->_fid,
+                                                      'option_group_id' );
+        $fieldValues = array( 'option_group_id' => $optionGroupID );
         $customOption->weight = 
-            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomOption', $oldWeight, $params['weight'], $fieldValues);
+            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_OptionValue', $oldWeight, $params['weight'], $fieldValues);
         
         // need the FKEY - custom field id
         //$customOption->custom_field_id = $this->_fid;

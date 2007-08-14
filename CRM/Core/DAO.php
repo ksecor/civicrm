@@ -523,7 +523,7 @@ class CRM_Core_DAO extends DB_DataObject {
         if ( empty( $id ) ) {
             // adding this year since developers forget to check for an id
             // and hence we get the first value in the db
-            CRM_Core_Error::fatal( 'Please file an issue with the backtrace' );
+            CRM_Core_Error::fatal( );
             return null;
         }
 

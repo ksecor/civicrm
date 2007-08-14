@@ -132,57 +132,68 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      */
     function browse()
     {
-        $customOption = array();
-        $customOptionBAO =& new CRM_Core_BAO_CustomOption();
-        
-        // fkey is fid
-        $customOptionBAO->entity_id    = $this->_fid;
-        $customOptionBAO->entity_table = 'civicrm_custom_field';
-
-        $customOptionBAO->orderBy('weight, label');
-        $customOptionBAO->find();
-        
         //get the default value from custom fields
         $customFieldBAO =& new CRM_Core_BAO_CustomField();
         $customFieldBAO->id = $this->_fid;
-        $customFieldBAO->find();
-        while($customFieldBAO->fetch()) {
-            $defaultValue = $customFieldBAO->default_value;
+        if ( $customFieldBAO->find( true ) ) {
+            $defaultValue  = $customFieldBAO->default_value;
             $fieldHtmlType = $customFieldBAO->html_type; 
+        } else {
+            CRM_Core_Error::fatal( );
         }
         $defVal = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
                           substr( $defaultValue, 1, -1 ) );
 
-        while ($customOptionBAO->fetch()) {
-            $customOption[$customOptionBAO->id] = array();
-            CRM_Core_DAO::storeValues( $customOptionBAO, $customOption[$customOptionBAO->id]);
+        // get the option group id
+        $optionGroupID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                      $this->_fid,
+                                                      'option_group_id' );
+        
+        $query = "
+SELECT   *
+  FROM   civicrm_option_value
+ WHERE   option_group_id = %1
+ORDER BY weight, label
+";
+        $params =  array( 1 => array( $optionGroupID, 'Integer' ) );
+        $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
 
-            $action = array_sum(array_keys($this->actionLinks()));
+        $customOption = array( );
+        $fields = array( 'label', 'value', 'is_active', 'weight' );
+        while ($dao->fetch()) {
+            $customOption[$dao->id] = array( ); 
+            foreach ( $fields as $field ) {
+                $customOption[$dao->id][$field] = $dao->$field;
+            }
+
+            $action = array_sum( array_keys( $this->actionLinks( ) ) );
 	    
-	    // update enable/disable links depending on custom_field properties.
-            if ( $customOptionBAO->is_active ) {
+            // update enable/disable links depending on custom_field properties.
+            if ( $dao->is_active ) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
+
             if ( $fieldHtmlType == 'CheckBox' || $fieldHtmlType == 'Multi-Select' ) {                
-                if ( in_array($customOptionBAO->value, $defVal) ) {
-                    $customOption[$customOptionBAO->id]['default_value'] = '[x]';
+                if ( in_array($dao->value, $defVal) ) {
+                    $customOption[$dao->id]['default_value'] = '[x]';
                 } else {
-                    $customOption[$customOptionBAO->id]['default_value'] = '';
+                    $customOption[$dao->id]['default_value'] = '';
                 }
             } else {
-                if ( $defaultValue == $customOptionBAO->value ) {
-                    $customOption[$customOptionBAO->id]['default_value'] = '[x]';
+                if ( $defaultValue == $dao->value ) {
+                    $customOption[$dao->id]['default_value'] = '[x]';
                 } else {
-                    $customOption[$customOptionBAO->id]['default_value'] = '';
+                    $customOption[$dao->id]['default_value'] = '';
                 }
             }
             
-            $customOption[$customOptionBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                                    array('id'  => $customOptionBAO->id,
-                                                                                          'fid' => $this->_fid,
-                                                                                          'gid' => $this->_gid));
+            $customOption[$dao->id]['action'] = CRM_Core_Action::formLink( self::actionLinks(),
+                                                                           $action, 
+                                                                           array( 'id'  => $dao->id,
+                                                                                  'fid' => $this->_fid,
+                                                                                  'gid' => $this->_gid ) );
         }
         $this->assign('customOption', $customOption);
     }

@@ -1454,7 +1454,7 @@ ORDER BY civicrm_custom_group.weight,
             return 'civicrm_relationship';
 
         default:
-            CRM_Core_Error::fatal( ts( 'Please contact CiviCRM support!' ) );
+            CRM_Core_Error::fatal( );
         }
     }
 

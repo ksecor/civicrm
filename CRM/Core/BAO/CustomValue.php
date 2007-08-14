@@ -295,7 +295,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
         case 'Link':
             return 'varchar(255)';
         default:
-            CRM_Core_Error::debug( ts( 'Please contact CiviCRM Support' ) );
+            CRM_Core_Error::fatal( );
         }
     }
     

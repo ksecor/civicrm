@@ -60,7 +60,7 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_OptionGroup {
      */
     static function retrieve( &$params, &$defaults )
     {
-        $customOption =& new CRM_Core_DAO_CustomOption( );
+        $customOption =& new CRM_Core_DAO_OptionValue( );
         $customOption->copyValues( $params );
         if ( $customOption->find( true ) ) {
             CRM_Core_DAO::storeValues( $customOption, $defaults );
@@ -290,14 +290,14 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_OptionGroup {
 
     static function updateCustomValues($params) 
     {
-        require_once 'CRM/Core/BAO/CustomValue.php';
-        
-        $optionDAO =& new CRM_Core_DAO_CustomOption();
+        // FIXME: Custom Value schema redesign
+        return;
+
+        $optionDAO =& new CRM_Core_DAO_OptionValue();
         $optionDAO->id = $params['optionId'];
-        $optionDAO->entity_table = "civicrm_custom_field";
-        $optionDAO->find();
-        $optionDAO->fetch();
+        $optionDAO->find( true );
         $oldValue = $optionDAO->value;
+
         $custom_field_id = $optionDAO->entity_id;
         $customValueDAO = & new CRM_Core_DAO_CustomValue();
         $customValueSaveDAO = & new CRM_Core_DAO_CustomValue();
