@@ -37,8 +37,8 @@ require_once 'CRM/Core/StateMachine.php';
 require_once 'CRM/Core/Action.php';
 require_once 'CRM/Contribute/Task.php';
 
-class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
-
+class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine 
+{
     /**
      * The task that the wizard is currently processing
      *
@@ -50,7 +50,8 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
     /**
      * class constructor
      */
-    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
+    function __construct( $controller, $action = CRM_Core_Action::NONE ) 
+    {
         parent::__construct( $controller, $action );
 
         $this->_pages = array( );
@@ -80,7 +81,8 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
      * @return string the name of the form that will handle the task
      * @access protected
      */
-    function taskName( $controller, $formName = 'Search' ) {
+    function taskName( $controller, $formName = 'Search' ) 
+    {
         // total hack, check POST vars and then session to determine stuff
         // fix value if print button is pressed
         if ( CRM_Utils_Array::value( '_qf_' . $formName . '_next_print', $_POST ) ) {
@@ -103,20 +105,19 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
             break;
 
         case CRM_Contribute_Task::EMAIL_CONTACTS:
-            $task   = 'CRM_Contribute_Form_Task_Email';
+            $task   = array('CRM_Contribute_Form_Task_Email',
+                            'CRM_Contribute_Form_Task_Result');
             break;
 
         case CRM_Contribute_Task::BATCH_CONTRIBUTIONS:
             $task   = array( 'CRM_Contribute_Form_Task_PickProfile',
-                             'CRM_Contribute_Form_Task_Batch' );
-
+                             'CRM_Contribute_Form_Task_Batch',
+                             'CRM_Contribute_Form_Task_Result');
             break;
-
 
         default: // the print task is the default and catch=all task
             $task = 'CRM_Contribute_Form_Task_Print';
             break;
-
         }
 
         return array( $task, $result );
@@ -128,7 +129,8 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
      * @return string
      * @access public
      */
-    function getTaskFormName( ) {
+    function getTaskFormName( ) 
+    {
         return CRM_Utils_String::getClassName( $this->_task );
     }
 

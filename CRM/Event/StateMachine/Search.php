@@ -112,7 +112,8 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
             
         case CRM_Event_Task::BATCH_EVENTS:
             $task   = array( 'CRM_Event_Form_Task_PickProfile',
-                             'CRM_Event_Form_Task_Batch' );
+                             'CRM_Event_Form_Task_Batch',
+                             'CRM_Event_Form_Task_Result' );
             break;
 
         case CRM_Event_Task::CANCEL_REGISTRATION:
