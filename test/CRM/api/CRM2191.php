@@ -49,7 +49,8 @@ class TestOfCRM2191 extends UnitTestCase
         $class_name = 'Contact';
         $customGroup =& crm_create_custom_group($class_name, $params);
         $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
-        
+        $this->_customGroup = $customGroup;
+
         $paramsF1 = array('label' => 'Test Field 1 for Group 1',
                           'name'  => 'test_field_1_group_1',
                           'data_type' => 'String',
@@ -74,14 +75,42 @@ class TestOfCRM2191 extends UnitTestCase
         $value1       = array('value' => 'This is Test String');
         $customValue1 = 
             crm_create_custom_value('civicrm_contact', $this->_houseHold->id, $this->_customFieldC1, $value1);
-
         $this->assertIsA($customValue1, 'CRM_Core_BAO_CustomValue');
+        $this->assertEqual($customValue1->char_data, 'This is Test String');
         
+        //testing crm_get_custom_value()
+        $params['entity_table']       = 'civicrm_contact';
+        $params['entity_id']          = $this->_houseHold->id;
+        $params['custom_field_id']    = $this->_customFieldC1->id;
+        $customValue = crm_get_custom_value( $params );
+
+        $this->assertEqual($customValue['value'], 'This is Test String');
+
         $value2       = array('value' => 'This is Overwritten String');
         $customValue2 = 
             crm_create_custom_value('civicrm_contact', $this->_houseHold->id, $this->_customFieldC1, $value2);
         
         $this->assertIsA($customValue2, 'CRM_Core_BAO_CustomValue');
+        $this->assertEqual($customValue2->id              , $customValue1->id);
+        $this->assertEqual($customValue2->entity_id       , $customValue1->entity_id);
+        $this->assertEqual($customValue2->entity_table    , $customValue1->entity_table);
+        $this->assertEqual($customValue2->custom_field_id , $customValue1->custom_field_id);
+        $this->assertEqual($customValue2->char_data       , 'This is Overwritten String');
+    }
+
+    function testDeleteHousehold() 
+    {
+        $val =& crm_delete_contact(& $this->_houseHold);
+        $this->assertNull($val);
+    }
+    
+    function testDeleteCustomGroup()
+    {
+        $val =& crm_delete_custom_field($this->_customFieldC1->id);
+        $this->assertNull($val);
+
+        $val =&  crm_delete_custom_group($this->_customGroup->id);
+        $this->assertNull($val);
     }
 }
 ?>
