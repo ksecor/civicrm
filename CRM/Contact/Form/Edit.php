@@ -679,7 +679,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
 	}
 
 	if ( $orgId != null ) {
-	    $excludeGroupId = CRM_Contact_BAO_GroupOrganization::getGroupId( $orgId );
+	    $excludeGroupId = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
 	}
 	$tempGroups = $params['group'];
 	$params['group'] = array( );
