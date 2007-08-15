@@ -393,7 +393,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   display: inline;
 }
 
-#crm-container .notorg label {
+#crm-container .notorg {
   font-weight: normal;
 }
 
