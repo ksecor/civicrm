@@ -665,31 +665,31 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         //print "about to call CRM_Contact_BAO_GroupContact::create<br/>";
         require_once 'CRM/Contact/BAO/GroupContact.php';
         
-	require_once 'CRM/Contact/BAO/GroupOrganization.php';
-	require_once 'CRM/Contact/DAO/Organization.php';
+	    require_once 'CRM/Contact/BAO/GroupOrganization.php';
+	    require_once 'CRM/Contact/DAO/Organization.php';
 
-	$dao = new CRM_Contact_DAO_Organization( );
-	$query = "SELECT id FROM civicrm_organization WHERE contact_id = $this->_contactId";
-	$dao->query($query);
-	if ( $dao->fetch() ) {
-	    $orgId = $dao->id;
-	} else {
-	    $orgId = null;
-	    $excludeGroupId = null;
-	}
-
-	if ( $orgId != null ) {
-	    $excludeGroupId = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
-	}
-	$tempGroups = $params['group'];
-	$params['group'] = array( );
-	foreach ( $tempGroups as $tempGroup ) {
-	    if ( $tempGroup != $excludeGroupId ) {
-	        $params['group'][] = $tempGroup;
+	    $dao = new CRM_Contact_DAO_Organization( );
+	    $query = "SELECT id FROM civicrm_organization WHERE contact_id = $this->_contactId";
+	    $dao->query($query);
+	    if ( $dao->fetch() ) {
+	        $orgId = $dao->id;
+	    } else {
+	        $orgId = null;
+	        $excludeGroupId = null;
 	    }
-	}
 
-	CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+	    if ( $orgId != null ) {
+	        $excludeGroupId = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
+	    }
+	    $tempGroups = $params['group'];
+	    $params['group'] = array( );
+	    foreach ( $tempGroups as $tempGroup ) {
+	        if ( $tempGroup != $excludeGroupId ) {
+	            $params['group'][] = $tempGroup;
+	        }
+	    }
+
+	    CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
         //add contact to tags
         require_once 'CRM/Core/BAO/EntityTag.php';
