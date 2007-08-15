@@ -56,7 +56,7 @@ class CRM_Contact_Form_Search_Criteria {
             if (CRM_Contact_BAO_GroupOrganization::exists($groupID)) {
                 $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $groupName);
             } else {
-                $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, "<span class=\"notorg\">" . $groupName . "</span>");
+                $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, "<span class=\"notorg\"><label>" . $groupName . "</label></span>");
             }
         }
 
