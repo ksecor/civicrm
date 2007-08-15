@@ -108,17 +108,14 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
 
     static function exists( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
-	$query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
-	$dao->query($query);
+	    $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
+	    $dao->query( $query );
 	
-	if ($dao->fetch()){
-	    return true;
-	}
-	else{
-	    return false;
-	}
-    
-
+	    if ( $dao->fetch( ) ) {
+	        return true;
+	    } else {
+	        return false;
+	    }
     }
 
 
@@ -250,25 +247,22 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
         $dao = new CRM_Contact_DAO_GroupOrganization( );
         $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
         $dao->query($query);
-        if ($dao->fetch()){
+        if ( $dao->fetch( ) ) {
             $orgId = $dao->organization_id;
-	}
-	else{
-	    $orgId = null;
-	}
-	if ($orgId != null) {
-	  $dao = new CRM_Contact_DAO_Organization();
-	  $query = "SELECT contact_id FROM civicrm_organization WHERE id = $orgId";
-	  $dao->query($query);
-	  if ($dao->fetch()) {
-	      $contactId = $dao->contact_id;
-	  }
-	  else {
-	    $contactId = null;
-	  }
-
-	}
-	return $contactId;
+	    } else {
+	        $orgId = null;
+	    }
+	    if ( $orgId != null ) {
+	        $dao = new CRM_Contact_DAO_Organization();
+	        $query = "SELECT contact_id FROM civicrm_organization WHERE id = $orgId";
+	        $dao->query($query);
+	        if ( $dao->fetch( ) ) {
+	            $contactId = $dao->contact_id;
+	        } else {
+	            $contactId = null;
+	        }
+	    }
+	    return $contactId;
     }
     
     /**
@@ -286,9 +280,6 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
       $dao = new CRM_Contact_DAO_GroupOrganization( );
       $query = "DELETE FROM civicrm_group_organization WHERE group_id = $groupId";
       $dao->query($query);
-	
-
-
     }
 }
 ?>
