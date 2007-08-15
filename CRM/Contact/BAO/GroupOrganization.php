@@ -105,7 +105,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      */
     static function exists( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
-	    $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
+	    $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = '$groupId'";
 	    $dao->query( $query );
 	
 	    if ( $dao->fetch( ) ) {
