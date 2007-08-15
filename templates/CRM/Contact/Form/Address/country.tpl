@@ -25,9 +25,13 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
     //translate select
     var sel = {/literal}"{ts} - type first letter(s) - {/ts}"{literal};
 
-    //clear state province combo
-	widget._clearResultList();
-    widget.setAllValues( sel,'' );
+    //set state province combo if it is not set
+    if ( !widget.getValue( ) ) {
+        widget.setAllValues( sel,'' );
+    }
+
+    //clear state province combo list
+    widget._clearResultList();
 
     var bindArgs = {
         url: res,
